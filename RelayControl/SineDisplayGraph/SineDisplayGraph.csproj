@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SineDisplayGraph</RootNamespace>
+    <AssemblyName>SineDisplayGraph</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NoSend|AnyCPU' ">
+    <OutputPath>bin\NoSend\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WaterbugTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
+    <OutputPath>bin\Test\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
+    <OutputPath>bin\WaterbugTester\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SeattleTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SeattleTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SeattleTest2|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SeattleTest2\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConEDRelease|AnyCPU' ">
+    <OutputPath>bin\ConEDRelease\</OutputPath>
+    <DefineConstants>TRACE;ConEd</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
+    <OutputPath>bin\ReleaseMemphis\</OutputPath>
+    <DefineConstants>MEMPHIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseGE|AnyCPU' ">
+    <OutputPath>bin\ReleaseGE\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseDigitalGridDNP|AnyCPU' ">
+    <OutputPath>bin\ReleaseDigitalGridDNP\</OutputPath>
+    <DefineConstants>MEMPHIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EventDataSave.cs" />
+    <Compile Include="PhasorDefinition.cs" />
+    <Compile Include="PhasorGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PhasorGraph.Designer.cs">
+      <DependentUpon>PhasorGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucEventGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucEventGraph.Designer.cs">
+      <DependentUpon>ucEventGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucFrequencyAnalysis.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucFrequencyAnalysis.Designer.cs">
+      <DependentUpon>ucFrequencyAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucLiveData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucLiveData.Designer.cs">
+      <DependentUpon>ucLiveData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucPhasorGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPhasorGraph.Designer.cs">
+      <DependentUpon>ucPhasorGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucSineGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSineGraph.Designer.cs">
+      <DependentUpon>ucSineGraph.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucEventGraph.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucEventGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucFrequencyAnalysis.resx">
+      <DependentUpon>ucFrequencyAnalysis.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucLiveData.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucLiveData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPhasorGraph.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucPhasorGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSineGraph.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucSineGraph.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Exocortex\src\Exocortex.DSP.v1.csproj">
+      <Project>{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}</Project>
+      <Name>Exocortex.DSP.v1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayControlLibrary\RelayControlLibrary.csproj">
+      <Project>{b0e5f73e-dc0b-4be0-8bbf-1903864d67df}</Project>
+      <Name>RelayControlLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

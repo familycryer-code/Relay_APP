@@ -1,0 +1,1776 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Text;
+using System.Windows.Forms;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections;
+using System.IO;
+
+
+namespace RelayControlLibrary
+{
+    public partial class ucTripMode : UserControl
+    {
+        public ucTripMode()
+        {
+            InitializeComponent();            
+            this.listBoxTripModes.SelectedIndex = 0;
+            this.domainUpDownType.SelectedIndex = 0;
+            this.checkBoxEnableGullWing.Checked = false;
+            this.showGullWing(false);
+            //this.initializeSaveState();
+
+            this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
+            this.domainUpDownTripStyle.Hide();
+            this.labelTripStyle.Hide();
+            this.initializeToolTip();
+
+            #if DEBUG
+            #else
+            //this.sensitiveTimeEnabled = false;
+            //this.hideSensitiveTimeDelay();
+            #endif
+#if ConEd && !Debug
+            this.Customer = Customers.ConEdison;
+#else
+            this.Customer = Customers.NonConEd;
+#endif
+        }
+
+        private void initializeToolTip()
+        {
+            this.toolTip.SetToolTip(this.numericUpDownExtendedTimeDelay, "This Time Delay extends the Sensitive Time Delay\r\nin the Sensitive Trip Region");
+            this.toolTip.SetToolTip(this.numericUpDownInsensTrip, "Amount of Current needed in Insensitive Trip to enter the Sensitive Trip Region.");
+            this.toolTip.SetToolTip(this.numericUpDownSensitiveTimeDelay, "Time Delay for the Sensitive Trip Region");
+            this.toolTip.SetToolTip(this.numericUpDownSensTrip, "Reverse Current needed at 180 degrees to enter Sensitive Trip Region");
+            this.toolTip.SetToolTip(this.numericUpDownTimeDelay, "Time Delay for Time Delay region on Time Delay trip");
+            this.toolTip.SetToolTip(this.numericUpDownWVAngle, "Number of degrees to rotate the Sensitive Trip Curve when Watt-Var Current has been exceeded");
+            this.toolTip.SetToolTip(this.numericUpDownWVCurrent, "Amount of Current needed to trigger Watt-Var tripping characteristics");
+            this.toolTip.SetToolTip(this.listBoxTripModes, "Select trip algorithm");
+            this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
+            this.toolTip.SetToolTip(this.domainUpDownType, "Determines how the values are viewed in the GUI for the Trip Settings");
+            this.toolTip.SetToolTip(this.checkBoxEnableGullWing, "Enables the Trim Curve");
+            this.toolTip.SetToolTip(this.checkBoxTripOnPowerDown, "Relay will attempt to Trip as it is losing power");
+
+        }
+
+        private void setWattVarToolTip()
+        {
+            this.setSensitiveToolTip();
+        }
+
+        private void setTimeDelayToolTip()
+        {
+            this.toolTip.SetToolTip(this.numericUpDownSensTrip, "Reverse Current needed at 180 degrees to enter Time Delay Region");
+        }
+
+        private void setSensitiveToolTip()
+        {
+            this.toolTip.SetToolTip(this.numericUpDownSensTrip, "Reverse Current needed at 180 degrees to enter Sensitive Trip Region");
+        }
+
+        private void setInsensitiveToolTip()
+        {
+            this.toolTip.SetToolTip(this.numericUpDownSensTrip, "Reverse Current needed at 180 degrees to enter Insensitive Trip Region");
+        }
+
+
+        private ToolTip toolTip = new ToolTip();
+        private Customers customer = Customers.None;
+
+        public Customers Customer 
+        {
+            get { return this.customer; }
+            set
+            {
+                this.customer = value;
+                this.setCustomer();
+            }
+        }
+
+        private void setCustomer()
+        {
+            switch(this.customer)
+            {
+                case Customers.None:
+                case Customers.NonConEd:
+                case Customers.Memphis:
+                case Customers.NonConEdGE:
+                case Customers.DigitalGridDNP:
+                    this.makeNonConEd();
+                    break;
+                case Customers.ConEdison:
+                    this.makeConEd();
+                    break;
+                default:
+                    this.errorHandler(new Exception("Bad Customer Setting In Trip Mode Control"));
+                    break;
+            }
+        }
+
+        string[] conEdTripModes = new string[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay"};
+
+        string[] nonConEdTripModes = new string[] { 
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Watt-Var"};
+
+        private void makeConEd()
+        {
+            int savedSelectedIndex = this.listBoxTripModes.SelectedIndex;
+
+            this.listBoxTripModes.Items.Clear();
+            this.listBoxTripModes.Items.AddRange(this.conEdTripModes);
+            try
+            {
+                this.listBoxTripModes.SelectedIndex = savedSelectedIndex;
+            }
+            catch
+            {
+                this.listBoxTripModes.SelectedIndex = 0;
+            }
+            this.domainUpDownTripStyle.Visible = false;
+            this.labelTripStyle.Visible = false;
+            this.labelGullWingAngle.Visible = false;
+            this.checkBoxEnableGullWing.Visible = false;
+            this.labelGullWingUnits.Visible = false;
+            this.numericUpDownGullWingAngle.Visible = false;
+            this.checkBoxTripOnPowerDown.Visible = false;
+
+            this.domainUpDownType.Visible = false;
+        }
+
+        private void makeNonConEd()
+        {
+            int savedSelectedIndex = this.listBoxTripModes.SelectedIndex;
+            this.listBoxTripModes.Items.Clear();
+            this.listBoxTripModes.Items.AddRange(this.nonConEdTripModes);
+            try
+            {
+                this.listBoxTripModes.SelectedIndex = savedSelectedIndex;
+            }
+            catch
+            {
+                this.listBoxTripModes.SelectedIndex = 0;
+            }
+            this.domainUpDownTripStyle.Visible = true;
+            this.labelTripStyle.Visible = true;
+            this.checkBoxEnableGullWing.Visible = true;
+            this.checkBoxTripOnPowerDown.Visible = true;
+            this.domainUpDownType.Visible = true;
+        }
+
+        private void hideSensitiveTimeDelay()
+        {
+            this.numericUpDownSensitiveTimeDelay.Visible = false;
+            this.labelSTD.Visible = false;
+            this.labelSTDunit.Visible = false;
+        }
+        enum eDisplayType
+        {
+            Relay,
+            Percent,
+            Protector
+        }
+
+        private eDisplayType displayType = eDisplayType.Relay;
+
+        private const byte _packetSize = 7;
+
+        public delegate void SendEventHandler(SendEventArgs sEA);
+        public event SendEventHandler Send;
+        private SendEventArgs mySEA = new SendEventArgs(_packetSize);
+
+        public delegate void TripModeEventHandler(TripModeChangeEventArgs tMCEA);
+        public event TripModeEventHandler TripModeChanged;
+        private TripModeChangeEventArgs myTMCEA = new TripModeChangeEventArgs();
+
+        public TripModeDefinition TripModeDef = new TripModeDefinition(TripModes.Sensitive);
+        public TripCurveDefinition TripCurve1 = new TripCurveDefinition(TripCurveTypes.OffsetAngle);
+        public TripCurveDefinition TripCurveTimeDelay = new TripCurveDefinition(TripCurveTypes.Magnitude);
+        public TripCurveDefinition TripCurveInsensTripMag = new TripCurveDefinition(TripCurveTypes.Magnitude);
+        public TripCurveDefinition TripCurveWV = new TripCurveDefinition(TripCurveTypes.OffsetAngle);
+        public TripCurveDefinition TripCurveGW = new TripCurveDefinition(TripCurveTypes.OffsetAngle);
+        public bool SendTimedOut = false;
+
+        private int versionNumber = 0;
+        public int VersionNumber
+        {
+            get { return this.versionNumber; }
+            set
+            {
+                this.versionNumber = value;
+
+                if(this.versionNumber >= 110609 && this.Customer != Customers.ConEdison)
+                {
+                    this.labelTripStyle.Visible = true;
+                    this.domainUpDownTripStyle.Visible = true;
+                    this.checkBoxTripOnPowerDown.Visible = true;
+                }
+                else
+                {
+                    this.labelTripStyle.Hide();
+                    this.domainUpDownTripStyle.Hide();
+                    this.checkBoxTripOnPowerDown.Hide();
+                }
+            }
+        }
+
+        private bool sensitiveTimeEnabled = true;
+        private Int32 cTRatio = 320;
+        public Int32 CTRatio
+        {
+            get { return this.cTRatio; }
+            set
+            {
+                this.setProtectorValues(value);
+                this.cTRatio = value;
+            }
+        }
+
+        private bool sending = false;
+        public void buttonSendTripMode_Click(object sender, EventArgs e)
+        {
+            if(sending)
+                return;
+
+            this.SendTimedOut = false;
+            sending = true;
+
+            this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+            TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
+            TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
+            if(this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
+                TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
+            else
+                TripModeDef.TimeDelay = 0;
+            
+            if(this.TripModeDef.Mode == TripModes.RemoteTrip)
+            {
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                OnSend(mySEA);
+                return;
+            }
+
+            TripCurve1.CurveNumber      = 0;
+            TripCurve1.CurveType        = TripCurveTypes.OffsetAngle;
+
+            TripCurveGW.CurveNumber = 1;
+
+            if(this.checkBoxEnableGullWing.Checked)
+            {
+                
+                TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
+                TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+                TripCurveGW.CodomainMinimum = 0;
+                TripCurve1.CodomainMaximum = 0;
+                TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+            }
+            else
+            {
+                TripCurveGW.CurveType = TripCurveTypes.NoCurve;
+                TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+                TripCurveGW.CodomainMinimum = 0;
+                TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
+                TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+            }
+
+            if(this.displayType == eDisplayType.Relay)
+            {
+                TripCurve1.Offset           = this.numericUpDownSensTrip.Value;
+                TripCurveGW.Offset          = this.numericUpDownSensTrip.Value;
+                TripCurveWV.Offset          = this.numericUpDownSensTrip.Value;
+            }
+            else if (this.displayType == eDisplayType.Percent)
+            {
+                TripCurve1.Offset           = this.numericUpDownSensTrip.Value * 50m;
+                TripCurveGW.Offset          = this.numericUpDownSensTrip.Value * 50m;
+                TripCurveWV.Offset          = this.numericUpDownSensTrip.Value * 50m;
+            }
+            else
+            {
+                TripCurve1.Offset           = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                TripCurveGW.Offset          = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                TripCurveWV.Offset          = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+            }
+
+            TripCurve1.Tilt             = this.numericUpDownAngle.Value;
+            TripCurveGW.Tilt            = this.numericUpDownGullWingAngle.Value;
+
+            mySEA.SendPacket            = RelayModeFunctions.BytePacketFor(TripCurve1, 0);
+
+            OnSend(mySEA);
+
+            mySEA.SendPacket        = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
+            this.OnSend(mySEA);
+            
+            decimal tempDecimal;
+
+            if (this.displayType == eDisplayType.Relay)
+                tempDecimal = this.numericUpDownInsensTrip.Value;
+            else if (this.displayType == eDisplayType.Percent)
+                tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
+            else
+                tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
+
+
+
+            if(this.numericUpDownTimeDelay.Visible)
+            {
+                this.instantaneousCurrent = tempDecimal;
+            }
+            else
+            {
+                this.insensitiveCurrent = tempDecimal;
+            }
+
+            TripCurveTimeDelay.CurveNumber      = 3;
+            TripCurveTimeDelay.CurveType        = TripCurveTypes.Magnitude;
+            TripCurveTimeDelay.CodomainMaximum  = Constants.MaxFixedPointValue;
+            TripCurveTimeDelay.CodomainMinimum  = Constants.MinFixedPointValue;
+            TripCurveTimeDelay.Offset           = 0;
+            TripCurveTimeDelay.Tilt             = 90;
+            TripCurveTimeDelay.Magnitude        = this.instantaneousCurrent;
+
+            if (!this.numericUpDownTimeDelay.Visible)
+            {
+                TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
+                
+            }
+            else
+            {
+                TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
+            }
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
+            OnSend(mySEA);
+
+            this.TripCurveInsensTripMag.CurveNumber = 2;
+            this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
+            this.TripCurveInsensTripMag.CodomainMaximum = Constants.MaxFixedPointValue;
+            this.TripCurveInsensTripMag.CodomainMinimum = Constants.MinFixedPointValue;
+            this.TripCurveInsensTripMag.Offset = 0;
+            this.TripCurveInsensTripMag.Tilt = 90;
+            this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
+
+            if(!this.labelInsensTrip.Visible)
+            {
+                this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
+            }
+            else
+            {
+                this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
+            }
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
+            OnSend(mySEA);
+            
+
+            TripCurveWV.CurveNumber     = 4;
+            TripCurveWV.CurveType       = TripCurveTypes.WattVar;
+            //Offset Set Above
+            TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
+            TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
+            TripCurveWV.Tilt            = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
+
+            if (this.displayType == eDisplayType.Relay)
+                TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value;
+            else if (this.displayType == eDisplayType.Percent)
+                TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value * .050m;
+            else
+                TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value / CTRatio;
+
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
+
+            if(this.numericUpDownWVCurrent.Visible)
+                this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
+            else
+                this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
+
+            OnSend(mySEA);
+
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+
+            OnSend(mySEA);
+            
+            //New Trip Parameters
+
+            mySEA.SendPacket[0] = (byte)'M';
+            mySEA.SendPacket[1] = (byte)'S';
+
+            mySEA.SendPacket[2] = 0;
+            if((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
+                mySEA.SendPacket[2] = 0;
+            else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
+                mySEA.SendPacket[2] = 1;
+            else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
+                mySEA.SendPacket[2] = 2;
+            else
+                throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
+
+            if(this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
+                mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
+            else
+                mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
+
+            mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
+            mySEA.SendPacket[7] = 0x0D;
+            if(this.VersionNumber >= 110609)
+                OnSend(mySEA);
+
+            sending = false;
+            
+        }
+
+        private void OnSend(SendEventArgs sEA)
+        {
+            if (Send != null && !this.SendTimedOut)
+                Send(sEA);
+        }
+
+       
+
+        private void listBoxTripModes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TripModes tripMode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+
+            myTMCEA.TripMode = tripMode;
+            switch (tripMode)
+            {
+                case TripModes.Sensitive:
+                    this.sensitiveTimeVisible(true);
+                    this.SensitiveVisible(true);
+                    this.TimeDelayVisible(false);
+                    this.ExtendedTDVisible(false);
+                    this.WattVarVisible(false);
+                    this.setSensitiveToolTip();
+                    break;
+                case TripModes.Insensitive:
+                    try
+                    {
+                        this.numericUpDownInsensTrip.Value = this.convertDisplay(this.insensitiveCurrent);
+                    }
+                    catch
+                    {
+                        this.numericUpDownInsensTrip.Value = 2.5m;
+                    }
+                    this.labelInsensTrip.Visible = true;
+                    this.labelInstantCurrent.Visible = false;
+                    this.sensitiveTimeVisible(false);
+                    this.SensitiveVisible(true);
+                    this.TimeDelayVisible(false);
+                    this.ExtendedTDVisible(true);
+                    this.WattVarVisible(false);
+                    this.setInsensitiveToolTip();
+                    break;
+                case TripModes.TimeDelay:
+                    try
+                    {
+                        this.numericUpDownInsensTrip.Value = this.convertDisplay(this.instantaneousCurrent);
+                    }
+                    catch
+                    {
+                        this.numericUpDownInsensTrip.Value = 2.5m;
+                    }
+                    this.labelInsensTrip.Visible = false;
+                    this.labelInstantCurrent.Visible = true;
+                    this.sensitiveTimeVisible(false);
+                    this.SensitiveVisible(true);
+                    this.TimeDelayVisible(true);
+                    this.ExtendedTDVisible(true);
+                    this.WattVarVisible(false);
+                    this.setTimeDelayToolTip();
+                    break;
+                case TripModes.RemoteTrip:
+                    this.sensitiveTimeVisible(false);
+                    this.SensitiveVisible(false);
+                    this.TimeDelayVisible(false);
+                    this.ExtendedTDVisible(false);
+                    this.WattVarVisible(false);
+                    break;
+                case TripModes.WattVar:
+                    this.sensitiveTimeVisible(true); 
+                    this.SensitiveVisible(true);
+                    this.TimeDelayVisible(true);
+                    this.ExtendedTDVisible(false);
+                    this.WattVarVisible(true);
+                    this.setWattVarToolTip();
+                    break;
+            }
+
+            this.modeChanged();
+        }
+
+        /// <summary>
+        /// Converts a decimal on Relay Setting into the appropriate display value
+        /// </summary>
+        /// <param name="p">Relay Setting</param>
+        /// <returns>Proper Display Value</returns>
+        private decimal convertDisplay(decimal p)
+        {
+            switch(this.displayType)
+            {
+                case eDisplayType.Percent:
+                    return p * 20m;
+                case eDisplayType.Protector:
+                    return p * this.CTRatio;
+                case eDisplayType.Relay:
+                default:
+                    return p;
+                        
+            }
+        }
+
+        private void sensitiveTimeVisible(bool value)
+        {
+            this.numericUpDownSensitiveTimeDelay.Visible = value;
+            this.labelSTD.Visible = value;
+            this.labelSTDunit.Visible = value;
+            if(!this.sensitiveTimeEnabled)
+            {
+                this.hideSensitiveTimeDelay();
+            }
+
+        }
+
+        private void SensitiveVisible(bool value)
+        {   
+            this.numericUpDownSensTrip.Visible = value;
+            this.labelSensTrip.Visible = value;
+            this.labelSensTripUnit.Visible = value;
+
+            this.numericUpDownAngle.Visible = value;
+            this.labelAngle.Visible = value;
+            this.labelAngleUnit.Visible = value;
+             
+        }
+
+        private void TimeDelayVisible(bool value)
+        {
+            this.numericUpDownTimeDelay.Visible = value;
+            this.labelTD.Visible = value;
+            this.labelTDunit.Visible = value;
+        }
+
+        private void ExtendedTDVisible(bool value)
+        {
+            this.numericUpDownExtendedTimeDelay.Visible = value;
+            this.labelETD.Visible = value;
+            this.labelETDunit.Visible = value;
+
+            this.numericUpDownInsensTrip.Visible = value;
+            
+            this.labelInsensTrip.Visible = value;
+            this.labelInsensTripUnit.Visible = value;
+            
+            if(!value)
+                this.labelInstantCurrent.Visible = false;
+
+        
+        }
+
+        private void WattVarVisible(bool value)
+        {
+            this.numericUpDownWVAngle.Visible = value;
+            this.labelWVAngle.Visible = value;
+            this.labelWVAngleUnit.Visible = value;
+
+            this.numericUpDownWVCurrent.Visible = value;
+            this.labelWVCurrent.Visible = value;
+            this.labelWVCurrentUnit.Visible = value;
+        }
+
+        private void modeChanged()
+        {
+            if(TripModeChanged != null)
+            {
+                TripModeChanged(myTMCEA);
+            }
+        }
+
+        public void SetAllValue(byte[] packet)
+        {
+            try
+            {
+                if(this.InvokeRequired)
+                {
+                    invokeSetAllCallBack iSCB = new invokeSetAllCallBack(this.setAll);
+                    this.Invoke(iSCB, new object[] { packet });
+                }
+                else
+                {
+                    this.setAll(packet);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+
+        private decimal insensitiveCurrent = 2.5m;
+        private decimal instantaneousCurrent = 2.5m;
+        private delegate void invokeSetAllCallBack(byte[] packet);
+        
+        private void setAll(byte[] bytePacket)
+        {
+            TripModes tempTM = 0;
+            Int32 temp = 0;
+            decimal tempD = 0, tripAngle = 0, conversionFactor = 1m;
+            
+            switch(this.domainUpDownType.SelectedIndex)
+            {
+                case 0:
+                    conversionFactor = 1m;
+                    break;
+                case 1:
+                    conversionFactor = Math.Round(1000m / 50m, 3);
+                    break;
+                case 2:
+                    conversionFactor = (decimal)this.CTRatio;// / 1000m;
+                    break;
+                default:
+                    conversionFactor = 1m;
+                    break;
+
+            }
+
+            tempTM = RelayModeFunctions.TripModeFrom((char)bytePacket[0]);
+
+            try
+            {
+                switch (tempTM)
+                {
+                    case TripModes.Insensitive:
+                        this.listBoxTripModes.SelectedIndex = 1;
+                        break;
+                    case TripModes.TimeDelay:
+                        this.listBoxTripModes.SelectedIndex = 2;
+                        break;
+                    case TripModes.WattVar:
+                        this.listBoxTripModes.SelectedIndex = 3;
+                        break;
+                    case TripModes.Sensitive:
+                    case TripModes.RemoteTrip:
+                    default:
+                        this.listBoxTripModes.SelectedIndex = 0;
+                        break;
+
+                }
+                
+            }
+            catch
+            {
+                this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[0]).ToString() + " is not a valid Trip Mode Character."));                
+            }
+            //TimeDelay
+            
+            try
+            {
+                temp = bytePacket[2];//13
+                temp <<= 8;
+                temp += bytePacket[1];//12
+
+                
+                this.numericUpDownTimeDelay.Value = temp;
+            }
+            catch
+            {
+                this.errorHandler(new Exception(temp.ToString() + " is not a valid Time Delay Value."));
+            }
+            try
+            {
+                //Extended Delay
+                temp = bytePacket[4];
+                this.numericUpDownExtendedTimeDelay.Value = temp;
+                
+            }
+            catch
+            {
+                this.errorHandler(new Exception(temp.ToString() + " is not a valid Extended Time Delay Value."));
+                
+            }
+            try
+            {
+                //Sensitive Delay
+                temp = bytePacket[3];
+           
+                this.numericUpDownSensitiveTimeDelay.Value = temp;
+            }
+            catch
+            {
+                this.errorHandler(new Exception(temp.ToString() + " is not a valid Sensitive Time Delay Value."));
+                throw new Exception("Bad Trip Delay Value");
+            }
+            
+            try
+            {
+                //Sensitive Trip Setting
+                temp = bytePacket[12];
+                temp <<= 8;
+                temp += bytePacket[11];
+                temp <<= 8;
+                temp += bytePacket[6];
+                temp <<= 8;
+                temp += bytePacket[5];
+               
+
+                tempD = ((decimal)temp * Constants.SixteenFracBits);
+                tempD = Math.Round(tempD, 4);
+                tempD *= conversionFactor;
+                if(this.displayType == eDisplayType.Relay)
+                {
+                    tempD *= -1000m;
+                    tempD = Math.Round(tempD, 1);
+                }
+                else if (this.displayType == eDisplayType.Percent)
+                {
+                    tempD *= -1m;
+                    tempD = Math.Round(tempD, 3);
+                }
+                else
+                {
+                    tempD *= -1m;
+                    tempD = Math.Round(tempD, 3);
+                }
+                this.numericUpDownSensTrip.Value = tempD;
+                
+            }
+            catch 
+            {
+                this.errorHandler(new Exception(tempD.ToString() + " is not a valid Sensitive Trip Value."));
+            }
+
+            try
+            {
+                //Sensitive Angle
+                temp = bytePacket[8];
+                temp <<= 8;
+                temp += bytePacket[7];
+
+                if (temp == 0)
+                {
+                    tempD = 90;
+                }
+                else
+                {
+                    temp <<= 16;
+                    temp >>= 16;            //this is to make it negative if it is.
+                    tempD = (decimal)temp * Constants.EightFracBits;
+                    tempD = (decimal)Math.Atan((double)tempD);
+                    tempD = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempD);
+                }
+
+                tempD = Math.Round(tempD);
+                if(tempD > 0)
+                {
+                    this.numericUpDownAngle.Value = tempD;
+                }
+                else
+                {
+                    this.numericUpDownAngle.Value = 180m + tempD;
+                }
+
+                tripAngle = tempD;
+
+            }
+            catch
+            {
+                this.errorHandler(new Exception(tempD.ToString() + " is not a valid Sensitive Trip Angle."));
+            }
+
+
+            try
+            {
+                //Instantaneous Current (IC), Magnitude of 4 trip curve
+                temp = bytePacket[10];
+                temp <<= 8;
+                temp += bytePacket[9];
+                
+                tempD = (decimal)temp * Constants.TenFracBits;
+                tempD = this.instantaneousCurrent = Math.Round(tempD, 1);
+                tempD *= conversionFactor;
+                    
+
+                if(tempTM == TripModes.TimeDelay)
+                    this.numericUpDownInsensTrip.Value = tempD;
+                
+
+            }
+            catch
+            {
+                this.errorHandler(new Exception(tempD.ToString() + " is not a valid Instantaneous Current Value."));
+            }
+
+            
+
+            try
+            {
+                //Insensitive Trip (IT), Magnitude of 3 trip curve
+                temp = bytePacket[18];
+                temp <<= 8;
+                temp += bytePacket[17];
+
+                tempD = (decimal)temp * Constants.TenFracBits;
+                this.insensitiveCurrent = Math.Round(tempD, 1);
+                tempD = this.insensitiveCurrent;
+                tempD *= conversionFactor;
+
+                
+                if(tempTM == TripModes.Insensitive)
+                    this.numericUpDownInsensTrip.Value = tempD;
+            }
+            catch
+            {
+                this.errorHandler(new Exception(tempD.ToString() + " is not a valid Insensitive Trip Value."));
+            }
+
+            try
+            {
+                temp = bytePacket[14];
+                temp <<= 8;
+                temp += bytePacket[13];
+
+                tempD = (decimal)temp * Constants.TenFracBits;
+                tempD = Math.Round(tempD, 1);
+                tempD *= conversionFactor;
+
+                this.numericUpDownWVCurrent.Value = tempD;
+            }
+            catch
+            {
+                this.errorHandler(new Exception(tempD.ToString() + " is not a valid Watt Varr Value."));
+            }
+
+            try
+            {
+                //Watt Var Angle
+                temp = bytePacket[16];
+                temp <<= 8;
+                temp += bytePacket[15];
+                temp <<= 16;
+                temp >>= 16;
+
+                if (temp == 0)
+                {
+                    tempD = 90;
+                }
+                else
+                {
+                    temp <<= 16;
+                    temp >>= 16;    //converts 16 bit negative number to 32 bit negative
+                    tempD = ((decimal)temp * Constants.EightFracBits);
+                    tempD = (decimal)Math.Atan((double)tempD);
+                    tempD = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempD);
+
+                    if(tempD < 0)
+                        tempD = 180 + tempD;
+                }
+                tempD = tempD - tripAngle;
+
+                if (tempD > 90)
+                    tempD -= 180m;
+
+                this.numericUpDownWVAngle.Value = Math.Round(tempD);
+            }
+            catch
+            {
+                this.errorHandler(new Exception(Math.Round(tempD).ToString() + " is not a valid Watt Varr Angle."));
+            }
+
+            try
+            {
+                if(bytePacket[19] == (byte)'O')
+                {
+                    this.checkBoxEnableGullWing.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxEnableGullWing.Checked = false;
+                }
+
+                temp = bytePacket[21];
+                temp <<= 8;
+                temp += bytePacket[20];
+
+                if (temp == 0)
+                {
+                    tempD = 90;
+                }
+                else
+                {
+                    temp <<= 16;
+                    temp >>= 16;            //this is to make it negative if it is.
+                    tempD = (decimal)temp * Constants.EightFracBits;
+                    tempD = (decimal)Math.Atan((double)tempD);
+                    tempD = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempD);
+                }
+
+                tempD = Math.Round(tempD);
+                if (tempD > 0)
+                {
+                    this.numericUpDownGullWingAngle.Value = tempD;
+                }
+                else
+                {
+                    this.numericUpDownGullWingAngle.Value = 180m + tempD;
+                }
+            }
+            catch{}
+
+            try
+            {
+                if(this.versionNumber >= 110609)
+                {
+                    //Set Trip Style Drop down
+                    if((bytePacket[22] & 0x01) == 1)
+                    {
+                        this.domainUpDownTripStyle.SelectedItem = "Pulse Trip";
+                    }
+                    else if ((bytePacket[22] & 0x02) == 2)
+                    {
+                        this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
+                    }
+                    else
+                    {
+                        this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
+                    }
+
+                    //Set Power Down Trip Checkbox - reversed for backwards compatibility
+                    if((bytePacket[22] & 0x04) == 4)
+                    {
+                        this.checkBoxTripOnPowerDown.Checked = false;
+                    }
+                    else
+                    {
+                        this.checkBoxTripOnPowerDown.Checked = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception except = new Exception("Error Setting Trip Style, Trip Mode", ex);
+
+                this.errorHandler(except);
+            }
+            
+        }
+
+        private void domainUpDownType_SelectedItemChanged(object sender, EventArgs e)
+        {
+            DomainUpDown dUP = (DomainUpDown)sender;
+
+            switch(dUP.SelectedIndex)
+            {
+                case 0:
+                    this.makeRelayType();
+                    break;
+                case 1:
+                    this.makePercentType();
+                    break;
+                case 2:
+                    this.makeProtectorType();
+                    break;
+                default:
+                    this.makeRelayType();
+                    break;
+            }
+        }
+
+        private void makeProtectorType()
+        {
+            decimal temp;
+
+            this.labelInsensTripUnit.Text = "A";
+            this.labelSensTripUnit.Text = "A";
+            this.labelWVCurrentUnit.Text = "A";
+
+            temp = this.numericUpDownSensTrip.Value;
+
+            this.numericUpDownSensTrip.Minimum = .0001m * this.CTRatio;
+            this.numericUpDownSensTrip.Maximum = 5m * this.CTRatio;
+            this.numericUpDownSensTrip.Increment = .0001m * this.CTRatio; 
+            
+            if(this.displayType == eDisplayType.Relay)
+            {
+                this.numericUpDownSensTrip.Value = Math.Round(temp * this.CTRatio, 3);
+            }
+            else if(this.displayType == eDisplayType.Percent)
+            {
+                this.numericUpDownSensTrip.Value = Math.Round(temp * .05m * CTRatio, 3);
+            }
+
+            temp = this.numericUpDownInsensTrip.Value;
+
+            this.numericUpDownInsensTrip.Minimum = .1m * this.CTRatio;
+            this.numericUpDownInsensTrip.Maximum = 15m * this.CTRatio;
+            this.numericUpDownInsensTrip.Increment = .1m * this.CTRatio;
+
+            if (this.displayType == eDisplayType.Relay)
+            {
+                this.numericUpDownInsensTrip.Value = Math.Round(temp * this.CTRatio, 1);
+            }
+            else if (this.displayType == eDisplayType.Percent)
+            {
+                this.numericUpDownInsensTrip.Value = Math.Round(temp * .05m * CTRatio, 1);
+            }
+
+            temp = this.numericUpDownWVCurrent.Value;
+
+            this.numericUpDownWVCurrent.Minimum = .1m * this.CTRatio;
+            this.numericUpDownWVCurrent.Maximum = 15m * this.CTRatio;
+            this.numericUpDownWVCurrent.Increment = .1m * this.CTRatio;
+
+            if (this.displayType == eDisplayType.Relay)
+            {
+                this.numericUpDownWVCurrent.Value = Math.Round(temp * this.CTRatio);
+            }
+            else if (this.displayType == eDisplayType.Percent)
+            {
+                this.numericUpDownWVCurrent.Value = Math.Round(temp * .050m * CTRatio, 1);
+            }
+
+            displayType = eDisplayType.Protector;
+        }
+
+        private void setProtectorValues(Int32 value)
+        {
+            decimal temp;
+            if(this.displayType == eDisplayType.Protector)
+            {
+                temp = this.numericUpDownSensTrip.Value;
+                temp = temp / this.CTRatio;
+
+                this.numericUpDownSensTrip.Increment = (decimal)value * .0001m;
+                this.numericUpDownSensTrip.Maximum = (decimal)value * 5m;
+                this.numericUpDownSensTrip.Minimum  = (decimal)value * .0001m;
+
+                this.numericUpDownSensTrip.Value = value * temp;
+
+                temp = this.numericUpDownInsensTrip.Value;
+                temp = temp / this.CTRatio;
+
+                this.numericUpDownInsensTrip.Increment = (decimal)value * .1m;
+                this.numericUpDownInsensTrip.Maximum = (decimal)value * 15m;
+                this.numericUpDownInsensTrip.Minimum = (decimal)value * .1m;
+
+                this.numericUpDownInsensTrip.Value = value * temp;
+
+                temp = this.numericUpDownWVCurrent.Value;
+                temp = temp / this.CTRatio;
+
+                this.numericUpDownWVCurrent.Increment = (decimal)value * .1m;
+                this.numericUpDownWVCurrent.Maximum = (decimal)value * 15m;
+                this.numericUpDownWVCurrent.Minimum = (decimal)value * .1m;
+
+                this.numericUpDownWVCurrent.Value = value * temp;
+            }
+            value = value * 5;
+        }
+
+        private void makePercentType()
+        {
+            decimal temp;
+
+            this.labelInsensTripUnit.Text = "%";
+            this.labelSensTripUnit.Text = "%";
+            this.labelWVCurrentUnit.Text = "%";
+
+            temp = this.numericUpDownSensTrip.Value;
+
+            this.numericUpDownSensTrip.Minimum = .002m;
+            this.numericUpDownSensTrip.Maximum = 100;
+            this.numericUpDownSensTrip.Increment = .002m;
+            this.numericUpDownSensTrip.DecimalPlaces = 3;
+            if (this.displayType == eDisplayType.Relay)
+            {
+                this.numericUpDownSensTrip.Value = Math.Round(temp / 50m, 3);
+            }
+            else if (this.displayType == eDisplayType.Protector)
+            {
+                this.numericUpDownSensTrip.Value = Math.Round(temp / CTRatio / .050m, 3);
+            }
+
+            temp = this.numericUpDownInsensTrip.Value;
+
+            this.numericUpDownInsensTrip.Minimum = 2;
+            this.numericUpDownInsensTrip.Maximum = 300;
+            this.numericUpDownInsensTrip.Increment = 2;
+
+            if (this.displayType == eDisplayType.Relay)
+            {
+                this.numericUpDownInsensTrip.Value = Math.Round(temp * 1000m / 50m, 3);
+            }
+            else if (this.displayType == eDisplayType.Protector)
+            {
+                this.numericUpDownInsensTrip.Value = Math.Round(temp / CTRatio / .050m, 3);
+            }
+
+            temp = this.numericUpDownWVCurrent.Value;
+
+            this.numericUpDownWVCurrent.Minimum = 2;
+            this.numericUpDownWVCurrent.Maximum = 100000;
+            this.numericUpDownWVCurrent.Increment = 2;
+
+            if (this.displayType == eDisplayType.Relay)
+            {
+                this.numericUpDownWVCurrent.Value = Math.Round(temp * 1000m / 50m, 3);
+            }
+            else if (this.displayType == eDisplayType.Protector)
+            {
+                this.numericUpDownWVCurrent.Value = Math.Round(temp / CTRatio / .050m, 3);
+            }
+
+            displayType = eDisplayType.Percent;
+        }
+
+        private void makeRelayType()
+        {
+            decimal temp;
+
+            this.labelInsensTripUnit.Text = "A";
+            this.labelSensTripUnit.Text = "mA";
+            this.labelWVCurrentUnit.Text = "A";
+
+            temp = this.numericUpDownSensTrip.Value;
+
+            this.numericUpDownSensTrip.Minimum = .1m;
+            this.numericUpDownSensTrip.Maximum = 5000;
+            this.numericUpDownSensTrip.Increment = .1m;
+
+            if (this.displayType == eDisplayType.Percent)
+            {
+                this.numericUpDownSensTrip.Value = Math.Round(temp * 50m, 1);
+            }
+            else if (this.displayType == eDisplayType.Protector)
+            {
+                try
+                {
+                    this.numericUpDownSensTrip.Value = Math.Round(temp * 1000m / CTRatio, 1);
+                }
+                catch {}
+            }
+
+            temp = this.numericUpDownInsensTrip.Value;
+
+            this.numericUpDownInsensTrip.Minimum = .1m;
+            this.numericUpDownInsensTrip.Maximum = 15;
+            this.numericUpDownInsensTrip.Increment = .1m;
+
+            if (this.displayType == eDisplayType.Percent)
+            {
+                this.numericUpDownInsensTrip.Value = Math.Round(temp/1000m * 50m, 1);
+            }
+            else if (this.displayType == eDisplayType.Protector)
+            {
+                this.numericUpDownInsensTrip.Value = Math.Round(temp / CTRatio, 1);
+            }
+
+            temp = this.numericUpDownWVCurrent.Value;
+
+            this.numericUpDownWVCurrent.Minimum = .1m;
+            this.numericUpDownWVCurrent.Maximum = 15;
+            this.numericUpDownWVCurrent.Increment = .1m;
+
+            if (this.displayType == eDisplayType.Percent)
+            {
+                this.numericUpDownWVCurrent.Value = Math.Round(temp / 1000m * 50m, 1);
+            }
+            else if (this.displayType == eDisplayType.Protector)
+            {
+                this.numericUpDownWVCurrent.Value = Math.Round(temp / CTRatio, 1);
+            }
+
+            displayType = eDisplayType.Relay;
+        }
+
+        private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        {
+            this.setTypeIndependentDefaults();
+
+            switch(this.displayType)
+            {
+                case eDisplayType.Percent:
+                    this.setPercentageTypeDefaults();
+                    break;
+                case eDisplayType.Protector:
+                    this.setProtectorTypeDefaults();
+                    break;
+                case eDisplayType.Relay:
+                default:
+                    this.setRelayTypeDefaults();
+                    break;
+            }
+            
+            //Sensitive Trip Curve
+            TripCurve1.CurveNumber = 0;
+            TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
+            TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
+            TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+            TripCurve1.Offset = 7.5m;
+            TripCurve1.Tilt = 90;
+
+            //Gull wing Trip Curve
+            TripCurveGW.CurveNumber = 1;
+            TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
+            TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+            TripCurveGW.CodomainMinimum = Constants.SevenFracBits;
+            TripCurveGW.Offset = 7.5m;
+            TripCurveGW.Tilt = 90;
+
+            //Handle Time Delay and Insensitive curves
+            TripCurveTimeDelay.CurveNumber = 3;
+            TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
+            TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
+            TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
+
+            TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
+            TripCurveTimeDelay.Offset = 0;
+            TripCurveTimeDelay.Tilt = 90;
+
+            TripCurveTimeDelay.CurveNumber = 2;
+
+            //Handle Watt-Var curve
+
+            TripCurveWV.CurveNumber = 4;
+            TripCurveWV.CurveType = TripCurveTypes.WattVar;
+            TripCurveWV.Magnitude = 2.5m;
+            TripCurveWV.Offset = 2.5m;
+            TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
+            TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
+            TripCurveWV.Tilt = 150;
+
+            //send mode
+            this.TripModeDef.SensitiveTimeDelay = 6;
+            this.TripModeDef.TimeDelay = 150;
+            this.TripModeDef.ExtendedDelay = 0;
+            this.TripModeDef.Mode = TripModes.Sensitive;
+        }
+
+        private void setTypeIndependentDefaults()
+        {
+            this.checkBoxEnableGullWing.Checked = false;
+            this.gullWingEnabled = false;
+
+            this.instantaneousCurrent = 2.5m;
+            this.insensitiveCurrent = 2.5m;
+
+            this.listBoxTripModes.SelectedIndex = 0;
+            this.numericUpDownTimeDelay.Value = 150;
+            this.numericUpDownSensitiveTimeDelay.Value = 6;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownExtendedTimeDelay.Value = 0;
+            this.numericUpDownWVAngle.Value = -60;
+            this.numericUpDownGullWingAngle.Value = 90;
+        }
+
+        private void setRelayTypeDefaults()
+        {   
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 7.5m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
+        }
+
+        private void setPercentageTypeDefaults()
+        {
+            this.numericUpDownInsensTrip.Value = 50m;
+            this.numericUpDownSensTrip.Value = .15m;
+            this.numericUpDownWVCurrent.Value = 50m;
+        }
+
+        private void setProtectorTypeDefaults()
+        {
+            this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
+            this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
+            this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+        }
+
+        public delegate void ExceptionHandler(Exception ex);
+
+        public event ExceptionHandler TripControlException;
+
+        private void errorHandler(Exception ex)
+        {
+            if (TripControlException != null)
+            {
+                TripControlException(ex);
+            }
+            else
+            {
+                throw new Exception("No Exception Handler For Trip Control");
+            }
+        }
+
+        private bool gullWingEnabled = false;
+        private ToolTip gullWingToolTip = new ToolTip();
+        private ToolTip tiltAngleToolTip = new ToolTip();
+
+        private void checkBoxEnableGullWing_CheckedChanged(object sender, EventArgs e)
+        {
+            this.showGullWing(this.checkBoxEnableGullWing.Checked);
+            if(this.checkBoxEnableGullWing.Checked)
+            {
+                this.gullWingToolTip.SetToolTip(this.numericUpDownGullWingAngle, "Applies to Quadrants I and II");
+                this.tiltAngleToolTip.SetToolTip(this.numericUpDownAngle, "Applies to Quadrans III and IV");
+                this.tiltAngleToolTip.Active = true;
+            }
+            else
+            {
+                this.tiltAngleToolTip.SetToolTip(this.numericUpDownAngle, "Reverse Current Sensitive Trip Line Angle");
+            }
+        }
+
+        private void showGullWing(bool p)
+        {
+            if(this.Customer != Customers.ConEdison)
+            {
+                this.gullWingEnabled = p;
+                this.labelGullWingAngle.Visible = p;
+                this.labelGullWingUnits.Visible = p;
+                this.numericUpDownGullWingAngle.Visible = p;
+            }
+        }
+
+        #region Saved States
+
+        private SaveObject saveObject = new SaveObject();
+  
+
+        private void populateTripModeSavedData(TripModeSavedStateV4 tSS)
+        {
+            decimal sensConversionFactor, insensConversionFactor;
+            switch (this.domainUpDownType.SelectedIndex)
+            {
+                case 0:
+                    sensConversionFactor = 1m;
+                    insensConversionFactor = 1m;
+                    break;
+                case 1:
+                    sensConversionFactor = Math.Round(50m, 3);
+                    insensConversionFactor = Math.Round(50m / 1000m, 3);
+                    break;
+                case 2:
+                    sensConversionFactor = 1000m / (decimal)this.CTRatio;
+                    insensConversionFactor = 1m / (decimal)this.CTRatio;
+                    break;
+                default:
+                    sensConversionFactor = 1;
+                    insensConversionFactor = 1;
+                    break;
+            }
+            tSS.ExtendedTimeDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
+            tSS.GullWingAngle = (int)this.numericUpDownGullWingAngle.Value;
+            tSS.GullWingEnabled = this.checkBoxEnableGullWing.Checked;
+            tSS.InsensitiveCurrent = this.numericUpDownInsensTrip.Value * insensConversionFactor;
+            tSS.SensitiveTrip = this.numericUpDownSensTrip.Value * sensConversionFactor;
+            tSS.SensitiveTripDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
+            tSS.TiltAngle = (int)this.numericUpDownAngle.Value;
+            tSS.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
+            tSS.TripMode = RelayModeFunctions.TripModeFrom((string)this.listBoxTripModes.SelectedItem);
+            tSS.WattVarAngle = (int)this.numericUpDownWVAngle.Value;
+            tSS.WattVarCurrent = this.numericUpDownWVCurrent.Value * insensConversionFactor;
+            tSS.TripStyle = (int)this.domainUpDownTripStyle.SelectedIndex;
+            tSS.TripOnPowerDown = this.checkBoxTripOnPowerDown.Checked;
+        }
+        
+        public void SetAllValues(TripModeSavedStateV4 lTSS)
+        {
+            decimal sensConversionFactor, insensConversionFactor;
+            
+            switch(this.domainUpDownType.SelectedIndex)
+            {
+                case 0:
+                    sensConversionFactor = insensConversionFactor = 1m;
+                    break;
+                case 1:
+                    sensConversionFactor = Math.Round(1m / 50m, 3);
+                    insensConversionFactor = Math.Round(1000m / 50m, 3);
+                    break;
+                case 2:
+                    sensConversionFactor = (decimal)this.CTRatio / 1000m;
+                    insensConversionFactor = (decimal)this.CTRatio;
+                    break;
+                default:
+                    sensConversionFactor = insensConversionFactor = 1m;
+                    break;
+
+            }
+            try
+            {
+                this.listBoxTripModes.SelectedItem = RelayModeFunctions.StringRepresentationOf(lTSS.TripMode);
+                this.numericUpDownAngle.Value = lTSS.TiltAngle;
+                this.numericUpDownExtendedTimeDelay.Value = lTSS.ExtendedTimeDelay;
+                this.numericUpDownGullWingAngle.Value = lTSS.GullWingAngle;
+                this.numericUpDownInsensTrip.Value = lTSS.InsensitiveCurrent * insensConversionFactor;
+                this.numericUpDownSensitiveTimeDelay.Value = lTSS.SensitiveTripDelay;
+                this.numericUpDownSensTrip.Value = lTSS.SensitiveTrip * sensConversionFactor;
+                this.numericUpDownTimeDelay.Value = lTSS.TimeDelay;
+                this.numericUpDownWVAngle.Value = lTSS.WattVarAngle;
+                this.numericUpDownWVCurrent.Value = lTSS.WattVarCurrent * insensConversionFactor;
+                this.checkBoxEnableGullWing.Checked = lTSS.GullWingEnabled;
+                this.domainUpDownTripStyle.SelectedIndex = lTSS.TripStyle;
+                this.checkBoxTripOnPowerDown.Checked = lTSS.TripOnPowerDown;
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(ex);
+            }
+
+        }
+
+        public TripModeSavedStateV4 GetSavedState()
+        {
+            TripModeSavedStateV4 tSS = new TripModeSavedStateV4();
+            this.populateTripModeSavedData(tSS);
+            return tSS;
+        }
+
+        #endregion
+    }
+    
+    [Serializable()]
+
+    public class TripModeSavedState : ISerializable
+    {
+        public TripModeSavedState()
+        {
+        }
+
+        public string Name;
+        public TripModes TripMode;
+        public int SensitiveTripDelay;
+        public int ExtendedTimeDelay;
+        public int TimeDelay;
+        public decimal SensitiveTrip;
+        public int TiltAngle;
+        public decimal InsensitiveCurrent;
+        public decimal WattVarCurrent;
+        public int WattVarAngle;
+        public int GullWingAngle;
+        public bool GullWingEnabled;
+
+        public TripModeSavedState(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.Name = (string)info.GetValue("Name", typeof(string));
+                this.TripMode = (TripModes)info.GetValue("Trip Mode", typeof(TripModes));
+                this.SensitiveTripDelay = (int)info.GetValue("Sensitive Trip Delay", typeof(int));
+                this.ExtendedTimeDelay = (int)info.GetValue("Extended Time Delay", typeof(int));
+                this.TimeDelay = (int)info.GetValue("Time Delay", typeof(int));
+                this.SensitiveTrip = (Decimal)info.GetValue("Sensitive Trip", typeof(decimal));
+                this.TiltAngle = (int)info.GetValue("Tilt Angle", typeof(int));
+                this.InsensitiveCurrent = (Decimal)info.GetValue("Insensitive Current", typeof(decimal));
+                this.WattVarAngle = (int)info.GetValue("Watt Var Angle", typeof(int));
+                this.WattVarCurrent = (Decimal)info.GetValue("Watt Var Current", typeof(decimal));
+                this.GullWingAngle = (int)info.GetValue("Gull Wing Angle", typeof(int));
+                this.GullWingEnabled = (bool)info.GetValue("Gull Wing Enabled", typeof(bool));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception ("Error Instantiating Trip Mode Saved State", ex);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                info.AddValue("Name", Name);
+                info.AddValue("Trip Mode", TripMode);
+                info.AddValue("Sensitive Trip Delay", SensitiveTripDelay);
+                info.AddValue("Extended Time Delay", ExtendedTimeDelay);
+                info.AddValue("Time Delay", TimeDelay);
+                info.AddValue("Sensitive Trip", SensitiveTrip);
+                info.AddValue("Tilt Angle", TiltAngle);
+                info.AddValue("Insensitive Current", InsensitiveCurrent);
+                info.AddValue("Watt Var Current", WattVarCurrent);
+                info.AddValue("Watt Var Angle", WattVarAngle);
+                info.AddValue("Gull Wing Angle", GullWingAngle);
+                info.AddValue("Gull Wing Enabled", GullWingEnabled);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception ("Error Getting Object Data in Trip Mode Saving", ex);
+            }
+        }
+
+
+    }
+
+    [Serializable()]
+
+    public class TripModeSavedStateV4 : ISerializable
+    {
+        public TripModeSavedStateV4()
+        {
+        }
+
+        public string Name;
+        public TripModes TripMode;
+        public int SensitiveTripDelay;
+        public int ExtendedTimeDelay;
+        public int TimeDelay;
+        public decimal SensitiveTrip;
+        public int TiltAngle;
+        public decimal InsensitiveCurrent;
+        public decimal WattVarCurrent;
+        public int WattVarAngle;
+        public int GullWingAngle;
+        public bool GullWingEnabled;
+        public int TripStyle;
+        public bool TripOnPowerDown = true;
+
+        public TripModeSavedStateV4(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.Name = (string)info.GetValue("Name", typeof(string));
+                this.TripMode = (TripModes)info.GetValue("Trip Mode", typeof(TripModes));
+                this.SensitiveTripDelay = (int)info.GetValue("Sensitive Trip Delay", typeof(int));
+                this.ExtendedTimeDelay = (int)info.GetValue("Extended Time Delay", typeof(int));
+                this.TimeDelay = (int)info.GetValue("Time Delay", typeof(int));
+                this.SensitiveTrip = (Decimal)info.GetValue("Sensitive Trip", typeof(decimal));
+                this.TiltAngle = (int)info.GetValue("Tilt Angle", typeof(int));
+                this.InsensitiveCurrent = (Decimal)info.GetValue("Insensitive Current", typeof(decimal));
+                this.WattVarAngle = (int)info.GetValue("Watt Var Angle", typeof(int));
+                this.WattVarCurrent = (Decimal)info.GetValue("Watt Var Current", typeof(decimal));
+                this.GullWingAngle = (int)info.GetValue("Gull Wing Angle", typeof(int));
+                this.GullWingEnabled = (bool)info.GetValue("Gull Wing Enabled", typeof(bool));
+                this.TripStyle = (int)info.GetValue("Trip Style", typeof(int));
+                this.TripOnPowerDown = (bool)info.GetValue("Trip On Power Down", typeof(bool));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Instantiating Trip Mode Saved State", ex);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                info.AddValue("Name", Name);
+                info.AddValue("Trip Mode", TripMode);
+                info.AddValue("Sensitive Trip Delay", SensitiveTripDelay);
+                info.AddValue("Extended Time Delay", ExtendedTimeDelay);
+                info.AddValue("Time Delay", TimeDelay);
+                info.AddValue("Sensitive Trip", SensitiveTrip);
+                info.AddValue("Tilt Angle", TiltAngle);
+                info.AddValue("Insensitive Current", InsensitiveCurrent);
+                info.AddValue("Watt Var Current", WattVarCurrent);
+                info.AddValue("Watt Var Angle", WattVarAngle);
+                info.AddValue("Gull Wing Angle", GullWingAngle);
+                info.AddValue("Gull Wing Enabled", GullWingEnabled);
+                info.AddValue("Trip Style", TripStyle);
+                info.AddValue("Trip On Power Down", TripOnPowerDown);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Getting Object Data in Trip Mode Saving", ex);
+            }
+        }
+    }
+
+    [Serializable()]
+
+    public class SaveObject : ISerializable
+    {
+        public SaveObject()
+        {
+        }
+
+        //public int NumberOfObjects;
+        public List<TripModeSavedStateV4> SavedStates = new List<TripModeSavedStateV4>();
+
+        public SaveObject(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                //this.NumberOfObjects = (int)info.GetValue("Number Of Objects", typeof(int));
+                this.SavedStates = (List<TripModeSavedStateV4>)info.GetValue("Saved States", typeof(List<TripModeSavedStateV4>));
+            }
+            catch //(Exception ex)
+            {
+                this.SavedStates = null;
+                //throw new Exception("Error in deserializing of Save Object in Trip Mode Settings.", ex);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                info.AddValue("Saved States", this.SavedStates);
+                //info.AddValue("Number Of Objects", this.NumberOfObjects);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Saving Data In Trip Mode Settings.", ex);
+            }
+        }
+
+        public void AddSavedState(TripModeSavedStateV4 tSS)
+        {
+            int i = 0;
+
+            for (; i < SavedStates.Count; ++i)
+            {
+                if(this.SavedStates[i].Name == tSS.Name || this.SavedStates[i].Name == null)
+                {
+                    this.SavedStates[i] = tSS;
+                    break;
+                }
+            }
+
+            if(i == SavedStates.Count)
+            {
+                this.SavedStates.Add(tSS);
+            }
+
+            //Sort list alphabetically
+            this.SavedStates.Sort(delegate(TripModeSavedStateV4 tSS1, TripModeSavedStateV4 tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
+        }
+
+        private bool sameName(TripModeSavedState tSS, string s)
+        {
+            if(tSS.Name == s)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void RemoveSavedState(TripModeSavedStateV4 tSS)
+        {
+            if(this.SavedStates == null)
+                return;
+            this.SavedStates.Remove(tSS);
+        }
+
+        public void RemoveSavedState(string name)
+        {
+            if(this.SavedStates == null)
+                return;
+
+            for(int i = 0; i < this.SavedStates.Count; ++i)
+            {
+                if(this.SavedStates[i].Name.Equals(name))
+                {
+                    this.SavedStates.Remove(this.SavedStates[i]);
+                    break;
+                }
+            }
+        }
+
+    }
+
+    [Serializable()]
+
+    public class SaveObjectV4 : ISerializable
+    {
+        public SaveObjectV4()
+        {
+        }
+
+        //public int NumberOfObjects;
+        public List<TripModeSavedState> SavedStates = new List<TripModeSavedState>();
+
+        public SaveObjectV4(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                //this.NumberOfObjects = (int)info.GetValue("Number Of Objects", typeof(int));
+                this.SavedStates = (List<TripModeSavedState>)info.GetValue("Saved States", typeof(List<TripModeSavedState>));
+            }
+            catch //(Exception ex)
+            {
+                this.SavedStates = null;
+                //throw new Exception("Error in deserializing of Save Object in Trip Mode Settings.", ex);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                info.AddValue("Saved States", this.SavedStates);
+                //info.AddValue("Number Of Objects", this.NumberOfObjects);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Saving Data In Trip Mode Settings.", ex);
+            }
+        }
+
+        public void AddSavedState(TripModeSavedState tSS)
+        {
+            int i = 0;
+
+            for (; i < SavedStates.Count; ++i)
+            {
+                if (this.SavedStates[i].Name == tSS.Name || this.SavedStates[i].Name == null)
+                {
+                    this.SavedStates[i] = tSS;
+                    break;
+                }
+            }
+
+            if (i == SavedStates.Count)
+            {
+                this.SavedStates.Add(tSS);
+            }
+
+            //Sort list alphabetically
+            this.SavedStates.Sort(delegate(TripModeSavedState tSS1, TripModeSavedState tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
+        }
+
+        private bool sameName(TripModeSavedState tSS, string s)
+        {
+            if (tSS.Name == s)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void RemoveSavedState(TripModeSavedState tSS)
+        {
+            if (this.SavedStates == null)
+                return;
+            this.SavedStates.Remove(tSS);
+        }
+
+        public void RemoveSavedState(string name)
+        {
+            if (this.SavedStates == null)
+                return;
+
+            for (int i = 0; i < this.SavedStates.Count; ++i)
+            {
+                if (this.SavedStates[i].Name.Equals(name))
+                {
+                    this.SavedStates.Remove(this.SavedStates[i]);
+                    break;
+                }
+            }
+        }
+
+    }
+         
+
+
+}

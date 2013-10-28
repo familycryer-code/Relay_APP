@@ -1,0 +1,25 @@
+# This is an example makefile for the Triangle MicroWorks, Inc.
+# Source Code Library. It will attempt to build a library
+#
+# This file is a simple example designed to work on Linux.
+# It is highly likely that it will have to be modified to run with
+# the target make system
+
+CC = gcc -c
+CFLAGS = -Wall -W -g  -I ../  -DTMW_LINUX_TARGET
+LIBTOOL = ar -rc
+SRC =	\
+	lin232.c	\
+	liniodiag.c	\
+	liniotarg.c	\
+	lintcp.c
+
+OBJ = $(SRC:.c=.o)
+
+
+all: $(OBJ)
+	$(LIBTOOL) ../liniotarg.lib $(OBJ)
+
+clean:
+	-rm *.o
+

@@ -1,0 +1,210 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Text;
+using System.Windows.Forms;
+
+namespace RelayControlLibrary
+{
+    public partial class ucSafeService : UserControl
+    {
+        public ucSafeService()
+        {
+            InitializeComponent();
+            this.setCTRatioValues(this.cTRatio);
+        }
+
+        #region Send And Receive
+
+        private void send()
+        {
+            SendEventArgs sEA = new SendEventArgs(22);
+            uint tempInt;
+
+            try
+            {
+                //low byte comes first
+                sEA.SendPacket[0] = 0x0F;    
+                if(this.comboBoxSSEnable.SelectedIndex == 0)
+                    sEA.SendPacket[2] = 1;
+                else
+                    sEA.SendPacket[2] = 0;
+                sEA.SendPacket[1] = 0;
+                tempInt = RelayModeFunctions.ConvertTo6_10(this.numericUpDownOverCurrent.Value / (decimal)this.cTRatio);
+                sEA.SendPacket[3] = (byte)(tempInt >> 8);
+                sEA.SendPacket[4] = (byte)tempInt;
+                tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownCurrentImbalance.Value);
+                sEA.SendPacket[5] = (byte)(tempInt >> 8);
+                sEA.SendPacket[6] = (byte)tempInt;
+                tempInt = (uint)this.numericUpDownDelay.Value;
+                sEA.SendPacket[7] = (byte)(tempInt >> 8);
+                sEA.SendPacket[8] = (byte)tempInt;
+                tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownLowVoltage.Value);
+                sEA.SendPacket[9] = (byte)(tempInt >> 8);
+                sEA.SendPacket[10] = (byte)tempInt;
+                tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownVoltageImbalance.Value);
+                sEA.SendPacket[11] = (byte)(tempInt >> 8);
+                sEA.SendPacket[12] = (byte)tempInt;
+                sEA.SendPacket[21] = 0x0D;
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error Generating Safe Service Send Settings", ex);
+            }
+
+            try
+            {
+                if (this.Send != null)
+                {
+                    this.Send(this, sEA);
+                }
+                else
+                    throw new Exception("Safe Service Send Event Not Handled");
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error Sending Safe Service Settings", ex);
+            }
+        }
+
+        private void buttonSend_Click(object sender, EventArgs e)
+        {
+            this.send();
+        }
+
+        public delegate void SendHandler(object o, SendEventArgs sEA);
+        public event SendHandler Send;
+
+        private void buttonRequest_Click(object sender, EventArgs e)
+        {
+            SendEventArgs sEA = new SendEventArgs(3);
+            try
+            {
+                if (this.Send != null)
+                {
+                    sEA.SendPacket[0] = 0x0E;
+                    //sEA.SendPacket[1] = 0x55;
+                    sEA.SendPacket[1] = 0x0D;
+                    this.Send(this, sEA);
+                }
+                else
+                    throw new Exception("Safe Service Send Event Not Handled");
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error Requesting Safe Service Settings", ex);
+            }
+        }
+
+        private delegate void setAllCallBack(byte[] bytePacket);
+        public void SetAll(byte[] bytePacket)
+        {
+            try
+            {
+                if(this.InvokeRequired)
+                {
+                    setAllCallBack sACB = new setAllCallBack(this.setAll);
+                    this.Invoke(sACB, new object[] { bytePacket });
+                }
+                else
+                {
+                    this.setAll(bytePacket);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error in SetAll", ex);
+            }
+        }
+        private void setAll(byte[] bytePacket)
+        {
+            uint tempI;
+            try
+            {
+                if((bytePacket[1] & 0x01) == 1)
+                    this.comboBoxSSEnable.SelectedIndex = 0;
+                else
+                    this.comboBoxSSEnable.SelectedIndex = 1;
+
+                tempI = bytePacket[2];
+                tempI <<= 8;
+                tempI += bytePacket[3];
+                
+                this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI * (uint)this.CTRatio);
+
+                tempI = bytePacket[4];
+                tempI <<= 8;
+                tempI += bytePacket[5];
+
+                this.numericUpDownCurrentImbalance.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
+
+                tempI = bytePacket[6];
+                tempI <<= 8;
+                tempI += bytePacket[7];
+
+                this.numericUpDownDelay.Value = tempI;
+
+                tempI = bytePacket[8];
+                tempI <<= 8;
+                tempI += bytePacket[9];
+
+                this.numericUpDownLowVoltage.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
+
+                tempI = bytePacket[10];
+                tempI <<= 8;
+                tempI += bytePacket[11];
+
+                this.numericUpDownVoltageImbalance.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error in setAll", ex);
+            }
+        }
+
+        #endregion
+
+        #region Events
+
+        public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
+        public event ErrorHandler SafeServiceException;
+
+        private void errorHandler(string p, Exception ex)
+        {
+            if(SafeServiceException != null)
+                SafeServiceException(this, new ExceptionEventArgs(ex, p));
+            else
+                throw new Exception("Exceptions for SS Not Handled!!!!");
+        }
+
+
+        private int cTRatio = 320;
+        public int CTRatio
+        {
+            get { return this.cTRatio; }
+            set
+            {
+                this.setCTRatioValues(value);
+            }
+        }
+
+        private void setCTRatioValues(int value)
+        {
+            decimal tempValue = this.numericUpDownOverCurrent.Value;
+            
+            tempValue /= this.cTRatio;
+            tempValue *= value;
+            this.cTRatio = value;
+
+            this.numericUpDownOverCurrent.Value = 5;
+            this.numericUpDownOverCurrent.Maximum = this.cTRatio * 5 * 6;
+            this.numericUpDownOverCurrent.Value = tempValue;
+        }
+        #endregion
+
+        
+
+    }
+}

@@ -1,0 +1,27 @@
+# This is an example makefile for the Triangle MicroWorks, Inc.
+# Source Code Library. It will attempt to build a library
+#
+# This file is a simple example designed to be work on Linux.
+# It is highly likely that it will have to be modified to run with
+# the target make system
+
+CFLAGS =  -g -DTMW_LINUX_TARGET -I../
+CXXFLAGS =  -g -DTMW_LINUX_TARGET -I../ -lpthread -lrt
+# Uncomment this line to build DNP SA
+#CXXFLAGS =  -g -DTMW_LINUX_TARGET -I../ -lpthread -lrt -lssl -lcrypto
+
+LIBS = ../tmwscl/dnp.lib ../tmwscl/utils.lib ../liniotarg.lib
+SRC =	\
+	DNPSlave.cpp\
+	DNPMultithreadSlave.cpp
+
+OBJ = $(SRC:.cpp=.o)
+
+#.cpp.obj:
+#	$(CC) $(CFLAGS) $< /Fo$@
+
+all: $(OBJ)
+	g++ -g -v -o../bin/dnpSlave $(OBJ) $(LIBS) $(CXXFLAGS) 
+		
+clean:
+	rm *.o

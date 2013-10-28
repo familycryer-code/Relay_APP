@@ -1,0 +1,99 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{567EB9B0-00DE-4753-AA0C-8AF7AE8EA2D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PhasorDisplayGraph</RootNamespace>
+    <AssemblyName>PhasorDisplayGraph</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PanelPhasorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanelPhasorControl.Designer.cs">
+      <DependentUpon>PanelPhasorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PanelPhasorEventArgs.cs" />
+    <Compile Include="PhasorClass.cs" />
+    <Compile Include="PhasorGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PhasorGraph.Designer.cs">
+      <DependentUpon>PhasorGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucSegmentPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSegmentPanel.Designer.cs">
+      <DependentUpon>ucSegmentPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucSensitiveTripControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSensitiveTripControl.Designer.cs">
+      <DependentUpon>ucSensitiveTripControl.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PanelPhasorControl.resx">
+      <DependentUpon>PanelPhasorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhasorGraph.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PhasorGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSegmentPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucSegmentPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSensitiveTripControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucSensitiveTripControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RelayControlLibrary\RelayControlLibrary.csproj">
+      <Project>{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}</Project>
+      <Name>RelayControlLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

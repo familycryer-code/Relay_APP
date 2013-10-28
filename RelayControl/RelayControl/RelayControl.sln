@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SineDisplayGraph", "SineDisplayGraph\SineDisplayGraph.csproj", "{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialIO", "SerialIO\SerialIO.csproj", "{BE93B986-E750-492C-861B-5746A731939D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayControlLibrary", "RelayControlLibrary\RelayControlLibrary.csproj", "{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayControl", "RelayControl\RelayControl.csproj", "{D1B42759-31A0-42B0-B4F4-3F764632E326}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C} = {8C1FD785-7558-4ED5-A937-4A63AF83F53C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFileIO", "..\MyFileIO\MyFileIO.csproj", "{8C1FD785-7558-4ED5-A937-4A63AF83F53C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exocortex.DSP.v1", "..\Exocortex\src\Exocortex.DSP.v1.csproj", "{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		NoSend|Any CPU = NoSend|Any CPU
+		Release|Any CPU = Release|Any CPU
+		WaterbugTester|Any CPU = WaterbugTester|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.NoSend|Any CPU.ActiveCfg = NoSend|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.WaterbugTester|Any CPU.ActiveCfg = WaterbugTester|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.WaterbugTester|Any CPU.Build.0 = WaterbugTester|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.NoSend|Any CPU.ActiveCfg = NoSend|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.WaterbugTester|Any CPU.ActiveCfg = WaterbugTester|Any CPU
+		{BE93B986-E750-492C-861B-5746A731939D}.WaterbugTester|Any CPU.Build.0 = WaterbugTester|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.NoSend|Any CPU.ActiveCfg = NoSend|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.WaterbugTester|Any CPU.ActiveCfg = WaterbugTester|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.WaterbugTester|Any CPU.Build.0 = WaterbugTester|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.NoSend|Any CPU.ActiveCfg = NoSend|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.WaterbugTester|Any CPU.ActiveCfg = WaterbugTester|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.WaterbugTester|Any CPU.Build.0 = WaterbugTester|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.NoSend|Any CPU.ActiveCfg = NoSend|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.WaterbugTester|Any CPU.ActiveCfg = WaterbugTester|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.WaterbugTester|Any CPU.Build.0 = WaterbugTester|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.NoSend|Any CPU.ActiveCfg = Release|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.NoSend|Any CPU.Build.0 = Release|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.WaterbugTester|Any CPU.ActiveCfg = WaterbugTester|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.WaterbugTester|Any CPU.Build.0 = WaterbugTester|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

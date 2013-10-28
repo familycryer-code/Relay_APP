@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RelayControlLibrary</RootNamespace>
+    <AssemblyName>RelayControlLibrary</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;BASICRELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NoSend|AnyCPU' ">
+    <OutputPath>bin\NoSend\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WaterbugTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
+    <OutputPath>bin\Test\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
+    <OutputPath>bin\WaterbugTester\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SeattleTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SeattleTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SeattleTest2|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SeattleTest2\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConEDRelease|AnyCPU' ">
+    <OutputPath>bin\ConEDRelease\</OutputPath>
+    <DefineConstants>TRACE;ConEd</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
+    <OutputPath>bin\ReleaseMemphis\</OutputPath>
+    <DefineConstants>TRACE;MEMPHIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseGE|AnyCPU' ">
+    <OutputPath>bin\ReleaseGE\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseDigitalGridDNP|AnyCPU' ">
+    <OutputPath>bin\ReleaseDigitalGridDNP\</OutputPath>
+    <DefineConstants>TRACE;DNP, DIGITALGRID</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GSNetWin, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CloseCurves.cs" />
+    <Compile Include="Definitions.cs" />
+    <Compile Include="EventArgs.cs">
+    </Compile>
+    <Compile Include="formCustomYesNoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formCustomYesNoDialog.Designer.cs">
+      <DependentUpon>formCustomYesNoDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formProgrammingProgess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formProgrammingProgess.Designer.cs">
+      <DependentUpon>formProgrammingProgess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrequencyGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrequencyGraph.Designer.cs">
+      <DependentUpon>FrequencyGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneralCommandHandler.cs" />
+    <Compile Include="RelayStatusCodeConverter.cs" />
+    <Compile Include="PasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PasswordForm.Designer.cs">
+      <DependentUpon>PasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressBarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressBarForm.Designer.cs">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RelayLibraryEventArgs.cs" />
+    <Compile Include="RelayModeFunctions.cs" />
+    <Compile Include="SineFrequencyPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SineFrequencyPopup.Designer.cs">
+      <DependentUpon>SineFrequencyPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SineGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SineGraph.Designer.cs">
+      <DependentUpon>SineGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SineWaveDefinition.cs" />
+    <Compile Include="uc8CheckBoxFlags.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uc8CheckBoxFlags.Designer.cs">
+      <DependentUpon>uc8CheckBoxFlags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucArcFault.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucArcFault.Designer.cs">
+      <DependentUpon>ucArcFault.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucCalibration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucCalibration.Designer.cs">
+      <DependentUpon>ucCalibration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucCSVConverter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucCSVConverter.Designer.cs">
+      <DependentUpon>ucCSVConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucRelayProgramming.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucRelayProgramming.Designer.cs">
+      <DependentUpon>ucRelayProgramming.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucSettingObject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSettingObject.Designer.cs">
+      <DependentUpon>ucSettingObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucSafeService.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSafeService.Designer.cs">
+      <DependentUpon>ucSafeService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucManualCalibration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucManualCalibration.Designer.cs">
+      <DependentUpon>ucManualCalibration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucCloseMode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucCloseMode.Designer.cs">
+      <DependentUpon>ucCloseMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNP.Designer.cs">
+      <DependentUpon>ucDNP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPDeadBand.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPDeadBand.Designer.cs">
+      <DependentUpon>ucDNPDeadBand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPDigitalGridAnalogIn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPDigitalGridAnalogIn.Designer.cs">
+      <DependentUpon>ucDNPDigitalGridAnalogIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPDigitalGridData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPDigitalGridData.Designer.cs">
+      <DependentUpon>ucDNPDigitalGridData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPMemphisAnalog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPMemphisAnalog.Designer.cs">
+      <DependentUpon>ucDNPMemphisAnalog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPMemphisBinary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPMemphisBinary.Designer.cs">
+      <DependentUpon>ucDNPMemphisBinary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucMemphisDNPData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucMemphisDNPData.Designer.cs">
+      <DependentUpon>ucMemphisDNPData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucPumpMode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPumpMode.Designer.cs">
+      <DependentUpon>ucPumpMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucRelayTripCurvesGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucRelayTripCurvesGraph.Designer.cs">
+      <DependentUpon>ucRelayTripCurvesGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucShortRange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucShortRange.Designer.cs">
+      <DependentUpon>ucShortRange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucShortRangeFilterTableItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucShortRangeFilterTableItem.Designer.cs">
+      <DependentUpon>ucShortRangeFilterTableItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucShortRangeProbe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucShortRangeProbe.Designer.cs">
+      <DependentUpon>ucShortRangeProbe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucShortRangeTransmitTableItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucShortRangeTransmitTableItem.Designer.cs">
+      <DependentUpon>ucShortRangeTransmitTableItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucTransmitter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucTransmitter.Designer.cs">
+      <DependentUpon>ucTransmitter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucTransmitterMonitoring.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucTransmitterMonitoring.Designer.cs">
+      <DependentUpon>ucTransmitterMonitoring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucTripMode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucTripMode.Designer.cs">
+      <DependentUpon>ucTripMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucGeneralCommandHandler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucGeneralCommandHandler.Designer.cs">
+      <DependentUpon>ucGeneralCommandHandler.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="formCustomYesNoDialog.resx">
+      <DependentUpon>formCustomYesNoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formProgrammingProgess.resx">
+      <DependentUpon>formProgrammingProgess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrequencyGraph.resx">
+      <DependentUpon>FrequencyGraph.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PasswordForm.resx">
+      <DependentUpon>PasswordForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressBarForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SineFrequencyPopup.resx">
+      <DependentUpon>SineFrequencyPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SineGraph.resx">
+      <DependentUpon>SineGraph.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uc8CheckBoxFlags.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>uc8CheckBoxFlags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucArcFault.resx">
+      <DependentUpon>ucArcFault.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucCalibration.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucCSVConverter.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucCSVConverter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucGeneralCommandHandler.resx">
+      <DependentUpon>ucGeneralCommandHandler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucManualCalibration.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucManualCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucCloseMode.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucCloseMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucRelayProgramming.resx">
+      <DependentUpon>ucRelayProgramming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSettingObject.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucSettingObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNP.resx">
+      <DependentUpon>ucDNP.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPDeadBand.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucDNPDeadBand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPDigitalGridAnalogIn.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucDNPDigitalGridAnalogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPDigitalGridData.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucDNPDigitalGridData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPMemphisAnalog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucDNPMemphisAnalog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPMemphisBinary.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucDNPMemphisBinary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucMemphisDNPData.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucMemphisDNPData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPumpMode.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucPumpMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSafeService.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucSafeService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucShortRange.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucShortRange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucShortRangeFilterTableItem.resx">
+      <DependentUpon>ucShortRangeFilterTableItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucShortRangeProbe.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucShortRangeProbe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucShortRangeTransmitTableItem.resx">
+      <DependentUpon>ucShortRangeTransmitTableItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucTransmitter.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucTransmitter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucTransmitterMonitoring.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucTransmitterMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucTripMode.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucTripMode.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Exocortex\src\Exocortex.DSP.v1.csproj">
+      <Project>{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}</Project>
+      <Name>Exocortex.DSP.v1</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Copy of ProgressWnd.cpp" />
+    <None Include="Resources\FPGAdata.rbf" />
+    <Content Include="Resources\MasterProcessor.S" />
+    <None Include="Resources\MasterProcessor_with_DNP.S" />
+    <None Include="Resources\RelayProcessor.S" />
+    <None Include="Resources\RelayProcessorGE.S" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
