@@ -58,6 +58,7 @@ namespace RelayControlLibrary
             this.labelCyclesUnits = new System.Windows.Forms.Label();
             this.checkBoxMotorCycles = new System.Windows.Forms.CheckBox();
             this.groupBoxPumpMode = new System.Windows.Forms.GroupBox();
+            this.checkBoxAlarmOnly = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCycleLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPumpTime)).BeginInit();
             this.groupBoxRelayCycles.SuspendLayout();
@@ -416,6 +417,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxPumpMode
             // 
+            this.groupBoxPumpMode.Controls.Add(this.checkBoxAlarmOnly);
             this.groupBoxPumpMode.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxPumpMode.Controls.Add(this.groupBoxRelayCycles);
             this.groupBoxPumpMode.Controls.Add(this.groupBoxMotorTimeout);
@@ -436,6 +438,16 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode.TabIndex = 15;
             this.groupBoxPumpMode.TabStop = false;
             this.groupBoxPumpMode.Text = "Pump Mode:";
+            // 
+            // checkBoxAlarmOnly
+            // 
+            this.checkBoxAlarmOnly.AutoSize = true;
+            this.checkBoxAlarmOnly.Location = new System.Drawing.Point(18, 215);
+            this.checkBoxAlarmOnly.Name = "checkBoxAlarmOnly";
+            this.checkBoxAlarmOnly.Size = new System.Drawing.Size(76, 17);
+            this.checkBoxAlarmOnly.TabIndex = 33;
+            this.checkBoxAlarmOnly.Text = "Alarm Only";
+            this.checkBoxAlarmOnly.UseVisualStyleBackColor = true;
             // 
             // ucPumpMode
             // 
@@ -493,5 +505,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.GroupBox groupBoxMotorTimeout;
         private System.Windows.Forms.GroupBox groupBoxMotorCycles;
         private System.Windows.Forms.GroupBox groupBoxPumpMode;
+        private System.Windows.Forms.CheckBox checkBoxAlarmOnly;
     }
 }

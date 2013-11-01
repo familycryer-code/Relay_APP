@@ -133,6 +133,7 @@ namespace RelayControlLibrary
                 PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
                 PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
                 PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
+                PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
 
                 PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
                 PD.PumpTime = (Int16)this.numericUpDownPumpTime.Value;
@@ -275,6 +276,12 @@ namespace RelayControlLibrary
                 {
                     this.checkBoxMotorTime.Checked = false;
                 }
+                if ((bytePacket[0] & 32) == 32)
+                {
+                    this.checkBoxAlarmOnly.Checked = true;
+                }
+                else
+                    this.checkBoxAlarmOnly.Checked = false;
             }
             catch
             {

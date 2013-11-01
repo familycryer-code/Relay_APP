@@ -271,7 +271,6 @@ namespace RelayControlLibrary
             set
             {
                 Int16 temp;
-                //temp = (Int16)(value * 4 * 60);
                 temp = value;
                 this.pumpProtectTime = (Int16)temp;
                 this.PumpProtectTimeHigh = (byte)(temp >> 8);
@@ -282,6 +281,8 @@ namespace RelayControlLibrary
         public byte PumpProtectTimeLow;
         public byte MotorCycles;
         public byte MotorTimeout;
+
+
         public bool MotorTimeoutEnabled
         {
             get { return this.motorCycleEnabled; }
@@ -309,6 +310,15 @@ namespace RelayControlLibrary
                 this.setOverallEnable();
             }
         }
+        public bool AlarmOnly
+        {
+            get { return this.alarmOnly; }
+            set
+            {
+                this.alarmOnly = value;
+                this.setOverallEnable();
+            }
+        }
 
         private byte enableSendByte;
         private Int16 pumpTime;
@@ -316,9 +326,12 @@ namespace RelayControlLibrary
         private bool relayCycleEnabled;
         private bool motorCycleEnabled;
         private bool motorTimeoutEnabled;
+        private bool alarmOnly = false;
 
         private void setOverallEnable()
         {
+            //0x02 bit contains ClearPumpMode in relay
+            //0x10 bit contains OverridOnDeadNetwork in relay
             if(this.motorTimeoutEnabled)
             {
                 this.enableSendByte = (byte)(this.enableSendByte | 0x08);
@@ -334,7 +347,7 @@ namespace RelayControlLibrary
             }
             else
             {
-                this.enableSendByte = (byte)(this.enableSendByte & 0xFb);
+                this.enableSendByte = (byte)(this.enableSendByte & 0xFB);
             }
 
             if(this.relayCycleEnabled)
@@ -344,6 +357,15 @@ namespace RelayControlLibrary
             else
             {
                 this.enableSendByte = (byte)(this.enableSendByte & 0xFE);
+            }
+
+            if (this.alarmOnly)
+            {
+                this.enableSendByte = (byte)(this.enableSendByte | 0x20);
+            }
+            else
+            {
+                this.enableSendByte = (byte)(this.enableSendByte & 0xDF);
             }
         }
     }
