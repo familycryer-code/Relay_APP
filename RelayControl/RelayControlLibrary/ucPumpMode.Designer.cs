@@ -448,6 +448,7 @@ namespace RelayControlLibrary
             this.checkBoxAlarmOnly.TabIndex = 33;
             this.checkBoxAlarmOnly.Text = "Alarm Only";
             this.checkBoxAlarmOnly.UseVisualStyleBackColor = true;
+            this.checkBoxAlarmOnly.Visible = false;
             // 
             // ucPumpMode
             // 

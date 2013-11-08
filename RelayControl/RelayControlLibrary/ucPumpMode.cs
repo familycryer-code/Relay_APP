@@ -66,6 +66,11 @@ namespace RelayControlLibrary
             set
             {
                 this.relayRevisionNumber = value;
+                if (this.relayRevisionNumber > 999999999) //TEST needs to be fixed when actually implemented
+                    this.displayAlarmOnly(true);
+                else
+                    this.displayAlarmOnly(false);
+
                 if(this.motorCycleValue != 5 && this.motorCycleValue != 0)
                     this.numericUpDownMotorCycles.Value = this.motorCycleValue;
                 if(this.motorTimeoutValue != 10 && this.motorTimeoutValue != 0)
@@ -91,6 +96,11 @@ namespace RelayControlLibrary
         private PumpModeSaveObjectV2 saveObject = new PumpModeSaveObjectV2();
         private PumpReasons pumpReason;
         private ToolTip toolTip = new ToolTip();
+
+        private void displayAlarmOnly(bool p)
+        {
+            this.checkBoxAlarmOnly.Visible = false;
+        }
 
         private void setCustomer()
         {
@@ -276,12 +286,15 @@ namespace RelayControlLibrary
                 {
                     this.checkBoxMotorTime.Checked = false;
                 }
-                if ((bytePacket[0] & 32) == 32)
+                if (this.relayRevisionNumber > 999999999)  //TEST needs to be fixed when added to relay
                 {
-                    this.checkBoxAlarmOnly.Checked = true;
+                    if ((bytePacket[0] & 32) == 32)
+                    {
+                        this.checkBoxAlarmOnly.Checked = true;
+                    }
+                    else
+                        this.checkBoxAlarmOnly.Checked = false;
                 }
-                else
-                    this.checkBoxAlarmOnly.Checked = false;
             }
             catch
             {
