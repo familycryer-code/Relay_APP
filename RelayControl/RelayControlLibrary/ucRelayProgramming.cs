@@ -109,8 +109,6 @@ namespace RelayControlLibrary
             {
                 this.dNPRelay = value;
                 this.currentRelayLog.DNPRelay = value;
-                
-                //this.setProgrammingFiles();
             }
         }
         public bool TransmitterEnabled
@@ -130,7 +128,6 @@ namespace RelayControlLibrary
                         this.transmitterEnabled = true;
                     }
                 }
-                //this.setProgrammingFiles();
             }
         }
 
@@ -169,11 +166,9 @@ namespace RelayControlLibrary
                         break;
                     case RelayProgrammingStates.Finalized:
                         this.State = RelayProgrammingStates.Idle;
-                        //this.finalizeReprogram();
                         break;
                     case RelayProgrammingStates.RequestAll:
                         this.State = RelayProgrammingStates.WaitForAllData;
-                        //this.requestAll();
                         break;
                 }
 
@@ -181,7 +176,7 @@ namespace RelayControlLibrary
                 {
                     if (value != this.remoteMasterRevisionNumber)
                     {
-                        //MessageBox.Show("Please Contact DigitalGrid Inc and ship relay back to factor for upgrade", "Relay Upgrade");
+                        MessageBox.Show("Please Contact DigitalGrid Inc and ship relay back to factor for upgrade", "Relay Upgrade");
                         this.firstCheckForUpdate = false;
                         this.remoteMasterRevisionNumber = value;
                     }
@@ -399,11 +394,8 @@ namespace RelayControlLibrary
             this.firstCheckForUpdate = false;
             if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
             {
-                this.reprogramFPGA = true;
                 this.transmitterEnabled = true;
-                this.reprogramMaster = true;
-                this.reprogramRelay = true;
-
+           
                 if (!this.gERelaySerialMatch && !this.serialNumberError)
                     this.askIfGERelay();
                 this.setProgrammingFiles();
@@ -428,12 +420,6 @@ namespace RelayControlLibrary
                     MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DigitalGrid Inc.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.serialNumberError = true;
                 }
-
-                //RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
-                //rPEA.Command = RelayPorgrammingSendCommands.EnableGERelayFix;
-                //if (this.Send != null)
-                //    this.Send(this, rPEA);
 
                 this.GERelay = true;
                 this.addGERelayToTransmitterPacket(true);
@@ -479,7 +465,6 @@ namespace RelayControlLibrary
             {
                 // If we aren't loading from resource, don't bother asking this question
                 
-
                 if (!this.dontReloadFromResource)
                     dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
 
@@ -489,8 +474,6 @@ namespace RelayControlLibrary
 
                     rPEA.Command = RelayPorgrammingSendCommands.SaveSettings;
 
-                    //TEST if (this.Send != null)
-                    //    this.Send(this, rPEA);
                     this.onSend(rPEA);
                     
                     // If we aren't loading from resource, don't bother warning
@@ -546,8 +529,6 @@ namespace RelayControlLibrary
                 rPEA.BytesToSend = this.TransmitterPacket;
                 rPEA.Command = RelayPorgrammingSendCommands.TransmitterSettings;
 
-                //TEST if (Send != null && this.TransmitterPacket != null)
-                //    Send(this, rPEA);
                 if (this.TransmitterPacket != null)
                     this.onSend(rPEA);
 
@@ -573,8 +554,6 @@ namespace RelayControlLibrary
                 {
                     default:
                     case RelayProgrammingStates.Idle:
-                        // this.addLineToTraceFile("Unexpected Ack while Idle");
-                        // Not meant for this
                         break;
                     case RelayProgrammingStates.LoadingMasterCode:
                     case RelayProgrammingStates.LoadingMasterData:
@@ -733,8 +712,7 @@ namespace RelayControlLibrary
                     this.labelCodeCount.Text = temp.ToString();
 
                     this.writeStringToTraceFile("RC, ");
-                    //TEST if (this.Send != null)
-                        //this.Send(this, rPEA);
+                    
                     this.onSend(rPEA);
                 }
                 catch (Exception ex)
@@ -762,9 +740,6 @@ namespace RelayControlLibrary
                 Int32 temp = Convert.ToInt32(this.labelDataCount.Text);
 
                 this.writeStringToTraceFile("RD, ");
-
-                //TEST if (this.Send != null)
-                //    this.Send(this, rPEA);
                 this.onSend(rPEA);
 
                 this.programmingForm.ProgressValue = temp;
@@ -811,7 +786,6 @@ namespace RelayControlLibrary
                 this.writeStringToTraceFile("BL, ");
 
                 this.onSend(rPEA);
-                //TEST this.Send(this, rPEA);
             }
         }
 
@@ -893,9 +867,6 @@ namespace RelayControlLibrary
                 throw new Exception("Called sendNextMasterPacket from wrong state: " + this.state.ToString());
             }
 
-
-            //TEST if (this.Send != null)
-            //    this.Send(this, rPEA);
             this.onSend(rPEA);
         }
 
@@ -933,8 +904,7 @@ namespace RelayControlLibrary
                 temp++;
                 this.labelCodeCount.Text = temp.ToString();
                 this.writeStringToTraceFile("FP, ");
-                //TEST if (this.Send != null)
-                //    this.Send(this, rPEA);
+                
                 this.onSend(rPEA);
             }
             catch (Exception ex)
@@ -1006,13 +976,13 @@ namespace RelayControlLibrary
             {
                 if (this.autoLoad)
                 {
-                    //if (this.reprogramRelay)
-                    //{
-                    //    this.parseSFile(this.relayCode);
-                    //    this.programmingForm.CurrentTask = "Loading Relay Code";
-                    //    this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
-                    //    this.State = RelayProgrammingStates.WaitingForBootRelay;
-                    // }
+                    if (this.reprogramRelay)
+                    {
+                        this.parseSFile(this.relayCode);
+                        this.programmingForm.CurrentTask = "Loading Relay Code";
+                        this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
+                        this.State = RelayProgrammingStates.WaitingForBootRelay;
+                    }
                     if (this.reprogramFPGA)
                     {
                         this.parseFPGAFile(this.fPGACode);
@@ -1094,8 +1064,6 @@ namespace RelayControlLibrary
             Thread.Sleep(2000);
 
             this.onSend(rPEA);
-            //TEST if(this.Send != null)
-            //    this.Send(this, rPEA);
         }
 
         private void finalizeReprogram()
@@ -1104,18 +1072,9 @@ namespace RelayControlLibrary
 
             this.enableButtons(true);
             this.programmingForm.Hide();
-
-            //if (this.autoLoad)
-           // {
-             //   this.SendTransmitterSettings();
-             //   this.sendNonTransmitterSettings();
-            //}
             
             rPEA.Command = RelayPorgrammingSendCommands.RestartProgram;
-            //this.manualReload = false;
-
-            //TEST if (this.Send != null)
-            //    this.Send(this, rPEA);
+          
             this.onSend(rPEA);
 
             this.autoLoad = false;
@@ -1132,8 +1091,6 @@ namespace RelayControlLibrary
             this.enableButtons(true);
 
             rPEA.Command = RelayPorgrammingSendCommands.RestartProgram;
-            //TEST if (this.Send != null)
-                //this.Send(this, rPEA);
             this.onSend(rPEA);
         }
 
@@ -1269,8 +1226,6 @@ namespace RelayControlLibrary
             else
                 rPEA.Command = RelayPorgrammingSendCommands.RestoreDefaults;
 
-            //TEST this.onSend(rPEA);if (this.Send != null)
-                //this.Send(this, rPEA);
             this.onSend(rPEA);
         }
 
@@ -1290,7 +1245,6 @@ namespace RelayControlLibrary
             Thread.Sleep(5);
             if (this.Send != null)
             {
-                //TEST this.Send(this, rPEA);
                 this.onSend(rPEA);
                 this.labelState.Text = "Sent Master Transfer Packet";
                 this.writeLineToTraceFile("Sent Master Transfer Packet");
@@ -1314,10 +1268,8 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[2] = this.relayCode.NumberOfDataBlocks;
             rPEA.BytesToSend[3] = 0x0D;
 
-            //Thread.Sleep(100);
             if (this.Send != null)
             {
-                //TEST this.Send(this, rPEA);
                 this.onSend(rPEA);
                 this.labelState.Text = "Sent Relay Transfer Packet";
                 this.writeLineToTraceFile("Sent Relay Transfer Packet");
@@ -1339,7 +1291,6 @@ namespace RelayControlLibrary
             Thread.Sleep(5);
             if (this.Send != null)
             {
-                //this.Send(this, rPEA);
                 this.onSend(rPEA);
                 this.labelState.Text = "Sent FPGA Transfer Packet";
                 this.writeLineToTraceFile("Sent FPGA Transfer Packet");
@@ -1837,9 +1788,6 @@ namespace RelayControlLibrary
             int temp = this.relayCode.CodeBytes.Count / 34;
 
             this.labelCodeTotal.Text = temp.ToString();
-
-            //this.sendBootLoaderClearMemory();
-            //this.enableButtons(false);
         }
 
         private void sendBootLoaderClearMemory()
@@ -1854,7 +1802,6 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[1] = 0x55;
             rPEA.BytesToSend[2] = 0x0D;
 
-            //TEST this.Send(this, rPEA);
             this.onSend(rPEA);
         }
 
@@ -1866,12 +1813,7 @@ namespace RelayControlLibrary
                 this.State = RelayProgrammingStates.Idle;
                 return;
             }
-            /*
-            if(this.autoLoad)
-                this.masterCode.WithParameters = true;
-            else
-                this.masterCode.WithParameters = false;
-            */
+
             this.parseSFile(this.masterCode);
 
             this.State = RelayProgrammingStates.WaitingForBootMaster;
@@ -2112,8 +2054,6 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[1] = (byte)'U';
             rPEA.BytesToSend[2] = 0x0D;
 
-            //TEST if (this.Send != null)
-            //this.Send(this, rPEA);
             this.onSend(rPEA);
         }
 
@@ -2127,8 +2067,6 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[1] = (byte)'U';
             rPEA.BytesToSend[2] = 0x0D;
 
-            //if (this.Send != null)
-            //    this.Send(this, rPEA);
             this.onSend(rPEA);
         }
 
@@ -2196,8 +2134,6 @@ namespace RelayControlLibrary
         private void button1_Click(object sender, EventArgs e)
         {
             this.PrepForBoot();
-            
-            //this.State = RelayProgrammingStates.WaitingForBoot;
         }
 
         #endregion
@@ -2243,14 +2179,11 @@ namespace RelayControlLibrary
         private void buttonStartAutoLoad_Click(object sender, EventArgs e)
         {
             this.useDefaultSettings = false;
-            //DialogResult dR = new CustomYesNoDialog("Select Files to Program", "Use Customer Files or use Selected Files?", "Customer", "Selected").ShowDialog();
-
-            //if (dR == DialogResult.Yes)
-            {
-                this.dontReloadFromResource = true;
-                this.programmingForm.ClearAllChecks();
-                this.setProgrammingFiles();
-            }
+            
+            this.dontReloadFromResource = true;
+            this.programmingForm.ClearAllChecks();
+            this.setProgrammingFiles();
+            
             this.reprogramFPGA = this.transmitterEnabled;
             this.reprogramRelay = true;
             this.reprogramMaster = true;
