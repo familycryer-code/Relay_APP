@@ -135,6 +135,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainFormKeystrokeGrab.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CTRatioCaculator.cs">
       <SubType>Form</SubType>
     </Compile>

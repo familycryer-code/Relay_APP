@@ -281,8 +281,6 @@ namespace RelayControlLibrary
         public byte PumpProtectTimeLow;
         public byte MotorCycles;
         public byte MotorTimeout;
-
-
         public bool MotorTimeoutEnabled
         {
             get { return this.motorCycleEnabled; }

@@ -3976,8 +3976,10 @@ namespace RelayControl
             {
                 fPGARevision = "F";
                 fPGARevision += ASCIIEncoding.ASCII.GetString(bytePacket);
-                if (bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
-                   bytePacket[16] == 0xFF && bytePacket[17] == 0xFF && bytePacket[18] == 0xFF)
+                if ((bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
+                   bytePacket[16] == 0xFF && bytePacket[17] == 0xFF && bytePacket[18] == 0xFF) ||
+                   (bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
+                    bytePacket[16] == 0x00 && bytePacket[17] == 0x00 && bytePacket[18] == 0x00))
                 {
                     this.labelFPGARevision.Hide();
                     // Pass zero to the reprogramming just incase the FPGA code has been corrupt.  Passing all F's is interpreted as a "high" date.

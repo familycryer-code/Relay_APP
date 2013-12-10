@@ -131,6 +131,12 @@
     <Compile Include="formCustomYesNoDialog.Designer.cs">
       <DependentUpon>formCustomYesNoDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="formForceUpdateSerialNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formForceUpdateSerialNumber.Designer.cs">
+      <DependentUpon>formForceUpdateSerialNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="formProgrammingProgess.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -338,6 +344,9 @@
   <ItemGroup>
     <EmbeddedResource Include="formCustomYesNoDialog.resx">
       <DependentUpon>formCustomYesNoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formForceUpdateSerialNumber.resx">
+      <DependentUpon>formForceUpdateSerialNumber.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="formProgrammingProgess.resx">
       <DependentUpon>formProgrammingProgess.cs</DependentUpon>

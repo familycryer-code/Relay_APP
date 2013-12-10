@@ -1289,6 +1289,7 @@ namespace RelayControlLibrary
             this.labelSAv5AggressiveMode.Size = new System.Drawing.Size(92, 13);
             this.labelSAv5AggressiveMode.TabIndex = 34;
             this.labelSAv5AggressiveMode.Text = "Aggressive Mode:";
+            this.labelSAv5AggressiveMode.Visible = false;
             // 
             // comboBoxSAv5AggressiveMode
             // 
@@ -1301,6 +1302,7 @@ namespace RelayControlLibrary
             this.comboBoxSAv5AggressiveMode.Size = new System.Drawing.Size(121, 21);
             this.comboBoxSAv5AggressiveMode.TabIndex = 35;
             this.comboBoxSAv5AggressiveMode.Text = "Disable";
+            this.comboBoxSAv5AggressiveMode.Visible = false;
             // 
             // label2
             // 
@@ -1310,6 +1312,7 @@ namespace RelayControlLibrary
             this.label2.Size = new System.Drawing.Size(92, 13);
             this.label2.TabIndex = 145;
             this.label2.Text = "Aggressive Mode:";
+            this.label2.Visible = false;
             // 
             // comboBox1
             // 
@@ -1322,6 +1325,7 @@ namespace RelayControlLibrary
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 146;
             this.comboBox1.Text = "Disable";
+            this.comboBox1.Visible = false;
             // 
             // numericUpDownSAv5UserNumber
             // 
@@ -1344,6 +1348,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
+            this.numericUpDownSAv5UserNumber.Visible = false;
             // 
             // labelSAv5UserNumber
             // 
@@ -1353,6 +1358,7 @@ namespace RelayControlLibrary
             this.labelSAv5UserNumber.Size = new System.Drawing.Size(72, 13);
             this.labelSAv5UserNumber.TabIndex = 34;
             this.labelSAv5UserNumber.Text = "User Number:";
+            this.labelSAv5UserNumber.Visible = false;
             // 
             // labelSAv5UserKey
             // 
@@ -1362,6 +1368,7 @@ namespace RelayControlLibrary
             this.labelSAv5UserKey.Size = new System.Drawing.Size(91, 13);
             this.labelSAv5UserKey.TabIndex = 147;
             this.labelSAv5UserKey.Text = "User Update Key:";
+            this.labelSAv5UserKey.Visible = false;
             // 
             // textBoxSAv5UserUpdateKey
             // 
@@ -1369,6 +1376,7 @@ namespace RelayControlLibrary
             this.textBoxSAv5UserUpdateKey.Name = "textBoxSAv5UserUpdateKey";
             this.textBoxSAv5UserUpdateKey.Size = new System.Drawing.Size(121, 20);
             this.textBoxSAv5UserUpdateKey.TabIndex = 148;
+            this.textBoxSAv5UserUpdateKey.Visible = false;
             // 
             // ucDNP
             // 

@@ -41,7 +41,7 @@ namespace RelayControlLibrary
             //this.comboBoxZeroCrossingPhase.Visible = false;
             this.checkBoxDNPEnable.Visible = false;
             this.checkBoxWH_GE.Visible = false;
-            this.DNPEnabled = this.checkBoxDNPEnable.Visible;
+            this.dNPEnabled = this.checkBoxDNPEnable.Visible;
             this.checkBoxTransmitterEnable.Visible = false;
             this.panelMessageFreqSettings.Visible = false;
             this.labelLEDSpeed.Visible = false;
@@ -89,7 +89,16 @@ namespace RelayControlLibrary
                 this.TXSettings.CTRatio = (ushort)value;
             }
         }
-        public bool DNPEnabled = false;
+        private bool dNPEnabled = false;
+        public bool DNPEnabled
+        {
+            get { return this.dNPEnabled; }
+            set
+            {
+                this.dNPEnabled = value;
+                this.checkBoxDNPEnable.Checked = value;
+            }
+        }
         public delegate void CTChangedHandler(object sender, EventArgs e);
         public event CTChangedHandler CTChanged;
 
@@ -261,11 +270,11 @@ namespace RelayControlLibrary
                 }
                 if((bA[28] & 0x04) == 0x04)
                 {
-                    this.DNPEnabled = this.checkBoxDNPEnable.Checked = true;
+                    this.dNPEnabled = this.checkBoxDNPEnable.Checked = true;
                 }
                 else
                 {
-                    this.DNPEnabled = this.checkBoxDNPEnable.Checked = false;
+                    this.dNPEnabled = this.checkBoxDNPEnable.Checked = false;
                 }
                 if((bA[28] & 0x08) == 0x08)
                 {
@@ -1322,7 +1331,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.DNPEnabled = this.checkBoxDNPEnable.Checked;
+            this.dNPEnabled = this.checkBoxDNPEnable.Checked;
 
             this.checkBoxMUXBOXOff.Checked = true;
 
@@ -1402,7 +1411,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.DNPEnabled = this.checkBoxDNPEnable.Checked;
+            this.dNPEnabled = this.checkBoxDNPEnable.Checked;
 
             this.checkBoxMUXBOXOff.Checked = true;
 
@@ -1483,7 +1492,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.DNPEnabled = false;
+            this.dNPEnabled = false;
 
             this.checkBoxMUXBOXOff.Checked = true;
 

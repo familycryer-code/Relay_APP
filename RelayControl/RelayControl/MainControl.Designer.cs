@@ -2235,11 +2235,13 @@ namespace RelayControl
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainControl";
             this.Text = "Digital Grid Inc - Relay Control and Monitoring - BETA - 2009-07-24";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainControl_FormClosed);
             this.Load += new System.EventHandler(this.MainControl_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStripMain.ResumeLayout(false);

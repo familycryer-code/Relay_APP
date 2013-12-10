@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,6 +11,28 @@
     <RootNamespace>RelayControl</RootNamespace>
     <AssemblyName>RelayControl</AssemblyName>
     <StartupObject>RelayControl.Program</StartupObject>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,20 +42,92 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;BASICRELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NoSend|AnyCPU' ">
     <OutputPath>bin\NoSend\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WaterbugTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
+    <OutputPath>bin\Test\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
+    <OutputPath>bin\WaterbugTester\</OutputPath>
+    <DefineConstants>#define WATERBUG</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConEDRelease|AnyCPU' ">
+    <OutputPath>bin\ConEDRelease\</OutputPath>
+    <DefineConstants>TRACE;ConEd</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
+    <OutputPath>bin\ReleaseMemphis\</OutputPath>
+    <DefineConstants>MEMPHIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseGE|AnyCPU' ">
+    <OutputPath>bin\ReleaseGE\</OutputPath>
+    <DefineConstants>TRACE;GERELAY</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseDigitalGridDNP|AnyCPU' ">
+    <OutputPath>bin\ReleaseDigitalGridDNP\</OutputPath>
+    <DefineConstants>DNP, DIGITALGRID</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GSNetWin, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa" />
+    <Reference Include="Dart.PowerWEB.LiveControls, Version=1.5.2.0, Culture=neutral, PublicKeyToken=5966291b8955e4bb">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
+    </Reference>
+    <Reference Include="GSNetGif, Version=1.0.2181.19312, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetGif.dll</HintPath>
+    </Reference>
+    <Reference Include="GSNetWin, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetWin.dll</HintPath>
+    </Reference>
+    <Reference Include="GSNetWizard, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetWizard.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -40,8 +135,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CTRatioCaculator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CTRatioCaculator.Designer.cs">
+      <DependentUpon>CTRatioCaculator.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainControl.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainControl.Designer.cs">
       <DependentUpon>MainControl.cs</DependentUpon>
@@ -58,6 +159,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ucForceCustomerSwitch.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ucForceCustomerSwitch.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -73,30 +178,42 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RelayProgramming.cs">
-      <SubType>Form</SubType>
+    <Compile Include="ucForceCustomerSwitch.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TransmitterMonitorPage.cs">
-      <SubType>Form</SubType>
+    <Compile Include="ucForceCustomerSwitch.Designer.cs">
+      <DependentUpon>ucForceCustomerSwitch.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MyFileIO\MyFileIO.csproj">
-      <Project>{8C1FD785-7558-4ED5-A937-4A63AF83F53C}</Project>
+      <Project>{8c1fd785-7558-4ed5-a937-4a63af83f53c}</Project>
       <Name>MyFileIO</Name>
     </ProjectReference>
     <ProjectReference Include="..\RelayControlLibrary\RelayControlLibrary.csproj">
-      <Project>{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}</Project>
+      <Project>{b0e5f73e-dc0b-4be0-8bbf-1903864d67df}</Project>
       <Name>RelayControlLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SerialIO\SerialIO.csproj">
-      <Project>{BE93B986-E750-492C-861B-5746A731939D}</Project>
-      <Name>SerialIO</Name>
+    <ProjectReference Include="..\SavedSettings\SavedSettings.csproj">
+      <Project>{e861dc92-010b-456b-85da-df917f6f05d7}</Project>
+      <Name>SavedSettings</Name>
     </ProjectReference>
     <ProjectReference Include="..\SineDisplayGraph\SineDisplayGraph.csproj">
       <Project>{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}</Project>
       <Name>SineDisplayGraph</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
