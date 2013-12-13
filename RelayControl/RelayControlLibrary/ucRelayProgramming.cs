@@ -1564,7 +1564,12 @@ namespace RelayControlLibrary
                         }
 
                         // This loop handles the constant data
-
+                        UInt32 clearAddress = Convert.ToUInt32(s.Substring(4, 8), 16);
+                        while (clearAddress < 0x4008000)
+                        {
+                            s = sR.ReadLine();
+                            clearAddress = Convert.ToUInt32(s.Substring(4, 8), 16);
+                        }
                         workingAddress = 0x04008000;
                         rPD.NonParameterCount = 0;
 
