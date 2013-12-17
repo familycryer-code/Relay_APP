@@ -1826,10 +1826,16 @@ namespace RelayControlLibrary
             this.State = RelayProgrammingStates.WaitingForBootMaster;
             int temp = this.masterCode.NumberOfCodeBlocks * 2;
             this.labelCodeTotal.Text = temp.ToString();
+
             if (this.masterCode.WithParameters)
+            {
                 this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();
+            }
             else
+            {
                 this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
+            }
+            this.programmingForm.Maximum = temp;
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendReset();
@@ -1852,9 +1858,14 @@ namespace RelayControlLibrary
             int temp = this.masterCode.NumberOfCodeBlocks * 2;
             this.labelCodeTotal.Text = temp.ToString();
             if (this.masterCode.WithParameters)
+            {
                 this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();
+            }
             else
+            {
                 this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
+            }
+            this.programmingForm.Maximum = temp;
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendReset();
