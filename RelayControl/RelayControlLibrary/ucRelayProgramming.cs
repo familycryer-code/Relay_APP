@@ -138,7 +138,7 @@ namespace RelayControlLibrary
             {
                 // 012345 is the value loaded in the boot loader
                 if (value == 012345 || value == 121116)
-                    this.initialLoad = true;
+                    this.loadMasterFirst = true;
                
                 // If it is a rev 1/0. it shouldn't be upgraded
                 /*
@@ -233,11 +233,12 @@ namespace RelayControlLibrary
             }
         }
 
+
         private bool reprogramMaster = false;
         private bool reprogramRelay = false;
         private bool reprogramFPGA = false;
         // initiaLoad is required because loading the relay from the boot code requires loading master first.  Once loaded, it is safer to load relay code first.
-        private bool initialLoad = false;
+        private bool loadMasterFirst = false;
         private bool gERelay = false;
         private bool gERelaySerialMatch = true;
         private bool dNPRelay = false;
@@ -324,6 +325,7 @@ namespace RelayControlLibrary
 
 
 #endif
+            this.loadMasterFirst = true;
             this.masterCode.WithParameters = true;
             this.manualReload = true;
             this.autoLoad = true;
@@ -408,7 +410,7 @@ namespace RelayControlLibrary
 
         private void askIfGERelay()
         {
-            if (this.initialLoad)
+            if (this.loadMasterFirst)
                 return;
 
             DialogResult dR = dR = new CustomYesNoDialog("Serial Number and Relay Type Mismatch", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
@@ -917,7 +919,7 @@ namespace RelayControlLibrary
         {
             this.timerTimeout.Stop();
 
-            if (!this.initialLoad)
+            if (!this.loadMasterFirst)
             {
                 if (this.autoLoad)
                 {
@@ -972,7 +974,7 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
 
-            if (!this.initialLoad)
+            if (!this.loadMasterFirst)
             {
                 if (this.autoLoad)
                 {
@@ -1078,7 +1080,7 @@ namespace RelayControlLibrary
             this.onSend(rPEA);
 
             this.autoLoad = false;
-            this.initialLoad = false;
+            this.loadMasterFirst = false;
             this.firstCheckForUpdate = false;
 
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
@@ -1861,7 +1863,7 @@ namespace RelayControlLibrary
 
         private void startProgramming()
         {
-            if(!this.initialLoad)
+            if(!this.loadMasterFirst)
             {
                 if (this.autoLoad)
                 {
