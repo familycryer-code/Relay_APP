@@ -3089,12 +3089,16 @@ namespace RelayControl
 
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
+        private bool RevTooLowErrorAlreadyShown = false;
         private void setRelayRegisters(byte[] bytePacket)
         {
             if (this.enableAutoloadToolStripMenuItem.Checked)
             {
-                if (this.masterRevision <= REV1_MASTER_REVISION)
+                if (this.masterRevision <= REV1_MASTER_REVISION && this.RevTooLowErrorAlreadyShown == false)
+                {
                     this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
+                    this.RevTooLowErrorAlreadyShown = true;
+                }
                 this.ucRelayProgramming1.CheckForUpdate();
             }
 
@@ -3955,7 +3959,8 @@ namespace RelayControl
         private int getMasterRevisionNumber(string revision)
         {
             int returnInt;
-            revision = revision.Remove(0, 31);
+            revision = revision.Remove(0, 32); //TEST changed from , 31
+
             try
             {
                 returnInt = Convert.ToInt32(revision);
