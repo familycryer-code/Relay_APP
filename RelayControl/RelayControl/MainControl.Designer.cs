@@ -1178,6 +1178,8 @@ namespace RelayControl
             // 
             this.ucTransmitter1.CTRatio = ((uint)(320u));
             this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitter1.DNPEnabled = false;
+            this.ucTransmitter1.ForceDNPEnable = false;
             this.ucTransmitter1.FPGARevisionValid = true;
             this.ucTransmitter1.GEEnabled = false;
             this.ucTransmitter1.Location = new System.Drawing.Point(8, 6);
@@ -1509,7 +1511,7 @@ namespace RelayControl
             // domainUpDownPhasings
             // 
             this.domainUpDownPhasings.Items.Add("ABC");
-            this.domainUpDownPhasings.Items.Add("ACB");
+            this.domainUpDownPhasings.Items.Add("CBA");
             this.domainUpDownPhasings.Items.Add("AutoDetect");
             this.domainUpDownPhasings.Location = new System.Drawing.Point(79, 39);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";

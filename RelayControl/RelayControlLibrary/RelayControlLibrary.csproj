@@ -113,7 +113,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dart.PowerWEB.LiveControls">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
+    </Reference>
+    <Reference Include="GSNetGif">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetGif.dll</HintPath>
+    </Reference>
     <Reference Include="GSNetWin, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa" />
+    <Reference Include="GSNetWizard">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetWizard.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -481,6 +490,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
+    <None Include="Resources\MasterProcessor_with_DNP_GE.S" />
     <None Include="Resources\FPGAdata.rbf" />
     <Content Include="Resources\MasterProcessor.S" />
     <None Include="Resources\MasterProcessor_with_DNP.S" />
