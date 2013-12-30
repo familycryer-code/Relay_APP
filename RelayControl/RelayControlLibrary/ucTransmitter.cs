@@ -95,8 +95,11 @@ namespace RelayControlLibrary
             get { return this.dNPEnabled; }
             set
             {
-                this.dNPEnabled = value;
-                this.checkBoxDNPEnable.Checked = value;
+                if (!this.forceDNPEnable)
+                {
+                    this.dNPEnabled = value;
+                    this.checkBoxDNPEnable.Checked = value;
+                }
             }
         }
         public delegate void CTChangedHandler(object sender, EventArgs e);
@@ -270,11 +273,11 @@ namespace RelayControlLibrary
                 }
                 if((bA[28] & 0x04) == 0x04)
                 {
-                    this.dNPEnabled = this.checkBoxDNPEnable.Checked = true;
+                    this.DNPEnabled = true;
                 }
                 else
                 {
-                    this.dNPEnabled = this.checkBoxDNPEnable.Checked = false;
+                    this.DNPEnabled = false;
                 }
                 if((bA[28] & 0x08) == 0x08)
                 {
@@ -1331,7 +1334,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.dNPEnabled = this.checkBoxDNPEnable.Checked;
+            this.DNPEnabled = this.checkBoxDNPEnable.Checked;
 
             this.checkBoxMUXBOXOff.Checked = true;
 
@@ -1411,7 +1414,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.dNPEnabled = this.checkBoxDNPEnable.Checked;
+            this.DNPEnabled = this.checkBoxDNPEnable.Checked;
 
             this.checkBoxMUXBOXOff.Checked = true;
 
@@ -1492,7 +1495,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.dNPEnabled = false;
+            this.DNPEnabled = false;
 
             this.checkBoxMUXBOXOff.Checked = true;
 
@@ -1697,5 +1700,19 @@ namespace RelayControlLibrary
 
 
         public bool GEEnabled { get { return this.checkBoxWH_GE.Checked;} set {this.checkBoxWH_GE.Checked = value;} }
+
+        private bool forceDNPEnable = false;
+        public bool ForceDNPEnable
+        {
+            get { return this.forceDNPEnable; }
+            set
+            {
+                this.forceDNPEnable = value;
+                if (value)
+                {
+                    this.DNPEnabled = this.checkBoxDNPEnable.Checked = true;
+                }
+            }
+        }
     }
 }

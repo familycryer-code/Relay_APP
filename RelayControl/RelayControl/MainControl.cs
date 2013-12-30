@@ -110,6 +110,16 @@ namespace RelayControl
                 this.ucRelayProgramming1.TransmitterEnabled = value;
             }
         }
+        private bool blockDNPEnableFromTransmitterSavedVal = false;
+        private bool blockDNPEnableFromTransmitterSettings
+        {
+            get { return this.blockDNPEnableFromTransmitterSavedVal; }
+            set
+            {
+                this.blockDNPEnableFromTransmitterSavedVal = value;
+                this.ucTransmitter1.ForceDNPEnable = true;
+            }
+        }
         private bool dNPEnabledSavedVal = false;
         private bool DNPEnabled
         {
@@ -2818,6 +2828,7 @@ namespace RelayControl
                 {
                     this.checkSerialNumber = false;
                     this.savedSerialNumber = tempI;
+                    this.blockDNPEnableFromTransmitterSettings = false;
                     this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
 
                     this.textBoxRelaySNControl.Text = tempI.ToString();
@@ -2846,13 +2857,16 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
 
                 //DNP Enabled
-                if ((bytePacket[28] & 0x04) == 0x04)
+                if (!this.blockDNPEnableFromTransmitterSettings)
                 {
-                    this.DNPEnabled = true;
-                }
-                else
-                {
-                    this.DNPEnabled = false;
+                    if ((bytePacket[28] & 0x04) == 0x04)
+                    {
+                        this.DNPEnabled = true;
+                    }
+                    else
+                    {
+                        this.DNPEnabled = false;
+                    }
                 }
 
                 if ((bytePacket[28] & 0x08) == 0x08)
@@ -3928,6 +3942,11 @@ namespace RelayControl
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
                 if (!revision.Contains("MASTER"))
                     return;
+                if(revision.Contains("DNP"))
+                {
+                    this.DNPEnabled = true;
+                    this.blockDNPEnableFromTransmitterSettings = true;
+                }
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
                 this.handleNewMasterRevision();
