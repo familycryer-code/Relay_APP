@@ -215,6 +215,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -2106,6 +2107,7 @@ namespace RelayControl
             this.tabControlMain.Controls.Add(this.tabPageArcFault);
             this.tabControlMain.Controls.Add(this.tabPageShortRange);
             this.tabControlMain.Controls.Add(this.tabPageDNPData);
+            this.tabControlMain.Controls.Add(this.tabPageDNPSecureAuth);
             this.tabControlMain.Location = new System.Drawing.Point(0, 27);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
@@ -2227,6 +2229,16 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+            // 
+            // tabPageDNPSecureAuth
+            // 
+            this.tabPageDNPSecureAuth.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
+            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(991, 624);
+            this.tabPageDNPSecureAuth.TabIndex = 13;
+            this.tabPageDNPSecureAuth.Text = "DNP SAv5";
+            this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
             // 
             // MainControl
             // 
@@ -2474,6 +2486,7 @@ namespace RelayControl
         private System.Windows.Forms.ToolStripMenuItem loadConfigurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableAutoloadToolStripMenuItem;
         private RelayControlLibrary.ucGeneralCommandHandler ucGeneralCommandHandler1;
+        private System.Windows.Forms.TabPage tabPageDNPSecureAuth;
     }
 }
 
