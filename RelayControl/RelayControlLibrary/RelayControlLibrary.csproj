@@ -217,18 +217,6 @@
     <Compile Include="ucCSVConverter.Designer.cs">
       <DependentUpon>ucCSVConverter.cs</DependentUpon>
     </Compile>
-    <Compile Include="ucDNPSAv5.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ucDNPSAv5.Designer.cs">
-      <DependentUpon>ucDNPSAv5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ucDNPSAv5User.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ucDNPSAv5User.Designer.cs">
-      <DependentUpon>ucDNPSAv5User.cs</DependentUpon>
-    </Compile>
     <Compile Include="ucRelayProgramming.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -412,9 +400,6 @@
     <EmbeddedResource Include="ucCSVConverter.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ucCSVConverter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ucDNPSAv5.resx">
-      <DependentUpon>ucDNPSAv5.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucGeneralCommandHandler.resx">
       <DependentUpon>ucGeneralCommandHandler.cs</DependentUpon>

@@ -1,6 +1,6 @@
-﻿namespace RelayControlLibrary
+﻿namespace RelayDNPSecurity
 {
-    partial class ucDNPSAv5User
+    partial class ucDNPSAv5SuperClass
     {
         /// <summary> 
         /// Required designer variable.

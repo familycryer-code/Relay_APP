@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace RelayControlLibrary
+namespace RelayDNPSecurity
 {
-    public partial class ucDNPSAv5User : UserControl
+    public partial class ucDNPSAv5User : ucDNPSAv5SuperClass
     {
         public ucDNPSAv5User()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace RelayControlLibrary
+﻿namespace RelayDNPSecurity
 {
-    partial class ucDNPSAv5
+    partial class ucKeyValuesInputControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,31 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(658, 488);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // ucDNPSAv5
+            // ucKeyValuesInputControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox1);
-            this.Name = "ucDNPSAv5";
-            this.Size = new System.Drawing.Size(688, 491);
+            this.Name = "ucKeyValuesInputControl";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

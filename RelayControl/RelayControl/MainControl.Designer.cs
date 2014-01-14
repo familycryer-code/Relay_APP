@@ -94,7 +94,6 @@ namespace RelayControl
             this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
@@ -211,11 +210,13 @@ namespace RelayControl
             this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
             this.tabPageDNPData = new System.Windows.Forms.TabPage();
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
+            this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
+            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -238,6 +239,7 @@ namespace RelayControl
             this.tabPageArcFault.SuspendLayout();
             this.tabPageShortRange.SuspendLayout();
             this.tabPageDNPData.SuspendLayout();
+            this.tabPageDNPSecureAuth.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -565,8 +567,8 @@ namespace RelayControl
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsRelayStatus1);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsRelayFlags2);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsRelayFlags1);
-            this.tabPageEngineering.Controls.Add(this.ucForceCustomerSwitch1);
             this.tabPageEngineering.Controls.Add(this.ucCalibration1);
+            this.tabPageEngineering.Controls.Add(this.ucForceCustomerSwitch1);
             this.tabPageEngineering.Location = new System.Drawing.Point(4, 22);
             this.tabPageEngineering.Name = "tabPageEngineering";
             this.tabPageEngineering.Padding = new System.Windows.Forms.Padding(3);
@@ -832,13 +834,6 @@ namespace RelayControl
             this.uc8CheckBoxFlagsRelayFlags1.Names = null;
             this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
             this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // ucCalibration1
             // 
@@ -2212,6 +2207,17 @@ namespace RelayControl
             this.buttonRequestDNPData.UseVisualStyleBackColor = true;
             this.buttonRequestDNPData.Click += new System.EventHandler(this.buttonRequestDNPData_Click);
             // 
+            // tabPageDNPSecureAuth
+            // 
+            this.tabPageDNPSecureAuth.Controls.Add(this.ucDNPSAv51);
+            this.tabPageDNPSecureAuth.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
+            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(991, 624);
+            this.tabPageDNPSecureAuth.TabIndex = 13;
+            this.tabPageDNPSecureAuth.Text = "DNP SAv5";
+            this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
+            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 1000;
@@ -2225,20 +2231,24 @@ namespace RelayControl
             // 
             this.timerFindRelayTimeout.Interval = 500;
             // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // tabPageDNPSecureAuth
+            // ucDNPSAv51
             // 
-            this.tabPageDNPSecureAuth.Location = new System.Drawing.Point(4, 22);
-            this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
-            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(991, 624);
-            this.tabPageDNPSecureAuth.TabIndex = 13;
-            this.tabPageDNPSecureAuth.Text = "DNP SAv5";
-            this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
+            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
+            this.ucDNPSAv51.Name = "ucDNPSAv51";
+            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
+            this.ucDNPSAv51.TabIndex = 0;
             // 
             // MainControl
             // 
@@ -2291,6 +2301,7 @@ namespace RelayControl
             this.tabPageArcFault.ResumeLayout(false);
             this.tabPageShortRange.ResumeLayout(false);
             this.tabPageDNPData.ResumeLayout(false);
+            this.tabPageDNPSecureAuth.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2487,6 +2498,7 @@ namespace RelayControl
         private System.Windows.Forms.ToolStripMenuItem enableAutoloadToolStripMenuItem;
         private RelayControlLibrary.ucGeneralCommandHandler ucGeneralCommandHandler1;
         private System.Windows.Forms.TabPage tabPageDNPSecureAuth;
+        private RelayDNPSecurity.ucDNPSAv5 ucDNPSAv51;
     }
 }
 

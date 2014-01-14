@@ -193,6 +193,10 @@
       <Project>{b0e5f73e-dc0b-4be0-8bbf-1903864d67df}</Project>
       <Name>RelayControlLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RelayDNPSecurity\RelayDNPSecurity.csproj">
+      <Project>{e69d17c3-3869-4390-9415-ecb7db9cf3c0}</Project>
+      <Name>RelayDNPSecurity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SavedSettings\SavedSettings.csproj">
       <Project>{e861dc92-010b-456b-85da-df917f6f05d7}</Project>
       <Name>SavedSettings</Name>

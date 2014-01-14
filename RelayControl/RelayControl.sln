@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavedSettings", "SavedSetti
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF} = {B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayDNPSecurity", "RelayDNPSecurity\RelayDNPSecurity.csproj", "{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AddOn|Any CPU = AddOn|Any CPU
@@ -218,6 +220,36 @@ Global
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.WaterbugTest|Any CPU.Build.0 = Release|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.WaterbugTester|Any CPU.ActiveCfg = Release|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.WaterbugTester|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.AddOn|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.AddOn|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ConEDRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ConEDRelease|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.NoSend|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.NoSend|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseDigitalGridDNP|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseGE|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseGE|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseMemphis|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseMemphis|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.SafeServiceTest|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.SafeServiceTest|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.SeattleTest|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.SeattleTest|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Test|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.TransmitterEnable|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.TransmitterEnable|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Waterbug Tester|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Waterbug Tester|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.WaterbugTest|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.WaterbugTest|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.WaterbugTester|Any CPU.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.WaterbugTester|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
