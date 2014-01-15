@@ -17,13 +17,21 @@ namespace RelayDNPSecurity
         }
 
         public delegate void SendHandler(object o, SecureSendEventArgs sSEA);
-
         public event SendHandler Send;
 
-        private void onSend(SecureSendEventArgs sSEA)
+        public delegate void ExceptionHandler(object o, Exception ex);
+        public event ExceptionHandler Error;
+
+        protected void onSend(SecureSendEventArgs sSEA)
         {
             if (this.Send != null)
                 this.Send(this, sSEA);
+        }
+
+        protected void onError(Exception ex)
+        {
+            if (this.Error != null)
+                this.Error(this, ex);
         }
     }
 }

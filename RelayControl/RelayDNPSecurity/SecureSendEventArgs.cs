@@ -7,11 +7,11 @@ namespace RelayDNPSecurity
 {
     public class SecureSendEventArgs : EventArgs
     {
-        public SecureSendEventArgs(uint dataLength)
+        public SecureSendEventArgs(int dataLength)
         {
             this.Data = new byte[dataLength];
         }
 
-        byte[] Data;
+        public byte[] Data;
     }
 }

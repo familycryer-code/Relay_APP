@@ -325,6 +325,7 @@ namespace RelayControl
                 this.ucLiveData1.DownloadComplete += new ucLiveData.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucLiveData1.PopulatePhasorGraph += new ucLiveData.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucPhasorGraph1.RequestNewCycle += new ucPhasorGraph.RequestNewCycleHandler(ucPhasorGraph1_RequestNewCycle);
+                this.ucDNPSAv51.Error += ucDNPSAv51_Error;
                 this.ucTransmitter1.CTChanged += new ucTransmitter.CTChangedHandler(ucTransmitter1_CTChanged);
                 this.ucTransmitterMonitoring1.MonitoringStateChange += new ucTransmitterMonitoring.MonitoringControlHandler(ucTransmitterMonitoring1_MonitoringStateChange);
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
@@ -1023,6 +1024,10 @@ namespace RelayControl
             workingGraph.GetCycleInfo(cIREA);
         }
 
+        private void ucDNPSAv51_Error(object o, Exception ex)
+        {
+            this.messageHandler("Error in DNPSAv5 Control", ex);
+        }
         void ucCalibration2_CalibrationException(Exception ex)
         {
             this.messageHandler("Error In Calibration Control", ex);

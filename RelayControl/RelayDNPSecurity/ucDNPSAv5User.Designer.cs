@@ -33,7 +33,6 @@
             this.textBoxUserNumber = new System.Windows.Forms.TextBox();
             this.textBoxUserRole = new System.Windows.Forms.TextBox();
             this.labelUserRole = new System.Windows.Forms.Label();
-            this.groupBoxSymUserUpdate = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.buttonAddUser = new System.Windows.Forms.Button();
             this.textBoxUserName = new System.Windows.Forms.TextBox();
@@ -72,15 +71,6 @@
             this.labelUserRole.TabIndex = 2;
             this.labelUserRole.Text = "User Role:";
             // 
-            // groupBoxSymUserUpdate
-            // 
-            this.groupBoxSymUserUpdate.Location = new System.Drawing.Point(146, 3);
-            this.groupBoxSymUserUpdate.Name = "groupBoxSymUserUpdate";
-            this.groupBoxSymUserUpdate.Size = new System.Drawing.Size(585, 76);
-            this.groupBoxSymUserUpdate.TabIndex = 4;
-            this.groupBoxSymUserUpdate.TabStop = false;
-            this.groupBoxSymUserUpdate.Text = "Symmetrical User Update Key (16 or 32 bytes in hex)";
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -94,6 +84,7 @@
             this.buttonAddUser.TabIndex = 6;
             this.buttonAddUser.Text = "Add/Overwrite User #";
             this.buttonAddUser.UseVisualStyleBackColor = true;
+            this.buttonAddUser.Click += new System.EventHandler(this.buttonAddUser_Click);
             // 
             // textBoxUserName
             // 
@@ -101,6 +92,7 @@
             this.textBoxUserName.Name = "textBoxUserName";
             this.textBoxUserName.Size = new System.Drawing.Size(465, 20);
             this.textBoxUserName.TabIndex = 8;
+            this.textBoxUserName.TextChanged += new System.EventHandler(this.textBoxUserName_TextChanged);
             // 
             // label1
             // 
@@ -118,7 +110,6 @@
             this.Controls.Add(this.textBoxUserName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonAddUser);
-            this.Controls.Add(this.groupBoxSymUserUpdate);
             this.Controls.Add(this.textBoxUserRole);
             this.Controls.Add(this.labelUserRole);
             this.Controls.Add(this.textBoxUserNumber);
@@ -136,7 +127,6 @@
         private System.Windows.Forms.TextBox textBoxUserNumber;
         private System.Windows.Forms.TextBox textBoxUserRole;
         private System.Windows.Forms.Label labelUserRole;
-        private System.Windows.Forms.GroupBox groupBoxSymUserUpdate;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button buttonAddUser;
         private System.Windows.Forms.TextBox textBoxUserName;
