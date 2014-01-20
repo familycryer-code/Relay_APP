@@ -78,7 +78,7 @@ namespace RelayDNPSecurity
             return returnArray;
         }
 
-        private bool KeyDataValid()
+        public bool KeyDataValid()
         {
             if (!this.properNumberOfBoxesFilled())
             {
