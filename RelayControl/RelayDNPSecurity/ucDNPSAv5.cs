@@ -19,7 +19,7 @@ namespace RelayDNPSecurity
             testKeyValues.Visible = true;
             this.testKeyValues.Location = new Point(10, 10);
             this.Controls.Add(this.testKeyValues);
-            
+            this.ucDNPSAv5User1.Send += User_Send;
         }
 
         private ucKeyValuesInputControl testKeyValues;
@@ -42,6 +42,11 @@ namespace RelayDNPSecurity
             {
                 this.onError(ex);
             }
+        }
+
+        private void User_Send(object o, SecureSendEventArgs sSEA)
+        {
+            this.onSend(sSEA);
         }
     }
 }

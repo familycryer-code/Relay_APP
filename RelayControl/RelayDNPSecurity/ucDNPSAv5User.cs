@@ -6,6 +6,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RelayControlLibrary;
+
 
 namespace RelayDNPSecurity
 {
@@ -18,7 +20,7 @@ namespace RelayDNPSecurity
             
         }
 
-        private static int _userNameLimit = 100;
+        private static int _userNameLimit = 40;
         private ucKeyValuesInputControl keyBox;
         private static string _keyName = "Symmetrical User Update Key - 16/32 key bytes";
 
@@ -73,17 +75,53 @@ namespace RelayDNPSecurity
             SecureSendEventArgs sSEA = new SecureSendEventArgs(_userNameLimit + 3);
 
             sSEA.Data = getUserNamePacket();
+
+            this.onSend(sSEA);
         }
 
         private byte[] getUserNamePacket()
         {
-            byte[] returnArray = new byte[this.textBoxUserName.Text.Length + 3];
-
-            returnArray[0] = 0x00; //TODO Command Letter
-            System.Buffer.BlockCopy(this.textBoxUserName.Text.ToCharArray(), 0, returnArray, 2, this.textBoxUserName.Text.Length);
-            returnArray[returnArray.Length - 1] = 0x0D;
+            byte[] returnArray = new byte[98];
+            try
+            {
+                returnArray[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                returnArray[1] = (byte)'N'; //For Name
+                returnArray[2] = this.getUserNumer();
+                returnArray[3] = this.getUserRole(); //TEST holder for now
+                byte[] tempArray = Encoding.ASCII.GetBytes(this.textBoxUserName.Text.ToString());
+                Array.Copy(tempArray, 0, returnArray, 4, tempArray.Length);
+                returnArray[returnArray.Length - 1] = 0x0D;
+            }
+            catch (Exception ex)
+            {
+                this.onError(ex);
+            }
 
             return returnArray;
+        }
+
+        private byte getUserRole()
+        {
+            try
+            {
+                return Convert.ToByte(this.textBoxUserRole.Text);
+            }
+            catch
+            {
+                throw new Exception("Bad User Role Value");
+            }
+        }
+
+        private byte getUserNumer()
+        {
+            try
+            {
+                return Convert.ToByte(this.textBoxUserNumber.Text);
+            }
+            catch
+            {
+                throw new Exception("Bad User Number Value");
+            }
         }
 
         #endregion

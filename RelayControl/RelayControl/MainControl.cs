@@ -326,6 +326,7 @@ namespace RelayControl
                 this.ucLiveData1.PopulatePhasorGraph += new ucLiveData.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucPhasorGraph1.RequestNewCycle += new ucPhasorGraph.RequestNewCycleHandler(ucPhasorGraph1_RequestNewCycle);
                 this.ucDNPSAv51.Error += ucDNPSAv51_Error;
+                this.ucDNPSAv51.Send += ucDNPSAv51_Send;
                 this.ucTransmitter1.CTChanged += new ucTransmitter.CTChangedHandler(ucTransmitter1_CTChanged);
                 this.ucTransmitterMonitoring1.MonitoringStateChange += new ucTransmitterMonitoring.MonitoringControlHandler(ucTransmitterMonitoring1_MonitoringStateChange);
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
@@ -1400,6 +1401,11 @@ namespace RelayControl
                 this.requestAllData();
                 this.parametersLoaded = true;
             }
+        }
+
+        void ucDNPSAv51_Send(object o, RelayDNPSecurity.SecureSendEventArgs sSEA)
+        {
+            this.sendPacket(sSEA.Data);
         }
 
         private Point PanelLocation = new Point(300, 12);

@@ -36,7 +36,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                SendEventArgs sEA = new SendEventArgs(42);
+                SendEventArgs sEA = new SendEventArgs(98);
                 byte tempByte = 0;
                 UInt32 tempInt32;
 
@@ -112,7 +112,7 @@ namespace RelayControlLibrary
 
                 //Event Trigger Ranges
 
-                sEA.SendPacket[41] = 0x0D;
+                sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
                 
                 this.Send(sEA);
             }
@@ -126,7 +126,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                SendEventArgs sEA = new SendEventArgs(42);
+                SendEventArgs sEA = new SendEventArgs(98);
                 uint index = 2;
 
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
@@ -154,7 +154,7 @@ namespace RelayControlLibrary
                     }
                 }
 
-                sEA.SendPacket[41] = 0x0D;
+                sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
                 this.Send(sEA);
             }
@@ -168,7 +168,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                SendEventArgs sEA = new SendEventArgs(42);
+                SendEventArgs sEA = new SendEventArgs(98);
 
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
@@ -269,7 +269,7 @@ namespace RelayControlLibrary
                     this.errorHandler(new Exception("No Event Ranges Defined For This Customer"));
                 }
                  
-                sEA.SendPacket[41] = 0x0D;
+                sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
                 this.Send(sEA);
             }

@@ -327,7 +327,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(42);
+            SendEventArgs sEA = new SendEventArgs(98);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
@@ -371,7 +371,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[packetByteNumber] = tempByte;
             }
 
-            sEA.SendPacket[41] = 0x0D;
+            sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
             if (this.Send != null)
                 this.Send(this, sEA);
         }
@@ -580,7 +580,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(42);
+            SendEventArgs sEA = new SendEventArgs(98);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
@@ -638,7 +638,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[packetByteNumber] = tempByte;
             }
 
-            sEA.SendPacket[41] = 0x0D;
+            sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
             if (this.Send != null)
                 this.Send(this, sEA);
         }
@@ -649,7 +649,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(42);
+            SendEventArgs sEA = new SendEventArgs(98);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'E';        //For set analog events subcode
@@ -755,7 +755,7 @@ namespace RelayControlLibrary
                 }
             }
 
-            sEA.SendPacket[41] = 0x0D;
+            sEA.SendPacket[sEA.SendPacket.Length-1] = 0x0D;
             if (this.Send != null)
                 this.Send(this, sEA);
         }
