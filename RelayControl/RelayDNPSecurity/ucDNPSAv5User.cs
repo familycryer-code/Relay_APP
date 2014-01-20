@@ -87,9 +87,10 @@ namespace RelayDNPSecurity
                 returnArray[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 returnArray[1] = (byte)'N'; //For Name
                 returnArray[2] = this.getUserNumer();
-                returnArray[3] = this.getUserRole(); //TEST holder for now
+                returnArray[3] = this.getUserRole();
+                returnArray[4] = (byte)this.textBoxUserName.Text.Length;
                 byte[] tempArray = Encoding.ASCII.GetBytes(this.textBoxUserName.Text.ToString());
-                Array.Copy(tempArray, 0, returnArray, 4, tempArray.Length);
+                Array.Copy(tempArray, 0, returnArray, 5, tempArray.Length);
                 returnArray[returnArray.Length - 1] = 0x0D;
             }
             catch (Exception ex)
