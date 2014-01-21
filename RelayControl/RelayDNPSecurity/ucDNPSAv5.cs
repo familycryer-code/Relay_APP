@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RelayControlLibrary;
 
 namespace RelayDNPSecurity
 {
@@ -15,38 +16,56 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
 
-            testKeyValues = new ucKeyValuesInputControl(64, "hello world");
-            testKeyValues.Visible = true;
-            this.testKeyValues.Location = new Point(10, 10);
-            this.Controls.Add(this.testKeyValues);
             this.ucDNPSAv5User1.Send += User_Send;
-        }
-
-        private ucKeyValuesInputControl testKeyValues;
-
-        private void buttonTestKey_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                byte[] testArray = this.testKeyValues.GetKey();
-
-                StringBuilder s = new StringBuilder(testArray.Length * 2);
-
-                foreach (byte b in testArray)
-                {
-                    s.AppendFormat("{0:x2}", b);
-                }
-                this.onError(new Exception(s.ToString()));
-            }
-            catch (Exception ex)
-            {
-                this.onError(ex);
-            }
+            this.ucDNPSAv5User1.Error += DNP_Error;
         }
 
         private void User_Send(object o, SecureSendEventArgs sSEA)
         {
             this.onSend(sSEA);
+        }
+
+        private void DNP_Error(object o, Exception ex)
+        {
+            this.onError(ex);
+        }
+
+        public void Message(byte[] bytePacket)
+        {
+            switch ((char)bytePacket[0])
+            {
+                case 'U': //Users
+                    this.ShowLoadedUserNumbers(bytePacket);
+                    break;
+            }
+        }
+
+        private void ShowLoadedUserNumbers(byte[] bytePacket)
+        {
+            try
+            {
+            }
+            catch
+            {
+            }
+        }
+
+        private void buttonGetLoadedUsers_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SecureSendEventArgs sSEA = new SecureSendEventArgs();
+
+                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                sSEA.Data[1] = (byte)'G';
+                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+
+                this.onSend(sSEA);
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("Error Loadinged Loaded Users", ex));
+            }
         }
     }
 }

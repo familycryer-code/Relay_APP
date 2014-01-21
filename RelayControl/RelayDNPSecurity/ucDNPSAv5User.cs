@@ -62,9 +62,16 @@ namespace RelayDNPSecurity
 
         private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            this.sendUserName();
-            // Send User Key must go second, it is where it is flashed
-            this.sendUserKey();
+            try
+            {
+                this.sendUserName();
+                // Send User Key must go second, it is where it is flashed
+                this.sendUserKey();
+            }
+            catch (Exception ex)
+            {
+                this.onError(ex);
+            }
         }
 
         private void sendUserName()
@@ -144,15 +151,23 @@ namespace RelayDNPSecurity
         private byte[] getUserUpdateKeyPacket()
         {
             byte[] returnArray = new byte[98];
+            byte[] tempArray = null;
             try
             {
                 returnArray[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 returnArray[1] = (byte)'K'; //For Name
                 returnArray[2] = this.getUserNumer();
                 returnArray[3] = this.getUserRole();
-                byte[] tempArray = this.keyBox.GetKey();
-                returnArray[4] = (byte)tempArray.Length;
-                Array.Copy(tempArray, 0, returnArray, 5, tempArray.Length);
+                try
+                {
+                     tempArray = this.keyBox.GetKey();
+                     returnArray[4] = (byte)tempArray.Length;
+                     Array.Copy(tempArray, 0, returnArray, 5, tempArray.Length);
+                }
+                catch (Exception ex)
+                {
+                    this.onError(ex);
+                }
                 returnArray[returnArray.Length - 1] = 0x0D;
             }
             catch (Exception ex)

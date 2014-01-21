@@ -34,8 +34,10 @@
             this.buttonGenerateOSAsymKey = new System.Windows.Forms.Button();
             this.groupBoxAuthorityPubKey = new System.Windows.Forms.GroupBox();
             this.groupBoxOSName = new System.Windows.Forms.GroupBox();
-            this.buttonTestKey = new System.Windows.Forms.Button();
             this.ucDNPSAv5User1 = new RelayDNPSecurity.ucDNPSAv5User();
+            this.labelLoadedUsersNumbersLabel = new System.Windows.Forms.Label();
+            this.labelCurrentlyLoadedUsers = new System.Windows.Forms.Label();
+            this.buttonGetLoadedUsers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBoxOSPubKey.SuspendLayout();
             this.SuspendLayout();
@@ -99,35 +101,55 @@
             this.groupBoxOSName.TabStop = false;
             this.groupBoxOSName.Text = "Relay (Outstation) Name";
             // 
-            // buttonTestKey
-            // 
-            this.buttonTestKey.Location = new System.Drawing.Point(890, 3);
-            this.buttonTestKey.Name = "buttonTestKey";
-            this.buttonTestKey.Size = new System.Drawing.Size(75, 23);
-            this.buttonTestKey.TabIndex = 1;
-            this.buttonTestKey.Text = "Test Key";
-            this.buttonTestKey.UseVisualStyleBackColor = true;
-            this.buttonTestKey.Click += new System.EventHandler(this.buttonTestKey_Click);
-            // 
             // ucDNPSAv5User1
             // 
-            this.ucDNPSAv5User1.Location = new System.Drawing.Point(17, 179);
+            this.ucDNPSAv5User1.Location = new System.Drawing.Point(3, 0);
             this.ucDNPSAv5User1.Name = "ucDNPSAv5User1";
-            this.ucDNPSAv5User1.Size = new System.Drawing.Size(932, 150);
+            this.ucDNPSAv5User1.Size = new System.Drawing.Size(843, 121);
             this.ucDNPSAv5User1.TabIndex = 2;
+            // 
+            // labelLoadedUsersNumbersLabel
+            // 
+            this.labelLoadedUsersNumbersLabel.AutoSize = true;
+            this.labelLoadedUsersNumbersLabel.Location = new System.Drawing.Point(14, 124);
+            this.labelLoadedUsersNumbersLabel.Name = "labelLoadedUsersNumbersLabel";
+            this.labelLoadedUsersNumbersLabel.Size = new System.Drawing.Size(160, 13);
+            this.labelLoadedUsersNumbersLabel.TabIndex = 4;
+            this.labelLoadedUsersNumbersLabel.Text = "Currently Loaded User Numbers:";
+            // 
+            // labelCurrentlyLoadedUsers
+            // 
+            this.labelCurrentlyLoadedUsers.AutoSize = true;
+            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(181, 124);
+            this.labelCurrentlyLoadedUsers.Name = "labelCurrentlyLoadedUsers";
+            this.labelCurrentlyLoadedUsers.Size = new System.Drawing.Size(0, 13);
+            this.labelCurrentlyLoadedUsers.TabIndex = 5;
+            // 
+            // buttonGetLoadedUsers
+            // 
+            this.buttonGetLoadedUsers.Location = new System.Drawing.Point(13, 140);
+            this.buttonGetLoadedUsers.Name = "buttonGetLoadedUsers";
+            this.buttonGetLoadedUsers.Size = new System.Drawing.Size(112, 23);
+            this.buttonGetLoadedUsers.TabIndex = 6;
+            this.buttonGetLoadedUsers.Text = "Get Loaded Users";
+            this.buttonGetLoadedUsers.UseVisualStyleBackColor = true;
+            this.buttonGetLoadedUsers.Click += new System.EventHandler(this.buttonGetLoadedUsers_Click);
             // 
             // ucDNPSAv5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonGetLoadedUsers);
+            this.Controls.Add(this.labelCurrentlyLoadedUsers);
+            this.Controls.Add(this.labelLoadedUsersNumbersLabel);
             this.Controls.Add(this.ucDNPSAv5User1);
-            this.Controls.Add(this.buttonTestKey);
             this.Controls.Add(this.groupBox1);
             this.Name = "ucDNPSAv5";
             this.Size = new System.Drawing.Size(978, 733);
             this.groupBox1.ResumeLayout(false);
             this.groupBoxOSPubKey.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -139,7 +161,9 @@
         private System.Windows.Forms.Button buttonGenerateOSAsymKey;
         private System.Windows.Forms.GroupBox groupBoxAuthorityPubKey;
         private System.Windows.Forms.GroupBox groupBoxOSName;
-        private System.Windows.Forms.Button buttonTestKey;
         private ucDNPSAv5User ucDNPSAv5User1;
+        private System.Windows.Forms.Label labelLoadedUsersNumbersLabel;
+        private System.Windows.Forms.Label labelCurrentlyLoadedUsers;
+        private System.Windows.Forms.Button buttonGetLoadedUsers;
     }
 }

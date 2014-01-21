@@ -1796,6 +1796,7 @@ namespace RelayControl
                         else
                             return false;
                     case IncomingCommCommands.DNPData:
+                    case IncomingCommCommands.DNPSAv5:
                         if (i == 40 || i == 98)
                             return true;
                         else
@@ -1951,6 +1952,8 @@ namespace RelayControl
                     return IncomingCommCommands.RelayRegisters;
                 case (byte)'S':
                     return IncomingCommCommands.RelayParameters;
+                case (byte)'s':
+                    return IncomingCommCommands.DNPSAv5;
                 case (byte)'t':
                     return IncomingCommCommands.Temperature;
                 case (byte)'V':
@@ -2088,6 +2091,9 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.DNPData:
                     this.setDNPData(bytePacket);
+                    break;
+                case IncomingCommCommands.DNPSAv5:
+                    this.ucDNPSAv51.Message(bytePacket);
                     break;
                 case IncomingCommCommands.Invalid:
                 default:

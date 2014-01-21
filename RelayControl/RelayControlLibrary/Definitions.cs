@@ -134,6 +134,7 @@ namespace RelayControlLibrary
         TripOrCloseEvent,
         FFTValue,
         DNPData,
+        DNPSAv5,
         SafeService,
         ShortRangeStrength,
         ShortRangeTransmit,
