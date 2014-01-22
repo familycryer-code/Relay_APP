@@ -74,7 +74,7 @@ namespace RelayControlLibrary
             }
         }
 
-        public string Name
+        public new string Name
         {
             get { return this.labelName.Text; }
             set{

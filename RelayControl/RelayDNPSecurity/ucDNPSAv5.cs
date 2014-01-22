@@ -20,6 +20,11 @@ namespace RelayDNPSecurity
             this.ucDNPSAv5User1.Error += DNP_Error;
         }
 
+        private List<byte> userNumbers = new List<byte>();
+
+        private static string _TooManyUsers = "User limit reached, please delete user before preceeding";
+        private static string _UserDoesNotExist = "User Number Does Not Exist in Relay";
+
         private void User_Send(object o, SecureSendEventArgs sSEA)
         {
             this.onSend(sSEA);
@@ -34,19 +39,81 @@ namespace RelayDNPSecurity
         {
             switch ((char)bytePacket[0])
             {
+                case 'E': // Error
+                    this.handleErrorPacket(bytePacket);
+                    break;
                 case 'U': //Users
                     this.ShowLoadedUserNumbers(bytePacket);
                     break;
             }
         }
 
+        private void handleErrorPacket(byte[] bytePacket)
+        {
+            string exceptionMessage;
+
+            switch (bytePacket[1])
+            {
+                case 0:
+                default:
+                    exceptionMessage = "Invalid Error Number.  Please Contact Digital Grid with this Number: " + bytePacket[1].ToString();
+                    break;
+                case 1:
+                    exceptionMessage = _TooManyUsers;
+                    break;
+                case 2:
+                    exceptionMessage = _UserDoesNotExist;
+                    break;
+            }
+            this.onError(new Exception(exceptionMessage));
+        }
+
         private void ShowLoadedUserNumbers(byte[] bytePacket)
         {
+            int i = 1;
+
             try
             {
+                this.userNumbers = new List<byte>();
+
+                while (bytePacket[i] != 0)
+                {
+                    this.userNumbers.Add(bytePacket[i]);
+                    i++;
+                }
+
+                this.displayUserNumbers(this.userNumbers);
             }
-            catch
+            catch (Exception ex)
             {
+                this.onError(new Exception("Error Populating User Numbers List: " + ex.Message, ex));
+            }
+        }
+
+        private void displayUserNumbers(List<byte> list)
+        {
+
+            try
+            {
+                this.labelCurrentlyLoadedUsers.Text = "";
+
+                if (list.Count == 0 || list == null)
+                {
+                    this.labelCurrentlyLoadedUsers.Text = "No Users Loaded";
+                }
+                else
+                {
+                    foreach (byte b in list)
+                    {
+                        this.labelCurrentlyLoadedUsers.Text += b.ToString() + ", ";
+                    }
+                    // Remove the last ", "
+                    this.labelCurrentlyLoadedUsers.Text = this.labelCurrentlyLoadedUsers.Text.Substring(0, this.labelCurrentlyLoadedUsers.Text.Length - 2);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("Error populating User Numbers: " + ex.Message, ex));
             }
         }
 

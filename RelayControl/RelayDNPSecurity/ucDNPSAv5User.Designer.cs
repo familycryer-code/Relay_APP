@@ -37,6 +37,7 @@
             this.buttonAddUser = new System.Windows.Forms.Button();
             this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonDeleteUser = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelUserNumber
@@ -103,10 +104,21 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "User Name:";
             // 
+            // buttonDeleteUser
+            // 
+            this.buttonDeleteUser.Location = new System.Drawing.Point(737, 61);
+            this.buttonDeleteUser.Name = "buttonDeleteUser";
+            this.buttonDeleteUser.Size = new System.Drawing.Size(96, 45);
+            this.buttonDeleteUser.TabIndex = 9;
+            this.buttonDeleteUser.Text = "Delete User #";
+            this.buttonDeleteUser.UseVisualStyleBackColor = true;
+            this.buttonDeleteUser.Click += new System.EventHandler(this.buttonDeleteUser_Click);
+            // 
             // ucDNPSAv5User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonDeleteUser);
             this.Controls.Add(this.textBoxUserName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonAddUser);
@@ -131,5 +143,6 @@
         private System.Windows.Forms.Button buttonAddUser;
         private System.Windows.Forms.TextBox textBoxUserName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonDeleteUser;
     }
 }

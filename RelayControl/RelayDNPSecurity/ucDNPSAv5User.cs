@@ -64,6 +64,7 @@ namespace RelayDNPSecurity
         {
             try
             {
+                
                 this.sendUserName();
                 // Send User Key must go second, it is where it is flashed
                 this.sendUserKey();
@@ -178,5 +179,51 @@ namespace RelayDNPSecurity
             return returnArray;
         }
         #endregion
+
+        private void buttonDeleteUser_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult dr = MessageBox.Show("Delete User", "Are you sure you want to delete the user?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (dr == DialogResult.Yes)
+                {
+                    this.deleteUser();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception ("Error Deleting User: " + ex.Message, ex));
+            }
+        }
+
+        private void deleteUser()
+        {
+            byte temp = 0;
+
+            try
+            {
+                 temp = Convert.ToByte(this.textBoxUserNumber.Text);
+            }
+            catch
+            {
+                throw new Exception("Need a valid User Number");
+            }
+
+            try
+            {
+                SecureSendEventArgs sSEA = new SecureSendEventArgs();
+                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                sSEA.Data[1] = (byte)'D'; // Delete User
+                sSEA.Data[2] = temp;
+                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+
+                this.onSend(sSEA);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Sending Delete User Packet: " + ex.Message);
+            }
+        }
     }
 }
