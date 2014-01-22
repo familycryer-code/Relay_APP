@@ -24,6 +24,7 @@ namespace RelayDNPSecurity
 
         private static string _TooManyUsers = "User limit reached, please delete user before preceeding";
         private static string _UserDoesNotExist = "User Number Does Not Exist in Relay";
+        private static string _InvalidPublicOSKey = "Invalid Public Key.  Has it been generated?";
 
         private void User_Send(object o, SecureSendEventArgs sSEA)
         {
@@ -42,9 +43,11 @@ namespace RelayDNPSecurity
                 case 'E': // Error
                     this.handleErrorPacket(bytePacket);
                     break;
-                case 'U': //Users
+                case 'U': // Users
                     this.ShowLoadedUserNumbers(bytePacket);
                     break;
+                case 'O': // OS Public Key
+                    break;//this.
             }
         }
 
@@ -63,6 +66,9 @@ namespace RelayDNPSecurity
                     break;
                 case 2:
                     exceptionMessage = _UserDoesNotExist;
+                    break;
+                case 3:
+                    exceptionMessage = _InvalidPublicOSKey;
                     break;
             }
             this.onError(new Exception(exceptionMessage));
