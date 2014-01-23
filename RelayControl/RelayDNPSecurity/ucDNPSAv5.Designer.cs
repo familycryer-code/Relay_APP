@@ -138,9 +138,9 @@
             // 
             // ucOSAsymKeyGen1
             // 
-            this.ucOSAsymKeyGen1.Location = new System.Drawing.Point(3, 169);
+            this.ucOSAsymKeyGen1.Location = new System.Drawing.Point(0, 169);
             this.ucOSAsymKeyGen1.Name = "ucOSAsymKeyGen1";
-            this.ucOSAsymKeyGen1.Size = new System.Drawing.Size(854, 80);
+            this.ucOSAsymKeyGen1.Size = new System.Drawing.Size(854, 176);
             this.ucOSAsymKeyGen1.TabIndex = 7;
             // 
             // ucDNPSAv5

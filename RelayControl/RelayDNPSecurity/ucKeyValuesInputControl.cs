@@ -22,6 +22,7 @@ namespace RelayDNPSecurity
 
             this.Size = this.groupBox.Size;
             this.Controls.Add(this.groupBox);
+            this.keyLength = numberOfValues;
         }
 
         private static int _boxWidth = 30;
@@ -32,8 +33,7 @@ namespace RelayDNPSecurity
         private static int _spacingY = 5;
 
         private GroupBox groupBox;
-        private int keySize;
-
+        private int keyLength;
         #region Initialization
 
         private void generateBoxes(int numberOfValues)
@@ -64,6 +64,31 @@ namespace RelayDNPSecurity
 
         #endregion
 
+        public void SetKey(byte[] dataArray)
+        {
+            if (dataArray.Length % 16 != 0 || dataArray.Length == 0 || dataArray == null || dataArray.Length > this.keyLength)
+            {
+                throw new Exception("Key Length Invalid");
+            }
+
+            foreach (object o in this.Controls)
+            {
+                int i = 0;
+                TextBox tB = new TextBox();
+                try
+                {
+                    tB = (TextBox)o;
+                }
+                catch
+                {
+                    //Do nothing because it isn't a TextBox
+                    //Just suppressing the error
+                }
+
+                tB.Text = dataArray[i++].ToString();
+            }
+        }
+
         #region Validation
 
         public byte[] GetKey()
@@ -77,6 +102,8 @@ namespace RelayDNPSecurity
             returnArray = getKeyData();
             return returnArray;
         }
+
+
 
         public bool KeyDataValid()
         {
