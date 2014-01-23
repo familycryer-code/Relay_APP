@@ -16,22 +16,28 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
 
-            this.ucDNPSAv5User1.Send += User_Send;
-            this.ucDNPSAv5User1.Error += DNP_Error;
+            this.intializeComponentEvents();
         }
-
         private List<byte> userNumbers = new List<byte>();
 
         private static string _TooManyUsers = "User limit reached, please delete user before preceeding";
         private static string _UserDoesNotExist = "User Number Does Not Exist in Relay";
         private static string _InvalidPublicOSKey = "Invalid Public Key.  Has it been generated?";
 
-        private void User_Send(object o, SecureSendEventArgs sSEA)
+        private void intializeComponentEvents()
+        {
+            this.ucDNPSAv5User1.Send += DNPSAv5_Send;
+            this.ucDNPSAv5User1.Error += DNPSAv5_Error;
+            this.ucOSAsymKeyGen1.Send += DNPSAv5_Send;
+            this.ucOSAsymKeyGen1.Error += DNPSAv5_Error;
+        }
+
+        private void DNPSAv5_Send(object o, SecureSendEventArgs sSEA)
         {
             this.onSend(sSEA);
         }
 
-        private void DNP_Error(object o, Exception ex)
+        private void DNPSAv5_Error(object o, Exception ex)
         {
             this.onError(ex);
         }

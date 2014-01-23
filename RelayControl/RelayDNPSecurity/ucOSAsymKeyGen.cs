@@ -6,14 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Asn1.Pkcs;
-using Org.BouncyCastle.Pkcs;
-using Org.BouncyCastle.X509;
-using Org.BouncyCastle.Asn1.X509;
+using RelayControlLibrary;
 
 namespace RelayDNPSecurity
 {
@@ -56,17 +49,20 @@ namespace RelayDNPSecurity
 
         private void buttonGenerateKey_Click(object sender, EventArgs e)
         {
-            RsaKeyPairGenerator r = new RsaKeyPairGenerator();
-            r.Init(new KeyGenerationParameters(new SecureRandom(), 64));
-            var keys = r.GenerateKeyPair();
+            try
+            {
+                SecureSendEventArgs sSEA = new SecureSendEventArgs();
+                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                sSEA.Data[1] = (byte)'g'; // Generate Key Data
+                sSEA.Data[2] = 1; // 1 for 128, 2 for 256 BYTES
+                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
 
-            PrivateKeyInfo privateKeyInfo = PrivateKeyInfoFactory.CreatePrivateKeyInfo(keys.Private);
-            byte[] serializedPrivateBytes = privateKeyInfo.ToAsn1Object().GetDerEncoded();
-            
-
-            SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(keys.Public);
-            byte[] serializedPublicBytes = publicKeyInfo.ToAsn1Object().GetDerEncoded();
-            
+                this.onSend(sSEA);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Sending Generate Key Packet: " + ex.Message);
+            }
         }
 
         private void buttonSendKeyPair_Click(object sender, EventArgs e)
