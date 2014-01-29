@@ -38,6 +38,7 @@
             this.labelLoadedUsersNumbersLabel = new System.Windows.Forms.Label();
             this.labelCurrentlyLoadedUsers = new System.Windows.Forms.Label();
             this.buttonGetLoadedUsers = new System.Windows.Forms.Button();
+            this.buttonLoadDefaultUser = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBoxOSPubKey.SuspendLayout();
             this.SuspendLayout();
@@ -135,10 +136,21 @@
             this.buttonGetLoadedUsers.UseVisualStyleBackColor = true;
             this.buttonGetLoadedUsers.Click += new System.EventHandler(this.buttonGetLoadedUsers_Click);
             // 
+            // buttonLoadDefaultUser
+            // 
+            this.buttonLoadDefaultUser.Location = new System.Drawing.Point(734, 124);
+            this.buttonLoadDefaultUser.Name = "buttonLoadDefaultUser";
+            this.buttonLoadDefaultUser.Size = new System.Drawing.Size(112, 23);
+            this.buttonLoadDefaultUser.TabIndex = 7;
+            this.buttonLoadDefaultUser.Text = "Load Default User";
+            this.buttonLoadDefaultUser.UseVisualStyleBackColor = true;
+            this.buttonLoadDefaultUser.Click += new System.EventHandler(this.buttonLoadDefaultUser_Click);
+            // 
             // ucDNPSAv5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonLoadDefaultUser);
             this.Controls.Add(this.buttonGetLoadedUsers);
             this.Controls.Add(this.labelCurrentlyLoadedUsers);
             this.Controls.Add(this.labelLoadedUsersNumbersLabel);
@@ -165,5 +177,6 @@
         private System.Windows.Forms.Label labelLoadedUsersNumbersLabel;
         private System.Windows.Forms.Label labelCurrentlyLoadedUsers;
         private System.Windows.Forms.Button buttonGetLoadedUsers;
+        private System.Windows.Forms.Button buttonLoadDefaultUser;
     }
 }

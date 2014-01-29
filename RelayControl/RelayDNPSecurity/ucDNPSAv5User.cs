@@ -225,5 +225,25 @@ namespace RelayDNPSecurity
                 throw new Exception("Error Sending Delete User Packet: " + ex.Message);
             }
         }
+
+        public void SetUserNumber(int userNumber)
+        {
+            this.textBoxUserNumber.Text = userNumber.ToString();
+        }
+        public void SetUserName(string name)
+        {
+            this.textBoxUserName.Text = name;
+        }
+
+        public void SetUserKey(byte[] keyData)
+        {
+            this.keyBox.SetKey(keyData);
+        }
+
+        public void SetUserRole(int roleNumber)
+        {
+            this.textBoxUserRole.Text = roleNumber.ToString();
+        }
+
     }
 }

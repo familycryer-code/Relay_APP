@@ -24,6 +24,12 @@ namespace RelayDNPSecurity
         private static string _UserDoesNotExist = "User Number Does Not Exist in Relay";
         private static string _InvalidPublicOSKey = "Invalid Public Key.  Has it been generated?";
 
+
+        private static byte[] _defaultUserKey = { 0x49, 0xc8, 0x7d, 0x5d, 0x90, 0x21, 0x7a, 0xaf, 0xec, 0x80, 0x74, 0xeb, 0x71, 0x52, 0xfd, 0xb5 };
+        private static string _defaultUserName = "Common";
+        private static int _defaultUserRole = 1;
+        private static int _defaultUserNumber = 1;
+
         private void intializeComponentEvents()
         {
             this.ucDNPSAv5User1.Send += DNPSAv5_Send;
@@ -144,5 +150,14 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("Error Loadinged Loaded Users", ex));
             }
         }
+
+        private void buttonLoadDefaultUser_Click(object sender, EventArgs e)
+        {
+            this.ucDNPSAv5User1.SetUserName(_defaultUserName);
+            this.ucDNPSAv5User1.SetUserKey(_defaultUserKey);
+            this.ucDNPSAv5User1.SetUserRole(_defaultUserRole);
+            this.ucDNPSAv5User1.SetUserNumber(_defaultUserNumber);
+        }
+
     }
 }

@@ -71,9 +71,10 @@ namespace RelayDNPSecurity
                 throw new Exception("Key Length Invalid");
             }
 
+            int i = 0;
+
             foreach (object o in this.Controls)
-            {
-                int i = 0;
+            {    
                 TextBox tB = new TextBox();
                 try
                 {
@@ -81,11 +82,16 @@ namespace RelayDNPSecurity
                 }
                 catch
                 {
-                    //Do nothing because it isn't a TextBox
-                    //Just suppressing the error
+                    continue;
+                    // because it isn't a textbox
                 }
 
-                tB.Text = dataArray[i++].ToString();
+                StringBuilder hexString = new StringBuilder(2);
+                if (i == dataArray.Length)
+                    break;
+                hexString.AppendFormat("{0:x2}", dataArray[i++]);
+
+                tB.Text = hexString.ToString();
             }
         }
 
