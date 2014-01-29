@@ -28,8 +28,6 @@ namespace RelayDNPSecurity
         {
             this.ucDNPSAv5User1.Send += DNPSAv5_Send;
             this.ucDNPSAv5User1.Error += DNPSAv5_Error;
-            this.ucOSAsymKeyGen1.Send += DNPSAv5_Send;
-            this.ucOSAsymKeyGen1.Error += DNPSAv5_Error;
         }
 
         private void DNPSAv5_Send(object o, SecureSendEventArgs sSEA)

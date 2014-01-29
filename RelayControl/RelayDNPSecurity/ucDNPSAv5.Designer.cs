@@ -38,7 +38,6 @@
             this.labelLoadedUsersNumbersLabel = new System.Windows.Forms.Label();
             this.labelCurrentlyLoadedUsers = new System.Windows.Forms.Label();
             this.buttonGetLoadedUsers = new System.Windows.Forms.Button();
-            this.ucOSAsymKeyGen1 = new RelayDNPSecurity.ucOSAsymKeyGen();
             this.groupBox1.SuspendLayout();
             this.groupBoxOSPubKey.SuspendLayout();
             this.SuspendLayout();
@@ -136,18 +135,10 @@
             this.buttonGetLoadedUsers.UseVisualStyleBackColor = true;
             this.buttonGetLoadedUsers.Click += new System.EventHandler(this.buttonGetLoadedUsers_Click);
             // 
-            // ucOSAsymKeyGen1
-            // 
-            this.ucOSAsymKeyGen1.Location = new System.Drawing.Point(0, 169);
-            this.ucOSAsymKeyGen1.Name = "ucOSAsymKeyGen1";
-            this.ucOSAsymKeyGen1.Size = new System.Drawing.Size(854, 176);
-            this.ucOSAsymKeyGen1.TabIndex = 7;
-            // 
             // ucDNPSAv5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ucOSAsymKeyGen1);
             this.Controls.Add(this.buttonGetLoadedUsers);
             this.Controls.Add(this.labelCurrentlyLoadedUsers);
             this.Controls.Add(this.labelLoadedUsersNumbersLabel);
@@ -174,6 +165,5 @@
         private System.Windows.Forms.Label labelLoadedUsersNumbersLabel;
         private System.Windows.Forms.Label labelCurrentlyLoadedUsers;
         private System.Windows.Forms.Button buttonGetLoadedUsers;
-        private ucOSAsymKeyGen ucOSAsymKeyGen1;
     }
 }
