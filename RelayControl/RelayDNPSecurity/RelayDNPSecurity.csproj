@@ -52,6 +52,12 @@
     <Compile Include="ucDNPSAv5.Designer.cs">
       <DependentUpon>ucDNPSAv5.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucDNPSAv5AuthoritySym.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPSAv5AuthoritySym.Designer.cs">
+      <DependentUpon>ucDNPSAv5AuthoritySym.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucDNPSAv5SuperClass.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -82,6 +88,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ucDNPSAv5.resx">
       <DependentUpon>ucDNPSAv5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPSAv5AuthoritySym.resx">
+      <DependentUpon>ucDNPSAv5AuthoritySym.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucDNPSAv5User.resx">
       <DependentUpon>ucDNPSAv5User.cs</DependentUpon>
