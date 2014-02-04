@@ -33,8 +33,8 @@
             this.labelCurrentlyLoadedUsers = new System.Windows.Forms.Label();
             this.buttonGetLoadedUsers = new System.Windows.Forms.Button();
             this.buttonLoadDefaultUser = new System.Windows.Forms.Button();
-            this.groupBoxOSName = new System.Windows.Forms.GroupBox();
             this.ucDNPSAv5AuthoritySym1 = new RelayDNPSecurity.ucDNPSAv5AuthoritySym();
+            this.ucDNPSAv5OSName1 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.SuspendLayout();
             // 
             // ucDNPSAv5User1
@@ -81,28 +81,26 @@
             this.buttonLoadDefaultUser.UseVisualStyleBackColor = true;
             this.buttonLoadDefaultUser.Click += new System.EventHandler(this.buttonLoadDefaultUser_Click);
             // 
-            // groupBoxOSName
-            // 
-            this.groupBoxOSName.Location = new System.Drawing.Point(42, 491);
-            this.groupBoxOSName.Name = "groupBoxOSName";
-            this.groupBoxOSName.Size = new System.Drawing.Size(415, 100);
-            this.groupBoxOSName.TabIndex = 0;
-            this.groupBoxOSName.TabStop = false;
-            this.groupBoxOSName.Text = "Relay (Outstation) Name";
-            // 
             // ucDNPSAv5AuthoritySym1
             // 
-            this.ucDNPSAv5AuthoritySym1.Location = new System.Drawing.Point(17, 178);
+            this.ucDNPSAv5AuthoritySym1.Location = new System.Drawing.Point(3, 180);
             this.ucDNPSAv5AuthoritySym1.Name = "ucDNPSAv5AuthoritySym1";
             this.ucDNPSAv5AuthoritySym1.Size = new System.Drawing.Size(862, 109);
             this.ucDNPSAv5AuthoritySym1.TabIndex = 8;
+            // 
+            // ucDNPSAv5OSName1
+            // 
+            this.ucDNPSAv5OSName1.Location = new System.Drawing.Point(3, 292);
+            this.ucDNPSAv5OSName1.Name = "ucDNPSAv5OSName1";
+            this.ucDNPSAv5OSName1.Size = new System.Drawing.Size(605, 84);
+            this.ucDNPSAv5OSName1.TabIndex = 9;
             // 
             // ucDNPSAv5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ucDNPSAv5OSName1);
             this.Controls.Add(this.ucDNPSAv5AuthoritySym1);
-            this.Controls.Add(this.groupBoxOSName);
             this.Controls.Add(this.buttonLoadDefaultUser);
             this.Controls.Add(this.buttonGetLoadedUsers);
             this.Controls.Add(this.labelCurrentlyLoadedUsers);
@@ -122,7 +120,7 @@
         private System.Windows.Forms.Label labelCurrentlyLoadedUsers;
         private System.Windows.Forms.Button buttonGetLoadedUsers;
         private System.Windows.Forms.Button buttonLoadDefaultUser;
-        private System.Windows.Forms.GroupBox groupBoxOSName;
         private ucDNPSAv5AuthoritySym ucDNPSAv5AuthoritySym1;
+        private ucDNPSAv5OSName ucDNPSAv5OSName1;
     }
 }

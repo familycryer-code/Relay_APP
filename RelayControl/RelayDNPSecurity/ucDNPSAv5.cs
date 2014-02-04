@@ -18,6 +18,17 @@ namespace RelayDNPSecurity
 
             this.intializeComponentEvents();
         }
+
+        public int SerialNumber
+        {
+            get { return this.serialNumber; }
+            set
+            {
+                this.serialNumber = value;
+                this.ucDNPSAv5OSName1.SerialNumber = value;
+            }
+        }
+
         private List<byte> userNumbers = new List<byte>();
 
         private static string _TooManyUsers = "User limit reached, please delete user before preceeding";
@@ -29,6 +40,9 @@ namespace RelayDNPSecurity
         private static string _defaultUserName = "Common";
         private static int _defaultUserRole = 1;
         private static int _defaultUserNumber = 1;
+        private string oSName = "";
+
+        private int serialNumber = 0;
 
         private void intializeComponentEvents()
         {
@@ -36,6 +50,8 @@ namespace RelayDNPSecurity
             this.ucDNPSAv5User1.Error += DNPSAv5_Error;
             this.ucDNPSAv5AuthoritySym1.Send += DNPSAv5_Send;
             this.ucDNPSAv5AuthoritySym1.Error += DNPSAv5_Error;
+            this.ucDNPSAv5OSName1.Send += DNPSAv5_Send;
+            this.ucDNPSAv5OSName1.Error += DNPSAv5_Error;
         }
 
         private void DNPSAv5_Send(object o, SecureSendEventArgs sSEA)
@@ -58,8 +74,34 @@ namespace RelayDNPSecurity
                 case 'U': // Users
                     this.ShowLoadedUserNumbers(bytePacket);
                     break;
-                case 'O': // OS Public Key
-                    break;//this.
+                case 'O': // OS Name FIrst Packet
+                    this.setOSName(bytePacket, 1);
+                    break;
+                case 'o': // OS Name Second Packet
+                    this.setOSName(bytePacket, 2);
+                    break;
+            }
+        }
+
+        private void setOSName(byte[] bytePacket, int p)
+        {
+            string workingString = Encoding.ASCII.GetString(bytePacket, 1, 35);
+
+            try
+            {
+                if (p == 1)
+                    this.oSName = workingString;
+                else if (p == 2)
+                {
+                    this.oSName += workingString;
+                    this.ucDNPSAv5OSName1.OSName = workingString;
+                }
+                else
+                    throw new Exception(p.ToString() + " is a bad number for setOSName()");
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("Error Setting OS/Relay Name: " + ex.ToString()));
             }
         }
 

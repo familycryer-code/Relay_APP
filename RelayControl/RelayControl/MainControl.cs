@@ -2840,6 +2840,7 @@ namespace RelayControl
                 tempI += bytePacket[2];
 
                 this.ucRelayProgramming1.SerialNumber = (UInt32)tempI;
+                this.ucDNPSAv51.SerialNumber = tempI;
 
                 if (this.savedSerialNumber != tempI && checkSerialNumber) //check to see if it matches old serial num
                 {
