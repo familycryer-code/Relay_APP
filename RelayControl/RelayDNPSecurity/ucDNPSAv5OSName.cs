@@ -34,7 +34,10 @@ namespace RelayDNPSecurity
         {
             int i;
             if (this.textBoxOSName.Text.Length > _maxOSNameLength)
+            {
                 this.textBoxOSName.Text = this.textBoxOSName.Text.Substring(0, _maxOSNameLength);
+                this.textBoxOSName.Select(_maxOSNameLength, 0);
+            }
         }
 
         private void buttonSendName_Click(object sender, EventArgs e)
