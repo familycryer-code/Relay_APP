@@ -41,6 +41,7 @@ namespace RelayDNPSecurity
         private static int _defaultUserRole = 1;
         private static int _defaultUserNumber = 1;
         private string oSName = "";
+        private int remoteOSNameLength;
 
         private int serialNumber = 0;
 
@@ -90,11 +91,29 @@ namespace RelayDNPSecurity
             try
             {
                 if (p == 1)
+                {
+                    this.remoteOSNameLength = bytePacket[1];
+                    if (this.remoteOSNameLength < 35)
+                    {
+                        workingString = Encoding.ASCII.GetString(bytePacket, 2, this.remoteOSNameLength);
+                        this.remoteOSNameLength = 0;
+                    }
+                    else
+                    {
+                        workingString = Encoding.ASCII.GetString(bytePacket, 2, 35);
+                        this.remoteOSNameLength -= 35;
+                    }
                     this.oSName = workingString;
+
+                }
                 else if (p == 2)
                 {
+                    if(this.remoteOSNameLength < 35)
+                        workingString = Encoding.ASCII.GetString(bytePacket, 1, this.remoteOSNameLength);
+                    else
+                        workingString = Encoding.ASCII.GetString(bytePacket, 1, 35);
                     this.oSName += workingString;
-                    this.ucDNPSAv5OSName1.OSName = workingString;
+                    this.ucDNPSAv5OSName1.OSName = this.oSName;
                 }
                 else
                     throw new Exception(p.ToString() + " is a bad number for setOSName()");
