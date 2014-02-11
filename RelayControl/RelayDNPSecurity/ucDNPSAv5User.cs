@@ -115,7 +115,7 @@ namespace RelayDNPSecurity
         {
             try
             {
-                return Convert.ToByte(this.textBoxUserRole.Text);
+                return Convert.ToByte(this.comboBoxUserRole.SelectedIndex);
             }
             catch
             {
@@ -242,7 +242,7 @@ namespace RelayDNPSecurity
 
         public void SetUserRole(int roleNumber)
         {
-            this.textBoxUserRole.Text = roleNumber.ToString();
+            this.comboBoxUserRole.SelectedIndex = roleNumber;
         }
 
     }

@@ -58,6 +58,7 @@ namespace RelayDNPSecurity
         private void DNPSAv5_Send(object o, SecureSendEventArgs sSEA)
         {
             this.onSend(sSEA);
+            this.requestLoadedUsers();
         }
 
         private void DNPSAv5_Error(object o, Exception ex)
@@ -197,6 +198,11 @@ namespace RelayDNPSecurity
         }
 
         private void buttonGetLoadedUsers_Click(object sender, EventArgs e)
+        {
+            this.requestLoadedUsers();
+        }
+
+        private void requestLoadedUsers()
         {
             try
             {

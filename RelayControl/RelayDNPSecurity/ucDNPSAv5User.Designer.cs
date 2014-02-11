@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.labelUserNumber = new System.Windows.Forms.Label();
             this.textBoxUserNumber = new System.Windows.Forms.TextBox();
-            this.textBoxUserRole = new System.Windows.Forms.TextBox();
             this.labelUserRole = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.buttonAddUser = new System.Windows.Forms.Button();
             this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonDeleteUser = new System.Windows.Forms.Button();
+            this.comboBoxUserRole = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // labelUserNumber
@@ -53,15 +53,8 @@
             // 
             this.textBoxUserNumber.Location = new System.Drawing.Point(61, 7);
             this.textBoxUserNumber.Name = "textBoxUserNumber";
-            this.textBoxUserNumber.Size = new System.Drawing.Size(70, 20);
+            this.textBoxUserNumber.Size = new System.Drawing.Size(80, 20);
             this.textBoxUserNumber.TabIndex = 1;
-            // 
-            // textBoxUserRole
-            // 
-            this.textBoxUserRole.Location = new System.Drawing.Point(61, 35);
-            this.textBoxUserRole.Name = "textBoxUserRole";
-            this.textBoxUserRole.Size = new System.Drawing.Size(70, 20);
-            this.textBoxUserRole.TabIndex = 3;
             // 
             // labelUserRole
             // 
@@ -114,15 +107,31 @@
             this.buttonDeleteUser.UseVisualStyleBackColor = true;
             this.buttonDeleteUser.Click += new System.EventHandler(this.buttonDeleteUser_Click);
             // 
+            // comboBoxUserRole
+            // 
+            this.comboBoxUserRole.FormattingEnabled = true;
+            this.comboBoxUserRole.Items.AddRange(new object[] {
+            "VIEWER",
+            "OPERATOR",
+            "ENGINEER",
+            "INSTALLER",
+            "SECADM",
+            "SECAUD",
+            "RBACMNT"});
+            this.comboBoxUserRole.Location = new System.Drawing.Point(61, 33);
+            this.comboBoxUserRole.Name = "comboBoxUserRole";
+            this.comboBoxUserRole.Size = new System.Drawing.Size(80, 21);
+            this.comboBoxUserRole.TabIndex = 10;
+            // 
             // ucDNPSAv5User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.comboBoxUserRole);
             this.Controls.Add(this.buttonDeleteUser);
             this.Controls.Add(this.textBoxUserName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonAddUser);
-            this.Controls.Add(this.textBoxUserRole);
             this.Controls.Add(this.labelUserRole);
             this.Controls.Add(this.textBoxUserNumber);
             this.Controls.Add(this.labelUserNumber);
@@ -137,12 +146,12 @@
 
         private System.Windows.Forms.Label labelUserNumber;
         private System.Windows.Forms.TextBox textBoxUserNumber;
-        private System.Windows.Forms.TextBox textBoxUserRole;
         private System.Windows.Forms.Label labelUserRole;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button buttonAddUser;
         private System.Windows.Forms.TextBox textBoxUserName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonDeleteUser;
+        private System.Windows.Forms.ComboBox comboBoxUserRole;
     }
 }
