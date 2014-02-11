@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DNPSAv5SecurityStatisticsItem.cs" />
     <Compile Include="SecureSendEventArgs.cs" />
     <Compile Include="ucDNPSAv5.cs">
       <SubType>UserControl</SubType>
@@ -63,6 +64,18 @@
     </Compile>
     <Compile Include="ucDNPSAv5OSName.Designer.cs">
       <DependentUpon>ucDNPSAv5OSName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPSAv5SecurityStatisticThreshold.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPSAv5SecurityStatisticThreshold.Designer.cs">
+      <DependentUpon>ucDNPSAv5SecurityStatisticThreshold.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPSAv5Settings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPSAv5Settings.Designer.cs">
+      <DependentUpon>ucDNPSAv5Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="ucDNPSAv5SuperClass.cs">
       <SubType>UserControl</SubType>
@@ -100,6 +113,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucDNPSAv5OSName.resx">
       <DependentUpon>ucDNPSAv5OSName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPSAv5SecurityStatisticThreshold.resx">
+      <DependentUpon>ucDNPSAv5SecurityStatisticThreshold.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPSAv5Settings.resx">
+      <DependentUpon>ucDNPSAv5Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucDNPSAv5User.resx">
       <DependentUpon>ucDNPSAv5User.cs</DependentUpon>

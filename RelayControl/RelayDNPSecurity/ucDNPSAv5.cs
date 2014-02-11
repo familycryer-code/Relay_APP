@@ -53,6 +53,8 @@ namespace RelayDNPSecurity
             this.ucDNPSAv5AuthoritySym1.Error += DNPSAv5_Error;
             this.ucDNPSAv5OSName1.Send += DNPSAv5_Send;
             this.ucDNPSAv5OSName1.Error += DNPSAv5_Error;
+            this.ucDNPSAv5Settings1.Send += DNPSAv5_Send;
+            this.ucDNPSAv5Settings1.Error += DNPSAv5_Error;
         }
 
         private void DNPSAv5_Send(object o, SecureSendEventArgs sSEA)
@@ -81,6 +83,12 @@ namespace RelayDNPSecurity
                     break;
                 case 'o': // OS Name Second Packet
                     this.setOSName(bytePacket, 2);
+                    break;
+                case 'S': // Settings
+                    this.setSettings(bytePacket);
+                    break;
+                default:
+                    this.onError(new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"));
                     break;
             }
         }
@@ -123,6 +131,11 @@ namespace RelayDNPSecurity
             {
                 this.onError(new Exception("Error Setting OS/Relay Name: " + ex.ToString()));
             }
+        }
+
+        private void setSettings(byte[] bytePacket)
+        {
+            this.ucDNPSAv5Settings1.SetAll(bytePacket);
         }
 
         private void handleErrorPacket(byte[] bytePacket)

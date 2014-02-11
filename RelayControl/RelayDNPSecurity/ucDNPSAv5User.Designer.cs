@@ -74,7 +74,7 @@
             // 
             this.buttonAddUser.Location = new System.Drawing.Point(737, 10);
             this.buttonAddUser.Name = "buttonAddUser";
-            this.buttonAddUser.Size = new System.Drawing.Size(96, 45);
+            this.buttonAddUser.Size = new System.Drawing.Size(96, 41);
             this.buttonAddUser.TabIndex = 6;
             this.buttonAddUser.Text = "Add/Overwrite User #";
             this.buttonAddUser.UseVisualStyleBackColor = true;
@@ -82,7 +82,7 @@
             // 
             // textBoxUserName
             // 
-            this.textBoxUserName.Location = new System.Drawing.Point(72, 90);
+            this.textBoxUserName.Location = new System.Drawing.Point(74, 74);
             this.textBoxUserName.Name = "textBoxUserName";
             this.textBoxUserName.Size = new System.Drawing.Size(465, 20);
             this.textBoxUserName.TabIndex = 8;
@@ -91,7 +91,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 93);
+            this.label1.Location = new System.Drawing.Point(5, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 7;
@@ -101,7 +101,7 @@
             // 
             this.buttonDeleteUser.Location = new System.Drawing.Point(737, 61);
             this.buttonDeleteUser.Name = "buttonDeleteUser";
-            this.buttonDeleteUser.Size = new System.Drawing.Size(96, 45);
+            this.buttonDeleteUser.Size = new System.Drawing.Size(96, 33);
             this.buttonDeleteUser.TabIndex = 9;
             this.buttonDeleteUser.Text = "Delete User #";
             this.buttonDeleteUser.UseVisualStyleBackColor = true;
@@ -136,7 +136,7 @@
             this.Controls.Add(this.textBoxUserNumber);
             this.Controls.Add(this.labelUserNumber);
             this.Name = "ucDNPSAv5User";
-            this.Size = new System.Drawing.Size(840, 124);
+            this.Size = new System.Drawing.Size(840, 102);
             this.ResumeLayout(false);
             this.PerformLayout();
 

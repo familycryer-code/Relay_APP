@@ -27,11 +27,12 @@ namespace RelayDNPSecurity
         {
             this.keyBox = new ucKeyValuesInputControl(32, _keyName);
 
-            Point tempPoint = new Point(10, 20);
+            Point tempPoint = new Point(5, 5);
 
             this.keyBox.Location = tempPoint;
 
-            this.groupBoxMain.Controls.Add(this.keyBox);
+            this.Controls.Add(this.keyBox);
+            this.buttonSendKey.Location = new Point(this.keyBox.Location.X + this.keyBox.Width + 5, this.keyBox.Location.Y + 10);
         }
 
         #endregion
