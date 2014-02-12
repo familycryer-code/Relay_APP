@@ -63,6 +63,7 @@ namespace RelayDNPSecurity
         {
             SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
             UInt16 tempInt;
+            byte tempByte;
 
             try
             {
@@ -78,11 +79,45 @@ namespace RelayDNPSecurity
                 if(this.checkBoxSHA1.Checked)
                     sSEA.Data[3] |= 0x02;
 
+                if (this.checkBoxAuthenticationEnabled.Checked)
+                    sSEA.Data[3] |= 0x04;
+
+                tempByte = (byte)this.comboBoxKeyChangeAlogrithm.SelectedIndex;
+                tempByte <<= 3; //Takes up the next 3 bits
+
+                sSEA.Data[3] |= tempByte;
+
                 tempInt = (UInt16)this.numericUpDownReplyTimeout.Value;
                 sSEA.Data[4] = (byte)(tempInt >> 8);
                 sSEA.Data[5] = (byte)tempInt;
-                    
 
+                tempInt = (UInt16)this.numericUpDownSessionKeyInterval.Value;
+                sSEA.Data[6] = (byte)(tempInt >> 8);
+                sSEA.Data[7] = (byte)tempInt;
+
+                tempInt = (UInt16)this.numericUpDownSessionKeyChangeCount.Value;
+                sSEA.Data[8] = (byte)(tempInt >> 8);
+                sSEA.Data[9] = (byte)tempInt;
+
+                tempInt = (UInt16)this.numericUpDownMaxSessionKeyCount.Value;
+                sSEA.Data[10] = (byte)tempInt;
+                sSEA.Data[11] = 0; //dummy spacer
+
+                try
+                {
+                    int i = 12;
+                    foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
+                    {
+                        byte[] tempBytes = sT.GetBytes();
+                        sSEA.Data[i++] = tempBytes[0];
+                        sSEA.Data[i++] = tempBytes[1];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.onError(new Exception("Error getting Security Statistics Values: " + ex.ToString()));
+                    return;
+                }
                 sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
@@ -125,7 +160,14 @@ namespace RelayDNPSecurity
         {
             this.checkBoxAggressiveMode.Checked = true;
             this.checkBoxSHA1.Checked = false;
+            this.checkBoxAuthenticationEnabled.Checked = true;
+
+            this.comboBoxKeyChangeAlogrithm.SelectedIndex = 1;
+
             this.numericUpDownReplyTimeout.Value = 2.0m;
+            this.numericUpDownSessionKeyInterval.Value = 900m;
+            this.numericUpDownSessionKeyChangeCount.Value = 1000m;
+            this.numericUpDownMaxSessionKeyCount.Value = 5m;
 
             foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
             {
@@ -135,32 +177,110 @@ namespace RelayDNPSecurity
 
         internal void SetAll(byte[] bytePacket)
         {
-            int i = 4;
+            int i = 10; //TO DO
             decimal tempM;
+            byte tempByte = 0;
 
-            if ((bytePacket[1] & 0x01) == 0x01)
-                this.checkBoxAggressiveMode.Checked = true;
-            else
-                this.checkBoxAggressiveMode.Checked = false;
-
-            if ((bytePacket[1] & 0x02) == 0x02)
-                this.checkBoxSHA1.Checked = true;
-            else
-                this.checkBoxSHA1.Checked = false;
-
-            tempM = bytePacket[2];
-            tempM *= 256;
-            tempM += bytePacket[3];
-
-            this.numericUpDownReplyTimeout.Value = tempM / 10m;
-
-            foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
+            try
             {
-                byte[] byteArray = new byte[2];
-                byteArray[0] = bytePacket[i++];
-                byteArray[1] = bytePacket[i++];
-                sT.SetBytes(byteArray);
+                if ((bytePacket[1] & 0x01) == 0x01)
+                    this.checkBoxAggressiveMode.Checked = true;
+                else
+                    this.checkBoxAggressiveMode.Checked = false;
+
+                if ((bytePacket[1] & 0x02) == 0x02)
+                    this.checkBoxSHA1.Checked = true;
+                else
+                    this.checkBoxSHA1.Checked = false;
+
+                if ((bytePacket[1] & 0x04) == 0x04)
+                    this.checkBoxAuthenticationEnabled.Checked = true;
+                else
+                    this.checkBoxAuthenticationEnabled.Checked = false;
             }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("Error Setting DNP SAv5 bit Settings: " + ex.ToString()));
+            }
+
+            try
+            {
+                tempByte = (byte)(bytePacket[1] & 0x38);
+                tempByte >>= 3;
+
+                this.comboBoxKeyChangeAlogrithm.SelectedIndex = tempByte;
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception(tempByte.ToString() + " not a valid index value for DNP SAv5 Key Change ALgorithm.  Threw error: " + ex.ToString()));
+            }
+
+
+            try
+            {
+                tempM = bytePacket[2];
+                tempM *= 256;
+                tempM += bytePacket[3];
+
+                this.numericUpDownReplyTimeout.Value = tempM / 10m;
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("DNP SAv5 Error Setting Reply Timeout: " + ex.ToString()));
+            }
+
+            try
+            {
+                tempM = bytePacket[4];
+                tempM *= 256;
+                tempM += bytePacket[5];
+
+                this.numericUpDownSessionKeyInterval.Value = tempM;
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("DNP SAv5 Error Setting Session Key Interval: " + ex.ToString()));
+            }
+
+            try
+            {
+                tempM = bytePacket[6];
+                tempM *= 256;
+                tempM += bytePacket[7];
+
+                this.numericUpDownSessionKeyChangeCount.Value = tempM;
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("DNP SAv5 Error Setting Session Key Change Count: " + ex.ToString()));
+            }
+
+            try
+            {
+                this.numericUpDownMaxSessionKeyCount.Value = bytePacket[8];
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("DNP SAv5 Error Setting Max Session Key Change Count: " + ex.ToString()));
+            }
+
+            //Dummy byte 9 for now
+
+            try
+            {
+                foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
+                {
+                    byte[] byteArray = new byte[2];
+                    byteArray[0] = bytePacket[i++];
+                    byteArray[1] = bytePacket[i++];
+                    sT.SetBytes(byteArray);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("DNP SAv5 Error Setting Security Thresholds: " + ex.ToString()));
+            }
+
         }
     }
 }

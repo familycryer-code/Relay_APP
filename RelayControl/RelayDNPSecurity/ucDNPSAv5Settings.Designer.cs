@@ -37,12 +37,33 @@
             this.buttonRequestSettings = new System.Windows.Forms.Button();
             this.buttonSendSettings = new System.Windows.Forms.Button();
             this.checkBoxAggressiveMode = new System.Windows.Forms.CheckBox();
+            this.numericUpDownSessionKeyInterval = new System.Windows.Forms.NumericUpDown();
+            this.labelSessionKeyInterval = new System.Windows.Forms.Label();
+            this.numericUpDownSessionKeyChangeCount = new System.Windows.Forms.NumericUpDown();
+            this.labelSessionKeyChangeCount = new System.Windows.Forms.Label();
+            this.numericUpDownMaxSessionKeyCount = new System.Windows.Forms.NumericUpDown();
+            this.labelMaxSessionKeyCount = new System.Windows.Forms.Label();
+            this.checkBoxAuthenticationEnabled = new System.Windows.Forms.CheckBox();
+            this.labelKeyChangeAlgorithm = new System.Windows.Forms.Label();
+            this.comboBoxKeyChangeAlogrithm = new System.Windows.Forms.ComboBox();
             this.groupBoxMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownReplyTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxMain
             // 
+            this.groupBoxMain.Controls.Add(this.comboBoxKeyChangeAlogrithm);
+            this.groupBoxMain.Controls.Add(this.labelKeyChangeAlgorithm);
+            this.groupBoxMain.Controls.Add(this.checkBoxAuthenticationEnabled);
+            this.groupBoxMain.Controls.Add(this.numericUpDownMaxSessionKeyCount);
+            this.groupBoxMain.Controls.Add(this.labelMaxSessionKeyCount);
+            this.groupBoxMain.Controls.Add(this.numericUpDownSessionKeyChangeCount);
+            this.groupBoxMain.Controls.Add(this.labelSessionKeyChangeCount);
+            this.groupBoxMain.Controls.Add(this.numericUpDownSessionKeyInterval);
+            this.groupBoxMain.Controls.Add(this.labelSessionKeyInterval);
             this.groupBoxMain.Controls.Add(this.groupBoxSecurityStats);
             this.groupBoxMain.Controls.Add(this.numericUpDownReplyTimeout);
             this.groupBoxMain.Controls.Add(this.labelReplyTimeout);
@@ -75,7 +96,7 @@
             0,
             0,
             65536});
-            this.numericUpDownReplyTimeout.Location = new System.Drawing.Point(119, 60);
+            this.numericUpDownReplyTimeout.Location = new System.Drawing.Point(160, 82);
             this.numericUpDownReplyTimeout.Maximum = new decimal(new int[] {
             120,
             0,
@@ -88,7 +109,7 @@
             65536});
             this.numericUpDownReplyTimeout.Name = "numericUpDownReplyTimeout";
             this.numericUpDownReplyTimeout.Size = new System.Drawing.Size(66, 20);
-            this.numericUpDownReplyTimeout.TabIndex = 6;
+            this.numericUpDownReplyTimeout.TabIndex = 3;
             this.numericUpDownReplyTimeout.Value = new decimal(new int[] {
             2,
             0,
@@ -98,7 +119,7 @@
             // labelReplyTimeout
             // 
             this.labelReplyTimeout.AutoSize = true;
-            this.labelReplyTimeout.Location = new System.Drawing.Point(18, 62);
+            this.labelReplyTimeout.Location = new System.Drawing.Point(18, 84);
             this.labelReplyTimeout.Name = "labelReplyTimeout";
             this.labelReplyTimeout.Size = new System.Drawing.Size(95, 13);
             this.labelReplyTimeout.TabIndex = 5;
@@ -107,10 +128,10 @@
             // checkBoxSHA1
             // 
             this.checkBoxSHA1.AutoSize = true;
-            this.checkBoxSHA1.Location = new System.Drawing.Point(19, 42);
+            this.checkBoxSHA1.Location = new System.Drawing.Point(19, 38);
             this.checkBoxSHA1.Name = "checkBoxSHA1";
             this.checkBoxSHA1.Size = new System.Drawing.Size(99, 17);
-            this.checkBoxSHA1.TabIndex = 4;
+            this.checkBoxSHA1.TabIndex = 1;
             this.checkBoxSHA1.Text = "SHA-1 Enabled";
             this.checkBoxSHA1.UseVisualStyleBackColor = true;
             // 
@@ -154,6 +175,120 @@
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;
             // 
+            // numericUpDownSessionKeyInterval
+            // 
+            this.numericUpDownSessionKeyInterval.Location = new System.Drawing.Point(160, 105);
+            this.numericUpDownSessionKeyInterval.Maximum = new decimal(new int[] {
+            7200,
+            0,
+            0,
+            0});
+            this.numericUpDownSessionKeyInterval.Name = "numericUpDownSessionKeyInterval";
+            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownSessionKeyInterval.TabIndex = 4;
+            this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+            // 
+            // labelSessionKeyInterval
+            // 
+            this.labelSessionKeyInterval.AutoSize = true;
+            this.labelSessionKeyInterval.Location = new System.Drawing.Point(18, 107);
+            this.labelSessionKeyInterval.Name = "labelSessionKeyInterval";
+            this.labelSessionKeyInterval.Size = new System.Drawing.Size(123, 13);
+            this.labelSessionKeyInterval.TabIndex = 8;
+            this.labelSessionKeyInterval.Text = "Session Key Interval (s) :";
+            // 
+            // numericUpDownSessionKeyChangeCount
+            // 
+            this.numericUpDownSessionKeyChangeCount.Location = new System.Drawing.Point(160, 128);
+            this.numericUpDownSessionKeyChangeCount.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownSessionKeyChangeCount.Name = "numericUpDownSessionKeyChangeCount";
+            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
+            this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // labelSessionKeyChangeCount
+            // 
+            this.labelSessionKeyChangeCount.AutoSize = true;
+            this.labelSessionKeyChangeCount.Location = new System.Drawing.Point(18, 130);
+            this.labelSessionKeyChangeCount.Name = "labelSessionKeyChangeCount";
+            this.labelSessionKeyChangeCount.Size = new System.Drawing.Size(139, 13);
+            this.labelSessionKeyChangeCount.TabIndex = 10;
+            this.labelSessionKeyChangeCount.Text = "Session Key Change Count:";
+            // 
+            // numericUpDownMaxSessionKeyCount
+            // 
+            this.numericUpDownMaxSessionKeyCount.Location = new System.Drawing.Point(160, 151);
+            this.numericUpDownMaxSessionKeyCount.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxSessionKeyCount.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxSessionKeyCount.Name = "numericUpDownMaxSessionKeyCount";
+            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownMaxSessionKeyCount.TabIndex = 6;
+            this.numericUpDownMaxSessionKeyCount.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // labelMaxSessionKeyCount
+            // 
+            this.labelMaxSessionKeyCount.AutoSize = true;
+            this.labelMaxSessionKeyCount.Location = new System.Drawing.Point(18, 153);
+            this.labelMaxSessionKeyCount.Name = "labelMaxSessionKeyCount";
+            this.labelMaxSessionKeyCount.Size = new System.Drawing.Size(122, 13);
+            this.labelMaxSessionKeyCount.TabIndex = 12;
+            this.labelMaxSessionKeyCount.Text = "Max Session Key Count:";
+            // 
+            // checkBoxAuthenticationEnabled
+            // 
+            this.checkBoxAuthenticationEnabled.AutoSize = true;
+            this.checkBoxAuthenticationEnabled.Location = new System.Drawing.Point(19, 58);
+            this.checkBoxAuthenticationEnabled.Name = "checkBoxAuthenticationEnabled";
+            this.checkBoxAuthenticationEnabled.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxAuthenticationEnabled.TabIndex = 2;
+            this.checkBoxAuthenticationEnabled.Text = "Authentication Enabled";
+            this.checkBoxAuthenticationEnabled.UseVisualStyleBackColor = true;
+            // 
+            // labelKeyChangeAlgorithm
+            // 
+            this.labelKeyChangeAlgorithm.AutoSize = true;
+            this.labelKeyChangeAlgorithm.Location = new System.Drawing.Point(19, 178);
+            this.labelKeyChangeAlgorithm.Name = "labelKeyChangeAlgorithm";
+            this.labelKeyChangeAlgorithm.Size = new System.Drawing.Size(114, 13);
+            this.labelKeyChangeAlgorithm.TabIndex = 15;
+            this.labelKeyChangeAlgorithm.Text = "Key Change Algorithm:";
+            // 
+            // comboBoxKeyChangeAlogrithm
+            // 
+            this.comboBoxKeyChangeAlogrithm.FormattingEnabled = true;
+            this.comboBoxKeyChangeAlogrithm.Items.AddRange(new object[] {
+            "AES-128/SHA1-HMAC",
+            "AES-256/SHA256-HMAC",
+            "AES-256/AES_GMAC"});
+            this.comboBoxKeyChangeAlogrithm.Location = new System.Drawing.Point(160, 175);
+            this.comboBoxKeyChangeAlogrithm.Name = "comboBoxKeyChangeAlogrithm";
+            this.comboBoxKeyChangeAlogrithm.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxKeyChangeAlogrithm.TabIndex = 7;
+            // 
             // ucDNPSAv5Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -164,6 +299,9 @@
             this.groupBoxMain.ResumeLayout(false);
             this.groupBoxMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownReplyTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -179,5 +317,14 @@
         private System.Windows.Forms.NumericUpDown numericUpDownReplyTimeout;
         private System.Windows.Forms.Label labelReplyTimeout;
         private System.Windows.Forms.GroupBox groupBoxSecurityStats;
+        private System.Windows.Forms.NumericUpDown numericUpDownSessionKeyInterval;
+        private System.Windows.Forms.Label labelSessionKeyInterval;
+        private System.Windows.Forms.NumericUpDown numericUpDownSessionKeyChangeCount;
+        private System.Windows.Forms.Label labelSessionKeyChangeCount;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxSessionKeyCount;
+        private System.Windows.Forms.Label labelMaxSessionKeyCount;
+        private System.Windows.Forms.CheckBox checkBoxAuthenticationEnabled;
+        private System.Windows.Forms.ComboBox comboBoxKeyChangeAlogrithm;
+        private System.Windows.Forms.Label labelKeyChangeAlgorithm;
     }
 }
