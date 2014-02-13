@@ -86,26 +86,27 @@ namespace RelayDNPSecurity
                 tempByte <<= 3; //Takes up the next 3 bits
 
                 sSEA.Data[3] |= tempByte;
-
-                tempInt = (UInt16)this.numericUpDownReplyTimeout.Value;
-                sSEA.Data[4] = (byte)(tempInt >> 8);
+                sSEA.Data[4] = 0;
+                tempInt = (UInt16)(this.numericUpDownReplyTimeout.Value * 10);
+                sSEA.Data[6] = (byte)(tempInt >> 8);
                 sSEA.Data[5] = (byte)tempInt;
 
                 tempInt = (UInt16)this.numericUpDownSessionKeyInterval.Value;
-                sSEA.Data[6] = (byte)(tempInt >> 8);
+                sSEA.Data[8] = (byte)(tempInt >> 8);
                 sSEA.Data[7] = (byte)tempInt;
 
                 tempInt = (UInt16)this.numericUpDownSessionKeyChangeCount.Value;
-                sSEA.Data[8] = (byte)(tempInt >> 8);
+                sSEA.Data[10] = (byte)(tempInt >> 8);
                 sSEA.Data[9] = (byte)tempInt;
 
                 tempInt = (UInt16)this.numericUpDownMaxSessionKeyCount.Value;
-                sSEA.Data[10] = (byte)tempInt;
-                sSEA.Data[11] = 0; //dummy spacer
+                sSEA.Data[11] = (byte)tempInt;
+
+                sSEA.Data[12] = 0; //dummy spacer
 
                 try
                 {
-                    int i = 12;
+                    int i = 13;
                     foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
                     {
                         byte[] tempBytes = sT.GetBytes();
@@ -218,7 +219,7 @@ namespace RelayDNPSecurity
 
             try
             {
-                tempM = bytePacket[2];
+                tempM = bytePacket[4];
                 tempM *= 256;
                 tempM += bytePacket[3];
 
@@ -231,7 +232,7 @@ namespace RelayDNPSecurity
 
             try
             {
-                tempM = bytePacket[4];
+                tempM = bytePacket[6];
                 tempM *= 256;
                 tempM += bytePacket[5];
 
@@ -244,7 +245,7 @@ namespace RelayDNPSecurity
 
             try
             {
-                tempM = bytePacket[6];
+                tempM = bytePacket[8];
                 tempM *= 256;
                 tempM += bytePacket[7];
 
@@ -257,7 +258,7 @@ namespace RelayDNPSecurity
 
             try
             {
-                this.numericUpDownMaxSessionKeyCount.Value = bytePacket[8];
+                this.numericUpDownMaxSessionKeyCount.Value = bytePacket[9];
             }
             catch (Exception ex)
             {
@@ -271,8 +272,8 @@ namespace RelayDNPSecurity
                 foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
                 {
                     byte[] byteArray = new byte[2];
-                    byteArray[0] = bytePacket[i++];
                     byteArray[1] = bytePacket[i++];
+                    byteArray[0] = bytePacket[i++];
                     sT.SetBytes(byteArray);
                 }
             }
