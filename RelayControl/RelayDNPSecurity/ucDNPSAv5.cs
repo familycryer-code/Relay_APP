@@ -113,7 +113,7 @@ namespace RelayDNPSecurity
                         this.remoteOSNameLength -= 35;
                     }
                     this.oSName = workingString;
-
+                    this.ucDNPSAv5OSName1.OSName = this.oSName;
                 }
                 else if (p == 2)
                 {
