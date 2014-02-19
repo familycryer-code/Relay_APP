@@ -29,6 +29,15 @@
         private void InitializeComponent()
         {
             this.groupBoxMain = new System.Windows.Forms.GroupBox();
+            this.comboBoxKeyChangeAlogrithm = new System.Windows.Forms.ComboBox();
+            this.labelKeyChangeAlgorithm = new System.Windows.Forms.Label();
+            this.checkBoxAuthenticationEnabled = new System.Windows.Forms.CheckBox();
+            this.numericUpDownMaxSessionKeyCount = new System.Windows.Forms.NumericUpDown();
+            this.labelMaxSessionKeyCount = new System.Windows.Forms.Label();
+            this.numericUpDownSessionKeyChangeCount = new System.Windows.Forms.NumericUpDown();
+            this.labelSessionKeyChangeCount = new System.Windows.Forms.Label();
+            this.numericUpDownSessionKeyInterval = new System.Windows.Forms.NumericUpDown();
+            this.labelSessionKeyInterval = new System.Windows.Forms.Label();
             this.groupBoxSecurityStats = new System.Windows.Forms.GroupBox();
             this.numericUpDownReplyTimeout = new System.Windows.Forms.NumericUpDown();
             this.labelReplyTimeout = new System.Windows.Forms.Label();
@@ -37,20 +46,11 @@
             this.buttonRequestSettings = new System.Windows.Forms.Button();
             this.buttonSendSettings = new System.Windows.Forms.Button();
             this.checkBoxAggressiveMode = new System.Windows.Forms.CheckBox();
-            this.numericUpDownSessionKeyInterval = new System.Windows.Forms.NumericUpDown();
-            this.labelSessionKeyInterval = new System.Windows.Forms.Label();
-            this.numericUpDownSessionKeyChangeCount = new System.Windows.Forms.NumericUpDown();
-            this.labelSessionKeyChangeCount = new System.Windows.Forms.Label();
-            this.numericUpDownMaxSessionKeyCount = new System.Windows.Forms.NumericUpDown();
-            this.labelMaxSessionKeyCount = new System.Windows.Forms.Label();
-            this.checkBoxAuthenticationEnabled = new System.Windows.Forms.CheckBox();
-            this.labelKeyChangeAlgorithm = new System.Windows.Forms.Label();
-            this.comboBoxKeyChangeAlogrithm = new System.Windows.Forms.ComboBox();
             this.groupBoxMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownReplyTimeout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyInterval)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownReplyTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxMain
@@ -78,6 +78,121 @@
             this.groupBoxMain.TabIndex = 0;
             this.groupBoxMain.TabStop = false;
             this.groupBoxMain.Text = "SAv5 Settings";
+            // 
+            // comboBoxKeyChangeAlogrithm
+            // 
+            this.comboBoxKeyChangeAlogrithm.FormattingEnabled = true;
+            this.comboBoxKeyChangeAlogrithm.Items.AddRange(new object[] {
+            "AES-128/SHA1-HMAC",
+            "AES-256/SHA256-HMAC",
+            "AES-256/AES_GMAC",
+            "REMOTE UPDATE DISABLE"});
+            this.comboBoxKeyChangeAlogrithm.Location = new System.Drawing.Point(160, 175);
+            this.comboBoxKeyChangeAlogrithm.Name = "comboBoxKeyChangeAlogrithm";
+            this.comboBoxKeyChangeAlogrithm.Size = new System.Drawing.Size(149, 21);
+            this.comboBoxKeyChangeAlogrithm.TabIndex = 7;
+            // 
+            // labelKeyChangeAlgorithm
+            // 
+            this.labelKeyChangeAlgorithm.AutoSize = true;
+            this.labelKeyChangeAlgorithm.Location = new System.Drawing.Point(19, 178);
+            this.labelKeyChangeAlgorithm.Name = "labelKeyChangeAlgorithm";
+            this.labelKeyChangeAlgorithm.Size = new System.Drawing.Size(114, 13);
+            this.labelKeyChangeAlgorithm.TabIndex = 15;
+            this.labelKeyChangeAlgorithm.Text = "Key Change Algorithm:";
+            // 
+            // checkBoxAuthenticationEnabled
+            // 
+            this.checkBoxAuthenticationEnabled.AutoSize = true;
+            this.checkBoxAuthenticationEnabled.Location = new System.Drawing.Point(19, 58);
+            this.checkBoxAuthenticationEnabled.Name = "checkBoxAuthenticationEnabled";
+            this.checkBoxAuthenticationEnabled.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxAuthenticationEnabled.TabIndex = 2;
+            this.checkBoxAuthenticationEnabled.Text = "Authentication Enabled";
+            this.checkBoxAuthenticationEnabled.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDownMaxSessionKeyCount
+            // 
+            this.numericUpDownMaxSessionKeyCount.Location = new System.Drawing.Point(160, 151);
+            this.numericUpDownMaxSessionKeyCount.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxSessionKeyCount.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxSessionKeyCount.Name = "numericUpDownMaxSessionKeyCount";
+            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownMaxSessionKeyCount.TabIndex = 6;
+            this.numericUpDownMaxSessionKeyCount.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // labelMaxSessionKeyCount
+            // 
+            this.labelMaxSessionKeyCount.AutoSize = true;
+            this.labelMaxSessionKeyCount.Location = new System.Drawing.Point(18, 153);
+            this.labelMaxSessionKeyCount.Name = "labelMaxSessionKeyCount";
+            this.labelMaxSessionKeyCount.Size = new System.Drawing.Size(122, 13);
+            this.labelMaxSessionKeyCount.TabIndex = 12;
+            this.labelMaxSessionKeyCount.Text = "Max Session Key Count:";
+            // 
+            // numericUpDownSessionKeyChangeCount
+            // 
+            this.numericUpDownSessionKeyChangeCount.Location = new System.Drawing.Point(160, 128);
+            this.numericUpDownSessionKeyChangeCount.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownSessionKeyChangeCount.Name = "numericUpDownSessionKeyChangeCount";
+            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
+            this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // labelSessionKeyChangeCount
+            // 
+            this.labelSessionKeyChangeCount.AutoSize = true;
+            this.labelSessionKeyChangeCount.Location = new System.Drawing.Point(18, 130);
+            this.labelSessionKeyChangeCount.Name = "labelSessionKeyChangeCount";
+            this.labelSessionKeyChangeCount.Size = new System.Drawing.Size(139, 13);
+            this.labelSessionKeyChangeCount.TabIndex = 10;
+            this.labelSessionKeyChangeCount.Text = "Session Key Change Count:";
+            // 
+            // numericUpDownSessionKeyInterval
+            // 
+            this.numericUpDownSessionKeyInterval.Location = new System.Drawing.Point(160, 105);
+            this.numericUpDownSessionKeyInterval.Maximum = new decimal(new int[] {
+            7200,
+            0,
+            0,
+            0});
+            this.numericUpDownSessionKeyInterval.Name = "numericUpDownSessionKeyInterval";
+            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownSessionKeyInterval.TabIndex = 4;
+            this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+            // 
+            // labelSessionKeyInterval
+            // 
+            this.labelSessionKeyInterval.AutoSize = true;
+            this.labelSessionKeyInterval.Location = new System.Drawing.Point(18, 107);
+            this.labelSessionKeyInterval.Name = "labelSessionKeyInterval";
+            this.labelSessionKeyInterval.Size = new System.Drawing.Size(123, 13);
+            this.labelSessionKeyInterval.TabIndex = 8;
+            this.labelSessionKeyInterval.Text = "Session Key Interval (s) :";
             // 
             // groupBoxSecurityStats
             // 
@@ -175,120 +290,6 @@
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;
             // 
-            // numericUpDownSessionKeyInterval
-            // 
-            this.numericUpDownSessionKeyInterval.Location = new System.Drawing.Point(160, 105);
-            this.numericUpDownSessionKeyInterval.Maximum = new decimal(new int[] {
-            7200,
-            0,
-            0,
-            0});
-            this.numericUpDownSessionKeyInterval.Name = "numericUpDownSessionKeyInterval";
-            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(66, 20);
-            this.numericUpDownSessionKeyInterval.TabIndex = 4;
-            this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
-            900,
-            0,
-            0,
-            0});
-            // 
-            // labelSessionKeyInterval
-            // 
-            this.labelSessionKeyInterval.AutoSize = true;
-            this.labelSessionKeyInterval.Location = new System.Drawing.Point(18, 107);
-            this.labelSessionKeyInterval.Name = "labelSessionKeyInterval";
-            this.labelSessionKeyInterval.Size = new System.Drawing.Size(123, 13);
-            this.labelSessionKeyInterval.TabIndex = 8;
-            this.labelSessionKeyInterval.Text = "Session Key Interval (s) :";
-            // 
-            // numericUpDownSessionKeyChangeCount
-            // 
-            this.numericUpDownSessionKeyChangeCount.Location = new System.Drawing.Point(160, 128);
-            this.numericUpDownSessionKeyChangeCount.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numericUpDownSessionKeyChangeCount.Name = "numericUpDownSessionKeyChangeCount";
-            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(66, 20);
-            this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
-            this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // labelSessionKeyChangeCount
-            // 
-            this.labelSessionKeyChangeCount.AutoSize = true;
-            this.labelSessionKeyChangeCount.Location = new System.Drawing.Point(18, 130);
-            this.labelSessionKeyChangeCount.Name = "labelSessionKeyChangeCount";
-            this.labelSessionKeyChangeCount.Size = new System.Drawing.Size(139, 13);
-            this.labelSessionKeyChangeCount.TabIndex = 10;
-            this.labelSessionKeyChangeCount.Text = "Session Key Change Count:";
-            // 
-            // numericUpDownMaxSessionKeyCount
-            // 
-            this.numericUpDownMaxSessionKeyCount.Location = new System.Drawing.Point(160, 151);
-            this.numericUpDownMaxSessionKeyCount.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUpDownMaxSessionKeyCount.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownMaxSessionKeyCount.Name = "numericUpDownMaxSessionKeyCount";
-            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(66, 20);
-            this.numericUpDownMaxSessionKeyCount.TabIndex = 6;
-            this.numericUpDownMaxSessionKeyCount.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // labelMaxSessionKeyCount
-            // 
-            this.labelMaxSessionKeyCount.AutoSize = true;
-            this.labelMaxSessionKeyCount.Location = new System.Drawing.Point(18, 153);
-            this.labelMaxSessionKeyCount.Name = "labelMaxSessionKeyCount";
-            this.labelMaxSessionKeyCount.Size = new System.Drawing.Size(122, 13);
-            this.labelMaxSessionKeyCount.TabIndex = 12;
-            this.labelMaxSessionKeyCount.Text = "Max Session Key Count:";
-            // 
-            // checkBoxAuthenticationEnabled
-            // 
-            this.checkBoxAuthenticationEnabled.AutoSize = true;
-            this.checkBoxAuthenticationEnabled.Location = new System.Drawing.Point(19, 58);
-            this.checkBoxAuthenticationEnabled.Name = "checkBoxAuthenticationEnabled";
-            this.checkBoxAuthenticationEnabled.Size = new System.Drawing.Size(136, 17);
-            this.checkBoxAuthenticationEnabled.TabIndex = 2;
-            this.checkBoxAuthenticationEnabled.Text = "Authentication Enabled";
-            this.checkBoxAuthenticationEnabled.UseVisualStyleBackColor = true;
-            // 
-            // labelKeyChangeAlgorithm
-            // 
-            this.labelKeyChangeAlgorithm.AutoSize = true;
-            this.labelKeyChangeAlgorithm.Location = new System.Drawing.Point(19, 178);
-            this.labelKeyChangeAlgorithm.Name = "labelKeyChangeAlgorithm";
-            this.labelKeyChangeAlgorithm.Size = new System.Drawing.Size(114, 13);
-            this.labelKeyChangeAlgorithm.TabIndex = 15;
-            this.labelKeyChangeAlgorithm.Text = "Key Change Algorithm:";
-            // 
-            // comboBoxKeyChangeAlogrithm
-            // 
-            this.comboBoxKeyChangeAlogrithm.FormattingEnabled = true;
-            this.comboBoxKeyChangeAlogrithm.Items.AddRange(new object[] {
-            "AES-128/SHA1-HMAC",
-            "AES-256/SHA256-HMAC",
-            "AES-256/AES_GMAC"});
-            this.comboBoxKeyChangeAlogrithm.Location = new System.Drawing.Point(160, 175);
-            this.comboBoxKeyChangeAlogrithm.Name = "comboBoxKeyChangeAlogrithm";
-            this.comboBoxKeyChangeAlogrithm.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxKeyChangeAlogrithm.TabIndex = 7;
-            // 
             // ucDNPSAv5Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -298,10 +299,10 @@
             this.Size = new System.Drawing.Size(979, 298);
             this.groupBoxMain.ResumeLayout(false);
             this.groupBoxMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownReplyTimeout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyInterval)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownReplyTimeout)).EndInit();
             this.ResumeLayout(false);
 
         }

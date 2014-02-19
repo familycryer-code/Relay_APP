@@ -38,6 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonDeleteUser = new System.Windows.Forms.Button();
             this.comboBoxUserRole = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelUserNumber
@@ -82,16 +83,16 @@
             // 
             // textBoxUserName
             // 
-            this.textBoxUserName.Location = new System.Drawing.Point(74, 74);
+            this.textBoxUserName.Location = new System.Drawing.Point(72, 87);
             this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(465, 20);
+            this.textBoxUserName.Size = new System.Drawing.Size(371, 20);
             this.textBoxUserName.TabIndex = 8;
             this.textBoxUserName.TextChanged += new System.EventHandler(this.textBoxUserName_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 77);
+            this.label1.Location = new System.Drawing.Point(3, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 7;
@@ -123,10 +124,20 @@
             this.comboBoxUserRole.Size = new System.Drawing.Size(80, 21);
             this.comboBoxUserRole.TabIndex = 10;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 61);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "User Role:";
+            // 
             // ucDNPSAv5User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBoxUserRole);
             this.Controls.Add(this.buttonDeleteUser);
             this.Controls.Add(this.textBoxUserName);
@@ -136,7 +147,7 @@
             this.Controls.Add(this.textBoxUserNumber);
             this.Controls.Add(this.labelUserNumber);
             this.Name = "ucDNPSAv5User";
-            this.Size = new System.Drawing.Size(840, 102);
+            this.Size = new System.Drawing.Size(840, 119);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,5 +164,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonDeleteUser;
         private System.Windows.Forms.ComboBox comboBoxUserRole;
+        private System.Windows.Forms.Label label2;
     }
 }

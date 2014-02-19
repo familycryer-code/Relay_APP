@@ -34,6 +34,7 @@ namespace RelayDNPSecurity
         private static string _TooManyUsers = "User limit reached, please delete user before preceeding";
         private static string _UserDoesNotExist = "User Number Does Not Exist in Relay";
         private static string _InvalidPublicOSKey = "Invalid Public Key.  Has it been generated?";
+        private static string _AuthSymKeyAlgorithmMismatch = "Authority Key Length does not match Key Change Algorithm expected length.  Please Check and Resend";
 
 
         private static byte[] _defaultUserKey = { 0x49, 0xc8, 0x7d, 0x5d, 0x90, 0x21, 0x7a, 0xaf, 0xec, 0x80, 0x74, 0xeb, 0x71, 0x52, 0xfd, 0xb5 };
@@ -156,6 +157,9 @@ namespace RelayDNPSecurity
                     break;
                 case 3:
                     exceptionMessage = _InvalidPublicOSKey;
+                    break;
+                case 4:
+                    exceptionMessage = _AuthSymKeyAlgorithmMismatch;
                     break;
             }
             this.onError(new Exception(exceptionMessage));
