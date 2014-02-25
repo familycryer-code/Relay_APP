@@ -19,6 +19,7 @@ namespace RelayDNPSecurity
         }
 
         private List<DNPSAv5SecurityStatisticItem> statisticPoints = new List<DNPSAv5SecurityStatisticItem>();
+        private static int _packetLength = 98;
 
         private void initializeSecurityStatistics()
         {
@@ -61,7 +62,7 @@ namespace RelayDNPSecurity
 
         private void sendSettings()
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
+            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
             UInt16 tempInt;
             byte tempByte;
 
@@ -136,7 +137,7 @@ namespace RelayDNPSecurity
 
         private void requestSettings()
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
+            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
             try
             {
                 sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;

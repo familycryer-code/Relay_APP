@@ -28,6 +28,7 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		NoSend|Any CPU = NoSend|Any CPU
 		Release|Any CPU = Release|Any CPU
+		ReleaseAtlanta|Any CPU = ReleaseAtlanta|Any CPU
 		ReleaseDigitalGridDNP|Any CPU = ReleaseDigitalGridDNP|Any CPU
 		ReleaseGE|Any CPU = ReleaseGE|Any CPU
 		ReleaseMemphis|Any CPU = ReleaseMemphis|Any CPU
@@ -50,6 +51,8 @@ Global
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = ReleaseDigitalGridDNP|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.ReleaseDigitalGridDNP|Any CPU.Build.0 = ReleaseDigitalGridDNP|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.ReleaseGE|Any CPU.ActiveCfg = ReleaseGE|Any CPU
@@ -80,6 +83,8 @@ Global
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = ReleaseDigitalGridDNP|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.ReleaseDigitalGridDNP|Any CPU.Build.0 = ReleaseDigitalGridDNP|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.ReleaseGE|Any CPU.ActiveCfg = ReleaseGE|Any CPU
@@ -110,6 +115,8 @@ Global
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = ReleaseDigitalGridDNP|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.ReleaseDigitalGridDNP|Any CPU.Build.0 = ReleaseDigitalGridDNP|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.ReleaseGE|Any CPU.ActiveCfg = ReleaseGE|Any CPU
@@ -140,6 +147,8 @@ Global
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.NoSend|Any CPU.Build.0 = Release|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = ReleaseDigitalGridDNP|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.ReleaseDigitalGridDNP|Any CPU.Build.0 = ReleaseDigitalGridDNP|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.ReleaseGE|Any CPU.ActiveCfg = ReleaseGE|Any CPU
@@ -170,6 +179,8 @@ Global
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.NoSend|Any CPU.Build.0 = NoSend|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = ReleaseDigitalGridDNP|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.ReleaseDigitalGridDNP|Any CPU.Build.0 = ReleaseDigitalGridDNP|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.ReleaseGE|Any CPU.ActiveCfg = ReleaseGE|Any CPU
@@ -200,6 +211,8 @@ Global
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.NoSend|Any CPU.Build.0 = Release|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = Release|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.ReleaseDigitalGridDNP|Any CPU.Build.0 = Release|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.ReleaseGE|Any CPU.ActiveCfg = Release|Any CPU
@@ -230,6 +243,8 @@ Global
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.NoSend|Any CPU.Build.0 = Release|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseAtlanta|Any CPU.ActiveCfg = ReleaseAtlanta|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseAtlanta|Any CPU.Build.0 = ReleaseAtlanta|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseDigitalGridDNP|Any CPU.ActiveCfg = Release|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseDigitalGridDNP|Any CPU.Build.0 = Release|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.ReleaseGE|Any CPU.ActiveCfg = Release|Any CPU

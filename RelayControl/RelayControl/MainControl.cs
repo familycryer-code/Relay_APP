@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2013-12-23";
+        private const string revisionDate = "2014-02-25";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -89,7 +89,7 @@ namespace RelayControl
             set
             {
 #if !DEBUG
-                if(value && this.Customer != Customers.ConEdison)
+                if(value && !this.DNPEnabled && this.Customer != Customers.ConEdison)
                 {
                     if(!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
@@ -257,6 +257,13 @@ namespace RelayControl
 #if !SeattleTest
                 this.initializeExternalFileRevisionNumber(); //Get the saved data version
                 this.initializeSaveObject();            //Check the save data to see
+#endif
+
+#if ATLANTA
+                this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
+                this.loadConfigurationToolStripMenuItem.Visible = false;
+                if(this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 #endif
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
@@ -3131,7 +3138,9 @@ namespace RelayControl
                     this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
                     this.RevTooLowErrorAlreadyShown = true;
                 }
+#if !ATLANTA
                 this.ucRelayProgramming1.CheckForUpdate();
+#endif
             }
 
             this.registersReceived = true;

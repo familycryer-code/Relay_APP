@@ -30,6 +30,8 @@ namespace RelayDNPSecurity
         private static int _maxOSNameLength = 70; // Make sure this matches relay
         private static string _OSDefaultName = "DigitalGrid Inc, DNP Relay Serial Number: ";
 
+        private static int _packetLength = 98;
+
         private void textBoxOSName_TextChanged(object sender, EventArgs e)
         {
             int i;
@@ -42,7 +44,7 @@ namespace RelayDNPSecurity
 
         private void buttonSendName_Click(object sender, EventArgs e)
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
+            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
             try
             {
                 int i = 3;
@@ -76,7 +78,7 @@ namespace RelayDNPSecurity
         {
             try
             {
-                SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
+                SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
 
                 sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sSEA.Data[1] = (byte)'o'; // Get OS Name

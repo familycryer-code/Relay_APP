@@ -20,6 +20,7 @@ namespace RelayDNPSecurity
 
         private ucKeyValuesInputControl keyBox;
         private static string _keyName = "Authority Symmetrical Key";
+        private static int _packetLength = 98;
 
         #region Initialization
 
@@ -47,7 +48,7 @@ namespace RelayDNPSecurity
 
         private void sendKeyData()
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
+            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
             byte[] tempArray = null;
             try
             {

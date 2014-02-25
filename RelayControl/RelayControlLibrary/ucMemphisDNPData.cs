@@ -24,6 +24,8 @@ namespace RelayControlLibrary
         private List<string> analogOutputs = new List<string>();
         private uint memphisStage = 5;
 
+        private static int _packetLength = 98;
+
         public uint MemphisStage 
         {
             get { return this.memphisStage; }
@@ -574,7 +576,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(98);
+            SendEventArgs sEA = new SendEventArgs(_packetLength);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode

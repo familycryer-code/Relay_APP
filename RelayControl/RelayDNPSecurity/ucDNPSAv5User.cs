@@ -23,6 +23,7 @@ namespace RelayDNPSecurity
         private static int _userNameLimit = 40;
         private ucKeyValuesInputControl keyBox;
         private static string _keyName = "Symmetrical User Update Key - 16/32 key bytes";
+        private static int _packetLength = 98;
 
         #region Initialization
 
@@ -142,7 +143,7 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("Bad Key Data"));
             }
 
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(98);
+            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
 
             sSEA.Data = this.getUserUpdateKeyPacket();
 

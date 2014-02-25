@@ -23,6 +23,8 @@ namespace RelayControlLibrary
         private List<AnalogPointDefinition> analogInputs = new List<AnalogPointDefinition>();
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
         private byte[] dNPData = new byte[1008]; //252 packet size * 4
+
+        private static int _packetLength = 98;
         #region Initialization
 
         private void initializeComponents()
@@ -327,7 +329,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(98);
+            SendEventArgs sEA = new SendEventArgs(_packetLength);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
@@ -580,7 +582,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(98);
+            SendEventArgs sEA = new SendEventArgs(_packetLength);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
@@ -649,7 +651,7 @@ namespace RelayControlLibrary
             uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
-            SendEventArgs sEA = new SendEventArgs(98);
+            SendEventArgs sEA = new SendEventArgs(_packetLength);
 
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'E';        //For set analog events subcode

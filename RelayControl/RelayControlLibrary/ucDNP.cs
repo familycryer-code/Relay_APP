@@ -30,13 +30,19 @@ namespace RelayControlLibrary
         private Customers customer;
         private List<ucDeadBandSettingsObject> deadBandVariables = new List<ucDeadBandSettingsObject>();
 
+#if ATLANTA
+        private static int _packetLength = 42;
+#else
+        private static int _packetLength = 98;
+#endif
+
         #region Send Functions
 
         private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
             try
             {
-                SendEventArgs sEA = new SendEventArgs(98);
+                SendEventArgs sEA = new SendEventArgs(_packetLength);
                 byte tempByte = 0;
                 UInt32 tempInt32;
 
@@ -126,7 +132,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                SendEventArgs sEA = new SendEventArgs(98);
+                SendEventArgs sEA = new SendEventArgs(_packetLength);
                 uint index = 2;
 
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
@@ -168,7 +174,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                SendEventArgs sEA = new SendEventArgs(98);
+                SendEventArgs sEA = new SendEventArgs(_packetLength);
 
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
