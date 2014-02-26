@@ -187,6 +187,7 @@ namespace RelayControl
                         {
                             case Customers.NonConEd:
                             case Customers.NonConEdGE:
+                            case Customers.DigitalGridDNP:
                                 this.Customer = Customers.NonConEdGE;
                                 break;
                             default:
