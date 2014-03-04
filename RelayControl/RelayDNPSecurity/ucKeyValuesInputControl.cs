@@ -48,6 +48,8 @@ namespace RelayDNPSecurity
                 workingTB.Width = _boxWidth;
                 workingTB.Location = boxLocation;
                 workingTB.TextChanged += textBoxDataChanged;
+                workingTB.GotFocus += textBoxGotFocus;
+                workingTB.Click += textBoxGotFocus;
 
                 this.Controls.Add(workingTB);
             }
@@ -172,7 +174,6 @@ namespace RelayDNPSecurity
 
         private bool dataInBoxesValid()
         {
-            bool returnValue = false;
             TextBox workingTextBox = null;
 
             foreach (object o in this.Controls)
@@ -287,6 +288,20 @@ namespace RelayDNPSecurity
                 //TODO
             }
         }
+
+        private void textBoxGotFocus(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox workingTB = (TextBox)sender;
+                workingTB.SelectAll();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
         #endregion
 
         private TextBox getTextBoxAfter(TextBox tB)

@@ -40,6 +40,7 @@ namespace RelayDNPSecurity
             this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Failed Session Key Changes", 5));
             this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Update Key Changes", 1));
             this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Failed Update Key Changes", 1));
+            //this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Special Statistic", 
 
             Point workingPoint = new Point(5, 15);
 
@@ -103,7 +104,8 @@ namespace RelayDNPSecurity
                 tempInt = (UInt16)this.numericUpDownMaxSessionKeyCount.Value;
                 sSEA.Data[11] = (byte)tempInt;
 
-                sSEA.Data[12] = 0; //dummy spacer
+                tempInt = (UInt16)this.comboBoxMACAlogrithm.SelectedIndex;
+                sSEA.Data[12] = (byte)tempInt;
 
                 try
                 {
@@ -132,10 +134,10 @@ namespace RelayDNPSecurity
 
         private void buttonRequestSettings_Click(object sender, EventArgs e)
         {
-            this.requestSettings();
+            this.RequestSettings();
         }
 
-        private void requestSettings()
+        public void RequestSettings()
         {
             SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
             try
@@ -165,6 +167,7 @@ namespace RelayDNPSecurity
             this.checkBoxAuthenticationEnabled.Checked = true;
 
             this.comboBoxKeyChangeAlogrithm.SelectedIndex = 1;
+            this.comboBoxMACAlogrithm.SelectedIndex = 2;
 
             this.numericUpDownReplyTimeout.Value = 2.0m;
             this.numericUpDownSessionKeyInterval.Value = 900m;
@@ -179,7 +182,7 @@ namespace RelayDNPSecurity
 
         internal void SetAll(byte[] bytePacket)
         {
-            int i = 10; //TO DO
+            int i = 11; //TO DO
             decimal tempM;
             byte tempByte = 0;
 
@@ -266,15 +269,22 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("DNP SAv5 Error Setting Max Session Key Change Count: " + ex.ToString()));
             }
 
-            //Dummy byte 9 for now
+            try
+            {
+                this.comboBoxMACAlogrithm.SelectedIndex = bytePacket[10];
+            }
+            catch (Exception ex)
+            {
+                this.onError(new Exception("DNP SAv5 Error Setting MAC Algorithm: " + ex.ToString()));
+            }
 
             try
             {
                 foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
                 {
                     byte[] byteArray = new byte[2];
-                    byteArray[1] = bytePacket[i++];
                     byteArray[0] = bytePacket[i++];
+                    byteArray[1] = bytePacket[i++];
                     sT.SetBytes(byteArray);
                 }
             }

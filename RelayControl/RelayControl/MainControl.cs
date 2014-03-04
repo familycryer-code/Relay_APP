@@ -1413,7 +1413,14 @@ namespace RelayControl
 
         void ucDNPSAv51_Send(object o, RelayDNPSecurity.SecureSendEventArgs sSEA)
         {
-            this.sendPacket(sSEA.Data);
+            if (sSEA.Data[1] != 'G' && sSEA.Data[1] != 'o' && sSEA.Data[1] != 's' && sSEA.Data[1] != 'N')
+            {
+                this.sendPacket(sSEA.Data);
+                this.parametersLoaded = true;
+                this.requestAllData();
+            }
+            else
+                this.sendPacket(sSEA.Data);
         }
 
         private Point PanelLocation = new Point(300, 12);
@@ -5260,10 +5267,6 @@ namespace RelayControl
         {
             string errorMessage = "None";
 
-            //TEST
-            if (bytePacket[0] == 0x17 && bytePacket[2] == 0)
-                bytePacket[2] = 1;
-            ///////
             try
             {
                 errorMessage = "Error Checking if Port is open";
@@ -7078,6 +7081,10 @@ namespace RelayControl
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.tabControlMain.SelectedTab == this.tabPageDNPSecureAuth)
+            {
+                this.ucDNPSAv51.RequestAllData();
+            }
             if (this.tabControlMain.SelectedTab != this.tabPageArcFault)
             {
                 this.arcFaultEnableMonitoring(false);

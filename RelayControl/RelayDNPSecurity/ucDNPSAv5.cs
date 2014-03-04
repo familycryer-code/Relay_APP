@@ -46,6 +46,13 @@ namespace RelayDNPSecurity
 
         private int serialNumber = 0;
 
+        public void RequestAllData()
+        {
+            this.requestLoadedUsers();
+            this.ucDNPSAv5OSName1.RequestName();
+            this.ucDNPSAv5Settings1.RequestSettings();
+        }
+
         private void intializeComponentEvents()
         {
             this.ucDNPSAv5User1.Send += DNPSAv5_Send;
