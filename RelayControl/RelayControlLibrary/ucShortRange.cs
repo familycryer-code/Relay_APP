@@ -26,6 +26,10 @@ namespace RelayControlLibrary
 
         private List<ucShortRangeFilterTableItem> filterTableItems = new List<ucShortRangeFilterTableItem>(16);
         private List<ucShortRangeTransmitTableItem> transmitTableItems = new List<ucShortRangeTransmitTableItem>(10);
+        private const int _transmitThreshold = 30;
+        private const int _transmitThresholdLow = 27;
+        private const int _transmitThresholdHigh = 33;
+
 
         private void generalInitialize()
         {
@@ -90,7 +94,7 @@ namespace RelayControlLibrary
             return;
         }
 
-        private void resetThresholdTo70()
+        private void resetThresholdTo30()
         {
             Int32 currentThreshold = 0;
             try
@@ -108,21 +112,21 @@ namespace RelayControlLibrary
             {
                 UInt16 tempCount = 0;
 
-                if (currentThreshold <= 67 || currentThreshold >= 73)
+                if (currentThreshold < _transmitThresholdLow || currentThreshold > _transmitThresholdHigh)
                 {
-                    Int32 temp = currentThreshold - 70;
+                    Int32 temp = currentThreshold - _transmitThreshold;
 
                     if (temp < -10)
                     {
                         currentThreshold += 10;
                         this.transmitThresholdChange_Click(this.buttonPlus10, new EventArgs());
                     }
-                    else if (temp < -3)
+                    else if (temp <= -3)
                     {
                         currentThreshold += 3;
                         this.transmitThresholdChange_Click(this.buttonPlus3, new EventArgs());
                     }
-                    else if (temp < 3)
+                    else if (temp <= 3)
                     {
                         currentThreshold -= 3;
                         this.transmitThresholdChange_Click(this.buttonMinus3, new EventArgs());
@@ -194,7 +198,7 @@ namespace RelayControlLibrary
                 }
                 this.textBoxTransmitAboveSS.Text = bytePacket[30].ToString();
                 if (this.resetThreshold)
-                    this.resetThresholdTo70();
+                    this.resetThresholdTo30();
                 foreach (ucShortRangeFilterTableItem item in this.filterTableItems)
                 {
                     item.TransmitStrength = bytePacket[30];
