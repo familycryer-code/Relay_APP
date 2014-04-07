@@ -16,6 +16,7 @@ namespace RelayControlLibrary
             InitializeComponent();
             this.initializeOutgoingCommandList();
             this.initializeIncomingCommandList();
+            this.testInterruptValues = new ucGeneralCommandTestValues(16, new Size(this.Width - 10, this.Height - this.labelIncomingCommandName.Location.Y - this.labelIncomingCommandName.Height - 10));
         }
 
         public delegate void SendDelegate(object o, SendEventArgs sEA);
@@ -23,6 +24,8 @@ namespace RelayControlLibrary
 
         private List<OutgoingCommand> OutgoingCommands = new List<OutgoingCommand>();
         private List<IncommingCommand> IncomingCommands = new List<IncommingCommand>();
+
+        private ucGeneralCommandTestValues testInterruptValues;
 
         private void initializeOutgoingCommandList()
         {
@@ -34,6 +37,7 @@ namespace RelayControlLibrary
             this.OutgoingCommands.Add(new OutgoingCommand(5, "Don't Charge Battery", new byte[0]));
             this.OutgoingCommands.Add(new OutgoingCommand(6, "Get Clock Data", new byte[0]));
             this.OutgoingCommands.Add(new OutgoingCommand(7, "Set Backup Clock", new byte[4], new OutgoingCommandFunctionDelegate(this.GetTime)));
+            this.OutgoingCommands.Add(new OutgoingCommand(8, "Get Math Time", new byte[0]));
 
             foreach (OutgoingCommand oC in this.OutgoingCommands)
             {
@@ -47,6 +51,8 @@ namespace RelayControlLibrary
         {
             this.IncomingCommands.Add(new IncommingCommand(0, "Hand Shake", new IncommingCommandFunctionDelegate(this.incommingCommandError)));
             this.IncomingCommands.Add(new IncommingCommand(1, "Request Clock Time", new IncommingCommandFunctionDelegate(this.incommingCommandClockTime)));
+            this.IncomingCommands.Add(new IncommingCommand(2, "Test Interrupt Times", new IncommingCommandFunctionDelegate(this.handleTestInterruptTimes)));
+            this.IncomingCommands.Add(new IncommingCommand(3, "Math Time", new IncommingCommandFunctionDelegate(this.incomingCommandSingleData)));
         }
 
         private void incommingCommandError(byte[] b)
@@ -67,6 +73,35 @@ namespace RelayControlLibrary
 
             eBT.BinaryTime = temp;
             this.textBoxReturnValue.Text = eBT.SystemTime.ToString();
+        }
+
+        private void handleTestInterruptTimes(byte[] b)
+        {
+
+            if (!this.groupBoxGeneralCommand.Controls.Contains(this.testInterruptValues))
+            {
+                this.testInterruptValues.Location = new Point(this.labelIncomingCommandName.Location.X, this.labelIncomingCommandName.Location.Y + this.labelIncomingCommandName.Height + 5);
+                this.testInterruptValues.Size = new Size(this.Width - 10, this.Height - this.labelIncomingCommandName.Location.Y - this.labelIncomingCommandName.Height - 10);
+                this.groupBoxGeneralCommand.Controls.Add(this.testInterruptValues);
+            }
+
+            byte[] c = new byte[b.Length-2];
+
+            System.Buffer.BlockCopy(b, 2, c, 0, c.Length);
+
+            this.testInterruptValues.SetValues(c);
+ 
+        }
+
+        private void incomingCommandSingleData(byte[] b)
+        {
+            uint temp;
+            temp = b[2];
+            temp <<= 8;
+            temp += b[3];
+
+            this.labelIncomingCommandName.Text = "Math Time";
+            this.textBoxReturnValue.Text = temp.ToString();
         }
 
         private byte[] GetTime()
@@ -204,6 +239,7 @@ namespace RelayControlLibrary
             this.textBoxReturnValue.Width = newWidth;
         }
         #endregion
+
 
     }
 

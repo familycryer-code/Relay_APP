@@ -226,6 +226,12 @@
     <Compile Include="ucCSVConverter.Designer.cs">
       <DependentUpon>ucCSVConverter.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucGeneralCommandTestValues.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucGeneralCommandTestValues.Designer.cs">
+      <DependentUpon>ucGeneralCommandTestValues.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucRelayProgramming.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -412,6 +418,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucGeneralCommandHandler.resx">
       <DependentUpon>ucGeneralCommandHandler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucGeneralCommandTestValues.resx">
+      <DependentUpon>ucGeneralCommandTestValues.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucManualCalibration.resx">
       <SubType>Designer</SubType>

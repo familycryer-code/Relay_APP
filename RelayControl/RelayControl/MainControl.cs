@@ -158,7 +158,6 @@ namespace RelayControl
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
                         }
                     }
-                    this.dNPDigitalGridData.Show();
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
@@ -5759,8 +5758,6 @@ namespace RelayControl
 
             if (this.everyOtherMonitor)
             {
-                this.sendTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-
                 if (!this.phasorReceived)
                 {
                     if (this.missedMonitoringCount == 2)

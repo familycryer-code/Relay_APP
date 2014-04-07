@@ -95,6 +95,7 @@ namespace RelayControl
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -211,12 +212,11 @@ namespace RelayControl
             this.tabPageDNPData = new System.Windows.Forms.TabPage();
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
+            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -579,9 +579,9 @@ namespace RelayControl
             // 
             // ucGeneralCommandHandler1
             // 
-            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 338);
+            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 204);
             this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
-            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 111);
+            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 245);
             this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
             // groupBoxTimeConvert
@@ -841,6 +841,13 @@ namespace RelayControl
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -2218,6 +2225,14 @@ namespace RelayControl
             this.tabPageDNPSecureAuth.Text = "DNP SAv5";
             this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
             // 
+            // ucDNPSAv51
+            // 
+            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
+            this.ucDNPSAv51.Name = "ucDNPSAv51";
+            this.ucDNPSAv51.SerialNumber = 0;
+            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
+            this.ucDNPSAv51.TabIndex = 0;
+            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 1000;
@@ -2231,24 +2246,10 @@ namespace RelayControl
             // 
             this.timerFindRelayTimeout.Interval = 500;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // ucDNPSAv51
-            // 
-            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
-            this.ucDNPSAv51.Name = "ucDNPSAv51";
-            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
-            this.ucDNPSAv51.TabIndex = 0;
             // 
             // MainControl
             // 

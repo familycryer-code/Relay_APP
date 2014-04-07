@@ -46,14 +46,14 @@
             this.groupBoxGeneralCommand.Controls.Add(this.comboBoxOutgoingCommands);
             this.groupBoxGeneralCommand.Location = new System.Drawing.Point(3, 3);
             this.groupBoxGeneralCommand.Name = "groupBoxGeneralCommand";
-            this.groupBoxGeneralCommand.Size = new System.Drawing.Size(420, 102);
+            this.groupBoxGeneralCommand.Size = new System.Drawing.Size(420, 208);
             this.groupBoxGeneralCommand.TabIndex = 0;
             this.groupBoxGeneralCommand.TabStop = false;
             this.groupBoxGeneralCommand.Text = "General Command";
             // 
             // textBoxReturnValue
             // 
-            this.textBoxReturnValue.Location = new System.Drawing.Point(49, 71);
+            this.textBoxReturnValue.Location = new System.Drawing.Point(49, 48);
             this.textBoxReturnValue.Name = "textBoxReturnValue";
             this.textBoxReturnValue.ReadOnly = true;
             this.textBoxReturnValue.Size = new System.Drawing.Size(365, 20);
@@ -62,7 +62,7 @@
             // labelIncomingCommandName
             // 
             this.labelIncomingCommandName.AutoSize = true;
-            this.labelIncomingCommandName.Location = new System.Drawing.Point(7, 74);
+            this.labelIncomingCommandName.Location = new System.Drawing.Point(7, 51);
             this.labelIncomingCommandName.Name = "labelIncomingCommandName";
             this.labelIncomingCommandName.Size = new System.Drawing.Size(36, 13);
             this.labelIncomingCommandName.TabIndex = 3;
@@ -71,21 +71,21 @@
             // 
             // buttonRepeatedSend
             // 
-            this.buttonRepeatedSend.Location = new System.Drawing.Point(321, 46);
+            this.buttonRepeatedSend.Location = new System.Drawing.Point(321, 19);
             this.buttonRepeatedSend.Name = "buttonRepeatedSend";
             this.buttonRepeatedSend.Size = new System.Drawing.Size(93, 23);
             this.buttonRepeatedSend.TabIndex = 2;
-            this.buttonRepeatedSend.Text = "Repeated Send";
+            this.buttonRepeatedSend.Text = "Repeated";
             this.buttonRepeatedSend.UseVisualStyleBackColor = true;
             this.buttonRepeatedSend.Click += new System.EventHandler(this.buttonRepeatedSend_Click);
             // 
             // buttonSendOnce
             // 
-            this.buttonSendOnce.Location = new System.Drawing.Point(321, 17);
+            this.buttonSendOnce.Location = new System.Drawing.Point(256, 19);
             this.buttonSendOnce.Name = "buttonSendOnce";
-            this.buttonSendOnce.Size = new System.Drawing.Size(93, 23);
+            this.buttonSendOnce.Size = new System.Drawing.Size(59, 23);
             this.buttonSendOnce.TabIndex = 1;
-            this.buttonSendOnce.Text = "Send Once";
+            this.buttonSendOnce.Text = "Once";
             this.buttonSendOnce.UseVisualStyleBackColor = true;
             this.buttonSendOnce.Click += new System.EventHandler(this.buttonSendOnce_Click);
             // 
@@ -94,7 +94,7 @@
             this.comboBoxOutgoingCommands.FormattingEnabled = true;
             this.comboBoxOutgoingCommands.Location = new System.Drawing.Point(6, 19);
             this.comboBoxOutgoingCommands.Name = "comboBoxOutgoingCommands";
-            this.comboBoxOutgoingCommands.Size = new System.Drawing.Size(309, 21);
+            this.comboBoxOutgoingCommands.Size = new System.Drawing.Size(244, 21);
             this.comboBoxOutgoingCommands.TabIndex = 0;
             // 
             // ucGeneralCommandHandler
@@ -103,7 +103,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxGeneralCommand);
             this.Name = "ucGeneralCommandHandler";
-            this.Size = new System.Drawing.Size(426, 111);
+            this.Size = new System.Drawing.Size(426, 215);
             this.groupBoxGeneralCommand.ResumeLayout(false);
             this.groupBoxGeneralCommand.PerformLayout();
             this.ResumeLayout(false);
