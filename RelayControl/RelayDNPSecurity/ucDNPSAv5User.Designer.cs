@@ -38,13 +38,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonDeleteUser = new System.Windows.Forms.Button();
             this.comboBoxUserRole = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.groupBoxUserControl = new System.Windows.Forms.GroupBox();
+            this.groupBoxUserControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelUserNumber
             // 
             this.labelUserNumber.AutoSize = true;
-            this.labelUserNumber.Location = new System.Drawing.Point(3, 10);
+            this.labelUserNumber.Location = new System.Drawing.Point(29, 16);
             this.labelUserNumber.Name = "labelUserNumber";
             this.labelUserNumber.Size = new System.Drawing.Size(52, 13);
             this.labelUserNumber.TabIndex = 0;
@@ -52,7 +53,7 @@
             // 
             // textBoxUserNumber
             // 
-            this.textBoxUserNumber.Location = new System.Drawing.Point(61, 7);
+            this.textBoxUserNumber.Location = new System.Drawing.Point(87, 13);
             this.textBoxUserNumber.Name = "textBoxUserNumber";
             this.textBoxUserNumber.Size = new System.Drawing.Size(80, 20);
             this.textBoxUserNumber.TabIndex = 1;
@@ -60,7 +61,7 @@
             // labelUserRole
             // 
             this.labelUserRole.AutoSize = true;
-            this.labelUserRole.Location = new System.Drawing.Point(3, 38);
+            this.labelUserRole.Location = new System.Drawing.Point(29, 44);
             this.labelUserRole.Name = "labelUserRole";
             this.labelUserRole.Size = new System.Drawing.Size(57, 13);
             this.labelUserRole.TabIndex = 2;
@@ -73,7 +74,7 @@
             // 
             // buttonAddUser
             // 
-            this.buttonAddUser.Location = new System.Drawing.Point(737, 10);
+            this.buttonAddUser.Location = new System.Drawing.Point(763, 16);
             this.buttonAddUser.Name = "buttonAddUser";
             this.buttonAddUser.Size = new System.Drawing.Size(96, 41);
             this.buttonAddUser.TabIndex = 6;
@@ -83,7 +84,7 @@
             // 
             // textBoxUserName
             // 
-            this.textBoxUserName.Location = new System.Drawing.Point(72, 87);
+            this.textBoxUserName.Location = new System.Drawing.Point(98, 93);
             this.textBoxUserName.Name = "textBoxUserName";
             this.textBoxUserName.Size = new System.Drawing.Size(371, 20);
             this.textBoxUserName.TabIndex = 8;
@@ -92,7 +93,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 90);
+            this.label1.Location = new System.Drawing.Point(29, 96);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 7;
@@ -100,7 +101,7 @@
             // 
             // buttonDeleteUser
             // 
-            this.buttonDeleteUser.Location = new System.Drawing.Point(737, 61);
+            this.buttonDeleteUser.Location = new System.Drawing.Point(763, 67);
             this.buttonDeleteUser.Name = "buttonDeleteUser";
             this.buttonDeleteUser.Size = new System.Drawing.Size(96, 33);
             this.buttonDeleteUser.TabIndex = 9;
@@ -119,37 +120,38 @@
             "SECADM",
             "SECAUD",
             "RBACMNT"});
-            this.comboBoxUserRole.Location = new System.Drawing.Point(61, 33);
+            this.comboBoxUserRole.Location = new System.Drawing.Point(87, 39);
             this.comboBoxUserRole.Name = "comboBoxUserRole";
             this.comboBoxUserRole.Size = new System.Drawing.Size(80, 21);
             this.comboBoxUserRole.TabIndex = 10;
             // 
-            // label2
+            // groupBoxUserControl
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 61);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "User Role:";
+            this.groupBoxUserControl.Controls.Add(this.labelUserNumber);
+            this.groupBoxUserControl.Controls.Add(this.textBoxUserNumber);
+            this.groupBoxUserControl.Controls.Add(this.comboBoxUserRole);
+            this.groupBoxUserControl.Controls.Add(this.labelUserRole);
+            this.groupBoxUserControl.Controls.Add(this.buttonDeleteUser);
+            this.groupBoxUserControl.Controls.Add(this.buttonAddUser);
+            this.groupBoxUserControl.Controls.Add(this.textBoxUserName);
+            this.groupBoxUserControl.Controls.Add(this.label1);
+            this.groupBoxUserControl.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxUserControl.Name = "groupBoxUserControl";
+            this.groupBoxUserControl.Size = new System.Drawing.Size(865, 120);
+            this.groupBoxUserControl.TabIndex = 11;
+            this.groupBoxUserControl.TabStop = false;
+            this.groupBoxUserControl.Text = "User Control";
             // 
             // ucDNPSAv5User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBoxUserRole);
-            this.Controls.Add(this.buttonDeleteUser);
-            this.Controls.Add(this.textBoxUserName);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.buttonAddUser);
-            this.Controls.Add(this.labelUserRole);
-            this.Controls.Add(this.textBoxUserNumber);
-            this.Controls.Add(this.labelUserNumber);
+            this.Controls.Add(this.groupBoxUserControl);
             this.Name = "ucDNPSAv5User";
-            this.Size = new System.Drawing.Size(840, 119);
+            this.Size = new System.Drawing.Size(872, 128);
+            this.groupBoxUserControl.ResumeLayout(false);
+            this.groupBoxUserControl.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -164,6 +166,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonDeleteUser;
         private System.Windows.Forms.ComboBox comboBoxUserRole;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBoxUserControl;
     }
 }

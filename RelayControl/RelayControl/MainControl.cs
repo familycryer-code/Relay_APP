@@ -134,6 +134,7 @@ namespace RelayControl
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                         this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                     }
+
                     if (this.customer != Customers.Memphis)
                     {
                         if (this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
@@ -150,6 +151,12 @@ namespace RelayControl
                             this.dNPDigitalGridData.Send += new ucDNPDigitalGridData.DigitalGridSendEventHandler(ucMemphisDNPData1_Send);
 
                         }
+                        this.dNPDigitalGridData.Show();
+
+                        if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        {
+                            this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                        }
                     }
                     this.dNPDigitalGridData.Show();
                     this.dNPEnabledSavedVal = value;
@@ -158,6 +165,8 @@ namespace RelayControl
                 }
                 else
                 {
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageDNP);
@@ -431,7 +440,7 @@ namespace RelayControl
                 this.groupBoxVaultMonitoringCommands.Text = "Monitoring Commands";
                 this.enableAllToolStripMenuItem.Visible = false;
                 this.ArcFaultEnabled = false;
-#else               
+#else              
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
                 this.ucCalibration1.Visible = false;

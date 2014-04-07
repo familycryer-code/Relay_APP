@@ -17,6 +17,10 @@ namespace RelayDNPSecurity
             InitializeComponent();
 
             this.intializeComponentEvents();
+
+            #if !DEBUG
+            this.buttonLoadDefaultUser.Visible = false;
+            #endif
         }
 
         public int SerialNumber

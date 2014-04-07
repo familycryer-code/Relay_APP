@@ -38,7 +38,7 @@ namespace RelayDNPSecurity
 
             this.keyBox.Location = tempPoint;
 
-            this.Controls.Add(this.keyBox);
+            this.groupBoxUserControl.Controls.Add(this.keyBox);
         }
 
         #endregion

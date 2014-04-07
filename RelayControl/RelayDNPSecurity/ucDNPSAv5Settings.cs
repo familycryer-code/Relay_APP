@@ -170,8 +170,8 @@ namespace RelayDNPSecurity
             this.comboBoxMACAlogrithm.SelectedIndex = 2;
 
             this.numericUpDownReplyTimeout.Value = 2.0m;
-            this.numericUpDownSessionKeyInterval.Value = 900m;
-            this.numericUpDownSessionKeyChangeCount.Value = 1000m;
+            this.numericUpDownSessionKeyInterval.Value = 1800m;
+            this.numericUpDownSessionKeyChangeCount.Value = 4000m;
             this.numericUpDownMaxSessionKeyCount.Value = 5m;
 
             foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
