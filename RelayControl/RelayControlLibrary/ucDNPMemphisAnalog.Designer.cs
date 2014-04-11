@@ -57,9 +57,10 @@ namespace RelayControlLibrary
             this.textBoxPointValue.Location = new System.Drawing.Point(44, 0);
             this.textBoxPointValue.Name = "textBoxPointValue";
             this.textBoxPointValue.ReadOnly = true;
-            this.textBoxPointValue.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.textBoxPointValue.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.textBoxPointValue.Size = new System.Drawing.Size(100, 20);
             this.textBoxPointValue.TabIndex = 2;
+            this.textBoxPointValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // ucDNPMemphisAnalog
             // 
