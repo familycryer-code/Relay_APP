@@ -111,8 +111,6 @@ namespace RelayDNPSecurity
             return returnArray;
         }
 
-
-
         public bool KeyDataValid()
         {
             if (!this.properNumberOfBoxesFilled())
@@ -278,6 +276,12 @@ namespace RelayDNPSecurity
                     tempBox.Focus();
                     tempBox.SelectAll();
                 }
+                else if (workingString.Length == 0)
+                {
+                    TextBox tempBox = this.getTextBoxBefore(workingTB);
+                    tempBox.Focus();
+                    tempBox.SelectAll();
+                }
                 else if (workingString.Length > 2)
                 {
                     workingTB.Text = workingString.Substring(0, 2);
@@ -339,6 +343,53 @@ namespace RelayDNPSecurity
                         catch
                         {
                             // Last TextBox
+                            returnBox = tB;
+                        }
+                    }
+                }
+            }
+
+            if (returnBox != null)
+                return returnBox;
+            else
+                throw new Exception("Error getting Next Text Box in Key Values");
+        }
+
+        private TextBox getTextBoxBefore(TextBox tB)
+        {
+            TextBox returnBox = null;
+
+            if (this.Controls.Count > 2) //2 is a guess, is Controls Empty when we initialize this?
+            {
+                if (tB == null)
+                {
+                    return (TextBox)this.Controls[0];
+                }
+                else
+                {
+                    foreach (object o in this.Controls)
+                    {
+                        TextBox workingTB = null;
+                        try
+                        {
+                            workingTB = (TextBox)o;
+                        }
+                        catch
+                        {
+                            throw new Exception("Not in a Key Value TextBox");
+                        }
+
+                        try
+                        {
+                            if (workingTB == tB)
+                            {
+                                returnBox = (TextBox)this.Controls[this.Controls.IndexOf(tB) - 1];
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            // First TextBox
                             returnBox = tB;
                         }
                     }
