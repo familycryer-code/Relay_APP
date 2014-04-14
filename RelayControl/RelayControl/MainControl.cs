@@ -129,6 +129,9 @@ namespace RelayControl
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
 #if !WATERBUG
+#if !DEBUG
+                    this.TransmitterEnabled = false;
+#endif
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);

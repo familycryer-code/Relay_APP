@@ -114,15 +114,16 @@ namespace RelayDNPSecurity
                 if (p == 1)
                 {
                     this.remoteOSNameLength = bytePacket[1];
-                    if (this.remoteOSNameLength < 35)
+                    //TEST this will need to be cleaned up, name comes all in one packet now
+
+                    if (this.remoteOSNameLength <= 70)
                     {
                         workingString = Encoding.ASCII.GetString(bytePacket, 2, this.remoteOSNameLength);
                         this.remoteOSNameLength = 0;
                     }
                     else
                     {
-                        workingString = Encoding.ASCII.GetString(bytePacket, 2, 35);
-                        this.remoteOSNameLength -= 35;
+                        workingString = Encoding.ASCII.GetString(bytePacket, 2, 70);
                     }
                     this.oSName = workingString;
                     this.ucDNPSAv5OSName1.OSName = this.oSName;
