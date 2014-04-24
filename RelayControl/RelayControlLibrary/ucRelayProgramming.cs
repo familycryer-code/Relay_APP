@@ -40,8 +40,8 @@ namespace RelayControlLibrary
         private UInt32 relayCodeRevisionNUmber = 99999999;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
-        private UInt32 masterCodeRevisionNumber = 140414;
-        private UInt32 relayCodeRevisionNUmber = 20140409;
+        private UInt32 masterCodeRevisionNumber = 140422;
+        private UInt32 relayCodeRevisionNUmber = 20140424;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -108,6 +108,7 @@ namespace RelayControlLibrary
             set
             {
                 this.dNPRelay = value;
+                
                 this.currentRelayLog.DNPRelay = value;
             }
         }
@@ -1927,7 +1928,7 @@ namespace RelayControlLibrary
                 this.sendRelayReset();
                 this.enableButtons(false);
 
-                if (this.autoLoad)
+                if (this.autoLoad && this.DNPRelay == false)
                     this.masterCode.WithParameters = true;
                 else
                     this.masterCode.WithParameters = false;
