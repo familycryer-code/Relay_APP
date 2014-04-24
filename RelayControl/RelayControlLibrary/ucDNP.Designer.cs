@@ -290,7 +290,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownDestinationAddress.Location = new System.Drawing.Point(144, 200);
             this.numericUpDownDestinationAddress.Maximum = new decimal(new int[] {
-            65535,
+            65519,
             0,
             0,
             0});
@@ -321,7 +321,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownSourceAddress.Location = new System.Drawing.Point(144, 169);
             this.numericUpDownSourceAddress.Maximum = new decimal(new int[] {
-            65535,
+            65519,
             0,
             0,
             0});
