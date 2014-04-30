@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-04-24";
+        private const string revisionDate = "2014-04-27";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -129,9 +129,6 @@ namespace RelayControl
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
 #if !WATERBUG
-#if !DEBUG
-                    this.TransmitterEnabled = false;
-#endif
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
