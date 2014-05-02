@@ -86,7 +86,7 @@ namespace RelayControlLibrary
         public event SendPacketDelegate Send;
 
         private bool resetThreshold = false;
-        public void ResetThresholdTo70()
+        public void ResetThreshold()
         {
             
             this.resetThreshold = true;

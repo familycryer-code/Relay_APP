@@ -129,9 +129,6 @@ namespace RelayControl
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
 #if !WATERBUG
-#if !DEBUG
-                    this.TransmitterEnabled = false;
-#endif
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
@@ -1257,14 +1254,11 @@ namespace RelayControl
                     this.quietMode = false;
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     this.pauseMonitoring = false;
-                    this.ucShortRange1.ResetThresholdTo70();
+                    this.ucShortRange1.ResetThreshold();
                     this.requestAllData();
-                    //this.requestRelayRevision();
-                    //this.parametersFinishedLoading();
                     this.enableAll(true);
                     this.timerRegisterPolling.Start();
                     this.allEnabled = true;
-
                     break;
                 case RelayPorgrammingSendCommands.SaveSettings:
                     this.ucSafeService1.LoadingNewCode = true;

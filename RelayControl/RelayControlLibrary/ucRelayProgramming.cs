@@ -161,6 +161,7 @@ namespace RelayControlLibrary
                         this.startMasterProgramming();
                         break;
                     case RelayProgrammingStates.ReprogramSuccess:
+                        this.timerTimeout.Stop();
                         this.State = RelayProgrammingStates.RequestAll;
                         this.requestAll();
                         break;
@@ -934,6 +935,7 @@ namespace RelayControlLibrary
                         this.programmingForm.Maximum = this.masterCode.NumberOfCodeBlocks * 2;
                         this.programmingForm.CurrentTask = "Loading Master Code";
                         this.writeLineToTraceFile("Loading Master Code");
+                        this.timerTimeout.Start();
                     }
                     else if (this.reprogramFPGA)
                     {
@@ -944,6 +946,7 @@ namespace RelayControlLibrary
                         this.programmingForm.Maximum = 96;
                         this.programmingForm.CurrentTask = "Loading FPGA";
                         this.writeLineToTraceFile("Loading FPGA");
+                        this.timerTimeout.Start();
                     }
                     else
                         this.allReprogramingDone();
@@ -987,6 +990,7 @@ namespace RelayControlLibrary
                         this.programmingForm.CurrentTask = "Loading Relay Code";
                         this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
                         this.State = RelayProgrammingStates.WaitingForBootRelay;
+                        this.timerTimeout.Start();
                     }
                     if (this.reprogramFPGA)
                     {
@@ -997,6 +1001,7 @@ namespace RelayControlLibrary
                         this.writeLineToTraceFile("Loading FPGA");
                         this.programmingForm.Maximum = 96;
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                        this.timerTimeout.Start();
                     }
                     else
                     {
@@ -1022,6 +1027,7 @@ namespace RelayControlLibrary
                         this.writeLineToTraceFile("Loading Relay Code");
                         this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
                         this.State = RelayProgrammingStates.WaitingForBootRelay;
+                        this.timerTimeout.Start();
                     }
                     else if (this.reprogramFPGA)
                     {
@@ -1032,6 +1038,7 @@ namespace RelayControlLibrary
                         this.writeLineToTraceFile("Loading FPGA");
                         this.programmingForm.Maximum = 96;
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                        this.timerTimeout.Start();
                     }
                     else
                     {
@@ -1052,7 +1059,12 @@ namespace RelayControlLibrary
         {
             this.writeLineToTraceFile("All Loading Done");
             if (this.autoLoad)
+            {
                 this.State = RelayProgrammingStates.ReprogramSuccess;
+                this.timerTimeout.Stop();
+                this.timerTimeout.Interval = 2000;
+                this.timerTimeout.Start();
+            }
             else
             {
                 this.State = RelayProgrammingStates.Idle;
@@ -2188,6 +2200,11 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.WaitingForBootFPGA:
                     this.State = RelayProgrammingStates.WaitingForBootFPGA;
                     this.PrepForBoot();
+                    break;
+                case RelayProgrammingStates.ReprogramSuccess:
+                    this.timerTimeout.Stop();
+                    this.State = RelayProgrammingStates.RequestAll;
+                    this.requestAll();
                     break;
                 
             }
