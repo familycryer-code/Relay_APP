@@ -41,7 +41,7 @@ namespace RelayControlLibrary
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
         private UInt32 masterCodeRevisionNumber = 140428;
-        private UInt32 relayCodeRevisionNUmber = 20140428;
+        private UInt32 relayCodeRevisionNUmber = 20140501;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
 

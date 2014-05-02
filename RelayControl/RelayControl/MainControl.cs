@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-04-28";
+        private const string revisionDate = "2014-05-01";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -667,7 +667,7 @@ namespace RelayControl
 
             this.checkBoxInTripRegion.Visible = false;
             this.serialPort1.Close();
-            this.serialPort1.BaudRate = 9600;
+            this.serialPort1.BaudRate = 19200;
             this.serialPort1.Open();
         }
 
@@ -3168,6 +3168,8 @@ namespace RelayControl
             this.showLabel(false, this.labelRelayDisconnected3);
             this.showLabel(false, this.toolStripStatusLabelRelayDisconnected);
 
+            this.missedMonitoringCount = 0;
+
             if (this.checkSerialNumber == true)
                 this.requestTransmitterSettings();
 
@@ -4435,6 +4437,13 @@ namespace RelayControl
             this.pQMonitoringEnabled = false;
             this.buttonToggleMonitor.Text = "Start Monitoring";
             this.ucPhasorGraph1.RealTimeMonitoring = false;
+        }
+
+        private void enableAllMonitoring()
+        {
+            this.pQMonitoringEnabled = true;
+            this.buttonToggleMonitor.Text = "Stop Monitoring";
+            this.ucPhasorGraph1.RealTimeMonitoring = true;
         }
 
         private void monitoring(bool b)
@@ -5763,20 +5772,28 @@ namespace RelayControl
             {
                 if (!this.phasorReceived)
                 {
-                    if (this.missedMonitoringCount == 2)
+                    if (this.missedMonitoringCount >= 2)
                     {
                         if (this.transmitterMonitoring || this.pQMonitoringEnabled)
                         {
                             this.pauseTransmitterMonitoring();
-                            this.disableAllMonitoring();
+                            this.disableAllMonitoring(); //pause_error testing
+
+                            if (this.relayFound == true && this.toolStripStatusLabelRelayDisconnected.Visible == false)
+                            {
+                                this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+                                enableAllMonitoring();
+                                missedMonitoringCount = 3;
+
+                            }
                         }
                     }
                     else
                     {
                         this.missedMonitoringCount++;
-                        if (this.pQMonitoringEnabled)
+                        if (this.pQMonitoringEnabled || this.transmitterMonitoring)
                             this.requestPhasorData();
-                        if (this.transmitterMonitoring)                      //request the data again if we haven't timed out yet.
+                        if (this.transmitterMonitoring)                  //request the data again if we haven't timed out yet.
                             this.requestTransmitterMonitorData();
                     }
                 }
