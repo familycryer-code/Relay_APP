@@ -41,7 +41,7 @@ namespace RelayControlLibrary
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
         private UInt32 masterCodeRevisionNumber = 140428;
-        private UInt32 relayCodeRevisionNUmber = 20140501;
+        private UInt32 relayCodeRevisionNUmber = 20140505;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -1099,6 +1099,7 @@ namespace RelayControlLibrary
             this.firstCheckForUpdate = false;
 
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+            this.requestAll();
         }
 
         private void doneLoadingRelayBootLoader()
