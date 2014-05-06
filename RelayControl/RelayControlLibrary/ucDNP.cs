@@ -49,7 +49,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
-                //Setting the command bits
+                //Setting the command bits 0 - 6
                 if((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
                     tempByte = 2;
                 else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Sometimes")
@@ -73,6 +73,7 @@ namespace RelayControlLibrary
                     tempByte |= 16;
                 else if ((string)this.comboBoxTerminationResistor.SelectedItem != "Disable")
                     throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem.ToString());
+
                 
                 if(this.Customer == Customers.Memphis)
                 {
@@ -116,7 +117,8 @@ namespace RelayControlLibrary
                 tempByte = (byte)this.numericUpDownMaxEvents.Value;
                 sEA.SendPacket[17] = tempByte;
 
-                //Event Trigger Ranges
+                // Baude Rate
+                sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudeRate.SelectedIndex;
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
                 
@@ -518,6 +520,15 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Max Events", ex));
+            }
+
+            try
+            {
+                this.comboBoxDNPBaudeRate.SelectedIndex = bytePacket[17];
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
             }
 
             
