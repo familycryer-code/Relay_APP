@@ -40,7 +40,7 @@ namespace RelayControlLibrary
         private UInt32 relayCodeRevisionNUmber = 99999999;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
-        private UInt32 masterCodeRevisionNumber = 140428;
+        private UInt32 masterCodeRevisionNumber = 140506;
         private UInt32 relayCodeRevisionNUmber = 20140505;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
@@ -2218,15 +2218,52 @@ namespace RelayControlLibrary
         private void buttonStartAutoLoad_Click(object sender, EventArgs e)
         {
             this.useDefaultSettings = false;
-            
             this.dontReloadFromResource = true;
             this.programmingForm.ClearAllChecks();
-            this.setProgrammingFiles();
-            
-            this.reprogramFPGA = this.transmitterEnabled;
-            this.reprogramRelay = true;
-            this.reprogramMaster = true;
-            this.startAutoLoad();
+
+            //insert if statement for prograaming selection here //MaterialTextBox.Text.Trim().Length == 0
+            if (this.textBoxFPGAFile.Text.Trim().Length != 0)
+                this.reprogramFPGA = this.transmitterEnabled;
+            else
+                this.reprogramFPGA = false;
+
+            if (this.textBoxRelayFileName.Text.Trim().Length != 0)
+                this.reprogramRelay = true;
+            else
+                this.reprogramRelay = false;
+
+
+            if (this.textBoxMasterFileName.Text.Trim().Length != 0)
+                this.reprogramMaster = true;
+            else
+                this.reprogramMaster = false;
+
+            if (this.textBoxFPGAFile.Text.Trim().Length != 0 || this.textBoxRelayFileName.Text.Trim().Length != 0 ||
+                this.textBoxMasterFileName.Text.Trim().Length != 0)
+            {
+                this.autoLoad = true;
+                this.setProgrammingFiles();
+                this.startProgramming();
+            }
+                    
+
+            if (this.textBoxFPGAFile.Text.Trim().Length == 0 && this.textBoxRelayFileName.Text.Trim().Length == 0 && 
+                this.textBoxMasterFileName.Text.Trim().Length == 0)
+            {
+                DialogResult result = MessageBox.Show("No files selected. Do you want to program all using defaults?", "Warning", 
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    this.dontReloadFromResource = false;
+                    this.programmingForm.ClearAllChecks();
+                    this.reprogramFPGA = this.transmitterEnabled;
+                    this.reprogramRelay = true;
+                    this.reprogramMaster = true;
+
+                    this.setProgrammingFiles();
+                    this.startAutoLoad();
+                }
+            }
         }
 
         private void buttonFirstLoad_Click(object sender, EventArgs e)
@@ -2354,6 +2391,19 @@ namespace RelayControlLibrary
                 this.sendNonTransmitterSettings();
                 this.finalizeReprogram();
             }
+        }
+
+        private void buttonClearAllProgrammingFields_Click(object sender, EventArgs e)
+        {
+            this.textBoxFPGAFile.Text = "";
+            this.textBoxRelayFileName.Text = "";
+            this.textBoxMasterFileName.Text = "";
+        }
+
+        private void buttonLoadDefaultResourceSFiles_Click(object sender, EventArgs e)
+        {
+            this.dontReloadFromResource = false;
+            this.setProgrammingFiles();
         }
     }
 

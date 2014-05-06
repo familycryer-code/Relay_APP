@@ -95,6 +95,7 @@ namespace RelayControl
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -215,7 +216,6 @@ namespace RelayControl
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -581,7 +581,7 @@ namespace RelayControl
             // 
             this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 204);
             this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
-            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 245);
+            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 227);
             this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
             // groupBoxTimeConvert
@@ -746,12 +746,12 @@ namespace RelayControl
             this.ucRelayProgramming1.DNPRelay = false;
             this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.GERelay = false;
-            this.ucRelayProgramming1.Location = new System.Drawing.Point(527, 455);
+            this.ucRelayProgramming1.Location = new System.Drawing.Point(527, 427);
             this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.Name = "ucRelayProgramming1";
             this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
-            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 166);
+            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 191);
             this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
             this.ucRelayProgramming1.TabIndex = 112;
             this.ucRelayProgramming1.TransmitterEnabled = false;
@@ -841,6 +841,13 @@ namespace RelayControl
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -2238,13 +2245,6 @@ namespace RelayControl
             // timerFindRelayTimeout
             // 
             this.timerFindRelayTimeout.Interval = 500;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 

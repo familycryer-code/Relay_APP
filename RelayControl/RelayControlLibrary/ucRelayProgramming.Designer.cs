@@ -50,6 +50,8 @@
             this.buttonFirstLoad = new System.Windows.Forms.Button();
             this.buttonLoadNewest = new System.Windows.Forms.Button();
             this.buttonFixBootLoader = new System.Windows.Forms.Button();
+            this.buttonClearAllProgrammingFields = new System.Windows.Forms.Button();
+            this.buttonLoadDefaultResourceSFiles = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonSelectMasterSFile
@@ -205,7 +207,7 @@
             // 
             // buttonStartAutoLoad
             // 
-            this.buttonStartAutoLoad.Location = new System.Drawing.Point(129, 122);
+            this.buttonStartAutoLoad.Location = new System.Drawing.Point(134, 147);
             this.buttonStartAutoLoad.Name = "buttonStartAutoLoad";
             this.buttonStartAutoLoad.Size = new System.Drawing.Size(96, 39);
             this.buttonStartAutoLoad.TabIndex = 18;
@@ -215,7 +217,7 @@
             // 
             // buttonFirstLoad
             // 
-            this.buttonFirstLoad.Location = new System.Drawing.Point(6, 122);
+            this.buttonFirstLoad.Location = new System.Drawing.Point(6, 147);
             this.buttonFirstLoad.Name = "buttonFirstLoad";
             this.buttonFirstLoad.Size = new System.Drawing.Size(117, 39);
             this.buttonFirstLoad.TabIndex = 19;
@@ -225,7 +227,7 @@
             // 
             // buttonLoadNewest
             // 
-            this.buttonLoadNewest.Location = new System.Drawing.Point(231, 122);
+            this.buttonLoadNewest.Location = new System.Drawing.Point(244, 147);
             this.buttonLoadNewest.Name = "buttonLoadNewest";
             this.buttonLoadNewest.Size = new System.Drawing.Size(98, 39);
             this.buttonLoadNewest.TabIndex = 20;
@@ -235,7 +237,7 @@
             // 
             // buttonFixBootLoader
             // 
-            this.buttonFixBootLoader.Location = new System.Drawing.Point(231, 80);
+            this.buttonFixBootLoader.Location = new System.Drawing.Point(244, 103);
             this.buttonFixBootLoader.Name = "buttonFixBootLoader";
             this.buttonFixBootLoader.Size = new System.Drawing.Size(98, 39);
             this.buttonFixBootLoader.TabIndex = 21;
@@ -243,10 +245,32 @@
             this.buttonFixBootLoader.UseVisualStyleBackColor = true;
             this.buttonFixBootLoader.Click += new System.EventHandler(this.buttonFixBootLoader_Click);
             // 
+            // buttonClearAllProgrammingFields
+            // 
+            this.buttonClearAllProgrammingFields.Location = new System.Drawing.Point(349, 162);
+            this.buttonClearAllProgrammingFields.Name = "buttonClearAllProgrammingFields";
+            this.buttonClearAllProgrammingFields.Size = new System.Drawing.Size(101, 23);
+            this.buttonClearAllProgrammingFields.TabIndex = 22;
+            this.buttonClearAllProgrammingFields.Text = "Clear All";
+            this.buttonClearAllProgrammingFields.UseVisualStyleBackColor = true;
+            this.buttonClearAllProgrammingFields.Click += new System.EventHandler(this.buttonClearAllProgrammingFields_Click);
+            // 
+            // buttonLoadDefaultResourceSFiles
+            // 
+            this.buttonLoadDefaultResourceSFiles.Location = new System.Drawing.Point(134, 103);
+            this.buttonLoadDefaultResourceSFiles.Name = "buttonLoadDefaultResourceSFiles";
+            this.buttonLoadDefaultResourceSFiles.Size = new System.Drawing.Size(98, 39);
+            this.buttonLoadDefaultResourceSFiles.TabIndex = 23;
+            this.buttonLoadDefaultResourceSFiles.Text = "Load Stored  Resource Files";
+            this.buttonLoadDefaultResourceSFiles.UseVisualStyleBackColor = true;
+            this.buttonLoadDefaultResourceSFiles.Click += new System.EventHandler(this.buttonLoadDefaultResourceSFiles_Click);
+            // 
             // ucRelayProgramming
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonLoadDefaultResourceSFiles);
+            this.Controls.Add(this.buttonClearAllProgrammingFields);
             this.Controls.Add(this.buttonFixBootLoader);
             this.Controls.Add(this.buttonLoadNewest);
             this.Controls.Add(this.buttonFirstLoad);
@@ -268,7 +292,7 @@
             this.Controls.Add(this.buttonSelectRelaySFile);
             this.Controls.Add(this.buttonSelectMasterSFile);
             this.Name = "ucRelayProgramming";
-            this.Size = new System.Drawing.Size(459, 164);
+            this.Size = new System.Drawing.Size(459, 193);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,5 +321,7 @@
         private System.Windows.Forms.Button buttonFirstLoad;
         private System.Windows.Forms.Button buttonLoadNewest;
         private System.Windows.Forms.Button buttonFixBootLoader;
+        private System.Windows.Forms.Button buttonClearAllProgrammingFields;
+        private System.Windows.Forms.Button buttonLoadDefaultResourceSFiles;
     }
 }
