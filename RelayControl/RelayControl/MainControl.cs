@@ -456,7 +456,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = false;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " SMUD!!!!!!!";// 2013-07-25"; 
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -481,6 +481,12 @@ namespace RelayControl
                 this.TransmitterEnabled = true;
                 this.enableAllToolStripMenuItem.Visible = true;
 #endif
+#endif
+
+#if DNP && BASICRELEASE
+                this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
 
             }

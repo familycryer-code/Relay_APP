@@ -121,6 +121,10 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DNP_Release|AnyCPU'">
+    <OutputPath>bin\DNP_Release\</OutputPath>
+    <DefineConstants>BASICRELEASE, DNP</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
