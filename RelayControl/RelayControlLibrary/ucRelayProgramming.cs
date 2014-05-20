@@ -69,7 +69,7 @@ namespace RelayControlLibrary
                 {
                     this.initializeTraceFile();
                     this.writeLineToTraceFile("Serial Number: " + value.ToString());
-                    this.writeLineToTraceFile(DateTime.Now.ToString());
+                    this.writeLineToTraceFile(DateTime.UtcNow.ToString());
                 }
 
                 this.currentRelayLog.SerialNumber = this.serialNumber = value;
@@ -1149,7 +1149,7 @@ namespace RelayControlLibrary
 #if !DEBUG 
                 return;
 #endif
-                this.traceFile = _logPath + "RelayUpdate_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+                this.traceFile = _logPath + "RelayUpdate_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss") + ".txt";
 
                 if (!Directory.Exists(_logPath))
                     Directory.CreateDirectory(_logPath);
@@ -2536,7 +2536,7 @@ namespace RelayControlLibrary
 
         public string GetLogString()
         {
-            string returnString = DateTime.Now.ToString();
+            string returnString = DateTime.UtcNow.ToString();
 
             returnString += " - SN: " + this.SerialNumber.ToString();
             returnString += " - MPRev: " + this.MPRevision.ToString();

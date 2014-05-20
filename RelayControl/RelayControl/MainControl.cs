@@ -2233,7 +2233,7 @@ namespace RelayControl
 
         private void storeCurrentTime(byte[] bytePacket)
         {
-            DateTime tempDT = DateTime.Now;
+            DateTime tempDT = DateTime.UtcNow;
             long temp = bytePacket[0];
             temp <<= 8;
             temp += bytePacket[1];
@@ -3032,7 +3032,7 @@ namespace RelayControl
             this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
 #endif
 
-            this.sendTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            this.sendTime(DateTime.UtcNow);
 
             this.ucRelayProgramming1.AllParametersReceived();
         }
@@ -5990,9 +5990,9 @@ namespace RelayControl
 
             DialogResult dR = this.messageHandler("Downloading Live Data", "Downloading Data.  \r\nThis will take a while.  Continue?", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
-            this.liveDataTriggerTime = DateTime.Now;
+            this.liveDataTriggerTime = DateTime.UtcNow;
 
-            this.labelLiveDataTriggerTime.Text = DateTime.Now.ToString();
+            this.labelLiveDataTriggerTime.Text = DateTime.UtcNow.ToString();
 
             if (dR == DialogResult.OK)
             {
@@ -7072,7 +7072,7 @@ namespace RelayControl
 
         private void buttonSendTime_Click(object sender, EventArgs e)
         {
-            this.sendTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));//new DateTime(2009, 8, 1));
+            this.sendTime(DateTime.UtcNow);//new DateTime(2009, 8, 1));
         }
 
         private void buttonCauseEvent_Click(object sender, EventArgs e)
