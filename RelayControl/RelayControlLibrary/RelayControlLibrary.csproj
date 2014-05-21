@@ -121,6 +121,27 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSMUD|AnyCPU'">
+    <OutputPath>bin\ReleaseSMUD\</OutputPath>
+    <DefineConstants>TRACE;DNP, SMUD</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG_SMUD|AnyCPU'">
+    <OutputPath>bin\DEBUG_SMUD\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugSMUD|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugSMUD\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SMUD, DNP</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
@@ -508,6 +529,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
+    <Content Include="Resources\MasterProcessor_with_DNP_GE_SMUD.S" />
+    <Content Include="Resources\MasterProcessor_with_DNP_SMUD.S" />
     <None Include="Resources\MasterProcessor_with_DNP_GE.S" />
     <None Include="Resources\FPGAdata.rbf" />
     <Content Include="Resources\MasterProcessor.S" />
