@@ -38,6 +38,11 @@ namespace RelayDNPSecurity
 
         #endregion
 
+        public void SetAuthorityKey(byte[] keyData)
+        {
+            this.keyBox.SetKey(keyData);
+        }
+
         private void buttonSendKey_Click(object sender, EventArgs e)
         {
             if (this.keyBox.KeyDataValid())

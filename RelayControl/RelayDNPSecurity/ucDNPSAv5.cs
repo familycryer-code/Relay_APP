@@ -19,6 +19,7 @@ namespace RelayDNPSecurity
             this.intializeComponentEvents();
 
             #if !DEBUG
+            this.buttonLoadDefaultAuthorityKey.Visible = false;
             this.buttonLoadDefaultUser.Visible = false;
             #endif
         }
@@ -41,9 +42,11 @@ namespace RelayDNPSecurity
         private static string _AuthSymKeyAlgorithmMismatch = "Authority Key Length does not match Key Change Algorithm expected length.  Please Check and Resend";
 
 
+        private static byte[] _defaultAuthorityKey = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,
+                                                       0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
         private static byte[] _defaultUserKey = { 0x49, 0xc8, 0x7d, 0x5d, 0x90, 0x21, 0x7a, 0xaf, 0xec, 0x80, 0x74, 0xeb, 0x71, 0x52, 0xfd, 0xb5 };
         private static string _defaultUserName = "Common";
-        private static int _defaultUserRole = 1;
+        private static int _defaultUserRole = 2; // 2- Engineer
         private static int _defaultUserNumber = 1;
         private string oSName = "";
         private int remoteOSNameLength;
@@ -255,6 +258,11 @@ namespace RelayDNPSecurity
             this.ucDNPSAv5User1.SetUserKey(_defaultUserKey);
             this.ucDNPSAv5User1.SetUserRole(_defaultUserRole);
             this.ucDNPSAv5User1.SetUserNumber(_defaultUserNumber);
+        }
+
+        private void buttonLoadDefaultAuthorityKey_Click(object sender, EventArgs e)
+        {
+            this.ucDNPSAv5AuthoritySym1.SetAuthorityKey(_defaultAuthorityKey);
         }
 
     }

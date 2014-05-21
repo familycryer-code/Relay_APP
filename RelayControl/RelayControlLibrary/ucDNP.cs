@@ -715,6 +715,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+            this.comboBoxDNPBaudeRate.SelectedIndex = 5;
         }
 
         private void setMemphisDefaults()
