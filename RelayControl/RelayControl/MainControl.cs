@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-05-06";
+        private const string revisionDate = "2014-05-20";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -456,7 +456,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = false;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " SMUD!!!!!!!";// 2013-07-25"; 
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -2799,6 +2799,11 @@ namespace RelayControl
                     this.requestFPGARevision();
                 }
 
+                if (temp.Contains("GE"))
+                    this.GEEnabled = true;
+                else
+                    this.GEEnabled = false;
+
                 if (this.relayCodeRevisionNumber < 20130111)
                 {
                     this.ucSafeService1.Visible = false;
@@ -2816,7 +2821,6 @@ namespace RelayControl
 
         private int savedSerialNumber = 0;
         private bool checkSerialNumber = false;
-        private bool justTransmitterSettingsRequested = false;
 
         private void setTransmitterSettings(byte[] bytePacket)
         {
@@ -2928,11 +2932,12 @@ namespace RelayControl
                     }
                 }
 
+                /*
                 if ((bytePacket[28] & 0x10) == 0x10)
                     this.GEEnabled = true;
                 else
                     this.GEEnabled = false;
-
+                */
                 if (this.masterRevision >= 110602)
                 {
                     if ((bytePacket[28] & 0x10) == 0x10)
@@ -3989,6 +3994,10 @@ namespace RelayControl
                 {
                     this.DNPEnabled = true;
                     this.blockDNPEnableFromTransmitterSettings = true;
+                }
+                if (revision.Contains("SMUD"))
+                {
+                    this.ucRelayProgramming1.Customer = Customers.SMUD;
                 }
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;

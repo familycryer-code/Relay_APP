@@ -85,6 +85,8 @@ namespace RelayControlLibrary
         ConEdison,
         Memphis,
         DigitalGridDNP,
+        SMUD,
+        PEPCO,
         None
     }
 
