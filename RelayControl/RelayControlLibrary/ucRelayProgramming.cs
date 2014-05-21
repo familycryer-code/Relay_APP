@@ -19,14 +19,15 @@ namespace RelayControlLibrary
             InitializeComponent();
 
             // Set this string to match code date below
-            this.fPGACode.Date = this.fPGACodeRevisionNumber.ToString();//"\0\0\0\0\0\0";
+            this.fPGACode.Date = _fPGACodeRevisionNumber.ToString();//"\0\0\0\0\0\0";
             this.programmingForm.FormClosed += programmingForm_FormClosed;
-            this.currentRelayLog.MPRevision = this.masterCodeRevisionNumber.ToString();
-            this.currentRelayLog.RPRevision = this.relayCodeRevisionNUmber.ToString();
-            this.currentRelayLog.FPGARevision = this.fPGACodeRevisionNumber.ToString();
+            this.currentRelayLog.MPRevision = _masterCodeRevisionNumber.ToString();
+            this.currentRelayLog.RPRevision = _relayCodeRevisionNumber.ToString();
+            this.currentRelayLog.FPGARevision = _fPGACodeRevisionNumber.ToString();
 
             this.initializeToolTip();
             this.initializeCustomerComboBox();
+            this.initializeCustomerFileSets();
         }
 
         void programmingForm_FormClosed(object o, FormClosedEventArgs fCEA)
@@ -37,15 +38,25 @@ namespace RelayControlLibrary
         
         // These need to be updated when new files are used
 #if DEBUG
-        private UInt32 masterCodeRevisionNumber = 999999;
-        private UInt32 relayCodeRevisionNUmber = 99999999;
-        private UInt32 fPGACodeRevisionNumber = 121207;
+        private static UInt32 _masterCodeRevisionNumber = 999999;
+        private static UInt32 _masterDNPRevisionNumber = 999999;
+        private static UInt32 _relayCodeRevisionNumber = 99999999;
+        private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
-        private UInt32 masterCodeRevisionNumber = 140521;
-        private UInt32 relayCodeRevisionNUmber = 20140520;
-        private UInt32 fPGACodeRevisionNumber = 121207;
+        private static UInt32 _masterCodeRevisionNumber = 140506;
+        private static UInt32 _masterDNPRevisionNumber = 140520;
+        private static UInt32 _relayCodeRevisionNumber = 20140519;
+        private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
+        public Customers Customer
+        {
+            get { return this.customer; }
+            set
+            {
+                this.customer = value;
+            }
+        }
         public RelayProgrammingStates State
         {
             get { return this.state; }
@@ -124,7 +135,7 @@ namespace RelayControlLibrary
                     this.reprogramFPGA = false;
                 else
                 {
-                    if (this.remoteFPGARevisionNumber < this.fPGACodeRevisionNumber)
+                    if (this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber)
                     {
                         this.reprogramFPGA = true;
                         this.transmitterEnabled = true;
@@ -176,10 +187,20 @@ namespace RelayControlLibrary
                 // Check to make sure that it only checks while idle so that we don't accident reset it during reloads
                 if(this.State == RelayProgrammingStates.Idle)
                 {
-                    if (this.remoteMasterRevisionNumber < this.masterCodeRevisionNumber)
-                        this.reprogramMaster = true;
+                    if (this.DNPRelay)
+                    {
+                        if (this.remoteMasterRevisionNumber < _masterDNPRevisionNumber)
+                            this.reprogramMaster = true;
+                        else
+                            this.reprogramMaster = false;
+                    }
                     else
-                        this.reprogramMaster = false;
+                    {
+                        if (this.remoteMasterRevisionNumber < _masterCodeRevisionNumber)
+                            this.reprogramMaster = true;
+                        else
+                            this.reprogramMaster = false;
+                    }
                 }
 
                 // This section handles rebooting the relay to get to the next loading section.
@@ -198,7 +219,7 @@ namespace RelayControlLibrary
             set
             {
                 this.remoteRelayRevisionNumber = value;
-                if (this.remoteRelayRevisionNumber < this.relayCodeRevisionNUmber)
+                if (this.remoteRelayRevisionNumber < _relayCodeRevisionNumber)
                     this.reprogramRelay = true;
                 else
                     this.reprogramRelay = false;
@@ -214,7 +235,7 @@ namespace RelayControlLibrary
                 else
                     this.remoteFPGARevisionNumber = value;
 
-                if (this.remoteFPGARevisionNumber < this.fPGACodeRevisionNumber && this.TransmitterEnabled)
+                if (this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber && this.TransmitterEnabled)
                     this.reprogramFPGA = true;
                 else
                     this.reprogramFPGA = false;
@@ -248,6 +269,7 @@ namespace RelayControlLibrary
         private bool serialNumberError = false;
         private ToolTip toolTip = new ToolTip();
         private Customers customer = Customers.None;
+        private List<CustomerLoadFiles> customersFiles = new List<CustomerLoadFiles>();
 
         private const string _logPath = @"C:\DGI Systems\Relay\Log\";
         private string traceFile;
@@ -268,11 +290,97 @@ namespace RelayControlLibrary
         {
             this.comboBoxCustomer.Items.Clear();
 
-            foreach (var item in Enum.GetValues(typeof(Customers)))
+            try
             {
-                this.comboBoxCustomer.Items.Add(item);
+                // Create an array for 
+
+                foreach (var item in Enum.GetValues(typeof(Customers)))
+                {
+                    this.comboBoxCustomer.Items.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error Populating Customer ComboBox", ex);
+            }   
+        }
+
+        /// <summary>
+        /// Creates the list of 
+        /// </summary>
+        private void initializeCustomerFileSets()
+        {
+            try
+            {
+                this.customersFiles.Clear();
+
+                foreach (var cust in Enum.GetValues(typeof(Customers)))
+                {
+                    this.customersFiles.Add(new CustomerLoadFiles((Customers)cust));
+                }
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error Creating List of all Customer Load files", ex);
+            }
+
+            try
+            {
+                CustomerLoadFiles regular = new CustomerLoadFiles(Customers.DigitalGrid);
+                regular.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
+                regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor;
+                regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
+                regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor;
+                regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
+                regular.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor;
+
+                CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGridDNP));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGrid));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Dominion));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Memphis));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.NonConEd));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.NonConEdGE));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.None));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.PEPCO));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+                workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
+                workingLoadFile.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler("Error creating Customer File Lists", ex);
             }
         }
+
+        private void copyCustomerLoadFiles(CustomerLoadFiles destination, CustomerLoadFiles source)
+        {
+            destination.FPGAFile = source.FPGAFile;
+            destination.MasterFileGE = source.MasterFileGE;
+            destination.MasterFileGEDNP = source.MasterFileGEDNP;
+            destination.MasterFileWH = source.MasterFileWH;
+            destination.MasterFileWHDNP = source.MasterFileWHDNP;
+            destination.RelayFileGE = source.RelayFileGE;
+            destination.RelayFileWH = source.RelayFileWH;
+        }
+
 
         public void InitialAutoLoadFiles()
         {
@@ -339,54 +447,45 @@ namespace RelayControlLibrary
         {
             if (this.dontReloadFromResource || RelayProgrammingStates.Idle != this.state)
                 return;
+
+            CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
             if (this.DNPRelay)
             {
                 if (this.GERelay)
                 {
-                    if(this.customer == Customers.SMUD)
-                    {
-                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
-                        this.textBoxMasterFileName.Text = "Master Relay SMUD GE with DNP From Resource";
-                    }
-                    else
-                    {
-                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                        this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource";
-                    }
+                    this.masterCode.FileString = cLF.MasterFileGEDNP;
+                    this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource " + this.customer.ToString();
 
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                    this.textBoxRelayFileName.Text = "GE Relay From Resource";
+                    this.relayCode.FileString = cLF.RelayFileGE;
+                    this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
                 }
-                else
+                else // Westinghouse DNP
                 {
-                    if (this.customer == Customers.SMUD)
-                    {
-                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
-                        this.textBoxMasterFileName.Text = "Master Relay SMUD WH with DNP From Resource";
-                    }
-                    else
-                    {
-                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
-                        this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
-                    }
+                    this.masterCode.FileString = cLF.MasterFileWHDNP;
+                    this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource " + this.customer.ToString();
 
+                    this.relayCode.FileString = cLF.RelayFileWH;
+                    this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
 
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                    this.textBoxRelayFileName.Text = "WH Relay From Resource";
                 }
             }
-            else
+            else // Non-DNP
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
-                this.textBoxMasterFileName.Text = "Master Relay From Resource";
+                
                 if (this.GERelay)
                 {
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                    this.masterCode.FileString = cLF.MasterFileWH;
+                    this.textBoxMasterFileName.Text = "Master Relay GE From Resource";
+
+                    this.relayCode.FileString = cLF.RelayFileGE;
                     this.textBoxRelayFileName.Text = "GE Relay From Resource";
                 }
                 else
                 {
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                    this.masterCode.FileString = cLF.MasterFileWH;
+                    this.textBoxMasterFileName.Text = "Master Relay WH From Resource";
+
+                    this.relayCode.FileString = cLF.RelayFileWH;
                     this.textBoxRelayFileName.Text = "WH Relay From Resource";
                 }
             }
@@ -1180,14 +1279,6 @@ namespace RelayControlLibrary
         }
 
         private bool fileWritingAllowed = true;
-        public Customers Customer
-        {
-            get { return this.customer; }
-            set
-            {
-                this.customer = value;
-            }
-        }
 
         private void writeLineToTraceFile(string s)
         {
@@ -1384,11 +1475,13 @@ namespace RelayControlLibrary
                     throw new Exception("No FPGA File Loaded");
                 }
 
+                CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
+
                 this.fPGACode.SendIndex = 0;
-                if(this.fPGACode.UseFile)
+                if (this.fPGACode.UseFile)
                     fPD.DataBytes = File.ReadAllBytes(fPD.FileName);
                 else
-                    fPD.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
+                    fPD.DataBytes = cLF.FPGAFile.DataBytes;
 
                 fPD.AddDate();
             }
@@ -2382,6 +2475,13 @@ namespace RelayControlLibrary
         private void comboBoxCustomer_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.customer = (Customers)this.comboBoxCustomer.SelectedItem;
+
+            if (this.customer == Customers.None || this.customer == Customers.ConEdison)
+            {
+                MessageBox.Show("Please Select a Different Customer");
+                this.customer = Customers.None;
+            }
+
         }
     }
 
@@ -2576,5 +2676,37 @@ namespace RelayControlLibrary
             return returnString;
 
         }
+    }
+
+    public class CustomerLoadFiles
+    {
+        public CustomerLoadFiles(Customers customer)
+        {
+            this.Customer = customer;
+        }
+
+        public CustomerLoadFiles(CustomerLoadFiles cLF)
+        {
+            this.Customer = cLF.Customer;
+            this.FPGAFile = cLF.FPGAFile;
+            this.MasterFileGE = cLF.MasterFileGE;
+            this.MasterFileGEDNP = cLF.MasterFileGEDNP;
+            this.MasterFileWH = cLF.MasterFileWH;
+            this.MasterFileWHDNP = cLF.MasterFileWHDNP;
+            this.RelayFileGE = cLF.RelayFileGE;
+            this.RelayFileWH = cLF.RelayFileWH;
+        }
+
+        public Customers Customer = Customers.None;
+        public UInt32 RelayRevision;
+        public UInt32 MasterRevision;
+        public UInt32 MasterDNPRevision;
+        public string MasterFileGE;
+        public string MasterFileWH;
+        public string MasterFileGEDNP;
+        public string MasterFileWHDNP;
+        public string RelayFileWH;
+        public string RelayFileGE;
+        public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
     }
 }

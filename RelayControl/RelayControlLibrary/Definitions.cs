@@ -84,9 +84,11 @@ namespace RelayControlLibrary
         NonConEdGE,
         ConEdison,
         Memphis,
+        DigitalGrid,
         DigitalGridDNP,
         SMUD,
         PEPCO,
+        Dominion,
         None
     }
 
