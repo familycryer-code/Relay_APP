@@ -26,6 +26,7 @@ namespace RelayControlLibrary
             this.currentRelayLog.FPGARevision = this.fPGACodeRevisionNumber.ToString();
 
             this.initializeToolTip();
+            this.initializeCustomerComboBox();
         }
 
         void programmingForm_FormClosed(object o, FormClosedEventArgs fCEA)
@@ -40,8 +41,8 @@ namespace RelayControlLibrary
         private UInt32 relayCodeRevisionNUmber = 99999999;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
-        private UInt32 masterCodeRevisionNumber = 140506;
-        private UInt32 relayCodeRevisionNUmber = 20140409;
+        private UInt32 masterCodeRevisionNumber = 140521;
+        private UInt32 relayCodeRevisionNUmber = 20140520;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -60,6 +61,7 @@ namespace RelayControlLibrary
         public event ErrorHandler Error;
         public byte[] TransmitterPacket;
 
+       
         public UInt32 SerialNumber
         {
             get { return this.serialNumber; }
@@ -140,20 +142,6 @@ namespace RelayControlLibrary
                 if (value == 012345 || value == 121116)
                     this.loadMasterFirst = true;
                
-                // If it is a rev 1/0. it shouldn't be upgraded
-                /*
-                if (value < 100713)
-                {
-                    if (value != this.remoteMasterRevisionNumber)
-                    {
-                        MessageBox.Show("Please Contact DigitalGrid Inc and ship relay back to factor for upgrade", "Relay Upgrade");
-                        this.firstCheckForUpdate = false;
-                        this.remoteMasterRevisionNumber = value;
-                    }
-                    
-                    return;
-                }
-                 */
                 switch (this.State)
                 {
                     case RelayProgrammingStates.LoadingMasterCode:
@@ -259,6 +247,7 @@ namespace RelayControlLibrary
         private bool dontReloadFromResource = false;
         private bool serialNumberError = false;
         private ToolTip toolTip = new ToolTip();
+        private Customers customer = Customers.None;
 
         private const string _logPath = @"C:\DGI Systems\Relay\Log\";
         private string traceFile;
@@ -273,6 +262,16 @@ namespace RelayControlLibrary
             this.toolTip.SetToolTip(this.buttonProgramMaster, "Programs Just the Master Processor");
             this.toolTip.SetToolTip(this.buttonProgramFPGA, "Programs Just the FPGA code");
             this.toolTip.SetToolTip(this.buttonStartAutoLoad, "Autoloads entire relay with either selected files, or files that will auto-load for customers");
+        }
+
+        private void initializeCustomerComboBox()
+        {
+            this.comboBoxCustomer.Items.Clear();
+
+            foreach (var item in Enum.GetValues(typeof(Customers)))
+            {
+                this.comboBoxCustomer.Items.Add(item);
+            }
         }
 
         public void InitialAutoLoadFiles()
@@ -344,16 +343,33 @@ namespace RelayControlLibrary
             {
                 if (this.GERelay)
                 {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                    this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource";
+                    if(this.customer == Customers.SMUD)
+                    {
+                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
+                        this.textBoxMasterFileName.Text = "Master Relay SMUD GE with DNP From Resource";
+                    }
+                    else
+                    {
+                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
+                        this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource";
+                    }
 
                     this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                     this.textBoxRelayFileName.Text = "GE Relay From Resource";
                 }
                 else
                 {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
-                    this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+                    if (this.customer == Customers.SMUD)
+                    {
+                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
+                        this.textBoxMasterFileName.Text = "Master Relay SMUD WH with DNP From Resource";
+                    }
+                    else
+                    {
+                        this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
+                        this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+                    }
+
 
                     this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                     this.textBoxRelayFileName.Text = "WH Relay From Resource";
@@ -1164,6 +1180,14 @@ namespace RelayControlLibrary
         }
 
         private bool fileWritingAllowed = true;
+        public Customers Customer
+        {
+            get { return this.customer; }
+            set
+            {
+                this.customer = value;
+            }
+        }
 
         private void writeLineToTraceFile(string s)
         {
@@ -2353,6 +2377,11 @@ namespace RelayControlLibrary
                 this.sendNonTransmitterSettings();
                 this.finalizeReprogram();
             }
+        }
+
+        private void comboBoxCustomer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.customer = (Customers)this.comboBoxCustomer.SelectedItem;
         }
     }
 
