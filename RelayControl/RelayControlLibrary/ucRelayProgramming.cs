@@ -19,7 +19,7 @@ namespace RelayControlLibrary
             InitializeComponent();
 
             // Set this string to match code date below
-            this.fPGACode.Date = _fPGACodeRevisionNumber.ToString();//"\0\0\0\0\0\0";
+            this.fPGACode.Date = _fPGACodeRevisionNumber.ToString();
             this.programmingForm.FormClosed += programmingForm_FormClosed;
             this.currentRelayLog.MPRevision = _masterCodeRevisionNumber.ToString();
             this.currentRelayLog.RPRevision = _relayCodeRevisionNumber.ToString();
@@ -45,7 +45,7 @@ namespace RelayControlLibrary
 #else
         private static UInt32 _masterCodeRevisionNumber = 140506;
         private static UInt32 _masterDNPRevisionNumber = 140520;
-        private static UInt32 _relayCodeRevisionNumber = 20140519;
+        private static UInt32 _relayCodeRevisionNumber = 20140603;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
