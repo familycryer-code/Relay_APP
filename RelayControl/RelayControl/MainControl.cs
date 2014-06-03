@@ -483,6 +483,12 @@ namespace RelayControl
 #endif
 #endif
 
+#if DNP && BASICRELEASE
+                this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+#endif
+
             }
             catch (Exception ex)
             {
@@ -2821,6 +2827,7 @@ namespace RelayControl
 
         private int savedSerialNumber = 0;
         private bool checkSerialNumber = false;
+        private bool justTransmitterSettingsRequested = false;
 
         private void setTransmitterSettings(byte[] bytePacket)
         {

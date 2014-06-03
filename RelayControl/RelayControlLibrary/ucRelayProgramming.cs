@@ -121,6 +121,7 @@ namespace RelayControlLibrary
             set
             {
                 this.dNPRelay = value;
+                this.fPGACode.Date = "\0\0\0\0\0\0";
                 this.currentRelayLog.DNPRelay = value;
             }
         }
