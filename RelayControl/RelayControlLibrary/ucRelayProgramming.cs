@@ -44,8 +44,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
         private static UInt32 _masterCodeRevisionNumber = 140506;
-        private static UInt32 _masterDNPRevisionNumber = 140604;
-        private static UInt32 _relayCodeRevisionNumber = 20140603;
+        private static UInt32 _masterDNPRevisionNumber = 140605;
+        private static UInt32 _relayCodeRevisionNumber = 20140604;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -121,7 +121,10 @@ namespace RelayControlLibrary
             set
             {
                 this.dNPRelay = value;
-                this.fPGACode.Date = "\0\0\0\0\0\0";
+                if (this.dNPRelay)
+                {
+                    this.fPGACode.Date = "\0\0\0\0\0\0";
+                }
                 this.currentRelayLog.DNPRelay = value;
             }
         }
@@ -1727,8 +1730,8 @@ namespace RelayControlLibrary
 
                                 rPD.NonParameterCount = (byte)(temp / 512);
                                 // Add 1 if there is a remainder
-                                //if (temp % 512 != 0)
-                                //    this.masterDataCount++;
+                                if (temp % 512 != 0)
+                                    this.masterDataCount++;
 
                             }
                             if (address >= 0x04010000)
@@ -2243,7 +2246,11 @@ namespace RelayControlLibrary
             if (dr == DialogResult.Yes)
                 this.startMasterProgrammingWithParameters();
             else
+            {
+                this.masterCode.WithParameters = false;
                 this.startMasterProgramming();
+            }
+                
 
         }
         #region FPGA
