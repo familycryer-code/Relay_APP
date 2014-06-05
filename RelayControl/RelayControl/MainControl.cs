@@ -5790,7 +5790,7 @@ namespace RelayControl
                     else
                     {
                         this.missedMonitoringCount++;
-                        if (this.pQMonitoringEnabled)
+                        if (this.pQMonitoringEnabled || this.transmitterMonitoring)
                             this.requestPhasorData();
                         if (this.transmitterMonitoring)                      //request the data again if we haven't timed out yet.
                             this.requestTransmitterMonitorData();
