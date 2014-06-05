@@ -434,20 +434,9 @@ namespace RelayControlLibrary
 
 
 #endif
-#if DEBUG
-            DialogResult dr = MessageBox.Show("Parameter Select", "With Parameters?", MessageBoxButtons.YesNo);
-
-            this.programmingForm.ClearAllChecks();
-
-            if (dr == DialogResult.Yes)
-                this.masterCode.WithParameters = true;
-            else
-                this.masterCode.WithParameters = false;
-#else
-            this.masterCode.WithParameters = true;
-#endif
-
+ 
             this.loadMasterFirst = true;
+            this.masterCode.WithParameters = false;
             this.manualReload = true;
             this.autoLoad = true;
             this.reprogramMaster = true;
