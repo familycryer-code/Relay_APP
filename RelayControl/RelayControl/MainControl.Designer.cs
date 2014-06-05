@@ -454,7 +454,7 @@ namespace RelayControl
             // 
             // timerCheckPortTime
             // 
-            this.timerCheckPortTime.Interval = 1000;
+            this.timerCheckPortTime.Interval = 500;
             this.timerCheckPortTime.Tick += new System.EventHandler(this.timerCheckPortTime_Tick);
             // 
             // statusStripMain

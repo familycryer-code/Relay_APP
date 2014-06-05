@@ -1731,7 +1731,7 @@ namespace RelayControlLibrary
                                 rPD.NonParameterCount = (byte)(temp / 512);
                                 // Add 1 if there is a remainder
                                 if (temp % 512 != 0)
-                                    this.masterDataCount++;
+                                    rPD.NonParameterCount++;
 
                             }
                             if (address >= 0x04010000)
