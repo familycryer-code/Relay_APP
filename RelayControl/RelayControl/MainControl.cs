@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-06-05";
+        private const string revisionDate = "2014-06-09";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -53,7 +53,7 @@ namespace RelayControl
                     this.ucPumpMode1.Customer = this.customer;
                     this.ucTripMode2.Customer = this.customer;
                     this.ucCloseMode1.Customer = this.customer;
-                    this.ucPhasorGraph1.Customer = this.customer;
+                    //TODO fix for coned this.ucPhasorGraph1.Customer = this.customer;
                     this.ucTransmitter1.Customer = this.customer;
                     this.ucDNP1.Customer = this.customer;
                     this.ucForceCustomerSwitch1.Customer = this.customer;
@@ -68,6 +68,7 @@ namespace RelayControl
                     this.ucLiveData1.Customer = this.customer;
                     this.ucTransmitterMonitoring1.Customer = this.customer;
                     this.ucCalibration2.Customer = this.customer;
+                    this.ucRelayProgramming1.Customer = this.customer;
 
                     if (this.customer == Customers.ConEdison)
                         this.makeConEdisonGUI();
@@ -129,6 +130,9 @@ namespace RelayControl
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
 #if !WATERBUG
+                    if (this.Customer == Customers.SMUD)
+                        this.TransmitterEnabled = false;
+
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
@@ -184,7 +188,19 @@ namespace RelayControl
             get { return this.gEEnabled; }
             set
             {
-                this.ucRelayProgramming1.GERelay = value;
+                this.ucRelayProgramming1.GEEnabled = value;
+                this.ucPhasorGraph1.GEEnabled = value;
+                this.ucTransmitterMonitoring1.GEEnabled = value;
+                this.ucLiveData1.GEEnabled = value;
+                this.ucEventGraph0.GEEnabled = value;
+                this.ucEventGraph1.GEEnabled = value;
+                this.ucEventGraph2.GEEnabled = value;
+                this.ucEventGraph3.GEEnabled = value;
+                this.ucEventGraph4.GEEnabled = value;
+                this.ucEventGraph5.GEEnabled = value;
+                this.ucEventGraph6.GEEnabled = value;
+                this.ucEventGraph7.GEEnabled = value;
+                /*
                 if (value != this.gEEnabled)
                 {
                     this.gEEnabled = value;
@@ -197,6 +213,8 @@ namespace RelayControl
                             case Customers.NonConEdGE:
                             case Customers.DigitalGridDNP:
                                 this.Customer = Customers.NonConEdGE;
+                                break;
+                            case Customers.SMUD:
                                 break;
                             default:
                                 throw new Exception("GE Relay for this customer not defined");
@@ -223,6 +241,7 @@ namespace RelayControl
                         }
                     }
                 }
+                 * */
             }
         }
 
@@ -3586,10 +3605,9 @@ namespace RelayControl
                 else                        //a non-ConEd Relay
                 {
 #if !MEMPHIS && !DNP
-                    if (this.Customer != Customers.NonConEd && this.Customer != Customers.Memphis)
+                    if (this.Customer != Customers.NonConEd && this.Customer != Customers.Memphis && this.Customer != Customers.SMUD)
                     {
-                        if (this.Customer != Customers.NonConEdGE)
-                            this.Customer = Customers.NonConEd;
+                        this.Customer = Customers.NonConEd;
                     }
 #endif
                 }
@@ -4004,7 +4022,8 @@ namespace RelayControl
                 }
                 if (revision.Contains("SMUD"))
                 {
-                    this.ucRelayProgramming1.Customer = Customers.SMUD;
+                    this.Customer = Customers.SMUD;
+                    this.labelFPGARevision.Visible = false;
                 }
                 else
                     this.ucRelayProgramming1.Customer = Customers.DigitalGrid;
@@ -4078,7 +4097,7 @@ namespace RelayControl
                 {
                     this.ucTransmitter1.FPGARevisionValid = true;
                     this.fPGARevisionValid = true;
-                    if (this.labelFPGARevision.Visible == false)
+                    if (this.customer != Customers.SMUD)
                         this.labelFPGARevision.Show();
 
                     try

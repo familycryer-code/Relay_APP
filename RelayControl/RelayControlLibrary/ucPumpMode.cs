@@ -108,7 +108,6 @@ namespace RelayControlLibrary
             {
                 default:
                 case Customers.NonConEd:
-                case Customers.NonConEdGE:
                     //this.checkBoxNeverReclose.Checked = true;
                     this.numericUpDownProtectTime.Visible = true;
                     this.labelProtectTime.Visible = true;

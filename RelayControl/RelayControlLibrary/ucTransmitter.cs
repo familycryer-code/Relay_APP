@@ -1252,7 +1252,7 @@ namespace RelayControlLibrary
             {
                 if (this.Customer == Customers.Memphis)
                     this.setMemphisDefaults();
-                else if (this.Customer == Customers.NonConEdGE)
+                else if (this.GEEnabled)
                     this.setGEDefaults();
                 else
                     this.SetDefaults();

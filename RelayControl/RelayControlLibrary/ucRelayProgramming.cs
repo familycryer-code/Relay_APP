@@ -102,7 +102,7 @@ namespace RelayControlLibrary
                     this.gERelaySerialMatch = true;
             }
         }
-        public bool GERelay
+        public bool GEEnabled
         {
             get { return this.gERelay; }
             set
@@ -354,9 +354,6 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.NonConEd));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.NonConEdGE));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
                 workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.None));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
@@ -401,9 +398,9 @@ namespace RelayControlLibrary
             dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
 
             if (dR == DialogResult.Yes)
-                this.GERelay = true;
+                this.GEEnabled = true;
             else
-                this.GERelay = false;
+                this.GEEnabled = false;
 
 #if BASICRELEASE
             // This is a non-DNP, transmitter Enabled Relay
@@ -456,7 +453,7 @@ namespace RelayControlLibrary
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
             if (this.DNPRelay)
             {
-                if (this.GERelay)
+                if (this.GEEnabled)
                 {
                     this.masterCode.FileString = cLF.MasterFileGEDNP;
                     this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource " + this.customer.ToString();
@@ -477,7 +474,7 @@ namespace RelayControlLibrary
             else // Non-DNP
             {
                 
-                if (this.GERelay)
+                if (this.GEEnabled)
                 {
                     this.masterCode.FileString = cLF.MasterFileWH;
                     this.textBoxMasterFileName.Text = "Master Relay GE From Resource";
@@ -547,7 +544,7 @@ namespace RelayControlLibrary
                     this.serialNumberError = true;
                 }
 
-                this.GERelay = true;
+                this.GEEnabled = true;
                 this.addGERelayToTransmitterPacket(true);
             }
             else
@@ -565,7 +562,7 @@ namespace RelayControlLibrary
                     this.Send(this, rPEA);
                 */
 
-                this.GERelay = false;
+                this.GEEnabled = false;
                 this.addGERelayToTransmitterPacket(false);
             }
         }
@@ -2417,9 +2414,9 @@ namespace RelayControlLibrary
             DialogResult dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
 
             if (dR == DialogResult.Yes)
-                this.GERelay = true;
+                this.GEEnabled = true;
             else
-                this.GERelay = false;
+                this.GEEnabled = false;
 
             this.selectNewestMasterFirmware();
             this.selectNewestRelayFirmware();

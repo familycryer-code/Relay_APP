@@ -81,7 +81,6 @@ namespace RelayControlLibrary
     public enum Customers
     {
         NonConEd,
-        NonConEdGE,
         ConEdison,
         Memphis,
         DigitalGrid,
