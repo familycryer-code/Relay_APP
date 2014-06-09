@@ -502,7 +502,7 @@ namespace RelayControl
 #endif
 #endif
 
-#if DNP && BASICRELEASE
+#if DNP
                 this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);

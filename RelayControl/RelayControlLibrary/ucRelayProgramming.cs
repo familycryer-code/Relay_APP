@@ -2435,7 +2435,7 @@ namespace RelayControlLibrary
                 FileInfo[] fI;
 
                
-                if(this.GERelay)
+                if(this.GEEnabled)
                     fI = dI.GetFiles("*GE*.s");
                 else
                     fI = dI.GetFiles("*WH*.s");
