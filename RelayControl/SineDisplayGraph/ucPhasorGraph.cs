@@ -13,6 +13,7 @@ namespace SineDisplayGraph
 {
     public partial class ucPhasorGraph : UserControl
     {
+
         private bool gEEnabled = false;
         public bool GEEnabled
         {
@@ -104,6 +105,11 @@ namespace SineDisplayGraph
             
             foreach(PhasorTypes pT in temp)
             {
+#if !ConEd
+                makeNonConEd();
+#else
+                makeConEd();
+#endif
                 allPhasors[count] = new PhasorDefinition(pT);
                 switch(allPhasors[count].Type)
                 {
