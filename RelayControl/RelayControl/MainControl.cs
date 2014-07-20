@@ -479,10 +479,10 @@ namespace RelayControl
                 this.Customer = Customers.NonConEd;
                 this.DNPEnabled = false;
                 this.TransmitterEnabled = true;
+                
+#endif
+#endif
                 this.enableAllToolStripMenuItem.Visible = true;
-#endif
-#endif
-
             }
             catch (Exception ex)
             {
