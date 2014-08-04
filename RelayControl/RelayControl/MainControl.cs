@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-05-06";
+        private const string revisionDate = "2014-08-04";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -156,7 +156,14 @@ namespace RelayControl
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                            this.makeMemphisGUI();
                         }
+                    }
+                    else // Memphis style
+                   { 
+                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                            this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+
                     }
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
@@ -689,6 +696,7 @@ namespace RelayControl
 
         private void makeMemphisGUI()
         {
+            this.ucDNP1.Customer = Customers.Memphis;
             if (this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
             {
                 this.tabPageDNPData.Controls.Remove(this.dNPDigitalGridData);
@@ -703,6 +711,8 @@ namespace RelayControl
                 this.dNPMemphisData.Location = new Point(0, 0);
                 this.dNPMemphisData.Show();
             }
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
             this.makeNonConEdGUI();
             if (!this.Text.Contains("Memphis"))
                 this.Text += " - Memphis";
@@ -3988,6 +3998,8 @@ namespace RelayControl
                 {
                     this.DNPEnabled = true;
                     this.blockDNPEnableFromTransmitterSettings = true;
+                    if (revision.Contains("MEMPHIS"))
+                        this.makeMemphisGUI();
                 }
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
