@@ -108,6 +108,8 @@ namespace RelayControlLibrary
             this.labelOdomoterUnits = new System.Windows.Forms.Label();
             this.numericUpDownCurrentAngleDB = new System.Windows.Forms.NumericUpDown();
             this.groupBoxDNPSettings = new System.Windows.Forms.GroupBox();
+            this.comboBoxBaudRate = new System.Windows.Forms.ComboBox();
+            this.labelBaudRate = new System.Windows.Forms.Label();
             this.groupBoxDigitalGridDNPDeadBand = new System.Windows.Forms.GroupBox();
             this.buttonSendDigitalGridDeadBand = new System.Windows.Forms.Button();
             this.label29 = new System.Windows.Forms.Label();
@@ -429,7 +431,7 @@ namespace RelayControlLibrary
             // labelMemphisStage
             // 
             this.labelMemphisStage.AutoSize = true;
-            this.labelMemphisStage.Location = new System.Drawing.Point(6, 318);
+            this.labelMemphisStage.Location = new System.Drawing.Point(6, 315);
             this.labelMemphisStage.Name = "labelMemphisStage";
             this.labelMemphisStage.Size = new System.Drawing.Size(83, 13);
             this.labelMemphisStage.TabIndex = 33;
@@ -437,7 +439,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownMemphisStage
             // 
-            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(143, 316);
+            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(143, 313);
             this.numericUpDownMemphisStage.Maximum = new decimal(new int[] {
             5,
             0,
@@ -1107,9 +1109,9 @@ namespace RelayControlLibrary
             this.labelCurrentAngleDBUnits.AutoSize = true;
             this.labelCurrentAngleDBUnits.Location = new System.Drawing.Point(223, 229);
             this.labelCurrentAngleDBUnits.Name = "labelCurrentAngleDBUnits";
-            this.labelCurrentAngleDBUnits.Size = new System.Drawing.Size(51, 13);
+            this.labelCurrentAngleDBUnits.Size = new System.Drawing.Size(76, 13);
             this.labelCurrentAngleDBUnits.TabIndex = 70;
-            this.labelCurrentAngleDBUnits.Text = "Degrees*";
+            this.labelCurrentAngleDBUnits.Text = "* 0.1 Degrees*";
             // 
             // numericUpDownDifferentialVoltsDB
             // 
@@ -1197,7 +1199,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownCurrentAngleDB.Location = new System.Drawing.Point(98, 227);
             this.numericUpDownCurrentAngleDB.Maximum = new decimal(new int[] {
-            65535,
+            3600,
             0,
             0,
             0});
@@ -1212,6 +1214,8 @@ namespace RelayControlLibrary
             // 
             // groupBoxDNPSettings
             // 
+            this.groupBoxDNPSettings.Controls.Add(this.comboBoxBaudRate);
+            this.groupBoxDNPSettings.Controls.Add(this.labelBaudRate);
             this.groupBoxDNPSettings.Controls.Add(this.labelLinkLayerConfirm);
             this.groupBoxDNPSettings.Controls.Add(this.comboBoxLinkLayerConfirm);
             this.groupBoxDNPSettings.Controls.Add(this.label1);
@@ -1241,6 +1245,33 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.TabIndex = 61;
             this.groupBoxDNPSettings.TabStop = false;
             this.groupBoxDNPSettings.Text = "DNP Settings";
+            // 
+            // comboBoxBaudRate
+            // 
+            this.comboBoxBaudRate.FormattingEnabled = true;
+            this.comboBoxBaudRate.Items.AddRange(new object[] {
+            "1200",
+            "2400",
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400"});
+            this.comboBoxBaudRate.Location = new System.Drawing.Point(142, 340);
+            this.comboBoxBaudRate.Name = "comboBoxBaudRate";
+            this.comboBoxBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxBaudRate.TabIndex = 36;
+            this.comboBoxBaudRate.Text = "19200";
+            // 
+            // labelBaudRate
+            // 
+            this.labelBaudRate.AutoSize = true;
+            this.labelBaudRate.Location = new System.Drawing.Point(6, 343);
+            this.labelBaudRate.Name = "labelBaudRate";
+            this.labelBaudRate.Size = new System.Drawing.Size(61, 13);
+            this.labelBaudRate.TabIndex = 35;
+            this.labelBaudRate.Text = "Baud Rate:";
             // 
             // groupBoxDigitalGridDNPDeadBand
             // 
@@ -1382,6 +1413,7 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.textBoxSAv5UserUpdateKey);
             this.Controls.Add(this.labelSAv5UserKey);
             this.Controls.Add(this.numericUpDownSAv5UserNumber);
@@ -1393,7 +1425,6 @@ namespace RelayControlLibrary
             this.Controls.Add(this.buttonSendDeadBand);
             this.Controls.Add(this.groupBoxDigitalGridDNPDeadBand);
             this.Controls.Add(this.groupBoxDNPSettings);
-            this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.buttonDefaults);
             this.Controls.Add(this.buttonRQDNPSettings);
             this.Name = "ucDNP";
@@ -1528,5 +1559,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelSAv5UserNumber;
         private System.Windows.Forms.Label labelSAv5UserKey;
         private System.Windows.Forms.TextBox textBoxSAv5UserUpdateKey;
+        private System.Windows.Forms.Label labelBaudRate;
+        private System.Windows.Forms.ComboBox comboBoxBaudRate;
     }
 }

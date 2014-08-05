@@ -696,7 +696,8 @@ namespace RelayControl
 
         private void makeMemphisGUI()
         {
-            this.ucDNP1.Customer = Customers.Memphis;
+            this.Customer = Customers.Memphis;
+            //this.ucDNP1.Customer = Customers.Memphis;
             if (this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
             {
                 this.tabPageDNPData.Controls.Remove(this.dNPDigitalGridData);
@@ -3998,7 +3999,7 @@ namespace RelayControl
                 {
                     this.DNPEnabled = true;
                     this.blockDNPEnableFromTransmitterSettings = true;
-                    if (revision.Contains("MEMPHIS"))
+                    if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                         this.makeMemphisGUI();
                 }
                 this.masterRevision = getMasterRevisionNumber(revision);

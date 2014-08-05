@@ -79,10 +79,15 @@ namespace RelayControlLibrary
                     tempByte &= 0x1F; //Clear the Memphis Stage Bits
                     tempByte |= (byte)((int)this.numericUpDownMemphisStage.Value << 5); //Set them
                 }
-                //else
-                //    tempByte = 0;
 
                 sEA.SendPacket[3] = tempByte;
+
+                // Baud Rate bottom 3 bits of next byte
+                tempByte = 0;
+
+                tempByte |= (byte)this.comboBoxBaudRate.SelectedIndex;
+
+                sEA.SendPacket[4] = tempByte;
                 
                 //Unsolicited Timeout
                 tempInt32 = (UInt32)this.numericUpDownUnsolTimeout.Value;
@@ -249,22 +254,22 @@ namespace RelayControlLibrary
                     temp >>= 8;
                     sEA.SendPacket[28] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog1DeadBand.Value * 10);
+                    temp = (UInt16)(this.numericUpDownAnalog1DeadBand.Value * 100);
                     sEA.SendPacket[29] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[30] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog2DeadBand.Value * 10);
+                    temp = (UInt16)(this.numericUpDownAnalog2DeadBand.Value * 100);
                     sEA.SendPacket[31] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[32] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog3DeadBand.Value * 10);
+                    temp = (UInt16)(this.numericUpDownAnalog3DeadBand.Value * 100);
                     sEA.SendPacket[33] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[34] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog4DeadBand.Value * 10);
+                    temp = (UInt16)(this.numericUpDownAnalog4DeadBand.Value * 100);
                     sEA.SendPacket[35] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[36] = (byte)(temp & 0xFF);
@@ -376,6 +381,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
+                return;
             }
 
             try
@@ -390,6 +396,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Self Address", ex));
+                return;
             }
 
             try
@@ -404,6 +411,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
+                return;
             }
 
             try
@@ -418,6 +426,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
+                return;
             }
 
             try
@@ -432,6 +441,18 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
+                return;
+            }
+
+            try
+            {
+                temp = (byte)(bytePacket[1] & 0x07);
+                this.comboBoxBaudRate.SelectedIndex = temp;
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
+                return;
             }
 
             //bytes 2 & 3???
@@ -452,6 +473,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
+                return;
             }
             
             //8 9 = Fragment Size
@@ -466,6 +488,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Fragment Size", ex));
+                return;
             }
 
             //10 11 Destinaton addy
@@ -480,6 +503,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Destination Address", ex));
+                return;
             }
             //12 13 Source Addy
             try
@@ -493,6 +517,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Source Address", ex));
+                return;
             }
             //14 15 unsol max retries
             try
@@ -506,21 +531,22 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
+                return;
             }
 
             try
             {
                 //byte 16 is Retries
-                UInt16 tempInt = bytePacket[16];
+                UInt16 tempInt2 = bytePacket[16];
 
-                this.numericUpDownMaxEvents.Value = tempInt;
+                this.numericUpDownMaxEvents.Value = tempInt2;
             }
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Max Events", ex));
+                return;
             }
 
-            
             try
             {
                 if(this.Customer == Customers.Memphis)
@@ -539,10 +565,10 @@ namespace RelayControlLibrary
                     this.numericUpDownPhaseKVADB.Value = bytePacket[58] + bytePacket[59] * 256;
                     this.numericUpDownTotalKWDB.Value = bytePacket[60] + bytePacket[61] * 256;
                     this.numericUpDownTotalKVAVARDB.Value = bytePacket[62] + bytePacket[63] * 256;
-                    this.numericUpDownAnalog1DeadBand.Value = (decimal)(bytePacket[64] + bytePacket[65] * 256) / 10m;
-                    this.numericUpDownAnalog2DeadBand.Value = (decimal)(bytePacket[66] + bytePacket[67] * 256) / 10m;
-                    this.numericUpDownAnalog3DeadBand.Value = (decimal)(bytePacket[68] + bytePacket[69] * 256) / 10m;
-                    this.numericUpDownAnalog4DeadBand.Value = (decimal)(bytePacket[70] + bytePacket[71] * 256) / 10m;
+                    this.numericUpDownAnalog1DeadBand.Value = (decimal)(bytePacket[64] + bytePacket[65] * 256) / 100m;
+                    this.numericUpDownAnalog2DeadBand.Value = (decimal)(bytePacket[66] + bytePacket[67] * 256) / 100m;
+                    this.numericUpDownAnalog3DeadBand.Value = (decimal)(bytePacket[68] + bytePacket[69] * 256) / 100m;
+                    this.numericUpDownAnalog4DeadBand.Value = (decimal)(bytePacket[70] + bytePacket[71] * 256) / 100m;
                     
                 }
                 else
@@ -724,6 +750,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+            this.comboBoxBaudRate.SelectedIndex = 3;
 
             this.numericUpDownAnalog1DeadBand.Value = 0.0m;
             this.numericUpDownAnalog2DeadBand.Value = 0.0m;
@@ -745,6 +772,7 @@ namespace RelayControlLibrary
         }
 
         #endregion
+
     }
 
     public class ucDeadBandSettingsObject
