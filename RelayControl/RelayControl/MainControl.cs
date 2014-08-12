@@ -68,6 +68,7 @@ namespace RelayControl
                     this.ucLiveData1.Customer = this.customer;
                     this.ucTransmitterMonitoring1.Customer = this.customer;
                     this.ucCalibration2.Customer = this.customer;
+                    this.ucRelayProgramming1.Customer = this.customer;
 
                     if (this.customer == Customers.ConEdison)
                         this.makeConEdisonGUI();
@@ -3995,13 +3996,25 @@ namespace RelayControl
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
                 if (!revision.Contains("MASTER"))
                     return;
-                if(revision.Contains("DNP"))
+                switch (this.customer)
                 {
-                    this.DNPEnabled = true;
-                    this.blockDNPEnableFromTransmitterSettings = true;
-                    if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
+                    case Customers.Memphis:
+                        this.DNPEnabled = true;
+                        this.blockDNPEnableFromTransmitterSettings = true;
                         this.makeMemphisGUI();
+                        this.TransmitterEnabled = false;
+                        break;
+                    default:
+                        if (revision.Contains("DNP"))
+                        {
+                            this.DNPEnabled = true;
+                            this.blockDNPEnableFromTransmitterSettings = true;
+                            if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
+                                this.makeMemphisGUI();
+                        }
+                        break;
                 }
+                
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
                 this.handleNewMasterRevision();

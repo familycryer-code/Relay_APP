@@ -40,10 +40,13 @@ namespace RelayControlLibrary
         private UInt32 relayCodeRevisionNUmber = 99999999;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
-        private UInt32 masterCodeRevisionNumber = 140811;
-        private UInt32 relayCodeRevisionNUmber = 20140505;
+        private UInt32 masterCodeRevisionNumber = 140812;
+        private UInt32 relayCodeRevisionNUmber = 20140506;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
+        private Customers customer = Customers.NonConEd;
+
+        public Customers Customer { get {return this.customer;} set {this.customer = value;} }
 
         public RelayProgrammingStates State
         {
@@ -287,12 +290,31 @@ namespace RelayControlLibrary
             this.dontReloadFromResource = false;
             this.useDefaultSettings = true;
 
-            dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+            switch(this.customer)
+            {
+                case Customers.Memphis:
+                    this.GERelay = false;
+                    break;
+                default:
+                    dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+                    if (dR == DialogResult.Yes)
+                        this.GERelay = true;
+                    else
+                        this.GERelay = false;
+                    break;
+            }
 
-            if (dR == DialogResult.Yes)
-                this.GERelay = true;
-            else
-                this.GERelay = false;
+            switch (this.customer)
+            {
+                case Customers.Memphis:
+                    this.DNPRelay = true;
+                    break;
+                default:
+                    dR = this.askIfDNPRelay();
+
+                    break;
+
+            }
 
 #if BASICRELEASE
             // This is a non-DNP, transmitter Enabled Relay
@@ -325,7 +347,7 @@ namespace RelayControlLibrary
             }
 
 
-#endif
+#endif            
             this.loadMasterFirst = true;
             this.masterCode.WithParameters = true;
             this.manualReload = true;
@@ -334,6 +356,46 @@ namespace RelayControlLibrary
             this.reprogramRelay = true;
             this.setProgrammingFiles();
             this.startProgramming();
+        }
+
+        private DialogResult askIfDNPRelay()
+        {
+            return new CustomYesNoDialog("Select Communication Type", "Does this have DNP?", "Yes", "No").ShowDialog();
+        }
+
+        private void setDNPRelay(DialogResult dR)
+        {
+            if (dR == DialogResult.Yes)
+            {
+                this.DNPRelay = true;
+                this.TransmitterEnabled = false;
+            }
+        }
+
+        private void determineIfTransmitterRelay()
+        {
+            DialogResult dR;
+
+            switch(this.customer)
+            {
+                case Customers.Memphis:
+                    this.TransmitterEnabled = false;
+                    break;
+                default:
+                    dR = new CustomYesNoDialog("Select Communication Type", "Does this use PLC?", "Yes", "No").ShowDialog();
+
+                    if (dR == DialogResult.Yes)
+                    {
+                        this.reprogramFPGA = true;
+                        this.TransmitterEnabled = true;
+                    }
+                    else
+                    {
+                        this.reprogramFPGA = false;
+                        this.TransmitterEnabled = false;
+                    }
+                    break;
+            }
         }
 
         private void setProgrammingFiles()
@@ -400,7 +462,7 @@ namespace RelayControlLibrary
             this.firstCheckForUpdate = false;
             if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
             {
-                this.transmitterEnabled = true;
+                //this.transmitterEnabled = true;
            
                 if (!this.gERelaySerialMatch && !this.serialNumberError)
                     this.askIfGERelay();
