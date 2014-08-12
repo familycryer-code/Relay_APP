@@ -49,7 +49,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
-                //Setting the command bits
+                //Setting the command bits 0 - 6
                 if((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
                     tempByte = 2;
                 else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Sometimes")
@@ -730,6 +730,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+            this.comboBoxBaudRate.SelectedIndex = 5;
         }
 
         private void setMemphisDefaults()
@@ -772,7 +773,6 @@ namespace RelayControlLibrary
         }
 
         #endregion
-
     }
 
     public class ucDeadBandSettingsObject

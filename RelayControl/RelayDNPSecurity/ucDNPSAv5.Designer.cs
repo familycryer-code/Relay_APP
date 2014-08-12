@@ -36,6 +36,7 @@
             this.ucDNPSAv5OSName1 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5AuthoritySym1 = new RelayDNPSecurity.ucDNPSAv5AuthoritySym();
             this.ucDNPSAv5User1 = new RelayDNPSecurity.ucDNPSAv5User();
+            this.buttonLoadDefaultAuthorityKey = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonLoadDefaultUser
@@ -104,10 +105,21 @@
             this.ucDNPSAv5User1.Size = new System.Drawing.Size(876, 132);
             this.ucDNPSAv5User1.TabIndex = 2;
             // 
+            // buttonLoadDefaultAuthorityKey
+            // 
+            this.buttonLoadDefaultAuthorityKey.Location = new System.Drawing.Point(756, 221);
+            this.buttonLoadDefaultAuthorityKey.Name = "buttonLoadDefaultAuthorityKey";
+            this.buttonLoadDefaultAuthorityKey.Size = new System.Drawing.Size(112, 39);
+            this.buttonLoadDefaultAuthorityKey.TabIndex = 11;
+            this.buttonLoadDefaultAuthorityKey.Text = "Load Default Authority Key";
+            this.buttonLoadDefaultAuthorityKey.UseVisualStyleBackColor = true;
+            this.buttonLoadDefaultAuthorityKey.Click += new System.EventHandler(this.buttonLoadDefaultAuthorityKey_Click);
+            // 
             // ucDNPSAv5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonLoadDefaultAuthorityKey);
             this.Controls.Add(this.ucDNPSAv5Settings1);
             this.Controls.Add(this.ucDNPSAv5OSName1);
             this.Controls.Add(this.ucDNPSAv5AuthoritySym1);
@@ -133,5 +145,6 @@
         private ucDNPSAv5AuthoritySym ucDNPSAv5AuthoritySym1;
         private ucDNPSAv5OSName ucDNPSAv5OSName1;
         private ucDNPSAv5Settings ucDNPSAv5Settings1;
+        private System.Windows.Forms.Button buttonLoadDefaultAuthorityKey;
     }
 }

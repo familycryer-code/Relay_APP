@@ -31,7 +31,7 @@ namespace SineDisplayGraph
 
         private void setCustomer()
         {
-            if(this.Customer == Customers.NonConEdGE)
+            if(this.gEEnabled)
             {
                 this.sineGraphVtA.Visible = false;
                 this.sineGraphVtB.Visible = false;
@@ -942,6 +942,17 @@ namespace SineDisplayGraph
         }
 
         private SineFrequencyPopup sFP;
+        private bool gEEnabled;
+
+        public bool GEEnabled
+        {
+            get { return this.gEEnabled; }
+            set
+            {
+                this.gEEnabled = value;
+                this.setCustomer();
+            }
+        }
 
         private void sineGraph_DoubleClick(object sender, MouseEventArgs e)
         {

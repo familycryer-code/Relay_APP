@@ -431,7 +431,7 @@ namespace RelayControlLibrary
             // labelMemphisStage
             // 
             this.labelMemphisStage.AutoSize = true;
-            this.labelMemphisStage.Location = new System.Drawing.Point(6, 315);
+            this.labelMemphisStage.Location = new System.Drawing.Point(5, 345);
             this.labelMemphisStage.Name = "labelMemphisStage";
             this.labelMemphisStage.Size = new System.Drawing.Size(83, 13);
             this.labelMemphisStage.TabIndex = 33;
@@ -439,7 +439,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownMemphisStage
             // 
-            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(143, 313);
+            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(142, 343);
             this.numericUpDownMemphisStage.Maximum = new decimal(new int[] {
             5,
             0,
