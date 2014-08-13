@@ -4046,8 +4046,8 @@ namespace RelayControl
                     this.Customer = Customers.SMUD;
                     this.labelFPGARevision.Visible = false;
                 }
-                else
-                    this.ucRelayProgramming1.Customer = Customers.DigitalGrid;
+                if (this.Customer == Customers.None)
+                    this.Customer = Customers.DigitalGrid;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
