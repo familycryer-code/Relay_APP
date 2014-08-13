@@ -224,7 +224,7 @@ namespace RelayControlLibrary
                     temp >>= 8;
                     sEA.SendPacket[16] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)this.numericUpDownCurrentAngleDB.Value;
+                    temp = (UInt16)(this.numericUpDownCurrentAngleDB.Value * 10);
                     sEA.SendPacket[17] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[18] = (byte)(temp & 0xFF);
@@ -559,7 +559,7 @@ namespace RelayControlLibrary
                     this.numericUpDownOdometer.Value = bytePacket[46] + bytePacket[47] * 256;
                     this.numericUpDownDifferentialVoltsDB.Value = (decimal)(bytePacket[48] + bytePacket[49] * 256) / 10m;
                     this.numericUpDownDifferentialVoltsRealDB.Value = (decimal)(bytePacket[50] + bytePacket[51] * 256) / 10m;
-                    this.numericUpDownCurrentAngleDB.Value = bytePacket[52] + bytePacket[53] * 256;
+                    this.numericUpDownCurrentAngleDB.Value = (decimal)(bytePacket[52] + bytePacket[53] * 256) / 10m;
                     this.numericUpDownPhaseKWDB.Value = bytePacket[54] + bytePacket[55] * 256;
                     this.numericUpDownPhaseKVARDB.Value = bytePacket[56] + bytePacket[57] * 256;
                     this.numericUpDownPhaseKVADB.Value = bytePacket[58] + bytePacket[59] * 256;

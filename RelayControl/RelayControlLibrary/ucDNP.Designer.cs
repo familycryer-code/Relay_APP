@@ -1109,9 +1109,9 @@ namespace RelayControlLibrary
             this.labelCurrentAngleDBUnits.AutoSize = true;
             this.labelCurrentAngleDBUnits.Location = new System.Drawing.Point(223, 229);
             this.labelCurrentAngleDBUnits.Name = "labelCurrentAngleDBUnits";
-            this.labelCurrentAngleDBUnits.Size = new System.Drawing.Size(76, 13);
+            this.labelCurrentAngleDBUnits.Size = new System.Drawing.Size(51, 13);
             this.labelCurrentAngleDBUnits.TabIndex = 70;
-            this.labelCurrentAngleDBUnits.Text = "* 0.1 Degrees*";
+            this.labelCurrentAngleDBUnits.Text = "Degrees*";
             // 
             // numericUpDownDifferentialVoltsDB
             // 
@@ -1197,12 +1197,13 @@ namespace RelayControlLibrary
             // 
             // numericUpDownCurrentAngleDB
             // 
+            this.numericUpDownCurrentAngleDB.DecimalPlaces = 1;
             this.numericUpDownCurrentAngleDB.Location = new System.Drawing.Point(98, 227);
             this.numericUpDownCurrentAngleDB.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
-            0});
+            65536});
             this.numericUpDownCurrentAngleDB.Name = "numericUpDownCurrentAngleDB";
             this.numericUpDownCurrentAngleDB.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownCurrentAngleDB.TabIndex = 10;
