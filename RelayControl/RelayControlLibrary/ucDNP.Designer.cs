@@ -431,7 +431,7 @@ namespace RelayControlLibrary
             // labelMemphisStage
             // 
             this.labelMemphisStage.AutoSize = true;
-            this.labelMemphisStage.Location = new System.Drawing.Point(5, 345);
+            this.labelMemphisStage.Location = new System.Drawing.Point(15, 350);
             this.labelMemphisStage.Name = "labelMemphisStage";
             this.labelMemphisStage.Size = new System.Drawing.Size(83, 13);
             this.labelMemphisStage.TabIndex = 33;
@@ -1259,7 +1259,7 @@ namespace RelayControlLibrary
             "19200",
             "28800",
             "38400"});
-            this.comboBoxBaudRate.Location = new System.Drawing.Point(142, 340);
+            this.comboBoxBaudRate.Location = new System.Drawing.Point(142, 316);
             this.comboBoxBaudRate.Name = "comboBoxBaudRate";
             this.comboBoxBaudRate.Size = new System.Drawing.Size(121, 21);
             this.comboBoxBaudRate.TabIndex = 36;
@@ -1268,7 +1268,7 @@ namespace RelayControlLibrary
             // labelBaudRate
             // 
             this.labelBaudRate.AutoSize = true;
-            this.labelBaudRate.Location = new System.Drawing.Point(6, 343);
+            this.labelBaudRate.Location = new System.Drawing.Point(17, 319);
             this.labelBaudRate.Name = "labelBaudRate";
             this.labelBaudRate.Size = new System.Drawing.Size(61, 13);
             this.labelBaudRate.TabIndex = 35;
