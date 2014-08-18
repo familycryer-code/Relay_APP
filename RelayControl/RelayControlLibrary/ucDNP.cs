@@ -705,6 +705,8 @@ namespace RelayControlLibrary
             this.groupBoxDigitalGridDNPDeadBand.Hide();
             this.groupBoxMemphisDeadBand.Show();
 
+            this.buttonSendDeadBand.Visible = false;
+
             this.buttonDefaults.Text = "Restore Memphis Defaults";
         }
 
