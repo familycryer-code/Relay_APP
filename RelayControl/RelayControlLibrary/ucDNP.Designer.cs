@@ -708,7 +708,7 @@ namespace RelayControlLibrary
             // 
             this.buttonSendMemphis.Location = new System.Drawing.Point(407, 321);
             this.buttonSendMemphis.Name = "buttonSendMemphis";
-            this.buttonSendMemphis.Size = new System.Drawing.Size(136, 23);
+            this.buttonSendMemphis.Size = new System.Drawing.Size(156, 23);
             this.buttonSendMemphis.TabIndex = 143;
             this.buttonSendMemphis.Text = "Send Deadband Variables";
             this.buttonSendMemphis.UseVisualStyleBackColor = true;
