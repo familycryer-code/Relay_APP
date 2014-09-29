@@ -30,7 +30,8 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-05-06";
+        private const string revisionDate = "2014-09-29";
+        private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -254,6 +255,16 @@ namespace RelayControl
         {
             try
             {
+#if NU
+#if NUCREW
+                this.customerRevisionName = "Northeast Utilities - Crew";
+                this.domainUpDownPhasings.Enabled = false;
+                this.domainUpDownRelayType.Enabled = false;
+#else
+                this.customerRevisionName = "Northeast Utilities - Engineer";
+#endif
+#endif
+                this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
@@ -456,7 +467,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = false;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate;// 2013-07-25"; 
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " " + this.customerRevisionName;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -4840,6 +4851,11 @@ namespace RelayControl
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
         {
+            this.restoreDefaultsTypeAndPhasing();
+        }
+
+        private void restoreDefaultsTypeAndPhasing()
+        {
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
         }
@@ -8140,8 +8156,8 @@ namespace RelayControl
                     this.SafeServiceSettings = new SafeServiceSavedState();
                 }
                 this.CTRatio = (UInt16)info.GetValue("CTRatio", typeof(UInt16));
-                this.RelayType = (char)info.GetValue("Relay Type", typeof(char));
-                this.Phasing = (UInt16)info.GetValue("Phasing", typeof(UInt16));
+                this.RelayType = (int)info.GetValue("Relay Type", typeof(int));
+                this.Phasing = (int)info.GetValue("Phasing", typeof(int));
             }
             catch (Exception ex)
             {

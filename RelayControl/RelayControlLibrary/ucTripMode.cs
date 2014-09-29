@@ -20,20 +20,29 @@ namespace RelayControlLibrary
             InitializeComponent();            
             this.listBoxTripModes.SelectedIndex = 0;
             this.domainUpDownType.SelectedIndex = 0;
+#if NU
+            this.checkBoxEnableGullWing.Checked = true;
+            this.showGullWing(true);
+            this.domainUpDownType.SelectedIndex = 1;
+#else
             this.checkBoxEnableGullWing.Checked = false;
             this.showGullWing(false);
-            //this.initializeSaveState();
-
+#endif
             this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
             this.domainUpDownTripStyle.Hide();
             this.labelTripStyle.Hide();
             this.initializeToolTip();
 
-            #if DEBUG
-            #else
-            //this.sensitiveTimeEnabled = false;
-            //this.hideSensitiveTimeDelay();
-            #endif
+            this.restorDefaults();
+
+#if NUCREW
+            this.numericUpDownAngle.Enabled = false;
+            this.numericUpDownGullWingAngle.Enabled = false;
+            this.numericUpDownSensTrip.Enabled = false;
+            this.numericUpDownTimeDelay.Enabled = false;
+            this.checkBoxEnableGullWing.Enabled = false;
+#endif
+
 #if ConEd && !Debug
             this.Customer = Customers.ConEdison;
 #else
@@ -1193,6 +1202,11 @@ namespace RelayControlLibrary
 
         private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
+            this.restorDefaults();
+        }
+
+        private void restorDefaults()
+        {
             this.setTypeIndependentDefaults();
 
             switch(this.displayType)
@@ -1256,40 +1270,67 @@ namespace RelayControlLibrary
 
         private void setTypeIndependentDefaults()
         {
+#if NU
+            this.checkBoxEnableGullWing.Checked = true;
+            this.gullWingEnabled = true;
+            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownAngle.Value = 95;
+            this.numericUpDownGullWingAngle.Value = 85;
+#else
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
+
+            this.numericUpDownTimeDelay.Value = 150;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value = 90;
+#endif
 
             this.instantaneousCurrent = 2.5m;
             this.insensitiveCurrent = 2.5m;
 
             this.listBoxTripModes.SelectedIndex = 0;
-            this.numericUpDownTimeDelay.Value = 150;
             this.numericUpDownSensitiveTimeDelay.Value = 6;
-            this.numericUpDownAngle.Value = 90;
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownWVAngle.Value = -60;
-            this.numericUpDownGullWingAngle.Value = 90;
         }
 
         private void setRelayTypeDefaults()
         {   
+#if NU
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 10.0m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
+#else
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+#endif
         }
 
         private void setPercentageTypeDefaults()
         {
+#if NU
+            this.numericUpDownInsensTrip.Value = 50m;
+            this.numericUpDownSensTrip.Value = .2m;
+            this.numericUpDownWVCurrent.Value = 50m;
+#else
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
+#endif
         }
 
         private void setProtectorTypeDefaults()
         {
+#if NU
+            this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
+            this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
+            this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+#else
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+#endif
         }
 
         public delegate void ExceptionHandler(Exception ex);
