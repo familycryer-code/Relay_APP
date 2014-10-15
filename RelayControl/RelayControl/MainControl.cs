@@ -282,6 +282,9 @@ namespace RelayControl
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
+                //CT Ratio on PQ monitor
+                this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
+                this.buttonUpdateCTRatio.Visible = false;
 #if !SeattleTest
                 this.initializeExternalFileRevisionNumber(); //Get the saved data version
                 this.initializeSaveObject();            //Check the save data to see
@@ -466,7 +469,7 @@ namespace RelayControl
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                this.labelCtRatioMonitor.Visible = false;
+                this.labelCtRatioMonitor.Visible = true;
                 this.buttonForceI.Visible = false;
                 this.buttonUpdateCTRatio.Visible = false;
                 this.buttonRequestRelayRegisters.Visible = false;
@@ -2903,6 +2906,7 @@ namespace RelayControl
                     this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
 
                     this.textBoxRelaySNControl.Text = tempI.ToString();
+                    this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                     this.requestedAllParameters = true;
                     this.requestMasterRevisionNumber();
@@ -2919,6 +2923,7 @@ namespace RelayControl
 
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 //Transmitter CT Ratio
                 tempI = bytePacket[5];
@@ -3016,6 +3021,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 this.ucTransmitter1.SetDefaults(tempI);
             }
@@ -6696,6 +6702,7 @@ namespace RelayControl
 
             this.setCTRatioTransmitterPage(ratio);
             this.textBoxCTRatio.Text = ratio5.ToString();
+            this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
         }
 
         private bool downloadingLiveData = true;
