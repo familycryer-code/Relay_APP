@@ -40,7 +40,7 @@ namespace RelayControlLibrary
         private UInt32 relayCodeRevisionNUmber = 99999999;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #else
-        private UInt32 masterCodeRevisionNumber = 131223;
+        private UInt32 masterCodeRevisionNumber = 140207;
         private UInt32 relayCodeRevisionNUmber = 20131223;
         private UInt32 fPGACodeRevisionNumber = 121207;
 #endif
@@ -107,8 +107,12 @@ namespace RelayControlLibrary
             get { return this.dNPRelay;}
             set
             {
+#if ATLANTA
+                this.dNPRelay = true;
+#else
                 this.dNPRelay = value;
                 this.currentRelayLog.DNPRelay = value;
+#endif
             }
         }
         public bool TransmitterEnabled

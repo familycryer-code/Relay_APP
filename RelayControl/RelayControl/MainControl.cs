@@ -15,9 +15,9 @@ using System.IO.Ports;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
-using GraphicsServer.GSNet.SeriesData;
-using GraphicsServer.GSNet.Charting;
-using GraphicsServer.GSNet.Widgets;
+//using GraphicsServer.GSNet.SeriesData;
+//using GraphicsServer.GSNet.Charting;
+//using GraphicsServer.GSNet.Widgets;
 using System.Drawing.Printing;
 using System.Drawing.Imaging;
 using Microsoft.Win32;
@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-02-25";
+        private const string revisionDate = "2014-11-11";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -260,8 +260,8 @@ namespace RelayControl
 #endif
 
 #if ATLANTA
-                this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
-                this.loadConfigurationToolStripMenuItem.Visible = false;
+                //this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
+                //this.loadConfigurationToolStripMenuItem.Visible = false;
                 if(this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 #endif
@@ -446,7 +446,6 @@ namespace RelayControl
                 this.buttonRQRelayProcVersion.Visible = false;
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
-                this.enableAllToolStripMenuItem.Visible = false;
                 this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
