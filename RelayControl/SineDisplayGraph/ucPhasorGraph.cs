@@ -1689,11 +1689,10 @@ namespace SineDisplayGraph
         private void switchTo(PhasorDefinition[] phasorArray, PhasorGraph pg)
         {
             pg.phasorsToDraw.Clear();
-            //pg.Invalidate();
+
             foreach (PhasorDefinition pD in phasorArray)
             {
-                if(pD.Enabled)
-                    pg.AddPhasor(pD);
+                pg.AddPhasor(pD);
             }
             
         }
