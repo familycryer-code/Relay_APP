@@ -745,6 +745,8 @@ namespace RelayControlLibrary
                 rMSTemp = 0.0f;
             }
 
+            percentageTemp = percentageTemp * (float.Parse(cTMult) * (float)0.01); //   CT / (mult * 1/100)
+
 
             switch (phasorType)
             {
