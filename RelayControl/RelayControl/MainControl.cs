@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-11-11";
+        private const string revisionDate = "2015-01-08";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -187,6 +187,7 @@ namespace RelayControl
                         {
                             case Customers.NonConEd:
                             case Customers.NonConEdGE:
+                            case Customers.DigitalGridDNP:
                                 this.Customer = Customers.NonConEdGE;
                                 break;
                             default:
@@ -3137,9 +3138,8 @@ namespace RelayControl
                     this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
                     this.RevTooLowErrorAlreadyShown = true;
                 }
-#if !ATLANTA
+
                 this.ucRelayProgramming1.CheckForUpdate();
-#endif
             }
 
             this.registersReceived = true;
@@ -3975,6 +3975,8 @@ namespace RelayControl
                 }
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
+                if (this.dNPDigitalGridData != null)
+                    this.dNPDigitalGridData.RelayMasterRevision = (UInt32)this.masterRevision;
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
