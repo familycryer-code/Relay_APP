@@ -268,11 +268,6 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            this.numericUpDownInsensTrip.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.numericUpDownInsensTrip.Name = "numericUpDownInsensTrip";
             this.numericUpDownInsensTrip.Size = new System.Drawing.Size(54, 20);
             this.numericUpDownInsensTrip.TabIndex = 8;
@@ -385,11 +380,6 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            this.numericUpDownWVCurrent.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.numericUpDownWVCurrent.Name = "numericUpDownWVCurrent";
             this.numericUpDownWVCurrent.Size = new System.Drawing.Size(54, 20);
             this.numericUpDownWVCurrent.TabIndex = 34;
