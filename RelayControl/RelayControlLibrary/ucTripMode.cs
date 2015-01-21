@@ -373,7 +373,7 @@ namespace RelayControlLibrary
             
 
             TripCurveWV.CurveNumber     = 4;
-            TripCurveWV.CurveType       = TripCurveTypes.WattVar;
+            TripCurveWV.CurveType = TripCurveTypes.WattVar;
             //Offset Set Above
             TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
             TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
@@ -1024,7 +1024,7 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownWVCurrent.Value;
 
-            this.numericUpDownWVCurrent.Minimum = .1m * this.CTRatio;
+            this.numericUpDownWVCurrent.Minimum = 0;// .1m * this.CTRatio;
             this.numericUpDownWVCurrent.Maximum = 15m * this.CTRatio;
             this.numericUpDownWVCurrent.Increment = .1m * this.CTRatio;
 
@@ -1068,7 +1068,7 @@ namespace RelayControlLibrary
 
                 this.numericUpDownWVCurrent.Increment = (decimal)value * .1m;
                 this.numericUpDownWVCurrent.Maximum = (decimal)value * 15m;
-                this.numericUpDownWVCurrent.Minimum = (decimal)value * .1m;
+                this.numericUpDownWVCurrent.Minimum = 0;// (decimal)value * .1m;
 
                 this.numericUpDownWVCurrent.Value = value * temp;
             }
@@ -1115,7 +1115,7 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownWVCurrent.Value;
 
-            this.numericUpDownWVCurrent.Minimum = 2;
+            this.numericUpDownWVCurrent.Minimum = 0;
             this.numericUpDownWVCurrent.Maximum = 100000;
             this.numericUpDownWVCurrent.Increment = 2;
 
@@ -1175,7 +1175,7 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownWVCurrent.Value;
 
-            this.numericUpDownWVCurrent.Minimum = .1m;
+            this.numericUpDownWVCurrent.Minimum = 0.0m;
             this.numericUpDownWVCurrent.Maximum = 15;
             this.numericUpDownWVCurrent.Increment = .1m;
 
