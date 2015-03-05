@@ -123,6 +123,7 @@ namespace RelayControl
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
+            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
@@ -218,7 +219,6 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -502,19 +502,6 @@ namespace RelayControl
             this.timerRegisterPolling.Interval = 1500;
             this.timerRegisterPolling.Tick += new System.EventHandler(this.timerRegisterPolling_Tick);
             // 
-            // tabPageTransmitterMonitoring
-            // 
-            this.tabPageTransmitterMonitoring.BackColor = System.Drawing.Color.Transparent;
-            this.tabPageTransmitterMonitoring.Controls.Add(this.ucTransmitterMonitoring1);
-            this.tabPageTransmitterMonitoring.Controls.Add(this.labelRelayDisconnected2);
-            this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 22);
-            this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
-            this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(991, 624);
-            this.tabPageTransmitterMonitoring.TabIndex = 8;
-            this.tabPageTransmitterMonitoring.Text = "Transmitter Monitoring";
-            this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
-            // 
             // ucTransmitterMonitoring1
             // 
             this.ucTransmitterMonitoring1.CTMult = "";
@@ -532,6 +519,19 @@ namespace RelayControl
             this.ucTransmitterMonitoring1.TransmitterID = "";
             this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring1.TransmitterSN = "";
+            // 
+            // tabPageTransmitterMonitoring
+            // 
+            this.tabPageTransmitterMonitoring.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageTransmitterMonitoring.Controls.Add(this.ucTransmitterMonitoring1);
+            this.tabPageTransmitterMonitoring.Controls.Add(this.labelRelayDisconnected2);
+            this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 22);
+            this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
+            this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(991, 624);
+            this.tabPageTransmitterMonitoring.TabIndex = 8;
+            this.tabPageTransmitterMonitoring.Text = "Transmitter Monitoring";
+            this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
             // 
             // labelRelayDisconnected2
             // 
@@ -1217,6 +1217,14 @@ namespace RelayControl
             this.tabPageMonitor.Text = "PQ Monitor";
             this.tabPageMonitor.UseVisualStyleBackColor = true;
             // 
+            // textBoxRelaySNControlPQ
+            // 
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(336, 579);
+            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
+            this.textBoxRelaySNControlPQ.ReadOnly = true;
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(71, 20);
+            this.textBoxRelaySNControlPQ.TabIndex = 51;
+            // 
             // textBoxCTRatioPQMonitor
             // 
             this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(223, 579);
@@ -1553,6 +1561,7 @@ namespace RelayControl
             this.domainUpDownRelayType.Name = "domainUpDownRelayType";
             this.domainUpDownRelayType.Size = new System.Drawing.Size(84, 20);
             this.domainUpDownRelayType.TabIndex = 43;
+            this.domainUpDownRelayType.SelectedItemChanged += new System.EventHandler(this.domainUpDownRelayType_SelectedItemChanged);
             // 
             // buttonTypePhasingRestoreDefaults
             // 
@@ -2084,6 +2093,7 @@ namespace RelayControl
             this.ucTripMode2.Location = new System.Drawing.Point(8, 3);
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ucTripMode2.SequenceRelay = false;
             this.ucTripMode2.Size = new System.Drawing.Size(313, 249);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = 0;
@@ -2264,23 +2274,6 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // textBoxRelaySNControlPQ
-            // 
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(336, 579);
-            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
-            this.textBoxRelaySNControlPQ.ReadOnly = true;
-            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(71, 20);
-            this.textBoxRelaySNControlPQ.TabIndex = 51;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(302, 583);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(27, 13);
-            this.label2.TabIndex = 52;
-            this.label2.Text = "S/N";
             // 
             // MainControl
             // 

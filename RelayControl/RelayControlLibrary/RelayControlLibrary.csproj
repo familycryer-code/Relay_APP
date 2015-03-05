@@ -87,7 +87,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
     <OutputPath>bin\ReleaseMemphis\</OutputPath>
-    <DefineConstants>TRACE;MEMPHIS</DefineConstants>
+    <DefineConstants>TRACE;RELEASE, SEATTLE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -121,16 +121,36 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SEATTLE|AnyCPU'">
+    <OutputPath>bin\SEATTLE\</OutputPath>
+    <DefineConstants>TRACE;BASICRELEASE, SEATTLE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSeattle|AnyCPU'">
+    <OutputPath>bin\ReleaseSeattle\</OutputPath>
+    <DefineConstants>TRACE;BASICRELEASE, SEATTLE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
+      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
     </Reference>
     <Reference Include="GSNetGif">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetGif.dll</HintPath>
+      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetGif.dll</HintPath>
     </Reference>
-    <Reference Include="GSNetWin, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa" />
+    <Reference Include="GSNetWin">
+      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetWin.dll</HintPath>
+    </Reference>
     <Reference Include="GSNetWizard">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetWizard.dll</HintPath>
+      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetWizard.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

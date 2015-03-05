@@ -22,23 +22,28 @@ namespace RelayControlLibrary
             this.domainUpDownType.SelectedIndex = 0;
             this.checkBoxEnableGullWing.Checked = false;
             this.showGullWing(false);
-            //this.initializeSaveState();
 
             this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
             this.domainUpDownTripStyle.Hide();
             this.labelTripStyle.Hide();
             this.initializeToolTip();
 
-            #if DEBUG
-            #else
-            //this.sensitiveTimeEnabled = false;
-            //this.hideSensitiveTimeDelay();
-            #endif
 #if ConEd && !Debug
             this.Customer = Customers.ConEdison;
 #else
             this.Customer = Customers.NonConEd;
 #endif
+        }
+
+        private bool sequenceRelay = false;
+        public bool SequenceRelay
+        {
+            get { return this.sequenceRelay; }
+            set
+            {
+                this.sequenceRelay = value;
+                this.sequenceStyleWattVar();
+            }
         }
 
         private void initializeToolTip()
@@ -497,7 +502,7 @@ namespace RelayControlLibrary
                 case TripModes.WattVar:
                     this.sensitiveTimeVisible(true); 
                     this.SensitiveVisible(true);
-                    this.TimeDelayVisible(true);
+                    this.TimeDelayVisible(false);
                     this.ExtendedTDVisible(false);
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
@@ -577,6 +582,13 @@ namespace RelayControlLibrary
 
         private void WattVarVisible(bool value)
         {
+            if (this.versionNumber >= 150304 && value)
+            {
+                this.numericUpDownTimeDelay.Visible = false;
+                this.labelTDunit.Visible = false;
+                this.labelTD.Visible = false;
+            }
+
             this.numericUpDownWVAngle.Visible = value;
             this.labelWVAngle.Visible = value;
             this.labelWVAngleUnit.Visible = value;
@@ -584,6 +596,20 @@ namespace RelayControlLibrary
             this.numericUpDownWVCurrent.Visible = value;
             this.labelWVCurrent.Visible = value;
             this.labelWVCurrentUnit.Visible = value;
+
+            
+        }
+
+        private void sequenceStyleWattVar()
+        {
+            // Hack to see if we are currently in Watt-Var mode
+            if (this.labelWVAngle.Visible)
+            {
+                if (this.sequenceRelay)
+                    this.numericUpDownWVCurrent.Enabled = false;
+                else
+                    this.numericUpDownWVCurrent.Enabled = true;
+            }
         }
 
         private void modeChanged()
@@ -1208,50 +1234,6 @@ namespace RelayControlLibrary
                     this.setRelayTypeDefaults();
                     break;
             }
-            
-            //Sensitive Trip Curve
-            TripCurve1.CurveNumber = 0;
-            TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
-            TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurve1.Offset = 7.5m;
-            TripCurve1.Tilt = 90;
-
-            //Gull wing Trip Curve
-            TripCurveGW.CurveNumber = 1;
-            TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
-            TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveGW.CodomainMinimum = Constants.SevenFracBits;
-            TripCurveGW.Offset = 7.5m;
-            TripCurveGW.Tilt = 90;
-
-            //Handle Time Delay and Insensitive curves
-            TripCurveTimeDelay.CurveNumber = 3;
-            TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
-            TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
-
-            TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
-            TripCurveTimeDelay.Offset = 0;
-            TripCurveTimeDelay.Tilt = 90;
-
-            TripCurveTimeDelay.CurveNumber = 2;
-
-            //Handle Watt-Var curve
-
-            TripCurveWV.CurveNumber = 4;
-            TripCurveWV.CurveType = TripCurveTypes.WattVar;
-            TripCurveWV.Magnitude = 2.5m;
-            TripCurveWV.Offset = 2.5m;
-            TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurveWV.Tilt = 150;
-
-            //send mode
-            this.TripModeDef.SensitiveTimeDelay = 6;
-            this.TripModeDef.TimeDelay = 150;
-            this.TripModeDef.ExtendedDelay = 0;
-            this.TripModeDef.Mode = TripModes.Sensitive;
         }
 
         private void setTypeIndependentDefaults()
@@ -1273,23 +1255,32 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {   
+#if SEATTLE
+#else
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+#endif
         }
 
         private void setPercentageTypeDefaults()
         {
+#if SEATTLE
+#else
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
+#endif
         }
 
         private void setProtectorTypeDefaults()
         {
+#if SEATTLE
+#else
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+#endif
         }
 
         public delegate void ExceptionHandler(Exception ex);

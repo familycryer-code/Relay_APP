@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-01-21";
+        private const string revisionDate = "2015-03-04";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -3856,10 +3856,12 @@ namespace RelayControl
                 temp = bytePacket[81];  //69
                 if (temp == 'S')
                 {
+                    this.ucTripMode2.SequenceRelay = true;
                     this.setDomainIndex(1, this.domainUpDownRelayType);
                 }
                 else if (temp == 'P')
                 {
+                    this.ucTripMode2.SequenceRelay = false;
                     this.setDomainIndex(0, this.domainUpDownRelayType);
                 }
                 else
@@ -7702,6 +7704,14 @@ namespace RelayControl
             ProgramConfig pC = new ProgramConfig();
 
             this.enableAutoloadToolStripMenuItem.Checked = pC.Data.AutoLoadEnabled;
+        }
+
+        private void domainUpDownRelayType_SelectedItemChanged(object sender, EventArgs e)
+        {
+            if (this.domainUpDownRelayType.SelectedIndex == 0)
+                this.ucTripMode2.SequenceRelay = false;
+            else
+                this.ucTripMode2.SequenceRelay = true;
         }
     }
 

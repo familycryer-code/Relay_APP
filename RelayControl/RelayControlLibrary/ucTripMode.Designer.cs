@@ -412,7 +412,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownWVAngle.Location = new System.Drawing.Point(197, 160);
             this.numericUpDownWVAngle.Maximum = new decimal(new int[] {
-            80,
+            0,
             0,
             0,
             0});
