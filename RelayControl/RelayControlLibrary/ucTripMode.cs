@@ -602,13 +602,16 @@ namespace RelayControlLibrary
 
         private void sequenceStyleWattVar()
         {
-            // Hack to see if we are currently in Watt-Var mode
-            if (this.labelWVAngle.Visible)
+
+            if (this.sequenceRelay)
             {
-                if (this.sequenceRelay)
-                    this.numericUpDownWVCurrent.Enabled = false;
-                else
-                    this.numericUpDownWVCurrent.Enabled = true;
+                this.toolTip.SetToolTip(this.numericUpDownWVAngle, "Number of degrees to rotate the Sensitive Trip Curve when V2N exceeds 0.06%");
+                this.numericUpDownWVCurrent.Enabled = false;
+            }
+            else
+            {
+                this.toolTip.SetToolTip(this.numericUpDownWVAngle, "Number of degrees to rotate the Sensitive Trip Curve when Watt-Var Current has been exceeded");
+                this.numericUpDownWVCurrent.Enabled = true;
             }
         }
 
@@ -1255,18 +1258,17 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {   
-#if SEATTLE
-#else
+#if SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
 #endif
+
         }
 
         private void setPercentageTypeDefaults()
         {
-#if SEATTLE
-#else
+#if SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1275,8 +1277,7 @@ namespace RelayControlLibrary
 
         private void setProtectorTypeDefaults()
         {
-#if SEATTLE
-#else
+#if SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;

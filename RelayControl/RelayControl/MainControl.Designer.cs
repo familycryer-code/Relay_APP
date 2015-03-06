@@ -123,6 +123,7 @@ namespace RelayControl
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
@@ -219,7 +220,6 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -502,6 +502,19 @@ namespace RelayControl
             this.timerRegisterPolling.Interval = 1500;
             this.timerRegisterPolling.Tick += new System.EventHandler(this.timerRegisterPolling_Tick);
             // 
+            // tabPageTransmitterMonitoring
+            // 
+            this.tabPageTransmitterMonitoring.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageTransmitterMonitoring.Controls.Add(this.ucTransmitterMonitoring1);
+            this.tabPageTransmitterMonitoring.Controls.Add(this.labelRelayDisconnected2);
+            this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 22);
+            this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
+            this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(991, 624);
+            this.tabPageTransmitterMonitoring.TabIndex = 8;
+            this.tabPageTransmitterMonitoring.Text = "Transmitter Monitoring";
+            this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
+            // 
             // ucTransmitterMonitoring1
             // 
             this.ucTransmitterMonitoring1.CTMult = "";
@@ -519,19 +532,6 @@ namespace RelayControl
             this.ucTransmitterMonitoring1.TransmitterID = "";
             this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring1.TransmitterSN = "";
-            // 
-            // tabPageTransmitterMonitoring
-            // 
-            this.tabPageTransmitterMonitoring.BackColor = System.Drawing.Color.Transparent;
-            this.tabPageTransmitterMonitoring.Controls.Add(this.ucTransmitterMonitoring1);
-            this.tabPageTransmitterMonitoring.Controls.Add(this.labelRelayDisconnected2);
-            this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 22);
-            this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
-            this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(991, 624);
-            this.tabPageTransmitterMonitoring.TabIndex = 8;
-            this.tabPageTransmitterMonitoring.Text = "Transmitter Monitoring";
-            this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
             // 
             // labelRelayDisconnected2
             // 
@@ -1216,6 +1216,13 @@ namespace RelayControl
             this.tabPageMonitor.TabIndex = 1;
             this.tabPageMonitor.Text = "PQ Monitor";
             this.tabPageMonitor.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 23);
+            this.label2.TabIndex = 0;
             // 
             // textBoxRelaySNControlPQ
             // 
@@ -2185,7 +2192,7 @@ namespace RelayControl
             // 
             // buttonArcFaultStartMonitoring
             // 
-            this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(347, 336);
+            this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(359, 394);
             this.buttonArcFaultStartMonitoring.Name = "buttonArcFaultStartMonitoring";
             this.buttonArcFaultStartMonitoring.Size = new System.Drawing.Size(118, 23);
             this.buttonArcFaultStartMonitoring.TabIndex = 4;
@@ -2197,7 +2204,7 @@ namespace RelayControl
             // 
             this.ucArcFault1.Location = new System.Drawing.Point(8, 6);
             this.ucArcFault1.Name = "ucArcFault1";
-            this.ucArcFault1.Size = new System.Drawing.Size(457, 335);
+            this.ucArcFault1.Size = new System.Drawing.Size(478, 429);
             this.ucArcFault1.TabIndex = 3;
             // 
             // tabPageShortRange
