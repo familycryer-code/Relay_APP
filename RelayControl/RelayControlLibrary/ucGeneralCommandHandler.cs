@@ -110,7 +110,7 @@ namespace RelayControlLibrary
             EventBaseTime eBT = new EventBaseTime();
             UInt32 time;
 
-            eBT.SystemTime = DateTime.Now;
+            eBT.SystemTime = DateTime.UtcNow;
             time = eBT.BinaryTime;
 
             for (int i = 0; i < 4; ++i)

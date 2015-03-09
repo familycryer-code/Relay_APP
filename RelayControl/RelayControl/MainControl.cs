@@ -69,6 +69,7 @@ namespace RelayControl
                     this.ucLiveData1.Customer = this.customer;
                     this.ucTransmitterMonitoring1.Customer = this.customer;
                     this.ucCalibration2.Customer = this.customer;
+                    this.ucRelayProgramming1.Customer = this.customer;
 
                     if (this.customer == Customers.ConEdison)
                         this.makeConEdisonGUI();
@@ -130,12 +131,14 @@ namespace RelayControl
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
 #if !WATERBUG
+                    if (this.Customer == Customers.SMUD)
+                        this.TransmitterEnabled = false;
+
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                         this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                     }
-
                     if (this.customer != Customers.Memphis)
                     {
                         if (this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
@@ -157,7 +160,14 @@ namespace RelayControl
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                            this.makeMemphisGUI();
                         }
+                    }
+                    else // Memphis style
+                   { 
+                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                            this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+
                     }
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
@@ -185,7 +195,20 @@ namespace RelayControl
             get { return this.gEEnabled; }
             set
             {
-                this.ucRelayProgramming1.GERelay = value;
+                this.ucRelayProgramming1.GEEnabled = value;
+                this.ucPhasorGraph1.GEEnabled = value;
+                this.ucTransmitterMonitoring1.GEEnabled = value;
+                this.ucLiveData1.GEEnabled = value;
+                this.ucEventGraph0.GEEnabled = value;
+                this.ucEventGraph1.GEEnabled = value;
+                this.ucEventGraph2.GEEnabled = value;
+                this.ucEventGraph3.GEEnabled = value;
+                this.ucEventGraph4.GEEnabled = value;
+                this.ucEventGraph5.GEEnabled = value;
+                this.ucEventGraph6.GEEnabled = value;
+                this.ucEventGraph7.GEEnabled = value;
+                /*
+//TODO figure out why this is commented out
                 if (value != this.gEEnabled)
                 {
                     this.gEEnabled = value;
@@ -198,6 +221,8 @@ namespace RelayControl
                             case Customers.NonConEdGE:
                             case Customers.DigitalGridDNP:
                                 this.Customer = Customers.NonConEdGE;
+                                break;
+                            case Customers.SMUD:
                                 break;
                             default:
                                 throw new Exception("GE Relay for this customer not defined");
@@ -224,6 +249,7 @@ namespace RelayControl
                         }
                     }
                 }
+                 * */
             }
         }
 
@@ -283,8 +309,6 @@ namespace RelayControl
 #endif
 
 #if ATLANTA
-                this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
-                this.loadConfigurationToolStripMenuItem.Visible = false;
                 if(this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 #endif
@@ -453,7 +477,7 @@ namespace RelayControl
                 this.groupBoxVaultMonitoringCommands.Text = "Monitoring Commands";
                 this.enableAllToolStripMenuItem.Visible = false;
                 this.ArcFaultEnabled = false;
-#else              
+#else
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
                 this.ucCalibration1.Visible = false;
@@ -469,8 +493,8 @@ namespace RelayControl
                 this.buttonRQRelayProcVersion.Visible = false;
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
-                this.enableAllToolStripMenuItem.Visible = false;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " " + this.customerRevisionName;
+                this.enableAllToolStripMenuItem.Visible = true;
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -495,6 +519,12 @@ namespace RelayControl
                 this.TransmitterEnabled = true;
                 this.enableAllToolStripMenuItem.Visible = true;
 #endif
+#endif
+                this.enableAllToolStripMenuItem.Visible = true;
+#if DNP
+                this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
 
             }
@@ -703,6 +733,8 @@ namespace RelayControl
 
         private void makeMemphisGUI()
         {
+            this.Customer = Customers.Memphis;
+            
             if (this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
             {
                 this.tabPageDNPData.Controls.Remove(this.dNPDigitalGridData);
@@ -717,6 +749,8 @@ namespace RelayControl
                 this.dNPMemphisData.Location = new Point(0, 0);
                 this.dNPMemphisData.Show();
             }
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
             this.makeNonConEdGUI();
             if (!this.Text.Contains("Memphis"))
                 this.Text += " - Memphis";
@@ -2244,7 +2278,7 @@ namespace RelayControl
 
         private void storeCurrentTime(byte[] bytePacket)
         {
-            DateTime tempDT = DateTime.Now;
+            DateTime tempDT = DateTime.UtcNow;
             long temp = bytePacket[0];
             temp <<= 8;
             temp += bytePacket[1];
@@ -2810,6 +2844,11 @@ namespace RelayControl
                     this.requestFPGARevision();
                 }
 
+                if (temp.Contains("GE"))
+                    this.GEEnabled = true;
+                else
+                    this.GEEnabled = false;
+
                 if (this.relayCodeRevisionNumber < 20130111)
                 {
                     this.ucSafeService1.Visible = false;
@@ -3046,7 +3085,7 @@ namespace RelayControl
             this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
 #endif
 
-            this.sendTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            this.sendTime(DateTime.UtcNow);
 
             this.ucRelayProgramming1.AllParametersReceived();
         }
@@ -3168,9 +3207,7 @@ namespace RelayControl
                     this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
                     this.RevTooLowErrorAlreadyShown = true;
                 }
-#if !ATLANTA
                 this.ucRelayProgramming1.CheckForUpdate();
-#endif
             }
 
             this.registersReceived = true;
@@ -3590,7 +3627,7 @@ namespace RelayControl
                 else                        //a non-ConEd Relay
                 {
 #if !MEMPHIS && !DNP
-                    if (this.Customer != Customers.NonConEd && this.Customer != Customers.Memphis)
+                    if (this.Customer != Customers.NonConEd && this.Customer != Customers.Memphis && this.Customer != Customers.SMUD)
                     {
                         if (this.Customer != Customers.NonConEdGE)
                             this.Customer = Customers.NonConEd;
@@ -4003,11 +4040,32 @@ namespace RelayControl
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
                 if (!revision.Contains("MASTER"))
                     return;
-                if(revision.Contains("DNP"))
+                switch (this.customer)
                 {
-                    this.DNPEnabled = true;
-                    this.blockDNPEnableFromTransmitterSettings = true;
+                    case Customers.Memphis:
+                        this.DNPEnabled = true;
+                        this.blockDNPEnableFromTransmitterSettings = true;
+                        this.makeMemphisGUI();
+                        this.TransmitterEnabled = false;
+                        break;
+                    default:
+                        if (revision.Contains("DNP"))
+                        {
+                            this.DNPEnabled = true;
+                            this.blockDNPEnableFromTransmitterSettings = true;
+                            if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
+                                this.makeMemphisGUI();
+                        }
+                        break;
                 }
+                if (revision.Contains("SMUD"))
+                {
+                    this.Customer = Customers.SMUD;
+                    this.labelFPGARevision.Visible = false;
+                }
+                if (this.Customer == Customers.None)
+                    this.Customer = Customers.DigitalGrid;
+
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
                 this.handleNewMasterRevision();
@@ -4077,7 +4135,7 @@ namespace RelayControl
                 {
                     this.ucTransmitter1.FPGARevisionValid = true;
                     this.fPGARevisionValid = true;
-                    if (this.labelFPGARevision.Visible == false)
+                    if (this.customer != Customers.SMUD)
                         this.labelFPGARevision.Show();
 
                     try
@@ -5107,10 +5165,6 @@ namespace RelayControl
             {
                 try
                 {
-#if DEBUG
-                    this.serialPort1.Close();
-                    this.serialPort1.BaudRate = 9600; //to check for coned relay
-#endif
                     this.firstPortCheckAttempt = false;
                     this.checkPortForRelay();
                 }
@@ -6028,9 +6082,9 @@ namespace RelayControl
 
             DialogResult dR = this.messageHandler("Downloading Live Data", "Downloading Data.  \r\nThis will take a while.  Continue?", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
-            this.liveDataTriggerTime = DateTime.Now;
+            this.liveDataTriggerTime = DateTime.UtcNow;
 
-            this.labelLiveDataTriggerTime.Text = DateTime.Now.ToString();
+            this.labelLiveDataTriggerTime.Text = DateTime.UtcNow.ToString();
 
             if (dR == DialogResult.OK)
             {
@@ -7111,7 +7165,7 @@ namespace RelayControl
 
         private void buttonSendTime_Click(object sender, EventArgs e)
         {
-            this.sendTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));//new DateTime(2009, 8, 1));
+            this.sendTime(DateTime.UtcNow);
         }
 
         private void buttonCauseEvent_Click(object sender, EventArgs e)

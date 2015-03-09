@@ -15,16 +15,31 @@ namespace RelayControlLibrary
             InitializeComponent();
             SetSize();
             this.initializeComponents();
-            this.tabControlMemphisDNP_SelectedIndexChanged_1(this, new EventArgs());
         }
 
+        public uint RelayMasterRevision
+        {
+            set
+            {
+                if (value != this.relayMasterRevision)
+                {
+                    this.relayMasterRevision = value;
+                    this.initializeComponents();
+                }
+            }
+        }
         private List<string> binaryInputs = new List<string>();
         private List<string> binaryOutputs = new List<string>();
         private List<AnalogPointDefinition> analogInputs = new List<AnalogPointDefinition>();
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
         private byte[] dNPData = new byte[1008]; //252 packet size * 4
+        private uint relayMasterRevision = 140506;
 
+#if ATLANTA
+        private static int _packetLength = 42;
+#else
         private static int _packetLength = 98;
+#endif
         #region Initialization
 
         private void initializeComponents()
@@ -33,6 +48,8 @@ namespace RelayControlLibrary
             this.initializeBinaryOutputs();
             this.initializeAnalogInputs();
             this.initializeAnalogOutputs();
+
+            this.tabControlMemphisDNP_SelectedIndexChanged_1(this, new EventArgs());
         }
 
         private void initializeBinaryInputs()
@@ -78,9 +95,15 @@ namespace RelayControlLibrary
 
         private void initializeBinaryOutputs()
         {
-            uint pointsToAdd = 20;
+            uint pointsToAdd;
+
+            if (this.relayMasterRevision < 140107)
+                pointsToAdd = 20;
+            else
+                pointsToAdd = 21;
 
             this.binaryOutputs.Clear();
+
             this.tabPageBinaryOuputs.Controls.Clear();
 
             this.binaryOutputs.Add("Call For Trip");
@@ -103,6 +126,7 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Clear Cycle Counter");
             this.binaryOutputs.Add("Digital Out 1");
             this.binaryOutputs.Add("Digital Out 2");
+            this.binaryOutputs.Add("Block And Trip Relay");
 
             uint i = 0;
 
@@ -116,9 +140,10 @@ namespace RelayControlLibrary
 
                 this.addBinaryBox(workingBox, this.tabPageBinaryOuputs);
 
+                i++;
+
                 if (i == pointsToAdd)
                     break;
-                i++;
             }
         }
 

@@ -49,7 +49,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
-                //Setting the command bits
+                //Setting the command bits 0 - 6
                 if((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
                     tempByte = 2;
                 else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Sometimes")
@@ -79,8 +79,6 @@ namespace RelayControlLibrary
                     tempByte &= 0x1F; //Clear the Memphis Stage Bits
                     tempByte |= (byte)((int)this.numericUpDownMemphisStage.Value << 5); //Set them
                 }
-                //else
-                //    tempByte = 0;
 
                 sEA.SendPacket[3] = tempByte;
                 
@@ -116,7 +114,8 @@ namespace RelayControlLibrary
                 tempByte = (byte)this.numericUpDownMaxEvents.Value;
                 sEA.SendPacket[17] = tempByte;
 
-                //Event Trigger Ranges
+                // Baude Rate
+                sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudRate.SelectedIndex;
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
                 
@@ -376,6 +375,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
+                return;
             }
 
             try
@@ -390,6 +390,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Self Address", ex));
+                return;
             }
 
             try
@@ -404,6 +405,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
+                return;
             }
 
             try
@@ -418,6 +420,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
+                return;
             }
 
             try
@@ -432,6 +435,18 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
+                return;
+            }
+
+            try
+            {
+                temp = (byte)(bytePacket[1] & 0x07);
+                this.comboBoxBaudRate.SelectedIndex = temp;
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
+                return;
             }
 
             //bytes 2 & 3???
@@ -452,6 +467,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
+                return;
             }
             
             //8 9 = Fragment Size
@@ -466,6 +482,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Fragment Size", ex));
+                return;
             }
 
             //10 11 Destinaton addy
@@ -480,6 +497,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Destination Address", ex));
+                return;
             }
             //12 13 Source Addy
             try
@@ -493,6 +511,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Source Address", ex));
+                return;
             }
             //14 15 unsol max retries
             try
@@ -506,18 +525,30 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
+                return;
             }
 
             try
             {
                 //byte 16 is Retries
-                UInt16 tempInt = bytePacket[16];
+                UInt16 tempInt2 = bytePacket[16];
 
-                this.numericUpDownMaxEvents.Value = tempInt;
+                this.numericUpDownMaxEvents.Value = tempInt2;
             }
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error Setting Max Events", ex));
+                return;
+            }
+
+            try
+            {
+                this.comboBoxDNPBaudRate.SelectedIndex = bytePacket[17];
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
+				return;
             }
 
             
@@ -679,6 +710,8 @@ namespace RelayControlLibrary
             this.groupBoxDigitalGridDNPDeadBand.Hide();
             this.groupBoxMemphisDeadBand.Show();
 
+            this.buttonSendDeadBand.Visible = false;
+
             this.buttonDefaults.Text = "Restore Memphis Defaults";
         }
 
@@ -704,6 +737,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+            this.comboBoxDNPBaudRate.SelectedIndex = 5;
         }
 
         private void setMemphisDefaults()
@@ -724,6 +758,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+            this.comboBoxDNPBaudRate.SelectedIndex = 3;
 
             this.numericUpDownAnalog1DeadBand.Value = 0.0m;
             this.numericUpDownAnalog2DeadBand.Value = 0.0m;

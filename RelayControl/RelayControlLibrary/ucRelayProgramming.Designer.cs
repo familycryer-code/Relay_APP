@@ -50,6 +50,8 @@
             this.buttonFirstLoad = new System.Windows.Forms.Button();
             this.buttonLoadNewest = new System.Windows.Forms.Button();
             this.buttonFixBootLoader = new System.Windows.Forms.Button();
+            this.labelCustomer = new System.Windows.Forms.Label();
+            this.comboBoxCustomer = new System.Windows.Forms.ComboBox();
             this.buttonClearAllProgrammingFields = new System.Windows.Forms.Button();
             this.buttonLoadDefaultResourceSFiles = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -113,7 +115,7 @@
             // labelCode
             // 
             this.labelCode.AutoSize = true;
-            this.labelCode.Location = new System.Drawing.Point(10, 86);
+            this.labelCode.Location = new System.Drawing.Point(12, 85);
             this.labelCode.Name = "labelCode";
             this.labelCode.Size = new System.Drawing.Size(35, 13);
             this.labelCode.TabIndex = 6;
@@ -122,7 +124,7 @@
             // labelData
             // 
             this.labelData.AutoSize = true;
-            this.labelData.Location = new System.Drawing.Point(12, 106);
+            this.labelData.Location = new System.Drawing.Point(14, 102);
             this.labelData.Name = "labelData";
             this.labelData.Size = new System.Drawing.Size(33, 13);
             this.labelData.TabIndex = 7;
@@ -131,7 +133,7 @@
             // labelCodeTotal
             // 
             this.labelCodeTotal.AutoSize = true;
-            this.labelCodeTotal.Location = new System.Drawing.Point(51, 86);
+            this.labelCodeTotal.Location = new System.Drawing.Point(53, 85);
             this.labelCodeTotal.Name = "labelCodeTotal";
             this.labelCodeTotal.Size = new System.Drawing.Size(13, 13);
             this.labelCodeTotal.TabIndex = 8;
@@ -140,7 +142,7 @@
             // labelDataTotal
             // 
             this.labelDataTotal.AutoSize = true;
-            this.labelDataTotal.Location = new System.Drawing.Point(51, 106);
+            this.labelDataTotal.Location = new System.Drawing.Point(53, 102);
             this.labelDataTotal.Name = "labelDataTotal";
             this.labelDataTotal.Size = new System.Drawing.Size(13, 13);
             this.labelDataTotal.TabIndex = 9;
@@ -149,7 +151,7 @@
             // labelCodeCount
             // 
             this.labelCodeCount.AutoSize = true;
-            this.labelCodeCount.Location = new System.Drawing.Point(82, 86);
+            this.labelCodeCount.Location = new System.Drawing.Point(84, 85);
             this.labelCodeCount.Name = "labelCodeCount";
             this.labelCodeCount.Size = new System.Drawing.Size(13, 13);
             this.labelCodeCount.TabIndex = 10;
@@ -158,7 +160,7 @@
             // labelDataCount
             // 
             this.labelDataCount.AutoSize = true;
-            this.labelDataCount.Location = new System.Drawing.Point(82, 106);
+            this.labelDataCount.Location = new System.Drawing.Point(84, 102);
             this.labelDataCount.Name = "labelDataCount";
             this.labelDataCount.Size = new System.Drawing.Size(13, 13);
             this.labelDataCount.TabIndex = 11;
@@ -172,7 +174,7 @@
             // labelState
             // 
             this.labelState.AutoSize = true;
-            this.labelState.Location = new System.Drawing.Point(139, 86);
+            this.labelState.Location = new System.Drawing.Point(103, 82);
             this.labelState.Name = "labelState";
             this.labelState.Size = new System.Drawing.Size(0, 13);
             this.labelState.TabIndex = 13;
@@ -197,7 +199,7 @@
             // 
             // buttonProgramFPGA
             // 
-            this.buttonProgramFPGA.Location = new System.Drawing.Point(349, 136);
+            this.buttonProgramFPGA.Location = new System.Drawing.Point(349, 135);
             this.buttonProgramFPGA.Name = "buttonProgramFPGA";
             this.buttonProgramFPGA.Size = new System.Drawing.Size(101, 23);
             this.buttonProgramFPGA.TabIndex = 17;
@@ -207,7 +209,7 @@
             // 
             // buttonStartAutoLoad
             // 
-            this.buttonStartAutoLoad.Location = new System.Drawing.Point(134, 147);
+            this.buttonStartAutoLoad.Location = new System.Drawing.Point(139, 167);
             this.buttonStartAutoLoad.Name = "buttonStartAutoLoad";
             this.buttonStartAutoLoad.Size = new System.Drawing.Size(96, 39);
             this.buttonStartAutoLoad.TabIndex = 18;
@@ -217,7 +219,7 @@
             // 
             // buttonFirstLoad
             // 
-            this.buttonFirstLoad.Location = new System.Drawing.Point(6, 147);
+            this.buttonFirstLoad.Location = new System.Drawing.Point(6, 167);
             this.buttonFirstLoad.Name = "buttonFirstLoad";
             this.buttonFirstLoad.Size = new System.Drawing.Size(117, 39);
             this.buttonFirstLoad.TabIndex = 19;
@@ -227,7 +229,7 @@
             // 
             // buttonLoadNewest
             // 
-            this.buttonLoadNewest.Location = new System.Drawing.Point(244, 147);
+            this.buttonLoadNewest.Location = new System.Drawing.Point(246, 167);
             this.buttonLoadNewest.Name = "buttonLoadNewest";
             this.buttonLoadNewest.Size = new System.Drawing.Size(98, 39);
             this.buttonLoadNewest.TabIndex = 20;
@@ -237,7 +239,7 @@
             // 
             // buttonFixBootLoader
             // 
-            this.buttonFixBootLoader.Location = new System.Drawing.Point(244, 103);
+            this.buttonFixBootLoader.Location = new System.Drawing.Point(246, 119);
             this.buttonFixBootLoader.Name = "buttonFixBootLoader";
             this.buttonFixBootLoader.Size = new System.Drawing.Size(98, 39);
             this.buttonFixBootLoader.TabIndex = 21;
@@ -245,23 +247,41 @@
             this.buttonFixBootLoader.UseVisualStyleBackColor = true;
             this.buttonFixBootLoader.Click += new System.EventHandler(this.buttonFixBootLoader_Click);
             // 
+            // labelCustomer
+            // 
+            this.labelCustomer.AutoSize = true;
+            this.labelCustomer.Location = new System.Drawing.Point(12, 127);
+            this.labelCustomer.Name = "labelCustomer";
+            this.labelCustomer.Size = new System.Drawing.Size(51, 13);
+            this.labelCustomer.TabIndex = 22;
+            this.labelCustomer.Text = "Customer";
+            // 
+            // comboBoxCustomer
+            // 
+            this.comboBoxCustomer.FormattingEnabled = true;
+            this.comboBoxCustomer.Location = new System.Drawing.Point(69, 124);
+            this.comboBoxCustomer.Name = "comboBoxCustomer";
+            this.comboBoxCustomer.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCustomer.TabIndex = 23;
+            this.comboBoxCustomer.SelectedIndexChanged += new System.EventHandler(this.comboBoxCustomer_SelectedIndexChanged);
+            // 
             // buttonClearAllProgrammingFields
             // 
-            this.buttonClearAllProgrammingFields.Location = new System.Drawing.Point(349, 162);
+            this.buttonClearAllProgrammingFields.Location = new System.Drawing.Point(349, 183);
             this.buttonClearAllProgrammingFields.Name = "buttonClearAllProgrammingFields";
-            this.buttonClearAllProgrammingFields.Size = new System.Drawing.Size(101, 23);
-            this.buttonClearAllProgrammingFields.TabIndex = 22;
+            this.buttonClearAllProgrammingFields.Size = new System.Drawing.Size(100, 23);
+            this.buttonClearAllProgrammingFields.TabIndex = 24;
             this.buttonClearAllProgrammingFields.Text = "Clear All";
             this.buttonClearAllProgrammingFields.UseVisualStyleBackColor = true;
             this.buttonClearAllProgrammingFields.Click += new System.EventHandler(this.buttonClearAllProgrammingFields_Click);
             // 
             // buttonLoadDefaultResourceSFiles
             // 
-            this.buttonLoadDefaultResourceSFiles.Location = new System.Drawing.Point(134, 103);
+            this.buttonLoadDefaultResourceSFiles.Location = new System.Drawing.Point(349, 159);
             this.buttonLoadDefaultResourceSFiles.Name = "buttonLoadDefaultResourceSFiles";
-            this.buttonLoadDefaultResourceSFiles.Size = new System.Drawing.Size(98, 39);
-            this.buttonLoadDefaultResourceSFiles.TabIndex = 23;
-            this.buttonLoadDefaultResourceSFiles.Text = "Load Stored  Resource Files";
+            this.buttonLoadDefaultResourceSFiles.Size = new System.Drawing.Size(100, 23);
+            this.buttonLoadDefaultResourceSFiles.TabIndex = 25;
+            this.buttonLoadDefaultResourceSFiles.Text = "Load Defaults";
             this.buttonLoadDefaultResourceSFiles.UseVisualStyleBackColor = true;
             this.buttonLoadDefaultResourceSFiles.Click += new System.EventHandler(this.buttonLoadDefaultResourceSFiles_Click);
             // 
@@ -271,6 +291,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonLoadDefaultResourceSFiles);
             this.Controls.Add(this.buttonClearAllProgrammingFields);
+            this.Controls.Add(this.comboBoxCustomer);
+            this.Controls.Add(this.labelCustomer);
             this.Controls.Add(this.buttonFixBootLoader);
             this.Controls.Add(this.buttonLoadNewest);
             this.Controls.Add(this.buttonFirstLoad);
@@ -292,7 +314,7 @@
             this.Controls.Add(this.buttonSelectRelaySFile);
             this.Controls.Add(this.buttonSelectMasterSFile);
             this.Name = "ucRelayProgramming";
-            this.Size = new System.Drawing.Size(459, 193);
+            this.Size = new System.Drawing.Size(459, 209);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,6 +343,8 @@
         private System.Windows.Forms.Button buttonFirstLoad;
         private System.Windows.Forms.Button buttonLoadNewest;
         private System.Windows.Forms.Button buttonFixBootLoader;
+        private System.Windows.Forms.Label labelCustomer;
+        private System.Windows.Forms.ComboBox comboBoxCustomer;
         private System.Windows.Forms.Button buttonClearAllProgrammingFields;
         private System.Windows.Forms.Button buttonLoadDefaultResourceSFiles;
     }

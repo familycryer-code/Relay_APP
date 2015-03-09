@@ -38,7 +38,7 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("VnB", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("VnC", typeof(float));
 #if !DEBUG
-            if(this.customer != Customers.NonConEdGE)
+            if(this.GEEnabled)
 #endif
             {
                 this.graphingValues.Tables[0].Columns.Add("VtA", typeof(float));
@@ -89,7 +89,7 @@ namespace RelayControlLibrary
 
         private void setCustomer()
         {
-            if(this.customer == Customers.NonConEdGE)
+            if(this.GEEnabled)
             {
 #if !DEBUG
                 this.labelVtA.Visible = false;
@@ -263,7 +263,7 @@ namespace RelayControlLibrary
             this.seriesVnB = new Series("VnB");
             this.seriesVnC = new Series("VnC");
 #if !DEBUG
-            if(this.customer != Customers.NonConEdGE)
+            if(!this.GEEnabled)
 #endif
             {
                 this.seriesVtA = new Series("VtA");
@@ -641,7 +641,7 @@ namespace RelayControlLibrary
             this.seriesVnB.BindComponent(SeriesComponent.Y, graphingDVP, "VnB");
             this.seriesVnC.BindComponent(SeriesComponent.Y, graphingDVP, "VnC");
 #if !DEBUG
-            if(this.customer != Customers.NonConEdGE)
+            if(!this.GEEnabled)
 #endif
             {
                 this.seriesVtA.BindComponent(SeriesComponent.Y, graphingDVP, "VtA");
@@ -659,7 +659,7 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.AddSeries(this.seriesVnB);
             this.myChartVoltages.Chart.AddSeries(this.seriesVnC);
 #if !DEBUG
-            if(this.customer != Customers.NonConEdGE)
+            if(!this.GEEnabled)
 #endif
             {
                 this.myChartVoltages.Chart.AddSeries(this.seriesVtA);
@@ -776,7 +776,7 @@ namespace RelayControlLibrary
                         this.graphingValues.Tables[0].Rows.RemoveAt(0);
                     this.workingRow = this.graphingValues.Tables[0].Rows.Add();
 #if !DEBUG
-                    if(this.customer != Customers.NonConEdGE)
+                    if(!this.GEEnabled)
 #endif
                     {
                         this.textBoxVtA.Text = voltageRMSTemp.ToString("0.00");
@@ -788,7 +788,7 @@ namespace RelayControlLibrary
                     if (!this.firstDataSeen)
                         break;
 #if !DEBUG
-                    if(this.customer != Customers.NonConEdGE)
+                    if(!this.GEEnabled)
 #endif
                     {
                         this.textBoxVtB.Text = voltageRMSTemp.ToString("0.00");
@@ -799,7 +799,7 @@ namespace RelayControlLibrary
                     if (!this.firstDataSeen)
                         break;
 #if !DEBUG
-                    if(this.customer != Customers.NonConEdGE)
+                    if(!this.GEEnabled)
 #endif
                     {
                         this.textBoxVtC.Text = voltageRMSTemp.ToString("0.00");
@@ -918,6 +918,16 @@ namespace RelayControlLibrary
         private void buttonPauseMonitoring_Click(object sender, EventArgs e)
         {
             this.pauseTransmitterMonitoring();
+        }
+
+        private bool gEEnabled = false;
+        public bool GEEnabled
+        {
+            get { return this.gEEnabled; }
+            set
+            {
+                this.gEEnabled = value;
+            }
         }
     }
 

@@ -55,6 +55,7 @@ namespace RelayControlLibrary
             {
                 this.eventEnableVisible = value;
                 this.checkBoxEventEnabled.Visible = value;
+                this.labelEventEnable.Visible = value; 
             }
         }
 

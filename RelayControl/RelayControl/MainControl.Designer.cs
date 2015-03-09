@@ -123,9 +123,6 @@ namespace RelayControl
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
-            this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
@@ -220,6 +217,9 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
+            this.labelSNPQMonitor = new System.Windows.Forms.Label();
+            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -457,7 +457,7 @@ namespace RelayControl
             // 
             // timerCheckPortTime
             // 
-            this.timerCheckPortTime.Interval = 1000;
+            this.timerCheckPortTime.Interval = 500;
             this.timerCheckPortTime.Tick += new System.EventHandler(this.timerCheckPortTime_Tick);
             // 
             // statusStripMain
@@ -521,6 +521,7 @@ namespace RelayControl
             this.ucTransmitterMonitoring1.CTRatio = 320;
             this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
+            this.ucTransmitterMonitoring1.GEEnabled = false;
             this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
             this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
             this.ucTransmitterMonitoring1.Protector277 = false;
@@ -582,9 +583,9 @@ namespace RelayControl
             // 
             // ucGeneralCommandHandler1
             // 
-            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 204);
+            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
             this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
-            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 227);
+            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
             this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
             // groupBoxTimeConvert
@@ -746,15 +747,16 @@ namespace RelayControl
             // 
             // ucRelayProgramming1
             // 
+            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
             this.ucRelayProgramming1.DNPRelay = false;
             this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.GERelay = false;
-            this.ucRelayProgramming1.Location = new System.Drawing.Point(527, 427);
+            this.ucRelayProgramming1.GEEnabled = false;
+            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
             this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.Name = "ucRelayProgramming1";
             this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
-            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 191);
+            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
             this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
             this.ucRelayProgramming1.TabIndex = 112;
             this.ucRelayProgramming1.TransmitterEnabled = false;
@@ -840,7 +842,7 @@ namespace RelayControl
             // 
             // ucCalibration1
             // 
-            this.ucCalibration1.Location = new System.Drawing.Point(473, 98);
+            this.ucCalibration1.Location = new System.Drawing.Point(473, 95);
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
@@ -1012,6 +1014,7 @@ namespace RelayControl
             this.ucEventGraph7.DelayToFloat = ((uint)(0u));
             this.ucEventGraph7.EventNumber = ((uint)(0u));
             this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph7.GEEnabled = false;
             this.ucEventGraph7.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph7.Name = "ucEventGraph7";
             this.ucEventGraph7.Protector277 = false;
@@ -1027,6 +1030,7 @@ namespace RelayControl
             this.ucEventGraph6.DelayToFloat = ((uint)(0u));
             this.ucEventGraph6.EventNumber = ((uint)(0u));
             this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph6.GEEnabled = false;
             this.ucEventGraph6.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph6.Name = "ucEventGraph6";
             this.ucEventGraph6.Protector277 = false;
@@ -1042,6 +1046,7 @@ namespace RelayControl
             this.ucEventGraph5.DelayToFloat = ((uint)(0u));
             this.ucEventGraph5.EventNumber = ((uint)(0u));
             this.ucEventGraph5.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph5.GEEnabled = false;
             this.ucEventGraph5.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph5.Name = "ucEventGraph5";
             this.ucEventGraph5.Protector277 = false;
@@ -1057,6 +1062,7 @@ namespace RelayControl
             this.ucEventGraph4.DelayToFloat = ((uint)(0u));
             this.ucEventGraph4.EventNumber = ((uint)(0u));
             this.ucEventGraph4.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph4.GEEnabled = false;
             this.ucEventGraph4.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph4.Name = "ucEventGraph4";
             this.ucEventGraph4.Protector277 = false;
@@ -1072,6 +1078,7 @@ namespace RelayControl
             this.ucEventGraph3.DelayToFloat = ((uint)(0u));
             this.ucEventGraph3.EventNumber = ((uint)(0u));
             this.ucEventGraph3.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph3.GEEnabled = false;
             this.ucEventGraph3.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph3.Name = "ucEventGraph3";
             this.ucEventGraph3.Protector277 = false;
@@ -1087,6 +1094,7 @@ namespace RelayControl
             this.ucEventGraph2.DelayToFloat = ((uint)(0u));
             this.ucEventGraph2.EventNumber = ((uint)(0u));
             this.ucEventGraph2.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph2.GEEnabled = false;
             this.ucEventGraph2.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph2.Name = "ucEventGraph2";
             this.ucEventGraph2.Protector277 = false;
@@ -1102,6 +1110,7 @@ namespace RelayControl
             this.ucEventGraph1.DelayToFloat = ((uint)(0u));
             this.ucEventGraph1.EventNumber = ((uint)(0u));
             this.ucEventGraph1.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph1.GEEnabled = false;
             this.ucEventGraph1.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph1.Name = "ucEventGraph1";
             this.ucEventGraph1.Protector277 = false;
@@ -1117,6 +1126,7 @@ namespace RelayControl
             this.ucEventGraph0.DelayToFloat = ((uint)(0u));
             this.ucEventGraph0.EventNumber = ((uint)(0u));
             this.ucEventGraph0.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph0.GEEnabled = false;
             this.ucEventGraph0.Location = new System.Drawing.Point(0, 33);
             this.ucEventGraph0.Name = "ucEventGraph0";
             this.ucEventGraph0.Protector277 = false;
@@ -1150,6 +1160,7 @@ namespace RelayControl
             // 
             this.ucLiveData1.CTRatio = 320;
             this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucLiveData1.GEEnabled = false;
             this.ucLiveData1.Location = new System.Drawing.Point(0, 22);
             this.ucLiveData1.Name = "ucLiveData1";
             this.ucLiveData1.Protector277 = false;
@@ -1198,7 +1209,7 @@ namespace RelayControl
             // 
             // tabPageMonitor
             // 
-            this.tabPageMonitor.Controls.Add(this.label2);
+            this.tabPageMonitor.Controls.Add(this.labelSNPQMonitor);
             this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
             this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
             this.tabPageMonitor.Controls.Add(this.checkBoxInTripRegion);
@@ -1217,29 +1228,6 @@ namespace RelayControl
             this.tabPageMonitor.Text = "PQ Monitor";
             this.tabPageMonitor.UseVisualStyleBackColor = true;
             // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 23);
-            this.label2.TabIndex = 0;
-            // 
-            // textBoxRelaySNControlPQ
-            // 
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(336, 579);
-            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
-            this.textBoxRelaySNControlPQ.ReadOnly = true;
-            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(71, 20);
-            this.textBoxRelaySNControlPQ.TabIndex = 51;
-            // 
-            // textBoxCTRatioPQMonitor
-            // 
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(223, 579);
-            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
-            this.textBoxCTRatioPQMonitor.ReadOnly = true;
-            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(67, 20);
-            this.textBoxCTRatioPQMonitor.TabIndex = 50;
-            // 
             // checkBoxInTripRegion
             // 
             this.checkBoxInTripRegion.AutoCheck = false;
@@ -1254,7 +1242,7 @@ namespace RelayControl
             // 
             // textBoxTemperatureMonitoringPage
             // 
-            this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(99, 579);
+            this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
             this.textBoxTemperatureMonitoringPage.Name = "textBoxTemperatureMonitoringPage";
             this.textBoxTemperatureMonitoringPage.ReadOnly = true;
             this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(56, 20);
@@ -1264,7 +1252,7 @@ namespace RelayControl
             // labelTemperatureMonitoringPage
             // 
             this.labelTemperatureMonitoringPage.AutoSize = true;
-            this.labelTemperatureMonitoringPage.Location = new System.Drawing.Point(10, 582);
+            this.labelTemperatureMonitoringPage.Location = new System.Drawing.Point(3, 581);
             this.labelTemperatureMonitoringPage.Name = "labelTemperatureMonitoringPage";
             this.labelTemperatureMonitoringPage.Size = new System.Drawing.Size(86, 13);
             this.labelTemperatureMonitoringPage.TabIndex = 46;
@@ -1305,7 +1293,7 @@ namespace RelayControl
             // labelCtRatioMonitor
             // 
             this.labelCtRatioMonitor.AutoSize = true;
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(164, 582);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(306, 582);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(52, 13);
             this.labelCtRatioMonitor.TabIndex = 31;
@@ -1314,7 +1302,7 @@ namespace RelayControl
             // ucPhasorGraph1
             // 
             this.ucPhasorGraph1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPhasorGraph1.Customer = RelayControlLibrary.Customers.None;
+            this.ucPhasorGraph1.GEEnabled = false;
             this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
             this.ucPhasorGraph1.Name = "ucPhasorGraph1";
             this.ucPhasorGraph1.RealTimeMonitoring = false;
@@ -2282,6 +2270,36 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // textBoxCTRatioPQMonitor
+            // 
+            this.textBoxCTRatioPQMonitor.Enabled = false;
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(358, 578);
+            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
+            this.textBoxCTRatioPQMonitor.ReadOnly = true;
+            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(48, 20);
+            this.textBoxCTRatioPQMonitor.TabIndex = 65;
+            this.textBoxCTRatioPQMonitor.Text = "320";
+            // 
+            // labelSNPQMonitor
+            // 
+            this.labelSNPQMonitor.AutoSize = true;
+            this.labelSNPQMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(157, 581);
+            this.labelSNPQMonitor.Name = "labelSNPQMonitor";
+            this.labelSNPQMonitor.Size = new System.Drawing.Size(60, 13);
+            this.labelSNPQMonitor.TabIndex = 76;
+            this.labelSNPQMonitor.Text = "Relay S/N:";
+            // 
+            // textBoxRelaySNControlPQ
+            // 
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(223, 578);
+            this.textBoxRelaySNControlPQ.MaxLength = 5;
+            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
+            this.textBoxRelaySNControlPQ.ReadOnly = true;
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(74, 20);
+            this.textBoxRelaySNControlPQ.TabIndex = 75;
+            this.textBoxRelaySNControlPQ.Tag = "SN";
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2531,9 +2549,9 @@ namespace RelayControl
         private RelayControlLibrary.ucGeneralCommandHandler ucGeneralCommandHandler1;
         private System.Windows.Forms.TabPage tabPageDNPSecureAuth;
         private RelayDNPSecurity.ucDNPSAv5 ucDNPSAv51;
-        private System.Windows.Forms.TextBox textBoxCTRatioPQMonitor;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelSNPQMonitor;
         private System.Windows.Forms.TextBox textBoxRelaySNControlPQ;
+        private System.Windows.Forms.TextBox textBoxCTRatioPQMonitor;
     }
 }
 

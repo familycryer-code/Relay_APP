@@ -20,6 +20,9 @@ namespace RelayControl
                 else if (e.KeyCode == Keys.T){
                     this.ChangeRelayType();
                 }
+                else if (e.KeyCode == Keys.R){
+                    this.ResetTransmitterSettings();
+                }
             }
         }
 
@@ -74,6 +77,17 @@ namespace RelayControl
                 this.tempForm = null;
             }
             
+        }
+
+        private void ResetTransmitterSettings()
+        {
+            DialogResult dR = MessageBox.Show("Do you want to reset Transmitter Settings?\r\n", "Reset Transmitter Settings", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+
+            if(dR == System.Windows.Forms.DialogResult.Yes)
+            {
+                this.ucTransmitter1.SetDefaults();
+                this.ucTransmitter1.SendTransmitterSettings();
+            }
         }
     }
 }
