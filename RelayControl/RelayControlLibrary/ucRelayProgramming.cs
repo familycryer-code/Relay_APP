@@ -72,7 +72,6 @@ namespace RelayControlLibrary
         public event ErrorHandler Error;
         public byte[] TransmitterPacket;
 
-       
         public UInt32 SerialNumber
         {
             get { return this.serialNumber; }
@@ -434,7 +433,6 @@ namespace RelayControlLibrary
 
 
 #endif
- 
             this.loadMasterFirst = true;
             this.masterCode.WithParameters = false;
             this.manualReload = true;

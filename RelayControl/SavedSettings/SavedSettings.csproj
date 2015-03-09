@@ -41,6 +41,11 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DNP_Release|AnyCPU'">
+    <OutputPath>bin\DNP_Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSMUD|AnyCPU'">
     <OutputPath>bin\ReleaseSMUD\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>

@@ -53,7 +53,7 @@ namespace RelayControl
                     this.ucPumpMode1.Customer = this.customer;
                     this.ucTripMode2.Customer = this.customer;
                     this.ucCloseMode1.Customer = this.customer;
-                    //TODO fix for coned this.ucPhasorGraph1.Customer = this.customer;
+                    this.ucPhasorGraph1.Customer = this.customer;
                     this.ucTransmitter1.Customer = this.customer;
                     this.ucDNP1.Customer = this.customer;
                     this.ucForceCustomerSwitch1.Customer = this.customer;
@@ -200,7 +200,7 @@ namespace RelayControl
                 this.ucEventGraph5.GEEnabled = value;
                 this.ucEventGraph6.GEEnabled = value;
                 this.ucEventGraph7.GEEnabled = value;
-                /*
+                
                 if (value != this.gEEnabled)
                 {
                     this.gEEnabled = value;
@@ -241,7 +241,6 @@ namespace RelayControl
                         }
                     }
                 }
-                 * */
             }
         }
 
@@ -505,7 +504,7 @@ namespace RelayControl
 #endif
 #endif
 
-#if DNP
+#if DNP && BASICRELEASE
                 this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
@@ -2963,12 +2962,11 @@ namespace RelayControl
                     }
                 }
 
-                /*
                 if ((bytePacket[28] & 0x10) == 0x10)
                     this.GEEnabled = true;
                 else
                     this.GEEnabled = false;
-                */
+
                 if (this.masterRevision >= 110602)
                 {
                     if ((bytePacket[28] & 0x10) == 0x10)
@@ -3613,7 +3611,8 @@ namespace RelayControl
 #if !MEMPHIS && !DNP
                     if (this.Customer != Customers.NonConEd && this.Customer != Customers.Memphis && this.Customer != Customers.SMUD)
                     {
-                        this.Customer = Customers.NonConEd;
+                        if (this.Customer != Customers.NonConEdGE)
+                            this.Customer = Customers.NonConEd;
                     }
 #endif
                 }
@@ -7113,7 +7112,7 @@ namespace RelayControl
 
         private void buttonSendTime_Click(object sender, EventArgs e)
         {
-            this.sendTime(DateTime.UtcNow);//new DateTime(2009, 8, 1));
+            this.sendTime(DateTime.UtcNow);
         }
 
         private void buttonCauseEvent_Click(object sender, EventArgs e)

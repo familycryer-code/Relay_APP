@@ -24,7 +24,7 @@ namespace SineDisplayGraph
                 this.makeGE(value);
             }
         }
-      
+
         public ucPhasorGraph()
         {
             
@@ -322,12 +322,10 @@ namespace SineDisplayGraph
             }
 
             this.listBoxMode.SelectedIndex          = 0;
-            
-            //this.listBoxSequencePower.SelectedIndex = 0;
+            this.listBoxSequencePower.SelectedIndex = 0;
 
-            //TODO fix for Coned
-            //if(this.Customer != Customers.ConEdison)
-            //    this.groupBoxTHD.Visible = true;
+            if(this.Customer != Customers.ConEdison)
+                this.groupBoxTHD.Visible = true;
         }
 
         private void makeGE(bool b)
@@ -1674,9 +1672,10 @@ namespace SineDisplayGraph
         private void switchTo(PhasorDefinition[] phasorArray, PhasorGraph pg)
         {
             pg.phasorsToDraw.Clear();
+
             foreach (PhasorDefinition pD in phasorArray)
             {
-                    pg.AddPhasor(pD);
+                pg.AddPhasor(pD);
             }
             
         }
