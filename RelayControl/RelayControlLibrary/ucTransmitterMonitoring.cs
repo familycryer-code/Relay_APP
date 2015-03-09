@@ -747,7 +747,6 @@ namespace RelayControlLibrary
 
             percentageTemp = percentageTemp * (float.Parse(cTMult) * (float)0.01); //   CT / (mult * 1/100)
 
-
             switch (phasorType)
             {
                 case PhasorTypes.VnA:

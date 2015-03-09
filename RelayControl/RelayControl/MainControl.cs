@@ -53,7 +53,7 @@ namespace RelayControl
                     this.ucPumpMode1.Customer = this.customer;
                     this.ucTripMode2.Customer = this.customer;
                     this.ucCloseMode1.Customer = this.customer;
-                    //TODO fix for coned this.ucPhasorGraph1.Customer = this.customer;
+                    this.ucPhasorGraph1.Customer = this.customer;
                     this.ucTransmitter1.Customer = this.customer;
                     this.ucDNP1.Customer = this.customer;
                     this.ucForceCustomerSwitch1.Customer = this.customer;
@@ -290,6 +290,9 @@ namespace RelayControl
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
+                //CT Ratio on PQ monitor
+                this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
+                this.buttonUpdateCTRatio.Visible = false;
 #if !SeattleTest
                 this.initializeExternalFileRevisionNumber(); //Get the saved data version
                 this.initializeSaveObject();            //Check the save data to see
@@ -723,7 +726,7 @@ namespace RelayControl
         private void makeMemphisGUI()
         {
             this.Customer = Customers.Memphis;
-            //this.ucDNP1.Customer = Customers.Memphis;
+            
             if (this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
             {
                 this.tabPageDNPData.Controls.Remove(this.dNPDigitalGridData);
@@ -2912,6 +2915,7 @@ namespace RelayControl
                     this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
 
                     this.textBoxRelaySNControl.Text = tempI.ToString();
+                    this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                     this.requestedAllParameters = true;
                     this.requestMasterRevisionNumber();
@@ -2928,6 +2932,7 @@ namespace RelayControl
 
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 //Transmitter CT Ratio
                 tempI = bytePacket[5];
@@ -3024,6 +3029,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 this.ucTransmitter1.SetDefaults(tempI);
             }
@@ -3615,7 +3621,8 @@ namespace RelayControl
 #if !MEMPHIS && !DNP
                     if (this.Customer != Customers.NonConEd && this.Customer != Customers.Memphis && this.Customer != Customers.SMUD)
                     {
-                        this.Customer = Customers.NonConEd;
+                        if (this.Customer != Customers.NonConEdGE)
+                            this.Customer = Customers.NonConEd;
                     }
 #endif
                 }
@@ -6717,6 +6724,7 @@ namespace RelayControl
 
             this.setCTRatioTransmitterPage(ratio);
             this.textBoxCTRatio.Text = ratio5.ToString();
+            this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
         }
 
         private bool downloadingLiveData = true;
@@ -7127,7 +7135,7 @@ namespace RelayControl
 
         private void buttonSendTime_Click(object sender, EventArgs e)
         {
-            this.sendTime(DateTime.UtcNow);//new DateTime(2009, 8, 1));
+            this.sendTime(DateTime.UtcNow);
         }
 
         private void buttonCauseEvent_Click(object sender, EventArgs e)

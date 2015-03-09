@@ -108,14 +108,20 @@ namespace RelayControlLibrary
             this.labelOdomoterUnits = new System.Windows.Forms.Label();
             this.numericUpDownCurrentAngleDB = new System.Windows.Forms.NumericUpDown();
             this.groupBoxDNPSettings = new System.Windows.Forms.GroupBox();
-            this.comboBoxBaudRate = new System.Windows.Forms.ComboBox();
+            this.comboBoxDNPBaudRate = new System.Windows.Forms.ComboBox();
             this.labelBaudRate = new System.Windows.Forms.Label();
             this.groupBoxDigitalGridDNPDeadBand = new System.Windows.Forms.GroupBox();
             this.buttonSendDigitalGridDeadBand = new System.Windows.Forms.Button();
             this.label29 = new System.Windows.Forms.Label();
             this.buttonSendDeadBand = new System.Windows.Forms.Button();
+            this.labelSAv5AggressiveMode = new System.Windows.Forms.Label();
+            this.comboBoxSAv5AggressiveMode = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.numericUpDownSAv5UserNumber = new System.Windows.Forms.NumericUpDown();
+            this.labelSAv5UserNumber = new System.Windows.Forms.Label();
+            this.labelSAv5UserKey = new System.Windows.Forms.Label();
+            this.textBoxSAv5UserUpdateKey = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFragmentSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).BeginInit();
@@ -143,6 +149,7 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentAngleDB)).BeginInit();
             this.groupBoxDNPSettings.SuspendLayout();
             this.groupBoxDigitalGridDNPDeadBand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSAv5UserNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // labelLinkLayerConfirm
@@ -424,7 +431,7 @@ namespace RelayControlLibrary
             // labelMemphisStage
             // 
             this.labelMemphisStage.AutoSize = true;
-            this.labelMemphisStage.Location = new System.Drawing.Point(6, 345);
+            this.labelMemphisStage.Location = new System.Drawing.Point(5, 345);
             this.labelMemphisStage.Name = "labelMemphisStage";
             this.labelMemphisStage.Size = new System.Drawing.Size(83, 13);
             this.labelMemphisStage.TabIndex = 33;
@@ -432,7 +439,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownMemphisStage
             // 
-            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(144, 343);
+            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(142, 343);
             this.numericUpDownMemphisStage.Maximum = new decimal(new int[] {
             5,
             0,
@@ -570,7 +577,7 @@ namespace RelayControlLibrary
             // 
             // buttonRQDNPSettings
             // 
-            this.buttonRQDNPSettings.Location = new System.Drawing.Point(3, 441);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(0, 526);
             this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
             this.buttonRQDNPSettings.Size = new System.Drawing.Size(150, 23);
             this.buttonRQDNPSettings.TabIndex = 31;
@@ -634,7 +641,7 @@ namespace RelayControlLibrary
             // 
             // buttonDefaults
             // 
-            this.buttonDefaults.Location = new System.Drawing.Point(3, 412);
+            this.buttonDefaults.Location = new System.Drawing.Point(0, 497);
             this.buttonDefaults.Name = "buttonDefaults";
             this.buttonDefaults.Size = new System.Drawing.Size(150, 23);
             this.buttonDefaults.TabIndex = 59;
@@ -708,9 +715,9 @@ namespace RelayControlLibrary
             // 
             this.buttonSendMemphis.Location = new System.Drawing.Point(407, 321);
             this.buttonSendMemphis.Name = "buttonSendMemphis";
-            this.buttonSendMemphis.Size = new System.Drawing.Size(156, 23);
+            this.buttonSendMemphis.Size = new System.Drawing.Size(136, 23);
             this.buttonSendMemphis.TabIndex = 143;
-            this.buttonSendMemphis.Text = "Send Deadband Variables";
+            this.buttonSendMemphis.Text = "Send Memphis Variables";
             this.buttonSendMemphis.UseVisualStyleBackColor = true;
             this.buttonSendMemphis.Click += new System.EventHandler(this.buttonSendMemphis_Click);
             // 
@@ -1208,7 +1215,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxDNPSettings
             // 
-            this.groupBoxDNPSettings.Controls.Add(this.comboBoxBaudRate);
+            this.groupBoxDNPSettings.Controls.Add(this.comboBoxDNPBaudRate);
             this.groupBoxDNPSettings.Controls.Add(this.labelBaudRate);
             this.groupBoxDNPSettings.Controls.Add(this.labelLinkLayerConfirm);
             this.groupBoxDNPSettings.Controls.Add(this.comboBoxLinkLayerConfirm);
@@ -1242,8 +1249,8 @@ namespace RelayControlLibrary
             // 
             // comboBoxBaudRate
             // 
-            this.comboBoxBaudRate.FormattingEnabled = true;
-            this.comboBoxBaudRate.Items.AddRange(new object[] {
+            this.comboBoxDNPBaudRate.FormattingEnabled = true;
+            this.comboBoxDNPBaudRate.Items.AddRange(new object[] {
             "1200",
             "2400",
             "4800",
@@ -1252,20 +1259,20 @@ namespace RelayControlLibrary
             "19200",
             "28800",
             "38400"});
-            this.comboBoxBaudRate.Location = new System.Drawing.Point(143, 316);
-            this.comboBoxBaudRate.Name = "comboBoxBaudRate";
-            this.comboBoxBaudRate.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxBaudRate.TabIndex = 36;
-            this.comboBoxBaudRate.Text = "19200";
+            this.comboBoxDNPBaudRate.Location = new System.Drawing.Point(142, 316);
+            this.comboBoxDNPBaudRate.Name = "comboBoxDNPBaudeRate";
+            this.comboBoxDNPBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxDNPBaudRate.TabIndex = 35;
+            this.comboBoxDNPBaudRate.Text = "19200";
             // 
             // labelBaudRate
             // 
             this.labelBaudRate.AutoSize = true;
-            this.labelBaudRate.Location = new System.Drawing.Point(6, 319);
+            this.labelBaudRate.Location = new System.Drawing.Point(5, 320);
             this.labelBaudRate.Name = "labelBaudRate";
-            this.labelBaudRate.Size = new System.Drawing.Size(61, 13);
-            this.labelBaudRate.TabIndex = 35;
-            this.labelBaudRate.Text = "Baud Rate:";
+            this.labelBaudRate.Size = new System.Drawing.Size(58, 13);
+            this.labelBaudRate.TabIndex = 34;
+            this.labelBaudRate.Text = "Baud Rate";
             // 
             // groupBoxDigitalGridDNPDeadBand
             // 
@@ -1306,6 +1313,29 @@ namespace RelayControlLibrary
             this.buttonSendDeadBand.UseVisualStyleBackColor = true;
             this.buttonSendDeadBand.Click += new System.EventHandler(this.buttonSendDeadBand_Click);
             // 
+            // labelSAv5AggressiveMode
+            // 
+            this.labelSAv5AggressiveMode.AutoSize = true;
+            this.labelSAv5AggressiveMode.Location = new System.Drawing.Point(9, 409);
+            this.labelSAv5AggressiveMode.Name = "labelSAv5AggressiveMode";
+            this.labelSAv5AggressiveMode.Size = new System.Drawing.Size(92, 13);
+            this.labelSAv5AggressiveMode.TabIndex = 34;
+            this.labelSAv5AggressiveMode.Text = "Aggressive Mode:";
+            this.labelSAv5AggressiveMode.Visible = false;
+            // 
+            // comboBoxSAv5AggressiveMode
+            // 
+            this.comboBoxSAv5AggressiveMode.FormattingEnabled = true;
+            this.comboBoxSAv5AggressiveMode.Items.AddRange(new object[] {
+            "Enable",
+            "Disable"});
+            this.comboBoxSAv5AggressiveMode.Location = new System.Drawing.Point(146, 406);
+            this.comboBoxSAv5AggressiveMode.Name = "comboBoxSAv5AggressiveMode";
+            this.comboBoxSAv5AggressiveMode.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxSAv5AggressiveMode.TabIndex = 35;
+            this.comboBoxSAv5AggressiveMode.Text = "Disable";
+            this.comboBoxSAv5AggressiveMode.Visible = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -1329,16 +1359,74 @@ namespace RelayControlLibrary
             this.comboBox1.Text = "Disable";
             this.comboBox1.Visible = false;
             // 
+            // numericUpDownSAv5UserNumber
+            // 
+            this.numericUpDownSAv5UserNumber.Location = new System.Drawing.Point(147, 429);
+            this.numericUpDownSAv5UserNumber.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numericUpDownSAv5UserNumber.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownSAv5UserNumber.Name = "numericUpDownSAv5UserNumber";
+            this.numericUpDownSAv5UserNumber.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownSAv5UserNumber.TabIndex = 35;
+            this.numericUpDownSAv5UserNumber.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownSAv5UserNumber.Visible = false;
+            // 
+            // labelSAv5UserNumber
+            // 
+            this.labelSAv5UserNumber.AutoSize = true;
+            this.labelSAv5UserNumber.Location = new System.Drawing.Point(9, 433);
+            this.labelSAv5UserNumber.Name = "labelSAv5UserNumber";
+            this.labelSAv5UserNumber.Size = new System.Drawing.Size(72, 13);
+            this.labelSAv5UserNumber.TabIndex = 34;
+            this.labelSAv5UserNumber.Text = "User Number:";
+            this.labelSAv5UserNumber.Visible = false;
+            // 
+            // labelSAv5UserKey
+            // 
+            this.labelSAv5UserKey.AutoSize = true;
+            this.labelSAv5UserKey.Location = new System.Drawing.Point(11, 458);
+            this.labelSAv5UserKey.Name = "labelSAv5UserKey";
+            this.labelSAv5UserKey.Size = new System.Drawing.Size(91, 13);
+            this.labelSAv5UserKey.TabIndex = 147;
+            this.labelSAv5UserKey.Text = "User Update Key:";
+            this.labelSAv5UserKey.Visible = false;
+            // 
+            // textBoxSAv5UserUpdateKey
+            // 
+            this.textBoxSAv5UserUpdateKey.Location = new System.Drawing.Point(146, 458);
+            this.textBoxSAv5UserUpdateKey.Name = "textBoxSAv5UserUpdateKey";
+            this.textBoxSAv5UserUpdateKey.Size = new System.Drawing.Size(121, 20);
+            this.textBoxSAv5UserUpdateKey.TabIndex = 148;
+            this.textBoxSAv5UserUpdateKey.Visible = false;
+            // 
             // ucDNP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxMemphisDeadBand);
+            this.Controls.Add(this.textBoxSAv5UserUpdateKey);
+            this.Controls.Add(this.labelSAv5UserKey);
+            this.Controls.Add(this.numericUpDownSAv5UserNumber);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelSAv5UserNumber);
             this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.labelSAv5AggressiveMode);
+            this.Controls.Add(this.comboBoxSAv5AggressiveMode);
             this.Controls.Add(this.buttonSendDeadBand);
             this.Controls.Add(this.groupBoxDigitalGridDNPDeadBand);
             this.Controls.Add(this.groupBoxDNPSettings);
+            this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.buttonDefaults);
             this.Controls.Add(this.buttonRQDNPSettings);
             this.Name = "ucDNP";
@@ -1373,6 +1461,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.PerformLayout();
             this.groupBoxDigitalGridDNPDeadBand.ResumeLayout(false);
             this.groupBoxDigitalGridDNPDeadBand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSAv5UserNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1464,9 +1553,15 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonSendDigitalGridDeadBand;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button buttonSendDeadBand;
+        private System.Windows.Forms.Label labelSAv5AggressiveMode;
+        private System.Windows.Forms.ComboBox comboBoxSAv5AggressiveMode;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.NumericUpDown numericUpDownSAv5UserNumber;
+        private System.Windows.Forms.Label labelSAv5UserNumber;
+        private System.Windows.Forms.Label labelSAv5UserKey;
+        private System.Windows.Forms.TextBox textBoxSAv5UserUpdateKey;
+        private System.Windows.Forms.ComboBox comboBoxDNPBaudeRate;
         private System.Windows.Forms.Label labelBaudRate;
-        private System.Windows.Forms.ComboBox comboBoxBaudRate;
     }
 }

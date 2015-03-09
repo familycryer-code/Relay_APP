@@ -81,13 +81,6 @@ namespace RelayControlLibrary
                 }
 
                 sEA.SendPacket[3] = tempByte;
-
-                // Baud Rate bottom 3 bits of next byte
-                tempByte = 0;
-
-                tempByte |= (byte)this.comboBoxBaudRate.SelectedIndex;
-
-                sEA.SendPacket[4] = tempByte;
                 
                 //Unsolicited Timeout
                 tempInt32 = (UInt32)this.numericUpDownUnsolTimeout.Value;
@@ -121,7 +114,8 @@ namespace RelayControlLibrary
                 tempByte = (byte)this.numericUpDownMaxEvents.Value;
                 sEA.SendPacket[17] = tempByte;
 
-                //Event Trigger Ranges
+                // Baude Rate
+                sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudRate.SelectedIndex;
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
                 
@@ -224,7 +218,7 @@ namespace RelayControlLibrary
                     temp >>= 8;
                     sEA.SendPacket[16] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownCurrentAngleDB.Value * 10);
+                    temp = (UInt16)this.numericUpDownCurrentAngleDB.Value;
                     sEA.SendPacket[17] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[18] = (byte)(temp & 0xFF);
@@ -254,22 +248,22 @@ namespace RelayControlLibrary
                     temp >>= 8;
                     sEA.SendPacket[28] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog1DeadBand.Value * 100);
+                    temp = (UInt16)(this.numericUpDownAnalog1DeadBand.Value * 10);
                     sEA.SendPacket[29] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[30] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog2DeadBand.Value * 100);
+                    temp = (UInt16)(this.numericUpDownAnalog2DeadBand.Value * 10);
                     sEA.SendPacket[31] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[32] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog3DeadBand.Value * 100);
+                    temp = (UInt16)(this.numericUpDownAnalog3DeadBand.Value * 10);
                     sEA.SendPacket[33] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[34] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)(this.numericUpDownAnalog4DeadBand.Value * 100);
+                    temp = (UInt16)(this.numericUpDownAnalog4DeadBand.Value * 10);
                     sEA.SendPacket[35] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[36] = (byte)(temp & 0xFF);
@@ -549,6 +543,17 @@ namespace RelayControlLibrary
 
             try
             {
+                this.comboBoxDNPBaudRate.SelectedIndex = bytePacket[17];
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
+				return;
+            }
+
+            
+            try
+            {
                 if(this.Customer == Customers.Memphis)
                 {
                     //starting at 37
@@ -559,16 +564,16 @@ namespace RelayControlLibrary
                     this.numericUpDownOdometer.Value = bytePacket[46] + bytePacket[47] * 256;
                     this.numericUpDownDifferentialVoltsDB.Value = (decimal)(bytePacket[48] + bytePacket[49] * 256) / 10m;
                     this.numericUpDownDifferentialVoltsRealDB.Value = (decimal)(bytePacket[50] + bytePacket[51] * 256) / 10m;
-                    this.numericUpDownCurrentAngleDB.Value = (decimal)(bytePacket[52] + bytePacket[53] * 256) / 10m;
+                    this.numericUpDownCurrentAngleDB.Value = bytePacket[52] + bytePacket[53] * 256;
                     this.numericUpDownPhaseKWDB.Value = bytePacket[54] + bytePacket[55] * 256;
                     this.numericUpDownPhaseKVARDB.Value = bytePacket[56] + bytePacket[57] * 256;
                     this.numericUpDownPhaseKVADB.Value = bytePacket[58] + bytePacket[59] * 256;
                     this.numericUpDownTotalKWDB.Value = bytePacket[60] + bytePacket[61] * 256;
                     this.numericUpDownTotalKVAVARDB.Value = bytePacket[62] + bytePacket[63] * 256;
-                    this.numericUpDownAnalog1DeadBand.Value = (decimal)(bytePacket[64] + bytePacket[65] * 256) / 100m;
-                    this.numericUpDownAnalog2DeadBand.Value = (decimal)(bytePacket[66] + bytePacket[67] * 256) / 100m;
-                    this.numericUpDownAnalog3DeadBand.Value = (decimal)(bytePacket[68] + bytePacket[69] * 256) / 100m;
-                    this.numericUpDownAnalog4DeadBand.Value = (decimal)(bytePacket[70] + bytePacket[71] * 256) / 100m;
+                    this.numericUpDownAnalog1DeadBand.Value = (decimal)(bytePacket[64] + bytePacket[65] * 256) / 10m;
+                    this.numericUpDownAnalog2DeadBand.Value = (decimal)(bytePacket[66] + bytePacket[67] * 256) / 10m;
+                    this.numericUpDownAnalog3DeadBand.Value = (decimal)(bytePacket[68] + bytePacket[69] * 256) / 10m;
+                    this.numericUpDownAnalog4DeadBand.Value = (decimal)(bytePacket[70] + bytePacket[71] * 256) / 10m;
                     
                 }
                 else
@@ -732,7 +737,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
-            this.comboBoxBaudRate.SelectedIndex = 5;
+            this.comboBoxDNPBaudRate.SelectedIndex = 5;
         }
 
         private void setMemphisDefaults()
@@ -753,7 +758,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
-            this.comboBoxBaudRate.SelectedIndex = 3;
+            this.comboBoxDNPBaudRate.SelectedIndex = 3;
 
             this.numericUpDownAnalog1DeadBand.Value = 0.0m;
             this.numericUpDownAnalog2DeadBand.Value = 0.0m;
