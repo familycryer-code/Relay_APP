@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace RelayControl
 {
     static class Program
     {
+        private static Mutex m_Mutex;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -14,7 +16,23 @@ namespace RelayControl
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            bool createdNew;
+            m_Mutex = new Mutex(true, "DigitalGrid Relay UI", out createdNew);
+
+#if !DEBUG
+            if (createdNew)
+                Application.Run(new MainControl());
+            else
+            {
+#if !MOBILE
+                MessageBox.Show("The application is already running.", Application.ProductName,
+                  MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+#endif
+            }
+#else
             Application.Run(new MainControl());
+#endif
         }
     }
 }

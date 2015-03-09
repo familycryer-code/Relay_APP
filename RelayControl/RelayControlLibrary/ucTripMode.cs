@@ -99,8 +99,8 @@ namespace RelayControlLibrary
                 case Customers.None:
                 case Customers.NonConEd:
                 case Customers.Memphis:
-                case Customers.NonConEdGE:
                 case Customers.DigitalGridDNP:
+                case Customers.SMUD:
                     this.makeNonConEd();
                     break;
                 case Customers.ConEdison:

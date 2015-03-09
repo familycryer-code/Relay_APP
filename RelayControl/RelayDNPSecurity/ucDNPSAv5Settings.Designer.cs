@@ -46,6 +46,8 @@
             this.buttonRequestSettings = new System.Windows.Forms.Button();
             this.buttonSendSettings = new System.Windows.Forms.Button();
             this.checkBoxAggressiveMode = new System.Windows.Forms.CheckBox();
+            this.comboBoxMACAlogrithm = new System.Windows.Forms.ComboBox();
+            this.labelMACAlgorithm = new System.Windows.Forms.Label();
             this.groupBoxMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).BeginInit();
@@ -55,6 +57,8 @@
             // 
             // groupBoxMain
             // 
+            this.groupBoxMain.Controls.Add(this.comboBoxMACAlogrithm);
+            this.groupBoxMain.Controls.Add(this.labelMACAlgorithm);
             this.groupBoxMain.Controls.Add(this.comboBoxKeyChangeAlogrithm);
             this.groupBoxMain.Controls.Add(this.labelKeyChangeAlgorithm);
             this.groupBoxMain.Controls.Add(this.checkBoxAuthenticationEnabled);
@@ -290,6 +294,29 @@
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;
             // 
+            // comboBoxMACAlogrithm
+            // 
+            this.comboBoxMACAlogrithm.FormattingEnabled = true;
+            this.comboBoxMACAlogrithm.Items.AddRange(new object[] {
+            "SHA1 10 OCTET",
+            "SHA256 8 OCTET",
+            "SHA256 16 OCTET",
+            "SHA1 8 OCTET",
+            "AESGMAC 12 OCTET"});
+            this.comboBoxMACAlogrithm.Location = new System.Drawing.Point(160, 204);
+            this.comboBoxMACAlogrithm.Name = "comboBoxMACAlogrithm";
+            this.comboBoxMACAlogrithm.Size = new System.Drawing.Size(149, 21);
+            this.comboBoxMACAlogrithm.TabIndex = 16;
+            // 
+            // labelMACAlgorithm
+            // 
+            this.labelMACAlgorithm.AutoSize = true;
+            this.labelMACAlgorithm.Location = new System.Drawing.Point(19, 207);
+            this.labelMACAlgorithm.Name = "labelMACAlgorithm";
+            this.labelMACAlgorithm.Size = new System.Drawing.Size(79, 13);
+            this.labelMACAlgorithm.TabIndex = 17;
+            this.labelMACAlgorithm.Text = "MAC Algorithm:";
+            // 
             // ucDNPSAv5Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,5 +354,7 @@
         private System.Windows.Forms.CheckBox checkBoxAuthenticationEnabled;
         private System.Windows.Forms.ComboBox comboBoxKeyChangeAlogrithm;
         private System.Windows.Forms.Label labelKeyChangeAlgorithm;
+        private System.Windows.Forms.ComboBox comboBoxMACAlogrithm;
+        private System.Windows.Forms.Label labelMACAlgorithm;
     }
 }

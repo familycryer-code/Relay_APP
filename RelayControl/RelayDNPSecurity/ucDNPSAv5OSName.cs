@@ -76,6 +76,11 @@ namespace RelayDNPSecurity
 
         private void buttonRequestName_Click(object sender, EventArgs e)
         {
+            this.RequestName();
+        }
+
+        public void RequestName()
+        {
             try
             {
                 SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);

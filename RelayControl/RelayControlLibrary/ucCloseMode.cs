@@ -140,7 +140,6 @@ namespace RelayControlLibrary
             {
                 default:
                 case Customers.NonConEd:
-                case Customers.NonConEdGE:
                     this.setNonConEd();
                     break;
                 case Customers.ConEdison:

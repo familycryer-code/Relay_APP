@@ -117,29 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="FPGAdata" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FPGAdata.rbf;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MasterProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_with_DNP.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP_GE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_with_DNP_GE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP_GE_SMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\masterprocessor_with_dnp_ge_smud.s;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP_SMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\masterprocessor_with_dnp_smud.s;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="RelayProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RelayProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="RelayProcessorGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RelayProcessorGE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
 </root>

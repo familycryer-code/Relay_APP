@@ -13,32 +13,14 @@ namespace SineDisplayGraph
 {
     public partial class ucPhasorGraph : UserControl
     {
-        private Customers customer = Customers.None;
-        public Customers Customer
+        private bool gEEnabled = false;
+        public bool GEEnabled
         {
-            get { return this.customer; }
+            get { return this.gEEnabled; }
             set
             {
-                if(this.customer != value)
-                {
-                    this.customer = value;
-                    switch(this.customer)
-                    {
-                        case Customers.ConEdison:
-                            this.makeConEd();
-                            this.makeGE(false);
-                            break;
-                        case Customers.NonConEdGE:
-                            this.makeNonConEd();
-                            this.makeGE(true);          //intentionally falling through
-                            break;
-                        default:
-                        case Customers.NonConEd:
-                            this.makeNonConEd();
-                            this.makeGE(false);
-                            break;
-                    }
-                }
+                this.gEEnabled = value;
+                this.makeGE(value);
             }
         }
 
@@ -109,11 +91,6 @@ namespace SineDisplayGraph
         
         private void myInitialize()
         {
-#if ConEd && !Debug
-            this.Customer = Customers.ConEdison;
-#else
-            this.Customer = Customers.NonConEd;
-#endif
             Array temp = Enum.GetValues(typeof(PhasorTypes));
             int count = 0;
 
@@ -1689,11 +1666,10 @@ namespace SineDisplayGraph
         private void switchTo(PhasorDefinition[] phasorArray, PhasorGraph pg)
         {
             pg.phasorsToDraw.Clear();
-            //pg.Invalidate();
+
             foreach (PhasorDefinition pD in phasorArray)
             {
-                if(pD.Enabled)
-                    pg.AddPhasor(pD);
+                pg.AddPhasor(pD);
             }
             
         }
@@ -1865,7 +1841,7 @@ namespace SineDisplayGraph
             VnC.CalculatePhasorFromWaves(sEA.VnC, sEA.VnC);
             if (VnC.RMS > 50.0f)
                 return sEA.VnC;
-            if(this.customer != Customers.NonConEdGE)
+            if(!this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(sEA.VtA, sEA.VtA);
                 if (VtA.RMS > 50.0f)
@@ -1903,7 +1879,7 @@ namespace SineDisplayGraph
             VnA.CalculatePhasorFromWaves(referenceWave, sEA.VnA);
             VnB.CalculatePhasorFromWaves(referenceWave, sEA.VnB);
             VnC.CalculatePhasorFromWaves(referenceWave, sEA.VnC);
-            if(this.Customer != Customers.NonConEdGE)
+            if(this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(referenceWave, sEA.VtA);
                 VtB.CalculatePhasorFromWaves(referenceWave, sEA.VtB);
@@ -1922,7 +1898,7 @@ namespace SineDisplayGraph
             this.calculateDifferentialAndTransformerVoltages(sEA);
             this.scaleCalculatedVoltages();
 
-            if(this.Customer == Customers.NonConEdGE)
+            if(this.gEEnabled)
             {
                 this.determineGEState();
             }
@@ -2094,7 +2070,7 @@ namespace SineDisplayGraph
             Phasors tempdB = new Phasors();
             Phasors tempdC = new Phasors();
 
-            if(this.Customer != Customers.NonConEdGE)
+            if(!this.gEEnabled)
             {
                 this.calculateDifferentialVotlage(VtA, VnA, VdA);
                 this.calculateDifferentialVotlage(VtB, VnB, VdB);
@@ -2184,8 +2160,8 @@ namespace SineDisplayGraph
                 tempPhasor.Imaginary = workingPhasor.Imaginary * this.CTRatio;
 
                 if(
-                    (workingPhasor.RMS > .03f && this.customer != Customers.NonConEdGE) ||
-                    (workingPhasor.RMS != 0f && this.customer == Customers.NonConEdGE) ||
+                    (workingPhasor.RMS > .03f && !this.gEEnabled) ||
+                    (workingPhasor.RMS != 0f && this.gEEnabled) ||
                     this.CTRatio == 1
                   )
                 {
@@ -2218,8 +2194,8 @@ namespace SineDisplayGraph
                 tempPhasor.Real = workingPhasor.Real * this.CTRatio / 1000f;
                 tempPhasor.Imaginary = workingPhasor.Imaginary * this.CTRatio / 1000f;
 
-                if ((workingPhasor.RMS > .6f && this.customer != Customers.NonConEdGE) ||
-                    (workingPhasor.RMS != 0f && this.customer == Customers.NonConEdGE) ||
+                if ((workingPhasor.RMS > .6f && !this.gEEnabled) ||
+                    (workingPhasor.RMS != 0f && this.gEEnabled) ||
                     this.CTRatio == 1)
                 {
                     workingPhasor.PD.Enabled = true;
@@ -2239,8 +2215,8 @@ namespace SineDisplayGraph
             }
             else
             {
-                if ((workingPhasor.RMS > .2f && this.customer != Customers.NonConEdGE) ||
-                    (workingPhasor.RMS != 0f && this.customer == Customers.NonConEdGE) ||
+                if ((workingPhasor.RMS > .2f && !this.gEEnabled) ||
+                    (workingPhasor.RMS != 0f && this.gEEnabled) ||
                     this.CTRatio == 1)
                 {
                     workingPhasor.PD.Enabled = true;

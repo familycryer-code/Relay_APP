@@ -36,11 +36,12 @@
             this.ucDNPSAv5OSName1 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5AuthoritySym1 = new RelayDNPSecurity.ucDNPSAv5AuthoritySym();
             this.ucDNPSAv5User1 = new RelayDNPSecurity.ucDNPSAv5User();
+            this.buttonLoadDefaultAuthorityKey = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonLoadDefaultUser
             // 
-            this.buttonLoadDefaultUser.Location = new System.Drawing.Point(734, 124);
+            this.buttonLoadDefaultUser.Location = new System.Drawing.Point(756, 133);
             this.buttonLoadDefaultUser.Name = "buttonLoadDefaultUser";
             this.buttonLoadDefaultUser.Size = new System.Drawing.Size(112, 23);
             this.buttonLoadDefaultUser.TabIndex = 7;
@@ -50,7 +51,7 @@
             // 
             // buttonGetLoadedUsers
             // 
-            this.buttonGetLoadedUsers.Location = new System.Drawing.Point(13, 127);
+            this.buttonGetLoadedUsers.Location = new System.Drawing.Point(18, 133);
             this.buttonGetLoadedUsers.Name = "buttonGetLoadedUsers";
             this.buttonGetLoadedUsers.Size = new System.Drawing.Size(112, 23);
             this.buttonGetLoadedUsers.TabIndex = 6;
@@ -61,7 +62,7 @@
             // labelCurrentlyLoadedUsers
             // 
             this.labelCurrentlyLoadedUsers.AutoSize = true;
-            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(181, 124);
+            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(275, 138);
             this.labelCurrentlyLoadedUsers.Name = "labelCurrentlyLoadedUsers";
             this.labelCurrentlyLoadedUsers.Size = new System.Drawing.Size(0, 13);
             this.labelCurrentlyLoadedUsers.TabIndex = 5;
@@ -69,7 +70,7 @@
             // labelLoadedUsersNumbersLabel
             // 
             this.labelLoadedUsersNumbersLabel.AutoSize = true;
-            this.labelLoadedUsersNumbersLabel.Location = new System.Drawing.Point(10, 108);
+            this.labelLoadedUsersNumbersLabel.Location = new System.Drawing.Point(149, 138);
             this.labelLoadedUsersNumbersLabel.Name = "labelLoadedUsersNumbersLabel";
             this.labelLoadedUsersNumbersLabel.Size = new System.Drawing.Size(120, 13);
             this.labelLoadedUsersNumbersLabel.TabIndex = 4;
@@ -77,14 +78,14 @@
             // 
             // ucDNPSAv5Settings1
             // 
-            this.ucDNPSAv5Settings1.Location = new System.Drawing.Point(15, 310);
+            this.ucDNPSAv5Settings1.Location = new System.Drawing.Point(8, 316);
             this.ucDNPSAv5Settings1.Name = "ucDNPSAv5Settings1";
             this.ucDNPSAv5Settings1.Size = new System.Drawing.Size(920, 319);
             this.ucDNPSAv5Settings1.TabIndex = 10;
             // 
             // ucDNPSAv5OSName1
             // 
-            this.ucDNPSAv5OSName1.Location = new System.Drawing.Point(15, 233);
+            this.ucDNPSAv5OSName1.Location = new System.Drawing.Point(8, 239);
             this.ucDNPSAv5OSName1.Name = "ucDNPSAv5OSName1";
             this.ucDNPSAv5OSName1.OSName = "";
             this.ucDNPSAv5OSName1.Size = new System.Drawing.Size(605, 84);
@@ -92,22 +93,33 @@
             // 
             // ucDNPSAv5AuthoritySym1
             // 
-            this.ucDNPSAv5AuthoritySym1.Location = new System.Drawing.Point(13, 156);
+            this.ucDNPSAv5AuthoritySym1.Location = new System.Drawing.Point(6, 162);
             this.ucDNPSAv5AuthoritySym1.Name = "ucDNPSAv5AuthoritySym1";
             this.ucDNPSAv5AuthoritySym1.Size = new System.Drawing.Size(862, 82);
             this.ucDNPSAv5AuthoritySym1.TabIndex = 8;
             // 
             // ucDNPSAv5User1
             // 
-            this.ucDNPSAv5User1.Location = new System.Drawing.Point(3, 0);
+            this.ucDNPSAv5User1.Location = new System.Drawing.Point(8, 3);
             this.ucDNPSAv5User1.Name = "ucDNPSAv5User1";
-            this.ucDNPSAv5User1.Size = new System.Drawing.Size(843, 121);
+            this.ucDNPSAv5User1.Size = new System.Drawing.Size(876, 132);
             this.ucDNPSAv5User1.TabIndex = 2;
+            // 
+            // buttonLoadDefaultAuthorityKey
+            // 
+            this.buttonLoadDefaultAuthorityKey.Location = new System.Drawing.Point(756, 221);
+            this.buttonLoadDefaultAuthorityKey.Name = "buttonLoadDefaultAuthorityKey";
+            this.buttonLoadDefaultAuthorityKey.Size = new System.Drawing.Size(112, 39);
+            this.buttonLoadDefaultAuthorityKey.TabIndex = 11;
+            this.buttonLoadDefaultAuthorityKey.Text = "Load Default Authority Key";
+            this.buttonLoadDefaultAuthorityKey.UseVisualStyleBackColor = true;
+            this.buttonLoadDefaultAuthorityKey.Click += new System.EventHandler(this.buttonLoadDefaultAuthorityKey_Click);
             // 
             // ucDNPSAv5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonLoadDefaultAuthorityKey);
             this.Controls.Add(this.ucDNPSAv5Settings1);
             this.Controls.Add(this.ucDNPSAv5OSName1);
             this.Controls.Add(this.ucDNPSAv5AuthoritySym1);
@@ -133,5 +145,6 @@
         private ucDNPSAv5AuthoritySym ucDNPSAv5AuthoritySym1;
         private ucDNPSAv5OSName ucDNPSAv5OSName1;
         private ucDNPSAv5Settings ucDNPSAv5Settings1;
+        private System.Windows.Forms.Button buttonLoadDefaultAuthorityKey;
     }
 }
