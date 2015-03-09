@@ -50,6 +50,17 @@ namespace RelayControlLibrary
 #endif
         }
 
+        private bool sequenceRelay = false;
+        public bool SequenceRelay
+        {
+            get { return this.sequenceRelay; }
+            set
+            {
+                this.sequenceRelay = value;
+                this.sequenceStyleWattVar();
+            }
+        }
+
         private void initializeToolTip()
         {
             this.toolTip.SetToolTip(this.numericUpDownExtendedTimeDelay, "This Time Delay extends the Sensitive Time Delay\r\nin the Sensitive Trip Region");
@@ -506,7 +517,7 @@ namespace RelayControlLibrary
                 case TripModes.WattVar:
                     this.sensitiveTimeVisible(true); 
                     this.SensitiveVisible(true);
-                    this.TimeDelayVisible(true);
+                    this.TimeDelayVisible(false);
                     this.ExtendedTDVisible(false);
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
@@ -586,6 +597,13 @@ namespace RelayControlLibrary
 
         private void WattVarVisible(bool value)
         {
+            if (this.versionNumber >= 150304 && value)
+            {
+                this.numericUpDownTimeDelay.Visible = false;
+                this.labelTDunit.Visible = false;
+                this.labelTD.Visible = false;
+            }
+
             this.numericUpDownWVAngle.Visible = value;
             this.labelWVAngle.Visible = value;
             this.labelWVAngleUnit.Visible = value;
@@ -593,6 +611,23 @@ namespace RelayControlLibrary
             this.numericUpDownWVCurrent.Visible = value;
             this.labelWVCurrent.Visible = value;
             this.labelWVCurrentUnit.Visible = value;
+
+            
+        }
+
+        private void sequenceStyleWattVar()
+        {
+
+            if (this.sequenceRelay)
+            {
+                this.toolTip.SetToolTip(this.numericUpDownWVAngle, "Number of degrees to rotate the Sensitive Trip Curve when V2N exceeds 0.06%");
+                this.numericUpDownWVCurrent.Enabled = false;
+            }
+            else
+            {
+                this.toolTip.SetToolTip(this.numericUpDownWVAngle, "Number of degrees to rotate the Sensitive Trip Curve when Watt-Var Current has been exceeded");
+                this.numericUpDownWVCurrent.Enabled = true;
+            }
         }
 
         private void modeChanged()
@@ -1033,7 +1068,7 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownWVCurrent.Value;
 
-            this.numericUpDownWVCurrent.Minimum = .1m * this.CTRatio;
+            this.numericUpDownWVCurrent.Minimum = 0;// .1m * this.CTRatio;
             this.numericUpDownWVCurrent.Maximum = 15m * this.CTRatio;
             this.numericUpDownWVCurrent.Increment = .1m * this.CTRatio;
 
@@ -1077,7 +1112,7 @@ namespace RelayControlLibrary
 
                 this.numericUpDownWVCurrent.Increment = (decimal)value * .1m;
                 this.numericUpDownWVCurrent.Maximum = (decimal)value * 15m;
-                this.numericUpDownWVCurrent.Minimum = (decimal)value * .1m;
+                this.numericUpDownWVCurrent.Minimum = 0;// (decimal)value * .1m;
 
                 this.numericUpDownWVCurrent.Value = value * temp;
             }
@@ -1124,7 +1159,7 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownWVCurrent.Value;
 
-            this.numericUpDownWVCurrent.Minimum = 2;
+            this.numericUpDownWVCurrent.Minimum = 0;
             this.numericUpDownWVCurrent.Maximum = 100000;
             this.numericUpDownWVCurrent.Increment = 2;
 
@@ -1184,7 +1219,7 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownWVCurrent.Value;
 
-            this.numericUpDownWVCurrent.Minimum = .1m;
+            this.numericUpDownWVCurrent.Minimum = 0.0m;
             this.numericUpDownWVCurrent.Maximum = 15;
             this.numericUpDownWVCurrent.Increment = .1m;
 
@@ -1222,50 +1257,6 @@ namespace RelayControlLibrary
                     this.setRelayTypeDefaults();
                     break;
             }
-            
-            //Sensitive Trip Curve
-            TripCurve1.CurveNumber = 0;
-            TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
-            TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurve1.Offset = 7.5m;
-            TripCurve1.Tilt = 90;
-
-            //Gull wing Trip Curve
-            TripCurveGW.CurveNumber = 1;
-            TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
-            TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveGW.CodomainMinimum = Constants.SevenFracBits;
-            TripCurveGW.Offset = 7.5m;
-            TripCurveGW.Tilt = 90;
-
-            //Handle Time Delay and Insensitive curves
-            TripCurveTimeDelay.CurveNumber = 3;
-            TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
-            TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
-
-            TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
-            TripCurveTimeDelay.Offset = 0;
-            TripCurveTimeDelay.Tilt = 90;
-
-            TripCurveTimeDelay.CurveNumber = 2;
-
-            //Handle Watt-Var curve
-
-            TripCurveWV.CurveNumber = 4;
-            TripCurveWV.CurveType = TripCurveTypes.WattVar;
-            TripCurveWV.Magnitude = 2.5m;
-            TripCurveWV.Offset = 2.5m;
-            TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurveWV.Tilt = 150;
-
-            //send mode
-            this.TripModeDef.SensitiveTimeDelay = 6;
-            this.TripModeDef.TimeDelay = 150;
-            this.TripModeDef.ExtendedDelay = 0;
-            this.TripModeDef.Mode = TripModes.Sensitive;
         }
 
         private void setTypeIndependentDefaults()
@@ -1300,7 +1291,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#else
+#elsif SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1313,7 +1304,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .2m;
             this.numericUpDownWVCurrent.Value = 50m;
-#else
+#elsif SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1326,7 +1317,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#else
+#elsif SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;

@@ -1188,7 +1188,7 @@ namespace RelayControlLibrary
             get { return this.magnitude; }
             set
             {
-                if (value >= .1m && value <= 15m)
+                if (value >= 0m && value <= 15m)
                 {
                     Int16 temp;
 

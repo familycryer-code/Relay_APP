@@ -123,6 +123,9 @@ namespace RelayControl
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
+            this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
@@ -1195,6 +1198,9 @@ namespace RelayControl
             // 
             // tabPageMonitor
             // 
+            this.tabPageMonitor.Controls.Add(this.label2);
+            this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
+            this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
             this.tabPageMonitor.Controls.Add(this.checkBoxInTripRegion);
             this.tabPageMonitor.Controls.Add(this.textBoxTemperatureMonitoringPage);
             this.tabPageMonitor.Controls.Add(this.labelTemperatureMonitoringPage);
@@ -1210,6 +1216,29 @@ namespace RelayControl
             this.tabPageMonitor.TabIndex = 1;
             this.tabPageMonitor.Text = "PQ Monitor";
             this.tabPageMonitor.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 23);
+            this.label2.TabIndex = 0;
+            // 
+            // textBoxRelaySNControlPQ
+            // 
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(336, 579);
+            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
+            this.textBoxRelaySNControlPQ.ReadOnly = true;
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(71, 20);
+            this.textBoxRelaySNControlPQ.TabIndex = 51;
+            // 
+            // textBoxCTRatioPQMonitor
+            // 
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(223, 579);
+            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
+            this.textBoxCTRatioPQMonitor.ReadOnly = true;
+            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(67, 20);
+            this.textBoxCTRatioPQMonitor.TabIndex = 50;
             // 
             // checkBoxInTripRegion
             // 
@@ -1228,7 +1257,7 @@ namespace RelayControl
             this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(99, 579);
             this.textBoxTemperatureMonitoringPage.Name = "textBoxTemperatureMonitoringPage";
             this.textBoxTemperatureMonitoringPage.ReadOnly = true;
-            this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(56, 20);
             this.textBoxTemperatureMonitoringPage.TabIndex = 47;
             this.textBoxTemperatureMonitoringPage.TabStop = false;
             // 
@@ -1276,7 +1305,7 @@ namespace RelayControl
             // labelCtRatioMonitor
             // 
             this.labelCtRatioMonitor.AutoSize = true;
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(545, 602);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(164, 582);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(52, 13);
             this.labelCtRatioMonitor.TabIndex = 31;
@@ -1539,6 +1568,7 @@ namespace RelayControl
             this.domainUpDownRelayType.Name = "domainUpDownRelayType";
             this.domainUpDownRelayType.Size = new System.Drawing.Size(84, 20);
             this.domainUpDownRelayType.TabIndex = 43;
+            this.domainUpDownRelayType.SelectedItemChanged += new System.EventHandler(this.domainUpDownRelayType_SelectedItemChanged);
             // 
             // buttonTypePhasingRestoreDefaults
             // 
@@ -2070,6 +2100,7 @@ namespace RelayControl
             this.ucTripMode2.Location = new System.Drawing.Point(8, 3);
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ucTripMode2.SequenceRelay = false;
             this.ucTripMode2.Size = new System.Drawing.Size(313, 249);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = 0;
@@ -2161,7 +2192,7 @@ namespace RelayControl
             // 
             // buttonArcFaultStartMonitoring
             // 
-            this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(347, 336);
+            this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(359, 394);
             this.buttonArcFaultStartMonitoring.Name = "buttonArcFaultStartMonitoring";
             this.buttonArcFaultStartMonitoring.Size = new System.Drawing.Size(118, 23);
             this.buttonArcFaultStartMonitoring.TabIndex = 4;
@@ -2173,7 +2204,7 @@ namespace RelayControl
             // 
             this.ucArcFault1.Location = new System.Drawing.Point(8, 6);
             this.ucArcFault1.Name = "ucArcFault1";
-            this.ucArcFault1.Size = new System.Drawing.Size(457, 335);
+            this.ucArcFault1.Size = new System.Drawing.Size(478, 429);
             this.ucArcFault1.TabIndex = 3;
             // 
             // tabPageShortRange
@@ -2500,6 +2531,9 @@ namespace RelayControl
         private RelayControlLibrary.ucGeneralCommandHandler ucGeneralCommandHandler1;
         private System.Windows.Forms.TabPage tabPageDNPSecureAuth;
         private RelayDNPSecurity.ucDNPSAv5 ucDNPSAv51;
+        private System.Windows.Forms.TextBox textBoxCTRatioPQMonitor;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxRelaySNControlPQ;
     }
 }
 

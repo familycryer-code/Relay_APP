@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2014-09-29";
+        private const string revisionDate = "2015-03-06";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -274,6 +274,9 @@ namespace RelayControl
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
+                //CT Ratio on PQ monitor
+                this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
+                this.buttonUpdateCTRatio.Visible = false;
 #if !SeattleTest
                 this.initializeExternalFileRevisionNumber(); //Get the saved data version
                 this.initializeSaveObject();            //Check the save data to see
@@ -458,7 +461,7 @@ namespace RelayControl
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                this.labelCtRatioMonitor.Visible = false;
+                this.labelCtRatioMonitor.Visible = true;
                 this.buttonForceI.Visible = false;
                 this.buttonUpdateCTRatio.Visible = false;
                 this.buttonRequestRelayRegisters.Visible = false;
@@ -2881,6 +2884,7 @@ namespace RelayControl
                     this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
 
                     this.textBoxRelaySNControl.Text = tempI.ToString();
+                    this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                     this.requestedAllParameters = true;
                     this.requestMasterRevisionNumber();
@@ -2897,6 +2901,7 @@ namespace RelayControl
 
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 //Transmitter CT Ratio
                 tempI = bytePacket[5];
@@ -2993,6 +2998,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 this.ucTransmitter1.SetDefaults(tempI);
             }
@@ -3861,10 +3867,12 @@ namespace RelayControl
                 temp = bytePacket[81];  //69
                 if (temp == 'S')
                 {
+                    this.ucTripMode2.SequenceRelay = true;
                     this.setDomainIndex(1, this.domainUpDownRelayType);
                 }
                 else if (temp == 'P')
                 {
+                    this.ucTripMode2.SequenceRelay = false;
                     this.setDomainIndex(0, this.domainUpDownRelayType);
                 }
                 else
@@ -6692,6 +6700,7 @@ namespace RelayControl
 
             this.setCTRatioTransmitterPage(ratio);
             this.textBoxCTRatio.Text = ratio5.ToString();
+            this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
         }
 
         private bool downloadingLiveData = true;
@@ -7711,6 +7720,14 @@ namespace RelayControl
             ProgramConfig pC = new ProgramConfig();
 
             this.enableAutoloadToolStripMenuItem.Checked = pC.Data.AutoLoadEnabled;
+        }
+
+        private void domainUpDownRelayType_SelectedItemChanged(object sender, EventArgs e)
+        {
+            if (this.domainUpDownRelayType.SelectedIndex == 0)
+                this.ucTripMode2.SequenceRelay = false;
+            else
+                this.ucTripMode2.SequenceRelay = true;
         }
     }
 
