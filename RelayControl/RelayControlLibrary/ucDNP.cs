@@ -441,7 +441,7 @@ namespace RelayControlLibrary
             try
             {
                 temp = (byte)(bytePacket[1] & 0x07);
-                this.comboBoxBaudRate.SelectedIndex = temp;
+                this.comboBoxDNPBaudRate.SelectedIndex = temp;
             }
             catch (Exception ex)
             {

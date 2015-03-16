@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Relay Control and Monitoring")]
-[assembly: AssemblyDescription("Used to program DigitalGrid Atlanta Relays")]
+[assembly: AssemblyDescription("Used to program DigitalGrid Relays")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DigitalGrid Inc")]
 [assembly: AssemblyProduct("DG 6001")]

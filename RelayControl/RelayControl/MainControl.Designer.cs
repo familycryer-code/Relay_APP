@@ -123,6 +123,9 @@ namespace RelayControl
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
+            this.labelSNPQMonitor = new System.Windows.Forms.Label();
+            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
+            this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
@@ -217,9 +220,6 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
-            this.labelSNPQMonitor = new System.Windows.Forms.Label();
-            this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -1228,6 +1228,36 @@ namespace RelayControl
             this.tabPageMonitor.Text = "PQ Monitor";
             this.tabPageMonitor.UseVisualStyleBackColor = true;
             // 
+            // labelSNPQMonitor
+            // 
+            this.labelSNPQMonitor.AutoSize = true;
+            this.labelSNPQMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(157, 581);
+            this.labelSNPQMonitor.Name = "labelSNPQMonitor";
+            this.labelSNPQMonitor.Size = new System.Drawing.Size(60, 13);
+            this.labelSNPQMonitor.TabIndex = 76;
+            this.labelSNPQMonitor.Text = "Relay S/N:";
+            // 
+            // textBoxRelaySNControlPQ
+            // 
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(223, 578);
+            this.textBoxRelaySNControlPQ.MaxLength = 5;
+            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
+            this.textBoxRelaySNControlPQ.ReadOnly = true;
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(74, 20);
+            this.textBoxRelaySNControlPQ.TabIndex = 75;
+            this.textBoxRelaySNControlPQ.Tag = "SN";
+            // 
+            // textBoxCTRatioPQMonitor
+            // 
+            this.textBoxCTRatioPQMonitor.Enabled = false;
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(358, 578);
+            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
+            this.textBoxCTRatioPQMonitor.ReadOnly = true;
+            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(48, 20);
+            this.textBoxCTRatioPQMonitor.TabIndex = 65;
+            this.textBoxCTRatioPQMonitor.Text = "320";
+            // 
             // checkBoxInTripRegion
             // 
             this.checkBoxInTripRegion.AutoCheck = false;
@@ -1494,7 +1524,7 @@ namespace RelayControl
             this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownRelayType);
             this.groupBoxPhasingAndType.Controls.Add(this.buttonTypePhasingRestoreDefaults);
             this.groupBoxPhasingAndType.Controls.Add(this.buttonRelayType);
-            this.groupBoxPhasingAndType.Location = new System.Drawing.Point(11, 327);
+            this.groupBoxPhasingAndType.Location = new System.Drawing.Point(11, 338);
             this.groupBoxPhasingAndType.Name = "groupBoxPhasingAndType";
             this.groupBoxPhasingAndType.Size = new System.Drawing.Size(173, 121);
             this.groupBoxPhasingAndType.TabIndex = 111;
@@ -1585,7 +1615,7 @@ namespace RelayControl
             this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
             this.groupBoxNetworkCTRatio.Controls.Add(this.textBoxCTRatio);
             this.groupBoxNetworkCTRatio.Controls.Add(this.domainUpDownCTRatioM);
-            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(11, 252);
+            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(11, 263);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
             this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(173, 69);
             this.groupBoxNetworkCTRatio.TabIndex = 110;
@@ -1612,7 +1642,7 @@ namespace RelayControl
             // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(81, 44);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(84, 44);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(75, 23);
             this.buttonSendCTRatio.TabIndex = 61;
@@ -1662,9 +1692,9 @@ namespace RelayControl
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxACB);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag1);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxPowerSaveFlag);
-            this.groupBoxRelayFlags.Location = new System.Drawing.Point(777, 466);
+            this.groupBoxRelayFlags.Location = new System.Drawing.Point(567, 521);
             this.groupBoxRelayFlags.Name = "groupBoxRelayFlags";
-            this.groupBoxRelayFlags.Size = new System.Drawing.Size(211, 155);
+            this.groupBoxRelayFlags.Size = new System.Drawing.Size(421, 97);
             this.groupBoxRelayFlags.TabIndex = 109;
             this.groupBoxRelayFlags.TabStop = false;
             this.groupBoxRelayFlags.Text = "Relay Flags:";
@@ -1673,7 +1703,7 @@ namespace RelayControl
             // 
             this.labelQuietMode.AutoSize = true;
             this.labelQuietMode.BackColor = System.Drawing.Color.Yellow;
-            this.labelQuietMode.Location = new System.Drawing.Point(6, 139);
+            this.labelQuietMode.Location = new System.Drawing.Point(185, 79);
             this.labelQuietMode.Name = "labelQuietMode";
             this.labelQuietMode.Size = new System.Drawing.Size(62, 13);
             this.labelQuietMode.TabIndex = 52;
@@ -1709,7 +1739,7 @@ namespace RelayControl
             this.checkBoxMathOverTime.AutoCheck = false;
             this.checkBoxMathOverTime.AutoSize = true;
             this.checkBoxMathOverTime.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxMathOverTime.Location = new System.Drawing.Point(106, 118);
+            this.checkBoxMathOverTime.Location = new System.Drawing.Point(285, 58);
             this.checkBoxMathOverTime.Name = "checkBoxMathOverTime";
             this.checkBoxMathOverTime.Size = new System.Drawing.Size(102, 17);
             this.checkBoxMathOverTime.TabIndex = 36;
@@ -1721,7 +1751,7 @@ namespace RelayControl
             this.checkBoxBlockedCloseFlag.AutoCheck = false;
             this.checkBoxBlockedCloseFlag.AutoSize = true;
             this.checkBoxBlockedCloseFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxBlockedCloseFlag.Location = new System.Drawing.Point(6, 98);
+            this.checkBoxBlockedCloseFlag.Location = new System.Drawing.Point(185, 38);
             this.checkBoxBlockedCloseFlag.Name = "checkBoxBlockedCloseFlag";
             this.checkBoxBlockedCloseFlag.Size = new System.Drawing.Size(94, 17);
             this.checkBoxBlockedCloseFlag.TabIndex = 49;
@@ -1733,7 +1763,7 @@ namespace RelayControl
             this.checkBoxMathError.AutoCheck = false;
             this.checkBoxMathError.AutoSize = true;
             this.checkBoxMathError.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxMathError.Location = new System.Drawing.Point(106, 98);
+            this.checkBoxMathError.Location = new System.Drawing.Point(285, 38);
             this.checkBoxMathError.Name = "checkBoxMathError";
             this.checkBoxMathError.Size = new System.Drawing.Size(75, 17);
             this.checkBoxMathError.TabIndex = 39;
@@ -1745,7 +1775,7 @@ namespace RelayControl
             this.checkBoxInInsensRegion.AutoCheck = false;
             this.checkBoxInInsensRegion.AutoSize = true;
             this.checkBoxInInsensRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInInsensRegion.Location = new System.Drawing.Point(84, 79);
+            this.checkBoxInInsensRegion.Location = new System.Drawing.Point(263, 19);
             this.checkBoxInInsensRegion.Name = "checkBoxInInsensRegion";
             this.checkBoxInInsensRegion.Size = new System.Drawing.Size(125, 17);
             this.checkBoxInInsensRegion.TabIndex = 47;
@@ -1793,7 +1823,7 @@ namespace RelayControl
             this.checkBoxACB.AutoCheck = false;
             this.checkBoxACB.AutoSize = true;
             this.checkBoxACB.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxACB.Location = new System.Drawing.Point(6, 79);
+            this.checkBoxACB.Location = new System.Drawing.Point(185, 19);
             this.checkBoxACB.Name = "checkBoxACB";
             this.checkBoxACB.Size = new System.Drawing.Size(47, 17);
             this.checkBoxACB.TabIndex = 43;
@@ -1817,7 +1847,7 @@ namespace RelayControl
             this.checkBoxPowerSaveFlag.AutoCheck = false;
             this.checkBoxPowerSaveFlag.AutoSize = true;
             this.checkBoxPowerSaveFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxPowerSaveFlag.Location = new System.Drawing.Point(6, 119);
+            this.checkBoxPowerSaveFlag.Location = new System.Drawing.Point(185, 59);
             this.checkBoxPowerSaveFlag.Name = "checkBoxPowerSaveFlag";
             this.checkBoxPowerSaveFlag.Size = new System.Drawing.Size(84, 17);
             this.checkBoxPowerSaveFlag.TabIndex = 45;
@@ -1855,7 +1885,7 @@ namespace RelayControl
             this.panelOtherRelayControls.Controls.Add(this.comboBoxSavedStates);
             this.panelOtherRelayControls.Controls.Add(this.buttonSaveSetting);
             this.panelOtherRelayControls.Controls.Add(this.buttonDeleteSetting);
-            this.panelOtherRelayControls.Location = new System.Drawing.Point(444, 257);
+            this.panelOtherRelayControls.Location = new System.Drawing.Point(444, 268);
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
             this.panelOtherRelayControls.Size = new System.Drawing.Size(532, 181);
             this.panelOtherRelayControls.TabIndex = 77;
@@ -2072,7 +2102,7 @@ namespace RelayControl
             // checkBox277Protector
             // 
             this.checkBox277Protector.AutoSize = true;
-            this.checkBox277Protector.Location = new System.Drawing.Point(12, 469);
+            this.checkBox277Protector.Location = new System.Drawing.Point(12, 480);
             this.checkBox277Protector.Name = "checkBox277Protector";
             this.checkBox277Protector.Size = new System.Drawing.Size(100, 17);
             this.checkBox277Protector.TabIndex = 75;
@@ -2089,7 +2119,7 @@ namespace RelayControl
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(313, 249);
+            this.ucTripMode2.Size = new System.Drawing.Size(313, 262);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = 0;
             // 
@@ -2107,7 +2137,7 @@ namespace RelayControl
             // ucPumpMode1
             // 
             this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Location = new System.Drawing.Point(187, 248);
+            this.ucPumpMode1.Location = new System.Drawing.Point(187, 259);
             this.ucPumpMode1.Name = "ucPumpMode1";
             this.ucPumpMode1.PumpProtectEnabled = false;
             this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
@@ -2269,36 +2299,6 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // textBoxCTRatioPQMonitor
-            // 
-            this.textBoxCTRatioPQMonitor.Enabled = false;
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(358, 578);
-            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
-            this.textBoxCTRatioPQMonitor.ReadOnly = true;
-            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(48, 20);
-            this.textBoxCTRatioPQMonitor.TabIndex = 65;
-            this.textBoxCTRatioPQMonitor.Text = "320";
-            // 
-            // labelSNPQMonitor
-            // 
-            this.labelSNPQMonitor.AutoSize = true;
-            this.labelSNPQMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(157, 581);
-            this.labelSNPQMonitor.Name = "labelSNPQMonitor";
-            this.labelSNPQMonitor.Size = new System.Drawing.Size(60, 13);
-            this.labelSNPQMonitor.TabIndex = 76;
-            this.labelSNPQMonitor.Text = "Relay S/N:";
-            // 
-            // textBoxRelaySNControlPQ
-            // 
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(223, 578);
-            this.textBoxRelaySNControlPQ.MaxLength = 5;
-            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
-            this.textBoxRelaySNControlPQ.ReadOnly = true;
-            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(74, 20);
-            this.textBoxRelaySNControlPQ.TabIndex = 75;
-            this.textBoxRelaySNControlPQ.Tag = "SN";
             // 
             // MainControl
             // 

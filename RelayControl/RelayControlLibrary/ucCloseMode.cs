@@ -564,15 +564,28 @@ namespace RelayControlLibrary
             }
             else
             {
-                this.checkBoxCircleClose.Checked = false;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDA.Value = -5;
-                this.numericUpDownPDV.Value = 0.0m;
-                this.numericUpDownRecloseVolts.Value = 1.5m;
+#if NU
                 this.numericUpDownTimeDelay.Value = 6;
-
+                this.numericUpDownRecloseVolts.Value = 1.5m;
+                this.numericUpDownPDA.Value = -5;
+                this.numericUpDownCloseTiltAngle.Value = 95;
+                this.numericUpDownPDV.Value = 0.0m;
+                this.checkBoxCircleClose.Checked = false;
+                this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
+#else
+                this.numericUpDownTimeDelay.Value = 6;
+                this.numericUpDownRecloseVolts.Value = 1.5m;
+                this.numericUpDownPDA.Value = -5;
+                this.numericUpDownCloseTiltAngle.Value = 95;
+                this.numericUpDownPDV.Value = 0.0m;
+                this.checkBoxCircleClose.Checked = false;
+                this.radioButtonNeverOverride.Checked = true;
+                this.CloseModeDef.CloseMode = CloseModes.Normal;
+                this.CloseModeDef.TimeDelay = 6;
+#endif
+
             }
             this.setVerticalLine();
             this.setHorizontalLine();

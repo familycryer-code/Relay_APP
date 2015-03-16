@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-03-06";
+        private const string revisionDate = "2015-03-16";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -54,7 +54,6 @@ namespace RelayControl
                     this.ucPumpMode1.Customer = this.customer;
                     this.ucTripMode2.Customer = this.customer;
                     this.ucCloseMode1.Customer = this.customer;
-                    this.ucPhasorGraph1.Customer = this.customer;
                     this.ucTransmitter1.Customer = this.customer;
                     this.ucDNP1.Customer = this.customer;
                     this.ucForceCustomerSwitch1.Customer = this.customer;
@@ -189,67 +188,28 @@ namespace RelayControl
             }
         }
 
+        private bool gEEnableChangeBlocked = false;
         private bool gEEnabled = false;
         private bool GEEnabled
         {
             get { return this.gEEnabled; }
             set
             {
-                this.ucRelayProgramming1.GEEnabled = value;
-                this.ucPhasorGraph1.GEEnabled = value;
-                this.ucTransmitterMonitoring1.GEEnabled = value;
-                this.ucLiveData1.GEEnabled = value;
-                this.ucEventGraph0.GEEnabled = value;
-                this.ucEventGraph1.GEEnabled = value;
-                this.ucEventGraph2.GEEnabled = value;
-                this.ucEventGraph3.GEEnabled = value;
-                this.ucEventGraph4.GEEnabled = value;
-                this.ucEventGraph5.GEEnabled = value;
-                this.ucEventGraph6.GEEnabled = value;
-                this.ucEventGraph7.GEEnabled = value;
-                /*
-//TODO figure out why this is commented out
-                if (value != this.gEEnabled)
+                if (!this.gEEnableChangeBlocked)
                 {
-                    this.gEEnabled = value;
-
-                    if (value)
-                    {
-                        switch (this.customer)
-                        {
-                            case Customers.NonConEd:
-                            case Customers.NonConEdGE:
-                            case Customers.DigitalGridDNP:
-                                this.Customer = Customers.NonConEdGE;
-                                break;
-                            case Customers.SMUD:
-                                break;
-                            default:
-                                throw new Exception("GE Relay for this customer not defined");
-                        }
-
-                    }
-                    else //Not a GE Relay
-                    {
-                        switch (this.customer)
-                        {
-                            case Customers.Memphis:
-                                this.Customer = Customers.Memphis;
-                                break;
-                            case Customers.NonConEd:
-                            case Customers.NonConEdGE:
-                                this.Customer = Customers.NonConEd;
-                                break;
-                            case Customers.ConEdison:
-                                this.Customer = Customers.ConEdison;
-                                break;
-                            case Customers.None:
-                            default:
-                                throw new Exception("GE Relay For this Customer Not Defined");
-                        }
-                    }
+                    this.ucRelayProgramming1.GEEnabled = value;
+                    this.ucPhasorGraph1.GEEnabled = value;
+                    this.ucTransmitterMonitoring1.GEEnabled = value;
+                    this.ucLiveData1.GEEnabled = value;
+                    this.ucEventGraph0.GEEnabled = value;
+                    this.ucEventGraph1.GEEnabled = value;
+                    this.ucEventGraph2.GEEnabled = value;
+                    this.ucEventGraph3.GEEnabled = value;
+                    this.ucEventGraph4.GEEnabled = value;
+                    this.ucEventGraph5.GEEnabled = value;
+                    this.ucEventGraph6.GEEnabled = value;
+                    this.ucEventGraph7.GEEnabled = value;
                 }
-                 * */
             }
         }
 
@@ -281,15 +241,6 @@ namespace RelayControl
         {
             try
             {
-#if NU
-#if NUCREW
-                this.customerRevisionName = "Northeast Utilities - Crew";
-                this.domainUpDownPhasings.Enabled = false;
-                this.domainUpDownRelayType.Enabled = false;
-#else
-                this.customerRevisionName = "Northeast Utilities - Engineer";
-#endif
-#endif
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
                 this.initializeStatusFlags();
@@ -478,6 +429,7 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = false;
                 this.ArcFaultEnabled = false;
 #else
+                this.setCustomersRevisionName();
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
                 this.ucCalibration1.Visible = false;
@@ -494,7 +446,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate;// 2013-07-25"; 
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -541,6 +493,21 @@ namespace RelayControl
             {
                 this.messageHandler(ex.Message, ex.InnerException);
             }
+        }
+
+        private void setCustomersRevisionName()
+        {
+#if NU
+#if NUCREW
+            this.customerRevisionName = "Eversource Crew";
+#else
+            this.customerRevisionName = "Eversource Engineering";
+#endif
+#elif SEATTLE
+            this.customerRevisionName = "Seattle";
+#else
+            this.customerRevisionName = "";
+#endif
         }
 
 
@@ -2845,7 +2812,17 @@ namespace RelayControl
                 }
 
                 if (temp.Contains("GE"))
+                {
+                    this.gEEnableChangeBlocked = false;
                     this.GEEnabled = true;
+                    this.gEEnableChangeBlocked = true;
+                }
+                else if(temp.Contains("WH"))
+                {
+                    this.gEEnableChangeBlocked = false;
+                    this.GEEnabled = false;
+                    this.gEEnableChangeBlocked = true;
+                }
                 else
                     this.GEEnabled = false;
 
@@ -4922,8 +4899,15 @@ namespace RelayControl
 
         private void restoreDefaultsTypeAndPhasing()
         {
+            // 1 = Sequence, 0 - Power
+            // 0 - ABC, 1 - ACB, 2 - AutoDetect
+#if NU || SEATTLE
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
+#else
+            this.domainUpDownPhasings.SelectedIndex = 2;
+            this.domainUpDownRelayType.SelectedIndex = 1;
+#endif
         }
 
         private bool pauseMonitoring = false;

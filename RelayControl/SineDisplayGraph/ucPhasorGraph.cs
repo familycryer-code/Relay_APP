@@ -29,6 +29,7 @@ namespace SineDisplayGraph
             
             InitializeComponent();
             this.myInitialize();
+            this.makeNonConEd();
          
         }
         public int CTRatio = 320;
@@ -316,10 +317,6 @@ namespace SineDisplayGraph
             }
 
             this.listBoxMode.SelectedIndex          = 0;
-            this.listBoxSequencePower.SelectedIndex = 0;
-
-            if(this.Customer != Customers.ConEdison)
-                this.groupBoxTHD.Visible = true;
         }
 
         private void makeGE(bool b)
@@ -366,10 +363,6 @@ namespace SineDisplayGraph
                 this.trippedPhasors[0].Enabled = !b;
                 this.trippedPhasors[1].Enabled = !b;
                 this.trippedPhasors[2].Enabled = !b;
-
-                //Transformer Sequence Vectors - should get all sets because I think it is by reference
-                //this.sequenceClosePhasors[0].Enabled = !b;
-                //this.sequenceClosePhasors[1].Enabled = !b;
             }
             
         }
@@ -423,6 +416,7 @@ namespace SineDisplayGraph
             this.listBoxSequencePower.Items.Add("Power Phasors");
             this.listBoxSequencePower.Items.Add("Effective Current");
             this.listBoxSequencePower.Items.Add("Differential Voltages");
+            this.listBoxSequencePower.SelectedIndex = 0;
         }
 
         private void makeNonConEd()
@@ -475,6 +469,7 @@ namespace SineDisplayGraph
             this.listBoxSequencePower.Items.Add("Effective Current");
             this.listBoxSequencePower.Items.Add("Differential Voltages");
             this.listBoxSequencePower.Items.Add("Diff Sequence Voltages");
+            this.listBoxSequencePower.SelectedIndex = 0;
         }
 
 

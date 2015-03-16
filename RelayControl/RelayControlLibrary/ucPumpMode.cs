@@ -399,16 +399,29 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
+#if NU
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;
             this.checkBoxMotorTime.Checked = false;
 
             this.numericUpDownCycleLimit.Value = 3;
-            this.numericUpDownProtectTime.Value = 15;
             this.numericUpDownPumpTime.Value = 30;
-            this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+#else
+            this.checkBoxNeverReclose.Checked = false;
+            this.checkBoxCycles.Checked = false;
+            this.checkBoxMotorCycles.Checked = false;
+            this.checkBoxMotorTime.Checked = false;
+
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+#endif
         }
 
         private void errorHandler(Exception ex)

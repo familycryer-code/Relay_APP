@@ -33,7 +33,7 @@ namespace RelayControlLibrary
             this.labelTripStyle.Hide();
             this.initializeToolTip();
 
-            this.restorDefaults();
+            this.restoreDefaults();
 
 #if NUCREW
             this.numericUpDownAngle.Enabled = false;
@@ -64,7 +64,7 @@ namespace RelayControlLibrary
         private void initializeToolTip()
         {
             this.toolTip.SetToolTip(this.numericUpDownExtendedTimeDelay, "This Time Delay extends the Sensitive Time Delay\r\nin the Sensitive Trip Region");
-            this.toolTip.SetToolTip(this.numericUpDownInsensTrip, "Amount of Current needed in Insensitive Trip to enter the Sensitive Trip Region.");
+            this.toolTip.SetToolTip(this.numericUpDownInsensTrip, "Amount of Current needed, on at least one phase, in Insensitive or Time Delay Trip to enter the Sensitive Trip Region.");
             this.toolTip.SetToolTip(this.numericUpDownSensitiveTimeDelay, "Time Delay for the Sensitive Trip Region");
             this.toolTip.SetToolTip(this.numericUpDownSensTrip, "Reverse Current needed at 180 degrees to enter Sensitive Trip Region");
             this.toolTip.SetToolTip(this.numericUpDownTimeDelay, "Time Delay for Time Delay region on Time Delay trip");
@@ -465,9 +465,15 @@ namespace RelayControlLibrary
             switch (tripMode)
             {
                 case TripModes.Sensitive:
+                    this.numericUpDownInsensTrip.Visible = false;
+                    this.labelInsensTripUnit.Visible = false;
+                    this.labelInstantCurrent.Visible = false;
+                    this.labelInsensTrip.Visible = false;
                     this.sensitiveTimeVisible(true);
                     this.SensitiveVisible(true);
                     this.TimeDelayVisible(false);
+                    this.TimeDelayInstantCurrentLabelVisible(false);
+                    this.InsensitiveLabelVisible(false);
                     this.ExtendedTDVisible(false);
                     this.WattVarVisible(false);
                     this.setSensitiveToolTip();
@@ -481,11 +487,15 @@ namespace RelayControlLibrary
                     {
                         this.numericUpDownInsensTrip.Value = 2.5m;
                     }
-                    this.labelInsensTrip.Visible = true;
+                    this.numericUpDownInsensTrip.Visible = true;
+                    this.labelInsensTripUnit.Visible = true;
                     this.labelInstantCurrent.Visible = false;
+                    this.labelInsensTrip.Visible = true;
                     this.sensitiveTimeVisible(false);
                     this.SensitiveVisible(true);
                     this.TimeDelayVisible(false);
+                    this.TimeDelayInstantCurrentLabelVisible(false);
+                    this.InsensitiveLabelVisible(true);
                     this.ExtendedTDVisible(true);
                     this.WattVarVisible(false);
                     this.setInsensitiveToolTip();
@@ -499,13 +509,17 @@ namespace RelayControlLibrary
                     {
                         this.numericUpDownInsensTrip.Value = 2.5m;
                     }
-                    this.labelInsensTrip.Visible = false;
+                    this.numericUpDownInsensTrip.Visible = true;
+                    this.labelInsensTripUnit.Visible = true;
                     this.labelInstantCurrent.Visible = true;
+                    this.labelInsensTrip.Visible = false;
                     this.sensitiveTimeVisible(false);
                     this.SensitiveVisible(true);
-                    this.TimeDelayVisible(true);
                     this.ExtendedTDVisible(true);
                     this.WattVarVisible(false);
+                    this.TimeDelayVisible(true);
+                    this.TimeDelayInstantCurrentLabelVisible(true);
+                    this.InsensitiveLabelVisible(false);
                     this.setTimeDelayToolTip();
                     break;
                 case TripModes.RemoteTrip:
@@ -514,11 +528,19 @@ namespace RelayControlLibrary
                     this.TimeDelayVisible(false);
                     this.ExtendedTDVisible(false);
                     this.WattVarVisible(false);
+                    this.TimeDelayInstantCurrentLabelVisible(false);
+                    this.InsensitiveLabelVisible(false);
                     break;
                 case TripModes.WattVar:
+                    this.numericUpDownInsensTrip.Visible = true;
+                    this.labelInsensTripUnit.Visible = true;
+                    this.labelInstantCurrent.Visible = true;
+                    this.labelInsensTrip.Visible = false;
                     this.sensitiveTimeVisible(true); 
                     this.SensitiveVisible(true);
-                    this.TimeDelayVisible(false);
+                    this.TimeDelayVisible(true);
+                    this.TimeDelayInstantCurrentLabelVisible(true);
+                    this.InsensitiveLabelVisible(false);
                     this.ExtendedTDVisible(false);
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
@@ -579,26 +601,27 @@ namespace RelayControlLibrary
             this.labelTDunit.Visible = value;
         }
 
+        private void TimeDelayInstantCurrentLabelVisible(bool value)
+        {
+            this.labelInstantCurrent.Visible = value;
+        }
+
+        private void InsensitiveLabelVisible(bool value)
+        {
+            
+        }
+
         private void ExtendedTDVisible(bool value)
         {
             this.numericUpDownExtendedTimeDelay.Visible = value;
             this.labelETD.Visible = value;
             this.labelETDunit.Visible = value;
-
-            this.numericUpDownInsensTrip.Visible = value;
-            
-            this.labelInsensTrip.Visible = value;
-            this.labelInsensTripUnit.Visible = value;
-            
-            if(!value)
-                this.labelInstantCurrent.Visible = false;
-
-        
         }
 
         private void WattVarVisible(bool value)
         {
-            if (this.versionNumber >= 150304 && value)
+            // This one version has Time Delay removed for Watt-Var, due to confusion with Seattle
+            if (this.versionNumber == 150304)
             {
                 this.numericUpDownTimeDelay.Visible = false;
                 this.labelTDunit.Visible = false;
@@ -1238,6 +1261,11 @@ namespace RelayControlLibrary
 
         private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
+            this.restoreDefaults();
+        }
+
+        private void restoreDefaults()
+        {
             this.setTypeIndependentDefaults();
 
             switch(this.displayType)
@@ -1257,27 +1285,34 @@ namespace RelayControlLibrary
 
         private void setTypeIndependentDefaults()
         {
+            // Trip Style 
+            // 0 - Hold, 1 - Pulse, 2 - Single
 #if NU
             this.checkBoxEnableGullWing.Checked = true;
             this.gullWingEnabled = true;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 95;
             this.numericUpDownGullWingAngle.Value = 85;
-#else
+            this.checkBoxTripOnPowerDown.Checked = true;
+            this.domainUpDownTripStyle.SelectedIndex = 1;
+#else //SEATTLE
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
 
             this.numericUpDownTimeDelay.Value = 150;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
+            this.checkBoxTripOnPowerDown.Checked = true;
+            this.domainUpDownTripStyle.SelectedIndex = 0;
 #endif
-
+            this.domainUpDownTripStyle.SelectedIndex = 1;
             this.instantaneousCurrent = 2.5m;
             this.insensitiveCurrent = 2.5m;
 
             this.listBoxTripModes.SelectedIndex = 0;
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownExtendedTimeDelay.Value = 0;
+            this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownWVAngle.Value = -60;
         }
 
@@ -1461,6 +1496,7 @@ namespace RelayControlLibrary
         }
 
         #endregion
+
     }
     
     [Serializable()]

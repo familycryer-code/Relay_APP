@@ -43,9 +43,9 @@ namespace RelayControlLibrary
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 150304;
+        private static UInt32 _masterCodeRevisionNumber = 150316;
 		private static UInt32 _masterDNPRevisionNumber = 140814;
-        private static UInt32 _relayCodeRevisionNumber = 20150303;
+        private static UInt32 _relayCodeRevisionNumber = 20150316;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -425,7 +425,7 @@ namespace RelayControlLibrary
                         this.GEEnabled = false;
                     break;
             }
-
+            /*
             switch (this.customer)
             {
                 case Customers.Memphis:
@@ -437,7 +437,7 @@ namespace RelayControlLibrary
                     break;
 
             }
-
+            */
 #if BASICRELEASE
             // This is a non-DNP, transmitter Enabled Relay
             this.TransmitterEnabled = true;
@@ -619,7 +619,7 @@ namespace RelayControlLibrary
                     this.serialNumberError = true;
                 }
 
-                this.GERelay = true;
+                this.GEEnabled = true;
                 this.addGERelayToTransmitterPacket(true);
             }
             else

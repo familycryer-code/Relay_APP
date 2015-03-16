@@ -1561,7 +1561,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelSAv5UserNumber;
         private System.Windows.Forms.Label labelSAv5UserKey;
         private System.Windows.Forms.TextBox textBoxSAv5UserUpdateKey;
-        private System.Windows.Forms.ComboBox comboBoxDNPBaudeRate;
+        private System.Windows.Forms.ComboBox comboBoxDNPBaudRate;
         private System.Windows.Forms.Label labelBaudRate;
     }
 }

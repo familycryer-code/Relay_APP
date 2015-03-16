@@ -437,17 +437,21 @@ namespace RelayControlLibrary
 
         private void restoreDefaults()
         {
+#if NU || SEATTLE
+            this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
+            this.numericUpDownOverCurrent.Value = 10.0m;
+            this.numericUpDownCurrentImbalance.Value = 0.8m;
+            this.numericUpDownDelay.Value = 0;
+            this.numericUpDownLowVoltage.Value = 95m;
+            this.numericUpDownVoltageImbalance.Value = 10.0m;
+#else
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
             this.numericUpDownLowVoltage.Value = 95m;
             this.numericUpDownOverCurrent.Value = 10.0m;
             this.numericUpDownVoltageImbalance.Value = 10.0m;
-            //if (this.LoadingNewCode)
-            //{
-            //    this.LoadingNewCode = false;
-            //    this.SendAll();
-            //}
+#endif
         }
 
         public void SetDefaults()

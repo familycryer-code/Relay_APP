@@ -37,14 +37,9 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("VnA", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("VnB", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("VnC", typeof(float));
-#if !DEBUG
-            if(this.GEEnabled)
-#endif
-            {
-                this.graphingValues.Tables[0].Columns.Add("VtA", typeof(float));
-                this.graphingValues.Tables[0].Columns.Add("VtB", typeof(float));
-                this.graphingValues.Tables[0].Columns.Add("VtC", typeof(float));
-            }
+            this.graphingValues.Tables[0].Columns.Add("VtA", typeof(float));
+            this.graphingValues.Tables[0].Columns.Add("VtB", typeof(float));
+            this.graphingValues.Tables[0].Columns.Add("VtC", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("IA", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("IB", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("IC", typeof(float));
@@ -262,14 +257,9 @@ namespace RelayControlLibrary
             this.seriesVnA = new Series("VnA");
             this.seriesVnB = new Series("VnB");
             this.seriesVnC = new Series("VnC");
-#if !DEBUG
-            if(!this.GEEnabled)
-#endif
-            {
-                this.seriesVtA = new Series("VtA");
-                this.seriesVtB = new Series("VtB");
-                this.seriesVtC = new Series("VtC");
-            }
+            this.seriesVtA = new Series("VtA");
+            this.seriesVtB = new Series("VtB");
+            this.seriesVtC = new Series("VtC");
             this.seriesX1 = new Series("X1%");
             this.seriesX2 = new Series("X2%");
             this.seriesX3 = new Series("X3%");
@@ -640,14 +630,9 @@ namespace RelayControlLibrary
             this.seriesVnA.BindComponent(SeriesComponent.Y, graphingDVP, "VnA");
             this.seriesVnB.BindComponent(SeriesComponent.Y, graphingDVP, "VnB");
             this.seriesVnC.BindComponent(SeriesComponent.Y, graphingDVP, "VnC");
-#if !DEBUG
-            if(!this.GEEnabled)
-#endif
-            {
-                this.seriesVtA.BindComponent(SeriesComponent.Y, graphingDVP, "VtA");
-                this.seriesVtB.BindComponent(SeriesComponent.Y, graphingDVP, "VtB");
-                this.seriesVtC.BindComponent(SeriesComponent.Y, graphingDVP, "VtC");
-            }
+            this.seriesVtA.BindComponent(SeriesComponent.Y, graphingDVP, "VtA");
+            this.seriesVtB.BindComponent(SeriesComponent.Y, graphingDVP, "VtB");
+            this.seriesVtC.BindComponent(SeriesComponent.Y, graphingDVP, "VtC");
             this.seriesSampleNumber.BindComponent(SeriesComponent.Label, graphingDVP, "SampleNumber");
 
             this.seriesX1.BindComponent(SeriesComponent.Y, graphingDVP, "IA");
@@ -658,14 +643,9 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.AddSeries(this.seriesVnA);
             this.myChartVoltages.Chart.AddSeries(this.seriesVnB);
             this.myChartVoltages.Chart.AddSeries(this.seriesVnC);
-#if !DEBUG
-            if(!this.GEEnabled)
-#endif
-            {
-                this.myChartVoltages.Chart.AddSeries(this.seriesVtA);
-                this.myChartVoltages.Chart.AddSeries(this.seriesVtB);
-                this.myChartVoltages.Chart.AddSeries(this.seriesVtC);
-            }
+            this.myChartVoltages.Chart.AddSeries(this.seriesVtA);
+            this.myChartVoltages.Chart.AddSeries(this.seriesVtB);
+            this.myChartVoltages.Chart.AddSeries(this.seriesVtC);
             this.myChartVoltages.Chart.AddSeries(this.seriesSampleNumber);
             this.myChartVoltages.Chart.Grid.AxisX.LabelSeries = this.seriesSampleNumber;
 
@@ -927,6 +907,7 @@ namespace RelayControlLibrary
             set
             {
                 this.gEEnabled = value;
+                this.setCustomer();
             }
         }
     }
