@@ -89,6 +89,7 @@ namespace RelayControlLibrary
         SMUD,
         PEPCO,
         Dominion,
+        Atlanta,
         None
     }
 

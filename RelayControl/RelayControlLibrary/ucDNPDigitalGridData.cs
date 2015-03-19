@@ -28,12 +28,25 @@ namespace RelayControlLibrary
                 }
             }
         }
+        public Customers Customer
+        {
+            set
+            {
+                if (value != this.customer)
+                {
+                    this.customer = value;
+                    this.InitializeComponent();
+                }
+            }
+        }
+
         private List<string> binaryInputs = new List<string>();
         private List<string> binaryOutputs = new List<string>();
         private List<AnalogPointDefinition> analogInputs = new List<AnalogPointDefinition>();
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
         private byte[] dNPData = new byte[1008]; //252 packet size * 4
         private uint relayMasterRevision = 140506;
+        private Customers customer = Customers.DigitalGridDNP;
 
 #if ATLANTA
         private static int _packetLength = 42;
@@ -96,8 +109,8 @@ namespace RelayControlLibrary
         private void initializeBinaryOutputs()
         {
             uint pointsToAdd;
-
-            if (this.relayMasterRevision < 140107)
+            
+            if (this.relayMasterRevision < 140107 || this.customer != Customers.Atlanta)
                 pointsToAdd = 20;
             else
                 pointsToAdd = 21;

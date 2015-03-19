@@ -912,7 +912,7 @@ namespace RelayControlLibrary
             long i;
             UInt64 unsigned;
 
-            i = dT.ToBinary();
+            i = dT.Ticks;
             unsigned = (UInt64)i;
             unsigned -= Constants.IntZeroTime;
             unsigned /= 10000000;

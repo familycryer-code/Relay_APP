@@ -30,7 +30,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-03-16";
+        private const string revisionDate = "2015-03-19";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -69,6 +69,8 @@ namespace RelayControl
                     this.ucTransmitterMonitoring1.Customer = this.customer;
                     this.ucCalibration2.Customer = this.customer;
                     this.ucRelayProgramming1.Customer = this.customer;
+                    if (this.dNPDigitalGridData != null)
+                        this.dNPDigitalGridData.Customer = this.customer;
 
                     if (this.customer == Customers.ConEdison)
                         this.makeConEdisonGUI();
@@ -159,7 +161,6 @@ namespace RelayControl
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-                            this.makeMemphisGUI();
                         }
                     }
                     else // Memphis style
