@@ -1421,6 +1421,16 @@ namespace RelayControlLibrary
             this.numericUpDownLEDSpeed.Value = 20;
         }
 
+        public void EnableTransmitter()
+        {
+            checkBoxTransmitterEnable.Checked = true;
+        }
+
+        public void DisableTransmitter()
+        {
+            checkBoxTransmitterEnable.Checked = false;
+        }
+
         public void SetDefaults()
         {
             this.textBoxID.Text = "1023";

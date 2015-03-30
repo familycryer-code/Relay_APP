@@ -23,6 +23,10 @@ namespace RelayControl
                 else if (e.KeyCode == Keys.R){
                     this.ResetTransmitterSettings();
                 }
+                else if (e.KeyCode == Keys.E)
+                {
+                    this.EnableTransmitterSettings();
+                }
             }
         }
 
@@ -88,6 +92,20 @@ namespace RelayControl
                 this.ucTransmitter1.SetDefaults();
                 this.ucTransmitter1.SendTransmitterSettings();
             }
+        }
+
+        private void EnableTransmitterSettings()
+        {
+            DialogResult dR = MessageBox.Show("Do you want to enable the Transmitter?\r\n(No to Disable)", "Transmitter Enable", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+
+            if (dR == System.Windows.Forms.DialogResult.Yes)
+                this.ucTransmitter1.EnableTransmitter();
+            else if (dR == System.Windows.Forms.DialogResult.No)
+                this.ucTransmitter1.DisableTransmitter();
+            else
+                return;
+
+            this.ucTransmitter1.SendTransmitterSettings();
         }
     }
 }
