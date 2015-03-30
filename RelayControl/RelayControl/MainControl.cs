@@ -120,7 +120,6 @@ namespace RelayControl
             set
             {
                 this.blockDNPEnableFromTransmitterSavedVal = value;
-                this.ucTransmitter1.ForceDNPEnable = true;
             }
         }
         private bool dNPEnabledSavedVal = false;
