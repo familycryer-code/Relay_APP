@@ -187,17 +187,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
     </Reference>
-    <Reference Include="GSNetGif, Version=1.0.2181.19312, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetGif.dll</HintPath>
+    <Reference Include="GSNetGif">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetGif.dll</HintPath>
     </Reference>
-    <Reference Include="GSNetWin, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetWin.dll</HintPath>
+    <Reference Include="GSNetWin">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetWin.dll</HintPath>
     </Reference>
-    <Reference Include="GSNetWizard, Version=3.5.12.0, Culture=neutral, PublicKeyToken=3bfdd1ece951dcfa">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetWizard.dll</HintPath>
+    <Reference Include="GSNetWizard">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\GSNetWizard.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
