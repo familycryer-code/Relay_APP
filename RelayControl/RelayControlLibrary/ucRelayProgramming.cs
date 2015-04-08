@@ -45,7 +45,7 @@ namespace RelayControlLibrary
 #else
         private static UInt32 _masterCodeRevisionNumber = 150331;
 		private static UInt32 _masterDNPRevisionNumber = 140814;
-        private static UInt32 _relayCodeRevisionNumber = 20150330;
+        private static UInt32 _relayCodeRevisionNumber = 20150408;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 

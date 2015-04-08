@@ -1828,24 +1828,24 @@ namespace SineDisplayGraph
         public float[] selectReferenceWave(CompleteCycleEventArgs sEA)
         {
             VnA.CalculatePhasorFromWaves(sEA.VnA, sEA.VnA);
-            if (VnA.RMS > 50.0f)
+            if (VnA.RMS > 10.0f)
                 return sEA.VnA;
             VnB.CalculatePhasorFromWaves(sEA.VnB, sEA.VnB);
-            if (VnB.RMS > 50.0f)
+            if (VnB.RMS > 10.0f)
                 return sEA.VnB;
             VnC.CalculatePhasorFromWaves(sEA.VnC, sEA.VnC);
-            if (VnC.RMS > 50.0f)
+            if (VnC.RMS > 10.0f)
                 return sEA.VnC;
             if(!this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(sEA.VtA, sEA.VtA);
-                if (VtA.RMS > 50.0f)
+                if (VtA.RMS > 10.0f)
                     return sEA.VtA;
                 VtB.CalculatePhasorFromWaves(sEA.VtB, sEA.VtB);
-                if (VtB.RMS > 50.0f)
+                if (VtB.RMS > 10.0f)
                     return sEA.VtB;
                 VtC.CalculatePhasorFromWaves(sEA.VtC, sEA.VtC);
-                if (VtC.RMS > 50.0f)
+                if (VtC.RMS > 10.0f)
                     return sEA.VtC;
             }
             IA.CalculatePhasorFromWaves(sEA.IA, sEA.IA);
@@ -1887,6 +1887,11 @@ namespace SineDisplayGraph
             IB.CalculatePhasorFromWaves(referenceWave, sEA.IB);
             IC.CalculatePhasorFromWaves(referenceWave, sEA.IC);
             this.scaleCurrents();
+
+            if (referenceWave == sEA.VnB || referenceWave == sEA.VtB || referenceWave == sEA.IB)
+                this.rotatePhasors(120);
+            else if (referenceWave == sEA.VnC || referenceWave == sEA.VtC || referenceWave == sEA.IC)
+                this.rotatePhasors(-120);
 
 
             //differential voltage section
@@ -1948,6 +1953,19 @@ namespace SineDisplayGraph
 
             this.phasorGraph1.Invalidate();
             this.phasorGraph2.Invalidate();
+        }
+
+        private void rotatePhasors(int p)
+        {
+            VnA.Degrees += p;
+            VnB.Degrees += p;
+            VnC.Degrees += p;
+            VtA.Degrees += p;
+            VtB.Degrees += p;
+            VtC.Degrees += p;
+            IA.Degrees += p;
+            IB.Degrees += p;
+            IC.Degrees += p;
         }
 
         private void determineGEState()
