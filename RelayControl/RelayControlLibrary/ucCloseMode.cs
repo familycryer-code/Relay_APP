@@ -538,6 +538,9 @@ namespace RelayControlLibrary
                     this.Mode = CloseModes.CircleClose;
                 else
                     this.Mode = CloseModes.CircleAndRelax;
+
+                this.labelReclose.Visible = false;
+                this.labelCircleCloseVolts.Visible = true;
             }
             else
             {
@@ -545,6 +548,9 @@ namespace RelayControlLibrary
                     this.Mode = CloseModes.Normal;
                 else
                     this.Mode = CloseModes.RelaxClose;
+
+                this.labelReclose.Visible = true;
+                this.labelCircleCloseVolts.Visible = false;
             }
         }
 
