@@ -26,9 +26,9 @@ namespace RelayControlLibrary
 
         private List<ucShortRangeFilterTableItem> filterTableItems = new List<ucShortRangeFilterTableItem>(16);
         private List<ucShortRangeTransmitTableItem> transmitTableItems = new List<ucShortRangeTransmitTableItem>(10);
-        private const int _transmitThreshold = 30;
-        private const int _transmitThresholdLow = 27;
-        private const int _transmitThresholdHigh = 33;
+        private const int _transmitThreshold = 60;
+        private const int _transmitThresholdLow = _transmitThreshold - 3;
+        private const int _transmitThresholdHigh = _transmitThreshold + 3;
 
 
         private void generalInitialize()
@@ -94,7 +94,7 @@ namespace RelayControlLibrary
             return;
         }
 
-        private void resetThresholdTo30()
+        private void resetThresholdToDefault()
         {
             Int32 currentThreshold = 0;
             try
@@ -198,7 +198,7 @@ namespace RelayControlLibrary
                 }
                 this.textBoxTransmitAboveSS.Text = bytePacket[30].ToString();
                 if (this.resetThreshold)
-                    this.resetThresholdTo30();
+                    this.resetThresholdToDefault();
                 foreach (ucShortRangeFilterTableItem item in this.filterTableItems)
                 {
                     item.TransmitStrength = bytePacket[30];
