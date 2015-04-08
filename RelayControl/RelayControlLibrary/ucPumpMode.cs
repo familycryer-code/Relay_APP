@@ -399,7 +399,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if NU
+#if NU || SEATTLE || DOMINION
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;

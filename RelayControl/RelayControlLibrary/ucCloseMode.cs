@@ -580,7 +580,7 @@ namespace RelayControlLibrary
                 this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
-#else
+#else // SEATTLE, DOMINION
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownPDA.Value = -5;

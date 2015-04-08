@@ -15,9 +15,6 @@ using System.IO.Ports;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
-using GraphicsServer.GSNet.SeriesData;
-using GraphicsServer.GSNet.Charting;
-using GraphicsServer.GSNet.Widgets;
 using System.Drawing.Printing;
 using System.Drawing.Imaging;
 using Microsoft.Win32;
@@ -505,6 +502,8 @@ namespace RelayControl
 #endif
 #elif SEATTLE
             this.customerRevisionName = "Seattle";
+#elif DOMINION
+            this.customerRevisionName = "Dominion";
 #else
             this.customerRevisionName = "";
 #endif
@@ -4901,7 +4900,7 @@ namespace RelayControl
         {
             // 1 = Sequence, 0 - Power
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
-#if NU || SEATTLE
+#if NU || SEATTLE || DOMINION
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else

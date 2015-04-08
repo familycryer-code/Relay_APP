@@ -437,7 +437,7 @@ namespace RelayControlLibrary
 
         private void restoreDefaults()
         {
-#if NU || SEATTLE
+#if NU || SEATTLE || DOMINION
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownOverCurrent.Value = 10.0m;
             this.numericUpDownCurrentImbalance.Value = 0.8m;

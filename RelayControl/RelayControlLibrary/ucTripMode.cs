@@ -1295,6 +1295,14 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 85;
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 1;
+#elif DOMINION
+            this.checkBoxEnableGullWing.Checked = false;
+            this.gullWingEnabled = false;
+            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value = 90;
+            this.checkBoxTripOnPowerDown.Checked = true;
+            this.domainUpDownTripStyle.SelectedIndex = 2;
 #else //SEATTLE
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
@@ -1305,10 +1313,6 @@ namespace RelayControlLibrary
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 0;
 #endif
-            this.domainUpDownTripStyle.SelectedIndex = 1;
-            this.instantaneousCurrent = 2.5m;
-            this.insensitiveCurrent = 2.5m;
-
             this.listBoxTripModes.SelectedIndex = 0;
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownExtendedTimeDelay.Value = 0;
@@ -1322,7 +1326,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif SEATTLE || DEBUG
+#elif SEATTLE || DEBUG || DOMINION
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1335,7 +1339,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .2m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif SEATTLE || DEBUG
+#elif SEATTLE || DEBUG || DOMINION
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1348,7 +1352,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif SEATTLE || DEBUG
+#elif SEATTLE || DEBUG || DOMINION
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
