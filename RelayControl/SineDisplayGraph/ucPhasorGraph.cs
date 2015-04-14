@@ -1874,25 +1874,25 @@ namespace SineDisplayGraph
             VnA.CalculatePhasorFromWaves(referenceWave, sEA.VnA);
             VnB.CalculatePhasorFromWaves(referenceWave, sEA.VnB);
             VnC.CalculatePhasorFromWaves(referenceWave, sEA.VnC);
-            if(this.gEEnabled)
+            if(!this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(referenceWave, sEA.VtA);
                 VtB.CalculatePhasorFromWaves(referenceWave, sEA.VtB);
                 VtC.CalculatePhasorFromWaves(referenceWave, sEA.VtC);
             }
-            this.scaleMeasuredVoltages();
 
             //Currents
             IA.CalculatePhasorFromWaves(referenceWave, sEA.IA);
             IB.CalculatePhasorFromWaves(referenceWave, sEA.IB);
             IC.CalculatePhasorFromWaves(referenceWave, sEA.IC);
-            this.scaleCurrents();
-
+            
             if (referenceWave == sEA.VnB || referenceWave == sEA.VtB || referenceWave == sEA.IB)
-                this.rotatePhasors(120);
-            else if (referenceWave == sEA.VnC || referenceWave == sEA.VtC || referenceWave == sEA.IC)
                 this.rotatePhasors(-120);
+            else if (referenceWave == sEA.VnC || referenceWave == sEA.VtC || referenceWave == sEA.IC)
+                this.rotatePhasors(120);
 
+            this.scaleMeasuredVoltages();
+            this.scaleCurrents();
 
             //differential voltage section
             this.calculateDifferentialAndTransformerVoltages(sEA);

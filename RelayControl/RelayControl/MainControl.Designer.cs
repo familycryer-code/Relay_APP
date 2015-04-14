@@ -2077,7 +2077,9 @@ namespace RelayControl
             this.comboBoxSavedStates.Name = "comboBoxSavedStates";
             this.comboBoxSavedStates.Size = new System.Drawing.Size(121, 21);
             this.comboBoxSavedStates.TabIndex = 66;
+            this.comboBoxSavedStates.DropDown += new System.EventHandler(this.comboBoxSavedStates_DropDown);
             this.comboBoxSavedStates.SelectedIndexChanged += new System.EventHandler(this.comboBoxSavedStates_SelectedIndexChanged);
+            this.comboBoxSavedStates.DropDownClosed += new System.EventHandler(this.comboBoxSavedStates_DropDownClosed);
             // 
             // buttonSaveSetting
             // 

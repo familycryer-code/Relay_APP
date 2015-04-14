@@ -27,9 +27,6 @@ namespace RelayControlLibrary
         private List<ucShortRangeFilterTableItem> filterTableItems = new List<ucShortRangeFilterTableItem>(16);
         private List<ucShortRangeTransmitTableItem> transmitTableItems = new List<ucShortRangeTransmitTableItem>(10);
         private const int _transmitThreshold = 60;
-        private const int _transmitThresholdLow = _transmitThreshold - 3;
-        private const int _transmitThresholdHigh = _transmitThreshold + 3;
-
 
         private void generalInitialize()
         {
@@ -112,7 +109,7 @@ namespace RelayControlLibrary
             {
                 UInt16 tempCount = 0;
 
-                if (currentThreshold < _transmitThresholdLow || currentThreshold > _transmitThresholdHigh)
+                if (currentThreshold != _transmitThreshold)
                 {
                     Int32 temp = currentThreshold - _transmitThreshold;
 

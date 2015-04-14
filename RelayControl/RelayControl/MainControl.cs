@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-04-07";
+        private const string revisionDate = "2015-04-14";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -229,6 +229,8 @@ namespace RelayControl
             }
         }
 
+        private int savedSaveFileComboBoxWidth; 
+
         public MainControl()
         {
             InitializeComponent();
@@ -251,6 +253,8 @@ namespace RelayControl
                 //CT Ratio on PQ monitor
                 this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
                 this.buttonUpdateCTRatio.Visible = false;
+
+                this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width; 
 #if !SeattleTest
                 this.initializeExternalFileRevisionNumber(); //Get the saved data version
                 this.initializeSaveObject();            //Check the save data to see
@@ -6404,6 +6408,15 @@ namespace RelayControl
                 }
 
                 sS.Name = this.textBoxSaveStateName.Text;
+
+#if DOMINION
+                sS.Name += " SN:" + this.textBoxRelaySNControl.Text + "/";
+                sS.Name += "ID:" + this.ucTransmitter1.TXSettings.ID + "/";
+                sS.Name += "Date:" + DateTime.Now.ToString("yyyyMMdd") + "/";
+                sS.Name += "Time:" + DateTime.Now.ToString("HH:mm");
+#endif
+
+                
                 this.getAllSaveStates(sS);
                 this.saveObject.AddState(sS);
                 this.writeSaveObjectToFile();
@@ -7765,6 +7778,36 @@ namespace RelayControl
                 this.ucTripMode2.SequenceRelay = false;
             else
                 this.ucTripMode2.SequenceRelay = true;
+        }
+
+        
+        private void comboBoxSavedStates_DropDown(object sender, EventArgs e)
+        {
+            ComboBox senderComboBox = (ComboBox)sender;
+            int width = senderComboBox.DropDownWidth;
+            Graphics g = senderComboBox.CreateGraphics();
+            Font font = senderComboBox.Font;
+            int vertScrollBarWidth = 
+                (senderComboBox.Items.Count>senderComboBox.MaxDropDownItems)
+                ?SystemInformation.VerticalScrollBarWidth:0;
+
+            int newWidth;
+            foreach (string s in ((ComboBox)sender).Items)
+            {
+                newWidth = (int) g.MeasureString(s, font).Width 
+                    + vertScrollBarWidth;
+                if (width < newWidth )
+                {
+                    width = newWidth;
+                }
+            }
+            senderComboBox.DropDownWidth = width;
+
+        }
+
+        private void comboBoxSavedStates_DropDownClosed(object sender, EventArgs e)
+        {
+            this.comboBoxSavedStates.Width = this.savedSaveFileComboBoxWidth;
         }
     }
 
