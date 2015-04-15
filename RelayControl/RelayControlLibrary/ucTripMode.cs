@@ -38,7 +38,7 @@ namespace RelayControlLibrary
 #if NUCREW
             this.numericUpDownAngle.Enabled = false;
             this.numericUpDownGullWingAngle.Enabled = false;
-            this.numericUpDownSensTrip.Enabled = false;
+            this.numericUpDownSensTrip.Enabled = true;
             this.numericUpDownTimeDelay.Enabled = false;
             this.checkBoxEnableGullWing.Enabled = false;
 #endif
