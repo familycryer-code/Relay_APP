@@ -123,10 +123,6 @@ namespace RelayControlLibrary
                 this.dNPRelay = true;
 #else
                 this.dNPRelay = value;
-                if (this.dNPRelay)
-                {
-                    this.fPGACode.Date = "\0\0\0\0\0\0";
-                }
                 this.currentRelayLog.DNPRelay = value;
 #endif
             }
