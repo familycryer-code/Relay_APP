@@ -598,12 +598,9 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                buttonDefaults_Click(null, null);
-                buttonSendAllDNPSettings_Click(null, null);
-                buttonSendDeadBand_Click(null,null);
-                //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex)); //test - removed since analog 2 was wrongly set from updating from 
-                                                                                        //previous pepco code (mp = 140508, rp = 20140505). Defaults restored instead.
-
+                this.restoreDefaultsDeadBandVariables();
+                
+                //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex));
             }
         }
         #endregion
@@ -615,6 +612,32 @@ namespace RelayControlLibrary
                 this.makeMemphis();
             else
                 this.makeDefault();
+
+        }
+
+        private void restoreDefaultsDeadBandVariables()
+        {
+            foreach (Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
+            {
+                bool failed = false;
+                ucDNPDeadBand uDDB = new ucDNPDeadBand();
+                
+                try
+                {
+                    uDDB = (ucDNPDeadBand)c;
+                }
+                catch //if it is not a ucDeadBand box
+                {
+                    failed = true;
+                }
+
+                if (!failed)
+                {
+                    uDDB.Value = 0;
+                }
+            }
+
+            this.buttonSendDeadBand_Click(this, new EventArgs());
         }
 
         private void makeDefault()
