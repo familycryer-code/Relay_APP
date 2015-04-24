@@ -598,7 +598,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                this.errorHandler(new Exception("Error Setting Trigger Ranges", ex));
+                buttonDefaults_Click(null, null);
+                buttonSendAllDNPSettings_Click(null, null);
+                buttonSendDeadBand_Click(null,null);
+                //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex)); //test - removed since analog 2 was wrongly set from updating from 
+                                                                                        //previous pepco code (mp = 140508, rp = 20140505). Defaults restored instead.
+
             }
         }
         #endregion
