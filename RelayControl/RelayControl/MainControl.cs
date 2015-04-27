@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-04-24";
+        private const string revisionDate = "2015-04-27";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -1261,8 +1261,12 @@ namespace RelayControl
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
         private bool loadingNewCode = false;
+        private RelayPorgrammingSendCommands currentReprogramState = RelayPorgrammingSendCommands.RestartProgram;
+
         private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
         {
+            this.currentReprogramState = rPEA.Command;
+
             switch (rPEA.Command)
             {
                 case RelayPorgrammingSendCommands.RequestAll:
@@ -2852,6 +2856,9 @@ namespace RelayControl
         {
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
+
+            if (this.currentReprogramState == RelayPorgrammingSendCommands.RequestAll)
+                return;
 
             timerResponseTimeOut.Enabled = false;
 
