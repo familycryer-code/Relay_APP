@@ -17,6 +17,15 @@ namespace RelayControlLibrary
             this.initializeComponents();
         }
 
+        public ucDNPDigitalGridData(Customers customer)
+        {
+            InitializeComponent();
+            this.customer = customer;
+            SetSize();
+            this.initializeComponents();
+
+        }
+
         public uint RelayMasterRevision
         {
             set
@@ -35,7 +44,10 @@ namespace RelayControlLibrary
                 if (value != this.customer)
                 {
                     this.customer = value;
-                    this.InitializeComponent();
+                    if (this.customer == Customers.NonConEd)
+                        return;
+                    SetSize();
+                    this.initializeComponents();
                 }
             }
         }
@@ -83,10 +95,28 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phased ACB");
             this.binaryInputs.Add("Insensitive Backfeed Detected");
-            this.binaryInputs.Add("Digital Input 1");
-            this.binaryInputs.Add("Digital Input 2");
-            this.binaryInputs.Add("Digital Input 3");
-            this.binaryInputs.Add("Digital Input 4");
+            if (this.customer == Customers.DigitalGridDNP)
+            {
+                this.binaryInputs.Add("Digital Input 1");
+                this.binaryInputs.Add("Digital Input 2");
+                this.binaryInputs.Add("Digital Input 3");
+                this.binaryInputs.Add("Digital Input 4");
+
+                pointsToAdd = 14;
+            }
+            else if (this.customer == Customers.DNPwithPLC)
+            {
+                this.binaryInputs.Add("A Flag");
+                this.binaryInputs.Add("Digital Input 1");
+                this.binaryInputs.Add("Digital Input 2");
+                this.binaryInputs.Add("Digital Input 3");
+
+                pointsToAdd = 14;
+            }
+            else
+            {
+                pointsToAdd = 14;
+            }
 
             uint i = 0;
 
@@ -104,6 +134,8 @@ namespace RelayControlLibrary
                     break;
                 i++;
             }
+
+            int j = this.tabPageBinaryInputs.Controls.Count;
         }
 
         private void initializeBinaryOutputs()
@@ -237,6 +269,21 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Auxiliary Input 2", true));
             this.analogInputs.Add(new AnalogPointDefinition("Auxiliary Input 3", true));
             this.analogInputs.Add(new AnalogPointDefinition("Auxiliary Input 4", true));
+
+            if (this.customer == Customers.DNPwithPLC)
+            {
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 1", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 2", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 3", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 4", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 5", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 6", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 7", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 8", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Q Bit", true));
+
+                pointsToAdd += 9;
+            }
 
             uint i = 0;
 
@@ -451,6 +498,7 @@ namespace RelayControlLibrary
 
         private int setBinaryInputs(byte[] bytePacket, int index)
         {
+            int i = this.tabPageBinaryInputs.Controls.Count;
             foreach (Control C in this.tabPageBinaryInputs.Controls)
             {
                 ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();

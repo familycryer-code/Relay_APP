@@ -121,6 +121,7 @@ namespace RelayControlLibrary
                 case Customers.Memphis:
                 case Customers.NonConEdGE:
                 case Customers.DigitalGridDNP:
+                case Customers.DNPwithPLC:
                 case Customers.SMUD:
                     this.makeNonConEd();
                     break;

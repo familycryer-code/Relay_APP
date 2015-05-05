@@ -1247,7 +1247,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.TabStop = false;
             this.groupBoxDNPSettings.Text = "DNP Settings";
             // 
-            // comboBoxBaudRate
+            // comboBoxDNPBaudRate
             // 
             this.comboBoxDNPBaudRate.FormattingEnabled = true;
             this.comboBoxDNPBaudRate.Items.AddRange(new object[] {
@@ -1260,7 +1260,7 @@ namespace RelayControlLibrary
             "28800",
             "38400"});
             this.comboBoxDNPBaudRate.Location = new System.Drawing.Point(142, 316);
-            this.comboBoxDNPBaudRate.Name = "comboBoxDNPBaudeRate";
+            this.comboBoxDNPBaudRate.Name = "comboBoxDNPBaudRate";
             this.comboBoxDNPBaudRate.Size = new System.Drawing.Size(121, 21);
             this.comboBoxDNPBaudRate.TabIndex = 35;
             this.comboBoxDNPBaudRate.Text = "19200";
@@ -1278,16 +1278,16 @@ namespace RelayControlLibrary
             // 
             this.groupBoxDigitalGridDNPDeadBand.Controls.Add(this.buttonSendDigitalGridDeadBand);
             this.groupBoxDigitalGridDNPDeadBand.Controls.Add(this.label29);
-            this.groupBoxDigitalGridDNPDeadBand.Location = new System.Drawing.Point(299, 203);
+            this.groupBoxDigitalGridDNPDeadBand.Location = new System.Drawing.Point(278, 0);
             this.groupBoxDigitalGridDNPDeadBand.Name = "groupBoxDigitalGridDNPDeadBand";
-            this.groupBoxDigitalGridDNPDeadBand.Size = new System.Drawing.Size(606, 543);
+            this.groupBoxDigitalGridDNPDeadBand.Size = new System.Drawing.Size(606, 590);
             this.groupBoxDigitalGridDNPDeadBand.TabIndex = 144;
             this.groupBoxDigitalGridDNPDeadBand.TabStop = false;
             this.groupBoxDigitalGridDNPDeadBand.Text = "DNP Dead Band (DB) Variables";
             // 
             // buttonSendDigitalGridDeadBand
             // 
-            this.buttonSendDigitalGridDeadBand.Location = new System.Drawing.Point(418, 514);
+            this.buttonSendDigitalGridDeadBand.Location = new System.Drawing.Point(448, 553);
             this.buttonSendDigitalGridDeadBand.Name = "buttonSendDigitalGridDeadBand";
             this.buttonSendDigitalGridDeadBand.Size = new System.Drawing.Size(136, 23);
             this.buttonSendDigitalGridDeadBand.TabIndex = 143;
@@ -1297,7 +1297,7 @@ namespace RelayControlLibrary
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(15, 524);
+            this.label29.Location = new System.Drawing.Point(6, 563);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(122, 13);
             this.label29.TabIndex = 55;
@@ -1414,7 +1414,6 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.textBoxSAv5UserUpdateKey);
             this.Controls.Add(this.labelSAv5UserKey);
             this.Controls.Add(this.numericUpDownSAv5UserNumber);

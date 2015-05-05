@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-04-27";
+        private const string revisionDate = "2015-05-05";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -144,14 +144,15 @@ namespace RelayControl
                             this.dNPMemphisData.Dispose();
                         }
 
-                        if (!this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
                         {
-                            this.dNPDigitalGridData = new ucDNPDigitalGridData();
+                            this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
                             this.dNPDigitalGridData.Location = new Point(0, 0);
                             this.dNPDigitalGridData.Send += new ucDNPDigitalGridData.DigitalGridSendEventHandler(ucMemphisDNPData1_Send);
 
                         }
+
                         this.dNPDigitalGridData.Show();
 
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
@@ -615,7 +616,7 @@ namespace RelayControl
                 this.commFlags2.Add("Arc Flash Detected");
                 this.commFlags2.Add("Arc Fault Detected");
                 this.commFlags2.Add("Arc Fault Detected");
-                this.commFlags2.Add("Bad Mode");
+                this.commFlags2.Add("Waterbug Active");
                 this.commFlags2.Add("Bad Close Curve");
                 this.commFlags2.Add("Bad Trip Curve");
                 this.uc8CheckBoxFlagsCommFlags2.Names = this.commFlags2;
@@ -4036,10 +4037,19 @@ namespace RelayControl
                         this.TransmitterEnabled = false;
                         break;
                     default:
+                        // A DNP Relay
                         if (revision.Contains("DNP"))
                         {
                             this.DNPEnabled = true;
                             this.blockDNPEnableFromTransmitterSettings = true;
+
+                            // With PLC
+                            if (revision.Contains("PLC"))
+                            {
+                                this.Customer = Customers.DNPwithPLC;
+                                this.ucDNP1.Customer = this.Customer;
+                            }
+                            
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();
                         }

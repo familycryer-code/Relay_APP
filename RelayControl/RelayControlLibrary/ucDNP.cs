@@ -644,7 +644,8 @@ namespace RelayControlLibrary
         {
             this.numericUpDownMemphisStage.Visible = false;
             this.labelMemphisStage.Visible = false;
-
+            if (this.Customer == Customers.NonConEd)
+                return;
             if(this.Customer != Customers.DigitalGridDNP || this.deadBandVariables.Count == 0)
             {
                 this.deadBandVariables.Clear();
@@ -690,7 +691,19 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 2", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 3", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 4", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                
+
+                if (this.Customer == Customers.DNPwithPLC)
+                {
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 1", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 2", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 3", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 4", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 5", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 6", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 7", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 8", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness QBit", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                }
                 Point location = new Point();
                 ucDNPDeadBand workingDDB = new ucDNPDeadBand();
 

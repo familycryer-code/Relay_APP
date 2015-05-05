@@ -86,6 +86,7 @@ namespace RelayControlLibrary
         Memphis,
         DigitalGrid,
         DigitalGridDNP,
+        DNPwithPLC,
         SMUD,
         PEPCO,
         Dominion,

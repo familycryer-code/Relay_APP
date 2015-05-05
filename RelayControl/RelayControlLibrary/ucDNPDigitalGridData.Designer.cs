@@ -145,7 +145,7 @@ namespace RelayControlLibrary
 
         private System.Windows.Forms.Button buttonSendBinaryEventEnables;
         private System.Windows.Forms.TabControl tabControlMemphisDNP;
-        private System.Windows.Forms.TabPage tabPageBinaryInputs;
+        public System.Windows.Forms.TabPage tabPageBinaryInputs;
         private System.Windows.Forms.TabPage tabPageBinaryOuputs;
         private System.Windows.Forms.TabPage tabPageAnalogInputs1;
         private System.Windows.Forms.TabPage tabPageAnalogInputs2;

@@ -116,6 +116,7 @@ namespace RelayControlLibrary
                     break;
                 case Customers.Memphis:
                 case Customers.DigitalGridDNP:
+                case Customers.DNPwithPLC:
                     //this.checkBoxNeverReclose.Checked = false;
                     this.checkBoxNeverReclose.Visible = true;
                     this.labelProtectTime.Visible = true;
