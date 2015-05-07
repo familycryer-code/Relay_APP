@@ -837,7 +837,7 @@ namespace RelayControlLibrary
                     break;
                 case RelayProgrammingStates.LoadingMasterCode:
                     if(this.failCount == 5)
-                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try Manually Resetting Relay Or Just Wait";
+                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Wait for a while and then Try Manually Resetting Relay";
 
                     this.failCount++;
                     this.sendMasterTransferPacket();
@@ -2203,7 +2203,7 @@ namespace RelayControlLibrary
             this.State = RelayProgrammingStates.WaitingForBootMaster;
             this.programmingForm.MasterCodeComplete = false;
             this.programmingForm.MasterDataComplete = false;
-            this.programmingForm.CurrentTask = "Failed Loading Master Retrying - Waiting For Boot";
+            this.programmingForm.CurrentTask = "Loading Master File - Waiting for Boot - Please Wait";
 
             int temp = this.masterCode.NumberOfCodeBlocks * 2;
             this.labelCodeTotal.Text = temp.ToString();
@@ -2227,7 +2227,7 @@ namespace RelayControlLibrary
             }
             this.parseSFile(this.relayCode);
 
-            this.programmingForm.CurrentTask = "Failed Loading Relay Code Retrying - Waiting For Boot";
+            this.programmingForm.CurrentTask = "Loading Relay Code Retrying - Waiting For Boot - Please Wait";
             this.programmingForm.RelayCodeComplete = false;
             this.programmingForm.RelayDataComplete = false;
 
@@ -2249,7 +2249,7 @@ namespace RelayControlLibrary
         {
             this.parseFPGAFile(this.fPGACode);
 
-            this.programmingForm.CurrentTask = "Failed Loading FPGA Code.  Retrying - Waiting For Boot";
+            this.programmingForm.CurrentTask = "Loading FPGA Code - Waiting For Boot - Please Wait";
             this.programmingForm.FPGAComplete = false;
 
             this.State = RelayProgrammingStates.LoadingFPGACode;
