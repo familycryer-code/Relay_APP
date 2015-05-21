@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-05-07";
+        private const string revisionDate = "2015-05-21";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -509,6 +509,8 @@ namespace RelayControl
             this.customerRevisionName = "Seattle";
 #elif DOMINION
             this.customerRevisionName = "Dominion";
+#elif chicago
+            this.customerRevisionName = "Chicago";
 #else
             this.customerRevisionName = "";
 #endif
@@ -1823,7 +1825,7 @@ namespace RelayControl
                         else
                             return false;
                     case IncomingCommCommands.TransmitterMonitor:
-                        if (i == 7)
+                        if (i == 7 || i == 18)
                             return true;
                         else
                             return false;

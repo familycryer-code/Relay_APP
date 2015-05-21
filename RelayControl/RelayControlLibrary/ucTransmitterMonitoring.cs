@@ -432,6 +432,16 @@ namespace RelayControlLibrary
             this.myPSIWidgetA1.Invalidate();
             this.myTempWidgetA1.Invalidate();
             this.myThermometerA1.Invalidate();
+
+            //CDEFGH Q set
+
+            this.textBoxCa.Text = bytePacket[7].ToString();
+            this.textBoxDa.Text = bytePacket[8].ToString();
+            this.textBoxEa.Text = bytePacket[9].ToString();
+            this.textBoxFa.Text = bytePacket[10].ToString();
+            this.textBoxGa.Text = bytePacket[11].ToString();
+            this.textBoxHa.Text = bytePacket[12].ToString();
+            this.textBoxQBit.Text = (bytePacket[15] & 0x01).ToString(); //byte 15 contains entire qbyte for future
         }
 
         public delegate void MonitoringControlHandler(object sender, TransmitterMonitoringEventArgs tMEA);
@@ -971,7 +981,7 @@ namespace RelayControlLibrary
             this.pressure = this.getTankPressureFromAnalog(value);
         }
 
-        private int getOilTemperatureFromAnalog(int bAN1)
+        private int getOilTemperatureFromAnalog(int bAN1) //change to lookup table for qualitrol or may be correct? as of 5/22/15
         {
             double oil_temp = 1.5993 * bAN1 - 5.0982;
             //oil_temp += 0.5;

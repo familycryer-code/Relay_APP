@@ -363,12 +363,40 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
+#if chicago
+                this.panelOtherAlarmSettings.Hide();
+                this.labelOtherAlarmSettings.Hide();
+
+                //position size and location for chicago
+                this.panelFlagSettings.Location = new Point(7, 300);
+                this.labelFlagPolarity.Location = new Point(13, 294); //13, 250
+
+                this.buttonTX.Location = new Point(260, 6);
+                this.buttonRQ.Location = new Point(260, 93);
+                this.buttonForceConfigMessage.Location = new Point(260, 180); //13, 250
+                this.buttonRestoreDefaults.Location = new Point(260, 267);
+
+                this.buttonRQ.Size = new Size(110, 74);
+                this.buttonForceConfigMessage.Size = new Size(110, 74);
+                this.buttonRestoreDefaults.Size = new Size(110, 44);
+
+                this.panelSmartExternalCable.Location = new Point(7, 250);
+                this.panelSmartExternalCable.Size = new Size(242, 39);
+
+                this.labelSmartExternalCable.Location = new Point(16, 243);
+                this.checkBoxSmartExternalCableEnable.Location = new Point(63, 12);
+
+                this.panelFlagSettings.Size = new Size(242, 217);
+
+                //this.labelFlagSettingA.Location = new Point(7, 250);
+#else
                 this.panelOtherAlarmSettings.Show();
+                this.labelOtherAlarmSettings.Show();
+#endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
                 this.labelGeneralSettings.Show();
                 this.labelGeneralSettings.BringToFront();
-                this.labelOtherAlarmSettings.Show();
                 this.labelOtherAlarmSettings.BringToFront();
                 this.buttonRestoreDefaults.Show();
             }
@@ -1599,8 +1627,15 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
+#if chicago
+            this.panelWaterburyMain.Visible = false;
+            this.labelSmartExternalCableMain.Visible = false;
+            this.panelAlarmSettings.Visible = false;
+            this.labelAlarmSettings.Visible = false;
+#else
             this.panelWaterburyMain.Visible = p;
             this.labelSmartExternalCableMain.Visible = p;
+#endif
             this.labelSmartExternalCableMain.BringToFront();
 
             if(p)
