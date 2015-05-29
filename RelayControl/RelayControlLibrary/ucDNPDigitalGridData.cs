@@ -109,7 +109,7 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("A Flag");
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
-                this.binaryInputs.Add("Digital Input 3");
+                this.binaryInputs.Add("SEC Physical Lockout");
 
                 pointsToAdd = 14;
             }
@@ -169,8 +169,16 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Pump Lockout Never Reclose");
             this.binaryOutputs.Add("Clear Pump Protect Lockout");
             this.binaryOutputs.Add("Clear Cycle Counter");
-            this.binaryOutputs.Add("Digital Out 1");
-            this.binaryOutputs.Add("Digital Out 2");
+            if (this.customer != Customers.DNPwithPLC)
+            {
+                this.binaryOutputs.Add("Digital Out 1");
+                this.binaryOutputs.Add("Digital Out 2");
+            }
+            else
+            {
+                this.binaryOutputs.Add("Safe Service Enable");
+                this.binaryOutputs.Add("Command Lockout");
+            }
             this.binaryOutputs.Add("Block And Trip Relay");
 
             uint i = 0;
@@ -281,8 +289,9 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 7", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 8", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Q Bit", true));
+                this.analogInputs.Add(new AnalogPointDefinition("Number Of MuxBoxes", false));
 
-                pointsToAdd += 9;
+                pointsToAdd += 10;
             }
 
             uint i = 0;
@@ -310,6 +319,10 @@ namespace RelayControlLibrary
         private void initializeAnalogOutputs()
         {
             uint pointsToAdd = 23;
+            if (this.customer == Customers.DNPwithPLC)
+            {
+                pointsToAdd = 28;
+            }
 
             this.analogOutputs.Clear();
             this.tabPageAnalogOutputs.Controls.Clear();
@@ -337,6 +350,11 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode - Motor Cycles", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode - Motor Timeout", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode - Pump Lockout Time", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Delay", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Over Current", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Current Imbalance", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Low Voltage", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Voltage Imbalance", false));
 
             uint i = 0;
             if (pointsToAdd != 0)
