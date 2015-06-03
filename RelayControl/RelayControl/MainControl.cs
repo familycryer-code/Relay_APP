@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-05-27";
+        private const string revisionDate = "2015-06-03";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -564,7 +564,7 @@ namespace RelayControl
                 this.GEControl2.Clear();
 
                 this.relayStatus1.Add("Debug 1");
-                this.relayStatus1.Add("GE Miswire");
+                this.relayStatus1.Add("BFlag Not Inv");
                 this.relayStatus1.Add("Do Not Flash");
                 this.relayStatus1.Add("All Params Received");
                 this.relayStatus1.Add("Relax From Master");
@@ -4927,7 +4927,7 @@ namespace RelayControl
         {
             // 1 = Sequence, 0 - Power
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
-#if NU || SEATTLE || DOMINION
+#if NU || SEATTLE || DOMINION || chicago
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
