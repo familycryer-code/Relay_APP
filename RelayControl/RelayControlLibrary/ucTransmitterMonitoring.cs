@@ -324,7 +324,7 @@ namespace RelayControlLibrary
 
         private void setAll(byte[] bytePacket)
         {
-            int localTemp, powerPercent;
+            int localTemp, powerPercent, monByteLength=0;
 
             //TransmitterPower
             localTemp = bytePacket[1];
@@ -454,13 +454,18 @@ namespace RelayControlLibrary
 
             //CDEFGH Q set
 
-            this.textBoxCa.Text = bytePacket[7].ToString();
-            this.textBoxDa.Text = bytePacket[8].ToString();
-            this.textBoxEa.Text = bytePacket[9].ToString();
-            this.textBoxFa.Text = bytePacket[10].ToString();
-            this.textBoxGa.Text = bytePacket[11].ToString();
-            this.textBoxHa.Text = bytePacket[12].ToString();
-            this.textBoxQBit.Text = (bytePacket[15] & 0x01).ToString(); //byte 15 contains entire qbyte for future
+            monByteLength = bytePacket.Length;
+
+            if (monByteLength != 7)
+            {
+                this.textBoxCa.Text = bytePacket[7].ToString();
+                this.textBoxDa.Text = bytePacket[8].ToString();
+                this.textBoxEa.Text = bytePacket[9].ToString();
+                this.textBoxFa.Text = bytePacket[10].ToString();
+                this.textBoxGa.Text = bytePacket[11].ToString();
+                this.textBoxHa.Text = bytePacket[12].ToString();
+                this.textBoxQBit.Text = (bytePacket[15] & 0x01).ToString(); //byte 15 contains entire qbyte for future
+            }
         }
 
         public delegate void MonitoringControlHandler(object sender, TransmitterMonitoringEventArgs tMEA);

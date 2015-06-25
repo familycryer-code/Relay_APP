@@ -220,6 +220,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.checkBox277ProtectorPQ = new System.Windows.Forms.CheckBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -1209,6 +1210,7 @@ namespace RelayControl
             // 
             // tabPageMonitor
             // 
+            this.tabPageMonitor.Controls.Add(this.checkBox277ProtectorPQ);
             this.tabPageMonitor.Controls.Add(this.labelSNPQMonitor);
             this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
             this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
@@ -2302,6 +2304,17 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // checkBox277ProtectorPQ
+            // 
+            this.checkBox277ProtectorPQ.AutoSize = true;
+            this.checkBox277ProtectorPQ.Location = new System.Drawing.Point(545, 578);
+            this.checkBox277ProtectorPQ.Name = "checkBox277ProtectorPQ";
+            this.checkBox277ProtectorPQ.Size = new System.Drawing.Size(100, 17);
+            this.checkBox277ProtectorPQ.TabIndex = 77;
+            this.checkBox277ProtectorPQ.Text = "277 V Protector";
+            this.checkBox277ProtectorPQ.UseVisualStyleBackColor = true;
+            this.checkBox277ProtectorPQ.CheckedChanged += new System.EventHandler(this.checkBox277Protector_CheckedChanged_PQ);
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2554,6 +2567,7 @@ namespace RelayControl
         private System.Windows.Forms.Label labelSNPQMonitor;
         private System.Windows.Forms.TextBox textBoxRelaySNControlPQ;
         private System.Windows.Forms.TextBox textBoxCTRatioPQMonitor;
+        private System.Windows.Forms.CheckBox checkBox277ProtectorPQ;
     }
 }
 

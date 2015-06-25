@@ -2758,7 +2758,8 @@ namespace RelayControlLibrary
         RestoreDefaults,
         RequestAll,
         EnableGERelayFix,
-        DisableGERelayFix
+        DisableGERelayFix,
+        Idle
     }
     public class RelayProgrammingEventArgs : EventArgs
     {
