@@ -1296,14 +1296,14 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 85;
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 1;
-#elif DOMINION
+#elif DOMINION || chicago
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.checkBoxTripOnPowerDown.Checked = true;
-            this.domainUpDownTripStyle.SelectedIndex = 2;
+            this.domainUpDownTripStyle.SelectedIndex = 0;
 #else //SEATTLE
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
@@ -1327,9 +1327,13 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif SEATTLE || DEBUG || DOMINION
+#elif SEATTLE || DEBUG
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
+#elif DOMINION || chicago
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 10m;
             this.numericUpDownWVCurrent.Value = 2.5m;
 #endif
         }
@@ -1340,7 +1344,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .2m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif SEATTLE || DEBUG || DOMINION
+#elif SEATTLE || DEBUG || DOMINION || chicago
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1353,7 +1357,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif SEATTLE || DEBUG || DOMINION
+#elif SEATTLE || DEBUG || DOMINION || chicago
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;

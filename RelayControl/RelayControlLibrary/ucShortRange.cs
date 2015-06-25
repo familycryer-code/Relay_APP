@@ -26,7 +26,7 @@ namespace RelayControlLibrary
 
         private List<ucShortRangeFilterTableItem> filterTableItems = new List<ucShortRangeFilterTableItem>(16);
         private List<ucShortRangeTransmitTableItem> transmitTableItems = new List<ucShortRangeTransmitTableItem>(10);
-        private const int _transmitThreshold = 60;
+        private const int _transmitThreshold = 30;
 
         private void generalInitialize()
         {

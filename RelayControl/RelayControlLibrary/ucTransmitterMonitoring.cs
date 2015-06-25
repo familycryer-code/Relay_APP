@@ -47,6 +47,10 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 
+#if chicago
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#endif
+
             this.checkBoxFrequenceBlue.Visible = false;
             this.checkBoxFrequencyGreen.Visible = false;
             this.checkBoxFrequencyRed.Visible = false;
@@ -62,6 +66,21 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyGreen.Checked = true;
             this.checkBoxFrequencyRed.Checked = true;
             this.checkBoxFrequencyYellow.Checked = true;
+
+#if chicago
+            this.textBoxGa.Visible = false;
+            this.textBoxHa.Visible = false;
+
+            this.checkBoxFlagStatusC.Visible = false;
+            this.checkBoxFlagStatusD.Visible = false;
+            this.checkBoxFlagStatusE.Visible = false;
+            this.checkBoxFlagStatusF.Visible = false;
+
+            this.labelGa.Visible = false;
+            this.labelHa.Visible = false;
+
+
+#endif
         }
 
         #endregion
@@ -305,7 +324,7 @@ namespace RelayControlLibrary
 
         private void setAll(byte[] bytePacket)
         {
-            int localTemp, powerPercent;
+            int localTemp, powerPercent, monByteLength=0;
 
             //TransmitterPower
             localTemp = bytePacket[1];
@@ -432,6 +451,19 @@ namespace RelayControlLibrary
             this.myPSIWidgetA1.Invalidate();
             this.myTempWidgetA1.Invalidate();
             this.myThermometerA1.Invalidate();
+
+            monByteLength = bytePacket.Length;
+
+            if (monByteLength != 7)
+            {
+                this.textBoxCa.Text = bytePacket[7].ToString();
+                this.textBoxDa.Text = bytePacket[8].ToString();
+                this.textBoxEa.Text = bytePacket[9].ToString();
+                this.textBoxFa.Text = bytePacket[10].ToString();
+                this.textBoxGa.Text = bytePacket[11].ToString();
+                this.textBoxHa.Text = bytePacket[12].ToString();
+                this.textBoxQBit.Text = (bytePacket[15] & 0x01).ToString(); //byte 15 contains entire qbyte for future
+            }
         }
 
         public delegate void MonitoringControlHandler(object sender, TransmitterMonitoringEventArgs tMEA);

@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-05-29";
+        private const string revisionDate = "2015-06-25";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -509,6 +509,8 @@ namespace RelayControl
             this.customerRevisionName = "Seattle";
 #elif DOMINION
             this.customerRevisionName = "Dominion";
+#elif chicago
+            this.customerRevisionName = "Chicago";
 #else
             this.customerRevisionName = "";
 #endif
@@ -562,7 +564,7 @@ namespace RelayControl
                 this.GEControl2.Clear();
 
                 this.relayStatus1.Add("Debug 1");
-                this.relayStatus1.Add("GE Miswire");
+                this.relayStatus1.Add("BFlag Not Inv");
                 this.relayStatus1.Add("Do Not Flash");
                 this.relayStatus1.Add("All Params Received");
                 this.relayStatus1.Add("Relax From Master");
@@ -1823,7 +1825,7 @@ namespace RelayControl
                         else
                             return false;
                     case IncomingCommCommands.TransmitterMonitor:
-                        if (i == 7)
+                        if (i == 7 || i == 18)
                             return true;
                         else
                             return false;
@@ -2859,7 +2861,19 @@ namespace RelayControl
             int tempI = 0;
 
             if (this.currentReprogramState == RelayPorgrammingSendCommands.RequestAll)
+            {
+                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
+                {
+                    if (this.DNPEnabled)
+                        this.requestDNPData();
+                    else if (this.relayCodeRevisionNumber >= 20130111)
+                        this.requestSafeServiceSettings();
+                    else
+                        this.parametersFinishedLoading();
+                }
+                this.currentReprogramState = RelayPorgrammingSendCommands.Idle;
                 return;
+            }
 
             timerResponseTimeOut.Enabled = false;
 
@@ -4914,7 +4928,7 @@ namespace RelayControl
         {
             // 1 = Sequence, 0 - Power
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
-#if NU || SEATTLE || DOMINION
+#if NU || SEATTLE || DOMINION || chicago
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
@@ -5810,7 +5824,7 @@ namespace RelayControl
                 setBackgroundColor(Color.Transparent, this.labelRelayTrippedOrClose);
                 setLabelText("Unknown", this.labelRelayStateControlPage);
                 setBackgroundColor(Color.Transparent, this.labelRelayStateControlPage);
-                this.clearTemperatureBoxes();
+                //this.clearTemperatureBoxes();
 
                 this.enableFlagsAndStatus(false);
 
@@ -7591,7 +7605,9 @@ namespace RelayControl
         private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
         {
             this.protector277 = this.checkBox277Protector.Checked;
-            this.ucTransmitterMonitoring1.Protector277 = this.checkBox277Protector.Checked;
+            this.checkBox277ProtectorPQ.Checked = this.protector277;
+
+            this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 
             this.ucPhasorGraph1.Protector277 = this.protector277;
 
@@ -7604,6 +7620,27 @@ namespace RelayControl
             this.ucEventGraph6.Protector277 = this.protector277;
             this.ucEventGraph7.Protector277 = this.protector277;
             this.ucLiveData1.Protector277 = this.protector277;
+        }
+
+        private void checkBox277Protector_CheckedChanged_PQ(object sender, EventArgs e)
+        {
+            this.protector277 = this.checkBox277ProtectorPQ.Checked;
+            this.checkBox277Protector.Checked = this.protector277;
+
+            this.ucTransmitterMonitoring1.Protector277 = this.protector277;
+
+            this.ucPhasorGraph1.Protector277 = this.protector277;
+
+            this.ucEventGraph0.Protector277 = this.protector277;
+            this.ucEventGraph1.Protector277 = this.protector277;
+            this.ucEventGraph2.Protector277 = this.protector277;
+            this.ucEventGraph3.Protector277 = this.protector277;
+            this.ucEventGraph4.Protector277 = this.protector277;
+            this.ucEventGraph5.Protector277 = this.protector277;
+            this.ucEventGraph6.Protector277 = this.protector277;
+            this.ucEventGraph7.Protector277 = this.protector277;
+            this.ucLiveData1.Protector277 = this.protector277;
+
         }
 
         private void buttonClearEvents_Click(object sender, EventArgs e)
