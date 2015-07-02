@@ -164,9 +164,19 @@ namespace RelayControlLibrary
                     this.errorHandler("Error in SetAll", ex);
             }
         }
+
+        private int comboBoxSSEnable_Temp = 1;
+        private decimal numericUpDownOverCurrent_Temp = 10;
+        private decimal numericUpDownCurrentImbalance_Temp = 0.80m;
+        private decimal numericUpDownDelay_Temp = 0;
+        private decimal numericUpDownLowVoltage_Temp = 95;
+        private decimal numericUpDownVoltageImbalance_Temp = 10;
+        public bool SendSSModeFlag_Send = false;
+
         private void setAll(byte[] bytePacket)
         {
             uint tempI;
+
             try
             {
                 if((bytePacket[1] & 0x01) == 1)
@@ -215,13 +225,32 @@ namespace RelayControlLibrary
                 tempI += bytePacket[11];
 
                 this.numericUpDownVoltageImbalance.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
+
+                comboBoxSSEnable_Temp = this.comboBoxSSEnable.SelectedIndex;
+                numericUpDownOverCurrent_Temp = this.numericUpDownOverCurrent.Value;
+                numericUpDownCurrentImbalance_Temp = this.numericUpDownCurrentImbalance.Value;
+                numericUpDownDelay_Temp = this.numericUpDownDelay.Value;
+                numericUpDownLowVoltage_Temp = this.numericUpDownLowVoltage.Value;
+                numericUpDownVoltageImbalance_Temp = this.numericUpDownVoltageImbalance.Value;
             }
             catch (Exception ex)
             {
-                if (this.LoadingNewCode)
+                /*if (this.LoadingNewCode)
                     this.restoreDefaults();
                 else
-                    this.errorHandler("Error in setAll", ex);
+                    this.errorHandler("Error in setAll", ex);*/
+
+                this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;
+                this.numericUpDownOverCurrent.Value = numericUpDownOverCurrent_Temp;
+                this.numericUpDownCurrentImbalance.Value = numericUpDownCurrentImbalance_Temp;
+                this.numericUpDownDelay.Value = numericUpDownDelay_Temp;
+                this.numericUpDownLowVoltage.Value = numericUpDownLowVoltage_Temp;
+                this.numericUpDownVoltageImbalance.Value = numericUpDownVoltageImbalance_Temp;
+
+                MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
+                SendSSModeFlag_Send = true;
+
+                return;
             }
         }
 

@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-06-25";
+        private const string revisionDate = "2015-07-02";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -3065,6 +3065,13 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
+
+                if (ucSafeService1.SendSSModeFlag_Send == true)
+                {
+                    this.ucSafeService1.SendAll();
+                    this.ucSafeService1.SendSSModeFlag_Send = false;
+                    this.timerResponseTimeOut.Enabled = false;
+                }
             }
             this.ProgramState = ProgramStates.Running;
 
