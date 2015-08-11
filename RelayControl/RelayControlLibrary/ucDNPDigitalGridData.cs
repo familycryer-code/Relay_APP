@@ -95,7 +95,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phased ACB");
             this.binaryInputs.Add("Insensitive Backfeed Detected");
-            if (this.customer == Customers.DigitalGridDNP)
+            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD)
             {
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");

@@ -144,16 +144,15 @@ namespace RelayControl
                             this.dNPMemphisData.Dispose();
                         }
 
-                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.customer == Customers.SMUD) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
                         {
                             this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
                             this.dNPDigitalGridData.Location = new Point(0, 0);
                             this.dNPDigitalGridData.Send += new ucDNPDigitalGridData.DigitalGridSendEventHandler(ucMemphisDNPData1_Send);
 
+                            this.dNPDigitalGridData.Show();
                         }
-
-                        this.dNPDigitalGridData.Show();
 
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
@@ -4035,6 +4034,10 @@ namespace RelayControl
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
                 if (!revision.Contains("MASTER"))
                     return;
+
+                this.masterRevision = getMasterRevisionNumber(revision);
+                this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
+
                 switch (this.customer)
                 {
                     case Customers.Memphis:
@@ -4047,8 +4050,6 @@ namespace RelayControl
                         // A DNP Relay
                         if (revision.Contains("DNP"))
                         {
-                            this.DNPEnabled = true;
-                            this.blockDNPEnableFromTransmitterSettings = true;
 
                             // With PLC
                             if (revision.Contains("PLC"))
@@ -4059,19 +4060,22 @@ namespace RelayControl
                             
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();
+
+                            if (revision.Contains("SMUD"))
+                            {
+                                this.Customer = Customers.SMUD;
+                                this.labelFPGARevision.Visible = false;
+                            }
+
+                            this.DNPEnabled = true;
+                            this.blockDNPEnableFromTransmitterSettings = true;
                         }
                         break;
                 }
-                if (revision.Contains("SMUD"))
-                {
-                    this.Customer = Customers.SMUD;
-                    this.labelFPGARevision.Visible = false;
-                }
+                
                 if (this.Customer == Customers.None)
                     this.Customer = Customers.DigitalGrid;
 
-                this.masterRevision = getMasterRevisionNumber(revision);
-                this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
@@ -6311,7 +6315,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show(title, message, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
 
                 this.enableAll(tempBool2);
                 this.monitoring(tempBool);
@@ -6320,7 +6324,7 @@ namespace RelayControl
             catch (Exception exc)
             {
                 this.RegisterPolling(false);
-                MessageBox.Show(exc.Message, "Error In Message Box");
+                MessageBox.Show("Error In Message Box", exc.Message);
                 this.RegisterPolling(tempBool3);
             }
         }
@@ -6342,7 +6346,7 @@ namespace RelayControl
                 this.enableAll(false);
                 this.RegisterPolling(false);
 
-                dR = MessageBox.Show(message, title, messageBoxButtons, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                dR = MessageBox.Show(title, message, messageBoxButtons, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
 
                 this.monitoring(tempBool);
                 this.enableAll(tempBool2);
@@ -6375,7 +6379,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                dR = MessageBox.Show(message, title, messageBoxButtons, messageBoxIcon, messageBoxDefaultButton);//, MessageBoxOptions.ServiceNotification);
+                dR = MessageBox.Show(title, message, messageBoxButtons, messageBoxIcon, messageBoxDefaultButton);//, MessageBoxOptions.ServiceNotification);
 
                 this.monitoring(tempBool);
                 this.enableAll(tempBool2);
