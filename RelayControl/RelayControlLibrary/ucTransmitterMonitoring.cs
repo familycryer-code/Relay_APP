@@ -47,8 +47,11 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 
-#if chicago
+#if chicago || DEBUG
             this.listBoxA2SensorSelect.SelectedIndex = 0;
+            groupBoxAnalogFlagValues.Visible = true;
+#else
+            groupBoxAnalogFlagValues.Visible = false;
 #endif
 
             this.checkBoxFrequenceBlue.Visible = false;
