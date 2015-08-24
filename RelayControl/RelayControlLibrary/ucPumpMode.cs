@@ -400,11 +400,22 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if NU || SEATTLE || DOMINION
+#if NU || DOMINION
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;
             this.checkBoxMotorTime.Checked = false;
+
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+#elif chicago || SEATTLE
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+            this.checkBoxNeverReclose.Checked = false;
 
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;
