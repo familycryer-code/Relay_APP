@@ -248,7 +248,8 @@ namespace RelayControlLibrary
                 this.numericUpDownVoltageImbalance.Value = numericUpDownVoltageImbalance_Temp;
 
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
-                SendSSModeFlag_Send = true;
+                
+                SendAll();
 
                 return;
             }

@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-08-24";
+        private const string revisionDate = "2015-10-01";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -1856,6 +1856,11 @@ namespace RelayControl
                             return true;
                         else
                             return false;
+                    case IncomingCommCommands.LowVoltageThresReceived:
+                        if (i == 2)
+                            return true;
+                        else
+                            return false;
                     case IncomingCommCommands.Invalid:
                     default:
                         throw new Exception("Bad command to check length for");
@@ -2007,6 +2012,8 @@ namespace RelayControl
                     return IncomingCommCommands.TransmitterSettings;
                 case (byte)'x':
                     return IncomingCommCommands.LiveDataPacket;
+                case (byte)'?':
+                    return IncomingCommCommands.LowVoltageThresReceived;
                 default:
                     return IncomingCommCommands.Invalid;
             }
@@ -2139,6 +2146,9 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.DNPSAv5:
                     this.ucDNPSAv51.Message(bytePacket);
+                    break;
+                case IncomingCommCommands.LowVoltageThresReceived:
+                    this.SetLowVoltageThres(bytePacket);
                     break;
                 case IncomingCommCommands.Invalid:
                 default:
@@ -3065,13 +3075,6 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
-
-                if (ucSafeService1.SendSSModeFlag_Send == true)
-                {
-                    this.ucSafeService1.SendAll();
-                    this.ucSafeService1.SendSSModeFlag_Send = false;
-                    this.timerResponseTimeOut.Enabled = false;
-                }
             }
             this.ProgramState = ProgramStates.Running;
 
@@ -4799,6 +4802,8 @@ namespace RelayControl
                 this.requestDNPData();
             //if (this.relayCodeRevisionNumber >= 20130326)
             //    this.requestSafeServiceSettings();
+
+            buttonRequestLowVotlageThres_Click(null, null);
 
         }
 
@@ -6624,6 +6629,8 @@ namespace RelayControl
             Thread.Sleep(50);
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             Thread.Sleep(50);
+            this.buttonSendLowVoltageThres_Click(this, new EventArgs());
+            Thread.Sleep(50);
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 this.ucSafeService1.SendAll();
@@ -7868,6 +7875,72 @@ namespace RelayControl
         private void comboBoxSavedStates_DropDownClosed(object sender, EventArgs e)
         {
             this.comboBoxSavedStates.Width = this.savedSaveFileComboBoxWidth;
+        }
+
+        private void buttonSendLowVoltageThres_Click(object sender, EventArgs e)
+        {
+            SendEventArgs sEA = new SendEventArgs(4);
+
+            try
+            {
+                if (numericUpDownLowVoltageThres.Value <= numericUpDownLowVoltageThres.Maximum && 
+                    numericUpDownLowVoltageThres.Value >= numericUpDownLowVoltageThres.Minimum)
+                {
+                    sEA.SendPacket[0] = Convert.ToByte('&');
+                    sEA.SendPacket[1] = 0x55;
+                    sEA.SendPacket[2] = Convert.ToByte(numericUpDownLowVoltageThres.Value);
+                    sEA.SendPacket[3] = 0x0D;
+
+                    this.sendPacket(sEA.SendPacket);
+                }
+                else
+                {
+                    MessageBox.Show("Low Voltage Threshold Value must be between %i and %i" + 
+                        numericUpDownLowVoltageThres.Minimum + " and " + numericUpDownLowVoltageThres.Maximum);
+                }
+
+                Thread.Sleep(100);
+                if (!this.sendAll)
+                {
+                    this.requestAllData();
+                    this.parametersLoaded = true;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error sending Low Voltage Threshold Value");
+            }
+        }
+
+        void SetLowVoltageThres(byte[] bytePacket)
+        {
+            try
+            {
+                numericUpDownLowVoltageThres.Value = bytePacket[1];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Bad value in requested Low Voltage Threshold");
+            }
+        }
+
+        private void buttonRequestLowVotlageThres_Click(object sender, EventArgs e)
+        {
+            SendEventArgs sEA = new SendEventArgs(3);
+
+            try
+            {
+                    sEA.SendPacket[0] = Convert.ToByte('?');
+                    sEA.SendPacket[1] = 0x55;
+                    sEA.SendPacket[2] = 0x0D;
+
+                    this.sendPacket(sEA.SendPacket);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Requesting Low Voltage Threshold Value");
+            }
         }
     }
 
