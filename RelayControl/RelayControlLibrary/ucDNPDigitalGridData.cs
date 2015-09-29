@@ -95,7 +95,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phased ACB");
             this.binaryInputs.Add("Insensitive Backfeed Detected");
-            if (this.customer == Customers.DigitalGridDNP)
+            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.Atlanta)
             {
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
@@ -145,7 +145,7 @@ namespace RelayControlLibrary
             if (this.relayMasterRevision < 140107 || this.customer != Customers.Atlanta)
                 pointsToAdd = 20;
             else
-                pointsToAdd = 21;
+                pointsToAdd = 22;
 
             this.binaryOutputs.Clear();
 
@@ -172,6 +172,7 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Digital Out 1");
             this.binaryOutputs.Add("Digital Out 2");
             this.binaryOutputs.Add("Block And Trip Relay");
+            this.binaryOutputs.Add("SafeService Enable");
 
             uint i = 0;
 
@@ -194,7 +195,11 @@ namespace RelayControlLibrary
 
         private void initializeAnalogInputs()
         {
-            uint pointsToAdd = 73;
+            uint pointsToAdd;
+            if (this.customer == Customers.Atlanta)
+                pointsToAdd = 69;
+            else
+                pointsToAdd = 73;
 
             this.analogInputs.Clear();
             this.tabPageAnalogInputs1.Controls.Clear();
@@ -309,7 +314,7 @@ namespace RelayControlLibrary
 
         private void initializeAnalogOutputs()
         {
-            uint pointsToAdd = 23;
+            uint pointsToAdd = 28;
 
             this.analogOutputs.Clear();
             this.tabPageAnalogOutputs.Controls.Clear();
@@ -337,6 +342,11 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode - Motor Cycles", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode - Motor Timeout", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode - Pump Lockout Time", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Delay", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - OverCurrent", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Current Imbalance", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Low Voltage", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service - Voltage Imbalance", false));
 
             uint i = 0;
             if (pointsToAdd != 0)

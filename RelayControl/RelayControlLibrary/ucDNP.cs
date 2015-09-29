@@ -646,7 +646,7 @@ namespace RelayControlLibrary
             this.labelMemphisStage.Visible = false;
             if (this.Customer == Customers.NonConEd)
                 return;
-            if((this.Customer != Customers.DigitalGridDNP && this.Customer != Customers.DNPwithPLC) || this.deadBandVariables.Count == 0)
+            if((this.Customer != Customers.DigitalGridDNP && this.Customer != Customers.DNPwithPLC && this.Customer != Customers.Atlanta) || this.deadBandVariables.Count == 0)
             {
                 this.deadBandVariables.Clear();
                 this.groupBoxDigitalGridDNPDeadBand.Controls.Clear();

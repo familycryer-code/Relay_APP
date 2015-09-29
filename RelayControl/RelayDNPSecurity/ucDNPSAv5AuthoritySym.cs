@@ -45,9 +45,16 @@ namespace RelayDNPSecurity
 
         private void buttonSendKey_Click(object sender, EventArgs e)
         {
-            if (this.keyBox.KeyDataValid())
+            try
             {
-                this.sendKeyData();
+                if (this.keyBox.KeyDataValid())
+                {
+                    this.sendKeyData();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.onError(ex);
             }
         }
 
@@ -74,6 +81,7 @@ namespace RelayDNPSecurity
             catch (Exception ex)
             {
                 this.onError(ex);
+                return;
             }
 
             this.onSend(sSEA);

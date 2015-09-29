@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace RelayDNPSecurity
 {
-    public partial class ucKeyValuesInputControl : UserControl
+    public partial class ucKeyValuesInputControl : ucDNPSAv5SuperClass
     {
         public ucKeyValuesInputControl(int numberOfValues, string groupBoxName)
         {
@@ -65,6 +65,11 @@ namespace RelayDNPSecurity
         }
 
         #endregion
+
+        private void errorHandler(Exception ex, string p)
+        {
+            this.onError(ex);
+        }
 
         public void SetKey(byte[] dataArray)
         {
