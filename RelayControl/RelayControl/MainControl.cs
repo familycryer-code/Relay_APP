@@ -144,7 +144,7 @@ namespace RelayControl
                             this.dNPMemphisData.Dispose();
                         }
 
-                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DigitalGrid || this.Customer == Customers.Atlanta) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
                         {
                             this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
@@ -396,7 +396,7 @@ namespace RelayControl
                 this.tabPageEvents.Show();
                 this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate;
                 this.ArcFaultEnabled = true;
-                this.Customer = Customers.NonConEd;
+                this.Customer = Customers.DigitalGrid;
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 
 #elif WATERBUG
@@ -3075,6 +3075,13 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
+
+                if (ucSafeService1.SendSSModeFlag_Send == true)
+                {
+                    this.ucSafeService1.SendAll();
+                    this.ucSafeService1.SendSSModeFlag_Send = false;
+                    this.timerResponseTimeOut.Enabled = false;
+                }
             }
             this.ProgramState = ProgramStates.Running;
 
@@ -4064,6 +4071,11 @@ namespace RelayControl
                             if (revision.Contains("PLC"))
                             {
                                 this.Customer = Customers.DNPwithPLC;
+                                this.ucDNP1.Customer = this.Customer;
+                            }
+                            else if (revision.Contains("ATLANTA"))
+                            {
+                                this.Customer = Customers.Atlanta;
                                 this.ucDNP1.Customer = this.Customer;
                             }
                             
