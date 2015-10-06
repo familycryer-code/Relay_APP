@@ -511,6 +511,8 @@ namespace RelayControl
             this.customerRevisionName = "Dominion";
 #elif chicago
             this.customerRevisionName = "Chicago";
+#elif Enmax
+            this.customerRevisionName = "Enmax";
 #else
             this.customerRevisionName = "";
 #endif
