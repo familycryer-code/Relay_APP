@@ -23,11 +23,15 @@ namespace RelayControlLibrary
             get { return this.customer; }
             set
             {
-                this.customer = value;
+                if (this.customer != value)
+                {
+                    this.customer = value;
+                    this.customerChanged = true;
+                }
                 this.setCustomer();
             }
         }
-        private Customers customer;
+        private Customers customer = Customers.None;
         private List<ucDeadBandSettingsObject> deadBandVariables = new List<ucDeadBandSettingsObject>();
 
 #if ATLANTA
@@ -35,7 +39,7 @@ namespace RelayControlLibrary
 #else
         private static int _packetLength = 98;
 #endif
-
+        private bool customerChanged = false;
         #region Send Functions
 
         private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
@@ -613,6 +617,7 @@ namespace RelayControlLibrary
             else
                 this.makeDefault();
 
+            this.customerChanged = false;
         }
 
         private void restoreDefaultsDeadBandVariables()
@@ -644,7 +649,12 @@ namespace RelayControlLibrary
         {
             this.numericUpDownMemphisStage.Visible = false;
             this.labelMemphisStage.Visible = false;
-            if (this.Customer == Customers.NonConEd)
+            if (this.customerChanged == true)
+            {
+                this.deadBandVariables.Clear();
+            }
+
+            if (this.Customer == Customers.NonConEd || !this.customerChanged)
                 return;
             if((this.Customer != Customers.DigitalGridDNP && this.Customer != Customers.DNPwithPLC && this.Customer != Customers.Atlanta) || this.deadBandVariables.Count == 0)
             {

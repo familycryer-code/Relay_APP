@@ -286,8 +286,9 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 7", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 8", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Q Bit", true));
+                this.analogInputs.Add(new AnalogPointDefinition("Number of RNC connected", false));
 
-                pointsToAdd += 9;
+                pointsToAdd += 10;
             }
 
             uint i = 0;
