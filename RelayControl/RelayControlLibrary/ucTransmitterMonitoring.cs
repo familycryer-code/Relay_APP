@@ -54,7 +54,7 @@ namespace RelayControlLibrary
             groupBoxAnalogFlagValues.Visible = false;
 #endif
 
-#if Enmax && !Debug
+#if Enmax && !DEBUG
             this.checkBoxFlagStatusH.Visible = false;
 #endif
 

@@ -363,11 +363,11 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if chicago
+#if chicago || Enmax || Dominion || Seattle || Boston || NU
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
-                //position size and location for chicago
+                //position size and location for release
                 this.panelFlagSettings.Location = new Point(7, 300);
                 this.labelFlagPolarity.Location = new Point(13, 294); //13, 250
 
@@ -387,11 +387,14 @@ namespace RelayControlLibrary
                 this.checkBoxSmartExternalCableEnable.Location = new Point(63, 12);
 
                 this.panelFlagSettings.Size = new Size(242, 217);
-
-                //this.labelFlagSettingA.Location = new Point(7, 250);
 #else
                 this.panelOtherAlarmSettings.Show();
                 this.labelOtherAlarmSettings.Show();
+#endif
+
+#if Enmax && !DEBUG
+                this.panelFlagSettingH.Hide();
+                this.label12.Hide();
 #endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
@@ -1627,7 +1630,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if chicago
+#if chicago || Enmax || Dominion || Seattle || Boston || NU
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;
