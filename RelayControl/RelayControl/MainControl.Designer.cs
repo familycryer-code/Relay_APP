@@ -136,7 +136,7 @@ namespace RelayControl
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.tabPageControl = new System.Windows.Forms.TabPage();
-            this.labelLowVoltageThres = new System.Windows.Forms.Label();
+            this.buttonRequestLowVotlageThres = new System.Windows.Forms.Button();
             this.numericUpDownLowVoltageThres = new System.Windows.Forms.NumericUpDown();
             this.buttonSendLowVoltageThres = new System.Windows.Forms.Button();
             this.groupBoxRelayStatus = new System.Windows.Forms.GroupBox();
@@ -224,7 +224,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.buttonRequestLowVotlageThres = new System.Windows.Forms.Button();
+            this.groupBoxLowVoltThres = new System.Windows.Forms.GroupBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -249,6 +249,7 @@ namespace RelayControl
             this.tabPageShortRange.SuspendLayout();
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
+            this.groupBoxLowVoltThres.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -1360,10 +1361,7 @@ namespace RelayControl
             // 
             // tabPageControl
             // 
-            this.tabPageControl.Controls.Add(this.buttonRequestLowVotlageThres);
-            this.tabPageControl.Controls.Add(this.labelLowVoltageThres);
-            this.tabPageControl.Controls.Add(this.numericUpDownLowVoltageThres);
-            this.tabPageControl.Controls.Add(this.buttonSendLowVoltageThres);
+            this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
             this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
             this.tabPageControl.Controls.Add(this.groupBoxNetworkCTRatio);
@@ -1382,18 +1380,19 @@ namespace RelayControl
             this.tabPageControl.Text = "Relay Settings";
             this.tabPageControl.UseVisualStyleBackColor = true;
             // 
-            // labelLowVoltageThres
+            // buttonRequestLowVotlageThres
             // 
-            this.labelLowVoltageThres.AutoSize = true;
-            this.labelLowVoltageThres.Location = new System.Drawing.Point(12, 539);
-            this.labelLowVoltageThres.Name = "labelLowVoltageThres";
-            this.labelLowVoltageThres.Size = new System.Drawing.Size(116, 13);
-            this.labelLowVoltageThres.TabIndex = 115;
-            this.labelLowVoltageThres.Text = "Low Voltage Threshold";
+            this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(251, 30);
+            this.buttonRequestLowVotlageThres.Name = "buttonRequestLowVotlageThres";
+            this.buttonRequestLowVotlageThres.Size = new System.Drawing.Size(75, 23);
+            this.buttonRequestLowVotlageThres.TabIndex = 116;
+            this.buttonRequestLowVotlageThres.Text = "Request";
+            this.buttonRequestLowVotlageThres.UseVisualStyleBackColor = true;
+            this.buttonRequestLowVotlageThres.Click += new System.EventHandler(this.buttonRequestLowVotlageThres_Click);
             // 
             // numericUpDownLowVoltageThres
             // 
-            this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(14, 562);
+            this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(14, 33);
             this.numericUpDownLowVoltageThres.Maximum = new decimal(new int[] {
             90,
             0,
@@ -1415,7 +1414,7 @@ namespace RelayControl
             // 
             // buttonSendLowVoltageThres
             // 
-            this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(140, 560);
+            this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(159, 30);
             this.buttonSendLowVoltageThres.Name = "buttonSendLowVoltageThres";
             this.buttonSendLowVoltageThres.Size = new System.Drawing.Size(75, 23);
             this.buttonSendLowVoltageThres.TabIndex = 113;
@@ -2365,15 +2364,17 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // buttonRequestLowVotlageThres
+            // groupBoxLowVoltThres
             // 
-            this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(221, 560);
-            this.buttonRequestLowVotlageThres.Name = "buttonRequestLowVotlageThres";
-            this.buttonRequestLowVotlageThres.Size = new System.Drawing.Size(75, 23);
-            this.buttonRequestLowVotlageThres.TabIndex = 116;
-            this.buttonRequestLowVotlageThres.Text = "Request";
-            this.buttonRequestLowVotlageThres.UseVisualStyleBackColor = true;
-            this.buttonRequestLowVotlageThres.Click += new System.EventHandler(this.buttonRequestLowVotlageThres_Click);
+            this.groupBoxLowVoltThres.Controls.Add(this.buttonRequestLowVotlageThres);
+            this.groupBoxLowVoltThres.Controls.Add(this.numericUpDownLowVoltageThres);
+            this.groupBoxLowVoltThres.Controls.Add(this.buttonSendLowVoltageThres);
+            this.groupBoxLowVoltThres.Location = new System.Drawing.Point(11, 530);
+            this.groupBoxLowVoltThres.Name = "groupBoxLowVoltThres";
+            this.groupBoxLowVoltThres.Size = new System.Drawing.Size(331, 88);
+            this.groupBoxLowVoltThres.TabIndex = 117;
+            this.groupBoxLowVoltThres.TabStop = false;
+            this.groupBoxLowVoltThres.Text = "Low Voltage Threshold";
             // 
             // MainControl
             // 
@@ -2428,6 +2429,7 @@ namespace RelayControl
             this.tabPageShortRange.ResumeLayout(false);
             this.tabPageDNPData.ResumeLayout(false);
             this.tabPageDNPSecureAuth.ResumeLayout(false);
+            this.groupBoxLowVoltThres.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2629,10 +2631,10 @@ namespace RelayControl
         private System.Windows.Forms.TextBox textBoxRelaySNControlPQ;
         private System.Windows.Forms.TextBox textBoxCTRatioPQMonitor;
         private System.Windows.Forms.CheckBox checkBox277ProtectorPQ;
-        private System.Windows.Forms.Label labelLowVoltageThres;
         private System.Windows.Forms.NumericUpDown numericUpDownLowVoltageThres;
         private System.Windows.Forms.Button buttonSendLowVoltageThres;
         private System.Windows.Forms.Button buttonRequestLowVotlageThres;
+        private System.Windows.Forms.GroupBox groupBoxLowVoltThres;
     }
 }
 

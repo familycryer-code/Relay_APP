@@ -264,6 +264,14 @@ namespace RelayControl
 #if ATLANTA
                 if(this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+
+                this.groupBoxLowVoltThres.Visible = true;
+#else
+        #if DEBUG
+                this.groupBoxLowVoltThres.Visible = true;
+        #else
+                this.groupBoxLowVoltThres.Visible = false;
+        #endif
 #endif
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
