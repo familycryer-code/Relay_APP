@@ -43,9 +43,9 @@ namespace RelayControlLibrary
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 150527;
-		private static UInt32 _masterDNPRevisionNumber = 151001;
-        private static UInt32 _relayCodeRevisionNumber = 20151001;
+        private static UInt32 _masterCodeRevisionNumber = 151008;
+		private static UInt32 _masterDNPRevisionNumber = 151008;
+        private static UInt32 _relayCodeRevisionNumber = 20151005;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -349,6 +349,7 @@ namespace RelayControlLibrary
                 regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
+                regular.MasterFileDNPPLC = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
                 regular.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor;
 
@@ -389,6 +390,7 @@ namespace RelayControlLibrary
             destination.FPGAFile = source.FPGAFile;
             destination.MasterFileGE = source.MasterFileGE;
             destination.MasterFileGEDNP = source.MasterFileGEDNP;
+            destination.MasterFileDNPPLC = source.MasterFileDNPPLC;
             destination.MasterFileWH = source.MasterFileWH;
             destination.MasterFileWHDNP = source.MasterFileWHDNP;
             destination.RelayFileGE = source.RelayFileGE;
@@ -522,6 +524,36 @@ namespace RelayControlLibrary
                 return;
 
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
+
+#if Enmax
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
+            this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
+
+            if (this.GEEnabled)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
+
+            
             if (this.DNPRelay)
             {
                 if (this.GEEnabled)
@@ -2837,6 +2869,7 @@ namespace RelayControlLibrary
             this.MasterFileGEDNP = cLF.MasterFileGEDNP;
             this.MasterFileWH = cLF.MasterFileWH;
             this.MasterFileWHDNP = cLF.MasterFileWHDNP;
+            this.MasterFileDNPPLC = cLF.MasterFileDNPPLC;
             this.RelayFileGE = cLF.RelayFileGE;
             this.RelayFileWH = cLF.RelayFileWH;
         }
@@ -2849,6 +2882,7 @@ namespace RelayControlLibrary
         public string MasterFileWH;
         public string MasterFileGEDNP;
         public string MasterFileWHDNP;
+        public string MasterFileDNPPLC;
         public string RelayFileWH;
         public string RelayFileGE;
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();

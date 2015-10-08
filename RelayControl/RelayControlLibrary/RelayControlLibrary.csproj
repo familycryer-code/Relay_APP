@@ -208,7 +208,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Enmax|AnyCPU'">
     <OutputPath>bin\Enmax\</OutputPath>
-    <DefineConstants>TRACE;DNP, DIGITALGRID</DefineConstants>
+    <DefineConstants>TRACE;DNP, DIGITALGRID,Enmax</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -599,6 +599,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
+    <None Include="Resources\MasterProcessor_with_DNP_PLC.S" />
     <None Include="Resources\MasterProcessor_with_DNP_GE.S" />
     <None Include="Resources\FPGAdata.rbf" />
     <Content Include="Resources\MasterProcessor.S" />
