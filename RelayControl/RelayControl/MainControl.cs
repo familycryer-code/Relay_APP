@@ -89,7 +89,7 @@ namespace RelayControl
             set
             {
 #if !DEBUG
-                if(value && !this.DNPEnabled && this.Customer != Customers.ConEdison)
+                if(value && !this.DNPEnabled && this.Customer != Customers.ConEdison) //todo
                 {
                     if(!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
@@ -99,11 +99,13 @@ namespace RelayControl
                 }
                 else
                 {
+    #if !PLC && !DNP
                     if(this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
                     }
+    #endif
                 }
 #endif
                 this.transmitterEnabled = value;

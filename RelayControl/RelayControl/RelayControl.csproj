@@ -217,7 +217,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDigitalGridPLCwDNP|AnyCPU'">
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseDigitalGridPLCwDNP\</OutputPath>
-    <DefineConstants>DNP, DIGITALGRID</DefineConstants>
+    <DefineConstants>DNP, DIGITALGRID,PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -227,7 +227,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Enmax|AnyCPU'">
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
     <OutputPath>bin\Enmax\</OutputPath>
-    <DefineConstants>DNP, DIGITALGRID, Enmax</DefineConstants>
+    <DefineConstants>DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
