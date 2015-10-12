@@ -7653,11 +7653,8 @@ namespace RelayControl
             this.checkBox277ProtectorPQ.Checked = this.protector277;
 
 #if chicago
-            if (checkFinishedCalling277())
-            {
-                ucCloseMode1.Voltage277State = this.protector277;
-                ucSafeService1.Voltage277State = this.protector277;
-            }
+            ucCloseMode1.Voltage277State = this.protector277;
+            ucSafeService1.Voltage277State = this.protector277;
 #endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
@@ -7681,11 +7678,8 @@ namespace RelayControl
             this.checkBox277Protector.Checked = this.protector277;
 
 #if chicago
-            if (checkFinishedCalling277())
-            {
-                ucCloseMode1.Voltage277State = this.protector277;
-                ucSafeService1.Voltage277State = this.protector277;
-            }
+            ucCloseMode1.Voltage277State = this.protector277;
+            ucSafeService1.Voltage277State = this.protector277;
 #endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
@@ -7704,20 +7698,6 @@ namespace RelayControl
 
         }
 
-        public bool checkFinishedCalling277()
-        {
-            if (finishedCalling277 == 1)
-            {
-                finishedCalling277 = 0;
-                return true;
-            }
-            else
-            {
-                finishedCalling277++;
-                return false;
-            }
-
-        }
 
         private void buttonClearEvents_Click(object sender, EventArgs e)
         {

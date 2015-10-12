@@ -61,8 +61,11 @@ namespace RelayControlLibrary
             get { return this.voltage277State; }
             set
             {
-                this.voltage277State = value;
-                this.setVoltage277State();
+                if (this.voltage277State != value)
+                {
+                    this.voltage277State = value;
+                    this.setVoltage277State();
+                }    
             }
         }
 
