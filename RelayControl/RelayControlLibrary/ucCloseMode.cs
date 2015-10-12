@@ -102,7 +102,7 @@ namespace RelayControlLibrary
 
                     this.numericUpDownPDV.Maximum = numericUpDownPDV.Maximum * conversion277;
                     this.numericUpDownPDV.Value = numericUpDownPDV.Value * conversion277;
-                    this.numericUpDownPDV.Increment = this.numericUpDownRecloseVolts.Increment * conversion277;
+                    this.numericUpDownPDV.Increment = this.numericUpDownPDV.Increment * conversion277;
                     this.numericUpDownPDV.Minimum = this.numericUpDownPDV.Minimum * conversion277;
                 }
                 else //decrease voltage values
