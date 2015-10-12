@@ -51,6 +51,89 @@ namespace RelayControlLibrary
             }
         }
 
+        private decimal conversion277 = 2.216m;
+        private bool voltage277Changed = false;
+
+        public bool voltage277State = false;
+
+        public bool Voltage277State
+        {
+            get { return this.voltage277State; }
+            set
+            {
+                this.voltage277State = value;
+                this.setVoltage277State();
+            }
+        }
+
+
+        private decimal storeRecloseVoltageIncrement = 0;
+        private decimal storeRecloseVoltage = 0;
+        private decimal storeRecloseMaximum = 0;
+        private decimal storePDVoltageIncrement = 0;
+        private decimal storeRecloseMinimum = 0;
+        private decimal storePDVoltage = 0;
+        private decimal storePDMaximum = 0;
+        private decimal storePDMinimum = 0;
+
+        private void setVoltage277State()
+        { 
+            try
+            {
+                if (voltage277State == true) //Increase voltage values
+                {
+                    this.storeRecloseVoltageIncrement = this.numericUpDownRecloseVolts.Increment;
+                    this.storeRecloseVoltage = this.numericUpDownRecloseVolts.Value;
+                    this.storeRecloseMaximum = this.numericUpDownRecloseVolts.Maximum;
+                    this.storeRecloseMinimum = this.numericUpDownRecloseVolts.Minimum;
+                    this.storePDVoltageIncrement = this.numericUpDownPDV.Increment;
+                    this.storePDVoltage = this.numericUpDownPDV.Value;
+                    this.storePDMaximum = this.numericUpDownPDV.Maximum;
+                    this.storePDMinimum = this.numericUpDownPDV.Minimum;
+
+                    //Maximum must be increased before value
+                    this.numericUpDownRecloseVolts.Maximum = numericUpDownRecloseVolts.Maximum * conversion277;
+                    this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * conversion277;
+                    this.numericUpDownRecloseVolts.Increment = this.numericUpDownRecloseVolts.Increment * conversion277;
+                    this.numericUpDownRecloseVolts.Minimum = this.numericUpDownRecloseVolts.Minimum * conversion277;
+
+                    this.numericUpDownPDV.Maximum = numericUpDownPDV.Maximum * conversion277;
+                    this.numericUpDownPDV.Value = numericUpDownPDV.Value * conversion277;
+                    this.numericUpDownPDV.Increment = this.numericUpDownRecloseVolts.Increment * conversion277;
+                    this.numericUpDownPDV.Minimum = this.numericUpDownPDV.Minimum * conversion277;
+                }
+                else //decrease voltage values
+                {
+                    //order matters must decrease minimum and voltage values before maximum value
+                    this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum; 
+                    if (this.numericUpDownRecloseVolts.Value != 0)
+                        this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value / conversion277;
+                    this.numericUpDownRecloseVolts.Maximum = this.storeRecloseMaximum;
+                    this.numericUpDownRecloseVolts.Increment = this.storeRecloseVoltageIncrement;
+
+                    this.numericUpDownPDV.Minimum = this.storePDMinimum;
+                    if (this.numericUpDownPDV.Value != 0)
+                        this.numericUpDownPDV.Value = numericUpDownPDV.Value / conversion277;
+                    this.numericUpDownPDV.Maximum = this.storePDMaximum;
+                    this.numericUpDownPDV.Increment = this.storePDVoltageIncrement;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error setting Close Mode 277 voltages");
+
+                this.numericUpDownRecloseVolts.Increment = this.storeRecloseVoltageIncrement;
+                this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum; 
+                this.numericUpDownRecloseVolts.Value = this.storeRecloseVoltage;
+                this.numericUpDownRecloseVolts.Maximum = this.storeRecloseMaximum;
+                this.numericUpDownPDV.Increment = this.storePDVoltageIncrement;
+                this.numericUpDownPDV.Minimum = this.storePDMinimum;
+                this.numericUpDownPDV.Value = this.storePDVoltage;
+                this.numericUpDownPDV.Maximum = this.storePDMaximum;
+            }
+        }
+
+
         private bool relaxClose = false;        ///added so that we could use the bit from the relay to see if relax close is active
         public bool RelaxClose
         {
@@ -277,7 +360,12 @@ namespace RelayControlLibrary
                     this.numericUpDownRecloseVolts.Value = this.savedRecloseValue;
                 }
                 else
-                    this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value;
+                {
+                    if (voltage277State == true) //adjust for 277
+                        this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value / conversion277;
+                    else
+                        this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value;
+                }
 
                 this.CloseCurve.TiltAngle = this.numericUpDownCloseTiltAngle.Value;
             }
@@ -291,7 +379,11 @@ namespace RelayControlLibrary
         {
             try
             {
-                this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value;
+                if (voltage277State == true) //adjust for 277
+                    this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value / (decimal)conversion277;
+                else
+                    this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value;
+                
                 this.CloseCurve.PhaseDetectAngle = this.numericUpDownPDA.Value;
             }
             catch (Exception ex)
@@ -490,6 +582,19 @@ namespace RelayControlLibrary
             {
                 this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Close Control Word."));
             }
+
+            try //set 277 value Close Mode
+            {
+                if (voltage277State == true)
+                {
+                    this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)conversion277;
+                    this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)conversion277;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error setting close mode 277");
+            }
         }
 
         private CloseModes mode = CloseModes.None;
@@ -595,6 +700,19 @@ namespace RelayControlLibrary
             }
             this.setVerticalLine();
             this.setHorizontalLine();
+
+            try //set 277 value Close Mode
+            {
+                if (voltage277State == true)
+                {
+                    this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)conversion277;
+                    this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)conversion277;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error setting close mode to 277 values");
+            }
         }
 
 

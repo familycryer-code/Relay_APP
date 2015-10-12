@@ -7645,11 +7645,20 @@ namespace RelayControl
         }
 
         private bool protector277 = false;
+        private int finishedCalling277 = 0;
 
         private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
         {
             this.protector277 = this.checkBox277Protector.Checked;
             this.checkBox277ProtectorPQ.Checked = this.protector277;
+
+#if chicago
+            if (checkFinishedCalling277())
+            {
+                ucCloseMode1.Voltage277State = this.protector277;
+                ucSafeService1.Voltage277State = this.protector277;
+            }
+#endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 
@@ -7671,6 +7680,14 @@ namespace RelayControl
             this.protector277 = this.checkBox277ProtectorPQ.Checked;
             this.checkBox277Protector.Checked = this.protector277;
 
+#if chicago
+            if (checkFinishedCalling277())
+            {
+                ucCloseMode1.Voltage277State = this.protector277;
+                ucSafeService1.Voltage277State = this.protector277;
+            }
+#endif
+
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 
             this.ucPhasorGraph1.Protector277 = this.protector277;
@@ -7684,6 +7701,21 @@ namespace RelayControl
             this.ucEventGraph6.Protector277 = this.protector277;
             this.ucEventGraph7.Protector277 = this.protector277;
             this.ucLiveData1.Protector277 = this.protector277;
+
+        }
+
+        public bool checkFinishedCalling277()
+        {
+            if (finishedCalling277 == 1)
+            {
+                finishedCalling277 = 0;
+                return true;
+            }
+            else
+            {
+                finishedCalling277++;
+                return false;
+            }
 
         }
 
