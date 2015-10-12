@@ -790,6 +790,7 @@ namespace RelayControlLibrary
             this.labelAlarmSettings.TabIndex = 20;
             this.labelAlarmSettings.Text = "Alarm Settings:";
             this.labelAlarmSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelAlarmSettings.Visible = false;
             // 
             // panelAlarmSettings
             // 
@@ -817,6 +818,7 @@ namespace RelayControlLibrary
             this.panelAlarmSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelAlarmSettings.Size = new System.Drawing.Size(143, 217);
             this.panelAlarmSettings.TabIndex = 19;
+            this.panelAlarmSettings.Visible = false;
             // 
             // labelASEnable
             // 

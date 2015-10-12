@@ -578,7 +578,7 @@ namespace RelayControlLibrary
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
             if (voltage277State == true)
-                this.numericUpDownLowVoltage.Value = * conversion277;
+                this.numericUpDownLowVoltage.Value = 95m * conversion277;
             else
                 this.numericUpDownLowVoltage.Value = 95m;
 
