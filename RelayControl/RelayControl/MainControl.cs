@@ -6653,8 +6653,10 @@ namespace RelayControl
             Thread.Sleep(50);
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             Thread.Sleep(50);
+#if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(50);
+#endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 this.ucSafeService1.SendAll();
@@ -7646,10 +7648,16 @@ namespace RelayControl
 
         private bool protector277 = false;
 
+
         private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
         {
             this.protector277 = this.checkBox277Protector.Checked;
             this.checkBox277ProtectorPQ.Checked = this.protector277;
+
+#if chicago
+            ucCloseMode1.Voltage277State = this.protector277;
+            ucSafeService1.Voltage277State = this.protector277;
+#endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 
@@ -7670,6 +7678,11 @@ namespace RelayControl
         {
             this.protector277 = this.checkBox277ProtectorPQ.Checked;
             this.checkBox277Protector.Checked = this.protector277;
+
+#if chicago
+            ucCloseMode1.Voltage277State = this.protector277;
+            ucSafeService1.Voltage277State = this.protector277;
+#endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 

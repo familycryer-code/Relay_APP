@@ -790,6 +790,7 @@ namespace RelayControlLibrary
             this.labelAlarmSettings.TabIndex = 20;
             this.labelAlarmSettings.Text = "Alarm Settings:";
             this.labelAlarmSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelAlarmSettings.Visible = false;
             // 
             // panelAlarmSettings
             // 
@@ -817,6 +818,7 @@ namespace RelayControlLibrary
             this.panelAlarmSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelAlarmSettings.Size = new System.Drawing.Size(143, 217);
             this.panelAlarmSettings.TabIndex = 19;
+            this.panelAlarmSettings.Visible = false;
             // 
             // labelASEnable
             // 
@@ -1727,7 +1729,7 @@ namespace RelayControlLibrary
             // labelSmartExternalCableMain
             // 
             this.labelSmartExternalCableMain.AutoSize = true;
-            this.labelSmartExternalCableMain.Location = new System.Drawing.Point(199, 250);
+            this.labelSmartExternalCableMain.Location = new System.Drawing.Point(200, 249);
             this.labelSmartExternalCableMain.Name = "labelSmartExternalCableMain";
             this.labelSmartExternalCableMain.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelSmartExternalCableMain.Size = new System.Drawing.Size(99, 13);

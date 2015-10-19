@@ -367,7 +367,7 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if (chicago || Enmax || Dominion || Seattle || Boston || NU) && !DEBUG
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
@@ -1634,7 +1634,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if (chicago || Enmax || Dominion || Seattle || Boston || NU) && !DEBUG
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;
