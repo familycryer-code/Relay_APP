@@ -7290,7 +7290,7 @@ namespace RelayControl
                     }
                 }
             }
-            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring)
+            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter)
             {
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
@@ -7307,11 +7307,11 @@ namespace RelayControl
             }
 
 
-            if (this.tabControlMain.SelectedTab != this.tabPageMonitor)
+            if (this.tabControlMain.SelectedTab != this.tabPageMonitor && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
             {
                 this.disableAllMonitoring();
             }
-            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring)
+            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
             {
                 this.pauseTransmitterMonitoring();
             }
@@ -7447,6 +7447,7 @@ namespace RelayControl
         private void setTransmitterMonitorData(byte[] bytePacket)
         {
             this.ucTransmitterMonitoring1.SetAll(bytePacket);
+            this.ucTransmitter1.setMonitoringData(bytePacket);
         }
 
         private void setDNPData(byte[] bytePacket)

@@ -191,6 +191,24 @@ namespace RelayControlLibrary
             this.numericUpDownLEDSpeed = new System.Windows.Forms.NumericUpDown();
             this.labelLEDSpeed = new System.Windows.Forms.Label();
             this.buttonForceConfigMessage = new System.Windows.Forms.Button();
+            this.panelFlasgStatusWB = new System.Windows.Forms.Panel();
+            this.labelTransFlagStatus = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusH = new System.Windows.Forms.CheckBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusG = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusF = new System.Windows.Forms.CheckBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusE = new System.Windows.Forms.CheckBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusD = new System.Windows.Forms.CheckBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusC = new System.Windows.Forms.CheckBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusB = new System.Windows.Forms.CheckBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.checkBoxFlagStatusA = new System.Windows.Forms.CheckBox();
             this.panelFreqPanel.SuspendLayout();
             this.panelFlagSettings.SuspendLayout();
             this.panelFlagSettingH.SuspendLayout();
@@ -216,6 +234,7 @@ namespace RelayControlLibrary
             this.panelSmartExternalCable.SuspendLayout();
             this.panelWaterburyMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLEDSpeed)).BeginInit();
+            this.panelFlasgStatusWB.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonTX
@@ -2118,10 +2137,205 @@ namespace RelayControlLibrary
             this.buttonForceConfigMessage.UseVisualStyleBackColor = true;
             this.buttonForceConfigMessage.Click += new System.EventHandler(this.buttonForceConfigMessage_Click);
             // 
+            // panelFlasgStatusWB
+            // 
+            this.panelFlasgStatusWB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelFlasgStatusWB.Controls.Add(this.label23);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusH);
+            this.panelFlasgStatusWB.Controls.Add(this.label24);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusG);
+            this.panelFlasgStatusWB.Controls.Add(this.label25);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusF);
+            this.panelFlasgStatusWB.Controls.Add(this.label26);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusE);
+            this.panelFlasgStatusWB.Controls.Add(this.label27);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusD);
+            this.panelFlasgStatusWB.Controls.Add(this.label28);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusC);
+            this.panelFlasgStatusWB.Controls.Add(this.label29);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusB);
+            this.panelFlasgStatusWB.Controls.Add(this.label30);
+            this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusA);
+            this.panelFlasgStatusWB.Location = new System.Drawing.Point(193, 256);
+            this.panelFlasgStatusWB.Name = "panelFlasgStatusWB";
+            this.panelFlasgStatusWB.Size = new System.Drawing.Size(111, 217);
+            this.panelFlasgStatusWB.TabIndex = 80;
+            // 
+            // labelTransFlagStatus
+            // 
+            this.labelTransFlagStatus.AutoSize = true;
+            this.labelTransFlagStatus.Location = new System.Drawing.Point(201, 248);
+            this.labelTransFlagStatus.Name = "labelTransFlagStatus";
+            this.labelTransFlagStatus.Size = new System.Drawing.Size(63, 13);
+            this.labelTransFlagStatus.TabIndex = 81;
+            this.labelTransFlagStatus.Text = "Flag Status:";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(14, 190);
+            this.label23.Name = "label23";
+            this.label23.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label23.Size = new System.Drawing.Size(18, 13);
+            this.label23.TabIndex = 81;
+            this.label23.Text = "H:";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusH
+            // 
+            this.checkBoxFlagStatusH.AutoSize = true;
+            this.checkBoxFlagStatusH.Location = new System.Drawing.Point(63, 189);
+            this.checkBoxFlagStatusH.Name = "checkBoxFlagStatusH";
+            this.checkBoxFlagStatusH.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusH.TabIndex = 71;
+            this.checkBoxFlagStatusH.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(14, 167);
+            this.label24.Name = "label24";
+            this.label24.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label24.Size = new System.Drawing.Size(18, 13);
+            this.label24.TabIndex = 80;
+            this.label24.Text = "G:";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusG
+            // 
+            this.checkBoxFlagStatusG.AutoSize = true;
+            this.checkBoxFlagStatusG.Location = new System.Drawing.Point(63, 166);
+            this.checkBoxFlagStatusG.Name = "checkBoxFlagStatusG";
+            this.checkBoxFlagStatusG.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusG.TabIndex = 70;
+            this.checkBoxFlagStatusG.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(14, 144);
+            this.label25.Name = "label25";
+            this.label25.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label25.Size = new System.Drawing.Size(16, 13);
+            this.label25.TabIndex = 79;
+            this.label25.Text = "F:";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusF
+            // 
+            this.checkBoxFlagStatusF.AutoSize = true;
+            this.checkBoxFlagStatusF.Location = new System.Drawing.Point(63, 143);
+            this.checkBoxFlagStatusF.Name = "checkBoxFlagStatusF";
+            this.checkBoxFlagStatusF.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusF.TabIndex = 69;
+            this.checkBoxFlagStatusF.UseVisualStyleBackColor = true;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(14, 121);
+            this.label26.Name = "label26";
+            this.label26.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label26.Size = new System.Drawing.Size(17, 13);
+            this.label26.TabIndex = 78;
+            this.label26.Text = "E:";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusE
+            // 
+            this.checkBoxFlagStatusE.AutoSize = true;
+            this.checkBoxFlagStatusE.Location = new System.Drawing.Point(63, 120);
+            this.checkBoxFlagStatusE.Name = "checkBoxFlagStatusE";
+            this.checkBoxFlagStatusE.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusE.TabIndex = 68;
+            this.checkBoxFlagStatusE.UseVisualStyleBackColor = true;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(14, 98);
+            this.label27.Name = "label27";
+            this.label27.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label27.Size = new System.Drawing.Size(18, 13);
+            this.label27.TabIndex = 77;
+            this.label27.Text = "D:";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusD
+            // 
+            this.checkBoxFlagStatusD.AutoSize = true;
+            this.checkBoxFlagStatusD.Location = new System.Drawing.Point(63, 97);
+            this.checkBoxFlagStatusD.Name = "checkBoxFlagStatusD";
+            this.checkBoxFlagStatusD.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusD.TabIndex = 67;
+            this.checkBoxFlagStatusD.UseVisualStyleBackColor = true;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(14, 75);
+            this.label28.Name = "label28";
+            this.label28.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label28.Size = new System.Drawing.Size(17, 13);
+            this.label28.TabIndex = 76;
+            this.label28.Text = "C:";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusC
+            // 
+            this.checkBoxFlagStatusC.AutoSize = true;
+            this.checkBoxFlagStatusC.Location = new System.Drawing.Point(63, 74);
+            this.checkBoxFlagStatusC.Name = "checkBoxFlagStatusC";
+            this.checkBoxFlagStatusC.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusC.TabIndex = 66;
+            this.checkBoxFlagStatusC.UseVisualStyleBackColor = true;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(14, 52);
+            this.label29.Name = "label29";
+            this.label29.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label29.Size = new System.Drawing.Size(17, 13);
+            this.label29.TabIndex = 74;
+            this.label29.Text = "B:";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusB
+            // 
+            this.checkBoxFlagStatusB.AutoSize = true;
+            this.checkBoxFlagStatusB.Location = new System.Drawing.Point(63, 51);
+            this.checkBoxFlagStatusB.Name = "checkBoxFlagStatusB";
+            this.checkBoxFlagStatusB.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusB.TabIndex = 65;
+            this.checkBoxFlagStatusB.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(14, 29);
+            this.label30.Name = "label30";
+            this.label30.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label30.Size = new System.Drawing.Size(17, 13);
+            this.label30.TabIndex = 73;
+            this.label30.Text = "A:";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBoxFlagStatusA
+            // 
+            this.checkBoxFlagStatusA.AutoSize = true;
+            this.checkBoxFlagStatusA.Location = new System.Drawing.Point(63, 28);
+            this.checkBoxFlagStatusA.Name = "checkBoxFlagStatusA";
+            this.checkBoxFlagStatusA.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxFlagStatusA.TabIndex = 64;
+            this.checkBoxFlagStatusA.UseVisualStyleBackColor = true;
+            // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelTransFlagStatus);
+            this.Controls.Add(this.panelFlasgStatusWB);
             this.Controls.Add(this.buttonForceConfigMessage);
             this.Controls.Add(this.labelLEDSpeed);
             this.Controls.Add(this.numericUpDownLEDSpeed);
@@ -2196,6 +2410,8 @@ namespace RelayControlLibrary
             this.panelWaterburyMain.ResumeLayout(false);
             this.panelWaterburyMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLEDSpeed)).EndInit();
+            this.panelFlasgStatusWB.ResumeLayout(false);
+            this.panelFlasgStatusWB.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2366,5 +2582,23 @@ namespace RelayControlLibrary
         private System.Windows.Forms.NumericUpDown numericUpDownLEDSpeed;
         private System.Windows.Forms.Label labelLEDSpeed;
         private System.Windows.Forms.Button buttonForceConfigMessage;
+        private System.Windows.Forms.Panel panelFlasgStatusWB;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusH;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusG;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusF;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusE;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusD;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusC;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusB;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.CheckBox checkBoxFlagStatusA;
+        private System.Windows.Forms.Label labelTransFlagStatus;
     }
 }
