@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-10-13";
+        private const string revisionDate = "2015-10-21";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -523,6 +523,8 @@ namespace RelayControl
             this.customerRevisionName = "Chicago";
 #elif Enmax
             this.customerRevisionName = "Enmax";
+#elif ATLANTA
+            this.customerRevisionName = "Atlanta";
 #else
             this.customerRevisionName = "";
 #endif
@@ -4972,7 +4974,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || SEATTLE || DOMINION || chicago
+#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA
             this.domainUpDownCTRatioM.SelectedIndex = 1;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 4;
