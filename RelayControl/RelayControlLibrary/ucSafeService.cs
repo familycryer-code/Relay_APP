@@ -382,7 +382,6 @@ namespace RelayControlLibrary
             }
         }
 
-
         private decimal conversion277 = 2.216m;
         private bool voltage277Changed = false;
 
@@ -400,7 +399,6 @@ namespace RelayControlLibrary
                 }
             }
         }
-
 
         private decimal storeLowVoltageIncrement = 0;
         private decimal storeLowVoltageValue = 0;
@@ -577,6 +575,7 @@ namespace RelayControlLibrary
             this.numericUpDownOverCurrent.Value = 10.0m;
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
+
             if (voltage277State == true)
                 this.numericUpDownLowVoltage.Value = 95m * conversion277;
             else

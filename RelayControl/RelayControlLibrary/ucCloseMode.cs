@@ -65,10 +65,9 @@ namespace RelayControlLibrary
                 {
                     this.voltage277State = value;
                     this.setVoltage277State();
-                }    
+                }
             }
         }
-
 
         private decimal storeRecloseVoltageIncrement = 0;
         private decimal storeRecloseVoltage = 0;
@@ -80,7 +79,7 @@ namespace RelayControlLibrary
         private decimal storePDMinimum = 0;
 
         private void setVoltage277State()
-        { 
+        {
             try
             {
                 if (voltage277State == true) //Increase voltage values
@@ -108,7 +107,7 @@ namespace RelayControlLibrary
                 else //decrease voltage values
                 {
                     //order matters must decrease minimum and voltage values before maximum value
-                    this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum; 
+                    this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum;
                     if (this.numericUpDownRecloseVolts.Value != 0)
                         this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value / conversion277;
                     this.numericUpDownRecloseVolts.Maximum = this.storeRecloseMaximum;
@@ -126,7 +125,7 @@ namespace RelayControlLibrary
                 MessageBox.Show("Error setting Close Mode 277 voltages");
 
                 this.numericUpDownRecloseVolts.Increment = this.storeRecloseVoltageIncrement;
-                this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum; 
+                this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum;
                 this.numericUpDownRecloseVolts.Value = this.storeRecloseVoltage;
                 this.numericUpDownRecloseVolts.Maximum = this.storeRecloseMaximum;
                 this.numericUpDownPDV.Increment = this.storePDVoltageIncrement;
@@ -386,7 +385,7 @@ namespace RelayControlLibrary
                     this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value / (decimal)conversion277;
                 else
                     this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value;
-                
+
                 this.CloseCurve.PhaseDetectAngle = this.numericUpDownPDA.Value;
             }
             catch (Exception ex)

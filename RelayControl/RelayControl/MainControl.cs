@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-10-16";
+        private const string revisionDate = "2015-10-21";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -523,6 +523,8 @@ namespace RelayControl
             this.customerRevisionName = "Chicago";
 #elif Enmax
             this.customerRevisionName = "Enmax";
+#elif ATLANTA
+            this.customerRevisionName = "Atlanta";
 #else
             this.customerRevisionName = "";
 #endif
@@ -4972,7 +4974,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || SEATTLE || DOMINION || chicago
+#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA
             this.domainUpDownCTRatioM.SelectedIndex = 1;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 4;
@@ -7290,7 +7292,7 @@ namespace RelayControl
                     }
                 }
             }
-            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring)
+            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter)
             {
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
@@ -7307,11 +7309,11 @@ namespace RelayControl
             }
 
 
-            if (this.tabControlMain.SelectedTab != this.tabPageMonitor)
+            if (this.tabControlMain.SelectedTab != this.tabPageMonitor && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
             {
                 this.disableAllMonitoring();
             }
-            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring)
+            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
             {
                 this.pauseTransmitterMonitoring();
             }
@@ -7447,6 +7449,7 @@ namespace RelayControl
         private void setTransmitterMonitorData(byte[] bytePacket)
         {
             this.ucTransmitterMonitoring1.SetAll(bytePacket);
+            this.ucTransmitter1.setMonitoringData(bytePacket);
         }
 
         private void setDNPData(byte[] bytePacket)
@@ -7647,7 +7650,7 @@ namespace RelayControl
         }
 
         private bool protector277 = false;
-        private int finishedCalling277 = 0;
+
 
         private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
         {
@@ -7699,7 +7702,6 @@ namespace RelayControl
             this.ucLiveData1.Protector277 = this.protector277;
 
         }
-
 
         private void buttonClearEvents_Click(object sender, EventArgs e)
         {
