@@ -376,6 +376,10 @@ namespace RelayControlLibrary
 
                 workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
+
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Atlanta));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
                 workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
                 workingLoadFile.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
             }
@@ -2883,6 +2887,7 @@ namespace RelayControlLibrary
         public string MasterFileWHDNP;
         public string RelayFileWH;
         public string RelayFileGE;
+        public string MasterFileDNPPLC;
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
     }
 }
