@@ -374,10 +374,10 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.PEPCO));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Atlanta));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Atlanta));
+                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
                 workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;

@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-10-21";
+        private const string revisionDate = "2015-10-22";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -65,7 +65,13 @@ namespace RelayControl
                     this.ucLiveData1.Customer = this.customer;
                     this.ucTransmitterMonitoring1.Customer = this.customer;
                     this.ucCalibration2.Customer = this.customer;
+
+#if ATLANTA
+                    this.ucRelayProgramming1.Customer = Customers.Atlanta;
+#else
                     this.ucRelayProgramming1.Customer = this.customer;
+#endif
+
                     if (this.dNPDigitalGridData != null)
                         this.dNPDigitalGridData.Customer = this.customer;
 
