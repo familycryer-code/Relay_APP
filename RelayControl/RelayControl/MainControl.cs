@@ -269,10 +269,7 @@ namespace RelayControl
 #endif
 
 #if ATLANTA
-                if(this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-
-                this.groupBoxLowVoltThres.Visible = true;
+       this.groupBoxLowVoltThres.Visible = true;
 #else
         #if DEBUG
                 this.groupBoxLowVoltThres.Visible = true;

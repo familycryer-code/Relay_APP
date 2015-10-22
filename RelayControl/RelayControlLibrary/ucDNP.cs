@@ -34,11 +34,8 @@ namespace RelayControlLibrary
         private Customers customer = Customers.None;
         private List<ucDeadBandSettingsObject> deadBandVariables = new List<ucDeadBandSettingsObject>();
 
-#if ATLANTA
-        private static int _packetLength = 42;
-#else
         private static int _packetLength = 98;
-#endif
+
         private bool customerChanged = false;
         #region Send Functions
 
