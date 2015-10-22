@@ -35,6 +35,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -45,6 +46,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -58,6 +60,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTest|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\WaterbugTest\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -71,11 +74,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\WaterbugTester\</OutputPath>
     <DefineConstants>#define WATERBUG</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConEDRelease|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ConEDRelease\</OutputPath>
     <DefineConstants>TRACE;ConEd</DefineConstants>
     <Optimize>true</Optimize>
@@ -85,6 +90,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseMemphis\</OutputPath>
     <DefineConstants>MEMPHIS</DefineConstants>
     <Optimize>true</Optimize>
@@ -94,6 +100,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseGE|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseGE\</OutputPath>
     <DefineConstants>TRACE;GERELAY</DefineConstants>
     <Optimize>true</Optimize>
@@ -103,6 +110,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseDigitalGridDNP|AnyCPU' ">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseDigitalGridDNP\</OutputPath>
     <DefineConstants>DNP, DIGITALGRID</DefineConstants>
     <Optimize>true</Optimize>
@@ -112,6 +120,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAtlanta|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseAtlanta\</OutputPath>
     <DefineConstants>DNP, DIGITALGRID, ATLANTA</DefineConstants>
     <Optimize>true</Optimize>
@@ -125,6 +134,7 @@
     <DefineConstants>BASICRELEASE, DNP</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSMUD|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseSMUD\</OutputPath>
     <DefineConstants>DNP, SMUD</DefineConstants>
     <Optimize>true</Optimize>
@@ -134,9 +144,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG_SMUD|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\DEBUG_SMUD\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugSMUD|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\DebugSMUD\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SMUD, DNP</DefineConstants>
@@ -146,6 +158,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SEATTLE|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\SEATTLE\</OutputPath>
     <DefineConstants>TRACE;BASICRELEASE, SEATTLE</DefineConstants>
     <Optimize>true</Optimize>
@@ -155,6 +168,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSeattle|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseSeattle\</OutputPath>
     <DefineConstants>TRACE;BASICRELEASE, SEATTLE</DefineConstants>
     <Optimize>true</Optimize>
@@ -164,6 +178,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseNUEngineering|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseNUEngineering\</OutputPath>
     <DefineConstants>TRACE;BASICRELEASE, NU</DefineConstants>
     <Optimize>true</Optimize>
@@ -173,6 +188,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseNUCrew|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseNUCrew\</OutputPath>
     <DefineConstants>TRACE;BASICRELEASE, NU, NUCREW</DefineConstants>
     <Optimize>true</Optimize>
@@ -181,10 +197,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDominion|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseDominion\</OutputPath>
     <DefineConstants>TRACE;BASICRELEASE, DOMINION</DefineConstants>
     <Optimize>true</Optimize>
@@ -194,8 +208,31 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Chicago|AnyCPU'">
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release Chicago\</OutputPath>
-    <DefineConstants>BASICRELEASE,chicago</DefineConstants>
+    <DefineConstants>BASICRELEASE, chicago</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDigitalGridPLCwDNP|AnyCPU'">
+    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
+    <OutputPath>bin\ReleaseDigitalGridPLCwDNP\</OutputPath>
+    <DefineConstants>DNP, DIGITALGRID,PLC</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Enmax|AnyCPU'">
+    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
+    <OutputPath>bin\Enmax\</OutputPath>
+    <DefineConstants>DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
@@ -297,6 +334,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="relay gui desktop.ico" />
+    <Content Include="relay gui desktop plcdnp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

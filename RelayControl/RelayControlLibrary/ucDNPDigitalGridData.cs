@@ -95,7 +95,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phased ACB");
             this.binaryInputs.Add("Insensitive Backfeed Detected");
-            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD)
+            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD || this.customer == Customers.Atlanta)
             {
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
@@ -145,7 +145,7 @@ namespace RelayControlLibrary
             if (this.relayMasterRevision < 140107 || this.customer != Customers.Atlanta)
                 pointsToAdd = 20;
             else
-                pointsToAdd = 21;
+                pointsToAdd = 22;
 
             this.binaryOutputs.Clear();
 
@@ -180,6 +180,7 @@ namespace RelayControlLibrary
                 this.binaryOutputs.Add("Command Lockout");
             }
             this.binaryOutputs.Add("Block And Trip Relay");
+            this.binaryOutputs.Add("SafeService Enable");
 
             uint i = 0;
 
@@ -202,7 +203,11 @@ namespace RelayControlLibrary
 
         private void initializeAnalogInputs()
         {
-            uint pointsToAdd = 73;
+            uint pointsToAdd;
+            if (this.customer == Customers.Atlanta)
+                pointsToAdd = 69;
+            else
+                pointsToAdd = 73;
 
             this.analogInputs.Clear();
             this.tabPageAnalogInputs1.Controls.Clear();
@@ -289,7 +294,7 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 7", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 8", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Q Bit", true));
-                this.analogInputs.Add(new AnalogPointDefinition("Number Of MuxBoxes", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Number of RNC connected", false));
 
                 pointsToAdd += 10;
             }
@@ -318,11 +323,7 @@ namespace RelayControlLibrary
 
         private void initializeAnalogOutputs()
         {
-            uint pointsToAdd = 23;
-            if (this.customer == Customers.DNPwithPLC)
-            {
-                pointsToAdd = 28;
-            }
+            uint pointsToAdd = 28;
 
             this.analogOutputs.Clear();
             this.tabPageAnalogOutputs.Controls.Clear();

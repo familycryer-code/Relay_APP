@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-06-25";
+        private const string revisionDate = "2015-10-21";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -99,11 +99,13 @@ namespace RelayControl
                 }
                 else
                 {
+    #if !PLC && !DNP
                     if(this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
                     }
+    #endif
                 }
 #endif
                 this.transmitterEnabled = value;
@@ -144,7 +146,7 @@ namespace RelayControl
                             this.dNPMemphisData.Dispose();
                         }
 
-                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.customer == Customers.SMUD) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DigitalGrid || this.Customer == Customers.Atlanta) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
                         {
                             this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
@@ -263,6 +265,14 @@ namespace RelayControl
 #if ATLANTA
                 if(this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+
+                this.groupBoxLowVoltThres.Visible = true;
+#else
+        #if DEBUG
+                this.groupBoxLowVoltThres.Visible = true;
+        #else
+                this.groupBoxLowVoltThres.Visible = false;
+        #endif
 #endif
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
@@ -395,7 +405,7 @@ namespace RelayControl
                 this.tabPageEvents.Show();
                 this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate;
                 this.ArcFaultEnabled = true;
-                this.Customer = Customers.NonConEd;
+                this.Customer = Customers.DigitalGrid;
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 
 #elif WATERBUG
@@ -510,6 +520,10 @@ namespace RelayControl
             this.customerRevisionName = "Dominion";
 #elif chicago
             this.customerRevisionName = "Chicago";
+#elif Enmax
+            this.customerRevisionName = "Enmax";
+#elif ATLANTA
+            this.customerRevisionName = "Atlanta";
 #else
             this.customerRevisionName = "";
 #endif
@@ -1855,6 +1869,11 @@ namespace RelayControl
                             return true;
                         else
                             return false;
+                    case IncomingCommCommands.LowVoltageThresReceived:
+                        if (i == 2)
+                            return true;
+                        else
+                            return false;
                     case IncomingCommCommands.Invalid:
                     default:
                         throw new Exception("Bad command to check length for");
@@ -2006,6 +2025,8 @@ namespace RelayControl
                     return IncomingCommCommands.TransmitterSettings;
                 case (byte)'x':
                     return IncomingCommCommands.LiveDataPacket;
+                case (byte)'?':
+                    return IncomingCommCommands.LowVoltageThresReceived;
                 default:
                     return IncomingCommCommands.Invalid;
             }
@@ -2138,6 +2159,9 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.DNPSAv5:
                     this.ucDNPSAv51.Message(bytePacket);
+                    break;
+                case IncomingCommCommands.LowVoltageThresReceived:
+                    this.SetLowVoltageThres(bytePacket);
                     break;
                 case IncomingCommCommands.Invalid:
                 default:
@@ -3064,6 +3088,13 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
+
+                if (ucSafeService1.SendSSModeFlag_Send == true)
+                {
+                    this.ucSafeService1.SendAll();
+                    this.ucSafeService1.SendSSModeFlag_Send = false;
+                    this.timerResponseTimeOut.Enabled = false;
+                }
             }
             this.ProgramState = ProgramStates.Running;
 
@@ -4050,6 +4081,8 @@ namespace RelayControl
                         // A DNP Relay
                         if (revision.Contains("DNP"))
                         {
+                            this.DNPEnabled = true;
+                            this.blockDNPEnableFromTransmitterSettings = true;
 
                             // With PLC
                             if (revision.Contains("PLC"))
@@ -4057,18 +4090,14 @@ namespace RelayControl
                                 this.Customer = Customers.DNPwithPLC;
                                 this.ucDNP1.Customer = this.Customer;
                             }
+                            else if (revision.Contains("ATLANTA"))
+                            {
+                                this.Customer = Customers.Atlanta;
+                                this.ucDNP1.Customer = this.Customer;
+                            }
                             
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();
-
-                            if (revision.Contains("SMUD"))
-                            {
-                                this.Customer = Customers.SMUD;
-                                this.labelFPGARevision.Visible = false;
-                            }
-
-                            this.DNPEnabled = true;
-                            this.blockDNPEnableFromTransmitterSettings = true;
                         }
                         break;
                 }
@@ -4797,6 +4826,8 @@ namespace RelayControl
             //if (this.relayCodeRevisionNumber >= 20130326)
             //    this.requestSafeServiceSettings();
 
+            buttonRequestLowVotlageThres_Click(null, null);
+
         }
 
         private void requestDNPData()
@@ -4938,6 +4969,12 @@ namespace RelayControl
 #else
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
+#endif
+
+#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA
+            this.domainUpDownCTRatioM.SelectedIndex = 1;
+#else
+            this.domainUpDownCTRatioM.SelectedIndex = 4;
 #endif
         }
 
@@ -6315,7 +6352,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                MessageBox.Show(title, message, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
 
                 this.enableAll(tempBool2);
                 this.monitoring(tempBool);
@@ -6324,7 +6361,7 @@ namespace RelayControl
             catch (Exception exc)
             {
                 this.RegisterPolling(false);
-                MessageBox.Show("Error In Message Box", exc.Message);
+                MessageBox.Show(exc.Message, "Error In Message Box");
                 this.RegisterPolling(tempBool3);
             }
         }
@@ -6346,7 +6383,7 @@ namespace RelayControl
                 this.enableAll(false);
                 this.RegisterPolling(false);
 
-                dR = MessageBox.Show(title, message, messageBoxButtons, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                dR = MessageBox.Show(message, title, messageBoxButtons, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
 
                 this.monitoring(tempBool);
                 this.enableAll(tempBool2);
@@ -6379,7 +6416,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                dR = MessageBox.Show(title, message, messageBoxButtons, messageBoxIcon, messageBoxDefaultButton);//, MessageBoxOptions.ServiceNotification);
+                dR = MessageBox.Show(message, title, messageBoxButtons, messageBoxIcon, messageBoxDefaultButton);//, MessageBoxOptions.ServiceNotification);
 
                 this.monitoring(tempBool);
                 this.enableAll(tempBool2);
@@ -6615,6 +6652,10 @@ namespace RelayControl
             Thread.Sleep(50);
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             Thread.Sleep(50);
+#if ATLANTA
+            this.buttonSendLowVoltageThres_Click(this, new EventArgs());
+            Thread.Sleep(50);
+#endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 this.ucSafeService1.SendAll();
@@ -7248,7 +7289,7 @@ namespace RelayControl
                     }
                 }
             }
-            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring)
+            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter)
             {
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
@@ -7265,11 +7306,11 @@ namespace RelayControl
             }
 
 
-            if (this.tabControlMain.SelectedTab != this.tabPageMonitor)
+            if (this.tabControlMain.SelectedTab != this.tabPageMonitor && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
             {
                 this.disableAllMonitoring();
             }
-            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring)
+            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
             {
                 this.pauseTransmitterMonitoring();
             }
@@ -7405,6 +7446,7 @@ namespace RelayControl
         private void setTransmitterMonitorData(byte[] bytePacket)
         {
             this.ucTransmitterMonitoring1.SetAll(bytePacket);
+            this.ucTransmitter1.setMonitoringData(bytePacket);
         }
 
         private void setDNPData(byte[] bytePacket)
@@ -7606,10 +7648,16 @@ namespace RelayControl
 
         private bool protector277 = false;
 
+
         private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
         {
             this.protector277 = this.checkBox277Protector.Checked;
             this.checkBox277ProtectorPQ.Checked = this.protector277;
+
+#if chicago
+            ucCloseMode1.Voltage277State = this.protector277;
+            ucSafeService1.Voltage277State = this.protector277;
+#endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 
@@ -7630,6 +7678,11 @@ namespace RelayControl
         {
             this.protector277 = this.checkBox277ProtectorPQ.Checked;
             this.checkBox277Protector.Checked = this.protector277;
+
+#if chicago
+            ucCloseMode1.Voltage277State = this.protector277;
+            ucSafeService1.Voltage277State = this.protector277;
+#endif
 
             this.ucTransmitterMonitoring1.Protector277 = this.protector277;
 
@@ -7859,6 +7912,72 @@ namespace RelayControl
         private void comboBoxSavedStates_DropDownClosed(object sender, EventArgs e)
         {
             this.comboBoxSavedStates.Width = this.savedSaveFileComboBoxWidth;
+        }
+
+        private void buttonSendLowVoltageThres_Click(object sender, EventArgs e)
+        {
+            SendEventArgs sEA = new SendEventArgs(4);
+
+            try
+            {
+                if (numericUpDownLowVoltageThres.Value <= numericUpDownLowVoltageThres.Maximum && 
+                    numericUpDownLowVoltageThres.Value >= numericUpDownLowVoltageThres.Minimum)
+                {
+                    sEA.SendPacket[0] = Convert.ToByte('&');
+                    sEA.SendPacket[1] = 0x55;
+                    sEA.SendPacket[2] = Convert.ToByte(numericUpDownLowVoltageThres.Value);
+                    sEA.SendPacket[3] = 0x0D;
+
+                    this.sendPacket(sEA.SendPacket);
+                }
+                else
+                {
+                    MessageBox.Show("Low Voltage Threshold Value must be between %i and %i" + 
+                        numericUpDownLowVoltageThres.Minimum + " and " + numericUpDownLowVoltageThres.Maximum);
+                }
+
+                Thread.Sleep(100);
+                if (!this.sendAll)
+                {
+                    this.requestAllData();
+                    this.parametersLoaded = true;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error sending Low Voltage Threshold Value");
+            }
+        }
+
+        void SetLowVoltageThres(byte[] bytePacket)
+        {
+            try
+            {
+                numericUpDownLowVoltageThres.Value = bytePacket[1];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Bad value in requested Low Voltage Threshold");
+            }
+        }
+
+        private void buttonRequestLowVotlageThres_Click(object sender, EventArgs e)
+        {
+            SendEventArgs sEA = new SendEventArgs(3);
+
+            try
+            {
+                    sEA.SendPacket[0] = Convert.ToByte('?');
+                    sEA.SendPacket[1] = 0x55;
+                    sEA.SendPacket[2] = 0x0D;
+
+                    this.sendPacket(sEA.SendPacket);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Requesting Low Voltage Threshold Value");
+            }
         }
     }
 

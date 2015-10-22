@@ -47,8 +47,31 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 
-#if chicago
+#if (chicago || DEBUG) && !Enmax
             this.listBoxA2SensorSelect.SelectedIndex = 0;
+            groupBoxAnalogFlagValues.Visible = true;
+#elif Enmax && !DEBUG
+            this.listBoxA1SensorSelect.SelectedIndex = 0;
+            this.listBoxA2SensorSelect.SelectedIndex = 2;
+            this.textBoxCa.Visible = false;
+            this.textBoxDa.Visible = false;
+            this.textBoxEa.Visible = false;
+            this.textBoxFa.Visible = false;
+            this.textBoxGa.Visible = false;
+            this.labelCa.Visible = false;
+            this.labelDa.Visible = false;
+            this.labelEa.Visible = false;
+            this.labelFa.Visible = false;
+            this.labelGa.Visible = false;
+#elif DEBUG && Enmax
+            this.listBoxA1SensorSelect.SelectedIndex = 0;
+            this.listBoxA2SensorSelect.SelectedIndex = 2;
+#else
+            groupBoxAnalogFlagValues.Visible = false;
+#endif
+
+#if Enmax && !DEBUG
+            this.checkBoxFlagStatusH.Visible = false;
 #endif
 
             this.checkBoxFrequenceBlue.Visible = false;
@@ -451,6 +474,8 @@ namespace RelayControlLibrary
             this.myPSIWidgetA1.Invalidate();
             this.myTempWidgetA1.Invalidate();
             this.myThermometerA1.Invalidate();
+
+            //CDEFGH Q set
 
             monByteLength = bytePacket.Length;
 

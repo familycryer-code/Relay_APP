@@ -193,7 +193,25 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Chicago|AnyCPU'">
     <OutputPath>bin\Release Chicago\</OutputPath>
-    <DefineConstants>BASICRELEASE,chicago</DefineConstants>
+    <DefineConstants>BASICRELEASE, chicago</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDigitalGridPLCwDNP|AnyCPU'">
+    <OutputPath>bin\ReleaseDigitalGridPLCwDNP\</OutputPath>
+    <DefineConstants>MEMPHIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Enmax|AnyCPU'">
+    <OutputPath>bin\Enmax\</OutputPath>
+    <DefineConstants>MEMPHIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

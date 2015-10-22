@@ -27,7 +27,8 @@ namespace RelayControlLibrary
             this.checkBoxWBF.Enabled = true;
             this.checkBoxWBG.Enabled = true;
             this.checkBoxWBH.Enabled = true;
-
+            this.panelFlasgStatusWB.Location = new Point(730, 256);
+            this.labelTransFlagStatus.Location = new Point(740, 250);
 #else
             this.textBoxSerialNumber.Enabled = false;
             this.numericUpDownCurrentThresholdLow.Visible = false;
@@ -46,6 +47,14 @@ namespace RelayControlLibrary
             this.panelMessageFreqSettings.Visible = false;
             this.labelLEDSpeed.Visible = false;
             this.numericUpDownLEDSpeed.Visible = false;
+#endif
+
+#if DOMINION
+            this.panelFlasgStatusWB.Visible = true;
+            this.labelTransFlagStatus.Visible = true;
+#elif !DEBUG
+            this.panelFlasgStatusWB.Visible = false;
+            this.labelTransFlagStatus.Visible = false;
 #endif
 
             this.comboBoxAnalog1OU.SelectedIndex = 0;
@@ -325,7 +334,11 @@ namespace RelayControlLibrary
 
                 if(this.customer == Customers.Memphis)
                     this.checkForDNPEnabled();
-                
+
+#if Enmax
+                this.checkForDNPEnabled();
+#endif
+
             }
             catch (Exception ex)
             {
@@ -362,21 +375,25 @@ namespace RelayControlLibrary
             else
             {
                 this.panelGeneralSettings.Show();
-#if chicago
+                //this.panelMessageFreqSettings.Show();
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
-                //position size and location for chicago
+                this.panelFlasgStatusWB.Location = new Point(260, 300);
+                this.labelTransFlagStatus.Location = new Point(267, 294);
+
+                //position size and location for release
                 this.panelFlagSettings.Location = new Point(7, 300);
                 this.labelFlagPolarity.Location = new Point(13, 294); //13, 250
 
                 this.buttonTX.Location = new Point(260, 6);
                 this.buttonRQ.Location = new Point(260, 93);
                 this.buttonForceConfigMessage.Location = new Point(260, 180); //13, 250
-                this.buttonRestoreDefaults.Location = new Point(260, 267);
+                this.buttonRestoreDefaults.Location = new Point(260, 235);
 
                 this.buttonRQ.Size = new Size(110, 74);
-                this.buttonForceConfigMessage.Size = new Size(110, 74);
+                this.buttonForceConfigMessage.Size = new Size(110, 44);
                 this.buttonRestoreDefaults.Size = new Size(110, 44);
 
                 this.panelSmartExternalCable.Location = new Point(7, 250);
@@ -386,17 +403,19 @@ namespace RelayControlLibrary
                 this.checkBoxSmartExternalCableEnable.Location = new Point(63, 12);
 
                 this.panelFlagSettings.Size = new Size(242, 217);
-
-                //this.labelFlagSettingA.Location = new Point(7, 250);
 #else
+                this.panelOtherAlarmSettings.Show();
                 this.labelOtherAlarmSettings.Show();
 #endif
-                //this.panelMessageFreqSettings.Show();
+
+#if Enmax && !DEBUG
+                this.panelFlagSettingH.Hide();
+                this.label12.Hide();
+#endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
                 this.labelGeneralSettings.Show();
                 this.labelGeneralSettings.BringToFront();
-                this.labelOtherAlarmSettings.Show();
                 this.labelOtherAlarmSettings.BringToFront();
                 this.buttonRestoreDefaults.Show();
             }
@@ -650,6 +669,81 @@ namespace RelayControlLibrary
                 this.checkBoxFAH.Checked = true;
             else
                 this.checkBoxFAH.Checked = false;
+        }
+
+        public void setMonitoringData(byte[] bytePacket)
+        {
+            SetMonitoringData(bytePacket);
+        }
+
+        private void SetMonitoringData(byte[] bytePacket)
+        {
+            //Transmitter Flags A is LSB
+            if ((bytePacket[6] & 1) == 1)
+            {
+                this.checkBoxFlagStatusA.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusA.Checked = false;
+            }
+
+            if ((bytePacket[6] & 2) == 2)
+            {
+                this.checkBoxFlagStatusB.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusB.Checked = false;
+            }
+            if ((bytePacket[6] & 4) == 4)
+            {
+                this.checkBoxFlagStatusC.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusC.Checked = false;
+            }
+            if ((bytePacket[6] & 8) == 8)
+            {
+                this.checkBoxFlagStatusD.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusD.Checked = false;
+            }
+            if ((bytePacket[6] & 16) == 16)
+            {
+                this.checkBoxFlagStatusE.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusE.Checked = false;
+            }
+            if ((bytePacket[6] & 32) == 32)
+            {
+                this.checkBoxFlagStatusF.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusF.Checked = false;
+            }
+            if ((bytePacket[6] & 64) == 64)
+            {
+                this.checkBoxFlagStatusG.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusG.Checked = false;
+            }
+            if ((bytePacket[6] & 128) == 128)
+            {
+                this.checkBoxFlagStatusH.Checked = true;
+            }
+            else
+            {
+                this.checkBoxFlagStatusH.Checked = false;
+            }
         }
 
         private void setCTRatioBox(UInt16 p, DomainUpDown dUP, TextBox tB)
@@ -1627,7 +1721,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if chicago
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;
@@ -1635,6 +1729,8 @@ namespace RelayControlLibrary
 #else
             this.panelWaterburyMain.Visible = p;
             this.labelSmartExternalCableMain.Visible = p;
+            this.panelAlarmSettings.Visible = true;
+            this.labelAlarmSettings.Visible = true;
 #endif
             this.labelSmartExternalCableMain.BringToFront();
 
