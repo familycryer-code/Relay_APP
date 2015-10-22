@@ -482,6 +482,12 @@ namespace RelayControl
 #elif DNP
                 this.Customer = Customers.DigitalGridDNP;
                 this.DNPEnabled = true;
+    #if ATLANTA
+                if (tabControlMain.TabPages.Contains(tabPageTransmitter))
+                    tabControlMain.TabPages.Remove(tabPageTransmitter);
+                if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
+                    tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
+    #endif
 #else
                 this.Customer = Customers.NonConEd;
                 this.DNPEnabled = false;
