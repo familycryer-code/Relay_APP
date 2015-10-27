@@ -3129,6 +3129,14 @@ namespace RelayControl
             this.sendTime(DateTime.UtcNow);
 
             this.ucRelayProgramming1.AllParametersReceived();
+
+            CheckTransmitterTab();
+        }
+
+        private void CheckTransmitterTab()
+        {
+            if (this.tabControlMain.SelectedTab == this.tabPageTransmitter)
+                tabControlMain_SelectedIndexChanged(null,null);
         }
 
         private void updateCTRatioDomain(int CT_ratio, DomainUpDown dUP)
