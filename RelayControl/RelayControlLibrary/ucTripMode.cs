@@ -1298,7 +1298,15 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 85;
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 1;
-#elif DOMINION || chicago
+#elif DOMINION
+            this.checkBoxEnableGullWing.Checked = false;
+            this.gullWingEnabled = false;
+            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value = 90;
+            this.checkBoxTripOnPowerDown.Checked = true;
+            this.domainUpDownTripStyle.SelectedIndex = 2;
+#elif chicago
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
