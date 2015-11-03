@@ -237,6 +237,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloseCurves.cs" />
+    <Compile Include="CTRatioCaculator2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CTRatioCaculator2.Designer.cs">
+      <DependentUpon>CTRatioCaculator2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Definitions.cs" />
     <Compile Include="EventArgs.cs">
     </Compile>
@@ -463,6 +469,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CTRatioCaculator2.resx">
+      <DependentUpon>CTRatioCaculator2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="formCustomYesNoDialog.resx">
       <DependentUpon>formCustomYesNoDialog.cs</DependentUpon>
     </EmbeddedResource>

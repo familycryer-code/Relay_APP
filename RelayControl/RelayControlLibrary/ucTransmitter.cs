@@ -143,6 +143,30 @@ namespace RelayControlLibrary
             }
         }
 
+        private void CTCalc_Click(object sender, EventArgs e)
+        {
+            Form frmCT = new RelayControlLibrary.CTRatioCaculator2();
+            frmCT.TopMost = true;
+            frmCT.StartPosition = FormStartPosition.CenterScreen;
+            DialogResult dlg = frmCT.ShowDialog(this);
+
+            if (dlg == DialogResult.OK)
+            {
+                if (Convert.ToInt32(RelayControlLibrary.Calc2Data.Calc2DataInstance.get_CTCalc2Value()) >= 80 &&
+                    Convert.ToInt32(RelayControlLibrary.Calc2Data.Calc2DataInstance.get_CTCalc2Value()) <= 335)
+                {
+                    this.textBoxTXCTRatio.Text = RelayControlLibrary.Calc2Data.Calc2DataInstance.get_CTCalc2Value();
+                }
+                else
+                {
+                    RelayControlLibrary.Calc2Data.Calc2DataInstance.set_CTRatioValueStatus("Value Must be between 80 and 335!");
+                }
+            }
+
+            frmCT.Dispose();
+            frmCT.TopMost = false;
+        }
+
         public int PacketLength
         {
             get { return this.packetLength; }

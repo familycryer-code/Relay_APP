@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-11-02";
+        private const string revisionDate = "2015-11-04";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -6963,17 +6963,16 @@ namespace RelayControl
 
         private void saveEventsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.ucEventGraph0.Saveable && this.ucEventGraph1.Saveable &&
-                this.ucEventGraph2.Saveable && this.ucEventGraph4.Saveable &&
-                this.ucEventGraph4.Saveable && this.ucEventGraph5.Saveable &&
-                this.ucEventGraph6.Saveable && this.ucEventGraph7.Saveable &&
-                this.ucEventGraph0.Type != EventTypes.NoEvent)
+            if (this.ucEventGraph0.Saveable || this.ucEventGraph1.Saveable ||
+                this.ucEventGraph2.Saveable || this.ucEventGraph4.Saveable ||
+                this.ucEventGraph4.Saveable || this.ucEventGraph5.Saveable ||
+                this.ucEventGraph6.Saveable || this.ucEventGraph7.Saveable)
             {
                 this.saveEventsToFile();
             }
             else
             {
-                this.messageHandler("Not Saved", "Please Download All Event Data Before Saving");
+                this.messageHandler("Not Saved", "Please Download Event Data Before Saving");
             }
         }
 

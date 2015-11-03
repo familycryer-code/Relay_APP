@@ -192,7 +192,6 @@ namespace RelayControlLibrary
             this.labelLEDSpeed = new System.Windows.Forms.Label();
             this.buttonForceConfigMessage = new System.Windows.Forms.Button();
             this.panelFlasgStatusWB = new System.Windows.Forms.Panel();
-            this.labelTransFlagStatus = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.checkBoxFlagStatusH = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -209,6 +208,7 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusB = new System.Windows.Forms.CheckBox();
             this.label30 = new System.Windows.Forms.Label();
             this.checkBoxFlagStatusA = new System.Windows.Forms.CheckBox();
+            this.labelTransFlagStatus = new System.Windows.Forms.Label();
             this.panelFreqPanel.SuspendLayout();
             this.panelFlagSettings.SuspendLayout();
             this.panelFlagSettingH.SuspendLayout();
@@ -364,6 +364,7 @@ namespace RelayControlLibrary
             this.textBoxTXCTRatio.Name = "textBoxTXCTRatio";
             this.textBoxTXCTRatio.Size = new System.Drawing.Size(132, 20);
             this.textBoxTXCTRatio.TabIndex = 12;
+            this.textBoxTXCTRatio.DoubleClick += new System.EventHandler(this.CTCalc_Click);
             // 
             // labelErrorLabel
             // 
@@ -2161,15 +2162,6 @@ namespace RelayControlLibrary
             this.panelFlasgStatusWB.Size = new System.Drawing.Size(111, 217);
             this.panelFlasgStatusWB.TabIndex = 80;
             // 
-            // labelTransFlagStatus
-            // 
-            this.labelTransFlagStatus.AutoSize = true;
-            this.labelTransFlagStatus.Location = new System.Drawing.Point(201, 248);
-            this.labelTransFlagStatus.Name = "labelTransFlagStatus";
-            this.labelTransFlagStatus.Size = new System.Drawing.Size(63, 13);
-            this.labelTransFlagStatus.TabIndex = 81;
-            this.labelTransFlagStatus.Text = "Flag Status:";
-            // 
             // label23
             // 
             this.label23.AutoSize = true;
@@ -2329,6 +2321,15 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusA.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusA.TabIndex = 64;
             this.checkBoxFlagStatusA.UseVisualStyleBackColor = true;
+            // 
+            // labelTransFlagStatus
+            // 
+            this.labelTransFlagStatus.AutoSize = true;
+            this.labelTransFlagStatus.Location = new System.Drawing.Point(201, 248);
+            this.labelTransFlagStatus.Name = "labelTransFlagStatus";
+            this.labelTransFlagStatus.Size = new System.Drawing.Size(63, 13);
+            this.labelTransFlagStatus.TabIndex = 81;
+            this.labelTransFlagStatus.Text = "Flag Status:";
             // 
             // ucTransmitter
             // 
