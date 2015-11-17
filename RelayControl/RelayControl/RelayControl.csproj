@@ -234,6 +234,11 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Enmax DNP PLC|AnyCPU'">
+    <OutputPath>bin\Debug Enmax DNP PLC\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
+    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>

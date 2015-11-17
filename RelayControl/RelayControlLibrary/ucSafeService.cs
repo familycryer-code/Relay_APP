@@ -251,10 +251,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                /*if (this.LoadingNewCode)
+#if DEBUG
+                if (this.LoadingNewCode)
                     this.restoreDefaults();
                 else
-                    this.errorHandler("Error in setAll", ex);*/
+                    this.errorHandler("Error in setAll", ex);
+#else
 
                 this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;
                 this.numericUpDownOverCurrent.Value = numericUpDownOverCurrent_Temp;
@@ -266,6 +268,7 @@ namespace RelayControlLibrary
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
                 
                 SendAll();
+#endif
 
                 return;
             }

@@ -131,6 +131,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Enmax DNP PLC|AnyCPU'">
+    <OutputPath>bin\Debug Enmax DNP PLC\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\..\..\master-processor\BouncyCastle.Crypto.dll</HintPath>
