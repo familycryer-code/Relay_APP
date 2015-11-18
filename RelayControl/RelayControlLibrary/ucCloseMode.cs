@@ -248,7 +248,8 @@ namespace RelayControlLibrary
             this.checkBoxCircleClose.Visible = true;
             this.panelBlockedOpenOverride.Visible = true;
             this.buttonRelaxClose.Visible = true;
-            this.numericUpDownPDV.Maximum = 0.4m;
+            if (voltage277State == false)
+                this.numericUpDownPDV.Maximum = 0.4m;
             this.numericUpDownPDV.Minimum = 0.0m;
         }
 
