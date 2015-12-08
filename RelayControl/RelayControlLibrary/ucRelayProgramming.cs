@@ -529,7 +529,7 @@ namespace RelayControlLibrary
 
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
 
-#if Enmax
+#if Enmax && DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
             this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
 

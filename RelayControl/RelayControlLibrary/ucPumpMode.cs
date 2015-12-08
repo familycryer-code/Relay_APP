@@ -400,7 +400,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if NU
+#if NU || Enmax
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;

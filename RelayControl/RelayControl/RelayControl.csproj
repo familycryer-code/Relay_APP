@@ -239,6 +239,16 @@
     <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax PLC Only|AnyCPU'">
+    <OutputPath>bin\Release Enmax PLC Only\</OutputPath>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>TRACE;BASICRELEASE, Enmax</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Graphics Server .NET\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>

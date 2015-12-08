@@ -359,7 +359,7 @@ namespace RelayControlLibrary
                 if(this.customer == Customers.Memphis)
                     this.checkForDNPEnabled();
 
-#if Enmax
+#if Enmax && DNP
                 this.checkForDNPEnabled();
 #endif
 
@@ -432,7 +432,7 @@ namespace RelayControlLibrary
                 this.labelOtherAlarmSettings.Show();
 #endif
 
-#if Enmax && !DEBUG
+#if Enmax && !DEBUG && DNP
                 this.panelFlagSettingH.Hide();
                 this.label12.Hide();
 #endif
