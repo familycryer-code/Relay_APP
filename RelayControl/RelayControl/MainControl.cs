@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2015-12-09";
+        private const string revisionDate = "2016-01-18";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -1013,6 +1013,15 @@ namespace RelayControl
         private System.Timers.Timer timerLiveEventAcknowledge = new System.Timers.Timer();
         void ucEventGraph_DownloadComplete()
         {
+            if (eventValue < downloadableEvents-1)
+            {
+                eventValue++;
+                this.requestEventData(eventValue);
+                return;
+            }
+            else
+                eventValue = 0;
+
             if (this.downloadProgress != null)
                 this.downloadProgress.Dispose();
 
@@ -2628,8 +2637,12 @@ namespace RelayControl
 
         private bool downloadingCanceled = false;
 
+        private int eventValue = 0;
+        private int downloadableEvents = 0;
         private void setCalibrationConstants(byte[] bytePacket)
         {
+            eventValue = 0;
+            downloadableEvents = 0;
             this.timerLiveEventAcknowledge.Enabled = false;
 
             for (int i = 0; i < 15; ++i)
@@ -2686,12 +2699,47 @@ namespace RelayControl
             this.setEventCalConstants(this.ucEventGraph7);
 
             if (!this.downloadingLiveData)
-                this.requestEventData();
+            {
+                this.requestEventData(eventValue);
+                setEventDownloadNumber();
+                setEventTimer();
+            }      
             else
             {
                 this.acknowledge();
                 this.timerLiveEventAcknowledge.Start();
             }
+        }
+
+        void setEventDownloadNumber()
+        {
+            if (this.ucEventGraph0.Type == EventTypes.NoEvent)
+                downloadableEvents = 0;
+            else if (this.ucEventGraph1.Type == EventTypes.NoEvent)
+                downloadableEvents = 1;
+            else if (this.ucEventGraph2.Type == EventTypes.NoEvent)
+                downloadableEvents = 2;
+            else if (this.ucEventGraph3.Type == EventTypes.NoEvent)
+                downloadableEvents = 3;
+            else if (this.ucEventGraph4.Type == EventTypes.NoEvent)
+                downloadableEvents = 4;
+            else if (this.ucEventGraph5.Type == EventTypes.NoEvent)
+                downloadableEvents = 5;
+            else if (this.ucEventGraph6.Type == EventTypes.NoEvent)
+                downloadableEvents = 6;
+            else if (this.ucEventGraph7.Type == EventTypes.NoEvent)
+                downloadableEvents = 7;
+            else
+                downloadableEvents = 8;
+        }
+
+        void setEventTimer()
+        {
+            int eventDownloadTime = 50;
+
+            eventDownloadTime = getEventDownloadTime();
+            if(ucEventGraph0.Type != EventTypes.NoEvent)
+                this.downloadingDialogCountDown("Downloading", "Downloading Event Data ", eventDownloadTime, false);
         }
 
         private void setEventCalConstants(ucEventGraph ucEventGraph)
@@ -6107,12 +6155,13 @@ namespace RelayControl
             this.requestEventDownload();
         }
 
+        private bool downloadEventsClicked = false;
         void requestEventDownload()
         {
             this.downloadingCanceled = false;
             this.buttonRQEventData.Enabled = false;
             this.requestLiveDataToolStripMenuItem1.Enabled = false;
-
+            
             this.requestTransmitterSettings();
             DialogResult dR = this.messageHandler("Continue?", "This will take a while. \r\n Please Be Patient.", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
@@ -6123,6 +6172,8 @@ namespace RelayControl
                 return;
             }
 
+            downloadEventsClicked = true;
+
             this.ucEventGraph0.RelayID = this.ucTransmitter1.TXSettings.ID;
             this.ucEventGraph1.RelayID = this.ucTransmitter1.TXSettings.ID;
             this.ucEventGraph2.RelayID = this.ucTransmitter1.TXSettings.ID;
@@ -6132,13 +6183,36 @@ namespace RelayControl
             this.ucEventGraph6.RelayID = this.ucTransmitter1.TXSettings.ID;
             this.ucEventGraph7.RelayID = this.ucTransmitter1.TXSettings.ID;
 
-            this.downloadingDialogCountDown("Downloading", "Downloading Event Data ", 50, false);
             this.downloadingLiveData = false;
             this.initialLiveEventRequest = true;
             this.requestEventTimes();
             this.timerLiveEventAcknowledge.Enabled = true;
             this.monitoring(false);
             this.RegisterPolling(false);
+        }
+
+        int getEventDownloadTime()
+        {
+            int downloadTime = 50;
+
+            if(downloadableEvents == 1)
+                downloadTime = 50;
+            else if(downloadableEvents == 2)
+                downloadTime = 100;
+            else if(downloadableEvents == 3)
+                downloadTime = 150;
+            else if(downloadableEvents == 4)
+                downloadTime = 200;
+            else if(downloadableEvents == 5)
+                downloadTime = 250;
+            else if(downloadableEvents == 6)
+                downloadTime = 300;
+            else if(downloadableEvents == 7)
+                downloadTime = 350;
+            else if(downloadableEvents == 8)
+                downloadTime = 400;
+
+            return downloadTime;
         }
 
         private DateTime liveDataTriggerTime;
@@ -6187,41 +6261,41 @@ namespace RelayControl
             this.timerTimeOutCountdown.Enabled = true;
         }
 
-        private void requestEventData()
+        private void requestEventData(int eventValue)
         {
             byte[] sendPacket = new byte[3];
 
             sendPacket[0] = (byte)'k';
 
-            if (this.radioButtonEvent0.Checked && this.ucEventGraph0.Type != EventTypes.NoEvent)
+            if (eventValue == 0 && this.ucEventGraph0.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x01;
             }
-            else if (this.radioButtonEvent1.Checked && this.ucEventGraph1.Type != EventTypes.NoEvent)
+            else if (eventValue == 1 && this.ucEventGraph1.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x02;
             }
-            else if (this.radioButtonEvent2.Checked && this.ucEventGraph2.Type != EventTypes.NoEvent)
+            else if (eventValue == 2 && this.ucEventGraph2.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x03;
             }
-            else if (this.radioButtonEvent3.Checked && this.ucEventGraph3.Type != EventTypes.NoEvent)
+            else if (eventValue == 3 && this.ucEventGraph3.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x04;
             }
-            else if (this.radioButtonEvent4.Checked && this.ucEventGraph4.Type != EventTypes.NoEvent)
+            else if (eventValue == 4 && this.ucEventGraph4.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x05;
             }
-            else if (this.radioButtonEvent5.Checked && this.ucEventGraph5.Type != EventTypes.NoEvent)
+            else if (eventValue == 5 && this.ucEventGraph5.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x06;
             }
-            else if (this.radioButtonEvent6.Checked && this.ucEventGraph6.Type != EventTypes.NoEvent)
+            else if (eventValue == 6 && this.ucEventGraph6.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x07;
             }
-            else if (this.radioButtonEvent7.Checked && this.ucEventGraph7.Type != EventTypes.NoEvent)
+            else if (eventValue == 7 && this.ucEventGraph7.Type != EventTypes.NoEvent)
             {
                 sendPacket[1] = 0x08;
             }
@@ -6742,14 +6816,22 @@ namespace RelayControl
         void downloadProgress_Done(ProgressFormCompleteStates b, string s)
         {
             //True Means it TimedOut
-            string temp = this.downloadProgress.Text;
+            string temp = "null";
+
+            if (downloadEventsClicked != true)
+                temp = this.downloadProgress.Text;
+            else if(ucEventGraph0.Type != EventTypes.NoEvent)
+            {
+                temp = this.downloadProgress.Text;
+            }
 
             this.downloadingCanceled = true;
 
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonRQEventData.Enabled = true;
 
-            this.downloadProgress.Dispose();
+            if(temp != "null")
+                this.downloadProgress.Dispose();
             this.timerLiveEventAcknowledge.Enabled = false;
 
             switch (b)
@@ -6773,6 +6855,7 @@ namespace RelayControl
             this.enableAll(true);
             this.monitoring(true);
             this.RegisterPolling(true);
+            downloadEventsClicked = false;
         }
 
         private void sendCancelCommand()
