@@ -1025,6 +1025,7 @@ namespace RelayControl
             if (this.downloadProgress != null)
                 this.downloadProgress.Dispose();
 
+            downloadEventsClicked = false;
             this.liveDataActionsToolStripMenuItem.Enabled = true;
             this.downloadingLiveData = false;
             this.timerTimeOutCountdown.Enabled = false;
