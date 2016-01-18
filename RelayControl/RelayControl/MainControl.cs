@@ -2573,14 +2573,7 @@ namespace RelayControl
                         }
                     }
                 }
-                if ((this.radioButtonEvent0.Checked && this.ucEventGraph0.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent1.Checked && this.ucEventGraph1.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent2.Checked && this.ucEventGraph2.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent3.Checked && this.ucEventGraph3.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent4.Checked && this.ucEventGraph4.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent5.Checked && this.ucEventGraph5.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent6.Checked && this.ucEventGraph6.Type == EventTypes.NoEvent) ||
-                    (this.radioButtonEvent7.Checked && this.ucEventGraph7.Type == EventTypes.NoEvent))
+                if ((this.radioButtonEvent0.Checked && this.ucEventGraph0.Type == EventTypes.NoEvent))
                 {
                     this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Event To Download");
                 }
@@ -2740,7 +2733,7 @@ namespace RelayControl
 
             eventDownloadTime = getEventDownloadTime();
             if(ucEventGraph0.Type != EventTypes.NoEvent)
-                this.downloadingDialogCountDown("Downloading", "Downloading Event Data ", eventDownloadTime, false);
+                this.downloadingDialogCountDown("Downloading", "Downloading ALL Events", eventDownloadTime, false);
         }
 
         private void setEventCalConstants(ucEventGraph ucEventGraph)
