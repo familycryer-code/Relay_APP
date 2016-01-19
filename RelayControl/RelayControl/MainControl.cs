@@ -1016,6 +1016,7 @@ namespace RelayControl
             if (eventValue < downloadableEvents-1)
             {
                 eventValue++;
+                focusEventGraphDownloading(eventValue);
                 this.requestEventData(eventValue);
                 return;
             }
@@ -1040,6 +1041,26 @@ namespace RelayControl
             this.monitoring(true);
             this.RegisterPolling(true);
             this.disableAllMonitoring();
+        }
+
+        void focusEventGraphDownloading(int eventNumber) //todo
+        {
+            if (eventNumber == 0)
+                this.radioButtonEvent0.Checked = true;
+            else if(eventNumber == 1)
+                this.radioButtonEvent1.Checked = true;
+            else if(eventNumber == 2)
+                this.radioButtonEvent2.Checked = true;
+            else if(eventNumber == 3)
+                this.radioButtonEvent3.Checked = true;
+            else if(eventNumber == 4)
+                this.radioButtonEvent4.Checked = true;
+            else if(eventNumber == 5)
+                this.radioButtonEvent5.Checked = true;
+            else if(eventNumber == 6)
+                this.radioButtonEvent6.Checked = true;
+            else if(eventNumber == 7)
+                this.radioButtonEvent7.Checked = true;
         }
 
         private bool phasorGraphTabSwitchCall = false;//if the phasorGraph called the switch, we don't want it to auto start monitoring
@@ -2573,7 +2594,7 @@ namespace RelayControl
                         }
                     }
                 }
-                if ((this.radioButtonEvent0.Checked && this.ucEventGraph0.Type == EventTypes.NoEvent))
+                if (this.ucEventGraph0.Type == EventTypes.NoEvent)
                 {
                     this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Event To Download");
                 }
@@ -2638,6 +2659,8 @@ namespace RelayControl
             eventValue = 0;
             downloadableEvents = 0;
             this.timerLiveEventAcknowledge.Enabled = false;
+
+            focusEventGraphDownloading(eventValue);
 
             for (int i = 0; i < 15; ++i)
             {
