@@ -1266,6 +1266,7 @@ namespace RelayControl
                         EnableTab(this.tabPageShortRange, false);
                         EnableTab(this.tabPageTransmitter, false);
                         EnableTab(this.tabPageTransmitterMonitoring, false);
+                        this.loadEventSetToolStripMenuItem.Enabled = false;
                         this.liveDataActionsToolStripMenuItem.Enabled = false;
                         this.saveEventsToolStripMenuItem.Enabled = false;
                         this.downloadEventFromRelayToolStripMenuItem.Enabled = false;
@@ -1285,6 +1286,7 @@ namespace RelayControl
                         EnableTab(this.tabPageTransmitter, true);
                         this.ucTransmitter1.CTRatio = (uint)this.CTRatio;
                         EnableTab(this.tabPageTransmitterMonitoring, true);
+                        this.loadEventSetToolStripMenuItem.Enabled = true;
                         this.saveEventsToolStripMenuItem.Enabled = true;
                         this.downloadEventFromRelayToolStripMenuItem.Enabled = true;
                         this.clearEventsToolStripMenuItem.Enabled = true;
