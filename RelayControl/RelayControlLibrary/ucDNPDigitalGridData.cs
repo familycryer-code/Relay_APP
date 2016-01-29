@@ -110,8 +110,31 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
                 this.binaryInputs.Add("SEC Physical Lockout");
+                this.binaryInputs.Add("Relax Close");
+                this.binaryInputs.Add("Sensitve");
+                this.binaryInputs.Add("Insensitve");
+                this.binaryInputs.Add("TimeDelay");
+                this.binaryInputs.Add("WattVar");
+                this.binaryInputs.Add("TripOnPowerDown");
+                this.binaryInputs.Add("Trim Curve");
+                this.binaryInputs.Add("Circle Close");
+                this.binaryInputs.Add("Override Blocked Open");
+                this.binaryInputs.Add("Relay Algorthim");
+                this.binaryInputs.Add("Relay Cycles");
+                this.binaryInputs.Add("Motor Cycles");
+                this.binaryInputs.Add("Motor Timeout");
+                this.binaryInputs.Add("Pump Never Relcose");
+                this.binaryInputs.Add("Safe Service Enabled");
+                this.binaryInputs.Add("PLC Lockout");
+                this.binaryInputs.Add("SmartHarness Digital 1");
+                this.binaryInputs.Add("SmartHarness Digital 2");
+                this.binaryInputs.Add("SmartHarness Digital 3");
+                this.binaryInputs.Add("SmartHarness Digital 4");
+                this.binaryInputs.Add("SmartHarness Digital 5");
+                this.binaryInputs.Add("SmartHarness Digital 6");
+                this.binaryInputs.Add("Q Bit");
 
-                pointsToAdd = 14;
+                pointsToAdd = 37;
             }
             else
             {
@@ -294,9 +317,12 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 7", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 8", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Q Bit", true));
+                this.analogInputs.Add(new AnalogPointDefinition("Load Percentage A", true));
+                this.analogInputs.Add(new AnalogPointDefinition("Load Percentage B", true));
+                this.analogInputs.Add(new AnalogPointDefinition("Load Percentage C", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Number of RNC connected", false));
 
-                pointsToAdd += 10;
+                pointsToAdd += 13;
             }
 
             uint i = 0;

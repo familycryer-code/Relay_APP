@@ -710,6 +710,7 @@ namespace RelayControlLibrary
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 7", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 8", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness QBit", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness QBit", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 }
                 Point location = new Point();
                 ucDNPDeadBand workingDDB = new ucDNPDeadBand();
