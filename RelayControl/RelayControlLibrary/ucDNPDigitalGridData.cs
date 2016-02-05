@@ -126,12 +126,12 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Pump Never Relcose");
                 this.binaryInputs.Add("Safe Service Enabled");
                 this.binaryInputs.Add("PLC Lockout");
-                this.binaryInputs.Add("SmartHarness Digital 1");
-                this.binaryInputs.Add("SmartHarness Digital 2");
-                this.binaryInputs.Add("SmartHarness Digital 3");
-                this.binaryInputs.Add("SmartHarness Digital 4");
-                this.binaryInputs.Add("SmartHarness Digital 5");
-                this.binaryInputs.Add("SmartHarness Digital 6");
+                this.binaryInputs.Add("SmartHarness Digital C");
+                this.binaryInputs.Add("SmartHarness Digital D");
+                this.binaryInputs.Add("SmartHarness Digital E");
+                this.binaryInputs.Add("SmartHarness Digital F");
+                this.binaryInputs.Add("SmartHarness Digital G");
+                this.binaryInputs.Add("SmartHarness Digital H");
                 this.binaryInputs.Add("Q Bit");
 
                 pointsToAdd = 37;
@@ -308,21 +308,20 @@ namespace RelayControlLibrary
 
             if (this.customer == Customers.DNPwithPLC)
             {
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog C", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog D", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog E", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog F", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog G", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog H", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 1", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 2", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 3", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 4", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 5", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 6", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 7", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 8", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Q Bit", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage A", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage B", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage C", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Number of RNC connected", false));
 
-                pointsToAdd += 13;
+                pointsToAdd += 12;
             }
 
             uint i = 0;

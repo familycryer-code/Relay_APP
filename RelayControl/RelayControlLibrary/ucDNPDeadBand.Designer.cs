@@ -66,7 +66,6 @@ namespace RelayControlLibrary
             this.Controls.Add(this.labelUnits);
             this.Controls.Add(this.numericUpDownValue);
             this.Controls.Add(this.labelName);
-            this.Name = "ucDNPDeadBand";
             this.Size = new System.Drawing.Size(333, 20);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownValue)).EndInit();
             this.ResumeLayout(false);
