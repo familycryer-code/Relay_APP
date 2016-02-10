@@ -564,6 +564,13 @@ namespace RelayControlLibrary
                         uDMB.EventEnabled = true;
                     else
                         uDMB.EventEnabled = false;
+
+                    if ((bytePacket[index + 2] & 0x01) == 0x01)
+                        uDMB.PointEnabled = true;
+                    else
+                        uDMB.PointEnabled = false;
+
+
                     index += 4;
                 }
             }
@@ -576,6 +583,12 @@ namespace RelayControlLibrary
             foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryOuputs.Controls)
             {
                 uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
+
+                if ((bytePacket[index + 2] & 0x01) == 0x01)
+                    uDMB.PointEnabled = true;
+                else
+                    uDMB.PointEnabled = false;
+
                 index += 4;
             }
 
@@ -622,6 +635,10 @@ namespace RelayControlLibrary
                 if(!failed)
                 {
                     uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
+                    if ((bytePacket[index + 2] & 0x01) == 0x01)
+                        uDDGA.PointEnabled = true;
+                    else
+                        uDDGA.PointEnabled = false;
                     uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
                     index += 6;
                 }
