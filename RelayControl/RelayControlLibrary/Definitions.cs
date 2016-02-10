@@ -12,7 +12,7 @@ namespace RelayControlLibrary
         public bool MonitorPhasors;
         public bool MathError;
         public bool BadOffset;
-        public bool OffsetOkay;
+        public bool SafeServiceEnabled;
         public bool MathTimeOver;
         public bool Pumping;
         public bool PumpProtectEnabled;

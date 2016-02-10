@@ -26,6 +26,13 @@ namespace RelayControlLibrary
             toolTip.SetToolTip(this.domainUpDownDataViews, "Selects the way the values are viewed in the GUI");
         }
 
+        public bool EnableSafeService
+        {
+            get { return this.checkBoxEnabled.Checked; }
+            set {
+                this.checkBoxEnabled.Checked = value;
+            }
+        }
         public bool LoadingNewCode
         {
             get { return this.loadingNewCode; }
