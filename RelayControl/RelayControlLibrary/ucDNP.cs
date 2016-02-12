@@ -701,14 +701,14 @@ namespace RelayControlLibrary
 
                 if (this.Customer == Customers.DNPwithPLC)
                 {
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 1", "* .1 Volts", 0m, 5.0m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog 2", "* .1 Volts", 0m, 50m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog C", "Steps", 0m, 255m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog D", "Steps", 0m, 255m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog E", "Steps", 0m, 255m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog F", "Steps", 0m, 255m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog G", "Steps", 0m, 255m, "Voltage input from 0-5 volts in 0.1 V steps"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("Smartharness Analog H", "Steps", 0m, 255m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A1 - Ambient Temperature", "Degrees", 0m, 255m, 1m, "Temperature"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A2 - Main Tank", "Degrees", 0m, 255m, 1m, "Temperature"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - C Cautions", "Steps", 0m, 255m, 1m, "ADC Steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - D SF6 Pressure", "Steps", 0m, 255m, 1m, "ADC Steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - E Environmental", "Steps", 0m, 255m, 1m, "ADC Steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - F Spare", "Steps", 0m, 255m, 1m, "ADC Steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - G EDD Trip", "Steps", 0m, 255m, 1m, "ADC Steps"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - H Oil Level", "Steps", 0m, 255m, 1m, "ADC Steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("Load Percentage", "%", 0m, 100m, "Load Percentage"));
                 }
                 Point location = new Point();

@@ -126,12 +126,12 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Pump Never Relcose");
                 this.binaryInputs.Add("Safe Service Enabled");
                 this.binaryInputs.Add("PLC Lockout");
-                this.binaryInputs.Add("SmartHarness Digital C");
-                this.binaryInputs.Add("SmartHarness Digital D");
-                this.binaryInputs.Add("SmartHarness Digital E");
-                this.binaryInputs.Add("SmartHarness Digital F");
-                this.binaryInputs.Add("SmartHarness Digital G");
-                this.binaryInputs.Add("SmartHarness Digital H");
+                this.binaryInputs.Add("SEC C - Cautions");
+                this.binaryInputs.Add("SEC D - SF6 Pressure");
+                this.binaryInputs.Add("SEC E - Environmental");
+                this.binaryInputs.Add("SEC F - Spare");
+                this.binaryInputs.Add("SEC G - EDD Trip");
+                this.binaryInputs.Add("SEC H - Oil Level");
                 this.binaryInputs.Add("Q Bit");
 
                 pointsToAdd = 37;
@@ -308,14 +308,14 @@ namespace RelayControlLibrary
 
             if (this.customer == Customers.DNPwithPLC)
             {
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog C", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog D", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog E", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog F", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog G", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog H", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 1", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - Analog 2", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - C - Cautions", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - D - SF6 pressure", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - E - Environmental", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - F - Spare", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - G - EDD", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - H - Oil Level", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - A1 - Ambient Temperature", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - A2 - Oil Temperature", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage A", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage B", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage C", true));
@@ -614,6 +614,10 @@ namespace RelayControlLibrary
                 if(!failed)
                 {
                     uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
+                    if ((bytePacket[index + 4] & 0x01) == 0x01)
+                        uDDGA.PointEnabled = true;
+                    else
+                        uDDGA.PointEnabled = false;
                     uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
                     index += 6;
                 }
@@ -635,7 +639,7 @@ namespace RelayControlLibrary
                 if(!failed)
                 {
                     uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
-                    if ((bytePacket[index + 2] & 0x01) == 0x01)
+                    if ((bytePacket[index + 4] & 0x01) == 0x01)
                         uDDGA.PointEnabled = true;
                     else
                         uDDGA.PointEnabled = false;
