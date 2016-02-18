@@ -49,6 +49,7 @@ namespace RelayControlLibrary
             this.labelSafeServiceEnable = new System.Windows.Forms.Label();
             this.buttonRequest = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
+            this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
             this.groupBoxSafeService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVoltageImbalance)).BeginInit();
@@ -59,6 +60,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxSafeService
             // 
+            this.groupBoxSafeService.Controls.Add(this.checkBoxEnabled);
             this.groupBoxSafeService.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxSafeService.Controls.Add(this.domainUpDownDataViews);
             this.groupBoxSafeService.Controls.Add(this.label1);
@@ -108,7 +110,7 @@ namespace RelayControlLibrary
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(181, 159);
+            this.label1.Location = new System.Drawing.Point(181, 166);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 18;
@@ -122,7 +124,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownLowVoltage.Location = new System.Drawing.Point(103, 157);
+            this.numericUpDownLowVoltage.Location = new System.Drawing.Point(103, 164);
             this.numericUpDownLowVoltage.Maximum = new decimal(new int[] {
             120,
             0,
@@ -145,7 +147,7 @@ namespace RelayControlLibrary
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 159);
+            this.label2.Location = new System.Drawing.Point(5, 166);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 16;
@@ -154,7 +156,7 @@ namespace RelayControlLibrary
             // labelVoltageImbalanceUnits
             // 
             this.labelVoltageImbalanceUnits.AutoSize = true;
-            this.labelVoltageImbalanceUnits.Location = new System.Drawing.Point(181, 186);
+            this.labelVoltageImbalanceUnits.Location = new System.Drawing.Point(181, 191);
             this.labelVoltageImbalanceUnits.Name = "labelVoltageImbalanceUnits";
             this.labelVoltageImbalanceUnits.Size = new System.Drawing.Size(30, 13);
             this.labelVoltageImbalanceUnits.TabIndex = 15;
@@ -168,7 +170,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownVoltageImbalance.Location = new System.Drawing.Point(103, 184);
+            this.numericUpDownVoltageImbalance.Location = new System.Drawing.Point(103, 189);
             this.numericUpDownVoltageImbalance.Maximum = new decimal(new int[] {
             50,
             0,
@@ -181,7 +183,7 @@ namespace RelayControlLibrary
             // labelVoltageImbalance
             // 
             this.labelVoltageImbalance.AutoSize = true;
-            this.labelVoltageImbalance.Location = new System.Drawing.Point(5, 186);
+            this.labelVoltageImbalance.Location = new System.Drawing.Point(5, 191);
             this.labelVoltageImbalance.Name = "labelVoltageImbalance";
             this.labelVoltageImbalance.Size = new System.Drawing.Size(98, 13);
             this.labelVoltageImbalance.TabIndex = 13;
@@ -190,7 +192,7 @@ namespace RelayControlLibrary
             // labelDelayUnits
             // 
             this.labelDelayUnits.AutoSize = true;
-            this.labelDelayUnits.Location = new System.Drawing.Point(181, 133);
+            this.labelDelayUnits.Location = new System.Drawing.Point(181, 140);
             this.labelDelayUnits.Name = "labelDelayUnits";
             this.labelDelayUnits.Size = new System.Drawing.Size(38, 13);
             this.labelDelayUnits.TabIndex = 12;
@@ -198,7 +200,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownDelay
             // 
-            this.numericUpDownDelay.Location = new System.Drawing.Point(103, 131);
+            this.numericUpDownDelay.Location = new System.Drawing.Point(103, 138);
             this.numericUpDownDelay.Maximum = new decimal(new int[] {
             255,
             0,
@@ -211,7 +213,7 @@ namespace RelayControlLibrary
             // labelDelay
             // 
             this.labelDelay.AutoSize = true;
-            this.labelDelay.Location = new System.Drawing.Point(5, 133);
+            this.labelDelay.Location = new System.Drawing.Point(5, 140);
             this.labelDelay.Name = "labelDelay";
             this.labelDelay.Size = new System.Drawing.Size(37, 13);
             this.labelDelay.TabIndex = 10;
@@ -225,7 +227,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownCurrentImbalance.Location = new System.Drawing.Point(103, 106);
+            this.numericUpDownCurrentImbalance.Location = new System.Drawing.Point(103, 113);
             this.numericUpDownCurrentImbalance.Maximum = new decimal(new int[] {
             1,
             0,
@@ -238,7 +240,7 @@ namespace RelayControlLibrary
             // labelCurrentImbalance
             // 
             this.labelCurrentImbalance.AutoSize = true;
-            this.labelCurrentImbalance.Location = new System.Drawing.Point(5, 108);
+            this.labelCurrentImbalance.Location = new System.Drawing.Point(5, 115);
             this.labelCurrentImbalance.Name = "labelCurrentImbalance";
             this.labelCurrentImbalance.Size = new System.Drawing.Size(96, 13);
             this.labelCurrentImbalance.TabIndex = 7;
@@ -247,7 +249,7 @@ namespace RelayControlLibrary
             // labelOverCurrentUnits
             // 
             this.labelOverCurrentUnits.AutoSize = true;
-            this.labelOverCurrentUnits.Location = new System.Drawing.Point(181, 82);
+            this.labelOverCurrentUnits.Location = new System.Drawing.Point(181, 89);
             this.labelOverCurrentUnits.Name = "labelOverCurrentUnits";
             this.labelOverCurrentUnits.Size = new System.Drawing.Size(33, 13);
             this.labelOverCurrentUnits.TabIndex = 6;
@@ -261,7 +263,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownOverCurrent.Location = new System.Drawing.Point(103, 80);
+            this.numericUpDownOverCurrent.Location = new System.Drawing.Point(103, 87);
             this.numericUpDownOverCurrent.Maximum = new decimal(new int[] {
             10,
             0,
@@ -274,7 +276,7 @@ namespace RelayControlLibrary
             // labelOverCurrent
             // 
             this.labelOverCurrent.AutoSize = true;
-            this.labelOverCurrent.Location = new System.Drawing.Point(5, 82);
+            this.labelOverCurrent.Location = new System.Drawing.Point(5, 89);
             this.labelOverCurrent.Name = "labelOverCurrent";
             this.labelOverCurrent.Size = new System.Drawing.Size(70, 13);
             this.labelOverCurrent.TabIndex = 4;
@@ -303,7 +305,7 @@ namespace RelayControlLibrary
             // 
             // buttonRequest
             // 
-            this.buttonRequest.Location = new System.Drawing.Point(8, 210);
+            this.buttonRequest.Location = new System.Drawing.Point(8, 215);
             this.buttonRequest.Name = "buttonRequest";
             this.buttonRequest.Size = new System.Drawing.Size(75, 23);
             this.buttonRequest.TabIndex = 1;
@@ -313,13 +315,23 @@ namespace RelayControlLibrary
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(144, 209);
+            this.buttonSend.Location = new System.Drawing.Point(142, 215);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(75, 23);
             this.buttonSend.TabIndex = 0;
             this.buttonSend.Text = "Send";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
+            // 
+            // checkBoxEnabled
+            // 
+            this.checkBoxEnabled.AutoSize = true;
+            this.checkBoxEnabled.Location = new System.Drawing.Point(7, 67);
+            this.checkBoxEnabled.Name = "checkBoxEnabled";
+            this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
+            this.checkBoxEnabled.TabIndex = 21;
+            this.checkBoxEnabled.Text = "Enabled";
+            this.checkBoxEnabled.UseVisualStyleBackColor = true;
             // 
             // ucSafeService
             // 
@@ -362,5 +374,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DomainUpDown domainUpDownDataViews;
         private System.Windows.Forms.Button buttonRestoreDefaults;
+        private System.Windows.Forms.CheckBox checkBoxEnabled;
     }
 }

@@ -58,6 +58,14 @@ namespace RelayControlLibrary
                 this.labelEventEnable.Visible = value; 
             }
         }
+        public bool PointEnabled
+        {
+            get { return this.Enabled; }
+            set {
+                this.Enabled = value;
+            }
+        }
+
 
         public bool CheckValue
         {

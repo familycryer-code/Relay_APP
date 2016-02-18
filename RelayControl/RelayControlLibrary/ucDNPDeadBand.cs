@@ -45,6 +45,7 @@ namespace RelayControlLibrary
             InitializeComponent();
             this.labelName.Text = dBD.Name;
             this.labelUnits.Text = dBD.Units;
+            this.multiplier = dBD.Mult;
 
             if (dBD.Minimum > this.numericUpDownValue.Maximum)
             {
@@ -59,36 +60,33 @@ namespace RelayControlLibrary
                 this.numericUpDownValue.Maximum = dBD.Maximum;
             }
 
+            this.numericUpDownValue.DecimalPlaces = (int)this.multiplier / 10;
+            this.numericUpDownValue.Increment = 1 / this.multiplier;
+           
             this.toolTip = new ToolTip();
             this.toolTip.SetToolTip(this.numericUpDownValue, dBD.ToolTip);
-
-            
         }
         
         public decimal Value
         {
-            set { this.numericUpDownValue.Value = value; }
+            set { this.numericUpDownValue.Value = value / this.multiplier; }
             get
             {
-                return this.numericUpDownValue.Value;
+                return Math.Round(this.numericUpDownValue.Value * this.multiplier);
             }
         }
 
         public new string Name
         {
             get { return this.labelName.Text; }
-            set{
-                this.labelName.Text = value;
-            }
         }
 
         public string Label
         {
             get { return this.labelUnits.Text; }
-            set{
-                this.labelUnits.Text = value;
-            }
         }
+
+        private decimal multiplier = 1;
 
     }
 }

@@ -226,7 +226,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Enmax|AnyCPU'">
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
-    <OutputPath>bin\Enmax\</OutputPath>
+    <OutputPath>bin\ReleaseEnmaxPLCwDNP\</OutputPath>
     <DefineConstants>DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

@@ -19,6 +19,14 @@ namespace RelayControlLibrary
         private string pointName = "";
         private bool signed = false;
         
+        public bool PointEnabled
+        {
+            get { return this.Enabled; }
+            set
+            {
+                this.Enabled = value;
+            }
+        }
         public bool EventEnabled
         {
             get { return this.checkBoxEventEnabled.Checked; }

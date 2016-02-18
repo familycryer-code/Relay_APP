@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2016-02-08";
+        private const string revisionDate = "2016-02-12";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -2966,7 +2966,7 @@ namespace RelayControl
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
                     if (this.DNPEnabled)
-                        this.requestDNPData();
+                        this.requestDNPSettings();
                     else if (this.relayCodeRevisionNumber >= 20130111)
                         this.requestSafeServiceSettings();
                     else
@@ -3114,12 +3114,18 @@ namespace RelayControl
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
                     if (this.DNPEnabled)
-                        this.requestDNPData();
+                        this.requestDNPSettings();
                     else if (this.relayCodeRevisionNumber >= 20130111)
                         this.requestSafeServiceSettings();
                     else
                         this.parametersFinishedLoading();
                 }
+#if DNP && PLC
+                if(savedSerialNumber >= 25000)
+                {
+                    MessageBox.Show("Currently the software is not in place to handle GE relays. Please contact us at DigitalGrid");
+                }
+#endif
             }
             catch (Exception ex)
             {
@@ -3451,13 +3457,15 @@ namespace RelayControl
                 this.setCheckedValue(RelayStatus.BadOffset, this.checkBoxDefaultsUsed);
                 if ((b & 4) == 4)
                 {
-                    RelayStatus.OffsetOkay = true;
+                    RelayStatus.SafeServiceEnabled = true;
+                    this.ucSafeService1.EnableSafeService = true;
                 }
                 else
                 {
-                    RelayStatus.OffsetOkay = false;
+                    RelayStatus.SafeServiceEnabled = false;
+                    this.ucSafeService1.EnableSafeService = false;
                 }
-                this.setCheckedValue(RelayStatus.OffsetOkay, this.checkBoxOffsetOkay);
+                this.setCheckedValue(RelayStatus.SafeServiceEnabled, this.checkBoxOffsetOkay);
                 if ((b & 2) == 2)
                 {
                     RelayStatus.MathTimeOver = true;
@@ -4631,6 +4639,7 @@ namespace RelayControl
             this.pQMonitoringEnabled = false;
             this.buttonToggleMonitor.Text = "Start Monitoring";
             this.ucPhasorGraph1.RealTimeMonitoring = false;
+            this.requestingDNPData = false;
         }
 
         private void enableAllMonitoring()
@@ -4908,7 +4917,7 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
             if (this.relayCodeRevisionNumber >= 20110201 && this.DNPEnabled)
-                this.requestDNPData();
+                this.requestDNPSettings();
             //if (this.relayCodeRevisionNumber >= 20130326)
             //    this.requestSafeServiceSettings();
 
@@ -4916,7 +4925,7 @@ namespace RelayControl
 
         }
 
-        private void requestDNPData()
+        private void requestDNPSettings()
         {
             byte[] sendArray = new byte[3];
 
@@ -5977,6 +5986,11 @@ namespace RelayControl
                 this.arcFault_requestArcFaultMonitoring();
             }
             ulong timeTemp = 0;
+
+            if(this.requestingDNPData)
+            {
+                this.requestDNPData();
+            }
 
             if (this.everyOtherMonitor)
             {
@@ -7440,6 +7454,11 @@ namespace RelayControl
                 this.ucShortRange1.DisableMonitoring();
             }
 
+            if (this.tabControlMain.SelectedTab != this.tabPageDNPData)
+            {
+                this.enableDNPMonitoring(false);
+            }
+
             this.phasorGraphTabSwitchCall = false; //deset so next time it does not think it was called from the phasorGraph
         }
 
@@ -7959,8 +7978,25 @@ namespace RelayControl
             }
         }
 
+        private bool requestingDNPData = false;
+
         private void buttonRequestDNPData_Click(object sender, EventArgs e)
         {
+            this.enableDNPMonitoring(!this.requestingDNPData);
+        }
+
+        private void enableDNPMonitoring(bool val)
+        { 
+            if(val)
+                this.buttonRequestDNPData.Text = "Stop Requesting Data";
+            else
+                this.buttonRequestDNPData.Text = "Request DNP Data";
+
+            this.requestingDNPData = val;
+        }
+
+        private void requestDNPData()
+        { 
             byte[] sendPacket = new byte[3];
 
             sendPacket[0] = 0x05;
