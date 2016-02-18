@@ -493,7 +493,17 @@ namespace RelayControl
 #endif
 #endif
                 this.enableAllToolStripMenuItem.Visible = true;
+
 #if DNP
+    #if DEBUG
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+
+    #endif
                 this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
