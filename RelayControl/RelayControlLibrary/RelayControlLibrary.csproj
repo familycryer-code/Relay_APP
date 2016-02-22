@@ -621,6 +621,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
+    <Content Include="Resources\MasterProcessorChicago.S" />
     <None Include="Resources\MasterProcessor_with_DNP_GE.S" />
     <None Include="Resources\FPGAdata.rbf" />
     <Content Include="Resources\MasterProcessor.S" />
