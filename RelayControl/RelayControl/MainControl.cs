@@ -34,6 +34,8 @@ namespace RelayControl
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
         private const uint _version3FileRevisionNumber = 20100621;
 
+        string customerRevisionNameDebug = "";
+
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
 
@@ -398,6 +400,12 @@ namespace RelayControl
                 this.toolStripStatusLabelMain.Text = "";
                 this.searchForRelay = false;
 #elif DEBUG
+                if (showCustomerNameDebug() == true)
+                {
+                    this.setCustomersRevisionName();
+                    customerRevisionNameDebug = customerRevisionName;
+                }
+                    
 
                 this.noMonitoringVersion = false;
                 this.buttonForceI.Visible = true;
@@ -406,7 +414,7 @@ namespace RelayControl
                 this.enableAll(true);
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate;
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionNameDebug + " Debug";
                 this.ArcFaultEnabled = true;
                 this.Customer = Customers.DigitalGrid;
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
@@ -548,6 +556,17 @@ namespace RelayControl
 #else
             this.customerRevisionName = "";
 #endif
+        }
+
+        private bool showCustomerNameDebug()
+        {
+            bool showCustomerNameDebug = false;
+
+            #if chicago ||  (Enmax && DNP) || ATLANTA
+                showCustomerNameDebug = true;
+            #endif
+
+            return showCustomerNameDebug;
         }
 
 
