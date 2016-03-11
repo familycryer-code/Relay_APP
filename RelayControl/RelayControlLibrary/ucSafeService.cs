@@ -65,7 +65,7 @@ namespace RelayControlLibrary
                     tempValue = this.numericUpDownOverCurrent.Value / (decimal)this.CTRatio;
                     break;
                 case 2:
-                    tempValue = this.numericUpDownOverCurrent.Value * 20m;
+                    tempValue = this.numericUpDownOverCurrent.Value / 20m;
                     break;
             }
             try
