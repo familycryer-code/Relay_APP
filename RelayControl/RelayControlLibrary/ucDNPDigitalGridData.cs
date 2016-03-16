@@ -60,11 +60,9 @@ namespace RelayControlLibrary
         private uint relayMasterRevision = 140506;
         private Customers customer = Customers.DigitalGridDNP;
 
-#if ATLANTA
-        private static int _packetLength = 42;
-#else
+
         private static int _packetLength = 98;
-#endif
+
         #region Initialization
 
         private void initializeComponents()
