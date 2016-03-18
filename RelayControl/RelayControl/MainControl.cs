@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2016-02-12";
+        private const string revisionDate = "2016-03-18";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -6798,23 +6798,23 @@ namespace RelayControl
             this.sendAll = true;
 
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
-            Thread.Sleep(50);
+            Thread.Sleep(100);
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
-            Thread.Sleep(50);
+            Thread.Sleep(100);
             this.buttonRelayType_Click(this, new EventArgs());
-            Thread.Sleep(50);
+            Thread.Sleep(100);
             this.buttonSendCTRatio_Click(this, new EventArgs());
-            Thread.Sleep(50);
+            Thread.Sleep(100);
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
-            Thread.Sleep(50);
+            Thread.Sleep(100);
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
-            Thread.Sleep(50);
+            Thread.Sleep(100);
 #endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 this.ucSafeService1.SendAll();
-                Thread.Sleep(50);
+                Thread.Sleep(100);
             }
             this.sendAll = false;
             if (!this.loadingNewCode)
