@@ -251,10 +251,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Chicago|AnyCPU'">
     <OutputPath>bin\Debug Chicago\</OutputPath>
-	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;chicago</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
+    <OutputPath>bin\Release Boston Eversource\</OutputPath>
+	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>BASICRELEASE,Boston</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">

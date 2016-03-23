@@ -1333,15 +1333,15 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {   
-#if NU
+#if NU || DOMINION || chicago || Enmax || Boston
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif SEATTLE || DEBUG
+#elif SEATTLE || DEBUG || ATLANTA || ConEd || PSEG
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif DOMINION || chicago || Enmax
+#else
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10m;
             this.numericUpDownWVCurrent.Value = 2.5m;

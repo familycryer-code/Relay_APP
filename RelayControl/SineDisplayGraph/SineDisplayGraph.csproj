@@ -229,6 +229,10 @@
     <OutputPath>bin\Debug Chicago\</OutputPath>
     <DefineConstants>TRACE;DEBUG;chicago</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
+    <OutputPath>bin\Release Boston Eversource\</OutputPath>
+    <DefineConstants>BASICRELEASE,Boston</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
