@@ -312,8 +312,8 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - F - Spare", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - G - EDD", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - H - Oil Level", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - A1 - Ambient Temperature", true));
-                this.analogInputs.Add(new AnalogPointDefinition("SEC - A2 - Oil Temperature", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - A1 - Oil Temperature", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - A2 - Ambient Temperature", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage A", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage B", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage C", true));
