@@ -43,7 +43,7 @@ namespace RelayControlLibrary
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 160316;
+        private static UInt32 _masterCodeRevisionNumber = 160412;
 		private static UInt32 _masterDNPRevisionNumber = 160316;
         private static UInt32 _relayCodeRevisionNumber = 20160317;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
@@ -585,6 +585,33 @@ namespace RelayControlLibrary
             return;
 #endif
 
+#if MADISON
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMadison;
+            this.textBoxMasterFileName.Text = "Master Relay Madison";
+
+            if (this.GEEnabled)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
 
             if (this.DNPRelay)
             {

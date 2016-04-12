@@ -263,6 +263,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
     <OutputPath>bin\Release Madison\</OutputPath>
+	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
