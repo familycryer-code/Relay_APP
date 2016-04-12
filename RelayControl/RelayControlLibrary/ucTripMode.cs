@@ -1306,7 +1306,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 90;
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 2;
-#elif chicago
+#elif chicago || MADISON
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;

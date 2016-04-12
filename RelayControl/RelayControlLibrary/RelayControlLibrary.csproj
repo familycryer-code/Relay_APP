@@ -238,6 +238,12 @@
     <OutputPath>bin\Release Boston Eversource\</OutputPath>
     <DefineConstants>BASICRELEASE,Boston</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
+    <OutputPath>bin\Release Madison\</OutputPath>
+    <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls, Version=1.5.2.0, Culture=neutral, PublicKeyToken=5966291b8955e4bb">
       <SpecificVersion>False</SpecificVersion>

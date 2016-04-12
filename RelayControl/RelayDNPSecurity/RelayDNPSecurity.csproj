@@ -153,6 +153,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
     <OutputPath>bin\Release Boston Eversource\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
+    <OutputPath>bin\Release Madison\</OutputPath>
+    <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\..\..\master-processor\BouncyCastle.Crypto.dll</HintPath>

@@ -74,6 +74,12 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusH.Visible = false;
 #endif
 
+#if MADISON
+            this.groupBoxLRSwitchMadisonMonitoring.Visible = true;
+#else
+            this.groupBoxLRSwitchMadisonMonitoring.Visible = false;
+#endif
+
             this.checkBoxFrequenceBlue.Visible = false;
             this.checkBoxFrequencyGreen.Visible = false;
             this.checkBoxFrequencyRed.Visible = false;
@@ -488,6 +494,11 @@ namespace RelayControlLibrary
                 this.textBoxGa.Text = bytePacket[11].ToString();
                 this.textBoxHa.Text = bytePacket[12].ToString();
                 this.textBoxQBit.Text = (bytePacket[15] & 0x01).ToString(); //byte 15 contains entire qbyte for future
+
+                if ((bytePacket[15] & 0x08) == 0x08)
+                    this.textBoxMadisonLockOutStatusMonitoring.Text = "Locked Out!";
+                else
+                    this.textBoxMadisonLockOutStatusMonitoring.Text = "Not Locked";
             }
         }
 

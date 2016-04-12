@@ -209,6 +209,9 @@ namespace RelayControlLibrary
             this.label30 = new System.Windows.Forms.Label();
             this.checkBoxFlagStatusA = new System.Windows.Forms.CheckBox();
             this.labelTransFlagStatus = new System.Windows.Forms.Label();
+            this.labelMadisonSwitch = new System.Windows.Forms.Label();
+            this.textBoxMadisonLockOutStatus = new System.Windows.Forms.TextBox();
+            this.panelLRLockout = new System.Windows.Forms.Panel();
             this.panelFreqPanel.SuspendLayout();
             this.panelFlagSettings.SuspendLayout();
             this.panelFlagSettingH.SuspendLayout();
@@ -235,6 +238,7 @@ namespace RelayControlLibrary
             this.panelWaterburyMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLEDSpeed)).BeginInit();
             this.panelFlasgStatusWB.SuspendLayout();
+            this.panelLRLockout.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonTX
@@ -2331,10 +2335,37 @@ namespace RelayControlLibrary
             this.labelTransFlagStatus.TabIndex = 81;
             this.labelTransFlagStatus.Text = "Flag Status:";
             // 
+            // labelMadisonSwitch
+            // 
+            this.labelMadisonSwitch.AutoSize = true;
+            this.labelMadisonSwitch.Location = new System.Drawing.Point(8, 10);
+            this.labelMadisonSwitch.Name = "labelMadisonSwitch";
+            this.labelMadisonSwitch.Size = new System.Drawing.Size(87, 13);
+            this.labelMadisonSwitch.TabIndex = 82;
+            this.labelMadisonSwitch.Text = "Lock Out Status:";
+            // 
+            // textBoxMadisonLockOutStatus
+            // 
+            this.textBoxMadisonLockOutStatus.Location = new System.Drawing.Point(95, 6);
+            this.textBoxMadisonLockOutStatus.Name = "textBoxMadisonLockOutStatus";
+            this.textBoxMadisonLockOutStatus.Size = new System.Drawing.Size(100, 20);
+            this.textBoxMadisonLockOutStatus.TabIndex = 83;
+            // 
+            // panelLRLockout
+            // 
+            this.panelLRLockout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLRLockout.Controls.Add(this.labelMadisonSwitch);
+            this.panelLRLockout.Controls.Add(this.textBoxMadisonLockOutStatus);
+            this.panelLRLockout.Location = new System.Drawing.Point(602, 479);
+            this.panelLRLockout.Name = "panelLRLockout";
+            this.panelLRLockout.Size = new System.Drawing.Size(200, 33);
+            this.panelLRLockout.TabIndex = 85;
+            // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panelLRLockout);
             this.Controls.Add(this.labelTransFlagStatus);
             this.Controls.Add(this.panelFlasgStatusWB);
             this.Controls.Add(this.buttonForceConfigMessage);
@@ -2413,6 +2444,8 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLEDSpeed)).EndInit();
             this.panelFlasgStatusWB.ResumeLayout(false);
             this.panelFlasgStatusWB.PerformLayout();
+            this.panelLRLockout.ResumeLayout(false);
+            this.panelLRLockout.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2601,5 +2634,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusA;
         private System.Windows.Forms.Label labelTransFlagStatus;
+        private System.Windows.Forms.Label labelMadisonSwitch;
+        private System.Windows.Forms.TextBox textBoxMadisonLockOutStatus;
+        private System.Windows.Forms.Panel panelLRLockout;
     }
 }

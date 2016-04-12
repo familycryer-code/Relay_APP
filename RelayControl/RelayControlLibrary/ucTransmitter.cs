@@ -49,12 +49,21 @@ namespace RelayControlLibrary
             this.numericUpDownLEDSpeed.Visible = false;
 #endif
 
-#if DOMINION
+#if DOMINION || MADISON
             this.panelFlasgStatusWB.Visible = true;
             this.labelTransFlagStatus.Visible = true;
 #elif !DEBUG
             this.panelFlasgStatusWB.Visible = false;
             this.labelTransFlagStatus.Visible = false;
+#endif
+
+
+#if MADISON
+            this.labelMadisonSwitch.Visible = true;
+            this.textBoxMadisonLockOutStatus.Visible = true;
+#elif !DEBUG
+            this.labelMadisonSwitch.Visible = false;
+            this.textBoxMadisonLockOutStatus.Visible = false;
 #endif
 
             this.comboBoxAnalog1OU.SelectedIndex = 0;
@@ -67,7 +76,7 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            
+            this.panelLRLockout.Location = new Point(171, 522);
         }
 
         private Customers customer;
@@ -400,7 +409,7 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU) && !DEBUG
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
@@ -768,6 +777,11 @@ namespace RelayControlLibrary
             {
                 this.checkBoxFlagStatusH.Checked = false;
             }
+
+            if ((bytePacket[15] & 0x08) == 0x08)
+                this.textBoxMadisonLockOutStatus.Text = "Locked Out!";
+            else
+                this.textBoxMadisonLockOutStatus.Text = "Not Locked";
         }
 
         private void setCTRatioBox(UInt16 p, DomainUpDown dUP, TextBox tB)
@@ -1745,7 +1759,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU) && !DEBUG
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;

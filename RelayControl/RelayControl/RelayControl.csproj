@@ -258,8 +258,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
     <OutputPath>bin\Release Boston Eversource\</OutputPath>
-	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>BASICRELEASE,Boston</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
+    <OutputPath>bin\Release Madison\</OutputPath>
+    <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
