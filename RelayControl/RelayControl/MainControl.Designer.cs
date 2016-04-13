@@ -136,6 +136,9 @@ namespace RelayControl
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
+            this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
+            this.labelLRLockoutMain = new System.Windows.Forms.Label();
             this.groupBoxLowVoltThres = new System.Windows.Forms.GroupBox();
             this.buttonRequestLowVotlageThres = new System.Windows.Forms.Button();
             this.numericUpDownLowVoltageThres = new System.Windows.Forms.NumericUpDown();
@@ -237,6 +240,7 @@ namespace RelayControl
             this.tabPageTransmitter.SuspendLayout();
             this.tabPageMonitor.SuspendLayout();
             this.tabPageControl.SuspendLayout();
+            this.groupBoxLRLockoutMain.SuspendLayout();
             this.groupBoxLowVoltThres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).BeginInit();
             this.groupBoxRelayStatus.SuspendLayout();
@@ -429,7 +433,7 @@ namespace RelayControl
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cTRatioCalculatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // cTRatioCalculatorToolStripMenuItem
@@ -1157,7 +1161,7 @@ namespace RelayControl
             // 
             this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-2704, 6);
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-3502, 6);
             this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
             this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 13);
             this.labelLiveDataTriggerTime.TabIndex = 1;
@@ -1361,6 +1365,7 @@ namespace RelayControl
             // 
             // tabPageControl
             // 
+            this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
             this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
@@ -1379,6 +1384,33 @@ namespace RelayControl
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             this.tabPageControl.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxLRLockoutMain
+            // 
+            this.groupBoxLRLockoutMain.Controls.Add(this.textBoxLRLockoutStatusMain);
+            this.groupBoxLRLockoutMain.Controls.Add(this.labelLRLockoutMain);
+            this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(448, 473);
+            this.groupBoxLRLockoutMain.Name = "groupBoxLRLockoutMain";
+            this.groupBoxLRLockoutMain.Size = new System.Drawing.Size(254, 49);
+            this.groupBoxLRLockoutMain.TabIndex = 118;
+            this.groupBoxLRLockoutMain.TabStop = false;
+            this.groupBoxLRLockoutMain.Text = "Remote Command Lockout";
+            // 
+            // textBoxLRLockoutStatusMain
+            // 
+            this.textBoxLRLockoutStatusMain.Location = new System.Drawing.Point(123, 20);
+            this.textBoxLRLockoutStatusMain.Name = "textBoxLRLockoutStatusMain";
+            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(100, 20);
+            this.textBoxLRLockoutStatusMain.TabIndex = 1;
+            // 
+            // labelLRLockoutMain
+            // 
+            this.labelLRLockoutMain.AutoSize = true;
+            this.labelLRLockoutMain.Location = new System.Drawing.Point(13, 23);
+            this.labelLRLockoutMain.Name = "labelLRLockoutMain";
+            this.labelLRLockoutMain.Size = new System.Drawing.Size(100, 13);
+            this.labelLRLockoutMain.TabIndex = 0;
+            this.labelLRLockoutMain.Text = "RC Lockout Status:";
             // 
             // groupBoxLowVoltThres
             // 
@@ -1931,6 +1963,7 @@ namespace RelayControl
             // ucSafeService1
             // 
             this.ucSafeService1.CTRatio = 320;
+            this.ucSafeService1.EnableSafeService = false;
             this.ucSafeService1.LoadingNewCode = false;
             this.ucSafeService1.Location = new System.Drawing.Point(734, 4);
             this.ucSafeService1.Name = "ucSafeService1";
@@ -2215,7 +2248,7 @@ namespace RelayControl
             // ucPumpMode1
             // 
             this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Location = new System.Drawing.Point(187, 259);
+            this.ucPumpMode1.Location = new System.Drawing.Point(187, 260);
             this.ucPumpMode1.Name = "ucPumpMode1";
             this.ucPumpMode1.PumpProtectEnabled = false;
             this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
@@ -2414,6 +2447,8 @@ namespace RelayControl
             this.tabPageMonitor.PerformLayout();
             this.tabPageControl.ResumeLayout(false);
             this.tabPageControl.PerformLayout();
+            this.groupBoxLRLockoutMain.ResumeLayout(false);
+            this.groupBoxLRLockoutMain.PerformLayout();
             this.groupBoxLowVoltThres.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).EndInit();
             this.groupBoxRelayStatus.ResumeLayout(false);
@@ -2637,6 +2672,9 @@ namespace RelayControl
         private System.Windows.Forms.Button buttonSendLowVoltageThres;
         private System.Windows.Forms.Button buttonRequestLowVotlageThres;
         private System.Windows.Forms.GroupBox groupBoxLowVoltThres;
+        private System.Windows.Forms.GroupBox groupBoxLRLockoutMain;
+        private System.Windows.Forms.TextBox textBoxLRLockoutStatusMain;
+        private System.Windows.Forms.Label labelLRLockoutMain;
     }
 }
 

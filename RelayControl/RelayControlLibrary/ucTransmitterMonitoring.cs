@@ -47,7 +47,7 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 
-#if (chicago || DEBUG) && !Enmax
+#if (chicago || MADISON || DEBUG) && !Enmax
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
 #elif Enmax && !DEBUG

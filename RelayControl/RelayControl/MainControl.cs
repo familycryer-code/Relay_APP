@@ -1076,7 +1076,7 @@ namespace RelayControl
             this.disableAllMonitoring();
         }
 
-        void focusEventGraphDownloading(int eventNumber) //todo
+        void focusEventGraphDownloading(int eventNumber)
         {
             if (eventNumber == 0)
                 this.radioButtonEvent0.Checked = true;
@@ -3239,6 +3239,23 @@ namespace RelayControl
             this.ucRelayProgramming1.AllParametersReceived();
 
             CheckTransmitterTab();
+
+            startMonitoringWBSettings();
+        }
+
+        private void startMonitoringWBSettings()
+        {
+            #if MADISON
+                if (this.allEnabled)
+                    this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+
+                this.requestPhasorData();
+                this.everyOtherMonitor = false;
+
+                this.groupBoxLRLockoutMain.Visible = true;
+            #else
+                this.groupBoxLRLockoutMain.Visible = false;
+            #endif
         }
 
         private void CheckTransmitterTab()
@@ -7459,7 +7476,8 @@ namespace RelayControl
                     }
                 }
             }
-            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter)
+            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter
+                || this.tabControlMain.SelectedTab == this.tabPageControl)
             {
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
@@ -7476,11 +7494,13 @@ namespace RelayControl
             }
 
 
-            if (this.tabControlMain.SelectedTab != this.tabPageMonitor && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
+            if (this.tabControlMain.SelectedTab != this.tabPageMonitor && this.tabControlMain.SelectedTab != this.tabPageTransmitter
+                & this.tabControlMain.SelectedTab != this.tabPageControl)
             {
                 this.disableAllMonitoring();
             }
-            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter)
+            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter 
+                && this.tabControlMain.SelectedTab != this.tabPageControl)
             {
                 this.pauseTransmitterMonitoring();
             }
@@ -7622,6 +7642,15 @@ namespace RelayControl
         {
             this.ucTransmitterMonitoring1.SetAll(bytePacket);
             this.ucTransmitter1.setMonitoringData(bytePacket);
+            this.setWBdataMain(bytePacket);
+        }
+
+        private void setWBdataMain(byte[] bytePacket)
+        {
+            if ((bytePacket[15] & 0x08) == 0x08)
+                this.textBoxLRLockoutStatusMain.Text = "Locked!";
+            else
+                this.textBoxLRLockoutStatusMain.Text = "Not Locked";
         }
 
         private void setDNPData(byte[] bytePacket)

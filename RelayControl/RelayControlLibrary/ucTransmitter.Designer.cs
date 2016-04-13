@@ -2338,15 +2338,15 @@ namespace RelayControlLibrary
             // labelMadisonSwitch
             // 
             this.labelMadisonSwitch.AutoSize = true;
-            this.labelMadisonSwitch.Location = new System.Drawing.Point(8, 10);
+            this.labelMadisonSwitch.Location = new System.Drawing.Point(5, 10);
             this.labelMadisonSwitch.Name = "labelMadisonSwitch";
-            this.labelMadisonSwitch.Size = new System.Drawing.Size(87, 13);
+            this.labelMadisonSwitch.Size = new System.Drawing.Size(122, 13);
             this.labelMadisonSwitch.TabIndex = 82;
-            this.labelMadisonSwitch.Text = "Lock Out Status:";
+            this.labelMadisonSwitch.Text = "Remote Lockout Status:";
             // 
             // textBoxMadisonLockOutStatus
             // 
-            this.textBoxMadisonLockOutStatus.Location = new System.Drawing.Point(95, 6);
+            this.textBoxMadisonLockOutStatus.Location = new System.Drawing.Point(135, 6);
             this.textBoxMadisonLockOutStatus.Name = "textBoxMadisonLockOutStatus";
             this.textBoxMadisonLockOutStatus.Size = new System.Drawing.Size(100, 20);
             this.textBoxMadisonLockOutStatus.TabIndex = 83;
@@ -2358,7 +2358,7 @@ namespace RelayControlLibrary
             this.panelLRLockout.Controls.Add(this.textBoxMadisonLockOutStatus);
             this.panelLRLockout.Location = new System.Drawing.Point(602, 479);
             this.panelLRLockout.Name = "panelLRLockout";
-            this.panelLRLockout.Size = new System.Drawing.Size(200, 33);
+            this.panelLRLockout.Size = new System.Drawing.Size(242, 33);
             this.panelLRLockout.TabIndex = 85;
             // 
             // ucTransmitter

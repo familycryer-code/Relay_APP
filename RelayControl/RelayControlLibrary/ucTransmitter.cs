@@ -76,7 +76,7 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.panelLRLockout.Location = new Point(171, 522);
+            this.panelLRLockout.Location = new Point(7, 522);
         }
 
         private Customers customer;
