@@ -57,15 +57,6 @@ namespace RelayControlLibrary
             this.labelTransFlagStatus.Visible = false;
 #endif
 
-
-#if MADISON
-            this.labelMadisonSwitch.Visible = true;
-            this.textBoxMadisonLockOutStatus.Visible = true;
-#elif !DEBUG
-            this.labelMadisonSwitch.Visible = false;
-            this.textBoxMadisonLockOutStatus.Visible = false;
-#endif
-
             this.comboBoxAnalog1OU.SelectedIndex = 0;
             this.comboBoxAnalog2OU.SelectedIndex = 0;
 
@@ -75,8 +66,6 @@ namespace RelayControlLibrary
             this.checkBoxWBF.Checked = true;
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
-
-            this.panelLRLockout.Location = new Point(7, 522);
         }
 
         private Customers customer;
@@ -777,11 +766,6 @@ namespace RelayControlLibrary
             {
                 this.checkBoxFlagStatusH.Checked = false;
             }
-
-            if ((bytePacket[15] & 0x08) == 0x08)
-                this.textBoxMadisonLockOutStatus.Text = "Locked Out!";
-            else
-                this.textBoxMadisonLockOutStatus.Text = "Not Locked";
         }
 
         private void setCTRatioBox(UInt16 p, DomainUpDown dUP, TextBox tB)

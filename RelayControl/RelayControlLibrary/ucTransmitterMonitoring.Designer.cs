@@ -94,9 +94,6 @@ namespace RelayControlLibrary
             this.textBoxVnB = new System.Windows.Forms.TextBox();
             this.groupBoxPowerDirectionalFlow = new System.Windows.Forms.GroupBox();
             this.textBoxPowerDirectionalFlow = new System.Windows.Forms.TextBox();
-            this.groupBoxLRSwitchMadisonMonitoring = new System.Windows.Forms.GroupBox();
-            this.textBoxMadisonLockOutStatusMonitoring = new System.Windows.Forms.TextBox();
-            this.labelMadisonSwitchMonitoring = new System.Windows.Forms.Label();
             this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
             this.label64 = new System.Windows.Forms.Label();
             this.textBoxTransmitterSN = new System.Windows.Forms.TextBox();
@@ -208,7 +205,6 @@ namespace RelayControlLibrary
             this.textBoxCa = new System.Windows.Forms.TextBox();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
-            this.groupBoxLRSwitchMadisonMonitoring.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
             this.groupBoxAnalog2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.myThermometerA2)).BeginInit();
@@ -391,33 +387,6 @@ namespace RelayControlLibrary
             this.textBoxPowerDirectionalFlow.TabStop = false;
             this.textBoxPowerDirectionalFlow.Tag = "";
             this.textBoxPowerDirectionalFlow.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // groupBoxLRSwitchMadisonMonitoring
-            // 
-            this.groupBoxLRSwitchMadisonMonitoring.Controls.Add(this.textBoxMadisonLockOutStatusMonitoring);
-            this.groupBoxLRSwitchMadisonMonitoring.Controls.Add(this.labelMadisonSwitchMonitoring);
-            this.groupBoxLRSwitchMadisonMonitoring.Location = new System.Drawing.Point(741, 3);
-            this.groupBoxLRSwitchMadisonMonitoring.Name = "groupBoxLRSwitchMadisonMonitoring";
-            this.groupBoxLRSwitchMadisonMonitoring.Size = new System.Drawing.Size(234, 43);
-            this.groupBoxLRSwitchMadisonMonitoring.TabIndex = 86;
-            this.groupBoxLRSwitchMadisonMonitoring.TabStop = false;
-            this.groupBoxLRSwitchMadisonMonitoring.Text = "Remote Command Lockout";
-            // 
-            // textBoxMadisonLockOutStatusMonitoring
-            // 
-            this.textBoxMadisonLockOutStatusMonitoring.Location = new System.Drawing.Point(129, 15);
-            this.textBoxMadisonLockOutStatusMonitoring.Name = "textBoxMadisonLockOutStatusMonitoring";
-            this.textBoxMadisonLockOutStatusMonitoring.Size = new System.Drawing.Size(100, 20);
-            this.textBoxMadisonLockOutStatusMonitoring.TabIndex = 86;
-            // 
-            // labelMadisonSwitchMonitoring
-            // 
-            this.labelMadisonSwitchMonitoring.AutoSize = true;
-            this.labelMadisonSwitchMonitoring.Location = new System.Drawing.Point(5, 19);
-            this.labelMadisonSwitchMonitoring.Name = "labelMadisonSwitchMonitoring";
-            this.labelMadisonSwitchMonitoring.Size = new System.Drawing.Size(122, 13);
-            this.labelMadisonSwitchMonitoring.TabIndex = 85;
-            this.labelMadisonSwitchMonitoring.Text = "Remote Lockout Status:";
             // 
             // groupBoxGeneralSettings
             // 
@@ -2678,7 +2647,6 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBoxLRSwitchMadisonMonitoring);
             this.Controls.Add(this.groupBoxAnalogFlagValues);
             this.Controls.Add(this.groupBoxVoltageReadings);
             this.Controls.Add(this.groupBoxPowerDirectionalFlow);
@@ -2700,8 +2668,6 @@ namespace RelayControlLibrary
             this.groupBoxVoltageReadings.PerformLayout();
             this.groupBoxPowerDirectionalFlow.ResumeLayout(false);
             this.groupBoxPowerDirectionalFlow.PerformLayout();
-            this.groupBoxLRSwitchMadisonMonitoring.ResumeLayout(false);
-            this.groupBoxLRSwitchMadisonMonitoring.PerformLayout();
             this.groupBoxGeneralSettings.ResumeLayout(false);
             this.groupBoxGeneralSettings.PerformLayout();
             this.groupBoxAnalog2.ResumeLayout(false);
@@ -2862,8 +2828,5 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxEa;
         private System.Windows.Forms.TextBox textBoxDa;
         private System.Windows.Forms.TextBox textBoxCa;
-        private System.Windows.Forms.Label labelMadisonSwitchMonitoring;
-        private System.Windows.Forms.GroupBox groupBoxLRSwitchMadisonMonitoring;
-        private System.Windows.Forms.TextBox textBoxMadisonLockOutStatusMonitoring;
     }
 }
