@@ -1161,7 +1161,7 @@ namespace RelayControl
             // 
             this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-3502, 6);
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-3901, 6);
             this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
             this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 13);
             this.labelLiveDataTriggerTime.TabIndex = 1;
@@ -1395,6 +1395,7 @@ namespace RelayControl
             this.groupBoxLRLockoutMain.TabIndex = 118;
             this.groupBoxLRLockoutMain.TabStop = false;
             this.groupBoxLRLockoutMain.Text = "Remote Command Lockout";
+            this.groupBoxLRLockoutMain.Visible = false;
             // 
             // textBoxLRLockoutStatusMain
             // 

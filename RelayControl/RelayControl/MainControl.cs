@@ -354,6 +354,40 @@ namespace RelayControl
                 this.ucCalibration2.CalibrationException += new ucCalibration.ExceptionHandler(ucCalibration2_CalibrationException);
                 this.radioButtonEvent0.Checked = true;
                 this.initializeToolTip();
+#if DG288_TESTFIXTURE_GUI
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                if(this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageControl))
+                    this.tabControlMain.TabPages.Remove(this.tabPageControl);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageEvents))
+                    this.tabControlMain.TabPages.Remove(this.tabPageEvents);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageFlightRecorder))
+                    this.tabControlMain.TabPages.Remove(this.tabPageFlightRecorder);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageMonitor))
+                    this.tabControlMain.TabPages.Remove(this.tabPageMonitor);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageEngineering))
+                    this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageArcFault))
+                    this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
+                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                this.dNPEnabledSavedVal = false;
+                this.ucRelayProgramming1.DNPRelay = false;
+
+                this.tabPageTransmitterMonitoring.Refresh();
+                this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
+                this.toolStripMenuItemAction.Visible = false;
+                this.acknowledgeToolStripMenuItem1.Visible = false;
+                this.toolsToolStripMenuItem.Visible = false;
+                this.loadConfigurationToolStripMenuItem.Visible = false;
+                this.enableAutoloadToolStripMenuItem.Checked = false;
+#endif
             }
             catch (Exception ex)
             {
@@ -414,7 +448,11 @@ namespace RelayControl
                 this.enableAll(true);
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
+#if !DG288_TESTFIXTURE_GUI
                 this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionNameDebug + " Debug";
+#elif DG288_TESTFIXTURE_GUI
+                this.Text = "Digital Grid Inc. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionNameDebug;
+#endif
                 this.ArcFaultEnabled = true;
                 this.Customer = Customers.DigitalGrid;
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
@@ -557,6 +595,8 @@ namespace RelayControl
             this.customerRevisionName = "Madison";
 #elif ATLANTA
             this.customerRevisionName = "Atlanta";
+#elif DG288_TESTFIXTURE_GUI
+            this.customerRevisionName = "DG-288 TestFixture";
 #else
             this.customerRevisionName = "";
 #endif
@@ -566,9 +606,9 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-            #if chicago ||  (Enmax && DNP) || ATLANTA
-                showCustomerNameDebug = true;
-            #endif
+#if chicago ||  (Enmax && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI
+            showCustomerNameDebug = true;
+#endif
 
             return showCustomerNameDebug;
         }
@@ -3245,7 +3285,7 @@ namespace RelayControl
 
         private void startMonitoringWBSettings()
         {
-            #if MADISON
+            #if MADISON || DG288_TESTFIXTURE_GUI
                 if (this.allEnabled)
                     this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
 
@@ -7965,7 +8005,9 @@ namespace RelayControl
                 {
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageArcFault))
                     {
+#if !DG288_TESTFIXTURE_GUI
                         this.tabControlMain.TabPages.Add(this.tabPageArcFault);
+#endif
                     }
                 }
                 else

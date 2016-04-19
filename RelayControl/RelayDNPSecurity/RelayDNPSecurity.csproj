@@ -157,6 +157,9 @@
     <OutputPath>bin\Release Madison\</OutputPath>
     <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Seattle Transmitter|AnyCPU'">
+    <OutputPath>bin\DG-288 TestFixture\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\..\..\master-processor\BouncyCastle.Crypto.dll</HintPath>
