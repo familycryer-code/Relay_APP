@@ -74,6 +74,13 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusH.Visible = false;
 #endif
 
+#if DG288_TESTFIXTURE_GUI
+            groupBoxCurrentReadings.Visible = false;
+            groupBox17.Visible = false;
+            groupBoxVoltageReadings.Visible = false;
+            this.listBoxA1SensorSelect.SelectedIndex = 3;
+            this.listBoxA2SensorSelect.SelectedIndex = 3;
+#endif
             this.checkBoxFrequenceBlue.Visible = false;
             this.checkBoxFrequencyGreen.Visible = false;
             this.checkBoxFrequencyRed.Visible = false;
@@ -116,7 +123,7 @@ namespace RelayControlLibrary
             get { return this.customer; }
             set
             {
-                if(value != this.customer)
+                if (value != this.customer)
                 {
                     this.customer = value;
                     this.setCustomer();
@@ -126,7 +133,7 @@ namespace RelayControlLibrary
 
         private void setCustomer()
         {
-            if(this.GEEnabled)
+            if (this.GEEnabled)
             {
 #if !DEBUG
                 this.labelVtA.Visible = false;
@@ -166,7 +173,7 @@ namespace RelayControlLibrary
             set
             {
                 this.transmitterMonitoring = value;
-                if(value)
+                if (value)
                     this.startTransmitterMonitoring();
                 else
                     this.pauseTransmitterMonitoring();
@@ -334,7 +341,7 @@ namespace RelayControlLibrary
 
         public void SetAll(byte[] bytePacket)
         {
-            if(this.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 bytePacketCallback bPCB = new bytePacketCallback(setAll);
                 this.Invoke(bPCB, new object[] { bytePacket });
@@ -342,12 +349,12 @@ namespace RelayControlLibrary
             else
             {
                 this.setAll(bytePacket);
-            }        
+            }
         }
 
         private void setAll(byte[] bytePacket)
         {
-            int localTemp, powerPercent, monByteLength=0;
+            int localTemp, powerPercent, monByteLength = 0;
 
             //TransmitterPower
             localTemp = bytePacket[1];
@@ -498,7 +505,7 @@ namespace RelayControlLibrary
         private void enableMonitoring()
         {
             TransmitterMonitoringEventArgs tMEA = new TransmitterMonitoringEventArgs(true);
-            if(MonitoringStateChange != null)
+            if (MonitoringStateChange != null)
                 MonitoringStateChange(this, tMEA);
         }
 
@@ -813,7 +820,7 @@ namespace RelayControlLibrary
                         this.graphingValues.Tables[0].Rows.RemoveAt(0);
                     this.workingRow = this.graphingValues.Tables[0].Rows.Add();
 #if !DEBUG
-                    if(!this.GEEnabled)
+                    if (!this.GEEnabled)
 #endif
                     {
                         this.textBoxVtA.Text = voltageRMSTemp.ToString("0.00");
@@ -825,7 +832,7 @@ namespace RelayControlLibrary
                     if (!this.firstDataSeen)
                         break;
 #if !DEBUG
-                    if(!this.GEEnabled)
+                    if (!this.GEEnabled)
 #endif
                     {
                         this.textBoxVtB.Text = voltageRMSTemp.ToString("0.00");
@@ -836,7 +843,7 @@ namespace RelayControlLibrary
                     if (!this.firstDataSeen)
                         break;
 #if !DEBUG
-                    if(!this.GEEnabled)
+                    if (!this.GEEnabled)
 #endif
                     {
                         this.textBoxVtC.Text = voltageRMSTemp.ToString("0.00");
