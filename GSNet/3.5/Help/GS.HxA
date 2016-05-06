@@ -1,0 +1,7 @@
+﻿<?xml version ="1.0"?>
+<HelpAttributes DTDVersion="1.0">
+  <!-- Insert Attributes here -->
+  <AttName Name="DocSet" Display="Yes" UIString="DocSet" AttType="Enum">
+    <AttVal Name="GSNet" Display="Yes" UIString="Graphics Server" />
+  </AttName>
+</HelpAttributes>

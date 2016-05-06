@@ -1,0 +1,19 @@
+Graphics Server .NET v3.5 Readme
+-------------------------------------
+
+Thank you for using Graphics Server .NET 3.5. We've added new features including different symbols in a single series, marker labels for 3D charts, tooltips for Windows Forms, minor grid lines, and more.
+
+Please contact Support@GraphicsServer.com if you have questions about using the product, or contact Sales@GraphicsServer.com for purchasing questions.
+
+For help, you can go to the Graphics Server help inside Visual Studio (Visual Studio -> Help menu -> Contents -> Graphics Server), and / or you can view our Compiled HTML help file "Grahics Server .Net.chm" found in the "Help" subfolder of where you installed Graphics Server .NET (i.e. Program Files\Graphics Server .NET\3.5\Help).
+
+For a list of all the new features & enhancements in Graphics Server 3.5 please see the Word DOC:
+Graphics Server .NET Version 3.5 Features.DOC
+
+Graphics Server .NET 3.5 is compatible with Visual Studio .NET (2002), Visual Studio .NET 2003, Visual Studio .NET 2005, and Visual Studio Express versions.
+
+This product is provided under the standard Graphics Server licensing terms, agreed to during the installation, and is limited to use by one developer.
+
+We hope that you enjoy using the product,
+
+ - The Graphics Server Technologies Team
