@@ -606,7 +606,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if chicago ||  (Enmax && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI
+#if chicago ||  (Enmax && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON
             showCustomerNameDebug = true;
 #endif
 
