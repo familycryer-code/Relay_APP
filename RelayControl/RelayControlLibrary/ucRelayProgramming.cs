@@ -757,7 +757,7 @@ namespace RelayControlLibrary
                 {
                     RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
-                    rPEA.Command = RelayPorgrammingSendCommands.SaveSettings;
+                    rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
 
                     this.onSend(rPEA);
                     
@@ -812,7 +812,7 @@ namespace RelayControlLibrary
             if (this.TransmitterPacket != null || this.manualReload)
             {
                 rPEA.BytesToSend = this.TransmitterPacket;
-                rPEA.Command = RelayPorgrammingSendCommands.TransmitterSettings;
+                rPEA.Command = RelayProgrammingSendCommands.TransmitterSettings;
 
                 if (this.TransmitterPacket != null)
                     this.onSend(rPEA);
@@ -963,7 +963,7 @@ namespace RelayControlLibrary
         private void sendNextRelayPacket()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
 
             if (this.State == RelayProgrammingStates.LoadingRelayCode)
             {
@@ -1042,7 +1042,7 @@ namespace RelayControlLibrary
         private void sendNextBootLoaderPacket()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
 
             this.failCount = 0;
 
@@ -1077,7 +1077,7 @@ namespace RelayControlLibrary
         private void sendNextMasterPacket()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
             
             this.failCount = 0;
 
@@ -1158,7 +1158,7 @@ namespace RelayControlLibrary
         private void sendNextFPGAPacket()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
 
             try
             {
@@ -1355,7 +1355,7 @@ namespace RelayControlLibrary
         private void requestAll()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RequestAll;
+            rPEA.Command = RelayProgrammingSendCommands.RequestAll;
             // Delay put in so I don't send before processor is ready.
             Thread.Sleep(2000);
 
@@ -1369,7 +1369,7 @@ namespace RelayControlLibrary
             this.enableButtons(true);
             this.programmingForm.Hide();
             
-            rPEA.Command = RelayPorgrammingSendCommands.RestartProgram;
+            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
           
             this.onSend(rPEA);
 
@@ -1387,7 +1387,7 @@ namespace RelayControlLibrary
 
             this.enableButtons(true);
 
-            rPEA.Command = RelayPorgrammingSendCommands.RestartProgram;
+            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
             this.onSend(rPEA);
         }
 
@@ -1519,9 +1519,9 @@ namespace RelayControlLibrary
                 return;
 
             if (!this.useDefaultSettings)
-                rPEA.Command = RelayPorgrammingSendCommands.RecallSavedSettings;
+                rPEA.Command = RelayProgrammingSendCommands.RecallSavedSettings;
             else
-                rPEA.Command = RelayPorgrammingSendCommands.RestoreDefaults;
+                rPEA.Command = RelayProgrammingSendCommands.RestoreDefaults;
 
             this.onSend(rPEA);
         }
@@ -2098,7 +2098,7 @@ namespace RelayControlLibrary
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
 
             rPEA.BytesToSend = new byte[3];
 
@@ -2362,7 +2362,7 @@ namespace RelayControlLibrary
         private void sendRelayReset()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[3];
 
             rPEA.BytesToSend[0] = (byte)'B';
@@ -2375,7 +2375,7 @@ namespace RelayControlLibrary
         private void sendReset()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayPorgrammingSendCommands.RawData;
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[3];
 
             rPEA.BytesToSend[0] = (byte)'b';
@@ -2837,7 +2837,7 @@ namespace RelayControlLibrary
 
     }
 
-    public enum RelayPorgrammingSendCommands
+    public enum RelayProgrammingSendCommands
     {
         RawData,
         RestartProgram,
@@ -2860,7 +2860,7 @@ namespace RelayControlLibrary
 
         public byte[] BytesToSend;
 
-        public RelayPorgrammingSendCommands Command;
+        public RelayProgrammingSendCommands Command;
     }
 
     public enum RelayProgrammingStates

@@ -238,6 +238,8 @@
     <OutputPath>bin\Debug Enmax DNP PLC\</OutputPath>
     <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax PLC Only|AnyCPU'">
     <OutputPath>bin\Release Enmax PLC Only\</OutputPath>
@@ -278,7 +280,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
     <OutputPath>bin\Debug Madison\</OutputPath>
-	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;MADISON</DefineConstants>
   </PropertyGroup>
   <ItemGroup>

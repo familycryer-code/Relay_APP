@@ -1394,7 +1394,7 @@ namespace RelayControl
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
         private bool loadingNewCode = false;
-        private RelayPorgrammingSendCommands currentReprogramState = RelayPorgrammingSendCommands.RestartProgram;
+        private RelayProgrammingSendCommands currentReprogramState = RelayProgrammingSendCommands.RestartProgram;
 
         private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
         {
@@ -1402,10 +1402,10 @@ namespace RelayControl
 
             switch (rPEA.Command)
             {
-                case RelayPorgrammingSendCommands.RequestAll:
+                case RelayProgrammingSendCommands.RequestAll:
                     this.requestAllData();
                     break;
-                case RelayPorgrammingSendCommands.RestartProgram:
+                case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     this.pauseMonitoring = false;
@@ -1415,18 +1415,18 @@ namespace RelayControl
                     this.timerRegisterPolling.Start();
                     this.allEnabled = true;
                     break;
-                case RelayPorgrammingSendCommands.SaveSettings:
+                case RelayProgrammingSendCommands.SaveSettings:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.getAllSaveStates(this.reprogrammingTempSettings);
                     break;
-                case RelayPorgrammingSendCommands.TransmitterSettings:
+                case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
-                case RelayPorgrammingSendCommands.QueitModeEnable:
+                case RelayProgrammingSendCommands.QueitModeEnable:
                     this.quietMode = true;
                     break;
-                case RelayPorgrammingSendCommands.RawData:
+                case RelayProgrammingSendCommands.RawData:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.enableAll(false);
                     this.toolStripStatusLabelRelayDisconnected.Visible = false;
@@ -1435,18 +1435,18 @@ namespace RelayControl
                     this.pauseMonitoring = true;
                     this.sendPacket(rPEA.BytesToSend);
                     break;
-                case RelayPorgrammingSendCommands.RecallSavedSettings:
+                case RelayProgrammingSendCommands.RecallSavedSettings:
                     // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
                     this.ucSafeService1.SetDefaults();
                     ////
                     this.setAllValues(this.reprogrammingTempSettings);
                     this.sendAllParameters();
                     break;
-                case RelayPorgrammingSendCommands.DisableGERelayFix:
+                case RelayProgrammingSendCommands.DisableGERelayFix:
                     this.ucTransmitter1.GEEnabled = false;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
-                case RelayPorgrammingSendCommands.EnableGERelayFix:
+                case RelayProgrammingSendCommands.EnableGERelayFix:
                     this.ucTransmitter1.GEEnabled = true;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
@@ -3034,18 +3034,16 @@ namespace RelayControl
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
 
-            if (this.currentReprogramState == RelayPorgrammingSendCommands.RequestAll)
+            if (this.currentReprogramState == RelayProgrammingSendCommands.RequestAll)
             {
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
-                    if (this.DNPEnabled)
-                        this.requestDNPSettings();
-                    else if (this.relayCodeRevisionNumber >= 20130111)
+                    if (this.relayCodeRevisionNumber >= 20130111)
                         this.requestSafeServiceSettings();
                     else
                         this.parametersFinishedLoading();
                 }
-                this.currentReprogramState = RelayPorgrammingSendCommands.Idle;
+                this.currentReprogramState = RelayProgrammingSendCommands.Idle;
                 return;
             }
 
@@ -3186,9 +3184,7 @@ namespace RelayControl
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
-                    if (this.DNPEnabled)
-                        this.requestDNPSettings();
-                    else if (this.relayCodeRevisionNumber >= 20130111)
+                    if (this.relayCodeRevisionNumber >= 20130111)
                         this.requestSafeServiceSettings();
                     else
                         this.parametersFinishedLoading();
@@ -4240,6 +4236,7 @@ namespace RelayControl
         //private string revision;
         private int masterRevision;
 
+        private string receivedMasterRevision;
         private void revisionReceived(byte[] bytePacket)
         {
             string revision;
@@ -4252,6 +4249,8 @@ namespace RelayControl
 
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
+
+                receivedMasterRevision = revision;
 
                 switch (this.customer)
                 {
@@ -5006,10 +5005,8 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-            if (this.relayCodeRevisionNumber >= 20110201 && this.DNPEnabled)
+            if (this.relayCodeRevisionNumber >= 20110201 && this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
                 this.requestDNPSettings();
-            //if (this.relayCodeRevisionNumber >= 20130326)
-            //    this.requestSafeServiceSettings();
 
             buttonRequestLowVotlageThres_Click(null, null);
 
