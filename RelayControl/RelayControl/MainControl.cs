@@ -7679,7 +7679,10 @@ namespace RelayControl
         {
             this.ucTransmitterMonitoring1.SetAll(bytePacket);
             this.ucTransmitter1.setMonitoringData(bytePacket);
-            this.setWBdataMain(bytePacket);
+#if MADISON
+            if (this.masterRevision >= 150521)
+                this.setWBdataMain(bytePacket);
+#endif
         }
 
         private void setWBdataMain(byte[] bytePacket)
