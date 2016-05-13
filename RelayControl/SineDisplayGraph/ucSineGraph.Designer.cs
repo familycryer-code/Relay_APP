@@ -31,9 +31,9 @@ namespace SineDisplayGraph
         {
             this.checkBoxPhAVn = new System.Windows.Forms.CheckBox();
             this.checkBoxPhAI = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelPhA = new System.Windows.Forms.Label();
+            this.labelPhB = new System.Windows.Forms.Label();
+            this.labelPhC = new System.Windows.Forms.Label();
             this.checkBoxPhBI = new System.Windows.Forms.CheckBox();
             this.checkBoxPhBVn = new System.Windows.Forms.CheckBox();
             this.checkBoxPhCI = new System.Windows.Forms.CheckBox();
@@ -41,7 +41,7 @@ namespace SineDisplayGraph
             this.checkBox10xCurrent = new System.Windows.Forms.CheckBox();
             this.labelVoltageMaxValue = new System.Windows.Forms.Label();
             this.labelCurrentMaxValue = new System.Windows.Forms.Label();
-            this.sineGraph1 = new SineGraph();
+            this.sineGraph1 = new RelayControlLibrary.SineGraph();
             this.SuspendLayout();
             // 
             // checkBoxPhAVn
@@ -66,32 +66,32 @@ namespace SineDisplayGraph
             this.checkBoxPhAI.UseVisualStyleBackColor = true;
             this.checkBoxPhAI.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged1);
             // 
-            // label1
+            // labelPhA
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(515, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(27, 13);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "PhA";
+            this.labelPhA.AutoSize = true;
+            this.labelPhA.Location = new System.Drawing.Point(515, 4);
+            this.labelPhA.Name = "labelPhA";
+            this.labelPhA.Size = new System.Drawing.Size(27, 13);
+            this.labelPhA.TabIndex = 10;
+            this.labelPhA.Text = "PhA";
             // 
-            // label2
+            // labelPhB
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(561, 4);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(27, 13);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "PhB";
+            this.labelPhB.AutoSize = true;
+            this.labelPhB.Location = new System.Drawing.Point(561, 4);
+            this.labelPhB.Name = "labelPhB";
+            this.labelPhB.Size = new System.Drawing.Size(27, 13);
+            this.labelPhB.TabIndex = 11;
+            this.labelPhB.Text = "PhB";
             // 
-            // label3
+            // labelPhC
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(606, 4);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(27, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "PhC";
+            this.labelPhC.AutoSize = true;
+            this.labelPhC.Location = new System.Drawing.Point(606, 4);
+            this.labelPhC.Name = "labelPhC";
+            this.labelPhC.Size = new System.Drawing.Size(27, 13);
+            this.labelPhC.TabIndex = 12;
+            this.labelPhC.Text = "PhC";
             // 
             // checkBoxPhBI
             // 
@@ -173,6 +173,7 @@ namespace SineDisplayGraph
             this.sineGraph1.Location = new System.Drawing.Point(3, 3);
             this.sineGraph1.Name = "sineGraph1";
             this.sineGraph1.PointsToDraw = 0;
+            this.sineGraph1.Protector277 = false;
             this.sineGraph1.ScrollEnabled = false;
             this.sineGraph1.Size = new System.Drawing.Size(455, 271);
             this.sineGraph1.TabIndex = 0;
@@ -188,9 +189,9 @@ namespace SineDisplayGraph
             this.Controls.Add(this.checkBoxPhCVn);
             this.Controls.Add(this.checkBoxPhBI);
             this.Controls.Add(this.checkBoxPhBVn);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelPhC);
+            this.Controls.Add(this.labelPhB);
+            this.Controls.Add(this.labelPhA);
             this.Controls.Add(this.checkBoxPhAI);
             this.Controls.Add(this.checkBoxPhAVn);
             this.Controls.Add(this.sineGraph1);
@@ -206,9 +207,9 @@ namespace SineDisplayGraph
         private SineGraph sineGraph1;
         private System.Windows.Forms.CheckBox checkBoxPhAVn;
         private System.Windows.Forms.CheckBox checkBoxPhAI;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelPhA;
+        private System.Windows.Forms.Label labelPhB;
+        private System.Windows.Forms.Label labelPhC;
         private System.Windows.Forms.CheckBox checkBoxPhBI;
         private System.Windows.Forms.CheckBox checkBoxPhBVn;
         private System.Windows.Forms.CheckBox checkBoxPhCI;

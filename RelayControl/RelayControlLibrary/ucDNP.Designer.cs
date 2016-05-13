@@ -31,7 +31,7 @@ namespace RelayControlLibrary
             this.labelLinkLayerConfirm = new System.Windows.Forms.Label();
             this.comboBoxLinkLayerConfirm = new System.Windows.Forms.ComboBox();
             this.comboBoxSelfAddress = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelSelfAddress = new System.Windows.Forms.Label();
             this.comboBoxUnsolResponse = new System.Windows.Forms.ComboBox();
             this.labelUnsolResponse = new System.Windows.Forms.Label();
             this.labelUnsolTimeout = new System.Windows.Forms.Label();
@@ -186,14 +186,14 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.TabIndex = 4;
             this.comboBoxSelfAddress.Text = "Disable";
             // 
-            // label1
+            // labelSelfAddress
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 49);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Self Address:";
+            this.labelSelfAddress.AutoSize = true;
+            this.labelSelfAddress.Location = new System.Drawing.Point(6, 49);
+            this.labelSelfAddress.Name = "labelSelfAddress";
+            this.labelSelfAddress.Size = new System.Drawing.Size(69, 13);
+            this.labelSelfAddress.TabIndex = 3;
+            this.labelSelfAddress.Text = "Self Address:";
             // 
             // comboBoxUnsolResponse
             // 
@@ -1219,7 +1219,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.Controls.Add(this.labelBaudRate);
             this.groupBoxDNPSettings.Controls.Add(this.labelLinkLayerConfirm);
             this.groupBoxDNPSettings.Controls.Add(this.comboBoxLinkLayerConfirm);
-            this.groupBoxDNPSettings.Controls.Add(this.label1);
+            this.groupBoxDNPSettings.Controls.Add(this.labelSelfAddress);
             this.groupBoxDNPSettings.Controls.Add(this.buttonSendAllDNPSettings);
             this.groupBoxDNPSettings.Controls.Add(this.comboBoxSelfAddress);
             this.groupBoxDNPSettings.Controls.Add(this.labelUnsolResponse);
@@ -1471,7 +1471,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelLinkLayerConfirm;
         private System.Windows.Forms.ComboBox comboBoxLinkLayerConfirm;
         private System.Windows.Forms.ComboBox comboBoxSelfAddress;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelSelfAddress;
         private System.Windows.Forms.ComboBox comboBoxUnsolResponse;
         private System.Windows.Forms.Label labelUnsolResponse;
         private System.Windows.Forms.Label labelUnsolTimeout;
