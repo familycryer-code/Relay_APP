@@ -8,17 +8,12 @@ using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
-    public partial class ucDNPMemphisAnalog : UserControl
+    public partial class ucDNPMemphisAnalog : ucDNPPointSuperClass
     {
         public ucDNPMemphisAnalog()
         {
             InitializeComponent();
         }
-
-
-        private uint pointNumber = 0;
-        private string pointName = "";
-        private bool signed = false;
 
         public uint PointNumber
         {

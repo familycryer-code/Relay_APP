@@ -8,16 +8,12 @@ using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
-    public partial class ucDNPDigitalGridAnalogIn : UserControl
+    public partial class ucDNPDigitalGridAnalogIn : ucDNPPointSuperClass
     {
         public ucDNPDigitalGridAnalogIn()
         {
             InitializeComponent();
         }
-
-        private uint pointNumber = 0;
-        private string pointName = "";
-        private bool signed = false;
         
         public bool PointEnabled
         {

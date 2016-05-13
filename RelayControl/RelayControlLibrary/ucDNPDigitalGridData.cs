@@ -26,6 +26,9 @@ namespace RelayControlLibrary
 
         }
 
+        public delegate void DNPPointChangedHandlder(object o, DNPPointEventArgs eA);
+        public event DNPPointChangedHandlder PointChanged;
+
         public uint RelayMasterRevision
         {
             set
@@ -148,6 +151,7 @@ namespace RelayControlLibrary
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
                 workingBox.EventEnableVisible = true;
+                workingBox.PointChanged += dNPPoint_PointChanged;
 
                 this.addBinaryBox(workingBox, this.tabPageBinaryInputs);
 
@@ -157,6 +161,14 @@ namespace RelayControlLibrary
             }
 
             int j = this.tabPageBinaryInputs.Controls.Count;
+        }
+
+        private void dNPPoint_PointChanged(object o, DNPPointEventArgs dPEA)
+        {
+            if(this.PointChanged != null)
+            {
+                this.PointChanged(this, dPEA);
+            }
         }
 
         private void initializeBinaryOutputs()
@@ -212,6 +224,7 @@ namespace RelayControlLibrary
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
                 workingBox.EventEnableVisible = false;
+                workingBox.PointChanged += dNPPoint_PointChanged;
 
                 this.addBinaryBox(workingBox, this.tabPageBinaryOuputs);
 
@@ -332,6 +345,7 @@ namespace RelayControlLibrary
                 workingBox.PointNumber = i;
                 workingBox.PointName = aPD.Name;
                 workingBox.Signed = aPD.Signed;
+                workingBox.PointChanged += dNPPoint_PointChanged;
 
                 if (i < 50)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
@@ -386,7 +400,7 @@ namespace RelayControlLibrary
                 foreach (AnalogPointDefinition aPD in this.analogOutputs)
                 {
 
-                    ucDNPMemphisAnalog workingBox = new ucDNPMemphisAnalog();
+                    ucDNPDigitalGridAnalogOut workingBox = new ucDNPDigitalGridAnalogOut();
 
                     workingBox.PointNumber = i;
                     workingBox.PointName = aPD.Name;
@@ -910,5 +924,15 @@ namespace RelayControlLibrary
             if (this.Send != null)
                 this.Send(this, sEA);
         }
+    }
+
+    public class DNPPointEventArgs : EventArgs
+    {
+        public DNPPointEventArgs(bool eventState)
+        {
+            this.EventState = eventState;
+        }
+
+        public bool EventState = false;
     }
 }

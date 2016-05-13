@@ -160,7 +160,7 @@ namespace RelayControl
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
                             this.dNPDigitalGridData.Location = new Point(0, 0);
                             this.dNPDigitalGridData.Send += new ucDNPDigitalGridData.DigitalGridSendEventHandler(ucMemphisDNPData1_Send);
-
+                            this.dNPDigitalGridData.PointChanged += DNPDigitalGridData_PointChanged;
                             this.dNPDigitalGridData.Show();
                         }
 
@@ -3050,6 +3050,7 @@ namespace RelayControl
             timerResponseTimeOut.Enabled = false;
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
+
 
             for (int i = 0; i < settings.Length; ++i)
             {
@@ -8089,12 +8090,23 @@ namespace RelayControl
             this.enableDNPMonitoring(!this.requestingDNPData);
         }
 
+        private void DNPDigitalGridData_PointChanged(object o, DNPPointEventArgs eA)
+        {
+            this.enableDNPMonitoring(false);
+        }
+
         private void enableDNPMonitoring(bool val)
-        { 
-            if(val)
+        {
+            if (val)
+            {
                 this.buttonRequestDNPData.Text = "Stop Requesting Data";
+                this.buttonRequestDNPData.BackColor = Color.Red;
+            }
             else
+            {
                 this.buttonRequestDNPData.Text = "Request DNP Data";
+                this.buttonRequestDNPData.BackColor = Color.Green;
+            }
 
             this.requestingDNPData = val;
         }
