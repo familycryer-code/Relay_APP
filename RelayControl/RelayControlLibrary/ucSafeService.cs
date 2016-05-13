@@ -28,11 +28,25 @@ namespace RelayControlLibrary
 
         public bool EnableSafeService
         {
-            get { return this.checkBoxEnabled.Checked; }
-            set {
-                this.checkBoxEnabled.Checked = value;
+            set{
+                this.changeEnableState(value);
             }
         }
+
+        private void changeEnableState(bool value)
+        {
+            if (value)
+            {
+                this.labelCurrentlyEnabled.BackColor = Color.LightBlue;
+                this.labelCurrentlyEnabled.Text = "Enabled";
+            }
+            else
+            {
+                this.labelCurrentlyEnabled.BackColor = Color.White;
+                this.labelCurrentlyEnabled.Text = "Disabled";
+            }
+        }
+
         public bool LoadingNewCode
         {
             get { return this.loadingNewCode; }
