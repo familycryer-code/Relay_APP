@@ -597,6 +597,8 @@ namespace RelayControl
             this.customerRevisionName = "Atlanta";
 #elif DG288_TESTFIXTURE_GUI
             this.customerRevisionName = "DG-288 TestFixture";
+#elif SMUD
+            this.customerRevisionName = "SMUD";
 #else
             this.customerRevisionName = "";
 #endif
