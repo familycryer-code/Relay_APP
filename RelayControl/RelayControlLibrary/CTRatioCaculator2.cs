@@ -90,6 +90,7 @@ namespace RelayControlLibrary
             if(this.radioButtonKVA2800.Checked) return 2800f;
             if(this.radioButtonKVA300.Checked) return 300f;
             if(this.radioButtonKVA3000.Checked) return 3000f;
+            if(this.radioButtonKVA3750.Checked) return 3750f;
             if(this.radioButtonKVA450.Checked) return 450f;
             if(this.radioButtonKVA500.Checked) return 500f;
             if(this.radioButtonKVA560.Checked) return 560f;
@@ -118,7 +119,7 @@ namespace RelayControlLibrary
 
         private void buttonCalc2Apply_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(RelayControlLibrary.Calc2Data.Calc2DataInstance.get_CTCalc2Value()) >= 80 &&
+            if (Convert.ToInt32(RelayControlLibrary.Calc2Data.Calc2DataInstance.get_CTCalc2Value()) >= 59 &&
                     Convert.ToInt32(RelayControlLibrary.Calc2Data.Calc2DataInstance.get_CTCalc2Value()) <= 335)
             {
                 buttonCalc2Apply.Enabled = true;
@@ -129,7 +130,7 @@ namespace RelayControlLibrary
             else
             {
                 buttonCalc2Apply.Enabled = false;
-                textBoxValueStatus.Text = "Value Must be between 80 and 335!";
+                textBoxValueStatus.Text = "Value Must be between 60 and 335!";
             }
         }
     }

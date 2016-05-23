@@ -65,6 +65,7 @@ namespace RelayControl
             this.radioButtonSec125 = new System.Windows.Forms.RadioButton();
             this.labelCTRatioValue = new System.Windows.Forms.Label();
             this.textBoxCTRatioValue = new System.Windows.Forms.TextBox();
+            this.radioButtonKVA3750 = new System.Windows.Forms.RadioButton();
             this.groupBoxTransformerKVASize.SuspendLayout();
             this.groupBoxCTSize.SuspendLayout();
             this.groupBoxSecondaryVoltage.SuspendLayout();
@@ -72,6 +73,7 @@ namespace RelayControl
             // 
             // groupBoxTransformerKVASize
             // 
+            this.groupBoxTransformerKVASize.Controls.Add(this.radioButtonKVA3750);
             this.groupBoxTransformerKVASize.Controls.Add(this.radioButtonKVA3000);
             this.groupBoxTransformerKVASize.Controls.Add(this.radioButtonKVA2800);
             this.groupBoxTransformerKVASize.Controls.Add(this.radioButtonKVA2500);
@@ -89,7 +91,7 @@ namespace RelayControl
             this.groupBoxTransformerKVASize.Controls.Add(this.radioButtonKVA150);
             this.groupBoxTransformerKVASize.Location = new System.Drawing.Point(13, 13);
             this.groupBoxTransformerKVASize.Name = "groupBoxTransformerKVASize";
-            this.groupBoxTransformerKVASize.Size = new System.Drawing.Size(146, 378);
+            this.groupBoxTransformerKVASize.Size = new System.Drawing.Size(146, 397);
             this.groupBoxTransformerKVASize.TabIndex = 0;
             this.groupBoxTransformerKVASize.TabStop = false;
             this.groupBoxTransformerKVASize.Text = "Transformer KVA Size:";
@@ -448,7 +450,7 @@ namespace RelayControl
             this.groupBoxSecondaryVoltage.Controls.Add(this.radioButtonSec125);
             this.groupBoxSecondaryVoltage.Location = new System.Drawing.Point(165, 276);
             this.groupBoxSecondaryVoltage.Name = "groupBoxSecondaryVoltage";
-            this.groupBoxSecondaryVoltage.Size = new System.Drawing.Size(176, 115);
+            this.groupBoxSecondaryVoltage.Size = new System.Drawing.Size(176, 134);
             this.groupBoxSecondaryVoltage.TabIndex = 2;
             this.groupBoxSecondaryVoltage.TabStop = false;
             this.groupBoxSecondaryVoltage.Text = "Secondary Voltage:";
@@ -456,7 +458,7 @@ namespace RelayControl
             // radioButtonSec347
             // 
             this.radioButtonSec347.AutoSize = true;
-            this.radioButtonSec347.Location = new System.Drawing.Point(25, 96);
+            this.radioButtonSec347.Location = new System.Drawing.Point(25, 104);
             this.radioButtonSec347.Name = "radioButtonSec347";
             this.radioButtonSec347.Size = new System.Drawing.Size(66, 17);
             this.radioButtonSec347.TabIndex = 31;
@@ -468,7 +470,7 @@ namespace RelayControl
             // radioButtonSec265
             // 
             this.radioButtonSec265.AutoSize = true;
-            this.radioButtonSec265.Location = new System.Drawing.Point(25, 56);
+            this.radioButtonSec265.Location = new System.Drawing.Point(25, 64);
             this.radioButtonSec265.Name = "radioButtonSec265";
             this.radioButtonSec265.Size = new System.Drawing.Size(66, 17);
             this.radioButtonSec265.TabIndex = 29;
@@ -480,7 +482,7 @@ namespace RelayControl
             // radioButtonSec277
             // 
             this.radioButtonSec277.AutoSize = true;
-            this.radioButtonSec277.Location = new System.Drawing.Point(25, 76);
+            this.radioButtonSec277.Location = new System.Drawing.Point(25, 84);
             this.radioButtonSec277.Name = "radioButtonSec277";
             this.radioButtonSec277.Size = new System.Drawing.Size(66, 17);
             this.radioButtonSec277.TabIndex = 30;
@@ -492,7 +494,7 @@ namespace RelayControl
             // radioButtonSec120
             // 
             this.radioButtonSec120.AutoSize = true;
-            this.radioButtonSec120.Location = new System.Drawing.Point(25, 16);
+            this.radioButtonSec120.Location = new System.Drawing.Point(25, 24);
             this.radioButtonSec120.Name = "radioButtonSec120";
             this.radioButtonSec120.Size = new System.Drawing.Size(66, 17);
             this.radioButtonSec120.TabIndex = 27;
@@ -504,7 +506,7 @@ namespace RelayControl
             // radioButtonSec125
             // 
             this.radioButtonSec125.AutoSize = true;
-            this.radioButtonSec125.Location = new System.Drawing.Point(25, 36);
+            this.radioButtonSec125.Location = new System.Drawing.Point(25, 44);
             this.radioButtonSec125.Name = "radioButtonSec125";
             this.radioButtonSec125.Size = new System.Drawing.Size(66, 17);
             this.radioButtonSec125.TabIndex = 28;
@@ -516,7 +518,7 @@ namespace RelayControl
             // labelCTRatioValue
             // 
             this.labelCTRatioValue.AutoSize = true;
-            this.labelCTRatioValue.Location = new System.Drawing.Point(181, 404);
+            this.labelCTRatioValue.Location = new System.Drawing.Point(181, 416);
             this.labelCTRatioValue.Name = "labelCTRatioValue";
             this.labelCTRatioValue.Size = new System.Drawing.Size(82, 13);
             this.labelCTRatioValue.TabIndex = 3;
@@ -526,17 +528,28 @@ namespace RelayControl
             // 
             this.textBoxCTRatioValue.BackColor = System.Drawing.Color.LemonChiffon;
             this.textBoxCTRatioValue.ForeColor = System.Drawing.Color.Maroon;
-            this.textBoxCTRatioValue.Location = new System.Drawing.Point(269, 401);
+            this.textBoxCTRatioValue.Location = new System.Drawing.Point(269, 413);
             this.textBoxCTRatioValue.Name = "textBoxCTRatioValue";
             this.textBoxCTRatioValue.ReadOnly = true;
             this.textBoxCTRatioValue.Size = new System.Drawing.Size(72, 20);
             this.textBoxCTRatioValue.TabIndex = 4;
             // 
+            // radioButtonKVA3750
+            // 
+            this.radioButtonKVA3750.AutoSize = true;
+            this.radioButtonKVA3750.Location = new System.Drawing.Point(7, 377);
+            this.radioButtonKVA3750.Name = "radioButtonKVA3750";
+            this.radioButtonKVA3750.Size = new System.Drawing.Size(49, 17);
+            this.radioButtonKVA3750.TabIndex = 15;
+            this.radioButtonKVA3750.TabStop = true;
+            this.radioButtonKVA3750.Text = "3750";
+            this.radioButtonKVA3750.UseVisualStyleBackColor = true;
+            // 
             // CTRatioCaculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 431);
+            this.ClientSize = new System.Drawing.Size(354, 444);
             this.Controls.Add(this.textBoxCTRatioValue);
             this.Controls.Add(this.labelCTRatioValue);
             this.Controls.Add(this.groupBoxSecondaryVoltage);
@@ -596,5 +609,6 @@ namespace RelayControl
         private System.Windows.Forms.RadioButton radioButtonSec277;
         private System.Windows.Forms.RadioButton radioButtonSec120;
         private System.Windows.Forms.RadioButton radioButtonSec125;
+        private System.Windows.Forms.RadioButton radioButtonKVA3750;
     }
 }

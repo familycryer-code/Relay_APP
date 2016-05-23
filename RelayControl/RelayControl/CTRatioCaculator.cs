@@ -85,6 +85,7 @@ namespace RelayControl
             if(this.radioButtonKVA2800.Checked) return 2800f;
             if(this.radioButtonKVA300.Checked) return 300f;
             if(this.radioButtonKVA3000.Checked) return 3000f;
+            if(this.radioButtonKVA3750.Checked) return 3750f;
             if(this.radioButtonKVA450.Checked) return 450f;
             if(this.radioButtonKVA500.Checked) return 500f;
             if(this.radioButtonKVA560.Checked) return 560f;

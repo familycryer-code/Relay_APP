@@ -689,9 +689,9 @@ namespace RelayControlLibrary
             get { return this.tXCTRatio; }
             set
             {
-                if (value < 80 || value > 335)
+                if (value < 59 || value > 335)
                 {
-                    throw new Exception(value.ToString() + " is an invalid value for CT Ratio.  CT Ratio must be between 80 and 335");
+                    throw new Exception(value.ToString() + " is an invalid value for CT Ratio.  CT Ratio must be between 60 and 335");
                 }
                 else
                 {

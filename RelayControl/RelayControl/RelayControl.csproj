@@ -311,6 +311,9 @@
     </Compile>
     <Compile Include="Properties\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CTRatioCaculator.resx">
+      <DependentUpon>CTRatioCaculator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainControl.cs</DependentUpon>
