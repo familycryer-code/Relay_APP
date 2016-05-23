@@ -40,6 +40,7 @@ namespace RelayControlLibrary
             this.OutgoingCommands.Add(new OutgoingCommand(8, "Get Math Time", new byte[0]));
             this.OutgoingCommands.Add(new OutgoingCommand(12, "Send Params to Master", new byte[0]));
             this.OutgoingCommands.Add(new OutgoingCommand(13, "Request Params from Master", new byte[0]));
+            this.OutgoingCommands.Add(new OutgoingCommand(14, "Load Default Parms", new byte[0]));
 
             foreach (OutgoingCommand oC in this.OutgoingCommands)
             {

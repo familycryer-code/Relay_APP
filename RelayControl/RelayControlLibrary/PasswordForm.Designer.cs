@@ -32,7 +32,7 @@ namespace RelayControlLibrary
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOkay = new System.Windows.Forms.Button();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
             this.labelPanelTitle = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -43,7 +43,7 @@ namespace RelayControlLibrary
             this.panel1.Controls.Add(this.buttonCancel);
             this.panel1.Controls.Add(this.buttonOkay);
             this.panel1.Controls.Add(this.textBoxPassword);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.labelPassword);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(277, 92);
@@ -78,14 +78,14 @@ namespace RelayControlLibrary
             this.textBoxPassword.Size = new System.Drawing.Size(187, 20);
             this.textBoxPassword.TabIndex = 3;
             // 
-            // label1
+            // labelPassword
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Password:";
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Location = new System.Drawing.Point(9, 31);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(56, 13);
+            this.labelPassword.TabIndex = 2;
+            this.labelPassword.Text = "Password:";
             // 
             // labelPanelTitle
             // 
@@ -120,7 +120,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOkay;
         private System.Windows.Forms.TextBox textBoxPassword;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Label labelPanelTitle;
     }
 }

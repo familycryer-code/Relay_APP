@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE HelpCollection>
+<HelpCollection
+  DTDVersion="1.0"
+  Id=""
+  FileVersion="2.5.0.0"
+  LangId="1033"
+  Font=""
+  FontSize=""
+  Charset=""
+  Title="Graphics Server Collection"
+  Copyright="Graphics Server Technologies, L.P.">
+
+  <AttributeDef File="GS.HxA"/>
+
+  <TOCDef File="GS.HxT"/>
+
+  <KeywordIndexDef File="GSKLink.HxK"/>
+  <KeywordIndexDef File="GSALink.HxK"/>
+  <KeywordIndexDef File="GSFLink.HxK"/>
+  <KeywordIndexDef File="GSNamedUrl.HxK"/>
+
+  <ItemMoniker Name="!DefaultFullTextSearch" ProgId="HxDs.HxFullTextSearch" InitData=""/>
+  <ItemMoniker Name="!DefaultTOC" ProgId="HxDs.HxHierarchy" InitData=""/>
+  <ItemMoniker Name="!DefaultNamedUrlIndex" ProgId="HxDs.HxIndex" InitData="GSNamedURLs"/>
+  <ItemMoniker Name="!DefaultKeywordIndex" ProgId="HxDs.HxIndex" InitData="K"/>
+  <ItemMoniker Name="!DefaultAssociativeIndex" ProgId="HxDs.HxIndex" InitData="A"/>
+  <ItemMoniker Name="!DefaultContextWindowIndex" ProgId="HxDs.HxIndex" InitData="F"/>
+
+  <ToolData Name="MSVHWLogFile" Value="GS.log"/>
+  <ToolData Name="MSVHWLogLevel" Value="3"/>
+  <ToolData Name="MSVHWNamespace" Value="GS"/>
+  <ToolData Name="MSVHWUniqueID" Value="GS"/>
+</HelpCollection>

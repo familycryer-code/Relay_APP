@@ -28,19 +28,10 @@ namespace RelayControlLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelPointNumber = new System.Windows.Forms.Label();
             this.labelPointName = new System.Windows.Forms.Label();
             this.textBoxPointValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // labelPointNumber
-            // 
-            this.labelPointNumber.AutoSize = true;
-            this.labelPointNumber.Location = new System.Drawing.Point(3, 3);
-            this.labelPointNumber.Name = "labelPointNumber";
-            this.labelPointNumber.Size = new System.Drawing.Size(35, 13);
-            this.labelPointNumber.TabIndex = 0;
-            this.labelPointNumber.Text = "label1";
             // 
             // labelPointName
             // 
@@ -66,9 +57,8 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textBoxPointValue);
             this.Controls.Add(this.labelPointName);
-            this.Controls.Add(this.labelPointNumber);
+            this.Controls.Add(this.textBoxPointValue);
             this.Name = "ucDNPMemphisAnalog";
             this.Size = new System.Drawing.Size(346, 20);
             this.ResumeLayout(false);
@@ -78,7 +68,6 @@ namespace RelayControlLibrary
 
         #endregion
 
-        private System.Windows.Forms.Label labelPointNumber;
         private System.Windows.Forms.Label labelPointName;
         private System.Windows.Forms.TextBox textBoxPointValue;
     }

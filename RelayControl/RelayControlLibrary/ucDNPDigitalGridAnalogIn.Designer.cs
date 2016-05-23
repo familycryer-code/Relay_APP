@@ -28,30 +28,10 @@ namespace RelayControlLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelEventEnable = new System.Windows.Forms.Label();
-            this.checkBoxEventEnabled = new System.Windows.Forms.CheckBox();
             this.textBoxPointValue = new System.Windows.Forms.TextBox();
             this.labelPointName = new System.Windows.Forms.Label();
-            this.labelPointNumber = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // labelEventEnable
-            // 
-            this.labelEventEnable.AutoSize = true;
-            this.labelEventEnable.Location = new System.Drawing.Point(339, 3);
-            this.labelEventEnable.Name = "labelEventEnable";
-            this.labelEventEnable.Size = new System.Drawing.Size(74, 13);
-            this.labelEventEnable.TabIndex = 9;
-            this.labelEventEnable.Text = "Enable Event:";
-            // 
-            // checkBoxEventEnabled
-            // 
-            this.checkBoxEventEnabled.AutoSize = true;
-            this.checkBoxEventEnabled.Location = new System.Drawing.Point(419, 3);
-            this.checkBoxEventEnabled.Name = "checkBoxEventEnabled";
-            this.checkBoxEventEnabled.Size = new System.Drawing.Size(15, 14);
-            this.checkBoxEventEnabled.TabIndex = 8;
-            this.checkBoxEventEnabled.UseVisualStyleBackColor = true;
             // 
             // textBoxPointValue
             // 
@@ -72,15 +52,7 @@ namespace RelayControlLibrary
             this.labelPointName.Size = new System.Drawing.Size(35, 13);
             this.labelPointName.TabIndex = 11;
             this.labelPointName.Text = "label1";
-            // 
-            // labelPointNumber
-            // 
-            this.labelPointNumber.AutoSize = true;
-            this.labelPointNumber.Location = new System.Drawing.Point(7, 3);
-            this.labelPointNumber.Name = "labelPointNumber";
-            this.labelPointNumber.Size = new System.Drawing.Size(35, 13);
-            this.labelPointNumber.TabIndex = 10;
-            this.labelPointNumber.Text = "label1";
+            
             // 
             // ucDNPDigitalGridAnalogIn
             // 
@@ -88,9 +60,6 @@ namespace RelayControlLibrary
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBoxPointValue);
             this.Controls.Add(this.labelPointName);
-            this.Controls.Add(this.labelPointNumber);
-            this.Controls.Add(this.labelEventEnable);
-            this.Controls.Add(this.checkBoxEventEnabled);
             this.Name = "ucDNPDigitalGridAnalogIn";
             this.Size = new System.Drawing.Size(437, 21);
             this.ResumeLayout(false);
@@ -99,12 +68,7 @@ namespace RelayControlLibrary
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelEventEnable;
-        private System.Windows.Forms.CheckBox checkBoxEventEnabled;
         private System.Windows.Forms.TextBox textBoxPointValue;
         private System.Windows.Forms.Label labelPointName;
-        private System.Windows.Forms.Label labelPointNumber;
-
     }
 }

@@ -368,6 +368,18 @@
     <Compile Include="ucCSVConverter.Designer.cs">
       <DependentUpon>ucCSVConverter.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucDNPDigitalGridAnalogOut.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPDigitalGridAnalogOut.Designer.cs">
+      <DependentUpon>ucDNPDigitalGridAnalogOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucDNPPointSuperClass.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucDNPPointSuperClass.Designer.cs">
+      <DependentUpon>ucDNPPointSuperClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucGeneralCommandTestValues.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -560,6 +572,9 @@
     <EmbeddedResource Include="ucCSVConverter.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ucCSVConverter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDNPPointSuperClass.resx">
+      <DependentUpon>ucDNPPointSuperClass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucGeneralCommandHandler.resx">
       <DependentUpon>ucGeneralCommandHandler.cs</DependentUpon>

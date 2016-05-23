@@ -49,7 +49,7 @@ namespace RelayControlLibrary
             this.labelSafeServiceEnable = new System.Windows.Forms.Label();
             this.buttonRequest = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
-            this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
+            this.labelCurrentlyEnabled = new System.Windows.Forms.Label();
             this.groupBoxSafeService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVoltageImbalance)).BeginInit();
@@ -60,7 +60,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxSafeService
             // 
-            this.groupBoxSafeService.Controls.Add(this.checkBoxEnabled);
+            this.groupBoxSafeService.Controls.Add(this.labelCurrentlyEnabled);
             this.groupBoxSafeService.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxSafeService.Controls.Add(this.domainUpDownDataViews);
             this.groupBoxSafeService.Controls.Add(this.label1);
@@ -323,15 +323,16 @@ namespace RelayControlLibrary
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
-            // checkBoxEnabled
+            // labelCurrentlyEnabled
             // 
-            this.checkBoxEnabled.AutoSize = true;
-            this.checkBoxEnabled.Location = new System.Drawing.Point(7, 67);
-            this.checkBoxEnabled.Name = "checkBoxEnabled";
-            this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
-            this.checkBoxEnabled.TabIndex = 21;
-            this.checkBoxEnabled.Text = "Enabled";
-            this.checkBoxEnabled.UseVisualStyleBackColor = true;
+            this.labelCurrentlyEnabled.AutoSize = true;
+            this.labelCurrentlyEnabled.BackColor = System.Drawing.Color.White;
+            this.labelCurrentlyEnabled.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelCurrentlyEnabled.Location = new System.Drawing.Point(8, 69);
+            this.labelCurrentlyEnabled.Name = "labelCurrentlyEnabled";
+            this.labelCurrentlyEnabled.Size = new System.Drawing.Size(50, 15);
+            this.labelCurrentlyEnabled.TabIndex = 21;
+            this.labelCurrentlyEnabled.Text = "Disabled";
             // 
             // ucSafeService
             // 
@@ -374,6 +375,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DomainUpDown domainUpDownDataViews;
         private System.Windows.Forms.Button buttonRestoreDefaults;
-        private System.Windows.Forms.CheckBox checkBoxEnabled;
+        private System.Windows.Forms.Label labelCurrentlyEnabled;
     }
 }

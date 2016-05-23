@@ -2367,12 +2367,13 @@ namespace RelayControl
             // 
             // buttonRequestDNPData
             // 
+            this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
             this.buttonRequestDNPData.Location = new System.Drawing.Point(859, 598);
             this.buttonRequestDNPData.Name = "buttonRequestDNPData";
             this.buttonRequestDNPData.Size = new System.Drawing.Size(124, 23);
             this.buttonRequestDNPData.TabIndex = 1;
             this.buttonRequestDNPData.Text = "Request DNP Data";
-            this.buttonRequestDNPData.UseVisualStyleBackColor = true;
+            this.buttonRequestDNPData.UseVisualStyleBackColor = false;
             this.buttonRequestDNPData.Click += new System.EventHandler(this.buttonRequestDNPData_Click);
             // 
             // tabPageDNPSecureAuth

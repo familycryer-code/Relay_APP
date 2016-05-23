@@ -8,18 +8,13 @@ using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
-    public partial class ucDNPMemphisBinary : UserControl
+    public partial class ucDNPMemphisBinary : ucDNPPointSuperClass
     {
         public ucDNPMemphisBinary()
         {
             InitializeComponent();
             this.checkBoxEventEnabled.Visible = false;
         }
-
-        private uint pointNumber = 0;
-        private string pointName = "";
-        private bool eventEnabled = false;
-        private bool eventEnableVisible = false;
 
         public uint PointNumber
         {
@@ -74,11 +69,6 @@ namespace RelayControlLibrary
             {
                 this.checkBoxPointName.Checked = value;
             }
-        }
-
-        private void checkBoxEventEnabled_CheckedChanged(object sender, EventArgs e)
-        {
-            this.eventEnabled = this.checkBoxEventEnabled.Checked;
         }
     }
 }
