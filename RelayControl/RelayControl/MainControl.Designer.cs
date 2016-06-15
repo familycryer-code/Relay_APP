@@ -228,6 +228,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.ucCSVConverterCSVFile2 = new RelayControlLibrary.ucCSVConverterCSVFile();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -559,6 +560,7 @@ namespace RelayControl
             // 
             // tabPageEngineering
             // 
+            this.tabPageEngineering.Controls.Add(this.ucCSVConverterCSVFile2);
             this.tabPageEngineering.Controls.Add(this.ucGeneralCommandHandler1);
             this.tabPageEngineering.Controls.Add(this.groupBoxTimeConvert);
             this.tabPageEngineering.Controls.Add(this.buttonToggleQuietMode);
@@ -1964,7 +1966,6 @@ namespace RelayControl
             // ucSafeService1
             // 
             this.ucSafeService1.CTRatio = 320;
-            this.ucSafeService1.EnableSafeService = false;
             this.ucSafeService1.LoadingNewCode = false;
             this.ucSafeService1.Location = new System.Drawing.Point(734, 4);
             this.ucSafeService1.Name = "ucSafeService1";
@@ -2413,6 +2414,13 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // ucCSVConverterCSVFile2
+            // 
+            this.ucCSVConverterCSVFile2.Location = new System.Drawing.Point(457, 249);
+            this.ucCSVConverterCSVFile2.Name = "ucCSVConverterCSVFile2";
+            this.ucCSVConverterCSVFile2.Size = new System.Drawing.Size(94, 84);
+            this.ucCSVConverterCSVFile2.TabIndex = 118;
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2677,6 +2685,7 @@ namespace RelayControl
         private System.Windows.Forms.GroupBox groupBoxLRLockoutMain;
         private System.Windows.Forms.TextBox textBoxLRLockoutStatusMain;
         private System.Windows.Forms.Label labelLRLockoutMain;
+        private RelayControlLibrary.ucCSVConverterCSVFile ucCSVConverterCSVFile2;
     }
 }
 

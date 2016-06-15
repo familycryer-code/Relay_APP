@@ -22,14 +22,13 @@ namespace RelayControlLibrary
         protected uint pointNumber = 0;
         protected string pointName = "";
         protected bool signed = false;
-        protected bool eventEnabled = false;
         protected bool eventEnableVisible = false;
 
         protected void checkBoxEventEnabled_Click(object sender, EventArgs e)
         {
             if (PointChanged != null)
             {
-                DNPPointEventArgs dPEA = new DNPPointEventArgs(this.eventEnabled);
+                DNPPointEventArgs dPEA = new DNPPointEventArgs(this.checkBoxEventEnabled.Checked);
                 this.PointChanged(this, dPEA);
             }
         }

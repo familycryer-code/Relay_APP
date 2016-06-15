@@ -36,10 +36,9 @@ namespace RelayControlLibrary
         }
         public bool EventEnabled
         {
-            get { return this.eventEnabled; }
+            get { return this.checkBoxEventEnabled.Checked; }
             set
             {
-                this.eventEnabled = value;
                 this.checkBoxEventEnabled.Checked = value;
             }
         }

@@ -7546,10 +7546,7 @@ namespace RelayControl
                 this.ucShortRange1.DisableMonitoring();
             }
 
-            if (this.tabControlMain.SelectedTab != this.tabPageDNPData)
-            {
-                this.enableDNPMonitoring(false);
-            }
+            this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
 
             this.phasorGraphTabSwitchCall = false; //deset so next time it does not think it was called from the phasorGraph
         }
@@ -8101,12 +8098,12 @@ namespace RelayControl
             if (val)
             {
                 this.buttonRequestDNPData.Text = "Stop Requesting Data";
-                this.buttonRequestDNPData.BackColor = Color.Red;
+                this.buttonRequestDNPData.BackColor = Color.Green;
             }
             else
             {
                 this.buttonRequestDNPData.Text = "Request DNP Data";
-                this.buttonRequestDNPData.BackColor = Color.Green;
+                this.buttonRequestDNPData.BackColor = Color.Red;
             }
 
             this.requestingDNPData = val;
