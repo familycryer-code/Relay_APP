@@ -384,6 +384,11 @@ namespace RelayControl
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.enableAutoloadToolStripMenuItem.Checked = false;
 #endif
+
+#if DOMINION && !DEBUG
+                this.loadConfigurationToolStripMenuItem.Visible = false;
+                this.enableAutoloadToolStripMenuItem.Checked = true;
+#endif
             }
             catch (Exception ex)
             {
