@@ -283,6 +283,11 @@
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;MADISON</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
+    <OutputPath>bin\Debug Atlanta\</OutputPath>
+	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">
       <HintPath>..\..\GSNet\3.5\Bin\GSNetWin.dll</HintPath>

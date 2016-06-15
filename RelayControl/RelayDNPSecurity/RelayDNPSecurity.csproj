@@ -163,6 +163,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
     <OutputPath>bin\Debug Madison\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
+    <OutputPath>bin\Debug Atlanta\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\..\..\master-processor\BouncyCastle.Crypto.dll</HintPath>

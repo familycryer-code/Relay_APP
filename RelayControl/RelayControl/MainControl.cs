@@ -273,11 +273,7 @@ namespace RelayControl
 #if ATLANTA
        this.groupBoxLowVoltThres.Visible = true;
 #else
-        #if DEBUG
-                this.groupBoxLowVoltThres.Visible = true;
-        #else
-                this.groupBoxLowVoltThres.Visible = false;
-        #endif
+       this.groupBoxLowVoltThres.Visible = false;
 #endif
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;

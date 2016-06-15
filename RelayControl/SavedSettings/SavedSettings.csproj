@@ -160,6 +160,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
     <OutputPath>bin\Debug Madison\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
+    <OutputPath>bin\Debug Atlanta\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

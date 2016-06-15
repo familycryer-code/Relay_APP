@@ -254,6 +254,10 @@
     <OutputPath>bin\Debug Madison\</OutputPath>
     <DefineConstants>TRACE;DEBUG;MADISON</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
+    <OutputPath>bin\Debug Atlanta\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls, Version=1.5.2.0, Culture=neutral, PublicKeyToken=5966291b8955e4bb">
       <SpecificVersion>False</SpecificVersion>

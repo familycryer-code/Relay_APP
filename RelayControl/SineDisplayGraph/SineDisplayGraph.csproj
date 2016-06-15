@@ -244,6 +244,10 @@
     <OutputPath>bin\Debug Madison\</OutputPath>
     <DefineConstants>TRACE;DEBUG;MADISON</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
+    <OutputPath>bin\Debug Atlanta\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
