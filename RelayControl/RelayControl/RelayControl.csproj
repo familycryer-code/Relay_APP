@@ -285,8 +285,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
     <OutputPath>bin\Debug Atlanta\</OutputPath>
-	<ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">

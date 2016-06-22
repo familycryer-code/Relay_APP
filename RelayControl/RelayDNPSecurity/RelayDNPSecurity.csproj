@@ -165,7 +165,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
     <OutputPath>bin\Debug Atlanta\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">

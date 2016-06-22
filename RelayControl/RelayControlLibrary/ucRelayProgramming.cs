@@ -44,8 +44,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
         private static UInt32 _masterCodeRevisionNumber = 160412;
-        private static UInt32 _masterDNPRevisionNumber = 160512;
-        private static UInt32 _relayCodeRevisionNumber = 20160317;
+        private static UInt32 _masterDNPRevisionNumber = 160621;
+        private static UInt32 _relayCodeRevisionNumber = 20160620;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -349,9 +349,13 @@ namespace RelayControlLibrary
                 regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
+                regular.MasterFileAtlantaDNPGE = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
+                regular.MasterFileAtlantaDNPWH = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP;
                 regular.MasterFileDNPPLC = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
                 regular.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                regular.RelayFileAtlantaWH = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
+                regular.RelayFileAtlantaGE = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
 
                 CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGridDNP));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
@@ -394,11 +398,15 @@ namespace RelayControlLibrary
             destination.FPGAFile = source.FPGAFile;
             destination.MasterFileGE = source.MasterFileGE;
             destination.MasterFileGEDNP = source.MasterFileGEDNP;
+            destination.MasterFileAtlantaDNPGE = source.MasterFileAtlantaDNPGE;
+            destination.MasterFileAtlantaDNPWH = source.MasterFileAtlantaDNPWH;
             destination.MasterFileDNPPLC = source.MasterFileDNPPLC;
             destination.MasterFileWH = source.MasterFileWH;
             destination.MasterFileWHDNP = source.MasterFileWHDNP;
             destination.RelayFileGE = source.RelayFileGE;
             destination.RelayFileWH = source.RelayFileWH;
+            destination.RelayFileAtlantaGE = source.RelayFileAtlantaGE;
+            destination.RelayFileAtlantaWH = source.RelayFileAtlantaWH;
         }
 
 
@@ -598,6 +606,39 @@ namespace RelayControlLibrary
             {
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
+
+#if ATLANTA && DNP
+            
+
+            if (this.GEEnabled)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
+                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
+                this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP;
+                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
+                this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
             }
 
             if (this.transmitterEnabled)
@@ -2928,8 +2969,12 @@ namespace RelayControlLibrary
             this.MasterFileGEDNP = cLF.MasterFileGEDNP;
             this.MasterFileWH = cLF.MasterFileWH;
             this.MasterFileWHDNP = cLF.MasterFileWHDNP;
+            this.MasterFileAtlantaDNPGE = cLF.MasterFileAtlantaDNPGE;
+            this.MasterFileAtlantaDNPWH = cLF.MasterFileAtlantaDNPWH;
             this.RelayFileGE = cLF.RelayFileGE;
             this.RelayFileWH = cLF.RelayFileWH;
+            this.RelayFileAtlantaWH = cLF.RelayFileAtlantaWH;
+            this.RelayFileAtlantaGE = cLF.RelayFileAtlantaGE; 
         }
 
         public Customers Customer = Customers.None;
@@ -2942,7 +2987,11 @@ namespace RelayControlLibrary
         public string MasterFileWHDNP;
         public string RelayFileWH;
         public string RelayFileGE;
+        public string RelayFileAtlantaWH;
+        public string RelayFileAtlantaGE;
         public string MasterFileDNPPLC;
+        public string MasterFileAtlantaDNPGE;
+        public string MasterFileAtlantaDNPWH;
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
     }
 }

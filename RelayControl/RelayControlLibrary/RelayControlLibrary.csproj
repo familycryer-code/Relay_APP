@@ -256,7 +256,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
     <OutputPath>bin\Debug Atlanta\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ATLANTA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls, Version=1.5.2.0, Culture=neutral, PublicKeyToken=5966291b8955e4bb">
@@ -667,6 +667,10 @@
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
     <Content Include="Resources\MasterProcessorChicago.S" />
+    <Content Include="Resources\MasterProcessor_Atlanta_DNP.S" />
+    <Content Include="Resources\MasterProcessor_Atlanta_DNP_GE.S" />
+    <Content Include="Resources\RelayProcessorAtlanta.S" />
+    <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />
     <None Include="Resources\MasterProcessor_with_DNP_GE.S" />
     <None Include="Resources\FPGAdata.rbf" />
