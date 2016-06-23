@@ -97,7 +97,7 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyRed.Checked = true;
             this.checkBoxFrequencyYellow.Checked = true;
 
-#if chicago
+#if chicago && !DG288_TESTFIXTURE_GUI
             this.textBoxGa.Visible = false;
             this.textBoxHa.Visible = false;
 

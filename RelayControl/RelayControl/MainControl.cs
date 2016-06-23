@@ -27,7 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
-        private const string revisionDate = "2016-06-22";
+        private const string revisionDate = "2016-06-23";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -377,11 +377,11 @@ namespace RelayControl
                 this.ucRelayProgramming1.DNPRelay = false;
 
                 this.tabPageTransmitterMonitoring.Refresh();
-                this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
+                //this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
                 this.toolStripMenuItemAction.Visible = false;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.toolsToolStripMenuItem.Visible = false;
-                this.loadConfigurationToolStripMenuItem.Visible = false;
+                //this.loadConfigurationToolStripMenuItem.Visible = false; //hide reprogramming for DG288_TESTFIXTURE_GUI
                 this.enableAutoloadToolStripMenuItem.Checked = false;
 #endif
 

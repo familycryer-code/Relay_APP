@@ -246,7 +246,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Seattle Transmitter|AnyCPU'">
     <OutputPath>bin\DG-288 TestFixture\</OutputPath>
-    <DefineConstants>DEBUG;DG288_TESTFIXTURE_GUI</DefineConstants>
+    <DefineConstants>DEBUG;DG288_TESTFIXTURE_GUI,chicago</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
