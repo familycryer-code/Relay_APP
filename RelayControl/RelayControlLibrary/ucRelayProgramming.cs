@@ -35,9 +35,9 @@ namespace RelayControlLibrary
             this.programmingForm = new formProgrammingProgess();
             this.programmingForm.FormClosed += programmingForm_FormClosed;
         }
-        
+
         // These need to be updated when new files are used
-#if DEBUG
+#if DEBUG && !DG288_TESTFIXTURE_GUI
         private static UInt32 _masterCodeRevisionNumber = 999999;
         private static UInt32 _masterDNPRevisionNumber = 999999;
         private static UInt32 _relayCodeRevisionNumber = 99999999;

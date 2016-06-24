@@ -359,8 +359,6 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
                 if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageControl))
-                    this.tabControlMain.TabPages.Remove(this.tabPageControl);
                 if (this.tabControlMain.TabPages.Contains(this.tabPageEvents))
                     this.tabControlMain.TabPages.Remove(this.tabPageEvents);
                 if (this.tabControlMain.TabPages.Contains(this.tabPageFlightRecorder))
@@ -376,12 +374,28 @@ namespace RelayControl
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
 
+                this.ucTripMode2.Visible = false;
+                this.ucCloseMode1.Visible = false;
+                this.groupBoxNetworkCTRatio.Visible = false;
+                this.panelOtherRelayControls.Visible = false;
+                this.ucPumpMode1.Visible = false;
+                this.groupBoxLowVoltThres.Visible = false;
+                this.groupBoxPhasingAndType.Visible = false;
+                this.checkBox277Protector.Visible = false;
+                this.checkBox277Protector.Checked = false;
+                this.groupBoxLRLockoutMain.Visible = false;
+                this.groupBoxRelayFlags.Visible = false;
+                this.groupBoxRelayStatus.Visible = false;
+
+                this.tabPageControl.Text = "Safe Service";
+
+                this.ucSafeService1.Location = new Point(tabPageControl.Width / 3, tabPageControl.Height / 4);
+                
+
                 this.tabPageTransmitterMonitoring.Refresh();
-                //this.reprogramRelayFileSelectToolStripMenuItem.Visible = false;
                 this.toolStripMenuItemAction.Visible = false;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.toolsToolStripMenuItem.Visible = false;
-                //this.loadConfigurationToolStripMenuItem.Visible = false; //hide reprogramming for DG288_TESTFIXTURE_GUI
                 this.enableAutoloadToolStripMenuItem.Checked = false;
 #endif
 
@@ -3291,7 +3305,9 @@ namespace RelayControl
 
                 this.requestPhasorData();
                 this.everyOtherMonitor = false;
+            #endif
 
+            #if MADISON
                 this.groupBoxLRLockoutMain.Visible = true;
             #else
                 this.groupBoxLRLockoutMain.Visible = false;
