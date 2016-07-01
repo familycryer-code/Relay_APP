@@ -149,6 +149,7 @@ namespace RelayControlLibrary
         DNPMessage3,
         DNPMessage4,
         LowVoltageThresReceived,
+        NoMemFix,
         Invalid
     }
 

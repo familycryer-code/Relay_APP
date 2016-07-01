@@ -1783,6 +1783,17 @@ namespace RelayControl
                                 break;
                             }
                         }
+                        else if (command == IncomingCommCommands.NoMemFix)
+                        {
+                            packetSize = 63;
+
+                            if ((char)this.receiveArray[tempRXReadPtr] != 'L') //checks second character
+                            {
+                                this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
+                                command = IncomingCommCommands.Invalid;
+                                break;
+                            }
+                        }
                         else if (command == IncomingCommCommands.FPGARevision)
                         {
                             packetSize = 20;
@@ -1929,6 +1940,11 @@ namespace RelayControl
                             return false;
                     case IncomingCommCommands.RelayRegisters:
                         if (i == 10 || i == 6)
+                            return true;
+                        else
+                            return false;
+                    case IncomingCommCommands.NoMemFix:
+                        if (i == 63)
                             return true;
                         else
                             return false;
@@ -2140,6 +2156,8 @@ namespace RelayControl
                     return IncomingCommCommands.ShortRangeTransmit;
                 case (byte)'N':
                     return IncomingCommCommands.ShortRangeStrength;
+                case (byte)'O':
+                    return IncomingCommCommands.NoMemFix;
                 case (byte)'P':
                     return IncomingCommCommands.PhasorUpdate;
                 case (byte)'Q':
@@ -2264,6 +2282,9 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.RelayRegisters:
                     this.setRelayRegisters(bytePacket);
+                    break;
+                case IncomingCommCommands.NoMemFix:
+                    this.showNoMemFixMessage(bytePacket);
                     break;
                 case IncomingCommCommands.RelayRevision:
                     this.setRelayRevisionLabel(bytePacket);
@@ -2982,6 +3003,12 @@ namespace RelayControl
             this.timerLiveEventAcknowledge.Enabled = false;
             this.portClosing = false;
         }
+
+        private void showNoMemFixMessage(byte[] bytePacket)
+        {
+            MessageBox.Show("Currently the hardware is not in place to handle DNP. Please contact us at DigitalGrid", "Hardware needs to be UPDATED!");
+        }
+
 
         private void setRelayRevisionLabel(byte[] bytePacket)
         {
