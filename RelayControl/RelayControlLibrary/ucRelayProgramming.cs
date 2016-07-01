@@ -43,9 +43,9 @@ namespace RelayControlLibrary
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 160412;
+        private static UInt32 _masterCodeRevisionNumber = 160627;
         private static UInt32 _masterDNPRevisionNumber = 160621;
-        private static UInt32 _relayCodeRevisionNumber = 20160620;
+        private static UInt32 _relayCodeRevisionNumber = 20160630;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
@@ -66,6 +66,28 @@ namespace RelayControlLibrary
                 this.state = value;
             }
         }
+
+        private bool forceUpdateOnce = false;
+        private bool forceRelayUpdate = false;
+        public bool ForceRelayUpdate
+        {
+            get { return this.forceRelayUpdate; }
+            set
+            {
+                this.forceRelayUpdate = value;
+            }
+        }
+
+        private string forceUpdateReason = "Generic";
+        public string ForceUpdateReason
+        {
+            get { return this.forceUpdateReason; }
+            set
+            {
+                this.forceUpdateReason = value;
+            }
+        }
+        
         public delegate void SendDelegate(object o, RelayProgrammingEventArgs rPEA);
         public event SendDelegate Send;
         public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
@@ -714,22 +736,50 @@ namespace RelayControlLibrary
 
         public void CheckForUpdate()
         {
-            if (!this.firstCheckForUpdate)
-                return;
-
-            this.firstCheckForUpdate = false;
-            if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
+            if(forceRelayUpdate == false)
             {
-                this.transmitterEnabled = true;
-           
+                if (!this.firstCheckForUpdate)
+                    return;
+
+                this.firstCheckForUpdate = false;
+                if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
+                {
+                    this.transmitterEnabled = true;
+
+                    if (!this.gERelaySerialMatch && !this.serialNumberError)
+                        this.askIfGERelay();
+                    this.setProgrammingFiles();
+
+                    this.startAutoLoad();
+                }
+                else
+                    this.writeLineToTraceFile("No Updated Needed");
+            }
+            else
+            {
+                forceRelayToUpdate();
+            }
+        }
+
+        private void forceRelayToUpdate()
+        {
+            if (forceUpdateOnce == false)
+            {
+                forceUpdateOnce = true;
+                if (this.forceUpdateReason == "Generic")
+                {
+                    MessageBox.Show("The Relay Software is outdated and must be upgraded for the relay to function properly!", "Relay Must be Upgraded!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (this.forceUpdateReason == "Safe Service")
+                {
+                    MessageBox.Show("The Relay Software is outdated and must be upgraded for the Safe Service Mode Indicator attachment to function properly!", "Relay Must be Upgraded for Safe Service Mode Indicator!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 if (!this.gERelaySerialMatch && !this.serialNumberError)
                     this.askIfGERelay();
                 this.setProgrammingFiles();
-
                 this.startAutoLoad();
             }
-            else
-                this.writeLineToTraceFile("No Updated Needed");
+            
         }
 
         private void askIfGERelay()
@@ -785,14 +835,26 @@ namespace RelayControlLibrary
             if (this.serialNumberError)
                 return;
 
-            dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            if (forceRelayUpdate == false)
+                dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            else
+                dR = DialogResult.Yes;
+
 
             if (dR == DialogResult.Yes)
             {
                 // If we aren't loading from resource, don't bother asking this question
+
+                if (forceRelayUpdate == false)
+                {
+                    if (!this.dontReloadFromResource)
+                        dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
+                }
+                else
+                {
+                    dR = DialogResult.Yes;
+                }
                 
-                if (!this.dontReloadFromResource)
-                    dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
 
                 if (dR == DialogResult.Yes)
                 {

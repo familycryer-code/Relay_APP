@@ -27,6 +27,7 @@ namespace RelayControl
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
+        private const int SafeService_MASTER_REVISION = 160621;
         private const string revisionDate = "2016-06-23";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
@@ -399,7 +400,7 @@ namespace RelayControl
                 this.enableAutoloadToolStripMenuItem.Checked = false;
 #endif
 
-#if DOMINION && !DEBUG
+#if (DOMINION && !DEBUG) || (Enmax && !DEBUG)
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.enableAutoloadToolStripMenuItem.Checked = true;
 #endif
@@ -1775,7 +1776,7 @@ namespace RelayControl
                         {
                             packetSize = 37;
 
-                            if ((char)this.receiveArray[tempRXReadPtr] != 'E')
+                            if ((char)this.receiveArray[tempRXReadPtr] != 'E') //checks second character
                             {
                                 this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
                                 command = IncomingCommCommands.Invalid;
@@ -3437,6 +3438,17 @@ namespace RelayControl
                     this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
                     this.RevTooLowErrorAlreadyShown = true;
                 }
+#if Enmax
+                else if (this.masterRevision <= SafeService_MASTER_REVISION)
+                {
+                    this.ucRelayProgramming1.ForceRelayUpdate = true;
+                    this.ucRelayProgramming1.ForceUpdateReason = "Safe Service";
+                }
+                else
+                {
+                    this.ucRelayProgramming1.ForceRelayUpdate = false;
+                }
+#endif
                 this.ucRelayProgramming1.CheckForUpdate();
             }
 
