@@ -3006,7 +3006,7 @@ namespace RelayControl
 
         private void showNoMemFixMessage(byte[] bytePacket)
         {
-            MessageBox.Show("Currently the hardware is not in place to handle DNP. Please contact us at DigitalGrid", "Hardware needs to be UPDATED!");
+            MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
         }
 
 
