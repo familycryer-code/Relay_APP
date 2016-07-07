@@ -28,7 +28,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-06-23";
+        private const string revisionDate = "2016-07-05";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -3465,8 +3465,8 @@ namespace RelayControl
                     this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
                     this.RevTooLowErrorAlreadyShown = true;
                 }
-#if Enmax
-                else if (this.masterRevision <= SafeService_MASTER_REVISION)
+#if Enmax && !DEBUG
+                else if (this.masterRevision < SafeService_MASTER_REVISION)
                 {
                     this.ucRelayProgramming1.ForceRelayUpdate = true;
                     this.ucRelayProgramming1.ForceUpdateReason = "Safe Service";
