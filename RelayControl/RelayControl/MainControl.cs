@@ -28,7 +28,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-07-05";
+        private const string revisionDate = "2016-07-11";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -1628,8 +1628,6 @@ namespace RelayControl
                 this.sendPacketAck(RelayModeFunctions.BytePacketFor(BlockModes.Blocked), "Block Mode Send");
             else
                 this.sendPacketAck(RelayModeFunctions.BytePacketFor(BlockModes.Unblocked), "Unblock Mode Send");
-
-            this.requestRelayRegisters();
         }
 
         private byte[] receiveArray = new byte[1000];
@@ -2257,8 +2255,12 @@ namespace RelayControl
                     this.ucSafeService1.SetAll(bytePacket);
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
-                        this.parametersFinishedLoading();
-                        this.requestRelayRegisters();
+                        if (this.DNPEnabled)
+                            this.requestDNPSettings();
+                        else
+                        {
+                            this.parametersFinishedLoading();
+                        }
                     }
                     break;
                 case IncomingCommCommands.ShortRangeStrength:
@@ -2311,7 +2313,7 @@ namespace RelayControl
                     this.setFFTValue(bytePacket);
                     break;
                 case IncomingCommCommands.DNPData:
-                    this.setDNPData(bytePacket);
+                    this.setDNPSettings(bytePacket);
                     break;
                 case IncomingCommCommands.DNPSAv5:
                     this.ucDNPSAv51.Message(bytePacket);
@@ -3072,7 +3074,6 @@ namespace RelayControl
 
         private int savedSerialNumber = 0;
         private bool checkSerialNumber = false;
-        private bool justTransmitterSettingsRequested = false;
 
         private void setTransmitterSettings(byte[] bytePacket)
         {
@@ -3085,6 +3086,8 @@ namespace RelayControl
                 {
                     if (this.relayCodeRevisionNumber >= 20130111)
                         this.requestSafeServiceSettings();
+                    else if (this.DNPEnabled)
+                        this.requestDNPSettings();
                     else
                         this.parametersFinishedLoading();
                 }
@@ -3283,7 +3286,6 @@ namespace RelayControl
             }
             else if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
-                this.ProgramState = ProgramStates.Running;
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
@@ -3297,15 +3299,6 @@ namespace RelayControl
             }
             this.ProgramState = ProgramStates.Running;
 
-            //TEST put this in relay registers so everything is loaded already before checking
-            /*
-            if (this.enableAutoloadToolStripMenuItem.Checked)
-            {
-                if (this.masterRevision <= REV1_MASTER_REVISION)
-                    this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
-                this.ucRelayProgramming1.CheckForUpdate();
-            }
-            */
             this.requestRelayRegisters();
 
             this.enableAll(true);
@@ -4491,12 +4484,12 @@ namespace RelayControl
 
             if (this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
-
-                this.requestSafeServiceSettings();
-
-                //TEST used to be last bit of data, now Safe Service is - might need to change to check for version
-                //this.ProgramState = ProgramStates.Running;
-                //this.requestRelayRegisters();
+                if (this.relayCodeRevisionNumber >= 20130111)
+                    this.requestSafeServiceSettings();
+                else if (this.DNPEnabled)
+                    this.requestDNPSettings();
+                else
+                    this.parametersFinishedLoading();
             }
         }
 
@@ -5064,11 +5057,8 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-            if (this.relayCodeRevisionNumber >= 20110201 && this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
-                this.requestDNPSettings();
 
             buttonRequestLowVotlageThres_Click(null, null);
-
         }
 
         private void requestDNPSettings()
@@ -5096,7 +5086,6 @@ namespace RelayControl
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)
         {
             this.requestRelayRegisters();
-            this.requestTemperature();
         }
 
         private void requestRelayRegisters()
@@ -6019,7 +6008,6 @@ namespace RelayControl
                 bytePacket = RelayModeFunctions.BytePacketFor(tMD);
                 this.sendPacket(bytePacket);
             }
-            this.requestRelayRegisters();
         }
 
         private void buttonBlockAndTrip_Click(object sender, EventArgs e)
@@ -6036,7 +6024,6 @@ namespace RelayControl
                 bytePacket = RelayModeFunctions.BytePacketFor(tMD);
                 this.sendPacket(bytePacket);
             }
-            this.requestRelayRegisters();
         }
 
         private void buttonResetBothProc_Click(object sender, EventArgs e)
@@ -7749,16 +7736,13 @@ namespace RelayControl
                 this.textBoxLRLockoutStatusMain.Text = "Not Locked";
         }
 
-        private void setDNPData(byte[] bytePacket)
+        private void setDNPSettings(byte[] bytePacket)
         {
             try
             {
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
-                    if (this.relayCodeRevisionNumber >= 20130111)
-                        this.requestSafeServiceSettings();
-                    else
-                        this.parametersFinishedLoading();
+                    this.parametersFinishedLoading();
                 }
 #if !WATERBUG
                 if (this.DNPEnabled)
