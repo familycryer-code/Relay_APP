@@ -2268,7 +2268,7 @@ namespace RelayControl
                     this.ucSafeService1.SetAll(bytePacket);
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
-                        if (this.DNPEnabled)
+                        if (this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
                             this.requestDNPSettings();
                         else
                         {
@@ -3099,7 +3099,7 @@ namespace RelayControl
                 {
                     if (this.relayCodeRevisionNumber >= 20130111)
                         this.requestSafeServiceSettings();
-                    else if (this.DNPEnabled)
+                    else if (this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
                         this.requestDNPSettings();
                     else
                         this.parametersFinishedLoading();
@@ -4486,7 +4486,7 @@ namespace RelayControl
             {
                 if (this.relayCodeRevisionNumber >= 20130111)
                     this.requestSafeServiceSettings();
-                else if (this.DNPEnabled)
+                else if (this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
                     this.requestDNPSettings();
                 else
                     this.parametersFinishedLoading();
