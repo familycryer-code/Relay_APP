@@ -835,10 +835,7 @@ namespace RelayControlLibrary
             get { return this.dNPLabelStatus; }
             set
             {
-                if (this.dNPLabelStatus != value)
-                {
-                    this.dNPLabelStatus = value;
-                }
+                this.dNPLabelStatus = value;
                 this.setDNPLabelStatus();
             }
         }
