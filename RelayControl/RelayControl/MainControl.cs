@@ -575,6 +575,8 @@ namespace RelayControl
                 this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
 
+                this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+
             }
             catch (Exception ex)
             {
@@ -1444,6 +1446,7 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
+                    this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                     break;
                 case RelayProgrammingSendCommands.QueitModeEnable:
                     this.quietMode = true;
@@ -1568,6 +1571,11 @@ namespace RelayControl
                 this.buttonRequestRelayRegisters_Click(this, new EventArgs());
                 this.requestAllData();
                 this.parametersLoaded = true;
+                this.ucTransmitter1.ForceDNPEnable = true;
+                Thread.Sleep(100);
+                this.ucTransmitter1.SendTransmitterSettings();
+                this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+                
             }
         }
 
@@ -5070,6 +5078,8 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
+
+            this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
         private void requestTransmitterSettings()
@@ -5081,6 +5091,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
+            this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)

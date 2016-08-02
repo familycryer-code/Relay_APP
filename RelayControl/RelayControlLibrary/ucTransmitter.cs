@@ -1877,5 +1877,15 @@ namespace RelayControlLibrary
                 }
             }
         }
+
+        private bool checkDNPEnable = false;
+        public bool CheckDNPEnable
+        {
+            get { return this.checkBoxDNPEnable.Checked; }
+            set
+            {
+                this.checkDNPEnable = this.checkBoxDNPEnable.Checked;
+            }
+        }
     }
 }

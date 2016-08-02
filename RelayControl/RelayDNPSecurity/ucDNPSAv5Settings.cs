@@ -164,7 +164,11 @@ namespace RelayDNPSecurity
         {
             this.checkBoxAggressiveMode.Checked = true;
             this.checkBoxSHA1.Checked = false;
+#if DEBUG
+            this.checkBoxAuthenticationEnabled.Checked = false;
+#else
             this.checkBoxAuthenticationEnabled.Checked = true;
+#endif
 
             this.comboBoxKeyChangeAlogrithm.SelectedIndex = 1;
             this.comboBoxMACAlogrithm.SelectedIndex = 2;

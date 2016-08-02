@@ -122,6 +122,9 @@ namespace RelayControlLibrary
             this.labelSAv5UserNumber = new System.Windows.Forms.Label();
             this.labelSAv5UserKey = new System.Windows.Forms.Label();
             this.textBoxSAv5UserUpdateKey = new System.Windows.Forms.TextBox();
+            this.labelDNPtext1 = new System.Windows.Forms.Label();
+            this.labelDNPStatusInidcation = new System.Windows.Forms.Label();
+            this.groupBoxDNPStatus = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFragmentSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).BeginInit();
@@ -150,6 +153,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.SuspendLayout();
             this.groupBoxDigitalGridDNPDeadBand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSAv5UserNumber)).BeginInit();
+            this.groupBoxDNPStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelLinkLayerConfirm
@@ -1410,10 +1414,42 @@ namespace RelayControlLibrary
             this.textBoxSAv5UserUpdateKey.TabIndex = 148;
             this.textBoxSAv5UserUpdateKey.Visible = false;
             // 
+            // labelDNPtext1
+            // 
+            this.labelDNPtext1.AutoSize = true;
+            this.labelDNPtext1.Location = new System.Drawing.Point(6, 24);
+            this.labelDNPtext1.Name = "labelDNPtext1";
+            this.labelDNPtext1.Size = new System.Drawing.Size(37, 13);
+            this.labelDNPtext1.TabIndex = 149;
+            this.labelDNPtext1.Text = "Status";
+            // 
+            // labelDNPStatusInidcation
+            // 
+            this.labelDNPStatusInidcation.AutoSize = true;
+            this.labelDNPStatusInidcation.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.labelDNPStatusInidcation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDNPStatusInidcation.Location = new System.Drawing.Point(47, 21);
+            this.labelDNPStatusInidcation.Name = "labelDNPStatusInidcation";
+            this.labelDNPStatusInidcation.Size = new System.Drawing.Size(63, 16);
+            this.labelDNPStatusInidcation.TabIndex = 150;
+            this.labelDNPStatusInidcation.Text = "Unknown";
+            // 
+            // groupBoxDNPStatus
+            // 
+            this.groupBoxDNPStatus.Controls.Add(this.labelDNPtext1);
+            this.groupBoxDNPStatus.Controls.Add(this.labelDNPStatusInidcation);
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(155, 497);
+            this.groupBoxDNPStatus.Name = "groupBoxDNPStatus";
+            this.groupBoxDNPStatus.Size = new System.Drawing.Size(116, 52);
+            this.groupBoxDNPStatus.TabIndex = 151;
+            this.groupBoxDNPStatus.TabStop = false;
+            this.groupBoxDNPStatus.Text = "DNP Status";
+            // 
             // ucDNP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxDNPStatus);
             this.Controls.Add(this.textBoxSAv5UserUpdateKey);
             this.Controls.Add(this.labelSAv5UserKey);
             this.Controls.Add(this.numericUpDownSAv5UserNumber);
@@ -1461,6 +1497,8 @@ namespace RelayControlLibrary
             this.groupBoxDigitalGridDNPDeadBand.ResumeLayout(false);
             this.groupBoxDigitalGridDNPDeadBand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSAv5UserNumber)).EndInit();
+            this.groupBoxDNPStatus.ResumeLayout(false);
+            this.groupBoxDNPStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1562,5 +1600,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxSAv5UserUpdateKey;
         private System.Windows.Forms.ComboBox comboBoxDNPBaudRate;
         private System.Windows.Forms.Label labelBaudRate;
+        private System.Windows.Forms.Label labelDNPtext1;
+        private System.Windows.Forms.Label labelDNPStatusInidcation;
+        private System.Windows.Forms.GroupBox groupBoxDNPStatus;
     }
 }

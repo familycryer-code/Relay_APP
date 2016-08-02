@@ -828,6 +828,35 @@ namespace RelayControlLibrary
         }
 
         #endregion
+
+        private bool dNPLabelStatus = false;
+        public bool DNPLabelStatus
+        {
+            get { return this.dNPLabelStatus; }
+            set
+            {
+                if (this.dNPLabelStatus != value)
+                {
+                    this.dNPLabelStatus = value;
+                }
+                this.setDNPLabelStatus();
+            }
+        }
+
+        void setDNPLabelStatus()
+        {
+            if(dNPLabelStatus == true)
+            {
+                this.labelDNPStatusInidcation.Text = "Enabled";
+                this.labelDNPStatusInidcation.BackColor = Color.SkyBlue;
+            }
+            else
+            {
+                this.labelDNPStatusInidcation.Text = "Disabled";
+                this.labelDNPStatusInidcation.BackColor = Color.LightSalmon;
+            }
+                
+        }
     }
 
     public class ucDeadBandSettingsObject
