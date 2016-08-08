@@ -592,13 +592,15 @@ namespace RelayControlLibrary
                 this.restoreDefaults();
         }
 
+        private decimal defaultOverCurrentValue = 10m;
         private void restoreDefaults()
         {
 #if NU || SEATTLE || DOMINION
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
-            this.numericUpDownOverCurrent.Value = 10.0m;
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
+            this.domainUpDownDataViews.SelectedIndex = 0;
+            setDataViewDefaults();
 
             if (voltage277State == true)
                 this.numericUpDownLowVoltage.Value = 95m * conversion277;
@@ -613,13 +615,13 @@ namespace RelayControlLibrary
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
+            this.domainUpDownDataViews.SelectedIndex = 0;
+            setDataViewDefaults();
 
             if (voltage277State == true)
                 this.numericUpDownLowVoltage.Value = 95m * conversion277;
             else
                 this.numericUpDownLowVoltage.Value = 95m;
-
-            this.numericUpDownOverCurrent.Value = 10.0m;
 
             if (voltage277State == true)
                 this.numericUpDownVoltageImbalance.Value = 10.0m * conversion277;
@@ -637,6 +639,23 @@ namespace RelayControlLibrary
         {
             this.restoreDefaults();
             this.SendAll();
+        }
+
+        private void setDataViewDefaults()
+        {
+            switch (this.domainUpDownDataViews.SelectedIndex)
+            {
+                case 0:
+                default:
+                    this.numericUpDownOverCurrent.Value = defaultOverCurrentValue;
+                    break;
+                case 1:
+                    this.numericUpDownOverCurrent.Value = defaultOverCurrentValue * (decimal)this.CTRatio;
+                    break;
+                case 2:
+                    this.numericUpDownOverCurrent.Value = defaultOverCurrentValue * 20m;
+                    break;
+            }
         }
     }
 
