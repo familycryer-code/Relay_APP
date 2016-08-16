@@ -125,6 +125,7 @@ namespace RelayControlLibrary
                 case Customers.DNPwithPLC:
                 case Customers.SMUD:
                 case Customers.Atlanta:
+                case Customers.Oncor:
                     this.makeNonConEd();
                     break;
                 case Customers.ConEdison:
@@ -1337,7 +1338,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif SEATTLE || DEBUG || ATLANTA || ConEd || PSEG
+#elif SEATTLE || DEBUG || ATLANTA || ConEd || PSEG || ONCOR
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;

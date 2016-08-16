@@ -28,7 +28,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-08-02";
+        private const string revisionDate = "2016-08-16";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -75,6 +75,8 @@ namespace RelayControl
 
 #if ATLANTA
                     this.ucRelayProgramming1.Customer = Customers.Atlanta;
+#elif ONCOR
+                    this.ucRelayProgramming1.Customer = Customers.Oncor;
 #else
                     this.ucRelayProgramming1.Customer = this.customer;
 #endif
@@ -159,7 +161,7 @@ namespace RelayControl
                             this.dNPMemphisData.Dispose();
                         }
 
-                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DigitalGrid || this.Customer == Customers.Atlanta) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DigitalGrid || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
                         {
                             this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
@@ -545,7 +547,7 @@ namespace RelayControl
 #elif DNP
                 this.Customer = Customers.DigitalGridDNP;
                 this.DNPEnabled = true;
-    #if ATLANTA
+    #if ATLANTA || ONCOR
                 if (tabControlMain.TabPages.Contains(tabPageTransmitter))
                     tabControlMain.TabPages.Remove(tabPageTransmitter);
                 if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
@@ -617,6 +619,8 @@ namespace RelayControl
             this.customerRevisionName = "Madison";
 #elif ATLANTA
             this.customerRevisionName = "Atlanta";
+#elif ONCOR
+            this.customerRevisionName = "Oncor";
 #elif DG288_TESTFIXTURE_GUI
             this.customerRevisionName = "DG-288 TestFixture";
 #elif SMUD
@@ -630,7 +634,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if chicago ||  (Enmax && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON
+#if chicago ||  (Enmax && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR
             showCustomerNameDebug = true;
 #endif
 
@@ -4338,6 +4342,11 @@ namespace RelayControl
                                 this.Customer = Customers.Atlanta;
                                 this.ucDNP1.Customer = this.Customer;
                             }
+                            else if (revision.Contains("ONCOR"))
+                            {
+                                this.Customer = Customers.Oncor;
+                                this.ucDNP1.Customer = this.Customer;
+                            }
                             
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();
@@ -5215,7 +5224,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA || Enmax  || Boston || MADISON
+#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA || Enmax  || Boston || MADISON || ONCOR
             this.domainUpDownCTRatioM.SelectedIndex = 1;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 4;

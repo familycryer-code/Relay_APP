@@ -258,6 +258,14 @@
     <OutputPath>bin\Debug Atlanta\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
+    <OutputPath>bin\Release Oncor\</OutputPath>
+    <DefineConstants>ONCOR,DNP,DIGITALGRID</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Degbug Oncor|AnyCPU'">
+    <OutputPath>bin\Degbug Oncor\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls, Version=1.5.2.0, Culture=neutral, PublicKeyToken=5966291b8955e4bb">
       <SpecificVersion>False</SpecificVersion>
@@ -669,6 +677,8 @@
     <Content Include="Resources\MasterProcessorChicago.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP_GE.S" />
+    <None Include="Resources\MasterProcessor_Oncor.S" />
+    <None Include="Resources\MasterProcessor_Oncor_GE.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />

@@ -248,6 +248,14 @@
     <OutputPath>bin\Debug Atlanta\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
+    <OutputPath>bin\Release Oncor\</OutputPath>
+    <DefineConstants>MEMPHIS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Degbug Oncor|AnyCPU'">
+    <OutputPath>bin\Degbug Oncor\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />

@@ -197,7 +197,7 @@ namespace RelayControlLibrary
             get { return this.dNPRelay;}
             set
             {
-#if ATLANTA
+#if ATLANTA || ONCOR
                 this.dNPRelay = true;
 #else
                 this.dNPRelay = value;
@@ -801,6 +801,37 @@ namespace RelayControlLibrary
                 this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
 
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
+                this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
+            }
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
+
+#if ONCOR && DNP
+            if (this.GEEnabled)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Oncor_GE;
+                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Oncor;
+                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                 this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
             }
 

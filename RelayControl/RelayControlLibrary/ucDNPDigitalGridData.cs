@@ -96,7 +96,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phased ACB");
             this.binaryInputs.Add("Insensitive Backfeed Detected");
-            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD || this.customer == Customers.Atlanta)
+            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD || this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
             {
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
@@ -174,8 +174,8 @@ namespace RelayControlLibrary
         private void initializeBinaryOutputs()
         {
             uint pointsToAdd;
-            
-            if (this.relayMasterRevision < 140107 || this.customer != Customers.Atlanta)
+
+            if ((this.relayMasterRevision < 140107) || (this.customer != Customers.Atlanta && this.customer != Customers.Oncor))
                 pointsToAdd = 20;
             else
                 pointsToAdd = 22;
@@ -238,7 +238,7 @@ namespace RelayControlLibrary
         private void initializeAnalogInputs()
         {
             uint pointsToAdd;
-            if (this.customer == Customers.Atlanta)
+            if (this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
                 pointsToAdd = 69;
             else
                 pointsToAdd = 73;

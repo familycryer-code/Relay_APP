@@ -167,6 +167,14 @@
     <OutputPath>bin\Debug Atlanta\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
+    <OutputPath>bin\Release Oncor\</OutputPath>
+    <DefineConstants>ONCOR,DNP</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Degbug Oncor|AnyCPU'">
+    <OutputPath>bin\Degbug Oncor\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\..\..\master-processor\BouncyCastle.Crypto.dll</HintPath>

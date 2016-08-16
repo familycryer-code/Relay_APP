@@ -91,6 +91,7 @@ namespace RelayControlLibrary
         PEPCO,
         Dominion,
         Atlanta,
+        Oncor,
         None
     }
 

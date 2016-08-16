@@ -288,6 +288,16 @@
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
+    <OutputPath>bin\Release Oncor\</OutputPath>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>ONCOR,DNP,DIGITALGRID</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Degbug Oncor|AnyCPU'">
+    <OutputPath>bin\Debug Oncor\</OutputPath>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">
       <HintPath>..\..\GSNet\3.5\Bin\GSNetWin.dll</HintPath>
