@@ -294,9 +294,9 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - C", true));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Avg", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Avg", true));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - A", true));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - B", true));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - C", true));
+            this.analogInputs.Add(new AnalogPointDefinition("Real Power kW - A", true));
+            this.analogInputs.Add(new AnalogPointDefinition("Real Power kW - B", true));
+            this.analogInputs.Add(new AnalogPointDefinition("Real Power kW - C", true));
             this.analogInputs.Add(new AnalogPointDefinition("Diff Volt - Pos Seq", false));
             this.analogInputs.Add(new AnalogPointDefinition("Diff Volt Angle - Pos Seq", true));
             this.analogInputs.Add(new AnalogPointDefinition("Diff Voltage - Neg Seq", false));
@@ -526,11 +526,13 @@ namespace RelayControlLibrary
             {
                 this.buttonSendBinaryEventEnables.Visible = true;
                 this.buttonEnableAllBinaryEvents.Visible = true;
+                this.buttonDisableAllBinaryEvents.Visible = true;
             }
             else
             {
                 this.buttonSendBinaryEventEnables.Visible = false;
                 this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonDisableAllBinaryEvents.Visible = false;
             }
         }
 
@@ -719,16 +721,20 @@ namespace RelayControlLibrary
                 {
                     this.tabPageAnalogInputs2.Controls.Remove(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs2.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
                 if(!this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
                 {
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
+                this.buttonDisableAllAnalogEvents.Visible = true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2)
             {
@@ -736,16 +742,20 @@ namespace RelayControlLibrary
                 {
                     this.tabPageAnalogInputs1.Controls.Remove(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs1.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
                 if(!this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
                 {
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs2.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
+                this.buttonDisableAllAnalogEvents.Visible = true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
             {
@@ -753,11 +763,14 @@ namespace RelayControlLibrary
                 {
                     this.tabPageBinaryInputs.Controls.Add(this.buttonSendBinaryEventEnables);
                     this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
+                    this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
                 this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
                 this.buttonSendBinaryEventEnables.Visible = true;
                 this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
                 this.buttonEnableAllBinaryEvents.Visible = true;
+                this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
+                this.buttonDisableAllBinaryEvents.Visible = true;
             }
         }
 
@@ -1010,6 +1023,73 @@ namespace RelayControlLibrary
                 if (!failed)
                 {
                     uDDGA.EventEnabled = true;
+                }
+            }
+        }
+
+        private void buttonDisableAllBinaryEvents_Click(object sender, EventArgs e)
+        {
+            if (PointChanged != null)
+            {
+                this.PointChanged(this, new DNPPointEventArgs(false));
+            }
+            foreach (Control C in this.tabPageBinaryInputs.Controls)
+            {
+                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
+                bool failed = false;
+                try
+                {
+                    uDMB = (ucDNPMemphisBinary)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+
+                if (!failed)
+                {
+                    uDMB.EventEnabled = false;
+                }
+            }
+        }
+
+        private void buttonDisableAllAnalogEvents_Click(object sender, EventArgs e)
+        {
+            ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+            bool failed = false;
+
+            if (PointChanged != null)
+            {
+                this.PointChanged(this, new DNPPointEventArgs(false));
+            }
+            foreach (Control C in this.tabPageAnalogInputs2.Controls)
+            {
+                try
+                {
+                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+                if (!failed)
+                {
+                    uDDGA.EventEnabled = false;
+                }
+            }
+            foreach (Control C in this.tabPageAnalogInputs1.Controls)
+            {
+                try
+                {
+                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+                if (!failed)
+                {
+                    uDDGA.EventEnabled = false;
                 }
             }
         }

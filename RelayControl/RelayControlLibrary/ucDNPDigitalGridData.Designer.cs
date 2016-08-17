@@ -31,13 +31,15 @@ namespace RelayControlLibrary
             this.buttonSendBinaryEventEnables = new System.Windows.Forms.Button();
             this.tabControlMemphisDNP = new System.Windows.Forms.TabControl();
             this.tabPageBinaryInputs = new System.Windows.Forms.TabPage();
+            this.buttonDisableAllBinaryEvents = new System.Windows.Forms.Button();
             this.buttonEnableAllBinaryEvents = new System.Windows.Forms.Button();
             this.tabPageBinaryOuputs = new System.Windows.Forms.TabPage();
             this.tabPageAnalogInputs1 = new System.Windows.Forms.TabPage();
+            this.buttonEnableAllAnalogEvents = new System.Windows.Forms.Button();
             this.buttonSendAnalogEnables = new System.Windows.Forms.Button();
             this.tabPageAnalogInputs2 = new System.Windows.Forms.TabPage();
             this.tabPageAnalogOutputs = new System.Windows.Forms.TabPage();
-            this.buttonEnableAllAnalogEvents = new System.Windows.Forms.Button();
+            this.buttonDisableAllAnalogEvents = new System.Windows.Forms.Button();
             this.tabControlMemphisDNP.SuspendLayout();
             this.tabPageBinaryInputs.SuspendLayout();
             this.tabPageAnalogInputs1.SuspendLayout();
@@ -69,6 +71,7 @@ namespace RelayControlLibrary
             // 
             // tabPageBinaryInputs
             // 
+            this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
             this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
             this.tabPageBinaryInputs.Controls.Add(this.buttonSendBinaryEventEnables);
             this.tabPageBinaryInputs.Location = new System.Drawing.Point(4, 22);
@@ -78,6 +81,16 @@ namespace RelayControlLibrary
             this.tabPageBinaryInputs.TabIndex = 0;
             this.tabPageBinaryInputs.Text = "Binary Inputs";
             this.tabPageBinaryInputs.UseVisualStyleBackColor = true;
+            // 
+            // buttonDisableAllBinaryEvents
+            // 
+            this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(531, 515);
+            this.buttonDisableAllBinaryEvents.Name = "buttonDisableAllBinaryEvents";
+            this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(139, 23);
+            this.buttonDisableAllBinaryEvents.TabIndex = 4;
+            this.buttonDisableAllBinaryEvents.Text = "Disable All Binary Events";
+            this.buttonDisableAllBinaryEvents.UseVisualStyleBackColor = true;
+            this.buttonDisableAllBinaryEvents.Click += new System.EventHandler(this.buttonDisableAllBinaryEvents_Click);
             // 
             // buttonEnableAllBinaryEvents
             // 
@@ -101,6 +114,7 @@ namespace RelayControlLibrary
             // 
             // tabPageAnalogInputs1
             // 
+            this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
             this.tabPageAnalogInputs1.Controls.Add(this.buttonEnableAllAnalogEvents);
             this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
             this.tabPageAnalogInputs1.Location = new System.Drawing.Point(4, 22);
@@ -110,6 +124,16 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.TabIndex = 2;
             this.tabPageAnalogInputs1.Text = "Analog Inputs";
             this.tabPageAnalogInputs1.UseVisualStyleBackColor = true;
+            // 
+            // buttonEnableAllAnalogEvents
+            // 
+            this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(632, 515);
+            this.buttonEnableAllAnalogEvents.Name = "buttonEnableAllAnalogEvents";
+            this.buttonEnableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
+            this.buttonEnableAllAnalogEvents.TabIndex = 5;
+            this.buttonEnableAllAnalogEvents.Text = "Enable All Analog Events (this tab)";
+            this.buttonEnableAllAnalogEvents.UseVisualStyleBackColor = true;
+            this.buttonEnableAllAnalogEvents.Click += new System.EventHandler(this.buttonEnableAllAnalogEvents_Click);
             // 
             // buttonSendAnalogEnables
             // 
@@ -141,15 +165,15 @@ namespace RelayControlLibrary
             this.tabPageAnalogOutputs.Text = "Analog Outputs";
             this.tabPageAnalogOutputs.UseVisualStyleBackColor = true;
             // 
-            // buttonEnableAllAnalogEvents
+            // buttonDisableAllAnalogEvents
             // 
-            this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(632, 515);
-            this.buttonEnableAllAnalogEvents.Name = "buttonEnableAllAnalogEvents";
-            this.buttonEnableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
-            this.buttonEnableAllAnalogEvents.TabIndex = 5;
-            this.buttonEnableAllAnalogEvents.Text = "Enable All Analog Events (this tab)";
-            this.buttonEnableAllAnalogEvents.UseVisualStyleBackColor = true;
-            this.buttonEnableAllAnalogEvents.Click += new System.EventHandler(this.buttonEnableAllAnalogEvents_Click);
+            this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(443, 515);
+            this.buttonDisableAllAnalogEvents.Name = "buttonDisableAllAnalogEvents";
+            this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
+            this.buttonDisableAllAnalogEvents.TabIndex = 6;
+            this.buttonDisableAllAnalogEvents.Text = "Disable All Analog Events (this tab)";
+            this.buttonDisableAllAnalogEvents.UseVisualStyleBackColor = true;
+            this.buttonDisableAllAnalogEvents.Click += new System.EventHandler(this.buttonDisableAllAnalogEvents_Click);
             // 
             // ucDNPDigitalGridData
             // 
@@ -177,5 +201,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonSendAnalogEnables;
         private System.Windows.Forms.Button buttonEnableAllBinaryEvents;
         private System.Windows.Forms.Button buttonEnableAllAnalogEvents;
+        private System.Windows.Forms.Button buttonDisableAllBinaryEvents;
+        private System.Windows.Forms.Button buttonDisableAllAnalogEvents;
     }
 }
