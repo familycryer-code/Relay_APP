@@ -436,6 +436,8 @@ namespace RelayControlLibrary
                 mySEA.SendPacket[2] = 1;
             else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
                 mySEA.SendPacket[2] = 2;
+            else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
+                mySEA.SendPacket[2] = 3;
             else
                 throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
 
@@ -1002,13 +1004,17 @@ namespace RelayControlLibrary
                 if(this.versionNumber >= 110609)
                 {
                     //Set Trip Style Drop down
-                    if((bytePacket[22] & 0x01) == 1)
+                    if((bytePacket[22] & 0x03) == 1)
                     {
                         this.domainUpDownTripStyle.SelectedItem = "Pulse Trip";
                     }
-                    else if ((bytePacket[22] & 0x02) == 2)
+                    else if ((bytePacket[22] & 0x03) == 2)
                     {
                         this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
+                    }
+                    else if ((bytePacket[22] & 0x03) == 3)
+                    {
+                        this.domainUpDownTripStyle.SelectedIndex = 3;
                     }
                     else
                     {
