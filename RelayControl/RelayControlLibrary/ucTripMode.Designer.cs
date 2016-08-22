@@ -518,7 +518,7 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle.Items.Add("Hold Trip");
             this.domainUpDownTripStyle.Items.Add("Pulse Trip");
             this.domainUpDownTripStyle.Items.Add("Single Attempt");
-#if !ONCOR
+#if !ONCOR && !Enmax
             this.domainUpDownTripStyle.Items.Add("Short Trip");
 #endif
             this.domainUpDownTripStyle.Location = new System.Drawing.Point(62, 229);

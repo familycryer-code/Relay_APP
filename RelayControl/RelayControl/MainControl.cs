@@ -3263,12 +3263,6 @@ namespace RelayControl
                     else
                         this.parametersFinishedLoading();
                 }
-#if DNP && PLC
-                if(savedSerialNumber >= 25000)
-                {
-                    MessageBox.Show("Currently the software is not in place to handle GE relays. Please contact us at DigitalGrid");
-                }
-#endif
             }
             catch (Exception ex)
             {

@@ -701,16 +701,21 @@ namespace RelayControlLibrary
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
 
 #if Enmax && DNP
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
-            this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
+            
 
             if (this.GEEnabled)
             {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC_GE;
+                this.textBoxMasterFileName.Text = "Master Relay DNP with PLC GE Resource";
+
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
             }
             else
             {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
+                this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
+
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
