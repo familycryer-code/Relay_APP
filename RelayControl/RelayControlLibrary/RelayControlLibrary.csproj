@@ -530,6 +530,9 @@
     <Compile Include="ucGeneralCommandHandler.Designer.cs">
       <DependentUpon>ucGeneralCommandHandler.cs</DependentUpon>
     </Compile>
+    <Compile Include="YesNoMessageBoxResized.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CTRatioCaculator2.resx">
@@ -670,6 +673,9 @@
     <EmbeddedResource Include="ucTripMode.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ucTripMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YesNoMessageBoxResized.resx">
+      <DependentUpon>YesNoMessageBoxResized.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

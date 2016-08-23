@@ -5707,7 +5707,7 @@ namespace RelayControl
         {
             if (sEA.SendPacket[0] == (byte)'m' || sEA.SendPacket[0] == (byte)'c') //For low or high Cal
             {
-                DialogResult dR = this.messageHandler("Calibration", "This may take a few moments to complete.\r\nCalibrate Unit?", MessageBoxButtons.YesNo);
+                DialogResult dR = new YesNoMessageBoxResized("Calibration", "This may take a few moments to complete.\r\n\nCalibrate Unit?", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                 {
                     this.sendPacket(sEA.SendPacket);
@@ -5758,7 +5758,7 @@ namespace RelayControl
 
                 this.monitoring(false);
                 this.RegisterPolling(false);
-                DialogResult dR = this.messageHandler("Save Calibration Constants?", "Calibration Complete", MessageBoxButtons.YesNo);
+                DialogResult dR = new YesNoMessageBoxResized("Calibration", "This may take a few moments to complete.\r\nCalibrate Unit?", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                     this.sendSaveCalibration();
                 this.monitoring(tempBool1);

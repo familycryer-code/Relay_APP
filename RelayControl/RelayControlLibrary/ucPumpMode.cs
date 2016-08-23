@@ -108,7 +108,6 @@ namespace RelayControlLibrary
             {
                 default:
                 case Customers.NonConEd:
-                    //this.checkBoxNeverReclose.Checked = true;
                     this.numericUpDownProtectTime.Visible = true;
                     this.labelProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
@@ -116,8 +115,6 @@ namespace RelayControlLibrary
                     break;
                 case Customers.Memphis:
                 case Customers.DigitalGridDNP:
-                case Customers.DNPwithPLC:
-                    //this.checkBoxNeverReclose.Checked = false;
                     this.checkBoxNeverReclose.Visible = true;
                     this.labelProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
@@ -125,6 +122,16 @@ namespace RelayControlLibrary
                     this.groupBoxMotorTimeout.Visible = false;
                     this.checkBoxMotorCycles.Checked = false;
                     this.checkBoxMotorTime.Checked = false;
+                    this.numericUpDownProtectTime.Visible = true;
+                    break;
+                case Customers.DNPwithPLC:
+                    this.checkBoxNeverReclose.Visible = true;
+                    this.labelProtectTime.Visible = true;
+                    this.labelProtectTimeUnits.Visible = true;
+                    this.groupBoxMotorCycles.Visible = true;
+                    this.groupBoxMotorTimeout.Visible = true;
+                    this.checkBoxMotorCycles.Checked = true;
+                    this.checkBoxMotorTime.Checked = true;
                     this.numericUpDownProtectTime.Visible = true;
                     break;
                 case Customers.ConEdison:

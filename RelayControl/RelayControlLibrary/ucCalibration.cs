@@ -36,7 +36,7 @@ namespace RelayControlLibrary
 
         private void buttonRestConstants_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Do You Really Want To Reset Calibration Constants?", "Reset Constants?", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            DialogResult dr = new YesNoMessageBoxResized("Do You Really Want To Reset Calibration Constants?", "Reset Constants?").ShowDialog();
 
             if (dr == DialogResult.Yes)
             {
