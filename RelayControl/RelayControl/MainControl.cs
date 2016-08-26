@@ -6854,6 +6854,9 @@ namespace RelayControl
             sS.TripSettings = this.ucTripMode2.GetSavedState();
             sS.PumpSettings = this.ucPumpMode1.GetSavedState();
             sS.CloseSettings = this.ucCloseMode1.GetSavedState();
+#if DNP
+            sS.DNPSettings = this.ucDNP1.GetSavedState();
+#endif
             sS.SafeServiceSettings = this.ucSafeService1.GetSavedState();
             sS.CTRatio = this.CTRatio;
             sS.Phasing = this.domainUpDownPhasings.SelectedIndex;
@@ -6891,6 +6894,9 @@ namespace RelayControl
             this.ucTripMode2.SetAllValues(sS.TripSettings);
             this.ucCloseMode1.SetAllValues(sS.CloseSettings);
             this.ucPumpMode1.SetAllValues(sS.PumpSettings);
+#if DNP
+            this.ucDNP1.SetAllValues(sS.DNPSettings);
+#endif
             if (sS.SafeServiceSettings == null)
             {
                 sS.SafeServiceSettings = new SafeServiceSavedState();
@@ -8728,6 +8734,9 @@ namespace RelayControl
         public TripModeSavedStateV4 TripSettings = new TripModeSavedStateV4();
         public CloseModeSaveStateV4 CloseSettings = new CloseModeSaveStateV4(); //was "v1" (no version#)
         public PumpModeSavedStateV2 PumpSettings = new PumpModeSavedStateV2();
+#if DNP
+        public DNPSaveStateV4 DNPSettings = new DNPSaveStateV4();
+#endif
         public int CTRatio;
         public int RelayType;
         public int Phasing;
@@ -8742,6 +8751,18 @@ namespace RelayControl
                 this.TripSettings = (TripModeSavedStateV4)info.GetValue("Trip Settings", typeof(TripModeSavedStateV4));
                 this.CloseSettings= (CloseModeSaveStateV4)info.GetValue("Close Settings", typeof(CloseModeSaveStateV4));
                 this.PumpSettings = (PumpModeSavedStateV2)info.GetValue("Pump Settings", typeof(PumpModeSavedStateV2));
+
+#if DNP
+                try
+                {
+                    this.DNPSettings = (DNPSaveStateV4)info.GetValue("DNP Settings", typeof(DNPSaveStateV4));
+                }
+                catch
+                {
+                    this.DNPSettings = new DNPSaveStateV4();
+                }
+#endif
+
                 try
                 {
                     this.SafeServiceSettings = (SafeServiceSavedState)info.GetValue("Safe Service Settings", typeof(SafeServiceSavedState));
@@ -8768,6 +8789,9 @@ namespace RelayControl
                 info.AddValue("Trip Settings", this.TripSettings);
                 info.AddValue("Close Settings", this.CloseSettings);
                 info.AddValue("Pump Settings", this.PumpSettings);
+#if DNP
+                info.AddValue("DNP Settings", this.DNPSettings);
+#endif
                 info.AddValue("CTRatio", this.CTRatio);
                 info.AddValue("Relay Type", this.RelayType);
                 info.AddValue("Phasing", this.Phasing);

@@ -5,6 +5,9 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Runtime.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RelayControlLibrary
 {
@@ -854,6 +857,107 @@ namespace RelayControlLibrary
             }
                 
         }
+
+        private void populateSaveModeDNPData(DNPSaveStateV4 DNPSS)
+        {
+            DNPSS.LinkLayerConfirm = (string)comboBoxLinkLayerConfirm.Text;
+
+
+            if (comboBoxSelfAddress.SelectedIndex == 0)
+                DNPSS.SelfAddress = true;
+            else
+                DNPSS.SelfAddress = false;
+
+
+            if (comboBoxUnsolResponse.SelectedIndex == 0)
+                DNPSS.UnsolResponse = true;
+            else
+                DNPSS.UnsolResponse = false;
+
+
+
+            DNPSS.UnsolTimeout = (int)numericUpDownUnsolTimeout.Value;
+            DNPSS.FragmentSize = (int)numericUpDownFragmentSize.Value;
+            DNPSS.SourceAddress = (int)numericUpDownSourceAddress.Value;
+            DNPSS.DestinationAddress = (int)numericUpDownDestinationAddress.Value;
+            DNPSS.MaxEvents = (int)numericUpDownMaxEvents.Value;
+            DNPSS.UnsolRetries = (int)numericUpDownUnsolRetries.Value;
+
+            if (comboBoxTerminationResistor.SelectedIndex == 0)
+                DNPSS.TerminationResistor = true;
+            else
+                DNPSS.TerminationResistor = false;
+
+            DNPSS.DNPBaudRate = Convert.ToInt32(comboBoxDNPBaudRate.Text);
+        }
+
+
+
+        public void SetAllValues(DNPSaveStateV4 DNPSS)
+        {
+            try
+            {
+                if (DNPSS.LinkLayerConfirm == "Never")
+                    comboBoxLinkLayerConfirm.SelectedIndex = 0;
+                else if(DNPSS.LinkLayerConfirm == "Sometimes")
+                    comboBoxLinkLayerConfirm.SelectedIndex = 1;
+                else if(DNPSS.LinkLayerConfirm == "Always")
+                    comboBoxLinkLayerConfirm.SelectedIndex = 2;
+
+                if (DNPSS.SelfAddress == true)
+                    comboBoxSelfAddress.SelectedIndex = 0;
+                else
+                    comboBoxSelfAddress.SelectedIndex = 1;
+
+
+                if (DNPSS.UnsolResponse == true)
+                    comboBoxUnsolResponse.SelectedIndex = 0;
+                else
+                    comboBoxUnsolResponse.SelectedIndex = 1;
+
+
+
+                numericUpDownUnsolTimeout.Value = DNPSS.UnsolTimeout;
+                numericUpDownFragmentSize.Value = DNPSS.FragmentSize;
+                numericUpDownSourceAddress.Value = DNPSS.SourceAddress;
+                numericUpDownDestinationAddress.Value = DNPSS.DestinationAddress;
+                numericUpDownMaxEvents.Value = DNPSS.MaxEvents;
+                numericUpDownUnsolRetries.Value = DNPSS.UnsolRetries;
+
+                if (DNPSS.TerminationResistor == true)
+                    comboBoxTerminationResistor.SelectedIndex = 0;
+                else
+                    comboBoxTerminationResistor.SelectedIndex = 1;
+
+                for (int i = 0; i <= comboBoxDNPBaudRate.Items.Count - 1; i++)
+                {
+                    comboBoxDNPBaudRate.SelectedIndex = i;
+                    if(comboBoxDNPBaudRate.Text == Convert.ToString(DNPSS.DNPBaudRate))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        comboBoxDNPBaudRate.SelectedIndex++;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error In Setting Values From Saved State in Close Control", ex));
+                this.errorHandler(new Exception("No Event Ranges Defined For This Customer"));
+            }
+        }
+
+        public DNPSaveStateV4 GetSavedState()
+        {
+            DNPSaveStateV4 DNPSS = new DNPSaveStateV4();
+
+            this.populateSaveModeDNPData(DNPSS);
+
+            return DNPSS;
+        }
     }
 
     public class ucDeadBandSettingsObject
@@ -895,4 +999,178 @@ namespace RelayControlLibrary
         public decimal Mult = 1;
 
     }
+
+
+    #region Saved States
+
+
+    [Serializable()]
+
+    public class DNPSaveStateV4 : ISerializable 
+    {
+        public DNPSaveStateV4()
+        {
+        }
+
+        public string Name;
+        public string LinkLayerConfirm;
+        public bool SelfAddress;
+        public bool UnsolResponse;
+        public int UnsolTimeout;
+        public int FragmentSize;
+        public int SourceAddress;
+        public int DestinationAddress;
+        public int MaxEvents;
+        public int UnsolRetries;
+        public bool TerminationResistor;
+        public int DNPBaudRate;
+
+        public DNPSaveStateV4(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.Name = (string)info.GetValue("Name", typeof(string)); //fix
+                this.LinkLayerConfirm = (string)info.GetValue("Link Layer Confirm", typeof(string));
+                this.SelfAddress = (bool)info.GetValue("Self Address", typeof(bool));
+                this.UnsolResponse = (bool)info.GetValue("Unsolicited Response", typeof(bool));
+                this.UnsolTimeout = (int)info.GetValue("Unsolicited Timeout", typeof(int));
+                this.FragmentSize = (int)info.GetValue("Fragment Size", typeof(int));
+                this.SourceAddress = (int)info.GetValue("Source Address", typeof(int));
+                this.DestinationAddress = (int)info.GetValue("Destination Address", typeof(int));
+                this.MaxEvents = (int)info.GetValue("Max Events", typeof(int));
+                this.UnsolRetries = (int)info.GetValue("Unsolicited Retries", typeof(int));
+                this.TerminationResistor = (bool)info.GetValue("Termination Resistor", typeof(bool));
+                this.DNPBaudRate = (int)info.GetValue("DNP BaudRate", typeof(int));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error In DNP Save State Contructor.", ex);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                info.AddValue("Name", this.Name);
+                info.AddValue("Link Layer Confirm", this.LinkLayerConfirm);
+                info.AddValue("Self Address", this.SelfAddress);
+                info.AddValue("Unsolicited Response", this.UnsolResponse);
+                info.AddValue("Unsolicited Timeout", this.UnsolTimeout);
+                info.AddValue("Fragment Size", this.FragmentSize);
+                info.AddValue("Source Address", this.SourceAddress);
+                info.AddValue("Destination Address", this.DestinationAddress);
+                info.AddValue("Unsolicited Retries", this.UnsolRetries);
+                info.AddValue("Max Events", this.MaxEvents);
+                info.AddValue("Termination Resistor", this.TerminationResistor);
+                info.AddValue("DNP BaudRate", this.DNPBaudRate);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in Close Mode GetObjectData", ex);
+            }
+        }
+        private SaveObject saveObject = new SaveObject();  
+    }
+
+    
+
+    [Serializable()]
+
+    public class DNPSaveObjectV4 : ISerializable
+    {
+        public DNPSaveObjectV4()
+        {
+        }
+
+        //public int NumberOfObjects;
+        public List<DNPSaveStateV4> SavedStates = new List<DNPSaveStateV4>();
+
+        public DNPSaveObjectV4(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                //this.NumberOfObjects = (int)info.GetValue("Number Of Objects", typeof(int));
+                this.SavedStates = (List<DNPSaveStateV4>)info.GetValue("Saved States", typeof(List<DNPSaveStateV4>));
+            }
+            catch //(Exception ex)
+            {
+                this.SavedStates = null;
+                //throw new Exception("Error in deserializing of Save Object in Trip Mode Settings.", ex);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                info.AddValue("Saved States", this.SavedStates);
+                //info.AddValue("Number Of Objects", this.NumberOfObjects);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Saving Data In DNP Settings.", ex);
+            }
+        }
+
+        public void AddSavedState(DNPSaveStateV4 dSS)
+        {
+            int i = 0;
+
+            for (; i < SavedStates.Count; ++i)
+            {
+                if (this.SavedStates[i].Name == dSS.Name || this.SavedStates[i].Name == null)
+                {
+                    this.SavedStates[i] = dSS;
+                    break;
+                }
+            }
+
+            if (i == SavedStates.Count)
+            {
+                this.SavedStates.Add(dSS);
+            }
+
+            //Sort list alphabetically
+            this.SavedStates.Sort(delegate(DNPSaveStateV4 dSS1, DNPSaveStateV4 dSS2) { return dSS1.Name.CompareTo(dSS2.Name); });
+        }
+
+        private bool sameName(DNPSaveStateV4 dSS, string s)
+        {
+            if (dSS.Name == s)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void RemoveSavedState(DNPSaveStateV4 dSS)
+        {
+            if (this.SavedStates == null)
+                return;
+            this.SavedStates.Remove(dSS);
+        }
+
+        public void RemoveSavedState(string name)
+        {
+            if (this.SavedStates == null)
+                return;
+
+            for (int i = 0; i < this.SavedStates.Count; ++i)
+            {
+                if (this.SavedStates[i].Name.Equals(name))
+                {
+                    this.SavedStates.Remove(this.SavedStates[i]);
+                    break;
+                }
+            }
+        }
+
+    }
+
+#endregion
 }
