@@ -735,7 +735,7 @@ namespace RelayControlLibrary
         }
 
         private FlagPolarities flagPolarity; 
-        public FlagPolarities FlagPolarity 
+        public FlagPolarities FlagPolarity
         {
             get { return flagPolarity; }
             set

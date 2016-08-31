@@ -78,6 +78,28 @@ namespace RelayControlLibrary
             }
         }
 
+        private bool setFromRelaySettingsTab = false;
+        public bool SetFromRelaySettingsTab
+        {
+            get { return this.setFromRelaySettingsTab; }
+            set
+            {
+                this.setFromRelaySettingsTab = value;
+            }
+        }
+
+        private byte dNPCoverFlags = 0;
+        public byte DNPCoverFlags
+        {
+            get { return this.dNPCoverFlags; }
+            set
+            {
+                this.dNPCoverFlags = value;
+                this.setFlagPolarity(dNPCoverFlags);
+                
+            }
+        }
+
         private uint cTRatio = 320;
         public uint CTRatio
         {
@@ -954,15 +976,35 @@ namespace RelayControlLibrary
             //Flag Polarity
 
                 errorMessage = "Error Setting Flag Polarities";
-                this.TXSettings.FlagPolarity.A = this.radioButtonFPAClose.Checked;
-                this.TXSettings.FlagPolarity.B = this.radioButtonFPBClose.Checked;
-                this.TXSettings.FlagPolarity.C = this.radioButtonFPCClose.Checked;
-                this.TXSettings.FlagPolarity.D = this.radioButtonFPDClose.Checked;
-                this.TXSettings.FlagPolarity.E = this.radioButtonFPEClose.Checked;
-                this.TXSettings.FlagPolarity.F = this.radioButtonFPFClose.Checked;
-                this.TXSettings.FlagPolarity.G = this.radioButtonFPGClose.Checked;
-                this.TXSettings.FlagPolarity.H = this.radioButtonFPHClose.Checked;
-                this.TXSettings.SetFlagPolartityByte();
+                if (setFromRelaySettingsTab == false)
+                {
+                    this.TXSettings.FlagPolarity.A = this.radioButtonFPAClose.Checked;
+                    this.TXSettings.FlagPolarity.B = this.radioButtonFPBClose.Checked;
+                    this.TXSettings.FlagPolarity.C = this.radioButtonFPCClose.Checked;
+                    this.TXSettings.FlagPolarity.D = this.radioButtonFPDClose.Checked;
+                    this.TXSettings.FlagPolarity.E = this.radioButtonFPEClose.Checked;
+                    this.TXSettings.FlagPolarity.F = this.radioButtonFPFClose.Checked;
+                    this.TXSettings.FlagPolarity.G = this.radioButtonFPGClose.Checked;
+                    this.TXSettings.FlagPolarity.H = this.radioButtonFPHClose.Checked;
+                    this.TXSettings.SetFlagPolartityByte();
+                }
+                else
+                {
+                    this.TXSettings.FlagPolarity.A = Convert.ToBoolean(dNPCoverFlags & 1);
+                    this.TXSettings.FlagPolarity.B = Convert.ToBoolean(dNPCoverFlags & 2);
+                    this.TXSettings.FlagPolarity.C = Convert.ToBoolean(dNPCoverFlags & 4);
+                    this.TXSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
+                    this.TXSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
+                    this.TXSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
+                    this.TXSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
+                    this.TXSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
+                    this.TXSettings.SetFlagPolartityByte();
+                }
+                
+                
+
+                setFromRelaySettingsTab = false;
+                
             
 
             //enable Flag Alarms

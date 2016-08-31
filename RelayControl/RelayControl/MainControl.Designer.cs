@@ -66,6 +66,7 @@ namespace RelayControl
             this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
+            this.ucCSVConverterCSVFile2 = new RelayControlLibrary.ucCSVConverterCSVFile();
             this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
             this.groupBoxTimeConvert = new System.Windows.Forms.GroupBox();
             this.textBoxTimeOutput = new System.Windows.Forms.TextBox();
@@ -136,6 +137,40 @@ namespace RelayControl
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.panelFlagSettingHRelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPHCloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPHOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingGRelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPGCloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPGOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingFRelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPFCloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPFOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingERelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPECloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPEOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingDRelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPDCloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPDOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingCRelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPCCloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPCOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingBRelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPBCloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPBOpenRelay = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingARelay = new System.Windows.Forms.Panel();
+            this.radioButtonFPACloseRelay = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPAOpenRelay = new System.Windows.Forms.RadioButton();
+            this.labelFlagSettingsFlagPostPositionRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingsFlagRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingHRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingGRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingFRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingERelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingDRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingCRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingBRelay = new System.Windows.Forms.Label();
+            this.labelFlagSettingARelay = new System.Windows.Forms.Label();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
             this.labelLRLockoutMain = new System.Windows.Forms.Label();
@@ -228,7 +263,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.ucCSVConverterCSVFile2 = new RelayControlLibrary.ucCSVConverterCSVFile();
+            this.groupBoxRelayFlagPolarityCover = new System.Windows.Forms.GroupBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -241,6 +276,14 @@ namespace RelayControl
             this.tabPageTransmitter.SuspendLayout();
             this.tabPageMonitor.SuspendLayout();
             this.tabPageControl.SuspendLayout();
+            this.panelFlagSettingHRelay.SuspendLayout();
+            this.panelFlagSettingGRelay.SuspendLayout();
+            this.panelFlagSettingFRelay.SuspendLayout();
+            this.panelFlagSettingERelay.SuspendLayout();
+            this.panelFlagSettingDRelay.SuspendLayout();
+            this.panelFlagSettingCRelay.SuspendLayout();
+            this.panelFlagSettingBRelay.SuspendLayout();
+            this.panelFlagSettingARelay.SuspendLayout();
             this.groupBoxLRLockoutMain.SuspendLayout();
             this.groupBoxLowVoltThres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).BeginInit();
@@ -255,6 +298,7 @@ namespace RelayControl
             this.tabPageShortRange.SuspendLayout();
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
+            this.groupBoxRelayFlagPolarityCover.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -594,6 +638,13 @@ namespace RelayControl
             this.tabPageEngineering.Text = "Engineering";
             this.tabPageEngineering.UseVisualStyleBackColor = true;
             // 
+            // ucCSVConverterCSVFile2
+            // 
+            this.ucCSVConverterCSVFile2.Location = new System.Drawing.Point(457, 249);
+            this.ucCSVConverterCSVFile2.Name = "ucCSVConverterCSVFile2";
+            this.ucCSVConverterCSVFile2.Size = new System.Drawing.Size(94, 84);
+            this.ucCSVConverterCSVFile2.TabIndex = 118;
+            // 
             // ucGeneralCommandHandler1
             // 
             this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
@@ -761,7 +812,6 @@ namespace RelayControl
             // ucRelayProgramming1
             // 
             this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
-            this.ucRelayProgramming1.DNPRelay = false;
             this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.GEEnabled = false;
             this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
@@ -1208,6 +1258,7 @@ namespace RelayControl
             // 
             this.ucTransmitter1.CTRatio = ((uint)(320u));
             this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
             this.ucTransmitter1.DNPEnabled = false;
             this.ucTransmitter1.ForceDNPEnable = false;
             this.ucTransmitter1.FPGARevisionValid = true;
@@ -1216,6 +1267,7 @@ namespace RelayControl
             this.ucTransmitter1.Name = "ucTransmitter1";
             this.ucTransmitter1.PacketLength = 30;
             this.ucTransmitter1.SerialNumber = 0;
+            this.ucTransmitter1.SetFromRelaySettingsTab = false;
             this.ucTransmitter1.Size = new System.Drawing.Size(869, 612);
             this.ucTransmitter1.TabIndex = 0;
             this.ucTransmitter1.WaterBugNoTransmitter = false;
@@ -1367,6 +1419,7 @@ namespace RelayControl
             // 
             // tabPageControl
             // 
+            this.tabPageControl.Controls.Add(this.groupBoxRelayFlagPolarityCover);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
@@ -1386,6 +1439,364 @@ namespace RelayControl
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             this.tabPageControl.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingHRelay
+            // 
+            this.panelFlagSettingHRelay.Controls.Add(this.radioButtonFPHCloseRelay);
+            this.panelFlagSettingHRelay.Controls.Add(this.radioButtonFPHOpenRelay);
+            this.panelFlagSettingHRelay.Location = new System.Drawing.Point(43, 202);
+            this.panelFlagSettingHRelay.Name = "panelFlagSettingHRelay";
+            this.panelFlagSettingHRelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingHRelay.TabIndex = 55;
+            // 
+            // radioButtonFPHCloseRelay
+            // 
+            this.radioButtonFPHCloseRelay.AutoSize = true;
+            this.radioButtonFPHCloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPHCloseRelay.Name = "radioButtonFPHCloseRelay";
+            this.radioButtonFPHCloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPHCloseRelay.TabIndex = 54;
+            this.radioButtonFPHCloseRelay.TabStop = true;
+            this.radioButtonFPHCloseRelay.Text = "Close";
+            this.radioButtonFPHCloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPHOpenRelay
+            // 
+            this.radioButtonFPHOpenRelay.AutoSize = true;
+            this.radioButtonFPHOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPHOpenRelay.Name = "radioButtonFPHOpenRelay";
+            this.radioButtonFPHOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPHOpenRelay.TabIndex = 53;
+            this.radioButtonFPHOpenRelay.TabStop = true;
+            this.radioButtonFPHOpenRelay.Text = "Open";
+            this.radioButtonFPHOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingGRelay
+            // 
+            this.panelFlagSettingGRelay.Controls.Add(this.radioButtonFPGCloseRelay);
+            this.panelFlagSettingGRelay.Controls.Add(this.radioButtonFPGOpenRelay);
+            this.panelFlagSettingGRelay.Location = new System.Drawing.Point(43, 179);
+            this.panelFlagSettingGRelay.Name = "panelFlagSettingGRelay";
+            this.panelFlagSettingGRelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingGRelay.TabIndex = 55;
+            // 
+            // radioButtonFPGCloseRelay
+            // 
+            this.radioButtonFPGCloseRelay.AutoSize = true;
+            this.radioButtonFPGCloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPGCloseRelay.Name = "radioButtonFPGCloseRelay";
+            this.radioButtonFPGCloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPGCloseRelay.TabIndex = 54;
+            this.radioButtonFPGCloseRelay.TabStop = true;
+            this.radioButtonFPGCloseRelay.Text = "Close";
+            this.radioButtonFPGCloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPGOpenRelay
+            // 
+            this.radioButtonFPGOpenRelay.AutoSize = true;
+            this.radioButtonFPGOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPGOpenRelay.Name = "radioButtonFPGOpenRelay";
+            this.radioButtonFPGOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPGOpenRelay.TabIndex = 53;
+            this.radioButtonFPGOpenRelay.TabStop = true;
+            this.radioButtonFPGOpenRelay.Text = "Open";
+            this.radioButtonFPGOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingFRelay
+            // 
+            this.panelFlagSettingFRelay.Controls.Add(this.radioButtonFPFCloseRelay);
+            this.panelFlagSettingFRelay.Controls.Add(this.radioButtonFPFOpenRelay);
+            this.panelFlagSettingFRelay.Location = new System.Drawing.Point(43, 154);
+            this.panelFlagSettingFRelay.Name = "panelFlagSettingFRelay";
+            this.panelFlagSettingFRelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingFRelay.TabIndex = 55;
+            // 
+            // radioButtonFPFCloseRelay
+            // 
+            this.radioButtonFPFCloseRelay.AutoSize = true;
+            this.radioButtonFPFCloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPFCloseRelay.Name = "radioButtonFPFCloseRelay";
+            this.radioButtonFPFCloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPFCloseRelay.TabIndex = 54;
+            this.radioButtonFPFCloseRelay.TabStop = true;
+            this.radioButtonFPFCloseRelay.Text = "Close";
+            this.radioButtonFPFCloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPFOpenRelay
+            // 
+            this.radioButtonFPFOpenRelay.AutoSize = true;
+            this.radioButtonFPFOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPFOpenRelay.Name = "radioButtonFPFOpenRelay";
+            this.radioButtonFPFOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPFOpenRelay.TabIndex = 53;
+            this.radioButtonFPFOpenRelay.TabStop = true;
+            this.radioButtonFPFOpenRelay.Text = "Open";
+            this.radioButtonFPFOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingERelay
+            // 
+            this.panelFlagSettingERelay.Controls.Add(this.radioButtonFPECloseRelay);
+            this.panelFlagSettingERelay.Controls.Add(this.radioButtonFPEOpenRelay);
+            this.panelFlagSettingERelay.Location = new System.Drawing.Point(43, 131);
+            this.panelFlagSettingERelay.Name = "panelFlagSettingERelay";
+            this.panelFlagSettingERelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingERelay.TabIndex = 55;
+            // 
+            // radioButtonFPECloseRelay
+            // 
+            this.radioButtonFPECloseRelay.AutoSize = true;
+            this.radioButtonFPECloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPECloseRelay.Name = "radioButtonFPECloseRelay";
+            this.radioButtonFPECloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPECloseRelay.TabIndex = 54;
+            this.radioButtonFPECloseRelay.TabStop = true;
+            this.radioButtonFPECloseRelay.Text = "Close";
+            this.radioButtonFPECloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPEOpenRelay
+            // 
+            this.radioButtonFPEOpenRelay.AutoSize = true;
+            this.radioButtonFPEOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPEOpenRelay.Name = "radioButtonFPEOpenRelay";
+            this.radioButtonFPEOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPEOpenRelay.TabIndex = 53;
+            this.radioButtonFPEOpenRelay.TabStop = true;
+            this.radioButtonFPEOpenRelay.Text = "Open";
+            this.radioButtonFPEOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingDRelay
+            // 
+            this.panelFlagSettingDRelay.Controls.Add(this.radioButtonFPDCloseRelay);
+            this.panelFlagSettingDRelay.Controls.Add(this.radioButtonFPDOpenRelay);
+            this.panelFlagSettingDRelay.Location = new System.Drawing.Point(43, 108);
+            this.panelFlagSettingDRelay.Name = "panelFlagSettingDRelay";
+            this.panelFlagSettingDRelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingDRelay.TabIndex = 55;
+            // 
+            // radioButtonFPDCloseRelay
+            // 
+            this.radioButtonFPDCloseRelay.AutoSize = true;
+            this.radioButtonFPDCloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPDCloseRelay.Name = "radioButtonFPDCloseRelay";
+            this.radioButtonFPDCloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPDCloseRelay.TabIndex = 54;
+            this.radioButtonFPDCloseRelay.TabStop = true;
+            this.radioButtonFPDCloseRelay.Text = "Close";
+            this.radioButtonFPDCloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPDOpenRelay
+            // 
+            this.radioButtonFPDOpenRelay.AutoSize = true;
+            this.radioButtonFPDOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPDOpenRelay.Name = "radioButtonFPDOpenRelay";
+            this.radioButtonFPDOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPDOpenRelay.TabIndex = 53;
+            this.radioButtonFPDOpenRelay.TabStop = true;
+            this.radioButtonFPDOpenRelay.Text = "Open";
+            this.radioButtonFPDOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingCRelay
+            // 
+            this.panelFlagSettingCRelay.Controls.Add(this.radioButtonFPCCloseRelay);
+            this.panelFlagSettingCRelay.Controls.Add(this.radioButtonFPCOpenRelay);
+            this.panelFlagSettingCRelay.Location = new System.Drawing.Point(43, 85);
+            this.panelFlagSettingCRelay.Name = "panelFlagSettingCRelay";
+            this.panelFlagSettingCRelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingCRelay.TabIndex = 55;
+            // 
+            // radioButtonFPCCloseRelay
+            // 
+            this.radioButtonFPCCloseRelay.AutoSize = true;
+            this.radioButtonFPCCloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPCCloseRelay.Name = "radioButtonFPCCloseRelay";
+            this.radioButtonFPCCloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPCCloseRelay.TabIndex = 54;
+            this.radioButtonFPCCloseRelay.TabStop = true;
+            this.radioButtonFPCCloseRelay.Text = "Close";
+            this.radioButtonFPCCloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPCOpenRelay
+            // 
+            this.radioButtonFPCOpenRelay.AutoSize = true;
+            this.radioButtonFPCOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPCOpenRelay.Name = "radioButtonFPCOpenRelay";
+            this.radioButtonFPCOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPCOpenRelay.TabIndex = 53;
+            this.radioButtonFPCOpenRelay.TabStop = true;
+            this.radioButtonFPCOpenRelay.Text = "Open";
+            this.radioButtonFPCOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingBRelay
+            // 
+            this.panelFlagSettingBRelay.Controls.Add(this.radioButtonFPBCloseRelay);
+            this.panelFlagSettingBRelay.Controls.Add(this.radioButtonFPBOpenRelay);
+            this.panelFlagSettingBRelay.Location = new System.Drawing.Point(43, 62);
+            this.panelFlagSettingBRelay.Name = "panelFlagSettingBRelay";
+            this.panelFlagSettingBRelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingBRelay.TabIndex = 55;
+            // 
+            // radioButtonFPBCloseRelay
+            // 
+            this.radioButtonFPBCloseRelay.AutoSize = true;
+            this.radioButtonFPBCloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPBCloseRelay.Name = "radioButtonFPBCloseRelay";
+            this.radioButtonFPBCloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPBCloseRelay.TabIndex = 54;
+            this.radioButtonFPBCloseRelay.TabStop = true;
+            this.radioButtonFPBCloseRelay.Text = "Close";
+            this.radioButtonFPBCloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPBOpenRelay
+            // 
+            this.radioButtonFPBOpenRelay.AutoSize = true;
+            this.radioButtonFPBOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPBOpenRelay.Name = "radioButtonFPBOpenRelay";
+            this.radioButtonFPBOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPBOpenRelay.TabIndex = 53;
+            this.radioButtonFPBOpenRelay.TabStop = true;
+            this.radioButtonFPBOpenRelay.Text = "Open";
+            this.radioButtonFPBOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingARelay
+            // 
+            this.panelFlagSettingARelay.Controls.Add(this.radioButtonFPACloseRelay);
+            this.panelFlagSettingARelay.Controls.Add(this.radioButtonFPAOpenRelay);
+            this.panelFlagSettingARelay.Location = new System.Drawing.Point(43, 39);
+            this.panelFlagSettingARelay.Name = "panelFlagSettingARelay";
+            this.panelFlagSettingARelay.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingARelay.TabIndex = 52;
+            // 
+            // radioButtonFPACloseRelay
+            // 
+            this.radioButtonFPACloseRelay.AutoSize = true;
+            this.radioButtonFPACloseRelay.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPACloseRelay.Name = "radioButtonFPACloseRelay";
+            this.radioButtonFPACloseRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPACloseRelay.TabIndex = 54;
+            this.radioButtonFPACloseRelay.TabStop = true;
+            this.radioButtonFPACloseRelay.Text = "Close";
+            this.radioButtonFPACloseRelay.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPAOpenRelay
+            // 
+            this.radioButtonFPAOpenRelay.AutoSize = true;
+            this.radioButtonFPAOpenRelay.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPAOpenRelay.Name = "radioButtonFPAOpenRelay";
+            this.radioButtonFPAOpenRelay.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPAOpenRelay.TabIndex = 53;
+            this.radioButtonFPAOpenRelay.TabStop = true;
+            this.radioButtonFPAOpenRelay.Text = "Open";
+            this.radioButtonFPAOpenRelay.UseVisualStyleBackColor = true;
+            // 
+            // labelFlagSettingsFlagPostPositionRelay
+            // 
+            this.labelFlagSettingsFlagPostPositionRelay.AutoSize = true;
+            this.labelFlagSettingsFlagPostPositionRelay.Location = new System.Drawing.Point(60, 22);
+            this.labelFlagSettingsFlagPostPositionRelay.Name = "labelFlagSettingsFlagPostPositionRelay";
+            this.labelFlagSettingsFlagPostPositionRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingsFlagPostPositionRelay.Size = new System.Drawing.Size(94, 13);
+            this.labelFlagSettingsFlagPostPositionRelay.TabIndex = 51;
+            this.labelFlagSettingsFlagPostPositionRelay.Text = "Flag Post Position:";
+            this.labelFlagSettingsFlagPostPositionRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingsFlagRelay
+            // 
+            this.labelFlagSettingsFlagRelay.AutoSize = true;
+            this.labelFlagSettingsFlagRelay.Location = new System.Drawing.Point(6, 22);
+            this.labelFlagSettingsFlagRelay.Name = "labelFlagSettingsFlagRelay";
+            this.labelFlagSettingsFlagRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingsFlagRelay.Size = new System.Drawing.Size(30, 13);
+            this.labelFlagSettingsFlagRelay.TabIndex = 43;
+            this.labelFlagSettingsFlagRelay.Text = "Flag:";
+            this.labelFlagSettingsFlagRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingHRelay
+            // 
+            this.labelFlagSettingHRelay.AutoSize = true;
+            this.labelFlagSettingHRelay.Location = new System.Drawing.Point(20, 207);
+            this.labelFlagSettingHRelay.Name = "labelFlagSettingHRelay";
+            this.labelFlagSettingHRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingHRelay.Size = new System.Drawing.Size(18, 13);
+            this.labelFlagSettingHRelay.TabIndex = 50;
+            this.labelFlagSettingHRelay.Text = "H:";
+            this.labelFlagSettingHRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingGRelay
+            // 
+            this.labelFlagSettingGRelay.AutoSize = true;
+            this.labelFlagSettingGRelay.Location = new System.Drawing.Point(20, 184);
+            this.labelFlagSettingGRelay.Name = "labelFlagSettingGRelay";
+            this.labelFlagSettingGRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingGRelay.Size = new System.Drawing.Size(18, 13);
+            this.labelFlagSettingGRelay.TabIndex = 49;
+            this.labelFlagSettingGRelay.Text = "G:";
+            this.labelFlagSettingGRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingFRelay
+            // 
+            this.labelFlagSettingFRelay.AutoSize = true;
+            this.labelFlagSettingFRelay.Location = new System.Drawing.Point(20, 159);
+            this.labelFlagSettingFRelay.Name = "labelFlagSettingFRelay";
+            this.labelFlagSettingFRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingFRelay.Size = new System.Drawing.Size(16, 13);
+            this.labelFlagSettingFRelay.TabIndex = 48;
+            this.labelFlagSettingFRelay.Text = "F:";
+            this.labelFlagSettingFRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingERelay
+            // 
+            this.labelFlagSettingERelay.AutoSize = true;
+            this.labelFlagSettingERelay.Location = new System.Drawing.Point(20, 136);
+            this.labelFlagSettingERelay.Name = "labelFlagSettingERelay";
+            this.labelFlagSettingERelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingERelay.Size = new System.Drawing.Size(17, 13);
+            this.labelFlagSettingERelay.TabIndex = 47;
+            this.labelFlagSettingERelay.Text = "E:";
+            this.labelFlagSettingERelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingDRelay
+            // 
+            this.labelFlagSettingDRelay.AutoSize = true;
+            this.labelFlagSettingDRelay.Location = new System.Drawing.Point(20, 113);
+            this.labelFlagSettingDRelay.Name = "labelFlagSettingDRelay";
+            this.labelFlagSettingDRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingDRelay.Size = new System.Drawing.Size(18, 13);
+            this.labelFlagSettingDRelay.TabIndex = 46;
+            this.labelFlagSettingDRelay.Text = "D:";
+            this.labelFlagSettingDRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingCRelay
+            // 
+            this.labelFlagSettingCRelay.AutoSize = true;
+            this.labelFlagSettingCRelay.Location = new System.Drawing.Point(20, 90);
+            this.labelFlagSettingCRelay.Name = "labelFlagSettingCRelay";
+            this.labelFlagSettingCRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingCRelay.Size = new System.Drawing.Size(17, 13);
+            this.labelFlagSettingCRelay.TabIndex = 45;
+            this.labelFlagSettingCRelay.Text = "C:";
+            this.labelFlagSettingCRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingBRelay
+            // 
+            this.labelFlagSettingBRelay.AutoSize = true;
+            this.labelFlagSettingBRelay.Location = new System.Drawing.Point(20, 67);
+            this.labelFlagSettingBRelay.Name = "labelFlagSettingBRelay";
+            this.labelFlagSettingBRelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingBRelay.Size = new System.Drawing.Size(17, 13);
+            this.labelFlagSettingBRelay.TabIndex = 44;
+            this.labelFlagSettingBRelay.Text = "B:";
+            this.labelFlagSettingBRelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingARelay
+            // 
+            this.labelFlagSettingARelay.AutoSize = true;
+            this.labelFlagSettingARelay.Location = new System.Drawing.Point(20, 44);
+            this.labelFlagSettingARelay.Name = "labelFlagSettingARelay";
+            this.labelFlagSettingARelay.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingARelay.Size = new System.Drawing.Size(17, 13);
+            this.labelFlagSettingARelay.TabIndex = 43;
+            this.labelFlagSettingARelay.Text = "A:";
+            this.labelFlagSettingARelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // groupBoxLRLockoutMain
             // 
@@ -1801,7 +2212,7 @@ namespace RelayControl
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxACB);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag1);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxPowerSaveFlag);
-            this.groupBoxRelayFlags.Location = new System.Drawing.Point(567, 521);
+            this.groupBoxRelayFlags.Location = new System.Drawing.Point(567, 522);
             this.groupBoxRelayFlags.Name = "groupBoxRelayFlags";
             this.groupBoxRelayFlags.Size = new System.Drawing.Size(421, 97);
             this.groupBoxRelayFlags.TabIndex = 109;
@@ -2304,6 +2715,7 @@ namespace RelayControl
             // ucDNP1
             // 
             this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP1.DNPLabelStatus = false;
             this.ucDNP1.Location = new System.Drawing.Point(8, 3);
             this.ucDNP1.Name = "ucDNP1";
             this.ucDNP1.Size = new System.Drawing.Size(983, 558);
@@ -2414,12 +2826,32 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // ucCSVConverterCSVFile2
+            // groupBoxRelayFlagPolarityCover
             // 
-            this.ucCSVConverterCSVFile2.Location = new System.Drawing.Point(457, 249);
-            this.ucCSVConverterCSVFile2.Name = "ucCSVConverterCSVFile2";
-            this.ucCSVConverterCSVFile2.Size = new System.Drawing.Size(94, 84);
-            this.ucCSVConverterCSVFile2.TabIndex = 118;
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingHRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingsFlagRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingGRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingHRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingARelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingGRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingFRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingBRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingERelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingCRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingDRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingDRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingCRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingERelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingBRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingFRelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.panelFlagSettingARelay);
+            this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingsFlagPostPositionRelay);
+            this.groupBoxRelayFlagPolarityCover.Location = new System.Drawing.Point(358, 522);
+            this.groupBoxRelayFlagPolarityCover.Name = "groupBoxRelayFlagPolarityCover";
+            this.groupBoxRelayFlagPolarityCover.Size = new System.Drawing.Size(200, 266);
+            this.groupBoxRelayFlagPolarityCover.TabIndex = 120;
+            this.groupBoxRelayFlagPolarityCover.TabStop = false;
+            this.groupBoxRelayFlagPolarityCover.Text = "Relay Flag polarity";
             // 
             // MainControl
             // 
@@ -2457,6 +2889,22 @@ namespace RelayControl
             this.tabPageMonitor.PerformLayout();
             this.tabPageControl.ResumeLayout(false);
             this.tabPageControl.PerformLayout();
+            this.panelFlagSettingHRelay.ResumeLayout(false);
+            this.panelFlagSettingHRelay.PerformLayout();
+            this.panelFlagSettingGRelay.ResumeLayout(false);
+            this.panelFlagSettingGRelay.PerformLayout();
+            this.panelFlagSettingFRelay.ResumeLayout(false);
+            this.panelFlagSettingFRelay.PerformLayout();
+            this.panelFlagSettingERelay.ResumeLayout(false);
+            this.panelFlagSettingERelay.PerformLayout();
+            this.panelFlagSettingDRelay.ResumeLayout(false);
+            this.panelFlagSettingDRelay.PerformLayout();
+            this.panelFlagSettingCRelay.ResumeLayout(false);
+            this.panelFlagSettingCRelay.PerformLayout();
+            this.panelFlagSettingBRelay.ResumeLayout(false);
+            this.panelFlagSettingBRelay.PerformLayout();
+            this.panelFlagSettingARelay.ResumeLayout(false);
+            this.panelFlagSettingARelay.PerformLayout();
             this.groupBoxLRLockoutMain.ResumeLayout(false);
             this.groupBoxLRLockoutMain.PerformLayout();
             this.groupBoxLowVoltThres.ResumeLayout(false);
@@ -2477,6 +2925,8 @@ namespace RelayControl
             this.tabPageShortRange.ResumeLayout(false);
             this.tabPageDNPData.ResumeLayout(false);
             this.tabPageDNPSecureAuth.ResumeLayout(false);
+            this.groupBoxRelayFlagPolarityCover.ResumeLayout(false);
+            this.groupBoxRelayFlagPolarityCover.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2686,6 +3136,41 @@ namespace RelayControl
         private System.Windows.Forms.TextBox textBoxLRLockoutStatusMain;
         private System.Windows.Forms.Label labelLRLockoutMain;
         private RelayControlLibrary.ucCSVConverterCSVFile ucCSVConverterCSVFile2;
+        private System.Windows.Forms.Panel panelFlagSettingHRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPHCloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPHOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingGRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPGCloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPGOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingFRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPFCloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPFOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingERelay;
+        private System.Windows.Forms.RadioButton radioButtonFPECloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPEOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingDRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPDCloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPDOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingCRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPCCloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPCOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingBRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPBCloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPBOpenRelay;
+        private System.Windows.Forms.Panel panelFlagSettingARelay;
+        private System.Windows.Forms.RadioButton radioButtonFPACloseRelay;
+        private System.Windows.Forms.RadioButton radioButtonFPAOpenRelay;
+        private System.Windows.Forms.Label labelFlagSettingsFlagPostPositionRelay;
+        private System.Windows.Forms.Label labelFlagSettingsFlagRelay;
+        private System.Windows.Forms.Label labelFlagSettingHRelay;
+        private System.Windows.Forms.Label labelFlagSettingGRelay;
+        private System.Windows.Forms.Label labelFlagSettingFRelay;
+        private System.Windows.Forms.Label labelFlagSettingERelay;
+        private System.Windows.Forms.Label labelFlagSettingDRelay;
+        private System.Windows.Forms.Label labelFlagSettingCRelay;
+        private System.Windows.Forms.Label labelFlagSettingBRelay;
+        private System.Windows.Forms.Label labelFlagSettingARelay;
+        private System.Windows.Forms.GroupBox groupBoxRelayFlagPolarityCover;
     }
 }
 

@@ -287,6 +287,8 @@
     <OutputPath>bin\Debug Atlanta\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>

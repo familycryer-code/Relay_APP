@@ -279,10 +279,31 @@ namespace RelayControl
 
 #if ATLANTA
        this.groupBoxLowVoltThres.Visible = true;
+       this.groupBoxRelayFlagPolarityCover.Visible = true;
+       this.panelFlagSettingARelay.Visible = true;
+       this.panelFlagSettingBRelay.Visible = true;
+       this.panelFlagSettingCRelay.Visible = false;
+       this.panelFlagSettingDRelay.Visible = false;
+       this.panelFlagSettingERelay.Visible = false;
+       this.panelFlagSettingFRelay.Visible = false;
+       this.panelFlagSettingGRelay.Visible = false;
+       this.panelFlagSettingHRelay.Visible = false;
+
+       this.labelFlagSettingARelay.Visible = true;
+       this.labelFlagSettingBRelay.Visible = true;
+       this.labelFlagSettingCRelay.Visible = false;
+       this.labelFlagSettingDRelay.Visible = false;
+       this.labelFlagSettingERelay.Visible = false;
+       this.labelFlagSettingFRelay.Visible = false;
+       this.labelFlagSettingGRelay.Visible = false;
+       this.labelFlagSettingHRelay.Visible = false;
+
+       this.groupBoxRelayFlagPolarityCover.Size = new Size(180, 97);
 #else
+       this.groupBoxRelayFlagPolarityCover.Visible = false;
        this.groupBoxLowVoltThres.Visible = false;
 #endif
-                this.timerLiveEventAcknowledge.Interval = 250;
+       this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
                 this.ucCloseMode1.Send += new ucCloseMode.SendHandler(ucCloseMode1_Send);
@@ -3252,6 +3273,10 @@ namespace RelayControl
                 this.setMonitoringPageFrequency(RelayModeFunctions.FrequencyFrom(bytePacket[8]));
 
                 this.ucTransmitter1.SetAllValues(settings);
+
+#if DNP && ATLANTA
+                this.setDNPCoverFlags(settings);
+#endif
                 // Pass the settings to the Programming part so it can update,  if need be
                 if (this.ucRelayProgramming1.TransmitterPacket == null)
                     this.ucRelayProgramming1.TransmitterPacket = settings;
@@ -3289,6 +3314,102 @@ namespace RelayControl
             }
         }
 
+        private void setDNPCoverFlags(byte[] bytePacket)
+        {
+            this.setFlagPolarityDNPCover(bytePacket[9]);
+        }
+
+        private void setFlagPolarityDNPCover(byte p)
+        {
+            if ((p & 1) == 1)
+                this.radioButtonFPACloseRelay.Checked = true;
+            else
+                this.radioButtonFPAOpenRelay.Checked = true;
+
+            if ((p & 2) == 2)
+                this.radioButtonFPBCloseRelay.Checked = true;
+            else
+                this.radioButtonFPBOpenRelay.Checked = true;
+
+            if ((p & 4) == 4)
+                this.radioButtonFPCCloseRelay.Checked = true;
+            else
+                this.radioButtonFPCOpenRelay.Checked = true;
+
+            if ((p & 8) == 8)
+                this.radioButtonFPDCloseRelay.Checked = true;
+            else
+                this.radioButtonFPDOpenRelay.Checked = true;
+
+            if ((p & 16) == 16)
+                this.radioButtonFPECloseRelay.Checked = true;
+            else
+                this.radioButtonFPEOpenRelay.Checked = true;
+
+            if ((p & 32) == 32)
+                this.radioButtonFPFCloseRelay.Checked = true;
+            else
+                this.radioButtonFPFOpenRelay.Checked = true;
+
+            if ((p & 64) == 64)
+                this.radioButtonFPGCloseRelay.Checked = true;
+            else
+                this.radioButtonFPGOpenRelay.Checked = true;
+
+            if ((p & 128) == 128)
+                this.radioButtonFPHCloseRelay.Checked = true;
+            else
+                this.radioButtonFPHOpenRelay.Checked = true;
+
+        }
+
+        private byte GetDNPCoverFlagsByte()
+        {
+            byte DNPCoverFlags = 0;
+
+            if (radioButtonFPACloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 1);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 254);
+
+            if (radioButtonFPBCloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 2);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 253);
+
+            if (radioButtonFPCCloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 4);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 251);
+
+            if (radioButtonFPDCloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 8);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 247);
+
+            if (radioButtonFPECloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 16);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 239);
+
+            if (radioButtonFPFCloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 32);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 223);
+
+            if (radioButtonFPGCloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 64);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 191);
+
+            if (radioButtonFPHCloseRelay.Checked == true)
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags | 128);
+            else
+                DNPCoverFlags = Convert.ToByte(DNPCoverFlags & 127);
+
+            return DNPCoverFlags;
+        }
+
         private void parametersFinishedLoading()
         {
             this.ProgramState = ProgramStates.Running;
@@ -3322,6 +3443,7 @@ namespace RelayControl
 
             this.enableAll(true);
             this.RegisterPolling(true);
+            
 #if WATERBUG
             this.toolStripStatusLabelMain.Text = "Test Set found on " + this.serialPort1.PortName;
 #else
@@ -6943,9 +7065,18 @@ namespace RelayControl
                 this.ucSafeService1.SendAll();
                 Thread.Sleep(100);
             }
+
+#if DNP && ATLANTA
+            this.ucTransmitter1.SetFromRelaySettingsTab = true;
+            this.ucTransmitter1.DNPCoverFlags = GetDNPCoverFlagsByte();
+            this.ucTransmitter1.SendTransmitterSettings();
+            Thread.Sleep(100);
+#endif
+
             this.sendAll = false;
             if (!this.loadingNewCode)
                 this.requestAllData();
+
             this.parametersLoaded = true;
         }
 
