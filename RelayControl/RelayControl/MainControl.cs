@@ -8866,6 +8866,7 @@ namespace RelayControl
         public CloseModeSaveStateV4 CloseSettings = new CloseModeSaveStateV4(); //was "v1" (no version#)
         public PumpModeSavedStateV2 PumpSettings = new PumpModeSavedStateV2();
 #if DNP
+        [OptionalField]
         public DNPSaveStateV4 DNPSettings = new DNPSaveStateV4();
 #endif
         public int CTRatio;
