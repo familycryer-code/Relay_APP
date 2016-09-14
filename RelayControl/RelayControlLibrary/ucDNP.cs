@@ -1068,7 +1068,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                throw new Exception("Error in Close Mode GetObjectData", ex);
+                throw new Exception("Error in DNP Mode GetObjectData", ex);
             }
         }
         private SaveObject saveObject = new SaveObject();  

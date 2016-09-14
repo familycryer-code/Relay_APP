@@ -102,7 +102,6 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Digital Input 2");
                 this.binaryInputs.Add("Digital Input 3");
                 this.binaryInputs.Add("Digital Input 4");
-                this.binaryInputs.Add("GE Relay");
 
                 pointsToAdd = 14;
             }
