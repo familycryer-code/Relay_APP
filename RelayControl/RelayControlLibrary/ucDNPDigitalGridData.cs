@@ -98,8 +98,13 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Insensitive Backfeed Detected");
             if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD || this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
             {
+#if ATLANTA || ONCOR
+                this.binaryInputs.Add("Digital Input 1 (B Flag)");
+                this.binaryInputs.Add("Digital Input 2 (A Flag)");
+#else
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
+#endif
                 this.binaryInputs.Add("Digital Input 3");
                 this.binaryInputs.Add("Digital Input 4");
 
