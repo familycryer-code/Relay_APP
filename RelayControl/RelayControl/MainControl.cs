@@ -7017,7 +7017,14 @@ namespace RelayControl
             this.ucCloseMode1.SetAllValues(sS.CloseSettings);
             this.ucPumpMode1.SetAllValues(sS.PumpSettings);
 #if DNP
-            this.ucDNP1.SetAllValues(sS.DNPSettings);
+            if (sS.DNPSettings.LinkLayerConfirm == null)
+            {
+                sS.DNPSettings = new DNPSaveStateV4();
+            }
+            else
+            {
+                this.ucDNP1.SetAllValues(sS.DNPSettings);
+            }
 #endif
             if (sS.SafeServiceSettings == null)
             {
@@ -8865,15 +8872,15 @@ namespace RelayControl
         public TripModeSavedStateV4 TripSettings = new TripModeSavedStateV4();
         public CloseModeSaveStateV4 CloseSettings = new CloseModeSaveStateV4(); //was "v1" (no version#)
         public PumpModeSavedStateV2 PumpSettings = new PumpModeSavedStateV2();
-#if DNP
-        [OptionalField]
-        public DNPSaveStateV4 DNPSettings = new DNPSaveStateV4();
-#endif
         public int CTRatio;
         public int RelayType;
         public int Phasing;
         [OptionalField]
         public SafeServiceSavedState SafeServiceSettings = new SafeServiceSavedState();
+#if DNP
+        [OptionalField]
+        public DNPSaveStateV4 DNPSettings = new DNPSaveStateV4();
+#endif
 
         public SavedSettingV4(SerializationInfo info, StreamingContext ctxt)
         {

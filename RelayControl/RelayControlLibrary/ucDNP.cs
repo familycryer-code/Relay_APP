@@ -945,7 +945,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                this.errorHandler(new Exception("Error In Setting Values From Saved State in Close Control", ex));
+                this.errorHandler(new Exception("Error In Setting Values From Saved State in DNP", ex));
                 this.errorHandler(new Exception("No Event Ranges Defined For This Customer"));
             }
         }
