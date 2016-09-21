@@ -102,6 +102,7 @@ namespace RelayControlLibrary
         Float,
         Transient,
         InInsensitiveRegion,
+        LowVoltage,
         UnidentifiedEvent,
         NoEvent
     }

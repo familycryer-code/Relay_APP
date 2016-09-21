@@ -23,12 +23,13 @@ using SavedSettings;
 
 namespace RelayControl
 {
+    
     public partial class MainControl : Form
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-09-15";
+        private const string revisionDate = "2016-09-21";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -760,7 +761,7 @@ namespace RelayControl
                 this.uc8CheckBoxFlagsCommFlags1.Names = this.commFlags1;
 
                 this.commFlags2.Add("High Voltage");
-                this.commFlags2.Add("Transient");
+                this.commFlags2.Add("Low Voltage Event");
                 this.commFlags2.Add("Arc Flash Detected");
                 this.commFlags2.Add("Arc Fault Detected");
                 this.commFlags2.Add("Arc Fault Detected");
@@ -2792,6 +2793,10 @@ namespace RelayControl
             else if ((temp & 16) == 16)
             {
                 return EventTypes.InInsensitiveRegion;
+            }
+            else if ((temp & 0x0200) == 0x0200)
+            {
+                return EventTypes.LowVoltage;
             }
             else
             {
