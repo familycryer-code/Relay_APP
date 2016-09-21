@@ -2381,6 +2381,7 @@ namespace RelayControl
             this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
             this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
             this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
+            this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
             //this.toolTip.SetToolTip(this.toolStripStatusLabelReceiverStatus, this.relayStatusConverter.CurrentDescription);
         }
 
