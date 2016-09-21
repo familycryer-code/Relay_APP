@@ -1685,6 +1685,7 @@ namespace RelayControlLibrary
             {
                 this.binaryTime = value;
                 this.systemTime = BaseTime.AddSeconds(value);
+                this.systemTime = this.systemTime.ToLocalTime();
             }
         }
         
