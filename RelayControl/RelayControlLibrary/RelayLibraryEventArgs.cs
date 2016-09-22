@@ -12,7 +12,7 @@ namespace RelayControlLibrary
         }
 
         public byte[] SendPacket;
-
+        public bool WithAck = false;
     }
 
     public class TripModeChangeEventArgs : EventArgs

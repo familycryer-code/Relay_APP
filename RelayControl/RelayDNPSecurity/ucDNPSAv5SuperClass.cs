@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RelayControlLibrary;
 
 namespace RelayDNPSecurity
 {
@@ -19,7 +20,7 @@ namespace RelayDNPSecurity
         public delegate void SendHandler(object o, SecureSendEventArgs sSEA);
         public event SendHandler Send;
 
-        public delegate void ExceptionHandler(object o, Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler Error;
 
         protected void onSend(SecureSendEventArgs sSEA)
@@ -28,10 +29,10 @@ namespace RelayDNPSecurity
                 this.Send(this, sSEA);
         }
 
-        protected void onError(Exception ex)
+        protected void onError(Exception ex, string title)
         {
             if (this.Error != null)
-                this.Error(this, ex);
+                this.Error(this, new ExceptionEventArgs(ex, title));
         }
     }
 }

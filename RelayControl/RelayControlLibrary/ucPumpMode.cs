@@ -49,7 +49,7 @@ namespace RelayControlLibrary
         }
         public delegate void SendEventHandler(SendEventArgs sEA);
         public event SendEventHandler Send;
-        public delegate void ExceptionHandler(Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler PumpControlException;
         public PumpReasons PumpReason
         {
@@ -447,7 +447,7 @@ namespace RelayControlLibrary
         {
             if (PumpControlException != null)
             {
-                PumpControlException(ex);
+                PumpControlException(this, new ExceptionEventArgs(ex, "Error in PumpMode Control"));
             }
             else
             {

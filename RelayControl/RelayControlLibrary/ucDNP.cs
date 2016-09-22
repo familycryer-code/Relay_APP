@@ -19,7 +19,7 @@ namespace RelayControlLibrary
         }
         public delegate void SendEventHandler(SendEventArgs sEA);
         public event SendEventHandler Send;
-        public delegate void ExceptionHandler(Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler DNPControlException;
         public Customers Customer
         {
@@ -320,7 +320,7 @@ namespace RelayControlLibrary
         {
             if (DNPControlException != null)
             {
-                DNPControlException(ex);
+                DNPControlException(this, new ExceptionEventArgs(ex, "Error in DNP Setting Control"));
             }
             else
             {

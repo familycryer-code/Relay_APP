@@ -68,7 +68,7 @@ namespace RelayDNPSecurity
 
         private void errorHandler(Exception ex, string p)
         {
-            this.onError(ex);
+            this.onError(ex, p);
         }
 
         public void SetKey(byte[] dataArray)

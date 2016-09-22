@@ -124,7 +124,7 @@ namespace SineDisplayGraph
         public bool Saveable = false;
         public UInt16 RelayID;
         public CalibrationConstants CalConstants = new CalibrationConstants();
-        public delegate void ExceptionHandler(Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler EventGraphException;
         public delegate void DownloadCompleteHandler();
         public event DownloadCompleteHandler DownloadComplete;
@@ -770,7 +770,7 @@ namespace SineDisplayGraph
         {
             if(this.EventGraphException != null)
             {
-                this.EventGraphException(ex);
+                this.EventGraphException(this, new ExceptionEventArgs(ex, "Error in Event Graph Control"));
             }
             else
             {

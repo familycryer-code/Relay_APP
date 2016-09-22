@@ -1708,13 +1708,13 @@ namespace RelayControlLibrary
 
         #region Error Handling
 
-        public delegate void ExceptionHandler(Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler TransmitterException;
 
         private void errorHandler(Exception ex)
         {
             if(TransmitterException != null)
-                TransmitterException(ex);
+                TransmitterException(this, new ExceptionEventArgs(ex, "Error in Transmitter Control"));
             else
                 throw new Exception("No Exception Handler in Main for Transmitter Unit");
         }

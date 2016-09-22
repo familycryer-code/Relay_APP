@@ -508,6 +508,12 @@
     <Compile Include="ucShortRangeTransmitTableItem.Designer.cs">
       <DependentUpon>ucShortRangeTransmitTableItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucTimeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucTimeControl.Designer.cs">
+      <DependentUpon>ucTimeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucTransmitter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -663,6 +669,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucShortRangeTransmitTableItem.resx">
       <DependentUpon>ucShortRangeTransmitTableItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucTimeControl.resx">
+      <DependentUpon>ucTimeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucTransmitter.resx">
       <SubType>Designer</SubType>

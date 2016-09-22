@@ -488,7 +488,7 @@ namespace SineDisplayGraph
 
         #endregion
 
-        public delegate void ErrorHandler(Exception ex, string s);
+        public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
         public event ErrorHandler Error;
 
         private void errorHandler(Exception ex, string p)
@@ -496,7 +496,7 @@ namespace SineDisplayGraph
             if(Error == null)
                 throw new Exception("No Handler for Live Data Errors");
 
-            Error(ex, p);
+            Error(this, new ExceptionEventArgs(ex, p));
         }
 
         public void ClearAllGraphs()

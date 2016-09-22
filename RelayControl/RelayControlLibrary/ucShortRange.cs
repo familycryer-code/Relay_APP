@@ -473,13 +473,13 @@ namespace RelayControlLibrary
         #endregion
 
         #region Error Handling
-        public delegate void ErrorHandlerDelegate(Exception ex);
+        public delegate void ErrorHandlerDelegate(object o, ExceptionEventArgs eEA);
         public event ErrorHandlerDelegate ErrorHandler;
 
         private void errorHandler(Exception ex)
         {
             if(ErrorHandler != null)
-                ErrorHandler(ex);
+                ErrorHandler(this, new ExceptionEventArgs(ex, "Error in ShortRange Control"));
             else
                 throw new Exception("No Exception Handler For Secondary Monitor Control");
         }

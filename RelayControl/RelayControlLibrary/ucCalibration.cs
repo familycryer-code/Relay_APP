@@ -105,19 +105,19 @@ namespace RelayControlLibrary
             }
             else
             {
-                this.errorHandler(new Exception("OnSend Not Set For Calibration Module"));
+                this.errorHandler(new Exception("OnSend Not Set For Calibration Module"), "In OnSend");
             }
         }
 
-        public delegate void ExceptionHandler(Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
 
         public event ExceptionHandler CalibrationException;
 
-        private void errorHandler(Exception ex)
+        private void errorHandler(Exception ex, string title)
         {
             if (CalibrationException != null)
             {
-                CalibrationException(ex);
+                CalibrationException(this, new ExceptionEventArgs(ex, title));
             }
             else
             {

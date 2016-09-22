@@ -54,7 +54,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(ex);
+                this.onError(ex, "Error Sending KeyData");
             }
         }
 
@@ -74,13 +74,13 @@ namespace RelayDNPSecurity
                 }
                 catch (Exception ex)
                 {
-                    this.onError(ex);
+                    this.onError(ex, "Error copying SAv5 Key Data");
                 }
                 sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
             }
             catch (Exception ex)
             {
-                this.onError(ex);
+                this.onError(ex, "Error Sending SAv5 Key Data");
                 return;
             }
 

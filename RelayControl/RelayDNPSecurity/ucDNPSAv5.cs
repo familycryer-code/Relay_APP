@@ -78,9 +78,9 @@ namespace RelayDNPSecurity
             this.requestLoadedUsers();
         }
 
-        private void DNPSAv5_Error(object o, Exception ex)
+        private void DNPSAv5_Error(object o, ExceptionEventArgs eEA)
         {
-            this.onError(ex);
+            this.onError(eEA.InnerException, eEA.Title);
         }
 
         public void Message(byte[] bytePacket)
@@ -103,7 +103,7 @@ namespace RelayDNPSecurity
                     this.setSettings(bytePacket);
                     break;
                 default:
-                    this.onError(new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"));
+                    this.onError(new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"), "Error in SAv5 Message");
                     break;
             }
         }
@@ -145,7 +145,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Setting OS/Relay Name: " + ex.ToString()));
+                this.onError(new Exception("Error Setting OS/Relay Name: " + ex.ToString()), "Error in SAv5 Setting OS");
             }
         }
 
@@ -177,7 +177,7 @@ namespace RelayDNPSecurity
                     exceptionMessage = _AuthSymKeyAlgorithmMismatch;
                     break;
             }
-            this.onError(new Exception(exceptionMessage));
+            this.onError(new Exception(exceptionMessage), "Error in SAv5 Handling Error Packet");
         }
 
         private void ShowLoadedUserNumbers(byte[] bytePacket)
@@ -198,7 +198,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Populating User Numbers List: " + ex.Message, ex));
+                this.onError(new Exception("Error Populating User Numbers List: " + ex.Message, ex), "Error in SAv5 Showing user Numbers");
             }
         }
 
@@ -225,7 +225,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error populating User Numbers: " + ex.Message, ex));
+                this.onError(new Exception("Error populating User Numbers: " + ex.Message, ex), "Error in SAv5 Dsiplaying User Numbers");
             }
         }
 
@@ -248,7 +248,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Loadinged Loaded Users", ex));
+                this.onError(new Exception("Error Loadinged Loaded Users", ex),"Error in SAv5 Requesting User");
             }
         }
 

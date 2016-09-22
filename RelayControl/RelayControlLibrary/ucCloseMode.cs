@@ -396,15 +396,14 @@ namespace RelayControlLibrary
 
         }
 
-        public delegate void ExceptionHandler(Exception ex);
-
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler CloseControlException;
 
         private void errorHandler(Exception ex)
         {
             if(CloseControlException != null)
             {
-                CloseControlException(ex);
+                CloseControlException(this, new ExceptionEventArgs(ex, "Error in CloseControl"));
             }
             else
             {

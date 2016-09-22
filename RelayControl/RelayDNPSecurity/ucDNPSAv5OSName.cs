@@ -65,7 +65,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Sending OS/Relay Name: " + ex.ToString()));
+                this.onError(new Exception("Error Sending OS/Relay Name: " + ex.ToString()), "Error Sending Name");
             }
         }
 
@@ -93,7 +93,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Requesting OS/Relay Name: " + ex.ToString()));
+                this.onError(new Exception("Error Requesting OS/Relay Name: " + ex.ToString()), "Error Requesting Name");
             }
         }
     }

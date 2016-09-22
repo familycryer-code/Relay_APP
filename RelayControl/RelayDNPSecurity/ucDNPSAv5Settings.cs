@@ -119,7 +119,7 @@ namespace RelayDNPSecurity
                 }
                 catch (Exception ex)
                 {
-                    this.onError(new Exception("Error getting Security Statistics Values: " + ex.ToString()));
+                    this.onError(new Exception("Error getting Security Statistics Values: " + ex.ToString()), "Error Sending SAv5 Settings");
                     return;
                 }
                 sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
@@ -128,7 +128,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Sending SAv5 Settings: " + ex.ToString()));
+                this.onError(new Exception("Error Sending SAv5 Settings: " + ex.ToString()), "Error sending SAv5 Settings");
             }
         }
 
@@ -151,7 +151,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Requesting SAv5 Settings: " + ex.ToString()));
+                this.onError(new Exception("Error Requesting SAv5 Settings: " + ex.ToString()), "Error Requesting SAv5 Settings");
             }
         }
 
@@ -209,7 +209,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Setting DNP SAv5 bit Settings: " + ex.ToString()));
+                this.onError(new Exception("Error Setting DNP SAv5 bit Settings: " + ex.ToString()), "Error Setting DNP SAv5 bit");
             }
 
             try
@@ -221,7 +221,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception(tempByte.ToString() + " not a valid index value for DNP SAv5 Key Change ALgorithm.  Threw error: " + ex.ToString()));
+                this.onError(new Exception(tempByte.ToString() + " not a valid index value for DNP SAv5 Key Change ALgorithm.  Threw error: " + ex.ToString()), "Error Setting KeyChange Algorithm");
             }
 
 
@@ -235,7 +235,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("DNP SAv5 Error Setting Reply Timeout: " + ex.ToString()));
+                this.onError(new Exception("DNP SAv5 Error Setting Reply Timeout: " + ex.ToString()), "Error Changing SAv5 Timeout");
             }
 
             try
@@ -248,7 +248,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("DNP SAv5 Error Setting Session Key Interval: " + ex.ToString()));
+                this.onError(new Exception("DNP SAv5 Error Setting Session Key Interval: " + ex.ToString()), "Error Setting SAv5 Session Key");
             }
 
             try
@@ -261,7 +261,8 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("DNP SAv5 Error Setting Session Key Change Count: " + ex.ToString()));
+                this.onError(new Exception("DNP SAv5 Error Setting Session Key Change Count: " + ex.ToString()), "Error Setting SAv5 Session Key Change Count");
+
             }
 
             try
@@ -270,7 +271,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("DNP SAv5 Error Setting Max Session Key Change Count: " + ex.ToString()));
+                this.onError(new Exception("DNP SAv5 Error Setting Max Session Key Change Count: " + ex.ToString()), "Error Setting SAv5 Max Session Key Change");
             }
 
             try
@@ -279,7 +280,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("DNP SAv5 Error Setting MAC Algorithm: " + ex.ToString()));
+                this.onError(new Exception("DNP SAv5 Error Setting MAC Algorithm: " + ex.ToString()), "Error Setting SAv5 MAC Algorithm");
             }
 
             try
@@ -294,7 +295,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("DNP SAv5 Error Setting Security Thresholds: " + ex.ToString()));
+                this.onError(new Exception("DNP SAv5 Error Setting Security Thresholds: " + ex.ToString()), "Error Setting SAv5 Security Thresholds");
             }
 
         }

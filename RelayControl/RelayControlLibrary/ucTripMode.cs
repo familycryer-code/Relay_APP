@@ -1381,7 +1381,7 @@ namespace RelayControlLibrary
 #endif
         }
 
-        public delegate void ExceptionHandler(Exception ex);
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
 
         public event ExceptionHandler TripControlException;
 
@@ -1389,7 +1389,7 @@ namespace RelayControlLibrary
         {
             if (TripControlException != null)
             {
-                TripControlException(ex);
+                TripControlException(this, new ExceptionEventArgs(ex, "Error in Trip Control"));
             }
             else
             {

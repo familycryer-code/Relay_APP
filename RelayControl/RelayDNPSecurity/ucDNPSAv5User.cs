@@ -72,7 +72,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(ex);
+                this.onError(ex, "Error Adding SAv5 User");
             }
         }
 
@@ -80,7 +80,7 @@ namespace RelayDNPSecurity
         {
             if (!this.validUserName())
             {
-                this.onError(new Exception("Bad User Name"));
+                this.onError(new Exception("Bad User Name"), "Bad SAv5 User Name");
             }
 
             SecureSendEventArgs sSEA = new SecureSendEventArgs(_userNameLimit + 3);
@@ -106,7 +106,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(ex);
+                this.onError(ex, "Error getting SAv5 User Name Packet");
             }
 
             return returnArray;
@@ -140,7 +140,7 @@ namespace RelayDNPSecurity
         {
             if (!this.keyBox.KeyDataValid())
             {
-                this.onError(new Exception("Bad Key Data"));
+                this.onError(new Exception("Bad Key Data"), "Bad SAv5 Key Data");
             }
 
             SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
@@ -168,13 +168,13 @@ namespace RelayDNPSecurity
                 }
                 catch (Exception ex)
                 {
-                    this.onError(ex);
+                    this.onError(ex, "Error getting SAv5 User Update Key Packet");
                 }
                 returnArray[returnArray.Length - 1] = 0x0D;
             }
             catch (Exception ex)
             {
-                this.onError(ex);
+                this.onError(ex, "Error formulating SAv5 User Update Key packet");
             }
 
             return returnArray;
@@ -194,7 +194,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception ("Error Deleting User: " + ex.Message, ex));
+                this.onError(new Exception ("Error Deleting User: " + ex.Message, ex), "Error Deleting SAv5 User");
             }
         }
 

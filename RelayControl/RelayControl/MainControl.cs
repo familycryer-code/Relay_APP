@@ -29,7 +29,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-09-21";
+        private const string revisionDate = "2016-09-22";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -167,7 +167,7 @@ namespace RelayControl
                             this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
                             this.dNPDigitalGridData.Location = new Point(0, 0);
-                            this.dNPDigitalGridData.Send += new ucDNPDigitalGridData.DigitalGridSendEventHandler(ucMemphisDNPData1_Send);
+                            this.dNPDigitalGridData.Send += standardizedSendData;
                             this.dNPDigitalGridData.PointChanged += DNPDigitalGridData_PointChanged;
                             this.dNPDigitalGridData.Show();
                         }
@@ -309,25 +309,34 @@ namespace RelayControl
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
                 this.ucCloseMode1.Send += new ucCloseMode.SendHandler(ucCloseMode1_Send);
                 this.ucTripMode2.Send += new ucTripMode.SendEventHandler(ucTripMode2_Send);
-                this.ucCalibration1.Send += new ucManualCalibration.SendHandler(ucCalibration1_Send);
+                this.ucCalibration1.Send += standardizedSendData;
                 this.ucPumpMode1.Send += new ucPumpMode.SendEventHandler(ucPumpMode1_Send);
                 this.ucTransmitter1.Send += new ucTransmitter.SendEventHandler(ucTransmitter1_Send);
                 this.ucDNP1.Send += new ucDNP.SendEventHandler(ucDNP1_Send);
                 this.ucShortRange1.Send += new ucShortRange.SendPacketDelegate(ucShortRange1_Send);
                 this.ucSafeService1.Send += new ucSafeService.SendHandler(ucSafeService1_Send);
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
-                this.ucCloseMode1.CloseControlException += new ucCloseMode.ExceptionHandler(ucCloseMode1_CloseControlException);
-                this.ucTripMode2.TripControlException += new ucTripMode.ExceptionHandler(ucTripMode2_TripControlException);
-                this.ucPumpMode1.PumpControlException += new ucPumpMode.ExceptionHandler(ucPumpMode1_PumpControlException);
-                this.ucTransmitter1.TransmitterException += new ucTransmitter.ExceptionHandler(ucTransmitter1_TransmitterException);
-                this.ucShortRange1.ErrorHandler += new ucShortRange.ErrorHandlerDelegate(ucShortRange1_ErrorHandler);
-                this.ucRelayProgramming1.Error += new ucRelayProgramming.ErrorHandler(ucRelayProgramming_Error);
-                this.ucDNP1.DNPControlException += new ucDNP.ExceptionHandler(ucDNP1_DNPControlException);
-                this.ucLiveData1.Error += new ucLiveData.ErrorHandler(ucLiveData1_Error);
-                this.ucLiveData1.PacketHandled += new ucLiveData.PacketHandledHandler(liveEvent_PacketHandled);
-                this.ucSafeService1.SafeServiceException += new ucSafeService.ErrorHandler(ucSafeService1_SafeServiceException);
+                this.ucGeneralCommandHandler1.Send += standardizedSendData;
+                this.ucDNPSAv51.Send += ucDNPSAv51_Send;
+                this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
+
+                this.ucCloseMode1.CloseControlException += this.standardExceptionMessage;
+                this.ucTripMode2.TripControlException += this.standardExceptionMessage;
+                this.ucPumpMode1.PumpControlException += this.standardExceptionMessage;
+                this.ucTransmitter1.TransmitterException += this.standardExceptionMessage;
+                this.ucShortRange1.ErrorHandler += this.standardExceptionMessage;
+                this.ucRelayProgramming1.Error += this.standardExceptionMessage;
+                this.ucDNP1.DNPControlException += this.standardExceptionMessage;
+                this.ucLiveData1.Error += this.standardExceptionMessage;
+                this.ucSafeService1.SafeServiceException += this.standardExceptionMessage;
+                this.ucCalibration2.CalibrationException += standardExceptionMessage;
+                this.ucDNPSAv51.Error += standardExceptionMessage;
+                
                 this.ucForceCustomerSwitch1.CustomerSwitch += new ucForceCustomerSwitch.CustomerSwitchHanlder(ucForceCustomerSwitch1_CustomerSwitch);
-                this.ucGeneralCommandHandler1.Send += ucGeneralCommandHandler1_Send;
+                this.ucLiveData1.PacketHandled += new ucLiveData.PacketHandledHandler(liveEvent_PacketHandled);
+                this.ucTransmitter1.CTChanged += new ucTransmitter.CTChangedHandler(ucTransmitter1_CTChanged);
+                this.ucTransmitterMonitoring1.MonitoringStateChange += new ucTransmitterMonitoring.MonitoringControlHandler(ucTransmitterMonitoring1_MonitoringStateChange);
+
                 this.ucEventGraph0.EventNumber = 0;
                 this.ucEventGraph1.EventNumber = 1;
                 this.ucEventGraph2.EventNumber = 2;
@@ -344,14 +353,14 @@ namespace RelayControl
                 this.ucEventGraph5.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucEventGraph6.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucEventGraph7.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
-                this.ucEventGraph0.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph1.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph2.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph3.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph4.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph5.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph6.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
-                this.ucEventGraph7.EventGraphException += new ucEventGraph.ExceptionHandler(ucEventGraph_EventGraphException);
+                this.ucEventGraph0.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph1.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph2.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph3.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph4.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph5.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph6.EventGraphException += this.standardExceptionMessage;
+                this.ucEventGraph7.EventGraphException += this.standardExceptionMessage;
                 this.ucEventGraph0.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucEventGraph1.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucEventGraph2.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
@@ -371,12 +380,7 @@ namespace RelayControl
                 this.ucLiveData1.DownloadComplete += new ucLiveData.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucLiveData1.PopulatePhasorGraph += new ucLiveData.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucPhasorGraph1.RequestNewCycle += new ucPhasorGraph.RequestNewCycleHandler(ucPhasorGraph1_RequestNewCycle);
-                this.ucDNPSAv51.Error += ucDNPSAv51_Error;
-                this.ucDNPSAv51.Send += ucDNPSAv51_Send;
-                this.ucTransmitter1.CTChanged += new ucTransmitter.CTChangedHandler(ucTransmitter1_CTChanged);
-                this.ucTransmitterMonitoring1.MonitoringStateChange += new ucTransmitterMonitoring.MonitoringControlHandler(ucTransmitterMonitoring1_MonitoringStateChange);
-                this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
-                this.ucCalibration2.CalibrationException += new ucCalibration.ExceptionHandler(ucCalibration2_CalibrationException);
+                
                 this.radioButtonEvent0.Checked = true;
                 this.initializeToolTip();
 #if DG288_TESTFIXTURE_GUI
@@ -617,6 +621,11 @@ namespace RelayControl
             }
         }
 
+        private void standardExceptionMessage(object o, ExceptionEventArgs eEA)
+        {
+            this.messageHandler(eEA.Title, eEA.InnerException);
+        }
+
         private void setCustomersRevisionName()
         {
 #if NU
@@ -800,9 +809,16 @@ namespace RelayControl
         }
         #endregion
 
-        void ucMemphisDNPData1_Send(object o, SendEventArgs mEA)
+        void standardizedSendData(object o, SendEventArgs sEA)
         {
-            this.sendPacket(mEA.SendPacket);
+            if (sEA.WithAck)
+            {
+                this.sendPacketAck(sEA.SendPacket, o.ToString());
+            }
+            else
+            {
+                this.sendPacket(sEA.SendPacket);
+            }
         }
 
         void ucForceCustomerSwitch1_CustomerSwitch(object sender, CustomerSwitchEventArgs cSEA)
@@ -865,7 +881,7 @@ namespace RelayControl
                 this.dNPMemphisData = new ucMemphisDNPData();
 
                 this.tabPageDNPData.Controls.Add(this.dNPMemphisData);
-                this.dNPMemphisData.Send += new ucMemphisDNPData.MemphisSendEventHandler(ucMemphisDNPData1_Send);
+                this.dNPMemphisData.Send += standardizedSendData;
                 this.dNPMemphisData.Location = new Point(0, 0);
                 this.dNPMemphisData.Show();
             }
@@ -1240,66 +1256,6 @@ namespace RelayControl
             workingGraph.GetCycleInfo(cIREA);
         }
 
-        private void ucDNPSAv51_Error(object o, Exception ex)
-        {
-            this.messageHandler("Error in DNPSAv5 Control", ex);
-        }
-        void ucCalibration2_CalibrationException(Exception ex)
-        {
-            this.messageHandler("Error In Calibration Control", ex);
-        }
-
-        private void ucRelayProgramming_Error(object o, ExceptionEventArgs eEA)
-        {
-            this.messageHandler(eEA.Title, eEA.InnerException);
-        }
-
-
-        void ucEventGraph_EventGraphException(Exception ex)
-        {
-            this.messageHandler("Error In Event Graph", ex);
-        }
-
-        void ucLiveData1_Error(Exception ex, string s)
-        {
-            this.messageHandler("Error In Live Data", ex);
-        }
-
-        void ucTransmitter1_TransmitterException(Exception ex)
-        {
-            this.messageHandler("Error in Transmitter Control", ex);
-        }
-
-        void ucTripMode2_TripControlException(Exception ex)
-        {
-            this.messageHandler("Error In Trip Control", ex);
-        }
-
-        void ucCloseMode1_CloseControlException(Exception ex)
-        {
-            this.messageHandler("Error In Close Control", ex);
-        }
-
-        void ucPumpMode1_PumpControlException(Exception ex)
-        {
-            this.messageHandler("Error In Pump Control", ex);
-        }
-
-        void ucDNP1_DNPControlException(Exception ex)
-        {
-            this.messageHandler("Error in DNP Control", ex);
-        }
-
-        void ucShortRange1_ErrorHandler(Exception ex)
-        {
-            this.messageHandler("Error in Secondary Monitor Control", ex);
-        }
-
-        void ucSafeService1_SafeServiceException(object o, ExceptionEventArgs eEA)
-        {
-            this.messageHandler("Error In Safe Service Mode Control", eEA.InnerException);
-        }
-
         private void MainControl_Load(object sender, EventArgs e)
         {
             this.Location = new Point(0, 0);
@@ -1574,16 +1530,6 @@ namespace RelayControl
                 this.requestAllData();
                 this.parametersLoaded = true;
             }
-        }
-
-        void ucGeneralCommandHandler1_Send(object o, SendEventArgs sEA)
-        {
-            this.sendPacket(sEA.SendPacket);
-        }
-
-        void ucCalibration1_Send(object sender, SendEventArgs sEA)
-        {
-            this.sendPacket(sEA.SendPacket);
         }
 
         void ucDNP1_Send(SendEventArgs sEA)
@@ -3456,7 +3402,7 @@ namespace RelayControl
             this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
 #endif
 
-            this.sendTime(DateTime.UtcNow);
+            //this.sendTime(DateTime.UtcNow);
 
             this.ucRelayProgramming1.AllParametersReceived();
 
@@ -5560,11 +5506,7 @@ namespace RelayControl
             packet[0] = 0x0D;
 
             packet[1] = 0x0D;
-            /*
-            packet[2] = 0x0D;
-            packet[3] = 0x0D;
-            packet[4] = 0x0D;
-            */
+
             this.sendPacket(packet);
         }
 
@@ -7234,7 +7176,6 @@ namespace RelayControl
                 ratio = 320;
                 ratio5 = 1600;
                 this.domainUpDownCTRatioM.SelectedIndex = 4;
-                // this.messageHandler("Bad CT Ratio Value", new Exception("Can't set CT Ratio to zero. \r\n Sending a valid value to relay.  Please Check."));
                 this.updateCTRatio(ratio5);
             }
             this.ucPhasorGraph1.CTRatio = ratio;
