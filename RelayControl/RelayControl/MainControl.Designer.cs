@@ -66,7 +66,6 @@ namespace RelayControl
             this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
-            this.ucCSVConverterCSVFile2 = new RelayControlLibrary.ucCSVConverterCSVFile();
             this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
             this.groupBoxTimeConvert = new System.Windows.Forms.GroupBox();
             this.textBoxTimeOutput = new System.Windows.Forms.TextBox();
@@ -264,6 +263,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -604,7 +604,8 @@ namespace RelayControl
             // 
             // tabPageEngineering
             // 
-            this.tabPageEngineering.Controls.Add(this.ucCSVConverterCSVFile2);
+            this.tabPageEngineering.Controls.Add(this.ucCSVConverterCSVFile1);
+            this.tabPageEngineering.Controls.Add(this.ucTimeControl1);
             this.tabPageEngineering.Controls.Add(this.ucGeneralCommandHandler1);
             this.tabPageEngineering.Controls.Add(this.groupBoxTimeConvert);
             this.tabPageEngineering.Controls.Add(this.buttonToggleQuietMode);
@@ -620,7 +621,6 @@ namespace RelayControl
             this.tabPageEngineering.Controls.Add(this.ucRelayProgramming1);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsGEControl2);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsGEControl1);
-            this.tabPageEngineering.Controls.Add(this.ucCSVConverterCSVFile1);
             this.tabPageEngineering.Controls.Add(this.ucCalibration2);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsCommFlags2);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsCommFlags1);
@@ -638,13 +638,6 @@ namespace RelayControl
             this.tabPageEngineering.Text = "Engineering";
             this.tabPageEngineering.UseVisualStyleBackColor = true;
             // 
-            // ucCSVConverterCSVFile2
-            // 
-            this.ucCSVConverterCSVFile2.Location = new System.Drawing.Point(457, 249);
-            this.ucCSVConverterCSVFile2.Name = "ucCSVConverterCSVFile2";
-            this.ucCSVConverterCSVFile2.Size = new System.Drawing.Size(94, 84);
-            this.ucCSVConverterCSVFile2.TabIndex = 118;
-            // 
             // ucGeneralCommandHandler1
             // 
             this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
@@ -659,7 +652,7 @@ namespace RelayControl
             this.groupBoxTimeConvert.Controls.Add(this.buttonTimeConvert);
             this.groupBoxTimeConvert.Controls.Add(this.label24);
             this.groupBoxTimeConvert.Controls.Add(this.label1);
-            this.groupBoxTimeConvert.Location = new System.Drawing.Point(775, 98);
+            this.groupBoxTimeConvert.Location = new System.Drawing.Point(775, 106);
             this.groupBoxTimeConvert.Name = "groupBoxTimeConvert";
             this.groupBoxTimeConvert.Size = new System.Drawing.Size(220, 100);
             this.groupBoxTimeConvert.TabIndex = 98;
@@ -845,7 +838,7 @@ namespace RelayControl
             // 
             // ucCSVConverterCSVFile1
             // 
-            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(695, 11);
+            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
             this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
             this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
             this.ucCSVConverterCSVFile1.TabIndex = 109;
@@ -908,7 +901,7 @@ namespace RelayControl
             // 
             // ucCalibration1
             // 
-            this.ucCalibration1.Location = new System.Drawing.Point(473, 95);
+            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
@@ -2856,6 +2849,13 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // ucTimeControl1
+            // 
+            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
+            this.ucTimeControl1.Name = "ucTimeControl1";
+            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
+            this.ucTimeControl1.TabIndex = 119;
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3138,7 +3138,6 @@ namespace RelayControl
         private System.Windows.Forms.GroupBox groupBoxLRLockoutMain;
         private System.Windows.Forms.TextBox textBoxLRLockoutStatusMain;
         private System.Windows.Forms.Label labelLRLockoutMain;
-        private RelayControlLibrary.ucCSVConverterCSVFile ucCSVConverterCSVFile2;
         private System.Windows.Forms.Panel panelFlagSettingHRelay;
         private System.Windows.Forms.RadioButton radioButtonFPHCloseRelay;
         private System.Windows.Forms.RadioButton radioButtonFPHOpenRelay;
@@ -3174,6 +3173,7 @@ namespace RelayControl
         private System.Windows.Forms.Label labelFlagSettingBRelay;
         private System.Windows.Forms.Label labelFlagSettingARelay;
         private System.Windows.Forms.GroupBox groupBoxRelayFlagPolarityCover;
+        private RelayControlLibrary.ucTimeControl ucTimeControl1;
     }
 }
 

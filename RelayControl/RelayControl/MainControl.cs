@@ -314,6 +314,7 @@ namespace RelayControl
                 this.ucTransmitter1.Send += new ucTransmitter.SendEventHandler(ucTransmitter1_Send);
                 this.ucDNP1.Send += new ucDNP.SendEventHandler(ucDNP1_Send);
                 this.ucShortRange1.Send += new ucShortRange.SendPacketDelegate(ucShortRange1_Send);
+                this.ucTimeControl1.SendData += standardizedSendData;
                 this.ucSafeService1.Send += new ucSafeService.SendHandler(ucSafeService1_Send);
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
@@ -327,6 +328,7 @@ namespace RelayControl
                 this.ucShortRange1.ErrorHandler += this.standardExceptionMessage;
                 this.ucRelayProgramming1.Error += this.standardExceptionMessage;
                 this.ucDNP1.DNPControlException += this.standardExceptionMessage;
+                this.ucTimeControl1.TimeControlError += standardExceptionMessage;
                 this.ucLiveData1.Error += this.standardExceptionMessage;
                 this.ucSafeService1.SafeServiceException += this.standardExceptionMessage;
                 this.ucCalibration2.CalibrationException += standardExceptionMessage;
