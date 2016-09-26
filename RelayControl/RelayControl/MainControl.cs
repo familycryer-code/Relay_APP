@@ -2406,8 +2406,6 @@ namespace RelayControl
         }
 
         #region Flight Recorder Section
-
-        private DateTime savedCurrentTime;
         private CalibrationConstant[] calibrationConstants = new CalibrationConstant[15];
 
         private void sendTime(DateTime dT)
@@ -2433,15 +2431,19 @@ namespace RelayControl
         private void storeCurrentTime(byte[] bytePacket)
         {
             DateTime tempDT = DateTime.UtcNow;
-            long temp = bytePacket[0];
-            temp <<= 8;
-            temp += bytePacket[1];
+            EventBaseTime eBT = new EventBaseTime();
+
+            UInt32 temp = bytePacket[3];
             temp <<= 8;
             temp += bytePacket[2];
             temp <<= 8;
-            temp += bytePacket[3];
+            temp += bytePacket[1];
+            temp <<= 8;
+            temp += bytePacket[0];
+            
+            eBT.BinaryTime = temp;
 
-            this.savedCurrentTime = RelayModeFunctions.DateFrom(temp);
+            this.ucTimeControl1.RelayDateTimeUTC = eBT.SystemTime;
         }
 
         delegate void bytePacketCallback(byte[] bytePacket);

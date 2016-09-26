@@ -14,29 +14,40 @@ namespace RelayControlLibrary
         public ucTimeControl()
         {
             InitializeComponent();
-            this.SecondTimer.Interval = 1000;
+            this.SecondTimer.Interval = 5000;
             this.SecondTimer.Start();
             this.SecondTimer.Tick += SecondTimer_Tick;
+            this.initializeTable();
         }
 
         public delegate void SendDataHandler(object o, SendEventArgs sEA);
         public event SendDataHandler SendData;
 
         public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
-        public event ErrorHandler TimeControlError; 
-
-        private Timer SecondTimer = new Timer();
+        public event ErrorHandler TimeControlError;
 
         public DateTime RelayDateTimeUTC
         {
             set
             {
+                this.relayTime = value;
                 this.CompareRelayTimeToRealTime(value);
-                this.labelRelayTimeDisplay.Text = value.ToString();
+                this.labelRelayTimeDisplay.Text = value.ToString("HH:mm:ss");
+                this.updateTable();
             }
         }
 
-        
+        private Timer SecondTimer = new Timer();
+        private DataTable timeTable = new DataTable();
+        private DateTime relayTime;
+        private TimeSpan difference;
+
+        private void initializeTable()
+        {
+            timeTable.Columns.Add("TIME_NOW");
+            timeTable.Columns.Add("RELAY_NOW");
+            timeTable.Columns.Add("DIFF");
+        }
 
         private void buttonRequestTime_Click(object sender, EventArgs e)
         {
@@ -81,7 +92,14 @@ namespace RelayControlLibrary
 
         private void SecondTimer_Tick(object sender, EventArgs e)
         {
-            this.labelMachineTimeDisplay.Text = DateTime.UtcNow.ToString("HH:mm:ss");
+            this.labelMachineTimeDisplay.Text = DateTime.Now.ToString("HH:mm:ss");
+            this.requestTime();
+        }
+
+        private void updateTable()
+        {
+            //this.timeTable.Rows.Add(DateTime.Now, this.relayTime, this.difference);
+            Console.WriteLine(DateTime.Now + "\t" + this.relayTime + "\t" + this.difference);
         }
 
         private void updateRelayTimeLabel()
@@ -99,7 +117,7 @@ namespace RelayControlLibrary
 
             try
             {
-                this.labelRelayTimeDisplay.Text = relayTime.ToString();
+                this.labelRelayTimeDisplay.Text = relayTime.ToString("HH:mm:ss");
             }
             catch (Exception ex)
             {
@@ -111,11 +129,9 @@ namespace RelayControlLibrary
         bool CompareRelayTimeToRealTime(DateTime relayUTCTime)
         {
             bool returnBool = false;
-            TimeSpan difference = relayUTCTime - DateTime.UtcNow;
-            if(difference.Seconds > 0)
-            {
-                this.errorHandler(new Exception("Time Has Drifted by " + difference.Seconds.ToString() + " seconds"), "Time Drifted!");
-            }
+            this.difference = relayUTCTime - DateTime.Now;
+            this.labelTimeDiff.Text = difference.ToString();
+
             return returnBool;
         }
 
@@ -124,6 +140,24 @@ namespace RelayControlLibrary
             ExceptionEventArgs eEA = new ExceptionEventArgs(ex, title);
             if (TimeControlError != null)
                 TimeControlError(this, eEA);
+        }
+
+        private void buttonTable_Click(object sender, EventArgs e)
+        {
+            foreach(DataColumn dC in this.timeTable.Columns)
+            {
+                Console.Write(dC.ColumnName + "\t");
+            }
+            Console.WriteLine();
+
+            foreach (DataRow dR in this.timeTable.Rows)
+            {
+                foreach(DataColumn dC in this.timeTable.Columns)
+                {
+                    Console.Write(dR[dC.ColumnName].ToString() + "\t");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
