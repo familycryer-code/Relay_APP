@@ -83,6 +83,7 @@ namespace RelayDNPSecurity
             }
 
             SendEventArgs sSEA = new SendEventArgs(_userNameLimit + 3);
+            sSEA.WithAck = true;
 
             sSEA.SendPacket = getUserNamePacket();
 
@@ -143,6 +144,7 @@ namespace RelayDNPSecurity
             }
 
             SendEventArgs sSEA = new SendEventArgs(_packetLength);
+            sSEA.WithAck = true;
 
             sSEA.SendPacket = this.getUserUpdateKeyPacket();
 
@@ -213,6 +215,8 @@ namespace RelayDNPSecurity
             try
             {
                 SendEventArgs sSEA = new SendEventArgs(98);
+                sSEA.WithAck = true;
+
                 sSEA.SendPacket[0] = (byte)ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'D'; // Delete User
                 sSEA.SendPacket[2] = temp;

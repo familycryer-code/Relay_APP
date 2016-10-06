@@ -53,7 +53,6 @@ namespace RelayControlLibrary
         }
 
         private decimal conversion277 = 2.216m;
-        private bool voltage277Changed = false;
 
         public bool voltage277State = false;
 
@@ -259,6 +258,7 @@ namespace RelayControlLibrary
             try
             {
                 mySEA = new SendEventArgs(_packetSize);
+                mySEA.WithAck = false;
                 CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(CloseModeDef);
                 OnSend(this, mySEA);
@@ -338,7 +338,7 @@ namespace RelayControlLibrary
             this.setHorizontalLine();
 
             mySEA.SendPacket = this.CloseCurve.BytePacket();
-
+            mySEA.WithAck = true;
             this.OnSend(this, mySEA);
         }
 

@@ -52,6 +52,8 @@ namespace RelayDNPSecurity
             try
             {
                 SendEventArgs sSEA = new SendEventArgs(98);
+                sSEA.WithAck = true;
+
                 sSEA.SendPacket[0] = (byte)ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'g'; // Generate Key Data
                 sSEA.SendPacket[2] = 1; // 1 for 128, 2 for 256 BYTES

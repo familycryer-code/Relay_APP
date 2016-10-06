@@ -68,6 +68,7 @@ namespace RelayControlLibrary
         {
             SendEventArgs sEA = new SendEventArgs(22);
             uint tempInt;
+            sEA.WithAck = true;
 
             decimal tempValue;
             switch (this.domainUpDownDataViews.SelectedIndex)

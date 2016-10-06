@@ -48,7 +48,7 @@ namespace RelayControlLibrary
             toolTip.SetToolTip(this.labelPumpType, "Shows Pump Protect Reason");
             toolTip.SetToolTip(this.labelPumpTypeDisplay, "Shows Pump Protect Reason");
         }
-        public delegate void SendEventHandler(SendEventArgs sEA);
+        public delegate void SendEventHandler(object o, SendEventArgs sEA);
         public event SendEventHandler Send;
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler PumpControlException;
@@ -167,6 +167,7 @@ namespace RelayControlLibrary
                 }
 
                 this.sEA.SendPacket = this.bytePacketFor(PD);
+                this.sEA.WithAck = true;
                 OnSend(sEA);
             }
             catch
@@ -220,7 +221,7 @@ namespace RelayControlLibrary
         private void OnSend(SendEventArgs sEA)
         {
             if (Send != null)
-                Send(sEA);
+                Send(this, sEA);
         }
 
         public void SetAllValues(byte[] bytePacket)
@@ -482,7 +483,7 @@ namespace RelayControlLibrary
             clearSEA.SendPacket[8] = 0;
             clearSEA.SendPacket[9] = (byte)RelayModeFunctions.DC4;
             
-            this.Send(clearSEA);
+            this.Send(this, clearSEA);
         }
         /*
         private void buttonSaveState_Click(object sender, EventArgs e)

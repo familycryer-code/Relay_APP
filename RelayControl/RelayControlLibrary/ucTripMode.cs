@@ -210,7 +210,7 @@ namespace RelayControlLibrary
 
         private const byte _packetSize = 7;
 
-        public delegate void SendEventHandler(SendEventArgs sEA);
+        public delegate void SendEventHandler(object o, SendEventArgs sEA);
         public event SendEventHandler Send;
         private SendEventArgs mySEA = new SendEventArgs(_packetSize);
 
@@ -269,6 +269,7 @@ namespace RelayControlLibrary
 
             this.SendTimedOut = false;
             sending = true;
+            mySEA.WithAck = false;
 
             this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
             TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
@@ -423,9 +424,9 @@ namespace RelayControlLibrary
             mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
 
             OnSend(mySEA);
-            
-            //New Trip Parameters
 
+            //New Trip Parameters
+            mySEA.WithAck = true;
             mySEA.SendPacket[0] = (byte)'M';
             mySEA.SendPacket[1] = (byte)'S';
 
@@ -458,7 +459,7 @@ namespace RelayControlLibrary
         private void OnSend(SendEventArgs sEA)
         {
             if (Send != null && !this.SendTimedOut)
-                Send(sEA);
+                Send(this, sEA);
         }
 
        

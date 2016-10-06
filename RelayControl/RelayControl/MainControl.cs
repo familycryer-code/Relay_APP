@@ -308,18 +308,18 @@ namespace RelayControl
        this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
-                this.ucCloseMode1.Send += new ucCloseMode.SendHandler(ucCloseMode1_Send);
-                this.ucTripMode2.Send += new ucTripMode.SendEventHandler(ucTripMode2_Send);
+                this.ucCloseMode1.Send += standardizedSendData;
+                this.ucTripMode2.Send += standardizedSendData;
                 this.ucCalibration1.Send += standardizedSendData;
-                this.ucPumpMode1.Send += new ucPumpMode.SendEventHandler(ucPumpMode1_Send);
+                this.ucPumpMode1.Send += standardizedSendData;
                 this.ucTransmitter1.Send += new ucTransmitter.SendEventHandler(ucTransmitter1_Send);
                 this.ucDNP1.Send += new ucDNP.SendEventHandler(ucDNP1_Send);
-                this.ucShortRange1.Send += new ucShortRange.SendPacketDelegate(ucShortRange1_Send);
+                this.ucShortRange1.Send += standardizedSendData;
                 this.ucTimeControl1.SendData += standardizedSendData;
-                this.ucSafeService1.Send += new ucSafeService.SendHandler(ucSafeService1_Send);
+                this.ucSafeService1.Send += standardizedSendData;
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
-                this.ucDNPSAv51.Send += ucDNPSAv51_Send;
+                this.ucDNPSAv51.Send += standardizedSendData;
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
 
                 this.ucCloseMode1.CloseControlException += this.standardExceptionMessage;
@@ -814,9 +814,14 @@ namespace RelayControl
 
         void standardizedSendData(object o, SendEventArgs sEA)
         {
+            if (this.quietMode)
+                return;
+
             if (sEA.WithAck)
             {
                 this.sendPacketAck(sEA.SendPacket, o.ToString());
+                this.requestAllData();
+                this.parametersLoaded = true;
             }
             else
             {
@@ -1463,18 +1468,6 @@ namespace RelayControl
             }
         }
 
-        void ucSafeService1_Send(object o, SendEventArgs sEA)
-        {
-            if (sEA.SendPacket[0] == 0x0E) // Request
-                this.sendPacket(sEA.SendPacket);
-            else
-            {
-                this.sendPacketAck(sEA.SendPacket, "Main.c form ucSafeService");
-                this.requestAllData();
-                this.parametersLoaded = true;
-            }
-        }
-
         void ucTransmitter1_Send(SendEventArgs sEA)
         {
             if (sEA.SendPacket[0] == 0x66)
@@ -1499,28 +1492,6 @@ namespace RelayControl
 
                 this.parametersLoaded = true;
             }
-        }
-
-        void ucShortRange1_Send(object sender, SendEventArgs sEA)
-        {
-            if (sEA.SendPacket.Length > 3)
-            {
-                this.sendPacketAck(sEA.SendPacket, "Secondary Monitor Sender");
-                this.requestAllData();
-                this.parametersLoaded = true;
-            }
-            else
-                this.sendPacket(sEA.SendPacket);
-        }
-
-        void requestShortRangeData()
-        {
-            byte[] sendPacket = new byte[2];
-
-            sendPacket[0] = 0x4B;
-            sendPacket[1] = 0x0D;
-
-            this.sendPacket(sendPacket);
         }
 
         void ucPumpMode1_Send(SendEventArgs sEA)
@@ -1552,40 +1523,6 @@ namespace RelayControl
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                 
             }
-        }
-
-        void ucTripMode2_Send(SendEventArgs sEA)
-        {
-            this.sendPacketAck(sEA.SendPacket, "Trip Mode Send");
-            if (sEA.SendPacket[0] == 0x4D && !this.sendAll && sEA.SendPacket[1] == 0x53)
-            {
-                this.buttonRequestRelayRegisters_Click(this, new EventArgs());
-                this.requestAllData();
-                this.parametersLoaded = true;
-            }
-        }
-
-        void ucCloseMode1_Send(object sender, SendEventArgs sEA)
-        {
-            this.sendPacketAck(sEA.SendPacket, "Close Mode Send");
-            if (sEA.SendPacket[0] == 0x43 && !this.sendAll) //43 = C
-            {
-                this.buttonRequestRelayRegisters_Click(this, new EventArgs());
-                this.requestAllData();
-                this.parametersLoaded = true;
-            }
-        }
-
-        void ucDNPSAv51_Send(object o, SendEventArgs sSEA)
-        {
-            if (sSEA.SendPacket[1] != 'G' && sSEA.SendPacket[1] != 'o' && sSEA.SendPacket[1] != 's' && sSEA.SendPacket[1] != 'N')
-            {
-                this.sendPacket(sSEA.SendPacket);
-                this.parametersLoaded = true;
-                this.requestAllData();
-            }
-            else
-                this.sendPacket(sSEA.SendPacket);
         }
 
         private Point PanelLocation = new Point(300, 12);
@@ -8024,24 +7961,7 @@ namespace RelayControl
             this.requestRelayRegisters();
         }
 
-        private void buttonPumpModeTestPackets_Click(object sender, EventArgs e)
-        {
-            byte[] sendPacket = new byte[8];
-
-            sendPacket[0] = 0x4d; //M
-            sendPacket[1] = 0x54; //0x43; //C
-            sendPacket[2] = 0x53; //51 = Q 52 = R
-            sendPacket[3] = 0x00;
-            sendPacket[4] = 0x00;
-            sendPacket[5] = 0x00;
-            sendPacket[6] = 0x00;
-            sendPacket[7] = 0x0D;
-
-            this.sendPacket(sendPacket);
-        }
-
         private bool protector277 = false;
-
 
         private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
         {
