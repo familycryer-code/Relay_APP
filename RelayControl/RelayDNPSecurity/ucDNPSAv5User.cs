@@ -6,8 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
-
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -83,9 +82,9 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("Bad User Name"), "Bad SAv5 User Name");
             }
 
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(_userNameLimit + 3);
+            SendEventArgs sSEA = new SendEventArgs(_userNameLimit + 3);
 
-            sSEA.Data = getUserNamePacket();
+            sSEA.SendPacket = getUserNamePacket();
 
             this.onSend(sSEA);
         }
@@ -95,7 +94,7 @@ namespace RelayDNPSecurity
             byte[] returnArray = new byte[98];
             try
             {
-                returnArray[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                returnArray[0] = ProjectConstants._DNPControlOpCode;
                 returnArray[1] = (byte)'N'; //For Name
                 returnArray[2] = this.getUserNumer();
                 returnArray[3] = this.getUserRole();
@@ -143,9 +142,9 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("Bad Key Data"), "Bad SAv5 Key Data");
             }
 
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
+            SendEventArgs sSEA = new SendEventArgs(_packetLength);
 
-            sSEA.Data = this.getUserUpdateKeyPacket();
+            sSEA.SendPacket = this.getUserUpdateKeyPacket();
 
             this.onSend(sSEA);
         }
@@ -156,7 +155,7 @@ namespace RelayDNPSecurity
             byte[] tempArray = null;
             try
             {
-                returnArray[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                returnArray[0] = ProjectConstants._DNPControlOpCode;
                 returnArray[1] = (byte)'K'; //For Name
                 returnArray[2] = this.getUserNumer();
                 returnArray[3] = this.getUserRole();
@@ -213,11 +212,11 @@ namespace RelayDNPSecurity
 
             try
             {
-                SecureSendEventArgs sSEA = new SecureSendEventArgs();
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'D'; // Delete User
-                sSEA.Data[2] = temp;
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                SendEventArgs sSEA = new SendEventArgs(98);
+                sSEA.SendPacket[0] = (byte)ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'D'; // Delete User
+                sSEA.SendPacket[2] = temp;
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }

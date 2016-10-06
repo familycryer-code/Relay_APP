@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using RelayControlLibrary;
 using System.Threading;
+using SharedResources;
 
 namespace SineDisplayGraph
 {

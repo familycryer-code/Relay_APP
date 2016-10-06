@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -72,7 +72,7 @@ namespace RelayDNPSecurity
             this.ucDNPSAv5Settings1.Error += DNPSAv5_Error;
         }
 
-        private void DNPSAv5_Send(object o, SecureSendEventArgs sSEA)
+        private void DNPSAv5_Send(object o, SendEventArgs sSEA)
         {
             this.onSend(sSEA);
             this.requestLoadedUsers();
@@ -238,11 +238,11 @@ namespace RelayDNPSecurity
         {
             try
             {
-                SecureSendEventArgs sSEA = new SecureSendEventArgs();
+                SendEventArgs sSEA = new SendEventArgs(98);
 
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'G';
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'G';
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }

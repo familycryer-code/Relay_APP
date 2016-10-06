@@ -52,16 +52,4 @@ namespace RelayControlLibrary
         public int CycleNumber;
         public uint EventNumber;
     }
-
-    public class ExceptionEventArgs: EventArgs
-    {
-        public ExceptionEventArgs(Exception ex, string title)
-        {
-            this.Title = title;
-            this.InnerException = ex;
-        }
-
-        public Exception InnerException;
-        public string Title;
-    }
 }

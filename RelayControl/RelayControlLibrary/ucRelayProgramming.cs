@@ -9,6 +9,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.Serialization;
 using System.Linq;
+using SharedResources;
 
 namespace RelayControlLibrary
 {

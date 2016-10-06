@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -51,11 +51,11 @@ namespace RelayDNPSecurity
         {
             try
             {
-                SecureSendEventArgs sSEA = new SecureSendEventArgs();
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'g'; // Generate Key Data
-                sSEA.Data[2] = 1; // 1 for 128, 2 for 256 BYTES
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                SendEventArgs sSEA = new SendEventArgs(98);
+                sSEA.SendPacket[0] = (byte)ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'g'; // Generate Key Data
+                sSEA.SendPacket[2] = 1; // 1 for 128, 2 for 256 BYTES
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }

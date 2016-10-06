@@ -176,9 +176,6 @@
     <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\master-processor\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -190,7 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DNPSAv5SecurityStatisticsItem.cs" />
-    <Compile Include="SecureSendEventArgs.cs" />
+    <Compile Include="ProjectConstants.cs" />
     <Compile Include="ucDNPSAv5.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -275,9 +272,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RelayControlLibrary\RelayControlLibrary.csproj">
-      <Project>{b0e5f73e-dc0b-4be0-8bbf-1903864d67df}</Project>
-      <Name>RelayControlLibrary</Name>
+    <ProjectReference Include="..\SharedResources\SharedResources.csproj">
+      <Project>{937d58ba-e306-4996-b9a9-9e577e80fdbf}</Project>
+      <Name>SharedResources</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

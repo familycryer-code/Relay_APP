@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 using System.Threading;
+using SharedResources;
 
 namespace RelayControlLibrary
 {

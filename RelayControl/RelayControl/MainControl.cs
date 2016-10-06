@@ -20,6 +20,7 @@ using System.Drawing.Imaging;
 using Microsoft.Win32;
 using MyFileIO;
 using SavedSettings;
+using SharedResources;
 
 namespace RelayControl
 {
@@ -1575,16 +1576,16 @@ namespace RelayControl
             }
         }
 
-        void ucDNPSAv51_Send(object o, RelayDNPSecurity.SecureSendEventArgs sSEA)
+        void ucDNPSAv51_Send(object o, SendEventArgs sSEA)
         {
-            if (sSEA.Data[1] != 'G' && sSEA.Data[1] != 'o' && sSEA.Data[1] != 's' && sSEA.Data[1] != 'N')
+            if (sSEA.SendPacket[1] != 'G' && sSEA.SendPacket[1] != 'o' && sSEA.SendPacket[1] != 's' && sSEA.SendPacket[1] != 'N')
             {
-                this.sendPacket(sSEA.Data);
+                this.sendPacket(sSEA.SendPacket);
                 this.parametersLoaded = true;
                 this.requestAllData();
             }
             else
-                this.sendPacket(sSEA.Data);
+                this.sendPacket(sSEA.SendPacket);
         }
 
         private Point PanelLocation = new Point(300, 12);

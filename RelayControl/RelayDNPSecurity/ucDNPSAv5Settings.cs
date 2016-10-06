@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -63,49 +63,50 @@ namespace RelayDNPSecurity
 
         private void sendSettings()
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
+            SendEventArgs sSEA = new SendEventArgs(_packetLength);
             UInt16 tempInt;
             byte tempByte;
+            sSEA.WithAck = true;
 
             try
             {
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'S'; // For Settings
-                sSEA.Data[2] = 0; //Spaced
+                sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'S'; // For Settings
+                sSEA.SendPacket[2] = 0; //Spaced
 
                 if (this.checkBoxAggressiveMode.Checked)
-                    sSEA.Data[3] = 0x01;
+                    sSEA.SendPacket[3] = 0x01;
                 else
-                    sSEA.Data[3] = 0x00;
+                    sSEA.SendPacket[3] = 0x00;
 
                 if(this.checkBoxSHA1.Checked)
-                    sSEA.Data[3] |= 0x02;
+                    sSEA.SendPacket[3] |= 0x02;
 
                 if (this.checkBoxAuthenticationEnabled.Checked)
-                    sSEA.Data[3] |= 0x04;
+                    sSEA.SendPacket[3] |= 0x04;
 
                 tempByte = (byte)this.comboBoxKeyChangeAlogrithm.SelectedIndex;
                 tempByte <<= 3; //Takes up the next 3 bits
 
-                sSEA.Data[3] |= tempByte;
-                sSEA.Data[4] = 0;
+                sSEA.SendPacket[3] |= tempByte;
+                sSEA.SendPacket[4] = 0;
                 tempInt = (UInt16)(this.numericUpDownReplyTimeout.Value * 10);
-                sSEA.Data[6] = (byte)(tempInt >> 8);
-                sSEA.Data[5] = (byte)tempInt;
+                sSEA.SendPacket[6] = (byte)(tempInt >> 8);
+                sSEA.SendPacket[5] = (byte)tempInt;
 
                 tempInt = (UInt16)this.numericUpDownSessionKeyInterval.Value;
-                sSEA.Data[8] = (byte)(tempInt >> 8);
-                sSEA.Data[7] = (byte)tempInt;
+                sSEA.SendPacket[8] = (byte)(tempInt >> 8);
+                sSEA.SendPacket[7] = (byte)tempInt;
 
                 tempInt = (UInt16)this.numericUpDownSessionKeyChangeCount.Value;
-                sSEA.Data[10] = (byte)(tempInt >> 8);
-                sSEA.Data[9] = (byte)tempInt;
+                sSEA.SendPacket[10] = (byte)(tempInt >> 8);
+                sSEA.SendPacket[9] = (byte)tempInt;
 
                 tempInt = (UInt16)this.numericUpDownMaxSessionKeyCount.Value;
-                sSEA.Data[11] = (byte)tempInt;
+                sSEA.SendPacket[11] = (byte)tempInt;
 
                 tempInt = (UInt16)this.comboBoxMACAlogrithm.SelectedIndex;
-                sSEA.Data[12] = (byte)tempInt;
+                sSEA.SendPacket[12] = (byte)tempInt;
 
                 try
                 {
@@ -113,8 +114,8 @@ namespace RelayDNPSecurity
                     foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
                     {
                         byte[] tempBytes = sT.GetBytes();
-                        sSEA.Data[i++] = tempBytes[0];
-                        sSEA.Data[i++] = tempBytes[1];
+                        sSEA.SendPacket[i++] = tempBytes[0];
+                        sSEA.SendPacket[i++] = tempBytes[1];
                     }
                 }
                 catch (Exception ex)
@@ -122,7 +123,7 @@ namespace RelayDNPSecurity
                     this.onError(new Exception("Error getting Security Statistics Values: " + ex.ToString()), "Error Sending SAv5 Settings");
                     return;
                 }
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }
@@ -139,13 +140,13 @@ namespace RelayDNPSecurity
 
         public void RequestSettings()
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
+            SendEventArgs sSEA = new SendEventArgs(_packetLength);
             try
             {
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'s'; // For requesting settings
+                sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'s'; // For requesting settings
 
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }

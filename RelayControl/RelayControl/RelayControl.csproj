@@ -384,6 +384,10 @@
       <Project>{e861dc92-010b-456b-85da-df917f6f05d7}</Project>
       <Name>SavedSettings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedResources\SharedResources.csproj">
+      <Project>{937d58ba-e306-4996-b9a9-9e577e80fdbf}</Project>
+      <Name>SharedResources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SineDisplayGraph\SineDisplayGraph.csproj">
       <Project>{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}</Project>
       <Name>SineDisplayGraph</Name>

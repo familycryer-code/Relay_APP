@@ -9,6 +9,7 @@ using RelayControlLibrary;
 using Exocortex.DSP;
 using System.Runtime.Serialization;
 using System.Collections;
+using SharedResources;
 
 namespace SineDisplayGraph
 {

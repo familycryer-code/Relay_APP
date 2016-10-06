@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -60,23 +60,24 @@ namespace RelayDNPSecurity
 
         private void sendKeyData()
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
+            SendEventArgs sSEA = new SendEventArgs(_packetLength);
             byte[] tempArray = null;
+            sSEA.WithAck = true;
             try
             {
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'A'; // For Authority Key
+                sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'A'; // For Authority Key
                 try
                 {
                     tempArray = this.keyBox.GetKey();
-                    sSEA.Data[2] = (byte)tempArray.Length;
-                    Array.Copy(tempArray, 0, sSEA.Data, 3, tempArray.Length);
+                    sSEA.SendPacket[2] = (byte)tempArray.Length;
+                    Array.Copy(tempArray, 0, sSEA.SendPacket, 3, tempArray.Length);
                 }
                 catch (Exception ex)
                 {
                     this.onError(ex, "Error copying SAv5 Key Data");
                 }
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
             }
             catch (Exception ex)
             {

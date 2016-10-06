@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -17,13 +17,13 @@ namespace RelayDNPSecurity
             InitializeComponent();
         }
 
-        public delegate void SendHandler(object o, SecureSendEventArgs sSEA);
+        public delegate void SendHandler(object o, SendEventArgs sSEA);
         public event SendHandler Send;
 
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler Error;
 
-        protected void onSend(SecureSendEventArgs sSEA)
+        protected void onSend(SendEventArgs sSEA)
         {
             if (this.Send != null)
                 this.Send(this, sSEA);

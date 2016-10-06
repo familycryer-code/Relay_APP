@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
+using SharedResources;
 
 namespace RelayDNPSecurity
 {
@@ -44,22 +44,23 @@ namespace RelayDNPSecurity
 
         private void buttonSendName_Click(object sender, EventArgs e)
         {
-            SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
+            SendEventArgs sSEA = new SendEventArgs(_packetLength);
+            sSEA.WithAck = true;
             try
             {
                 int i = 3;
 
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'O'; // For OS Name
-                sSEA.Data[2] = (byte)this.textBoxOSName.Text.Length;
+                sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'O'; // For OS Name
+                sSEA.SendPacket[2] = (byte)this.textBoxOSName.Text.Length;
                 
                 foreach (char c in this.textBoxOSName.Text)
                 {
-                    sSEA.Data[i] = (byte)c;
+                    sSEA.SendPacket[i] = (byte)c;
                     i++;
                 }
 
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
                 
                 this.onSend(sSEA);
             }
@@ -83,11 +84,11 @@ namespace RelayDNPSecurity
         {
             try
             {
-                SecureSendEventArgs sSEA = new SecureSendEventArgs(_packetLength);
+                SendEventArgs sSEA = new SendEventArgs(_packetLength);
 
-                sSEA.Data[0] = (byte)RelayModeFunctions._DNPControlOpCode;
-                sSEA.Data[1] = (byte)'o'; // Get OS Name
-                sSEA.Data[sSEA.Data.Length - 1] = 0x0D;
+                sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
+                sSEA.SendPacket[1] = (byte)'o'; // Get OS Name
+                sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }

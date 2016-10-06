@@ -4,17 +4,6 @@ using System.Text;
 
 namespace RelayControlLibrary
 {
-    public class SendEventArgs : EventArgs
-    {
-        public SendEventArgs(int arraySize)
-        {
-            this.SendPacket = new byte[arraySize];
-        }
-
-        public byte[] SendPacket;
-        public bool WithAck = false;
-    }
-
     public class TripModeChangeEventArgs : EventArgs
     {
         public TripModeChangeEventArgs()

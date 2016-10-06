@@ -712,6 +712,10 @@
       <Project>{1904a41b-d1b8-40e5-adbb-728ddcf7c816}</Project>
       <Name>Exocortex.DSP.v1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedResources\SharedResources.csproj">
+      <Project>{937d58ba-e306-4996-b9a9-9e577e80fdbf}</Project>
+      <Name>SharedResources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
