@@ -35,6 +35,10 @@ namespace RelayControl
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
         private const uint _version3FileRevisionNumber = 20100621;
 
+        private RelayStatusRegister RelayStatus = new RelayStatusRegister();
+        private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
+        private int masterBootRevisionReceived = 0;
+
         string customerRevisionNameDebug = "";
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
@@ -1811,6 +1815,15 @@ namespace RelayControl
                                 command = IncomingCommCommands.Invalid;
                                 break;
                             }
+                            else if ((char)this.receiveArray[tempRXReadPtr] == 'O')
+                            {
+                                masterBootRevisionReceived = 0;
+                                for(int i =5; i <= 10; i++)
+                                {
+                                    masterBootRevisionReceived = (masterBootRevisionReceived * 10) + (receiveArray[tempRXReadPtr + i] - 48);
+                                }
+                                this.ucRelayProgramming1.MasterBootRevisionNumberReceived = (UInt32)masterBootRevisionReceived;
+                            }
                         }
                         else //get the packet size from the next byte
                         {
@@ -3446,32 +3459,19 @@ namespace RelayControl
             }
         }
 
-        private RelayStatusRegister RelayStatus = new RelayStatusRegister();
-        private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
-        private bool RevTooLowErrorAlreadyShown = false;
         private void setRelayRegisters(byte[] bytePacket)
         {
             if (this.enableAutoloadToolStripMenuItem.Checked)
-            {
-                if (this.masterRevision <= REV1_MASTER_REVISION && this.RevTooLowErrorAlreadyShown == false)
-                {
-                    this.messageHandler("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
-                    this.RevTooLowErrorAlreadyShown = true;
-                }
-#if Enmax && !DEBUG
-                else if (this.masterRevision < SafeService_MASTER_REVISION)
-                {
-                    this.ucRelayProgramming1.ForceRelayUpdate = true;
-                    this.ucRelayProgramming1.ForceUpdateReason = "Safe Service";
-                }
-                else
-                {
-                    this.ucRelayProgramming1.ForceRelayUpdate = false;
-                }
-#endif
-                this.ucRelayProgramming1.CheckForUpdate();
-            }
+                ucRelayProgramming1.initializeAutoload();
+            
+            if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
+                return;
 
+            setRelayStatusLabels(bytePacket);
+        }
+
+        private void setRelayStatusLabels(byte[] bytePacket)
+        {
             this.registersReceived = true;
             this.showLabel(false, this.labelRelayDisconnected);
             this.showLabel(false, this.labelRelayDisconnected2);

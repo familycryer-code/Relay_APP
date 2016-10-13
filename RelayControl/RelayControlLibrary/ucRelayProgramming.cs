@@ -42,14 +42,27 @@ namespace RelayControlLibrary
         private static UInt32 _masterDNPRevisionNumber = 999999;
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
+        private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
         private static UInt32 _masterCodeRevisionNumber = 160721;
         private static UInt32 _masterDNPRevisionNumber = 160721;
         private static UInt32 _relayCodeRevisionNumber = 20160721;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
+        private static UInt32 _bootCodeRevisionNumber = 160920;
 #endif
+        private static UInt32 _safeService_MASTER_REVISION = 160621;
+        private static UInt32 _rEV1_MASTER_REVISION = 100713;
 
         private uint tempBootAddress = 0;
+        private bool clickFromEngineeringTab = false;
+        private bool programBootCodeStart = false;
+        private bool programBootCodeInProgress = false;
+        private UInt32 masterBootRevisionNumberReceived = 0;
+        private bool RevTooLowErrorAlreadyShown = false;
+        private bool bootRevTooLowErrorAlreadyShown = false;
+        private bool dontShowRelayUpgradeMessage = false;
+        private bool resetMasterToCheckBootOnce = false;
+        private bool masterBootRevisionSet = false;
 
         public Customers Customer
         {
@@ -69,7 +82,17 @@ namespace RelayControlLibrary
             }
         }
 
-        private bool programBootCodeStart = false;
+        public UInt32 MasterBootRevisionNumberReceived
+        {
+            get { return this.masterBootRevisionNumberReceived; }
+            set
+            {
+                this.masterBootRevisionNumberReceived = value;
+                masterBootRevisionSet = true;
+            }
+
+        }
+
         public bool ProgramBootCodeStart
         {
             get { return this.programBootCodeStart; }
@@ -81,6 +104,16 @@ namespace RelayControlLibrary
                     ProgramBootCode();
                     ProgramBootCodeStart = false;
                 }
+            }
+        }
+
+        
+        public bool ProgramBootCodeInProgress
+        {
+            get { return this.programBootCodeInProgress; }
+            set
+            {
+                this.programBootCodeInProgress = value;
             }
         }
 
@@ -453,6 +486,77 @@ namespace RelayControlLibrary
             destination.RelayFileAtlantaWH = source.RelayFileAtlantaWH;
         }
 
+        public void initializeAutoload()
+        {
+            if (compareMasterRevisionToGUI())
+            {
+                if (bootRevTooLowErrorAlreadyShown == false)
+                {
+                    if (resetMasterToCheckBootOnce == false)
+                    {
+                        this.sendReset();
+                        resetMasterToCheckBootOnce = true;
+                        Thread.Sleep(3000);
+                    }
+                    if (this.checkForBootCodeUpdate())
+                    {
+                        askToUpgradeBootCode();
+                    }
+                    else
+                    {
+                        if (masterBootRevisionSet == true)
+                            bootRevTooLowErrorAlreadyShown = true;
+                    }
+                }
+            }
+
+            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false)
+            {
+#if Enmax && !DEBUG
+                    if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.RevTooLowErrorAlreadyShown == false)
+                    {
+                        MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
+                        this.RevTooLowErrorAlreadyShown = true;
+                    }
+                    else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
+                    {
+                        this.ForceRelayUpdate = true;
+                        this.ForceUpdateReason = "Safe Service";
+                    }
+                    else
+                    {
+                        this.ForceRelayUpdate = false;
+                    }
+#endif
+                this.CheckForUpdate();
+            }
+        }
+
+        private void askToUpgradeBootCode()
+        {
+            bootRevTooLowErrorAlreadyShown = true;
+            dontShowRelayUpgradeMessage = true;
+
+            DialogResult dR = MessageBox.Show("Upgrade Master Boot Code?", "The Master Boot Code is out of date. Would you like to upgrade?", MessageBoxButtons.YesNo);
+
+            if (dR == DialogResult.Yes)
+            {
+                DialogResult warningBootDR = new DialogResult();
+
+                warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+
+                if (warningBootDR == DialogResult.OK)
+                {
+                    dontShowRelayUpgradeMessage = false;
+                    Thread.Sleep(2000);
+                    this.ProgramBootCodeStart = true;
+                }
+            }
+            else
+            {
+                dontShowRelayUpgradeMessage = false;
+            }
+        }
 
         public void InitialAutoLoadFiles()
         {
@@ -781,6 +885,22 @@ namespace RelayControlLibrary
             {
                 forceRelayToUpdate();
             }
+        }
+
+        public bool checkForBootCodeUpdate()
+        {
+            if(masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
+                return true;
+            else
+                return false;
+        }
+
+        public bool compareMasterRevisionToGUI()
+        {
+            if (remoteMasterRevisionNumber < _masterCodeRevisionNumber)
+                return true;
+            else
+                return false;
         }
 
         private void forceRelayToUpdate()
@@ -1222,9 +1342,10 @@ namespace RelayControlLibrary
 
             this.failCount = 0;
 
+            this.programBootCodeInProgress = true;
+
             this.dontReloadFromResource = false;
             this.masterCode.WithParameters = false;
-            this.reprogramMaster = true;
             this.setProgrammingFiles();
 
             this.State = RelayProgrammingStates.LoadingMasterBootLoader;
@@ -1673,6 +1794,10 @@ namespace RelayControlLibrary
             this.onSend(rPEA);
 
             allReprogramingDone();
+
+            programBootCodeInProgress = false;
+            if (!clickFromEngineeringTab)
+                firstCheckForUpdate = true;
         }
 
         public void FinalizeReprogram()
@@ -3026,6 +3151,7 @@ namespace RelayControlLibrary
         private void buttonProgramMasterBootCode_Click(object sender, EventArgs e)
         {
             this.ProgramBootCodeStart = true;
+            clickFromEngineeringTab = true;
         }
     }
 
