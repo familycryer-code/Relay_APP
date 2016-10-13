@@ -1076,6 +1076,12 @@ namespace RelayControlLibrary
                     this.programmingForm.CurrentTask = "Loading FPGA Code";
                     this.sendFPGATransferPacket();
                     break;
+                case RelayProgrammingStates.ReloadMasterBoot:
+                    this.programmingForm.Close();
+                    this.timerTimeout.Stop();
+                    Thread.Sleep(2000);
+                    this.ProgramBootCodeStart = true;
+                    break;
                 default:
                     break;
             }
@@ -2804,6 +2810,9 @@ namespace RelayControlLibrary
                     this.requestAll();
                     break;
                 
+                case RelayProgrammingStates.LoadingMasterBootLoader:
+                    this.state = RelayProgrammingStates.ReloadMasterBoot;
+                    break;
             }
 
             
@@ -3186,6 +3195,7 @@ namespace RelayControlLibrary
         LoadingMasterBootLoader,
         FinishedLoadingMasterBootLoader,
         DoneLoadingMasterBootLoader,
+        ReloadMasterBoot
     }
 
     public class CodeReloaderSingleRelay
