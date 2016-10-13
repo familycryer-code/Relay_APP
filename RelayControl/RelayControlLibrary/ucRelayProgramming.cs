@@ -49,6 +49,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
 #endif
 
+        private uint tempBootAddress = 0;
+
         public Customers Customer
         {
             get { return this.customer; }
@@ -65,6 +67,26 @@ namespace RelayControlLibrary
                 this.writeLineToTraceFile(value.ToString());
                 this.state = value;
             }
+        }
+
+        private bool programBootCodeStart = false;
+        public bool ProgramBootCodeStart
+        {
+            get { return this.programBootCodeStart; }
+            set
+            {
+                this.programBootCodeStart = value;
+                if(programBootCodeStart == true)
+                {
+                    ProgramBootCode();
+                    ProgramBootCodeStart = false;
+                }
+            }
+        }
+
+        void ProgramBootCode()
+        {
+            MasterBootLoaderStart();
         }
 
         private bool forceUpdateOnce = false;
@@ -975,8 +997,16 @@ namespace RelayControlLibrary
                         this.timerTimeout.Stop();
                         this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
-                        this.State = RelayProgrammingStates.LoadingBootLoader;
-                        this.sendNextBootLoaderPacket();
+                        this.State = RelayProgrammingStates.LoadingRelayBootLoader;
+                        this.sendNextRelayBootLoaderPacket();
+                        break;
+                    case RelayProgrammingStates.LoadingMasterBootLoader:
+                        this.writeStringToTraceFile("AckU, ");
+                        this.timerTimeout.Stop();
+                        this.timerTimeout.Interval = 1500;
+                        this.timerTimeout.Start();
+                        this.State = RelayProgrammingStates.LoadingMasterBootLoader;
+                        this.sendMasterBootCode();
                         break;
                 }
             }
@@ -1142,14 +1172,14 @@ namespace RelayControlLibrary
             }
         }
 
-        private void sendNextBootLoaderPacket()
+        private void sendNextRelayBootLoaderPacket()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
             this.failCount = 0;
 
-            if (this.State == RelayProgrammingStates.LoadingBootLoader)
+            if (this.State == RelayProgrammingStates.LoadingRelayBootLoader)
             {
 
                 if (this.relayCode.CodeBytes.Count == 0)
@@ -1175,6 +1205,131 @@ namespace RelayControlLibrary
 
                 this.onSend(rPEA);
             }
+        }
+
+        private void MasterBootLoaderStart()
+        {
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
+
+            int temp = 0;
+
+            this.failCount = 0;
+
+            this.dontReloadFromResource = false;
+            this.masterCode.WithParameters = false;
+            this.reprogramMaster = true;
+            this.setProgrammingFiles();
+
+            this.State = RelayProgrammingStates.LoadingMasterBootLoader;
+
+
+            if ((this.masterCode.FileString == "" || this.masterCode.FileString == null))
+            {
+                MessageBox.Show("No Master File Loaded");
+                this.State = RelayProgrammingStates.Idle;
+                return;
+            }
+
+
+            if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
+            {
+                rPEA.BytesToSend = new byte[4];
+
+                this.parseBootLoaderSFile(this.masterCode);
+
+                temp = (this.masterCode.NumberOfCodeBlocks * 2) - 1;
+                this.labelCodeTotal.Text = temp.ToString();
+                this.labelDataTotal.Text = "0";
+
+                this.programmingForm.Maximum = temp;
+                this.labelDataCount.Text = "0";
+                this.labelCodeCount.Text = "0";
+                this.enableButtons(false);
+
+                rPEA.BytesToSend[0] = 0x23; // '#'
+                rPEA.BytesToSend[1] = 0x55; // 'U'
+                rPEA.BytesToSend[2] = 32; //can be 32 or 24
+                rPEA.BytesToSend[3] = 0x0D;
+
+                this.writeStringToTraceFile("BL, ");
+
+                this.onSend(rPEA);
+
+                confirmProgramMasterBoot();
+            }
+        }
+
+        private void confirmProgramMasterBoot()
+        {
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
+
+            this.failCount = 0;
+
+            if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
+            {
+                rPEA.BytesToSend = new byte[3];
+
+                rPEA.BytesToSend[0] = Convert.ToByte('Y');
+                rPEA.BytesToSend[1] = Convert.ToByte('E');
+                rPEA.BytesToSend[2] = Convert.ToByte('S');
+                this.onSend(rPEA);
+            }
+        }
+
+        private void sendMasterBootCode()
+        {
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
+
+            this.failCount = 0;
+
+            if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
+            {
+                
+                this.programmingForm.CurrentTask = "Loading Master Boot";
+                Int32 temp = Convert.ToInt32(this.labelCodeCount.Text);
+
+                    try
+                    {
+                        rPEA.BytesToSend = new byte[1024];
+
+                        if (this.masterCode.CodeBytes.Count >= 0)
+                        {
+                            for (int i = 0; i < 1024; i++)
+                            {
+                                rPEA.BytesToSend[i] = this.masterCode.CodeBytes[0];
+                                this.masterCode.CodeBytes.RemoveAt(0);               
+                            }  
+                        }
+
+                        if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
+                            this.onSend(rPEA);
+
+                        if(temp == programmingForm.Maximum)
+                        {
+                            this.State = RelayProgrammingStates.FinishedLoadingMasterBootLoader;
+                        }
+                        else
+                        {
+                            this.programmingForm.ProgressValue = temp;
+                            temp++;
+                            this.labelCodeCount.Text = temp.ToString();
+                            this.writeStringToTraceFile("BL, ");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.errorHandler("Error Sending Next Master Boot Data", ex);
+                    }
+
+                    if (this.State == RelayProgrammingStates.FinishedLoadingMasterBootLoader)
+                    {
+                        this.doneLoadingMasterBootLoader();
+                    }
+                        
+             }
         }
 
         private void sendNextMasterPacket()
@@ -1494,6 +1649,26 @@ namespace RelayControlLibrary
             this.onSend(rPEA);
         }
 
+        private void doneLoadingMasterBootLoader()
+        {
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+
+            this.State = RelayProgrammingStates.DoneLoadingMasterBootLoader;
+
+            this.enableButtons(true);
+            this.programmingForm.Hide();
+            this.timerTimeout.Stop();
+            this.writeLineToTraceFile("");
+            this.writeLineToTraceFile("Done Loading Master Boot");
+
+            Thread.Sleep(2000); //must delay before sending any other commands on completion!
+
+            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
+            this.onSend(rPEA);
+
+            allReprogramingDone();
+        }
+
         public void FinalizeReprogram()
         {
             if (this.state == RelayProgrammingStates.Finalized)
@@ -1790,31 +1965,64 @@ namespace RelayControlLibrary
                         while (address < 0x80000); // Address where the BootLoader starts
 
                         rPD.CodeBytes = new List<byte>();
+                        tempBootAddress = address - 0x20;
                         
                         // Might want to check this address
                         while (address < 0x88000)
                         {
-                        
-                            // Add the address
-                            this.addBootLoaderAddress(rPD.CodeBytes, address);
-                        
                             // Add the data
                             // Remove length and address
                             s = s.Remove(0, 12);
 
-                            // next (length - 5) are the data bytes
-
-                            for (int i = 0; i < 32; i++)
+                            if (address != (tempBootAddress + 0x20)) //try to fill in gaps to 82000 then to 88000 with FFs
                             {
-                                try
+
+                                while (tempBootAddress < 0x82000 - 0x20)
+                                {
+                                    tempBootAddress = tempBootAddress + 0x20;
+                                    for (int i = 0; i < 32; i++)
+                                        rPD.CodeBytes.Add((byte)0xFF);
+                                }
+
+                                while (tempBootAddress < 0x87FFC-0x40 && tempBootAddress > 0x82000)
+                                {
+                                    tempBootAddress = tempBootAddress + 0x20;
+                                    for (int i = 0; i < 32; i++)
+                                        rPD.CodeBytes.Add((byte)0xFF);
+                                }
+
+                                tempBootAddress = address;
+                            }
+                            else
+                            {
+                                tempBootAddress = address;
+                            }
+
+                            length = Convert.ToUInt16(length - 5);
+
+                            if(address != 0x87FFC)
+                            {
+                                for (int i = 0; i < length; i++)
                                 {
                                     rPD.CodeBytes.Add(Convert.ToByte(s.Substring(i * 2, 2), 16));
+
+
                                 }
-                                catch
+                                if (length != 32)
                                 {
-                                    // Fill in extra space with FF
-                                    rPD.CodeBytes.Add(0xFF);
+                                    for (; length < 32; length++)
+                                        rPD.CodeBytes.Add((byte)0xFF);
                                 }
+                            }
+                            else if (address == 0x87FFC) //added special case for boot code
+                            {
+                                for (int j = 0; j <= 27; j++)
+                                    rPD.CodeBytes.Add((byte)0xFF);
+
+                                for (int j = 0; j <= 3; j++)
+                                    rPD.CodeBytes.Add(Convert.ToByte(s.Substring(j * 2, 2), 16));
+
+                                break;
                             }
 
                             try
@@ -2805,21 +3013,11 @@ namespace RelayControlLibrary
             }
 
         }
-        /*
 
-        private void buttonClearAllProgrammingFields_Click(object sender, EventArgs e)
+        private void buttonProgramMasterBootCode_Click(object sender, EventArgs e)
         {
-            this.textBoxFPGAFile.Text = "";
-            this.textBoxRelayFileName.Text = "";
-            this.textBoxMasterFileName.Text = "";
+            this.ProgramBootCodeStart = true;
         }
-
-        private void buttonLoadDefaultResourceSFiles_Click(object sender, EventArgs e)
-        {
-            this.dontReloadFromResource = false;
-            this.setProgrammingFiles();
-        }
-         */
     }
 
     public class FPGAProgrammingData
@@ -2984,7 +3182,10 @@ namespace RelayControlLibrary
         ClearingBootLoader,
         RequestAll,
         WaitForAllData,
-        LoadingBootLoader
+        LoadingRelayBootLoader,
+        LoadingMasterBootLoader,
+        FinishedLoadingMasterBootLoader,
+        DoneLoadingMasterBootLoader,
     }
 
     public class CodeReloaderSingleRelay

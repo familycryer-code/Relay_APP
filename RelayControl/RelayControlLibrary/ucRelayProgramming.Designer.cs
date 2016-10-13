@@ -54,6 +54,7 @@
             this.comboBoxCustomer = new System.Windows.Forms.ComboBox();
             this.buttonClearAllProgrammingFields = new System.Windows.Forms.Button();
             this.buttonLoadDefaultResourceSFiles = new System.Windows.Forms.Button();
+            this.buttonProgramMasterBootCode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonSelectMasterSFile
@@ -239,9 +240,9 @@
             // 
             // buttonFixBootLoader
             // 
-            this.buttonFixBootLoader.Location = new System.Drawing.Point(246, 119);
+            this.buttonFixBootLoader.Location = new System.Drawing.Point(246, 127);
             this.buttonFixBootLoader.Name = "buttonFixBootLoader";
-            this.buttonFixBootLoader.Size = new System.Drawing.Size(98, 39);
+            this.buttonFixBootLoader.Size = new System.Drawing.Size(98, 35);
             this.buttonFixBootLoader.TabIndex = 21;
             this.buttonFixBootLoader.Text = "Fix Relay BootLoader";
             this.buttonFixBootLoader.UseVisualStyleBackColor = true;
@@ -285,10 +286,21 @@
             this.buttonLoadDefaultResourceSFiles.UseVisualStyleBackColor = true;
             this.buttonLoadDefaultResourceSFiles.Click += new System.EventHandler(this.buttonLoadDefaultResourceSFiles_Click);
             // 
+            // buttonProgramMasterBootCode
+            // 
+            this.buttonProgramMasterBootCode.Location = new System.Drawing.Point(246, 85);
+            this.buttonProgramMasterBootCode.Name = "buttonProgramMasterBootCode";
+            this.buttonProgramMasterBootCode.Size = new System.Drawing.Size(98, 36);
+            this.buttonProgramMasterBootCode.TabIndex = 26;
+            this.buttonProgramMasterBootCode.Text = "Program Master Boot Code";
+            this.buttonProgramMasterBootCode.UseVisualStyleBackColor = true;
+            this.buttonProgramMasterBootCode.Click += new System.EventHandler(this.buttonProgramMasterBootCode_Click);
+            // 
             // ucRelayProgramming
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonProgramMasterBootCode);
             this.Controls.Add(this.buttonLoadDefaultResourceSFiles);
             this.Controls.Add(this.buttonClearAllProgrammingFields);
             this.Controls.Add(this.comboBoxCustomer);
@@ -347,5 +359,6 @@
         private System.Windows.Forms.ComboBox comboBoxCustomer;
         private System.Windows.Forms.Button buttonClearAllProgrammingFields;
         private System.Windows.Forms.Button buttonLoadDefaultResourceSFiles;
+        private System.Windows.Forms.Button buttonProgramMasterBootCode;
     }
 }
