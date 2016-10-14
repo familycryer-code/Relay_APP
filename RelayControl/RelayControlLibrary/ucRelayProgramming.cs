@@ -569,7 +569,6 @@ namespace RelayControlLibrary
             if (warningBootDR == DialogResult.OK)
             {
                 dontShowRelayUpgradeMessage = false;
-                Thread.Sleep(2000);
                 this.ProgramBootCodeStart = true;
             }
         }
@@ -1816,10 +1815,12 @@ namespace RelayControlLibrary
 
             programBootCodeInProgress = false;
 
-            firstCheckForUpdate = true;
-
             if (!clickFromEngineeringTab)
+            {
+                firstCheckForUpdate = true;
                 this.requestAll();
+            }
+                
         }
 
         public void FinalizeReprogram()
