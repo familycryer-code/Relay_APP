@@ -63,6 +63,7 @@ namespace RelayControlLibrary
         private bool dontShowRelayUpgradeMessage = false;
         private bool resetMasterToCheckBootOnce = false;
         private bool masterBootRevisionSet = false;
+        private bool askToUgradeShown = false;
 
         public Customers Customer
         {
@@ -488,73 +489,88 @@ namespace RelayControlLibrary
 
         public void initializeAutoload()
         {
-            if (compareMasterRevisionToGUI())
+            DialogResult dR;
+
+            if (askToUgradeShown == false)
             {
-                if (bootRevTooLowErrorAlreadyShown == false)
+                askToUgradeShown = true;
+                dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                if (!this.dontReloadFromResource && askToUgradeShown == false)
+                    dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
+            }
+            else
+            {
+                dR = DialogResult.No;
+
+#if Enmax && !DEBUG
+                ForceUpgradeCheck();
+                this.CheckForUpdate();
+#endif
+            }
+
+            if (dR == DialogResult.Yes)
+            {
+                if (compareMasterRevisionToGUI())
                 {
-                    if (resetMasterToCheckBootOnce == false)
+                    if (bootRevTooLowErrorAlreadyShown == false)
                     {
-                        this.sendReset();
-                        resetMasterToCheckBootOnce = true;
-                        Thread.Sleep(3000);
-                    }
-                    if (this.checkForBootCodeUpdate())
-                    {
-                        askToUpgradeBootCode();
-                    }
-                    else
-                    {
-                        if (masterBootRevisionSet == true)
-                            bootRevTooLowErrorAlreadyShown = true;
+                        if (resetMasterToCheckBootOnce == false)
+                        {
+                            this.sendReset();
+                            resetMasterToCheckBootOnce = true;
+                            Thread.Sleep(3000);
+                        }
+                        if (this.checkForBootCodeUpdate())
+                        {
+                            UpgradeBootCode();
+                        }
+                        else
+                        {
+                            if (masterBootRevisionSet == true)
+                                bootRevTooLowErrorAlreadyShown = true;
+                        }
                     }
                 }
             }
 
             if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false)
             {
-#if Enmax && !DEBUG
-                    if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.RevTooLowErrorAlreadyShown == false)
-                    {
-                        MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
-                        this.RevTooLowErrorAlreadyShown = true;
-                    }
-                    else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
-                    {
-                        this.ForceRelayUpdate = true;
-                        this.ForceUpdateReason = "Safe Service";
-                    }
-                    else
-                    {
-                        this.ForceRelayUpdate = false;
-                    }
-#endif
                 this.CheckForUpdate();
             }
         }
 
-        private void askToUpgradeBootCode()
+        private void ForceUpgradeCheck()
+        {
+            if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.RevTooLowErrorAlreadyShown == false)
+            {
+                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
+                this.RevTooLowErrorAlreadyShown = true;
+            }
+            else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
+            {
+                this.forceRelayUpdate = true;
+                this.forceUpdateReason = "Safe Service";
+            }
+            else
+            {
+                this.forceRelayUpdate = false;
+            }
+        }
+
+        private void UpgradeBootCode()
         {
             bootRevTooLowErrorAlreadyShown = true;
             dontShowRelayUpgradeMessage = true;
 
-            DialogResult dR = MessageBox.Show("Upgrade Master Boot Code?", "The Master Boot Code is out of date. Would you like to upgrade?", MessageBoxButtons.YesNo);
+            DialogResult warningBootDR = new DialogResult();
 
-            if (dR == DialogResult.Yes)
-            {
-                DialogResult warningBootDR = new DialogResult();
+            warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
-                warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-
-                if (warningBootDR == DialogResult.OK)
-                {
-                    dontShowRelayUpgradeMessage = false;
-                    Thread.Sleep(2000);
-                    this.ProgramBootCodeStart = true;
-                }
-            }
-            else
+            if (warningBootDR == DialogResult.OK)
             {
                 dontShowRelayUpgradeMessage = false;
+                Thread.Sleep(2000);
+                this.ProgramBootCodeStart = true;
             }
         }
 
@@ -977,19 +993,23 @@ namespace RelayControlLibrary
             if (this.serialNumberError)
                 return;
 
-            if (forceRelayUpdate == false)
+            if (forceRelayUpdate == false && askToUgradeShown == false)
+            {
+                askToUgradeShown = true;
                 dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            }
             else
+            {
                 dR = DialogResult.Yes;
-
-
+            }
+                
             if (dR == DialogResult.Yes)
             {
                 // If we aren't loading from resource, don't bother asking this question
 
                 if (forceRelayUpdate == false)
                 {
-                    if (!this.dontReloadFromResource)
+                    if (!this.dontReloadFromResource && askToUgradeShown == false)
                         dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
                 }
                 else
@@ -1007,7 +1027,7 @@ namespace RelayControlLibrary
                     this.onSend(rPEA);
                     
                     // If we aren't loading from resource, don't bother warning
-                    if (!this.dontReloadFromResource)
+                    if (!this.dontReloadFromResource && askToUgradeShown == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
 
                     this.writeLineToTraceFile("User Verified Programming Start");
@@ -1343,9 +1363,6 @@ namespace RelayControlLibrary
             this.failCount = 0;
 
             this.programBootCodeInProgress = true;
-
-            this.dontReloadFromResource = false;
-            this.masterCode.WithParameters = false;
             this.setProgrammingFiles();
 
             this.State = RelayProgrammingStates.LoadingMasterBootLoader;
@@ -1353,9 +1370,8 @@ namespace RelayControlLibrary
 
             if ((this.masterCode.FileString == "" || this.masterCode.FileString == null))
             {
-                MessageBox.Show("No Master File Loaded");
-                this.State = RelayProgrammingStates.Idle;
-                return;
+                this.dontReloadFromResource = false;
+                this.setProgrammingFiles();
             }
 
 
@@ -1788,16 +1804,22 @@ namespace RelayControlLibrary
             this.writeLineToTraceFile("");
             this.writeLineToTraceFile("Done Loading Master Boot");
 
-            Thread.Sleep(2000); //must delay before sending any other commands on completion!
+            Thread.Sleep(3000); //must delay before sending any other commands on completion!
 
-            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
-            this.onSend(rPEA);
+            if (clickFromEngineeringTab)
+            {
+                rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
+                this.onSend(rPEA);
 
-            allReprogramingDone();
+                allReprogramingDone();
+            }
 
             programBootCodeInProgress = false;
+
+            firstCheckForUpdate = true;
+
             if (!clickFromEngineeringTab)
-                firstCheckForUpdate = true;
+                this.requestAll();
         }
 
         public void FinalizeReprogram()
