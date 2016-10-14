@@ -1,4 +1,6 @@
-﻿namespace RelayControlLibrary
+﻿using System;
+
+namespace RelayControlLibrary
 {
     partial class ucTimeControl
     {

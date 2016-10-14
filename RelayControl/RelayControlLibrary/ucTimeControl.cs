@@ -15,9 +15,8 @@ namespace RelayControlLibrary
         public ucTimeControl()
         {
             InitializeComponent();
-            this.SecondTimer.Interval = 5000;
-            this.SecondTimer.Start();
-            this.SecondTimer.Tick += SecondTimer_Tick;
+            this.secondTimer.Interval = 5000;
+            this.secondTimer.Tick += SecondTimer_Tick;
             this.initializeTable();
         }
 
@@ -38,7 +37,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private Timer SecondTimer = new Timer();
+        private Timer secondTimer = new Timer();
         private DataTable timeTable = new DataTable();
         private DateTime relayTime;
         private TimeSpan difference;
@@ -159,6 +158,11 @@ namespace RelayControlLibrary
                 }
                 Console.WriteLine();
             }
+        }
+
+        public void EnablePolling(bool p)
+        {
+            this.secondTimer.Enabled = p;
         }
     }
 }

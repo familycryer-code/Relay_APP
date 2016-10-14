@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-09-22";
+        private const string revisionDate = "2016-10-14";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -814,7 +814,7 @@ namespace RelayControl
 
         void standardizedSendData(object o, SendEventArgs sEA)
         {
-            if (this.quietMode)
+            if (this.quietMode || !this.relayFound)
                 return;
 
             if (sEA.WithAck)
@@ -5387,6 +5387,7 @@ namespace RelayControl
         private void RegisterPolling(bool p)
         {
             this.pauseMonitoring = !p;
+            this.ucTimeControl1.EnablePolling(p);
         }
 
         private bool checkPortAvailability(string s)
