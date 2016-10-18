@@ -66,6 +66,15 @@ namespace RelayControlLibrary
             }
         }
 
+        public bool MasterBootComplete
+        {
+            get { return this.checkBoxMasterBootCodeComplete.Checked; }
+            set
+            {
+                this.checkBoxMasterBootCodeComplete.Checked = value;
+            }
+        }
+
         public int Maximum
         {
             get { return this.progressBarLoading.Maximum; }

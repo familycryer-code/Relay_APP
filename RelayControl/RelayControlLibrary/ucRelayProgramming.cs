@@ -65,6 +65,9 @@ namespace RelayControlLibrary
         private bool resetMasterToCheckBootOnce = false;
         private bool masterBootRevisionSet = false;
         private bool askToUgradeShown = false;
+        private bool forceBootUpgrade = false;
+        private bool checkMasterBootAgain = false;
+        private bool storeDialogReprogramResultBoot = false;
 
         public Customers Customer
         {
@@ -91,6 +94,11 @@ namespace RelayControlLibrary
             {
                 this.masterBootRevisionNumberReceived = value;
                 masterBootRevisionSet = true;
+                if (checkMasterBootAgain == true)
+                {
+                    checkMasterBootAgain = false;
+                    this.initializeAutoload();
+                }
             }
 
         }
@@ -492,21 +500,34 @@ namespace RelayControlLibrary
         {
             DialogResult dR;
 
-            if (askToUgradeShown == false)
+#if DOMINION
+            forceBootUpgrade = true;
+#endif
+
+            if (askToUgradeShown == false && forceBootUpgrade == false)
             {
                 askToUgradeShown = true;
                 dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
                 if (!this.dontReloadFromResource && askToUgradeShown == false)
                     dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
             }
-            else
+            else if (forceBootUpgrade == false)
             {
-                dR = DialogResult.No;
+                if (storeDialogReprogramResultBoot == true)
+                    dR = DialogResult.Yes;
+                else
+                    dR = DialogResult.No;
+
+                storeDialogReprogramResultBoot = false;
 
 #if Enmax && !DEBUG
                 ForceUpgradeCheck();
                 this.CheckForUpdate();
 #endif
+            }
+            else
+            {
+                dR = DialogResult.Yes;
             }
 
             if (dR == DialogResult.Yes)
@@ -521,23 +542,34 @@ namespace RelayControlLibrary
                             resetMasterToCheckBootOnce = true;
                             Thread.Sleep(3000);
                         }
-                        if (this.checkForBootCodeUpdate())
+                        if (this.checkForBootCodeUpdate() && masterBootRevisionSet == true)
                         {
                             UpgradeBootCode();
                         }
+                        else if(masterBootRevisionSet == false)
+                        {
+                            checkMasterBootAgain = true;
+                            storeDialogReprogramResultBoot = true;
+                        }
                         else
                         {
-                            if (masterBootRevisionSet == true)
-                                bootRevTooLowErrorAlreadyShown = true;
+                            bootRevTooLowErrorAlreadyShown = true;
                         }
                     }
                 }
             }
 
-            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false)
-            {
+            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && masterBootRevisionSet == true && forceBootUpgrade == false)
                 this.CheckForUpdate();
+            else if (forceBootUpgrade == true)           
+            {
+#if Enmax && !DEBUG
+                ForceUpgradeCheck();
+#endif
+                if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && masterBootRevisionSet == true)
+                    this.CheckForUpdate();
             }
+            
         }
 
         private void ForceUpgradeCheck()
@@ -563,9 +595,15 @@ namespace RelayControlLibrary
             bootRevTooLowErrorAlreadyShown = true;
             dontShowRelayUpgradeMessage = true;
 
+            DialogResult upgradeDR = new DialogResult();
             DialogResult warningBootDR = new DialogResult();
 
-            warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+#if !DEBUG 
+            upgradeDR = MessageBox.Show("The relay firmware must be updated", "Relay Firmware Must be updated", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+
+            if (upgradeDR == DialogResult.OK)
+#endif
+                warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
             if (warningBootDR == DialogResult.OK)
             {
@@ -1029,7 +1067,7 @@ namespace RelayControlLibrary
             if (this.serialNumberError)
                 return;
 
-            if (forceRelayUpdate == false && askToUgradeShown == false)
+            if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
                 askToUgradeShown = true;
                 dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -1043,7 +1081,7 @@ namespace RelayControlLibrary
             {
                 // If we aren't loading from resource, don't bother asking this question
 
-                if (forceRelayUpdate == false)
+                if (forceRelayUpdate == false && programmingForm.MasterBootComplete == false)
                 {
                     if (!this.dontReloadFromResource && askToUgradeShown == false)
                         dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
@@ -1063,7 +1101,7 @@ namespace RelayControlLibrary
                     this.onSend(rPEA);
                     
                     // If we aren't loading from resource, don't bother warning
-                    if (!this.dontReloadFromResource && askToUgradeShown == false)
+                    if (!this.dontReloadFromResource && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
 
                     this.writeLineToTraceFile("User Verified Programming Start");
@@ -1196,21 +1234,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if (this.InvokeRequired)
-                {
-                    booleanInvoke bI = new booleanInvoke(this.PacketAcknowledged);
-                    this.Invoke(bI, new object[] { b });
-                }
-                else
-                {
-                    if (this.programmingForm.InvokeRequired)
-                    {
-                        booleanInvoke bI = new booleanInvoke(this.PacketAcknowledged);
-                        programmingForm.Invoke(bI, new object[] { b });
-                    }
-                    else
-                        this.packetAcknowledged(b);
-                }
+                this.packetAcknowledged(b);
             }
             catch (Exception ex)
             {
@@ -1835,15 +1859,17 @@ namespace RelayControlLibrary
             this.State = RelayProgrammingStates.DoneLoadingMasterBootLoader;
 
             this.enableButtons(true);
-            this.programmingForm.Hide();
             this.timerTimeout.Stop();
             this.writeLineToTraceFile("");
             this.writeLineToTraceFile("Done Loading Master Boot");
+            this.programmingForm.MasterBootComplete = true;
 
             Thread.Sleep(3000); //must delay before sending any other commands on completion!
 
             if (clickFromEngineeringTab)
             {
+                this.programmingForm.Hide();
+
                 rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
                 this.onSend(rPEA);
 

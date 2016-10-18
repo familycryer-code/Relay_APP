@@ -35,6 +35,7 @@
             this.checkBoxRelayCode = new System.Windows.Forms.CheckBox();
             this.checkBoxRelayData = new System.Windows.Forms.CheckBox();
             this.checkBoxFPGA = new System.Windows.Forms.CheckBox();
+            this.checkBoxMasterBootCodeComplete = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // progressBarLoading
@@ -113,11 +114,22 @@
             this.checkBoxFPGA.Text = "FPGA Complete";
             this.checkBoxFPGA.UseVisualStyleBackColor = false;
             // 
+            // checkBoxMasterBootCodeComplete
+            // 
+            this.checkBoxMasterBootCodeComplete.AutoSize = true;
+            this.checkBoxMasterBootCodeComplete.Location = new System.Drawing.Point(295, 36);
+            this.checkBoxMasterBootCodeComplete.Name = "checkBoxMasterBootCodeComplete";
+            this.checkBoxMasterBootCodeComplete.Size = new System.Drawing.Size(130, 17);
+            this.checkBoxMasterBootCodeComplete.TabIndex = 7;
+            this.checkBoxMasterBootCodeComplete.Text = "Master Boot Complete";
+            this.checkBoxMasterBootCodeComplete.UseVisualStyleBackColor = true;
+            // 
             // formProgrammingProgess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(455, 136);
+            this.Controls.Add(this.checkBoxMasterBootCodeComplete);
             this.Controls.Add(this.checkBoxFPGA);
             this.Controls.Add(this.checkBoxRelayData);
             this.Controls.Add(this.checkBoxRelayCode);
@@ -141,5 +153,6 @@
         private System.Windows.Forms.CheckBox checkBoxRelayCode;
         private System.Windows.Forms.CheckBox checkBoxRelayData;
         private System.Windows.Forms.CheckBox checkBoxFPGA;
+        private System.Windows.Forms.CheckBox checkBoxMasterBootCodeComplete;
     }
 }

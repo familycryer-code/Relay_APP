@@ -40,6 +40,7 @@ namespace RelayControl
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private int masterBootRevisionReceived = 0;
+        private delegate void booleanInvoke(bool b);
 
         string customerRevisionNameDebug = "";
 
@@ -1616,7 +1617,7 @@ namespace RelayControl
                     {
                         this.SendConfirmed = true;
                         this.expectingAck = false;
-                        this.ucRelayProgramming1.PacketAcknowledged(true);
+                        packetAcknowledged(true);
                         this.timerSCITimeOut.Enabled = false;
                     }
                     if (lastByte == 0x0D)
@@ -1650,6 +1651,19 @@ namespace RelayControl
                 this.RegisterPolling(true);
             }
 
+        }
+
+        private void packetAcknowledged(bool b)
+        {
+            if (this.InvokeRequired)
+            {
+                booleanInvoke bI = new booleanInvoke(this.packetAcknowledged);
+                this.Invoke(bI, new object[] { b });
+            }
+            else
+            {
+                this.ucRelayProgramming1.PacketAcknowledged(b);
+            }
         }
 
         private void checkRawData(object sender, EventArgs e)
