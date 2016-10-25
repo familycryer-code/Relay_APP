@@ -376,6 +376,12 @@
     <Compile Include="ucCalibration.Designer.cs">
       <DependentUpon>ucCalibration.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucCoverFlags.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucCoverFlags.Designer.cs">
+      <DependentUpon>ucCoverFlags.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucCSVConverter.cs">
       <SubType>UserControl</SubType>
     </Compile>

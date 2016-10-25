@@ -79,16 +79,6 @@ namespace RelayControlLibrary
             }
         }
 
-        private bool setFromRelaySettingsTab = false;
-        public bool SetFromRelaySettingsTab
-        {
-            get { return this.setFromRelaySettingsTab; }
-            set
-            {
-                this.setFromRelaySettingsTab = value;
-            }
-        }
-
         private byte dNPCoverFlags = 0;
         public byte DNPCoverFlags
         {
@@ -938,6 +928,28 @@ namespace RelayControlLibrary
             OnSend(RQSEA);
         }
 
+        public void setPolarityFromRelaySettings()
+        {
+            this.TXSettings.FlagPolarity.A = Convert.ToBoolean(dNPCoverFlags & 1);
+            this.TXSettings.FlagPolarity.B = Convert.ToBoolean(dNPCoverFlags & 2);
+            this.TXSettings.FlagPolarity.C = Convert.ToBoolean(dNPCoverFlags & 4);
+            this.TXSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
+            this.TXSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
+            this.TXSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
+            this.TXSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
+            this.TXSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
+            this.TXSettings.SetFlagPolartityByte();
+
+            this.radioButtonFPAClose.Checked = this.TXSettings.FlagPolarity.A;
+            this.radioButtonFPBClose.Checked = this.TXSettings.FlagPolarity.B;
+            this.radioButtonFPCClose.Checked = this.TXSettings.FlagPolarity.C;
+            this.radioButtonFPDClose.Checked = this.TXSettings.FlagPolarity.D;
+            this.radioButtonFPEClose.Checked = this.TXSettings.FlagPolarity.E;
+            this.radioButtonFPFClose.Checked = this.TXSettings.FlagPolarity.F;
+            this.radioButtonFPGClose.Checked = this.TXSettings.FlagPolarity.G;
+            this.radioButtonFPHClose.Checked = this.TXSettings.FlagPolarity.H;
+        }
+
         private void buttonTX_Click(object sender, EventArgs e)
         {
             this.SendTransmitterSettings();
@@ -977,37 +989,17 @@ namespace RelayControlLibrary
             //Flag Polarity
 
                 errorMessage = "Error Setting Flag Polarities";
-                if (setFromRelaySettingsTab == false)
-                {
-                    this.TXSettings.FlagPolarity.A = this.radioButtonFPAClose.Checked;
-                    this.TXSettings.FlagPolarity.B = this.radioButtonFPBClose.Checked;
-                    this.TXSettings.FlagPolarity.C = this.radioButtonFPCClose.Checked;
-                    this.TXSettings.FlagPolarity.D = this.radioButtonFPDClose.Checked;
-                    this.TXSettings.FlagPolarity.E = this.radioButtonFPEClose.Checked;
-                    this.TXSettings.FlagPolarity.F = this.radioButtonFPFClose.Checked;
-                    this.TXSettings.FlagPolarity.G = this.radioButtonFPGClose.Checked;
-                    this.TXSettings.FlagPolarity.H = this.radioButtonFPHClose.Checked;
-                    this.TXSettings.SetFlagPolartityByte();
-                }
-                else
-                {
-                    this.TXSettings.FlagPolarity.A = Convert.ToBoolean(dNPCoverFlags & 1);
-                    this.TXSettings.FlagPolarity.B = Convert.ToBoolean(dNPCoverFlags & 2);
-                    this.TXSettings.FlagPolarity.C = Convert.ToBoolean(dNPCoverFlags & 4);
-                    this.TXSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
-                    this.TXSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
-                    this.TXSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
-                    this.TXSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
-                    this.TXSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
-                    this.TXSettings.SetFlagPolartityByte();
-                }
-                
-                
+                this.TXSettings.FlagPolarity.A = this.radioButtonFPAClose.Checked;
+                this.TXSettings.FlagPolarity.B = this.radioButtonFPBClose.Checked;
+                this.TXSettings.FlagPolarity.C = this.radioButtonFPCClose.Checked;
+                this.TXSettings.FlagPolarity.D = this.radioButtonFPDClose.Checked;
+                this.TXSettings.FlagPolarity.E = this.radioButtonFPEClose.Checked;
+                this.TXSettings.FlagPolarity.F = this.radioButtonFPFClose.Checked;
+                this.TXSettings.FlagPolarity.G = this.radioButtonFPGClose.Checked;
+                this.TXSettings.FlagPolarity.H = this.radioButtonFPHClose.Checked;
+                this.TXSettings.SetFlagPolartityByte();
 
-                setFromRelaySettingsTab = false;
                 
-            
-
             //enable Flag Alarms
                 errorMessage = "Bad Error Flag Alarm Settings";
                 byte tempByte = 0;
