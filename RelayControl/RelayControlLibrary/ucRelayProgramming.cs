@@ -739,6 +739,47 @@ namespace RelayControlLibrary
 
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
 
+            if (!this.DNPRelay)
+            {
+#if Enmax || DOMINION || DEBUG || NU || Boston
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
+                this.textBoxMasterFileName.Text = "Master Relay From Resource";
+
+                if (this.GEEnabled)
+                {
+                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                    this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+                }
+                else
+                {
+                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                    this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+                }
+#endif
+            }
+            else
+            {
+#if !Enmax && !DOMINION && !NU && !Boston
+                if (this.GEEnabled)
+                {
+                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
+                    this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
+
+                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                    this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
+                }
+                else
+                {
+                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
+                    this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+
+                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                    this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+                }
+#endif
+            }
+
+
 #if Enmax && DNP
             
 
@@ -891,47 +932,6 @@ namespace RelayControlLibrary
             this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
-
-            if (this.DNPRelay)
-            {
-                if (this.GEEnabled)
-                {
-                    this.masterCode.FileString = cLF.MasterFileGEDNP;
-                    this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource " + this.customer.ToString();
-
-                    this.relayCode.FileString = cLF.RelayFileGE;
-                    this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-                }
-                else // Westinghouse DNP
-                {
-                    this.masterCode.FileString = cLF.MasterFileWHDNP;
-                    this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource " + this.customer.ToString();
-
-                    this.relayCode.FileString = cLF.RelayFileWH;
-                    this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-
-                }
-            }
-            else // Non-DNP
-            {
-                
-                if (this.GEEnabled)
-                {
-                    this.masterCode.FileString = cLF.MasterFileWH;
-                    this.textBoxMasterFileName.Text = "Master Relay GE From Resource";
-
-                    this.relayCode.FileString = cLF.RelayFileGE;
-                    this.textBoxRelayFileName.Text = "GE Relay From Resource";
-                }
-                else
-                {
-                    this.masterCode.FileString = cLF.MasterFileWH;
-                    this.textBoxMasterFileName.Text = "Master Relay WH From Resource";
-
-                    this.relayCode.FileString = cLF.RelayFileWH;
-                    this.textBoxRelayFileName.Text = "WH Relay From Resource";
-                }
-            }
 
             if (this.transmitterEnabled)
             {
