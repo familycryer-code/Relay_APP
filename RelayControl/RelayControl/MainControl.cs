@@ -5656,9 +5656,7 @@ namespace RelayControl
             //else 
             if (bytePacket[1] == 2)
             {
-
-                s = "Calibration Values Saved";
-                this.messageHandler("Calibration", s);
+                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved" , "ok").ShowDialog();
             }
             else if (bytePacket[1] == 0)
             {
@@ -5668,7 +5666,7 @@ namespace RelayControl
 
                 this.monitoring(false);
                 this.RegisterPolling(false);
-                DialogResult dR = new YesNoMessageBoxResized("Calibration", "This may take a few moments to complete.\r\nCalibrate Unit?", "Yes", "No").ShowDialog();
+                DialogResult dR = new YesNoMessageBoxResized("Calibration Complete","Save Calibration Constants?", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                     this.sendSaveCalibration();
                 this.monitoring(tempBool1);

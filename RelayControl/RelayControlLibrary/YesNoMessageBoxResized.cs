@@ -14,6 +14,7 @@ public class YesNoMessageBoxResized : Form
     private Label labelMessage;
     private Panel panelBackgroundGrey;
     private PictureBox pictureBoxWarning;
+    private Button buttonOK;
     private Button buttonNo;
 
     //no default button specified
@@ -25,6 +26,19 @@ public class YesNoMessageBoxResized : Form
         this.Deactivate += MyDeactivateHandler;
         this.buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
         this.buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
+        this.buttonOK.Visible = false;
+    }
+
+    public YesNoMessageBoxResized(string title, string message, string Ok)
+    {
+        InitializeComponent();
+        this.Text = title;
+        this.labelMessage.Text = message;
+        this.Deactivate += MyDeactivateHandler;
+        this.buttonYes.Visible = false;
+        this.buttonNo.Visible = false;
+        this.buttonOK.Visible = true;
+        this.buttonOK.Location = new Point(133, 9);
     }
 
     //no default button specified
@@ -38,6 +52,7 @@ public class YesNoMessageBoxResized : Form
         this.buttonNo.Text = buttonNo;
         this.buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
         this.buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
+        this.buttonOK.Visible = false;
     }
 
     public YesNoMessageBoxResized()
@@ -52,6 +67,7 @@ public class YesNoMessageBoxResized : Form
             this.buttonNo = new System.Windows.Forms.Button();
             this.labelMessage = new System.Windows.Forms.Label();
             this.panelBackgroundGrey = new System.Windows.Forms.Panel();
+            this.buttonOK = new System.Windows.Forms.Button();
             this.pictureBoxWarning = new System.Windows.Forms.PictureBox();
             this.panelBackgroundGrey.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWarning)).BeginInit();
@@ -93,12 +109,26 @@ public class YesNoMessageBoxResized : Form
             // panelBackgroundGrey
             // 
             this.panelBackgroundGrey.BackColor = System.Drawing.SystemColors.Control;
+            this.panelBackgroundGrey.Controls.Add(this.buttonOK);
             this.panelBackgroundGrey.Controls.Add(this.buttonNo);
             this.panelBackgroundGrey.Controls.Add(this.buttonYes);
             this.panelBackgroundGrey.Location = new System.Drawing.Point(-5, 90);
             this.panelBackgroundGrey.Name = "panelBackgroundGrey";
             this.panelBackgroundGrey.Size = new System.Drawing.Size(400, 100);
             this.panelBackgroundGrey.TabIndex = 5;
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonOK.Location = new System.Drawing.Point(72, 9);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(91, 31);
+            this.buttonOK.TabIndex = 3;
+            this.buttonOK.Text = "Ok";
+            this.buttonOK.UseVisualStyleBackColor = false;
+            this.buttonOK.Visible = false;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // pictureBoxWarning
             // 
@@ -145,6 +175,11 @@ public class YesNoMessageBoxResized : Form
             this.TopLevel = true;
             this.TopMost = true;
         }
+    }
+
+    private void buttonOK_Click(object sender, EventArgs e)
+    {
+        this.Close();
     }
 
 }
