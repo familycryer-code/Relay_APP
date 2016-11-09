@@ -383,12 +383,20 @@ namespace RelayControlLibrary
         {
             try
             {
-                if (voltage277State == true) //adjust for 277
-                    this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value / (decimal)conversion277;
+                if (this.Mode == CloseModes.RelaxClose || this.Mode == CloseModes.CircleAndRelax)
+                {
+                    this.CloseCurve.PhasingOffset = 0;
+                    this.CloseCurve.PhaseDetectAngle = -10;
+                }
                 else
-                    this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value;
+                {
+                    if (voltage277State == true) //adjust for 277
+                        this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value / (decimal)conversion277;
+                    else
+                        this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value;
 
-                this.CloseCurve.PhaseDetectAngle = this.numericUpDownPDA.Value;
+                    this.CloseCurve.PhaseDetectAngle = this.numericUpDownPDA.Value;
+                }
             }
             catch (Exception ex)
             {
@@ -523,9 +531,12 @@ namespace RelayControlLibrary
                 uTemp <<= 8;
                 uTemp += bytePacket[4];
                 tempM = (decimal)uTemp * Constants.TwelveFracBits;
-                
-                tempM2 = Math.Round(tempM, 1);
-                this.numericUpDownPDV.Value = tempM2;
+
+                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
+                {
+                    tempM2 = Math.Round(tempM, 1);
+                    this.numericUpDownPDV.Value = tempM2;
+                }
             }
             catch
             {
@@ -542,8 +553,11 @@ namespace RelayControlLibrary
                 tempM = (decimal)Math.Atan((double)tempM);
                 tempM = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempM);
 
-                tempM2 = Math.Round(tempM);
-                this.numericUpDownPDA.Value = tempM2;
+                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
+                {
+                    tempM2 = Math.Round(tempM);
+                    this.numericUpDownPDA.Value = tempM2;
+                }
             }
             catch
             {
