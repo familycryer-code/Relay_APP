@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SharedResources;
+using System.Media;
 
 namespace RelayControlLibrary
 {
@@ -31,8 +32,12 @@ namespace RelayControlLibrary
             set
             {
                 this.relayTime = value;
+                if (this.relayTime.CompareTo(new DateTime(2017, 01, 01)) > 0)
+                {
+                    SystemSounds.Exclamation.Play();
+                }
                 this.CompareRelayTimeToRealTime(value);
-                this.labelRelayTimeDisplay.Text = value.ToString("HH:mm:ss");
+                this.labelRelayTimeDisplay.Text = value.ToString(_dateFormat);
                 this.updateTable();
             }
         }
@@ -41,6 +46,7 @@ namespace RelayControlLibrary
         private DataTable timeTable = new DataTable();
         private DateTime relayTime;
         private TimeSpan difference;
+        private static string _dateFormat = "yy-MM-dd HH:mm:ss";
 
         private void initializeTable()
         {
@@ -92,7 +98,7 @@ namespace RelayControlLibrary
 
         private void SecondTimer_Tick(object sender, EventArgs e)
         {
-            this.labelMachineTimeDisplay.Text = DateTime.Now.ToString("HH:mm:ss");
+            this.labelMachineTimeDisplay.Text = DateTime.Now.ToString(_dateFormat);
             this.requestTime();
         }
 
@@ -117,7 +123,7 @@ namespace RelayControlLibrary
 
             try
             {
-                this.labelRelayTimeDisplay.Text = relayTime.ToString("HH:mm:ss");
+                this.labelRelayTimeDisplay.Text = relayTime.ToString(_dateFormat);
             }
             catch (Exception ex)
             {
