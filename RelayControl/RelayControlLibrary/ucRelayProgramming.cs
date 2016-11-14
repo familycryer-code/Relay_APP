@@ -500,11 +500,11 @@ namespace RelayControlLibrary
         {
             DialogResult dR;
 
-#if DOMINION
+#if (DOMINION || ATLANTA) && !DEBUG
             forceBootUpgrade = true;
 #endif
 
-            if (askToUgradeShown == false && forceBootUpgrade == false)
+            if (askToUgradeShown == false && forceBootUpgrade == false && compareMasterRevisionToGUI())
             {
                 askToUgradeShown = true;
                 dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -598,12 +598,19 @@ namespace RelayControlLibrary
             DialogResult upgradeDR = new DialogResult();
             DialogResult warningBootDR = new DialogResult();
 
+            if(forceBootUpgrade == true)
+            {
 #if !DEBUG 
-            upgradeDR = MessageBox.Show("The relay firmware must be updated", "Relay Firmware Must be updated", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                upgradeDR = MessageBox.Show("The relay firmware must be updated", "Relay Firmware Must be updated", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
-            if (upgradeDR == DialogResult.OK)
+                if (upgradeDR == DialogResult.OK)
 #endif
                 warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
 
             if (warningBootDR == DialogResult.OK)
             {
@@ -960,7 +967,9 @@ namespace RelayControlLibrary
                 this.firstCheckForUpdate = false;
                 if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
                 {
+#if !DNP || Enmax
                     this.transmitterEnabled = true;
+#endif
 
                     if (!this.gERelaySerialMatch && !this.serialNumberError)
                         this.askIfGERelay();
