@@ -93,7 +93,8 @@ namespace RelayControlLibrary
             set
             {
                 this.masterBootRevisionNumberReceived = value;
-                masterBootRevisionSet = true;
+                if (masterBootRevisionNumberReceived!=0)
+                    masterBootRevisionSet = true;
                 if (checkMasterBootAgain == true)
                 {
                     checkMasterBootAgain = false;
@@ -504,6 +505,10 @@ namespace RelayControlLibrary
             forceBootUpgrade = true;
 #endif
 
+#if Enmax && !DEBUG
+            ForceUpgradeCheck();
+#endif
+
             if (askToUgradeShown == false && forceBootUpgrade == false && compareMasterRevisionToGUI())
             {
                 askToUgradeShown = true;
@@ -519,11 +524,6 @@ namespace RelayControlLibrary
                     dR = DialogResult.No;
 
                 storeDialogReprogramResultBoot = false;
-
-#if Enmax && !DEBUG
-                ForceUpgradeCheck();
-                this.CheckForUpdate();
-#endif
             }
             else
             {

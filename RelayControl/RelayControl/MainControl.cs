@@ -3241,7 +3241,9 @@ namespace RelayControl
             this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
 #endif
 
-            //this.sendTime(DateTime.UtcNow);
+#if !DEBUG
+            this.sendTime(DateTime.UtcNow);
+#endif
 
             this.ucRelayProgramming1.AllParametersReceived();
 
