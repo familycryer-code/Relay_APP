@@ -212,6 +212,7 @@ namespace RelayControl
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
             this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
+            this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
@@ -229,7 +230,6 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -1786,6 +1786,7 @@ namespace RelayControl
             // 
             // domainUpDownCTRatioM
             // 
+            this.domainUpDownCTRatioM.Items.Add("3750:5");
             this.domainUpDownCTRatioM.Items.Add("3500:5");
             this.domainUpDownCTRatioM.Items.Add("3000:5");
             this.domainUpDownCTRatioM.Items.Add("2500:5");
@@ -2273,6 +2274,13 @@ namespace RelayControl
             this.ucPumpMode1.Size = new System.Drawing.Size(254, 270);
             this.ucPumpMode1.TabIndex = 49;
             // 
+            // ucCoverFlags1
+            // 
+            this.ucCoverFlags1.Location = new System.Drawing.Point(325, 517);
+            this.ucCoverFlags1.Name = "ucCoverFlags1";
+            this.ucCoverFlags1.Size = new System.Drawing.Size(215, 111);
+            this.ucCoverFlags1.TabIndex = 119;
+            // 
             // tabControlMain
             // 
             this.tabControlMain.Controls.Add(this.tabPageControl);
@@ -2429,13 +2437,6 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // ucCoverFlags1
-            // 
-            this.ucCoverFlags1.Location = new System.Drawing.Point(325, 517);
-            this.ucCoverFlags1.Name = "ucCoverFlags1";
-            this.ucCoverFlags1.Size = new System.Drawing.Size(215, 111);
-            this.ucCoverFlags1.TabIndex = 119;
             // 
             // MainControl
             // 

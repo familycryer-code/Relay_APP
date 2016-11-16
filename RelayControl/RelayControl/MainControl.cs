@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2016-11-14";
+        private const string revisionDate = "2016-11-16";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -3280,28 +3280,31 @@ namespace RelayControl
             switch (CT_ratio)
             {
                 case 160:
-                    this.setDomainIndex(6, dUP);
+                    this.setDomainIndex(7, dUP);
                     break;
                 case 240:
-                    this.setDomainIndex(5, dUP);
+                    this.setDomainIndex(6, dUP);
                     break;
                 case 320:
-                    this.setDomainIndex(4, dUP);
+                    this.setDomainIndex(5, dUP);
                     break;
                 case 400:
-                    this.setDomainIndex(3, dUP);
+                    this.setDomainIndex(4, dUP);
                     break;
                 case 500:
-                    this.setDomainIndex(2, dUP);
+                    this.setDomainIndex(3, dUP);
                     break;
                 case 600:
-                    this.setDomainIndex(1, dUP);
+                    this.setDomainIndex(2, dUP);
                     break;
                 case 700:
+                    this.setDomainIndex(1, dUP);
+                    break;
+                case 750:
                     this.setDomainIndex(0, dUP);
                     break;
                 default:
-                    this.setDomainIndex(7, dUP);
+                    this.setDomainIndex(8, dUP);
                     break;
             }
         }
@@ -5857,49 +5860,55 @@ namespace RelayControl
 
             switch (dUD.SelectedIndex)
             {
-                case 6:
+                case 7:
                     ratio = 160;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 5:
+                case 6:
                     ratio = 240;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 4:
+                case 5:
                     ratio = 320;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 3:
+                case 4:
                     ratio = 400;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 2:
+                case 3:
                     ratio = 500;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 1:
+                case 2:
                     ratio = 600;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 0:
+                case 1:
                     ratio = 700;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 7:
+                case 0:
+                    ratio = 750;
+                    ratio5 = ratio * 5;
+                    this.textBoxCTRatio.Enabled = false;
+                    this.textBoxCTRatio.Text = ratio5.ToString();
+                    break;
+                case 8:
                     try
                     {
                         this.textBoxCTRatio.Text = ratio5.ToString();
@@ -7623,24 +7632,27 @@ namespace RelayControl
             switch (lB.SelectedIndex)
             {
                 case 0:
-                    tempCTRatio = 700;      //3500
+                    tempCTRatio = 750;      //3750
                     break;
                 case 1:
-                    tempCTRatio = 600;      //3000
+                    tempCTRatio = 700;      //3500
                     break;
                 case 2:
-                    tempCTRatio = 500;      //2500
+                    tempCTRatio = 600;      //3000
                     break;
                 case 3:
-                    tempCTRatio = 400;      //2000
+                    tempCTRatio = 500;      //2500
                     break;
                 case 4:
-                    tempCTRatio = 320;      //1600
+                    tempCTRatio = 400;      //2000
                     break;
                 case 5:
-                    tempCTRatio = 240;      //1200
+                    tempCTRatio = 320;      //1600
                     break;
                 case 6:
+                    tempCTRatio = 240;      //1200
+                    break;
+                case 7:
                     tempCTRatio = 160;      //800
                     break;
             }
