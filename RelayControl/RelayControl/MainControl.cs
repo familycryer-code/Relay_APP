@@ -5804,7 +5804,7 @@ namespace RelayControl
         {
             int cTRatio5 = this.CTRatio;
 
-            if (this.domainUpDownCTRatioM.SelectedIndex == 7)
+            if (this.domainUpDownCTRatioM.SelectedIndex == 8)
             {
                 try
                 {
