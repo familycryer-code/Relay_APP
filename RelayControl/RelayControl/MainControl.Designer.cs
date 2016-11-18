@@ -137,6 +137,7 @@ namespace RelayControl
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.checkBoxReprogramBootAuto = new System.Windows.Forms.CheckBox();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
             this.labelLRLockoutMain = new System.Windows.Forms.Label();
@@ -788,6 +789,7 @@ namespace RelayControl
             this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
             this.ucRelayProgramming1.ProgramBootCodeStart = false;
             this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
             this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
             this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
             this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
@@ -1381,6 +1383,7 @@ namespace RelayControl
             // 
             // tabPageControl
             // 
+            this.tabPageControl.Controls.Add(this.checkBoxReprogramBootAuto);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
@@ -1401,6 +1404,17 @@ namespace RelayControl
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             this.tabPageControl.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxReprogramBootAuto
+            // 
+            this.checkBoxReprogramBootAuto.AutoSize = true;
+            this.checkBoxReprogramBootAuto.Location = new System.Drawing.Point(755, 480);
+            this.checkBoxReprogramBootAuto.Name = "checkBoxReprogramBootAuto";
+            this.checkBoxReprogramBootAuto.Size = new System.Drawing.Size(197, 17);
+            this.checkBoxReprogramBootAuto.TabIndex = 120;
+            this.checkBoxReprogramBootAuto.Text = "Program Boot Code During Autoload";
+            this.checkBoxReprogramBootAuto.UseVisualStyleBackColor = true;
+            this.checkBoxReprogramBootAuto.CheckedChanged += new System.EventHandler(this.checkBoxReprogramBootAuto_CheckedChanged);
             // 
             // groupBoxLRLockoutMain
             // 
@@ -2704,6 +2718,7 @@ namespace RelayControl
         private System.Windows.Forms.Label labelLRLockoutMain;
         private RelayControlLibrary.ucTimeControl ucTimeControl1;
         private RelayControlLibrary.ucCoverFlags ucCoverFlags1;
+        private System.Windows.Forms.CheckBox checkBoxReprogramBootAuto;
     }
 }
 

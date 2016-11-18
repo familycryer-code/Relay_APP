@@ -68,6 +68,7 @@ namespace RelayControlLibrary
         private bool forceBootUpgrade = false;
         private bool checkMasterBootAgain = false;
         private bool storeDialogReprogramResultBoot = false;
+        private bool reprogramBootCodeAuto = false;
 
         public Customers Customer
         {
@@ -128,7 +129,16 @@ namespace RelayControlLibrary
             }
         }
 
-        void ProgramBootCode()
+        public bool ReprogramBootCodeAuto
+        {
+            get { return this.reprogramBootCodeAuto; }
+            set
+            {
+                this.reprogramBootCodeAuto = value;
+            }
+        }
+
+        public void ProgramBootCode()
         {
             MasterBootLoaderStart();
         }
@@ -509,6 +519,10 @@ namespace RelayControlLibrary
             ForceUpgradeCheck();
 #endif
 
+#if !DEBUG
+            reprogramBootCodeAuto = true;
+#endif
+
             if (askToUgradeShown == false && forceBootUpgrade == false && compareMasterRevisionToGUI())
             {
                 askToUgradeShown = true;
@@ -532,7 +546,7 @@ namespace RelayControlLibrary
 
             if (dR == DialogResult.Yes)
             {
-                if (compareMasterRevisionToGUI())
+                if (compareMasterRevisionToGUI() && reprogramBootCodeAuto == true)
                 {
                     if (bootRevTooLowErrorAlreadyShown == false)
                     {
@@ -546,7 +560,7 @@ namespace RelayControlLibrary
                         {
                             UpgradeBootCode();
                         }
-                        else if(masterBootRevisionSet == false)
+                        else if (masterBootRevisionSet == false)
                         {
                             checkMasterBootAgain = true;
                             storeDialogReprogramResultBoot = true;

@@ -262,6 +262,9 @@ namespace RelayControl
             {
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
+#if DEBUG
+                this.initializeFromConfigFileDebug();
+#endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
                 this.labelQuietMode.Visible = false;
@@ -8232,6 +8235,31 @@ namespace RelayControl
             {
                 MessageBox.Show("Error Requesting Low Voltage Threshold Value");
             }
+        }
+
+        private void checkBoxReprogramBootAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            editConfigFileDebug();
+        }
+
+        public void editConfigFileDebug()
+        {
+            ProgramConfigDebug pC = new ProgramConfigDebug();
+
+            pC.Data.ReprogramBoot = this.checkBoxReprogramBootAuto.Checked;
+
+            this.ucRelayProgramming1.ReprogramBootCodeAuto = this.checkBoxReprogramBootAuto.Checked;
+
+            pC.SaveConfigFile();
+        }
+
+        private void initializeFromConfigFileDebug()
+        {
+            ProgramConfigDebug pC = new ProgramConfigDebug();
+
+            this.checkBoxReprogramBootAuto.Checked = pC.Data.ReprogramBoot;
+
+            this.ucRelayProgramming1.ReprogramBootCodeAuto = pC.Data.ReprogramBoot;
         }
     }
 
