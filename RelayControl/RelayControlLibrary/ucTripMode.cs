@@ -226,8 +226,8 @@ namespace RelayControlLibrary
         public TripCurveDefinition TripCurveGW = new TripCurveDefinition(TripCurveTypes.OffsetAngle);
         public bool SendTimedOut = false;
 
-        private int versionNumber = 0;
-        public int VersionNumber
+        private uint versionNumber = 0;
+        public uint VersionNumber
         {
             get { return this.versionNumber; }
             set

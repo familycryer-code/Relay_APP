@@ -4217,7 +4217,7 @@ namespace RelayControl
         }
 
         //private string revision;
-        private int masterRevision;
+        private uint masterRevision;
 
         private string receivedMasterRevision;
         private void revisionReceived(byte[] bytePacket)
@@ -4227,7 +4227,7 @@ namespace RelayControl
             {
                 revision = "R";
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
-                if (!revision.Contains("MASTER"))
+                if (!revision.Contains("MASTER") && !revision.Contains("REVERBERATOR"))
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
@@ -4305,14 +4305,14 @@ namespace RelayControl
             this.ucTripMode2.VersionNumber = this.masterRevision;
         }
 
-        private int getMasterRevisionNumber(string revision)
+        private uint getMasterRevisionNumber(string revision)
         {
-            int returnInt;
+            uint returnInt;
             revision = revision.Remove(0, 32); //TEST changed from , 31
 
             try
             {
-                returnInt = Convert.ToInt32(revision);
+                returnInt = Convert.ToUInt32(revision);
             }
             catch
             {
