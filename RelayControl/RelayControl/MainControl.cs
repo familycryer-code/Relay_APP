@@ -168,6 +168,7 @@ namespace RelayControl
                         {
                             this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
                             this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
+                            this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
                             this.dNPDigitalGridData.Location = new Point(0, 0);
                             this.dNPDigitalGridData.Send += standardizedSendData;
                             this.dNPDigitalGridData.PointChanged += DNPDigitalGridData_PointChanged;
@@ -264,6 +265,9 @@ namespace RelayControl
                 this.initializeFromConfigFile();
 #if DEBUG
                 this.initializeFromConfigFileDebug();
+                this.checkBoxReprogramBootAuto.Visible = true;
+#else
+                this.checkBoxReprogramBootAuto.Visible = false;
 #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
@@ -5999,6 +6003,7 @@ namespace RelayControl
                 return;
             }
             this.loadingNewCode = false;
+            this.quietMode = false;
             if (!this.serialPort1.IsOpen)
             {
                 if (this.portLost)

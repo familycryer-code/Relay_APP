@@ -1142,7 +1142,18 @@ namespace RelayControlLibrary
                 }
             }
             else
+            {
                 this.autoLoad = false;
+                if(forceBootUpgrade == true)
+                {
+                    RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+
+                    rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
+
+                    this.onSend(rPEA);
+                }
+            }
+                
         }
 
         public void PrepForBoot()

@@ -30,7 +30,7 @@ namespace RelayControlLibrary
         public delegate void DNPPointChangedHandlder(object o, DNPPointEventArgs eA);
         public event DNPPointChangedHandlder PointChanged;
 
-        public uint RelayMasterRevision
+        public UInt32 RelayMasterRevision
         {
             set
             {
@@ -61,7 +61,7 @@ namespace RelayControlLibrary
         private List<AnalogPointDefinition> analogInputs = new List<AnalogPointDefinition>();
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
         private byte[] dNPData = new byte[1008]; //252 packet size * 4
-        private uint relayMasterRevision = 140506;
+        private UInt32 relayMasterRevision = 140506;
         private Customers customer = Customers.DigitalGridDNP;
 
 
@@ -102,15 +102,22 @@ namespace RelayControlLibrary
 #if ATLANTA || ONCOR
                 this.binaryInputs.Add("Digital Input 1 (B Flag)");
                 this.binaryInputs.Add("Digital Input 2 (A Flag)");
+                this.binaryInputs.Add("Digital Input 3");
+                this.binaryInputs.Add("Digital Input 4");
+                if (this.relayMasterRevision >= 160818)
+                {
+                    this.binaryInputs.Add("GE Relay");
+                    pointsToAdd = 15;
+                }
 #else
+
                 this.binaryInputs.Add("Digital Input 1");
                 this.binaryInputs.Add("Digital Input 2");
-#endif
                 this.binaryInputs.Add("Digital Input 3");
                 this.binaryInputs.Add("Digital Input 4");
                 this.binaryInputs.Add("GE Relay");
+#endif
 
-                pointsToAdd = 14;
             }
             else if (this.customer == Customers.DNPwithPLC)
             {
