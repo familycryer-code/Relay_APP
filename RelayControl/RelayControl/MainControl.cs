@@ -4233,6 +4233,9 @@ namespace RelayControl
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
+                if (this.dNPDigitalGridData != null)
+                    this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
+
                 receivedMasterRevision = revision;
 
                 switch (this.customer)
@@ -6003,7 +6006,6 @@ namespace RelayControl
                 return;
             }
             this.loadingNewCode = false;
-            this.quietMode = false;
             if (!this.serialPort1.IsOpen)
             {
                 if (this.portLost)
