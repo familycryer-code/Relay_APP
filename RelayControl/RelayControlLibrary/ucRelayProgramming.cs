@@ -511,10 +511,6 @@ namespace RelayControlLibrary
         {
             DialogResult dR;
 
-#if (DOMINION || ATLANTA) && !DEBUG
-            forceBootUpgrade = true;
-#endif
-
 #if Enmax && !DEBUG
             ForceUpgradeCheck();
 #endif
