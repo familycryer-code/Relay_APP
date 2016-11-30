@@ -573,6 +573,11 @@ namespace RelayControlLibrary
                     masterBootRevisionSet = true;
                 }
             }
+            else if (!compareMasterRevisionToGUI())
+            {
+                bootRevTooLowErrorAlreadyShown = true;
+                masterBootRevisionSet = true;
+            }
 
             if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && masterBootRevisionSet == true && forceBootUpgrade == false)
                 this.CheckForUpdate();
@@ -1105,9 +1110,9 @@ namespace RelayControlLibrary
             {
                 // If we aren't loading from resource, don't bother asking this question
 
-                if (forceRelayUpdate == false && programmingForm.MasterBootComplete == false)
+                if (forceRelayUpdate == false && programmingForm.MasterBootComplete == false && this.reprogramMaster == false)
                 {
-                    if (!this.dontReloadFromResource && askToUgradeShown == false)
+                    if (!this.dontReloadFromResource)
                         dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
                 }
                 else
@@ -1125,7 +1130,7 @@ namespace RelayControlLibrary
                     this.onSend(rPEA);
                     
                     // If we aren't loading from resource, don't bother warning
-                    if (!this.dontReloadFromResource && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
+                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false && this.reprogramMaster == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
 
                     this.writeLineToTraceFile("User Verified Programming Start");
