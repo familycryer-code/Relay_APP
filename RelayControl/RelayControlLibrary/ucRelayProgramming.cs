@@ -1921,7 +1921,8 @@ namespace RelayControlLibrary
             if (!clickFromEngineeringTab)
             {
                 firstCheckForUpdate = true;
-                this.requestAll();
+
+                CheckForUpdate();
             }
                 
         }
