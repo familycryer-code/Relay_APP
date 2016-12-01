@@ -1313,7 +1313,7 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.checkBoxTripOnPowerDown.Checked = true;
-            this.domainUpDownTripStyle.SelectedIndex = 2;
+            this.domainUpDownTripStyle.SelectedIndex = 3;
 #elif chicago || MADISON
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;

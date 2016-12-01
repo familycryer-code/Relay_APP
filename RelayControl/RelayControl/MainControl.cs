@@ -5147,9 +5147,9 @@ namespace RelayControl
 #endif
 
 #if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA || Enmax  || Boston || MADISON || ONCOR
-            this.domainUpDownCTRatioM.SelectedIndex = 1;
+            this.domainUpDownCTRatioM.SelectedIndex = 2;
 #else
-            this.domainUpDownCTRatioM.SelectedIndex = 4;
+            this.domainUpDownCTRatioM.SelectedIndex = 5;
 #endif
         }
 
