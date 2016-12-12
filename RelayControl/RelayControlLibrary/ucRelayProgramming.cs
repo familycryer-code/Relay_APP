@@ -45,11 +45,11 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 161110;
-        private static UInt32 _masterDNPRevisionNumber = 161110;
-        private static UInt32 _relayCodeRevisionNumber = 20161117;
+        private static UInt32 _masterCodeRevisionNumber = 161212;
+        private static UInt32 _masterDNPRevisionNumber = 161212;
+        private static UInt32 _relayCodeRevisionNumber = 20161209;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
-        private static UInt32 _bootCodeRevisionNumber = 160920;
+        private static UInt32 _bootCodeRevisionNumber = 161212;
 #endif
         private static UInt32 _safeService_MASTER_REVISION = 160621;
         private static UInt32 _rEV1_MASTER_REVISION = 100713;
@@ -768,7 +768,7 @@ namespace RelayControlLibrary
 
             if (!this.DNPRelay)
             {
-#if Enmax || DOMINION || DEBUG || NU || Boston
+#if Enmax || DOMINION || DEBUG || NU || Boston || SEATTLE
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
