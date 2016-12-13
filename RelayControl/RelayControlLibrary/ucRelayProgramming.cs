@@ -715,6 +715,7 @@ namespace RelayControlLibrary
             this.autoLoad = true;
             this.reprogramMaster = true;
             this.reprogramRelay = true;
+            this.askToUgradeShown = true;
             this.setProgrammingFiles();
             this.startProgramming();
         }
@@ -1848,6 +1849,7 @@ namespace RelayControlLibrary
             else
             {
                 this.State = RelayProgrammingStates.Idle;
+                this.askToUgradeShown = true;
                 this.finalizeReprogram();
             }
             
