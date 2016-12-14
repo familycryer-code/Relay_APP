@@ -5135,10 +5135,10 @@ namespace RelayControl
         {
             // 1 = Sequence, 0 - Power
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
-#if NU || SEATTLE || DOMINION || chicago || Enmax || MADISON
+#if DOMINION || Enmax 
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif Boston
+#elif Boston || NU || SEATTLE || chicago || MADISON
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
