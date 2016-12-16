@@ -41,6 +41,7 @@ namespace RelayControl
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private int masterBootRevisionReceived = 0;
         private delegate void booleanInvoke(bool b);
+        private bool showCrossPhaseMsgOnce = false;
 
         string customerRevisionNameDebug = "";
 
@@ -493,7 +494,6 @@ namespace RelayControl
 #endif
                 this.ArcFaultEnabled = true;
                 this.Customer = Customers.DigitalGrid;
-                this.toolStripStatusLabelReceiverStatus.Visible = true;
 
 #elif WATERBUG
                 this.noMonitoringVersion = false;
@@ -591,6 +591,10 @@ namespace RelayControl
                 this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                 this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+#endif
+
+#if DEBUG || chicago
+                this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
 
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -2264,11 +2268,32 @@ namespace RelayControl
 
         private void setRelayStatusBits(byte[] bytePacket)
         {
+#if DEBUG
             this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
             this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
             this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
             this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
             //this.toolTip.SetToolTip(this.toolStripStatusLabelReceiverStatus, this.relayStatusConverter.CurrentDescription);
+#elif chicago
+            if(bytePacket[0] == 12)
+            {
+                this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
+                this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
+                this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
+                this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
+                this.toolStripStatusLabelReceiverStatus.Visible = true;
+                if (showCrossPhaseMsgOnce == false)
+                {
+                    showCrossPhaseMsgOnce = true;
+                    MessageBox.Show("Warning Relay is detecting cross phase condition", "Cross Phase Detected!");
+                }
+            }
+            else
+            {
+                showCrossPhaseMsgOnce = false;
+                this.toolStripStatusLabelReceiverStatus.Visible = false;
+            }
+#endif
         }
 
         private void dNPDataMessage(byte[] bytePacket, int p)

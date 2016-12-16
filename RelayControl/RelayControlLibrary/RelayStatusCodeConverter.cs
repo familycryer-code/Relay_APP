@@ -22,7 +22,11 @@ namespace RelayControlLibrary
             this.status.Add(new RelayReceiverStatus(9, Color.Pink, Color.Black, "RC", "Relaxed Close"));
             this.status.Add(new RelayReceiverStatus(10, Color.OrangeRed, Color.White, "PA", "Pump Alaram - Lockout"));
             this.status.Add(new RelayReceiverStatus(11, Color.LightBlue, Color.Black, "SL", "Save Service Lockout"));
+#if chicago && !DEBUG
+            this.status.Add(new RelayReceiverStatus(12, Color.DarkKhaki, Color.Black, "Cross Phase Detected", "Error"));
+#else
             this.status.Add(new RelayReceiverStatus(12, Color.DarkKhaki, Color.Black, "XP", "Error"));
+#endif
             this.status.Add(new RelayReceiverStatus(13, Color.White, Color.Black, "ER", "Error"));
             this.status.Add(new RelayReceiverStatus(14, Color.White, Color.Black, "ER", "Error"));
             this.status.Add(new RelayReceiverStatus(15, Color.White, Color.Black, "ER", "Error"));
