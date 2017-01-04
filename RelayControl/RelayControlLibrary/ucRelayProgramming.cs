@@ -523,7 +523,7 @@ namespace RelayControlLibrary
             {
                 askToUgradeShown = true;
                 dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                if (!this.dontReloadFromResource && askToUgradeShown == false)
+                if (!this.dontReloadFromResource && dR == DialogResult.Yes)
                     dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
             }
             else if (forceBootUpgrade == false)
@@ -1131,7 +1131,7 @@ namespace RelayControlLibrary
                     this.onSend(rPEA);
                     
                     // If we aren't loading from resource, don't bother warning
-                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false && this.reprogramMaster == false)
+                    if (!this.dontReloadFromResource && bootRevTooLowErrorAlreadyShown == true && programmingForm.MasterBootComplete == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
 
                     this.writeLineToTraceFile("User Verified Programming Start");
