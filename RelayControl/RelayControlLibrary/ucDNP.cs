@@ -890,9 +890,26 @@ namespace RelayControlLibrary
                 DNPSS.TerminationResistor = false;
 
             DNPSS.DNPBaudRate = Convert.ToInt32(comboBoxDNPBaudRate.Text);
+
+            ucDNPDeadBand uDDB = new ucDNPDeadBand();
+
+            foreach (Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
+            {
+                try
+                {
+                    if(c is ucDNPDeadBand)
+                    {
+                        uDDB = (ucDNPDeadBand)c;
+                        DNPSS.deadBandControlSaveddecimal.Add(uDDB.Value);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.errorHandler(new Exception("Error In Saving Setting From DeadBand Values in DNP", ex));
+                }
+            }
+            DNPSS.deadBandVariablesSaved = deadBandVariables;
         }
-
-
 
         public void SetAllValues(DNPSaveStateV4 DNPSS)
         {
@@ -943,12 +960,90 @@ namespace RelayControlLibrary
                     }
                 }
 
+                List<ucDNPDeadBand> uDDBList = new List<ucDNPDeadBand>(); //start populating dead band saved data
+
+                int indexDNPDEAD = 0;
+
+                if(DNPSS.deadBandControlSaveddecimal.Count != 0 && DNPSS.deadBandVariablesSaved.Count != 0)
+                {
+                    foreach (Control c in groupBoxDigitalGridDNPDeadBand.Controls)
+                    {
+                        try
+                        {
+                            if (c is ucDNPDeadBand)
+                            {
+                                uDDBList.Add((ucDNPDeadBand)c);
+                                uDDBList[indexDNPDEAD].Value = DNPSS.deadBandControlSaveddecimal[indexDNPDEAD];
+                                indexDNPDEAD++;
+                            }   
+                        }
+                        catch (Exception ex) //if it is not a ucDeadBand box
+                        {
+                            this.errorHandler(new Exception("Error In Setting Values From DeadBand Save in DNP", ex));
+                        }
+                    }
+                    createSavedDeadBandBoxes(DNPSS, uDDBList);
+                }
+
             }
             catch (Exception ex)
             {
                 this.errorHandler(new Exception("Error In Setting Values From Saved State in DNP", ex));
                 this.errorHandler(new Exception("No Event Ranges Defined For This Customer"));
             }
+        }
+
+        private void createSavedDeadBandBoxes(DNPSaveStateV4 DNPSS, List<ucDNPDeadBand> uDDBList)
+        {
+
+            groupBoxDigitalGridDNPDeadBand.Controls.Clear();
+
+            this.deadBandVariables.Clear();
+
+            Point location = new Point();
+            ucDNPDeadBand workingDDB = new ucDNPDeadBand();
+
+            location.Y = this.groupBoxDNPSettings.Location.Y;
+            location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
+
+            this.groupBoxDigitalGridDNPDeadBand.Location = location;
+            this.groupBoxDigitalGridDNPDeadBand.Height = 0;
+
+            location = new Point(2, 15);//Now make location the starting spot of the first control
+
+            int indexDNPDEAD = 0;
+
+            foreach (ucDeadBandSettingsObject dBD in DNPSS.deadBandVariablesSaved)
+            {
+                workingDDB = new ucDNPDeadBand(dBD);
+                workingDDB.Location = location;
+                workingDDB.Value = uDDBList[indexDNPDEAD].Value;
+                indexDNPDEAD++;
+
+                this.groupBoxDigitalGridDNPDeadBand.Controls.Add(workingDDB);
+
+                if (DNPSS.deadBandVariablesSaved.IndexOf(dBD) >= (DNPSS.deadBandVariablesSaved.Count / 2) - 1 && location.X == 2) //the 2 is for the first column so we only do this once.
+                {
+                    location = new Point(location.X + workingDDB.Width, 15);
+                }
+                else
+                {
+                    location = new Point(location.X, location.Y + workingDDB.Height + 1);
+                }
+            }
+
+            if (workingDDB != null)
+                location = new Point(location.X, location.Y - workingDDB.Height);
+
+            this.groupBoxDigitalGridDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
+            this.groupBoxDigitalGridDNPDeadBand.Show();
+
+            this.buttonSendDeadBand.Location = new Point(this.groupBoxDigitalGridDNPDeadBand.Location.X, this.groupBoxDigitalGridDNPDeadBand.Location.Y + this.groupBoxDigitalGridDNPDeadBand.Height + 5);
+
+            if (this.Customer == Customers.Memphis)
+                this.makeMemphis();
+            else
+                this.groupBoxMemphisDeadBand.Visible = false;
         }
 
         public DNPSaveStateV4 GetSavedState()
@@ -961,6 +1056,7 @@ namespace RelayControlLibrary
         }
     }
 
+    [Serializable()]
     public class ucDeadBandSettingsObject
     {
         public ucDeadBandSettingsObject()
@@ -1025,6 +1121,8 @@ namespace RelayControlLibrary
         public int UnsolRetries;
         public bool TerminationResistor;
         public int DNPBaudRate;
+        public List<ucDeadBandSettingsObject> deadBandVariablesSaved = new List<ucDeadBandSettingsObject>();
+        public List<decimal> deadBandControlSaveddecimal = new List<decimal>();
 
         public DNPSaveStateV4(SerializationInfo info, StreamingContext ctxt)
         {
@@ -1042,6 +1140,16 @@ namespace RelayControlLibrary
                 this.UnsolRetries = (int)info.GetValue("Unsolicited Retries", typeof(int));
                 this.TerminationResistor = (bool)info.GetValue("Termination Resistor", typeof(bool));
                 this.DNPBaudRate = (int)info.GetValue("DNP BaudRate", typeof(int));
+                
+                try
+                {
+                    this.deadBandVariablesSaved = (List<ucDeadBandSettingsObject>)info.GetValue("DNP Deadband Setting Object", typeof(List<ucDeadBandSettingsObject>));
+                    this.deadBandControlSaveddecimal = (List<decimal>)info.GetValue("DNP Deadband Values", typeof(List<decimal>));
+                }
+                catch(Exception ex)
+                {
+                    
+                }
             }
             catch (Exception ex)
             {
@@ -1065,7 +1173,8 @@ namespace RelayControlLibrary
                 info.AddValue("Max Events", this.MaxEvents);
                 info.AddValue("Termination Resistor", this.TerminationResistor);
                 info.AddValue("DNP BaudRate", this.DNPBaudRate);
-
+                info.AddValue("DNP Deadband Setting Object", this.deadBandVariablesSaved);
+                info.AddValue("DNP Deadband Values", this.deadBandControlSaveddecimal);
             }
             catch (Exception ex)
             {
