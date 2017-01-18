@@ -619,12 +619,13 @@ namespace RelayControlLibrary
             // 
             // numericUpDownTriggerRangeTemperature
             // 
+            this.numericUpDownTriggerRangeTemperature.DecimalPlaces = 1;
             this.numericUpDownTriggerRangeTemperature.Location = new System.Drawing.Point(98, 106);
             this.numericUpDownTriggerRangeTemperature.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
-            0});
+            65536});
             this.numericUpDownTriggerRangeTemperature.Name = "numericUpDownTriggerRangeTemperature";
             this.numericUpDownTriggerRangeTemperature.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownTriggerRangeTemperature.TabIndex = 6;
@@ -1449,6 +1450,7 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.groupBoxDNPStatus);
             this.Controls.Add(this.textBoxSAv5UserUpdateKey);
             this.Controls.Add(this.labelSAv5UserKey);
@@ -1461,7 +1463,6 @@ namespace RelayControlLibrary
             this.Controls.Add(this.buttonSendDeadBand);
             this.Controls.Add(this.groupBoxDigitalGridDNPDeadBand);
             this.Controls.Add(this.groupBoxDNPSettings);
-            this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.buttonDefaults);
             this.Controls.Add(this.buttonRQDNPSettings);
             this.Name = "ucDNP";

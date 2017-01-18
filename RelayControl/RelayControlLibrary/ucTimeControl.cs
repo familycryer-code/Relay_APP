@@ -34,7 +34,7 @@ namespace RelayControlLibrary
                 this.relayTime = value;
                 if (this.relayTime.CompareTo(new DateTime(2017, 01, 01)) > 0)
                 {
-                    SystemSounds.Exclamation.Play();
+//SystemSounds.Exclamation.Play();
                 }
                 this.CompareRelayTimeToRealTime(value);
                 this.labelRelayTimeDisplay.Text = value.ToString(_dateFormat);

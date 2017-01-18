@@ -203,7 +203,7 @@ namespace RelayControlLibrary
                     temp >>= 8;
                     sEA.SendPacket[8] = (byte)(temp & 0xFF);
 
-                    temp = (UInt16)this.numericUpDownTriggerRangeTemperature.Value;
+                    temp = (UInt16)(this.numericUpDownTriggerRangeTemperature.Value * 10m);
                     sEA.SendPacket[9] = (byte)(temp & 0xFF);
                     temp >>= 8;
                     sEA.SendPacket[10] = (byte)(temp & 0xFF);
@@ -565,7 +565,7 @@ namespace RelayControlLibrary
                     this.numericUpDownTriggerRangeVoltage.Value = bytePacket[38] + bytePacket[39] * 256;
                     this.numericUpDownTriggerRangeTHD.Value = (decimal)(bytePacket[40] + bytePacket[41] * 256) / 10m;
                     this.numericUpDownTriggerRangeCurrent.Value = bytePacket[42] + bytePacket[43] * 256;
-                    this.numericUpDownTriggerRangeTemperature.Value = bytePacket[44] + bytePacket[45] * 256;
+                    this.numericUpDownTriggerRangeTemperature.Value = (decimal)(bytePacket[44] + bytePacket[45] * 256) / 10m;
                     this.numericUpDownOdometer.Value = bytePacket[46] + bytePacket[47] * 256;
                     this.numericUpDownDifferentialVoltsDB.Value = (decimal)(bytePacket[48] + bytePacket[49] * 256) / 10m;
                     this.numericUpDownDifferentialVoltsRealDB.Value = (decimal)(bytePacket[50] + bytePacket[51] * 256) / 10m;
@@ -696,7 +696,7 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Neg Seq Angle", "Degrees", 0, 180, "Applies to both Network and Transformer Sets"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage THD", "%", 0m, 25.5m, 10m, "Applies to all three Voltage THDs"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current THD", "%", 0m, 25.5m, 10m, "Applies to all three Current THDs"));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Temperature", "Degrees C", 0m, 255m));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Temperature", "Degrees C", 0m, 25.5m, 10m, "Applies to Temperature"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Relay Odometer", "Cycles", 0m, 255m));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
