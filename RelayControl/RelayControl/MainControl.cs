@@ -1499,10 +1499,14 @@ namespace RelayControl
 
         void ucDNP1_Send(SendEventArgs sEA)
         {
+#if MEMPHIS
+            this.sendPacket(sEA.SendPacket);
+#else
             if (sEA.SendPacket[0] != 0x55)
                 this.sendPacketAck(sEA.SendPacket, "DNP Control");
             else
                 this.sendPacket(sEA.SendPacket);
+#endif
             if (!this.sendAll && sEA.SendPacket[0] != 0x55)
             {
                 this.buttonRequestRelayRegisters_Click(this, new EventArgs());
