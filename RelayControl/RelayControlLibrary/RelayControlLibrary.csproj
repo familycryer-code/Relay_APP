@@ -700,6 +700,7 @@
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
     <Content Include="Resources\MasterProcessorChicago.S" />
+    <None Include="Resources\MasterProcessorMemphis.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP_GE.S" />
     <None Include="Resources\MasterProcessor_Oncor.S" />

@@ -45,7 +45,7 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 161227;
+        private static UInt32 _masterCodeRevisionNumber = 170119;
         private static UInt32 _masterDNPRevisionNumber = 161227;
         private static UInt32 _relayCodeRevisionNumber = 20161209;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
@@ -959,6 +959,25 @@ namespace RelayControlLibrary
 
             this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
+#endif
+
+#if MEMPHIS
+            if (this.GEEnabled)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
+                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMemphis;
+                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
 #endif
 
             if (this.transmitterEnabled)
