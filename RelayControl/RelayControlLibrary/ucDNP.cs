@@ -546,6 +546,7 @@ namespace RelayControlLibrary
                 return;
             }
 
+#if !MEMPHIS
             try
             {
                 this.comboBoxDNPBaudRate.SelectedIndex = bytePacket[17];
@@ -555,6 +556,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
 				return;
             }
+#endif
 
             
             try
