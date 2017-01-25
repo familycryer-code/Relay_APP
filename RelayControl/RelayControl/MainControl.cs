@@ -810,9 +810,16 @@ namespace RelayControl
 
             if (sEA.WithAck)
             {
-                this.sendPacketAck(sEA.SendPacket, o.ToString());
-                this.requestAllData();
-                this.parametersLoaded = true;
+                if (!this.sendAll)
+                {
+                    this.sendPacketAck(sEA.SendPacket, o.ToString());
+                    this.requestAllData();
+                    this.parametersLoaded = true;
+                }
+                else
+                {
+                    this.sendPacket(sEA.SendPacket);
+                }
             }
             else
             {

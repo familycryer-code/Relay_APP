@@ -465,6 +465,11 @@ namespace RelayControlLibrary
 
         private void onSend(SendEventArgs sEA)
         {
+            if (sEA.SendPacket.Length > 3)
+                sEA.WithAck = true;
+            else
+                sEA.WithAck = false;
+
             if(Send != null)
                 Send(this, sEA);
         }
