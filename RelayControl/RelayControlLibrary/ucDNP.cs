@@ -789,7 +789,11 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+#if Enmax
+            this.comboBoxDNPBaudRate.SelectedIndex = 3;
+#else
             this.comboBoxDNPBaudRate.SelectedIndex = 5;
+#endif
         }
 
         private void setMemphisDefaults()
