@@ -1049,17 +1049,35 @@ namespace RelayControlLibrary
 
         private int getOilTemperatureFromAnalog(int bAN1)
         {
-            double oil_temp = 1.5993 * bAN1 - 5.0982;
+#if Enmax //consider adding for chicago as well
+            double oil_temp = .0393701 * bAN1 * 32;
+            return (int)(oil_temp);
+#else
+            double oil_temp = 1.5993 * bAN1 - 5.0982; //coned gauge only 
             //oil_temp += 0.5;
             return (int)(oil_temp);
+#endif
         }
 
         private int getTankPressureFromAnalog(int bAN2)
         {
-            double tank_pressure = 0.1754 * bAN2 - 2.11;
+            double tank_pressure = 0.1754 * bAN2 - 2.11; //coned gauge only
             //tank_pressure += 0.5;
             return (int)(tank_pressure);
         }
+#if Enmax
+        private int[] AnalogLookup = 
+		{ // 15 columns
+			0,   1,   2,   3,   4,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
+			30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
+			48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3
+			62,  63,  64,  65,  66,  67,  68,  69,  70,  70,  71,  72,  73,  74,  75, // row 4
+			75,  76,  77,  78,  79,  80,  80,  81,  82,  83,  84,  85,  85,  86,  87, // row 5
+			88,  89,  90,  91,  92,  93,  94,  95,  97,  98,  99, 100, 102, 103, 104, // row 6
+			105, 107, 108, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124, 125, 128, // row 7
+			130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
+		};
+#else
         private int[] AnalogLookup = 
 		{ // 15 columns
 			0,   0,   0,   0,   3,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
@@ -1071,6 +1089,7 @@ namespace RelayControlLibrary
 			105, 107, 108, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124, 125, 128, // row 7
 			130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
 		};
+#endif
 
     }
 }
