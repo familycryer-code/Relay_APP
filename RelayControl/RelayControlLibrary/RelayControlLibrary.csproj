@@ -87,7 +87,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
     <OutputPath>bin\ReleaseMemphis\</OutputPath>
-    <DefineConstants>TRACE;MEMPHIS</DefineConstants>
+    <DefineConstants>TRACE;MEMPHIS,DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

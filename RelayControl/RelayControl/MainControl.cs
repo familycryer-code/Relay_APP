@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-01-19";
+        private const string revisionDate = "2017-02-01";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -118,13 +118,13 @@ namespace RelayControl
                 }
                 else
                 {
-    #if !PLC && !DNP
+#if !PLC && DNP
                     if(this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
                     }
-    #endif
+#endif
                 }
 #endif
                 this.transmitterEnabled = value;
@@ -588,9 +588,12 @@ namespace RelayControl
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
     #endif
-                this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                this.tabControlMain.TabPages.Add(this.tabPageDNPData);
-                this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNPData);
 #endif
 
 #if DEBUG || chicago
@@ -810,9 +813,16 @@ namespace RelayControl
 
             if (sEA.WithAck)
             {
-                this.sendPacketAck(sEA.SendPacket, o.ToString());
-                this.requestAllData();
-                this.parametersLoaded = true;
+                if (!this.sendAll)
+                {
+                    this.sendPacketAck(sEA.SendPacket, o.ToString());
+                    this.requestAllData();
+                    this.parametersLoaded = true;
+                }
+                else
+                {
+                    this.sendPacket(sEA.SendPacket);
+                }
             }
             else
             {
@@ -5167,7 +5177,7 @@ namespace RelayControl
 #if DOMINION || Enmax 
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif Boston || NU || SEATTLE || chicago || MADISON
+#elif Boston || NU || SEATTLE || chicago || MADISON || MEMPHIS
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
@@ -5175,7 +5185,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA || Enmax  || Boston || MADISON || ONCOR
+#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA || Enmax  || Boston || MADISON || ONCOR || MEMPHIS
             this.domainUpDownCTRatioM.SelectedIndex = 2;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;

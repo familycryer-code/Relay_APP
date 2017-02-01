@@ -45,11 +45,11 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 170119;
+        private static UInt32 _masterCodeRevisionNumber = 170131;
         private static UInt32 _masterDNPRevisionNumber = 161227;
         private static UInt32 _relayCodeRevisionNumber = 20161209;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
-        private static UInt32 _bootCodeRevisionNumber = 161212;
+        private static UInt32 _bootCodeRevisionNumber = 170131;
 #endif
         private static UInt32 _safeService_MASTER_REVISION = 160621;
         private static UInt32 _rEV1_MASTER_REVISION = 100713;
@@ -1036,7 +1036,11 @@ namespace RelayControlLibrary
 
         public bool compareMasterRevisionToGUI()
         {
+#if DNP
+            if (remoteMasterRevisionNumber < _masterDNPRevisionNumber)
+#else
             if (remoteMasterRevisionNumber < _masterCodeRevisionNumber)
+#endif        
                 return true;
             else
                 return false;
