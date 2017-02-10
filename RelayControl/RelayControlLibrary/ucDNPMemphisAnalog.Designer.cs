@@ -32,6 +32,13 @@ namespace RelayControlLibrary
             this.textBoxPointValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
+            // labelEventEnable
+            // 
+            this.labelEventEnable.Location = new System.Drawing.Point(342, 3);
+            // 
+            // checkBoxEventEnabled
+            // 
+            this.checkBoxEventEnabled.Location = new System.Drawing.Point(422, 3);
             // 
             // labelPointName
             // 
@@ -60,7 +67,12 @@ namespace RelayControlLibrary
             this.Controls.Add(this.labelPointName);
             this.Controls.Add(this.textBoxPointValue);
             this.Name = "ucDNPMemphisAnalog";
-            this.Size = new System.Drawing.Size(346, 20);
+            this.Size = new System.Drawing.Size(345, 20);
+            this.Controls.SetChildIndex(this.textBoxPointValue, 0);
+            this.Controls.SetChildIndex(this.labelPointName, 0);
+            this.Controls.SetChildIndex(this.checkBoxEventEnabled, 0);
+            this.Controls.SetChildIndex(this.labelEventEnable, 0);
+            this.Controls.SetChildIndex(this.labelPointNumber, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

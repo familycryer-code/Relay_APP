@@ -92,7 +92,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleaseMemphis\</OutputPath>
-    <DefineConstants>MEMPHIS</DefineConstants>
+    <DefineConstants>MEMPHIS,DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

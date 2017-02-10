@@ -87,7 +87,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
     <OutputPath>bin\ReleaseMemphis\</OutputPath>
-    <DefineConstants>TRACE;MEMPHIS</DefineConstants>
+    <DefineConstants>TRACE;MEMPHIS,DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -700,6 +700,7 @@
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
     <Content Include="Resources\MasterProcessorChicago.S" />
+    <None Include="Resources\MasterProcessorMemphis.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP_GE.S" />
     <None Include="Resources\MasterProcessor_Oncor.S" />
