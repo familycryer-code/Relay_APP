@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-02-14";
+        private const string revisionDate = "2017-03-03";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -816,8 +816,11 @@ namespace RelayControl
                 if (!this.sendAll)
                 {
                     this.sendPacketAck(sEA.SendPacket, o.ToString());
-                    this.requestAllData();
-                    this.parametersLoaded = true;
+                    if(sEA.RequestAll)
+                    {
+                        this.requestAllData();
+                        this.parametersLoaded = true;
+                    }
                 }
                 else
                 {

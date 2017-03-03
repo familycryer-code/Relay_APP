@@ -23,5 +23,6 @@ namespace SharedResources
 
         public byte[] SendPacket;
         public bool WithAck = false;
+        public bool RequestAll = true;
     }
 }

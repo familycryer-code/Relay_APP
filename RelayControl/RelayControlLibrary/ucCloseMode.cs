@@ -259,6 +259,7 @@ namespace RelayControlLibrary
             {
                 mySEA = new SendEventArgs(_packetSize);
                 mySEA.WithAck = false;
+                mySEA.RequestAll = false;
                 CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(CloseModeDef);
                 OnSend(this, mySEA);
@@ -339,6 +340,7 @@ namespace RelayControlLibrary
 
             mySEA.SendPacket = this.CloseCurve.BytePacket();
             mySEA.WithAck = true;
+            mySEA.RequestAll = true;
             this.OnSend(this, mySEA);
         }
 

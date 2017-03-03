@@ -269,7 +269,8 @@ namespace RelayControlLibrary
 
             this.SendTimedOut = false;
             sending = true;
-            mySEA.WithAck = false;
+            mySEA.WithAck = true;
+            mySEA.RequestAll = false;
 
             this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
             TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
@@ -427,6 +428,7 @@ namespace RelayControlLibrary
 
             //New Trip Parameters
             mySEA.WithAck = true;
+            mySEA.RequestAll = true;
             mySEA.SendPacket[0] = (byte)'M';
             mySEA.SendPacket[1] = (byte)'S';
 
