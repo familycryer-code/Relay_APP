@@ -114,6 +114,7 @@ namespace RelayControlLibrary
             this.RelayCodeComplete = false;
             this.RelayDataComplete = false;
             this.FPGAComplete = false;
+            this.MasterBootComplete = false;
         }
     }
 }

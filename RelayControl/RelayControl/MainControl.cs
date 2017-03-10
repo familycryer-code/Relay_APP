@@ -40,8 +40,11 @@ namespace RelayControl
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private int masterBootRevisionReceived = 0;
+        private char bootMsgChar = '0';
+        private string masterBootStringReceived = "0";
         private delegate void booleanInvoke(bool b);
         private bool showCrossPhaseMsgOnce = false;
+        
 
         string customerRevisionNameDebug = "";
 
@@ -1759,11 +1762,34 @@ namespace RelayControl
                             else if ((char)this.receiveArray[tempRXReadPtr] == 'O')
                             {
                                 masterBootRevisionReceived = 0;
-                                for(int i =5; i <= 10; i++)
+                                masterBootStringReceived = null;
+                                bootMsgChar = '0';
+
+                                for (int i = 5; i <= 10; i++)
                                 {
                                     masterBootRevisionReceived = (masterBootRevisionReceived * 10) + (receiveArray[tempRXReadPtr + i] - 48);
                                 }
-                                this.ucRelayProgramming1.MasterBootRevisionNumberReceived = (UInt32)masterBootRevisionReceived;
+
+                                for (int i = 5; i <= 10; i++)
+                                {
+                                    masterBootStringReceived = masterBootStringReceived + Convert.ToChar((receiveArray[tempRXReadPtr + i]));
+                                }
+
+                                bootMsgChar = Convert.ToChar(receiveArray[tempRXReadPtr + 3]);
+                                this.ucRelayProgramming1.BootStartUpChar = bootMsgChar;
+
+                                if (ucRelayProgramming1.NonAutoCheckBootClicked == true || ucRelayProgramming1.CheckBootCodeAgain == true)
+                                {
+                                    this.ucRelayProgramming1.checkForProperBootCode();
+
+                                    if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
+                                        this.quietMode = true;
+                                    else
+                                        this.quietMode = false;
+                                }
+
+                                ucRelayProgramming1.MasterBootStringReceived = masterBootStringReceived;
+                                this.ucRelayProgramming1.MasterBootRevisionNumberReceived = (UInt32)masterBootRevisionReceived; 
                             }
                         }
                         else //get the packet size from the next byte
@@ -3270,6 +3296,8 @@ namespace RelayControl
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
 
+                checkDNPEnabled();
+
                 if (ucSafeService1.SendSSModeFlag_Send == true)
                 {
                     this.ucSafeService1.SendAll();
@@ -3430,6 +3458,33 @@ namespace RelayControl
             {
                 this.messageHandler("Error on Label", "Error Invoking Label Visibility on: " + tSSL.Name + " " + ex.Message);
             }
+        }
+
+        private void checkDNPEnabled()
+        {
+            bool sendProperDNPValue = false;
+#if DNP
+            if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
+            {
+                this.ucTransmitter1.DNPEnabled = true;
+                sendProperDNPValue = true;
+            }
+            this.ucRelayProgramming1.DNPRelay = true;
+#else
+            if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
+            {
+                this.ucTransmitter1.DNPEnabled = false;
+                sendProperDNPValue = true;
+            }
+                
+            this.ucRelayProgramming1.DNPRelay = false;     
+#endif
+
+            if (sendProperDNPValue)
+            {
+                this.ucTransmitter1.SendTransmitterSettings();
+                Thread.Sleep(100);
+            }   
         }
 
         private void setRelayRegisters(byte[] bytePacket)

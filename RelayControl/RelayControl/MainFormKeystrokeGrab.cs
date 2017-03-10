@@ -27,6 +27,10 @@ namespace RelayControl
                 {
                     this.EnableTransmitterSettings();
                 }
+                else if (e.KeyCode == Keys.B)
+                {
+                    CheckBootCode();
+                }
             }
         }
 
@@ -106,6 +110,16 @@ namespace RelayControl
                 return;
 
             this.ucTransmitter1.SendTransmitterSettings();
+        }
+        private void CheckBootCode()
+        {
+            if (!ucRelayProgramming1.ProgramBootCodeInProgress)
+            {
+                this.ucRelayProgramming1.NonAutoCheckBootClicked = true;
+                //ucRelayProgramming1.programmingForm.MasterBootComplete = false;
+                //formProgrammingProgess
+            }
+                
         }
     }
 }
