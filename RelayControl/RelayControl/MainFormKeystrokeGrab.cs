@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using RelayControlLibrary;
+using System.Threading;
 
 namespace RelayControl
 {
@@ -61,6 +62,7 @@ namespace RelayControl
                 return;
 
             this.ucTransmitter1.SendTransmitterSettings();
+            this.ucDNP1.DNPLabelStatus = ucTransmitter1.DNPEnabled;
         }
 
         private formForceUpdateSerialNumber tempForm;
@@ -115,9 +117,12 @@ namespace RelayControl
         {
             if (!ucRelayProgramming1.ProgramBootCodeInProgress)
             {
+                this.ucRelayProgramming1.BootCheckShortcutUsed = true;
+                this.ucRelayProgramming1.CheckProperBootCalled = true;
                 this.ucRelayProgramming1.NonAutoCheckBootClicked = true;
-                //ucRelayProgramming1.programmingForm.MasterBootComplete = false;
-                //formProgrammingProgess
+                Thread.Sleep(350); //Delays needed here! Don't touch!
+                resetBothProcs();
+                Thread.Sleep(350);
             }
                 
         }

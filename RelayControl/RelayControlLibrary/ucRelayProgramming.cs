@@ -49,7 +49,7 @@ namespace RelayControlLibrary
         private static UInt32 _masterDNPRevisionNumber = 171227;
         private static UInt32 _relayCodeRevisionNumber = 20170214;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
-        private static UInt32 _bootCodeRevisionNumber = 170131;
+        private static UInt32 _bootCodeRevisionNumber = 180131;
 #endif
         private static UInt32 _safeService_MASTER_REVISION = 160621;
         private static UInt32 _rEV1_MASTER_REVISION = 100713;
@@ -76,6 +76,11 @@ namespace RelayControlLibrary
         private bool programMasterBootFileSelect = false;
         private string masterBootStringReceived = "0";
         private bool checkBootCodeAgain = false;
+        private bool bootcheckMsgDisplayed = false;
+        private bool checkProperBootInProgress = false;
+        private bool checkProperBootCalled = false;
+        private bool autoLoad = false;
+        private bool bootCheckShortcutUsed = false;
 
         public Customers Customer
         {
@@ -128,8 +133,6 @@ namespace RelayControlLibrary
             set
             {
                 this.nonAutoCheckBootClicked = value;
-                if (nonAutoCheckBootClicked == true)
-                    this.sendReset();
             }
         }
 
@@ -168,7 +171,8 @@ namespace RelayControlLibrary
                 this.programBootCodeStart = value;
                 if(programBootCodeStart == true)
                 {
-                    ProgramBootCode();
+                    if (programBootCodeInProgress == false)
+                        ProgramBootCode();
                     ProgramBootCodeStart = false;
                 }
             }
@@ -190,6 +194,51 @@ namespace RelayControlLibrary
             set
             {
                 this.reprogramBootCodeAuto = value;
+            }
+        }
+
+        public bool BootcheckMsgDisplayed
+        {
+            get { return this.bootcheckMsgDisplayed; }
+            set
+            {
+                this.bootcheckMsgDisplayed = value;
+            }
+        }
+
+        public bool CheckProperBootInProgress
+        {
+            get { return this.checkProperBootInProgress; }
+            set
+            {
+                this.checkProperBootInProgress = value;
+            }
+        }
+
+        public bool CheckProperBootCalled
+        {
+            get { return this.checkProperBootCalled; }
+            set
+            {
+                this.checkProperBootCalled = value;
+            }
+        }
+
+        public bool Autoload
+        {
+            get { return this.autoLoad; }
+            set
+            {
+                this.autoLoad = value;
+            }
+        }
+
+        public bool BootCheckShortcutUsed
+        {
+            get { return this.bootCheckShortcutUsed; }
+            set
+            {
+                this.bootCheckShortcutUsed = value;
             }
         }
 
@@ -427,7 +476,6 @@ namespace RelayControlLibrary
         private RelayProgrammingData masterCode = new RelayProgrammingData(1024);
         private RelayProgrammingData relayCode = new RelayProgrammingData(1024);
         private FPGAProgrammingData fPGACode = new FPGAProgrammingData();
-        private bool autoLoad = false;
         private UInt32 remoteMasterRevisionNumber = 0;
         private UInt32 remoteRelayRevisionNumber = 0;
         private UInt32 remoteFPGARevisionNumber = 0;
@@ -1551,6 +1599,7 @@ namespace RelayControlLibrary
 
             this.failCount = 0;
 
+            checkProperBootCalled = false;
             this.programBootCodeInProgress = true;
             this.setProgrammingFiles();
 
@@ -2239,10 +2288,20 @@ namespace RelayControlLibrary
             this.timerTimeout.Start();
         }
 
-        private int requestingBootLimit = 0;
+        private int requestingBootCount = 0;
         public void checkForProperBootCode()
         {
             DialogResult dR;
+
+            if (nonAutoCheckBootClicked)
+                checkProperBootCalled = true;
+
+            if (programBootCodeInProgress)
+                return;
+
+            checkProperBootInProgress = true;
+            
+
             bool poperBootCode = false;
             wrongBootCodeLoaded = false;
 
@@ -2261,14 +2320,14 @@ namespace RelayControlLibrary
             }
             else if (masterBootStringReceived != "BYPASS")
             {
-                if (bootStartUpChar == 'I' || bootStartUpChar == 'D')
+                if ((bootStartUpChar == 'I' || bootStartUpChar == 'D') && masterBootStringReceived.Length == 6)
                 {
 #if !DNP
-                    this.DNPRelay = false;
                     if (nonAutoCheckBootClicked == true)
                     {
+                        this.DNPRelay = false;
                         this.nonAutoCheckBootClicked = false;
-
+                        bootcheckMsgDisplayed = true;
                         wrongBootCodeShorcutMsg();
                     }
                     else
@@ -2279,14 +2338,14 @@ namespace RelayControlLibrary
                     poperBootCode = true;
 #endif
                 }
-                else if (bootStartUpChar == 'H' || bootStartUpChar == 'C')
+                else if ((bootStartUpChar == 'H' || bootStartUpChar == 'C') && masterBootStringReceived.Length == 6)
                 {
 #if DNP
-                    this.DNPRelay = true;
                     if (nonAutoCheckBootClicked == true)
                     {
+                        this.DNPRelay = true;
                         this.nonAutoCheckBootClicked = false;
-
+                        bootcheckMsgDisplayed = true;
                         wrongBootCodeShorcutMsg();
 
                     }
@@ -2300,43 +2359,49 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    if (requestingBootLimit <= 5)
+                    if (programBootCodeInProgress == false && bootcheckMsgDisplayed == false)
                     {
-                        poperBootCode = false;
-                        checkBootCodeAgain = true;
-                        //this.nonAutoCheckBootClicked = true;
-                        requestingBootLimit++;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Boot request error", "Try restarting the program or using the shortcut again");
-                        poperBootCode = false;
-                        this.requestAll();
+
+                        if ((requestingBootCount <= 3 && checkBootCodeAgain) || (requestingBootCount <= 3))
+                        {
+                            poperBootCode = false;
+                            checkBootCodeAgain = true;
+                            requestingBootCount++;
+                        }
+                        else if (bootcheckMsgDisplayed == false)
+                        {
+                            poperBootCode = false;
+                            this.requestAll();
+                        }
                     }
                 }
 
-
+                if (programBootCodeInProgress)
+                    return;
 
                 if (poperBootCode == true && nonAutoCheckBootClicked == true)
                 {
                     this.wrongBootCodeLoaded = false;
                     this.nonAutoCheckBootClicked = false;
-                    requestingBootLimit = 0;
+                    requestingBootCount = 0;
                     CheckBootCodeAgain = false;
                     checkBootCodeforProperDate();
                 }
                 else if (poperBootCode == true && nonAutoCheckBootClicked == false && manualReload == false)
                 {
+                    requestingBootCount = 0;
                     CheckBootCodeAgain = false;
                 }
-                else if (poperBootCode == true && nonAutoCheckBootClicked == false && manualReload == true)
+                else if (nonAutoCheckBootClicked == false && manualReload == true)
                 {
+                    requestingBootCount = 0;
                     CheckBootCodeAgain = false;
                     checkBootCodeforProperDate();
                 }
 
                 if (CheckBootCodeAgain == false)
                 {
+                    requestingBootCount = 0;
                     this.nonAutoCheckBootClicked = false;
                 }
             }
@@ -2351,7 +2416,10 @@ namespace RelayControlLibrary
             if (dR == DialogResult.Yes)
             {
                 this.clickFromEngineeringTab = true;
-                this.ProgramBootCodeStart = true;
+                dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                Thread.Sleep(3000); //need this delay here
+                ProgramBootCodeStart = true;
+                Thread.Sleep(200);
             }
             else
             {
@@ -2384,16 +2452,19 @@ namespace RelayControlLibrary
 
             if (!manualReload)
             {
-                if (bootString < _bootCodeRevisionNumber)
+                if (bootString < _bootCodeRevisionNumber && bootString.ToString().Length == 6) 
                 {
+                    bootcheckMsgDisplayed = true;
                     dR = new YesNoMessageBoxResized("Boot code out of date", "The boot code is out of date. Would you like to update?", "Yes", "No").ShowDialog();
 
                     if (dR == DialogResult.Yes)
                     {
 
                         this.clickFromEngineeringTab = true;
-                        Thread.Sleep(2000); //need this delay here
+                        dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                        Thread.Sleep(3000); //need this delay here
                         this.ProgramBootCodeStart = true;
+                        Thread.Sleep(200);
                     }
                     else
                     {
@@ -2401,11 +2472,17 @@ namespace RelayControlLibrary
                         this.requestAll();
                     }
                 }
-                else
+                else if (bootString.ToString().Length == 6)
                 {
+                    bootcheckMsgDisplayed = true;
                     MessageBox.Show("Boot code correct", "Correct Boot code loaded");
+                    bootcheckMsgDisplayed = true;
                     CheckBootCodeAgain = false;
                     this.requestAll();
+                }
+                else if (bootcheckMsgDisplayed == false)
+                {
+                    MessageBox.Show("Boot Request Error", "Retry requesting boot");
                 }
             }
             else if (manualReload)
@@ -2417,9 +2494,15 @@ namespace RelayControlLibrary
                 else
                 {
                     if (wrongBootCodeLoaded)
+                    {
                         programMasterBootFileSelect = true;
+                        bootCheckShortcutUsed = false;
+                    }   
                     else
+                    {
                         programMasterBootFileSelect = false;
+                    }
+                        
                 }
             }
 

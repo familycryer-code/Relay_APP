@@ -1449,13 +1449,20 @@ namespace RelayControl
                     this.quietMode = true;
                     break;
                 case RelayProgrammingSendCommands.RawData:
-                    this.ucSafeService1.LoadingNewCode = true;
-                    this.enableAll(false);
-                    this.toolStripStatusLabelRelayDisconnected.Visible = false;
-                    this.loadingNewCode = true;
-                    this.quietMode = true;
-                    this.pauseMonitoring = true;
-                    this.sendPacket(rPEA.BytesToSend);
+                    if (!ucRelayProgramming1.CheckProperBootCalled)
+                    {
+                        RawDataSend(o, rPEA);
+                    }
+                    else if (ucRelayProgramming1.CheckProperBootCalled)
+                    {
+                        if (!ucRelayProgramming1.ProgramBootCodeInProgress)
+                            ucRelayProgramming1.checkForProperBootCode();
+
+                        ucRelayProgramming1.CheckProperBootCalled = false;
+
+                        if (ucRelayProgramming1.ProgramBootCodeInProgress)
+                            RawDataSend(o, rPEA);
+                    }
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
                     // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
@@ -1473,6 +1480,17 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }
+        }
+
+        void RawDataSend(object o, RelayProgrammingEventArgs rPEA)
+        {
+            this.ucSafeService1.LoadingNewCode = true;
+            this.enableAll(false);
+            this.toolStripStatusLabelRelayDisconnected.Visible = false;
+            this.loadingNewCode = true;
+            this.quietMode = true;
+            this.pauseMonitoring = true;
+            this.sendPacket(rPEA.BytesToSend);
         }
 
         void ucTransmitter1_Send(SendEventArgs sEA)
@@ -1777,10 +1795,12 @@ namespace RelayControl
 
                                 bootMsgChar = Convert.ToChar(receiveArray[tempRXReadPtr + 3]);
                                 this.ucRelayProgramming1.BootStartUpChar = bootMsgChar;
+                                this.ucRelayProgramming1.MasterBootStringReceived = masterBootStringReceived;
 
                                 if (ucRelayProgramming1.NonAutoCheckBootClicked == true || ucRelayProgramming1.CheckBootCodeAgain == true)
                                 {
-                                    this.ucRelayProgramming1.checkForProperBootCode();
+                                    if (!ucRelayProgramming1.ProgramBootCodeInProgress)
+                                        this.ucRelayProgramming1.checkForProperBootCode();
 
                                     if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
                                         this.quietMode = true;
@@ -1788,7 +1808,6 @@ namespace RelayControl
                                         this.quietMode = false;
                                 }
 
-                                ucRelayProgramming1.MasterBootStringReceived = masterBootStringReceived;
                                 this.ucRelayProgramming1.MasterBootRevisionNumberReceived = (UInt32)masterBootRevisionReceived; 
                             }
                         }
@@ -3296,7 +3315,7 @@ namespace RelayControl
                 this.timerResponseTimeOut.Enabled = false;
                 this.messageHandler("Data Recieved", "All Parameters Received");
 
-                checkDNPEnabled();
+                
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
                 {
@@ -3304,6 +3323,15 @@ namespace RelayControl
                     this.ucSafeService1.SendSSModeFlag_Send = false;
                     this.timerResponseTimeOut.Enabled = false;
                 }
+                if(!ucRelayProgramming1.ProgramBootCodeInProgress)
+                    checkDNPEnabled();
+                if (ucRelayProgramming1.BootcheckMsgDisplayed == false && ucRelayProgramming1.CheckProperBootInProgress == true)
+                {
+                    ucRelayProgramming1.CheckProperBootInProgress = false;
+                    if (!ucRelayProgramming1.ProgramBootCodeInProgress && !ucRelayProgramming1.Autoload && ucRelayProgramming1.BootCheckShortcutUsed)
+                        MessageBox.Show("Boot request error", "Try restarting the program or using the shortcut again");
+                }
+                
             }
             this.ProgramState = ProgramStates.Running;
 
@@ -3493,7 +3521,12 @@ namespace RelayControl
                 ucRelayProgramming1.initializeAutoload();
             
             if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
+            {
+                this.quietMode = true;
+                this.pauseMonitoring = true;
                 return;
+            }
+               
 
             setRelayStatusLabels(bytePacket);
         }
