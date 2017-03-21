@@ -117,12 +117,7 @@ namespace RelayControl
         {
             if (!ucRelayProgramming1.ProgramBootCodeInProgress)
             {
-                this.ucRelayProgramming1.BootCheckShortcutUsed = true;
-                this.ucRelayProgramming1.CheckProperBootCalled = true;
-                this.ucRelayProgramming1.NonAutoCheckBootClicked = true;
-                Thread.Sleep(350); //Delays needed here! Don't touch!
-                resetBothProcs();
-                Thread.Sleep(350);
+                this.ucRelayProgramming1.startReloadingJustBoot();
             }
                 
         }

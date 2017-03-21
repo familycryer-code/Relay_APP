@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-03-03";
+        private const string revisionDate = "2017-03-23";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -39,9 +39,6 @@ namespace RelayControl
 
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
-        private int masterBootRevisionReceived = 0;
-        private char bootMsgChar = '0';
-        private string masterBootStringReceived = "0";
         private delegate void booleanInvoke(bool b);
         private bool showCrossPhaseMsgOnce = false;
         
@@ -1445,24 +1442,14 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                     break;
-                case RelayProgrammingSendCommands.QueitModeEnable:
-                    this.quietMode = true;
-                    break;
                 case RelayProgrammingSendCommands.RawData:
-                    if (!ucRelayProgramming1.CheckProperBootCalled)
-                    {
-                        RawDataSend(o, rPEA);
-                    }
-                    else if (ucRelayProgramming1.CheckProperBootCalled)
-                    {
-                        if (!ucRelayProgramming1.ProgramBootCodeInProgress)
-                            ucRelayProgramming1.checkForProperBootCode();
-
-                        ucRelayProgramming1.CheckProperBootCalled = false;
-
-                        if (ucRelayProgramming1.ProgramBootCodeInProgress)
-                            RawDataSend(o, rPEA);
-                    }
+                    this.ucSafeService1.LoadingNewCode = true;
+                    this.enableAll(false);
+                    this.toolStripStatusLabelRelayDisconnected.Visible = false;
+                    this.loadingNewCode = true;
+                    this.quietMode = true;
+                    this.pauseMonitoring = true;
+                    this.sendPacket(rPEA.BytesToSend);
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
                     // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
@@ -1480,17 +1467,6 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }
-        }
-
-        void RawDataSend(object o, RelayProgrammingEventArgs rPEA)
-        {
-            this.ucSafeService1.LoadingNewCode = true;
-            this.enableAll(false);
-            this.toolStripStatusLabelRelayDisconnected.Visible = false;
-            this.loadingNewCode = true;
-            this.quietMode = true;
-            this.pauseMonitoring = true;
-            this.sendPacket(rPEA.BytesToSend);
         }
 
         void ucTransmitter1_Send(SendEventArgs sEA)
@@ -1776,39 +1752,6 @@ namespace RelayControl
                                 this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
                                 command = IncomingCommCommands.Invalid;
                                 break;
-                            }
-                            else if ((char)this.receiveArray[tempRXReadPtr] == 'O')
-                            {
-                                masterBootRevisionReceived = 0;
-                                masterBootStringReceived = null;
-                                bootMsgChar = '0';
-
-                                for (int i = 5; i <= 10; i++)
-                                {
-                                    masterBootRevisionReceived = (masterBootRevisionReceived * 10) + (receiveArray[tempRXReadPtr + i] - 48);
-                                }
-
-                                for (int i = 5; i <= 10; i++)
-                                {
-                                    masterBootStringReceived = masterBootStringReceived + Convert.ToChar((receiveArray[tempRXReadPtr + i]));
-                                }
-
-                                bootMsgChar = Convert.ToChar(receiveArray[tempRXReadPtr + 3]);
-                                this.ucRelayProgramming1.BootStartUpChar = bootMsgChar;
-                                this.ucRelayProgramming1.MasterBootStringReceived = masterBootStringReceived;
-
-                                if (ucRelayProgramming1.NonAutoCheckBootClicked == true || ucRelayProgramming1.CheckBootCodeAgain == true)
-                                {
-                                    if (!ucRelayProgramming1.ProgramBootCodeInProgress)
-                                        this.ucRelayProgramming1.checkForProperBootCode();
-
-                                    if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
-                                        this.quietMode = true;
-                                    else
-                                        this.quietMode = false;
-                                }
-
-                                this.ucRelayProgramming1.MasterBootRevisionNumberReceived = (UInt32)masterBootRevisionReceived; 
                             }
                         }
                         else //get the packet size from the next byte
@@ -3325,13 +3268,6 @@ namespace RelayControl
                 }
                 if(!ucRelayProgramming1.ProgramBootCodeInProgress)
                     checkDNPEnabled();
-                if (ucRelayProgramming1.BootcheckMsgDisplayed == false && ucRelayProgramming1.CheckProperBootInProgress == true)
-                {
-                    ucRelayProgramming1.CheckProperBootInProgress = false;
-                    if (!ucRelayProgramming1.ProgramBootCodeInProgress && !ucRelayProgramming1.Autoload && ucRelayProgramming1.BootCheckShortcutUsed)
-                        MessageBox.Show("Boot request error", "Try restarting the program or using the shortcut again");
-                }
-                
             }
             this.ProgramState = ProgramStates.Running;
 
@@ -3518,7 +3454,7 @@ namespace RelayControl
         private void setRelayRegisters(byte[] bytePacket)
         {
             if (this.enableAutoloadToolStripMenuItem.Checked)
-                ucRelayProgramming1.initializeAutoload();
+                ucRelayProgramming1.InitializeAutoload();
             
             if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
             {
@@ -4343,7 +4279,11 @@ namespace RelayControl
         {
             this.receiveArray = new byte[1000];
             this.rXReadPtr = this.rXWritePtr = 0;
-            this.ucRelayProgramming1.BootReceived();
+
+            var Bootstr = System.Text.Encoding.Default.GetString(bytePacket);
+            Bootstr = Bootstr.Substring(0,Bootstr.Length - 1);
+
+            this.ucRelayProgramming1.BootReceived(Bootstr);
         }
 
         //private string revision;
