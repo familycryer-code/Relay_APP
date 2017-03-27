@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-03-23";
+        private const string revisionDate = "2017-03-27";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -41,6 +41,7 @@ namespace RelayControl
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
         private bool showCrossPhaseMsgOnce = false;
+        private bool noMemFixMessage = false;
         
 
         string customerRevisionNameDebug = "";
@@ -2197,7 +2198,7 @@ namespace RelayControl
                     this.ucSafeService1.SetAll(bytePacket);
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
-                        if (this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
+                        if (this.DNPEnabled && receivedMasterRevision.Contains("DNP") && !ucRelayProgramming1.ProgramBootCodeInProgress && !noMemFixMessage)
                             this.requestDNPSettings();
                         else
                         {
@@ -2255,7 +2256,8 @@ namespace RelayControl
                     this.setFFTValue(bytePacket);
                     break;
                 case IncomingCommCommands.DNPData:
-                    this.setDNPSettings(bytePacket);
+                    if (!ucRelayProgramming1.ProgramBootCodeInProgress)
+                        this.setDNPSettings(bytePacket);
                     break;
                 case IncomingCommCommands.DNPSAv5:
                     this.ucDNPSAv51.Message(bytePacket);
@@ -2978,7 +2980,11 @@ namespace RelayControl
 
         private void showNoMemFixMessage(byte[] bytePacket)
         {
-            MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
+            if (!noMemFixMessage)
+            {
+                noMemFixMessage = true;
+                MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
+            } 
         }
 
 
@@ -3267,7 +3273,11 @@ namespace RelayControl
                     this.timerResponseTimeOut.Enabled = false;
                 }
                 if(!ucRelayProgramming1.ProgramBootCodeInProgress)
-                    checkDNPEnabled();
+                {
+#if !Enmax
+                        checkDNPEnabled();
+#endif
+                }  
             }
             this.ProgramState = ProgramStates.Running;
 
@@ -4302,6 +4312,7 @@ namespace RelayControl
 
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
+                this.ucRelayProgramming1.MasterRevisionString = revision;
 
                 if (this.dNPDigitalGridData != null)
                     this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
@@ -4659,6 +4670,7 @@ namespace RelayControl
                     this.enableAll(false);
                     this.toolStripStatusLabelMain.Text = "No Relay Found on " + this.serialPort1.PortName;
                 }
+                this.ucRelayProgramming1.RelayFound = relayFound;
             }
             catch (Exception ex)
             {
@@ -4713,6 +4725,7 @@ namespace RelayControl
                     this.enableAll(false);
                     this.toolStripStatusLabelMain.Text = "No Relay Found on " + this.serialPort1.PortName;
                 }
+                this.ucRelayProgramming1.RelayFound = relayFound;
             }
             catch (Exception ex)
             {
@@ -5324,6 +5337,8 @@ namespace RelayControl
             string currentPort;
             string errorMessage;
 
+            this.ucRelayProgramming1.RelayFound = true;
+
             if (this.ProgramState == ProgramStates.Running) //if it is running don't check for the ports
                 return;
 
@@ -5338,6 +5353,8 @@ namespace RelayControl
 #endif
                 this.relayNotFound();
                 this.RegisterPolling(false);
+
+                this.ucRelayProgramming1.RelayFound = false;
 
                 this.messageHandler("No Relay Found", new Exception(errorMessage));
                 return;

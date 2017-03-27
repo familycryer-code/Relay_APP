@@ -29,7 +29,7 @@ namespace RelayControlLibrary
         private void InitializeComponent()
         {
             this.listBoxTripModes = new System.Windows.Forms.ListBox();
-            this.buttonSendTripMode = new System.Windows.Forms.Button();
+            this.buttonSendTripData = new System.Windows.Forms.Button();
             this.numericUpDownSensitiveTimeDelay = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTimeDelay = new System.Windows.Forms.NumericUpDown();
             this.labelSTD = new System.Windows.Forms.Label();
@@ -91,15 +91,15 @@ namespace RelayControlLibrary
             this.listBoxTripModes.TabIndex = 2;
             this.listBoxTripModes.SelectedIndexChanged += new System.EventHandler(this.listBoxTripModes_SelectedIndexChanged);
             // 
-            // buttonSendTripMode
+            // buttonSendTripData
             // 
-            this.buttonSendTripMode.Location = new System.Drawing.Point(195, 226);
-            this.buttonSendTripMode.Name = "buttonSendTripMode";
-            this.buttonSendTripMode.Size = new System.Drawing.Size(104, 23);
-            this.buttonSendTripMode.TabIndex = 1;
-            this.buttonSendTripMode.Text = "Send Trip Mode";
-            this.buttonSendTripMode.UseVisualStyleBackColor = true;
-            this.buttonSendTripMode.Click += new System.EventHandler(this.buttonSendTripMode_Click);
+            this.buttonSendTripData.Location = new System.Drawing.Point(195, 226);
+            this.buttonSendTripData.Name = "buttonSendTripData";
+            this.buttonSendTripData.Size = new System.Drawing.Size(104, 23);
+            this.buttonSendTripData.TabIndex = 1;
+            this.buttonSendTripData.Text = "Send Trip Data";
+            this.buttonSendTripData.UseVisualStyleBackColor = true;
+            this.buttonSendTripData.Click += new System.EventHandler(this.buttonSendTripMode_Click);
             // 
             // numericUpDownSensitiveTimeDelay
             // 
@@ -543,7 +543,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.Controls.Add(this.labelSensTripUnit);
             this.groupBoxTripModeSettings.Controls.Add(this.labelTripStyle);
             this.groupBoxTripModeSettings.Controls.Add(this.labelAngleUnit);
-            this.groupBoxTripModeSettings.Controls.Add(this.buttonSendTripMode);
+            this.groupBoxTripModeSettings.Controls.Add(this.buttonSendTripData);
             this.groupBoxTripModeSettings.Controls.Add(this.labelInsensTrip);
             this.groupBoxTripModeSettings.Controls.Add(this.checkBoxEnableGullWing);
             this.groupBoxTripModeSettings.Controls.Add(this.labelInsensTripUnit);
@@ -607,7 +607,7 @@ namespace RelayControlLibrary
         #endregion
 
         private System.Windows.Forms.ListBox listBoxTripModes;
-        private System.Windows.Forms.Button buttonSendTripMode;
+        private System.Windows.Forms.Button buttonSendTripData;
         private System.Windows.Forms.NumericUpDown numericUpDownSensitiveTimeDelay;
         private System.Windows.Forms.NumericUpDown numericUpDownTimeDelay;
         private System.Windows.Forms.Label labelSTD;

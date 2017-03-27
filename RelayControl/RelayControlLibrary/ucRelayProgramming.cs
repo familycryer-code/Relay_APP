@@ -74,6 +74,10 @@ namespace RelayControlLibrary
         private bool programMasterBootFileSelect = false;
         private string masterBootStringReceived = "0";
         private bool autoLoad = false;
+        private string masterRevisionString = "";
+        private bool relayFound = false;
+        private bool callDNPAutoCheckOnce = false;
+        private bool wrongRelayTypeAutoLoad = false;
 
         public Customers Customer
         {
@@ -101,7 +105,25 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived = value;
             }
         }
-        
+
+        public string MasterRevisionString
+        {
+            get { return this.masterRevisionString; }
+            set
+            {
+                this.masterRevisionString = value;
+            }
+        }
+
+        public bool RelayFound
+        {
+            get { return this.relayFound; }
+            set
+            {
+                this.relayFound = value;
+            }
+        }
+            
         public void startReloadingJustBoot()
         {
             reloadBootWithPrompt = true;
@@ -280,9 +302,16 @@ namespace RelayControlLibrary
                         this.startMasterProgramming();
                         break;
                     case RelayProgrammingStates.ReprogramSuccess:
-                        this.timerTimeout.Stop();
-                        this.State = RelayProgrammingStates.RequestAll;
-                        this.requestAll();
+                        if (programMasterBootFileSelect)
+                        {
+                            startManualBootCodeLoad();
+                        }
+                        else
+                        {
+                            this.timerTimeout.Stop();
+                            this.State = RelayProgrammingStates.RequestAll;
+                            this.requestAll();
+                        }
                         break;
                     case RelayProgrammingStates.Finalized:
                         this.State = RelayProgrammingStates.Idle;
@@ -309,14 +338,14 @@ namespace RelayControlLibrary
                 {
                     if (this.DNPRelay)
                     {
-                        if (this.remoteMasterRevisionNumber < _masterDNPRevisionNumber)
+                        if ((this.remoteMasterRevisionNumber < _masterDNPRevisionNumber)|| wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
                         else
                             this.reprogramMaster = false;
                     }
                     else
                     {
-                        if (this.remoteMasterRevisionNumber < _masterCodeRevisionNumber)
+                        if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
                         else
                             this.reprogramMaster = false;
@@ -513,20 +542,28 @@ namespace RelayControlLibrary
 
         public void InitializeAutoload()
         {
-            DialogResult dR;
-
-#if Enmax && !DEBUG
-            ForceUpgradeCheck();
-#endif
+            DialogResult dR = DialogResult.No;
 
 #if !DEBUG
             reprogramBootCodeAuto = true;
 #endif
 
-            if (askToUgradeShown == false && forceBootUpgrade == false && CompareMasterRevisionToGUI())
+            if ((askToUgradeShown == false && forceBootUpgrade == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
             {
                 askToUgradeShown = true;
-                dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+
+                if (!wrongRelayTypeAutoLoad)
+                    setWrongRelayTypeAutoLoad();
+
+#if Enmax && !DEBUG
+                checkSafeServiceMaster();
+#endif
+
+                dR = showAutoLoadUpdateMessage();
+#if !DEBUG
+                if (dR == DialogResult.Yes && relayFound)
+                    dR = checkDNPPLCMessage(dR);
+#endif
                 if (!this.dontReloadFromResource && dR == DialogResult.Yes)
                     dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
             }
@@ -582,15 +619,18 @@ namespace RelayControlLibrary
                 bootRevTooLowErrorAlreadyShown = true;
             }
 
-            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && forceBootUpgrade == false)
+            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && forceBootUpgrade == false && masterBootRevisionSet)
                 this.CheckForUpdate();
             else if (forceBootUpgrade == true)           
             {
+                if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && masterBootRevisionSet)
+                {
 #if Enmax && !DEBUG
-                ForceUpgradeCheck();
+                    checkSafeServiceMaster();
 #endif
-                if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false)
                     this.CheckForUpdate();
+                }
+                    
             }
             
         }
@@ -610,6 +650,19 @@ namespace RelayControlLibrary
             else
             {
                 this.forceRelayUpdate = false;
+            }
+        }
+
+        private void checkSafeServiceMaster()
+        {
+            if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
+            {
+                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
+                this.revTooLowErrorAlreadyShown = true;
+            }
+            else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
+            {
+                MessageBox.Show("The Relay Software is outdated and must be upgraded for the Safe Service Mode Indicator attachment to function properly!", "Relay Must be Upgraded for Safe Service Mode Indicator!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -645,6 +698,55 @@ namespace RelayControlLibrary
             }
         }
 
+        private DialogResult showAutoLoadUpdateMessage()
+        {
+            DialogResult dR;
+            dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is recommended that the update be allowed. Update?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            return dR;
+        }
+
+        private DialogResult checkDNPPLCMessage(DialogResult dR)
+        {
+            if(masterRevisionString.Contains("DNP"))
+            {
+#if !DNP
+                //show that it is dnp relay on plc gui
+                dR = MessageBox.Show("Warning: This is a PLC only program and has been connected to a DNP/PLC relay. It is recommended you use the proper program and that you do not downgrade to PLC only. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+#endif
+            }
+            else
+            {
+#if DNP
+                //show that it is PLC relay on DNP PLC GUI
+                dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+#endif
+            }
+            return dR;
+        }
+
+        private bool setWrongRelayTypeAutoLoad()
+        {
+            if (!callDNPAutoCheckOnce)
+            {
+                callDNPAutoCheckOnce = true;
+                if (masterRevisionString.Contains("DNP"))
+                {
+#if !DNP
+                    wrongRelayTypeAutoLoad = true;
+                    return wrongRelayTypeAutoLoad;
+#endif
+                }
+                else
+                {
+#if DNP
+                    wrongRelayTypeAutoLoad = true;
+                    return wrongRelayTypeAutoLoad;
+#endif
+                }
+            }
+            return false;
+        }
+
         public void InitialAutoLoadFiles()
         {
             DialogResult dR;
@@ -653,6 +755,9 @@ namespace RelayControlLibrary
 
             if (dR != DialogResult.Yes)
                 return;
+
+            if(relayFound)
+                dR = checkDNPPLCMessage(dR);
 
             this.dontReloadFromResource = false;
             this.useDefaultSettings = true;
@@ -1064,10 +1169,10 @@ namespace RelayControlLibrary
         public bool CompareMasterRevisionToGUI()
         {
 #if DNP
-            if (remoteMasterRevisionNumber < _masterDNPRevisionNumber)
+            if ((remoteMasterRevisionNumber < _masterDNPRevisionNumber) || wrongRelayTypeAutoLoad)
 #else
-            if (remoteMasterRevisionNumber < _masterCodeRevisionNumber)
-#endif        
+            if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
+#endif
                 return true;
             else
                 return false;
@@ -1150,7 +1255,11 @@ namespace RelayControlLibrary
             if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
                 askToUgradeShown = true;
-                dR = MessageBox.Show("Would you like to Update Relay Code?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                dR = showAutoLoadUpdateMessage();
+#if !DEBUG
+                if(dR == DialogResult.Yes)
+                    dR = checkDNPPLCMessage(dR);
+#endif
             }
             else
             {
@@ -2983,7 +3092,9 @@ namespace RelayControlLibrary
             this.programmingForm.Maximum = temp;
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
+            Thread.Sleep(1000);
             this.sendReset();
+            Thread.Sleep(1000);
             this.enableButtons(false);
         }
 
@@ -3338,13 +3449,7 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.ReprogramSuccess:
                     if (programMasterBootFileSelect)
                     {
-                        this.programBootCodeOnly = true;
-                        this.autoLoad = false;
-                        this.manualReload = false;
-                        this.timerTimeout.Stop();
-                        Thread.Sleep(2000);
-                        programMasterBootFileSelect = false;
-                        ProgramBootCodeStart = true;
+                        startManualBootCodeLoad();
                     }
                     else
                     {
@@ -3363,7 +3468,16 @@ namespace RelayControlLibrary
             
         }
 
-     
+        private void startManualBootCodeLoad()
+        {
+            this.programBootCodeOnly = true;
+            this.autoLoad = false;
+            this.manualReload = false;
+            this.timerTimeout.Stop();
+            Thread.Sleep(2000);
+            programMasterBootFileSelect = false;
+            ProgramBootCodeStart = true;
+        }
         
         private void buttonStartAutoLoad_Click(object sender, EventArgs e)
         {
