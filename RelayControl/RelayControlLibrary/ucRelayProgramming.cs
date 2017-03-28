@@ -65,8 +65,6 @@ namespace RelayControlLibrary
         private bool resetMasterToCheckBootOnce = false;
         private bool masterBootRevisionSet = false;
         private bool askToUgradeShown = false;
-        private bool forceBootUpgrade = false;
-        private bool storeDialogReprogramResultBoot = false;
         private bool reprogramBootCodeAuto = false;
         private string bootStartUpChar = "0";
         private bool wrongBootCodeLoaded = false;
@@ -76,7 +74,6 @@ namespace RelayControlLibrary
         private bool autoLoad = false;
         private string masterRevisionString = "";
         private bool relayFound = false;
-        private bool callDNPAutoCheckOnce = false;
         private bool wrongRelayTypeAutoLoad = false;
 
         public Customers Customer
@@ -548,7 +545,12 @@ namespace RelayControlLibrary
             reprogramBootCodeAuto = true;
 #endif
 
-            if ((askToUgradeShown == false && forceBootUpgrade == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
+
+
+            if (!MasterBootRevisionSet())
+                return;
+
+            if ((askToUgradeShown == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
             {
                 askToUgradeShown = true;
 
@@ -566,15 +568,6 @@ namespace RelayControlLibrary
 #endif
                 if (!this.dontReloadFromResource && dR == DialogResult.Yes)
                     dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
-            }
-            else if (forceBootUpgrade == false)
-            {
-                if (storeDialogReprogramResultBoot == true)
-                    dR = DialogResult.Yes;
-                else
-                    dR = DialogResult.No;
-
-                storeDialogReprogramResultBoot = false;
             }
             else
             {
@@ -597,12 +590,6 @@ namespace RelayControlLibrary
                         {
                             UpgradeBootCode();
                         }
-                        else if (masterBootRevisionSet == false)
-                        {
-                            storeDialogReprogramResultBoot = true;
-                            this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-                            this.sendReset();
-                        }
                         else
                         {
                             bootRevTooLowErrorAlreadyShown = true;
@@ -619,20 +606,29 @@ namespace RelayControlLibrary
                 bootRevTooLowErrorAlreadyShown = true;
             }
 
-            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && forceBootUpgrade == false && masterBootRevisionSet)
+            if (dR == DialogResult.No)
+                this.restartReprogram();
+
+            if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && masterBootRevisionSet)
                 this.CheckForUpdate();
-            else if (forceBootUpgrade == true)           
-            {
-                if (dontShowRelayUpgradeMessage == false && bootRevTooLowErrorAlreadyShown == true && ProgramBootCodeInProgress == false && masterBootRevisionSet)
-                {
-#if Enmax && !DEBUG
-                    checkSafeServiceMaster();
-#endif
-                    this.CheckForUpdate();
-                }
-                    
-            }
             
+        }
+
+        private bool MasterBootRevisionSet()
+        {
+            if (CompareMasterRevisionToGUI())
+            {
+                if (masterBootRevisionSet == false)
+                {
+                    this.state = RelayProgrammingStates.AutoLoadCheckBoot;
+                    this.sendReset();
+                    return false;
+                }
+                else 
+                    return true;
+            }
+            else
+                return true;
         }
 
         private void ForceUpgradeCheck()
@@ -671,25 +667,12 @@ namespace RelayControlLibrary
             bootRevTooLowErrorAlreadyShown = true;
             dontShowRelayUpgradeMessage = true;
 
-            DialogResult upgradeDR = new DialogResult();
             DialogResult warningBootDR = new DialogResult();
 
             this.programmingForm.ClearAllChecks();
 
-            if(forceBootUpgrade == true)
-            {
-#if !DEBUG 
-                upgradeDR = MessageBox.Show("The relay firmware must be updated", "Relay Firmware Must be updated", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-
-                if (upgradeDR == DialogResult.OK)
-#endif
-                warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-            }
-            else
-            {
-                warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-            }
-
+            warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            
             if (warningBootDR == DialogResult.OK)
             {
                 dontShowRelayUpgradeMessage = false;
@@ -726,23 +709,20 @@ namespace RelayControlLibrary
 
         private bool setWrongRelayTypeAutoLoad()
         {
-            if (!callDNPAutoCheckOnce)
+
+            if (masterRevisionString.Contains("DNP"))
             {
-                callDNPAutoCheckOnce = true;
-                if (masterRevisionString.Contains("DNP"))
-                {
 #if !DNP
-                    wrongRelayTypeAutoLoad = true;
-                    return wrongRelayTypeAutoLoad;
+                wrongRelayTypeAutoLoad = true;
+                return wrongRelayTypeAutoLoad;
 #endif
-                }
-                else
-                {
+            }
+            else
+            {
 #if DNP
-                    wrongRelayTypeAutoLoad = true;
-                    return wrongRelayTypeAutoLoad;
+                wrongRelayTypeAutoLoad = true;
+                return wrongRelayTypeAutoLoad;
 #endif
-                }
             }
             return false;
         }
@@ -1306,14 +1286,6 @@ namespace RelayControlLibrary
             else
             {
                 this.autoLoad = false;
-                if(forceBootUpgrade == true)
-                {
-                    RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
-                    rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
-
-                    this.onSend(rPEA);
-                }
             }
                 
         }

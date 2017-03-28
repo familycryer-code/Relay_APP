@@ -41,6 +41,7 @@ namespace RelayControl
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
         private bool showCrossPhaseMsgOnce = false;
+        private bool initializeAutoLoad = true;
         
 
         string customerRevisionNameDebug = "";
@@ -3297,6 +3298,12 @@ namespace RelayControl
             CheckTransmitterTab();
 
             startMonitoringWBSettings();
+
+            if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
+            {
+                initializeAutoLoad = false;
+                ucRelayProgramming1.InitializeAutoload();
+            }
         }
 
         private void startMonitoringWBSettings()
@@ -3459,9 +3466,6 @@ namespace RelayControl
 
         private void setRelayRegisters(byte[] bytePacket)
         {
-            if (this.enableAutoloadToolStripMenuItem.Checked)
-                ucRelayProgramming1.InitializeAutoload();
-            
             if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
             {
                 this.quietMode = true;
@@ -4359,11 +4363,11 @@ namespace RelayControl
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
-                this.enableAll(true);
-                this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
                 this.saveComPort();
                 if (this.ProgramState == ProgramStates.CheckingForRelay)
                 {
+                    this.enableAll(true);
+                    this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
                     this.timerCheckPortTime.Enabled = false;
                     this.requestAllDataNoMasterRev();
                 }
