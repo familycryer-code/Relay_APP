@@ -299,16 +299,9 @@ namespace RelayControlLibrary
                         this.startMasterProgramming();
                         break;
                     case RelayProgrammingStates.ReprogramSuccess:
-                        if (programMasterBootFileSelect)
-                        {
-                            startManualBootCodeLoad();
-                        }
-                        else
-                        {
-                            this.timerTimeout.Stop();
-                            this.State = RelayProgrammingStates.RequestAll;
-                            this.requestAll();
-                        }
+                        this.timerTimeout.Stop();
+                        this.State = RelayProgrammingStates.RequestAll;
+                        this.requestAll();
                         break;
                     case RelayProgrammingStates.Finalized:
                         this.State = RelayProgrammingStates.Idle;
@@ -1828,13 +1821,7 @@ namespace RelayControlLibrary
 
                 if (this.fPGACode.SendIndex >= 98304)
                 {
-                    this.programmingForm.FPGAComplete = true;
-                    this.programmingForm.Hide();
-                    this.timerTimeout.Stop();
-                    this.writeLineToTraceFile("");
-                    this.writeLineToTraceFile("Done Loading FPGA");
-                    if (this.autoLoad)
-                        this.allReprogramingDone();
+                    doneLoadingFPGA();
                     return;
                 }
 
@@ -1856,6 +1843,23 @@ namespace RelayControlLibrary
             {
                 this.errorHandler("Error Sending Next FPGA Data", ex);
             }
+        }
+
+        private void doneLoadingFPGA()
+        {
+            if (!this.programMasterBootFileSelect)
+                this.programmingForm.Hide();
+
+            this.programmingForm.FPGAComplete = true;
+            this.timerTimeout.Stop();
+            this.writeLineToTraceFile("");
+            this.writeLineToTraceFile("Done Loading FPGA");
+
+            if (this.autoLoad && !this.programMasterBootFileSelect)
+                this.allReprogramingDone();
+            else if (this.autoLoad && this.programMasterBootFileSelect)
+                startManualBootCodeLoad();
+
         }
 
         private void doneLoadingRelay()
@@ -1887,6 +1891,8 @@ namespace RelayControlLibrary
                         this.writeLineToTraceFile("Loading FPGA");
                         this.timerTimeout.Start();
                     }
+                    else if(this.programMasterBootFileSelect)
+                        startManualBootCodeLoad();
                     else
                         this.allReprogramingDone();
                 }
@@ -3419,17 +3425,10 @@ namespace RelayControlLibrary
                     this.PrepForBoot();
                     break;
                 case RelayProgrammingStates.ReprogramSuccess:
-                    if (programMasterBootFileSelect)
-                    {
-                        startManualBootCodeLoad();
-                    }
-                    else
-                    {
-                        this.timerTimeout.Stop();
-                        this.manualReload = false;
-                        this.State = RelayProgrammingStates.RequestAll;
-                        this.requestAll();
-                    }
+                    this.timerTimeout.Stop();
+                    this.manualReload = false;
+                    this.State = RelayProgrammingStates.RequestAll;
+                    this.requestAll();
                     break;
                 
                 case RelayProgrammingStates.LoadingMasterBootLoader:
