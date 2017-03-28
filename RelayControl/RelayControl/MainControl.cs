@@ -41,7 +41,6 @@ namespace RelayControl
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
         private bool showCrossPhaseMsgOnce = false;
-        private bool noMemFixMessage = false;
         
 
         string customerRevisionNameDebug = "";
@@ -2198,7 +2197,7 @@ namespace RelayControl
                     this.ucSafeService1.SetAll(bytePacket);
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
-                        if (this.DNPEnabled && receivedMasterRevision.Contains("DNP") && !ucRelayProgramming1.ProgramBootCodeInProgress && !noMemFixMessage)
+                        if (this.DNPEnabled && receivedMasterRevision.Contains("DNP") && !ucRelayProgramming1.ProgramBootCodeInProgress)
                             this.requestDNPSettings();
                         else
                         {
@@ -2229,6 +2228,7 @@ namespace RelayControl
                     this.setRelayRegisters(bytePacket);
                     break;
                 case IncomingCommCommands.NoMemFix:
+                    this.DNPEnabled = false;
                     this.showNoMemFixMessage(bytePacket);
                     break;
                 case IncomingCommCommands.RelayRevision:
@@ -2980,11 +2980,7 @@ namespace RelayControl
 
         private void showNoMemFixMessage(byte[] bytePacket)
         {
-            if (!noMemFixMessage)
-            {
-                noMemFixMessage = true;
-                MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
-            } 
+            MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
         }
 
 
@@ -4363,11 +4359,13 @@ namespace RelayControl
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
+                this.enableAll(true);
+                this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
                 this.saveComPort();
                 if (this.ProgramState == ProgramStates.CheckingForRelay)
                 {
                     this.timerCheckPortTime.Enabled = false;
-                    this.requestAllData();
+                    this.requestAllDataNoMasterRev();
                 }
             }
             catch (Exception ex)
@@ -4656,6 +4654,8 @@ namespace RelayControl
                     return;
                 this.toolStripStatusLabelMain.Text = this.serialPort1.PortName + " selected. - No Relay Found";
                 this.relayFound = false;
+                this.ProgramState = ProgramStates.CheckingForRelay;
+                this.RegisterPolling(false);
                 if (this.checkPortAvailability(tSMI.Text))
                     this.checkPortForRelay();
 
@@ -5520,6 +5520,13 @@ namespace RelayControl
 
         private void requestAllData()
         {
+            this.requestedAllParameters = true;
+            this.requestMasterRevisionNumber();
+            this.requestAllDataNoMasterRev();
+        }
+
+        private void requestAllDataNoMasterRev()
+        {
             if (this.InvokeRequired)
             {
                 requestAllCallBack rACB = new requestAllCallBack(this.requestAllData);
@@ -5528,7 +5535,6 @@ namespace RelayControl
             else
             {
                 this.requestedAllParameters = true;
-                this.requestMasterRevisionNumber();
                 this.ProgramState = ProgramStates.DownloadingAllParameters;
 
                 this.requestRelayRevision();
@@ -6133,7 +6139,8 @@ namespace RelayControl
 
                 this.enableFlagsAndStatus(false);
 
-                this.requestMasterRevisionNumber();
+                if(!this.relayFound)
+                    this.requestMasterRevisionNumber();
             }
 
             if (!this.quietMode)
