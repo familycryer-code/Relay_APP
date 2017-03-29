@@ -63,6 +63,8 @@ namespace RelayControlLibrary
             this.labelEa.Visible = false;
             this.labelFa.Visible = false;
             this.labelGa.Visible = false;
+            this.labelHa.Text = "Oil Level";
+            this.labelHa.Location = new Point(4, 142);
 #elif DEBUG && Enmax
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;

@@ -319,7 +319,7 @@ namespace RelayControl
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
             this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay File Select";
+            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // toolStripMenuItemAction

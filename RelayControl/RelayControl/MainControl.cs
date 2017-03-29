@@ -4311,8 +4311,8 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-                this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
                 this.ucRelayProgramming1.MasterRevisionString = revision;
+                this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
                 if (this.dNPDigitalGridData != null)
                     this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
@@ -4364,7 +4364,8 @@ namespace RelayControl
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
                 this.saveComPort();
-                if (this.ProgramState == ProgramStates.CheckingForRelay)
+
+                if (this.ProgramState == ProgramStates.CheckingForRelay && ucRelayProgramming1.RelayFound)
                 {
                     this.enableAll(true);
                     this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;

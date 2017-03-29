@@ -1596,7 +1596,7 @@ namespace RelayControlLibrary
             this.groupBox17.Controls.Add(this.textBoxPhaseAngleA);
             this.groupBox17.Controls.Add(this.textBoxPhaseAngleC);
             this.groupBox17.Controls.Add(this.textBoxPhaseAngleB);
-            this.groupBox17.Location = new System.Drawing.Point(211, 149);
+            this.groupBox17.Location = new System.Drawing.Point(209, 149);
             this.groupBox17.Name = "groupBox17";
             this.groupBox17.Size = new System.Drawing.Size(105, 187);
             this.groupBox17.TabIndex = 76;
@@ -1874,9 +1874,9 @@ namespace RelayControlLibrary
             this.groupBoxAnalog1.Controls.Add(this.listBoxA1SensorSelect);
             this.groupBoxAnalog1.Controls.Add(this.label82);
             this.groupBoxAnalog1.Controls.Add(this.textBoxA1Analog1);
-            this.groupBoxAnalog1.Location = new System.Drawing.Point(412, 149);
+            this.groupBoxAnalog1.Location = new System.Drawing.Point(432, 149);
             this.groupBoxAnalog1.Name = "groupBoxAnalog1";
-            this.groupBoxAnalog1.Size = new System.Drawing.Size(280, 187);
+            this.groupBoxAnalog1.Size = new System.Drawing.Size(260, 187);
             this.groupBoxAnalog1.TabIndex = 77;
             this.groupBoxAnalog1.TabStop = false;
             this.groupBoxAnalog1.Text = "Analog1 Readings:";
@@ -2524,9 +2524,9 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxEa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxDa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxCa);
-            this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(318, 149);
+            this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(315, 149);
             this.groupBoxAnalogFlagValues.Name = "groupBoxAnalogFlagValues";
-            this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(92, 187);
+            this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(116, 187);
             this.groupBoxAnalogFlagValues.TabIndex = 84;
             this.groupBoxAnalogFlagValues.TabStop = false;
             this.groupBoxAnalogFlagValues.Text = "Analog Values";
@@ -2534,16 +2534,16 @@ namespace RelayControlLibrary
             // labelQPres
             // 
             this.labelQPres.AutoSize = true;
-            this.labelQPres.Location = new System.Drawing.Point(5, 168);
+            this.labelQPres.Location = new System.Drawing.Point(2, 167);
             this.labelQPres.Name = "labelQPres";
-            this.labelQPres.Size = new System.Drawing.Size(28, 13);
+            this.labelQPres.Size = new System.Drawing.Size(75, 13);
             this.labelQPres.TabIndex = 15;
-            this.labelQPres.Text = "Pres";
+            this.labelQPres.Text = "Case Pressure";
             // 
             // labelHa
             // 
             this.labelHa.AutoSize = true;
-            this.labelHa.Location = new System.Drawing.Point(12, 142);
+            this.labelHa.Location = new System.Drawing.Point(32, 143);
             this.labelHa.Name = "labelHa";
             this.labelHa.Size = new System.Drawing.Size(21, 13);
             this.labelHa.TabIndex = 14;
@@ -2552,7 +2552,7 @@ namespace RelayControlLibrary
             // labelGa
             // 
             this.labelGa.AutoSize = true;
-            this.labelGa.Location = new System.Drawing.Point(12, 119);
+            this.labelGa.Location = new System.Drawing.Point(32, 119);
             this.labelGa.Name = "labelGa";
             this.labelGa.Size = new System.Drawing.Size(21, 13);
             this.labelGa.TabIndex = 13;
@@ -2561,7 +2561,7 @@ namespace RelayControlLibrary
             // labelFa
             // 
             this.labelFa.AutoSize = true;
-            this.labelFa.Location = new System.Drawing.Point(13, 94);
+            this.labelFa.Location = new System.Drawing.Point(33, 94);
             this.labelFa.Name = "labelFa";
             this.labelFa.Size = new System.Drawing.Size(19, 13);
             this.labelFa.TabIndex = 12;
@@ -2570,7 +2570,7 @@ namespace RelayControlLibrary
             // labelEa
             // 
             this.labelEa.AutoSize = true;
-            this.labelEa.Location = new System.Drawing.Point(13, 70);
+            this.labelEa.Location = new System.Drawing.Point(33, 70);
             this.labelEa.Name = "labelEa";
             this.labelEa.Size = new System.Drawing.Size(20, 13);
             this.labelEa.TabIndex = 11;
@@ -2579,7 +2579,7 @@ namespace RelayControlLibrary
             // labelDa
             // 
             this.labelDa.AutoSize = true;
-            this.labelDa.Location = new System.Drawing.Point(13, 46);
+            this.labelDa.Location = new System.Drawing.Point(33, 46);
             this.labelDa.Name = "labelDa";
             this.labelDa.Size = new System.Drawing.Size(21, 13);
             this.labelDa.TabIndex = 10;
@@ -2588,7 +2588,7 @@ namespace RelayControlLibrary
             // labelCa
             // 
             this.labelCa.AutoSize = true;
-            this.labelCa.Location = new System.Drawing.Point(13, 21);
+            this.labelCa.Location = new System.Drawing.Point(33, 21);
             this.labelCa.Name = "labelCa";
             this.labelCa.Size = new System.Drawing.Size(20, 13);
             this.labelCa.TabIndex = 8;
@@ -2596,51 +2596,51 @@ namespace RelayControlLibrary
             // 
             // textBoxQBit
             // 
-            this.textBoxQBit.Location = new System.Drawing.Point(36, 164);
+            this.textBoxQBit.Location = new System.Drawing.Point(77, 162);
             this.textBoxQBit.Name = "textBoxQBit";
-            this.textBoxQBit.Size = new System.Drawing.Size(50, 20);
+            this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
             this.textBoxQBit.TabIndex = 7;
             // 
             // textBoxHa
             // 
-            this.textBoxHa.Location = new System.Drawing.Point(36, 139);
+            this.textBoxHa.Location = new System.Drawing.Point(77, 139);
             this.textBoxHa.Name = "textBoxHa";
-            this.textBoxHa.Size = new System.Drawing.Size(50, 20);
+            this.textBoxHa.Size = new System.Drawing.Size(33, 20);
             this.textBoxHa.TabIndex = 6;
             // 
             // textBoxGa
             // 
-            this.textBoxGa.Location = new System.Drawing.Point(36, 115);
+            this.textBoxGa.Location = new System.Drawing.Point(77, 116);
             this.textBoxGa.Name = "textBoxGa";
-            this.textBoxGa.Size = new System.Drawing.Size(50, 20);
+            this.textBoxGa.Size = new System.Drawing.Size(33, 20);
             this.textBoxGa.TabIndex = 5;
             // 
             // textBoxFa
             // 
-            this.textBoxFa.Location = new System.Drawing.Point(36, 90);
+            this.textBoxFa.Location = new System.Drawing.Point(77, 91);
             this.textBoxFa.Name = "textBoxFa";
-            this.textBoxFa.Size = new System.Drawing.Size(50, 20);
+            this.textBoxFa.Size = new System.Drawing.Size(33, 20);
             this.textBoxFa.TabIndex = 4;
             // 
             // textBoxEa
             // 
-            this.textBoxEa.Location = new System.Drawing.Point(36, 66);
+            this.textBoxEa.Location = new System.Drawing.Point(77, 67);
             this.textBoxEa.Name = "textBoxEa";
-            this.textBoxEa.Size = new System.Drawing.Size(50, 20);
+            this.textBoxEa.Size = new System.Drawing.Size(33, 20);
             this.textBoxEa.TabIndex = 3;
             // 
             // textBoxDa
             // 
-            this.textBoxDa.Location = new System.Drawing.Point(36, 42);
+            this.textBoxDa.Location = new System.Drawing.Point(77, 44);
             this.textBoxDa.Name = "textBoxDa";
-            this.textBoxDa.Size = new System.Drawing.Size(50, 20);
+            this.textBoxDa.Size = new System.Drawing.Size(33, 20);
             this.textBoxDa.TabIndex = 2;
             // 
             // textBoxCa
             // 
-            this.textBoxCa.Location = new System.Drawing.Point(36, 18);
+            this.textBoxCa.Location = new System.Drawing.Point(77, 18);
             this.textBoxCa.Name = "textBoxCa";
-            this.textBoxCa.Size = new System.Drawing.Size(50, 20);
+            this.textBoxCa.Size = new System.Drawing.Size(33, 20);
             this.textBoxCa.TabIndex = 0;
             // 
             // ucTransmitterMonitoring
