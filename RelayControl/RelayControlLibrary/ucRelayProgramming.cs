@@ -60,7 +60,6 @@ namespace RelayControlLibrary
         private bool programBootCodeInProgress = false;
         private UInt32 masterBootRevisionNumberReceived = 0;
         private bool revTooLowErrorAlreadyShown = false;
-        private bool bootRevTooLowErrorAlreadyShown = false;
         private bool dontShowRelayUpgradeMessage = false;
         private bool masterBootRevisionSet = false;
         private bool askToUgradeShown = false;
@@ -72,9 +71,10 @@ namespace RelayControlLibrary
         private string masterBootStringReceived = "0";
         private bool autoLoad = false;
         private string masterRevisionString = "";
-        private bool relayFound = false;
+        private bool notPollingPort = false;
         private bool wrongRelayTypeAutoLoad = false;
         private DialogResult upgradeAutoDR = DialogResult.No;
+        private bool reprogrammingInProgress = false;
 
         public Customers Customer
         {
@@ -112,12 +112,21 @@ namespace RelayControlLibrary
             }
         }
 
-        public bool RelayFound
+        public bool NotPollingPort
         {
-            get { return this.relayFound; }
+            get { return this.notPollingPort; }
             set
             {
-                this.relayFound = value;
+                this.notPollingPort = value;
+            }
+        }
+
+        public bool ReprogrammingInProgress
+        {
+            get { return this.reprogrammingInProgress; }
+            set
+            {
+                this.reprogrammingInProgress = value;
             }
         }
             
@@ -535,7 +544,7 @@ namespace RelayControlLibrary
         public void InitializeAutoload()
         {
 #if !DEBUG
-            reprogramBootCodeAuto = true;
+            this.reprogramBootCodeAuto = true;
 #endif
 
             
@@ -545,7 +554,7 @@ namespace RelayControlLibrary
 
                 if (!askToUgradeShown)
                 {
-                    showAutoLoadDialog();
+                    this.showAutoLoadDialog();
                 }
             }
 
@@ -553,29 +562,27 @@ namespace RelayControlLibrary
             {
                 if (CompareMasterRevisionToGUI() && reprogramBootCodeAuto == true)
                 {
-                    autoLoad = true;
+                    this.autoLoad = true;
 
-                    if (!MasterBootRevisionSet())
+                    if (!this.MasterBootRevisionSet())
                         return;
 
-                    if ((this.CheckForBootCodeUpdate() && masterBootRevisionSet == true) || (CheckForProperBootCodeAutoUpdate() && masterBootRevisionSet == true))
+                    if ((this.CheckForBootCodeUpdate() && masterBootRevisionSet == true) || (this.CheckForProperBootCodeAutoUpdate() && this.masterBootRevisionSet == true))
                     {
-                        UpgradeBootCode();
+                        this.UpgradeBootCode();
                     }
                 }
                 else
                 {
-                    autoLoad = false;
-                    bootRevTooLowErrorAlreadyShown = true;
+                    this.autoLoad = false;
                 }
             }
             else if (!CompareMasterRevisionToGUI())
             {
-                autoLoad = false;
-                bootRevTooLowErrorAlreadyShown = true;
+                this.autoLoad = false;
             }
 
-            if (dontShowRelayUpgradeMessage == false && ProgramBootCodeInProgress == false && masterBootRevisionSet && upgradeAutoDR == DialogResult.Yes)
+            if ((dontShowRelayUpgradeMessage == false && this.ProgramBootCodeInProgress == false && this.masterBootRevisionSet && this.upgradeAutoDR == DialogResult.Yes) || !askToUgradeShown)
                 this.CheckForUpdate();
             
         }
@@ -588,6 +595,7 @@ namespace RelayControlLibrary
                 {
                     this.state = RelayProgrammingStates.AutoLoadCheckBoot;
                     this.sendReset();
+                    Thread.Sleep(1000);
                     return false;
                 }
                 else 
@@ -599,22 +607,22 @@ namespace RelayControlLibrary
 
         private void showAutoLoadDialog()
         {
-            if (!wrongRelayTypeAutoLoad)
-                setWrongRelayTypeAutoLoad();
+            if (!this.wrongRelayTypeAutoLoad)
+                this.setWrongRelayTypeAutoLoad();
 
 #if Enmax && !DEBUG
-            checkSafeServiceMaster();
+            this.checkSafeServiceMaster();
 #endif
 
-            upgradeAutoDR = showAutoLoadUpdateMessage();
+            this.upgradeAutoDR = showAutoLoadUpdateMessage();
 #if !DEBUG
-            if (upgradeAutoDR == DialogResult.Yes && relayFound)
-                upgradeAutoDR = checkDNPPLCMessage(upgradeAutoDR);
+            if (upgradeAutoDR == DialogResult.Yes && notPollingPort)
+                this.upgradeAutoDR = checkDNPPLCMessage(upgradeAutoDR);
 #endif
             if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
-                upgradeAutoDR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
+                this.upgradeAutoDR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
 
-            askToUgradeShown = true;
+            this.askToUgradeShown = true;
         }
 
         private void ForceUpgradeCheck()
@@ -650,8 +658,7 @@ namespace RelayControlLibrary
 
         private void UpgradeBootCode()
         {
-            bootRevTooLowErrorAlreadyShown = true;
-            dontShowRelayUpgradeMessage = true;
+            this.dontShowRelayUpgradeMessage = true;
 
             DialogResult warningBootDR = new DialogResult();
 
@@ -661,7 +668,7 @@ namespace RelayControlLibrary
             
             if (warningBootDR == DialogResult.OK)
             {
-                dontShowRelayUpgradeMessage = false;
+                this.dontShowRelayUpgradeMessage = false;
                 Thread.Sleep(3000);
                 this.ProgramBootCodeStart = true;
             }
@@ -695,21 +702,24 @@ namespace RelayControlLibrary
 
         private bool setWrongRelayTypeAutoLoad()
         {
-
-            if (masterRevisionString.Contains("DNP"))
+            if(masterRevisionString != "")
             {
+                if (masterRevisionString.Contains("DNP"))
+                {
 #if !DNP
-                wrongRelayTypeAutoLoad = true;
+                this.wrongRelayTypeAutoLoad = true;
                 return wrongRelayTypeAutoLoad;
 #endif
-            }
-            else
-            {
+                }
+                else
+                {
 #if DNP
-                wrongRelayTypeAutoLoad = true;
-                return wrongRelayTypeAutoLoad;
+                    wrongRelayTypeAutoLoad = true;
+                    return wrongRelayTypeAutoLoad;
 #endif
+                }
             }
+
             return false;
         }
 
@@ -722,7 +732,7 @@ namespace RelayControlLibrary
             if (dR != DialogResult.Yes)
                 return;
 
-            if(relayFound)
+            if(notPollingPort)
                 dR = checkDNPPLCMessage(dR);
 
             this.dontReloadFromResource = false;
@@ -786,7 +796,7 @@ namespace RelayControlLibrary
 
 
 #endif
-                if(relayFound)
+            if (this.notPollingPort)
                 {
                     this.CheckForProperBootCodeManualUpdate();
                     if (masterBootRevisionSet == true)
@@ -794,7 +804,7 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    startManualReload();
+                    this.startManualReload();
                 }
                 
         }
@@ -808,11 +818,11 @@ namespace RelayControlLibrary
             this.reprogramMaster = true;
             this.reprogramRelay = true;
             this.askToUgradeShown = true;
-
-            this.programmingForm.ClearAllChecks();
             this.CheckForProperBootCodeManualUpdate();
 
-            if (masterBootRevisionSet == true)
+            this.programmingForm.ClearAllChecks();
+            
+            if(masterBootRevisionSet == true)
             {
                 this.setProgrammingFiles();
                 this.startProgramming();
@@ -1280,7 +1290,7 @@ namespace RelayControlLibrary
                     this.onSend(rPEA);
                     
                     // If we aren't loading from resource, don't bother warning
-                    if (!this.dontReloadFromResource && bootRevTooLowErrorAlreadyShown == true && programmingForm.MasterBootComplete == false)
+                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
 
                     this.writeLineToTraceFile("User Verified Programming Start");
@@ -1441,10 +1451,10 @@ namespace RelayControlLibrary
                 masterBootRevisionNumberReceived = UInt32.Parse(masterBootStringReceived);
             }
 
-            if (manualReload && !relayFound && !programBootCodeInProgress)
-                this.CheckForProperBootCodeManualUpdate();
-
             masterBootRevisionSet = true;
+
+            if (manualReload && !notPollingPort && !programBootCodeInProgress)
+                this.CheckForProperBootCodeManualUpdate();
 
             switch (state)
             {
@@ -1651,6 +1661,7 @@ namespace RelayControlLibrary
             }
 
             this.programBootCodeInProgress = true;
+            this.reprogrammingInProgress = true;
             this.State = RelayProgrammingStates.LoadingMasterBootLoader;
 
             if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
@@ -2022,6 +2033,7 @@ namespace RelayControlLibrary
         private void allReprogramingDone()
         {
             this.writeLineToTraceFile("All Loading Done");
+            this.reprogrammingInProgress = false;
             if (this.autoLoad)
             {
                 this.State = RelayProgrammingStates.ReprogramSuccess;
@@ -2347,7 +2359,7 @@ namespace RelayControlLibrary
 
             if (!masterBootRevisionSet && !reloadBootWithPrompt)
             {
-                if (manualReload && relayFound)
+                if (manualReload && notPollingPort)
                 {
                     this.state = RelayProgrammingStates.ManualLoadCheckBoot;
                     sendReset();
@@ -2447,6 +2459,7 @@ namespace RelayControlLibrary
             else
             {
                 this.programBootCodeOnly = false;
+                Thread.Sleep(500);
                 restartReprogram();
             }
         }
@@ -2463,7 +2476,8 @@ namespace RelayControlLibrary
             this.manualReload = true;
             reloadBootWithPrompt = false;
             CheckProperMasterBootCode();
-            Thread.Sleep(1000);
+            if(notPollingPort)
+                Thread.Sleep(1000);
         }
 
         private void checkBootCodeforProperDate()
@@ -2487,12 +2501,14 @@ namespace RelayControlLibrary
                     else
                     {
                         this.programBootCodeOnly = false;
+                        Thread.Sleep(500);
                         restartReprogram();
                     }
                 }
                 else
                 {
                     MessageBox.Show("Boot code correct", "Correct Boot code loaded");
+                    Thread.Sleep(500);
                     restartReprogram();
                 }
             }
@@ -3034,6 +3050,8 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendRelayReset();
+            if (!notPollingPort)
+                Thread.Sleep(1000);
             this.enableButtons(false);
         }
 
@@ -3094,9 +3112,9 @@ namespace RelayControlLibrary
             this.programmingForm.Maximum = temp;
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
-            Thread.Sleep(1000);
             this.sendReset();
-            Thread.Sleep(1000);
+            if(wrongRelayTypeAutoLoad || programmingForm.MasterBootComplete)
+                Thread.Sleep(1000);
             this.enableButtons(false);
         }
 
@@ -3132,6 +3150,7 @@ namespace RelayControlLibrary
 
         private void startProgramming()
         {
+            this.reprogrammingInProgress = true;
             if(!this.loadMasterFirst)
             {
                 if (this.autoLoad)

@@ -42,7 +42,7 @@ namespace RelayControl
         private delegate void booleanInvoke(bool b);
         private bool showCrossPhaseMsgOnce = false;
         private bool initializeAutoLoad = true;
-        
+        private bool showMemFixMsg = true;
 
         string customerRevisionNameDebug = "";
 
@@ -2981,7 +2981,11 @@ namespace RelayControl
 
         private void showNoMemFixMessage(byte[] bytePacket)
         {
-            MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
+            if (showMemFixMsg)
+            {
+                showMemFixMsg = false;
+                MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
+            }
         }
 
 
@@ -4365,7 +4369,7 @@ namespace RelayControl
                 this.relayFound = true;
                 this.saveComPort();
 
-                if (this.ProgramState == ProgramStates.CheckingForRelay && ucRelayProgramming1.RelayFound)
+                if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
                 {
                     this.enableAll(true);
                     this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
@@ -4675,7 +4679,7 @@ namespace RelayControl
                     this.enableAll(false);
                     this.toolStripStatusLabelMain.Text = "No Relay Found on " + this.serialPort1.PortName;
                 }
-                this.ucRelayProgramming1.RelayFound = relayFound;
+                ucRelayProgramming1.NotPollingPort = relayFound;
             }
             catch (Exception ex)
             {
@@ -4730,7 +4734,7 @@ namespace RelayControl
                     this.enableAll(false);
                     this.toolStripStatusLabelMain.Text = "No Relay Found on " + this.serialPort1.PortName;
                 }
-                this.ucRelayProgramming1.RelayFound = relayFound;
+                ucRelayProgramming1.NotPollingPort = relayFound;
             }
             catch (Exception ex)
             {
@@ -5342,7 +5346,7 @@ namespace RelayControl
             string currentPort;
             string errorMessage;
 
-            this.ucRelayProgramming1.RelayFound = true;
+            ucRelayProgramming1.NotPollingPort = true;
 
             if (this.ProgramState == ProgramStates.Running) //if it is running don't check for the ports
                 return;
@@ -5359,7 +5363,7 @@ namespace RelayControl
                 this.relayNotFound();
                 this.RegisterPolling(false);
 
-                this.ucRelayProgramming1.RelayFound = false;
+                ucRelayProgramming1.NotPollingPort = false;
 
                 this.messageHandler("No Relay Found", new Exception(errorMessage));
                 return;

@@ -117,6 +117,10 @@ namespace RelayControl
         {
             if (!ucRelayProgramming1.ProgramBootCodeInProgress)
             {
+                this.quietMode = true;
+                this.pQMonitoringEnabled = false;
+                this.allEnabled = false;
+                this.pauseMonitoring = true;
                 this.ucRelayProgramming1.startReloadingJustBoot();
             }
                 
