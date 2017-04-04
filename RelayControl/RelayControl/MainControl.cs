@@ -1431,6 +1431,7 @@ namespace RelayControl
                     this.ucShortRange1.ResetThreshold();
                     this.requestAllData();
                     this.enableAll(true);
+                    this.ProgramState = ProgramStates.CheckingForRelay;
                     this.timerRegisterPolling.Start();
                     this.allEnabled = true;
                     break;

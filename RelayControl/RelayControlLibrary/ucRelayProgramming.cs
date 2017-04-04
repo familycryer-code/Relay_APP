@@ -814,10 +814,7 @@ namespace RelayControlLibrary
             this.loadMasterFirst = true;
             this.masterCode.WithParameters = false;
 
-            this.autoLoad = true;
-            this.reprogramMaster = true;
-            this.reprogramRelay = true;
-            this.askToUgradeShown = true;
+            setManualReloadVars();
             this.CheckForProperBootCodeManualUpdate();
 
             this.programmingForm.ClearAllChecks();
@@ -835,16 +832,29 @@ namespace RelayControlLibrary
             this.masterCode.WithParameters = false;
 
             this.manualReload = true;
+            setManualReloadVars();
+            this.programmingForm.ClearAllChecks();
+
+            this.setProgrammingFiles();
+            this.startProgramming();
+        }
+
+        private void setManualReloadVars()
+        {
             this.autoLoad = true;
             this.reprogramMaster = true;
             this.reprogramRelay = true;
             this.askToUgradeShown = true;
-
-            this.programmingForm.ClearAllChecks();
-            this.setProgrammingFiles();
-            this.startProgramming();
         }
-        
+
+        private void checkDNP()
+        {
+#if DNP
+            this.DNPRelay = true;
+#else
+            this.DNPRelay = false;
+#endif
+        }
 
         private DialogResult askIfDNPRelay()
         {
@@ -893,15 +903,12 @@ namespace RelayControlLibrary
 
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
 
-#if DNP
-            this.DNPRelay = true;
-#else
-            this.DNPRelay = false;
-#endif
+            checkDNP();
+
 
             if (!this.DNPRelay)
             {
-#if Enmax || DOMINION || DEBUG || NU || Boston || SEATTLE
+#if (Enmax || DOMINION || DEBUG || NU || Boston || SEATTLE) && !DNP
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -919,7 +926,7 @@ namespace RelayControlLibrary
             }
             else
             {
-#if !Enmax && !DOMINION && !NU && !Boston
+#if !Enmax && !DOMINION && !NU && !Boston && !SEATTLE
                 if (this.GEEnabled)
                 {
                     this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
@@ -2460,7 +2467,7 @@ namespace RelayControlLibrary
             {
                 this.programBootCodeOnly = false;
                 Thread.Sleep(500);
-                restartReprogram();
+                restartProgram();
             }
         }
 
@@ -2502,14 +2509,14 @@ namespace RelayControlLibrary
                     {
                         this.programBootCodeOnly = false;
                         Thread.Sleep(500);
-                        restartReprogram();
+                        restartProgram();
                     }
                 }
                 else
                 {
                     MessageBox.Show("Boot code correct", "Correct Boot code loaded");
                     Thread.Sleep(500);
-                    restartReprogram();
+                    restartProgram();
                 }
             }
             else if (manualReload)
@@ -2529,7 +2536,7 @@ namespace RelayControlLibrary
 
         }
 
-        private void restartReprogram()
+        private void restartProgram()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
