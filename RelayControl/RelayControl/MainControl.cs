@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-03-27";
+        private const string revisionDate = "2017-04-04";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -589,12 +589,13 @@ namespace RelayControl
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
     #endif
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
                     this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
 
 #if DEBUG || chicago
@@ -4305,7 +4306,15 @@ namespace RelayControl
         private void setBootRevision(string BootRevision)
         {
             BootRevision = BootRevision.Trim( new Char[] { ' ', 'O', 'T'} );
-            this.labelBootRevision.Text = "BOOT REVISION " + BootRevision;
+            if (BootRevision.Contains("I") || BootRevision.Contains("D"))
+            {
+                this.labelBootRevision.Text = "BOOT REVISION DNP " + BootRevision;
+            }
+            else
+            {
+                this.labelBootRevision.Text = "BOOT REVISION " + BootRevision;
+            }
+                
             this.labelBootRevision.Visible = true;
         }
 

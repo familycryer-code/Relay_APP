@@ -45,8 +45,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 170215;
-        private static UInt32 _masterDNPRevisionNumber = 170215;
+        private static UInt32 _masterCodeRevisionNumber = 170404;
+        private static UInt32 _masterDNPRevisionNumber = 170404;
         private static UInt32 _relayCodeRevisionNumber = 20170214;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -337,20 +337,17 @@ namespace RelayControlLibrary
                 if(this.State == RelayProgrammingStates.Idle)
                 {
                     setWrongRelayTypeAutoLoad();
-                    if (this.DNPRelay)
-                    {
+#if DNP
                         if ((this.remoteMasterRevisionNumber < _masterDNPRevisionNumber)|| wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
                         else
                             this.reprogramMaster = false;
-                    }
-                    else
-                    {
+#else
                         if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
                         else
                             this.reprogramMaster = false;
-                    }
+#endif
                 }
 
                 // This section handles rebooting the relay to get to the next loading section.
@@ -906,8 +903,7 @@ namespace RelayControlLibrary
             checkDNP();
 
 
-            if (!this.DNPRelay)
-            {
+
 #if (Enmax || DOMINION || DEBUG || NU || Boston || SEATTLE) && !DNP
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 this.textBoxMasterFileName.Text = "Master Relay From Resource";
@@ -922,30 +918,7 @@ namespace RelayControlLibrary
                     this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                     this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
                 }
-#endif
-            }
-            else
-            {
-#if !Enmax && !DOMINION && !NU && !Boston && !SEATTLE
-                if (this.GEEnabled)
-                {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                    this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
-
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                    this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
-                }
-                else
-                {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
-                    this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
-
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                    this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-                }
-#endif
-            }
-
+#endif       
 
 #if Enmax && DNP
             
@@ -1976,13 +1949,15 @@ namespace RelayControlLibrary
                     }
                     if (this.reprogramFPGA)
                     {
-                        this.parseFPGAFile(this.fPGACode);
+                        this.parseFPGAFile(this.fPGACode); //todo
                         this.programmingForm.RelayCodeComplete = true;
                         this.programmingForm.RelayDataComplete = true;
                         this.programmingForm.CurrentTask = "Loading FPGA";
                         this.writeLineToTraceFile("Loading FPGA");
                         this.programmingForm.Maximum = 96;
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                        this.sendReset();
+                        Thread.Sleep(1000);
                         this.timerTimeout.Start();
                     }
                     else
@@ -3338,6 +3313,8 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
 
             this.sendRelayReset();
+            if (wrongRelayTypeAutoLoad || programmingForm.MasterBootComplete)
+                Thread.Sleep(1000);
         }
 
         private void sendQuietMode()
@@ -3423,6 +3400,8 @@ namespace RelayControlLibrary
             this.labelCodeCount.Text = "0";
             this.labelCodeTotal.Text = "96";
             this.sendReset();
+            if (wrongRelayTypeAutoLoad || programmingForm.MasterBootComplete)
+                Thread.Sleep(1000);
         }
 
         #endregion
