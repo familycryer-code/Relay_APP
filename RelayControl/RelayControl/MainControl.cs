@@ -4297,7 +4297,15 @@ namespace RelayControl
             var Bootstr = System.Text.Encoding.Default.GetString(bytePacket);
             Bootstr = Bootstr.Substring(0,Bootstr.Length - 1);
 
+            setBootRevision(Bootstr);
             this.ucRelayProgramming1.BootReceived(Bootstr);
+        }
+
+        private void setBootRevision(string BootRevision)
+        {
+            BootRevision = BootRevision.Trim( new Char[] { ' ', 'O', 'T'} );
+            this.labelBootRevision.Text = "BOOT REVISION " + BootRevision;
+            this.labelBootRevision.Visible = true;
         }
 
         //private string revision;

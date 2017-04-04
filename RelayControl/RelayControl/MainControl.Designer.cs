@@ -189,6 +189,7 @@ namespace RelayControl
             this.checkBoxPowerSaveFlag = new System.Windows.Forms.CheckBox();
             this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
+            this.labelBootRevision = new System.Windows.Forms.Label();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
             this.buttonBlockedStateOpen = new System.Windows.Forms.Button();
@@ -298,27 +299,27 @@ namespace RelayControl
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
@@ -785,11 +786,14 @@ namespace RelayControl
             this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
             this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
             this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionString = "";
             this.ucRelayProgramming1.Name = "ucRelayProgramming1";
+            this.ucRelayProgramming1.NotPollingPort = false;
             this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
             this.ucRelayProgramming1.ProgramBootCodeStart = false;
             this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
+            this.ucRelayProgramming1.ReprogrammingInProgress = false;
             this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
             this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
             this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
@@ -2005,6 +2009,7 @@ namespace RelayControl
             // 
             // panelOtherRelayControls
             // 
+            this.panelOtherRelayControls.Controls.Add(this.labelBootRevision);
             this.panelOtherRelayControls.Controls.Add(this.buttonClearCycleCount);
             this.panelOtherRelayControls.Controls.Add(this.buttonBlockAndTrip);
             this.panelOtherRelayControls.Controls.Add(this.buttonBlockedStateOpen);
@@ -2029,6 +2034,19 @@ namespace RelayControl
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
             this.panelOtherRelayControls.Size = new System.Drawing.Size(532, 181);
             this.panelOtherRelayControls.TabIndex = 77;
+            // 
+            // labelBootRevision
+            // 
+            this.labelBootRevision.AutoSize = true;
+            this.labelBootRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelBootRevision.Location = new System.Drawing.Point(3, 161);
+            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(3);
+            this.labelBootRevision.Name = "labelBootRevision";
+            this.labelBootRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelBootRevision.Size = new System.Drawing.Size(4, 17);
+            this.labelBootRevision.TabIndex = 77;
+            this.labelBootRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBootRevision.Visible = false;
             // 
             // buttonClearCycleCount
             // 
@@ -2117,7 +2135,7 @@ namespace RelayControl
             // 
             this.labelFPGARevision.AutoSize = true;
             this.labelFPGARevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelFPGARevision.Location = new System.Drawing.Point(3, 145);
+            this.labelFPGARevision.Location = new System.Drawing.Point(3, 136);
             this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(3);
             this.labelFPGARevision.Name = "labelFPGARevision";
             this.labelFPGARevision.Padding = new System.Windows.Forms.Padding(1);
@@ -2129,7 +2147,7 @@ namespace RelayControl
             // 
             this.labelRelayRevision.AutoSize = true;
             this.labelRelayRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRelayRevision.Location = new System.Drawing.Point(3, 116);
+            this.labelRelayRevision.Location = new System.Drawing.Point(3, 110);
             this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(3);
             this.labelRelayRevision.Name = "labelRelayRevision";
             this.labelRelayRevision.Padding = new System.Windows.Forms.Padding(1);
@@ -2263,7 +2281,7 @@ namespace RelayControl
             this.ucTripMode2.SequenceRelay = false;
             this.ucTripMode2.Size = new System.Drawing.Size(313, 262);
             this.ucTripMode2.TabIndex = 40;
-            this.ucTripMode2.VersionNumber = 0;
+            this.ucTripMode2.VersionNumber = ((uint)(0u));
             // 
             // ucCloseMode1
             // 
@@ -2719,6 +2737,7 @@ namespace RelayControl
         private RelayControlLibrary.ucTimeControl ucTimeControl1;
         private RelayControlLibrary.ucCoverFlags ucCoverFlags1;
         private System.Windows.Forms.CheckBox checkBoxReprogramBootAuto;
+        private System.Windows.Forms.Label labelBootRevision;
     }
 }
 
