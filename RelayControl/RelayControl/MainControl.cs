@@ -43,6 +43,7 @@ namespace RelayControl
         private bool showCrossPhaseMsgOnce = false;
         private bool initializeAutoLoad = true;
         private bool showMemFixMsg = true;
+        private bool pLCToDNP = false;
 
         string customerRevisionNameDebug = "";
 
@@ -4382,6 +4383,20 @@ namespace RelayControl
                 if (this.Customer == Customers.None)
                     this.Customer = Customers.DigitalGrid;
 
+                if (!revision.Contains("DNP"))
+                {
+#if DNP
+                    this.pLCToDNP = true;
+#endif
+                }
+
+                if (revision.Contains("DNP") && pLCToDNP && !ucRelayProgramming1.ReprogrammingInProgress)
+                {
+                    this.pLCToDNP = false;
+                    this.DNPEnabled = false;
+                    MessageBox.Show("Converted PLC Relay To DNP PLC Relay. Go over DNP settings in the DNP tab and Set them accordingly.");
+                }
+                
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
