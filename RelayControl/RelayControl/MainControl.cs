@@ -43,7 +43,7 @@ namespace RelayControl
         private bool showCrossPhaseMsgOnce = false;
         private bool initializeAutoLoad = true;
         private bool showMemFixMsg = true;
-        private bool pLCToDNP = false;
+        private bool finishingNewCodeLoaded = false;
 
         string customerRevisionNameDebug = "";
 
@@ -1431,7 +1431,6 @@ namespace RelayControl
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     this.pauseMonitoring = false;
                     this.ucShortRange1.ResetThreshold();
-                    this.requestAllData();
                     this.enableAll(true);
                     this.ProgramState = ProgramStates.CheckingForRelay;
                     this.timerRegisterPolling.Start();
@@ -1489,8 +1488,6 @@ namespace RelayControl
             else
             {
                 this.sendPacketAck(sEA.SendPacket, "Transmitter Settings Send");
-
-                this.requestTransmitterSettings();
 
                 if (!this.loadingNewCode)
                     this.requestAllData();
@@ -3060,21 +3057,6 @@ namespace RelayControl
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
 
-            if (this.currentReprogramState == RelayProgrammingSendCommands.RequestAll)
-            {
-                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                {
-                    if (this.relayCodeRevisionNumber >= 20130111)
-                        this.requestSafeServiceSettings();
-                    else if (this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
-                        this.requestDNPSettings();
-                    else
-                        this.parametersFinishedLoading();
-                }
-                this.currentReprogramState = RelayProgrammingSendCommands.Idle;
-                return;
-            }
-
             timerResponseTimeOut.Enabled = false;
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
@@ -3250,8 +3232,6 @@ namespace RelayControl
 
         private void parametersFinishedLoading()
         {
-            this.ProgramState = ProgramStates.Running;
-
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
@@ -3262,11 +3242,15 @@ namespace RelayControl
                 this.parametersLoaded = false;
                 this.messageHandler("Error", "Parameters NOT Loaded Successfully");
             }
-            else if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
+            else if (this.requestedAllParameters || (this.ProgramState == ProgramStates.DownloadingAllParameters && !finishingNewCodeLoaded))
             {
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
-                this.messageHandler("Data Recieved", "All Parameters Received");
+                
+                if(this.loadingNewCode && !ucRelayProgramming1.ReprogrammingInProgress)
+                    MessageBox.Show("All Parameters Received", "Data Recieved", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                else
+                    this.messageHandler("Data Recieved", "All Parameters Received");
 
                 
 
@@ -3283,7 +3267,13 @@ namespace RelayControl
 #endif
                 }  
             }
+
+
+            this.ucRelayProgramming1.AllParametersReceived();
+
+
             this.ProgramState = ProgramStates.Running;
+            this.finishingNewCodeLoaded = false;
 
             this.requestRelayRegisters();
 
@@ -3299,8 +3289,6 @@ namespace RelayControl
 #if !DEBUG
             this.sendTime(DateTime.UtcNow);
 #endif
-
-            this.ucRelayProgramming1.AllParametersReceived();
 
             CheckTransmitterTab();
 
@@ -3818,7 +3806,8 @@ namespace RelayControl
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
-                    this.requestTransmitterSettings();
+                    if (!finishingNewCodeLoaded)
+                        this.requestTransmitterSettings();
                 }
             }
             catch (Exception ex)
@@ -4382,20 +4371,6 @@ namespace RelayControl
                 
                 if (this.Customer == Customers.None)
                     this.Customer = Customers.DigitalGrid;
-
-                if (!revision.Contains("DNP"))
-                {
-#if DNP
-                    this.pLCToDNP = true;
-#endif
-                }
-
-                if (revision.Contains("DNP") && pLCToDNP && !ucRelayProgramming1.ReprogrammingInProgress)
-                {
-                    this.pLCToDNP = false;
-                    this.DNPEnabled = false;
-                    MessageBox.Show("Converted PLC Relay To DNP PLC Relay. Go over DNP settings in the DNP tab and Set them accordingly.");
-                }
                 
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
@@ -4541,16 +4516,6 @@ namespace RelayControl
         private void setShortRangeParameters(byte[] bytePacket)
         {
             this.ucShortRange1.SetAll(bytePacket);
-
-            if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-            {
-                if (this.relayCodeRevisionNumber >= 20130111)
-                    this.requestSafeServiceSettings();
-                else if (this.DNPEnabled && receivedMasterRevision.Contains("DNP"))
-                    this.requestDNPSettings();
-                else
-                    this.parametersFinishedLoading();
-            }
         }
 
         private void setTextBox(string s, TextBox tB)
@@ -5582,6 +5547,8 @@ namespace RelayControl
                 this.requestRelayRevision();
                 if (!this.loadingNewCode)
                     this.timerResponseTimeOut.Enabled = true;
+                else
+                    finishingNewCodeLoaded = true;
             }
             return;
         }

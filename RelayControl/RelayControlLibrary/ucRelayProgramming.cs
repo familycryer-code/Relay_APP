@@ -310,8 +310,7 @@ namespace RelayControlLibrary
                         break;
                     case RelayProgrammingStates.ReprogramSuccess:
                         this.timerTimeout.Stop();
-                        this.State = RelayProgrammingStates.RequestAll;
-                        this.requestAll();
+                        this.restartProgram();
                         break;
                     case RelayProgrammingStates.Finalized:
                         this.State = RelayProgrammingStates.Idle;
@@ -2047,17 +2046,14 @@ namespace RelayControlLibrary
 
             this.enableButtons(true);
             this.programmingForm.Hide();
-            
-            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
-          
-            this.onSend(rPEA);
 
             this.autoLoad = false;
             this.loadMasterFirst = false;
             this.firstCheckForUpdate = false;
 
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
-            this.requestAll();
+
+            this.restartProgram();
         }
 
         private void doneLoadingRelayBootLoader()
@@ -3456,8 +3452,9 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.ReprogramSuccess:
                     this.timerTimeout.Stop();
                     this.manualReload = false;
-                    this.State = RelayProgrammingStates.RequestAll;
-                    this.requestAll();
+                    if (this.programmingForm != null)
+                        this.programmingForm.Close();
+                    this.restartProgram();
                     break;
                 
                 case RelayProgrammingStates.LoadingMasterBootLoader:
@@ -3667,6 +3664,11 @@ namespace RelayControlLibrary
                 this.SendTransmitterSettings();
                 this.sendNonTransmitterSettings();
                 this.finalizeReprogram();
+            }
+            else if (this.State == RelayProgrammingStates.ReprogramSuccess)
+            {
+                this.state = RelayProgrammingStates.Finalized;
+                this.FinalizeReprogram();
             }
         }
 
