@@ -731,6 +731,9 @@ namespace RelayControlLibrary
             if(notPollingPort)
                 dR = checkDNPPLCMessage(dR);
 
+            if (dR == DialogResult.No)
+                return;
+
             this.dontReloadFromResource = false;
             this.useDefaultSettings = true;
 
@@ -1996,6 +1999,8 @@ namespace RelayControlLibrary
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
                         this.timerTimeout.Start();
                     }
+                    else if (this.programMasterBootFileSelect)
+                        startManualBootCodeLoad();
                     else
                     {
                         this.programmingForm.FPGAComplete = true;
@@ -2053,7 +2058,8 @@ namespace RelayControlLibrary
 
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
 
-            this.restartProgram();
+            if (!programBootCodeOnly)
+                this.requestAll();
         }
 
         private void doneLoadingRelayBootLoader()
@@ -2080,18 +2086,19 @@ namespace RelayControlLibrary
 
             Thread.Sleep(3000); //must delay before sending any other commands on completion!
 
+            programBootCodeInProgress = false;
+            programmingForm.MasterBootComplete = true;
+
             if (programBootCodeOnly)
             {
                 this.programmingForm.Hide();
 
-                rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
-                this.onSend(rPEA);
-
                 allReprogramingDone();
+
+                this.restartProgram();
+                this.requestAll();
             }
 
-            programBootCodeInProgress = false;
-            programmingForm.MasterBootComplete = true;
                 
             if (!programBootCodeOnly)
             {
@@ -2102,23 +2109,6 @@ namespace RelayControlLibrary
                 
         }
 
-        private void doneLoadingBootFileSelect()
-        {
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
-            this.State = RelayProgrammingStates.DoneLoadingMasterBootLoader;
-
-            this.enableButtons(true);
-            this.timerTimeout.Stop();
-            this.writeLineToTraceFile("");
-            this.writeLineToTraceFile("Done Loading Master Boot");
-            this.programmingForm.MasterBootComplete = true;
-
-            this.programmingForm.Hide();
-
-            this.requestAll();
-        }
-
         public void FinalizeReprogram()
         {
             if (this.state == RelayProgrammingStates.Finalized)
@@ -2127,6 +2117,9 @@ namespace RelayControlLibrary
                 this.writeLineToTraceFile("Reprogam Completed Successfully");
                 this.logUpdate();
                 this.state = RelayProgrammingStates.Idle;
+                this.autoLoad = false;
+                this.loadMasterFirst = false;
+                this.firstCheckForUpdate = false;
             }
             
         }
@@ -3028,8 +3021,6 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendRelayReset();
-            if (!notPollingPort)
-                Thread.Sleep(1000);
             this.enableButtons(false);
         }
 
@@ -3091,7 +3082,7 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendReset();
-            if(wrongRelayTypeAutoLoad || programmingForm.MasterBootComplete)
+            if((wrongRelayTypeAutoLoad && !masterRevisionString.Contains("DNP")) || programmingForm.MasterBootComplete)
                 Thread.Sleep(1000);
             this.enableButtons(false);
         }
@@ -3177,6 +3168,7 @@ namespace RelayControlLibrary
                 this.labelDataCount.Text = "0";
                 this.labelCodeCount.Text = "0";
                 this.sendRelayReset();
+                Thread.Sleep(100);
                 this.enableButtons(false);
 
                 if (this.autoLoad && this.DNPRelay == false)
@@ -3309,7 +3301,7 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
 
             this.sendRelayReset();
-            if (wrongRelayTypeAutoLoad || programmingForm.MasterBootComplete)
+            if ((wrongRelayTypeAutoLoad && !masterRevisionString.Contains("DNP")) || programmingForm.MasterBootComplete)
                 Thread.Sleep(1000);
         }
 

@@ -122,6 +122,7 @@ namespace RelayControl
                 this.allEnabled = false;
                 this.pauseMonitoring = true;
                 this.ucRelayProgramming1.startReloadingJustBoot();
+                this.ProgramState = ProgramStates.Running;
             }
                 
         }

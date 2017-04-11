@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-04-04";
+        private const string revisionDate = "2017-04-14";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -43,7 +43,6 @@ namespace RelayControl
         private bool showCrossPhaseMsgOnce = false;
         private bool initializeAutoLoad = true;
         private bool showMemFixMsg = true;
-        private bool finishingNewCodeLoaded = false;
 
         string customerRevisionNameDebug = "";
 
@@ -1744,6 +1743,8 @@ namespace RelayControl
                                 command = IncomingCommCommands.Invalid;
                                 break;
                             }
+                            if(!ucRelayProgramming1.ReprogrammingInProgress)
+                                Thread.Sleep(100); //added to prevent duplicate requests
                         }
                         else if (command == IncomingCommCommands.Boot)
                         {
@@ -3016,7 +3017,8 @@ namespace RelayControl
                 {
                     this.timerResponseTimeOut.Enabled = false;
                     this.dataRetryCount = 0;
-                    this.requestFPGARevision();
+                    if(!loadingNewCode)
+                        this.requestFPGARevision();
                 }
 
                 if (temp.Contains("GE"))
@@ -3242,7 +3244,7 @@ namespace RelayControl
                 this.parametersLoaded = false;
                 this.messageHandler("Error", "Parameters NOT Loaded Successfully");
             }
-            else if (this.requestedAllParameters || (this.ProgramState == ProgramStates.DownloadingAllParameters && !finishingNewCodeLoaded))
+            else if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
@@ -3273,7 +3275,6 @@ namespace RelayControl
 
 
             this.ProgramState = ProgramStates.Running;
-            this.finishingNewCodeLoaded = false;
 
             this.requestRelayRegisters();
 
@@ -3803,12 +3804,6 @@ namespace RelayControl
                 }
 
                 b = bytePacket[4];
-
-                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                {
-                    if (!finishingNewCodeLoaded)
-                        this.requestTransmitterSettings();
-                }
             }
             catch (Exception ex)
             {
@@ -4461,7 +4456,8 @@ namespace RelayControl
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
-                    this.requestRelayParameters();
+                    if (!ucRelayProgramming1.ReprogrammingInProgress)
+                        this.requestRelayParameters();
                 }
             }
             catch (Exception ex)
@@ -5544,11 +5540,13 @@ namespace RelayControl
                 this.requestedAllParameters = true;
                 this.ProgramState = ProgramStates.DownloadingAllParameters;
 
-                this.requestRelayRevision();
-                if (!this.loadingNewCode)
+                
+                if (!ucRelayProgramming1.ReprogrammingInProgress)
+                {
+                    this.requestRelayRevision();
                     this.timerResponseTimeOut.Enabled = true;
-                else
-                    finishingNewCodeLoaded = true;
+                }
+                    
             }
             return;
         }
