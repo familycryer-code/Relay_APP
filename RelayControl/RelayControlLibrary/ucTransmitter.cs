@@ -367,13 +367,6 @@ namespace RelayControlLibrary
 #endif
                 this.numericUpDownLEDSpeed.Value = bA[30];
 
-                if(this.customer == Customers.Memphis)
-                    this.checkForDNPEnabled();
-
-#if Enmax && DNP
-                this.checkForDNPEnabled();
-#endif
-
             }
             catch (Exception ex)
             {

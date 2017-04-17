@@ -3234,6 +3234,8 @@ namespace RelayControl
 
         private void parametersFinishedLoading()
         {
+            ucRelayProgramming1.CloseProgrammingForm();
+
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
@@ -3262,12 +3264,6 @@ namespace RelayControl
                     this.ucSafeService1.SendSSModeFlag_Send = false;
                     this.timerResponseTimeOut.Enabled = false;
                 }
-                if(!ucRelayProgramming1.ProgramBootCodeInProgress)
-                {
-#if !Enmax
-                        checkDNPEnabled();
-#endif
-                }  
             }
 
 
@@ -5124,6 +5120,12 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
+            if (ucRelayProgramming1.ReprogrammingInProgress)
+            {
+                this.timerRegisterPolling.Enabled = false;
+                return;
+            }  
+
             if (this.ProgramState != ProgramStates.DownloadingAllParameters)     //checked so it does not start the timer during initial download, but starts it everytime the program is running
                 this.timerRegisterPolling.Enabled = true;
 
@@ -6108,6 +6110,13 @@ namespace RelayControl
                 this.pauseTransmitterMonitoring();
                 return;
             }
+
+            if (ucRelayProgramming1.ReprogrammingInProgress)
+            {
+                this.timerRegisterPolling.Enabled = false;
+                return;
+            }  
+
             this.loadingNewCode = false;
             if (!this.serialPort1.IsOpen)
             {
@@ -6977,6 +6986,11 @@ namespace RelayControl
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(100);
+#endif
+
+#if DNP
+            if(receivedMasterRevision.Contains("DNP"))
+                this.ucTransmitter1.ForceDNPEnable = true;
 #endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {

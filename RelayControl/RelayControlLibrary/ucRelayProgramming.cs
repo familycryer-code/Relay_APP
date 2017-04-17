@@ -2113,6 +2113,7 @@ namespace RelayControlLibrary
         {
             if (this.state == RelayProgrammingStates.Finalized)
             {
+                this.programmingForm.Hide();
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
                 this.writeLineToTraceFile("Reprogam Completed Successfully");
                 this.logUpdate();
@@ -2447,7 +2448,7 @@ namespace RelayControlLibrary
             this.manualReload = true;
             reloadBootWithPrompt = false;
             CheckProperMasterBootCode();
-            if(notPollingPort)
+            if (this.notPollingPort && !this.programBootCodeInProgress)
                 Thread.Sleep(1000);
         }
 
@@ -3444,8 +3445,7 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.ReprogramSuccess:
                     this.timerTimeout.Stop();
                     this.manualReload = false;
-                    if (this.programmingForm != null)
-                        this.programmingForm.Close();
+                    this.programmingForm.Hide();
                     this.restartProgram();
                     break;
                 
@@ -3646,6 +3646,11 @@ namespace RelayControlLibrary
         private void buttonFixBootLoader_Click(object sender, EventArgs e)
         {
             this.startRelayBootLoaderProgramming();
+        }
+
+        public void CloseProgrammingForm()
+        {
+            this.programmingForm.Hide();
         }
 
         public void AllParametersReceived()
