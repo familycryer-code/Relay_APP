@@ -7597,6 +7597,9 @@ namespace RelayControl
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ucRelayProgramming1.ReprogrammingInProgress)
+                return;
+
             if (this.tabControlMain.SelectedTab == this.tabPageDNPSecureAuth)
             {
                 this.ucDNPSAv51.RequestAllData();
