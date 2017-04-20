@@ -3291,6 +3291,11 @@ namespace RelayControl
 
             startMonitoringWBSettings();
 
+            if (!initializeAutoLoad && !ucRelayProgramming1.ReprogrammingInProgress)
+            {
+                this.checkDNPEnabled();
+            }
+
             if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
             {
                 initializeAutoLoad = false;
@@ -3433,20 +3438,27 @@ namespace RelayControl
         {
             bool sendProperDNPValue = false;
 #if DNP
-            if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
+            if (receivedMasterRevision.Contains("DNP"))
             {
-                this.ucTransmitter1.DNPEnabled = true;
-                sendProperDNPValue = true;
+                if (!ucTransmitter1.DNPEnabled || !ucTransmitter1.CheckDNPEnable)
+                {
+                    this.ucTransmitter1.DNPEnabled = true;
+                    sendProperDNPValue = true;
+                }
+                this.ucRelayProgramming1.DNPRelay = true;
             }
-            this.ucRelayProgramming1.DNPRelay = true;
 #else
-            if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
+            if (!receivedMasterRevision.Contains("DNP"))
             {
-                this.ucTransmitter1.DNPEnabled = false;
-                sendProperDNPValue = true;
-            }
+                if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
+                {
+                    this.ucTransmitter1.DNPEnabled = false;
+                    sendProperDNPValue = true;
+                }
                 
-            this.ucRelayProgramming1.DNPRelay = false;     
+                this.ucRelayProgramming1.DNPRelay = false;  
+                this.removeDNPTabs();
+            }
 #endif
 
             if (sendProperDNPValue)
@@ -3454,6 +3466,18 @@ namespace RelayControl
                 this.ucTransmitter1.SendTransmitterSettings();
                 Thread.Sleep(100);
             }   
+        }
+
+        private void removeDNPTabs()
+        {
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
         }
 
         private void setRelayRegisters(byte[] bytePacket)
