@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-04-14";
+        private const string revisionDate = "2017-04-21";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -48,6 +48,7 @@ namespace RelayControl
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
+        private bool checkedDNPEnable = false;
 
         private Customers customer = Customers.None;
 
@@ -168,14 +169,15 @@ namespace RelayControl
 
                         if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DigitalGrid || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
                         {
-                            this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
-                            this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
-                            this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
-                            this.dNPDigitalGridData.Location = new Point(0, 0);
-                            this.dNPDigitalGridData.Send += standardizedSendData;
-                            this.dNPDigitalGridData.PointChanged += DNPDigitalGridData_PointChanged;
-                            this.dNPDigitalGridData.Show();
+                            setDNPTabPoints();
                         }
+
+#if Enmax && !DNP
+                        if(this.receivedMasterRevision.Contains("DNP"))
+                        {
+                            setDNPTabPoints();
+                        }
+#endif
 
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
@@ -206,6 +208,17 @@ namespace RelayControl
                 }
 
             }
+        }
+
+        private void setDNPTabPoints()
+        {
+            this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
+            this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
+            this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
+            this.dNPDigitalGridData.Location = new Point(0, 0);
+            this.dNPDigitalGridData.Send += standardizedSendData;
+            this.dNPDigitalGridData.PointChanged += DNPDigitalGridData_PointChanged;
+            this.dNPDigitalGridData.Show();
         }
 
         private bool gEEnableChangeBlocked = false;
@@ -642,7 +655,7 @@ namespace RelayControl
 #elif chicago
             this.customerRevisionName = "Chicago";
 #elif Enmax && !DNP
-            this.customerRevisionName = "Enmax";
+            this.customerRevisionName = "Enmax PLC";
 #elif Enmax && DNP
             this.customerRevisionName = "Enmax DNP and PLC";
 #elif MADISON
@@ -3434,9 +3447,20 @@ namespace RelayControl
             }
         }
 
+        private void setDNPShortucutCheck()
+        {
+            this.checkedDNPEnable = true;
+        }
+
         private void checkDNPEnabled()
         {
             bool sendProperDNPValue = false;
+
+            if (!this.checkedDNPEnable)
+                this.checkedDNPEnable = true;
+            else
+                return;
+
 #if DNP
             if (receivedMasterRevision.Contains("DNP"))
             {
@@ -8262,6 +8286,7 @@ namespace RelayControl
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.ucRelayProgramming1.InitialAutoLoadFiles();
+            this.checkedDNPEnable = false;
         }
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)

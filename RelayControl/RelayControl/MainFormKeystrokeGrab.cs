@@ -54,6 +54,8 @@ namespace RelayControl
         {
             DialogResult dR = MessageBox.Show("Do you want to enable DNP?\r\n(No to Disable)", "DNP Enable", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
 
+            this.setDNPShortucutCheck();
+
             if (dR == System.Windows.Forms.DialogResult.Yes)
                 this.ucTransmitter1.DNPEnabled = true;
             else if (dR == System.Windows.Forms.DialogResult.No)

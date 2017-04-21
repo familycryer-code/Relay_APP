@@ -56,6 +56,24 @@ namespace RelayDNPSecurity
             }
         }
 
+        public bool AuthenticationEnabled
+        {
+            get 
+            {
+                if (checkBoxAuthenticationEnabled.Checked)
+                    return true;
+                else
+                    return false;
+            }
+            set 
+            {
+                if (AuthenticationEnabled)
+                    checkBoxAuthenticationEnabled.Checked = true;
+                else
+                    checkBoxAuthenticationEnabled.Checked = false;
+            }
+        }
+
         private void buttonSendSettings_Click(object sender, EventArgs e)
         {
             this.sendSettings();

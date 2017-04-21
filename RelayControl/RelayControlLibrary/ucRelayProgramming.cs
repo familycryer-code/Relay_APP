@@ -906,7 +906,7 @@ namespace RelayControlLibrary
 
 
 
-#if (Enmax || DOMINION || DEBUG || NU || Boston || SEATTLE) && !DNP
+#if (DOMINION || DEBUG || NU || Boston || SEATTLE) && !DNP
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -920,7 +920,23 @@ namespace RelayControlLibrary
                     this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                     this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
                 }
-#endif       
+#endif   
+    
+#if Enmax && !DNP
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorEnmaxPLC;
+            this.textBoxMasterFileName.Text = "Master Relay From Resource";
+
+            if (this.GEEnabled)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif  
 
 #if Enmax && DNP
             

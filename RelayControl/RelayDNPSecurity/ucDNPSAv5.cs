@@ -40,7 +40,7 @@ namespace RelayDNPSecurity
         private static string _UserDoesNotExist = "User Number Does Not Exist in Relay";
         private static string _InvalidPublicOSKey = "Invalid Public Key.  Has it been generated?";
         private static string _AuthSymKeyAlgorithmMismatch = "Authority Key Length does not match Key Change Algorithm expected length.  Please Check and Resend";
-
+        private bool authenticationEnabled = false;
 
         private static byte[] _defaultAuthorityKey = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,
                                                        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
@@ -174,10 +174,15 @@ namespace RelayDNPSecurity
                     exceptionMessage = _InvalidPublicOSKey;
                     break;
                 case 4:
-                    exceptionMessage = _AuthSymKeyAlgorithmMismatch;
+                    authenticationEnabled = ucDNPSAv5Settings1.AuthenticationEnabled;
+                    if (authenticationEnabled)
+                        exceptionMessage = _AuthSymKeyAlgorithmMismatch;
+                    else
+                        exceptionMessage = null;
                     break;
             }
-            this.onError(new Exception(exceptionMessage), "Error in SAv5 Handling Error Packet");
+            if (exceptionMessage != null)
+                this.onError(new Exception(exceptionMessage), "Error in SAv5 Handling Error Packet");
         }
 
         private void ShowLoadedUserNumbers(byte[] bytePacket)
