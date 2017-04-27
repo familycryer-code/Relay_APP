@@ -750,8 +750,8 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Neg Seq Angle", "Degrees", 0, 180, "Applies to both Network and Transformer Sets"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage THD", "%", 0m, 25.5m, 10m, "Applies to all three Voltage THDs"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current THD", "%", 0m, 25.5m, 10m, "Applies to all three Current THDs"));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Temperature", "Degrees C", 0m, 25.5m, 10m, "Applies to Temperature"));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Relay Odometer", "Cycles", 0m, 255m));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Relay Temperature", "Degrees C", 0m, 25.5m, 10m, "Applies to Temperature"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Breaker Cycles", "Cycles", 0m, 255m));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 3", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
@@ -759,8 +759,8 @@ namespace RelayControlLibrary
 
                 if (this.Customer == Customers.DNPwithPLC)
                 {
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A1 - Ambient Temperature", "Degrees", 0m, 255m, 1m, "Temperature"));
-                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A2 - Main Tank", "Degrees", 0m, 255m, 1m, "Temperature"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A1 - Oil Temp", "Degrees", 0m, 255m, 1m, "Temperature"));
+                    this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A2 - Ambient Temp", "Degrees", 0m, 255m, 1m, "Temperature"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - C Cautions", "Steps", 0m, 255m, 1m, "ADC Steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - D SF6 Pressure", "Steps", 0m, 255m, 1m, "ADC Steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - E Environmental", "Steps", 0m, 255m, 1m, "ADC Steps"));

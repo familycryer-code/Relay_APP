@@ -2341,6 +2341,7 @@ namespace RelayControlLibrary
 
             bool properBootCode = false;
 
+            bool checkBootDate = true;
 
             if (programBootCodeInProgress)
                 return;
@@ -2381,9 +2382,17 @@ namespace RelayControlLibrary
 #if !DNP
                     if (reloadBootWithPrompt == true)
                     {
-                        this.DNPRelay = false;
-                        this.reloadBootWithPrompt = false;
-                        wrongBootCodeShorcutMsg();
+                        if (!this.masterRevisionString.Contains("DNP"))
+                        {
+                            this.DNPRelay = false;
+                            this.reloadBootWithPrompt = false;
+                            wrongBootCodeShorcutMsg();
+                        }
+                        else
+                        {
+                            properBootCode = true;
+                            checkBootDate = false;
+                        }  
                     }
                     else
                     {
@@ -2398,9 +2407,17 @@ namespace RelayControlLibrary
 #if DNP
                     if (reloadBootWithPrompt == true)
                     {
-                        this.DNPRelay = true;
-                        this.reloadBootWithPrompt = false;
-                        wrongBootCodeShorcutMsg();
+                        if (this.masterRevisionString.Contains("DNP"))
+                        {
+                            this.DNPRelay = true;
+                            this.reloadBootWithPrompt = false;
+                            wrongBootCodeShorcutMsg();
+                        }
+                        else
+                        {
+                            properBootCode = true;
+                            checkBootDate = false;
+                        }  
 
                     }
                     else
@@ -2420,7 +2437,14 @@ namespace RelayControlLibrary
                 {
                     this.wrongBootCodeLoaded = false;
                     this.reloadBootWithPrompt = false;
-                    checkBootCodeforProperDate();
+                    if (checkBootDate)
+                        checkBootCodeforProperDate();
+                    else
+                    {
+                        MessageBox.Show("Boot code correct", "Correct Boot code loaded");
+                        Thread.Sleep(500);
+                        restartProgram();
+                    }  
                 }
                 else if (reloadBootWithPrompt == false && manualReload == true)
                 {
