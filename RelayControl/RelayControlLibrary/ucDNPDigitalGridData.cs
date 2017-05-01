@@ -134,7 +134,7 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Trim Curve");
                 this.binaryInputs.Add("Circle Close");
                 this.binaryInputs.Add("Override Blocked Open");
-                this.binaryInputs.Add("Relay Algorthim");
+                this.binaryInputs.Add("Sequence(1)/Power(0) Relay");
                 this.binaryInputs.Add("Relay Cycles");
                 this.binaryInputs.Add("Motor Cycles");
                 this.binaryInputs.Add("Motor Timeout");
