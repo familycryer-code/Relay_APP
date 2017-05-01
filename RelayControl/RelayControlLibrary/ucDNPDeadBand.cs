@@ -76,6 +76,15 @@ namespace RelayControlLibrary
             }
         }
 
+        public string numericText
+        {
+            set { this.numericUpDownValue.Text = value; }
+            get
+            {
+                return this.numericUpDownValue.Text;
+            }
+        }
+
         public new string Name
         {
             get { return this.labelName.Text; }
