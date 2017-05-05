@@ -40,6 +40,8 @@ namespace RelayControlLibrary
 
         private static int _packetLength = 98;
 
+        private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
+
         private bool customerChanged = false;
         #region Send Functions
 
@@ -384,7 +386,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -403,7 +405,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Self Address", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -422,7 +424,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -441,7 +443,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -460,7 +462,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -475,7 +477,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -500,7 +502,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -519,7 +521,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Fragment Size", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -538,7 +540,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Destination Address", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -556,7 +558,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Source Address", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -574,7 +576,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -591,7 +593,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Max Events", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 return;
             }
@@ -606,7 +608,7 @@ namespace RelayControlLibrary
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
 #else
-                this.errorHandler(new Exception("Error Setting DNP Data. Please Check settings", ex));
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
 				return;
             }

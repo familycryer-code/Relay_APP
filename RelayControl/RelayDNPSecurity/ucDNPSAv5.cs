@@ -52,6 +52,16 @@ namespace RelayDNPSecurity
         private int remoteOSNameLength;
 
         private int serialNumber = 0;
+        private bool showDNPSAV5Error = true;
+
+        public bool ShowDNPSAV5Error
+        {
+            get { return this.showDNPSAV5Error; }
+            set
+            {
+                this.showDNPSAV5Error = value;
+            }
+        }
 
         public void RequestAllData()
         {
@@ -76,11 +86,17 @@ namespace RelayDNPSecurity
         {
             this.onSend(sSEA);
             this.requestLoadedUsers();
+            this.showDNPSAV5Error = true;
         }
 
         private void DNPSAv5_Error(object o, ExceptionEventArgs eEA)
         {
-            this.onError(eEA.InnerException, eEA.Title);
+#if DEBUG
+                this.onError(eEA.InnerException, eEA.Title);
+#else
+                this.showSAV5ErrorMessage();
+                return;
+#endif
         }
 
         public void Message(byte[] bytePacket)
@@ -103,7 +119,12 @@ namespace RelayDNPSecurity
                     this.setSettings(bytePacket);
                     break;
                 default:
+#if DEBUG
                     this.onError(new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"), "Error in SAv5 Message");
+#else
+                    this.showSAV5ErrorMessage();
+                    return;
+#endif
                     break;
             }
         }
@@ -130,6 +151,12 @@ namespace RelayDNPSecurity
                     }
                     this.oSName = workingString;
                     this.ucDNPSAv5OSName1.OSName = this.oSName;
+
+                    if(this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
+                    {
+                        this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
+                        this.showSAV5ErrorMessage();
+                    }
                 }
                 else if (p == 2)
                 {
@@ -145,7 +172,22 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+#if DEBUG
                 this.onError(new Exception("Error Setting OS/Relay Name: " + ex.ToString()), "Error in SAv5 Setting OS");
+#else
+                this.showSAV5ErrorMessage();
+                return;
+#endif
+            }
+        }
+
+        private void showSAV5ErrorMessage()
+        {
+            if (showDNPSAV5Error)
+            {
+                showDNPSAV5Error = false;
+                string dNPSAV5ErrorString = "Error in DNP SAV5 Security Settings. Check Security Settings";
+                this.onError(new Exception(dNPSAV5ErrorString), "Error in DNP SAV5 Security Settings");
             }
         }
 
@@ -182,7 +224,14 @@ namespace RelayDNPSecurity
                     break;
             }
             if (exceptionMessage != null)
+            {
+#if DEBUG
                 this.onError(new Exception(exceptionMessage), "Error in SAv5 Handling Error Packet");
+#else
+                this.showSAV5ErrorMessage();
+                return;
+#endif
+            }
         }
 
         private void ShowLoadedUserNumbers(byte[] bytePacket)
@@ -203,7 +252,12 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+#if DEBUG
                 this.onError(new Exception("Error Populating User Numbers List: " + ex.Message, ex), "Error in SAv5 Showing user Numbers");
+#else
+                this.showSAV5ErrorMessage();
+                return;
+#endif
             }
         }
 
@@ -230,7 +284,12 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+#if DEBUG
                 this.onError(new Exception("Error populating User Numbers: " + ex.Message, ex), "Error in SAv5 Dsiplaying User Numbers");
+#else
+                this.showSAV5ErrorMessage();
+                return;
+#endif
             }
         }
 
@@ -253,7 +312,12 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+#if DEBUG
                 this.onError(new Exception("Error Loadinged Loaded Users", ex),"Error in SAv5 Requesting User");
+#else
+                this.showSAV5ErrorMessage();
+                return;
+#endif
             }
         }
 

@@ -32,6 +32,17 @@ namespace RelayDNPSecurity
 
         private static int _packetLength = 98;
 
+        private bool requestOSNameClicked = false;
+
+        public bool RequestOSNameClicked
+        {
+            get { return this.requestOSNameClicked; }
+            set
+            {
+                this.requestOSNameClicked = value;
+            }
+        }
+
         private void textBoxOSName_TextChanged(object sender, EventArgs e)
         {
             int i;
@@ -77,6 +88,7 @@ namespace RelayDNPSecurity
 
         private void buttonRequestName_Click(object sender, EventArgs e)
         {
+            this.requestOSNameClicked = true;
             this.RequestName();
         }
 
