@@ -2296,7 +2296,7 @@ namespace RelayControl
             this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
             this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
             //this.toolTip.SetToolTip(this.toolStripStatusLabelReceiverStatus, this.relayStatusConverter.CurrentDescription);
-#elif chicago
+#elif !DEBUG
             if(bytePacket[0] == 12)
             {
                 this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
