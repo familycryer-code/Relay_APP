@@ -99,7 +99,7 @@ namespace RelayControlLibrary
         private void SecondTimer_Tick(object sender, EventArgs e)
         {
             this.labelMachineTimeDisplay.Text = DateTime.Now.ToString(_dateFormat);
-            this.requestTime();
+            //this.requestTime(); //removed because it can conflict with register polling and send in u,some number,2,D which can start reprogramming
         }
 
         private void updateTable()
