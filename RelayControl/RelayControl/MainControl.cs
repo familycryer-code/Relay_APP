@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-07-11";
+        private const string revisionDate = "2017-07-12";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -2296,7 +2296,7 @@ namespace RelayControl
             this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
             this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
             //this.toolTip.SetToolTip(this.toolStripStatusLabelReceiverStatus, this.relayStatusConverter.CurrentDescription);
-#elif !DEBUG
+#elif !DEBUG && !ATLANTA
             if(bytePacket[0] == 12)
             {
                 this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
