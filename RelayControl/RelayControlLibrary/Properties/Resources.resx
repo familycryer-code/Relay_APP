@@ -136,6 +136,12 @@
   <data name="MasterProcessorMemphis" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasterProcessorMemphis.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="MasterProcessorSMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MasterProcessor_DNPSAv5_SMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="MasterProcessorSMUDGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MasterProcessor_DNPSAv5_GE_SMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="MasterProcessor_Atlanta_DNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasterProcessor_Atlanta_DNP.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -177,5 +183,11 @@
   </data>
   <data name="RelayProcessorGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessorGE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="RelayProcessorSMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RelayProcessorSMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="RelayProcessorSMUDGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RelayProcessorGESMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

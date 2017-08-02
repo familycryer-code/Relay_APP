@@ -4401,6 +4401,11 @@ namespace RelayControl
                                 this.Customer = Customers.Oncor;
                                 this.ucDNP1.Customer = this.Customer;
                             }
+                            else if (revision.Contains("SMUD"))
+                            {
+                                //this.Customer = Customers.SMUD;
+                                this.ucDNP1.Customer = this.Customer;
+                            }
                             
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();

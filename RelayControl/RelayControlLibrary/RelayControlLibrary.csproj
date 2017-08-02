@@ -704,6 +704,8 @@
     <None Include="Resources\MasterProcessorEnmaxPLC.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP_GE.S" />
+    <None Include="Resources\MasterProcessor_DNPSAv5_GE_SMUD.S" />
+    <None Include="Resources\MasterProcessor_DNPSAv5_SMUD.S" />
     <None Include="Resources\MasterProcessor_Oncor.S" />
     <None Include="Resources\MasterProcessor_Oncor_GE.S" />
     <None Include="Resources\MasterProcessor_with_DNP_PLC_GE.S" />
@@ -716,6 +718,8 @@
     <None Include="Resources\MasterProcessor_with_DNP.S" />
     <None Include="Resources\RelayProcessor.S" />
     <None Include="Resources\RelayProcessorGE.S" />
+    <None Include="Resources\RelayProcessorGESMUD.S" />
+    <None Include="Resources\RelayProcessorSMUD.S" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Exocortex\src\Exocortex.DSP.v1.csproj">

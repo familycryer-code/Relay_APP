@@ -45,9 +45,9 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 170504;
-        private static UInt32 _masterDNPRevisionNumber = 170504;
-        private static UInt32 _relayCodeRevisionNumber = 20170214;
+        private static UInt32 _masterCodeRevisionNumber = 1170505;
+        private static UInt32 _masterDNPRevisionNumber = 1170505;
+        private static UInt32 _relayCodeRevisionNumber = 120170215;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
 #endif
@@ -920,8 +920,8 @@ namespace RelayControlLibrary
                     this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                     this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
                 }
-#endif   
-    
+#endif
+
 #if Enmax && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorEnmaxPLC;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
@@ -936,7 +936,7 @@ namespace RelayControlLibrary
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
-#endif  
+#endif
 
 #if Enmax && DNP
             
@@ -1106,6 +1106,25 @@ namespace RelayControlLibrary
                 this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
 
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif
+
+#if SMUD
+            if (this.GEEnabled)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorSMUDGE;
+                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorSMUDGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorSMUD;
+                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorSMUD;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
 #endif
