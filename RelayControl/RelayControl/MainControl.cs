@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-07-12";
+        private const string revisionDate = "2017-08-02";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -4403,7 +4403,7 @@ namespace RelayControl
                             }
                             else if (revision.Contains("SMUD"))
                             {
-                                //this.Customer = Customers.SMUD;
+                                this.Customer = Customers.SMUD;
                                 this.ucDNP1.Customer = this.Customer;
                             }
                             

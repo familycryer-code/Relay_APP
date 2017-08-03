@@ -33,18 +33,18 @@ namespace RelayControlLibrary
             this.buttonSendTime = new System.Windows.Forms.Button();
             this.buttonRequestTime = new System.Windows.Forms.Button();
             this.groupBoxTimeControl = new System.Windows.Forms.GroupBox();
+            this.buttonTable = new System.Windows.Forms.Button();
+            this.labelTimeDiff = new System.Windows.Forms.Label();
             this.labelRelayTimeDisplay = new System.Windows.Forms.Label();
             this.labelMachineTimeDisplay = new System.Windows.Forms.Label();
             this.labelRelayTime = new System.Windows.Forms.Label();
             this.labelMachineTime = new System.Windows.Forms.Label();
-            this.labelTimeDiff = new System.Windows.Forms.Label();
-            this.buttonTable = new System.Windows.Forms.Button();
             this.groupBoxTimeControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSendTime
             // 
-            this.buttonSendTime.Location = new System.Drawing.Point(85, 65);
+            this.buttonSendTime.Location = new System.Drawing.Point(85, 71);
             this.buttonSendTime.Name = "buttonSendTime";
             this.buttonSendTime.Size = new System.Drawing.Size(75, 23);
             this.buttonSendTime.TabIndex = 0;
@@ -54,7 +54,7 @@ namespace RelayControlLibrary
             // 
             // buttonRequestTime
             // 
-            this.buttonRequestTime.Location = new System.Drawing.Point(5, 65);
+            this.buttonRequestTime.Location = new System.Drawing.Point(5, 71);
             this.buttonRequestTime.Name = "buttonRequestTime";
             this.buttonRequestTime.Size = new System.Drawing.Size(75, 23);
             this.buttonRequestTime.TabIndex = 1;
@@ -78,6 +78,24 @@ namespace RelayControlLibrary
             this.groupBoxTimeControl.TabIndex = 2;
             this.groupBoxTimeControl.TabStop = false;
             this.groupBoxTimeControl.Text = "Time Control";
+            // 
+            // buttonTable
+            // 
+            this.buttonTable.Location = new System.Drawing.Point(165, 71);
+            this.buttonTable.Name = "buttonTable";
+            this.buttonTable.Size = new System.Drawing.Size(65, 23);
+            this.buttonTable.TabIndex = 7;
+            this.buttonTable.Text = "Table";
+            this.buttonTable.UseVisualStyleBackColor = true;
+            this.buttonTable.Click += new System.EventHandler(this.buttonTable_Click);
+            // 
+            // labelTimeDiff
+            // 
+            this.labelTimeDiff.AutoSize = true;
+            this.labelTimeDiff.Location = new System.Drawing.Point(84, 53);
+            this.labelTimeDiff.Name = "labelTimeDiff";
+            this.labelTimeDiff.Size = new System.Drawing.Size(0, 13);
+            this.labelTimeDiff.TabIndex = 6;
             // 
             // labelRelayTimeDisplay
             // 
@@ -112,24 +130,6 @@ namespace RelayControlLibrary
             this.labelMachineTime.Size = new System.Drawing.Size(77, 13);
             this.labelMachineTime.TabIndex = 2;
             this.labelMachineTime.Text = "Machine Time:";
-            // 
-            // labelTimeDiff
-            // 
-            this.labelTimeDiff.AutoSize = true;
-            this.labelTimeDiff.Location = new System.Drawing.Point(162, 20);
-            this.labelTimeDiff.Name = "labelTimeDiff";
-            this.labelTimeDiff.Size = new System.Drawing.Size(0, 13);
-            this.labelTimeDiff.TabIndex = 6;
-            // 
-            // buttonTable
-            // 
-            this.buttonTable.Location = new System.Drawing.Point(165, 65);
-            this.buttonTable.Name = "buttonTable";
-            this.buttonTable.Size = new System.Drawing.Size(65, 23);
-            this.buttonTable.TabIndex = 7;
-            this.buttonTable.Text = "Table";
-            this.buttonTable.UseVisualStyleBackColor = true;
-            this.buttonTable.Click += new System.EventHandler(this.buttonTable_Click);
             // 
             // ucTimeControl
             // 
