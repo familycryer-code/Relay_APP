@@ -2284,6 +2284,7 @@ namespace RelayControl
 
         private RelayStatusCodeConverter relayStatusConverter = new RelayStatusCodeConverter();
 
+        private DialogResult dR = DialogResult.OK;
         private void setRelayStatusBits(byte[] bytePacket)
         {
 #if DEBUG
@@ -2291,8 +2292,7 @@ namespace RelayControl
             this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
             this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
             this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
-            //this.toolTip.SetToolTip(this.toolStripStatusLabelReceiverStatus, this.relayStatusConverter.CurrentDescription);
-#elif !DEBUG && !ATLANTA
+#elif !ATLANTA
             if(bytePacket[0] == 12)
             {
                 this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
@@ -2303,7 +2303,13 @@ namespace RelayControl
                 if (showCrossPhaseMsgOnce == false)
                 {
                     showCrossPhaseMsgOnce = true;
-                    MessageBox.Show("Warning Relay is detecting cross phase condition", "Cross Phase Detected!");
+                    if (dR.Equals(DialogResult.OK))
+                    {
+                        // The DialogResult is used so that if the window hasn't returned a value yet (meaning it is still open)
+                        // it won't be displayed again.
+                        dR = DialogResult.None;
+                        dR = MessageBox.Show("Warning Relay is detecting cross phase condition", "Cross Phase Detected!");
+                    }
                 }
             }
             else
