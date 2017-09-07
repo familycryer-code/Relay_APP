@@ -248,6 +248,9 @@ namespace SineDisplayGraph
             this.labelCTRatioOver5 = new System.Windows.Forms.Label();
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
+            this.checkBoxGERelay = new System.Windows.Forms.CheckBox();
+            this.checkBoxABC = new System.Windows.Forms.CheckBox();
+            this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
             this.panelTripped.SuspendLayout();
             this.panelClosed.SuspendLayout();
             this.panelPower.SuspendLayout();
@@ -2266,9 +2269,46 @@ namespace SineDisplayGraph
             this.phasorGraph1.Size = new System.Drawing.Size(318, 307);
             this.phasorGraph1.TabIndex = 0;
             // 
+            // checkBoxGERelay
+            // 
+            this.checkBoxGERelay.AutoSize = true;
+            this.checkBoxGERelay.Location = new System.Drawing.Point(781, 296);
+            this.checkBoxGERelay.Name = "checkBoxGERelay";
+            this.checkBoxGERelay.Size = new System.Drawing.Size(41, 17);
+            this.checkBoxGERelay.TabIndex = 311;
+            this.checkBoxGERelay.Text = "GE";
+            this.checkBoxGERelay.UseVisualStyleBackColor = true;
+            this.checkBoxGERelay.Visible = false;
+            this.checkBoxGERelay.CheckedChanged += new System.EventHandler(this.checkBoxGERelay_CheckedChanged);
+            // 
+            // checkBoxABC
+            // 
+            this.checkBoxABC.AutoSize = true;
+            this.checkBoxABC.Location = new System.Drawing.Point(781, 312);
+            this.checkBoxABC.Name = "checkBoxABC";
+            this.checkBoxABC.Size = new System.Drawing.Size(47, 17);
+            this.checkBoxABC.TabIndex = 312;
+            this.checkBoxABC.Text = "ABC";
+            this.checkBoxABC.UseVisualStyleBackColor = true;
+            this.checkBoxABC.Visible = false;
+            // 
+            // checkBoxBFlag
+            // 
+            this.checkBoxBFlag.AutoSize = true;
+            this.checkBoxBFlag.Location = new System.Drawing.Point(781, 329);
+            this.checkBoxBFlag.Name = "checkBoxBFlag";
+            this.checkBoxBFlag.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxBFlag.TabIndex = 313;
+            this.checkBoxBFlag.Text = "Protector Status";
+            this.checkBoxBFlag.UseVisualStyleBackColor = true;
+            this.checkBoxBFlag.Visible = false;
+            // 
             // ucPhasorGraph
             // 
             this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.checkBoxBFlag);
+            this.Controls.Add(this.checkBoxABC);
+            this.Controls.Add(this.checkBoxGERelay);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelCTRatioOver5);
             this.Controls.Add(this.label5);
@@ -2680,5 +2720,8 @@ namespace SineDisplayGraph
         private System.Windows.Forms.TextBox textBoxCTRatio;
         private System.Windows.Forms.Label labelCTRatio;
         private System.Windows.Forms.Label labelCTRatioOver5;
+        private System.Windows.Forms.CheckBox checkBoxGERelay;
+        private System.Windows.Forms.CheckBox checkBoxABC;
+        private System.Windows.Forms.CheckBox checkBoxBFlag;
     }
 }

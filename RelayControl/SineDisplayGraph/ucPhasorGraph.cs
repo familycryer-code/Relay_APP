@@ -14,7 +14,7 @@ namespace SineDisplayGraph
     public partial class ucPhasorGraph : UserControl
     {
         private bool gEEnabled = false;
-        public bool GEEnabled
+        private bool GEEnabled
         {
             get { return this.gEEnabled; }
             set
@@ -1823,6 +1823,9 @@ namespace SineDisplayGraph
             this.textBoxCTRatio.Visible = b;
             this.labelCTRatio.Visible = b;
             this.labelCTRatioOver5.Visible = b;
+            this.checkBoxGERelay.Visible = b;
+            this.checkBoxABC.Visible = b;
+            this.checkBoxBFlag.Visible = b;
         }
 
         public float[] selectReferenceWave(CompleteCycleEventArgs sEA)
@@ -1970,6 +1973,15 @@ namespace SineDisplayGraph
 
         private void determineGEState()
         {
+            if(this.checkBoxBFlag.Checked)
+            {
+                this.gERelayOpened();
+            }
+            else
+            {
+                this.gERelayClosed();
+            }
+            /*
             if( !(VnA.RMS < 7.5f && VnB.RMS < 7.5f && VnC.RMS < 7.5f) &&
                 (IA.RMS > .1f || IB.RMS > .1f || IC.RMS > .1f)
               )
@@ -1982,13 +1994,11 @@ namespace SineDisplayGraph
             {
                 this.gERelayOpened();
             }
+            */
         }
 
         private void gERelayOpened()
         {
-            // Left this part out intentionally as I don't want to deal with trying to figure out the state of the relay locally
-            return;
-            /*
             IA.Real = 0f;
             IB.Real = 0f;
             IC.Real = 0f;
@@ -1996,14 +2006,12 @@ namespace SineDisplayGraph
             IA.Imaginary = 0f;
             IB.Imaginary = 0f;
             IC.Imaginary = 0f;
-             */
         }
 
         private void gERelayClosed()
         {
             // Left this part out intentionally as I don't want to deal with trying to figure out the state of the relay locally
-            return;
-            /*
+            
             VtA.Real = VnA.Real;
             VtB.Real = VnB.Real;
             VtC.Real = VnC.Real;
@@ -2021,7 +2029,6 @@ namespace SineDisplayGraph
             VdB.Imaginary = 0f;
             VdC.Imaginary = 0f;
             VdAvg.Imaginary = 0f;
-             * */
         }
 
         private void calculateEffectiveCurrentPhasor()
@@ -2116,14 +2123,28 @@ namespace SineDisplayGraph
 
         private void calculateAllSequenceVectors()
         {
-            VtN = SequenceMath.NegativeSequence(VtN, VtA, VtB, VtC);
-            VtP = SequenceMath.PositiveSequence(VtP, VtA, VtB, VtC);
-            VnN = SequenceMath.NegativeSequence(VnN, VnA, VnB, VnC);
-            VnP = SequenceMath.PositiveSequence(VnP, VnA, VnB, VnC);
-            IN = SequenceMath.NegativeSequence(IN, IA, IB, IC);
-            IP = SequenceMath.PositiveSequence(IP, IA, IB, IC);
-            VdN = SequenceMath.NegativeSequence(VdN, VdA, VdB, VdC);
-            VdP = SequenceMath.PositiveSequence(VdP, VdA, VdB, VdC);
+            if (this.checkBoxABC.Checked)
+            {
+                VtN = SequenceMath.NegativeSequence(VtN, VtA, VtB, VtC);
+                VtP = SequenceMath.PositiveSequence(VtP, VtA, VtB, VtC);
+                VnN = SequenceMath.NegativeSequence(VnN, VnA, VnB, VnC);
+                VnP = SequenceMath.PositiveSequence(VnP, VnA, VnB, VnC);
+                IN = SequenceMath.NegativeSequence(IN, IA, IB, IC);
+                IP = SequenceMath.PositiveSequence(IP, IA, IB, IC);
+                VdN = SequenceMath.NegativeSequence(VdN, VdA, VdB, VdC);
+                VdP = SequenceMath.PositiveSequence(VdP, VdA, VdB, VdC);
+            }
+            else
+            {
+                VtN = SequenceMath.NegativeSequence(VtN, VtA, VtC, VtB);
+                VtP = SequenceMath.PositiveSequence(VtP, VtA, VtC, VtB);
+                VnN = SequenceMath.NegativeSequence(VnN, VnA, VnC, VnB);
+                VnP = SequenceMath.PositiveSequence(VnP, VnA, VnC, VnB);
+                IN = SequenceMath.NegativeSequence(IN, IA, IC, IB);
+                IP = SequenceMath.PositiveSequence(IP, IA, IC, IB);
+                VdN = SequenceMath.NegativeSequence(VdN, VdA, VdC, VdB);
+                VdP = SequenceMath.PositiveSequence(VdP, VdA, VdC, VdB);
+            }
 
         }
         
@@ -2290,6 +2311,11 @@ namespace SineDisplayGraph
         public event RequestNewCycleHandler RequestNewCycle;
 
         private uint workingEventNumber = 0;
+
+        private void checkBoxGERelay_CheckedChanged(object sender, EventArgs e)
+        {
+            this.GEEnabled = ((CheckBox)sender).Checked;
+        }
 
         private void getNewCycle(int p)
         {

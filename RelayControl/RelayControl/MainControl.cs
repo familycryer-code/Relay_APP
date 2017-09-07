@@ -229,7 +229,6 @@ namespace RelayControl
                 if (!this.gEEnableChangeBlocked)
                 {
                     this.ucRelayProgramming1.GEEnabled = value;
-                    this.ucPhasorGraph1.GEEnabled = value;
                     this.ucTransmitterMonitoring1.GEEnabled = value;
                     this.ucLiveData1.GEEnabled = value;
                     this.ucEventGraph0.GEEnabled = value;
