@@ -40,8 +40,6 @@ namespace RelayControlLibrary
 
         private static int _packetLength = 98;
 
-        private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
-
         private bool customerChanged = false;
         #region Send Functions
 
@@ -660,7 +658,7 @@ namespace RelayControlLibrary
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 this.restoreDefaultsDeadBandVariables();
                 

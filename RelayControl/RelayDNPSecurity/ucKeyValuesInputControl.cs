@@ -305,7 +305,7 @@ namespace RelayDNPSecurity
                 TextBox workingTB = (TextBox)sender;
                 workingTB.SelectAll();
             }
-            catch (Exception ex)
+            catch
             {
                 
             }

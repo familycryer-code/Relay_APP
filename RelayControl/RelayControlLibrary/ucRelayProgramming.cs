@@ -2356,8 +2356,6 @@ namespace RelayControlLibrary
 
         public void CheckProperMasterBootCode()
         {
-            DialogResult dR;
-
             bool properBootCode = false;
 
             bool checkBootDate = true;

@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-08-03";
+        private const string revisionDate = "2017-08-30";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -43,8 +43,6 @@ namespace RelayControl
         private bool showCrossPhaseMsgOnce = false;
         private bool initializeAutoLoad = true;
         private bool showMemFixMsg = true;
-
-        string customerRevisionNameDebug = "";
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
@@ -490,7 +488,6 @@ namespace RelayControl
                 if (showCustomerNameDebug() == true)
                 {
                     this.setCustomersRevisionName();
-                    customerRevisionNameDebug = customerRevisionName;
                 }
                     
 
@@ -502,9 +499,9 @@ namespace RelayControl
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
 #if !DG288_TESTFIXTURE_GUI
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionNameDebug + " Debug";
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionName + " Debug";
 #elif DG288_TESTFIXTURE_GUI
-                this.Text = "Digital Grid Inc. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionNameDebug;
+                this.Text = "Digital Grid Inc. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionName;
 #endif
                 this.ArcFaultEnabled = true;
                 this.Customer = Customers.DigitalGrid;
@@ -8384,7 +8381,7 @@ namespace RelayControl
                 }
                 
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Error sending Low Voltage Threshold Value");
             }
@@ -8396,7 +8393,7 @@ namespace RelayControl
             {
                 numericUpDownLowVoltageThres.Value = bytePacket[1];
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Bad value in requested Low Voltage Threshold");
             }
@@ -8414,7 +8411,7 @@ namespace RelayControl
 
                     this.sendPacket(sEA.SendPacket);
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Error Requesting Low Voltage Threshold Value");
             }

@@ -1377,7 +1377,6 @@ namespace RelayControl
             // ucPhasorGraph1
             // 
             this.ucPhasorGraph1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPhasorGraph1.GEEnabled = false;
             this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
             this.ucPhasorGraph1.Name = "ucPhasorGraph1";
             this.ucPhasorGraph1.RealTimeMonitoring = false;

@@ -120,7 +120,7 @@ namespace RelayControlLibrary
                     this.numericUpDownPDV.Increment = this.storePDVoltageIncrement;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Error setting Close Mode 277 voltages");
 
@@ -610,7 +610,7 @@ namespace RelayControlLibrary
                     this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)conversion277;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 MessageBox.Show("Error setting close mode 277");
             }
@@ -738,7 +738,7 @@ namespace RelayControlLibrary
                     this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)conversion277;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Error setting close mode to 277 values");
             }

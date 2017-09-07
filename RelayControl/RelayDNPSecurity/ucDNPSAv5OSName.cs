@@ -45,7 +45,6 @@ namespace RelayDNPSecurity
 
         private void textBoxOSName_TextChanged(object sender, EventArgs e)
         {
-            int i;
             if (this.textBoxOSName.Text.Length > _maxOSNameLength)
             {
                 this.textBoxOSName.Text = this.textBoxOSName.Text.Substring(0, _maxOSNameLength);

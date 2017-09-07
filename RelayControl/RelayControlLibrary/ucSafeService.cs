@@ -410,7 +410,6 @@ namespace RelayControlLibrary
         }
 
         private decimal conversion277 = 2.216m;
-        private bool voltage277Changed = false;
 
         public bool voltage277State = false;
 
@@ -480,7 +479,7 @@ namespace RelayControlLibrary
                     this.numericUpDownVoltageImbalance.Increment = this.storeVoltageImbalanceIncrement;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Error setting Safe Service 277 voltages");
 
