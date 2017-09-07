@@ -153,3 +153,5 @@ $RECYCLE.BIN/
 # Perons
 *.bak
 
+#gitignore ignore
+!GSNet/**/*

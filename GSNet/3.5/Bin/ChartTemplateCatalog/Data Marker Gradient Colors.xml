@@ -1,0 +1,1228 @@
+<?xml version="1.0"?>
+<!--Graphics Server Chart Properties-->
+<chart>
+  <autoSizeText>True</autoSizeText>
+  <enableWebHotSpots>True</enableWebHotSpots>
+  <imageMapExtraString>
+  </imageMapExtraString>
+  <imageMapUrl>
+  </imageMapUrl>
+  <tooltipText>
+  </tooltipText>
+  <chartBackground>
+    <backgroundType>Simple</backgroundType>
+    <transparency>0</transparency>
+    <color>-5717846</color>
+    <imageFile>
+    </imageFile>
+    <position>Stretch</position>
+    <transparentColor knownColor="Transparent">16777215</transparentColor>
+    <gradientStyle>VerticalBottomUp</gradientStyle>
+    <gradientStartColor>-15178975</gradientStartColor>
+    <gradientEndColor>-10251691</gradientEndColor>
+    <textureImageFile>
+    </textureImageFile>
+    <patternStyle>BackwardDiagonal</patternStyle>
+    <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+    <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+    <shade3DAmount>40</shade3DAmount>
+  </chartBackground>
+  <chartBorder>
+    <borderType>NoBorder</borderType>
+    <edgeEffectType>NoEdgeEffect</edgeEffectType>
+    <simpleColor knownColor="Black">-16777216</simpleColor>
+    <simpleWidth>1</simpleWidth>
+    <simpleTransparency>0</simpleTransparency>
+    <textureImageFile>
+    </textureImageFile>
+    <textureWidth>3</textureWidth>
+    <dropShadowColor knownColor="DimGray">-9868951</dropShadowColor>
+    <shadowTransparency>60</shadowTransparency>
+    <shadowDistance>10</shadowDistance>
+    <gradientDropShadowColor knownColor="Black">-16777216</gradientDropShadowColor>
+    <gradientShadowDistance>10</gradientShadowDistance>
+    <raisedLoweredEdgeAmount>5</raisedLoweredEdgeAmount>
+    <raisedLoweredColor knownColor="Gray">-8355712</raisedLoweredColor>
+    <raisedLoweredTransparency>0</raisedLoweredTransparency>
+    <fadedEdgeDistance>25</fadedEdgeDistance>
+    <fadedEdgeColor knownColor="White">-1</fadedEdgeColor>
+  </chartBorder>
+  <chartTitle>
+    <imageMapExtraString>
+    </imageMapExtraString>
+    <imageMapUrl>
+    </imageMapUrl>
+    <isMovable>True</isMovable>
+    <isResizable>True</isResizable>
+    <isSelectable>True</isSelectable>
+    <isVisible>True</isVisible>
+    <imageMapUrl>
+    </imageMapUrl>
+    <anchor>LeftTopRight</anchor>
+    <background>
+      <backgroundType>Simple</backgroundType>
+      <transparency>100</transparency>
+      <color knownColor="White">-1</color>
+      <imageFile>
+      </imageFile>
+      <position>Stretch</position>
+      <transparentColor knownColor="Transparent">16777215</transparentColor>
+      <gradientStyle>VerticalBottomUp</gradientStyle>
+      <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+      <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+      <textureImageFile>
+      </textureImageFile>
+      <patternStyle>BackwardDiagonal</patternStyle>
+      <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+      <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+      <shade3DAmount>40</shade3DAmount>
+    </background>
+    <border>
+      <borderType>NoBorder</borderType>
+      <edgeEffectType>NoEdgeEffect</edgeEffectType>
+      <simpleColor knownColor="Black">-16777216</simpleColor>
+      <simpleWidth>1</simpleWidth>
+      <simpleTransparency>0</simpleTransparency>
+      <textureImageFile>
+      </textureImageFile>
+      <textureWidth>3</textureWidth>
+      <dropShadowColor knownColor="DimGray">-9868951</dropShadowColor>
+      <shadowTransparency>60</shadowTransparency>
+      <shadowDistance>10</shadowDistance>
+      <gradientDropShadowColor knownColor="Black">-16777216</gradientDropShadowColor>
+      <gradientShadowDistance>10</gradientShadowDistance>
+      <raisedLoweredEdgeAmount>5</raisedLoweredEdgeAmount>
+      <raisedLoweredColor knownColor="Gray">-8355712</raisedLoweredColor>
+      <raisedLoweredTransparency>0</raisedLoweredTransparency>
+      <fadedEdgeDistance>25</fadedEdgeDistance>
+      <fadedEdgeColor knownColor="White">-1</fadedEdgeColor>
+    </border>
+    <vertical>False</vertical>
+    <autoSizeText>True</autoSizeText>
+    <textFormat>
+      <font>
+        <fontFamilyName>Arial</fontFamilyName>
+        <size>42</size>
+        <style>Regular</style>
+        <unit>Pixel</unit>
+      </font>
+      <horizontalAlignment>Center</horizontalAlignment>
+      <verticalAlignment>Center</verticalAlignment>
+      <textTrimmingMode>Character</textTrimmingMode>
+      <color knownColor="Black">-16777216</color>
+      <textTransparency>0</textTransparency>
+      <rotateAngle>0</rotateAngle>
+      <textRenderingMode>AntiAlias</textRenderingMode>
+      <drawShadow>False</drawShadow>
+    </textFormat>
+  </chartTitle>
+  <legend>
+    <imageMapExtraString>
+    </imageMapExtraString>
+    <imageMapUrl>
+    </imageMapUrl>
+    <isMovable>True</isMovable>
+    <isResizable>True</isResizable>
+    <isSelectable>True</isSelectable>
+    <isVisible>True</isVisible>
+    <imageMapUrl>
+    </imageMapUrl>
+    <anchor>BottomTopRight</anchor>
+    <background>
+      <backgroundType>Gradient</backgroundType>
+      <transparency>0</transparency>
+      <color knownColor="White">-1</color>
+      <imageFile>
+      </imageFile>
+      <position>Stretch</position>
+      <transparentColor knownColor="Transparent">16777215</transparentColor>
+      <gradientStyle>VerticalBottomUp</gradientStyle>
+      <gradientStartColor>-5467380</gradientStartColor>
+      <gradientEndColor>-1057349</gradientEndColor>
+      <textureImageFile>
+      </textureImageFile>
+      <patternStyle>BackwardDiagonal</patternStyle>
+      <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+      <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+      <shade3DAmount>40</shade3DAmount>
+    </background>
+    <border>
+      <borderType>Simple</borderType>
+      <edgeEffectType>NoEdgeEffect</edgeEffectType>
+      <simpleColor>-7122910</simpleColor>
+      <simpleWidth>1</simpleWidth>
+      <simpleTransparency>0</simpleTransparency>
+      <textureImageFile>
+      </textureImageFile>
+      <textureWidth>3</textureWidth>
+      <dropShadowColor knownColor="DimGray">-9868951</dropShadowColor>
+      <shadowTransparency>60</shadowTransparency>
+      <shadowDistance>10</shadowDistance>
+      <gradientDropShadowColor knownColor="Black">-16777216</gradientDropShadowColor>
+      <gradientShadowDistance>10</gradientShadowDistance>
+      <raisedLoweredEdgeAmount>5</raisedLoweredEdgeAmount>
+      <raisedLoweredColor knownColor="Gray">-8355712</raisedLoweredColor>
+      <raisedLoweredTransparency>0</raisedLoweredTransparency>
+      <fadedEdgeDistance>25</fadedEdgeDistance>
+      <fadedEdgeColor knownColor="White">-1</fadedEdgeColor>
+    </border>
+    <boxWidth>27</boxWidth>
+    <boxHeight>20</boxHeight>
+    <boxMode>IconsOn</boxMode>
+    <boxAlignment>LeftCenter</boxAlignment>
+    <numberOfColumns>1</numberOfColumns>
+    <displayHorizontal>False</displayHorizontal>
+    <reverseOrder>False</reverseOrder>
+    <iconOutlineEnabled>True</iconOutlineEnabled>
+    <marginLeft>5</marginLeft>
+    <marginRight>5</marginRight>
+    <marginTop>5</marginTop>
+    <marginBottom>5</marginBottom>
+    <autoTextColor>False</autoTextColor>
+    <tooltipText>Legend</tooltipText>
+    <text>
+      <font>
+        <fontFamilyName>Arial</fontFamilyName>
+        <size>10</size>
+        <style>Regular</style>
+        <unit>Point</unit>
+      </font>
+      <horizontalAlignment>Center</horizontalAlignment>
+      <verticalAlignment>Center</verticalAlignment>
+      <textTrimmingMode>Character</textTrimmingMode>
+      <color knownColor="Black">-16777216</color>
+      <textTransparency>0</textTransparency>
+      <rotateAngle>0</rotateAngle>
+      <textRenderingMode>AntiAlias</textRenderingMode>
+      <drawShadow>False</drawShadow>
+    </text>
+  </legend>
+  <grid>
+    <imageMapExtraString>
+    </imageMapExtraString>
+    <imageMapUrl>
+    </imageMapUrl>
+    <isMovable>True</isMovable>
+    <isResizable>True</isResizable>
+    <isSelectable>True</isSelectable>
+    <isVisible>True</isVisible>
+    <imageMapUrl>
+    </imageMapUrl>
+    <anchor>BottomLeftTopRight</anchor>
+    <background>
+      <backgroundType>Simple</backgroundType>
+      <transparency>100</transparency>
+      <color knownColor="White">-1</color>
+      <imageFile>
+      </imageFile>
+      <position>Stretch</position>
+      <transparentColor knownColor="Transparent">16777215</transparentColor>
+      <gradientStyle>VerticalBottomUp</gradientStyle>
+      <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+      <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+      <textureImageFile>
+      </textureImageFile>
+      <patternStyle>BackwardDiagonal</patternStyle>
+      <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+      <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+      <shade3DAmount>40</shade3DAmount>
+    </background>
+    <border>
+      <borderType>NoBorder</borderType>
+      <edgeEffectType>NoEdgeEffect</edgeEffectType>
+      <simpleColor knownColor="Black">-16777216</simpleColor>
+      <simpleWidth>1</simpleWidth>
+      <simpleTransparency>0</simpleTransparency>
+      <textureImageFile>
+      </textureImageFile>
+      <textureWidth>3</textureWidth>
+      <dropShadowColor knownColor="DimGray">-9868951</dropShadowColor>
+      <shadowTransparency>60</shadowTransparency>
+      <shadowDistance>10</shadowDistance>
+      <gradientDropShadowColor knownColor="Black">-16777216</gradientDropShadowColor>
+      <gradientShadowDistance>10</gradientShadowDistance>
+      <raisedLoweredEdgeAmount>5</raisedLoweredEdgeAmount>
+      <raisedLoweredColor knownColor="Gray">-8355712</raisedLoweredColor>
+      <raisedLoweredTransparency>0</raisedLoweredTransparency>
+      <fadedEdgeDistance>25</fadedEdgeDistance>
+      <fadedEdgeColor knownColor="White">-1</fadedEdgeColor>
+    </border>
+    <tooltipText>Grid</tooltipText>
+    <startDataPoint>-1</startDataPoint>
+    <endDataPoint>-1</endDataPoint>
+    <marginAxisLeft>40</marginAxisLeft>
+    <marginAxisRight>40</marginAxisRight>
+    <marginAxisTop>40</marginAxisTop>
+    <marginAxisBottom>40</marginAxisBottom>
+    <axisBackgroundEnabled>True</axisBackgroundEnabled>
+    <errorBarX>
+      <errorBarType>Off</errorBarType>
+      <crossBarWidth>5</crossBarWidth>
+      <fixedValue>0</fixedValue>
+      <displayPlusBar>True</displayPlusBar>
+      <displayMinusBar>True</displayMinusBar>
+      <percent>0</percent>
+      <numberOfStdDev>1</numberOfStdDev>
+      <numberOfStdDev>1</numberOfStdDev>
+      <lineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </lineProperties>
+    </errorBarX>
+    <errorBarY>
+      <errorBarType>Off</errorBarType>
+      <crossBarWidth>5</crossBarWidth>
+      <fixedValue>0</fixedValue>
+      <displayPlusBar>True</displayPlusBar>
+      <displayMinusBar>True</displayMinusBar>
+      <percent>0</percent>
+      <numberOfStdDev>1</numberOfStdDev>
+      <numberOfStdDev>1</numberOfStdDev>
+      <lineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </lineProperties>
+    </errorBarY>
+    <limitLines>
+      <limitLineMode>Off</limitLineMode>
+      <limitFillMode>Off</limitFillMode>
+      <highValue>0</highValue>
+      <lowValue>0</lowValue>
+      <lowValue>0</lowValue>
+      <lineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </lineProperties>
+      <fillProperties>
+        <backgroundType>Simple</backgroundType>
+        <transparency>0</transparency>
+        <color knownColor="White">-1</color>
+        <imageFile>
+        </imageFile>
+        <position>Stretch</position>
+        <transparentColor knownColor="Transparent">16777215</transparentColor>
+        <gradientStyle>VerticalBottomUp</gradientStyle>
+        <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+        <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+        <textureImageFile>
+        </textureImageFile>
+        <patternStyle>BackwardDiagonal</patternStyle>
+        <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+        <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+        <shade3DAmount>40</shade3DAmount>
+      </fillProperties>
+    </limitLines>
+    <surfaceChart>
+      <sideWalls>False</sideWalls>
+      <boundaryLines>True</boundaryLines>
+      <filledPanels>True</filledPanels>
+      <scaledColor>False</scaledColor>
+      <minColor knownColor="White">-1</minColor>
+      <maxColor knownColor="Black">-16777216</maxColor>
+      <sideWallsFill>
+        <backgroundType>Simple</backgroundType>
+        <transparency>0</transparency>
+        <color knownColor="PaleGoldenrod">-1120086</color>
+        <imageFile>
+        </imageFile>
+        <position>Stretch</position>
+        <transparentColor knownColor="Transparent">16777215</transparentColor>
+        <gradientStyle>VerticalBottomUp</gradientStyle>
+        <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+        <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+        <textureImageFile>
+        </textureImageFile>
+        <patternStyle>BackwardDiagonal</patternStyle>
+        <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+        <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+        <shade3DAmount>40</shade3DAmount>
+      </sideWallsFill>
+    </surfaceChart>
+    <cage>
+      <wallThickness>8</wallThickness>
+      <wallBottom>
+        <isVisible>True</isVisible>
+        <interiorBackground>
+          <backgroundType>Gradient</backgroundType>
+          <transparency>0</transparency>
+          <color knownColor="White">-1</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor>-9149173</gradientStartColor>
+          <gradientEndColor>-81314</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </interiorBackground>
+        <exteriorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>65</transparency>
+          <color knownColor="LightGray">-2894893</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </exteriorBackground>
+      </wallBottom>
+      <wallBack>
+        <isVisible>True</isVisible>
+        <interiorBackground>
+          <backgroundType>Gradient</backgroundType>
+          <transparency>0</transparency>
+          <color knownColor="White">-1</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor>-9149173</gradientStartColor>
+          <gradientEndColor>-81314</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </interiorBackground>
+        <exteriorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>65</transparency>
+          <color knownColor="LightGray">-2894893</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </exteriorBackground>
+      </wallBack>
+      <wallFront>
+        <isVisible>False</isVisible>
+        <interiorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>0</transparency>
+          <color knownColor="White">-1</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </interiorBackground>
+        <exteriorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>65</transparency>
+          <color knownColor="LightGray">-2894893</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </exteriorBackground>
+      </wallFront>
+      <wallLeft>
+        <isVisible>True</isVisible>
+        <interiorBackground>
+          <backgroundType>Gradient</backgroundType>
+          <transparency>0</transparency>
+          <color knownColor="White">-1</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor>-9149173</gradientStartColor>
+          <gradientEndColor>-81314</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </interiorBackground>
+        <exteriorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>65</transparency>
+          <color knownColor="LightGray">-2894893</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </exteriorBackground>
+      </wallLeft>
+      <wallRight>
+        <isVisible>False</isVisible>
+        <interiorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>0</transparency>
+          <color knownColor="White">-1</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </interiorBackground>
+        <exteriorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>65</transparency>
+          <color knownColor="LightGray">-2894893</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </exteriorBackground>
+      </wallRight>
+      <wallTop>
+        <isVisible>False</isVisible>
+        <interiorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>0</transparency>
+          <color knownColor="White">-1</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </interiorBackground>
+        <exteriorBackground>
+          <backgroundType>Simple</backgroundType>
+          <transparency>65</transparency>
+          <color knownColor="LightGray">-2894893</color>
+          <imageFile>
+          </imageFile>
+          <position>Stretch</position>
+          <transparentColor knownColor="Transparent">16777215</transparentColor>
+          <gradientStyle>VerticalBottomUp</gradientStyle>
+          <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+          <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+          <textureImageFile>
+          </textureImageFile>
+          <patternStyle>BackwardDiagonal</patternStyle>
+          <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+          <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+          <shade3DAmount>40</shade3DAmount>
+        </exteriorBackground>
+      </wallTop>
+      <rotation>
+        <yAxisRotation>25</yAxisRotation>
+        <xAxisRotation>10</xAxisRotation>
+        <zAxisRotation>0</zAxisRotation>
+        <projectionType>Perspective</projectionType>
+      </rotation>
+      <outline>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </outline>
+    </cage>
+    <axisBackground>
+      <backgroundType>Gradient</backgroundType>
+      <transparency>0</transparency>
+      <color knownColor="White">-1</color>
+      <imageFile>
+      </imageFile>
+      <position>Stretch</position>
+      <transparentColor knownColor="Transparent">16777215</transparentColor>
+      <gradientStyle>VerticalBottomUp</gradientStyle>
+      <gradientStartColor>-5467380</gradientStartColor>
+      <gradientEndColor>-1057349</gradientEndColor>
+      <textureImageFile>
+      </textureImageFile>
+      <patternStyle>BackwardDiagonal</patternStyle>
+      <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+      <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+      <shade3DAmount>40</shade3DAmount>
+    </axisBackground>
+    <axisX>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>True</gridLinesOn>
+      <axisMode>Category</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Near</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>AutoRound</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>1</majorTickInterval>
+      <majorTickCount>0</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <axisPosition>Variable</axisPosition>
+      <displayOriginLine>False</displayOriginLine>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <originLine>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </originLine>
+      <dateMinAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMinAxisValueUser>
+      <dateMaxAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMaxAxisValueUser>
+      <barGap>20</barGap>
+      <barOverlap>0</barOverlap>
+      <isOverlappedFirstOnTop>False</isOverlappedFirstOnTop>
+      <isPareto>False</isPareto>
+    </axisX>
+    <axisXPrime>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>False</gridLinesOn>
+      <axisMode>Category</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Far</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>AutoRound</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <majorTickCount>0</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <isGapAligned>True</isGapAligned>
+      <axisPosition>Top</axisPosition>
+      <displayOriginLine>False</displayOriginLine>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <originLine>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </originLine>
+      <dateMinAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMinAxisValueUser>
+      <dateMaxAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMaxAxisValueUser>
+      <barGap>20</barGap>
+      <barOverlap>0</barOverlap>
+      <isOverlappedFirstOnTop>False</isOverlappedFirstOnTop>
+      <isPareto>False</isPareto>
+    </axisXPrime>
+    <axisY>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>True</gridLinesOn>
+      <axisMode>ValueLinear</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Far</horizontalAlignment>
+        <verticalAlignment>Center</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>AutoRound</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <majorTickCount>5</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <isGapAligned>False</isGapAligned>
+      <axisPosition>Variable</axisPosition>
+      <displayOriginLine>False</displayOriginLine>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <originLine>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </originLine>
+      <dateMinAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMinAxisValueUser>
+      <dateMaxAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMaxAxisValueUser>
+    </axisY>
+    <axisYPrime>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>False</gridLinesOn>
+      <axisMode>ValueLinear</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Near</horizontalAlignment>
+        <verticalAlignment>Center</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>AutoRound</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <majorTickCount>0</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <isGapAligned>False</isGapAligned>
+      <axisPosition>Right</axisPosition>
+      <displayOriginLine>False</displayOriginLine>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <originLine>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </originLine>
+      <dateMinAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMinAxisValueUser>
+      <dateMaxAxisValueUser>
+        <date>1/1/0001 12:00:00 AM</date>
+        <time>00:00:00</time>
+      </dateMaxAxisValueUser>
+    </axisYPrime>
+    <axisPie>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>False</gridLinesOn>
+      <axisMode>Category</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Center</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <startPosition>Right</startPosition>
+      <direction>Clockwise</direction>
+      <labelFormatMask>#0.##</labelFormatMask>
+    </axisPie>
+    <axisRadial>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>False</gridLinesOn>
+      <axisMode>ValueLinear</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Near</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisPosition>Right</axisPosition>
+      <axisScale>ZeroOrigin</axisScale>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <tickMode>OnStartAtMinValue</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>30</majorTickInterval>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+    </axisRadial>
+    <axisRadar>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>False</gridLinesOn>
+      <axisMode>ValueLinear</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Near</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisPosition>Top</axisPosition>
+      <axisScale>ZeroOrigin</axisScale>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <gridLineType>Circle</gridLineType>
+      <tickMode>OnStartAtMinValue</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <majorTickCount>5</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <rotationDirection>Clockwise</rotationDirection>
+      <reverseValues>False</reverseValues>
+      <spokeLabelOffset>8</spokeLabelOffset>
+    </axisRadar>
+    <axisFunnel>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Near</horizontalAlignment>
+        <verticalAlignment>Near</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <smallEndSizePercent>30</smallEndSizePercent>
+      <arcWidth>70</arcWidth>
+      <labelFormatMaskPercentFill>#0.0'%'</labelFormatMaskPercentFill>
+      <labelsEnabled>True</labelsEnabled>
+      <funnelFill>
+        <backgroundType>Simple</backgroundType>
+        <transparency>0</transparency>
+        <color knownColor="White">-1</color>
+        <imageFile>
+        </imageFile>
+        <position>Stretch</position>
+        <transparentColor knownColor="Transparent">16777215</transparentColor>
+        <gradientStyle>VerticalBottomUp</gradientStyle>
+        <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+        <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+        <textureImageFile>
+        </textureImageFile>
+        <patternStyle>BackwardDiagonal</patternStyle>
+        <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+        <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+        <shade3DAmount>40</shade3DAmount>
+      </funnelFill>
+      <funnelEndFill>
+        <backgroundType>Simple</backgroundType>
+        <transparency>0</transparency>
+        <color knownColor="White">-1</color>
+        <imageFile>
+        </imageFile>
+        <position>Stretch</position>
+        <transparentColor knownColor="Transparent">16777215</transparentColor>
+        <gradientStyle>VerticalBottomUp</gradientStyle>
+        <gradientStartColor knownColor="DeepSkyBlue">-16728065</gradientStartColor>
+        <gradientEndColor knownColor="MediumBlue">-16777011</gradientEndColor>
+        <textureImageFile>
+        </textureImageFile>
+        <patternStyle>BackwardDiagonal</patternStyle>
+        <patternForegroundColor knownColor="Black">-16777216</patternForegroundColor>
+        <patternBackgroundColor knownColor="White">-1</patternBackgroundColor>
+        <shade3DAmount>40</shade3DAmount>
+      </funnelEndFill>
+    </axisFunnel>
+    <axisAngular>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>False</gridLinesOn>
+      <axisMode>ValueLinear</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color knownColor="Black">-16777216</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Center</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <axisScale>ZeroOrigin</axisScale>
+      <startPosition>Right</startPosition>
+      <rotationDirection>CounterClockwise</rotationDirection>
+      <tickDrawStyle>ThroughAxis</tickDrawStyle>
+      <tickMode>OnStartAtMinValue</tickMode>
+      <degreesPerRevolution>360</degreesPerRevolution>
+      <angularUnits>Degrees</angularUnits>
+      <startAngle>0</startAngle>
+    </axisAngular>
+    <axis3DX>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>True</gridLinesOn>
+      <axisMode>Category</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Near</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>AutoRound</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>1</majorTickInterval>
+      <majorTickCount>0</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <isGapAligned>False</isGapAligned>
+      <barGap>20</barGap>
+      <isPareto>False</isPareto>
+    </axis3DX>
+    <axis3DY>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>True</gridLinesOn>
+      <axisMode>ValueLinear</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Far</horizontalAlignment>
+        <verticalAlignment>Center</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>AutoRound</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <majorTickCount>5</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <isGapAligned>False</isGapAligned>
+    </axis3DY>
+    <axis3DZ>
+      <maxDisplayedLabelChars>0</maxDisplayedLabelChars>
+      <gridLinesOn>True</gridLinesOn>
+      <axisMode>Category</axisMode>
+      <labelOffset>5</labelOffset>
+      <labelFormatMask>#0.##</labelFormatMask>
+      <color>-7122910</color>
+      <lineWidth>1</lineWidth>
+      <gridLineProperties>
+        <thickness>1</thickness>
+        <transparency>0</transparency>
+        <dashStyle>Solid</dashStyle>
+        <color>-7122910</color>
+      </gridLineProperties>
+      <labelProperties>
+        <font>
+          <fontFamilyName>Arial</fontFamilyName>
+          <size>10</size>
+          <style>Regular</style>
+          <unit>Point</unit>
+        </font>
+        <horizontalAlignment>Near</horizontalAlignment>
+        <verticalAlignment>Near</verticalAlignment>
+        <textTrimmingMode>Character</textTrimmingMode>
+        <color knownColor="Black">-16777216</color>
+        <textTransparency>0</textTransparency>
+        <rotateAngle>0</rotateAngle>
+        <textRenderingMode>AntiAlias</textRenderingMode>
+        <drawShadow>False</drawShadow>
+      </labelProperties>
+      <axisScale>ZeroOrigin</axisScale>
+      <tickMode>OnStartAtZero</tickMode>
+      <minAxisValueUser>0</minAxisValueUser>
+      <maxAxisValueUser>0</maxAxisValueUser>
+      <majorTickInterval>0</majorTickInterval>
+      <majorTickCount>0</majorTickCount>
+      <minorTicks>0</minorTicks>
+      <tickSize>4</tickSize>
+      <isGapAligned>True</isGapAligned>
+      <barGap>20</barGap>
+      <barDepthToWidthRatio>1</barDepthToWidthRatio>
+    </axis3DZ>
+  </grid>
+  <seriesDefaults>
+    <seriesDefaultsEnabled>True</seriesDefaultsEnabled>
+    <markerFillType>Gradient</markerFillType>
+    <gradientStyle>HorizontalEdgesIn</gradientStyle>
+  </seriesDefaults>
+  <quicklayoutdata>
+    <gridAnchor>BottomLeftTopRight</gridAnchor>
+    <titleAnchor>LeftTopRight</titleAnchor>
+    <legendAnchor>BottomTopRight</legendAnchor>
+    <gridWidth>0.7626405</gridWidth>
+    <gridHeight>0.8411017</gridHeight>
+    <gridX>0.005617978</gridX>
+    <gridY>0.1440678</gridY>
+    <legendWidth>0.1994382</legendWidth>
+    <legendHeight>0.3601695</legendHeight>
+    <legendX>0.7837079</legendX>
+    <legendY>0.2245763</legendY>
+    <titleWidth>0.3932584</titleWidth>
+    <titleHeight>0.1122881</titleHeight>
+    <titleX>0.3005618</titleX>
+    <titleY>0.0190678</titleY>
+  </quicklayoutdata>
+  <annotationlayoutdata />
+</chart>
