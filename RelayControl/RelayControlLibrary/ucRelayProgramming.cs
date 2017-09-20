@@ -47,7 +47,7 @@ namespace RelayControlLibrary
 #else
         private static UInt32 _masterCodeRevisionNumber = 170803;
         private static UInt32 _masterDNPRevisionNumber = 170803;
-        private static UInt32 _relayCodeRevisionNumber = 20170214;
+        private static UInt32 _relayCodeRevisionNumber = 20170803;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
 #endif
@@ -904,22 +904,20 @@ namespace RelayControlLibrary
 
             checkDNP();
 
+#if (DOMINION || DEBUG || NU || Boston || SEATTLE || BASICRELEASE) && !DNP
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
+            this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
-
-#if (DOMINION || DEBUG || NU || Boston || SEATTLE) && !DNP
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
-                this.textBoxMasterFileName.Text = "Master Relay From Resource";
-
-                if (this.GEEnabled)
-                {
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                    this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-                }
-                else
-                {
-                    this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                    this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-                }
+            if (this.GEEnabled)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
 #endif
 
 #if Enmax && !DNP
@@ -2183,7 +2181,7 @@ namespace RelayControlLibrary
         {
             try
             {
-#if !DEBUG 
+#if !DEBUG
                 return;
 #endif
                 this.traceFile = _logPath + "RelayUpdate_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss") + ".txt";
@@ -2206,7 +2204,7 @@ namespace RelayControlLibrary
         {
             try
             {
-#if !DEBUG 
+#if !DEBUG
                 return;
 #endif
                 if(!fileWritingAllowed)
@@ -2231,7 +2229,7 @@ namespace RelayControlLibrary
             {
                 string tempString = "";
                 bool writeNewLine = false;
-#if !DEBUG 
+#if !DEBUG
                 return;
 #endif
 
@@ -2963,7 +2961,7 @@ namespace RelayControlLibrary
                 this.Error(this, eEA);
         }
 
-        #region Button Events
+#region Button Events
 
         private void buttonSelectMasterSFile_Click(object sender, EventArgs e)
         {
@@ -3423,7 +3421,7 @@ namespace RelayControlLibrary
                 
 
         }
-        #region FPGA
+#region FPGA
 
         private void buttonProgramFPGA_Click(object sender, EventArgs e)
         {
@@ -3450,7 +3448,7 @@ namespace RelayControlLibrary
                 Thread.Sleep(1000);
         }
 
-        #endregion
+#endregion
 
 
         private void enableButtons(bool b)
@@ -3467,7 +3465,7 @@ namespace RelayControlLibrary
             this.PrepForBoot();
         }
 
-        #endregion
+#endregion
 
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
