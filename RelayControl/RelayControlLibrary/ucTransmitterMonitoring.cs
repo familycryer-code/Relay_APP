@@ -92,7 +92,6 @@ namespace RelayControlLibrary
             this.lblBackfeedA.Visible = false;
             this.lblBackfeedB.Visible = false;
             this.lblBackfeedC.Visible = false;
-            this.groupBoxAmpCalibration.Enabled = false;
 
             this.checkBoxFrequenceBlue.Checked = true;
             this.checkBoxFrequencyGreen.Checked = true;
@@ -508,7 +507,7 @@ namespace RelayControlLibrary
                 this.textBoxFa.Text = bytePacket[10].ToString();
                 this.textBoxGa.Text = bytePacket[11].ToString();
                 this.textBoxHa.Text = bytePacket[12].ToString();
-                this.textBoxQBit.Text = (bytePacket[15] & 0x01).ToString(); //byte 15 contains entire qbyte for future
+                this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1)? "LOW" : "OK";
             }
         }
 

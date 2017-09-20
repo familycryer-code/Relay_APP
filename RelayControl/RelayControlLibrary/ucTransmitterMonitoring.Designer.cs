@@ -136,15 +136,6 @@ namespace RelayControlLibrary
             this.textBoxPhaseAngleA = new System.Windows.Forms.TextBox();
             this.textBoxPhaseAngleC = new System.Windows.Forms.TextBox();
             this.textBoxPhaseAngleB = new System.Windows.Forms.TextBox();
-            this.groupBoxAmpCalibration = new System.Windows.Forms.GroupBox();
-            this.btnResetAmpCalibration = new System.Windows.Forms.Button();
-            this.label108 = new System.Windows.Forms.Label();
-            this.btnCalibrateAmps = new System.Windows.Forms.Button();
-            this.label109 = new System.Windows.Forms.Label();
-            this.label110 = new System.Windows.Forms.Label();
-            this.txtX1Clamp = new System.Windows.Forms.TextBox();
-            this.txtX3Clamp = new System.Windows.Forms.TextBox();
-            this.txtX2Clamp = new System.Windows.Forms.TextBox();
             this.groupBoxVaultMonitoringCommands = new System.Windows.Forms.GroupBox();
             this.buttonPauseMonitoring = new System.Windows.Forms.Button();
             this.buttonStartMonitoring = new System.Windows.Forms.Button();
@@ -215,7 +206,6 @@ namespace RelayControlLibrary
             this.groupBoxTimeElapsed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox17.SuspendLayout();
-            this.groupBoxAmpCalibration.SuspendLayout();
             this.groupBoxVaultMonitoringCommands.SuspendLayout();
             this.groupBoxAnalog1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.myThermometerA1)).BeginInit();
@@ -1738,101 +1728,6 @@ namespace RelayControlLibrary
             this.textBoxPhaseAngleB.Tag = "";
             this.textBoxPhaseAngleB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // groupBoxAmpCalibration
-            // 
-            this.groupBoxAmpCalibration.Controls.Add(this.btnResetAmpCalibration);
-            this.groupBoxAmpCalibration.Controls.Add(this.label108);
-            this.groupBoxAmpCalibration.Controls.Add(this.btnCalibrateAmps);
-            this.groupBoxAmpCalibration.Controls.Add(this.label109);
-            this.groupBoxAmpCalibration.Controls.Add(this.label110);
-            this.groupBoxAmpCalibration.Controls.Add(this.txtX1Clamp);
-            this.groupBoxAmpCalibration.Controls.Add(this.txtX3Clamp);
-            this.groupBoxAmpCalibration.Controls.Add(this.txtX2Clamp);
-            this.groupBoxAmpCalibration.Location = new System.Drawing.Point(590, 3);
-            this.groupBoxAmpCalibration.Name = "groupBoxAmpCalibration";
-            this.groupBoxAmpCalibration.Size = new System.Drawing.Size(148, 143);
-            this.groupBoxAmpCalibration.TabIndex = 73;
-            this.groupBoxAmpCalibration.TabStop = false;
-            this.groupBoxAmpCalibration.Text = "Amp Calibration:";
-            this.groupBoxAmpCalibration.Visible = false;
-            // 
-            // btnResetAmpCalibration
-            // 
-            this.btnResetAmpCalibration.Enabled = false;
-            this.btnResetAmpCalibration.Location = new System.Drawing.Point(15, 48);
-            this.btnResetAmpCalibration.Name = "btnResetAmpCalibration";
-            this.btnResetAmpCalibration.Size = new System.Drawing.Size(116, 26);
-            this.btnResetAmpCalibration.TabIndex = 1;
-            this.btnResetAmpCalibration.Text = "Reset Calibration";
-            this.btnResetAmpCalibration.UseVisualStyleBackColor = true;
-            // 
-            // label108
-            // 
-            this.label108.AutoSize = true;
-            this.label108.Location = new System.Drawing.Point(6, 121);
-            this.label108.Name = "label108";
-            this.label108.Size = new System.Drawing.Size(70, 13);
-            this.label108.TabIndex = 50;
-            this.label108.Text = "X3 on Clamp:";
-            // 
-            // btnCalibrateAmps
-            // 
-            this.btnCalibrateAmps.Enabled = false;
-            this.btnCalibrateAmps.Location = new System.Drawing.Point(15, 18);
-            this.btnCalibrateAmps.Name = "btnCalibrateAmps";
-            this.btnCalibrateAmps.Size = new System.Drawing.Size(116, 26);
-            this.btnCalibrateAmps.TabIndex = 0;
-            this.btnCalibrateAmps.Text = "Start Calibration";
-            this.btnCalibrateAmps.UseVisualStyleBackColor = true;
-            // 
-            // label109
-            // 
-            this.label109.AutoSize = true;
-            this.label109.Location = new System.Drawing.Point(6, 101);
-            this.label109.Name = "label109";
-            this.label109.Size = new System.Drawing.Size(70, 13);
-            this.label109.TabIndex = 49;
-            this.label109.Text = "X2 on Clamp:";
-            // 
-            // label110
-            // 
-            this.label110.AutoSize = true;
-            this.label110.Location = new System.Drawing.Point(6, 80);
-            this.label110.Name = "label110";
-            this.label110.Size = new System.Drawing.Size(70, 13);
-            this.label110.TabIndex = 48;
-            this.label110.Text = "X1 on Clamp:";
-            // 
-            // txtX1Clamp
-            // 
-            this.txtX1Clamp.Enabled = false;
-            this.txtX1Clamp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtX1Clamp.Location = new System.Drawing.Point(77, 77);
-            this.txtX1Clamp.Name = "txtX1Clamp";
-            this.txtX1Clamp.Size = new System.Drawing.Size(64, 20);
-            this.txtX1Clamp.TabIndex = 2;
-            this.txtX1Clamp.Tag = "X1 AMP on Clamp";
-            // 
-            // txtX3Clamp
-            // 
-            this.txtX3Clamp.Enabled = false;
-            this.txtX3Clamp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtX3Clamp.Location = new System.Drawing.Point(77, 118);
-            this.txtX3Clamp.Name = "txtX3Clamp";
-            this.txtX3Clamp.Size = new System.Drawing.Size(64, 20);
-            this.txtX3Clamp.TabIndex = 4;
-            this.txtX3Clamp.Tag = "X3 AMP on Clamp";
-            // 
-            // txtX2Clamp
-            // 
-            this.txtX2Clamp.Enabled = false;
-            this.txtX2Clamp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtX2Clamp.Location = new System.Drawing.Point(77, 98);
-            this.txtX2Clamp.Name = "txtX2Clamp";
-            this.txtX2Clamp.Size = new System.Drawing.Size(64, 20);
-            this.txtX2Clamp.TabIndex = 3;
-            this.txtX2Clamp.Tag = "X2 AMP on Clamp";
-            // 
             // groupBoxVaultMonitoringCommands
             // 
             this.groupBoxVaultMonitoringCommands.Controls.Add(this.buttonPauseMonitoring);
@@ -2510,14 +2405,12 @@ namespace RelayControlLibrary
             // 
             // groupBoxAnalogFlagValues
             // 
-            this.groupBoxAnalogFlagValues.Controls.Add(this.labelQPres);
             this.groupBoxAnalogFlagValues.Controls.Add(this.labelHa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.labelGa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.labelFa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.labelEa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.labelDa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.labelCa);
-            this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxQBit);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxHa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxGa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxFa);
@@ -2534,7 +2427,7 @@ namespace RelayControlLibrary
             // labelQPres
             // 
             this.labelQPres.AutoSize = true;
-            this.labelQPres.Location = new System.Drawing.Point(2, 167);
+            this.labelQPres.Location = new System.Drawing.Point(609, 118);
             this.labelQPres.Name = "labelQPres";
             this.labelQPres.Size = new System.Drawing.Size(75, 13);
             this.labelQPres.TabIndex = 15;
@@ -2596,7 +2489,7 @@ namespace RelayControlLibrary
             // 
             // textBoxQBit
             // 
-            this.textBoxQBit.Location = new System.Drawing.Point(77, 162);
+            this.textBoxQBit.Location = new System.Drawing.Point(684, 113);
             this.textBoxQBit.Name = "textBoxQBit";
             this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
             this.textBoxQBit.TabIndex = 7;
@@ -2647,16 +2540,17 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelQPres);
             this.Controls.Add(this.groupBoxAnalogFlagValues);
             this.Controls.Add(this.groupBoxVoltageReadings);
             this.Controls.Add(this.groupBoxPowerDirectionalFlow);
             this.Controls.Add(this.groupBoxGeneralSettings);
             this.Controls.Add(this.groupBoxAnalog2);
             this.Controls.Add(this.myChartLoads);
+            this.Controls.Add(this.textBoxQBit);
             this.Controls.Add(this.myChartVoltages);
             this.Controls.Add(this.groupBoxTimeElapsed);
             this.Controls.Add(this.groupBox17);
-            this.Controls.Add(this.groupBoxAmpCalibration);
             this.Controls.Add(this.groupBoxVaultMonitoringCommands);
             this.Controls.Add(this.groupBoxAnalog1);
             this.Controls.Add(this.groupBoxCurrentReadings);
@@ -2682,8 +2576,6 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox17.ResumeLayout(false);
             this.groupBox17.PerformLayout();
-            this.groupBoxAmpCalibration.ResumeLayout(false);
-            this.groupBoxAmpCalibration.PerformLayout();
             this.groupBoxVaultMonitoringCommands.ResumeLayout(false);
             this.groupBoxAnalog1.ResumeLayout(false);
             this.groupBoxAnalog1.PerformLayout();
@@ -2699,6 +2591,7 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.ResumeLayout(false);
             this.groupBoxAnalogFlagValues.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -2760,15 +2653,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxPhaseAngleA;
         private System.Windows.Forms.TextBox textBoxPhaseAngleC;
         private System.Windows.Forms.TextBox textBoxPhaseAngleB;
-        private System.Windows.Forms.GroupBox groupBoxAmpCalibration;
-        private System.Windows.Forms.Button btnResetAmpCalibration;
-        private System.Windows.Forms.Label label108;
-        private System.Windows.Forms.Button btnCalibrateAmps;
-        private System.Windows.Forms.Label label109;
-        private System.Windows.Forms.Label label110;
-        private System.Windows.Forms.TextBox txtX1Clamp;
-        private System.Windows.Forms.TextBox txtX3Clamp;
-        private System.Windows.Forms.TextBox txtX2Clamp;
         private System.Windows.Forms.GroupBox groupBoxVaultMonitoringCommands;
         private System.Windows.Forms.Button buttonPauseMonitoring;
         private System.Windows.Forms.Button buttonStartMonitoring;
