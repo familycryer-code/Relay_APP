@@ -2104,17 +2104,29 @@ namespace SineDisplayGraph
             tempdA.RMS = VdA.RMS;
             tempdB.RMS = VdB.RMS;
             tempdC.RMS = VdC.RMS;
-            if(false)//this.Customer == Customers.NonConEdGE)
+
+            // Voltages come in as absolute differential voltages
+            // So to get the Total/Average differential voltage we have to rotate them
+            // so they become relative to their respective voltage.
+            // Here we choose which voltage to use as the relative voltage.
+            // A is always at 0, so we can just choose it.
+            tempdA.Degrees = VdA.Degrees;
+            if (VnB.RMS > 13.0 || VnB.RMS > VtB.RMS)
             {
-                tempdA.Degrees = VdA.Degrees;
                 tempdB.Degrees = VdB.Degrees - VnB.Degrees;
+            }
+            else
+            {
+                tempdB.Degrees = VdB.Degrees + VtB.Degrees;
+            }
+
+            if (VnC.RMS > 13.0 || VnC.RMS > VtC.RMS)
+            {
                 tempdC.Degrees = VdC.Degrees - VnC.Degrees;
             }
             else
             {
-                tempdA.Degrees = VdA.Degrees;
-                tempdB.Degrees = VdB.Degrees - VtB.Degrees;
-                tempdC.Degrees = VdC.Degrees - VtC.Degrees;
+                tempdC.Degrees = VdC.Degrees + VtC.Degrees;
             }
             
             VdAvg.Real = (tempdA.Real + tempdB.Real + tempdC.Real) / 3f;
