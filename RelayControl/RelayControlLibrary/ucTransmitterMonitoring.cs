@@ -124,6 +124,9 @@ namespace RelayControlLibrary
             this.labelGa.Visible = false;
             this.labelHa.Visible = false;
 #endif
+#if PSEG
+            this.listBoxA2SensorSelect.SelectedItem = "Oil Temperature";
+#endif
         }
 
         #endregion

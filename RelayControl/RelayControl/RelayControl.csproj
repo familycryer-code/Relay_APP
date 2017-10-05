@@ -300,6 +300,15 @@
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePSEG|AnyCPU'">
+    <OutputPath>bin\ReleasePSEG\</OutputPath>
+    <DefineConstants>TRACE;BASICRELEASE, PSEG</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">
       <HintPath>..\..\GSNet\3.5\Bin\GSNetWin.dll</HintPath>

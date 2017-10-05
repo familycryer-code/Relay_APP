@@ -1322,18 +1322,18 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.checkBoxTripOnPowerDown.Checked = true;
+            this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 0;
-#else //SEATTLE
+#else //SEATTLE PSEG
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
-
-            this.numericUpDownTimeDelay.Value = 150;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.checkBoxTripOnPowerDown.Checked = true;
+            this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 0;
 #endif
+            insensitiveCurrent = 2.5m;
+            instantaneousCurrent = 2.5m;
             this.listBoxTripModes.SelectedIndex = 0;
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownExtendedTimeDelay.Value = 0;
@@ -1364,7 +1364,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .2m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif SEATTLE || DEBUG || DOMINION || chicago || Enmax
+#elif SEATTLE || DEBUG || DOMINION || chicago || Enmax || PSEG
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1377,7 +1377,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif SEATTLE || DEBUG || DOMINION || chicago || Enmax
+#elif SEATTLE || DEBUG || DOMINION || chicago || Enmax || PSEG
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;

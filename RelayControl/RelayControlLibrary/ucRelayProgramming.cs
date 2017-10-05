@@ -45,8 +45,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 170803;
-        private static UInt32 _masterDNPRevisionNumber = 170803;
+        private static UInt32 _masterCodeRevisionNumber = 171002;
+        private static UInt32 _masterDNPRevisionNumber = 171002;
         private static UInt32 _relayCodeRevisionNumber = 20170803;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -903,6 +903,22 @@ namespace RelayControlLibrary
             CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
 
             checkDNP();
+
+#if PSEG
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_PSEG;
+            this.textBoxMasterFileName.Text = "Master Relay From Resource";
+
+            if (this.GEEnabled)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif
 
 #if (DOMINION || DEBUG || NU || Boston || SEATTLE || BASICRELEASE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;

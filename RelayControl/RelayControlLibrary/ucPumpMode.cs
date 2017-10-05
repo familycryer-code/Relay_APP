@@ -409,7 +409,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if NU
+#if NU || PSEG
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;

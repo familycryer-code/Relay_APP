@@ -270,6 +270,15 @@
     <OutputPath>bin\Degbug Oncor\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePSEG|AnyCPU'">
+    <OutputPath>bin\ReleasePSEG\</OutputPath>
+    <DefineConstants>TRACE;PSEG</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls, Version=1.5.2.0, Culture=neutral, PublicKeyToken=5966291b8955e4bb">
       <SpecificVersion>False</SpecificVersion>
@@ -708,6 +717,7 @@
     <None Include="Resources\MasterProcessor_DNPSAv5_SMUD.S" />
     <None Include="Resources\MasterProcessor_Oncor.S" />
     <None Include="Resources\MasterProcessor_Oncor_GE.S" />
+    <None Include="Resources\MasterProcessor_PSEG.S" />
     <None Include="Resources\MasterProcessor_with_DNP_PLC_GE.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />

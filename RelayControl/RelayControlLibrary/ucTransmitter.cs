@@ -1607,7 +1607,11 @@ namespace RelayControlLibrary
         {
             this.textBoxID.Text = "1023";
             this.textBoxTXCTRatio.Text = "120";
+#if PSEG || NU || ConEd
+            this.CTRatio = 320;
+#else
             this.CTRatio = 600;
+#endif
 
             this.checkBoxBlue.Checked = true;
             this.checkBoxGreen.Checked = false;
@@ -1692,7 +1696,7 @@ namespace RelayControlLibrary
         }
 
 
-        #region Error Handling
+#region Error Handling
 
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler TransmitterException;
@@ -1705,7 +1709,7 @@ namespace RelayControlLibrary
                 throw new Exception("No Exception Handler in Main for Transmitter Unit");
         }
 
-        #endregion
+#endregion
 
         private void checkBoxType2Off_CheckedChanged(object sender, EventArgs e)
         {

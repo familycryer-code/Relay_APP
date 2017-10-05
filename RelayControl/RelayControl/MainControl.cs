@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-09-20";
+        private const string revisionDate = "2017-10-05";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -664,6 +664,8 @@ namespace RelayControl
             this.customerRevisionName = "DG-288 TestFixture";
 #elif SMUD
             this.customerRevisionName = "SMUD";
+#elif PSEG
+            this.customerRevisionName = "PSEG";
 #else
             this.customerRevisionName = "";
 #endif
@@ -5281,7 +5283,7 @@ namespace RelayControl
 #if DOMINION
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif Enmax
+#elif Enmax || PSEG
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
 #elif Boston || NU || SEATTLE || chicago || MADISON || MEMPHIS
