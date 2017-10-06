@@ -30,6 +30,7 @@ namespace RelayControl
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label labelTemperature;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainControl));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.OptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cOMPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2448,6 +2449,7 @@ namespace RelayControl
             this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
             this.ucDNPSAv51.Name = "ucDNPSAv51";
             this.ucDNPSAv51.SerialNumber = 0;
+            this.ucDNPSAv51.ShowDNPSAV5Error = true;
             this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
             this.ucDNPSAv51.TabIndex = 0;
             // 
@@ -2478,6 +2480,7 @@ namespace RelayControl
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainControl";

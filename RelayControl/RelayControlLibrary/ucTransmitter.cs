@@ -39,8 +39,6 @@ namespace RelayControlLibrary
             this.panelMessageFreqSettings.Visible = false;
             this.labelMessageFrequencySettings.Visible = false;
             this.customerVersion = true;
-            //this.checkBoxAnalog2.Enabled = false;
-            //this.comboBoxZeroCrossingPhase.Visible = false;
             this.checkBoxDNPEnable.Visible = false;
             this.checkBoxWH_GE.Visible = false;
             this.dNPEnabled = this.checkBoxDNPEnable.Visible;
@@ -404,7 +402,7 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON) && !DEBUG
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON || PSEG) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
@@ -1775,7 +1773,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON) && !DEBUG
+#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON || PSEG) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;
