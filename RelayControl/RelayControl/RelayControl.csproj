@@ -301,6 +301,7 @@
     <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePSEG|AnyCPU'">
+  <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleasePSEG\</OutputPath>
     <DefineConstants>TRACE;BASICRELEASE, PSEG</DefineConstants>
     <Optimize>true</Optimize>
@@ -308,6 +309,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">
