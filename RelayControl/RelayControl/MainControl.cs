@@ -3852,6 +3852,15 @@ namespace RelayControl
                 }
 
                 b = bytePacket[4];
+
+                if ((b & 32) == 32)
+                {
+                    this.ucTransmitterMonitoring1.WaterBugActive = true;
+                }
+                else
+                {
+                    this.ucTransmitterMonitoring1.WaterBugActive = false;
+                }
             }
             catch (Exception ex)
             {

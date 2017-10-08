@@ -510,7 +510,10 @@ namespace RelayControlLibrary
                 this.textBoxFa.Text = bytePacket[10].ToString();
                 this.textBoxGa.Text = bytePacket[11].ToString();
                 this.textBoxHa.Text = bytePacket[12].ToString();
-                this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1)? "LOW" : "OK";
+                if (this.waterBugActive)
+                    this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1) ? "LOW" : "OK";
+                else
+                    this.textBoxQBit.Text = "N/A";
             }
         }
 
@@ -988,6 +991,16 @@ namespace RelayControlLibrary
             {
                 this.gEEnabled = value;
                 this.setCustomer();
+            }
+        }
+
+        private bool waterBugActive = false;
+        public bool WaterBugActive
+        {
+            get { return this.waterBugActive; }
+            set
+            {
+                this.waterBugActive = value;
             }
         }
     }
