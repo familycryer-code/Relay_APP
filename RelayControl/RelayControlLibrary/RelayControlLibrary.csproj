@@ -381,6 +381,12 @@
     <Compile Include="ucArcFault.Designer.cs">
       <DependentUpon>ucArcFault.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucBlockControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucBlockControl.Designer.cs">
+      <DependentUpon>ucBlockControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucCalibration.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -422,6 +428,12 @@
     </Compile>
     <Compile Include="ucRelayProgramming.Designer.cs">
       <DependentUpon>ucRelayProgramming.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucRemoteCommandBlock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucRemoteCommandBlock.Designer.cs">
+      <DependentUpon>ucRemoteCommandBlock.cs</DependentUpon>
     </Compile>
     <Compile Include="ucSettingObject.cs">
       <SubType>UserControl</SubType>
@@ -525,6 +537,12 @@
     <Compile Include="ucShortRangeTransmitTableItem.Designer.cs">
       <DependentUpon>ucShortRangeTransmitTableItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucSuperClass.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSuperClass.Designer.cs">
+      <DependentUpon>ucSuperClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucTimeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -605,6 +623,9 @@
     <EmbeddedResource Include="ucArcFault.resx">
       <DependentUpon>ucArcFault.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ucBlockControl.resx">
+      <DependentUpon>ucBlockControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ucCalibration.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ucCalibration.cs</DependentUpon>
@@ -632,6 +653,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucRelayProgramming.resx">
       <DependentUpon>ucRelayProgramming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucRemoteCommandBlock.resx">
+      <DependentUpon>ucRemoteCommandBlock.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucSettingObject.resx">
       <SubType>Designer</SubType>

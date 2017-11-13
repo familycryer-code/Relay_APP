@@ -320,6 +320,7 @@ namespace RelayControl
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
                 this.ucDNPSAv51.Send += standardizedSendData;
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
+                this.ucBlockControl1.Send += standardizedSendData;
 
                 this.ucCloseMode1.CloseControlException += this.standardExceptionMessage;
                 this.ucTripMode2.TripControlException += this.standardExceptionMessage;
@@ -692,7 +693,6 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
             this.toolTip.SetToolTip(this.textBoxSaveStateName, "Enter name to save current settings to file");
             this.toolTip.SetToolTip(this.checkBox277Protector, "Scales values on PQ Monitoring tab to 277V protector - is not saved in relay");
-            this.toolTip.SetToolTip(this.buttonBlockedStateOpen, "Block Relay Open");
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
             this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
@@ -701,8 +701,6 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
             this.toolTip.SetToolTip(this.buttonSendAll, "Upload all visible settings to the relay");
             this.toolTip.SetToolTip(this.buttonTripRelay, "Send a Remote Trip to the relay");
-            this.toolTip.SetToolTip(this.buttonUnblockOpen, "Clear the Blocked Open state from the relay");
-
         }
 
         #region Relay Flags/Status
@@ -1550,25 +1548,6 @@ namespace RelayControl
         private RelayControlLibrary.TripCurveDefinition[] TripCurveDefinitions = new RelayControlLibrary.TripCurveDefinition[4];
 
         public bool SendConfirmed = true;
-
-        private void buttonUnblockOpen_Click(object sender, EventArgs e)
-        {
-            this.sendBlockStated(false);
-        }
-
-        private void buttonBlockedState_Click(object sender, EventArgs e)
-        {
-            this.sendBlockStated(true);
-
-        }
-
-        private void sendBlockStated(bool b)
-        {
-            if (b)
-                this.sendPacketAck(RelayModeFunctions.BytePacketFor(BlockModes.Blocked), "Block Mode Send");
-            else
-                this.sendPacketAck(RelayModeFunctions.BytePacketFor(BlockModes.Unblocked), "Unblock Mode Send");
-        }
 
         private byte[] receiveArray = new byte[1000];
         private int rXWritePtr = 0;
@@ -3707,14 +3686,12 @@ namespace RelayControl
                 if ((b & 32) == 32)
                 {
                     RelayFlags.BlockedOpen = true;
-                    this.setLabelText("Blocked Open", this.labelBlockedOpenState);
-                    this.toolTip.SetToolTip(this.checkBoxBlockedOpenFlag, "Relay is currently Blocked Open");
+                    ucBlockControl1.RelayBlocked = true;
                 }
                 else
                 {
                     RelayFlags.BlockedOpen = false;
-                    this.setLabelText("Unblocked Open", this.labelBlockedOpenState);
-                    this.toolTip.SetToolTip(this.checkBoxBlockedOpenFlag, "Relay is currently not Blocked Open");
+                    ucBlockControl1.RelayBlocked = false;
                 }
                 this.setCheckedValue(RelayFlags.BlockedOpen, this.checkBoxBlockedOpenFlag);
 
@@ -6133,7 +6110,7 @@ namespace RelayControl
 
             if (dr == DialogResult.Yes)
             {
-                this.sendBlockStated(true);
+                ucBlockControl1.SendBlockState(true);
 
                 bytePacket = RelayModeFunctions.BytePacketFor(tMD);
                 this.sendPacket(bytePacket);

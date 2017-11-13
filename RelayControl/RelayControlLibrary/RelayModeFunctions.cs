@@ -10,7 +10,6 @@ namespace RelayControlLibrary
     {
         public const byte DC4 = 0x0D;
         public const char _AdjustCalibrationOpCode = 'A';
-        public const char _BlockOpCode = 'B';
         public const char _CloseOpCode = 'C';
         public const char _CloseCurveOpCode = 'C';
         public const char _DeadNetworkOpCode = 'D';
@@ -493,87 +492,6 @@ namespace RelayControlLibrary
         }
 
         #endregion
-
-        #region Blocked Mode Functions
-
-        public static char CharRepresentationOf(BlockModes bM)
-        {
-            switch (bM)
-            {
-                case BlockModes.Blocked:
-                    return 'B';
-                case BlockModes.Unblocked:
-                    return 'U';
-                case BlockModes.BlockedClosed:
-                    return 'C';
-                case BlockModes.UnblockedClosed:
-                    return 'T';
-                default:
-                    throw new Exception("How on earth does one get here?");
-            }
-        }
-
-        public static byte ByteRepresentationOf(BlockModes bM)
-        {
-            switch (bM)
-            {
-                case BlockModes.Blocked:
-                    return (byte)'B';
-                case BlockModes.Unblocked:
-                    return (byte)'U';
-                case BlockModes.BlockedClosed:
-                    return (byte)'C';
-                case BlockModes.UnblockedClosed:
-                    return (byte)'T';
-                default:
-                    throw new Exception("How on earth does one get here?");
-            }
-        }
-
-        public static byte[] BytePacketFor(BlockModes bM)
-        {
-            byte[] returnArray = new byte[8];
-
-            returnArray[0] = (byte)_ModeOpCode;
-            returnArray[1] = (byte)_BlockOpCode;
-            returnArray[2] = ByteRepresentationOf(bM);
-            returnArray[3] = Constants.DummyData;
-            returnArray[4] = Constants.DummyData;
-            returnArray[5] = Constants.DummyData;
-            returnArray[6] = Constants.DummyData;
-            returnArray[7] = (byte)DC4;
-
-            return returnArray;
-        }
-
-        public static char[] CharPacketFor(BlockModes bM)
-        {
-            char[] returnArray = new char[8];
-
-            returnArray[0] = _ModeOpCode;
-            returnArray[1] = _BlockOpCode;
-            returnArray[2] = CharRepresentationOf(bM);
-            returnArray[3] = (char)Constants.DummyData;
-            returnArray[4] = (char)Constants.DummyData;
-            returnArray[5] = (char)Constants.DummyData;
-            returnArray[5] = (char)Constants.DummyData;
-            returnArray[7] = (char)DC4;
-
-            return returnArray;
-        }
-
-        public static BlockModes BlockModeFrom(string s)
-        {
-            if (s == "Blocked" || s == "B")
-                return BlockModes.Blocked;
-            else if (s == "Unblocked" || s == "U")
-                return BlockModes.Unblocked;
-            else
-                throw new Exception("Unrecognized String Format For BlockMode");
-        }
-
-        #endregion
-
 
         public static byte HighByte(int i)
         {
