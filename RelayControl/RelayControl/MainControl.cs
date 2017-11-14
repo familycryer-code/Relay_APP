@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-10-06";
+        private const string revisionDate = "2017-11-13";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -321,6 +321,7 @@ namespace RelayControl
                 this.ucDNPSAv51.Send += standardizedSendData;
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
                 this.ucBlockControl1.Send += standardizedSendData;
+                this.ucRemoteCommandBlock1.Send += standardizedSendData;
 
                 this.ucCloseMode1.CloseControlException += this.standardExceptionMessage;
                 this.ucTripMode2.TripControlException += this.standardExceptionMessage;
@@ -334,6 +335,8 @@ namespace RelayControl
                 this.ucSafeService1.SafeServiceException += this.standardExceptionMessage;
                 this.ucCalibration2.CalibrationException += standardExceptionMessage;
                 this.ucDNPSAv51.Error += standardExceptionMessage;
+                ucBlockControl1.Error += standardExceptionMessage;
+                ucRemoteCommandBlock1.Error += standardExceptionMessage;
                 
                 this.ucForceCustomerSwitch1.CustomerSwitch += new ucForceCustomerSwitch.CustomerSwitchHanlder(ucForceCustomerSwitch1_CustomerSwitch);
                 this.ucLiveData1.PacketHandled += new ucLiveData.PacketHandledHandler(liveEvent_PacketHandled);
@@ -727,7 +730,7 @@ namespace RelayControl
                 this.GEControl1.Clear();
                 this.GEControl2.Clear();
 
-                this.relayStatus1.Add("Debug 1");
+                this.relayStatus1.Add("Command Lockout");
                 this.relayStatus1.Add("BFlag Not Inv");
                 this.relayStatus1.Add("Do Not Flash");
                 this.relayStatus1.Add("All Params Received");
@@ -2265,7 +2268,6 @@ namespace RelayControl
 
         private RelayStatusCodeConverter relayStatusConverter = new RelayStatusCodeConverter();
 
-        private DialogResult dR = DialogResult.OK;
         private void setRelayStatusBits(byte[] bytePacket)
         {
 #if DEBUG
@@ -2276,6 +2278,7 @@ namespace RelayControl
 #elif !ATLANTA
             if(bytePacket[0] == 12)
             {
+                DialogResult dR = DialogResult.OK;
                 this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
                 this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
                 this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
@@ -3814,6 +3817,16 @@ namespace RelayControl
                     setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
                     setLabelText("Close", this.labelRelayStateControlPage);
                     setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                }
+
+                b = bytePacket[3];
+                if((b & 1) == 1)
+                {
+                    ucRemoteCommandBlock1.CommandsBlocked = true;
+                }
+                else
+                {
+                    ucRemoteCommandBlock1.CommandsBlocked = false;
                 }
 
                 b = bytePacket[5];

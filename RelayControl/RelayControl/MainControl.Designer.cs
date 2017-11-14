@@ -189,11 +189,11 @@ namespace RelayControl
             this.tabPageDNPData = new System.Windows.Forms.TabPage();
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
-            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
+            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
             this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
@@ -229,6 +229,7 @@ namespace RelayControl
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
             this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
             this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
+            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -1679,6 +1680,7 @@ namespace RelayControl
             // 
             // panelOtherRelayControls
             // 
+            this.panelOtherRelayControls.Controls.Add(this.ucRemoteCommandBlock1);
             this.panelOtherRelayControls.Controls.Add(this.ucBlockControl1);
             this.panelOtherRelayControls.Controls.Add(this.labelBootRevision);
             this.panelOtherRelayControls.Controls.Add(this.buttonClearCycleCount);
@@ -1739,9 +1741,9 @@ namespace RelayControl
             // buttonRequestRelayParamaters
             // 
             this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(262, 116);
+            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(262, 136);
             this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
-            this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(141, 62);
+            this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(141, 42);
             this.buttonRequestRelayParamaters.TabIndex = 33;
             this.buttonRequestRelayParamaters.Text = "Request Relay Params";
             this.buttonRequestRelayParamaters.UseVisualStyleBackColor = true;
@@ -1828,9 +1830,9 @@ namespace RelayControl
             // buttonSendAll
             // 
             this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSendAll.Location = new System.Drawing.Point(415, 116);
+            this.buttonSendAll.Location = new System.Drawing.Point(415, 136);
             this.buttonSendAll.Name = "buttonSendAll";
-            this.buttonSendAll.Size = new System.Drawing.Size(107, 62);
+            this.buttonSendAll.Size = new System.Drawing.Size(107, 42);
             this.buttonSendAll.TabIndex = 70;
             this.buttonSendAll.Text = "Send All";
             this.buttonSendAll.UseVisualStyleBackColor = true;
@@ -1857,7 +1859,7 @@ namespace RelayControl
             // 
             this.labelRelayDisconnected.AutoSize = true;
             this.labelRelayDisconnected.BackColor = System.Drawing.Color.Red;
-            this.labelRelayDisconnected.Location = new System.Drawing.Point(419, 95);
+            this.labelRelayDisconnected.Location = new System.Drawing.Point(419, 120);
             this.labelRelayDisconnected.Name = "labelRelayDisconnected";
             this.labelRelayDisconnected.Size = new System.Drawing.Size(103, 13);
             this.labelRelayDisconnected.TabIndex = 49;
@@ -2014,15 +2016,6 @@ namespace RelayControl
             this.tabPageDNPSecureAuth.Text = "DNP SAv5";
             this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
             // 
-            // ucDNPSAv51
-            // 
-            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
-            this.ucDNPSAv51.Name = "ucDNPSAv51";
-            this.ucDNPSAv51.SerialNumber = 0;
-            this.ucDNPSAv51.ShowDNPSAV5Error = true;
-            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
-            this.ucDNPSAv51.TabIndex = 0;
-            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 1000;
@@ -2046,9 +2039,17 @@ namespace RelayControl
             this.ucSafeService1.TabIndex = 108;
             this.ucSafeService1.Voltage277State = false;
             // 
+            // ucRemoteCommandBlock1
+            // 
+            this.ucRemoteCommandBlock1.CommandsBlocked = false;
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(396, 58);
+            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
+            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(126, 51);
+            this.ucRemoteCommandBlock1.TabIndex = 80;
+            // 
             // ucBlockControl1
             // 
-            this.ucBlockControl1.Location = new System.Drawing.Point(422, 4);
+            this.ucBlockControl1.Location = new System.Drawing.Point(408, 3);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
             this.ucBlockControl1.Size = new System.Drawing.Size(96, 58);
@@ -2438,6 +2439,15 @@ namespace RelayControl
             this.ucShortRange1.Size = new System.Drawing.Size(987, 624);
             this.ucShortRange1.TabIndex = 0;
             // 
+            // ucDNPSAv51
+            // 
+            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
+            this.ucDNPSAv51.Name = "ucDNPSAv51";
+            this.ucDNPSAv51.SerialNumber = 0;
+            this.ucDNPSAv51.ShowDNPSAV5Error = true;
+            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
+            this.ucDNPSAv51.TabIndex = 0;
+            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -2709,6 +2719,7 @@ namespace RelayControl
         private System.Windows.Forms.CheckBox checkBoxReprogramBootAuto;
         private System.Windows.Forms.Label labelBootRevision;
         private RelayControlLibrary.ucBlockControl ucBlockControl1;
+        private RelayControlLibrary.ucRemoteCommandBlock ucRemoteCommandBlock1;
     }
 }
 
