@@ -189,6 +189,7 @@ namespace RelayControl
             this.tabPageDNPData = new System.Windows.Forms.TabPage();
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
+            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
@@ -212,7 +213,6 @@ namespace RelayControl
             this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
             this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
             this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
             this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
@@ -229,7 +229,7 @@ namespace RelayControl
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
             this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
             this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
-            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -557,7 +557,6 @@ namespace RelayControl
             this.tabPageEngineering.Controls.Add(this.buttonRQRelayProcVersion);
             this.tabPageEngineering.Controls.Add(this.buttonForceI);
             this.tabPageEngineering.Controls.Add(this.buttonRequestRelayRegisters);
-            this.tabPageEngineering.Controls.Add(this.ucForceCustomerSwitch1);
             this.tabPageEngineering.Controls.Add(this.ucRelayProgramming1);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsGEControl2);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsGEControl1);
@@ -569,6 +568,7 @@ namespace RelayControl
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsRelayFlags2);
             this.tabPageEngineering.Controls.Add(this.uc8CheckBoxFlagsRelayFlags1);
             this.tabPageEngineering.Controls.Add(this.ucCalibration1);
+            this.tabPageEngineering.Controls.Add(this.ucForceCustomerSwitch1);
             this.tabPageEngineering.Location = new System.Drawing.Point(4, 22);
             this.tabPageEngineering.Name = "tabPageEngineering";
             this.tabPageEngineering.Padding = new System.Windows.Forms.Padding(3);
@@ -902,7 +902,7 @@ namespace RelayControl
             // 
             this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-3901, 6);
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-4300, 6);
             this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
             this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 13);
             this.labelLiveDataTriggerTime.TabIndex = 1;
@@ -1700,9 +1700,9 @@ namespace RelayControl
             this.panelOtherRelayControls.Controls.Add(this.comboBoxSavedStates);
             this.panelOtherRelayControls.Controls.Add(this.buttonSaveSetting);
             this.panelOtherRelayControls.Controls.Add(this.buttonDeleteSetting);
-            this.panelOtherRelayControls.Location = new System.Drawing.Point(444, 268);
+            this.panelOtherRelayControls.Location = new System.Drawing.Point(447, 250);
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
-            this.panelOtherRelayControls.Size = new System.Drawing.Size(532, 181);
+            this.panelOtherRelayControls.Size = new System.Drawing.Size(532, 209);
             this.panelOtherRelayControls.TabIndex = 77;
             // 
             // labelBootRevision
@@ -1730,7 +1730,7 @@ namespace RelayControl
             // 
             // buttonBlockAndTrip
             // 
-            this.buttonBlockAndTrip.Location = new System.Drawing.Point(262, 60);
+            this.buttonBlockAndTrip.Location = new System.Drawing.Point(262, 70);
             this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
             this.buttonBlockAndTrip.Size = new System.Drawing.Size(121, 23);
             this.buttonBlockAndTrip.TabIndex = 76;
@@ -1741,7 +1741,7 @@ namespace RelayControl
             // buttonRequestRelayParamaters
             // 
             this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(262, 136);
+            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(258, 160);
             this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
             this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(141, 42);
             this.buttonRequestRelayParamaters.TabIndex = 33;
@@ -1807,7 +1807,7 @@ namespace RelayControl
             // 
             // buttonResetBothProc
             // 
-            this.buttonResetBothProc.Location = new System.Drawing.Point(262, 86);
+            this.buttonResetBothProc.Location = new System.Drawing.Point(262, 96);
             this.buttonResetBothProc.Name = "buttonResetBothProc";
             this.buttonResetBothProc.Size = new System.Drawing.Size(121, 23);
             this.buttonResetBothProc.TabIndex = 71;
@@ -1818,11 +1818,11 @@ namespace RelayControl
             // labelRelayStateControlPage
             // 
             this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelRelayStateControlPage.Location = new System.Drawing.Point(278, 3);
+            this.labelRelayStateControlPage.Location = new System.Drawing.Point(278, 5);
             this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(3);
             this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
             this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayStateControlPage.Size = new System.Drawing.Size(100, 26);
+            this.labelRelayStateControlPage.Size = new System.Drawing.Size(111, 28);
             this.labelRelayStateControlPage.TabIndex = 63;
             this.labelRelayStateControlPage.Text = "Unkown";
             this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1830,7 +1830,7 @@ namespace RelayControl
             // buttonSendAll
             // 
             this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSendAll.Location = new System.Drawing.Point(415, 136);
+            this.buttonSendAll.Location = new System.Drawing.Point(412, 161);
             this.buttonSendAll.Name = "buttonSendAll";
             this.buttonSendAll.Size = new System.Drawing.Size(107, 42);
             this.buttonSendAll.TabIndex = 70;
@@ -1847,7 +1847,7 @@ namespace RelayControl
             // 
             // buttonTripRelay
             // 
-            this.buttonTripRelay.Location = new System.Drawing.Point(262, 34);
+            this.buttonTripRelay.Location = new System.Drawing.Point(262, 44);
             this.buttonTripRelay.Name = "buttonTripRelay";
             this.buttonTripRelay.Size = new System.Drawing.Size(121, 23);
             this.buttonTripRelay.TabIndex = 65;
@@ -1859,7 +1859,7 @@ namespace RelayControl
             // 
             this.labelRelayDisconnected.AutoSize = true;
             this.labelRelayDisconnected.BackColor = System.Drawing.Color.Red;
-            this.labelRelayDisconnected.Location = new System.Drawing.Point(419, 120);
+            this.labelRelayDisconnected.Location = new System.Drawing.Point(390, 145);
             this.labelRelayDisconnected.Name = "labelRelayDisconnected";
             this.labelRelayDisconnected.Size = new System.Drawing.Size(103, 13);
             this.labelRelayDisconnected.TabIndex = 49;
@@ -2016,6 +2016,15 @@ namespace RelayControl
             this.tabPageDNPSecureAuth.Text = "DNP SAv5";
             this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
             // 
+            // ucDNPSAv51
+            // 
+            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
+            this.ucDNPSAv51.Name = "ucDNPSAv51";
+            this.ucDNPSAv51.SerialNumber = 0;
+            this.ucDNPSAv51.ShowDNPSAV5Error = true;
+            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
+            this.ucDNPSAv51.TabIndex = 0;
+            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 1000;
@@ -2041,18 +2050,18 @@ namespace RelayControl
             // 
             // ucRemoteCommandBlock1
             // 
-            this.ucRemoteCommandBlock1.CommandsBlocked = false;
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(396, 58);
+            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(384, 70);
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
-            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(126, 51);
+            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(126, 69);
             this.ucRemoteCommandBlock1.TabIndex = 80;
             // 
             // ucBlockControl1
             // 
-            this.ucBlockControl1.Location = new System.Drawing.Point(408, 3);
+            this.ucBlockControl1.Location = new System.Drawing.Point(389, 0);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
-            this.ucBlockControl1.Size = new System.Drawing.Size(96, 58);
+            this.ucBlockControl1.Size = new System.Drawing.Size(104, 67);
             this.ucBlockControl1.TabIndex = 79;
             // 
             // ucTripMode2
@@ -2268,13 +2277,6 @@ namespace RelayControl
             this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
             this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // ucRelayProgramming1
             // 
             this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
@@ -2439,14 +2441,12 @@ namespace RelayControl
             this.ucShortRange1.Size = new System.Drawing.Size(987, 624);
             this.ucShortRange1.TabIndex = 0;
             // 
-            // ucDNPSAv51
+            // ucForceCustomerSwitch1
             // 
-            this.ucDNPSAv51.Location = new System.Drawing.Point(13, 6);
-            this.ucDNPSAv51.Name = "ucDNPSAv51";
-            this.ucDNPSAv51.SerialNumber = 0;
-            this.ucDNPSAv51.ShowDNPSAV5Error = true;
-            this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
-            this.ucDNPSAv51.TabIndex = 0;
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 

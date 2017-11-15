@@ -31,32 +31,17 @@ namespace RelayControlLibrary
 
         private void setBlockedState(bool blocked)
         {
-            relayBlocked = blocked;
+            tsBlockOpen.Checked = relayBlocked = blocked;
             if (blocked)
             {
-                buttonSendBlockState.Text = "Unblock Relay";
-                toolTip.SetToolTip(buttonSendBlockState, "Enable automatic Reclose Function in Relay");
+                toolTip.SetToolTip(tsBlockOpen, "Enable automatic Reclose Function in Relay");
                 labelBlockedState.Text = "Blocked Open";
             }
             else
-            {
-                buttonSendBlockState.Text = "Block Relay";
-                toolTip.SetToolTip(buttonSendBlockState, "Inhibit automatic Reclose Function in Relay");
+            { 
+                toolTip.SetToolTip(tsBlockOpen, "Inhibit automatic Reclose Function in Relay");
                 labelBlockedState.Text = "Unblocked";
             }
-        }
-
-        private void buttonSendBlockState_Click(object sender, EventArgs e)
-        {
-            if(relayBlocked)
-            {
-                sendUnblockCommand();
-            }
-            else
-            {
-                sendBlockCommand();
-            }
-            
         }
 
         public void SendBlockState(bool blocked)
@@ -99,6 +84,12 @@ namespace RelayControlLibrary
 
             sendCommand.WithAck = true;
             OnSend(this, sendCommand);
+        }
+
+        private void tsBlockOpen_CheckedChanged(object sender, EventArgs e)
+        {
+            if(tsBlockOpen.Focused)
+                SendBlockState(tsBlockOpen.Checked);
         }
     }
 }

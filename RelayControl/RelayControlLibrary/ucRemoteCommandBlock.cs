@@ -15,7 +15,13 @@ namespace RelayControlLibrary
         public ucRemoteCommandBlock()
         {
             InitializeComponent();
+            tsCommandBlock.CheckedColor = Color.Red;
+            toolTip.SetToolTip(tsCommandBlock, "Enables or disables PLC Communications");
         }
+
+        private static string _commandsAllowedString = "Control Allowed";
+        private static string _commandsDisallowedString = "Control Inhibited";
+        private ToolTip toolTip = new ToolTip();
 
         public bool CommandsBlocked
         {
@@ -30,21 +36,24 @@ namespace RelayControlLibrary
 
         private void setBlockedState(bool blocked)
         {
-            commandsBlocked = blocked;
+            tsCommandBlock.Checked = commandsBlocked = blocked;
 
-            if(blocked)
+            if (blocked)
             {
-                labelRemoteCommandState.Text = "Commands Blocked";
-                buttonSendCommand.Text = "Allow Commands";
+                labelRemoteCommandState.Text = _commandsDisallowedString;
             }
             else
             {
-                labelRemoteCommandState.Text = "Commands Allowed";
-                buttonSendCommand.Text = "Block Commands";
+                labelRemoteCommandState.Text = _commandsAllowedString;
             }
         }
 
         private void buttonSendCommand_Click(object sender, EventArgs e)
+        {
+            sendCommand();
+        }
+
+        private void sendCommand()
         {
             if (commandsBlocked)
                 sendUnblockCommand();
@@ -84,6 +93,13 @@ namespace RelayControlLibrary
 
             sendCommand.WithAck = true;
             OnSend(this, sendCommand);
+        }
+
+        private void ucToggleSwitch1_CheckedChanged(object sender, EventArgs e)
+        {
+            commandsBlocked = !tsCommandBlock.Checked;
+            if(tsCommandBlock.Focused)
+                sendCommand();
         }
     }
 }

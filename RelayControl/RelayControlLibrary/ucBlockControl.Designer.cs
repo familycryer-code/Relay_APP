@@ -28,46 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonSendBlockState = new System.Windows.Forms.Button();
             this.labelBlockedState = new System.Windows.Forms.Label();
+            this.groupBoxBlockOpen = new System.Windows.Forms.GroupBox();
+            this.tsBlockOpen = new RelayControlLibrary.ucToggleSwitch();
+            this.groupBoxBlockOpen.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // buttonSendBlockState
-            // 
-            this.buttonSendBlockState.Location = new System.Drawing.Point(3, 3);
-            this.buttonSendBlockState.Name = "buttonSendBlockState";
-            this.buttonSendBlockState.Size = new System.Drawing.Size(89, 23);
-            this.buttonSendBlockState.TabIndex = 0;
-            this.buttonSendBlockState.Text = "Block Relay";
-            this.buttonSendBlockState.UseVisualStyleBackColor = true;
-            this.buttonSendBlockState.Click += new System.EventHandler(this.buttonSendBlockState_Click);
             // 
             // labelBlockedState
             // 
             this.labelBlockedState.BackColor = System.Drawing.SystemColors.ControlLight;
             this.labelBlockedState.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelBlockedState.Location = new System.Drawing.Point(3, 29);
+            this.labelBlockedState.Location = new System.Drawing.Point(6, 38);
             this.labelBlockedState.Name = "labelBlockedState";
             this.labelBlockedState.Size = new System.Drawing.Size(89, 22);
             this.labelBlockedState.TabIndex = 1;
             this.labelBlockedState.Text = "Unknown";
             this.labelBlockedState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // groupBoxBlockOpen
+            // 
+            this.groupBoxBlockOpen.Controls.Add(this.tsBlockOpen);
+            this.groupBoxBlockOpen.Controls.Add(this.labelBlockedState);
+            this.groupBoxBlockOpen.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxBlockOpen.Name = "groupBoxBlockOpen";
+            this.groupBoxBlockOpen.Size = new System.Drawing.Size(99, 65);
+            this.groupBoxBlockOpen.TabIndex = 2;
+            this.groupBoxBlockOpen.TabStop = false;
+            this.groupBoxBlockOpen.Text = "Block Open";
+            // 
+            // tsBlockOpen
+            // 
+            this.tsBlockOpen.Location = new System.Drawing.Point(6, 12);
+            this.tsBlockOpen.Name = "tsBlockOpen";
+            this.tsBlockOpen.Padding = new System.Windows.Forms.Padding(6);
+            this.tsBlockOpen.Size = new System.Drawing.Size(87, 23);
+            this.tsBlockOpen.TabIndex = 0;
+            this.tsBlockOpen.Text = "tsBlockOpen";
+            this.tsBlockOpen.UseVisualStyleBackColor = true;
+            this.tsBlockOpen.CheckedChanged += new System.EventHandler(this.tsBlockOpen_CheckedChanged);
+            // 
             // ucBlockControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.labelBlockedState);
-            this.Controls.Add(this.buttonSendBlockState);
+            this.Controls.Add(this.groupBoxBlockOpen);
             this.Name = "ucBlockControl";
-            this.Size = new System.Drawing.Size(97, 55);
+            this.Size = new System.Drawing.Size(104, 71);
+            this.groupBoxBlockOpen.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button buttonSendBlockState;
         private System.Windows.Forms.Label labelBlockedState;
+        private System.Windows.Forms.GroupBox groupBoxBlockOpen;
+        private ucToggleSwitch tsBlockOpen;
     }
 }
