@@ -293,11 +293,14 @@
     <Reference Include="GSNetWizard">
       <HintPath>E:\Program Files (x86)\GSNet\3.5\Bin\GSNetWizard.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloseCurves.cs" />
@@ -548,6 +551,12 @@
     </Compile>
     <Compile Include="ucTimeControl.Designer.cs">
       <DependentUpon>ucTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucToggleSwitch.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ucToggleSwitch.Designer.cs">
+      <DependentUpon>ucToggleSwitch.cs</DependentUpon>
     </Compile>
     <Compile Include="ucTransmitter.cs">
       <SubType>UserControl</SubType>
