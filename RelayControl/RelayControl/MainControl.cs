@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-11-14";
+        private const string revisionDate = "2017-12-20";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -300,11 +300,11 @@ namespace RelayControl
 #endif
 
 #if ATLANTA
-       this.groupBoxLowVoltThres.Visible = true;
+                this.groupBoxLowVoltThres.Visible = true;
 #else
-       this.groupBoxLowVoltThres.Visible = false;
+                this.groupBoxLowVoltThres.Visible = false;
 #endif
-       this.timerLiveEventAcknowledge.Interval = 250;
+                this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
                 this.ucCloseMode1.Send += standardizedSendData;
@@ -322,6 +322,7 @@ namespace RelayControl
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
                 this.ucBlockControl1.Send += standardizedSendData;
                 this.ucRemoteCommandBlock1.Send += standardizedSendData;
+                ucPhasorRequest1.Send += standardizedSendData;
 
                 this.ucCloseMode1.CloseControlException += this.standardExceptionMessage;
                 this.ucTripMode2.TripControlException += this.standardExceptionMessage;
@@ -337,6 +338,7 @@ namespace RelayControl
                 this.ucDNPSAv51.Error += standardExceptionMessage;
                 ucBlockControl1.Error += standardExceptionMessage;
                 ucRemoteCommandBlock1.Error += standardExceptionMessage;
+                ucPhasorRequest1.Error += standardExceptionMessage;
                 
                 this.ucForceCustomerSwitch1.CustomerSwitch += new ucForceCustomerSwitch.CustomerSwitchHanlder(ucForceCustomerSwitch1_CustomerSwitch);
                 this.ucLiveData1.PacketHandled += new ucLiveData.PacketHandledHandler(liveEvent_PacketHandled);
@@ -4663,6 +4665,11 @@ namespace RelayControl
                         this.ucPhasorGraph1.ValuesForUpdate(phasorType, realValue, imaginaryValue, this.CTRatio, rMS);
                     if (this.transmitterMonitoring)
                         this.setTransmitterPhasorValues(phasorType, realValue, imaginaryValue, this.CTRatio, rMS);
+
+                    // only send it to this if monitoring is not going on, so that it doens't get every
+                    // phasor that comes in during monitoring.
+                    if(!this.pQMonitoringEnabled)
+                        ucPhasorRequest1.SetPhasorValues(packet[0], packet[1], realValue, imaginaryValue, rMS);
                 }
             }
             catch (Exception ex)
@@ -4903,7 +4910,6 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
         }
-
 
         private delegate void setLabelTextCallBack(string s, Label l);
 

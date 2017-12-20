@@ -157,9 +157,13 @@ namespace RelayControlLibrary
 
     public enum Phases
     {
-        PhaseA,
-        PhaseB,
-        PhaseC
+        A,
+        B,
+        C,
+        TotalAverage,
+        Effective,
+        PositiveSeq,
+        NegativeSeq
     }
 
     public enum PhaseTypes
@@ -167,8 +171,8 @@ namespace RelayControlLibrary
         NetworkVoltage,
         TransformerVoltage,
         DifferentialVoltage,
-        CurrentHigh,
-        CurrentLow
+        Current,
+        Power
     }
 
     public enum PhasorTypes

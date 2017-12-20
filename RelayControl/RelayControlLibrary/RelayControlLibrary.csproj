@@ -426,6 +426,12 @@
     <Compile Include="ucGeneralCommandTestValues.Designer.cs">
       <DependentUpon>ucGeneralCommandTestValues.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucPhasorRequest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPhasorRequest.Designer.cs">
+      <DependentUpon>ucPhasorRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucRelayProgramming.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -659,6 +665,9 @@
     <EmbeddedResource Include="ucCloseMode.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ucCloseMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPhasorRequest.resx">
+      <DependentUpon>ucPhasorRequest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucRelayProgramming.resx">
       <DependentUpon>ucRelayProgramming.cs</DependentUpon>

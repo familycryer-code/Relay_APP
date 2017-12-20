@@ -183,12 +183,20 @@ namespace RelayControlLibrary
         {
             switch(p)
             {
-                case Phases.PhaseA:
+                case Phases.A:
                     return (byte)'A';
-                case Phases.PhaseB:
+                case Phases.B:
                     return (byte)'B';
-                case Phases.PhaseC:
+                case Phases.C:
                     return (byte)'C';
+                case Phases.Effective:
+                    return (byte)'E';
+                case Phases.NegativeSeq:
+                    return (byte)'N';
+                case Phases.PositiveSeq:
+                    return (byte)'P';
+                case Phases.TotalAverage:
+                    return (byte)'T';
                 default:
                     throw new Exception("Unrecognized Phase");
             }
@@ -198,16 +206,16 @@ namespace RelayControlLibrary
         {
             switch(pT)
             {
-                case PhaseTypes.CurrentHigh:
-                    return (byte)'H';
-                case PhaseTypes.CurrentLow:
-                    return (byte)'L';
+                case PhaseTypes.Current:
+                    return (byte)'I';
                 case PhaseTypes.DifferentialVoltage:
                     return (byte)'D';
                 case PhaseTypes.NetworkVoltage:
                     return (byte)'N';
                 case PhaseTypes.TransformerVoltage:
                     return (byte)'T';
+                case PhaseTypes.Power:
+                    return (byte)'P';
                 default:
                     throw new Exception("Unrecognized Phase Type");
             }
@@ -218,11 +226,11 @@ namespace RelayControlLibrary
             switch(s)
             {
                 case "PhaseA":
-                    return Phases.PhaseA;
+                    return Phases.A;
                 case "PhaseB":
-                    return Phases.PhaseB;
+                    return Phases.B;
                 case "PhaseC":
-                    return Phases.PhaseC;
+                    return Phases.C;
                 default:
                     throw new Exception(s + " is not a recognized Phase string");
             }
@@ -234,13 +242,25 @@ namespace RelayControlLibrary
             {
                 case 'A':
                 case 'a':
-                    return Phases.PhaseA;
+                    return Phases.A;
                 case 'B':
                 case 'b':
-                    return Phases.PhaseB;
+                    return Phases.B;
                 case 'C':
                 case 'c':
-                    return Phases.PhaseC;
+                    return Phases.C;
+                case 'T':
+                case 't':
+                    return Phases.TotalAverage;
+                case 'p':
+                case 'P':
+                    return Phases.PositiveSeq;
+                case 'N':
+                case 'n':
+                    return Phases.NegativeSeq;
+                case 'E':
+                case 'e':
+                    return Phases.Effective;
                 default:
                     throw new Exception(c + " is not a recognized Phase string");
             }
@@ -254,10 +274,8 @@ namespace RelayControlLibrary
                     return PhaseTypes.NetworkVoltage;
                 case "TransformerVoltage":
                     return PhaseTypes.TransformerVoltage;
-                case "CurrentHigh":
-                    return PhaseTypes.CurrentHigh;
-                case "CurrentLow":
-                    return PhaseTypes.CurrentLow;
+                case "Current":
+                    return PhaseTypes.Current;
                 case "DifferentialVoltage":
                     return PhaseTypes.DifferentialVoltage;
                 default:
@@ -277,7 +295,7 @@ namespace RelayControlLibrary
                     return PhaseTypes.TransformerVoltage;
                 case 'I':
                 case 'i':
-                    return PhaseTypes.CurrentLow;
+                    return PhaseTypes.Current;
                 case 'D':
                 case 'd':
                     return PhaseTypes.DifferentialVoltage;
