@@ -30,7 +30,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2017-12-20";
+        private const string revisionDate = "2018-01-12";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -551,6 +551,7 @@ namespace RelayControl
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
                 this.buttonForceI.Visible = false;
                 this.buttonUpdateCTRatio.Visible = false;
@@ -4394,24 +4395,23 @@ namespace RelayControl
                             if (revision.Contains("PLC"))
                             {
                                 this.Customer = Customers.DNPwithPLC;
-                                this.ucDNP1.Customer = this.Customer;
                             }
                             else if (revision.Contains("ATLANTA"))
                             {
                                 this.Customer = Customers.Atlanta;
-                                this.ucDNP1.Customer = this.Customer;
                             }
                             else if (revision.Contains("ONCOR"))
                             {
                                 this.Customer = Customers.Oncor;
-                                this.ucDNP1.Customer = this.Customer;
                             }
                             else if (revision.Contains("SMUD"))
                             {
                                 this.Customer = Customers.SMUD;
-                                this.ucDNP1.Customer = this.Customer;
                             }
-                            
+                            else
+                            {
+                                this.Customer = Customers.DigitalGridDNP;
+                            }
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();
                         }

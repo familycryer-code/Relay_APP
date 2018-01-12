@@ -45,9 +45,9 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 171002;
-        private static UInt32 _masterDNPRevisionNumber = 171002;
-        private static UInt32 _relayCodeRevisionNumber = 20170803;
+        private static UInt32 _masterCodeRevisionNumber = 180112;
+        private static UInt32 _masterDNPRevisionNumber = 180112;
+        private static UInt32 _relayCodeRevisionNumber = 20171219;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
 #endif
@@ -512,6 +512,9 @@ namespace RelayControlLibrary
                 workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGridDNP));
+                this.copyCustomerLoadFiles(workingLoadFile, regular);
+
                 workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
                 workingLoadFile.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
             }
@@ -763,11 +766,15 @@ namespace RelayControlLibrary
 
             }
             */
-#if BASICRELEASE
+#if BASICRELEASE && !DNP
             // This is a non-DNP, transmitter Enabled Relay
             this.TransmitterEnabled = true;
             this.DNPRelay = false;
             this.reprogramFPGA = true;
+#elif DNP
+            this.TransmitterEnabled = false;
+            this.DNPRelay = true;
+            this.reprogramFPGA = false;
 #endif
 #if DEBUG
             dR = new CustomYesNoDialog("Select Communication Type", "Does this have DNP?", "Yes", "No").ShowDialog();
@@ -1142,6 +1149,25 @@ namespace RelayControlLibrary
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
 #endif
+
+#if DNP
+            if (this.GEEnabled)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
+                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
+                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif 
 
             if (this.transmitterEnabled)
             {

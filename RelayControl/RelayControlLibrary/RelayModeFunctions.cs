@@ -226,10 +226,13 @@ namespace RelayControlLibrary
             switch(s)
             {
                 case "PhaseA":
+                case "A":
                     return Phases.A;
                 case "PhaseB":
+                case "B":
                     return Phases.B;
                 case "PhaseC":
+                case "C":
                     return Phases.C;
                 default:
                     throw new Exception(s + " is not a recognized Phase string");
