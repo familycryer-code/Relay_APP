@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using MyFileIO;
 using SavedSettings;
 using SharedResources;
+using System.Diagnostics;
 
 namespace RelayControl
 {
@@ -2329,6 +2330,8 @@ namespace RelayControl
                 index = bytePacket[0];
                 index <<= 8;
                 index += bytePacket[1];
+
+                Debug.WriteLine("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
 
                 type = RelayModeFunctions.PhasorTypeFrom((char)bytePacket[3], (char)bytePacket[2]);
 
@@ -4642,7 +4645,7 @@ namespace RelayControl
 
             this.phasorReceived = true;
             this.missedMonitoringCount = 0;
-
+            Debug.WriteLine("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
             phasorType = RelayModeFunctions.PhasorTypeFrom((char)packet[0], (char)packet[1]);
 
             try

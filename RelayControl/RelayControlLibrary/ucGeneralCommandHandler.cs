@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SharedResources;
+using System.Diagnostics;
 
 namespace RelayControlLibrary
 {
@@ -42,6 +43,7 @@ namespace RelayControlLibrary
             this.OutgoingCommands.Add(new OutgoingCommand(12, "Send Params to Master", new byte[0]));
             this.OutgoingCommands.Add(new OutgoingCommand(13, "Request Params from Master", new byte[0]));
             this.OutgoingCommands.Add(new OutgoingCommand(14, "Load Default Parms", new byte[0]));
+            this.OutgoingCommands.Add(new OutgoingCommand(15, "Selective Phasor Request", new byte[2], new OutgoingCommandFunctionDelegate(this.GetPhaseAndType)));
 
             foreach (OutgoingCommand oC in this.OutgoingCommands)
             {
@@ -122,6 +124,28 @@ namespace RelayControlLibrary
                 returnByte[i] = (byte)time;
                 time >>= 8;
             }
+            return returnByte;
+        }
+
+        private byte[] GetPhaseAndType()
+        {
+            byte[] returnByte = new byte[2];
+            int typeMask = 0, phaseMask = 0;
+
+            foreach(int indexChecked in checkedListBoxType.CheckedIndices)
+            {
+                Debug.WriteLine("Type index: " + indexChecked);
+                typeMask += (1 << indexChecked);
+            }
+            returnByte[0] = (byte)typeMask;
+
+            foreach (int indexChecked in checkedListBoxPhase.CheckedIndices)
+            {
+                Debug.WriteLine("Phase index: " + indexChecked);
+                phaseMask += (1 << indexChecked);
+            }
+            returnByte[1] = (byte)phaseMask;
+
             return returnByte;
         }
 
@@ -242,9 +266,16 @@ namespace RelayControlLibrary
 
             this.textBoxReturnValue.Width = newWidth;
         }
+
         #endregion
 
-
+        private void comboBoxOutgoingCommands_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxOutgoingCommands.SelectedItem.ToString() == "Selective Phasor Request")
+                groupBoxTypeAndPhaseSelect.Visible = true;
+            else
+                groupBoxTypeAndPhaseSelect.Visible = false;
+        }
     }
 
     public delegate void IncommingCommandFunctionDelegate(byte[] b);

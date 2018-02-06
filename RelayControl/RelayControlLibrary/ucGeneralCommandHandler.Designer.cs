@@ -29,16 +29,21 @@
         private void InitializeComponent()
         {
             this.groupBoxGeneralCommand = new System.Windows.Forms.GroupBox();
+            this.groupBoxTypeAndPhaseSelect = new System.Windows.Forms.GroupBox();
+            this.checkedListBoxPhase = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxType = new System.Windows.Forms.CheckedListBox();
             this.textBoxReturnValue = new System.Windows.Forms.TextBox();
             this.labelIncomingCommandName = new System.Windows.Forms.Label();
             this.buttonRepeatedSend = new System.Windows.Forms.Button();
             this.buttonSendOnce = new System.Windows.Forms.Button();
             this.comboBoxOutgoingCommands = new System.Windows.Forms.ComboBox();
             this.groupBoxGeneralCommand.SuspendLayout();
+            this.groupBoxTypeAndPhaseSelect.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxGeneralCommand
             // 
+            this.groupBoxGeneralCommand.Controls.Add(this.groupBoxTypeAndPhaseSelect);
             this.groupBoxGeneralCommand.Controls.Add(this.textBoxReturnValue);
             this.groupBoxGeneralCommand.Controls.Add(this.labelIncomingCommandName);
             this.groupBoxGeneralCommand.Controls.Add(this.buttonRepeatedSend);
@@ -50,6 +55,49 @@
             this.groupBoxGeneralCommand.TabIndex = 0;
             this.groupBoxGeneralCommand.TabStop = false;
             this.groupBoxGeneralCommand.Text = "General Command";
+            // 
+            // groupBoxTypeAndPhaseSelect
+            // 
+            this.groupBoxTypeAndPhaseSelect.Controls.Add(this.checkedListBoxPhase);
+            this.groupBoxTypeAndPhaseSelect.Controls.Add(this.checkedListBoxType);
+            this.groupBoxTypeAndPhaseSelect.Location = new System.Drawing.Point(10, 74);
+            this.groupBoxTypeAndPhaseSelect.Name = "groupBoxTypeAndPhaseSelect";
+            this.groupBoxTypeAndPhaseSelect.Size = new System.Drawing.Size(404, 128);
+            this.groupBoxTypeAndPhaseSelect.TabIndex = 5;
+            this.groupBoxTypeAndPhaseSelect.TabStop = false;
+            this.groupBoxTypeAndPhaseSelect.Text = "Type and Phase Select";
+            // 
+            // checkedListBoxPhase
+            // 
+            this.checkedListBoxPhase.FormattingEnabled = true;
+            this.checkedListBoxPhase.Items.AddRange(new object[] {
+            "A",
+            "B",
+            "C",
+            "N",
+            "P",
+            "T",
+            "E"});
+            this.checkedListBoxPhase.Location = new System.Drawing.Point(173, 19);
+            this.checkedListBoxPhase.Name = "checkedListBoxPhase";
+            this.checkedListBoxPhase.Size = new System.Drawing.Size(161, 109);
+            this.checkedListBoxPhase.TabIndex = 1;
+            // 
+            // checkedListBoxType
+            // 
+            this.checkedListBoxType.FormattingEnabled = true;
+            this.checkedListBoxType.Items.AddRange(new object[] {
+            "Trans",
+            "Net",
+            "Diff",
+            "Cur",
+            "Pow",
+            "THDV",
+            "THDI"});
+            this.checkedListBoxType.Location = new System.Drawing.Point(6, 19);
+            this.checkedListBoxType.Name = "checkedListBoxType";
+            this.checkedListBoxType.Size = new System.Drawing.Size(161, 109);
+            this.checkedListBoxType.TabIndex = 0;
             // 
             // textBoxReturnValue
             // 
@@ -96,6 +144,7 @@
             this.comboBoxOutgoingCommands.Name = "comboBoxOutgoingCommands";
             this.comboBoxOutgoingCommands.Size = new System.Drawing.Size(244, 21);
             this.comboBoxOutgoingCommands.TabIndex = 0;
+            this.comboBoxOutgoingCommands.SelectedIndexChanged += new System.EventHandler(this.comboBoxOutgoingCommands_SelectedIndexChanged);
             // 
             // ucGeneralCommandHandler
             // 
@@ -106,6 +155,7 @@
             this.Size = new System.Drawing.Size(426, 215);
             this.groupBoxGeneralCommand.ResumeLayout(false);
             this.groupBoxGeneralCommand.PerformLayout();
+            this.groupBoxTypeAndPhaseSelect.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -118,6 +168,8 @@
         private System.Windows.Forms.Button buttonSendOnce;
         private System.Windows.Forms.ComboBox comboBoxOutgoingCommands;
         private System.Windows.Forms.TextBox textBoxReturnValue;
-
+        private System.Windows.Forms.GroupBox groupBoxTypeAndPhaseSelect;
+        private System.Windows.Forms.CheckedListBox checkedListBoxPhase;
+        private System.Windows.Forms.CheckedListBox checkedListBoxType;
     }
 }
