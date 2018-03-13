@@ -31,7 +31,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2018-03-12";
+        private const string revisionDate = "2018-03-13";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -586,6 +586,7 @@ namespace RelayControl
                     tabControlMain.TabPages.Remove(tabPageTransmitter);
                 if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
                     tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
+                ucRemoteCommandBlock1.Visible = false;
     #endif
 #else
                 this.Customer = Customers.NonConEd;
