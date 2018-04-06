@@ -63,17 +63,19 @@ namespace RelayControlLibrary
             this.labelEa.Visible = false;
             this.labelFa.Visible = false;
             this.labelGa.Visible = false;
+#if DNP
             this.labelHa.Text = "Oil Level";
             this.labelHa.Location = new Point(4, 142);
+            this.checkBoxFlagStatusH.Visible = false;
+#else
+            this.labelHa.Visible = false;
+            this.textBoxHa.Visible = false;
+#endif
 #elif DEBUG && Enmax
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 #else
             groupBoxAnalogFlagValues.Visible = false;
-#endif
-
-#if Enmax && !DEBUG
-            this.checkBoxFlagStatusH.Visible = false;
 #endif
 
 #if DG288_TESTFIXTURE_GUI
