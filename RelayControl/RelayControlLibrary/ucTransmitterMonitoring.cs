@@ -63,10 +63,14 @@ namespace RelayControlLibrary
             this.labelEa.Visible = false;
             this.labelFa.Visible = false;
             this.labelGa.Visible = false;
+            this.labelQPres.Visible = false;
+            this.textBoxQBit.Visible = false;
 #if DNP
             this.labelHa.Text = "Oil Level";
             this.labelHa.Location = new Point(4, 142);
             this.checkBoxFlagStatusH.Visible = false;
+            this.labelQPres.Visible = true;
+            this.textBoxQBit.Visible = true;
 #else
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
