@@ -69,19 +69,16 @@ namespace RelayControlLibrary
         
         public decimal Value
         {
-            set { this.numericUpDownValue.Value = value / this.multiplier; }
+            set {
+                // This line needs to be in here to make sure that it redraws the control 
+                // when it is currently blank (the number has been deleted) and a new value
+                // come in.
+                numericUpDownValue.Text = " ";
+                this.numericUpDownValue.Value = value / this.multiplier;
+            }
             get
             {
                 return Math.Round(this.numericUpDownValue.Value * this.multiplier);
-            }
-        }
-
-        public string numericText
-        {
-            set { this.numericUpDownValue.Text = value; }
-            get
-            {
-                return this.numericUpDownValue.Text;
             }
         }
 

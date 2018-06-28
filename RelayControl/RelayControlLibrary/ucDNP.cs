@@ -159,8 +159,6 @@ namespace RelayControlLibrary
 
                     if(!failed)
                     {
-                        if (uDDB.numericText == "")
-                            uDDB.numericText = Convert.ToString(uDDB.Value);
                         sEA.SendPacket[index] = (byte)uDDB.Value;
                         index++;
                         if(index >= 90)
@@ -654,7 +652,6 @@ namespace RelayControlLibrary
                         if(!failed)
                         {
                             uDDB.Value = bytePacket[index];
-                            uDDB.numericText = Convert.ToString(uDDB.Value);
                             index++;
                         }
                     }
