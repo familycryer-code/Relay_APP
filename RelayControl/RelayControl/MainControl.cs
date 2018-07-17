@@ -22,6 +22,7 @@ using MyFileIO;
 using SavedSettings;
 using SharedResources;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace RelayControl
 {
@@ -31,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2018-04-06";
+        private const string revisionDate = "2018-07-16";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -562,7 +563,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName;// 2013-07-25"; 
+                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;

@@ -433,11 +433,6 @@ namespace RelayControlLibrary
                 this.panelOtherAlarmSettings.Show();
                 this.labelOtherAlarmSettings.Show();
 #endif
-
-#if Enmax && !DEBUG && DNP
-                this.panelFlagSettingH.Hide();
-                this.label12.Hide();
-#endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
                 this.labelGeneralSettings.Show();
