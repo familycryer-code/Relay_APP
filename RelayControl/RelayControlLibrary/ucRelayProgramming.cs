@@ -912,7 +912,7 @@ namespace RelayControlLibrary
             checkDNP();
 
 #if PSEG
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_PSEG;
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
             if (this.GEEnabled)
