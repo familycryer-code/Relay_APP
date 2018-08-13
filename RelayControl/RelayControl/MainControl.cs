@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2018-07-17";
+        private const string revisionDate = "2018-08-01";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -414,6 +414,9 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
                 if (this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
                     this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                if (tabControlMain.TabPages.Contains(tabPageEngineering2))
+                    tabControlMain.TabPages.Remove(tabPageEngineering2);
+
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
 
@@ -429,6 +432,7 @@ namespace RelayControl
                 this.groupBoxLRLockoutMain.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.groupBoxRelayStatus.Visible = false;
+                checkBoxReprogramBootAuto.Visible = false;
 
                 this.tabPageControl.Text = "Safe Service";
 
