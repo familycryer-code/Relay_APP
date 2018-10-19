@@ -26,13 +26,13 @@ using System.Reflection;
 
 namespace RelayControl
 {
-    
+
     public partial class MainControl : Form
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2018-08-01";
+        private const string revisionDate = "2018-10-19";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -110,18 +110,18 @@ namespace RelayControl
             set
             {
 #if !DEBUG
-                if(value && !this.DNPEnabled && this.Customer != Customers.ConEdison)
+                if (value && !this.DNPEnabled && this.Customer != Customers.ConEdison)
                 {
-                    if(!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                        this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);   
+                        this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
                     }
                 }
                 else
                 {
 #if !PLC && DNP
-                    if(this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
@@ -185,7 +185,7 @@ namespace RelayControl
                         }
                     }
                     else // Memphis style
-                   { 
+                    {
                         if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                             this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
@@ -264,7 +264,7 @@ namespace RelayControl
             }
         }
 
-        private int savedSaveFileComboBoxWidth; 
+        private int savedSaveFileComboBoxWidth;
 
         public MainControl()
         {
@@ -295,7 +295,7 @@ namespace RelayControl
                 this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
                 this.buttonUpdateCTRatio.Visible = false;
 
-                this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width; 
+                this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
 #if !SeattleTest
                 this.initializeExternalFileRevisionNumber(); //Get the saved data version
                 this.initializeSaveObject();            //Check the save data to see
@@ -341,7 +341,7 @@ namespace RelayControl
                 ucBlockControl1.Error += standardExceptionMessage;
                 ucRemoteCommandBlock1.Error += standardExceptionMessage;
                 ucPhasorRequest1.Error += standardExceptionMessage;
-                
+
                 this.ucForceCustomerSwitch1.CustomerSwitch += new ucForceCustomerSwitch.CustomerSwitchHanlder(ucForceCustomerSwitch1_CustomerSwitch);
                 this.ucLiveData1.PacketHandled += new ucLiveData.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucTransmitter1.CTChanged += new ucTransmitter.CTChangedHandler(ucTransmitter1_CTChanged);
@@ -390,7 +390,7 @@ namespace RelayControl
                 this.ucLiveData1.DownloadComplete += new ucLiveData.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucLiveData1.PopulatePhasorGraph += new ucLiveData.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucPhasorGraph1.RequestNewCycle += new ucPhasorGraph.RequestNewCycleHandler(ucPhasorGraph1_RequestNewCycle);
-                
+
                 this.radioButtonEvent0.Checked = true;
                 this.initializeToolTip();
 #if DG288_TESTFIXTURE_GUI
@@ -586,13 +586,13 @@ namespace RelayControl
 #elif DNP
                 this.Customer = Customers.DigitalGridDNP;
                 this.DNPEnabled = true;
-    #if ATLANTA || ONCOR
+#if ATLANTA || ONCOR
                 if (tabControlMain.TabPages.Contains(tabPageTransmitter))
                     tabControlMain.TabPages.Remove(tabPageTransmitter);
                 if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
                     tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
                 ucRemoteCommandBlock1.Visible = false;
-    #endif
+#endif
 #else
                 this.Customer = Customers.NonConEd;
                 this.DNPEnabled = false;
@@ -603,7 +603,7 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = true;
 
 #if DNP
-    #if DEBUG
+#if DEBUG
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
@@ -611,8 +611,8 @@ namespace RelayControl
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
-    #endif
-                
+#endif
+
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -840,7 +840,7 @@ namespace RelayControl
                 if (!this.sendAll)
                 {
                     this.sendPacketAck(sEA.SendPacket, o.ToString());
-                    if(sEA.RequestAll)
+                    if (sEA.RequestAll)
                     {
                         this.requestAllData();
                         this.parametersLoaded = true;
@@ -906,7 +906,7 @@ namespace RelayControl
         private void makeMemphisGUI()
         {
             this.Customer = Customers.Memphis;
-            
+
             if (this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
             {
                 this.tabPageDNPData.Controls.Remove(this.dNPDigitalGridData);
@@ -1188,7 +1188,7 @@ namespace RelayControl
         private System.Timers.Timer timerLiveEventAcknowledge = new System.Timers.Timer();
         void ucEventGraph_DownloadComplete()
         {
-            if (eventValue < downloadableEvents-1)
+            if (eventValue < downloadableEvents - 1)
             {
                 eventValue++;
                 focusEventGraphDownloading(eventValue);
@@ -1222,19 +1222,19 @@ namespace RelayControl
         {
             if (eventNumber == 0)
                 this.radioButtonEvent0.Checked = true;
-            else if(eventNumber == 1)
+            else if (eventNumber == 1)
                 this.radioButtonEvent1.Checked = true;
-            else if(eventNumber == 2)
+            else if (eventNumber == 2)
                 this.radioButtonEvent2.Checked = true;
-            else if(eventNumber == 3)
+            else if (eventNumber == 3)
                 this.radioButtonEvent3.Checked = true;
-            else if(eventNumber == 4)
+            else if (eventNumber == 4)
                 this.radioButtonEvent4.Checked = true;
-            else if(eventNumber == 5)
+            else if (eventNumber == 5)
                 this.radioButtonEvent5.Checked = true;
-            else if(eventNumber == 6)
+            else if (eventNumber == 6)
                 this.radioButtonEvent6.Checked = true;
-            else if(eventNumber == 7)
+            else if (eventNumber == 7)
                 this.radioButtonEvent7.Checked = true;
         }
 
@@ -1548,7 +1548,7 @@ namespace RelayControl
                 Thread.Sleep(100);
                 this.ucTransmitter1.SendTransmitterSettings();
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                
+
             }
         }
 
@@ -1746,7 +1746,7 @@ namespace RelayControl
                                 command = IncomingCommCommands.Invalid;
                                 break;
                             }
-                            if(!ucRelayProgramming1.ReprogrammingInProgress)
+                            if (!ucRelayProgramming1.ReprogrammingInProgress)
                                 Thread.Sleep(100); //added to prevent duplicate requests
                         }
                         else if (command == IncomingCommCommands.Boot)
@@ -2286,7 +2286,7 @@ namespace RelayControl
             this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
             this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
 #elif !ATLANTA
-            if(bytePacket[0] == 12)
+            if (bytePacket[0] == 12)
             {
                 DialogResult dR = DialogResult.OK;
                 this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
@@ -2423,7 +2423,7 @@ namespace RelayControl
             temp += bytePacket[1];
             temp <<= 8;
             temp += bytePacket[0];
-            
+
             eBT.BinaryTime = temp;
 
             this.ucTimeControl1.RelayDateTimeUTC = eBT.SystemTime;
@@ -2821,7 +2821,7 @@ namespace RelayControl
                 this.requestEventData(eventValue);
                 setEventDownloadNumber();
                 setEventTimer();
-            }      
+            }
             else
             {
                 this.acknowledge();
@@ -2856,7 +2856,7 @@ namespace RelayControl
             int eventDownloadTime = 50;
 
             eventDownloadTime = getEventDownloadTime();
-            if(ucEventGraph0.Type != EventTypes.NoEvent)
+            if (ucEventGraph0.Type != EventTypes.NoEvent)
                 this.downloadingDialogCountDown("Downloading", "Downloading ALL Events", eventDownloadTime, false);
         }
 
@@ -3028,7 +3028,7 @@ namespace RelayControl
                 {
                     this.timerResponseTimeOut.Enabled = false;
                     this.dataRetryCount = 0;
-                    if(!loadingNewCode)
+                    if (!loadingNewCode)
                         this.requestFPGARevision();
                 }
 
@@ -3038,7 +3038,7 @@ namespace RelayControl
                     this.GEEnabled = true;
                     this.gEEnableChangeBlocked = true;
                 }
-                else if(temp.Contains("WH"))
+                else if (temp.Contains("WH"))
                 {
                     this.gEEnableChangeBlocked = false;
                     this.GEEnabled = false;
@@ -3261,13 +3261,13 @@ namespace RelayControl
             {
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
-                
-                if(this.loadingNewCode && !ucRelayProgramming1.ReprogrammingInProgress)
+
+                if (this.loadingNewCode && !ucRelayProgramming1.ReprogrammingInProgress)
                     MessageBox.Show("All Parameters Received", "Data Recieved", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 else
                     this.messageHandler("Data Recieved", "All Parameters Received");
 
-                
+
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
                 {
@@ -3287,7 +3287,7 @@ namespace RelayControl
 
             this.enableAll(true);
             this.RegisterPolling(true);
-            
+
 #if WATERBUG
             this.toolStripStatusLabelMain.Text = "Test Set found on " + this.serialPort1.PortName;
 #else
@@ -3316,25 +3316,25 @@ namespace RelayControl
 
         private void startMonitoringWBSettings()
         {
-            #if MADISON || DG288_TESTFIXTURE_GUI
+#if MADISON || DG288_TESTFIXTURE_GUI
                 if (this.allEnabled)
                     this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
 
                 this.requestPhasorData();
                 this.everyOtherMonitor = false;
-            #endif
+#endif
 
-            #if MADISON
+#if MADISON
                 this.groupBoxLRLockoutMain.Visible = true;
-            #else
-                this.groupBoxLRLockoutMain.Visible = false;
-            #endif
+#else
+            this.groupBoxLRLockoutMain.Visible = false;
+#endif
         }
 
         private void CheckTransmitterTab()
         {
             if (this.tabControlMain.SelectedTab == this.tabPageTransmitter)
-                tabControlMain_SelectedIndexChanged(null,null);
+                tabControlMain_SelectedIndexChanged(null, null);
         }
 
         private void updateCTRatioDomain(int CT_ratio, DomainUpDown dUP)
@@ -3487,7 +3487,7 @@ namespace RelayControl
             {
                 this.ucTransmitter1.SendTransmitterSettings();
                 Thread.Sleep(100);
-            }   
+            }
         }
 
         private void removeDNPTabs()
@@ -3510,7 +3510,7 @@ namespace RelayControl
                 this.pauseMonitoring = true;
                 return;
             }
-               
+
 
             setRelayStatusLabels(bytePacket);
         }
@@ -3832,7 +3832,7 @@ namespace RelayControl
                 }
 
                 b = bytePacket[3];
-                if((b & 1) == 1)
+                if ((b & 1) == 1)
                 {
                     ucRemoteCommandBlock1.CommandsBlocked = true;
                 }
@@ -3938,10 +3938,10 @@ namespace RelayControl
                     else
                     {
 #if !DEBUG
-                            if(this.Customer != Customers.ConEdison) //if the GUI is not currently in ConEd mode
-                            {
-                                this.Customer = Customers.ConEdison;
-                            }
+                        if (this.Customer != Customers.ConEdison) //if the GUI is not currently in ConEd mode
+                        {
+                            this.Customer = Customers.ConEdison;
+                        }
 #endif
                     }
                 }
@@ -4341,7 +4341,7 @@ namespace RelayControl
             this.rXReadPtr = this.rXWritePtr = 0;
 
             var Bootstr = System.Text.Encoding.Default.GetString(bytePacket);
-            Bootstr = Bootstr.Substring(0,Bootstr.Length - 1);
+            Bootstr = Bootstr.Substring(0, Bootstr.Length - 1);
 
             setBootRevision(Bootstr);
             this.ucRelayProgramming1.BootReceived(Bootstr);
@@ -4349,7 +4349,7 @@ namespace RelayControl
 
         private void setBootRevision(string BootRevision)
         {
-            BootRevision = BootRevision.Trim( new Char[] { ' ', 'O', 'T'} );
+            BootRevision = BootRevision.Trim(new Char[] { ' ', 'O', 'T' });
             if (BootRevision.Contains("I") || BootRevision.Contains("D"))
             {
                 this.labelBootRevision.Text = "BOOT REVISION DNP " + BootRevision;
@@ -4358,7 +4358,7 @@ namespace RelayControl
             {
                 this.labelBootRevision.Text = "BOOT REVISION " + BootRevision;
             }
-                
+
             this.labelBootRevision.Visible = true;
         }
 
@@ -4426,10 +4426,10 @@ namespace RelayControl
                         }
                         break;
                 }
-                
+
                 if (this.Customer == Customers.None)
                     this.Customer = Customers.DigitalGrid;
-                
+
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
@@ -4677,7 +4677,7 @@ namespace RelayControl
 
                     // only send it to this if monitoring is not going on, so that it doens't get every
                     // phasor that comes in during monitoring.
-                    if(!this.pQMonitoringEnabled)
+                    if (!this.pQMonitoringEnabled)
                         ucPhasorRequest1.SetPhasorValues(packet[0], packet[1], realValue, imaginaryValue, rMS);
                 }
             }
@@ -5195,7 +5195,7 @@ namespace RelayControl
             {
                 this.timerRegisterPolling.Enabled = false;
                 return;
-            }  
+            }
 
             if (this.ProgramState != ProgramStates.DownloadingAllParameters)     //checked so it does not start the timer during initial download, but starts it everytime the program is running
                 this.timerRegisterPolling.Enabled = true;
@@ -5613,13 +5613,13 @@ namespace RelayControl
                 this.requestedAllParameters = true;
                 this.ProgramState = ProgramStates.DownloadingAllParameters;
 
-                
+
                 if (!ucRelayProgramming1.ReprogrammingInProgress)
                 {
                     this.requestRelayRevision();
                     this.timerResponseTimeOut.Enabled = true;
                 }
-                    
+
             }
             return;
         }
@@ -5847,7 +5847,7 @@ namespace RelayControl
             //else 
             if (bytePacket[1] == 2)
             {
-                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved" , "ok").ShowDialog();
+                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved", "ok").ShowDialog();
             }
             else if (bytePacket[1] == 0)
             {
@@ -5857,7 +5857,7 @@ namespace RelayControl
 
                 this.monitoring(false);
                 this.RegisterPolling(false);
-                DialogResult dR = new YesNoMessageBoxResized("Calibration Complete","Save Calibration Constants?", "Yes", "No").ShowDialog();
+                DialogResult dR = new YesNoMessageBoxResized("Calibration Complete", "Save Calibration Constants?", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                     this.sendSaveCalibration();
                 this.monitoring(tempBool1);
@@ -6186,7 +6186,7 @@ namespace RelayControl
             {
                 this.timerRegisterPolling.Enabled = false;
                 return;
-            }  
+            }
 
             this.loadingNewCode = false;
             if (!this.serialPort1.IsOpen)
@@ -6226,7 +6226,7 @@ namespace RelayControl
 
                 this.enableFlagsAndStatus(false);
 
-                if(!this.relayFound)
+                if (!this.relayFound)
                     this.requestMasterRevisionNumber();
             }
 
@@ -6250,7 +6250,7 @@ namespace RelayControl
             }
             ulong timeTemp = 0;
 
-            if(this.requestingDNPData)
+            if (this.requestingDNPData)
             {
                 this.requestDNPData();
             }
@@ -6457,7 +6457,7 @@ namespace RelayControl
             this.downloadingCanceled = false;
             this.buttonRQEventData.Enabled = false;
             this.requestLiveDataToolStripMenuItem1.Enabled = false;
-            
+
             this.requestTransmitterSettings();
             DialogResult dR = this.messageHandler("Continue?", "This will take a while. \r\n Please Be Patient.", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
@@ -6491,21 +6491,21 @@ namespace RelayControl
         {
             int downloadTime = 50;
 
-            if(downloadableEvents == 1)
+            if (downloadableEvents == 1)
                 downloadTime = 50;
-            else if(downloadableEvents == 2)
+            else if (downloadableEvents == 2)
                 downloadTime = 100;
-            else if(downloadableEvents == 3)
+            else if (downloadableEvents == 3)
                 downloadTime = 150;
-            else if(downloadableEvents == 4)
+            else if (downloadableEvents == 4)
                 downloadTime = 200;
-            else if(downloadableEvents == 5)
+            else if (downloadableEvents == 5)
                 downloadTime = 250;
-            else if(downloadableEvents == 6)
+            else if (downloadableEvents == 6)
                 downloadTime = 300;
-            else if(downloadableEvents == 7)
+            else if (downloadableEvents == 7)
                 downloadTime = 350;
-            else if(downloadableEvents == 8)
+            else if (downloadableEvents == 8)
                 downloadTime = 400;
 
             return downloadTime;
@@ -6870,7 +6870,7 @@ namespace RelayControl
                 sS.Name += "Time:" + DateTime.Now.ToString("HH:mm");
 #endif
 
-                
+
                 this.getAllSaveStates(sS);
                 this.saveObject.AddState(sS);
                 this.writeSaveObjectToFile();
@@ -7060,7 +7060,7 @@ namespace RelayControl
 #endif
 
 #if DNP
-            if(receivedMasterRevision.Contains("DNP"))
+            if (receivedMasterRevision.Contains("DNP"))
                 this.ucTransmitter1.ForceDNPEnable = true;
 #endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
@@ -7143,7 +7143,7 @@ namespace RelayControl
 
             if (downloadEventsClicked != true)
                 temp = this.downloadProgress.Text;
-            else if(ucEventGraph0.Type != EventTypes.NoEvent)
+            else if (ucEventGraph0.Type != EventTypes.NoEvent)
             {
                 temp = this.downloadProgress.Text;
             }
@@ -7153,7 +7153,7 @@ namespace RelayControl
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonRQEventData.Enabled = true;
 
-            if(temp != "null")
+            if (temp != "null")
                 this.downloadProgress.Dispose();
             this.timerLiveEventAcknowledge.Enabled = false;
 
@@ -7739,7 +7739,7 @@ namespace RelayControl
             {
                 this.disableAllMonitoring();
             }
-            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter 
+            if (this.tabControlMain.SelectedTab != this.tabPageTransmitterMonitoring && this.tabControlMain.SelectedTab != this.tabPageTransmitter
                 && this.tabControlMain.SelectedTab != this.tabPageControl)
             {
                 this.pauseTransmitterMonitoring();
@@ -8297,7 +8297,7 @@ namespace RelayControl
         }
 
         private void requestDNPData()
-        { 
+        {
             byte[] sendPacket = new byte[3];
 
             sendPacket[0] = 0x05;
@@ -8342,23 +8342,23 @@ namespace RelayControl
                 this.ucTripMode2.SequenceRelay = true;
         }
 
-        
+
         private void comboBoxSavedStates_DropDown(object sender, EventArgs e)
         {
             ComboBox senderComboBox = (ComboBox)sender;
             int width = senderComboBox.DropDownWidth;
             Graphics g = senderComboBox.CreateGraphics();
             Font font = senderComboBox.Font;
-            int vertScrollBarWidth = 
-                (senderComboBox.Items.Count>senderComboBox.MaxDropDownItems)
-                ?SystemInformation.VerticalScrollBarWidth:0;
+            int vertScrollBarWidth =
+                (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                ? SystemInformation.VerticalScrollBarWidth : 0;
 
             int newWidth;
             foreach (string s in ((ComboBox)sender).Items)
             {
-                newWidth = (int) g.MeasureString(s, font).Width 
+                newWidth = (int)g.MeasureString(s, font).Width
                     + vertScrollBarWidth;
-                if (width < newWidth )
+                if (width < newWidth)
                 {
                     width = newWidth;
                 }
@@ -8378,7 +8378,7 @@ namespace RelayControl
 
             try
             {
-                if (numericUpDownLowVoltageThres.Value <= numericUpDownLowVoltageThres.Maximum && 
+                if (numericUpDownLowVoltageThres.Value <= numericUpDownLowVoltageThres.Maximum &&
                     numericUpDownLowVoltageThres.Value >= numericUpDownLowVoltageThres.Minimum)
                 {
                     sEA.SendPacket[0] = Convert.ToByte('&');
@@ -8390,7 +8390,7 @@ namespace RelayControl
                 }
                 else
                 {
-                    MessageBox.Show("Low Voltage Threshold Value must be between %i and %i" + 
+                    MessageBox.Show("Low Voltage Threshold Value must be between %i and %i" +
                         numericUpDownLowVoltageThres.Minimum + " and " + numericUpDownLowVoltageThres.Maximum);
                 }
 
@@ -8400,7 +8400,7 @@ namespace RelayControl
                     this.requestAllData();
                     this.parametersLoaded = true;
                 }
-                
+
             }
             catch
             {
@@ -8426,11 +8426,11 @@ namespace RelayControl
 
             try
             {
-                    sEA.SendPacket[0] = Convert.ToByte('?');
-                    sEA.SendPacket[1] = 0x55;
-                    sEA.SendPacket[2] = 0x0D;
+                sEA.SendPacket[0] = Convert.ToByte('?');
+                sEA.SendPacket[1] = 0x55;
+                sEA.SendPacket[2] = 0x0D;
 
-                    this.sendPacket(sEA.SendPacket);
+                this.sendPacket(sEA.SendPacket);
             }
             catch
             {
@@ -8484,7 +8484,7 @@ namespace RelayControl
                 */
                 GC.SuppressFinalize(BaseStream);
             }
-            catch{}
+            catch { }
         }
 
         public new void Dispose()
@@ -8510,10 +8510,10 @@ namespace RelayControl
                 ** ignored
                 */
                 GC.ReRegisterForFinalize(BaseStream);
-                
+
                 base.Dispose(disposing);
             }
-            catch{}
+            catch { }
 
             //base.Dispose(disposing);
         }
@@ -8570,7 +8570,7 @@ namespace RelayControl
                 this.Settings.Add(sS);
             }
 
-            this.Settings.Sort(delegate(SavedSettingv2 sS1, SavedSettingv2 sS2) { return sS1.Name.CompareTo(sS2.Name); });
+            this.Settings.Sort(delegate (SavedSettingv2 sS1, SavedSettingv2 sS2) { return sS1.Name.CompareTo(sS2.Name); });
         }
 
         public void DeleteState(string name)
@@ -8653,7 +8653,7 @@ namespace RelayControl
                 this.Settings.Add(sS);
             }
 
-            this.Settings.Sort(delegate(SavedSettingV3 sS1, SavedSettingV3 sS2) { return sS1.Name.CompareTo(sS2.Name); });
+            this.Settings.Sort(delegate (SavedSettingV3 sS1, SavedSettingV3 sS2) { return sS1.Name.CompareTo(sS2.Name); });
         }
 
         public void DeleteState(string name)
@@ -8736,7 +8736,7 @@ namespace RelayControl
                 this.Settings.Add(sS);
             }
 
-            this.Settings.Sort(delegate(SavedSettingV4 sS1, SavedSettingV4 sS2) { return sS1.Name.CompareTo(sS2.Name); });
+            this.Settings.Sort(delegate (SavedSettingV4 sS1, SavedSettingV4 sS2) { return sS1.Name.CompareTo(sS2.Name); });
         }
 
         public void DeleteState(string name)
@@ -8899,7 +8899,7 @@ namespace RelayControl
             {
                 this.Name = (string)info.GetValue("Name", typeof(string));
                 this.TripSettings = (TripModeSavedStateV4)info.GetValue("Trip Settings", typeof(TripModeSavedStateV4));
-                this.CloseSettings= (CloseModeSaveStateV4)info.GetValue("Close Settings", typeof(CloseModeSaveStateV4));
+                this.CloseSettings = (CloseModeSaveStateV4)info.GetValue("Close Settings", typeof(CloseModeSaveStateV4));
                 this.PumpSettings = (PumpModeSavedStateV2)info.GetValue("Pump Settings", typeof(PumpModeSavedStateV2));
 
 #if DNP
