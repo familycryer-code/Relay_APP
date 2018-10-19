@@ -45,8 +45,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 180112;
-        private static UInt32 _masterDNPRevisionNumber = 180112;
+        private static UInt32 _masterCodeRevisionNumber = 181019;
+        private static UInt32 _masterDNPRevisionNumber = 181019;
         private static UInt32 _relayCodeRevisionNumber = 20180312;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -129,7 +129,7 @@ namespace RelayControlLibrary
                 this.reprogrammingInProgress = value;
             }
         }
-            
+
         public void startReloadingJustBoot()
         {
             this.programmingForm.ClearAllChecks();
@@ -144,7 +144,7 @@ namespace RelayControlLibrary
             set
             {
                 this.programBootCodeStart = value;
-                if(programBootCodeStart == true)
+                if (programBootCodeStart == true)
                 {
                     if (programBootCodeInProgress == false)
                         ProgramBootCode();
@@ -153,7 +153,7 @@ namespace RelayControlLibrary
             }
         }
 
-        
+
         public bool ProgramBootCodeInProgress
         {
             get { return this.programBootCodeInProgress; }
@@ -197,7 +197,7 @@ namespace RelayControlLibrary
                 this.forceUpdateReason = value;
             }
         }
-        
+
         public delegate void SendDelegate(object o, RelayProgrammingEventArgs rPEA);
         public event SendDelegate Send;
         public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
@@ -226,7 +226,7 @@ namespace RelayControlLibrary
                 {
                     this.serialNumberError = false;
                 }
-               
+
                 if (this.serialNumber >= 25000 ^ this.gERelay) //25k and up are GE Serial Numbers
                     this.gERelaySerialMatch = false;
                 else
@@ -239,7 +239,7 @@ namespace RelayControlLibrary
             set
             {
                 this.currentRelayLog.GERelay = this.gERelay = value;
-                
+
                 if (this.gERelay ^ this.serialNumber >= 25000)
                     this.gERelaySerialMatch = false;
                 else
@@ -248,7 +248,7 @@ namespace RelayControlLibrary
         }
         public bool DNPRelay
         {
-            get { return this.dNPRelay;}
+            get { return this.dNPRelay; }
             set
             {
 #if ATLANTA || ONCOR
@@ -262,7 +262,8 @@ namespace RelayControlLibrary
         public bool TransmitterEnabled
         {
             get { return this.transmitterEnabled; }
-            set{
+            set
+            {
                 this.transmitterEnabled = value;
                 this.programmingForm.TransmitterPresent = value;
                 this.currentRelayLog.FPGAPresent = value;
@@ -287,7 +288,7 @@ namespace RelayControlLibrary
                 // 012345 is the value loaded in the boot loader
                 if (value == 012345 || value == 121116)
                     this.loadMasterFirst = true;
-               
+
                 // If it is a rev 1/0. it shouldn't be upgraded
                 /*
                 if (value < 100713)
@@ -331,16 +332,16 @@ namespace RelayControlLibrary
                 }
 
                 this.remoteMasterRevisionNumber = value;
-                
+
                 // Check to make sure that it only checks while idle so that we don't accident reset it during reloads
-                if(this.State == RelayProgrammingStates.Idle)
+                if (this.State == RelayProgrammingStates.Idle)
                 {
                     setWrongRelayTypeAutoLoad();
 #if DNP
-                        if ((this.remoteMasterRevisionNumber < _masterDNPRevisionNumber)|| wrongRelayTypeAutoLoad)
-                            this.reprogramMaster = true;
-                        else
-                            this.reprogramMaster = false;
+                    if ((this.remoteMasterRevisionNumber < _masterDNPRevisionNumber) || wrongRelayTypeAutoLoad)
+                        this.reprogramMaster = true;
+                    else
+                        this.reprogramMaster = false;
 #else
                         if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
@@ -361,7 +362,7 @@ namespace RelayControlLibrary
         }
         public UInt32 RelayRevisionNumber
         {
-            get { return this.remoteRelayRevisionNumber;}
+            get { return this.remoteRelayRevisionNumber; }
             set
             {
                 this.remoteRelayRevisionNumber = value;
@@ -373,7 +374,7 @@ namespace RelayControlLibrary
         }
         public UInt32 FPGARevisionNumber
         {
-            get { return this.remoteFPGARevisionNumber;}
+            get { return this.remoteFPGARevisionNumber; }
             set
             {
                 if (value == 0xFFFFFF)
@@ -447,7 +448,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler("Error Populating Customer ComboBox", ex);
-            }   
+            }
         }
 
         /// <summary>
@@ -500,7 +501,7 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.NonConEd));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.None));
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.None));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.PEPCO));
@@ -509,7 +510,7 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Atlanta));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile  = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGridDNP));
@@ -546,7 +547,7 @@ namespace RelayControlLibrary
             this.reprogramBootCodeAuto = true;
 #endif
 
-            
+
 
             if ((askToUgradeShown == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
             {
@@ -583,7 +584,7 @@ namespace RelayControlLibrary
 
             if ((dontShowRelayUpgradeMessage == false && this.ProgramBootCodeInProgress == false && this.masterBootRevisionSet && this.upgradeAutoDR == DialogResult.Yes) || !askToUgradeShown)
                 this.CheckForUpdate();
-            
+
         }
 
         private bool MasterBootRevisionSet()
@@ -597,7 +598,7 @@ namespace RelayControlLibrary
                     Thread.Sleep(1000);
                     return false;
                 }
-                else 
+                else
                     return true;
             }
             else
@@ -664,7 +665,7 @@ namespace RelayControlLibrary
             this.programmingForm.ClearAllChecks();
 
             warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-            
+
             if (warningBootDR == DialogResult.OK)
             {
                 this.dontShowRelayUpgradeMessage = false;
@@ -682,7 +683,7 @@ namespace RelayControlLibrary
 
         private DialogResult checkDNPPLCMessage(DialogResult dR)
         {
-            if(masterRevisionString.Contains("DNP"))
+            if (masterRevisionString.Contains("DNP"))
             {
 #if !DNP
                 //show that it is dnp relay on plc gui
@@ -701,7 +702,7 @@ namespace RelayControlLibrary
 
         private bool setWrongRelayTypeAutoLoad()
         {
-            if(masterRevisionString != "")
+            if (masterRevisionString != "")
             {
                 if (masterRevisionString.Contains("DNP"))
                 {
@@ -731,7 +732,7 @@ namespace RelayControlLibrary
             if (dR != DialogResult.Yes)
                 return;
 
-            if(notPollingPort)
+            if (notPollingPort)
                 dR = checkDNPPLCMessage(dR);
 
             if (dR == DialogResult.No)
@@ -740,7 +741,7 @@ namespace RelayControlLibrary
             this.dontReloadFromResource = false;
             this.useDefaultSettings = true;
 
-            switch(this.customer)
+            switch (this.customer)
             {
                 case Customers.Memphis:
                     this.GEEnabled = false;
@@ -803,16 +804,16 @@ namespace RelayControlLibrary
 
 #endif
             if (this.notPollingPort)
-                {
-                    this.CheckForProperBootCodeManualUpdate();
-                    if (masterBootRevisionSet == true)
-                        this.startManualReloadWithBootCheck();
-                }
-                else
-                {
-                    this.startManualReload();
-                }
-                
+            {
+                this.CheckForProperBootCodeManualUpdate();
+                if (masterBootRevisionSet == true)
+                    this.startManualReloadWithBootCheck();
+            }
+            else
+            {
+                this.startManualReload();
+            }
+
         }
 
         private void startManualReloadWithBootCheck()
@@ -824,8 +825,8 @@ namespace RelayControlLibrary
             this.CheckForProperBootCodeManualUpdate();
 
             this.programmingForm.ClearAllChecks();
-            
-            if(masterBootRevisionSet == true)
+
+            if (masterBootRevisionSet == true)
             {
                 this.setProgrammingFiles();
                 this.startProgramming();
@@ -880,7 +881,7 @@ namespace RelayControlLibrary
         {
             DialogResult dR;
 
-            switch(this.customer)
+            switch (this.customer)
             {
                 case Customers.Memphis:
                     this.TransmitterEnabled = false;
@@ -1172,7 +1173,7 @@ namespace RelayControlLibrary
 
         public void CheckForUpdate()
         {
-            if(forceRelayUpdate == false)
+            if (forceRelayUpdate == false)
             {
                 if (!this.firstCheckForUpdate)
                     return;
@@ -1201,7 +1202,7 @@ namespace RelayControlLibrary
 
         public bool CheckForBootCodeUpdate()
         {
-            if(masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
+            if (masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
                 return true;
             else
                 return false;
@@ -1237,7 +1238,7 @@ namespace RelayControlLibrary
                 this.setProgrammingFiles();
                 this.startAutoLoad();
             }
-            
+
         }
 
         private void askIfGERelay()
@@ -1280,13 +1281,13 @@ namespace RelayControlLibrary
 
         private void addGERelayToTransmitterPacket(bool b)
         {
-            if(b)
+            if (b)
                 this.TransmitterPacket[28] |= 0x10;
             else
                 this.TransmitterPacket[28] &= 0xEF;
         }
 
-        
+
         private void startAutoLoad()
         {
             DialogResult dR;
@@ -1298,7 +1299,7 @@ namespace RelayControlLibrary
                 askToUgradeShown = true;
                 dR = showAutoLoadUpdateMessage();
 #if !DEBUG
-                if(dR == DialogResult.Yes)
+                if (dR == DialogResult.Yes)
                     dR = checkDNPPLCMessage(dR);
 #endif
             }
@@ -1306,7 +1307,7 @@ namespace RelayControlLibrary
             {
                 dR = DialogResult.Yes;
             }
-                
+
             if (dR == DialogResult.Yes)
             {
                 // If we aren't loading from resource, don't bother asking this question
@@ -1320,7 +1321,7 @@ namespace RelayControlLibrary
                 {
                     dR = DialogResult.Yes;
                 }
-                
+
 
                 if (dR == DialogResult.Yes)
                 {
@@ -1329,7 +1330,7 @@ namespace RelayControlLibrary
                     rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
 
                     this.onSend(rPEA);
-                    
+
                     // If we aren't loading from resource, don't bother warning
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
@@ -1337,10 +1338,10 @@ namespace RelayControlLibrary
                     this.writeLineToTraceFile("User Verified Programming Start");
 
                     this.autoLoad = true;
-                    if(!programmingForm.MasterBootComplete)
+                    if (!programmingForm.MasterBootComplete)
                         this.programmingForm.ClearAllChecks();
                     this.startProgramming();
-                    if(!this.programmingForm.Visible)
+                    if (!this.programmingForm.Visible)
                         this.programmingForm.ShowDialog();
                 }
             }
@@ -1348,7 +1349,7 @@ namespace RelayControlLibrary
             {
                 this.autoLoad = false;
             }
-                
+
         }
 
         public void PrepForBoot()
@@ -1479,7 +1480,7 @@ namespace RelayControlLibrary
         public void BootReceived(string bootReceived)
         {
             this.labelState.Text = "Boot Received";
-            if(this.autoLoad && !this.programmingForm.Visible && this.state != RelayProgrammingStates.AutoLoadCheckBoot)
+            if (this.autoLoad && !this.programmingForm.Visible && this.state != RelayProgrammingStates.AutoLoadCheckBoot)
                 this.programmingForm.ShowDialog();
 
             this.writeLineToTraceFile("Boot Received - " + this.state.ToString());
@@ -1507,7 +1508,7 @@ namespace RelayControlLibrary
                     this.sendMasterTransferPacket();
                     break;
                 case RelayProgrammingStates.LoadingMasterCode:
-                    if(this.failCount == 5)
+                    if (this.failCount == 5)
                         this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Wait for a while and then Try Manually Resetting Relay";
 
                     this.failCount++;
@@ -1546,7 +1547,7 @@ namespace RelayControlLibrary
             }
         }
 
-        
+
         bool IsDigitsOnly(string str)
         {
             foreach (char c in str)
@@ -1589,7 +1590,7 @@ namespace RelayControlLibrary
                         this.programmingForm.CurrentTask = "Loading Relay Data";
                         this.writeLineToTraceFile("Loading Relay Data");
                         this.programmingForm.Maximum = this.relayCode.NumberOfDataBlocks;
-                        
+
                         this.sendNextRelayPacket();
                         return;
                     }
@@ -1607,7 +1608,7 @@ namespace RelayControlLibrary
                     this.labelCodeCount.Text = temp.ToString();
 
                     this.writeStringToTraceFile("RC, ");
-                    
+
                     this.onSend(rPEA);
                 }
                 catch (Exception ex)
@@ -1641,7 +1642,7 @@ namespace RelayControlLibrary
                 temp++;
 
                 this.labelDataCount.Text = temp.ToString();
-                
+
             }
             else
             {
@@ -1772,14 +1773,14 @@ namespace RelayControlLibrary
                         for (int i = 0; i < 1024; i++)
                         {
                             rPEA.BytesToSend[i] = this.masterCode.CodeBytes[0];
-                            this.masterCode.CodeBytes.RemoveAt(0);               
-                        }  
+                            this.masterCode.CodeBytes.RemoveAt(0);
+                        }
                     }
 
                     if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
                         this.onSend(rPEA);
 
-                    if(temp == programmingForm.Maximum)
+                    if (temp == programmingForm.Maximum)
                     {
                         this.doneLoadingMasterBootLoader();
                     }
@@ -1794,7 +1795,7 @@ namespace RelayControlLibrary
                 catch (Exception ex)
                 {
                     this.errorHandler("Error Sending Next Master Boot Data", ex);
-                }      
+                }
             }
         }
 
@@ -1802,7 +1803,7 @@ namespace RelayControlLibrary
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
-            
+
             this.failCount = 0;
 
             if (this.State == RelayProgrammingStates.LoadingMasterCode)
@@ -1864,8 +1865,8 @@ namespace RelayControlLibrary
                     this.masterCode.DataBytes.RemoveAt(0);
                 }
 
-                
-                
+
+
                 temp++;
                 this.programmingForm.ProgressValue = temp;
                 this.labelDataCount.Text = temp.ToString();
@@ -1901,13 +1902,13 @@ namespace RelayControlLibrary
                     rPEA.BytesToSend[i] = this.fPGACode.DataBytes[this.fPGACode.SendIndex];
                     this.fPGACode.SendIndex++;
                 }
-                
-                
+
+
                 this.programmingForm.ProgressValue = temp;
                 temp++;
                 this.labelCodeCount.Text = temp.ToString();
                 this.writeStringToTraceFile("FP, ");
-                
+
                 this.onSend(rPEA);
             }
             catch (Exception ex)
@@ -1981,7 +1982,7 @@ namespace RelayControlLibrary
                         this.programmingForm.CurrentTask = "Loading FPGA";
                         this.writeLineToTraceFile("Loading FPGA");
                     }
-                    else if(this.programMasterBootFileSelect)
+                    else if (this.programMasterBootFileSelect)
                         startManualBootCodeLoad();
                     else
                         this.allReprogramingDone();
@@ -2091,7 +2092,7 @@ namespace RelayControlLibrary
                 this.State = RelayProgrammingStates.Idle;
                 this.askToUgradeShown = true;
                 this.finalizeReprogram();
-            }    
+            }
         }
 
         private void requestAll()
@@ -2158,14 +2159,14 @@ namespace RelayControlLibrary
                 this.requestAll();
             }
 
-                
+
             if (!programBootCodeOnly)
             {
                 firstCheckForUpdate = true;
 
                 CheckForUpdate();
             }
-                
+
         }
 
         public void FinalizeReprogram()
@@ -2181,7 +2182,7 @@ namespace RelayControlLibrary
                 this.loadMasterFirst = false;
                 this.firstCheckForUpdate = false;
             }
-            
+
         }
 
         private void logUpdate()
@@ -2190,7 +2191,7 @@ namespace RelayControlLibrary
             {
                 if (!Directory.Exists(@"C:\DGI Systems\Relay\Log\"))
                     Directory.CreateDirectory(@"C:\DGI Systems\Relay\Log\");
-                if(!File.Exists(@"C:\DGI Systems\Relay\Log\UpdateLog.txt"))
+                if (!File.Exists(@"C:\DGI Systems\Relay\Log\UpdateLog.txt"))
                     using (File.Create(@"C:\DGI Systems\Relay\Log\UpdateLog.txt")) { };
                 using (StreamWriter sW = new StreamWriter(@"C:\DGI Systems\Relay\Log\UpdateLog.txt", true))
                 {
@@ -2233,7 +2234,7 @@ namespace RelayControlLibrary
 #if !DEBUG
                 return;
 #endif
-                if(!fileWritingAllowed)
+                if (!fileWritingAllowed)
                     return;
                 if (!File.Exists(this.traceFile))
                     return;
@@ -2242,7 +2243,7 @@ namespace RelayControlLibrary
                     sW.WriteLine(s);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.fileWritingAllowed = false;
                 this.errorHandler("Error Writing To Trace File", ex);
@@ -2267,7 +2268,7 @@ namespace RelayControlLibrary
 
                 using (StreamReader sR = new StreamReader(this.traceFile, Encoding.ASCII))
                 {
-                    while(sR.Peek() >= 0)
+                    while (sR.Peek() >= 0)
                     {
                         tempString = sR.ReadLine();
                     }
@@ -2289,7 +2290,7 @@ namespace RelayControlLibrary
                 this.errorHandler("Error Writing To Trace File", ex);
             }
         }
-        
+
         private void sendNonTransmitterSettings()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
@@ -2314,7 +2315,7 @@ namespace RelayControlLibrary
 
             rPEA.BytesToSend[0] = 0x55; // 'U'
             rPEA.BytesToSend[1] = this.masterCode.NumberOfCodeBlocks;
-            if(this.masterCode.WithParameters)
+            if (this.masterCode.WithParameters)
                 rPEA.BytesToSend[2] = this.masterCode.NumberOfDataBlocks;
             else
                 rPEA.BytesToSend[2] = this.masterCode.NonParameterCount;
@@ -2352,7 +2353,7 @@ namespace RelayControlLibrary
                 this.labelState.Text = "Sent Relay Transfer Packet";
                 this.writeLineToTraceFile("Sent Relay Transfer Packet");
             }
-            
+
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
         }
@@ -2458,7 +2459,7 @@ namespace RelayControlLibrary
                         {
                             properBootCode = true;
                             checkBootDate = false;
-                        }  
+                        }
 
                     }
                     else
@@ -2485,13 +2486,13 @@ namespace RelayControlLibrary
                         MessageBox.Show("Boot code correct", "Correct Boot code loaded");
                         Thread.Sleep(500);
                         restartProgram();
-                    }  
+                    }
                 }
                 else if (reloadBootWithPrompt == false && manualReload == true)
                 {
                     checkBootCodeforProperDate();
                 }
-                
+
                 this.reloadBootWithPrompt = false;
             }
         }
@@ -2648,7 +2649,7 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler("Error Parsing FPGA File", ex);
-            }   
+            }
         }
 
 
@@ -2683,7 +2684,7 @@ namespace RelayControlLibrary
 
                         rPD.CodeBytes = new List<byte>();
                         tempBootAddress = address - 0x20;
-                        
+
                         // Might want to check this address
                         while (address < 0x88000)
                         {
@@ -2701,7 +2702,7 @@ namespace RelayControlLibrary
                                         rPD.CodeBytes.Add((byte)0xFF);
                                 }
 
-                                while (tempBootAddress < 0x87FFC-0x40 && tempBootAddress > 0x82000)
+                                while (tempBootAddress < 0x87FFC - 0x40 && tempBootAddress > 0x82000)
                                 {
                                     tempBootAddress = tempBootAddress + 0x20;
                                     for (int i = 0; i < 32; i++)
@@ -2717,7 +2718,7 @@ namespace RelayControlLibrary
 
                             length = Convert.ToUInt16(length - 5);
 
-                            if(address != 0x87FFC)
+                            if (address != 0x87FFC)
                             {
                                 for (int i = 0; i < length; i++)
                                 {
@@ -2987,7 +2988,7 @@ namespace RelayControlLibrary
                 this.Error(this, eEA);
         }
 
-#region Button Events
+        #region Button Events
 
         private void buttonSelectMasterSFile_Click(object sender, EventArgs e)
         {
@@ -3093,7 +3094,7 @@ namespace RelayControlLibrary
             }
 
             this.parseSFile(this.relayCode);
-            
+
             this.State = RelayProgrammingStates.LoadingRelayCode;
             int temp = this.relayCode.NumberOfCodeBlocks * 2;
             this.programmingForm.Maximum = temp;
@@ -3164,7 +3165,7 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendReset();
-            if((wrongRelayTypeAutoLoad && !masterRevisionString.Contains("DNP")) || programmingForm.MasterBootComplete)
+            if ((wrongRelayTypeAutoLoad && !masterRevisionString.Contains("DNP")) || programmingForm.MasterBootComplete)
                 Thread.Sleep(1000);
             this.enableButtons(false);
         }
@@ -3202,7 +3203,7 @@ namespace RelayControlLibrary
         private void startProgramming()
         {
             this.reprogrammingInProgress = true;
-            if(!this.loadMasterFirst)
+            if (!this.loadMasterFirst)
             {
                 if (this.autoLoad)
                 {
@@ -3242,7 +3243,7 @@ namespace RelayControlLibrary
                     this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
                     this.programmingForm.CurrentTask = "Loading Relay Code";
                 }
-            
+
                 int temp = this.relayCode.NumberOfCodeBlocks * 2;
                 this.labelCodeTotal.Text = temp.ToString();
 
@@ -3257,12 +3258,12 @@ namespace RelayControlLibrary
                     this.masterCode.WithParameters = true;
                 else
                     this.masterCode.WithParameters = false;
-            }   
+            }
             else
             {
                 if (this.autoLoad)
                 {
-                    if (!this.reprogramMaster)                
+                    if (!this.reprogramMaster)
                     {
                         this.programmingForm.MasterCodeComplete = true;
                         this.programmingForm.MasterDataComplete = true;
@@ -3300,7 +3301,7 @@ namespace RelayControlLibrary
                 }
                 int temp = this.masterCode.NumberOfCodeBlocks * 2;
                 this.labelCodeTotal.Text = temp.ToString();
-                if(this.masterCode.WithParameters)
+                if (this.masterCode.WithParameters)
                     this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();
                 else
                     this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
@@ -3330,7 +3331,7 @@ namespace RelayControlLibrary
 
             int temp = this.masterCode.NumberOfCodeBlocks * 2;
             this.labelCodeTotal.Text = temp.ToString();
-            if(this.masterCode.WithParameters)
+            if (this.masterCode.WithParameters)
                 this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();
             else
                 this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
@@ -3444,15 +3445,15 @@ namespace RelayControlLibrary
                 this.masterCode.WithParameters = false;
                 this.startMasterProgramming();
             }
-                
+
 
         }
-#region FPGA
+        #region FPGA
 
         private void buttonProgramFPGA_Click(object sender, EventArgs e)
         {
             this.autoLoad = false;
-            
+
             this.dontReloadFromResource = true;
             this.programmingForm.ClearAllChecks();
             this.programFPGA();
@@ -3474,7 +3475,7 @@ namespace RelayControlLibrary
                 Thread.Sleep(1000);
         }
 
-#endregion
+        #endregion
 
 
         private void enableButtons(bool b)
@@ -3491,7 +3492,7 @@ namespace RelayControlLibrary
             this.PrepForBoot();
         }
 
-#endregion
+        #endregion
 
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
@@ -3504,7 +3505,7 @@ namespace RelayControlLibrary
             this.timerTimeout.Interval = 10000;
             this.timerTimeout.Start();
 
-            switch(this.State)
+            switch (this.State)
             {
                 case RelayProgrammingStates.LoadingMasterData:
                 case RelayProgrammingStates.LoadingMasterCode:
@@ -3529,13 +3530,13 @@ namespace RelayControlLibrary
                     this.programmingForm.Hide();
                     this.restartProgram();
                     break;
-                
+
                 case RelayProgrammingStates.LoadingMasterBootLoader:
                     this.state = RelayProgrammingStates.ReloadMasterBoot;
                     break;
             }
 
-            
+
         }
 
         private void startManualBootCodeLoad()
@@ -3548,7 +3549,7 @@ namespace RelayControlLibrary
             programMasterBootFileSelect = false;
             ProgramBootCodeStart = true;
         }
-        
+
         private void buttonStartAutoLoad_Click(object sender, EventArgs e)
         {
             this.useDefaultSettings = false;
@@ -3581,7 +3582,7 @@ namespace RelayControlLibrary
                 this.startProgramming();
             }
 
-            if (this.textBoxFPGAFile.Text.Trim().Length == 0 && this.textBoxRelayFileName.Text.Trim().Length == 0 && 
+            if (this.textBoxFPGAFile.Text.Trim().Length == 0 && this.textBoxRelayFileName.Text.Trim().Length == 0 &&
                 this.textBoxMasterFileName.Text.Trim().Length == 0)
             {
                 DialogResult result = MessageBox.Show("No files selected. Do you want to program all using defaults?", "Warning",
@@ -3848,7 +3849,7 @@ namespace RelayControlLibrary
                 }
             }
             return returnList;
-            
+
         }
         private List<byte> initializeBeginningCode(int outside, int inside)
         {
@@ -3989,7 +3990,7 @@ namespace RelayControlLibrary
             this.RelayFileGE = cLF.RelayFileGE;
             this.RelayFileWH = cLF.RelayFileWH;
             this.RelayFileAtlantaWH = cLF.RelayFileAtlantaWH;
-            this.RelayFileAtlantaGE = cLF.RelayFileAtlantaGE; 
+            this.RelayFileAtlantaGE = cLF.RelayFileAtlantaGE;
         }
 
         public Customers Customer = Customers.None;
