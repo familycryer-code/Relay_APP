@@ -11,6 +11,5 @@ namespace RelayControlLibrary
         }
 
         public CloseCurveDefinition[] CurveArray = new CloseCurveDefinition[4];
-
     }
 }

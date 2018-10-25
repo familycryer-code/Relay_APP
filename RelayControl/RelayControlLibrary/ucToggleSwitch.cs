@@ -34,10 +34,10 @@ namespace RelayControlLibrary
                 path.AddArc(this.Width - r - d, d, r, r, -90, 180);
                 path.CloseFigure();
                 pEA.Graphics.FillPath(Checked ? Brushes.DarkGray : Brushes.LightGray, path);
-                r = Height -  1;
+                r = Height - 1;
                 var rect = Checked ? new Rectangle(Width - r - 1, 0, r, r)
                     : new Rectangle(0, 0, r, r);
-                pEA.Graphics.FillEllipse(Checked ? new SolidBrush(CheckedColor): new SolidBrush(UncheckedColor), rect);
+                pEA.Graphics.FillEllipse(Checked ? new SolidBrush(CheckedColor) : new SolidBrush(UncheckedColor), rect);
             }
         }
     }

@@ -49,13 +49,14 @@ namespace RelayControlLibrary
             {
                 this.eventEnableVisible = value;
                 this.checkBoxEventEnabled.Visible = value;
-                this.labelEventEnable.Visible = value; 
+                this.labelEventEnable.Visible = value;
             }
         }
         public bool PointEnabled
         {
             get { return this.Enabled; }
-            set {
+            set
+            {
                 this.Enabled = value;
             }
         }

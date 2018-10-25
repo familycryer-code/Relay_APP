@@ -16,11 +16,11 @@ namespace RelayControlLibrary
 
         public PhasorTypes PhasorType = new PhasorTypes();
         public int ClickedCycleNumber = 0;
-        public float        maxValue = 100f;
-        public bool         ShowOdds = false;
-        public ArrayList    Amplitudes = new ArrayList(128);
-        public bool         NoScale = false;
-        public int          NumberOfHarmonics
+        public float maxValue = 100f;
+        public bool ShowOdds = false;
+        public ArrayList Amplitudes = new ArrayList(128);
+        public bool NoScale = false;
+        public int NumberOfHarmonics
         {
             get { return this.numberOfHarmonics; }
             set
@@ -30,7 +30,7 @@ namespace RelayControlLibrary
                 this.setXAxisValues();
             }
         }
-        public float[]      SineWave
+        public float[] SineWave
         {
             set
             {
@@ -58,7 +58,7 @@ namespace RelayControlLibrary
         private float savedDistance;
         private int savedIndex;
         private float totalHarmonicDistortion;
-        
+
 
         public FrequencyGraph()
         {
@@ -68,7 +68,7 @@ namespace RelayControlLibrary
             this.setConversionFactor();
             this.DoubleBuffered = true;
         }
-      
+
         #region Drawing
 
         private void FrequencyGraph_Resize(object sender, EventArgs e)
@@ -107,7 +107,7 @@ namespace RelayControlLibrary
             Graphics onPaintGraphics = e.Graphics;
 
             this.drawBorder(onPaintGraphics);
-            if(this.Amplitudes.Count == 0)
+            if (this.Amplitudes.Count == 0)
                 return;
 
             for (int i = 0; i < this.xAxisValues.Count; ++i)
@@ -116,13 +116,13 @@ namespace RelayControlLibrary
                 floatWrapper fW;
                 try
                 {
-                     fW = (floatWrapper)this.Amplitudes[i];
+                    fW = (floatWrapper)this.Amplitudes[i];
                 }
                 catch
                 {
                     return;
                 }
-                
+
                 p1 = new PointF((float)this.xAxisValues[i], this.Size.Height);
                 p2 = new PointF((float)this.xAxisValues[i], this.Size.Height - (fW.GraphingValue));// / this.maxValue));
                 try
@@ -131,7 +131,7 @@ namespace RelayControlLibrary
                 }
                 catch
                 {
-                    
+
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace RelayControlLibrary
 
         private void setGraphDrawingValues()
         {
- 	        this.topLeft = new PointF(0, 0);
+            this.topLeft = new PointF(0, 0);
             this.topRight = new PointF(this.Size.Width - 1, 0);
             this.bottomLeft = new PointF(0, this.Size.Height - 1);
             this.bottomRight = new PointF(this.Size.Width - 1, this.Size.Height - 1);
@@ -151,7 +151,7 @@ namespace RelayControlLibrary
 
         private void drawBorder(Graphics oPG)
         {
-            
+
             oPG.DrawLine(this.graphPen, this.topLeft, this.topRight);
             oPG.DrawLine(this.graphPen, this.topRight, this.bottomRight);
             oPG.DrawLine(this.graphPen, this.bottomRight, this.bottomLeft);
@@ -169,19 +169,19 @@ namespace RelayControlLibrary
 
             for (int i = 0; i < harmonicsArray.Length - 1; ++i)
             {
-                harmonicsArray[i] = (float)Math.Sqrt(((floatArray[(i << 1) + 2]/128f) * (floatArray[(i << 1) + 2]/128f)) + ((floatArray[(i << 1) + 3]/128f) * (floatArray[(i << 1) + 3]/128f)));
+                harmonicsArray[i] = (float)Math.Sqrt(((floatArray[(i << 1) + 2] / 128f) * (floatArray[(i << 1) + 2] / 128f)) + ((floatArray[(i << 1) + 3] / 128f) * (floatArray[(i << 1) + 3] / 128f)));
                 harmonicsArray[i] /= 2f;
                 harmonicsArray[i] /= (float)Math.Sqrt(2d);
                 //For when it is only 128 samples in the whole thing
                 harmonicsArray[i] *= 8;
             }
-            
+
             for (int i = 0; i < numberOfHarmonics; ++i)
             {
-                this.UpdateValue(harmonicsArray[(i*8) + 7], i);
+                this.UpdateValue(harmonicsArray[(i * 8) + 7], i);
 
             }
-            
+
             this.SetTHD(floatArray);
             this.ScaleValues();
             this.Invalidate();
@@ -195,14 +195,14 @@ namespace RelayControlLibrary
             {
                 float sumOfSquares = 0;
                 floatWrapper fW;
-                int i = 1;           
-                
-                if(this.Amplitudes.Count < 2)
+                int i = 1;
+
+                if (this.Amplitudes.Count < 2)
                 {
                     this.totalHarmonicDistortion = 0;
                     return;
                 }
-                for(; i < this.Amplitudes.Count >> 1; ++i)
+                for (; i < this.Amplitudes.Count >> 1; ++i)
                 {
                     fW = (floatWrapper)this.Amplitudes[i];
                     fW.Value *= (float)Math.Sqrt(2d);
@@ -249,22 +249,22 @@ namespace RelayControlLibrary
             float highestValue = 0;
             floatWrapper fW;
 
-            for(int i = 0; i < this.Amplitudes.Count; ++i)
+            for (int i = 0; i < this.Amplitudes.Count; ++i)
             {
                 fW = (floatWrapper)this.Amplitudes[i];
-                if(fW.Value > highestValue)
+                if (fW.Value > highestValue)
                     highestValue = fW.Value;
             }
 
-            if(highestValue > this.maxValue || highestValue < this.maxValue / 2f)
+            if (highestValue > this.maxValue || highestValue < this.maxValue / 2f)
             {
-                this.maxValue = highestValue * 1.25f;   
+                this.maxValue = highestValue * 1.25f;
             }
 
             foreach (floatWrapper fWrapper in this.Amplitudes)
             {
                 this.conversionFactor = fWrapper.ConversionFactor = this.Size.Height / this.maxValue;
-                
+
             }
         }
 
@@ -274,7 +274,7 @@ namespace RelayControlLibrary
             {
                 float distance = 10000, tempDistance;
                 int closestIndex = 0;
-                
+
                 for (int i = 0; i < this.xAxisValues.Count; ++i)
                 {
 
@@ -292,7 +292,7 @@ namespace RelayControlLibrary
 
                 string harmonic;
 
-                switch(++closestIndex)
+                switch (++closestIndex)
                 {
                     case 1:
                         harmonic = "Fundamental";
@@ -397,13 +397,13 @@ namespace RelayControlLibrary
 
                 float temp = fW.Value;
 
-                if(!this.NoScale)
+                if (!this.NoScale)
                 {
                     temp = fW.Value / (float)Math.Sqrt(2d);
 
                 }
 
-                if(this.protector277 && !RelayModeFunctions.IsCurrent(this.PhasorType))
+                if (this.protector277 && !RelayModeFunctions.IsCurrent(this.PhasorType))
                 {
                     temp = temp * Constants.Protector277Convert;
                 }
@@ -413,7 +413,7 @@ namespace RelayControlLibrary
             catch
             {
             }
-            
+
         }
 
         private void FrequencyGraph_MouseLeave(object sender, EventArgs e)
@@ -458,7 +458,7 @@ namespace RelayControlLibrary
             set
             {
                 this.conversionFactor = value;
-                
+
                 this.GraphingValue = this.conversionFactor * this.Value;
             }
         }

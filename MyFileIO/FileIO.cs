@@ -9,7 +9,7 @@ namespace MyFileIO
     {
         public MyFile(string path)
         {
-            if(!File.Exists(path))
+            if (!File.Exists(path))
             {
                 this.myFile = File.Create(path);
                 this.Path = path;
@@ -55,11 +55,11 @@ namespace MyFileIO
 
         public void Close()
         {
-            if(this.IsOpen)
+            if (this.IsOpen)
             {
-                if(this.myStreamReader != null)
+                if (this.myStreamReader != null)
                     this.myStreamReader.Close();
-                if(this.myStreamWriter != null)
+                if (this.myStreamWriter != null)
                     this.myStreamWriter.Close();
                 this.myFile.Close();
             }

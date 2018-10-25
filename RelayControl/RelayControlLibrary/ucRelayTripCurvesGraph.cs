@@ -37,7 +37,7 @@ namespace PhasorDisplayGraph
             double radiansY;
 
             double sideY;                                           //y interest of line
-            double sideRadius = (double)radius;                              
+            double sideRadius = (double)radius;
 
             if (angleOffset != 0)
             {
@@ -89,7 +89,7 @@ namespace PhasorDisplayGraph
                             returnFloats[1] += 270f;
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace PhasorDisplayGraph
                 returnFloats[0] = this.angleFrom(Math.Asin(sideY / (double)radius));
                 returnFloats[1] = Offset180From(returnFloats[0]);
             }
-            
+
             return returnFloats;
         }
 

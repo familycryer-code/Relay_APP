@@ -58,11 +58,11 @@ namespace RelayControlLibrary
                     upDown.Maximum = sO.Maximum;
                 }
 
-                name.Location = new Point(3,3);
+                name.Location = new Point(3, 3);
                 name.AutoSize = true;
-                upDown.Location = new Point(160,3);
+                upDown.Location = new Point(160, 3);
                 units.Location = new Point(upDown.Location.X + upDown.Size.Width, 3);
-                
+
                 this.Controls.Add(name);
                 this.Controls.Add(units);
                 this.Controls.Add(upDown);
@@ -72,7 +72,7 @@ namespace RelayControlLibrary
 
                 this.PerformLayout();
                 this.ResumeLayout();
-                
+
             }
             catch (Exception ex)
             {
@@ -88,14 +88,14 @@ namespace RelayControlLibrary
                 ComboBox cB;
                 Point p = new Point(3, 5);
 
-                foreach(SettingsObject sO in dDBSO.DataList)
+                foreach (SettingsObject sO in dDBSO.DataList)
                 {
                     name = new Label();
                     name.Location = p;
                     name.Text = sO.Name;
 
                     cB = new ComboBox();
-                    foreach(string s in sO.DropDownValues)
+                    foreach (string s in sO.DropDownValues)
                     {
                         cB.Items.Add(s);
                     }
@@ -111,7 +111,7 @@ namespace RelayControlLibrary
                 }
                 this.Size = new Size(this.Size.Width, this.Size.Height - 21); //Did this because it was one too many not sure why 21
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error Creating Drop Down Box", ex);
             }
@@ -119,15 +119,15 @@ namespace RelayControlLibrary
 
         private System.Windows.Forms.ToolTip toolTip;
 
-        
+
 
         public decimal Value
         {
             set
             {
-                if(this.type == SettingBoxTypes.Numeric)
+                if (this.type == SettingBoxTypes.Numeric)
                 {
-                    foreach(object o in this.Controls)
+                    foreach (object o in this.Controls)
                     {
                         try
                         {
@@ -135,12 +135,12 @@ namespace RelayControlLibrary
                             nUP.Value = value;
                             return;
                         }
-                        catch{}
+                        catch { }
                     }
                 }
                 else if (this.type == SettingBoxTypes.Enables)
                 {
-                    foreach(object o in this.Controls)
+                    foreach (object o in this.Controls)
                     {
                         try
                         {
@@ -182,14 +182,14 @@ namespace RelayControlLibrary
                         }
                         catch { }
                     }
-                    
+
                 }
                 throw new Exception("Trouble Setting Value");
 
             }
             get
             {
-                if(this.type == SettingBoxTypes.Numeric)
+                if (this.type == SettingBoxTypes.Numeric)
                 {
                     foreach (object o in this.Controls)
                     {

@@ -80,12 +80,12 @@ namespace RelayControlLibrary
             }
         }
 
-        
+
 
         public static byte ByteFrom(TripCurveTypes tCT)
         {
 
-            switch(tCT)
+            switch (tCT)
             {
                 case TripCurveTypes.OffsetAngle:
                     return (byte)_OffsetAngleOpCode;
@@ -115,7 +115,7 @@ namespace RelayControlLibrary
         }
         public static TripModes TripModeFrom(char c)
         {
-            switch(c)
+            switch (c)
             {
                 case 'I':
                     return TripModes.Insensitive;
@@ -163,7 +163,7 @@ namespace RelayControlLibrary
 
         public static string StringRepresentationOf(TripModes tM)
         {
-            switch(tM)
+            switch (tM)
             {
                 case TripModes.Insensitive:
                     return "Insensitive";
@@ -181,7 +181,7 @@ namespace RelayControlLibrary
         }
         public static byte ByteRepresentationOf(Phases p)
         {
-            switch(p)
+            switch (p)
             {
                 case Phases.A:
                     return (byte)'A';
@@ -204,7 +204,7 @@ namespace RelayControlLibrary
 
         public static byte ByteRepresentationOf(PhaseTypes pT)
         {
-            switch(pT)
+            switch (pT)
             {
                 case PhaseTypes.Current:
                     return (byte)'I';
@@ -223,7 +223,7 @@ namespace RelayControlLibrary
 
         public static Phases PhaseFrom(string s)
         {
-            switch(s)
+            switch (s)
             {
                 case "PhaseA":
                 case "A":
@@ -271,7 +271,7 @@ namespace RelayControlLibrary
 
         public static PhaseTypes PhaseTypesFrom(string s)
         {
-            switch(s)
+            switch (s)
             {
                 case "NetworkVoltage":
                     return PhaseTypes.NetworkVoltage;
@@ -338,7 +338,7 @@ namespace RelayControlLibrary
         public static byte[] BytePacketFor(TripModeDefinition tMD)
         {
             byte[] returnArray = new byte[8];
-           
+
             returnArray[0] = (byte)_ModeOpCode;
             returnArray[1] = (byte)_TripOpCode;
             returnArray[2] = ByteRepresentationOf(tMD.Mode);
@@ -592,13 +592,13 @@ namespace RelayControlLibrary
                     return Color.Blue;
                 default:
                     return Color.Purple;
-                    
+
             }
         }
 
         public static PhasorTypes PhasorTypeFrom(string s)
         {
-            switch(s)
+            switch (s)
             {
                 case "IA":
                     return PhasorTypes.IA;
@@ -617,7 +617,7 @@ namespace RelayControlLibrary
                 case "PB":
                     return PhasorTypes.PB;
                 case "PC":
-                    return PhasorTypes.PC;  
+                    return PhasorTypes.PC;
                 case "PT":
                     return PhasorTypes.PT;
                 case "VdA":
@@ -802,7 +802,7 @@ namespace RelayControlLibrary
                     phasorType = PhasorTypes.None;
                     break;
             }
-           
+
             return phasorType;
         }
 
@@ -818,7 +818,7 @@ namespace RelayControlLibrary
 
         public static Frequencies FrequencyFrom(byte b)
         {
-            switch(b)
+            switch (b)
             {
                 case 0x01:
                     return Frequencies.Blue;
@@ -832,7 +832,7 @@ namespace RelayControlLibrary
                     throw new Exception(b.ToString() + " is not a valid Frequency Value");
             }
         }
-        
+
         public static DateTime DateFrom(long i)
         {
             //DateTime returnTime = new DateTime(2009, 7, 29, 0, 0, 1);
@@ -840,7 +840,7 @@ namespace RelayControlLibrary
 
             i *= 10000000;                          //convert to seconds.   
             i += Constants.IntZeroTime;             //add base time to it
-            
+
 
             return DateTime.FromBinary(i);
 
@@ -870,7 +870,7 @@ namespace RelayControlLibrary
             float returnValue;
 
             dACReading >>= 3; //shifted 3 due to nature of DAC
-            if(dACReading >= 0x0800)
+            if (dACReading >= 0x0800)
                 dACReading = (Int16)(-dACReading);
 
             returnValue = (float)dACReading * (float)cC.RealValue;
@@ -890,7 +890,7 @@ namespace RelayControlLibrary
 
         public static bool IsPower(PhasorTypes phasorType)
         {
-            if(phasorType == PhasorTypes.PA || phasorType == PhasorTypes.PB || phasorType == PhasorTypes.PC || phasorType == PhasorTypes.PT)
+            if (phasorType == PhasorTypes.PA || phasorType == PhasorTypes.PB || phasorType == PhasorTypes.PC || phasorType == PhasorTypes.PT)
                 return true;
             else
                 return false;

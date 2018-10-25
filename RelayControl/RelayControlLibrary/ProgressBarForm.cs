@@ -23,7 +23,7 @@ namespace RelayControlLibrary
             this.Text = title;
             this.labelDownloadingText.Text = downloadingText;
             this.HalfSecondCounts = halfSecondCounts;
-            if(timeoutacceptable)
+            if (timeoutacceptable)
                 this.buttonCancel.Visible = false;
 
             this.timeOutAcceptable = timeoutacceptable;
@@ -52,10 +52,10 @@ namespace RelayControlLibrary
         private void timerCountDown_Tick(object sender, EventArgs e)
         {
             this.progressBarMain.Value++;
-            if(progressBarMain.Value >= progressBarMain.Maximum)
+            if (progressBarMain.Value >= progressBarMain.Maximum)
             {
                 this.timerCountDown.Enabled = false;
-                if(!this.timeOutAcceptable)
+                if (!this.timeOutAcceptable)
                     this.done(ProgressFormCompleteStates.TimeOut, "Timed Out");
                 else
                     this.done(ProgressFormCompleteStates.AcceptableTimeOut, "Done");
@@ -80,7 +80,7 @@ namespace RelayControlLibrary
         private void ProgressBarForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.timerCountDown.Enabled = false;
-            if(!this.timeOutAcceptable)
+            if (!this.timeOutAcceptable)
                 this.done(ProgressFormCompleteStates.Failure, "Form Closed \r\n No Gaurantee that All Data was Received.");
         }
     }

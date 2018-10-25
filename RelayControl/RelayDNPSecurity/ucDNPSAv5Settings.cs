@@ -44,28 +44,28 @@ namespace RelayDNPSecurity
 
             Point workingPoint = new Point(5, 15);
 
-            foreach(DNPSAv5SecurityStatisticItem sI in this.statisticPoints)
+            foreach (DNPSAv5SecurityStatisticItem sI in this.statisticPoints)
             {
                 ucDNPSAv5SecurityStatisticThreshold workingStatistic = new ucDNPSAv5SecurityStatisticThreshold(sI.StatisticsName, sI.DefaultValue);
                 workingStatistic.Location = workingPoint;
                 this.groupBoxSecurityStats.Controls.Add(workingStatistic);
 
                 workingPoint = new Point(workingPoint.X, workingPoint.Y + workingStatistic.Height);
-                if(workingPoint.Y > this.groupBoxSecurityStats.Height - workingStatistic.Height)
+                if (workingPoint.Y > this.groupBoxSecurityStats.Height - workingStatistic.Height)
                     workingPoint = new Point(workingPoint.X + workingStatistic.Width, 15);
             }
         }
 
         public bool AuthenticationEnabled
         {
-            get 
+            get
             {
                 if (checkBoxAuthenticationEnabled.Checked)
                     return true;
                 else
                     return false;
             }
-            set 
+            set
             {
                 if (AuthenticationEnabled)
                     checkBoxAuthenticationEnabled.Checked = true;
@@ -97,7 +97,7 @@ namespace RelayDNPSecurity
                 else
                     sSEA.SendPacket[3] = 0x00;
 
-                if(this.checkBoxSHA1.Checked)
+                if (this.checkBoxSHA1.Checked)
                     sSEA.SendPacket[3] |= 0x02;
 
                 if (this.checkBoxAuthenticationEnabled.Checked)

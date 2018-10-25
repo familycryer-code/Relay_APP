@@ -56,7 +56,7 @@ namespace SineDisplayGraph
             this.checkBoxPhAVn.ForeColor = RelayModeFunctions.GetPhaseColor(PhasorTypes.VnA);
             this.checkBoxPhBVn.ForeColor = RelayModeFunctions.GetPhaseColor(PhasorTypes.VnB);
             this.checkBoxPhCVn.ForeColor = RelayModeFunctions.GetPhaseColor(PhasorTypes.VnC);
-             
+
         }
         private void checkCheckBoxes()
         {
@@ -101,7 +101,7 @@ namespace SineDisplayGraph
                 if (sWD.Phase == pT)
                 {
                     sWD.AddValue(value);
-                    if(pT == PhasorTypes.IC)
+                    if (pT == PhasorTypes.IC)
                         this.sineGraph1.Invalidate();
                 }
             }
@@ -110,8 +110,8 @@ namespace SineDisplayGraph
         public void AddValueV(float value, PhasorTypes pT, int index)
         {
             float tempValue;
-            if(value < 0)
-                tempValue = 100 * (value / this.MaxVValue); 
+            if (value < 0)
+                tempValue = 100 * (value / this.MaxVValue);
             else
                 tempValue = 100 * (value / this.MaxVValue);
             foreach (SineWaveDefinition sWD in this.sineGraph1.sineWavesToDraw)
@@ -153,33 +153,33 @@ namespace SineDisplayGraph
             ucSEV.Monitor = cb.Checked;
 
             SineWaveDefinition sWD = (SineWaveDefinition)this.sineGraph1.GetWave(ucSEV.Phase);
-            if(sWD != null)
+            if (sWD != null)
             {
                 sWD.Enabled = cb.Checked;
             }
             this.sineGraph1.Invalidate();
         }
-        
+
         private PhasorTypes getPhaseType(string p)
         {
             switch (p)
             {
                 case "checkBoxPhAVt":
-                    return PhasorTypes.VtA;                    
+                    return PhasorTypes.VtA;
                 case "checkBoxPhAVn":
-                    return PhasorTypes.VnA;                    
+                    return PhasorTypes.VnA;
                 case "checkBoxPhAI":
-                    return PhasorTypes.IA;                    
+                    return PhasorTypes.IA;
                 case "checkBoxPhBVt":
-                    return PhasorTypes.VtB;                    
+                    return PhasorTypes.VtB;
                 case "checkBoxPhBVn":
-                    return PhasorTypes.VnB;                    
+                    return PhasorTypes.VnB;
                 case "checkBoxPhBI":
-                    return PhasorTypes.IB;                    
+                    return PhasorTypes.IB;
                 case "checkBoxPhCVt":
-                    return PhasorTypes.VtC;                    
+                    return PhasorTypes.VtC;
                 case "checkBoxPhCVn":
-                    return PhasorTypes.VnC;                    
+                    return PhasorTypes.VnC;
                 case "checkBoxPhCI":
                     return PhasorTypes.IC;
                 case "checkBoxPhAVd":
@@ -190,7 +190,7 @@ namespace SineDisplayGraph
                     return PhasorTypes.VdC;
                 default:
                     return PhasorTypes.Ieff;
-                    
+
             }
         }
 
@@ -201,7 +201,7 @@ namespace SineDisplayGraph
 
         private void checkBox10xCurrent_CheckedChanged(object sender, EventArgs e)
         {
-            if(this.checkBox10xCurrent.Checked)
+            if (this.checkBox10xCurrent.Checked)
             {
                 this.MaxIValue = 1.5f;
                 this.sineGraph1.ScaleCurrentValues(10f);
@@ -222,7 +222,7 @@ namespace SineDisplayGraph
 
             foreach (SineWaveDefinition sWD in this.sineGraph1.sineWavesToDraw)
             {
-                if(sWD.Phase == pT)
+                if (sWD.Phase == pT)
                 {
                     workingSWD = sWD;
                 }

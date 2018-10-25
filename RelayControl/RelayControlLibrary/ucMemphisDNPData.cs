@@ -16,7 +16,7 @@ namespace RelayControlLibrary
             InitializeComponent();
             SetSize();
             this.initializeStage();
-            
+
         }
 
         private List<string> binaryInputs = new List<string>();
@@ -27,14 +27,14 @@ namespace RelayControlLibrary
 
         private static int _packetLength = 98;
 
-        public uint MemphisStage 
+        public uint MemphisStage
         {
             get { return this.memphisStage; }
             set
             {
-                if(value > 0 && value < 6)
+                if (value > 0 && value < 6)
                 {
-                    if(value != this.memphisStage)
+                    if (value != this.memphisStage)
                     {
                         this.memphisStage = value;
                         this.initializeStage();
@@ -56,12 +56,12 @@ namespace RelayControlLibrary
             this.initializeAnalogInputs();
             this.initializeAnalogOutputs();
         }
-        
+
         private void initializeBinaryInputs()
         {
             uint pointsToAdd;
 
-            switch(this.memphisStage)
+            switch (this.memphisStage)
             {
                 case 1:
                 case 2:
@@ -119,14 +119,14 @@ namespace RelayControlLibrary
 
             uint i = 1;
 
-            foreach(string s in this.binaryInputs)
+            foreach (string s in this.binaryInputs)
             {
                 ucDNPMemphisBinary workingBox = new ucDNPMemphisBinary();
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
                 workingBox.EventEnableVisible = true;
-                
+
                 this.addBinaryBox(workingBox, this.tabPageBinaryInputs);
 
                 if (i == pointsToAdd)
@@ -319,14 +319,14 @@ namespace RelayControlLibrary
 
             foreach (AnalogPointDefinition aPD in this.analogInputs)
             {
-                
+
                 ucDNPMemphisAnalog workingBox = new ucDNPMemphisAnalog();
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = aPD.Name;
                 workingBox.Signed = aPD.Signed;
-                
-                if(i <= 50)
+
+                if (i <= 50)
                     this.addAnalogBox(workingBox, this.tabPageAnalogInputs1);
                 else
                     this.addAnalogBox(workingBox, this.tabPageAnalogInputs2);
@@ -362,7 +362,7 @@ namespace RelayControlLibrary
             this.analogOutputs.Add("Get Event Log");
 
             uint i = 1;
-            if(pointsToAdd != 0)
+            if (pointsToAdd != 0)
             {
                 foreach (string s in this.analogOutputs)
                 {
@@ -394,11 +394,11 @@ namespace RelayControlLibrary
         //Adds a binary box to the selected page
         private void addBinaryBox(ucDNPMemphisBinary box, TabPage tB)
         {
-            int y = tB.Controls.Count%20 * 22 + 1; //22 is the height of the control - %20 because 20 per row
+            int y = tB.Controls.Count % 20 * 22 + 1; //22 is the height of the control - %20 because 20 per row
             int x;
 
-            if(tB.Controls.Count >= 20)
-                x = this.tabPageBinaryInputs.Width / 2; 
+            if (tB.Controls.Count >= 20)
+                x = this.tabPageBinaryInputs.Width / 2;
             else
                 x = 1;
             box.Location = new Point(x, y);
@@ -428,7 +428,7 @@ namespace RelayControlLibrary
 
         public void SetAll(byte[] bytePacket, int p)
         {
-            switch(p)
+            switch (p)
             {
                 case 1:
                     this.setBinaryInputs(bytePacket, 4); //first data is dummy, so start with 4?
@@ -453,10 +453,10 @@ namespace RelayControlLibrary
         private void setBinaryInputs(byte[] bytePacket, int index)
         {
 
-            foreach(ucDNPMemphisBinary uDMB in this.tabPageBinaryInputs.Controls)
+            foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryInputs.Controls)
             {
                 uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
-                if((bytePacket[index + 2] & 0x02) == 0x02)
+                if ((bytePacket[index + 2] & 0x02) == 0x02)
                     uDMB.EventEnabled = true;
                 else
                     uDMB.EventEnabled = false;
@@ -475,7 +475,7 @@ namespace RelayControlLibrary
 
         private bool convertDataByteToBool(byte b)
         {
-            if(b == 1)
+            if (b == 1)
                 return true;
             else
                 return false;
@@ -488,15 +488,15 @@ namespace RelayControlLibrary
         {
             bool endOfTabControlsReached = true;
 
-            if(packetNumber == 1)           //first packet so initialize everything
+            if (packetNumber == 1)           //first packet so initialize everything
             {
                 this.workingTabPage = this.tabPageAnalogInputs1;
                 this.savedAnalogControl = null;
             }
 
-            foreach(ucDNPMemphisAnalog uDMA in this.workingTabPage.Controls)
+            foreach (ucDNPMemphisAnalog uDMA in this.workingTabPage.Controls)
             {
-                if(this.savedAnalogControl == null || this.savedAnalogControl == uDMA)  //null means we are passed the saved control
+                if (this.savedAnalogControl == null || this.savedAnalogControl == uDMA)  //null means we are passed the saved control
                 {
                     this.savedAnalogControl = null;
 
@@ -514,11 +514,11 @@ namespace RelayControlLibrary
                 }
             }
 
-            if(endOfTabControlsReached) //the final control of that page was reached so there are still points in the packet
+            if (endOfTabControlsReached) //the final control of that page was reached so there are still points in the packet
             {
-                if(this.workingTabPage == this.tabPageAnalogInputs1)
+                if (this.workingTabPage == this.tabPageAnalogInputs1)
                     this.workingTabPage = this.tabPageAnalogInputs2;
-                else if(this.workingTabPage == this.tabPageAnalogInputs2)
+                else if (this.workingTabPage == this.tabPageAnalogInputs2)
                     this.workingTabPage = this.tabPageAnalogOutputs;
                 else
                     return; //no more points
@@ -543,7 +543,7 @@ namespace RelayControlLibrary
 
         private void setAnalogOutputs(byte[] bytePacket, int i)
         {
-            foreach(ucDNPMemphisAnalog uDMA in this.tabPageAnalogOutputs.Controls)
+            foreach (ucDNPMemphisAnalog uDMA in this.tabPageAnalogOutputs.Controls)
             {
                 try
                 {
@@ -553,13 +553,13 @@ namespace RelayControlLibrary
                 {
                 }
             }
-           
+
         }
 
         private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
         {
             UInt16 temp;
-            temp = bytePacket[i+1];
+            temp = bytePacket[i + 1];
             temp <<= 8;
             temp += bytePacket[i];
 
@@ -582,17 +582,17 @@ namespace RelayControlLibrary
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
 
-            foreach(ucDNPMemphisBinary uDMB in this.tabPageBinaryInputs.Controls)
+            foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryInputs.Controls)
             {
-                if (i%8 == 0)
+                if (i % 8 == 0)
                 {
                     tempByte = 0; //First value of byte, so clear tempByte
-                    if(uDMB.EventEnabled)
+                    if (uDMB.EventEnabled)
                         tempByte = 1;
                 }
-                else if (i%8 == 7) //last value of group
+                else if (i % 8 == 7) //last value of group
                 {
-                    if(uDMB.EventEnabled)
+                    if (uDMB.EventEnabled)
                         tempByte += (byte)0x80;
 
                     sEA.SendPacket[packetByteNumber] = tempByte;
@@ -601,11 +601,11 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    if(uDMB.EventEnabled)
+                    if (uDMB.EventEnabled)
                     {
                         byte j = 0;
                         byte value = 1;
-                        for(j = 0; j < i%8; ++j)
+                        for (j = 0; j < i % 8; ++j)
                         {
                             value <<= 1;
                         }
@@ -616,11 +616,11 @@ namespace RelayControlLibrary
 
                 i++;
             }
-            if(i%8 != 0)
+            if (i % 8 != 0)
             {
                 sEA.SendPacket[packetByteNumber] = tempByte;
             }
-            
+
             sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
             if (this.Send != null)
                 this.Send(this, sEA);
@@ -628,7 +628,7 @@ namespace RelayControlLibrary
 
         private void tabControlMemphisDNP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
+            if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
                 this.buttonSendBinaryEventEnables.Visible = true;
             else
                 this.buttonSendBinaryEventEnables.Visible = false;

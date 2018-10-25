@@ -14,7 +14,7 @@ namespace RelayControl
         public ucForceCustomerSwitch()
         {
             InitializeComponent();
-            
+
             this.comboBoxCustomers.DataSource = Enum.GetValues(typeof(Customers));
         }
 
@@ -29,7 +29,7 @@ namespace RelayControl
 
             CustomerSwitchEventArgs cSEA = new CustomerSwitchEventArgs(selectedEnum);
 
-            if(CustomerSwitch != null)
+            if (CustomerSwitch != null)
                 CustomerSwitch(this, cSEA);
         }
     }

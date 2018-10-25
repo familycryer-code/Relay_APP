@@ -18,10 +18,10 @@ namespace RelayDNPSecurity
 
             this.intializeComponentEvents();
 
-            #if !DEBUG
+#if !DEBUG
             this.buttonLoadDefaultAuthorityKey.Visible = false;
             this.buttonLoadDefaultUser.Visible = false;
-            #endif
+#endif
         }
 
         public int SerialNumber
@@ -94,8 +94,8 @@ namespace RelayDNPSecurity
 #if DEBUG
                 this.onError(eEA.InnerException, eEA.Title);
 #else
-                this.showSAV5ErrorMessage();
-                return;
+            this.showSAV5ErrorMessage();
+            return;
 #endif
         }
 
@@ -152,7 +152,7 @@ namespace RelayDNPSecurity
                     this.oSName = workingString;
                     this.ucDNPSAv5OSName1.OSName = this.oSName;
 
-                    if(this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
+                    if (this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
                     {
                         this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
                         this.showSAV5ErrorMessage();
@@ -160,7 +160,7 @@ namespace RelayDNPSecurity
                 }
                 else if (p == 2)
                 {
-                    if(this.remoteOSNameLength < 35)
+                    if (this.remoteOSNameLength < 35)
                         workingString = Encoding.ASCII.GetString(bytePacket, 1, this.remoteOSNameLength);
                     else
                         workingString = Encoding.ASCII.GetString(bytePacket, 1, 35);

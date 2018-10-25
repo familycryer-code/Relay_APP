@@ -85,7 +85,7 @@ namespace RelayControlLibrary
             {
                 this.dNPCoverFlags = value;
                 this.setFlagPolarity(dNPCoverFlags);
-                
+
             }
         }
 
@@ -96,7 +96,7 @@ namespace RelayControlLibrary
             set
             {
 
-                if(this.cTRatio != value && CTChanged != null)
+                if (this.cTRatio != value && CTChanged != null)
                 {
                     this.cTRatio = value;
                     CTChanged(this, new EventArgs());
@@ -135,14 +135,14 @@ namespace RelayControlLibrary
                 this.showWaterbugNoTransmitter(value);
             }
         }
-        
+
         private int serialNumber = 0;
         private bool waterBugNoTransmitter = false;
         private SendEventArgs RQSEA = new SendEventArgs(3);
         private SendEventArgs TXSEA = new SendEventArgs(31);
         private int packetLength = 30;
 
-        public int SerialNumber 
+        public int SerialNumber
         {
             get { return this.serialNumber; }
             set
@@ -185,13 +185,13 @@ namespace RelayControlLibrary
                 TXSettings.PacketLength = value;
             }
         }
-        private delegate void setAllCallBack(byte[] bA);  
+        private delegate void setAllCallBack(byte[] bA);
         private bool customerVersion = false;
         private bool badType1MessagePeriod = false;
 
         public void SetAllValues(byte[] bA)
         {
-            if(this.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 setAllCallBack sACB = new setAllCallBack(this.setAllValues);
                 this.Invoke(sACB, new object[] { bA });
@@ -212,13 +212,13 @@ namespace RelayControlLibrary
                 UInt16 uTemp;
 
                 //Set ID number
-                
+
                 uTemp = bA[1];
                 uTemp <<= 8;
                 uTemp += bA[0];
                 this.TXSettings.ID = uTemp;
                 this.textBoxID.Text = this.TXSettings.ID.ToString();
-                
+
                 //Set Serial Number
                 uTemp = bA[3];
                 uTemp <<= 8;
@@ -236,16 +236,16 @@ namespace RelayControlLibrary
                 uTemp <<= 8;
                 uTemp += bA[4];
                 this.TXSettings.TXCTRatio = uTemp;
-                
-                this.textBoxTXCTRatio.Text = this.TXSettings.TXCTRatio.ToString();                
-                
+
+                this.textBoxTXCTRatio.Text = this.TXSettings.TXCTRatio.ToString();
+
                 //Set the frequency
                 this.SetFrequency(RelayModeFunctions.FrequencyFrom(bA[8]));
-                
+
                 //Set the Flag Polarity
                 this.TXSettings.FlagPolarity.ByteValue = bA[9];
                 this.setFlagPolarity(bA[9]);
-                
+
                 //Enable Flag Alarms
                 this.TXSettings.EnableFlagAlarms = bA[10];
                 this.setEnableFlagAlarms(bA[10]);
@@ -257,7 +257,7 @@ namespace RelayControlLibrary
                 //Set Current Thresholds
                 this.numericUpDownCurrentThresholdHigh.Value = this.TXSettings.CurrentThresholdHigh = bA[12];
                 this.numericUpDownCurrentThresholdLow.Value = this.TXSettings.CurrentThresholdLow = bA[13];
-               
+
                 //Set Voltage Thresholds
                 this.numericUpDownVoltageThresholdHigh.Value = this.TXSettings.VoltageThresholdHigh = bA[14];
                 this.numericUpDownVoltageThresholdLow.Value = this.TXSettings.VoltageThresholdLow = bA[15];
@@ -297,13 +297,13 @@ namespace RelayControlLibrary
                 this.TXSettings.OtherMessageBurstInterval = bA[26];
 
                 //Temp Calibration
-                if(this.packetLength == 30)
+                if (this.packetLength == 30)
                     this.TXSettings.TemperatureCalibration = (sbyte)bA[27];
                 //Zero Crossing Phasing
 
                 //Type 1 Message Length
                 this.TXSettings.Type1MessageLength = bA[28];
-                if((bA[28] & 0x80) == 0x80)
+                if ((bA[28] & 0x80) == 0x80)
                 {
                     this.checkBoxSmartExternalCableEnable.Checked = true;
                     this.enableWaterbury(true);
@@ -313,7 +313,7 @@ namespace RelayControlLibrary
                     this.enableWaterbury(false);
                     this.checkBoxSmartExternalCableEnable.Checked = false;
                 }
-                if((bA[28] & 0x04) == 0x04)
+                if ((bA[28] & 0x04) == 0x04)
                 {
                     this.DNPEnabled = true;
                 }
@@ -321,7 +321,7 @@ namespace RelayControlLibrary
                 {
                     this.DNPEnabled = false;
                 }
-                if((bA[28] & 0x08) == 0x08)
+                if ((bA[28] & 0x08) == 0x08)
                 {
                     this.checkBoxTransmitterEnable.Checked = true;
                 }
@@ -332,7 +332,7 @@ namespace RelayControlLibrary
                     else
                         this.checkBoxTransmitterEnable.Checked = false;
                 }
-                if((bA[28] & 0x10) == 0x10)
+                if ((bA[28] & 0x10) == 0x10)
                 {
                     this.checkBoxWH_GE.Checked = true;
                 }
@@ -347,13 +347,13 @@ namespace RelayControlLibrary
 
                 this.setButtonEnable(true, this.buttonTX);
 
-                if(this.badType1MessagePeriod)
+                if (this.badType1MessagePeriod)
                 {
                     this.TXSettings.MessagePeriod = 2;
                     this.buttonTX_Click(this, new EventArgs());
                 }
 
-                if(this.packetLength == 30)
+                if (this.packetLength == 30)
                 {
                     this.labelLEDSpeed.Visible = false;
                     this.numericUpDownLEDSpeed.Visible = false;
@@ -376,18 +376,18 @@ namespace RelayControlLibrary
         /// </summary>
         private void checkForDNPEnabled()
         {
-            if(!this.checkBoxDNPEnable.Checked)
+            if (!this.checkBoxDNPEnable.Checked)
             {
                 this.checkBoxDNPEnable.Checked = true;
                 this.buttonTX_Click(this, new EventArgs());
             }
-                
+
         }
 
         private void showWaterbugNoTransmitter(bool value)
         {
 #if !DEBUG
-            if(value)
+            if (value)
             {
                 this.panelGeneralSettings.Hide();
                 this.panelMessageFreqSettings.Hide();
@@ -450,12 +450,12 @@ namespace RelayControlLibrary
 
         private void setAnalogAlarmSenseValues(byte p)
         {
-            if((p & 0x01) == 0x01)
+            if ((p & 0x01) == 0x01)
                 this.comboBoxAnalog1OU.SelectedIndex = 0;
             else
                 this.comboBoxAnalog1OU.SelectedIndex = 1;
 
-            if((p & 0x02) == 0x02)
+            if ((p & 0x02) == 0x02)
                 this.comboBoxAnalog2OU.SelectedIndex = 0;
             else
                 this.comboBoxAnalog2OU.SelectedIndex = 1;
@@ -463,14 +463,14 @@ namespace RelayControlLibrary
 
         private void setType1MessagePeriod(byte p)
         {
-            if(p == 0)
+            if (p == 0)
                 this.radioButton10S.Checked = true;
             else if (p == 1)
                 this.radioButton180S.Checked = true;
             else
                 this.radioButton60S.Checked = true;
 
-            if(this.customerVersion && (p == 0 || p == 1))
+            if (this.customerVersion && (p == 0 || p == 1))
             {
                 this.badType1MessagePeriod = true;
                 this.radioButton60S.Checked = true;
@@ -483,7 +483,7 @@ namespace RelayControlLibrary
 
         private void setConfigMessagePeriod(byte p)
         {
-            if(p == 0xFF)
+            if (p == 0xFF)
             {
                 this.checkBoxConfigOff.Checked = true;
                 this.textBoxConfigMessageTime.Enabled = false;
@@ -499,7 +499,7 @@ namespace RelayControlLibrary
 
         private void setType2MessagePeriod(byte p)
         {
-            if(p == 0xFF)
+            if (p == 0xFF)
             {
                 this.checkBoxType2Off.Checked = true;
                 this.textBoxType2MessageTime.Enabled = false;
@@ -514,7 +514,7 @@ namespace RelayControlLibrary
 
         private void setMuxPeriod(byte p)
         {
-            if(p == 0xFF)
+            if (p == 0xFF)
             {
                 this.textBoxMuxBoxMessageTime.Enabled = false;
                 this.checkBoxMUXBOXOff.Checked = true;
@@ -562,42 +562,42 @@ namespace RelayControlLibrary
 
         private void setFlagPolarity(byte p)
         {
-            if((p & 1) == 1)
+            if ((p & 1) == 1)
                 this.radioButtonFPAClose.Checked = true;
             else
                 this.radioButtonFPAOpen.Checked = true;
-            
-            if((p & 2) == 2)
+
+            if ((p & 2) == 2)
                 this.radioButtonFPBClose.Checked = true;
             else
                 this.radioButtonFPBOpen.Checked = true;
 
-            if((p & 4) == 4)
+            if ((p & 4) == 4)
                 this.radioButtonFPCClose.Checked = true;
             else
                 this.radioButtonFPCOpen.Checked = true;
 
-            if((p & 8) == 8)
+            if ((p & 8) == 8)
                 this.radioButtonFPDClose.Checked = true;
             else
                 this.radioButtonFPDOpen.Checked = true;
 
-            if((p & 16) == 16)
+            if ((p & 16) == 16)
                 this.radioButtonFPEClose.Checked = true;
             else
                 this.radioButtonFPEOpen.Checked = true;
 
-            if((p & 32) == 32)
+            if ((p & 32) == 32)
                 this.radioButtonFPFClose.Checked = true;
             else
                 this.radioButtonFPFOpen.Checked = true;
 
-            if((p & 64) == 64)
+            if ((p & 64) == 64)
                 this.radioButtonFPGClose.Checked = true;
             else
                 this.radioButtonFPGOpen.Checked = true;
 
-            if((p & 128) == 128)
+            if ((p & 128) == 128)
                 this.radioButtonFPHClose.Checked = true;
             else
                 this.radioButtonFPHOpen.Checked = true;
@@ -606,8 +606,8 @@ namespace RelayControlLibrary
 
         private void setWaterburyEnables(byte p)
         {
-           
-             if ((p & 1) == 1)
+
+            if ((p & 1) == 1)
                 this.checkBoxWBC.Checked = true;
             else
                 this.checkBoxWBC.Checked = false;
@@ -853,7 +853,7 @@ namespace RelayControlLibrary
 
         public void SetFrequency(Frequencies f)
         {
-            switch(f)
+            switch (f)
             {
                 case Frequencies.Blue:
                     this.setCheckBox(true, this.checkBoxBlue);
@@ -940,7 +940,7 @@ namespace RelayControlLibrary
         {
             this.SendTransmitterSettings();
         }
-        
+
         public void SendTransmitterSettings()
         {
             string errorMessage = "";
@@ -949,7 +949,7 @@ namespace RelayControlLibrary
                 errorMessage = "Bad ID value";
                 this.tempID = Convert.ToUInt16(this.textBoxID.Text);
                 this.TXSettings.ID = this.tempID;
-                
+
                 errorMessage = "Bad Serial Number";
                 this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
                 this.TXSettings.SerialNumber = this.tempID;
@@ -960,10 +960,10 @@ namespace RelayControlLibrary
                 errorMessage = "Bad TX CT value";
                 this.tempID = Convert.ToUInt16(this.textBoxTXCTRatio.Text);
                 this.TXSettings.TXCTRatio = this.tempID;
-           
 
-            //Frequency
-                if(this.checkBoxRed.Checked)
+
+                //Frequency
+                if (this.checkBoxRed.Checked)
                     this.TXSettings.Frequency = Frequencies.Red;
                 else if (this.checkBoxBlue.Checked)
                     this.TXSettings.Frequency = Frequencies.Blue;
@@ -972,7 +972,7 @@ namespace RelayControlLibrary
                 else if (this.checkBoxYellow.Checked)
                     this.TXSettings.Frequency = Frequencies.Yellow;
 
-            //Flag Polarity
+                //Flag Polarity
 
                 errorMessage = "Error Setting Flag Polarities";
                 this.TXSettings.FlagPolarity.A = this.radioButtonFPAClose.Checked;
@@ -985,52 +985,52 @@ namespace RelayControlLibrary
                 this.TXSettings.FlagPolarity.H = this.radioButtonFPHClose.Checked;
                 this.TXSettings.SetFlagPolartityByte();
 
-                
-            //enable Flag Alarms
+
+                //enable Flag Alarms
                 errorMessage = "Bad Error Flag Alarm Settings";
                 byte tempByte = 0;
-                
-                if(this.checkBoxFAA.Checked)
+
+                if (this.checkBoxFAA.Checked)
                     tempByte += 1;
-                if(this.checkBoxFAB.Checked)
+                if (this.checkBoxFAB.Checked)
                     tempByte += 2;
-                if(this.checkBoxFAC.Checked)
+                if (this.checkBoxFAC.Checked)
                     tempByte += 4;
-                if(this.checkBoxFAD.Checked)
+                if (this.checkBoxFAD.Checked)
                     tempByte += 8;
-                if(this.checkBoxFAE.Checked)
+                if (this.checkBoxFAE.Checked)
                     tempByte += 16;
-                if(this.checkBoxFAF.Checked)
+                if (this.checkBoxFAF.Checked)
                     tempByte += 32;
-                if(this.checkBoxFAG.Checked)
+                if (this.checkBoxFAG.Checked)
                     tempByte += 64;
-                if(this.checkBoxFAH.Checked)
+                if (this.checkBoxFAH.Checked)
                     tempByte += 128;
 
                 this.TXSettings.EnableFlagAlarms = tempByte;
-            //Enable Other Alarms
+                //Enable Other Alarms
                 errorMessage = "Bad Enable Other Alarms Setting";
                 tempByte = 0;
 
-                if(this.checkBoxCurrent.Checked)
+                if (this.checkBoxCurrent.Checked)
                     tempByte += 4;
-                if(this.checkBoxUnderVolt.Checked)
+                if (this.checkBoxUnderVolt.Checked)
                     tempByte += 8;
-                if(this.checkBoxAnalog1.Checked)
+                if (this.checkBoxAnalog1.Checked)
                     tempByte += 16;
-                if(this.checkBoxAnalog2.Checked)
+                if (this.checkBoxAnalog2.Checked)
                     tempByte += 32;
-                if(this.checkBoxPump.Checked)
+                if (this.checkBoxPump.Checked)
                     tempByte += 64;
-                if(this.checkBoxOverVolt.Checked)
+                if (this.checkBoxOverVolt.Checked)
                     tempByte += 128;
 
                 this.TXSettings.EnableOtherAlarms = tempByte;
 
-            //Thresholds
+                //Thresholds
                 errorMessage = "Error Setting Thresholds";
 
-                if(this.numericUpDownCurrentThresholdHigh.Value <= this.numericUpDownCurrentThresholdLow.Value)   
+                if (this.numericUpDownCurrentThresholdHigh.Value <= this.numericUpDownCurrentThresholdLow.Value)
                 {
                     errorMessage = "Current Thresholds Bad";
                     throw new Exception("Current Threshold Low must be lower than Current Threshold High");
@@ -1048,20 +1048,20 @@ namespace RelayControlLibrary
                 this.TXSettings.A1Threshold = (sbyte)this.numericUpDownAnalog1Threshold.Value;
                 this.TXSettings.A2Threshold = (sbyte)this.numericUpDownAnalog2Threshold.Value;
 
-            //Analog Alarm Sense
+                //Analog Alarm Sense
                 errorMessage = "Bad Analog Alarm Sense";
                 tempByte = 0;
 
-                if(this.comboBoxAnalog1OU.SelectedIndex == 0)
+                if (this.comboBoxAnalog1OU.SelectedIndex == 0)
                     tempByte += 1;
-                if(this.comboBoxAnalog2OU.SelectedIndex == 0)
+                if (this.comboBoxAnalog2OU.SelectedIndex == 0)
                     tempByte += 2;
 
                 this.TXSettings.AnalogAlarmSense = tempByte;
                 //Type 1 Message Period
 
                 errorMessage = "Bad Type 1 Message Period";
-                if(this.radioButton10S.Checked)
+                if (this.radioButton10S.Checked)
                 {
                     this.TXSettings.MessagePeriod = 0;
                 }
@@ -1078,7 +1078,7 @@ namespace RelayControlLibrary
                 errorMessage = "Bad Mux Period";
                 try
                 {
-                    if(this.checkBoxMUXBOXOff.Checked)
+                    if (this.checkBoxMUXBOXOff.Checked)
                         tempByte = 0xFF;
                     else
                         tempByte = Convert.ToByte(this.textBoxMuxBoxMessageTime.Text);
@@ -1091,7 +1091,7 @@ namespace RelayControlLibrary
 
                 //Type 2 Message Period
                 errorMessage = "Type 2 Message Period";
-                if(this.checkBoxType2Off.Checked)
+                if (this.checkBoxType2Off.Checked)
                     this.TXSettings.Type2MessagePeriod = 0xFF;
                 else
                 {
@@ -1108,7 +1108,7 @@ namespace RelayControlLibrary
 
                 //Config Message period
                 errorMessage = "Config Message Period Error";
-                if(this.checkBoxConfigOff.Checked)
+                if (this.checkBoxConfigOff.Checked)
                     this.TXSettings.ConfigMessagePeriod = 0xFF;
                 else
                 {
@@ -1124,26 +1124,26 @@ namespace RelayControlLibrary
                 }
 
                 //Waterbury
-                if(this.checkBoxSmartExternalCableEnable.Checked)
+                if (this.checkBoxSmartExternalCableEnable.Checked)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x80);
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0x7F);
 
-                if(this.checkBoxWH_GE.Checked)
+                if (this.checkBoxWH_GE.Checked)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x10);
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xEF);
 
-                if(this.checkBoxDNPEnable.Checked)
+                if (this.checkBoxDNPEnable.Checked)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xFB);
 
-                if(this.checkBoxTransmitterEnable.Checked)
+                if (this.checkBoxTransmitterEnable.Checked)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x08);
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xF7);
-                
+
                 //External Data/ Data from Waterbury
                 errorMessage = "Waterbug Error";
                 tempByte = 0;
@@ -1166,11 +1166,11 @@ namespace RelayControlLibrary
                     tempByte += 128;
                 this.TXSettings.DataFromWaterBug = tempByte;
 
-                if(this.packetLength > 30)
+                if (this.packetLength > 30)
                 {
                     this.TXSettings.LEDSpeed = (byte)this.numericUpDownLEDSpeed.Value;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -1188,7 +1188,7 @@ namespace RelayControlLibrary
 
         private void updateCheckBox(CheckBox cB, bool b)
         {
-            if(b)
+            if (b)
             {
                 cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Bold);
             }
@@ -1203,7 +1203,7 @@ namespace RelayControlLibrary
         {
             CheckBox cB = (CheckBox)sender;
 
-            if(cB.Checked)
+            if (cB.Checked)
             {
                 this.TXSettings.Frequency = Frequencies.Red;
                 this.updateCheckBox(this.checkBoxRed, true);
@@ -1225,7 +1225,7 @@ namespace RelayControlLibrary
                 this.updateCheckBox(this.checkBoxGreen, false);
                 this.updateCheckBox(this.checkBoxYellow, false);
             }
-            
+
         }
 
         private void checkBoxGreen_CheckedChanged(object sender, EventArgs e)
@@ -1271,7 +1271,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private delegate void  setTextBoxCallBack(string s, TextBox tB);
+        private delegate void setTextBoxCallBack(string s, TextBox tB);
 
         private void setTextBox(string s, TextBox tB)
         {
@@ -1413,7 +1413,7 @@ namespace RelayControlLibrary
         {
             DialogResult dr = MessageBox.Show("Are you sure you want to restore default settings?", "Restore Defaults", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
-            if(dr == DialogResult.Yes)
+            if (dr == DialogResult.Yes)
             {
                 if (this.Customer == Customers.Memphis)
                     this.setMemphisDefaults();
@@ -1689,24 +1689,24 @@ namespace RelayControlLibrary
         }
 
 
-#region Error Handling
+        #region Error Handling
 
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler TransmitterException;
 
         private void errorHandler(Exception ex)
         {
-            if(TransmitterException != null)
+            if (TransmitterException != null)
                 TransmitterException(this, new ExceptionEventArgs(ex, "Error in Transmitter Control"));
             else
                 throw new Exception("No Exception Handler in Main for Transmitter Unit");
         }
 
-#endregion
+        #endregion
 
         private void checkBoxType2Off_CheckedChanged(object sender, EventArgs e)
         {
-            if(this.checkBoxType2Off.Checked)
+            if (this.checkBoxType2Off.Checked)
             {
                 this.textBoxType2MessageTime.Enabled = false;
             }
@@ -1718,7 +1718,7 @@ namespace RelayControlLibrary
 
         private void checkBoxConfigOff_CheckedChanged(object sender, EventArgs e)
         {
-            if(this.checkBoxConfigOff.Checked)
+            if (this.checkBoxConfigOff.Checked)
             {
                 this.textBoxConfigMessageTime.Enabled = false;
             }
@@ -1740,9 +1740,9 @@ namespace RelayControlLibrary
 
         void pF_PasswordValidated(bool b)
         {
-            if(b)  //password was accepted.
+            if (b)  //password was accepted.
             {
-                if(this.checkBoxSmartExternalCableEnable.Checked)
+                if (this.checkBoxSmartExternalCableEnable.Checked)
                 {
                     this.enableWaterbury(true);
                 }
@@ -1753,7 +1753,7 @@ namespace RelayControlLibrary
             }
             else //password was rejected
             {
-                if(this.checkBoxSmartExternalCableEnable.Checked)
+                if (this.checkBoxSmartExternalCableEnable.Checked)
                 {
                     this.checkBoxSmartExternalCableEnable.Checked = false;
                 }
@@ -1781,7 +1781,7 @@ namespace RelayControlLibrary
 #endif
             this.labelSmartExternalCableMain.BringToFront();
 
-            if(p)
+            if (p)
             {
                 this.panelAlarmSettings.Location = new Point(342, this.panelAlarmSettings.Location.Y);
                 this.labelAlarmSettings.Location = new Point(348, this.labelAlarmSettings.Location.Y);
@@ -1818,13 +1818,13 @@ namespace RelayControlLibrary
             pF.ControlBox = false;
             pF.ShowDialog();
         }
-        
+
         void pF_FormClosed(object sender, FormClosedEventArgs e)
         {
-           if(!this.passwordValidated)
-           {
-               this.pF_PasswordValidated(false);
-           }
+            if (!this.passwordValidated)
+            {
+                this.pF_PasswordValidated(false);
+            }
         }
 
         private void checkBoxMUXBOXOff_CheckedChanged(object sender, EventArgs e)
@@ -1853,13 +1853,13 @@ namespace RelayControlLibrary
             try
             {
 
-                if(temp < 1)
-                {   
+                if (temp < 1)
+                {
                     this.textBoxID.Text = "1";
                     throw new Exception();
                 }
 
-                if(temp > 1023)
+                if (temp > 1023)
                 {
                     this.textBoxID.Text = "1023";
                     throw new Exception();
@@ -1887,7 +1887,7 @@ namespace RelayControlLibrary
         }
 
 
-        public bool GEEnabled { get { return this.checkBoxWH_GE.Checked;} set {this.checkBoxWH_GE.Checked = value;} }
+        public bool GEEnabled { get { return this.checkBoxWH_GE.Checked; } set { this.checkBoxWH_GE.Checked = value; } }
 
         private bool forceDNPEnable = false;
         public bool ForceDNPEnable

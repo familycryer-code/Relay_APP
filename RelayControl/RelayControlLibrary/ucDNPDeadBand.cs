@@ -21,9 +21,9 @@ namespace RelayControlLibrary
 
             this.labelName.Text = name;
             this.labelUnits.Text = units;
-                
 
-            if(min > this.numericUpDownValue.Maximum)
+
+            if (min > this.numericUpDownValue.Maximum)
             {
                 this.numericUpDownValue.Maximum = max;
                 this.numericUpDownValue.Value = min;
@@ -35,7 +35,7 @@ namespace RelayControlLibrary
                 this.numericUpDownValue.Minimum = min;
                 this.numericUpDownValue.Maximum = max;
             }
-            
+
         }
 
         private System.Windows.Forms.ToolTip toolTip;
@@ -62,14 +62,15 @@ namespace RelayControlLibrary
 
             this.numericUpDownValue.DecimalPlaces = (int)this.multiplier / 10;
             this.numericUpDownValue.Increment = 1 / this.multiplier;
-           
+
             this.toolTip = new ToolTip();
             this.toolTip.SetToolTip(this.numericUpDownValue, dBD.ToolTip);
         }
-        
+
         public decimal Value
         {
-            set {
+            set
+            {
                 // This line needs to be in here to make sure that it redraws the control 
                 // when it is currently blank (the number has been deleted) and a new value
                 // come in.

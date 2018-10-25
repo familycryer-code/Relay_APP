@@ -10,18 +10,24 @@ namespace RelayControl
 {
     public partial class MainControl : Form
     {
-        private void Form_KeyDown(object sender, KeyEventArgs e){
-            if (e.Shift && e.Control){
-                if (e.KeyCode == Keys.S){
+        private void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Shift && e.Control)
+            {
+                if (e.KeyCode == Keys.S)
+                {
                     this.ForceUpdateSerialNumber();
                 }
-                else if (e.KeyCode == Keys.D){
+                else if (e.KeyCode == Keys.D)
+                {
                     this.EnableDNP();
                 }
-                else if (e.KeyCode == Keys.T){
+                else if (e.KeyCode == Keys.T)
+                {
                     this.ChangeRelayType();
                 }
-                else if (e.KeyCode == Keys.R){
+                else if (e.KeyCode == Keys.R)
+                {
                     this.ResetTransmitterSettings();
                 }
                 else if (e.KeyCode == Keys.E)
@@ -88,14 +94,14 @@ namespace RelayControl
                 this.tempForm.Close();
                 this.tempForm = null;
             }
-            
+
         }
 
         private void ResetTransmitterSettings()
         {
             DialogResult dR = MessageBox.Show("Do you want to reset Transmitter Settings?\r\n", "Reset Transmitter Settings", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
 
-            if(dR == System.Windows.Forms.DialogResult.Yes)
+            if (dR == System.Windows.Forms.DialogResult.Yes)
             {
                 this.ucTransmitter1.SetDefaults();
                 this.ucTransmitter1.SendTransmitterSettings();
@@ -126,7 +132,7 @@ namespace RelayControl
                 this.ucRelayProgramming1.startReloadingJustBoot();
                 this.ProgramState = ProgramStates.Running;
             }
-                
+
         }
     }
 }

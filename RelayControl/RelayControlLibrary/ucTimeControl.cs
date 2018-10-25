@@ -34,7 +34,7 @@ namespace RelayControlLibrary
                 this.relayTime = value;
                 if (this.relayTime.CompareTo(new DateTime(2017, 01, 01)) > 0)
                 {
-//SystemSounds.Exclamation.Play();
+                    //SystemSounds.Exclamation.Play();
                 }
                 this.CompareRelayTimeToRealTime(value);
                 this.labelRelayTimeDisplay.Text = value.ToString(_dateFormat);
@@ -150,7 +150,7 @@ namespace RelayControlLibrary
 
         private void buttonTable_Click(object sender, EventArgs e)
         {
-            foreach(DataColumn dC in this.timeTable.Columns)
+            foreach (DataColumn dC in this.timeTable.Columns)
             {
                 Console.Write(dC.ColumnName + "\t");
             }
@@ -158,7 +158,7 @@ namespace RelayControlLibrary
 
             foreach (DataRow dR in this.timeTable.Rows)
             {
-                foreach(DataColumn dC in this.timeTable.Columns)
+                foreach (DataColumn dC in this.timeTable.Columns)
                 {
                     Console.Write(dR[dC.ColumnName].ToString() + "\t");
                 }

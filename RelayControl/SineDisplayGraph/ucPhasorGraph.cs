@@ -26,11 +26,11 @@ namespace SineDisplayGraph
 
         public ucPhasorGraph()
         {
-            
+
             InitializeComponent();
             this.myInitialize();
             this.makeNonConEd();
-         
+
         }
         public int CTRatio = 320;
         public bool Protector277 = false;
@@ -73,40 +73,40 @@ namespace SineDisplayGraph
         private PhasorDefinition[] differentialVoltages = new PhasorDefinition[4];
         private PhasorDefinition[] sequenceTrippedPhasors = new PhasorDefinition[2];
         private PhasorDefinition[] sequenceClosePhasors = new PhasorDefinition[4];
-        
+
         private PhasorDefinition[] allPhasors;
 
         private ArrayList graph1Labels = new ArrayList();
         private ArrayList graph2Labels = new ArrayList();
 
         private string[] VoltageDisplayValues = new string[4];
-        private string[] NoValues = new string[4] { "", "", "" , "" };
+        private string[] NoValues = new string[4] { "", "", "", "" };
         private string[] PowerDisplayValues = new string[4];
         private string[] CurrentDisplayValues = new string[4];
         private string[] CurrentSequenceDisplayValues = new string[4];
         private string[] IeffDisplayValues = new string[4];
-        private string[] VdDisplayValues  = new string[4];
+        private string[] VdDisplayValues = new string[4];
         private string[] VdSeqDisplayValues = new string[4];
         private string[] VoltageSequenceValues = new string[4];
 
-        
+
         private void myInitialize()
         {
             Array temp = Enum.GetValues(typeof(PhasorTypes));
             int count = 0;
 
-            foreach(PhasorTypes pT in temp)
+            foreach (PhasorTypes pT in temp)
             {
                 ++count;
             }
 
             allPhasors = new PhasorDefinition[count];
             count = 0;
-            
-            foreach(PhasorTypes pT in temp)
+
+            foreach (PhasorTypes pT in temp)
             {
                 allPhasors[count] = new PhasorDefinition(pT);
-                switch(allPhasors[count].Type)
+                switch (allPhasors[count].Type)
                 {
                     //
                     case PhasorTypes.VtA:
@@ -309,14 +309,14 @@ namespace SineDisplayGraph
                 count++;
             }
 
-            trippedPhasors[0].EndPoint = new PointF(1,2);
+            trippedPhasors[0].EndPoint = new PointF(1, 2);
             string[] str = Enum.GetNames(typeof(RawPhasorGroups));
             foreach (string s in str)
             {
                 this.listBoxMode.Items.Add(s);
             }
 
-            this.listBoxMode.SelectedIndex          = 0;
+            this.listBoxMode.SelectedIndex = 0;
         }
 
         private void makeGE(bool b)
@@ -356,15 +356,15 @@ namespace SineDisplayGraph
             //this.labelVtPStupid.Visible = !b;
             this.labelVtPUnits.Visible = !b;
             this.textBoxVtPRMS.Visible = !b;
-            
+
             //Transformer Phasors A, B C
-            if(this.trippedPhasors[0] != null)
+            if (this.trippedPhasors[0] != null)
             {
                 this.trippedPhasors[0].Enabled = !b;
                 this.trippedPhasors[1].Enabled = !b;
                 this.trippedPhasors[2].Enabled = !b;
             }
-            
+
         }
 
         private void makeConEd()
@@ -393,7 +393,7 @@ namespace SineDisplayGraph
             this.textBoxVtPAngle.Visible = false;
             this.textBoxVtPRMS.Visible = false;
             this.labelVtPUnits.Visible = false;
-            
+
 
             this.labelVtNStupid.Visible = false;
             this.textBoxVtNAngle.Visible = false;
@@ -485,7 +485,7 @@ namespace SineDisplayGraph
             workingPD = new PhasorDefinition();
             foreach (PhasorDefinition pD in allPhasors)
             {
-                if(pD.Type == phasorType)
+                if (pD.Type == phasorType)
                 {
                     workingPD = pD;
                     break;
@@ -505,7 +505,7 @@ namespace SineDisplayGraph
 
                     angle = (double)(workingPD.ImaginaryValue / workingPD.RealValue);
                     angle = RelayControlLibrary.RelayModeFunctions.RadiansToDegrees(Math.Atan(angle));
-                   
+
                     if (workingPD.RealValue < 0)
                     {
                         if (workingPD.ImaginaryValue > 0)
@@ -539,9 +539,9 @@ namespace SineDisplayGraph
                         this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
                         this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
                     }
-                    
 
-                    if(phasorType == PhasorTypes.VnC)
+
+                    if (phasorType == PhasorTypes.VnC)
                     {
                         this.scaleMeasuredVoltages();
                     }
@@ -550,7 +550,7 @@ namespace SineDisplayGraph
                 case PhasorTypes.VdB:
                 case PhasorTypes.VdC:
                 case PhasorTypes.VdT:
-                    
+
                     workingPD.RealValue = this.convertRMSV(realValue);
                     workingPD.ImaginaryValue = this.convertRMSV(imaginaryValue);
 
@@ -567,9 +567,9 @@ namespace SineDisplayGraph
                     if (this.CTRatio != 1 && ((!this.Protector277 && (workingPD.RMSValue < .2 && workingPD.RMSValue > -.2)) || (this.Protector277 && (workingPD.RMSValue < 0.4432 && workingPD.RMSValue > -0.4432))))
                     {
                         workingPD.Enabled = false;
-                        
+
                         this.setText("0.0", workingPD.AngleBox);
-                        
+
                         this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
                         this.setText("0.0", workingPD.RealBox);
                     }
@@ -580,25 +580,25 @@ namespace SineDisplayGraph
                         this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
 
                         double realValueDisplay;
-                        
+
                         //Using RMS because I stuck the real value of the phasor in the RMS because I never use it
-                        
-                        if(phasorType != PhasorTypes.VdT)
+
+                        if (phasorType != PhasorTypes.VdT)
                         {
                             realValueDisplay = convertRMSV(rMS);
                             this.setText(String.Format("{0:0.0}", Math.Floor(realValueDisplay * 10d) / 10d), workingPD.RealBox);
-                            
-                            if(realValueDisplay > 0)
+
+                            if (realValueDisplay > 0)
                                 this.setText(String.Format("{0:0.0}", Math.Floor(realValueDisplay * 10d) / 10d), workingPD.RealBox);
                             else
                                 this.setText(String.Format("{0:0.0}", Math.Ceiling(realValueDisplay * 10d) / 10d), workingPD.RealBox);
-                            
+
                         }
                         else
                         {
                             this.setText(String.Format("{0:0.0}", Math.Floor(workingPD.RealValue * 10d) / 10d), workingPD.RealBox);
                         }
-                        
+
                     }
 
                     if (phasorType == PhasorTypes.VdT)
@@ -610,7 +610,7 @@ namespace SineDisplayGraph
                 case PhasorTypes.VtP:
                 case PhasorTypes.VnP:
                 case PhasorTypes.VnN:
-                    
+
                     workingPD.RealValue = this.convertRMSV(realValue);
                     workingPD.ImaginaryValue = this.convertRMSV(imaginaryValue);
 
@@ -704,7 +704,7 @@ namespace SineDisplayGraph
                         this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
                         this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
                     }
-                    if(phasorType == PhasorTypes.VdP)
+                    if (phasorType == PhasorTypes.VdP)
                     {
                         this.scaleDifferentialSequenceVoltages();
                     }
@@ -736,7 +736,7 @@ namespace SineDisplayGraph
                     {
                         PhasorDefinition voltagePD;
 
-                        switch(workingPD.Type)
+                        switch (workingPD.Type)
                         {
                             case PhasorTypes.IA:
                             default:
@@ -752,7 +752,7 @@ namespace SineDisplayGraph
                         workingPD.Enabled = true;
                         this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
 
-                        if(CTRatio == 1)
+                        if (CTRatio == 1)
                         {
                             this.setText(String.Format("{0:0.0000}", workingPD.RMSValue), workingPD.RMSBox);
                             this.setText(String.Format("{0:0.000}", this.getInPhaseValue(workingPD, voltagePD)), workingPD.RealBox);
@@ -763,7 +763,7 @@ namespace SineDisplayGraph
                             this.setText(String.Format("{0:0.0}", this.getInPhaseValue(workingPD, voltagePD)), workingPD.RealBox);
                         }
 
-                        
+
                     }
 
                     if (phasorType == PhasorTypes.IC)
@@ -847,7 +847,7 @@ namespace SineDisplayGraph
                     }
 
                     this.scaleIEff();
-                   
+
                     break;
                 case PhasorTypes.PA:
                 case PhasorTypes.PB:
@@ -866,7 +866,7 @@ namespace SineDisplayGraph
                             angle = -180 + angle;
                     }
 
-                    if(this.Protector277)
+                    if (this.Protector277)
                     {
                         if ((workingPD.RMSValue / this.conversion277 / (float)this.CTRatio < .012f))//2.052f))
                         {
@@ -931,7 +931,7 @@ namespace SineDisplayGraph
             PhasorDefinition associatedCurrentPD;
             PhasorDefinition associatedVoltagePD;
 
-            switch(phasorType)
+            switch (phasorType)
             {
                 case PhasorTypes.IA:
                     associatedCurrentPD = this.allPhasors[6];
@@ -967,11 +967,11 @@ namespace SineDisplayGraph
                     throw new Exception("Bad Phasor Type for THD Monitor Value");
             }
 
-            if(associatedCurrentPD != null)
+            if (associatedCurrentPD != null)
             {
-                if(associatedCurrentPD.RMSValue / (float)this.CTRatio > .25f)
+                if (associatedCurrentPD.RMSValue / (float)this.CTRatio > .25f)
                 {
-                    tB.Text = value.ToString("0.00"); 
+                    tB.Text = value.ToString("0.00");
                 }
                 else
                 {
@@ -980,7 +980,7 @@ namespace SineDisplayGraph
             }
             else
             {
-                if(associatedVoltagePD.RMSValue > 60.0f)
+                if (associatedVoltagePD.RMSValue > 60.0f)
                     tB.Text = value.ToString("0.00");
                 else
                     tB.Text = "";
@@ -991,9 +991,9 @@ namespace SineDisplayGraph
         {
             float maxVoltageRMS = 0;
 
-            foreach(PhasorDefinition pD in trippedPhasors)
+            foreach (PhasorDefinition pD in trippedPhasors)
             {
-                if(pD.RMSValue > maxVoltageRMS)                 //find which phasor has highest RMS value
+                if (pD.RMSValue > maxVoltageRMS)                 //find which phasor has highest RMS value
                 {
                     maxVoltageRMS = pD.RMSValue;
                 }
@@ -1001,13 +1001,13 @@ namespace SineDisplayGraph
 
             maxVoltageRMS = this.setVoltageLabelsandGetMaxGraphValue(maxVoltageRMS, this.VoltageDisplayValues); //highest value that will display on graph
 
-            foreach(PhasorDefinition pD in trippedPhasors)
+            foreach (PhasorDefinition pD in trippedPhasors)
             {
                 pD.MaxValue = maxVoltageRMS;
                 pD.SetEndPoint();
             }
         }
-        
+
         private float setVoltageLabelsandGetMaxGraphValue(float maxValue, string[] displayValues)
         {
             double hiddenValue, highValue, midHighValue, midLowValue, lowValue;
@@ -1107,14 +1107,14 @@ namespace SineDisplayGraph
 
             foreach (PhasorDefinition pD in sequenceClosePhasors)
             {
-                if(pD.Type == PhasorTypes.VnP || pD.Type == PhasorTypes.VnN)
+                if (pD.Type == PhasorTypes.VnP || pD.Type == PhasorTypes.VnN)
                 {
                     pD.MaxValue = maxVoltageRMS;
                     pD.SetEndPoint();
                 }
             }
         }
- 
+
         private void scaleDifferentialSequenceVoltages()
         {
             float maxVoltageRMS = 0;
@@ -1135,14 +1135,14 @@ namespace SineDisplayGraph
                 pD.SetEndPoint();
             }
         }
- 
+
         private void scaleCurrents()
         {
             float maxCurrentRMS = 0;
 
             foreach (PhasorDefinition pD in closePhasors)
             {
-                if ((pD.Type == PhasorTypes.IA || pD.Type == PhasorTypes.IB || pD.Type == PhasorTypes.IC) &&  pD.RMSValue > maxCurrentRMS)                 //find which phasor has highest RMS value
+                if ((pD.Type == PhasorTypes.IA || pD.Type == PhasorTypes.IB || pD.Type == PhasorTypes.IC) && pD.RMSValue > maxCurrentRMS)                 //find which phasor has highest RMS value
                 {
                     maxCurrentRMS = pD.RMSValue;
                 }
@@ -1152,7 +1152,7 @@ namespace SineDisplayGraph
 
             foreach (PhasorDefinition pD in closePhasors)
             {
-                if(pD.Type == PhasorTypes.IA || pD.Type == PhasorTypes.IB || pD.Type == PhasorTypes.IC)
+                if (pD.Type == PhasorTypes.IA || pD.Type == PhasorTypes.IB || pD.Type == PhasorTypes.IC)
                 {
                     pD.MaxValue = maxCurrentRMS;
                     pD.SetEndPoint();
@@ -1316,7 +1316,7 @@ namespace SineDisplayGraph
                 pD.MaxValue = maxCurrentRMS;
                 pD.SetEndPoint();
             }
-            
+
         }
 
         private float convertRMSV(long rMS)
@@ -1326,7 +1326,7 @@ namespace SineDisplayGraph
             returnFloat = (float)rMS;                     //convert to a float
             returnFloat = returnFloat * (float)Constants.TwelveFracBits;
 
-            if(this.Protector277)
+            if (this.Protector277)
                 returnFloat *= this.conversion277;
             return returnFloat;
         }
@@ -1347,7 +1347,7 @@ namespace SineDisplayGraph
 
             realFloat = (float)realValue * (float)Constants.SixteenFracBits;
             imaginaryFloat = (float)imaginaryValue * (float)Constants.SixteenFracBits;
-            
+
             realFloat = (realFloat * realFloat) + (imaginaryFloat * imaginaryFloat);
             realFloat = (float)Math.Sqrt(realFloat);
 
@@ -1372,7 +1372,7 @@ namespace SineDisplayGraph
             }
             tempF = (double)f;
             tempG = (double)g;
-            
+
             tempF = tempF * (double)Constants.TwelveFracBits;
             tempG = tempG * (double)Constants.TwelveFracBits;
 
@@ -1414,7 +1414,7 @@ namespace SineDisplayGraph
 
         private void setCheckedValue(bool b, CheckBox cB)
         {
-            if(cB.InvokeRequired)
+            if (cB.InvokeRequired)
             {
                 setCheckBoxCheckedCallBack callBack = new setCheckBoxCheckedCallBack(setCheckedValue);
                 this.Invoke(callBack, new object[] { b, cB });
@@ -1474,16 +1474,16 @@ namespace SineDisplayGraph
         {
             ListBox lb = (ListBox)sender;
 
-            if(lb.SelectedItem.ToString().Equals(RawPhasorGroups.Tripped.ToString()))
+            if (lb.SelectedItem.ToString().Equals(RawPhasorGroups.Tripped.ToString()))
                 this.switchToTripped();
-            if(lb.SelectedItem.ToString().Equals(RawPhasorGroups.Closed.ToString()))
+            if (lb.SelectedItem.ToString().Equals(RawPhasorGroups.Closed.ToString()))
                 this.switchToClosed();
         }
 
         private void listBoxSequencePower_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lb = (ListBox)sender;
-            switch(lb.SelectedItem.ToString())
+            switch (lb.SelectedItem.ToString())
             {
                 case "Power Phasors":
                 default:
@@ -1560,7 +1560,7 @@ namespace SineDisplayGraph
             this.switchTo(this.trippedPhasors, this.phasorGraph1);
             this.panelClosed.Hide();
             this.panelTripped.Show();
-            if(!this.RealTimeMonitoring)
+            if (!this.RealTimeMonitoring)
             {
                 this.updateAxisValues();
                 this.phasorGraph1.Invalidate();
@@ -1589,7 +1589,7 @@ namespace SineDisplayGraph
         {
             this.phasorGraph2.XAxisValues = this.PowerDisplayValues;
             this.phasorGraph2.YAxisValues = this.PowerDisplayValues;
-         
+
             this.switchTo(this.powerPhasors, this.phasorGraph2);
             this.panelIeff.Hide();
             this.panelDifferentialVoltage.Hide();
@@ -1657,7 +1657,7 @@ namespace SineDisplayGraph
                 this.phasorGraph2.Invalidate();
             }
         }
-        
+
         private void switchTo(PhasorDefinition[] phasorArray, PhasorGraph pg)
         {
             pg.phasorsToDraw.Clear();
@@ -1666,9 +1666,9 @@ namespace SineDisplayGraph
             {
                 pg.AddPhasor(pD);
             }
-            
+
         }
-        
+
         public void ClearAllLabels()
         {
             this.setText("", this.textBoxIAAngle);
@@ -1757,7 +1757,7 @@ namespace SineDisplayGraph
         {
             double temp;
 
-            if(Angle.Text != "")
+            if (Angle.Text != "")
             {
                 temp = RelayControlLibrary.RelayModeFunctions.DegreesToRadians(Convert.ToDouble(Angle.Text));
                 temp = Math.Cos(temp);
@@ -1806,7 +1806,7 @@ namespace SineDisplayGraph
             {
                 this.realTimeMonitoring = value;
 
-                if(value)
+                if (value)
                     this.enableEventNavigation(false);
             }
         }
@@ -1839,7 +1839,7 @@ namespace SineDisplayGraph
             VnC.CalculatePhasorFromWaves(sEA.VnC, sEA.VnC);
             if (VnC.RMS > 10.0f)
                 return sEA.VnC;
-            if(!this.gEEnabled)
+            if (!this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(sEA.VtA, sEA.VtA);
                 if (VtA.RMS > 10.0f)
@@ -1852,7 +1852,7 @@ namespace SineDisplayGraph
                     return sEA.VtC;
             }
             IA.CalculatePhasorFromWaves(sEA.IA, sEA.IA);
-            if(IA.RMS > 0.5)
+            if (IA.RMS > 0.5)
                 return sEA.IA;
             IB.CalculatePhasorFromWaves(sEA.IB, sEA.IB);
             if (IB.RMS > 0.5)
@@ -1877,7 +1877,7 @@ namespace SineDisplayGraph
             VnA.CalculatePhasorFromWaves(referenceWave, sEA.VnA);
             VnB.CalculatePhasorFromWaves(referenceWave, sEA.VnB);
             VnC.CalculatePhasorFromWaves(referenceWave, sEA.VnC);
-            if(!this.gEEnabled)
+            if (!this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(referenceWave, sEA.VtA);
                 VtB.CalculatePhasorFromWaves(referenceWave, sEA.VtB);
@@ -1888,7 +1888,7 @@ namespace SineDisplayGraph
             IA.CalculatePhasorFromWaves(referenceWave, sEA.IA);
             IB.CalculatePhasorFromWaves(referenceWave, sEA.IB);
             IC.CalculatePhasorFromWaves(referenceWave, sEA.IC);
-            
+
             if (referenceWave == sEA.VnB || referenceWave == sEA.VtB || referenceWave == sEA.IB)
                 this.rotatePhasors(-120);
             else if (referenceWave == sEA.VnC || referenceWave == sEA.VtC || referenceWave == sEA.IC)
@@ -1901,7 +1901,7 @@ namespace SineDisplayGraph
             this.calculateDifferentialAndTransformerVoltages(sEA);
             this.scaleCalculatedVoltages();
 
-            if(this.gEEnabled)
+            if (this.gEEnabled)
             {
                 this.determineGEState();
             }
@@ -1973,7 +1973,7 @@ namespace SineDisplayGraph
 
         private void determineGEState()
         {
-            if(this.checkBoxBFlag.Checked)
+            if (this.checkBoxBFlag.Checked)
             {
                 this.gERelayOpened();
             }
@@ -2011,7 +2011,7 @@ namespace SineDisplayGraph
         private void gERelayClosed()
         {
             // Left this part out intentionally as I don't want to deal with trying to figure out the state of the relay locally
-            
+
             VtA.Real = VnA.Real;
             VtB.Real = VnB.Real;
             VtC.Real = VnC.Real;
@@ -2054,7 +2054,7 @@ namespace SineDisplayGraph
 
             this.PC.RMS = this.VtC.RMS * this.IC.RMS;
             this.PC.Degrees = this.IC.Degrees - this.VtC.Degrees;
-            
+
             this.PAvg.RMS = (this.PA.RMS + this.PB.RMS + this.PC.RMS) / 3f;
             tempPhasor.Real = this.PA.Real + this.PB.Real + this.PC.Real;
             tempPhasor.Imaginary = this.PA.Imaginary + this.PB.Imaginary + this.PC.Imaginary;
@@ -2090,7 +2090,7 @@ namespace SineDisplayGraph
             Phasors tempdB = new Phasors();
             Phasors tempdC = new Phasors();
 
-            if(!this.gEEnabled)
+            if (!this.gEEnabled)
             {
                 this.calculateDifferentialVotlage(VtA, VnA, VdA);
                 this.calculateDifferentialVotlage(VtB, VnB, VdB);
@@ -2128,7 +2128,7 @@ namespace SineDisplayGraph
             {
                 tempdC.Degrees = VdC.Degrees + VtC.Degrees;
             }
-            
+
             VdAvg.Real = (tempdA.Real + tempdB.Real + tempdC.Real) / 3f;
             VdAvg.Imaginary = (tempdA.Imaginary + tempdB.Imaginary + tempdC.Imaginary) / 3f;
         }
@@ -2159,7 +2159,7 @@ namespace SineDisplayGraph
             }
 
         }
-        
+
         private void calculateDifferentialVotlage(Phasors reference, Phasors actual, Phasors working)
         {
             working.Real = actual.Real - reference.Real;
@@ -2197,15 +2197,15 @@ namespace SineDisplayGraph
         }
 
         private void setLabelsFromSinglePhasor(Phasors workingPhasor)
-        {   
+        {
             Phasors tempPhasor = new Phasors();
 
-            if(RelayModeFunctions.IsCurrent(workingPhasor.PD.Type))
+            if (RelayModeFunctions.IsCurrent(workingPhasor.PD.Type))
             {
                 tempPhasor.Real = workingPhasor.Real * this.CTRatio;
                 tempPhasor.Imaginary = workingPhasor.Imaginary * this.CTRatio;
 
-                if(
+                if (
                     (workingPhasor.RMS > .03f && !this.gEEnabled) ||
                     (workingPhasor.RMS != 0f && this.gEEnabled) ||
                     this.CTRatio == 1
@@ -2231,7 +2231,7 @@ namespace SineDisplayGraph
                     workingPhasor.PD.Enabled = false;
                     workingPhasor.PD.RMSBox.Text = "";
                     workingPhasor.PD.AngleBox.Text = "";
-                    if(workingPhasor.PD.RealBox != null)
+                    if (workingPhasor.PD.RealBox != null)
                         workingPhasor.PD.RealBox.Text = "";
                 }
             }
@@ -2247,7 +2247,7 @@ namespace SineDisplayGraph
                     workingPhasor.PD.Enabled = true;
                     workingPhasor.PD.RMSBox.Text = tempPhasor.RMS.ToString("0.0");
                     workingPhasor.PD.AngleBox.Text = tempPhasor.Degrees.ToString("0.0");
-                    if(workingPhasor.PD.RealBox != null)
+                    if (workingPhasor.PD.RealBox != null)
                         workingPhasor.PD.RealBox.Text = tempPhasor.Real.ToString("0.0");
                 }
                 else
@@ -2268,7 +2268,7 @@ namespace SineDisplayGraph
                     workingPhasor.PD.Enabled = true;
                     workingPhasor.PD.RMSBox.Text = workingPhasor.RMS.ToString("0.0");
                     workingPhasor.PD.AngleBox.Text = workingPhasor.Degrees.ToString("0.0");
-                    if(workingPhasor.PD.RealBox != null)
+                    if (workingPhasor.PD.RealBox != null)
                         workingPhasor.PD.RealBox.Text = workingPhasor.Real.ToString("0.0");
                 }
                 else
@@ -2286,9 +2286,9 @@ namespace SineDisplayGraph
 
         private void buttonUpCycle_Click(object sender, EventArgs e)
         {
-            if(this.workingEventNumber != 9999)
+            if (this.workingEventNumber != 9999)
             {
-                if(cycleNumber != 15)
+                if (cycleNumber != 15)
                     this.incrementCycleNumber();
             }
             else //live data
@@ -2301,7 +2301,7 @@ namespace SineDisplayGraph
 
         private void buttonDownCycle_Click(object sender, EventArgs e)
         {
-            if(this.cycleNumber != 0)
+            if (this.cycleNumber != 0)
             {
                 this.decrementCycleNumber();
             }
@@ -2333,7 +2333,7 @@ namespace SineDisplayGraph
         {
             CycleInfoRequestEventArgs cIREA = new CycleInfoRequestEventArgs(p, this.workingEventNumber);
 
-            if(this.RequestNewCycle != null)
+            if (this.RequestNewCycle != null)
                 this.RequestNewCycle(this, cIREA);
         }
 
@@ -2353,7 +2353,7 @@ namespace SineDisplayGraph
 
         #endregion
 
-        
+
     }
 
     public class Phasors
@@ -2378,10 +2378,10 @@ namespace SineDisplayGraph
             get { return this.real; }
             set
             {
-                if(this.PD != null)                 //check to make sure if assigned before doing this
+                if (this.PD != null)                 //check to make sure if assigned before doing this
                     this.PD.RealValue = value;
                 this.real = value;
-                if(float.IsNaN(this.real) || float.IsNaN(this.imaginary))
+                if (float.IsNaN(this.real) || float.IsNaN(this.imaginary))
                     return;
                 this.setDegrees();
                 this.setRMS();
@@ -2409,7 +2409,7 @@ namespace SineDisplayGraph
             {
                 value %= 360;
 
-                if(value > 180)
+                if (value > 180)
                     this.degrees = value - 360;
                 else if (value < -180)
                     this.degrees = value + 360;
@@ -2432,12 +2432,12 @@ namespace SineDisplayGraph
             this.real = 0;
             this.imaginary = 0;
             this.RMS = 0;
-            for(int i = 0; i < referenceWave.Length; ++i)
+            for (int i = 0; i < referenceWave.Length; ++i)
             {
-                int i_cos = (i + referenceWave.Length/4) % 128;     //get 90 degrees off for imaginar value
+                int i_cos = (i + referenceWave.Length / 4) % 128;     //get 90 degrees off for imaginar value
 
                 //calculate the real value
-                float temp = referenceWave[i] * actualWave[i]; 
+                float temp = referenceWave[i] * actualWave[i];
                 this.real += temp;
 
                 //calculate the imaginary value
@@ -2451,7 +2451,7 @@ namespace SineDisplayGraph
                 this.RMS += temp;
             }
 
-             
+
             this.real /= (float)referenceWave.Length;
             this.imaginary /= (float)referenceWave.Length;
             this.RMS = (float)Math.Sqrt((double)(this.RMS / (float)referenceWave.Length));
@@ -2491,7 +2491,7 @@ namespace SineDisplayGraph
 
             this.real = this.RMS * (float)Math.Cos(radians);
             this.imaginary = this.RMS * (float)Math.Sin(radians);
-            if(this.PD != null)
+            if (this.PD != null)
             {
                 this.PD.RealValue = this.real;
                 this.PD.ImaginaryValue = this.imaginary;
@@ -2501,8 +2501,8 @@ namespace SineDisplayGraph
 
         public void AdjustForCTRatio(int cTRatio)
         {
-            if(this.PD != null)                                     //check to see if type is checkable, if not, just assume I didn't screw up
-                if(!RelayModeFunctions.IsCurrent(this.PD.Type))     //if it isn't a current, it is not adjusted.  May need to change for Power
+            if (this.PD != null)                                     //check to see if type is checkable, if not, just assume I didn't screw up
+                if (!RelayModeFunctions.IsCurrent(this.PD.Type))     //if it isn't a current, it is not adjusted.  May need to change for Power
                     return;
 
             this.Real *= (float)cTRatio;
@@ -2585,6 +2585,6 @@ namespace SineDisplayGraph
         public bool Monitor;
     }
 
-    
-    
+
+
 }

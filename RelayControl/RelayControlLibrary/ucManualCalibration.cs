@@ -60,7 +60,7 @@ namespace RelayControlLibrary
             OnSend(this, mySEA);
         }
 
-        
+
 
         private void comboBoxPhase_SelectedIndexChanged(object sender, EventArgs e)
         {

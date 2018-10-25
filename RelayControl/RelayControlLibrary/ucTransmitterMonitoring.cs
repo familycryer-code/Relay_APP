@@ -1089,8 +1089,8 @@ namespace RelayControlLibrary
             return (int)(tank_pressure);
         }
 #if Enmax
-        private int[] AnalogLookup = 
-		{ // 15 columns
+        private int[] AnalogLookup =
+        { // 15 columns
 			0,   1,   2,   3,   4,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
 			30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
 			48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3

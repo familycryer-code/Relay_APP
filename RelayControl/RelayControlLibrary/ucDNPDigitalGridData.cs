@@ -179,7 +179,7 @@ namespace RelayControlLibrary
 
         private void dNPPoint_PointChanged(object o, DNPPointEventArgs dPEA)
         {
-            if(this.PointChanged != null)
+            if (this.PointChanged != null)
             {
                 this.PointChanged(this, dPEA);
             }
@@ -555,12 +555,12 @@ namespace RelayControlLibrary
 
         public void SetAll(byte[] bytePacket, int p)
         {
-            for(int packetIndex = 0, dataIndex = 252 * (p-1); packetIndex < 252; packetIndex++, dataIndex++)
+            for (int packetIndex = 0, dataIndex = 252 * (p - 1); packetIndex < 252; packetIndex++, dataIndex++)
             {
                 this.dNPData[dataIndex] = bytePacket[packetIndex];
             }
-            
-            if(p == 4)
+
+            if (p == 4)
                 this.setAllDNPData();
         }
 
@@ -591,7 +591,7 @@ namespace RelayControlLibrary
                     failed = true;
                 }
 
-                if(!failed)
+                if (!failed)
                 {
                     uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
                     if ((bytePacket[index + 2] & 0x02) == 0x02)
@@ -645,7 +645,7 @@ namespace RelayControlLibrary
                     failed = true;
                 }
 
-                if(!failed)
+                if (!failed)
                 {
                     uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
                     if ((bytePacket[index + 4] & 0x01) == 0x01)
@@ -670,7 +670,7 @@ namespace RelayControlLibrary
                     failed = true;
                 }
 
-                if(!failed)
+                if (!failed)
                 {
                     uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
                     if ((bytePacket[index + 4] & 0x01) == 0x01)
@@ -728,7 +728,7 @@ namespace RelayControlLibrary
 
         private void tabControlMemphisDNP_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            if(this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs1)
+            if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs1)
             {
                 if (this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
                 {
@@ -736,7 +736,7 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs2.Controls.Remove(this.buttonEnableAllAnalogEvents);
                     this.tabPageAnalogInputs2.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
-                if(!this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
+                if (!this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
                 {
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonEnableAllAnalogEvents);
@@ -757,7 +757,7 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs1.Controls.Remove(this.buttonEnableAllAnalogEvents);
                     this.tabPageAnalogInputs1.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
-                if(!this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
+                if (!this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
                 {
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonEnableAllAnalogEvents);
@@ -772,7 +772,7 @@ namespace RelayControlLibrary
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
             {
-                if(!this.tabPageBinaryInputs.Controls.Contains(this.buttonSendBinaryEventEnables))
+                if (!this.tabPageBinaryInputs.Controls.Contains(this.buttonSendBinaryEventEnables))
                 {
                     this.tabPageBinaryInputs.Controls.Add(this.buttonSendBinaryEventEnables);
                     this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
@@ -811,7 +811,7 @@ namespace RelayControlLibrary
                     failed = true;
                 }
 
-                if(!failed)
+                if (!failed)
                 {
                     if (i % 8 == 0)
                     {
@@ -880,7 +880,7 @@ namespace RelayControlLibrary
                 {
                     failed = true;
                 }
-                if(!failed)
+                if (!failed)
                 {
                     if (i % 8 == 0)
                     {
@@ -915,7 +915,7 @@ namespace RelayControlLibrary
                     i++;
                 }
             }
-            foreach(Control C in this.tabPageAnalogInputs2.Controls)
+            foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {
                 ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
                 bool failed = false;
@@ -928,7 +928,7 @@ namespace RelayControlLibrary
                 {
                     failed = true;
                 }
-                if(!failed)
+                if (!failed)
                 {
                     if (i % 8 == 0)
                     {
@@ -968,7 +968,7 @@ namespace RelayControlLibrary
                 }
             }
 
-            sEA.SendPacket[sEA.SendPacket.Length-1] = 0x0D;
+            sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
             if (this.Send != null)
                 this.Send(this, sEA);
         }
@@ -1004,7 +1004,7 @@ namespace RelayControlLibrary
             ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
             bool failed = false;
 
-            if(PointChanged != null)
+            if (PointChanged != null)
             {
                 this.PointChanged(this, new DNPPointEventArgs(true));
             }

@@ -68,7 +68,7 @@ namespace RelayControlLibrary
 
         private void debugInitialize()
         {
-            
+
         }
 
         private void releaseInitialize()
@@ -86,7 +86,7 @@ namespace RelayControlLibrary
         private bool resetThreshold = false;
         public void ResetThreshold()
         {
-            
+
             this.resetThreshold = true;
             this.requestMonitoringData();
             return;
@@ -143,7 +143,7 @@ namespace RelayControlLibrary
                 }
                 else
                     this.resetThreshold = false;
-                
+
             }
             catch (Exception ex)
             {
@@ -155,10 +155,10 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     setAllCallBack sACB = new setAllCallBack(this.setAll);
-                    this.Invoke(sACB, new object[] {bytePacket});
+                    this.Invoke(sACB, new object[] { bytePacket });
                 }
                 else
                 {
@@ -174,7 +174,7 @@ namespace RelayControlLibrary
         private void setAll(byte[] bytePacket)
         {
             // 107 is Signal Strengths
-            if(bytePacket.Length == 107)  
+            if (bytePacket.Length == 107)
             {
                 this.setSignalStrengths(bytePacket);
             }
@@ -255,22 +255,22 @@ namespace RelayControlLibrary
             {
                 //clearAllMuxBoxes();
                 this.tempMuxBoxes.Clear();
-                
-                for(int i = 43; i < 56; i += 2)
+
+                for (int i = 43; i < 56; i += 2)
                 {
                     tempIDNumber = bytePacket[i + 1];
                     tempIDNumber <<= 8;
                     tempIDNumber += bytePacket[i];
                     try
                     {
-                        if(tempIDNumber != 65535)
+                        if (tempIDNumber != 65535)
                             this.tempMuxBoxes.Add(new ucShortRangeProbe(tempIDNumber));
                     }
                     catch
                     {
                         badIDFound = true;
-                        
-                        if(this.lastBadIDValue != tempIDNumber)
+
+                        if (this.lastBadIDValue != tempIDNumber)
                             this.addLineToMessageHandler(tempIDNumber.ToString() + " is a bad ID Number, ID 666 added as filler");
 
                         this.lastBadIDValue = tempIDNumber;
@@ -281,14 +281,14 @@ namespace RelayControlLibrary
 
                     }
                 }
-                if(!badIDFound)
+                if (!badIDFound)
                 {
                     this.lastBadIDValue = 65535;
                 }
 
-                if(this.tempMuxBoxes.Count > this.MuxBoxes.Count) //if there are more in the temp value, add them
+                if (this.tempMuxBoxes.Count > this.MuxBoxes.Count) //if there are more in the temp value, add them
                 {
-                    for(int i = 0; i < this.tempMuxBoxes.Count - this.MuxBoxes.Count; ++i)
+                    for (int i = 0; i < this.tempMuxBoxes.Count - this.MuxBoxes.Count; ++i)
                     {
                         this.addMuxBox();
                     }
@@ -300,21 +300,21 @@ namespace RelayControlLibrary
                         this.removeMuxBox();
                     }
                 }
-                foreach(ucShortRangeProbe uSRP in this.MuxBoxes)
+                foreach (ucShortRangeProbe uSRP in this.MuxBoxes)
                 {
-                    if(this.tempMuxBoxes == null || this.tempMuxBoxes.Count == 0)
+                    if (this.tempMuxBoxes == null || this.tempMuxBoxes.Count == 0)
                     {
                         this.addLineToMessageHandler("No IDs");
                         return;
                     }
-                    
+
                     workingProbe = (ucShortRangeProbe)this.tempMuxBoxes[0];
-                    
-                    if(workingProbe.IDNumber != uSRP.IDNumber)
+
+                    if (workingProbe.IDNumber != uSRP.IDNumber)
                     {
                         this.addLineToMessageHandler("ID: " + workingProbe.IDNumber.ToString() + " replaced " + uSRP.IDNumber);
                     }
-                    
+
                     this.tempMuxBoxes.RemoveAt(0);
 
                     uSRP.IDNumber = workingProbe.IDNumber;
@@ -351,10 +351,10 @@ namespace RelayControlLibrary
             try
             {
                 int i = 8; //point to the first 
-                foreach(ucShortRangeProbe uSRP in this.MuxBoxes)
+                foreach (ucShortRangeProbe uSRP in this.MuxBoxes)
                 {
                     uSRP.Signal133KHz = bytePacket[i];
-                    uSRP.Signal153KHz = bytePacket[i+1];
+                    uSRP.Signal153KHz = bytePacket[i + 1];
                     uSRP.Age133KHz = bytePacket[i + 19];
                     uSRP.Age153KHz = bytePacket[i + 20];
 
@@ -373,16 +373,16 @@ namespace RelayControlLibrary
         {
             string displayString = "";
 
-            if(p == recentErrors[recentErrors.Length - 1])          //don't repeat an error
+            if (p == recentErrors[recentErrors.Length - 1])          //don't repeat an error
                 return;
 
-            for(int i = 0; i < recentErrors.Length - 1; i++)
+            for (int i = 0; i < recentErrors.Length - 1; i++)
             {
                 recentErrors[i] = recentErrors[i + 1];
             }
             this.recentErrors[this.recentErrors.Length - 1] = p;
 
-            foreach(string s in this.recentErrors)
+            foreach (string s in this.recentErrors)
             {
                 displayString += s + "\r\n";
             }
@@ -396,7 +396,7 @@ namespace RelayControlLibrary
             //this.labelErrorLabel.Text = p;
 #endif
         }
-        
+
         private ArrayList tempMuxBoxes = new ArrayList();
 
         private bool probeListChanged(int[] tempProbeNumbers)
@@ -405,7 +405,7 @@ namespace RelayControlLibrary
 
             this.tempMuxBoxes.Clear();
 
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 bool iDExists = false;
                 if (tempProbeNumbers[i] < 0 || tempProbeNumbers[i] > 1023)    //bad or no ID value
@@ -417,15 +417,15 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    foreach(ucShortRangeProbe uSRP in this.MuxBoxes)            //check if the ID pulled from the packet exists in the current Mux Boxes
+                    foreach (ucShortRangeProbe uSRP in this.MuxBoxes)            //check if the ID pulled from the packet exists in the current Mux Boxes
                     {
-                        if(uSRP.IDNumber == tempProbeNumbers[i])                //if it does, change the bool and add it to the tempMuxBoses
+                        if (uSRP.IDNumber == tempProbeNumbers[i])                //if it does, change the bool and add it to the tempMuxBoses
                         {
                             iDExists = true;
                             this.tempMuxBoxes.Add(uSRP);
                         }
                     }
-                    if(!iDExists)                                               //if the ID does not exist
+                    if (!iDExists)                                               //if the ID does not exist
                     {
                         listChanged = true;                                     //indicate that the list has changed
                         ucShortRangeProbe workingProbe = new ucShortRangeProbe();
@@ -434,7 +434,7 @@ namespace RelayControlLibrary
                     }
                 }
             }
-            if(this.tempMuxBoxes.Count > this.MuxBoxes.Count)
+            if (this.tempMuxBoxes.Count > this.MuxBoxes.Count)
                 listChanged = true;
             return listChanged;
         }
@@ -470,11 +470,11 @@ namespace RelayControlLibrary
             else
                 sEA.WithAck = false;
 
-            if(Send != null)
+            if (Send != null)
                 Send(this, sEA);
         }
 
-        
+
 
         #endregion
 
@@ -484,7 +484,7 @@ namespace RelayControlLibrary
 
         private void errorHandler(Exception ex)
         {
-            if(ErrorHandler != null)
+            if (ErrorHandler != null)
                 ErrorHandler(this, new ExceptionEventArgs(ex, "Error in ShortRange Control"));
             else
                 throw new Exception("No Exception Handler For Secondary Monitor Control");
@@ -499,7 +499,7 @@ namespace RelayControlLibrary
 
         private ucShortRangeProbe addMuxBox()
         {
-         
+
             {
                 ucShortRangeProbe workingSRP = new ucShortRangeProbe();
 
@@ -520,16 +520,16 @@ namespace RelayControlLibrary
         {
             ucShortRangeProbe uSRP1, uSRP2;
 
-            if(this.MuxBoxes.Count < 2)
+            if (this.MuxBoxes.Count < 2)
                 return false;
             for (int i = 0; i < this.MuxBoxes.Count - 1; ++i)
             {
                 uSRP1 = (ucShortRangeProbe)this.MuxBoxes[i];
-                for(int j = i + 1; j <= this.MuxBoxes.Count - 1; ++j)
+                for (int j = i + 1; j <= this.MuxBoxes.Count - 1; ++j)
                 {
                     uSRP2 = (ucShortRangeProbe)this.MuxBoxes[j];
 
-                    if(uSRP2.IDNumber == uSRP1.IDNumber)
+                    if (uSRP2.IDNumber == uSRP1.IDNumber)
                     {
                         return true;
                     }
@@ -541,23 +541,23 @@ namespace RelayControlLibrary
 
         private void clearAllMuxBoxes()
         {
-            if(this.MuxBoxes.Count == 0)
+            if (this.MuxBoxes.Count == 0)
                 return;
 
-            while(this.MuxBoxes.Count != 0)
+            while (this.MuxBoxes.Count != 0)
             {
                 this.removeMuxBox();
             }
         }
         private void removeMuxBox()
         {
-            if(this.MuxBoxes.Count == 0)
+            if (this.MuxBoxes.Count == 0)
                 return;
             else
             {
                 ucShortRangeProbe workingSRP;
                 workingSRP = (ucShortRangeProbe)this.MuxBoxes[this.MuxBoxes.Count - 1];                            //get the last one
-                
+
                 this.MuxBoxes.Remove(workingSRP);
                 this.Controls.Remove(workingSRP);
 
@@ -575,7 +575,7 @@ namespace RelayControlLibrary
 
         private void buttonMonitor_Click(object sender, EventArgs e)
         {
-            if(this.timerMonitor.Enabled)
+            if (this.timerMonitor.Enabled)
             {
                 this.timerMonitor.Enabled = false;
                 this.buttonMonitor.Text = "Start Monitoring";

@@ -14,7 +14,7 @@ namespace RelayDNPSecurity
         public ucKeyValuesInputControl(int numberOfValues, string groupBoxName)
         {
             InitializeComponent();
-            if(numberOfValues % 16 != 0)
+            if (numberOfValues % 16 != 0)
                 throw new Exception("Number of Values must be divisible by 16");
 
             this.generateBoxes(numberOfValues);
@@ -41,7 +41,7 @@ namespace RelayDNPSecurity
             for (int i = 0; i < numberOfValues; ++i)
             {
                 TextBox workingTB;
-                Point boxLocation = new Point(_locationOffsetX + (i%16 * (_boxWidth + _spacingX)), _locationOffsetY + ((i / 16) * (_boxHeight + _spacingY)));
+                Point boxLocation = new Point(_locationOffsetX + (i % 16 * (_boxWidth + _spacingX)), _locationOffsetY + ((i / 16) * (_boxHeight + _spacingY)));
 
                 workingTB = new TextBox();
                 workingTB.Height = _boxHeight;
@@ -81,7 +81,7 @@ namespace RelayDNPSecurity
             int i = 0;
 
             foreach (object o in this.Controls)
-            {    
+            {
                 TextBox tB = new TextBox();
                 try
                 {
@@ -108,7 +108,8 @@ namespace RelayDNPSecurity
         {
             byte[] returnArray = null;
 
-            if(!this.KeyDataValid()){
+            if (!this.KeyDataValid())
+            {
                 return new byte[0];
             }
 
@@ -307,7 +308,7 @@ namespace RelayDNPSecurity
             }
             catch
             {
-                
+
             }
         }
 

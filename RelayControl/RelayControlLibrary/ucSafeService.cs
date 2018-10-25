@@ -29,7 +29,8 @@ namespace RelayControlLibrary
 
         public bool EnableSafeService
         {
-            set{
+            set
+            {
                 this.changeEnableState(value);
             }
         }
@@ -56,7 +57,7 @@ namespace RelayControlLibrary
                 this.loadingNewCode = value;
                 // Set To Disabled if Loading New Code
                 if (value)
-                    this.comboBoxSSEnable.SelectedIndex = 1; 
+                    this.comboBoxSSEnable.SelectedIndex = 1;
             }
         }
 
@@ -87,8 +88,8 @@ namespace RelayControlLibrary
             try
             {
                 //low byte comes first
-                sEA.SendPacket[0] = 0x0F;    
-                if(this.comboBoxSSEnable.SelectedIndex == 0)
+                sEA.SendPacket[0] = 0x0F;
+                if (this.comboBoxSSEnable.SelectedIndex == 0)
                     sEA.SendPacket[2] = 1;
                 else
                     sEA.SendPacket[2] = 0;
@@ -180,7 +181,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     setAllCallBack sACB = new setAllCallBack(this.setAll);
                     this.Invoke(sACB, new object[] { bytePacket });
@@ -213,7 +214,7 @@ namespace RelayControlLibrary
 
             try
             {
-                if((bytePacket[1] & 0x01) == 1)
+                if ((bytePacket[1] & 0x01) == 1)
                     this.comboBoxSSEnable.SelectedIndex = 0;
                 else
                     this.comboBoxSSEnable.SelectedIndex = 1;
@@ -290,7 +291,7 @@ namespace RelayControlLibrary
                 this.numericUpDownVoltageImbalance.Value = numericUpDownVoltageImbalance_Temp;
 
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
-                
+
                 SendAll();
 #endif
 
@@ -307,7 +308,7 @@ namespace RelayControlLibrary
 
         private void errorHandler(string p, Exception ex)
         {
-            if(SafeServiceException != null)
+            if (SafeServiceException != null)
                 SafeServiceException(this, new ExceptionEventArgs(ex, p));
             else
                 throw new Exception("Exceptions for SS Not Handled!!!!");
@@ -327,7 +328,7 @@ namespace RelayControlLibrary
         private void setCTRatioValues(int value)
         {
             decimal tempValue = this.numericUpDownOverCurrent.Value;
-            
+
             tempValue /= this.cTRatio;
             tempValue *= value;
             this.cTRatio = value;
@@ -536,7 +537,7 @@ namespace RelayControlLibrary
             {
                 this.errorHandler("Error Setting Save Object in Safe Service Mode", ex);
             }
-            
+
         }
 
         public void SetAllValues(SafeServiceSavedState sSSS)
@@ -775,7 +776,7 @@ namespace RelayControlLibrary
             }
 
             //Sort list alphabetically
-            this.SavedStates.Sort(delegate(SafeServiceSavedState tSS1, SafeServiceSavedState tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
+            this.SavedStates.Sort(delegate (SafeServiceSavedState tSS1, SafeServiceSavedState tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
         }
 
         private bool sameName(SafeServiceSavedState tSS, string s)

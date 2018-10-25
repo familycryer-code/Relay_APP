@@ -18,7 +18,7 @@ namespace RelayControlLibrary
                 case 0:
                     break;
                 case 1: //I2C Variable
-                    
+
                     break;
             }
         }

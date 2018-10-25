@@ -14,7 +14,7 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
         }
-        
+
         public bool PointEnabled
         {
             get { return this.Enabled; }
@@ -62,14 +62,14 @@ namespace RelayControlLibrary
         {
             set
             {
-                if(this.signed)
+                if (this.signed)
                 {
                     try
                     {
                         Int16 temp = (Int16)value;
                         this.textBoxPointValue.Text = temp.ToString();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         throw new Exception(ex.ToString());
                     }

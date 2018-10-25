@@ -17,7 +17,7 @@ namespace RelayControlLibrary
     {
         public ucTripMode()
         {
-            InitializeComponent();            
+            InitializeComponent();
             this.listBoxTripModes.SelectedIndex = 0;
             this.domainUpDownType.SelectedIndex = 0;
 #if NU
@@ -102,7 +102,7 @@ namespace RelayControlLibrary
         private ToolTip toolTip = new ToolTip();
         private Customers customer = Customers.None;
 
-        public Customers Customer 
+        public Customers Customer
         {
             get { return this.customer; }
             set
@@ -114,7 +114,7 @@ namespace RelayControlLibrary
 
         private void setCustomer()
         {
-            switch(this.customer)
+            switch (this.customer)
             {
                 case Customers.None:
                 case Customers.NonConEd:
@@ -142,7 +142,7 @@ namespace RelayControlLibrary
             "Insensitive",
             "Time Delay"};
 
-        string[] nonConEdTripModes = new string[] { 
+        string[] nonConEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
             "Time Delay",
@@ -234,7 +234,7 @@ namespace RelayControlLibrary
             {
                 this.versionNumber = value;
 
-                if(this.versionNumber >= 110609 && this.Customer != Customers.ConEdison)
+                if (this.versionNumber >= 110609 && this.Customer != Customers.ConEdison)
                 {
                     this.labelTripStyle.Visible = true;
                     this.domainUpDownTripStyle.Visible = true;
@@ -264,7 +264,7 @@ namespace RelayControlLibrary
         private bool sending = false;
         public void buttonSendTripMode_Click(object sender, EventArgs e)
         {
-            if(sending)
+            if (sending)
                 return;
 
             this.SendTimedOut = false;
@@ -275,26 +275,26 @@ namespace RelayControlLibrary
             this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
             TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
             TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
-            if(this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
+            if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
                 TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
             else
                 TripModeDef.TimeDelay = 0;
-            
-            if(this.TripModeDef.Mode == TripModes.RemoteTrip)
+
+            if (this.TripModeDef.Mode == TripModes.RemoteTrip)
             {
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
                 OnSend(mySEA);
                 return;
             }
 
-            TripCurve1.CurveNumber      = 0;
-            TripCurve1.CurveType        = TripCurveTypes.OffsetAngle;
+            TripCurve1.CurveNumber = 0;
+            TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
 
             TripCurveGW.CurveNumber = 1;
 
-            if(this.checkBoxEnableGullWing.Checked)
+            if (this.checkBoxEnableGullWing.Checked)
             {
-                
+
                 TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
                 TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
                 TripCurveGW.CodomainMinimum = 0;
@@ -310,35 +310,35 @@ namespace RelayControlLibrary
                 TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
             }
 
-            if(this.displayType == eDisplayType.Relay)
+            if (this.displayType == eDisplayType.Relay)
             {
-                TripCurve1.Offset           = this.numericUpDownSensTrip.Value;
-                TripCurveGW.Offset          = this.numericUpDownSensTrip.Value;
-                TripCurveWV.Offset          = this.numericUpDownSensTrip.Value;
+                TripCurve1.Offset = this.numericUpDownSensTrip.Value;
+                TripCurveGW.Offset = this.numericUpDownSensTrip.Value;
+                TripCurveWV.Offset = this.numericUpDownSensTrip.Value;
             }
             else if (this.displayType == eDisplayType.Percent)
             {
-                TripCurve1.Offset           = this.numericUpDownSensTrip.Value * 50m;
-                TripCurveGW.Offset          = this.numericUpDownSensTrip.Value * 50m;
-                TripCurveWV.Offset          = this.numericUpDownSensTrip.Value * 50m;
+                TripCurve1.Offset = this.numericUpDownSensTrip.Value * 50m;
+                TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 50m;
+                TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 50m;
             }
             else
             {
-                TripCurve1.Offset           = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                TripCurveGW.Offset          = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                TripCurveWV.Offset          = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                TripCurve1.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
             }
 
-            TripCurve1.Tilt             = this.numericUpDownAngle.Value;
-            TripCurveGW.Tilt            = this.numericUpDownGullWingAngle.Value;
+            TripCurve1.Tilt = this.numericUpDownAngle.Value;
+            TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
 
-            mySEA.SendPacket            = RelayModeFunctions.BytePacketFor(TripCurve1, 0);
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0);
 
             OnSend(mySEA);
 
-            mySEA.SendPacket        = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
             this.OnSend(mySEA);
-            
+
             decimal tempDecimal;
 
             if (this.displayType == eDisplayType.Relay)
@@ -350,7 +350,7 @@ namespace RelayControlLibrary
 
 
 
-            if(this.numericUpDownTimeDelay.Visible)
+            if (this.numericUpDownTimeDelay.Visible)
             {
                 this.instantaneousCurrent = tempDecimal;
             }
@@ -359,18 +359,18 @@ namespace RelayControlLibrary
                 this.insensitiveCurrent = tempDecimal;
             }
 
-            TripCurveTimeDelay.CurveNumber      = 3;
-            TripCurveTimeDelay.CurveType        = TripCurveTypes.Magnitude;
-            TripCurveTimeDelay.CodomainMaximum  = Constants.MaxFixedPointValue;
-            TripCurveTimeDelay.CodomainMinimum  = Constants.MinFixedPointValue;
-            TripCurveTimeDelay.Offset           = 0;
-            TripCurveTimeDelay.Tilt             = 90;
-            TripCurveTimeDelay.Magnitude        = this.instantaneousCurrent;
+            TripCurveTimeDelay.CurveNumber = 3;
+            TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
+            TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
+            TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
+            TripCurveTimeDelay.Offset = 0;
+            TripCurveTimeDelay.Tilt = 90;
+            TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
 
             if (!this.numericUpDownTimeDelay.Visible)
             {
                 TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
-                
+
             }
             else
             {
@@ -387,7 +387,7 @@ namespace RelayControlLibrary
             this.TripCurveInsensTripMag.Tilt = 90;
             this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
 
-            if(!this.labelInsensTrip.Visible)
+            if (!this.labelInsensTrip.Visible)
             {
                 this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
             }
@@ -397,14 +397,14 @@ namespace RelayControlLibrary
             }
             mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
             OnSend(mySEA);
-            
 
-            TripCurveWV.CurveNumber     = 4;
-            TripCurveWV.CurveType       = TripCurveTypes.WattVar;
+
+            TripCurveWV.CurveNumber = 4;
+            TripCurveWV.CurveType = TripCurveTypes.WattVar;
             //Offset Set Above
             TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
             TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurveWV.Tilt            = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
+            TripCurveWV.Tilt = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
 
             if (this.displayType == eDisplayType.Relay)
                 TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value;
@@ -415,7 +415,7 @@ namespace RelayControlLibrary
 
             mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
 
-            if(this.numericUpDownWVCurrent.Visible)
+            if (this.numericUpDownWVCurrent.Visible)
                 this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
             else
                 this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
@@ -433,7 +433,7 @@ namespace RelayControlLibrary
             mySEA.SendPacket[1] = (byte)'S';
 
             mySEA.SendPacket[2] = 0;
-            if((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
+            if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
                 mySEA.SendPacket[2] = 0;
             else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
                 mySEA.SendPacket[2] = 1;
@@ -444,18 +444,18 @@ namespace RelayControlLibrary
             else
                 throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
 
-            if(this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
+            if (this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
                 mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
             else
                 mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
 
             mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
             mySEA.SendPacket[7] = 0x0D;
-            if(this.VersionNumber >= 110609)
+            if (this.VersionNumber >= 110609)
                 OnSend(mySEA);
 
             sending = false;
-            
+
         }
 
         private void OnSend(SendEventArgs sEA)
@@ -464,7 +464,7 @@ namespace RelayControlLibrary
                 Send(this, sEA);
         }
 
-       
+
 
         private void listBoxTripModes_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -545,7 +545,7 @@ namespace RelayControlLibrary
                     this.labelInsensTripUnit.Visible = true;
                     this.labelInstantCurrent.Visible = true;
                     this.labelInsensTrip.Visible = false;
-                    this.sensitiveTimeVisible(true); 
+                    this.sensitiveTimeVisible(true);
                     this.SensitiveVisible(true);
                     this.TimeDelayVisible(true);
                     this.TimeDelayInstantCurrentLabelVisible(true);
@@ -566,7 +566,7 @@ namespace RelayControlLibrary
         /// <returns>Proper Display Value</returns>
         private decimal convertDisplay(decimal p)
         {
-            switch(this.displayType)
+            switch (this.displayType)
             {
                 case eDisplayType.Percent:
                     return p * 20m;
@@ -575,7 +575,7 @@ namespace RelayControlLibrary
                 case eDisplayType.Relay:
                 default:
                     return p;
-                        
+
             }
         }
 
@@ -584,7 +584,7 @@ namespace RelayControlLibrary
             this.numericUpDownSensitiveTimeDelay.Visible = value;
             this.labelSTD.Visible = value;
             this.labelSTDunit.Visible = value;
-            if(!this.sensitiveTimeEnabled)
+            if (!this.sensitiveTimeEnabled)
             {
                 this.hideSensitiveTimeDelay();
             }
@@ -592,7 +592,7 @@ namespace RelayControlLibrary
         }
 
         private void SensitiveVisible(bool value)
-        {   
+        {
             this.numericUpDownSensTrip.Visible = value;
             this.labelSensTrip.Visible = value;
             this.labelSensTripUnit.Visible = value;
@@ -600,7 +600,7 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Visible = value;
             this.labelAngle.Visible = value;
             this.labelAngleUnit.Visible = value;
-             
+
         }
 
         private void TimeDelayVisible(bool value)
@@ -617,7 +617,7 @@ namespace RelayControlLibrary
 
         private void InsensitiveLabelVisible(bool value)
         {
-            
+
         }
 
         private void ExtendedTDVisible(bool value)
@@ -645,7 +645,7 @@ namespace RelayControlLibrary
             this.labelWVCurrent.Visible = value;
             this.labelWVCurrentUnit.Visible = value;
 
-            
+
         }
 
         private void sequenceStyleWattVar()
@@ -665,7 +665,7 @@ namespace RelayControlLibrary
 
         private void modeChanged()
         {
-            if(TripModeChanged != null)
+            if (TripModeChanged != null)
             {
                 TripModeChanged(myTMCEA);
             }
@@ -675,7 +675,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     invokeSetAllCallBack iSCB = new invokeSetAllCallBack(this.setAll);
                     this.Invoke(iSCB, new object[] { packet });
@@ -689,20 +689,20 @@ namespace RelayControlLibrary
             {
                 throw ex;
             }
-            
+
         }
 
         private decimal insensitiveCurrent = 2.5m;
         private decimal instantaneousCurrent = 2.5m;
         private delegate void invokeSetAllCallBack(byte[] packet);
-        
+
         private void setAll(byte[] bytePacket)
         {
             TripModes tempTM = 0;
             Int32 temp = 0;
             decimal tempD = 0, tripAngle = 0, conversionFactor = 1m;
-            
-            switch(this.domainUpDownType.SelectedIndex)
+
+            switch (this.domainUpDownType.SelectedIndex)
             {
                 case 0:
                     conversionFactor = 1m;
@@ -741,21 +741,21 @@ namespace RelayControlLibrary
                         break;
 
                 }
-                
+
             }
             catch
             {
-                this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[0]).ToString() + " is not a valid Trip Mode Character."));                
+                this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[0]).ToString() + " is not a valid Trip Mode Character."));
             }
             //TimeDelay
-            
+
             try
             {
                 temp = bytePacket[2];//13
                 temp <<= 8;
                 temp += bytePacket[1];//12
 
-                
+
                 this.numericUpDownTimeDelay.Value = temp;
             }
             catch
@@ -767,18 +767,18 @@ namespace RelayControlLibrary
                 //Extended Delay
                 temp = bytePacket[4];
                 this.numericUpDownExtendedTimeDelay.Value = temp;
-                
+
             }
             catch
             {
                 this.errorHandler(new Exception(temp.ToString() + " is not a valid Extended Time Delay Value."));
-                
+
             }
             try
             {
                 //Sensitive Delay
                 temp = bytePacket[3];
-           
+
                 this.numericUpDownSensitiveTimeDelay.Value = temp;
             }
             catch
@@ -786,7 +786,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception(temp.ToString() + " is not a valid Sensitive Time Delay Value."));
                 throw new Exception("Bad Trip Delay Value");
             }
-            
+
             try
             {
                 //Sensitive Trip Setting
@@ -797,12 +797,12 @@ namespace RelayControlLibrary
                 temp += bytePacket[6];
                 temp <<= 8;
                 temp += bytePacket[5];
-               
+
 
                 tempD = ((decimal)temp * Constants.SixteenFracBits);
                 tempD = Math.Round(tempD, 4);
                 tempD *= conversionFactor;
-                if(this.displayType == eDisplayType.Relay)
+                if (this.displayType == eDisplayType.Relay)
                 {
                     tempD *= -1000m;
                     tempD = Math.Round(tempD, 1);
@@ -818,9 +818,9 @@ namespace RelayControlLibrary
                     tempD = Math.Round(tempD, 3);
                 }
                 this.numericUpDownSensTrip.Value = tempD;
-                
+
             }
-            catch 
+            catch
             {
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Sensitive Trip Value."));
             }
@@ -846,7 +846,7 @@ namespace RelayControlLibrary
                 }
 
                 tempD = Math.Round(tempD);
-                if(tempD > 0)
+                if (tempD > 0)
                 {
                     this.numericUpDownAngle.Value = tempD;
                 }
@@ -870,15 +870,15 @@ namespace RelayControlLibrary
                 temp = bytePacket[10];
                 temp <<= 8;
                 temp += bytePacket[9];
-                
+
                 tempD = (decimal)temp * Constants.TenFracBits;
                 tempD = this.instantaneousCurrent = Math.Round(tempD, 1);
                 tempD *= conversionFactor;
-                    
 
-                if(tempTM == TripModes.TimeDelay)
+
+                if (tempTM == TripModes.TimeDelay)
                     this.numericUpDownInsensTrip.Value = tempD;
-                
+
 
             }
             catch
@@ -886,7 +886,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Instantaneous Current Value."));
             }
 
-            
+
 
             try
             {
@@ -900,8 +900,8 @@ namespace RelayControlLibrary
                 tempD = this.insensitiveCurrent;
                 tempD *= conversionFactor;
 
-                
-                if(tempTM == TripModes.Insensitive)
+
+                if (tempTM == TripModes.Insensitive)
                     this.numericUpDownInsensTrip.Value = tempD;
             }
             catch
@@ -947,7 +947,7 @@ namespace RelayControlLibrary
                     tempD = (decimal)Math.Atan((double)tempD);
                     tempD = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempD);
 
-                    if(tempD < 0)
+                    if (tempD < 0)
                         tempD = 180 + tempD;
                 }
                 tempD = tempD - tripAngle;
@@ -964,7 +964,7 @@ namespace RelayControlLibrary
 
             try
             {
-                if(bytePacket[19] == (byte)'O')
+                if (bytePacket[19] == (byte)'O')
                 {
                     this.checkBoxEnableGullWing.Checked = true;
                 }
@@ -1000,14 +1000,14 @@ namespace RelayControlLibrary
                     this.numericUpDownGullWingAngle.Value = 180m + tempD;
                 }
             }
-            catch{}
+            catch { }
 
             try
             {
-                if(this.versionNumber >= 110609)
+                if (this.versionNumber >= 110609)
                 {
                     //Set Trip Style Drop down
-                    if((bytePacket[22] & 0x03) == 1)
+                    if ((bytePacket[22] & 0x03) == 1)
                     {
                         this.domainUpDownTripStyle.SelectedItem = "Pulse Trip";
                     }
@@ -1025,7 +1025,7 @@ namespace RelayControlLibrary
                     }
 
                     //Set Power Down Trip Checkbox - reversed for backwards compatibility
-                    if((bytePacket[22] & 0x04) == 4)
+                    if ((bytePacket[22] & 0x04) == 4)
                     {
                         this.checkBoxTripOnPowerDown.Checked = false;
                     }
@@ -1041,14 +1041,14 @@ namespace RelayControlLibrary
 
                 this.errorHandler(except);
             }
-            
+
         }
 
         private void domainUpDownType_SelectedItemChanged(object sender, EventArgs e)
         {
             DomainUpDown dUP = (DomainUpDown)sender;
 
-            switch(dUP.SelectedIndex)
+            switch (dUP.SelectedIndex)
             {
                 case 0:
                     this.makeRelayType();
@@ -1077,13 +1077,13 @@ namespace RelayControlLibrary
 
             this.numericUpDownSensTrip.Minimum = .0001m * this.CTRatio;
             this.numericUpDownSensTrip.Maximum = 5m * this.CTRatio;
-            this.numericUpDownSensTrip.Increment = .0001m * this.CTRatio; 
-            
-            if(this.displayType == eDisplayType.Relay)
+            this.numericUpDownSensTrip.Increment = .0001m * this.CTRatio;
+
+            if (this.displayType == eDisplayType.Relay)
             {
                 this.numericUpDownSensTrip.Value = Math.Round(temp * this.CTRatio, 3);
             }
-            else if(this.displayType == eDisplayType.Percent)
+            else if (this.displayType == eDisplayType.Percent)
             {
                 this.numericUpDownSensTrip.Value = Math.Round(temp * .05m * CTRatio, 3);
             }
@@ -1124,14 +1124,14 @@ namespace RelayControlLibrary
         private void setProtectorValues(Int32 value)
         {
             decimal temp;
-            if(this.displayType == eDisplayType.Protector)
+            if (this.displayType == eDisplayType.Protector)
             {
                 temp = this.numericUpDownSensTrip.Value;
                 temp = temp / this.CTRatio;
 
                 this.numericUpDownSensTrip.Increment = (decimal)value * .0001m;
                 this.numericUpDownSensTrip.Maximum = (decimal)value * 5m;
-                this.numericUpDownSensTrip.Minimum  = (decimal)value * .0001m;
+                this.numericUpDownSensTrip.Minimum = (decimal)value * .0001m;
 
                 this.numericUpDownSensTrip.Value = value * temp;
 
@@ -1236,7 +1236,7 @@ namespace RelayControlLibrary
                 {
                     this.numericUpDownSensTrip.Value = Math.Round(temp * 1000m / CTRatio, 1);
                 }
-                catch {}
+                catch { }
             }
 
             temp = this.numericUpDownInsensTrip.Value;
@@ -1247,7 +1247,7 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp/1000m * 50m, 1);
+                this.numericUpDownInsensTrip.Value = Math.Round(temp / 1000m * 50m, 1);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
@@ -1281,7 +1281,7 @@ namespace RelayControlLibrary
         {
             this.setTypeIndependentDefaults();
 
-            switch(this.displayType)
+            switch (this.displayType)
             {
                 case eDisplayType.Percent:
                     this.setPercentageTypeDefaults();
@@ -1349,7 +1349,7 @@ namespace RelayControlLibrary
         }
 
         private void setRelayTypeDefaults()
-        {   
+        {
 #if NU || DOMINION || chicago || Enmax || Boston
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
@@ -1414,7 +1414,7 @@ namespace RelayControlLibrary
         private void checkBoxEnableGullWing_CheckedChanged(object sender, EventArgs e)
         {
             this.showGullWing(this.checkBoxEnableGullWing.Checked);
-            if(this.checkBoxEnableGullWing.Checked)
+            if (this.checkBoxEnableGullWing.Checked)
             {
                 this.gullWingToolTip.SetToolTip(this.numericUpDownGullWingAngle, "Applies to Quadrants I and II");
                 this.tiltAngleToolTip.SetToolTip(this.numericUpDownAngle, "Applies to Quadrans III and IV");
@@ -1428,7 +1428,7 @@ namespace RelayControlLibrary
 
         private void showGullWing(bool p)
         {
-            if(this.Customer != Customers.ConEdison)
+            if (this.Customer != Customers.ConEdison)
             {
                 this.gullWingEnabled = p;
                 this.labelGullWingAngle.Visible = p;
@@ -1440,7 +1440,7 @@ namespace RelayControlLibrary
         #region Saved States
 
         private SaveObject saveObject = new SaveObject();
-  
+
 
         private void populateTripModeSavedData(TripModeSavedStateV4 tSS)
         {
@@ -1478,12 +1478,12 @@ namespace RelayControlLibrary
             tSS.TripStyle = (int)this.domainUpDownTripStyle.SelectedIndex;
             tSS.TripOnPowerDown = this.checkBoxTripOnPowerDown.Checked;
         }
-        
+
         public void SetAllValues(TripModeSavedStateV4 lTSS)
         {
             decimal sensConversionFactor, insensConversionFactor;
-            
-            switch(this.domainUpDownType.SelectedIndex)
+
+            switch (this.domainUpDownType.SelectedIndex)
             {
                 case 0:
                     sensConversionFactor = insensConversionFactor = 1m;
@@ -1534,7 +1534,7 @@ namespace RelayControlLibrary
         #endregion
 
     }
-    
+
     [Serializable()]
 
     public class TripModeSavedState : ISerializable
@@ -1575,7 +1575,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                throw new Exception ("Error Instantiating Trip Mode Saved State", ex);
+                throw new Exception("Error Instantiating Trip Mode Saved State", ex);
             }
         }
 
@@ -1598,7 +1598,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                throw new Exception ("Error Getting Object Data in Trip Mode Saving", ex);
+                throw new Exception("Error Getting Object Data in Trip Mode Saving", ex);
             }
         }
 
@@ -1723,25 +1723,25 @@ namespace RelayControlLibrary
 
             for (; i < SavedStates.Count; ++i)
             {
-                if(this.SavedStates[i].Name == tSS.Name || this.SavedStates[i].Name == null)
+                if (this.SavedStates[i].Name == tSS.Name || this.SavedStates[i].Name == null)
                 {
                     this.SavedStates[i] = tSS;
                     break;
                 }
             }
 
-            if(i == SavedStates.Count)
+            if (i == SavedStates.Count)
             {
                 this.SavedStates.Add(tSS);
             }
 
             //Sort list alphabetically
-            this.SavedStates.Sort(delegate(TripModeSavedStateV4 tSS1, TripModeSavedStateV4 tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
+            this.SavedStates.Sort(delegate (TripModeSavedStateV4 tSS1, TripModeSavedStateV4 tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
         }
 
         private bool sameName(TripModeSavedState tSS, string s)
         {
-            if(tSS.Name == s)
+            if (tSS.Name == s)
             {
                 return true;
             }
@@ -1753,19 +1753,19 @@ namespace RelayControlLibrary
 
         public void RemoveSavedState(TripModeSavedStateV4 tSS)
         {
-            if(this.SavedStates == null)
+            if (this.SavedStates == null)
                 return;
             this.SavedStates.Remove(tSS);
         }
 
         public void RemoveSavedState(string name)
         {
-            if(this.SavedStates == null)
+            if (this.SavedStates == null)
                 return;
 
-            for(int i = 0; i < this.SavedStates.Count; ++i)
+            for (int i = 0; i < this.SavedStates.Count; ++i)
             {
-                if(this.SavedStates[i].Name.Equals(name))
+                if (this.SavedStates[i].Name.Equals(name))
                 {
                     this.SavedStates.Remove(this.SavedStates[i]);
                     break;
@@ -1832,7 +1832,7 @@ namespace RelayControlLibrary
             }
 
             //Sort list alphabetically
-            this.SavedStates.Sort(delegate(TripModeSavedState tSS1, TripModeSavedState tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
+            this.SavedStates.Sort(delegate (TripModeSavedState tSS1, TripModeSavedState tSS2) { return tSS1.Name.CompareTo(tSS2.Name); });
         }
 
         private bool sameName(TripModeSavedState tSS, string s)
@@ -1870,7 +1870,7 @@ namespace RelayControlLibrary
         }
 
     }
-         
+
 
 
 }

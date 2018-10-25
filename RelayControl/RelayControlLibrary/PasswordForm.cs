@@ -19,7 +19,7 @@ namespace RelayControlLibrary
 
         private void buttonOkay_Click(object sender, EventArgs e)
         {
-            if(this.textBoxPassword.Text == _PasswordValue)
+            if (this.textBoxPassword.Text == _PasswordValue)
                 this.sendValidation(true);
             else
                 this.sendValidation(false);
@@ -35,7 +35,7 @@ namespace RelayControlLibrary
 
         private void sendValidation(bool b)
         {
-            if(this.PasswordValidated != null)
+            if (this.PasswordValidated != null)
             {
                 this.PasswordValidated(b);
             }

@@ -42,7 +42,7 @@ namespace RelayControlLibrary
                     this.textBoxID.Text = "";
                     return;
                 }
-                    
+
                 this.iD = value;
                 this.textBoxID.Text = value.ToString();
             }

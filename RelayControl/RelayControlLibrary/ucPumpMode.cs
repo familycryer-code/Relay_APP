@@ -20,7 +20,7 @@ namespace RelayControlLibrary
             set
             {
                 this.pumpProtectEnabled = value;
-                if(value)
+                if (value)
                 {
                     this.labelPumpProtect.Visible = true;
                 }
@@ -72,9 +72,9 @@ namespace RelayControlLibrary
                 else
                     this.displayAlarmOnly(false);
 
-                if(this.motorCycleValue != 5 && this.motorCycleValue != 0)
+                if (this.motorCycleValue != 5 && this.motorCycleValue != 0)
                     this.numericUpDownMotorCycles.Value = this.motorCycleValue;
-                if(this.motorTimeoutValue != 10 && this.motorTimeoutValue != 0)
+                if (this.motorTimeoutValue != 10 && this.motorTimeoutValue != 0)
                     this.numericUpDownMotorTimeout.Value = this.motorTimeoutValue;
             }
         }
@@ -105,7 +105,7 @@ namespace RelayControlLibrary
 
         private void setCustomer()
         {
-            switch(this.customer)
+            switch (this.customer)
             {
                 default:
                 case Customers.NonConEd:
@@ -157,7 +157,7 @@ namespace RelayControlLibrary
                 PD.PumpTime = (Int16)this.numericUpDownPumpTime.Value;
                 PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
                 PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
-                if(this.checkBoxNeverReclose.Checked)
+                if (this.checkBoxNeverReclose.Checked)
                 {
                     PD.PumpProtectTime = 0;
                 }
@@ -177,9 +177,9 @@ namespace RelayControlLibrary
 
         public byte[] bytePacketFor(PumpDefinition pD)
         {
-               //PUMPUPDATE~ byte[8];
+            //PUMPUPDATE~ byte[8];
 
-            if(this.relayRevisionNumber >= 20100625)
+            if (this.relayRevisionNumber >= 20100625)
             {
                 byte[] returnArray = new byte[10];
 
@@ -201,12 +201,12 @@ namespace RelayControlLibrary
                 byte[] returnArray = new byte[8];
 
                 returnArray[0] = (byte)RelayModeFunctions._PumpModeOpCode;
-                
-                if(pD.RelayCycleEnabled)        //PUMPUPDATE~ 
+
+                if (pD.RelayCycleEnabled)        //PUMPUPDATE~ 
                     returnArray[1] = 1;
                 else
                     returnArray[1] = 0;
-                
+
                 returnArray[2] = pD.Cycles;
                 returnArray[3] = pD.PumpTimeHigh;
                 returnArray[4] = pD.PumpTimeLow;
@@ -228,7 +228,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     setAllCallBack sACB = new setAllCallBack(this.setAllValues);
                     this.Invoke(sACB, new object[] { bytePacket });
@@ -271,7 +271,7 @@ namespace RelayControlLibrary
 
             try
             {
-                if((bytePacket[0] & 1) == 1)
+                if ((bytePacket[0] & 1) == 1)
                 {
                     this.checkBoxCycles.Checked = true;
                 }
@@ -279,7 +279,7 @@ namespace RelayControlLibrary
                 {
                     this.checkBoxCycles.Checked = false;
                 }
-                if((bytePacket[0] & 4) == 4)
+                if ((bytePacket[0] & 4) == 4)
                 {
                     this.checkBoxMotorCycles.Checked = true;
                 }
@@ -287,7 +287,7 @@ namespace RelayControlLibrary
                 {
                     this.checkBoxMotorCycles.Checked = false;
                 }
-                if((bytePacket[0] & 8) == 8)
+                if ((bytePacket[0] & 8) == 8)
                 {
                     this.checkBoxMotorTime.Checked = true;
                 }
@@ -331,7 +331,7 @@ namespace RelayControlLibrary
             }
             try
             {
-                if(bytePacket[4] == 0)
+                if (bytePacket[4] == 0)
                 {
                     this.checkBoxNeverReclose.Checked = true;
                 }
@@ -340,7 +340,7 @@ namespace RelayControlLibrary
                     this.checkBoxNeverReclose.Checked = false;
                     this.numericUpDownProtectTime.Value = bytePacket[4];
                 }
-                
+
             }
             catch
             {
@@ -348,7 +348,7 @@ namespace RelayControlLibrary
             }
 
             bool needsUpdate = false;
-            if(this.relayRevisionNumber >= 20100625)
+            if (this.relayRevisionNumber >= 20100625)
             {
                 //Motor Cycles
                 try
@@ -357,7 +357,7 @@ namespace RelayControlLibrary
                 }
                 catch
                 {
-                    if(bytePacket[5] == 0)
+                    if (bytePacket[5] == 0)
                     {
                         needsUpdate = true;
                         this.numericUpDownMotorCycles.Value = 5;
@@ -375,7 +375,7 @@ namespace RelayControlLibrary
                 }
                 catch
                 {
-                    if(bytePacket[6] == 0)
+                    if (bytePacket[6] == 0)
                     {
                         needsUpdate = true;
                         this.numericUpDownMotorTimeout.Value = 10;
@@ -384,16 +384,16 @@ namespace RelayControlLibrary
                         this.errorHandler(new Exception(bytePacket[6].ToString() + " is not a valid Motor Timeout value."));
                 }
 
-                if(needsUpdate)
+                if (needsUpdate)
                 {
                     this.buttonSend_Click(this, new EventArgs());
                 }
             }
             else
             {
-                if(bytePacket[5] != 0)
+                if (bytePacket[5] != 0)
                     this.motorCycleValue = bytePacket[5];
-                if(bytePacket[6] != 0)
+                if (bytePacket[6] != 0)
                     this.motorTimeoutValue = bytePacket[6] / 10;
             }
         }
@@ -459,7 +459,7 @@ namespace RelayControlLibrary
 
         private void checkBoxNeverReclose_CheckedChanged(object sender, EventArgs e)
         {
-            if(this.checkBoxNeverReclose.Checked)
+            if (this.checkBoxNeverReclose.Checked)
             {
                 this.numericUpDownProtectTime.Enabled = false;
             }
@@ -482,7 +482,7 @@ namespace RelayControlLibrary
             clearSEA.SendPacket[7] = 0;
             clearSEA.SendPacket[8] = 0;
             clearSEA.SendPacket[9] = (byte)RelayModeFunctions.DC4;
-            
+
             this.Send(this, clearSEA);
         }
         /*
@@ -679,7 +679,7 @@ namespace RelayControlLibrary
                 this.SavedStates.Add(pMSS);
             }
 
-            this.SavedStates.Sort(delegate(PumpModeSavedState pMSS1, PumpModeSavedState pMSS2) { return pMSS1.Name.CompareTo(pMSS2.Name); });
+            this.SavedStates.Sort(delegate (PumpModeSavedState pMSS1, PumpModeSavedState pMSS2) { return pMSS1.Name.CompareTo(pMSS2.Name); });
         }
 
         private bool sameName(PumpModeSavedState pMSS, string s)
@@ -832,7 +832,7 @@ namespace RelayControlLibrary
                 this.SavedStates.Add(pMSS);
             }
 
-            this.SavedStates.Sort(delegate(PumpModeSavedStateV2 pMSS1, PumpModeSavedStateV2 pMSS2) { return pMSS1.Name.CompareTo(pMSS2.Name); });
+            this.SavedStates.Sort(delegate (PumpModeSavedStateV2 pMSS1, PumpModeSavedStateV2 pMSS2) { return pMSS1.Name.CompareTo(pMSS2.Name); });
         }
 
         private bool sameName(PumpModeSavedStateV2 pMSS, string s)

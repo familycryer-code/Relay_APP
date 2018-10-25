@@ -98,7 +98,7 @@ namespace RelayControlLibrary
         private void ucToggleSwitch1_CheckedChanged(object sender, EventArgs e)
         {
             commandsBlocked = !tsCommandBlock.Checked;
-            if(tsCommandBlock.Focused)
+            if (tsCommandBlock.Focused)
                 sendCommand();
         }
     }

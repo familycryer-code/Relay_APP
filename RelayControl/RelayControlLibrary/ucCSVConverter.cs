@@ -50,7 +50,7 @@ namespace RelayControlLibrary
                 this.openDiagFileName = this.openFileDialogCSVFile.FileName;
                 try
                 {
-                     allLines = File.ReadAllLines(this.openFileDialogCSVFile.FileName);
+                    allLines = File.ReadAllLines(this.openFileDialogCSVFile.FileName);
                 }
                 catch (Exception ex)
                 {
@@ -97,7 +97,7 @@ namespace RelayControlLibrary
                     }
 
                 }
-                for(;j < 8192; j++)
+                for (; j < 8192; j++)
                 {
                     liveData.VtA[j] = 0;
                     liveData.VtB[j] = 0;

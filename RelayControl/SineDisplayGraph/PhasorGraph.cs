@@ -73,7 +73,7 @@ namespace SineDisplayGraph
                 {
                     try
                     {
-                        if(pD.Enabled)
+                        if (pD.Enabled)
                             onPaintGraphics.DrawLine(pD.phasorPen, pD.TranslatedBeginPoint, pD.TranslatedEndPoint);
                     }
                     catch
@@ -93,7 +93,7 @@ namespace SineDisplayGraph
             graphGraphics.DrawLine(graphPen, this.midwayBottom, this.midwayTop);
             graphGraphics.DrawLine(graphPen, this.midwayRight, this.midwayLeft);
             graphGraphics.DrawEllipse(graphPen, this.graphBoundries);
-           
+
             graphGraphics.DrawLine(graphPen, this.yAxisPoints[0], new PointF(this.yAxisPoints[0].X + this.hashMarkWidth, this.yAxisPoints[0].Y));
             graphGraphics.DrawLine(graphPen, this.yAxisPoints[1], new PointF(this.yAxisPoints[1].X + this.hashMarkWidth, this.yAxisPoints[1].Y));
             graphGraphics.DrawLine(graphPen, this.yAxisPoints[2], new PointF(this.yAxisPoints[2].X + this.hashMarkWidth, this.yAxisPoints[2].Y));
@@ -135,7 +135,7 @@ namespace SineDisplayGraph
             yAxisPoints[3].X = midwayWidth - this.hashMarkWidth / 2;
 
             yAxisPoints[0].Y = midwayHeight + .2f * midwayHeight;
-            yAxisPoints[1].Y = midwayHeight + .4f * midwayHeight;   
+            yAxisPoints[1].Y = midwayHeight + .4f * midwayHeight;
             yAxisPoints[2].Y = midwayHeight + .6f * midwayHeight;
             yAxisPoints[3].Y = midwayHeight + .8f * midwayHeight;
 

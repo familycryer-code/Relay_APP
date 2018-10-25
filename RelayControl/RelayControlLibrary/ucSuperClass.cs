@@ -33,7 +33,7 @@ namespace RelayControlLibrary
 
         protected virtual void OnError(object o, ExceptionEventArgs eEA)
         {
-            if(Error != null)
+            if (Error != null)
             {
                 Error(o, eEA);
             }

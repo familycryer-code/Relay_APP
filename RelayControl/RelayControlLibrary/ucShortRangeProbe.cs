@@ -100,7 +100,7 @@ namespace RelayControlLibrary
 
         private void debugVersionInitialize()
         {
-            
+
         }
 
         private void releaseVersionInitialize()
@@ -124,7 +124,7 @@ namespace RelayControlLibrary
         {
             //this.validateNumbers();
         }
-        
+
         /*
         private void validateNumbers()
         {

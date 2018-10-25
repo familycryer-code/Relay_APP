@@ -27,7 +27,7 @@ namespace RelayControlLibrary
             this.IB = new float[size];
             this.IC = new float[size];
         }
-        
+
         public float[] VtA;
         public float[] VtB;
         public float[] VtC;

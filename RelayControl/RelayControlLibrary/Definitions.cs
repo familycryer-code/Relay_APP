@@ -243,18 +243,18 @@ namespace RelayControlLibrary
 
     public static class Constants
     {
-        public const decimal        FixedPointConversion    = .000244140625m;
-        public const decimal        MaxFixedPointValue      = 128m;
-        public const decimal        MinFixedPointValue      = -128m;
-        public const decimal        SixFracBits             = 0.015625m;
-        public const decimal        SevenFracBits           = 0.0078125m;
-        public const decimal        EightFracBits           = 0.00390625m;
-        public const decimal        TenFracBits             = 0.0009765625m;
-        public const decimal        TwelveFracBits          = 0.000244140625m;
-        public const decimal        SixteenFracBits         = 0.0000152587890625m;
-        public const byte           DummyData               = 0;
-        public const long           IntZeroTime             = 633846816000000000;//August 1, 2010b;
-        public const float          Protector277Convert     = 2.216f;
+        public const decimal FixedPointConversion = .000244140625m;
+        public const decimal MaxFixedPointValue = 128m;
+        public const decimal MinFixedPointValue = -128m;
+        public const decimal SixFracBits = 0.015625m;
+        public const decimal SevenFracBits = 0.0078125m;
+        public const decimal EightFracBits = 0.00390625m;
+        public const decimal TenFracBits = 0.0009765625m;
+        public const decimal TwelveFracBits = 0.000244140625m;
+        public const decimal SixteenFracBits = 0.0000152587890625m;
+        public const byte DummyData = 0;
+        public const long IntZeroTime = 633846816000000000;//August 1, 2010b;
+        public const float Protector277Convert = 2.216f;
     }
 
     public class PumpDefinition
@@ -345,7 +345,7 @@ namespace RelayControlLibrary
         {
             //0x02 bit contains ClearPumpMode in relay
             //0x10 bit contains OverridOnDeadNetwork in relay
-            if(this.motorTimeoutEnabled)
+            if (this.motorTimeoutEnabled)
             {
                 this.enableSendByte = (byte)(this.enableSendByte | 0x08);
             }
@@ -354,7 +354,7 @@ namespace RelayControlLibrary
                 this.enableSendByte = (byte)(this.enableSendByte & 0xF7);
             }
 
-            if(this.motorCycleEnabled)
+            if (this.motorCycleEnabled)
             {
                 this.enableSendByte = (byte)(this.enableSendByte | 0x04);
             }
@@ -363,7 +363,7 @@ namespace RelayControlLibrary
                 this.enableSendByte = (byte)(this.enableSendByte & 0xFB);
             }
 
-            if(this.relayCycleEnabled)
+            if (this.relayCycleEnabled)
             {
                 this.enableSendByte = (byte)(this.enableSendByte | 0x01);
             }
@@ -400,8 +400,8 @@ namespace RelayControlLibrary
 
     public class FlagPolarities
     {
-        
-        
+
+
         public FlagPolarities()
         {
             this.a = false;
@@ -421,7 +421,7 @@ namespace RelayControlLibrary
             set
             {
                 this.a = value;
-                if(value)
+                if (value)
                 {
                     this.byteValue = (byte)(this.byteValue | (byte)0x01);
                 }
@@ -571,7 +571,7 @@ namespace RelayControlLibrary
 
         private void setBoolValues(byte b)
         {
-            if((b & 1) == 1)
+            if ((b & 1) == 1)
             {
                 this.a = true;
             }
@@ -658,14 +658,14 @@ namespace RelayControlLibrary
                 this.SendPacket[packetLength + 1] = 0x0D;
             }
         }
-        
+
         private UInt16 iD;
         public UInt16 ID
         {
             get { return this.iD; }
             set
             {
-                if(value < 1 || value > 1023)
+                if (value < 1 || value > 1023)
                 {
                     throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 1023");
                 }
@@ -739,7 +739,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private FlagPolarities flagPolarity; 
+        private FlagPolarities flagPolarity;
         public FlagPolarities FlagPolarity
         {
             get { return flagPolarity; }
@@ -771,14 +771,14 @@ namespace RelayControlLibrary
                 this.SendPacket[12] = value;
             }
         }
-        
+
         private byte currentThresholdHigh;
         public byte CurrentThresholdHigh
         {
             get { return this.currentThresholdHigh; }
             set
             {
-                if(value > 200)
+                if (value > 200)
                 {
                     throw new Exception(value.ToString() + " is not a valid High Current Threshold value.  Must be equal to or less than 200");
                 }
@@ -796,7 +796,7 @@ namespace RelayControlLibrary
             get { return this.currentThresholdLow; }
             set
             {
-                if(value > 100)
+                if (value > 100)
                 {
                     throw new Exception(value.ToString() + " is not a valid Low Current Threshold value.  Must be equal to or less than 100");
                 }
@@ -814,7 +814,7 @@ namespace RelayControlLibrary
             get { return this.voltageThresholdHigh; }
             set
             {
-                if(value > 200)
+                if (value > 200)
                 {
                     throw new Exception(value.ToString() + " is not a valid High Voltage Threshold value.  Must be equal to or less than 200");
                 }
@@ -832,7 +832,7 @@ namespace RelayControlLibrary
             get { return this.voltageThresholdLow; }
             set
             {
-                if(value > 200)
+                if (value > 200)
                 {
                     throw new Exception(value.ToString() + " is not a valid Low Voltage Threshold value.  Must be equal to or less than 200");
                 }
@@ -850,7 +850,7 @@ namespace RelayControlLibrary
             get { return this.a1Threshold; }
             set
             {
-                if(value > 127)
+                if (value > 127)
                 {
                     throw new Exception(value.ToString() + " is not a valid A1 Threshold value.  Must be equal to or less than 127");
                 }
@@ -868,7 +868,7 @@ namespace RelayControlLibrary
             get { return this.a2Threshold; }
             set
             {
-                if(value > 127)
+                if (value > 127)
                 {
                     throw new Exception(value.ToString() + " is not a valid A2 Threshold value.  Must be equal to or less than 127");
                 }
@@ -897,7 +897,7 @@ namespace RelayControlLibrary
             get { return this.messagePeriod; }
             set
             {
-                switch(value)
+                switch (value)
                 {
                     case 0:
                     case 1:
@@ -918,9 +918,9 @@ namespace RelayControlLibrary
             get { return this.muxPeriod; }
             set
             {
-                if(value != 0xFF && (value == 0 || value > 60))
+                if (value != 0xFF && (value == 0 || value > 60))
                     throw new Exception(value.ToString() + " is not a valid Mux Period.");
-                
+
                 this.muxPeriod = value;
                 this.SendPacket[21] = value;
             }
@@ -932,7 +932,7 @@ namespace RelayControlLibrary
             get { return this.type2MessagePeriod; }
             set
             {
-                if((value > 23 || value == 0) && value != 0xFF)
+                if ((value > 23 || value == 0) && value != 0xFF)
                     throw new Exception(value.ToString() + " is not a valid Type2 Message Period.");
 
                 this.type2MessagePeriod = value;
@@ -960,7 +960,7 @@ namespace RelayControlLibrary
             get { return this.alarmBurstCount; }
             set
             {
-                if(value < 2 || value > 8)
+                if (value < 2 || value > 8)
                     throw new Exception(value.ToString() + " is not a valid Alarm Burst Count.  Must be a value from 2 to 8.");
 
                 this.alarmBurstCount = value;
@@ -974,7 +974,7 @@ namespace RelayControlLibrary
             get { return this.alarmSpacing; }
             set
             {
-                if(value == 0)
+                if (value == 0)
                     throw new Exception("Alarm Spacing value must be greater than 0");
 
                 this.alarmSpacing = value;
@@ -1002,7 +1002,7 @@ namespace RelayControlLibrary
             get { return this.otherMessageBurstInterval; }
             set
             {
-                if(value == 0)
+                if (value == 0)
                     throw new Exception("Other Message Burst Interval value must be greater than 0");
 
                 this.otherMessageBurstInterval = value;
@@ -1051,7 +1051,7 @@ namespace RelayControlLibrary
                 SendPacket[i + 1] = bA[i];
             }
         }
-        
+
         public byte[] SendPacket = new byte[32];
 
         public void SetFlagPolartityByte()
@@ -1104,7 +1104,7 @@ namespace RelayControlLibrary
                     temp = (Int32)(-temp);
                     this.OffsetHighByte = (byte)(temp >> 8);
                     this.OffsetLowByte = (byte)(temp);
-                    if(this.CurveType == TripCurveTypes.OffsetAngle)
+                    if (this.CurveType == TripCurveTypes.OffsetAngle)
                     {
                         this.MagnitudeHighByte = (byte)(temp >> 24);
                         this.MagnitudeLowByte = (byte)(temp >> 16);
@@ -1129,7 +1129,7 @@ namespace RelayControlLibrary
                 double radians;
                 if (value >= 5 && value <= 175) //postive angle is clockwise rotation from 90
                 {
-                    if(value == 90)
+                    if (value == 90)
                     {
                         this.tilt = 90;
                         this.TiltHighByte = 0;
@@ -1137,18 +1137,18 @@ namespace RelayControlLibrary
                     }
                     else
                     {
-                        this.tilt   = value;
-                        radians     = (double)value * Math.PI / 180d;
+                        this.tilt = value;
+                        radians = (double)value * Math.PI / 180d;
 
                         this.TiltTangent = (decimal)Math.Tan(radians);
 
                         Int16 temp;
-                    
-                        temp = (Int16)Math.Round((this.TiltTangent/Constants.EightFracBits));
+
+                        temp = (Int16)Math.Round((this.TiltTangent / Constants.EightFracBits));
                         this.TiltHighByte = this.highByte(temp);
                         this.TiltLowByte = this.lowByte(temp);
                     }
-                    
+
                 }
                 else
                     throw new Exception(value.ToString() + " is out of range 10 to 170");
@@ -1168,10 +1168,10 @@ namespace RelayControlLibrary
             {
                 Int16 temp;
 
-                this.codomainMinimum        = value;
-                temp                        = (Int16)(value / Constants.SevenFracBits);
-                this.CodomainMinHighByte    = highByte(temp);
-                this.CodomainMinLowByte     = lowByte(temp);
+                this.codomainMinimum = value;
+                temp = (Int16)(value / Constants.SevenFracBits);
+                this.CodomainMinHighByte = highByte(temp);
+                this.CodomainMinLowByte = lowByte(temp);
             }
         }
         public byte CodomainMinHighByte;
@@ -1185,10 +1185,10 @@ namespace RelayControlLibrary
             {
                 Int16 temp;
 
-                this.codomainMaximum        = value;
-                temp                        = (Int16)(value / Constants.SevenFracBits);
-                this.CodomainMaxHighByte    = highByte(temp);
-                this.CodomainMaxLowByte     = lowByte(temp);
+                this.codomainMaximum = value;
+                temp = (Int16)(value / Constants.SevenFracBits);
+                this.CodomainMaxHighByte = highByte(temp);
+                this.CodomainMaxLowByte = lowByte(temp);
             }
         }
         public byte CodomainMaxHighByte;
@@ -1207,7 +1207,7 @@ namespace RelayControlLibrary
                     Int16 temp;
 
                     this.magnitude = value;
-                    temp = (Int16)(this.magnitude/Constants.TenFracBits);
+                    temp = (Int16)(this.magnitude / Constants.TenFracBits);
 
                     this.MagnitudeHighByte = this.highByte(temp);
                     this.MagnitudeLowByte = this.lowByte(temp);
@@ -1394,7 +1394,7 @@ namespace RelayControlLibrary
             set
             {
                 this.overrideBlockedClose = value;
-                if(value)
+                if (value)
                     this.DataBits = (UInt16)(this.DataBits | (UInt16)1);
                 else
                     this.DataBits = (UInt16)(this.DataBits & (UInt16)0xFFFE);
@@ -1405,7 +1405,7 @@ namespace RelayControlLibrary
 
     public class CloseCurveDefinition
     {
-        public CloseCurveDefinition(){}
+        public CloseCurveDefinition() { }
 
         private decimal recloseVolts;               //Vertical Line offset
         public decimal RecloseVolts                 //.1 to 10.0 V in .1 steps = 1
@@ -1423,7 +1423,7 @@ namespace RelayControlLibrary
                 }
                 UInt16 temp;
                 //8 fract bits
-                temp = (UInt16)(value/Constants.TwelveFracBits);
+                temp = (UInt16)(value / Constants.TwelveFracBits);
                 this.recloseVoltsByteHigh = this.highByte(temp);
                 this.recloseVoltsByteLow = this.lowByte(temp);
             }
@@ -1450,15 +1450,15 @@ namespace RelayControlLibrary
                 if (value < -25 || value > 5)
                     throw new Exception("Reclose Angle Value out of Range");
                 this.phaseDetectAngle = value;
-                
+
                 Int16 temp;
                 radians = (double)value * Math.PI / 180d;
                 this.PhaseDetectTangent = (decimal)Math.Tan(radians);
 
                 temp = (Int16)(this.PhaseDetectTangent / Constants.TwelveFracBits);
-                
+
                 //Ten Fractional Bits
-                
+
                 this.phaseDetectTangentHighByte = this.highByte(temp);
                 this.phaseDetectTangentLowByte = this.lowByte(temp);
             }
@@ -1506,8 +1506,8 @@ namespace RelayControlLibrary
                 this.tiltAngle = value;
 
                 double radians;
-                
-                if(this.tiltAngle == 90)
+
+                if (this.tiltAngle == 90)
                 {
                     temp = 0;
                 }
@@ -1623,7 +1623,7 @@ namespace RelayControlLibrary
         }
     }
 
-    public class CalibrationConstants 
+    public class CalibrationConstants
     {
         public CalibrationConstants()
         {
@@ -1667,14 +1667,14 @@ namespace RelayControlLibrary
 
     public class EventBaseTime
     {
-        public EventBaseTime(){}
+        public EventBaseTime() { }
 
         public DateTime SystemTime
         {
             get { return this.systemTime; }
             set
             {
-                
+
 
                 this.systemTime = value;
 
@@ -1692,7 +1692,7 @@ namespace RelayControlLibrary
                 this.systemTime = this.systemTime.ToLocalTime();
             }
         }
-        
+
         public readonly DateTime BaseTime = new DateTime(2009, 8, 1); //August 1, 2009 
         private UInt32 binaryTime;
         private DateTime systemTime;
@@ -1702,7 +1702,7 @@ namespace RelayControlLibrary
     {
         public EventData()
         {
-            
+
         }
 
         public EventTypes Type;
@@ -1737,7 +1737,7 @@ namespace RelayControlLibrary
 
         public SavedEventSet()
         {
-            for(int i = 0; i < Events.Length; ++i)
+            for (int i = 0; i < Events.Length; ++i)
             {
                 Events[i] = new SavedSingleEvent();
             }
@@ -1818,7 +1818,7 @@ namespace RelayControlLibrary
         public float[] IA;
         public float[] IB;
         public float[] IC;
-        
+
 
         public SavedSingleEvent()
         {

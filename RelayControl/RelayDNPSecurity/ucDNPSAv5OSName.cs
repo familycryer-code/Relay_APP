@@ -63,7 +63,7 @@ namespace RelayDNPSecurity
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'O'; // For OS Name
                 sSEA.SendPacket[2] = (byte)this.textBoxOSName.Text.Length;
-                
+
                 foreach (char c in this.textBoxOSName.Text)
                 {
                     sSEA.SendPacket[i] = (byte)c;
@@ -71,7 +71,7 @@ namespace RelayDNPSecurity
                 }
 
                 sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
-                
+
                 this.onSend(sSEA);
             }
             catch (Exception ex)

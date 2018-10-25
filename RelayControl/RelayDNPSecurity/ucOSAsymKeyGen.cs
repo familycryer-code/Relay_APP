@@ -43,7 +43,7 @@ namespace RelayDNPSecurity
         #endregion
 
         private void buttonGetKeyPair_Click(object sender, EventArgs e)
-        {            
+        {
 
         }
 

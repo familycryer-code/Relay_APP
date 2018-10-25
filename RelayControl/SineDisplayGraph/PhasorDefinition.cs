@@ -172,7 +172,7 @@ namespace SineDisplayGraph
             set
             {
                 this.realValue = value;
-                if(float.IsNaN(this.realValue) || float.IsNaN(this.imaginaryValue))
+                if (float.IsNaN(this.realValue) || float.IsNaN(this.imaginaryValue))
                     return;
                 this.setRMS();
             }
@@ -202,7 +202,7 @@ namespace SineDisplayGraph
         private float xTranslationValue;
         private float realValue;
         private float imaginaryValue;
-        
+
         public PhasorDefinition()
         {
         }

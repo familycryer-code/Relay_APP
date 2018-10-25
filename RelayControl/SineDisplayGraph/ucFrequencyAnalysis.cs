@@ -26,7 +26,7 @@ namespace RelayControlLibrary
             set
             {
                 this.samplesPerCycle = value;
-                
+
                 this.generateLUT();
             }
         }
@@ -40,36 +40,36 @@ namespace RelayControlLibrary
 
             for (int i = 0; i < this.samplesPerCycle; ++i)
             {
-                angle = ((double)i/(double)this.samplesPerCycle) * 360;
+                angle = ((double)i / (double)this.samplesPerCycle) * 360;
                 radians = angle * 0.0174532925;
 
                 this.sineLUT[i] = (float)Math.Sin(radians);
             }
         }
-        
+
         private float[] values;
         public float[] Values
         {
             get { return this.values; }
-            set 
-            { 
+            set
+            {
                 this.values = value;
-                if(values != null)
+                if (values != null)
                     this.FFT();
             }
         }
-        
+
         private void FFT()
         {
             float[] tempArray = new float[128];
-            
+
             ComplexF[] complexArray = new ComplexF[256];
 
             this.frequencyGraph1.Amplitudes.Clear();
             this.frequencyGraph1.SineWave = this.values;
 
             this.frequencyGraph1.Invalidate();
-            
+
         }
 
         private void frequencyGraph1_Resize(object sender, EventArgs e)

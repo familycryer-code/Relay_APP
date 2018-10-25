@@ -68,7 +68,7 @@ namespace SineDisplayGraph
             }
             catch (Exception ex)
             {
-                throw new Exception("Error Retrieving Event Saved Data for Event " + this.EventNumber.ToString(), ex); 
+                throw new Exception("Error Retrieving Event Saved Data for Event " + this.EventNumber.ToString(), ex);
             }
         }
 

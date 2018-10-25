@@ -30,7 +30,7 @@ namespace RelayControlLibrary
             SineWaveDefinition outputSWD = (SineWaveDefinition)this.sineGraph1.sineWavesToDraw[0];
 
             this.sineGraph1.CTRatio = this.cTRatio;
-            for(int i = 0; i < sWD.AdjustedArray.Length - 1; ++i)
+            for (int i = 0; i < sWD.AdjustedArray.Length - 1; ++i)
             {
                 outputSWD.AddValueNew(sWD.ActualValues[i], i);
             }
@@ -41,10 +41,10 @@ namespace RelayControlLibrary
         private void SineFrequencyPopup_Resize(object sender, EventArgs e)
         {
             System.Drawing.Size componentSize = new Size(this.ClientSize.Width - 6, (this.ClientSize.Height - this.buttonClose.Height - 12) / 2);
- 
+
             this.sineGraph1.Size = componentSize;
             this.sineGraph1.Location = new Point(3, 3);
-            
+
             this.frequencyGraph1.Size = componentSize;
             this.frequencyGraph1.Location = new Point(3, componentSize.Height + 6);
 

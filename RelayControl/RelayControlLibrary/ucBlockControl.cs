@@ -38,7 +38,7 @@ namespace RelayControlLibrary
                 labelBlockedState.Text = "Blocked Open";
             }
             else
-            { 
+            {
                 toolTip.SetToolTip(tsBlockOpen, "Inhibit automatic Reclose Function in Relay");
                 labelBlockedState.Text = "Unblocked";
             }
@@ -88,7 +88,7 @@ namespace RelayControlLibrary
 
         private void tsBlockOpen_CheckedChanged(object sender, EventArgs e)
         {
-            if(tsBlockOpen.Focused)
+            if (tsBlockOpen.Focused)
                 SendBlockState(tsBlockOpen.Checked);
         }
     }

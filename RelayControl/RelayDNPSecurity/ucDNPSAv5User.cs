@@ -16,7 +16,7 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
             this.initializeKeyValueControl();
-            
+
         }
 
         private static int _userNameLimit = 40;
@@ -29,7 +29,7 @@ namespace RelayDNPSecurity
         void initializeKeyValueControl()
         {
             this.keyBox = new ucKeyValuesInputControl(32, _keyName);
-            
+
             Point tempPoint = new Point(this.textBoxUserNumber.Location.X, this.textBoxUserNumber.Location.Y);
 
             tempPoint.X += 5 + this.textBoxUserNumber.Width;
@@ -64,7 +64,7 @@ namespace RelayDNPSecurity
         {
             try
             {
-                
+
                 this.sendUserName();
                 // Send User Key must go second, it is where it is flashed
                 this.sendUserKey();
@@ -163,9 +163,9 @@ namespace RelayDNPSecurity
                 returnArray[3] = this.getUserRole();
                 try
                 {
-                     tempArray = this.keyBox.GetKey();
-                     returnArray[4] = (byte)tempArray.Length;
-                     Array.Copy(tempArray, 0, returnArray, 5, tempArray.Length);
+                    tempArray = this.keyBox.GetKey();
+                    returnArray[4] = (byte)tempArray.Length;
+                    Array.Copy(tempArray, 0, returnArray, 5, tempArray.Length);
                 }
                 catch (Exception ex)
                 {
@@ -195,7 +195,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
-                this.onError(new Exception ("Error Deleting User: " + ex.Message, ex), "Error Deleting SAv5 User");
+                this.onError(new Exception("Error Deleting User: " + ex.Message, ex), "Error Deleting SAv5 User");
             }
         }
 
@@ -205,7 +205,7 @@ namespace RelayDNPSecurity
 
             try
             {
-                 temp = Convert.ToByte(this.textBoxUserNumber.Text);
+                temp = Convert.ToByte(this.textBoxUserNumber.Text);
             }
             catch
             {

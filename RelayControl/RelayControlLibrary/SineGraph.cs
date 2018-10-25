@@ -17,10 +17,10 @@ namespace RelayControlLibrary
             InitializeComponent();
             this.myInitialization();
             this.ScrollEnabled = true;
-            
+
         }
 
-        
+
         public Int32 ClickedCycleNumber = -1;
         public ArrayList sineWavesToDraw = new ArrayList();
         public int[] currentIndex;
@@ -74,7 +74,7 @@ namespace RelayControlLibrary
         private PointF midwayLeft;
         private PointF midwayRight;
         private Pen graphPen = new Pen(Color.Black, 1);
-       
+
         private void myInitialization()
         {
             this.MouseWheel += new MouseEventHandler(SineGraph_MouseWheel);
@@ -88,7 +88,7 @@ namespace RelayControlLibrary
             this.sineWavesToDraw.Add(new SineWaveDefinition(pT, 129, new Pen(RelayModeFunctions.GetPhaseColor(pT), .1f)));
             addedSineWave = (SineWaveDefinition)this.sineWavesToDraw[this.sineWavesToDraw.Count - 1];
 
-            if(this.Type == PhasorTypes.IA || this.Type == PhasorTypes.IB || this.Type == PhasorTypes.IC)
+            if (this.Type == PhasorTypes.IA || this.Type == PhasorTypes.IB || this.Type == PhasorTypes.IC)
                 addedSineWave.DilationMultiplier = -(float)(this.GraphSize.Height - 1) / 5f; //200F
             else
                 addedSineWave.DilationMultiplier = -(float)(this.GraphSize.Height - 1) / 200f; //200F
@@ -108,7 +108,7 @@ namespace RelayControlLibrary
             this.Type = pT;
             this.sineWavesToDraw.Add(new SineWaveDefinition(pT, arraySize + 1, new Pen(RelayModeFunctions.GetPhaseColor(pT), .1f)));
             addedSineWave = (SineWaveDefinition)this.sineWavesToDraw[this.sineWavesToDraw.Count - 1];
-            
+
             addedSineWave.TranslationValue = (float)(this.GraphSize.Height - 1) / 2f;
             this.indexMultiplier = addedSineWave.IndexMultiplier = (float)(this.Size.Width - 1) / (float)arraySize;//128f;
             addedSineWave.Phase = pT;
@@ -117,10 +117,10 @@ namespace RelayControlLibrary
             this.totalPoints = arraySize;
             this.PointsToDraw = arraySize;
 
-            if(pT == PhasorTypes.IA || pT == PhasorTypes.IB || pT == PhasorTypes.IC)
+            if (pT == PhasorTypes.IA || pT == PhasorTypes.IB || pT == PhasorTypes.IC)
             {
-               addedSineWave.MaxValueDivider = 2.12f;
-               addedSineWave.DilationMultiplier = -(float)(this.GraphSize.Height - 1) / 5f; //200F
+                addedSineWave.MaxValueDivider = 2.12f;
+                addedSineWave.DilationMultiplier = -(float)(this.GraphSize.Height - 1) / 5f; //200F
             }
             else
             {
@@ -140,17 +140,17 @@ namespace RelayControlLibrary
             float temp = 1;
             int shadingMinIndex = -1;
 
-            if(this.ClickedCycleNumber >= 0)
+            if (this.ClickedCycleNumber >= 0)
             {
                 shadingMinIndex = this.ClickedCycleNumber << 7;
             }
 
-            if(this.ScrollEnabled)
+            if (this.ScrollEnabled)
             {
                 Matrix originalTransform = e.Graphics.Transform;
                 this.drawGraph(e);
                 Matrix zoomMatrix = new Matrix();
-            
+
 
                 temp = (float)this.totalPoints / (float)this.pointsToDraw;
 
@@ -166,9 +166,9 @@ namespace RelayControlLibrary
             }
             try
             {
-                if(sineWavesToDraw != null)
+                if (sineWavesToDraw != null)
                 {
-                    foreach(SineWaveDefinition s in sineWavesToDraw)
+                    foreach (SineWaveDefinition s in sineWavesToDraw)
                     {
                         if (s.Enabled)
                         {
@@ -180,9 +180,9 @@ namespace RelayControlLibrary
 
                                     if (i == s.AdjustedArray.Length >> 1)
                                     {
-                                        if(this.ShowEventLine)
+                                        if (this.ShowEventLine)
                                         {
-                                            onPaintGraphics.DrawLine(new Pen(Color.DarkRed, 1), new PointF(s.AdjustedArray[i].X, 0), new PointF(s.AdjustedArray[i].X, this.GraphSize.Height));                                         
+                                            onPaintGraphics.DrawLine(new Pen(Color.DarkRed, 1), new PointF(s.AdjustedArray[i].X, 0), new PointF(s.AdjustedArray[i].X, this.GraphSize.Height));
                                         }
                                     }
                                 }
@@ -202,7 +202,7 @@ namespace RelayControlLibrary
 
             //draw the boundries of the graph
             graphGraphics.DrawRectangle(graphPen, this.graphBoundries);
-            if(!this.ShowEventLine)
+            if (!this.ShowEventLine)
                 graphGraphics.DrawLine(graphPen, this.midwayBottom, this.midwayTop);
             graphGraphics.DrawLine(graphPen, this.midwayRight, this.midwayLeft);
 
@@ -213,9 +213,9 @@ namespace RelayControlLibrary
             this.GraphSize = new Size(this.Size.Width - 1, this.Size.Height - 1 - this.hScrollBar1.Height);
 
             float midwayHeight = (this.Height - this.hScrollBar1.Height) / 2 - 1;
-            float midwayWidth = this.Width / 2;            
-            
-            Point upperLeftCorner = new Point( 0, 0 );
+            float midwayWidth = this.Width / 2;
+
+            Point upperLeftCorner = new Point(0, 0);
 
             this.midwayBottom = new PointF(midwayWidth, this.GraphSize.Height);
             this.midwayTop = new PointF(midwayWidth, 0);
@@ -229,11 +229,11 @@ namespace RelayControlLibrary
             this.hScrollBar1.Location = new Point(0, this.Size.Height - this.hScrollBar1.Height);
 
             //Fix all the dialation multipliers.
-            if(sineWavesToDraw != null)
+            if (sineWavesToDraw != null)
             {
-                foreach(SineWaveDefinition s in sineWavesToDraw)
+                foreach (SineWaveDefinition s in sineWavesToDraw)
                 {
-                    if(this.Type == PhasorTypes.IA || this.Type == PhasorTypes.IB || this.Type == PhasorTypes.IC)
+                    if (this.Type == PhasorTypes.IA || this.Type == PhasorTypes.IB || this.Type == PhasorTypes.IC)
                         s.DilationMultiplier = (float)(this.GraphSize.Height - 1) / 5f;
                     else
                         s.DilationMultiplier = (float)(this.GraphSize.Height - 1) / 200f;
@@ -269,12 +269,12 @@ namespace RelayControlLibrary
             try
             {
                 SineWaveDefinition sWD;
-                for(int i = 0; i < 128; ++i)
+                for (int i = 0; i < 128; ++i)
                 {
                     for (int j = 0; j < this.sineWavesToDraw.Count; ++j)
                     {
                         sWD = (SineWaveDefinition)this.sineWavesToDraw[j];
-                        if(sWD.Phase == PhasorTypes.IA || sWD.Phase == PhasorTypes.IB || sWD.Phase == PhasorTypes.IC)
+                        if (sWD.Phase == PhasorTypes.IA || sWD.Phase == PhasorTypes.IB || sWD.Phase == PhasorTypes.IC)
                         {
                             sWD.AddValue(sWD.InputArray[i].Y * p, i);
                         }
@@ -286,7 +286,7 @@ namespace RelayControlLibrary
             {
                 throw new Exception("Error Scaling Current Values");
             }
-        }               
+        }
 
         /// <summary>
         /// Returns the request cycle of data
@@ -299,7 +299,7 @@ namespace RelayControlLibrary
             float[] returnArray = new float[128];
             try
             {
-                 workingSineWave = (SineWaveDefinition)this.sineWavesToDraw[0];
+                workingSineWave = (SineWaveDefinition)this.sineWavesToDraw[0];
             }
             catch
             {
@@ -307,13 +307,13 @@ namespace RelayControlLibrary
                 return null;
             }
 
-            if(cycleNumber < 0 || cycleNumber * 128 >= workingSineWave.ActualValues.Length - 128)
+            if (cycleNumber < 0 || cycleNumber * 128 >= workingSineWave.ActualValues.Length - 128)
             {
                 MessageBox.Show("Bad Cycle Number");
                 return null;
             }
 
-            for(int i = 0; i < 128; ++i)
+            for (int i = 0; i < 128; ++i)
             {
                 returnArray[i] = workingSineWave.ActualValues[cycleNumber * 128 + i];
             }
@@ -331,13 +331,13 @@ namespace RelayControlLibrary
                 double maximumMinIndex;
 
                 this.pointsToDraw = value;
-                maximumMinIndex = (double)this.Width - ((double)this.PointsToDraw/(double)this.totalPoints * (double)this.Width);
+                maximumMinIndex = (double)this.Width - ((double)this.PointsToDraw / (double)this.totalPoints * (double)this.Width);
 
-                if(this.minIndexToDraw > maximumMinIndex)
+                if (this.minIndexToDraw > maximumMinIndex)
                 {
                     this.minIndexToDraw = (int)maximumMinIndex;
                 }
-                         
+
             }
         }
 
@@ -349,13 +349,13 @@ namespace RelayControlLibrary
 
         public void ExternalMouseWheel(object sender, MouseEventArgs e)
         {
-            if(sender == this)   //Put in to stop it from happening twice
+            if (sender == this)   //Put in to stop it from happening twice
                 return;
 
             int temp = e.Delta;
             if (!this.ScrollEnabled)
                 return;
-           
+
             if (e.Delta > 0)
             {
                 this.zoomIn();
@@ -365,7 +365,7 @@ namespace RelayControlLibrary
                 this.zoomOut();
             }
             this.Invalidate();
-           
+
             this.hScrollBar1.LargeChange = (int)((double)this.PointsToDraw / (double)this.totalPoints * 100d);
         }
 
@@ -374,13 +374,13 @@ namespace RelayControlLibrary
 
         private void MouseWheeled(object sender, MouseEventArgs e)
         {
-            if(MouseWheeledEvent != null)
+            if (MouseWheeledEvent != null)
                 this.MouseWheeledEvent(sender, e);
         }
 
         private void zoomIn()
         {
-            if(this.PointsToDraw <= 1000)
+            if (this.PointsToDraw <= 1000)
             {
                 this.PointsToDraw = 500;
             }
@@ -388,19 +388,19 @@ namespace RelayControlLibrary
             {
                 this.PointsToDraw -= 500;
             }
-            
+
         }
 
         private void zoomOut()
         {
-            if(this.PointsToDraw >= this.totalPoints - 500)
+            if (this.PointsToDraw >= this.totalPoints - 500)
             {
                 this.PointsToDraw = this.totalPoints;
             }
             else
             {
                 this.PointsToDraw += 500;
-            }   
+            }
         }
 
         #endregion
@@ -412,7 +412,7 @@ namespace RelayControlLibrary
 
         #endregion
 
-         
+
         #region Mouse & Scroll Event Handlers
 
         private void SineGraph_MouseLeave(object sender, EventArgs e)
@@ -428,17 +428,17 @@ namespace RelayControlLibrary
 
         private void leftClicked()      //To send the data to the 
         {
-            if(GraphLeftClicked != null)
+            if (GraphLeftClicked != null)
                 this.GraphLeftClicked(this, new EventArgs());
         }
 
-        
+
         private void rightClicked(int cycleClicked)
         {
             SineGraphEventArgs sGEA = new SineGraphEventArgs();
             sGEA.ClickedCycleNumber = cycleClicked;
 
-            if(GraphRightClicked != null)
+            if (GraphRightClicked != null)
                 this.GraphRightClicked(this, sGEA);
         }
 
@@ -454,8 +454,8 @@ namespace RelayControlLibrary
 
             this.ClickedCycleNumber = closestX / 128;
 
-            if(e.Button == MouseButtons.Left)
-            {    
+            if (e.Button == MouseButtons.Left)
+            {
                 this.leftClicked();
             }
             else if (e.Button == MouseButtons.Right)
@@ -549,6 +549,6 @@ namespace RelayControlLibrary
 
         #endregion
 
-        
+
     }
 }

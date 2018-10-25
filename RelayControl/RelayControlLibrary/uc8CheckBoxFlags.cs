@@ -22,7 +22,7 @@ namespace RelayControlLibrary
             {
                 this.names = value;
 
-                if(this.names != null)
+                if (this.names != null)
                 {
                     this.checkBox1.Text = value[0];
                     this.checkBox2.Text = value[1];
@@ -40,7 +40,7 @@ namespace RelayControlLibrary
 
         public void SetValues(byte b)
         {
-            if((b & 1) == 1)
+            if ((b & 1) == 1)
                 this.checkBox1.Checked = true;
             else
                 this.checkBox1.Checked = false;

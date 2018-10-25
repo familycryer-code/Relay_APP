@@ -16,7 +16,7 @@ namespace RelayControlLibrary
             ActualValues = new float[arraySize];
 
             float translatedZeroPoint = translateYPoint(0);
-            
+
             for (int i = 0; i < arraySize - 1; ++i)
             {
                 InputArray[i].X = i;
@@ -25,7 +25,7 @@ namespace RelayControlLibrary
 
             this.initializeSineGraph();
         }
-        
+
         private void initializeSineGraph()
         {
             for (int i = 0; i < this.sineLUT.Length; i++)
@@ -114,15 +114,15 @@ namespace RelayControlLibrary
                 {
                     return;
                 }
-                
+
                 InputArray[index].Y = this.MaxValueDivider;
 
                 AdjustedArray[index].X = index * this.indexMultipler;
                 AdjustedArray[index].Y = this.translateYPoint(value, this.DilationMultiplier, this.TranslationValue);
-                
 
-                
-                if(index == this.AdjustedArray.Length - 1)
+
+
+                if (index == this.AdjustedArray.Length - 1)
                 {
                     InputArray[InputArray.Length].Y = InputArray[0].Y;
 
@@ -158,26 +158,26 @@ namespace RelayControlLibrary
 
                 //if the wave gets bigger than the graph
 
-                if(AdjustedArray[index].Y < 0)
+                if (AdjustedArray[index].Y < 0)
                 {
                     this.DilationMultiplier /= 10f;
-                    
-                    for(int i = 0; i <= index; ++i)
+
+                    for (int i = 0; i <= index; ++i)
                     {
                         AdjustedArray[i].Y = this.translateYPoint(InputArray[i].Y, this.DilationMultiplier, this.TranslationValue); //InputArray[index].Y
                     }
 
                     this.dialationChanged = true;
                 }
-                 
-                
-                if(index == this.AdjustedArray.Length - 1)
+
+
+                if (index == this.AdjustedArray.Length - 1)
                 {
                     InputArray[InputArray.Length].Y = InputArray[0].Y;
 
                     AdjustedArray[InputArray.Length].X = (InputArray.Length) * this.indexMultipler;
                     AdjustedArray[InputArray.Length].Y = AdjustedArray[0].Y;
-                    if(this.dialationChanged)
+                    if (this.dialationChanged)
                         this.DilationMultiplier *= 10;
                     this.dialationChanged = false;
                 }
@@ -213,7 +213,7 @@ namespace RelayControlLibrary
         public float GetRMS()
         {
             float value = 0;
-            for(int i = 0; i < 128; ++i) 
+            for (int i = 0; i < 128; ++i)
             {
                 value += this.ActualValues[i] * this.ActualValues[i];
             }
@@ -231,9 +231,9 @@ namespace RelayControlLibrary
             for (uint i = startingIndex; i < 128 + startingIndex; ++i)
             {
                 //real += this.ActualValues[i] * this.ActualValues[i];
-                
-                real += this.ActualValues[i] * this.sineLUT[i%128];
-                imaginary += this.ActualValues[i] * this.sineLUT[(i + 32)%128];
+
+                real += this.ActualValues[i] * this.sineLUT[i % 128];
+                imaginary += this.ActualValues[i] * this.sineLUT[(i + 32) % 128];
             }
 
             real = real / 128f;
@@ -241,7 +241,7 @@ namespace RelayControlLibrary
 
             real = real / 0.70710678118654752440084436210485f;
             imaginary = imaginary / 0.70710678118654752440084436210485f;
-            
+
             real = (float)Math.Sqrt(Math.Pow(real, 2) + Math.Pow(imaginary, 2));//Math.Pow(real, 2) + Math.Pow(imaginary,2));
             //real = (float)Math.Sqrt(real / 128f);
             return real;
@@ -249,7 +249,7 @@ namespace RelayControlLibrary
 
         public void ClearAllValues()
         {
-            for(int i = 0; i < AdjustedArray.Length; ++i)
+            for (int i = 0; i < AdjustedArray.Length; ++i)
             {
                 AdjustedArray[i] = new PointF();
                 InputArray[i] = new PointF();
@@ -259,7 +259,7 @@ namespace RelayControlLibrary
 
         public void UpdateAllValues()
         {
-            for(int index = 0; index < this.ActualValues.Length - 1; ++index)
+            for (int index = 0; index < this.ActualValues.Length - 1; ++index)
             {
                 InputArray[index].Y = ActualValues[index] / this.MaxValueDivider;
 

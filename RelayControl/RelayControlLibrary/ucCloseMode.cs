@@ -25,13 +25,13 @@ namespace RelayControlLibrary
             {
                 throw new Exception("Error in Close Mode Initialization", ex);
             }
-            #if DEBUG
-            #else
+#if DEBUG
+#else
             //this.numericUpDownTimeDelay.Visible = false;
             //this.labelTD.Visible = false;
             //this.labelTDUnit.Visible = false;
             //this.labelRelaxClose.Visible = false;
-            #endif
+#endif
 #if ConEd && !Debug
             this.Customer = Customers.ConEdison;
 #else
@@ -145,18 +145,18 @@ namespace RelayControlLibrary
                 this.relaxClose = value;
                 if (this.relayRevisionNumber > 20110907)
                 {
-                    if(!value)
+                    if (!value)
                     {
-                        if(this.Mode == CloseModes.CircleAndRelax || this.Mode == CloseModes.CircleClose)
+                        if (this.Mode == CloseModes.CircleAndRelax || this.Mode == CloseModes.CircleClose)
                             this.Mode = CloseModes.CircleClose;
                         else
                             this.Mode = CloseModes.Normal;
                     }
                     else
                     {
-                        if(this.Mode == CloseModes.Normal)
+                        if (this.Mode == CloseModes.Normal)
                             this.Mode = CloseModes.RelaxClose;
-                        else if(this.Mode == CloseModes.CircleClose)
+                        else if (this.Mode == CloseModes.CircleClose)
                             this.Mode = CloseModes.CircleAndRelax;
                     }
                     /*
@@ -177,11 +177,11 @@ namespace RelayControlLibrary
             set
             {
                 this.relayRevisionNumber = value;
-                if(value < 20110907)
+                if (value < 20110907)
                     this.panelBlockedOpenOverride.Visible = false;
                 else
-                    if(this.customer != Customers.ConEdison)
-                        this.panelBlockedOpenOverride.Visible = true;
+                    if (this.customer != Customers.ConEdison)
+                    this.panelBlockedOpenOverride.Visible = true;
             }
         }
         public delegate void SendHandler(object sender, SendEventArgs sEA);
@@ -192,7 +192,7 @@ namespace RelayControlLibrary
         public CloseCurveDefinition CloseCurve;
 
         public bool SendTimedOut = false;
-        
+
         private void myInitialize()
         {
             try
@@ -221,7 +221,7 @@ namespace RelayControlLibrary
 
         private void setCustomer()
         {
-            switch(this.customer)
+            switch (this.customer)
             {
                 default:
                 case Customers.NonConEd:
@@ -312,10 +312,10 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Visible = value;
             this.labelTiltAngleUnit.Visible = value;
         }
-    
+
         public void buttonSendCloseData_Click(object sender, EventArgs e)
         {
-            if(this.checkBoxCircleClose.Checked)
+            if (this.checkBoxCircleClose.Checked)
                 this.Mode = CloseModes.CircleClose;
             else
                 this.Mode = CloseModes.Normal;
@@ -360,7 +360,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.Mode == CloseModes.RelaxClose || this.Mode == CloseModes.CircleAndRelax)
+                if (this.Mode == CloseModes.RelaxClose || this.Mode == CloseModes.CircleAndRelax)
                 {
                     this.CloseCurve.RecloseVolts = 0.0m;
                     this.numericUpDownRecloseVolts.Value = this.savedRecloseValue;
@@ -412,7 +412,7 @@ namespace RelayControlLibrary
 
         private void errorHandler(Exception ex)
         {
-            if(CloseControlException != null)
+            if (CloseControlException != null)
             {
                 CloseControlException(this, new ExceptionEventArgs(ex, "Error in CloseControl"));
             }
@@ -428,7 +428,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     setAllCallBack sACB = new setAllCallBack(this.setAll);
                     this.Invoke(sACB, new object[] { bytePacket });
@@ -481,15 +481,15 @@ namespace RelayControlLibrary
                 uTemp <<= 8;
                 uTemp += bytePacket[0];
                 tempM = (decimal)uTemp * Constants.TwelveFracBits;
-                
+
                 tempM2 = Math.Round(tempM, 1);
 
-                if(!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
+                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
                 {
                     this.savedRecloseValue = tempM2;
                     this.numericUpDownRecloseVolts.Value = tempM2;
                 }
-                
+
             }
             catch
             {
@@ -520,7 +520,7 @@ namespace RelayControlLibrary
                 tempM2 = Math.Round(tempM);
 
                 this.numericUpDownCloseTiltAngle.Value = tempM2;
-                
+
             }
             catch
             {
@@ -575,7 +575,7 @@ namespace RelayControlLibrary
                 uTemp += bytePacket[8];
 
                 this.numericUpDownTimeDelay.Value = uTemp;
-                
+
             }
             catch
             {
@@ -588,7 +588,7 @@ namespace RelayControlLibrary
                 uTemp <<= 8;
                 uTemp += bytePacket[11];
 
-                if(uTemp == 0)
+                if (uTemp == 0)
                 {
                     this.radioButtonNeverOverride.Checked = true;
                 }
@@ -622,11 +622,11 @@ namespace RelayControlLibrary
             get { return this.mode; }
             set
             {
-                if(this.mode != value)
+                if (this.mode != value)
                 {
                     this.mode = value;
                     this.CloseModeDef.CloseMode = value;
-                    switch(value)
+                    switch (value)
                     {
                         case CloseModes.CircleClose:
                             this.checkBoxCircleClose.Checked = true;
@@ -658,7 +658,7 @@ namespace RelayControlLibrary
         {
             if (this.checkBoxCircleClose.Checked)
             {
-                if(this.Mode == CloseModes.Normal || this.Mode == CloseModes.CircleClose)   
+                if (this.Mode == CloseModes.Normal || this.Mode == CloseModes.CircleClose)
                     this.Mode = CloseModes.CircleClose;
                 else
                     this.Mode = CloseModes.CircleAndRelax;
@@ -668,7 +668,7 @@ namespace RelayControlLibrary
             }
             else
             {
-                if(this.Mode == CloseModes.Normal || this.Mode == CloseModes.CircleClose)
+                if (this.Mode == CloseModes.Normal || this.Mode == CloseModes.CircleClose)
                     this.Mode = CloseModes.Normal;
                 else
                     this.Mode = CloseModes.RelaxClose;
@@ -779,7 +779,7 @@ namespace RelayControlLibrary
                 this.numericUpDownPDA.Value = cMSS.PhaseDetectionAngle;
                 this.numericUpDownPDV.Value = cMSS.PhaseDetectionOffset;
                 this.numericUpDownCloseTiltAngle.Value = cMSS.TiltAngle;
-                if(cMSS.BlockedOverride)
+                if (cMSS.BlockedOverride)
                     this.radioButtonOverrideBlockedOpen.Checked = true;
                 else
                     this.radioButtonNeverOverride.Checked = true;
@@ -802,7 +802,7 @@ namespace RelayControlLibrary
 
         private void radioOverride_CheckedChanged(object sender, EventArgs e)
         {
-            if(this.radioButtonNeverOverride.Checked)
+            if (this.radioButtonNeverOverride.Checked)
                 this.CloseModeDef.OverrideBlockedClose = false;
             else
                 this.CloseModeDef.OverrideBlockedClose = true;
@@ -811,7 +811,7 @@ namespace RelayControlLibrary
 
     [Serializable()]
 
-    public class CloseModeSaveState : ISerializable 
+    public class CloseModeSaveState : ISerializable
     {
         public CloseModeSaveState()
         {

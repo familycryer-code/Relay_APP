@@ -19,14 +19,14 @@ namespace SineDisplayGraph
             this.ucLiveData_Resize(this, new EventArgs());
             this.initializeComponents();
         }
-        
+
         private Customers customer = Customers.NonConEd;
         public Customers Customer
         {
             get { return this.customer; }
             set
             {
-                if(this.customer != value)
+                if (this.customer != value)
                 {
                     this.customer = value;
                     this.setCustomer();
@@ -36,7 +36,7 @@ namespace SineDisplayGraph
 
         private void setCustomer()
         {
-            if(this.gEEnabled)
+            if (this.gEEnabled)
             {
                 this.sineGraphVtA.Visible = false;
                 this.sineGraphVtB.Visible = false;
@@ -54,7 +54,7 @@ namespace SineDisplayGraph
 
                 this.ucLiveData_Resize(this, new EventArgs());
             }
-                 
+
         }
         public UInt16 ID = 0;
         public CalibrationConstant CalConstantVtA;
@@ -85,7 +85,7 @@ namespace SineDisplayGraph
             }
         }
 
-        
+
 
         private bool protector277 = false;
         private Int32 cTRatio = 320;
@@ -97,7 +97,7 @@ namespace SineDisplayGraph
             this.sineGraphIC.CTRatio = this.cTRatio;
         }
 
-        
+
 
         private const int _arraySize = 8192;
 
@@ -243,17 +243,17 @@ namespace SineDisplayGraph
         #region Setting Data
 
         delegate void SetAllCallBack(byte[] bytePacket);
-        
+
         /// <summary>
         /// Handles Individual Incoming Packets
         /// </summary>
         /// <param name="bytePacket">Single Live Event Data Packet</param>
         public void PacketHandler(byte[] bytePacket)
         {
-            if(this.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 SetAllCallBack sACB = new SetAllCallBack(this.packetHandler);
-                
+
                 Invoke(sACB, new object[] { bytePacket });
             }
             else
@@ -281,8 +281,8 @@ namespace SineDisplayGraph
             try
             {
                 phasor = RelayModeFunctions.PhasorTypeFrom((char)bytePacket[1], (char)bytePacket[2]);
-                
-                switch(phasor)  //Select proper graph and CalConstant
+
+                switch (phasor)  //Select proper graph and CalConstant
                 {
                     case PhasorTypes.IA:
                         workingGraph = this.sineGraphIA;
@@ -328,11 +328,11 @@ namespace SineDisplayGraph
                 workingSineWave.Enabled = true;
                 indexOffset = this.getIndexOffset(bytePacket[3], bytePacket[4]);
 
-                if(indexOffset == 0 && phasor == PhasorTypes.VnA)
+                if (indexOffset == 0 && phasor == PhasorTypes.VnA)
                 {
                     this.savedIndexOffset = indexOffset;
                 }
-                else if(indexOffset - 64 != this.savedIndexOffset && indexOffset != this.savedIndexOffset)
+                else if (indexOffset - 64 != this.savedIndexOffset && indexOffset != this.savedIndexOffset)
                 {
                     throw new Exception();
                 }
@@ -341,11 +341,11 @@ namespace SineDisplayGraph
                     this.savedIndexOffset = indexOffset;
                 }
                 //Slightly offset because data starts later and i += 2 because 2 bytes used per calculation
-                for(int i = 5; i < 132; i += 2)
+                for (int i = 5; i < 132; i += 2)
                 {
                     float temp;
-                    
-                    if(phasor == PhasorTypes.IA || phasor == PhasorTypes.IB || phasor == PhasorTypes.IC)
+
+                    if (phasor == PhasorTypes.IA || phasor == PhasorTypes.IB || phasor == PhasorTypes.IC)
                         temp = this.dACReadingI(bytePacket[i], bytePacket[i + 1], workingCalConstant);
                     else
                         temp = this.dACReadingV(bytePacket[i], bytePacket[i + 1], workingCalConstant);
@@ -354,16 +354,16 @@ namespace SineDisplayGraph
                 }
 
                 pHEA.Successful = true;
-                if(indexOffset == 8128)
+                if (indexOffset == 8128)
                 {
                     workingGraph.Invalidate();
                     this.savedIndexOffset = 0;
-                    if(phasor == PhasorTypes.IA || phasor == PhasorTypes.IB || phasor == PhasorTypes.IC)
+                    if (phasor == PhasorTypes.IA || phasor == PhasorTypes.IB || phasor == PhasorTypes.IC)
                     {
                         workingSineWave.Zero();
                     }
 
-                    if(phasor == PhasorTypes.IC)
+                    if (phasor == PhasorTypes.IC)
                     {
                         this.Done();
                         this.Saveable = true;
@@ -414,7 +414,7 @@ namespace SineDisplayGraph
 
         private void Done()
         {
-            if(DownloadComplete != null)
+            if (DownloadComplete != null)
                 this.DownloadComplete();
         }
 
@@ -423,7 +423,7 @@ namespace SineDisplayGraph
 
         private void packetHandled(PacketHandledEventArgs e)
         {
-            if(PacketHandled != null)
+            if (PacketHandled != null)
                 PacketHandled(this, e);
         }
 
@@ -439,7 +439,7 @@ namespace SineDisplayGraph
             tempInt >>= 3; //Shift over three because that is format of information from DAC
 
             returnFloat = (float)tempInt * workingCalConstant.RealValue;
-            
+
 
             returnFloat = returnFloat / 1024f;
 
@@ -468,12 +468,12 @@ namespace SineDisplayGraph
         {
             int returnInt;
 
-            if(cycleNumber >= 65)
+            if (cycleNumber >= 65)
                 throw new Exception(cycleNumber.ToString() + " is a bad cycle number.");
 
             returnInt = (cycleNumber - 1) * 128;
 
-            if(half == 1)
+            if (half == 1)
             {
                 return returnInt;
             }
@@ -494,7 +494,7 @@ namespace SineDisplayGraph
 
         private void errorHandler(Exception ex, string p)
         {
-            if(Error == null)
+            if (Error == null)
                 throw new Exception("No Handler for Live Data Errors");
 
             Error(this, new ExceptionEventArgs(ex, p));
@@ -627,12 +627,12 @@ namespace SineDisplayGraph
 
             for (int i = 0; i < 128; ++i, ++startIndex)
             {
-                if(RelayModeFunctions.IsCurrent(sWD.Phase))
+                if (RelayModeFunctions.IsCurrent(sWD.Phase))
                     tempFloat[i] = sWD.ActualValues[startIndex] * this.CTRatio;
                 else
                     tempFloat[i] = sWD.ActualValues[startIndex];
             }
-           
+
             for (int i = 128; i < tempFloat.Length; ++i)
             {
                 tempFloat[i] = 0;
@@ -641,7 +641,7 @@ namespace SineDisplayGraph
             fG.ClickedCycleNumber = sG.ClickedCycleNumber;
             fG.PhasorType = sG.Type;
             fG.SineWave = tempFloat;
-            
+
         }
 
         public float[] GetSineWave(PhasorTypes pT)
@@ -804,7 +804,7 @@ namespace SineDisplayGraph
             cCEA.EventNumber = 9999;
 
             if (PopulatePhasorGraph != null)
-                PopulatePhasorGraph(this, cCEA); 
+                PopulatePhasorGraph(this, cCEA);
         }
     }
 }

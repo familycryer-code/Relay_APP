@@ -91,12 +91,12 @@ namespace RelayControlLibrary
                 this.groupBoxGeneralCommand.Controls.Add(this.testInterruptValues);
             }
 
-            byte[] c = new byte[b.Length-2];
+            byte[] c = new byte[b.Length - 2];
 
             System.Buffer.BlockCopy(b, 2, c, 0, c.Length);
 
             this.testInterruptValues.SetValues(c);
- 
+
         }
 
         private void incomingCommandSingleData(byte[] b)
@@ -132,7 +132,7 @@ namespace RelayControlLibrary
             byte[] returnByte = new byte[2];
             int typeMask = 0, phaseMask = 0;
 
-            foreach(int indexChecked in checkedListBoxType.CheckedIndices)
+            foreach (int indexChecked in checkedListBoxType.CheckedIndices)
             {
                 Debug.WriteLine("Type index: " + indexChecked);
                 typeMask += (1 << indexChecked);
@@ -174,7 +174,7 @@ namespace RelayControlLibrary
 
         private void onSend(object sender, SendEventArgs sEA)
         {
-            if(Send != null)
+            if (Send != null)
                 this.Send(sender, sEA);
         }
 
@@ -189,7 +189,7 @@ namespace RelayControlLibrary
         {
             if (!this.repeatTimer.Enabled)
             {
-                
+
                 this.repeatTimer.Tick += repeatTimer_Tick;
                 this.repeatTimer.Interval = 100;
                 this.repeatTimer.Start();
@@ -234,7 +234,7 @@ namespace RelayControlLibrary
                     sEA.SendPacket[2] = Convert.ToByte(workingCommand.Key);
                     for (int i = 0; i < workingCommand.AdditionalData.Length; ++i)
                     {
-                        sEA.SendPacket[3 + i] = workingCommand.AdditionalData[workingCommand.AdditionalData.Length-i-1];
+                        sEA.SendPacket[3 + i] = workingCommand.AdditionalData[workingCommand.AdditionalData.Length - i - 1];
                     }
                     sEA.SendPacket[81] = 0x0D;
 
