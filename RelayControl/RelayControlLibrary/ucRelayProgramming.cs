@@ -45,8 +45,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 181019;
-        private static UInt32 _masterDNPRevisionNumber = 181019;
+        private static UInt32 _masterCodeRevisionNumber = 181025;
+        private static UInt32 _masterDNPRevisionNumber = 181025;
         private static UInt32 _relayCodeRevisionNumber = 20180312;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -945,7 +945,7 @@ namespace RelayControlLibrary
 #endif
 
 #if Enmax && DNP
-            
+
 
             if (this.GEEnabled)
             {

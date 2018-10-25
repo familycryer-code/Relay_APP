@@ -57,7 +57,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
                 //Setting the command bits 0 - 6
-                if((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
+                if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
                     tempByte = 2;
                 else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Sometimes")
                     tempByte = 1;
@@ -80,15 +80,15 @@ namespace RelayControlLibrary
                     tempByte |= 16;
                 else if ((string)this.comboBoxTerminationResistor.SelectedItem != "Disable")
                     throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem.ToString());
-                
-                if(this.Customer == Customers.Memphis)
+
+                if (this.Customer == Customers.Memphis)
                 {
                     tempByte &= 0x1F; //Clear the Memphis Stage Bits
                     tempByte |= (byte)((int)this.numericUpDownMemphisStage.Value << 5); //Set them
                 }
 
                 sEA.SendPacket[3] = tempByte;
-                
+
                 //Unsolicited Timeout
                 tempInt32 = (UInt32)this.numericUpDownUnsolTimeout.Value;
 
@@ -125,7 +125,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudRate.SelectedIndex;
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
-                
+
                 this.Send(sEA);
             }
             catch (Exception ex)
@@ -144,25 +144,25 @@ namespace RelayControlLibrary
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
 
-                foreach(Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
+                foreach (Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
                 {
                     bool failed = false;
                     ucDNPDeadBand uDDB = new ucDNPDeadBand();
                     try
                     {
-                         uDDB = (ucDNPDeadBand)c;
+                        uDDB = (ucDNPDeadBand)c;
                     }
                     catch //if it is not a ucDeadBand box
                     {
                         failed = true;
                     }
 
-                    if(!failed)
+                    if (!failed)
                     {
                         sEA.SendPacket[index] = (byte)uDDB.Value;
                         index++;
-                        if(index >= 90)
-                         throw new Exception("Too many DeadBand Variables for single packet");
+                        if (index >= 90)
+                            throw new Exception("Too many DeadBand Variables for single packet");
                     }
                 }
 
@@ -186,7 +186,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
 
                 //Event Trigger Ranges
-                if(this.Customer == Customers.Memphis)
+                if (this.Customer == Customers.Memphis)
                 {
                     UInt16 temp;
                     temp = (UInt16)this.numericUpDownTriggerRangeVoltage.Value;
@@ -280,7 +280,7 @@ namespace RelayControlLibrary
                 {
                     this.errorHandler(new Exception("No Event Ranges Defined For This Customer"));
                 }
-                 
+
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
                 this.Send(sEA);
@@ -339,7 +339,7 @@ namespace RelayControlLibrary
         {
             try
             {
-                if(this.InvokeRequired)
+                if (this.InvokeRequired)
                 {
                     setAllCB sACB = new setAllCB(this.setAll);
                     this.Invoke(sACB, bytePacket);
@@ -354,17 +354,17 @@ namespace RelayControlLibrary
                 this.errorHandler(ex);
             }
         }
-  
+
         private void setAll(byte[] bytePacket)
         {
             byte temp;
             //LSByte comes first
             //bytes 0 and 1 for control word
-                //bits 0 and 1 are for link layer
+            //bits 0 and 1 are for link layer
             try
             {
                 temp = (byte)(bytePacket[0] & 3);
-                switch(temp)
+                switch (temp)
                 {
                     case 0:
                         this.comboBoxLinkLayerConfirm.SelectedItem = "Never";
@@ -393,7 +393,7 @@ namespace RelayControlLibrary
             {
                 //Self Address
                 temp = (byte)(bytePacket[0] & 4);
-                if(temp == 4)
+                if (temp == 4)
                     this.comboBoxSelfAddress.SelectedItem = "Enable";
                 else
                     this.comboBoxSelfAddress.SelectedItem = "Disable";
@@ -448,7 +448,7 @@ namespace RelayControlLibrary
 
             try
             {
-                if(this.Customer == Customers.Memphis)
+                if (this.Customer == Customers.Memphis)
                 {
                     temp = (byte)(bytePacket[0] & 0xE0);
                     temp >>= 5;
@@ -467,8 +467,10 @@ namespace RelayControlLibrary
 
             try
             {
+#if MEMPHIS
                 temp = (byte)(bytePacket[1] & 0x07);
                 this.comboBoxDNPBaudRate.SelectedIndex = temp;
+#endif
             }
             catch (Exception ex)
             {
@@ -504,7 +506,7 @@ namespace RelayControlLibrary
 #endif
                 return;
             }
-            
+
             //8 9 = Fragment Size
             try
             {
@@ -608,14 +610,14 @@ namespace RelayControlLibrary
 #else
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
-				return;
+                return;
             }
 #endif
 
-            
+
             try
             {
-                if(this.Customer == Customers.Memphis)
+                if (this.Customer == Customers.Memphis)
                 {
                     //starting at 37
                     this.numericUpDownTriggerRangeVoltage.Value = bytePacket[38] + bytePacket[39] * 256;
@@ -635,21 +637,21 @@ namespace RelayControlLibrary
                     this.numericUpDownAnalog2DeadBand.Value = (decimal)(bytePacket[66] + bytePacket[67] * 256) / 10m;
                     this.numericUpDownAnalog3DeadBand.Value = (decimal)(bytePacket[68] + bytePacket[69] * 256) / 10m;
                     this.numericUpDownAnalog4DeadBand.Value = (decimal)(bytePacket[70] + bytePacket[71] * 256) / 10m;
-                    
+
                 }
                 else
                 {
                     ucDNPDeadBand uDDB = new ucDNPDeadBand();
                     uint index = 30;
 
-                    foreach(Control C in this.groupBoxDigitalGridDNPDeadBand.Controls)
+                    foreach (Control C in this.groupBoxDigitalGridDNPDeadBand.Controls)
                     {
                         bool failed = false;
 
-                        try{ uDDB = (ucDNPDeadBand)C;   }
+                        try { uDDB = (ucDNPDeadBand)C; }
                         catch { failed = true; }
-                        
-                        if(!failed)
+
+                        if (!failed)
                         {
                             uDDB.Value = bytePacket[index];
                             index++;
@@ -660,7 +662,7 @@ namespace RelayControlLibrary
             catch
             {
                 this.restoreDefaultsDeadBandVariables();
-                
+
                 //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex));
             }
         }
@@ -669,7 +671,7 @@ namespace RelayControlLibrary
         #region Customer Handlers
         private void setCustomer()
         {
-            if(this.Customer == Customers.Memphis)
+            if (this.Customer == Customers.Memphis)
                 this.makeMemphis();
             else
                 this.makeDefault();
@@ -683,7 +685,7 @@ namespace RelayControlLibrary
             {
                 bool failed = false;
                 ucDNPDeadBand uDDB = new ucDNPDeadBand();
-                
+
                 try
                 {
                     uDDB = (ucDNPDeadBand)c;
@@ -719,7 +721,7 @@ namespace RelayControlLibrary
                 this.groupBoxDigitalGridDNPDeadBand.Controls.Clear();
 
                 this.groupBoxMemphisDeadBand.Visible = false;
-                
+
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "V", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1 V", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
@@ -780,15 +782,15 @@ namespace RelayControlLibrary
                 this.groupBoxDigitalGridDNPDeadBand.Location = location;
                 this.groupBoxDigitalGridDNPDeadBand.Height = 0;
 
-                location = new Point(2,15);//Now make location the starting spot of the first control
+                location = new Point(2, 15);//Now make location the starting spot of the first control
 
-                foreach(ucDeadBandSettingsObject dBD in this.deadBandVariables)
+                foreach (ucDeadBandSettingsObject dBD in this.deadBandVariables)
                 {
                     workingDDB = new ucDNPDeadBand(dBD);
                     workingDDB.Location = location;
                     this.groupBoxDigitalGridDNPDeadBand.Controls.Add(workingDDB);
 
-                    if(this.deadBandVariables.IndexOf(dBD) >= (this.deadBandVariables.Count / 2) - 1 && location.X == 2) //the 2 is for the first column so we only do this once.
+                    if (this.deadBandVariables.IndexOf(dBD) >= (this.deadBandVariables.Count / 2) - 1 && location.X == 2) //the 2 is for the first column so we only do this once.
                     {
                         location = new Point(location.X + workingDDB.Width, 15);
                     }
@@ -798,7 +800,7 @@ namespace RelayControlLibrary
                     }
                 }
 
-                if(workingDDB != null)
+                if (workingDDB != null)
                     location = new Point(location.X, location.Y - workingDDB.Height);
 
                 this.groupBoxDigitalGridDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
@@ -825,7 +827,7 @@ namespace RelayControlLibrary
 
         private void buttonDefaults_Click(object sender, EventArgs e)
         {
-            if(this.customer == Customers.Memphis)
+            if (this.customer == Customers.Memphis)
                 this.setMemphisDefaults();
             else
                 this.setDefaultDefaults();
@@ -906,7 +908,7 @@ namespace RelayControlLibrary
 
         void setDNPLabelStatus()
         {
-            if(dNPLabelStatus == true)
+            if (dNPLabelStatus == true)
             {
                 this.labelDNPStatusInidcation.Text = "Enabled";
                 this.labelDNPStatusInidcation.BackColor = Color.SkyBlue;
@@ -916,7 +918,7 @@ namespace RelayControlLibrary
                 this.labelDNPStatusInidcation.Text = "Disabled";
                 this.labelDNPStatusInidcation.BackColor = Color.LightSalmon;
             }
-                
+
         }
 
         private void populateSaveModeDNPData(DNPSaveStateV4 DNPSS)
@@ -957,7 +959,7 @@ namespace RelayControlLibrary
             {
                 try
                 {
-                    if(c is ucDNPDeadBand)
+                    if (c is ucDNPDeadBand)
                     {
                         uDDB = (ucDNPDeadBand)c;
                         DNPSS.deadBandControlSaveddecimal.Add(uDDB.Value);
@@ -976,9 +978,9 @@ namespace RelayControlLibrary
             {
                 if (DNPSS.LinkLayerConfirm == "Never")
                     comboBoxLinkLayerConfirm.SelectedIndex = 0;
-                else if(DNPSS.LinkLayerConfirm == "Sometimes")
+                else if (DNPSS.LinkLayerConfirm == "Sometimes")
                     comboBoxLinkLayerConfirm.SelectedIndex = 1;
-                else if(DNPSS.LinkLayerConfirm == "Always")
+                else if (DNPSS.LinkLayerConfirm == "Always")
                     comboBoxLinkLayerConfirm.SelectedIndex = 2;
 
                 if (DNPSS.SelfAddress == true)
@@ -1009,7 +1011,7 @@ namespace RelayControlLibrary
                 for (int i = 0; i <= comboBoxDNPBaudRate.Items.Count - 1; i++)
                 {
                     comboBoxDNPBaudRate.SelectedIndex = i;
-                    if(comboBoxDNPBaudRate.Text == Convert.ToString(DNPSS.DNPBaudRate))
+                    if (comboBoxDNPBaudRate.Text == Convert.ToString(DNPSS.DNPBaudRate))
                     {
                         break;
                     }
@@ -1023,7 +1025,7 @@ namespace RelayControlLibrary
 
                 int indexDNPDEAD = 0;
 
-                if(DNPSS.deadBandControlSaveddecimal.Count != 0)
+                if (DNPSS.deadBandControlSaveddecimal.Count != 0)
                 {
                     foreach (Control c in groupBoxDigitalGridDNPDeadBand.Controls)
                     {
@@ -1034,7 +1036,7 @@ namespace RelayControlLibrary
                                 uDDB = (ucDNPDeadBand)c;
                                 uDDB.Value = DNPSS.deadBandControlSaveddecimal[indexDNPDEAD];
                                 indexDNPDEAD++;
-                            }   
+                            }
                         }
                         catch (Exception ex) //if it is not a ucDeadBand box
                         {
@@ -1107,7 +1109,7 @@ namespace RelayControlLibrary
 
     [Serializable()]
 
-    public class DNPSaveStateV4 : ISerializable 
+    public class DNPSaveStateV4 : ISerializable
     {
         public DNPSaveStateV4()
         {
@@ -1184,10 +1186,10 @@ namespace RelayControlLibrary
                 throw new Exception("Error in DNP Mode GetObjectData", ex);
             }
         }
-        private SaveObject saveObject = new SaveObject();  
+        private SaveObject saveObject = new SaveObject();
     }
 
-    
+
 
     [Serializable()]
 
@@ -1246,7 +1248,7 @@ namespace RelayControlLibrary
             }
 
             //Sort list alphabetically
-            this.SavedStates.Sort(delegate(DNPSaveStateV4 dSS1, DNPSaveStateV4 dSS2) { return dSS1.Name.CompareTo(dSS2.Name); });
+            this.SavedStates.Sort(delegate (DNPSaveStateV4 dSS1, DNPSaveStateV4 dSS2) { return dSS1.Name.CompareTo(dSS2.Name); });
         }
 
         private bool sameName(DNPSaveStateV4 dSS, string s)
@@ -1285,5 +1287,5 @@ namespace RelayControlLibrary
 
     }
 
-#endregion
+    #endregion
 }
