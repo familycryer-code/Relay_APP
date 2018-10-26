@@ -311,7 +311,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG PSEG|AnyCPU'">
     <OutputPath>bin\DEBUG PSEG\</OutputPath>
