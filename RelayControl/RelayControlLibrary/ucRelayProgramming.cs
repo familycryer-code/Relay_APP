@@ -45,8 +45,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 181025;
-        private static UInt32 _masterDNPRevisionNumber = 181025;
+        private static UInt32 _masterCodeRevisionNumber = 181028;
+        private static UInt32 _masterDNPRevisionNumber = 181028;
         private static UInt32 _relayCodeRevisionNumber = 20180312;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -343,10 +343,10 @@ namespace RelayControlLibrary
                     else
                         this.reprogramMaster = false;
 #else
-                        if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
-                            this.reprogramMaster = true;
-                        else
-                            this.reprogramMaster = false;
+                    if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
+                        this.reprogramMaster = true;
+                    else
+                        this.reprogramMaster = false;
 #endif
                 }
 
@@ -707,8 +707,8 @@ namespace RelayControlLibrary
                 if (masterRevisionString.Contains("DNP"))
                 {
 #if !DNP
-                this.wrongRelayTypeAutoLoad = true;
-                return wrongRelayTypeAutoLoad;
+                    this.wrongRelayTypeAutoLoad = true;
+                    return wrongRelayTypeAutoLoad;
 #endif
                 }
                 else
@@ -2434,7 +2434,7 @@ namespace RelayControlLibrary
                         {
                             properBootCode = true;
                             checkBootDate = false;
-                        }  
+                        }
                     }
                     else
                     {
@@ -3645,8 +3645,8 @@ namespace RelayControlLibrary
                 DirectoryInfo dI = new DirectoryInfo(@"C:\Freescale\RelayProcessor\output\");
                 FileInfo[] fI;
 
-               
-                if(this.GEEnabled)
+
+                if (this.GEEnabled)
                     fI = dI.GetFiles("*GE*.s");
                 else
                     fI = dI.GetFiles("*WH*.s");
