@@ -821,7 +821,7 @@ namespace RelayControl
             // 
             // ucCalibration2
             // 
-            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DigitalGridDNP;
+            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
             this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
             this.ucCalibration2.Name = "ucCalibration2";
             this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
@@ -2488,7 +2488,7 @@ namespace RelayControl
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainControl";
-            this.Text = "Digital Grid Inc - Relay Control and Monitoring - BETA - 2009-07-24";
+            this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring - BETA - 2009-07-24";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainControl_FormClosed);
             this.Load += new System.EventHandler(this.MainControl_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form_KeyDown);

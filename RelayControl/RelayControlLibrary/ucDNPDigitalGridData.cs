@@ -9,16 +9,16 @@ using SharedResources;
 
 namespace RelayControlLibrary
 {
-    public partial class ucDNPDigitalGridData : UserControl
+    public partial class ucDNPDIGITALGRIDData : UserControl
     {
-        public ucDNPDigitalGridData()
+        public ucDNPDIGITALGRIDData()
         {
             InitializeComponent();
             SetSize();
             this.initializeComponents();
         }
 
-        public ucDNPDigitalGridData(Customers customer)
+        public ucDNPDIGITALGRIDData(Customers customer)
         {
             InitializeComponent();
             this.customer = customer;
@@ -62,7 +62,7 @@ namespace RelayControlLibrary
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
         private byte[] dNPData = new byte[1008]; //252 packet size * 4
         private UInt32 relayMasterRevision = 140506;
-        private Customers customer = Customers.DigitalGridDNP;
+        private Customers customer = Customers.DIGITALGRIDDNP;
 
 
         private static int _packetLength = 98;
@@ -97,7 +97,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phased ACB");
             this.binaryInputs.Add("Insensitive Backfeed Detected");
-            if (this.customer == Customers.DigitalGridDNP || this.customer == Customers.SMUD || this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
+            if (this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.SMUD || this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
             {
 #if ATLANTA || ONCOR
                 this.binaryInputs.Add("Digital Input 1 (B Flag)");
@@ -354,7 +354,7 @@ namespace RelayControlLibrary
             foreach (AnalogPointDefinition aPD in this.analogInputs)
             {
 
-                ucDNPDigitalGridAnalogIn workingBox = new ucDNPDigitalGridAnalogIn();
+                ucDNPDIGITALGRIDAnalogIn workingBox = new ucDNPDIGITALGRIDAnalogIn();
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = aPD.Name;
@@ -414,7 +414,7 @@ namespace RelayControlLibrary
                 foreach (AnalogPointDefinition aPD in this.analogOutputs)
                 {
 
-                    ucDNPDigitalGridAnalogOut workingBox = new ucDNPDigitalGridAnalogOut();
+                    ucDNPDIGITALGRIDAnalogOut workingBox = new ucDNPDIGITALGRIDAnalogOut();
 
                     workingBox.PointNumber = i;
                     workingBox.PointName = aPD.Name;
@@ -454,7 +454,7 @@ namespace RelayControlLibrary
         }
 
         //Adds a analog box to the selected page
-        private void addAnalogBoxIn(ucDNPDigitalGridAnalogIn box, TabPage tB)
+        private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
             int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
             int x = box.Width * (tB.Controls.Count / 25) + 1;
@@ -475,8 +475,8 @@ namespace RelayControlLibrary
 
         #region Send Region
 
-        public delegate void DigitalGridSendEventHandler(object o, SendEventArgs mEA);
-        public event DigitalGridSendEventHandler Send;
+        public delegate void DIGITALGRIDSendEventHandler(object o, SendEventArgs mEA);
+        public event DIGITALGRIDSendEventHandler Send;
 
         private void buttonSendBinaryInputEventEnables_Click(object sender, EventArgs e)
         {
@@ -633,12 +633,12 @@ namespace RelayControlLibrary
         {
             foreach (Control C in this.tabPageAnalogInputs1.Controls)
             {
-                ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
                 bool failed = false;
 
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -658,12 +658,12 @@ namespace RelayControlLibrary
             }
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {
-                ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
                 bool failed = false;
 
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -869,12 +869,12 @@ namespace RelayControlLibrary
 
             foreach (Control C in this.tabPageAnalogInputs1.Controls)
             {
-                ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
                 bool failed = false;
 
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -917,12 +917,12 @@ namespace RelayControlLibrary
             }
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {
-                ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
                 bool failed = false;
 
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -1001,7 +1001,7 @@ namespace RelayControlLibrary
 
         private void buttonEnableAllAnalogEvents_Click(object sender, EventArgs e)
         {
-            ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+            ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
             bool failed = false;
 
             if (PointChanged != null)
@@ -1012,7 +1012,7 @@ namespace RelayControlLibrary
             {
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -1027,7 +1027,7 @@ namespace RelayControlLibrary
             {
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -1068,7 +1068,7 @@ namespace RelayControlLibrary
 
         private void buttonDisableAllAnalogEvents_Click(object sender, EventArgs e)
         {
-            ucDNPDigitalGridAnalogIn uDDGA = new ucDNPDigitalGridAnalogIn();
+            ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
             bool failed = false;
 
             if (PointChanged != null)
@@ -1079,7 +1079,7 @@ namespace RelayControlLibrary
             {
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {
@@ -1094,7 +1094,7 @@ namespace RelayControlLibrary
             {
                 try
                 {
-                    uDDGA = (ucDNPDigitalGridAnalogIn)C;
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
                 }
                 catch
                 {

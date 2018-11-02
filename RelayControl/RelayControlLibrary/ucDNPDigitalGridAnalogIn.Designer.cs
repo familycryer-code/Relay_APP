@@ -1,6 +1,6 @@
 namespace RelayControlLibrary
 {
-    partial class ucDNPDigitalGridAnalogIn
+    partial class ucDNPDIGITALGRIDAnalogIn
     {
         /// <summary> 
         /// Required designer variable.
@@ -52,7 +52,7 @@ namespace RelayControlLibrary
             this.labelPointName.Size = new System.Drawing.Size(35, 13);
             this.labelPointName.TabIndex = 11;
             this.labelPointName.Text = "label1";
-            
+
             // 
             // ucDNPDigitalGridAnalogIn
             // 
@@ -60,7 +60,7 @@ namespace RelayControlLibrary
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBoxPointValue);
             this.Controls.Add(this.labelPointName);
-            this.Name = "ucDNPDigitalGridAnalogIn";
+            this.Name = "ucDNPDIGITALGRIDAnalogIn";
             this.Size = new System.Drawing.Size(437, 21);
             this.ResumeLayout(false);
             this.PerformLayout();

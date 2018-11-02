@@ -1,6 +1,6 @@
 namespace RelayControlLibrary
 {
-    partial class ucDNPDigitalGridData
+    partial class ucDNPDIGITALGRIDData
     {
         /// <summary> 
         /// Required designer variable.
@@ -175,12 +175,12 @@ namespace RelayControlLibrary
             this.buttonDisableAllAnalogEvents.UseVisualStyleBackColor = true;
             this.buttonDisableAllAnalogEvents.Click += new System.EventHandler(this.buttonDisableAllAnalogEvents_Click);
             // 
-            // ucDNPDigitalGridData
+            // ucDNPDIGITALGRIDData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControlMemphisDNP);
-            this.Name = "ucDNPDigitalGridData";
+            this.Name = "ucDNPDIGITALGRIDData";
             this.Size = new System.Drawing.Size(989, 598);
             this.tabControlMemphisDNP.ResumeLayout(false);
             this.tabPageBinaryInputs.ResumeLayout(false);

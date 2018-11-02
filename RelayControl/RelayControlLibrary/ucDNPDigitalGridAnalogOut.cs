@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
-    public partial class ucDNPDigitalGridAnalogOut : ucDNPMemphisAnalog
+    public partial class ucDNPDIGITALGRIDAnalogOut : ucDNPMemphisAnalog
     {
-        public ucDNPDigitalGridAnalogOut()
+        public ucDNPDIGITALGRIDAnalogOut()
         {
             InitializeComponent();
             this.labelEventEnable.Visible = false;

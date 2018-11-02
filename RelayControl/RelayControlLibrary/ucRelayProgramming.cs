@@ -220,7 +220,7 @@ namespace RelayControlLibrary
                 if ((value > 32767 || value == 0) && !this.serialNumberError && this.MasterRevisionNumber != 0)
                 {
                     this.serialNumberError = true;
-                    MessageBox.Show("Serial Number Error", "Error with Serial Number, \r\nPlease Contact DigialGrid", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Serial Number Error", "Error with Serial Number, \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else
                 {
@@ -289,20 +289,6 @@ namespace RelayControlLibrary
                 if (value == 012345 || value == 121116)
                     this.loadMasterFirst = true;
 
-                // If it is a rev 1/0. it shouldn't be upgraded
-                /*
-                if (value < 100713)
-                {
-                    if (value != this.remoteMasterRevisionNumber)
-                    {
-                        MessageBox.Show("Please Contact DigitalGrid Inc and ship relay back to factor for upgrade", "Relay Upgrade");
-                        this.firstCheckForUpdate = false;
-                        this.remoteMasterRevisionNumber = value;
-                    }
-                    
-                    return;
-                }
-                 */
                 switch (this.State)
                 {
                     case RelayProgrammingStates.LoadingMasterCode:
@@ -325,7 +311,7 @@ namespace RelayControlLibrary
                 {
                     if (value != this.remoteMasterRevisionNumber)
                     {
-                        MessageBox.Show("Please Contact DigitalGrid Inc and ship relay back to factor for upgrade", "Relay Upgrade");
+                        MessageBox.Show("Please Contact DIGITALGRID, INC. and ship relay back to factor for upgrade", "Relay Upgrade");
                         this.firstCheckForUpdate = false;
                         this.remoteMasterRevisionNumber = value;
                     }
@@ -472,7 +458,7 @@ namespace RelayControlLibrary
 
             try
             {
-                CustomerLoadFiles regular = new CustomerLoadFiles(Customers.DigitalGrid);
+                CustomerLoadFiles regular = new CustomerLoadFiles(Customers.DIGITALGRID);
                 regular.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
                 regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor;
                 regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
@@ -486,10 +472,10 @@ namespace RelayControlLibrary
                 regular.RelayFileAtlantaWH = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
                 regular.RelayFileAtlantaGE = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
 
-                CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGridDNP));
+                CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGrid));
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRID));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Dominion));
@@ -513,7 +499,7 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DigitalGridDNP));
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
                 workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
@@ -629,7 +615,7 @@ namespace RelayControlLibrary
         {
             if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
             {
-                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
+                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DIGITALGRID, INC. and return relay to factory.");
                 this.revTooLowErrorAlreadyShown = true;
             }
             else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
@@ -647,7 +633,7 @@ namespace RelayControlLibrary
         {
             if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
             {
-                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DigitalGrid Inc and return relay to factory.");
+                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DIGITALGRID, INC. return relay to factory.");
                 this.revTooLowErrorAlreadyShown = true;
             }
             else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
@@ -1252,7 +1238,7 @@ namespace RelayControlLibrary
             {
                 if (this.serialNumber < 25000 || this.serialNumber > 32767 || this.serialNumber == 0) //25k and up are GE serial Numbers
                 {
-                    MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DigitalGrid Inc.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.serialNumberError = true;
                 }
 
@@ -1264,7 +1250,7 @@ namespace RelayControlLibrary
                 if (this.serialNumber >= 25000 || this.serialNumber == 0)
                 {
                     this.serialNumberError = true;
-                    MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DigitalGrid Inc.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 /*
                 RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();

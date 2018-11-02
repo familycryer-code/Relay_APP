@@ -120,8 +120,8 @@ namespace RelayControlLibrary
                 case Customers.NonConEd:
                 case Customers.Memphis:
                 case Customers.NonConEdGE:
-                case Customers.DigitalGridDNP:
-                case Customers.DigitalGrid:
+                case Customers.DIGITALGRIDDNP:
+                case Customers.DIGITALGRID:
                 case Customers.DNPwithPLC:
                 case Customers.SMUD:
                 case Customers.Atlanta:

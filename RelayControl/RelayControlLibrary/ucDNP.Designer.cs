@@ -110,8 +110,8 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings = new System.Windows.Forms.GroupBox();
             this.comboBoxDNPBaudRate = new System.Windows.Forms.ComboBox();
             this.labelBaudRate = new System.Windows.Forms.Label();
-            this.groupBoxDigitalGridDNPDeadBand = new System.Windows.Forms.GroupBox();
-            this.buttonSendDigitalGridDeadBand = new System.Windows.Forms.Button();
+            this.groupBoxDIGITALGRIDDNPDeadBand = new System.Windows.Forms.GroupBox();
+            this.buttonSendDIGITALGRIDDeadBand = new System.Windows.Forms.Button();
             this.label29 = new System.Windows.Forms.Label();
             this.buttonSendDeadBand = new System.Windows.Forms.Button();
             this.labelSAv5AggressiveMode = new System.Windows.Forms.Label();
@@ -151,7 +151,7 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDifferentialVoltsRealDB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentAngleDB)).BeginInit();
             this.groupBoxDNPSettings.SuspendLayout();
-            this.groupBoxDigitalGridDNPDeadBand.SuspendLayout();
+            this.groupBoxDIGITALGRIDDNPDeadBand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSAv5UserNumber)).BeginInit();
             this.groupBoxDNPStatus.SuspendLayout();
             this.SuspendLayout();
@@ -1279,25 +1279,25 @@ namespace RelayControlLibrary
             this.labelBaudRate.TabIndex = 34;
             this.labelBaudRate.Text = "Baud Rate";
             // 
-            // groupBoxDigitalGridDNPDeadBand
+            // groupBoxDIGITALGRIDDNPDeadBand
             // 
-            this.groupBoxDigitalGridDNPDeadBand.Controls.Add(this.buttonSendDigitalGridDeadBand);
-            this.groupBoxDigitalGridDNPDeadBand.Controls.Add(this.label29);
-            this.groupBoxDigitalGridDNPDeadBand.Location = new System.Drawing.Point(278, 0);
-            this.groupBoxDigitalGridDNPDeadBand.Name = "groupBoxDigitalGridDNPDeadBand";
-            this.groupBoxDigitalGridDNPDeadBand.Size = new System.Drawing.Size(606, 590);
-            this.groupBoxDigitalGridDNPDeadBand.TabIndex = 144;
-            this.groupBoxDigitalGridDNPDeadBand.TabStop = false;
-            this.groupBoxDigitalGridDNPDeadBand.Text = "DNP Dead Band (DB) Variables";
+            this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(this.buttonSendDIGITALGRIDDeadBand);
+            this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(this.label29);
+            this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(278, 0);
+            this.groupBoxDIGITALGRIDDNPDeadBand.Name = "groupBoxDIGITALGRIDDNPDeadBand";
+            this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(606, 590);
+            this.groupBoxDIGITALGRIDDNPDeadBand.TabIndex = 144;
+            this.groupBoxDIGITALGRIDDNPDeadBand.TabStop = false;
+            this.groupBoxDIGITALGRIDDNPDeadBand.Text = "DNP Dead Band (DB) Variables";
             // 
             // buttonSendDigitalGridDeadBand
             // 
-            this.buttonSendDigitalGridDeadBand.Location = new System.Drawing.Point(448, 553);
-            this.buttonSendDigitalGridDeadBand.Name = "buttonSendDigitalGridDeadBand";
-            this.buttonSendDigitalGridDeadBand.Size = new System.Drawing.Size(136, 23);
-            this.buttonSendDigitalGridDeadBand.TabIndex = 143;
-            this.buttonSendDigitalGridDeadBand.Text = "Send DNP DeadBands";
-            this.buttonSendDigitalGridDeadBand.UseVisualStyleBackColor = true;
+            this.buttonSendDIGITALGRIDDeadBand.Location = new System.Drawing.Point(448, 553);
+            this.buttonSendDIGITALGRIDDeadBand.Name = "buttonSendDIGITALGRIDDeadBand";
+            this.buttonSendDIGITALGRIDDeadBand.Size = new System.Drawing.Size(136, 23);
+            this.buttonSendDIGITALGRIDDeadBand.TabIndex = 143;
+            this.buttonSendDIGITALGRIDDeadBand.Text = "Send DNP DeadBands";
+            this.buttonSendDIGITALGRIDDeadBand.UseVisualStyleBackColor = true;
             // 
             // label29
             // 
@@ -1461,7 +1461,7 @@ namespace RelayControlLibrary
             this.Controls.Add(this.labelSAv5AggressiveMode);
             this.Controls.Add(this.comboBoxSAv5AggressiveMode);
             this.Controls.Add(this.buttonSendDeadBand);
-            this.Controls.Add(this.groupBoxDigitalGridDNPDeadBand);
+            this.Controls.Add(this.groupBoxDIGITALGRIDDNPDeadBand);
             this.Controls.Add(this.groupBoxDNPSettings);
             this.Controls.Add(this.buttonDefaults);
             this.Controls.Add(this.buttonRQDNPSettings);
@@ -1495,8 +1495,8 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentAngleDB)).EndInit();
             this.groupBoxDNPSettings.ResumeLayout(false);
             this.groupBoxDNPSettings.PerformLayout();
-            this.groupBoxDigitalGridDNPDeadBand.ResumeLayout(false);
-            this.groupBoxDigitalGridDNPDeadBand.PerformLayout();
+            this.groupBoxDIGITALGRIDDNPDeadBand.ResumeLayout(false);
+            this.groupBoxDIGITALGRIDDNPDeadBand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSAv5UserNumber)).EndInit();
             this.groupBoxDNPStatus.ResumeLayout(false);
             this.groupBoxDNPStatus.PerformLayout();
@@ -1587,8 +1587,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTotalKWDBUnits;
         private System.Windows.Forms.NumericUpDown numericUpDownAnalog2DeadBand;
         private System.Windows.Forms.Button buttonSendMemphis;
-        private System.Windows.Forms.GroupBox groupBoxDigitalGridDNPDeadBand;
-        private System.Windows.Forms.Button buttonSendDigitalGridDeadBand;
+        private System.Windows.Forms.GroupBox groupBoxDIGITALGRIDDNPDeadBand;
+        private System.Windows.Forms.Button buttonSendDIGITALGRIDDeadBand;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button buttonSendDeadBand;
         private System.Windows.Forms.Label labelSAv5AggressiveMode;

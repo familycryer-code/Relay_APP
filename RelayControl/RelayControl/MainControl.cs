@@ -87,8 +87,8 @@ namespace RelayControl
                     this.ucRelayProgramming1.Customer = this.customer;
 #endif
 
-                    if (this.dNPDigitalGridData != null)
-                        this.dNPDigitalGridData.Customer = this.customer;
+                    if (this.dNPDIGITALGRIDData != null)
+                        this.dNPDIGITALGRIDData.Customer = this.customer;
 
                     if (this.customer == Customers.ConEdison)
                         this.makeConEdisonGUI();
@@ -167,7 +167,7 @@ namespace RelayControl
                             this.dNPMemphisData.Dispose();
                         }
 
-                        if ((this.customer == Customers.DigitalGridDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DigitalGrid || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         {
                             setDNPTabPoints();
                         }
@@ -212,13 +212,13 @@ namespace RelayControl
 
         private void setDNPTabPoints()
         {
-            this.dNPDigitalGridData = new ucDNPDigitalGridData(this.customer);
-            this.tabPageDNPData.Controls.Add(this.dNPDigitalGridData);
-            this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
-            this.dNPDigitalGridData.Location = new Point(0, 0);
-            this.dNPDigitalGridData.Send += standardizedSendData;
-            this.dNPDigitalGridData.PointChanged += DNPDigitalGridData_PointChanged;
-            this.dNPDigitalGridData.Show();
+            this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
+            this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
+            this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
+            this.dNPDIGITALGRIDData.Location = new Point(0, 0);
+            this.dNPDIGITALGRIDData.Send += standardizedSendData;
+            this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
+            this.dNPDIGITALGRIDData.Show();
         }
 
         private bool gEEnableChangeBlocked = false;
@@ -492,7 +492,7 @@ namespace RelayControl
                 this.downloadEventFromRelayToolStripMenuItem.Visible = false;
                 this.clearEventsToolStripMenuItem.Visible = false;
                 this.saveEventsToolStripMenuItem.Visible = false;
-                this.Text = "Digital Grid Inc. - Relay Control Seattle Test Program" + revisionDate;// 2011-10-28";
+                this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + revisionDate;// 2011-10-28";
                 this.toolStripStatusLabelMain.Text = "";
                 this.searchForRelay = false;
 #elif DEBUG
@@ -510,12 +510,12 @@ namespace RelayControl
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
 #if !DG288_TESTFIXTURE_GUI
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionName + " Debug";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionName + " Debug";
 #elif DG288_TESTFIXTURE_GUI
-                this.Text = "Digital Grid Inc. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionName;
+                this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionName;
 #endif
                 this.ArcFaultEnabled = true;
-                this.Customer = Customers.DigitalGrid;
+                this.Customer = Customers.DIGITALGRID;
 
 #elif WATERBUG
                 this.noMonitoringVersion = false;
@@ -535,7 +535,7 @@ namespace RelayControl
                 this.toolStripMenuItemAction.Visible = false;
                 this.sToolStripMenuItem.Visible = false;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
-                this.Text = "Digital Grid Inc. - Waterbury Testing Software " + revisionDate;// 2011-05-16";
+                this.Text = "DIGITALGRID, INC. - Waterbury Testing Software " + revisionDate;// 2011-05-16";
 
                 this.listBoxA1SensorSelect.SelectedItem = "DGI Temperature";
                 this.listBoxA2SensorSelect.SelectedItem = "DGI Temperature";
@@ -567,7 +567,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "Digital Grid Inc. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version;// 2013-07-25"; 
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -584,7 +584,7 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = true;
                 this.TransmitterEnabled = true;
 #elif DNP
-                this.Customer = Customers.DigitalGridDNP;
+                this.Customer = Customers.DIGITALGRIDDNP;
                 this.DNPEnabled = true;
 #if ATLANTA || ONCOR
                 if (tabControlMain.TabPages.Contains(tabPageTransmitter))
@@ -901,16 +901,16 @@ namespace RelayControl
 
         }
         private ucMemphisDNPData dNPMemphisData;
-        private ucDNPDigitalGridData dNPDigitalGridData;
+        private ucDNPDIGITALGRIDData dNPDIGITALGRIDData;
 
         private void makeMemphisGUI()
         {
             this.Customer = Customers.Memphis;
 
-            if (this.tabPageDNPData.Controls.Contains(this.dNPDigitalGridData))
+            if (this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
             {
-                this.tabPageDNPData.Controls.Remove(this.dNPDigitalGridData);
-                this.dNPDigitalGridData.Dispose();
+                this.tabPageDNPData.Controls.Remove(this.dNPDIGITALGRIDData);
+                this.dNPDIGITALGRIDData.Dispose();
             }
             if (!this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
             {
@@ -2318,8 +2318,8 @@ namespace RelayControl
         {
             if (this.dNPMemphisData != null)
                 this.dNPMemphisData.SetAll(bytePacket, p);
-            if (this.dNPDigitalGridData != null)
-                this.dNPDigitalGridData.SetAll(bytePacket, p);
+            if (this.dNPDIGITALGRIDData != null)
+                this.dNPDIGITALGRIDData.SetAll(bytePacket, p);
         }
 
         //Also for THD Values
@@ -3229,7 +3229,7 @@ namespace RelayControl
                 if (tempI == 0 || tempI == 0xFFFF)
                 {
                     tempI = 0;
-                    this.messageHandler("Bad Serial Number", "Please Contact DigitalGrid");
+                    this.messageHandler("Bad Serial Number", "Please Contact DIGITALGRID, INC.");
                 }
                 this.ucTransmitter1.SerialNumber = tempI;
                 this.ucRelayProgramming1.SerialNumber = (UInt32)tempI;
@@ -4380,8 +4380,8 @@ namespace RelayControl
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
-                if (this.dNPDigitalGridData != null)
-                    this.dNPDigitalGridData.RelayMasterRevision = (UInt32)masterRevision;
+                if (this.dNPDIGITALGRIDData != null)
+                    this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
 
                 receivedMasterRevision = revision;
 
@@ -4419,7 +4419,7 @@ namespace RelayControl
                             }
                             else
                             {
-                                this.Customer = Customers.DigitalGridDNP;
+                                this.Customer = Customers.DIGITALGRIDDNP;
                             }
                             if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
                                 this.makeMemphisGUI();
@@ -4428,7 +4428,7 @@ namespace RelayControl
                 }
 
                 if (this.Customer == Customers.None)
-                    this.Customer = Customers.DigitalGrid;
+                    this.Customer = Customers.DIGITALGRID;
 
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);

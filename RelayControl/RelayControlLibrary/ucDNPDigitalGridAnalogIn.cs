@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
-    public partial class ucDNPDigitalGridAnalogIn : ucDNPPointSuperClass
+    public partial class ucDNPDIGITALGRIDAnalogIn : ucDNPPointSuperClass
     {
-        public ucDNPDigitalGridAnalogIn()
+        public ucDNPDIGITALGRIDAnalogIn()
         {
             InitializeComponent();
         }

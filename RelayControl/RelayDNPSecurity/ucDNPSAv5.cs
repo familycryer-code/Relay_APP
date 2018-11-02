@@ -204,7 +204,7 @@ namespace RelayDNPSecurity
             {
                 case 0:
                 default:
-                    exceptionMessage = "Invalid Error Number.  Please Contact Digital Grid with this Number: " + bytePacket[1].ToString();
+                    exceptionMessage = "Invalid Error Number.  Please Contact DIGITALGRID, INC. with this Number: " + bytePacket[1].ToString();
                     break;
                 case 1:
                     exceptionMessage = _TooManyUsers;

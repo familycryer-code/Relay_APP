@@ -1,6 +1,6 @@
 ﻿namespace RelayControlLibrary
 {
-    partial class ucDNPDigitalGridAnalogOut
+    partial class ucDNPDIGITALGRIDAnalogOut
     {
         /// <summary> 
         /// Required designer variable.

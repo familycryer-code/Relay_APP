@@ -28,7 +28,7 @@ namespace RelayDNPSecurity
         }
 
         private static int _maxOSNameLength = 70; // Make sure this matches relay
-        private static string _OSDefaultName = "DigitalGrid Inc, DNP Relay Serial Number: ";
+        private static string _OSDefaultName = "DIGITALGRID, INC. DNP Relay Serial Number: ";
 
         private static int _packetLength = 98;
 

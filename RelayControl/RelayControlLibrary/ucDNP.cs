@@ -144,7 +144,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
 
-                foreach (Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
+                foreach (Control c in this.groupBoxDIGITALGRIDDNPDeadBand.Controls)
                 {
                     bool failed = false;
                     ucDNPDeadBand uDDB = new ucDNPDeadBand();
@@ -644,7 +644,7 @@ namespace RelayControlLibrary
                     ucDNPDeadBand uDDB = new ucDNPDeadBand();
                     uint index = 30;
 
-                    foreach (Control C in this.groupBoxDigitalGridDNPDeadBand.Controls)
+                    foreach (Control C in this.groupBoxDIGITALGRIDDNPDeadBand.Controls)
                     {
                         bool failed = false;
 
@@ -681,7 +681,7 @@ namespace RelayControlLibrary
 
         private void restoreDefaultsDeadBandVariables()
         {
-            foreach (Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
+            foreach (Control c in this.groupBoxDIGITALGRIDDNPDeadBand.Controls)
             {
                 bool failed = false;
                 ucDNPDeadBand uDDB = new ucDNPDeadBand();
@@ -715,10 +715,10 @@ namespace RelayControlLibrary
 
             if (this.Customer == Customers.NonConEd || !this.customerChanged)
                 return;
-            if ((this.Customer != Customers.DigitalGridDNP && this.Customer != Customers.DNPwithPLC && this.Customer != Customers.Atlanta && this.Customer != Customers.Oncor) || this.deadBandVariables.Count == 0)
+            if ((this.Customer != Customers.DIGITALGRIDDNP && this.Customer != Customers.DNPwithPLC && this.Customer != Customers.Atlanta && this.Customer != Customers.Oncor) || this.deadBandVariables.Count == 0)
             {
                 this.deadBandVariables.Clear();
-                this.groupBoxDigitalGridDNPDeadBand.Controls.Clear();
+                this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Clear();
 
                 this.groupBoxMemphisDeadBand.Visible = false;
 
@@ -779,8 +779,8 @@ namespace RelayControlLibrary
                 location.Y = this.groupBoxDNPSettings.Location.Y;
                 location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
 
-                this.groupBoxDigitalGridDNPDeadBand.Location = location;
-                this.groupBoxDigitalGridDNPDeadBand.Height = 0;
+                this.groupBoxDIGITALGRIDDNPDeadBand.Location = location;
+                this.groupBoxDIGITALGRIDDNPDeadBand.Height = 0;
 
                 location = new Point(2, 15);//Now make location the starting spot of the first control
 
@@ -788,7 +788,7 @@ namespace RelayControlLibrary
                 {
                     workingDDB = new ucDNPDeadBand(dBD);
                     workingDDB.Location = location;
-                    this.groupBoxDigitalGridDNPDeadBand.Controls.Add(workingDDB);
+                    this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(workingDDB);
 
                     if (this.deadBandVariables.IndexOf(dBD) >= (this.deadBandVariables.Count / 2) - 1 && location.X == 2) //the 2 is for the first column so we only do this once.
                     {
@@ -803,10 +803,10 @@ namespace RelayControlLibrary
                 if (workingDDB != null)
                     location = new Point(location.X, location.Y - workingDDB.Height);
 
-                this.groupBoxDigitalGridDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
-                this.groupBoxDigitalGridDNPDeadBand.Show();
+                this.groupBoxDIGITALGRIDDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
+                this.groupBoxDIGITALGRIDDNPDeadBand.Show();
 
-                this.buttonSendDeadBand.Location = new Point(this.groupBoxDigitalGridDNPDeadBand.Location.X, this.groupBoxDigitalGridDNPDeadBand.Location.Y + this.groupBoxDigitalGridDNPDeadBand.Height + 5);
+                this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
             }
             this.buttonDefaults.Text = "Restore Defaults";
         }
@@ -816,8 +816,8 @@ namespace RelayControlLibrary
             this.numericUpDownMemphisStage.Visible = true;
             this.labelMemphisStage.Visible = true;
 
-            this.groupBoxMemphisDeadBand.Location = this.groupBoxDigitalGridDNPDeadBand.Location;
-            this.groupBoxDigitalGridDNPDeadBand.Hide();
+            this.groupBoxMemphisDeadBand.Location = this.groupBoxDIGITALGRIDDNPDeadBand.Location;
+            this.groupBoxDIGITALGRIDDNPDeadBand.Hide();
             this.groupBoxMemphisDeadBand.Show();
 
             this.buttonSendDeadBand.Visible = false;
@@ -955,7 +955,7 @@ namespace RelayControlLibrary
 
             ucDNPDeadBand uDDB = new ucDNPDeadBand();
 
-            foreach (Control c in this.groupBoxDigitalGridDNPDeadBand.Controls)
+            foreach (Control c in this.groupBoxDIGITALGRIDDNPDeadBand.Controls)
             {
                 try
                 {
@@ -1027,7 +1027,7 @@ namespace RelayControlLibrary
 
                 if (DNPSS.deadBandControlSaveddecimal.Count != 0)
                 {
-                    foreach (Control c in groupBoxDigitalGridDNPDeadBand.Controls)
+                    foreach (Control c in groupBoxDIGITALGRIDDNPDeadBand.Controls)
                     {
                         try
                         {
