@@ -358,7 +358,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownMaxEvents.Location = new System.Drawing.Point(144, 229);
             this.numericUpDownMaxEvents.Maximum = new decimal(new int[] {
-            20,
+            125,
             0,
             0,
             0});
@@ -1290,7 +1290,7 @@ namespace RelayControlLibrary
             this.groupBoxDIGITALGRIDDNPDeadBand.TabStop = false;
             this.groupBoxDIGITALGRIDDNPDeadBand.Text = "DNP Dead Band (DB) Variables";
             // 
-            // buttonSendDigitalGridDeadBand
+            // buttonSendDIGITALGRIDDeadBand
             // 
             this.buttonSendDIGITALGRIDDeadBand.Location = new System.Drawing.Point(448, 553);
             this.buttonSendDIGITALGRIDDeadBand.Name = "buttonSendDIGITALGRIDDeadBand";
