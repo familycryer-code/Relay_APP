@@ -148,8 +148,10 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("SEC G - EDD Trip");
                 this.binaryInputs.Add("SEC H - Oil Level");
                 this.binaryInputs.Add("Q Bit");
+                this.binaryInputs.Add("DNP 277 In");
+                this.binaryInputs.Add("DNP 277 Out");
 
-                pointsToAdd = 37;
+                pointsToAdd = (uint)binaryInputs.Count;
             }
             else
             {
@@ -220,17 +222,20 @@ namespace RelayControlLibrary
             {
                 this.binaryOutputs.Add("Digital Out 1");
                 this.binaryOutputs.Add("Digital Out 2");
+                this.binaryOutputs.Add("Block And Trip Relay");
+                this.binaryOutputs.Add("SafeService Enable");
             }
             else
             {
                 this.binaryOutputs.Add("Safe Service Enable");
                 this.binaryOutputs.Add("Command Lockout");
+                this.binaryOutputs.Add("DNP277V In");
+                this.binaryOutputs.Add("DNP277V Out");
             }
-            this.binaryOutputs.Add("Block And Trip Relay");
-            this.binaryOutputs.Add("SafeService Enable");
 
             uint i = 0;
 
+            pointsToAdd = (uint)binaryOutputs.Count;
             foreach (string s in this.binaryOutputs)
             {
                 ucDNPMemphisBinary workingBox = new ucDNPMemphisBinary();
