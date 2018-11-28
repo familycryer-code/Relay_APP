@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2018-11-05";
+        private const string revisionDate = "2018-11-28";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -429,6 +429,7 @@ namespace RelayControl
                 this.groupBoxPhasingAndType.Visible = false;
                 this.checkBox277Protector.Visible = false;
                 this.checkBox277Protector.Checked = false;
+                this.checkBox277DNPOutputs.Visible = false;
                 this.groupBoxLRLockoutMain.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.groupBoxRelayStatus.Visible = false;
@@ -500,7 +501,7 @@ namespace RelayControl
                 {
                     this.setCustomersRevisionName();
                 }
-                    
+
 
                 this.noMonitoringVersion = false;
                 this.buttonForceI.Visible = true;
@@ -705,7 +706,8 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.domainUpDownRelayType, "Changes Relay Algorithm");
             this.toolTip.SetToolTip(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
             this.toolTip.SetToolTip(this.textBoxSaveStateName, "Enter name to save current settings to file");
-            this.toolTip.SetToolTip(this.checkBox277Protector, "Scales values on PQ Monitoring tab to 277V protector - is not saved in relay");
+            this.toolTip.SetToolTip(this.checkBox277Protector, "Scales values on PQ Mon tab to 277V protector - now saved in relay, applies to DNP input values");
+            this.toolTip.SetToolTip(this.checkBox277DNPOutputs, "Configures DNP outputs to scale to 277V");
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
             this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
@@ -3477,8 +3479,8 @@ namespace RelayControl
                     this.ucTransmitter1.DNPEnabled = false;
                     sendProperDNPValue = true;
                 }
-                
-                this.ucRelayProgramming1.DNPRelay = false;  
+
+                this.ucRelayProgramming1.DNPRelay = false;
                 this.removeDNPTabs();
             }
 #endif
@@ -4178,8 +4180,9 @@ namespace RelayControl
             }
             try
             {
-                //ABC or ACB
-                temp = bytePacket[80];
+                // ABC or ACB
+                // The bottom three bits of the packet
+                temp = 0x07 & bytePacket[80];
                 if (this.customer != Customers.ConEdison)
                 {
                     this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
@@ -4212,6 +4215,29 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Phase Issue", ex);
             }
+
+            try
+            {
+                // Check the 277V bit
+                checkBox277Protector.Checked = (0x08 & bytePacket[80]) == 0x08 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                this.badDataDetected = true;
+                this.messageHandler("Trouble setting 277V Bit", ex);
+            }
+
+            try
+            {
+                // Check the 277V Output bit
+                checkBox277DNPOutputs.Checked = (0x10 & bytePacket[80]) == 0x10 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                this.badDataDetected = true;
+                this.messageHandler("Trouble setting 277V Output Bit", ex);
+            }
+
             try
             {
                 //Power or Sequence
@@ -5266,6 +5292,27 @@ namespace RelayControl
                 {
                     this.messageHandler("No Phasing Selected", new Exception("Please Select Phasing"));
                     return;
+                }
+
+                try
+                {
+                    // if the bit is enabled, then set the 4th bit
+                    if (checkBox277Protector.Checked)
+                        packet[2] |= 0x08;
+                }
+                catch (Exception ex)
+                {
+                    messageHandler("Problem Setting 277 V bit", ex);
+                }
+
+                try
+                {
+                    if (checkBox277DNPOutputs.Checked)
+                        packet[2] |= 0x10;
+                }
+                catch (Exception ex)
+                {
+                    messageHandler("Problem setting 277 V Outputs bit", ex);
                 }
 
                 packet[3] = 0x0D;
@@ -6974,7 +7021,8 @@ namespace RelayControl
             sS.CTRatio = this.CTRatio;
             sS.Phasing = this.domainUpDownPhasings.SelectedIndex;
             sS.RelayType = this.domainUpDownRelayType.SelectedIndex;
-
+            sS.V277Protector = checkBox277Protector.Checked;
+            sS.V277Outputs = checkBox277DNPOutputs.Checked;
         }
 
         private void comboBoxSavedStates_SelectedIndexChanged(object sender, EventArgs e)
@@ -7031,6 +7079,8 @@ namespace RelayControl
 
             this.domainUpDownPhasings.SelectedIndex = sS.Phasing;
             this.domainUpDownRelayType.SelectedIndex = sS.RelayType;
+            checkBox277Protector.Checked = sS.V277Protector;
+            checkBox277DNPOutputs.Checked = sS.V277Outputs;
         }
 
         private bool sendAll = false;
@@ -8892,6 +8942,11 @@ namespace RelayControl
         [OptionalField]
         public DNPSaveStateV4 DNPSettings = new DNPSaveStateV4();
 #endif
+        [OptionalField]
+        public bool V277Protector;
+
+        [OptionalField]
+        public bool V277Outputs;
 
         public SavedSettingV4(SerializationInfo info, StreamingContext ctxt)
         {
@@ -8924,6 +8979,25 @@ namespace RelayControl
                 this.CTRatio = (UInt16)info.GetValue("CTRatio", typeof(UInt16));
                 this.RelayType = (int)info.GetValue("Relay Type", typeof(int));
                 this.Phasing = (int)info.GetValue("Phasing", typeof(int));
+                try
+                {
+                    V277Protector = (bool)info.GetValue("V277Protector", typeof(bool));
+                }
+                catch
+                {
+
+                    V277Protector = false;
+                }
+
+                try
+                {
+                    V277Outputs = (bool)info.GetValue("V277Outputs", typeof(bool));
+                }
+                catch
+                {
+
+                    V277Protector = false;
+                }
             }
             catch (Exception ex)
             {
@@ -8946,6 +9020,8 @@ namespace RelayControl
                 info.AddValue("Relay Type", this.RelayType);
                 info.AddValue("Phasing", this.Phasing);
                 info.AddValue("Safe Service Settings", this.SafeServiceSettings);
+                info.AddValue("V277Protector", V277Protector);
+                info.AddValue("V277Outputs", V277Outputs);
             }
             catch (Exception ex)
             {

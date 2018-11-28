@@ -167,6 +167,7 @@ namespace RelayControl
             this.domainUpDownRelayType = new System.Windows.Forms.DomainUpDown();
             this.buttonTypePhasingRestoreDefaults = new System.Windows.Forms.Button();
             this.buttonRelayType = new System.Windows.Forms.Button();
+            this.checkBox277Protector = new System.Windows.Forms.CheckBox();
             this.groupBoxNetworkCTRatio = new System.Windows.Forms.GroupBox();
             this.labelOver5 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -209,7 +210,6 @@ namespace RelayControl
             this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
             this.buttonSaveSetting = new System.Windows.Forms.Button();
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
-            this.checkBox277Protector = new System.Windows.Forms.CheckBox();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
             this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
@@ -233,6 +233,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -1398,7 +1399,6 @@ namespace RelayControl
             this.tabPageControl.Controls.Add(this.groupBoxRelayFlags);
             this.tabPageControl.Controls.Add(this.ucSafeService1);
             this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
-            this.tabPageControl.Controls.Add(this.checkBox277Protector);
             this.tabPageControl.Controls.Add(this.ucTripMode2);
             this.tabPageControl.Controls.Add(this.ucCloseMode1);
             this.tabPageControl.Controls.Add(this.ucPumpMode1);
@@ -1660,6 +1660,7 @@ namespace RelayControl
             // 
             // groupBoxPhasingAndType
             // 
+            this.groupBoxPhasingAndType.Controls.Add(this.checkBox277DNPOutputs);
             this.groupBoxPhasingAndType.Controls.Add(this.labelConEdPowerRelay);
             this.groupBoxPhasingAndType.Controls.Add(this.label20);
             this.groupBoxPhasingAndType.Controls.Add(this.labelProtectorType);
@@ -1668,9 +1669,10 @@ namespace RelayControl
             this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownRelayType);
             this.groupBoxPhasingAndType.Controls.Add(this.buttonTypePhasingRestoreDefaults);
             this.groupBoxPhasingAndType.Controls.Add(this.buttonRelayType);
+            this.groupBoxPhasingAndType.Controls.Add(this.checkBox277Protector);
             this.groupBoxPhasingAndType.Location = new System.Drawing.Point(11, 338);
             this.groupBoxPhasingAndType.Name = "groupBoxPhasingAndType";
-            this.groupBoxPhasingAndType.Size = new System.Drawing.Size(173, 121);
+            this.groupBoxPhasingAndType.Size = new System.Drawing.Size(173, 159);
             this.groupBoxPhasingAndType.TabIndex = 111;
             this.groupBoxPhasingAndType.TabStop = false;
             this.groupBoxPhasingAndType.Text = "Relay Phasing and Type:";
@@ -1696,7 +1698,7 @@ namespace RelayControl
             // labelProtectorType
             // 
             this.labelProtectorType.AutoSize = true;
-            this.labelProtectorType.Location = new System.Drawing.Point(12, 72);
+            this.labelProtectorType.Location = new System.Drawing.Point(11, 108);
             this.labelProtectorType.Name = "labelProtectorType";
             this.labelProtectorType.Size = new System.Drawing.Size(80, 13);
             this.labelProtectorType.TabIndex = 50;
@@ -1716,7 +1718,7 @@ namespace RelayControl
             // 
             this.labelGEWH.AutoSize = true;
             this.labelGEWH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelGEWH.Location = new System.Drawing.Point(98, 72);
+            this.labelGEWH.Location = new System.Drawing.Point(97, 108);
             this.labelGEWH.Name = "labelGEWH";
             this.labelGEWH.Size = new System.Drawing.Size(28, 15);
             this.labelGEWH.TabIndex = 49;
@@ -1734,7 +1736,7 @@ namespace RelayControl
             // 
             // buttonTypePhasingRestoreDefaults
             // 
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(8, 97);
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(7, 133);
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
             this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(96, 23);
             this.buttonTypePhasingRestoreDefaults.TabIndex = 48;
@@ -1744,13 +1746,24 @@ namespace RelayControl
             // 
             // buttonRelayType
             // 
-            this.buttonRelayType.Location = new System.Drawing.Point(119, 97);
+            this.buttonRelayType.Location = new System.Drawing.Point(118, 133);
             this.buttonRelayType.Name = "buttonRelayType";
             this.buttonRelayType.Size = new System.Drawing.Size(45, 23);
             this.buttonRelayType.TabIndex = 41;
             this.buttonRelayType.Text = "Send";
             this.buttonRelayType.UseVisualStyleBackColor = true;
             this.buttonRelayType.Click += new System.EventHandler(this.buttonRelayType_Click);
+            // 
+            // checkBox277Protector
+            // 
+            this.checkBox277Protector.AutoSize = true;
+            this.checkBox277Protector.Location = new System.Drawing.Point(14, 66);
+            this.checkBox277Protector.Name = "checkBox277Protector";
+            this.checkBox277Protector.Size = new System.Drawing.Size(100, 17);
+            this.checkBox277Protector.TabIndex = 75;
+            this.checkBox277Protector.Text = "277 V Protector";
+            this.checkBox277Protector.UseVisualStyleBackColor = true;
+            this.checkBox277Protector.CheckedChanged += new System.EventHandler(this.checkBox277Protector_CheckedChanged);
             // 
             // groupBoxNetworkCTRatio
             // 
@@ -2245,17 +2258,6 @@ namespace RelayControl
             this.buttonDeleteSetting.UseVisualStyleBackColor = true;
             this.buttonDeleteSetting.Click += new System.EventHandler(this.buttonDeleteSetting_Click);
             // 
-            // checkBox277Protector
-            // 
-            this.checkBox277Protector.AutoSize = true;
-            this.checkBox277Protector.Location = new System.Drawing.Point(12, 480);
-            this.checkBox277Protector.Name = "checkBox277Protector";
-            this.checkBox277Protector.Size = new System.Drawing.Size(100, 17);
-            this.checkBox277Protector.TabIndex = 75;
-            this.checkBox277Protector.Text = "277 V Protector";
-            this.checkBox277Protector.UseVisualStyleBackColor = true;
-            this.checkBox277Protector.CheckedChanged += new System.EventHandler(this.checkBox277Protector_CheckedChanged);
-            // 
             // ucTripMode2
             // 
             this.ucTripMode2.AutoSize = true;
@@ -2475,6 +2477,16 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+            // 
+            // checkBox277DNPOutputs
+            // 
+            this.checkBox277DNPOutputs.AutoSize = true;
+            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(14, 86);
+            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
+            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(145, 17);
+            this.checkBox277DNPOutputs.TabIndex = 76;
+            this.checkBox277DNPOutputs.Text = "277 DNP Output Convert";
+            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
             // 
             // MainControl
             // 
@@ -2746,6 +2758,7 @@ namespace RelayControl
         private RelayControlLibrary.ucRemoteCommandBlock ucRemoteCommandBlock1;
         private System.Windows.Forms.TabPage tabPageEngineering2;
         private RelayControlLibrary.ucPhasorRequest ucPhasorRequest1;
+        private System.Windows.Forms.CheckBox checkBox277DNPOutputs;
     }
 }
 
