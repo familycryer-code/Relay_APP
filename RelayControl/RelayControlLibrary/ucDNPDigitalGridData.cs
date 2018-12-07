@@ -141,11 +141,19 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Pump Never Relcose");
                 this.binaryInputs.Add("Safe Service Enabled");
                 this.binaryInputs.Add("PLC Lockout");
+#if PSEG
+                this.binaryInputs.Add("SEC C");
+                this.binaryInputs.Add("SEC D");
+                this.binaryInputs.Add("SEC E");
+                this.binaryInputs.Add("SEC F");
+                this.binaryInputs.Add("SEC G");
+#else
                 this.binaryInputs.Add("SEC C - Cautions");
                 this.binaryInputs.Add("SEC D - SF6 Pressure");
                 this.binaryInputs.Add("SEC E - Environmental");
                 this.binaryInputs.Add("SEC F - Spare");
                 this.binaryInputs.Add("SEC G - EDD Trip");
+#endif 
                 this.binaryInputs.Add("SEC H - Oil Level");
                 this.binaryInputs.Add("Q Bit");
                 this.binaryInputs.Add("DNP 277 In");
@@ -338,6 +346,15 @@ namespace RelayControlLibrary
 
             if (this.customer == Customers.DNPwithPLC)
             {
+#if PSEG
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - C", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - D", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - E", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - F", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - G", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - H - Oil Level", true));
+                this.analogInputs.Add(new AnalogPointDefinition("SEC - A1", true));
+#else
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - C - Cautions", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - D - SF6 pressure", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - E - Environmental", true));
@@ -345,6 +362,7 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - G - EDD", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - H - Oil Level", true));
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - A1 - Oil Temperature", true));
+#endif
                 this.analogInputs.Add(new AnalogPointDefinition("SEC - A2 - Ambient Temperature", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage A", true));
                 this.analogInputs.Add(new AnalogPointDefinition("Load Percentage B", true));

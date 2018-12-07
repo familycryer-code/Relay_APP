@@ -45,8 +45,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 999999;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 181128;
-        private static UInt32 _masterDNPRevisionNumber = 181128;
+        private static UInt32 _masterCodeRevisionNumber = 181207;
+        private static UInt32 _masterDNPRevisionNumber = 181207;
         private static UInt32 _relayCodeRevisionNumber = 20181127;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -898,22 +898,6 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-#if PSEG
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
-            this.textBoxMasterFileName.Text = "Master Relay From Resource";
-
-            if (this.GEEnabled)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
-
 #if (DOMINION || DEBUG || NU || Boston || SEATTLE || BASICRELEASE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
@@ -930,7 +914,7 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if Enmax && DNP
+#if (Enmax || PSEG) && DNP
 
 
             if (this.GEEnabled)

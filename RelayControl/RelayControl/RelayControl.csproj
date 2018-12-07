@@ -303,8 +303,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePSEG|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\ReleasePSEG\</OutputPath>
-    <DefineConstants>BASICRELEASE, PSEG</DefineConstants>
     <Optimize>true</Optimize>
+    <DefineConstants>PSEG, DNP, DIGITALGRID, PLC</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

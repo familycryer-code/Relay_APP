@@ -114,7 +114,7 @@ namespace SineDisplayGraph
             this.label49 = new System.Windows.Forms.Label();
             this.label50 = new System.Windows.Forms.Label();
             this.label51 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
+            this.labelValue3 = new System.Windows.Forms.Label();
             this.labelVnN = new System.Windows.Forms.Label();
             this.labelVnP = new System.Windows.Forms.Label();
             this.label53 = new System.Windows.Forms.Label();
@@ -251,6 +251,7 @@ namespace SineDisplayGraph
             this.checkBoxGERelay = new System.Windows.Forms.CheckBox();
             this.checkBoxABC = new System.Windows.Forms.CheckBox();
             this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
+            this.labelAngle3 = new System.Windows.Forms.Label();
             this.panelTripped.SuspendLayout();
             this.panelClosed.SuspendLayout();
             this.panelPower.SuspendLayout();
@@ -1042,14 +1043,14 @@ namespace SineDisplayGraph
             this.label51.TabIndex = 187;
             this.label51.Text = "Angle";
             // 
-            // label52
+            // labelValue3
             // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(436, 302);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(34, 13);
-            this.label52.TabIndex = 186;
-            this.label52.Text = "Value";
+            this.labelValue3.AutoSize = true;
+            this.labelValue3.Location = new System.Drawing.Point(848, 344);
+            this.labelValue3.Name = "labelValue3";
+            this.labelValue3.Size = new System.Drawing.Size(34, 13);
+            this.labelValue3.TabIndex = 186;
+            this.labelValue3.Text = "Value";
             // 
             // labelVnN
             // 
@@ -2303,9 +2304,19 @@ namespace SineDisplayGraph
             this.checkBoxBFlag.UseVisualStyleBackColor = true;
             this.checkBoxBFlag.Visible = false;
             // 
+            // labelAngle3
+            // 
+            this.labelAngle3.AutoSize = true;
+            this.labelAngle3.Location = new System.Drawing.Point(915, 344);
+            this.labelAngle3.Name = "labelAngle3";
+            this.labelAngle3.Size = new System.Drawing.Size(34, 13);
+            this.labelAngle3.TabIndex = 314;
+            this.labelAngle3.Text = "Angle";
+            // 
             // ucPhasorGraph
             // 
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.labelAngle3);
             this.Controls.Add(this.checkBoxBFlag);
             this.Controls.Add(this.checkBoxABC);
             this.Controls.Add(this.checkBoxGERelay);
@@ -2445,7 +2456,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.panelPower);
             this.Controls.Add(this.panelDifferentialVoltage);
             this.Controls.Add(this.label51);
-            this.Controls.Add(this.label52);
+            this.Controls.Add(this.labelValue3);
             this.Controls.Add(this.label49);
             this.Controls.Add(this.label50);
             this.Controls.Add(this.label48);
@@ -2588,7 +2599,7 @@ namespace SineDisplayGraph
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label labelValue3;
         private System.Windows.Forms.Label labelVnN;
         private System.Windows.Forms.Label labelVnP;
         private System.Windows.Forms.Label label53;
@@ -2723,5 +2734,6 @@ namespace SineDisplayGraph
         private System.Windows.Forms.CheckBox checkBoxGERelay;
         private System.Windows.Forms.CheckBox checkBoxABC;
         private System.Windows.Forms.CheckBox checkBoxBFlag;
+        private System.Windows.Forms.Label labelAngle3;
     }
 }

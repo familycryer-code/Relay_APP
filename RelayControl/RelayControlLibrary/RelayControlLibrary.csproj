@@ -272,8 +272,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePSEG|AnyCPU'">
     <OutputPath>bin\ReleasePSEG\</OutputPath>
-    <DefineConstants>TRACE;PSEG</DefineConstants>
-    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;PSEG, DNP, DIGITALGRID, PLC</DefineConstants>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
