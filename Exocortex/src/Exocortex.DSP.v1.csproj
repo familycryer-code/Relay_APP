@@ -103,29 +103,12 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
-    <OutputPath>bin\Test\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
     <OutputPath>bin\WaterbugTester\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SeattleTest|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\SeattleTest\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>doc\Exocortex.DSP.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ConEDRelease|AnyCPU' ">
-    <OutputPath>bin\ConEDRelease\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release ConEd|AnyCPU' ">
+    <OutputPath>bin\Release ConEd\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -150,21 +133,8 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AddOn|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\AddOn\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>doc\Exocortex.DSP.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SafeServiceTest|AnyCPU' ">
-    <OutputPath>bin\SafeServiceTest\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Memphis|AnyCPU' ">
+    <OutputPath>bin\Release Memphis\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -176,8 +146,8 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseMemphis|AnyCPU' ">
-    <OutputPath>bin\ReleaseMemphis\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNP|AnyCPU' ">
+    <OutputPath>bin\Release DIGITALGRIDDNP\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -189,34 +159,8 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseGE|AnyCPU' ">
-    <OutputPath>bin\ReleaseGE\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>doc\Exocortex.DSP.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>
-    </DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseDigitalGridDNP|AnyCPU' ">
-    <OutputPath>bin\ReleaseDigitalGridDNP\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>doc\Exocortex.DSP.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>
-    </DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAtlanta|AnyCPU'">
-    <OutputPath>bin\ReleaseAtlanta\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Atlanta|AnyCPU'">
+    <OutputPath>bin\Release Atlanta\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -227,11 +171,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DNP_Release|AnyCPU'">
-    <OutputPath>bin\DNP_Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSMUD|AnyCPU'">
-    <OutputPath>bin\ReleaseSMUD\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SMUD|AnyCPU'">
+    <OutputPath>bin\Release SMUD\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -242,12 +183,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG_SMUD|AnyCPU'">
-    <OutputPath>bin\DEBUG_SMUD\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugSMUD|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug SMUD|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\DebugSMUD\</OutputPath>
+    <OutputPath>bin\Debug SMUD\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -259,8 +197,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SEATTLE|AnyCPU'">
-    <OutputPath>bin\SEATTLE\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Seattle|AnyCPU'">
+    <OutputPath>bin\Release Seattle\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -271,20 +209,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSeattle|AnyCPU'">
-    <OutputPath>bin\ReleaseSeattle\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>doc\Exocortex.DSP.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseNUEngineering|AnyCPU'">
-    <OutputPath>bin\ReleaseNUEngineering\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release NUEngineering|AnyCPU'">
+    <OutputPath>bin\Release NUEngineering\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -292,8 +218,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseNUCrew|AnyCPU'">
-    <OutputPath>bin\ReleaseNUCrew\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release NUCrew|AnyCPU'">
+    <OutputPath>bin\Release NUCrew\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -301,8 +227,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDominion|AnyCPU'">
-    <OutputPath>bin\ReleaseDominion\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Dominion|AnyCPU'">
+    <OutputPath>bin\Release Dominion\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -316,20 +242,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Chicago|AnyCPU'">
     <OutputPath>bin\Release Chicago\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDigitalGridPLCwDNP|AnyCPU'">
-    <OutputPath>bin\ReleaseDigitalGridPLCwDNP\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>doc\Exocortex.DSP.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType />
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Enmax|AnyCPU'">
-    <OutputPath>bin\Enmax\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNPwPLC|AnyCPU'">
+    <OutputPath>bin\Release DIGITALGRIDDNPwPLC\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -364,9 +278,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
     <OutputPath>bin\Release Madison\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Seattle Transmitter|AnyCPU'">
-    <OutputPath>bin\DG-288 TestFixture\</OutputPath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
     <OutputPath>bin\Debug Madison\</OutputPath>
   </PropertyGroup>
@@ -376,11 +287,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Degbug Oncor|AnyCPU'">
-    <OutputPath>bin\Degbug Oncor\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Oncor|AnyCPU'">
+    <OutputPath>bin\Debug Oncor\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePSEG|AnyCPU'">
-    <OutputPath>bin\ReleasePSEG\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG|AnyCPU'">
+    <OutputPath>bin\Release PSEG\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -391,8 +302,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG PSEG|AnyCPU'">
-    <OutputPath>bin\DEBUG PSEG\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG|AnyCPU'">
+    <OutputPath>bin\Debug PSEG\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>

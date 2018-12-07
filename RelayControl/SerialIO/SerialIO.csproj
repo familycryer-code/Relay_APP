@@ -27,9 +27,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NoSend|AnyCPU' ">
-    <OutputPath>bin\NoSend\</OutputPath>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTest|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\WaterbugTest\</OutputPath>
@@ -37,9 +34,6 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
-    <OutputPath>bin\Test\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
     <OutputPath>bin\WaterbugTester\</OutputPath>
