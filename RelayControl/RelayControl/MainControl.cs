@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2018-12-07";
+        private const string revisionDate = "2019-01-29";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -511,7 +511,8 @@ namespace RelayControl
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
 #if !DG288_TESTFIXTURE_GUI
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring Engineering " + revisionDate + " - " + customerRevisionName + " Debug";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
+
 #elif DG288_TESTFIXTURE_GUI
                 this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionName;
 #endif

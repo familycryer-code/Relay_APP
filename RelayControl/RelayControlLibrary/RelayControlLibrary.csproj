@@ -148,7 +148,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNPwPLC|AnyCPU'">
     <OutputPath>bin\Release DIGITALGRIDDNPwPLC\</OutputPath>
-    <DefineConstants>TRACE;DNP, DIGITALGRID</DefineConstants>
+    <DefineConstants>TRACE;DNP, DIGITALGRID, PSEG</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -215,7 +215,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG|AnyCPU'">
     <OutputPath>bin\Debug PSEG\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;PSEG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PSEG, DNP</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
