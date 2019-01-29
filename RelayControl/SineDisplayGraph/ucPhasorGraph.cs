@@ -1830,25 +1830,26 @@ namespace SineDisplayGraph
 
         public float[] selectReferenceWave(CompleteCycleEventArgs sEA)
         {
+            const float _cutOff = 20.0f;
             VnA.CalculatePhasorFromWaves(sEA.VnA, sEA.VnA);
-            if (VnA.RMS > 10.0f)
+            if (VnA.RMS > _cutOff)
                 return sEA.VnA;
             VnB.CalculatePhasorFromWaves(sEA.VnB, sEA.VnB);
-            if (VnB.RMS > 10.0f)
+            if (VnB.RMS > _cutOff)
                 return sEA.VnB;
             VnC.CalculatePhasorFromWaves(sEA.VnC, sEA.VnC);
-            if (VnC.RMS > 10.0f)
+            if (VnC.RMS > _cutOff)
                 return sEA.VnC;
             if (!this.gEEnabled)
             {
                 VtA.CalculatePhasorFromWaves(sEA.VtA, sEA.VtA);
-                if (VtA.RMS > 10.0f)
+                if (VtA.RMS > _cutOff)
                     return sEA.VtA;
                 VtB.CalculatePhasorFromWaves(sEA.VtB, sEA.VtB);
-                if (VtB.RMS > 10.0f)
+                if (VtB.RMS > _cutOff)
                     return sEA.VtB;
                 VtC.CalculatePhasorFromWaves(sEA.VtC, sEA.VtC);
-                if (VtC.RMS > 10.0f)
+                if (VtC.RMS > _cutOff)
                     return sEA.VtC;
             }
             IA.CalculatePhasorFromWaves(sEA.IA, sEA.IA);
@@ -1890,9 +1891,9 @@ namespace SineDisplayGraph
             IC.CalculatePhasorFromWaves(referenceWave, sEA.IC);
 
             if (referenceWave == sEA.VnB || referenceWave == sEA.VtB || referenceWave == sEA.IB)
-                this.rotatePhasors(-120);
+                this.rotatePhasors(checkBoxABC.Checked ? -120 : 120);
             else if (referenceWave == sEA.VnC || referenceWave == sEA.VtC || referenceWave == sEA.IC)
-                this.rotatePhasors(120);
+                this.rotatePhasors(checkBoxABC.Checked ? 120 : -120);
 
             this.scaleMeasuredVoltages();
             this.scaleCurrents();
@@ -2117,7 +2118,7 @@ namespace SineDisplayGraph
             }
             else
             {
-                tempdB.Degrees = VdB.Degrees + VtB.Degrees;
+                tempdB.Degrees = VdB.Degrees - VtB.Degrees;
             }
 
             if (VnC.RMS > 13.0 || VnC.RMS > VtC.RMS)
@@ -2126,7 +2127,7 @@ namespace SineDisplayGraph
             }
             else
             {
-                tempdC.Degrees = VdC.Degrees + VtC.Degrees;
+                tempdC.Degrees = VdC.Degrees - VtC.Degrees;
             }
 
             VdAvg.Real = (tempdA.Real + tempdB.Real + tempdC.Real) / 3f;
@@ -2160,10 +2161,10 @@ namespace SineDisplayGraph
 
         }
 
-        private void calculateDifferentialVotlage(Phasors reference, Phasors actual, Phasors working)
+        private void calculateDifferentialVotlage(Phasors transformer, Phasors network, Phasors differential)
         {
-            working.Real = actual.Real - reference.Real;
-            working.Imaginary = actual.Imaginary - reference.Imaginary;
+            differential.Real = transformer.Real - network.Real;
+            differential.Imaginary = transformer.Imaginary - network.Imaginary;
         }
 
         private void setLabelsFromStoredPhasors()
