@@ -402,7 +402,7 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON || PSEG) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
@@ -1600,7 +1600,7 @@ namespace RelayControlLibrary
         {
             this.textBoxID.Text = "1023";
             this.textBoxTXCTRatio.Text = "120";
-#if PSEG || NU || ConEd
+#if PSEG || NU || CONED
             this.CTRatio = 320;
 #else
             this.CTRatio = 600;
@@ -1768,7 +1768,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if (chicago || Enmax || DOMINION || SEATTLE || Boston || NU || MADISON || PSEG) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;

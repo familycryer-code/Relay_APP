@@ -43,7 +43,7 @@ namespace RelayControlLibrary
             this.checkBoxEnableGullWing.Enabled = false;
 #endif
 
-#if ConEd && !Debug
+#if CONED && !Debug
             this.Customer = Customers.ConEdison;
 #else
             this.Customer = Customers.NonConEd;
@@ -1316,7 +1316,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 90;
             this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 3;
-#elif chicago || MADISON
+#elif CHICAGO || MADISON
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
@@ -1324,7 +1324,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 90;
             this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 0;
-#elif Boston
+#elif BOSTON
             checkBoxEnableGullWing.Checked = false;
             gullWingEnabled = false;
             numericUpDownAngle.Value = 90;
@@ -1350,11 +1350,11 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {
-#if NU || DOMINION || chicago || Enmax || Boston
+#if NU || DOMINION || CHICAGO || ENMAX || BOSTON
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif SEATTLE || DEBUG || ATLANTA || ConEd || PSEG || ONCOR
+#elif SEATTLE || DEBUG || ATLANTA || CONED || PSEG || ONCOR
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1371,7 +1371,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .2m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif SEATTLE || DEBUG || DOMINION || chicago || Enmax || PSEG
+#elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1384,7 +1384,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif SEATTLE || DEBUG || DOMINION || chicago || Enmax || PSEG
+#elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;

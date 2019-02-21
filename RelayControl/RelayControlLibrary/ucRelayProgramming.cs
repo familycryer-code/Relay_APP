@@ -596,7 +596,7 @@ namespace RelayControlLibrary
             if (!this.wrongRelayTypeAutoLoad)
                 this.setWrongRelayTypeAutoLoad();
 
-#if Enmax && !DEBUG
+#if ENMAX && !DEBUG
             this.checkSafeServiceMaster();
 #endif
 
@@ -898,7 +898,7 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-#if (DOMINION || DEBUG || NU || Boston || SEATTLE || BASICRELEASE) && !DNP
+#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || BASICRELEASE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -914,7 +914,7 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if (Enmax || PSEG) && DNP
+#if (ENMAX || PSEG) && DNP
 
 
             if (this.GEEnabled)
@@ -947,7 +947,7 @@ namespace RelayControlLibrary
             return;
 #endif
 
-#if chicago
+#if CHICAGO
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorChicago;
             this.textBoxMasterFileName.Text = "Master Relay Chicago";
 
@@ -1151,7 +1151,7 @@ namespace RelayControlLibrary
                 this.firstCheckForUpdate = false;
                 if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
                 {
-#if !DNP || Enmax
+#if !DNP || ENMAX
                     this.transmitterEnabled = true;
 #endif
 

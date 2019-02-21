@@ -47,10 +47,10 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 
-#if (chicago || MADISON || DEBUG) && !Enmax
+#if (CHICAGO || MADISON || DEBUG) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
-#elif Enmax && !DEBUG
+#elif ENMAX && !DEBUG
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
             this.textBoxCa.Visible = false;
@@ -75,7 +75,7 @@ namespace RelayControlLibrary
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
 #endif
-#elif DEBUG && Enmax
+#elif DEBUG && ENMAX
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 #else
@@ -104,7 +104,7 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyRed.Checked = true;
             this.checkBoxFrequencyYellow.Checked = true;
 
-#if chicago && !DG288_TESTFIXTURE_GUI
+#if CHICAGO && !DG288_TESTFIXTURE_GUI
             this.textBoxGa.Visible = false;
             this.textBoxHa.Visible = false;
 
@@ -1072,7 +1072,7 @@ namespace RelayControlLibrary
 
         private int getOilTemperatureFromAnalog(int bAN1)
         {
-#if Enmax //consider adding for chicago as well
+#if ENMAX //consider adding for chicago as well
             double oil_temp = .0393701 * bAN1 * 32;
             return (int)(oil_temp);
 #else
@@ -1088,7 +1088,7 @@ namespace RelayControlLibrary
             //tank_pressure += 0.5;
             return (int)(tank_pressure);
         }
-#if Enmax
+#if ENMAX
         private int[] AnalogLookup =
         { // 15 columns
 			0,   1,   2,   3,   4,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
@@ -1101,8 +1101,8 @@ namespace RelayControlLibrary
 			130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
 		};
 #else
-        private int[] AnalogLookup = 
-		{ // 15 columns
+        private int[] AnalogLookup =
+        { // 15 columns
 			0,   0,   0,   0,   3,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
 			30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
 			48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3

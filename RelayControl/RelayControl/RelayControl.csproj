@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,7 +11,7 @@
     <RootNamespace>RelayControl</RootNamespace>
     <AssemblyName>RelayControl</AssemblyName>
     <StartupObject>RelayControl.Program</StartupObject>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -74,7 +74,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release ConEd|AnyCPU' ">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release ConEd\</OutputPath>
-    <DefineConstants>TRACE;ConEd</DefineConstants>
+    <DefineConstants>TRACE;CONED</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -84,7 +84,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Memphis|AnyCPU' ">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release Memphis\</OutputPath>
-    <DefineConstants>MEMPHIS,DNP</DefineConstants>
+    <DefineConstants>MEMPHIS, DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -110,6 +110,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SMUD|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -120,6 +121,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug SMUD|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -130,6 +132,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Seattle|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -140,6 +143,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release NUEngineering|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -150,6 +154,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release NUCrew|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -160,6 +165,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Dominion|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -170,13 +176,15 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Chicago|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release Chicago\</OutputPath>
-    <DefineConstants>BASICRELEASE, chicago</DefineConstants>
+    <DefineConstants>BASICRELEASE, CHICAGO</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNPwPLC|AnyCPU'">
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
@@ -187,35 +195,40 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Enmax DNP PLC|AnyCPU'">
     <OutputPath>bin\Debug Enmax DNP PLC\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, Enmax,PLC</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax PLC Only|AnyCPU'">
     <OutputPath>bin\Release Enmax PLC Only\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;BASICRELEASE, Enmax</DefineConstants>
+    <DefineConstants>TRACE;BASICRELEASE, ENMAX</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Chicago|AnyCPU'">
     <OutputPath>bin\Debug Chicago\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;DEBUG;chicago</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CHICAGO</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
     <OutputPath>bin\Release Boston Eversource\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>BASICRELEASE,Boston</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
     <OutputPath>bin\Release Madison\</OutputPath>
@@ -224,11 +237,13 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <WarningLevel>3</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
     <OutputPath>bin\Debug Madison\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;MADISON</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
     <OutputPath>bin\Debug Atlanta\</OutputPath>
@@ -236,16 +251,19 @@
     <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>ONCOR,DNP,DIGITALGRID</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Oncor|AnyCPU'">
     <OutputPath>bin\Debug Oncor\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
@@ -256,6 +274,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
@@ -268,6 +287,12 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax DNP with PLC|AnyCPU'">
+    <OutputPath>bin\Release Enmax DNP with PLC\</OutputPath>
+    <DefineConstants>DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">

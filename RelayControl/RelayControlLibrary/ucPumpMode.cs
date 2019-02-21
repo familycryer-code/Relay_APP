@@ -420,7 +420,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
-#elif chicago || SEATTLE || DOMINION || Enmax
+#elif CHICAGO || SEATTLE || DOMINION || ENMAX
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
             this.checkBoxMotorCycles.Checked = true;

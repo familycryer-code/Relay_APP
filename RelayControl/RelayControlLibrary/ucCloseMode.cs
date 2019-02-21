@@ -32,7 +32,7 @@ namespace RelayControlLibrary
             //this.labelTDUnit.Visible = false;
             //this.labelRelaxClose.Visible = false;
 #endif
-#if ConEd && !Debug
+#if CONED && !Debug
             this.Customer = Customers.ConEdison;
 #else
             this.Customer = Customers.NonConEd;
@@ -704,7 +704,7 @@ namespace RelayControlLibrary
                 this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
-#elif Enmax
+#elif ENMAX
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownPDA.Value = -5;

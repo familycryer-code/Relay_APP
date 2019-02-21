@@ -172,7 +172,7 @@ namespace RelayControl
                             setDNPTabPoints();
                         }
 
-#if Enmax && !DNP
+#if ENMAX && !DNP
                         if(this.receivedMasterRevision.Contains("DNP"))
                         {
                             setDNPTabPoints();
@@ -447,7 +447,7 @@ namespace RelayControl
                 this.enableAutoloadToolStripMenuItem.Checked = false;
 #endif
 
-#if (DOMINION && !DEBUG) || (Enmax && !DEBUG)
+#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG)
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.enableAutoloadToolStripMenuItem.Checked = true;
 #endif
@@ -576,7 +576,7 @@ namespace RelayControl
                 this.checkBoxInInsensRegion.Visible = false;
                 this.TransmitterEnabled = false;
                 this.ArcFaultEnabled = false;
-#if ConEd
+#if CONED
                 this.Customer = Customers.ConEdison;
 #elif MEMPHIS
                 this.Customer = Customers.Memphis;
@@ -606,12 +606,12 @@ namespace RelayControl
 
 #if DNP
 #if DEBUG
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
 #endif
 
@@ -623,7 +623,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
 
-#if DEBUG || chicago
+#if DEBUG || CHICAGO
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
 
@@ -658,17 +658,17 @@ namespace RelayControl
 #else
             this.customerRevisionName = "Eversource Engineering";
 #endif
-#elif Boston
+#elif BOSTON
             this.customerRevisionName = "Boston Eversource";
 #elif SEATTLE
             this.customerRevisionName = "Seattle";
 #elif DOMINION
             this.customerRevisionName = "Dominion";
-#elif chicago
+#elif CHICAGO
             this.customerRevisionName = "Chicago";
-#elif Enmax && !DNP
+#elif ENMAX && !DNP
             this.customerRevisionName = "Enmax PLC";
-#elif Enmax && DNP
+#elif ENMAX && DNP
             this.customerRevisionName = "Enmax DNP and PLC";
 #elif MADISON
             this.customerRevisionName = "Madison";
@@ -691,7 +691,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if chicago ||  (Enmax && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG
+#if CHICAGO ||  (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG
             showCustomerNameDebug = true;
 #endif
 
@@ -5345,10 +5345,10 @@ namespace RelayControl
 #if DOMINION
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif Enmax || PSEG
+#elif ENMAX || PSEG
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
-#elif Boston || NU || SEATTLE || chicago || MADISON || MEMPHIS
+#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
@@ -5356,7 +5356,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || SEATTLE || DOMINION || chicago || ATLANTA || Enmax  || Boston || MADISON || ONCOR || MEMPHIS
+#if SEATTLE || SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX  || BOSTON || MADISON || ONCOR || MEMPHIS
             this.domainUpDownCTRatioM.SelectedIndex = 2;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;
@@ -8132,7 +8132,7 @@ namespace RelayControl
             this.protector277 = this.checkBox277Protector.Checked;
             this.checkBox277ProtectorPQ.Checked = this.protector277;
 
-#if chicago
+#if CHICAGO
             ucCloseMode1.Voltage277State = this.protector277;
             ucSafeService1.Voltage277State = this.protector277;
 #endif
@@ -8157,7 +8157,7 @@ namespace RelayControl
             this.protector277 = this.checkBox277ProtectorPQ.Checked;
             this.checkBox277Protector.Checked = this.protector277;
 
-#if chicago
+#if CHICAGO
             ucCloseMode1.Voltage277State = this.protector277;
             ucSafeService1.Voltage277State = this.protector277;
 #endif
