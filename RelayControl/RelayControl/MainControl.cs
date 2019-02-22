@@ -52,6 +52,9 @@ namespace RelayControl
 
         private Customers customer = Customers.None;
 
+        private bool tCPConnection = false;
+        private TCPComms tcpClient;
+
         public Customers Customer
         {
             get { return this.customer; }
@@ -1587,8 +1590,6 @@ namespace RelayControl
                 return Ptr;
             }
         }
-
-        private int temp = 0;
         private bool expectingAck = false;
 
         private void resetCommunicationInterface()
@@ -1619,9 +1620,10 @@ namespace RelayControl
 
             try
             {
-                while (temp < 209 && this.serialPort1.BytesToRead > 0)
+                while (this.serialPort1.BytesToRead > 0)
                 {
                     this.SendConfirmed = true;
+
                     lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
                     if (lastByte == 0x06)
                     {
@@ -1648,7 +1650,6 @@ namespace RelayControl
             {
                 if (!this.readSemaphoreTaken || dReceived)//lastByte == 0x0D )
                 {
-                    temp = 0;
                     this.BeginInvoke(new EventHandler(this.checkRawData));
                     dReceived = false;
                 }
@@ -5746,6 +5747,14 @@ namespace RelayControl
         private string AcknowledgeCaller = "";
         private void sendPacketAck(byte[] bytePacket, string caller)
         {
+            if (tCPConnection)
+                tcpClient.SendPacket(bytePacket);
+            else
+                sendPacketAckComm(bytePacket, caller);
+        }
+
+        private void sendPacketAckComm(byte[] bytePacket, string caller)
+        {
             string errorMessage = "None";
 
             AcknowledgeCaller = caller;
@@ -5804,6 +5813,14 @@ namespace RelayControl
         }
 
         private void sendPacket(byte[] bytePacket)
+        {
+            if (tCPConnection)
+                tcpClient.SendPacket(bytePacket);
+            else
+                sendComPacket(bytePacket);
+        }
+
+        private void sendComPacket(byte[] bytePacket)
         {
             string errorMessage = "None";
 
@@ -7949,6 +7966,7 @@ namespace RelayControl
 
         private void setDNPSettings(byte[] bytePacket)
         {
+            byte memphisStage = 0;
             try
             {
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
@@ -7959,11 +7977,11 @@ namespace RelayControl
                 if (this.DNPEnabled)
                     this.ucDNP1.SetAll(bytePacket);
 
-                temp = (byte)(bytePacket[0] & 0xE0);
-                temp >>= 5;
+                memphisStage = (byte)(bytePacket[0] & 0xE0);
+                memphisStage >>= 5;
 
                 if (this.DNPEnabled && this.customer == Customers.Memphis && this.dNPMemphisData != null)
-                    this.dNPMemphisData.MemphisStage = (uint)temp;
+                    this.dNPMemphisData.MemphisStage = (uint)memphisStage;
 #endif
             }
             catch (Exception ex)
@@ -8512,6 +8530,75 @@ namespace RelayControl
             this.checkBoxReprogramBootAuto.Checked = pC.Data.ReprogramBoot;
 
             this.ucRelayProgramming1.ReprogramBootCodeAuto = pC.Data.ReprogramBoot;
+        }
+
+        private void tCPConnectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new TCPConnectionForm())
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    tcpClient = new TCPComms(form.IPAddress, form.Port);
+                    if (tcpClient.IsConnected)
+                        handleSuccessfulTCPConnection();
+                }
+            }
+        }
+
+        private void handleSuccessfulTCPConnection()
+        {
+            toolStripStatusLabelMain.Text = String.Format("TCP Connect: {0}:{1}", tcpClient.IPAddress.ToString(), tcpClient.Port);
+            tcpClient.TCPCommsException += standardExceptionMessage;
+            tcpClient.DataReceived += TcpClient_DataReceived;
+        }
+
+        private void TcpClient_DataReceived(object o, TCPCommsEventArgs tCPCEA)
+        {
+            bool dReceived = false;
+
+            try
+            {
+                foreach (byte b in tCPCEA.IncomingData)
+                {
+                    this.SendConfirmed = true;
+                    this.receiveArray[this.rXWritePtr] = b;
+                    if (b == 0x06)
+                    {
+                        this.SendConfirmed = true;
+                        this.expectingAck = false;
+                        packetAcknowledged(true);
+                        this.timerSCITimeOut.Enabled = false;
+                    }
+                    if (b == 0x0D)
+                        dReceived = true;
+
+                    this.rXWritePtr = this.nextRXArrayAddress(this.rXWritePtr);
+                }
+            }
+            catch
+            {
+                this.monitoring(false);
+                this.RegisterPolling(false);
+                this.resetCommunicationInterface();
+                this.RegisterPolling(true);
+            }
+            //Check to see if the last byte is a confirmation
+            try
+            {
+                if (!this.readSemaphoreTaken || dReceived)//lastByte == 0x0D )
+                {
+                    this.BeginInvoke(new EventHandler(this.checkRawData));
+                    dReceived = false;
+                }
+            }
+            catch
+            {
+                this.monitoring(false);
+                this.RegisterPolling(false);
+                this.resetCommunicationInterface();
+                this.RegisterPolling(true);
+            }
         }
     }
 

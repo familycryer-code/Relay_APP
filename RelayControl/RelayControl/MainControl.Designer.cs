@@ -234,6 +234,7 @@ namespace RelayControl
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
+			this.tCPConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -293,7 +294,8 @@ namespace RelayControl
             this.cOMPortToolStripMenuItem,
             this.findRelayToolStripMenuItem,
             this.enableAllToolStripMenuItem,
-            this.reprogramRelayFileSelectToolStripMenuItem});
+            this.reprogramRelayFileSelectToolStripMenuItem,
+            this.tCPConnectionToolStripMenuItem});
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
             this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.OptionsToolStripMenuItem.Text = "Options";
@@ -302,27 +304,27 @@ namespace RelayControl
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
@@ -2477,6 +2479,13 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+			// 
+            // tCPConnectionToolStripMenuItem
+            // 
+            this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
+            this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
             // checkBox277DNPOutputs
             // 
@@ -2759,6 +2768,7 @@ namespace RelayControl
         private System.Windows.Forms.TabPage tabPageEngineering2;
         private RelayControlLibrary.ucPhasorRequest ucPhasorRequest1;
         private System.Windows.Forms.CheckBox checkBox277DNPOutputs;
+		private System.Windows.Forms.ToolStripMenuItem tCPConnectionToolStripMenuItem;
     }
 }
 
