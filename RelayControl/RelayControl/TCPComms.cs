@@ -17,10 +17,10 @@ namespace RelayControl
         {
             IPAddress = iPAddress;
             Port = port;
-
-            connect();
         }
 
+        // Connect timeout in mS
+        private readonly int _connectTimeout = 1000;
 
         public delegate void DataReceivedHandler(object o, TCPCommsEventArgs tCPCEA);
         public event DataReceivedHandler DataReceived;
@@ -28,41 +28,68 @@ namespace RelayControl
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler TCPCommsException;
 
-        public bool IsConnected { get => client.Connected; }
+        public bool IsConnected { get => checkConecction(); }
+
         private TcpClient client;
         private NetworkStream stream;
+        private bool connectionSuccessful = false;
         public int Port;
         public IPAddress IPAddress;
         private byte[] readBuffer = new byte[1000];
         System.Timers.Timer dataPoll = new System.Timers.Timer(1);
 
+        public bool Connect()
+        {
+            return connect();
+        }
+
         public void SendPacket(byte[] bytePacket)
         {
-            if (connect())
+            if (checkConecction())
             {
                 stream.Write(bytePacket, 0, bytePacket.Length);
             }
         }
 
+        private bool checkConecction()
+        {
+            if (client != null && client.Client != null)
+                return client.Connected;
+            else
+                return false;
+        }
+
+
         private bool connect()
         {
-            if (client != null && client.Connected)
-                return true;
+            if (client != null)
+                return false;
 
             client = new TcpClient();
-            client.Connect(IPAddress, Port);
+            var result = client.BeginConnect(IPAddress, Port, portConnected, connectionSuccessful);
+            var connected = result.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(_connectTimeout));
 
-            if (!client.Connected)
+            if (!connected)
             {
                 // Failed to connect
                 exceptionHandler(new ExceptionEventArgs(new Exception(String.Format("Failed to Connect to {0}:{1}", IPAddress, Port)), "TCP/IP Connect fail"));
+                client.Close();
+                client = null;
                 return false;
             }
 
+            // Successfully Connected
+            client.EndConnect(result);
+            return true;
+        }
+
+        private void portConnected(IAsyncResult ar)
+        {
+            if (client == null || client.Client == null || !client.Connected)
+                return;
             stream = client.GetStream();
             dataPoll.Elapsed += DataPoll_Elapsed;
             dataPoll.Start();
-            return true;
         }
 
         private void DataPoll_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-01-29";
+        private const string revisionDate = "2019-02-26";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -8519,8 +8519,11 @@ namespace RelayControl
                 if (result == DialogResult.OK)
                 {
                     tcpClient = new TCPComms(form.IPAddress, form.Port);
-                    if (tcpClient.IsConnected)
+                    tcpClient.TCPCommsException += standardExceptionMessage;
+                    if (tcpClient.Connect())
+                    {
                         handleSuccessfulTCPConnection();
+                    }
                 }
             }
         }
@@ -8528,7 +8531,6 @@ namespace RelayControl
         private void handleSuccessfulTCPConnection()
         {
             toolStripStatusLabelMain.Text = String.Format("TCP Connect: {0}:{1}", tcpClient.IPAddress.ToString(), tcpClient.Port);
-            tcpClient.TCPCommsException += standardExceptionMessage;
             tcpClient.DataReceived += TcpClient_DataReceived;
             tCPConnection = true;
         }
