@@ -116,14 +116,24 @@ namespace RelayControl
 
         private void readDone(IAsyncResult ar)
         {
-            int length = stream.EndRead(ar);
-            if (length > 0)
+            try
             {
-                byte[] receivedBytes = new byte[length];
-                Array.Copy(readBuffer, receivedBytes, receivedBytes.Length);
-                dataReceveid(new TCPCommsEventArgs(receivedBytes));
+                int length = stream.EndRead(ar);
+                if (length > 0)
+                {
+                    byte[] receivedBytes = new byte[length];
+                    Array.Copy(readBuffer, receivedBytes, receivedBytes.Length);
+                    dataReceveid(new TCPCommsEventArgs(receivedBytes));
+                }
+                dataPoll.Start();
             }
-            dataPoll.Start();
+            catch (Exception ex)
+            {
+                dataPoll.Stop();
+                client.Close();
+                client = null;
+                exceptionHandler(new ExceptionEventArgs(ex, "TCP Connection Error"));
+            }
         }
     }
     class TCPCommsEventArgs : EventArgs
