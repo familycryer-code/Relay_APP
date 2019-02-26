@@ -67,9 +67,19 @@
             // numericUpDownPort
             // 
             this.numericUpDownPort.Location = new System.Drawing.Point(77, 35);
+            this.numericUpDownPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.numericUpDownPort.Name = "numericUpDownPort";
             this.numericUpDownPort.Size = new System.Drawing.Size(114, 20);
             this.numericUpDownPort.TabIndex = 1;
+            this.numericUpDownPort.Value = new decimal(new int[] {
+            50004,
+            0,
+            0,
+            0});
             // 
             // maskedTextBoxIPAddress
             // 
@@ -78,6 +88,7 @@
             this.maskedTextBoxIPAddress.Name = "maskedTextBoxIPAddress";
             this.maskedTextBoxIPAddress.Size = new System.Drawing.Size(100, 20);
             this.maskedTextBoxIPAddress.TabIndex = 0;
+            this.maskedTextBoxIPAddress.Text = "192168001202";
             // 
             // TCPConnectionForm
             // 

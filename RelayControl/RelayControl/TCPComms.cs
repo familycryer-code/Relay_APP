@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using SharedResources;
 using System.Threading;
+using System.Diagnostics;
 
 namespace RelayControl
 {
@@ -33,7 +34,7 @@ namespace RelayControl
         public int Port;
         public IPAddress IPAddress;
         private byte[] readBuffer = new byte[1000];
-
+        System.Timers.Timer dataPoll = new System.Timers.Timer(1);
 
         public void SendPacket(byte[] bytePacket)
         {
@@ -58,8 +59,18 @@ namespace RelayControl
                 return false;
             }
 
+            stream = client.GetStream();
+            dataPoll.Elapsed += DataPoll_Elapsed;
+            dataPoll.Start();
             return true;
         }
+
+        private void DataPoll_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            dataPoll.Stop();
+            stream.BeginRead(readBuffer, 0, readBuffer.Length, readDone, null);
+        }
+
         private void exceptionHandler(ExceptionEventArgs eEA)
         {
             if (TCPCommsException != null)
@@ -76,23 +87,16 @@ namespace RelayControl
                 Console.Write("No Subscription for TCP DataReceived event");
         }
 
-        private void readPort()
+        private void readDone(IAsyncResult ar)
         {
-            while (client.Connected)
+            int length = stream.EndRead(ar);
+            if (length > 0)
             {
-                using (NetworkStream stream = client.GetStream())
-                {
-                    Int32 readBytes = stream.Read(readBuffer, 0, readBuffer.Length);
-                    if (readBytes > 0)
-                    {
-                        byte[] receivedBytes = new byte[readBytes];
-                        Array.Copy(readBuffer, receivedBytes, receivedBytes.Length);
-                        dataReceveid(new TCPCommsEventArgs(receivedBytes));
-                    }
-
-                    Thread.Sleep(10);
-                }
+                byte[] receivedBytes = new byte[length];
+                Array.Copy(readBuffer, receivedBytes, receivedBytes.Length);
+                dataReceveid(new TCPCommsEventArgs(receivedBytes));
             }
+            dataPoll.Start();
         }
     }
     class TCPCommsEventArgs : EventArgs
