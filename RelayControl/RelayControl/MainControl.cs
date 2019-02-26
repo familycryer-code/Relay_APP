@@ -470,7 +470,7 @@ namespace RelayControl
             }
             try
             {
-                this.timerCheckPortTime.Interval = 1000;
+                this.timerCheckPortTime.Interval = 500;
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
 
@@ -5397,14 +5397,6 @@ namespace RelayControl
         {
             try
             {
-                //string[] tempPortNames = System.IO.Ports.SerialPort.GetPortNames();
-                //List<string> portNames = new List<string>();
-
-                //for(int j = 0; j < tempPortNames.Length; ++j)
-                //{
-                //    portNames.Add(tempPortNames[j]);
-                //}
-
                 int i = 0;
                 this.cOMPortToolStripMenuItem.DropDownItems.Clear();
                 foreach (string s in portNames)
@@ -5499,7 +5491,7 @@ namespace RelayControl
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
                 this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
-                this.timerCheckPortTime.Interval = 1000;
+                this.timerCheckPortTime.Interval = 500;
                 this.timerCheckPortTime.Start();
             }
             else
@@ -5553,12 +5545,12 @@ namespace RelayControl
                 }
 
                 this.clearRemoteBuffer();
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 this.requestMasterRevisionNumber();
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
                 this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
-                this.timerCheckPortTime.Interval = 1000;
+                this.timerCheckPortTime.Interval = 500;
                 this.timerCheckPortTime.Start();
 
 
@@ -6555,23 +6547,10 @@ namespace RelayControl
         int getEventDownloadTime()
         {
             int downloadTime = 50;
+            if (tCPConnection)
+                downloadTime = 60;
 
-            if (downloadableEvents == 1)
-                downloadTime = 50;
-            else if (downloadableEvents == 2)
-                downloadTime = 100;
-            else if (downloadableEvents == 3)
-                downloadTime = 150;
-            else if (downloadableEvents == 4)
-                downloadTime = 200;
-            else if (downloadableEvents == 5)
-                downloadTime = 250;
-            else if (downloadableEvents == 6)
-                downloadTime = 300;
-            else if (downloadableEvents == 7)
-                downloadTime = 350;
-            else if (downloadableEvents == 8)
-                downloadTime = 400;
+            downloadTime *= downloadableEvents;
 
             return downloadTime;
         }
@@ -8551,6 +8530,7 @@ namespace RelayControl
             toolStripStatusLabelMain.Text = String.Format("TCP Connect: {0}:{1}", tcpClient.IPAddress.ToString(), tcpClient.Port);
             tcpClient.TCPCommsException += standardExceptionMessage;
             tcpClient.DataReceived += TcpClient_DataReceived;
+            tCPConnection = true;
         }
 
         private void TcpClient_DataReceived(object o, TCPCommsEventArgs tCPCEA)
