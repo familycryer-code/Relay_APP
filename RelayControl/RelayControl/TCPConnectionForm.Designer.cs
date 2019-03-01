@@ -81,11 +81,6 @@
             this.numericUpDownPort.Name = "numericUpDownPort";
             this.numericUpDownPort.Size = new System.Drawing.Size(114, 20);
             this.numericUpDownPort.TabIndex = 1;
-            this.numericUpDownPort.Value = new decimal(new int[] {
-            50004,
-            0,
-            0,
-            0});
             // 
             // textBoxIPLabel
             // 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using Newtonsoft.Json;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace RelayControl
 {
@@ -38,7 +39,6 @@ namespace RelayControl
 
         private void populateIPAddressesComboBox()
         {
-            comboBoxIPAddresses.Items.Clear();
             try
             {
                 if (File.Exists(_addressesFile))
@@ -56,27 +56,15 @@ namespace RelayControl
                         iPAddressInfos = new List<IPAddressInfo>();
                         return;
                     }
-                    foreach (IPAddressInfo info in iPAddressInfos)
-                    {
-                        // Handle case of bad IP Address in file
-                        if (info.IPAddress == null)
-                        {
-                            MessageBox.Show(String.Format("Bad IP Address for saved Address: {0}", info.Name));
-                            continue;
-                        }
-                        this.comboBoxIPAddresses.Items.Add(iPAddressInfoToString(info));
-                    }
+                    comboBoxIPAddresses.DataSource = iPAddressInfos;
                 }
+                comboBoxIPAddresses.SelectedIndex = -1;
+                comboBoxIPAddresses.ResetText();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error in IPAddress Save File", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private string iPAddressInfoToString(IPAddressInfo info)
-        {
-            return String.Format(IPAddressInfo.GetString(info));
         }
 
         private void buttonSetIP_Click(object sender, EventArgs e)
@@ -137,11 +125,10 @@ namespace RelayControl
 
         private void buttonDeleteIP_Click(object sender, EventArgs e)
         {
-            var info = IPAddressInfo.GetIPAddressInfo((string)comboBoxIPAddresses.SelectedItem);
-            var valueExists = iPAddressInfos.Find(x => x.Name == info.Name);
+            var info = (IPAddressInfo)comboBoxIPAddresses.SelectedItem;
 
-            // if it doesn't exist, just return
-            if (valueExists == null)
+            // Check to make sure something was selected and that it exists
+            if (info == null)
                 return;
             // Check to make sure they want to override it
             var result = MessageBox.Show(
@@ -149,7 +136,7 @@ namespace RelayControl
 
             if (result != DialogResult.Yes)
                 return;
-            iPAddressInfos.Remove(valueExists);
+            iPAddressInfos.Remove(info);
             writeIPInfosToFile();
             populateIPAddressesComboBox();
         }
@@ -157,7 +144,10 @@ namespace RelayControl
 
         private void comboBoxIPAddresses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            populateInputs(IPAddressInfo.GetIPAddressInfo((string)comboBoxIPAddresses.SelectedItem));
+            // If -1 is selected, nothing is selected so ignore it.
+            if (comboBoxIPAddresses.SelectedIndex == -1)
+                return;
+            populateInputs((IPAddressInfo)comboBoxIPAddresses.SelectedItem);
         }
 
         private void populateInputs(IPAddressInfo addressInfo)
@@ -185,9 +175,9 @@ namespace RelayControl
             return returnVal;
         }
 
-        public static string GetString(IPAddressInfo info)
+        public override string ToString()
         {
-            return String.Format("{0} - IPAddress: {1} : {2}", info.Name, info.IPAddress, info.Port);
+            return String.Format("{0} - IPAddress: {1} : {2}", Name, IPAddress, Port);
         }
     }
 

@@ -130,7 +130,8 @@ namespace RelayControl
             catch (Exception ex)
             {
                 dataPoll.Stop();
-                client.Close();
+                if (client != null)
+                    client.Close();
                 client = null;
                 exceptionHandler(new ExceptionEventArgs(ex, "TCP Connection Error"));
             }
