@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-02-26";
+        private const string revisionDate = "2019-03-01";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -3295,7 +3295,8 @@ namespace RelayControl
 #if WATERBUG
             this.toolStripStatusLabelMain.Text = "Test Set found on " + this.serialPort1.PortName;
 #else
-            this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
+            if (!tCPConnection)
+                this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
 #endif
 
 #if !DEBUG
@@ -8533,6 +8534,9 @@ namespace RelayControl
             toolStripStatusLabelMain.Text = String.Format("TCP Connect: {0}:{1}", tcpClient.IPAddress.ToString(), tcpClient.Port);
             tcpClient.DataReceived += TcpClient_DataReceived;
             tCPConnection = true;
+            this.requestedAllParameters = true;
+            this.requestMasterRevisionNumber();
+            this.requestAllDataNoMasterRev();
         }
 
         private void TcpClient_DataReceived(object o, TCPCommsEventArgs tCPCEA)
