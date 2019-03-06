@@ -48,7 +48,7 @@
             this.buttonSetIP.Name = "buttonSetIP";
             this.buttonSetIP.Size = new System.Drawing.Size(75, 23);
             this.buttonSetIP.TabIndex = 2;
-            this.buttonSetIP.Text = "Set IP";
+            this.buttonSetIP.Text = "Connect";
             this.buttonSetIP.UseVisualStyleBackColor = true;
             this.buttonSetIP.Click += new System.EventHandler(this.buttonSetIP_Click);
             // 

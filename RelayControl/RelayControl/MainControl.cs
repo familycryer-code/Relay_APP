@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-03-01";
+        private const string revisionDate = "2019-03-05";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -2915,6 +2915,8 @@ namespace RelayControl
 
         private void resetSerialPort()
         {
+            if (tCPConnection)
+                return;
             string tempPortName = this.serialPort1.PortName;
             int baudRate = this.serialPort1.BaudRate;
 
@@ -4467,7 +4469,8 @@ namespace RelayControl
                 if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
                 {
                     this.enableAll(true);
-                    this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
+                    if (!tCPConnection)
+                        this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
                     this.timerCheckPortTime.Enabled = false;
                     this.requestAllDataNoMasterRev();
                 }
@@ -4748,91 +4751,7 @@ namespace RelayControl
                 this.toolStripStatusLabelMain.Text = "Port Error";
                 return;
             }
-            try
-            {
-                if (this.noMonitoringVersion)
-                    return;
-                this.toolStripStatusLabelMain.Text = this.serialPort1.PortName + " selected. - No Relay Found";
-                this.relayFound = false;
-                this.ProgramState = ProgramStates.CheckingForRelay;
-                this.RegisterPolling(false);
-                if (this.checkPortAvailability(tSMI.Text))
-                    this.checkPortForRelay();
-
-                if (this.relayFound)
-                {
-                    this.enableAll(true);
-                    this.requestAllData();
-                    this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
-                }
-                else
-                {
-                    this.enableAll(false);
-                    this.toolStripStatusLabelMain.Text = "No Relay Found on " + this.serialPort1.PortName;
-                }
-                ucRelayProgramming1.NotPollingPort = relayFound;
-            }
-            catch (Exception ex)
-            {
-                this.messageHandler("Error Accessing Tool String Status Label", ex);
-            }
         }
-
-
-
-        private void FindSinglePort(string text)
-        {
-            if (this.serialPort1.IsOpen)
-            {
-                this.clearSerialPortBuffers(this.serialPort1);
-                this.serialPort1.Close();
-            }
-
-            try
-            {
-                this.serialPort1.BaudRate = 19200;
-                this.serialPort1.PortName = text;
-                this.serialPort1.Open();
-                //this.clearSerialPortBuffers(this.serialPort1);
-#if DEBUG
-                return;
-#endif
-            }
-            catch (Exception ex)
-            {
-                this.messageHandler("Something wrong with serial Port: " + this.serialPort1.PortName + ", Port not Open", ex);
-
-                this.toolStripStatusLabelMain.Text = "Port Error";
-                return;
-            }
-            try
-            {
-                if (this.noMonitoringVersion)
-                    return;
-                this.toolStripStatusLabelMain.Text = this.serialPort1.PortName + " selected. - No Relay Found";
-                this.relayFound = false;
-                if (this.checkPortAvailability(text))
-                    this.checkPortForRelay();
-
-                if (this.relayFound)
-                {
-                    this.enableAll(true);
-                    this.requestAllData();
-                    this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
-                }
-                else
-                {
-                    this.enableAll(false);
-                    this.toolStripStatusLabelMain.Text = "No Relay Found on " + this.serialPort1.PortName;
-                }
-                ucRelayProgramming1.NotPollingPort = relayFound;
-            }
-            catch (Exception ex)
-            {
-                this.messageHandler("Error Accessing Tool String Status Label", ex);
-            }
-        }
-
 
         private int CTRatio = 320;
 
@@ -5671,6 +5590,7 @@ namespace RelayControl
             this.monitoring(false);
             this.RegisterPolling(false);
             this.toolStripStatusLabelMain.Text = "No Relay Found";
+            this.serialPort1.Close();
         }
 
         #endregion
@@ -6247,7 +6167,7 @@ namespace RelayControl
             }
 
             this.loadingNewCode = false;
-            if (!this.serialPort1.IsOpen)
+            if (!this.serialPort1.IsOpen && !tCPConnection)
             {
                 if (this.portLost)
                 {
