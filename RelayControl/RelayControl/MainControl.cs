@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-03-05";
+        private const string revisionDate = "2019-03-08";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -1568,7 +1568,7 @@ namespace RelayControl
 
         public bool SendConfirmed = true;
 
-        private byte[] receiveArray = new byte[1000];
+        private byte[] receiveArray = new byte[2000];
         private int rXWritePtr = 0;
         private int rXReadPtr = 0;
         private bool readSemaphoreTaken = false;
