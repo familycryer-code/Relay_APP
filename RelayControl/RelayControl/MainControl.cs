@@ -6469,7 +6469,7 @@ namespace RelayControl
         {
             int downloadTime = 50;
             if (tCPConnection)
-                downloadTime = 60;
+                downloadTime = 100;
 
             downloadTime *= downloadableEvents;
 
@@ -6479,7 +6479,7 @@ namespace RelayControl
         private DateTime liveDataTriggerTime;
         private void requestLiveDataToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (this.serialPort1 == null || !this.serialPort1.IsOpen)
+            if ((this.serialPort1 == null || !this.serialPort1.IsOpen) && !tCPConnection)
                 return;
 
             this.downloadingCanceled = false;
@@ -7072,7 +7072,9 @@ namespace RelayControl
             this.RegisterPolling(true);
 
             this.downloadingLiveData = true;
-            this.downloadingDialogCountDown("Downloading", "Downloading Live Data ", 210, false);
+
+            this.downloadingDialogCountDown("Downloading", "Downloading Live Data ",
+                tCPConnection ? 420 : 210, false);
         }
 
         private ProgressBarForm downloadProgress;
