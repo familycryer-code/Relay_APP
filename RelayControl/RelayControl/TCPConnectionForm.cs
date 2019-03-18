@@ -58,8 +58,17 @@ namespace RelayControl
                     }
                     comboBoxIPAddresses.DataSource = iPAddressInfos;
                 }
+
                 comboBoxIPAddresses.SelectedIndex = -1;
                 comboBoxIPAddresses.ResetText();
+
+                foreach (IPAddressInfo info in iPAddressInfos)
+                {
+                    if (info.LastUsed)
+                    {
+                        comboBoxIPAddresses.SelectedItem = info;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -72,6 +81,15 @@ namespace RelayControl
             IPAddress = ipAddressControl.IPAddress;
             Port = (int)numericUpDownPort.Value;
             DialogResult = DialogResult.OK;
+            foreach (IPAddressInfo info in iPAddressInfos)
+            {
+                info.LastUsed = false;
+            }
+
+            var selected = iPAddressInfos.Find(x => (x.Port == Port) && x.IPAddress.Equals(IPAddress));
+            if (selected != null)
+                selected.LastUsed = true;
+            writeIPInfosToFile();
             this.Close();
         }
 
@@ -162,6 +180,7 @@ namespace RelayControl
         public IPAddress IPAddress;
         public int Port;
         public string Name;
+        public bool LastUsed = false;
 
         public static IPAddressInfo GetIPAddressInfo(string formattedString)
         {
