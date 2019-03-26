@@ -38,6 +38,7 @@ namespace RelayControlLibrary
             this.programmingForm.FormClosed += programmingForm_FormClosed;
         }
 
+        public bool ActiveRelay { get; set; }
         // These need to be updated when new files are used
 #if DEBUG && !DG288_TESTFIXTURE_GUI
         private static UInt32 _masterCodeRevisionNumber = 999999;
@@ -3280,7 +3281,8 @@ namespace RelayControlLibrary
                     this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
                 this.labelDataCount.Text = "0";
                 this.labelCodeCount.Text = "0";
-                this.sendReset();
+                if (ActiveRelay)
+                    this.sendReset();
                 this.enableButtons(false);
             }
         }

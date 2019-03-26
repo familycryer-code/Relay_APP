@@ -4464,6 +4464,7 @@ namespace RelayControl
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
+                ucRelayProgramming1.ActiveRelay = true;
                 this.saveComPort();
 
                 if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
