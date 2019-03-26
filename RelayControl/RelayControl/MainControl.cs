@@ -1625,6 +1625,7 @@ namespace RelayControl
                     this.SendConfirmed = true;
 
                     lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
+                    Debug.Write(String.Format("{0:X2}-", lastByte));
                     if (lastByte == 0x06)
                     {
                         this.SendConfirmed = true;
@@ -1648,6 +1649,7 @@ namespace RelayControl
             //Check to see if the last byte is a confirmation
             try
             {
+                Debug.Write(DateTime.UtcNow.ToString() + "\r");
                 if (!this.readSemaphoreTaken || dReceived)//lastByte == 0x0D )
                 {
                     this.BeginInvoke(new EventHandler(this.checkRawData));
@@ -4370,7 +4372,6 @@ namespace RelayControl
         {
             this.receiveArray = new byte[1000];
             this.rXReadPtr = this.rXWritePtr = 0;
-
             var Bootstr = System.Text.Encoding.Default.GetString(bytePacket);
             Bootstr = Bootstr.Substring(0, Bootstr.Length - 1);
 
@@ -5737,7 +5738,7 @@ namespace RelayControl
         private void sendComPacket(byte[] bytePacket)
         {
             string errorMessage = "None";
-
+            Debug.WriteLine(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
             try
             {
                 errorMessage = "Error Checking if Port is open";
@@ -8476,6 +8477,7 @@ namespace RelayControl
                     {
                         this.SendConfirmed = true;
                         this.expectingAck = false;
+                        Debug.WriteLine("Ack");
                         packetAcknowledged(true);
                         this.timerSCITimeOut.Enabled = false;
                     }
