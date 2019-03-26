@@ -17,6 +17,7 @@ namespace RelayControl
         {
             IPAddress = iPAddress;
             Port = port;
+            dataPoll.Elapsed += DataPoll_Elapsed;
         }
 
         // Connect timeout in mS
@@ -45,10 +46,25 @@ namespace RelayControl
 
         public void SendPacket(byte[] bytePacket)
         {
+            Debug.WriteLine(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
             if (checkConecction())
             {
                 stream.Write(bytePacket, 0, bytePacket.Length);
             }
+            else
+            {
+                attemptReconnect();
+            }
+        }
+
+        private void attemptReconnect()
+        {
+            if (client != null)
+            {
+                client.Close();
+                client.Dispose();
+            }
+            connect();
         }
 
         private bool checkConecction()
@@ -56,7 +72,10 @@ namespace RelayControl
             if (client != null && client.Client != null)
                 return client.Connected;
             else
+            {
+                Debug.WriteLine("Checking Connection Failed");
                 return false;
+            }
         }
 
 
@@ -64,7 +83,7 @@ namespace RelayControl
         {
             if (client != null)
                 return false;
-
+            Debug.WriteLine("TCP Connecting");
             client = new TcpClient();
             var result = client.BeginConnect(IPAddress, Port, portConnected, connectionSuccessful);
             var connected = result.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(_connectTimeout));
@@ -87,14 +106,15 @@ namespace RelayControl
         {
             if (client == null || client.Client == null || !client.Connected)
                 return;
+            Debug.WriteLine("TCP Port Connected");
             stream = client.GetStream();
-            dataPoll.Elapsed += DataPoll_Elapsed;
             dataPoll.Start();
         }
 
         private void DataPoll_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             dataPoll.Stop();
+            Debug.WriteLine("Beginning Read");
             stream.BeginRead(readBuffer, 0, readBuffer.Length, readDone, null);
         }
 
@@ -103,7 +123,7 @@ namespace RelayControl
             if (TCPCommsException != null)
                 TCPCommsException(this, eEA);
             else
-                Console.Write("No Subscription for TCPCommsException");
+                Debug.WriteLine("No Subscription for TCPCommsException");
         }
 
         private void dataReceveid(TCPCommsEventArgs tCPCEA)
@@ -111,13 +131,14 @@ namespace RelayControl
             if (DataReceived != null)
                 DataReceived(this, tCPCEA);
             else
-                Console.Write("No Subscription for TCP DataReceived event");
+                Debug.WriteLine("No Subscription for TCP DataReceived event");
         }
 
         private void readDone(IAsyncResult ar)
         {
             try
             {
+                Debug.WriteLine("Reading Done");
                 int length = stream.EndRead(ar);
                 if (length > 0)
                 {
