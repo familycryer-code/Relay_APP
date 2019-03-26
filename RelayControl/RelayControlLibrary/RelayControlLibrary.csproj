@@ -221,6 +221,8 @@
     <OutputPath>bin\Debug Oncor\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG|AnyCPU'">
     <OutputPath>bin\Release PSEG\</OutputPath>
