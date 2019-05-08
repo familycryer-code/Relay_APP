@@ -1471,6 +1471,8 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
+                    if (DNPEnabled)
+                        ucDNP1.SendAllDNPSettings();
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                     break;
                 case RelayProgrammingSendCommands.RawData:
@@ -8511,6 +8513,16 @@ namespace RelayControl
                 this.resetCommunicationInterface();
                 this.RegisterPolling(true);
             }
+        }
+
+        private void buttonTest_Click(object sender, EventArgs e)
+        {
+            byte[] packet = new byte[3];
+
+            packet[0] = Convert.ToByte('I');
+            packet[1] = 0x55;
+            packet[2] = 0x0D;
+            sendPacket(packet);
         }
     }
 

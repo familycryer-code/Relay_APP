@@ -36,6 +36,7 @@ namespace RelayControl
             this.findRelayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reprogramRelayFileSelectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tCPConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAction = new System.Windows.Forms.ToolStripMenuItem();
             this.eventActionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadEventFromRelayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,6 +160,7 @@ namespace RelayControl
             this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxFloatFlag = new System.Windows.Forms.CheckBox();
             this.groupBoxPhasingAndType = new System.Windows.Forms.GroupBox();
+            this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
             this.labelConEdPowerRelay = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.labelProtectorType = new System.Windows.Forms.Label();
@@ -215,6 +217,9 @@ namespace RelayControl
             this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
+            this.buttonTest = new System.Windows.Forms.Button();
+            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
@@ -227,14 +232,10 @@ namespace RelayControl
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
-            this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
-            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
-			this.tCPConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -256,12 +257,12 @@ namespace RelayControl
             this.groupBoxRelayFlags.SuspendLayout();
             this.panelOtherRelayControls.SuspendLayout();
             this.tabControlMain.SuspendLayout();
+            this.tabPageEngineering2.SuspendLayout();
             this.tabPageDNP.SuspendLayout();
             this.tabPageArcFault.SuspendLayout();
             this.tabPageShortRange.SuspendLayout();
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
-            this.tabPageEngineering2.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -304,29 +305,36 @@ namespace RelayControl
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
+            // 
+            // tCPConnectionToolStripMenuItem
+            // 
+            this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
+            this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
             // toolStripMenuItemAction
             // 
@@ -783,6 +791,7 @@ namespace RelayControl
             // 
             // ucRelayProgramming1
             // 
+            this.ucRelayProgramming1.ActiveRelay = false;
             this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
             this.ucRelayProgramming1.DNPRelay = true;
             this.ucRelayProgramming1.ForceRelayUpdate = false;
@@ -1679,6 +1688,16 @@ namespace RelayControl
             this.groupBoxPhasingAndType.TabStop = false;
             this.groupBoxPhasingAndType.Text = "Relay Phasing and Type:";
             // 
+            // checkBox277DNPOutputs
+            // 
+            this.checkBox277DNPOutputs.AutoSize = true;
+            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(14, 86);
+            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
+            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(145, 17);
+            this.checkBox277DNPOutputs.TabIndex = 76;
+            this.checkBox277DNPOutputs.Text = "277 DNP Output Convert";
+            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
+            // 
             // labelConEdPowerRelay
             // 
             this.labelConEdPowerRelay.AutoSize = true;
@@ -2310,6 +2329,7 @@ namespace RelayControl
             this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
             this.tabControlMain.Controls.Add(this.tabPageEvents);
             this.tabControlMain.Controls.Add(this.tabPageEngineering);
+            this.tabControlMain.Controls.Add(this.tabPageEngineering2);
             this.tabControlMain.Controls.Add(this.tabPageTransmitter);
             this.tabControlMain.Controls.Add(this.tabPageTransmitterMonitoring);
             this.tabControlMain.Controls.Add(this.tabPageDNP);
@@ -2317,13 +2337,41 @@ namespace RelayControl
             this.tabControlMain.Controls.Add(this.tabPageShortRange);
             this.tabControlMain.Controls.Add(this.tabPageDNPData);
             this.tabControlMain.Controls.Add(this.tabPageDNPSecureAuth);
-            this.tabControlMain.Controls.Add(this.tabPageEngineering2);
             this.tabControlMain.Location = new System.Drawing.Point(0, 27);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(999, 650);
             this.tabControlMain.TabIndex = 36;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
+            // 
+            // tabPageEngineering2
+            // 
+            this.tabPageEngineering2.Controls.Add(this.buttonTest);
+            this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
+            this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEngineering2.Name = "tabPageEngineering2";
+            this.tabPageEngineering2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEngineering2.Size = new System.Drawing.Size(991, 624);
+            this.tabPageEngineering2.TabIndex = 14;
+            this.tabPageEngineering2.Text = "Engineer 2";
+            this.tabPageEngineering2.UseVisualStyleBackColor = true;
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(293, 15);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(86, 58);
+            this.buttonTest.TabIndex = 1;
+            this.buttonTest.Text = "Send Test Command";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
+            // ucPhasorRequest1
+            // 
+            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
+            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
+            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
+            this.ucPhasorRequest1.TabIndex = 0;
             // 
             // tabPageDNP
             // 
@@ -2444,24 +2492,6 @@ namespace RelayControl
             this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
             this.ucDNPSAv51.TabIndex = 0;
             // 
-            // tabPageEngineering2
-            // 
-            this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
-            this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
-            this.tabPageEngineering2.Name = "tabPageEngineering2";
-            this.tabPageEngineering2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEngineering2.Size = new System.Drawing.Size(991, 624);
-            this.tabPageEngineering2.TabIndex = 14;
-            this.tabPageEngineering2.Text = "Engineer 2";
-            this.tabPageEngineering2.UseVisualStyleBackColor = true;
-            // 
-            // ucPhasorRequest1
-            // 
-            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
-            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
-            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
-            this.ucPhasorRequest1.TabIndex = 0;
-            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 1000;
@@ -2479,23 +2509,6 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-			// 
-            // tCPConnectionToolStripMenuItem
-            // 
-            this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
-            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
-            this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
-            // 
-            // checkBox277DNPOutputs
-            // 
-            this.checkBox277DNPOutputs.AutoSize = true;
-            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(14, 86);
-            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
-            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(145, 17);
-            this.checkBox277DNPOutputs.TabIndex = 76;
-            this.checkBox277DNPOutputs.Text = "277 DNP Output Convert";
-            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
             // 
             // MainControl
             // 
@@ -2548,12 +2561,12 @@ namespace RelayControl
             this.panelOtherRelayControls.ResumeLayout(false);
             this.panelOtherRelayControls.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
+            this.tabPageEngineering2.ResumeLayout(false);
             this.tabPageDNP.ResumeLayout(false);
             this.tabPageArcFault.ResumeLayout(false);
             this.tabPageShortRange.ResumeLayout(false);
             this.tabPageDNPData.ResumeLayout(false);
             this.tabPageDNPSecureAuth.ResumeLayout(false);
-            this.tabPageEngineering2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2769,6 +2782,7 @@ namespace RelayControl
         private RelayControlLibrary.ucPhasorRequest ucPhasorRequest1;
         private System.Windows.Forms.CheckBox checkBox277DNPOutputs;
 		private System.Windows.Forms.ToolStripMenuItem tCPConnectionToolStripMenuItem;
+        private System.Windows.Forms.Button buttonTest;
     }
 }
 
