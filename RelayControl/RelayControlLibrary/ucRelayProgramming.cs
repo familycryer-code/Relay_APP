@@ -91,7 +91,7 @@ namespace RelayControlLibrary
             get { return this.state; }
             set
             {
-                this.writeLineToTraceFile(value.ToString());
+                this.writeDebugLine(value.ToString());
                 this.state = value;
             }
         }
@@ -213,9 +213,8 @@ namespace RelayControlLibrary
             {
                 if (value != 0 && value != this.serialNumber)
                 {
-                    this.initializeTraceFile();
-                    this.writeLineToTraceFile("Serial Number: " + value.ToString());
-                    this.writeLineToTraceFile(DateTime.UtcNow.ToString());
+                    this.writeDebugLine("Serial Number: " + value.ToString());
+                    this.writeDebugLine(DateTime.UtcNow.ToString());
                 }
 
                 this.currentRelayLog.SerialNumber = this.serialNumber = value;
@@ -404,9 +403,6 @@ namespace RelayControlLibrary
         private ToolTip toolTip = new ToolTip();
         private Customers customer = Customers.None;
         private List<CustomerLoadFiles> customersFiles = new List<CustomerLoadFiles>();
-
-        private const string _logPath = @"C:\DGI Systems\Relay\Log\";
-        private string traceFile;
 
         private CodeReloaderSingleRelay currentRelayLog = new CodeReloaderSingleRelay();
 
@@ -945,7 +941,7 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            this.writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
 
@@ -1135,7 +1131,7 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            this.writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
         }
 
 
@@ -1164,7 +1160,7 @@ namespace RelayControlLibrary
                     this.startAutoLoad();
                 }
                 else
-                    this.writeLineToTraceFile("No Updated Needed");
+                    this.writeDebugLine("No Updated Needed");
             }
             else
             {
@@ -1307,8 +1303,8 @@ namespace RelayControlLibrary
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                         MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
 
-                    this.writeLineToTraceFile("User Verified Programming Start");
-
+                    this.writeDebugLine("User Verified Programming Start");
+                    Thread.Sleep(500);
                     this.autoLoad = true;
                     if (!programmingForm.MasterBootComplete)
                         this.programmingForm.ClearAllChecks();
@@ -1344,7 +1340,7 @@ namespace RelayControlLibrary
                     break;
             }
             this.labelState.Text = "Waiting For Boot";
-            this.writeLineToTraceFile("Waiting For Boot - " + this.state.ToString());
+            this.writeDebugLine("Waiting For Boot - " + this.state.ToString());
         }
 
         public void SetTransmitterPacket(byte[] bytePacket)
@@ -1365,7 +1361,7 @@ namespace RelayControlLibrary
 
                 this.TransmitterPacket = null;
 
-                this.writeLineToTraceFile("Updated Transmitter Settings with Stored Settings");
+                this.writeDebugLine("Updated Transmitter Settings with Stored Settings");
             }
         }
 
@@ -1388,7 +1384,7 @@ namespace RelayControlLibrary
                         break;
                     case RelayProgrammingStates.LoadingMasterCode:
                     case RelayProgrammingStates.LoadingMasterData:
-                        this.writeStringToTraceFile("AckM, ");
+                        this.writeDebugString("AckM, ");
                         if (this.State == RelayProgrammingStates.WaitingForBootMaster)
                             this.State = RelayProgrammingStates.LoadingMasterCode;
                         this.timerTimeout.Stop();
@@ -1398,7 +1394,7 @@ namespace RelayControlLibrary
                         break;
                     case RelayProgrammingStates.LoadingRelayCode:
                     case RelayProgrammingStates.LoadingRelayData:
-                        this.writeStringToTraceFile("AckR, ");
+                        this.writeDebugString("AckR, ");
                         if (this.State == RelayProgrammingStates.WaitingForBootRelay)
                             this.State = RelayProgrammingStates.LoadingRelayCode;
                         this.timerTimeout.Stop();
@@ -1407,14 +1403,14 @@ namespace RelayControlLibrary
                         this.sendNextRelayPacket();
                         break;
                     case RelayProgrammingStates.LoadingFPGACode:
-                        this.writeStringToTraceFile("AckF, ");
+                        this.writeDebugString("AckF, ");
                         this.timerTimeout.Stop();
                         this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
                         this.sendNextFPGAPacket();
                         break;
                     case RelayProgrammingStates.ClearingBootLoader:
-                        this.writeStringToTraceFile("AckU, ");
+                        this.writeDebugString("AckU, ");
                         this.timerTimeout.Stop();
                         this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
@@ -1422,7 +1418,7 @@ namespace RelayControlLibrary
                         this.sendNextRelayBootLoaderPacket();
                         break;
                     case RelayProgrammingStates.LoadingMasterBootLoader:
-                        this.writeStringToTraceFile("AckU, ");
+                        this.writeDebugString("AckU, ");
                         this.timerTimeout.Stop();
                         this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
@@ -1455,7 +1451,7 @@ namespace RelayControlLibrary
             if (this.autoLoad && !this.programmingForm.Visible && this.state != RelayProgrammingStates.AutoLoadCheckBoot)
                 this.programmingForm.ShowDialog();
 
-            this.writeLineToTraceFile("Boot Received - " + this.state.ToString());
+            this.writeDebugLine("Boot Received - " + this.state.ToString());
 
             masterBootStringReceived = bootReceived.Substring(5);
             bootStartUpChar = bootReceived.Substring(3, 1);
@@ -1488,7 +1484,10 @@ namespace RelayControlLibrary
                     break;
                 case RelayProgrammingStates.WaitingForBootRelay:
                 case RelayProgrammingStates.LoadingRelayCode:
-                    this.programmingForm.CurrentTask = "Loading Relay Code";
+                    this.programmingForm.CurrentTask = "Loading Relay Code d";
+                    this.timerTimeout.Stop();
+                    this.timerTimeout.Interval = 1500;
+                    this.timerTimeout.Start();
                     this.sendRelayTransferPacket();
                     break;
                 case RelayProgrammingStates.WaitingForBootFPGA:
@@ -1533,7 +1532,7 @@ namespace RelayControlLibrary
 
         private void masterFinished()
         {
-            this.writeLineToTraceFile("Master Finished Loading");
+            this.writeDebugLine("Master Finished Loading");
             if (autoLoad)
             {
                 this.State = RelayProgrammingStates.WaitingForBootRelay;
@@ -1554,13 +1553,13 @@ namespace RelayControlLibrary
                 {
 
                     rPEA.BytesToSend = new byte[1024];
-                    this.programmingForm.CurrentTask = "Loading Relay Code";
+                    this.programmingForm.CurrentTask = "Loading Relay Code e";
                     if (this.relayCode.CodeBytes.Count == 0)
                     {
                         this.State = RelayProgrammingStates.LoadingRelayData;
                         this.programmingForm.RelayCodeComplete = true;
                         this.programmingForm.CurrentTask = "Loading Relay Data";
-                        this.writeLineToTraceFile("Loading Relay Data");
+                        this.writeDebugLine("Loading Relay Data");
                         this.programmingForm.Maximum = this.relayCode.NumberOfDataBlocks;
 
                         this.sendNextRelayPacket();
@@ -1579,7 +1578,7 @@ namespace RelayControlLibrary
                     temp++;
                     this.labelCodeCount.Text = temp.ToString();
 
-                    this.writeStringToTraceFile("RC, ");
+                    this.writeDebugString("RC, ");
 
                     this.onSend(rPEA);
                 }
@@ -1607,7 +1606,7 @@ namespace RelayControlLibrary
 
                 Int32 temp = Convert.ToInt32(this.labelDataCount.Text);
 
-                this.writeStringToTraceFile("RD, ");
+                this.writeDebugString("RD, ");
                 this.onSend(rPEA);
 
                 this.programmingForm.ProgressValue = temp;
@@ -1651,7 +1650,7 @@ namespace RelayControlLibrary
                     this.relayCode.CodeBytes.RemoveAt(0);
                 }
 
-                this.writeStringToTraceFile("BL, ");
+                this.writeDebugString("BL, ");
 
                 this.onSend(rPEA);
             }
@@ -1698,7 +1697,7 @@ namespace RelayControlLibrary
                 rPEA.BytesToSend[2] = 32; //can be 32 or 24
                 rPEA.BytesToSend[3] = 0x0D;
 
-                this.writeStringToTraceFile("BL, ");
+                this.writeDebugString("BL, ");
 
                 this.onSend(rPEA);
 
@@ -1761,7 +1760,7 @@ namespace RelayControlLibrary
                         this.programmingForm.ProgressValue = temp;
                         temp++;
                         this.labelCodeCount.Text = temp.ToString();
-                        this.writeStringToTraceFile("BL, ");
+                        this.writeDebugString("BL, ");
                     }
                 }
                 catch (Exception ex)
@@ -1797,7 +1796,7 @@ namespace RelayControlLibrary
                             this.programmingForm.Maximum = this.masterCode.NonParameterCount;
 
                         this.programmingForm.CurrentTask = "Loading Master Data";
-                        this.writeLineToTraceFile("Loading Master Data");
+                        this.writeDebugLine("Loading Master Data");
                         this.sendNextMasterPacket();
                         return;
                     }
@@ -1811,7 +1810,7 @@ namespace RelayControlLibrary
                     this.programmingForm.ProgressValue = temp;
                     temp++;
                     this.labelCodeCount.Text = temp.ToString();
-                    this.writeStringToTraceFile("MC, ");
+                    this.writeDebugString("MC, ");
                 }
                 catch (Exception ex)
                 {
@@ -1826,7 +1825,7 @@ namespace RelayControlLibrary
 
                 if (this.masterCode.DataBytes.Count == 0 || (temp == this.masterCode.NonParameterCount && !this.masterCode.WithParameters))
                 {
-                    this.writeLineToTraceFile("");
+                    this.writeDebugLine("");
                     this.doneLoadingMaster();
                     return;
                 }
@@ -1842,7 +1841,7 @@ namespace RelayControlLibrary
                 temp++;
                 this.programmingForm.ProgressValue = temp;
                 this.labelDataCount.Text = temp.ToString();
-                this.writeStringToTraceFile("MD, ");
+                this.writeDebugString("MD, ");
             }
             else
             {
@@ -1879,7 +1878,7 @@ namespace RelayControlLibrary
                 this.programmingForm.ProgressValue = temp;
                 temp++;
                 this.labelCodeCount.Text = temp.ToString();
-                this.writeStringToTraceFile("FP, ");
+                this.writeDebugString("FP, ");
 
                 this.onSend(rPEA);
             }
@@ -1896,8 +1895,8 @@ namespace RelayControlLibrary
 
             this.programmingForm.FPGAComplete = true;
             this.timerTimeout.Stop();
-            this.writeLineToTraceFile("");
-            this.writeLineToTraceFile("Done Loading FPGA");
+            this.writeDebugLine("");
+            this.writeDebugLine("Done Loading FPGA");
 
             if (this.autoLoad && !this.programMasterBootFileSelect)
                 this.allReprogramingDone();
@@ -1921,7 +1920,7 @@ namespace RelayControlLibrary
                         this.State = RelayProgrammingStates.WaitingForBootMaster;
                         this.programmingForm.Maximum = this.masterCode.NumberOfCodeBlocks * 2;
                         this.programmingForm.CurrentTask = "Loading Master Code";
-                        this.writeLineToTraceFile("Loading Master Code");
+                        this.writeDebugLine("Loading Master Code");
                         this.timerTimeout.Start();
                     }
                     else if (this.reprogramFPGA)
@@ -1932,7 +1931,7 @@ namespace RelayControlLibrary
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
                         this.programmingForm.Maximum = 96;
                         this.programmingForm.CurrentTask = "Loading FPGA";
-                        this.writeLineToTraceFile("Loading FPGA");
+                        this.writeDebugLine("Loading FPGA");
                         this.timerTimeout.Start();
                     }
                     else
@@ -1952,7 +1951,7 @@ namespace RelayControlLibrary
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
                         this.programmingForm.Maximum = 96;
                         this.programmingForm.CurrentTask = "Loading FPGA";
-                        this.writeLineToTraceFile("Loading FPGA");
+                        this.writeDebugLine("Loading FPGA");
                     }
                     else if (this.programMasterBootFileSelect)
                         startManualBootCodeLoad();
@@ -1976,7 +1975,7 @@ namespace RelayControlLibrary
                     if (this.reprogramRelay)
                     {
                         this.parseSFile(this.relayCode);
-                        this.programmingForm.CurrentTask = "Loading Relay Code";
+                        this.programmingForm.CurrentTask = "Loading Relay Code f";
                         this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
                         this.State = RelayProgrammingStates.WaitingForBootRelay;
                         this.timerTimeout.Start();
@@ -1987,7 +1986,7 @@ namespace RelayControlLibrary
                         this.programmingForm.RelayCodeComplete = true;
                         this.programmingForm.RelayDataComplete = true;
                         this.programmingForm.CurrentTask = "Loading FPGA";
-                        this.writeLineToTraceFile("Loading FPGA");
+                        this.writeDebugLine("Loading FPGA");
                         this.programmingForm.Maximum = 96;
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
                         this.sendReset();
@@ -2014,8 +2013,8 @@ namespace RelayControlLibrary
                     if (this.reprogramRelay)
                     {
                         this.parseSFile(this.relayCode);
-                        this.programmingForm.CurrentTask = "Loading Relay Code";
-                        this.writeLineToTraceFile("Loading Relay Code");
+                        this.programmingForm.CurrentTask = "Loading Relay Code g";
+                        this.writeDebugLine("Loading Relay Code g");
                         this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
                         this.State = RelayProgrammingStates.WaitingForBootRelay;
                         this.timerTimeout.Start();
@@ -2026,7 +2025,7 @@ namespace RelayControlLibrary
                         this.programmingForm.RelayCodeComplete = true;
                         this.programmingForm.RelayDataComplete = true;
                         this.programmingForm.CurrentTask = "Loading FPGA";
-                        this.writeLineToTraceFile("Loading FPGA");
+                        this.writeDebugLine("Loading FPGA");
                         this.programmingForm.Maximum = 96;
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
                         this.timerTimeout.Start();
@@ -2050,7 +2049,7 @@ namespace RelayControlLibrary
 
         private void allReprogramingDone()
         {
-            this.writeLineToTraceFile("All Loading Done");
+            this.writeDebugLine("All Loading Done");
             this.reprogrammingInProgress = false;
             if (this.autoLoad)
             {
@@ -2112,8 +2111,8 @@ namespace RelayControlLibrary
 
             this.enableButtons(true);
             this.timerTimeout.Stop();
-            this.writeLineToTraceFile("");
-            this.writeLineToTraceFile("Done Loading Master Boot");
+            this.writeDebugLine("");
+            this.writeDebugLine("Done Loading Master Boot");
             this.programmingForm.MasterBootComplete = true;
 
             Thread.Sleep(3000); //must delay before sending any other commands on completion!
@@ -2147,7 +2146,7 @@ namespace RelayControlLibrary
             {
                 this.programmingForm.Hide();
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
-                this.writeLineToTraceFile("Reprogam Completed Successfully");
+                this.writeDebugLine("Reprogam Completed Successfully");
                 this.logUpdate();
                 this.state = RelayProgrammingStates.Idle;
                 this.autoLoad = false;
@@ -2176,91 +2175,24 @@ namespace RelayControlLibrary
             }
         }
 
-        private void initializeTraceFile()
+        private void writeDebugLine(string s)
         {
             try
             {
 #if !DEBUG
                 return;
 #endif
-                this.traceFile = _logPath + "RelayUpdate_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss") + ".txt";
-
-                if (!Directory.Exists(_logPath))
-                    Directory.CreateDirectory(_logPath);
-
-                if (!File.Exists(this.traceFile))
-                    using (File.Create(this.traceFile)) { };
+                Debug.WriteLine(s);
             }
             catch (Exception ex)
             {
-                this.errorHandler("Error Initializing Trace File", ex);
-            }
-        }
-
-        private bool fileWritingAllowed = true;
-
-        private void writeLineToTraceFile(string s)
-        {
-            try
-            {
-#if !DEBUG
-                return;
-#endif
-                if (!fileWritingAllowed)
-                    return;
-                if (!File.Exists(this.traceFile))
-                    return;
-                using (StreamWriter sW = new StreamWriter(this.traceFile, true, Encoding.ASCII))
-                {
-                    sW.WriteLine(s);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.fileWritingAllowed = false;
                 this.errorHandler("Error Writing To Trace File", ex);
             }
         }
 
-        private void writeStringToTraceFile(string s)
+        private void writeDebugString(string s)
         {
-            try
-            {
-                string tempString = "";
-                bool writeNewLine = false;
-#if !DEBUG
-                return;
-#endif
-
-                if (!fileWritingAllowed)
-                    return;
-
-                if (!File.Exists(this.traceFile))
-                    return;
-
-                using (StreamReader sR = new StreamReader(this.traceFile, Encoding.ASCII))
-                {
-                    while (sR.Peek() >= 0)
-                    {
-                        tempString = sR.ReadLine();
-                    }
-
-                    if (tempString.Length >= 80)
-                        writeNewLine = true;
-                }
-
-                using (StreamWriter sW = new StreamWriter(this.traceFile, true, Encoding.ASCII))
-                {
-                    if (writeNewLine)
-                        sW.WriteLine();
-                    sW.Write(s);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.fileWritingAllowed = false;
-                this.errorHandler("Error Writing To Trace File", ex);
-            }
+            Debug.WriteLine(s);
         }
 
         private void sendNonTransmitterSettings()
@@ -2268,7 +2200,7 @@ namespace RelayControlLibrary
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
             // Return if manual reload because we don't have settings
-            this.writeLineToTraceFile("Send Non Transmitter Settings");
+            this.writeDebugLine("Send Non Transmitter Settings");
             if (this.manualReload)
                 return;
 
@@ -2298,7 +2230,7 @@ namespace RelayControlLibrary
             {
                 this.onSend(rPEA);
                 this.labelState.Text = "Sent Master Transfer Packet";
-                this.writeLineToTraceFile("Sent Master Transfer Packet");
+                this.writeDebugLine("Sent Master Transfer Packet");
             }
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
@@ -2323,7 +2255,7 @@ namespace RelayControlLibrary
             {
                 this.onSend(rPEA);
                 this.labelState.Text = "Sent Relay Transfer Packet";
-                this.writeLineToTraceFile("Sent Relay Transfer Packet");
+                this.writeDebugLine("Sent Relay Transfer Packet");
             }
 
             this.timerTimeout.Interval = 7000;
@@ -2344,7 +2276,7 @@ namespace RelayControlLibrary
             {
                 this.onSend(rPEA);
                 this.labelState.Text = "Sent FPGA Transfer Packet";
-                this.writeLineToTraceFile("Sent FPGA Transfer Packet");
+                this.writeDebugLine("Sent FPGA Transfer Packet");
             }
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
@@ -2991,7 +2923,7 @@ namespace RelayControlLibrary
                 this.useMasterSFile(oFD.FileName);
                 this.textBoxMasterFileName.Text = oFD.FileName;
                 this.dontReloadFromResource = true;
-                this.writeLineToTraceFile("Selected Master File");
+                this.writeDebugLine("Selected Master File");
             }
         }
 
@@ -3018,7 +2950,7 @@ namespace RelayControlLibrary
 
             if (dR == DialogResult.OK)
             {
-                this.writeLineToTraceFile("Selected Relay File");
+                this.writeDebugLine("Selected Relay File");
                 this.useRelaySFile(oFD.FileName);
                 this.textBoxRelayFileName.Text = oFD.FileName;
                 this.dontReloadFromResource = true;
@@ -3049,7 +2981,7 @@ namespace RelayControlLibrary
                     this.fPGACode.UseFile = true;
                     this.parseFPGAFile(this.fPGACode);
                     this.dontReloadFromResource = true;
-                    this.writeLineToTraceFile("Selected FPGA File");
+                    this.writeDebugLine("Selected FPGA File");
                 }
             }
             catch (Exception ex)
@@ -3072,12 +3004,15 @@ namespace RelayControlLibrary
             this.State = RelayProgrammingStates.LoadingRelayCode;
             int temp = this.relayCode.NumberOfCodeBlocks * 2;
             this.programmingForm.Maximum = temp;
-            this.programmingForm.CurrentTask = "Loading Relay Code";
+            this.programmingForm.CurrentTask = "Loading Relay Code a";
             this.labelCodeTotal.Text = temp.ToString();
             this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendRelayReset();
+            timerTimeout.Stop();
+            timerTimeout.Interval = 1500;
+            timerTimeout.Start();
             this.enableButtons(false);
         }
 
@@ -3215,7 +3150,7 @@ namespace RelayControlLibrary
                 if (this.autoLoad)
                 {
                     this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
-                    this.programmingForm.CurrentTask = "Loading Relay Code";
+                    this.programmingForm.CurrentTask = "Loading Relay Code b";
                 }
 
                 int temp = this.relayCode.NumberOfCodeBlocks * 2;
@@ -3475,7 +3410,7 @@ namespace RelayControlLibrary
 
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out - Restarting";
-            this.writeLineToTraceFile("Timed Out in State " + this.state);
+            this.writeDebugLine("Timed Out in State " + this.state);
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 10000;
             this.timerTimeout.Start();

@@ -47,6 +47,10 @@ namespace RelayControlLibrary
 
         private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+            SendAllDNPSettings();
+        }
+        public void SendAllDNPSettings()
+        {
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_packetLength);
