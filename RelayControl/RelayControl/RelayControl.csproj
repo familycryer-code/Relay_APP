@@ -279,7 +279,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG|AnyCPU'">
     <OutputPath>bin\Debug PSEG\</OutputPath>
@@ -293,6 +293,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax DNP with PLC|AnyCPU'">
     <OutputPath>bin\Release Enmax DNP with PLC\</OutputPath>
+	<ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
     <DefineConstants>DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
