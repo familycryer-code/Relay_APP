@@ -299,6 +299,11 @@ namespace RelayControlLibrary
                 //Temp Calibration
                 if (this.packetLength == 30)
                     this.TXSettings.TemperatureCalibration = (sbyte)bA[27];
+                else
+                {
+                    checkBoxExtendedPLCMessage.Checked =
+                        this.TXSettings.ExtendedPLCMessage = (bA[27] & 0x01) == 1 ? true : false;
+                }
                 //Zero Crossing Phasing
 
                 //Type 1 Message Length
@@ -1171,6 +1176,7 @@ namespace RelayControlLibrary
                     this.TXSettings.LEDSpeed = (byte)this.numericUpDownLEDSpeed.Value;
                 }
 
+                TXSettings.ExtendedPLCMessage = checkBoxExtendedPLCMessage.Checked;
             }
             catch (Exception ex)
             {
