@@ -1061,7 +1061,7 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            this.writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
 
