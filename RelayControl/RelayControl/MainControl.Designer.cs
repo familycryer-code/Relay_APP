@@ -236,6 +236,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -2346,6 +2347,7 @@ namespace RelayControl
             // 
             // tabPageEngineering2
             // 
+            this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
             this.tabPageEngineering2.Controls.Add(this.buttonTest);
             this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
             this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
@@ -2510,6 +2512,16 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // checkBoxSerialCommsDebugging
+            // 
+            this.checkBoxSerialCommsDebugging.AutoSize = true;
+            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
+            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
+            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxSerialCommsDebugging.TabIndex = 2;
+            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
+            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2562,6 +2574,7 @@ namespace RelayControl
             this.panelOtherRelayControls.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
             this.tabPageEngineering2.ResumeLayout(false);
+            this.tabPageEngineering2.PerformLayout();
             this.tabPageDNP.ResumeLayout(false);
             this.tabPageArcFault.ResumeLayout(false);
             this.tabPageShortRange.ResumeLayout(false);
@@ -2783,6 +2796,7 @@ namespace RelayControl
         private System.Windows.Forms.CheckBox checkBox277DNPOutputs;
 		private System.Windows.Forms.ToolStripMenuItem tCPConnectionToolStripMenuItem;
         private System.Windows.Forms.Button buttonTest;
+        private System.Windows.Forms.CheckBox checkBoxSerialCommsDebugging;
     }
 }
 
