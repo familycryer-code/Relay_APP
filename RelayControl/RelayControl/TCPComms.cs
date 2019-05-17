@@ -62,7 +62,7 @@ namespace RelayControl
             if (client != null)
             {
                 client.Close();
-                client.Dispose();
+                client = null;
             }
             connect();
         }

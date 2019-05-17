@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-05-08";
+        private const string revisionDate = "2019-05-17";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -1628,7 +1628,8 @@ namespace RelayControl
                     this.SendConfirmed = true;
 
                     lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
-                    Debug.Write(String.Format("{0:X2}-", lastByte));
+                    if (checkBoxSerialCommsDebugging.Checked)
+                        Debug.Write(String.Format("{0:X2}-", lastByte));
                     if (lastByte == 0x06)
                     {
                         this.SendConfirmed = true;
@@ -1652,7 +1653,6 @@ namespace RelayControl
             //Check to see if the last byte is a confirmation
             try
             {
-                Debug.Write(DateTime.UtcNow.ToString() + "\r");
                 if (!this.readSemaphoreTaken || dReceived)//lastByte == 0x0D )
                 {
                     this.BeginInvoke(new EventHandler(this.checkRawData));
@@ -5741,7 +5741,8 @@ namespace RelayControl
         private void sendComPacket(byte[] bytePacket)
         {
             string errorMessage = "None";
-            Debug.WriteLine(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
+            if (checkBoxSerialCommsDebugging.Checked)
+                Debug.WriteLine(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
             try
             {
                 errorMessage = "Error Checking if Port is open";
