@@ -32,7 +32,7 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-05-17";
+        private const string revisionDate = "2019-05-29";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -153,6 +153,7 @@ namespace RelayControl
             {
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
+                    checkBox277DNPOutputs.Visible = true;
 #if !WATERBUG
                     if (this.Customer == Customers.SMUD)
                         this.TransmitterEnabled = false;
@@ -197,8 +198,11 @@ namespace RelayControl
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
                 }
-                else
+                else //DNP false
                 {
+#if !DEBUG
+                    checkBox277DNPOutputs.Visible = false;
+#endif
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
