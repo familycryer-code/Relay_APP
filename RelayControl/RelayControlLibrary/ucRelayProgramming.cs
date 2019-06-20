@@ -969,7 +969,7 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
 
@@ -997,7 +997,7 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
 
@@ -1030,7 +1030,7 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            this.writeLineToTraceFile("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
 
