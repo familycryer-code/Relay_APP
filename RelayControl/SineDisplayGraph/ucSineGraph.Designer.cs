@@ -173,7 +173,6 @@ namespace SineDisplayGraph
             this.sineGraph1.Location = new System.Drawing.Point(3, 3);
             this.sineGraph1.Name = "sineGraph1";
             this.sineGraph1.PointsToDraw = 0;
-            this.sineGraph1.Protector277 = false;
             this.sineGraph1.ScrollEnabled = false;
             this.sineGraph1.Size = new System.Drawing.Size(455, 271);
             this.sineGraph1.TabIndex = 0;

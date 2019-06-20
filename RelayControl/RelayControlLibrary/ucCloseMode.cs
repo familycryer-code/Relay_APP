@@ -52,86 +52,65 @@ namespace RelayControlLibrary
             }
         }
 
-        private decimal conversion277 = 2.216m;
-
-        public bool voltage277State = false;
-
-        public bool Voltage277State
+        private ProtectorVoltage protectorVoltage =
+            ProtectorVoltages.GetVoltage();
+        public ProtectorVoltage ProtectorVoltage
         {
-            get { return this.voltage277State; }
+            get { return protectorVoltage; }
             set
             {
-                if (this.voltage277State != value)
+                if (protectorVoltage != value)
                 {
-                    this.voltage277State = value;
-                    this.setVoltage277State();
+                    setProtectorVoltage(value);
                 }
             }
         }
 
-        private decimal storeRecloseVoltageIncrement = 0;
-        private decimal storeRecloseVoltage = 0;
-        private decimal storeRecloseMaximum = 0;
-        private decimal storePDVoltageIncrement = 0;
-        private decimal storeRecloseMinimum = 0;
-        private decimal storePDVoltage = 0;
-        private decimal storePDMaximum = 0;
-        private decimal storePDMinimum = 0;
+        private readonly decimal _v125RecloseMaximum = 10.0m;
+        private readonly decimal _v125RecloseMinimum = 0.0m;
+        private readonly decimal _v125RecloseIncrement = 0.1m;
+        private readonly decimal _v125RecloseValue = 1.5m;
 
-        private void setVoltage277State()
+        private readonly decimal _v125PDMaximum = 0.4m;
+        private readonly decimal _v125PDMinimum = 0.0m;
+        private readonly decimal _v125PDIncrement = 0.1m;
+        private readonly decimal _v125PDValue = 0.0m;
+
+        private void setProtectorVoltage(ProtectorVoltage value)
         {
             try
             {
-                if (voltage277State == true) //Increase voltage values
-                {
-                    this.storeRecloseVoltageIncrement = this.numericUpDownRecloseVolts.Increment;
-                    this.storeRecloseVoltage = this.numericUpDownRecloseVolts.Value;
-                    this.storeRecloseMaximum = this.numericUpDownRecloseVolts.Maximum;
-                    this.storeRecloseMinimum = this.numericUpDownRecloseVolts.Minimum;
-                    this.storePDVoltageIncrement = this.numericUpDownPDV.Increment;
-                    this.storePDVoltage = this.numericUpDownPDV.Value;
-                    this.storePDMaximum = this.numericUpDownPDV.Maximum;
-                    this.storePDMinimum = this.numericUpDownPDV.Minimum;
+                // The protectVoltage values has not been updated yet, so it can be used to scale things down
+                var phaseVoltage = numericUpDownPDV.Value / protectorVoltage.Scaling;
+                var recloseVoltage = numericUpDownRecloseVolts.Value / protectorVoltage.Scaling;
 
-                    //Maximum must be increased before value
-                    this.numericUpDownRecloseVolts.Maximum = numericUpDownRecloseVolts.Maximum * conversion277;
-                    this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * conversion277;
-                    this.numericUpDownRecloseVolts.Increment = this.numericUpDownRecloseVolts.Increment * conversion277;
-                    this.numericUpDownRecloseVolts.Minimum = this.numericUpDownRecloseVolts.Minimum * conversion277;
+                protectorVoltage = value;
+                numericUpDownRecloseVolts.Maximum = _v125RecloseMaximum * protectorVoltage.Scaling;
+                numericUpDownRecloseVolts.Minimum = _v125RecloseMinimum * protectorVoltage.Scaling;
+                numericUpDownRecloseVolts.Increment = _v125RecloseIncrement * protectorVoltage.Scaling;
 
-                    this.numericUpDownPDV.Maximum = numericUpDownPDV.Maximum * conversion277;
-                    this.numericUpDownPDV.Value = numericUpDownPDV.Value * conversion277;
-                    this.numericUpDownPDV.Increment = this.numericUpDownPDV.Increment * conversion277;
-                    this.numericUpDownPDV.Minimum = this.numericUpDownPDV.Minimum * conversion277;
-                }
-                else //decrease voltage values
-                {
-                    //order matters must decrease minimum and voltage values before maximum value
-                    this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum;
-                    if (this.numericUpDownRecloseVolts.Value != 0)
-                        this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value / conversion277;
-                    this.numericUpDownRecloseVolts.Maximum = this.storeRecloseMaximum;
-                    this.numericUpDownRecloseVolts.Increment = this.storeRecloseVoltageIncrement;
+                numericUpDownPDV.Maximum = _v125PDMaximum * protectorVoltage.Scaling;
+                numericUpDownPDV.Minimum = _v125PDMinimum * protectorVoltage.Scaling;
+                numericUpDownPDV.Increment = _v125PDIncrement * protectorVoltage.Scaling;
 
-                    this.numericUpDownPDV.Minimum = this.storePDMinimum;
-                    if (this.numericUpDownPDV.Value != 0)
-                        this.numericUpDownPDV.Value = numericUpDownPDV.Value / conversion277;
-                    this.numericUpDownPDV.Maximum = this.storePDMaximum;
-                    this.numericUpDownPDV.Increment = this.storePDVoltageIncrement;
-                }
+                numericUpDownPDV.Value = phaseVoltage * protectorVoltage.Scaling;
+                numericUpDownRecloseVolts.Value = recloseVoltage * protectorVoltage.Scaling;
             }
             catch
             {
-                MessageBox.Show("Error setting Close Mode 277 voltages");
+                MessageBox.Show("Error setting Close Mode Protector voltages");
 
-                this.numericUpDownRecloseVolts.Increment = this.storeRecloseVoltageIncrement;
-                this.numericUpDownRecloseVolts.Minimum = this.storeRecloseMinimum;
-                this.numericUpDownRecloseVolts.Value = this.storeRecloseVoltage;
-                this.numericUpDownRecloseVolts.Maximum = this.storeRecloseMaximum;
-                this.numericUpDownPDV.Increment = this.storePDVoltageIncrement;
-                this.numericUpDownPDV.Minimum = this.storePDMinimum;
-                this.numericUpDownPDV.Value = this.storePDVoltage;
-                this.numericUpDownPDV.Maximum = this.storePDMaximum;
+                numericUpDownRecloseVolts.Maximum = _v125RecloseMaximum;
+                numericUpDownRecloseVolts.Minimum = _v125RecloseMinimum;
+                numericUpDownRecloseVolts.Increment = _v125RecloseIncrement;
+                numericUpDownRecloseVolts.Value = _v125RecloseValue;
+
+                numericUpDownPDV.Maximum = _v125PDMaximum;
+                numericUpDownPDV.Minimum = _v125PDMinimum;
+                numericUpDownPDV.Increment = _v125PDIncrement;
+                numericUpDownPDV.Value = _v125PDValue;
+
+                protectorVoltage = ProtectorVoltages.GetVoltage();
             }
         }
 
@@ -248,8 +227,7 @@ namespace RelayControlLibrary
             this.checkBoxCircleClose.Visible = true;
             this.panelBlockedOpenOverride.Visible = true;
             this.buttonRelaxClose.Visible = true;
-            if (voltage277State == false)
-                this.numericUpDownPDV.Maximum = 0.4m;
+            this.numericUpDownPDV.Maximum = 0.4m * (decimal)protectorVoltage.Scaling;
             this.numericUpDownPDV.Minimum = 0.0m;
         }
 
@@ -367,10 +345,7 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    if (voltage277State == true) //adjust for 277
-                        this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value / conversion277;
-                    else
-                        this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value;
+                    this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value / protectorVoltage.Scaling;
                 }
 
                 this.CloseCurve.TiltAngle = this.numericUpDownCloseTiltAngle.Value;
@@ -392,11 +367,7 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    if (voltage277State == true) //adjust for 277
-                        this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value / (decimal)conversion277;
-                    else
-                        this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value;
-
+                    this.CloseCurve.PhasingOffset = this.numericUpDownPDV.Value / protectorVoltage.Scaling;
                     this.CloseCurve.PhaseDetectAngle = this.numericUpDownPDA.Value;
                 }
             }
@@ -602,13 +573,10 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Close Control Word."));
             }
 
-            try //set 277 value Close Mode
+            try
             {
-                if (voltage277State == true)
-                {
-                    this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)conversion277;
-                    this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)conversion277;
-                }
+                this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
+                this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
             }
             catch
             {
@@ -740,21 +708,16 @@ namespace RelayControlLibrary
             this.setVerticalLine();
             this.setHorizontalLine();
 
-            try //set 277 value Close Mode
+            try
             {
-                if (voltage277State == true)
-                {
-                    this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)conversion277;
-                    this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)conversion277;
-                }
+                this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
+                this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
             }
             catch
             {
                 MessageBox.Show("Error setting close mode to 277 values");
             }
         }
-
-
 
         private void populateSaveModeCloseData(CloseModeSaveStateV4 cMSS)
         {
@@ -766,8 +729,6 @@ namespace RelayControlLibrary
             cMSS.TiltAngle = (int)this.numericUpDownCloseTiltAngle.Value;
             cMSS.BlockedOverride = this.radioButtonOverrideBlockedOpen.Checked;
         }
-
-
 
         public void SetAllValues(CloseModeSaveStateV4 cMSS)
         {

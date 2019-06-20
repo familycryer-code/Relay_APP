@@ -17,6 +17,7 @@ namespace RelayControlLibrary
             SetSize();
             this.initializeComponents();
         }
+        static readonly int _600V_ADDED = 190611;
 
         public ucDNPDIGITALGRIDData(Customers customer)
         {
@@ -157,7 +158,9 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("SEC H - Oil Level");
                 this.binaryInputs.Add("Q Bit");
                 this.binaryInputs.Add("DNP 277 In");
-                this.binaryInputs.Add("DNP 277 Out");
+                this.binaryInputs.Add("DNP Out Scaling");
+                if (relayMasterRevision >= _600V_ADDED)
+                    this.binaryInputs.Add("DNP 600 In");
 
                 pointsToAdd = (uint)binaryInputs.Count;
             }
@@ -239,6 +242,8 @@ namespace RelayControlLibrary
                 this.binaryOutputs.Add("Command Lockout");
                 this.binaryOutputs.Add("DNP277V In");
                 this.binaryOutputs.Add("DNP277V Out");
+                if (relayMasterRevision >= _600V_ADDED)
+                    this.binaryOutputs.Add("DNP600V In");
             }
 
             uint i = 0;

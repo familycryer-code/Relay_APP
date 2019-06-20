@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Runtime.Serialization;
+using System.ComponentModel;
+using System.Linq;
 
 namespace RelayControlLibrary
 {
@@ -1884,4 +1886,65 @@ namespace RelayControlLibrary
         }
     }
     #endregion
+
+    public enum ProtectorVoltageEnum
+    {
+        V125,
+        V277,
+        V600
+    }
+    public class ProtectorVoltage
+    {
+        public ProtectorVoltage(string name, ProtectorVoltageEnum value, decimal scaling, ProtectorVoltageBits bit)
+        {
+            Name = name;
+            Value = value;
+            Scaling = scaling;
+            SetBit = bit;
+        }
+        public string Name { get; }
+        public ProtectorVoltageEnum Value { get; }
+
+        public decimal Scaling { get; }
+
+        public ProtectorVoltageBits SetBit { get; }
+    }
+
+    public static class ProtectorVoltages
+    {
+        public static BindingList<ProtectorVoltage> Voltages { get; } =
+            new BindingList<ProtectorVoltage> {
+                new ProtectorVoltage("125V", ProtectorVoltageEnum.V125, 1.0m, new ProtectorVoltageBits()),
+                new ProtectorVoltage("277V", ProtectorVoltageEnum.V277, 2.16m, ProtectorVoltageBits.V277),
+                new ProtectorVoltage("600V", ProtectorVoltageEnum.V600, 4.8m, ProtectorVoltageBits.V600)
+            };
+
+        public static ProtectorVoltage GetVoltage(ProtectorVoltageBits bits)
+        {
+            bits = bits & (ProtectorVoltageBits.V277 | ProtectorVoltageBits.V600);
+            var voltage = Voltages.FirstOrDefault(x => x.SetBit.HasFlag(bits));
+
+            if (voltage == null)
+                voltage =
+                    Voltages.First<ProtectorVoltage>(x => x.Value == ProtectorVoltageEnum.V125);
+
+            return voltage;
+        }
+
+        public static ProtectorVoltage GetVoltage()
+        {
+            return Voltages.First<ProtectorVoltage>(x => x.Value == ProtectorVoltageEnum.V125);
+        }
+    }
+
+    [Flags]
+    public enum ProtectorVoltageBits
+    {
+        PhasingBit1 = 1,
+        PhasingBit2 = 2,
+        PhasingBit3 = 4,
+        V277 = 8,
+        DNPOutputConvert = 16,
+        V600 = 32
+    }
 }

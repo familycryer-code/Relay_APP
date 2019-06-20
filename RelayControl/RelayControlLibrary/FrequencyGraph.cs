@@ -39,16 +39,9 @@ namespace RelayControlLibrary
                     this.FFT(this.sineWave);
             }
         }
-        public bool Protector277
-        {
-            get { return this.protector277; }
-            set
-            {
-                this.protector277 = value;
-            }
-        }
+        public ProtectorVoltage ProtectorVoltage { get; set; } =
+            ProtectorVoltages.GetVoltage();
 
-        private bool protector277 = false;
         private int numberOfHarmonics = 32;
         private float conversionFactor;
         private Pen graphPen = new Pen(Color.Black, 1);
@@ -403,10 +396,9 @@ namespace RelayControlLibrary
 
                 }
 
-                if (this.protector277 && !RelayModeFunctions.IsCurrent(this.PhasorType))
-                {
-                    temp = temp * Constants.Protector277Convert;
-                }
+
+                temp = temp * (float)ProtectorVoltage.Scaling;
+
 
                 tT.Show(harmonic + " - " + Math.Round(temp, 2).ToString() + " - Cycle " + this.ClickedCycleNumber.ToString() + " - " + this.PhasorType.ToString() + " - " + Math.Round(this.totalHarmonicDistortion, 2).ToString() + "% THD", this, 10, 10);
             }

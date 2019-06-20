@@ -25,14 +25,8 @@ namespace RelayControlLibrary
         public ArrayList sineWavesToDraw = new ArrayList();
         public int[] currentIndex;
         public Int32 CTRatio = 320;
-        public bool Protector277
-        {
-            get { return this.protector277; }
-            set
-            {
-                this.protector277 = value;
-            }
-        }
+        public ProtectorVoltage ProtectorVoltage { get; set; } =
+            ProtectorVoltages.GetVoltage();
         public string GraphName
         {
             get { return this.labelType.Text; }
@@ -65,7 +59,6 @@ namespace RelayControlLibrary
         private int maxIndexToDraw = 128;
         private int totalPoints = 129;
         private Size GraphSize;
-        private bool protector277 = false;
         private bool scrollEnabled;
         private ToolTip tT = new ToolTip();
         private Rectangle graphBoundries;
@@ -500,11 +493,7 @@ namespace RelayControlLibrary
 
                 if (!RelayModeFunctions.IsCurrent(this.Type))
                 {
-                    if (this.protector277)
-                        this.tT.Show(Math.Round(value * Constants.Protector277Convert, 1).ToString() + " Volts RMS", this, 10, 10);
-                    else
-                        this.tT.Show(Math.Round(value, 1).ToString() + " Volts RMS", this, 10, 10);
-
+                    this.tT.Show(Math.Round(value * (float)ProtectorVoltage.Scaling, 1).ToString() + " Volts RMS", this, 10, 10);
                 }
                 else
                     this.tT.Show(Math.Round(value * this.CTRatio, 1).ToString() + " Amps RMS", this, 10, 10);

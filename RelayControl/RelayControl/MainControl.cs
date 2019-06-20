@@ -23,6 +23,7 @@ using SavedSettings;
 using SharedResources;
 using System.Diagnostics;
 using System.Reflection;
+using System.Linq;
 
 namespace RelayControl
 {
@@ -278,6 +279,7 @@ namespace RelayControl
         {
             try
             {
+                initializeDNPVoltageComboBox();
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
 #if DEBUG
@@ -648,6 +650,14 @@ namespace RelayControl
             }
         }
 
+        private void initializeDNPVoltageComboBox()
+        {
+            comboBoxDNPVoltage.Items.Clear();
+            comboBoxDNPVoltage.DisplayMember = "Name";
+            comboBoxDNPVoltage.ValueMember = "Value";
+            comboBoxDNPVoltage.DataSource = ProtectorVoltages.Voltages;
+        }
+
         private void standardExceptionMessage(object o, ExceptionEventArgs eEA)
         {
             this.messageHandler(eEA.Title, eEA.InnerException);
@@ -710,7 +720,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.domainUpDownRelayType, "Changes Relay Algorithm");
             this.toolTip.SetToolTip(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
             this.toolTip.SetToolTip(this.textBoxSaveStateName, "Enter name to save current settings to file");
-            this.toolTip.SetToolTip(this.checkBox277Protector, "Scales values on PQ Mon tab to 277V protector - now saved in relay, applies to DNP input values");
+            this.toolTip.SetToolTip(this.comboBoxDNPVoltage, "Scales values on PQ Mon tab to protector voltage - now saved in relay, applies to DNP input values");
             this.toolTip.SetToolTip(this.checkBox277DNPOutputs, "Configures DNP outputs to scale to 277V");
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
@@ -4227,8 +4237,13 @@ namespace RelayControl
 
             try
             {
-                // Check the 277V bit
-                checkBox277Protector.Checked = (0x08 & bytePacket[80]) == 0x08 ? true : false;
+                // Select the Voltage Level
+                ProtectorVoltageBits bits = (ProtectorVoltageBits)bytePacket[80];
+                ProtectorVoltage voltage;
+
+                voltage = ProtectorVoltages.GetVoltage(bits);
+
+                comboBoxDNPVoltage.SelectedItem = voltage;
             }
             catch (Exception ex)
             {
@@ -5222,13 +5237,13 @@ namespace RelayControl
 
                 try
                 {
-                    // if the bit is enabled, then set the 4th bit
-                    if (checkBox277Protector.Checked)
-                        packet[2] |= 0x08;
+                    // set proper bit voltage protector Voltage
+                    packet[2] |= (byte)protectorVoltage.SetBit;
+
                 }
                 catch (Exception ex)
                 {
-                    messageHandler("Problem Setting 277 V bit", ex);
+                    messageHandler("Problem Setting Protector Voltage bits", ex);
                 }
 
                 try
@@ -5267,6 +5282,8 @@ namespace RelayControl
         {
             // 1 = Sequence, 0 - Power
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
+            comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
+            checkBox277DNPOutputs.Checked = false;
 #if DOMINION
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
@@ -6944,8 +6961,10 @@ namespace RelayControl
             sS.CTRatio = this.CTRatio;
             sS.Phasing = this.domainUpDownPhasings.SelectedIndex;
             sS.RelayType = this.domainUpDownRelayType.SelectedIndex;
-            sS.V277Protector = checkBox277Protector.Checked;
-            sS.V277Outputs = checkBox277DNPOutputs.Checked;
+            sS.V277Protector = protectorVoltage.SetBit.HasFlag(ProtectorVoltageBits.V277);
+            sS.V600Protector = protectorVoltage.SetBit.HasFlag(ProtectorVoltageBits.V600);
+            sS.ProtectorVoltageOutputs = checkBox277DNPOutputs.Checked;
+
         }
 
         private void comboBoxSavedStates_SelectedIndexChanged(object sender, EventArgs e)
@@ -7002,8 +7021,16 @@ namespace RelayControl
 
             this.domainUpDownPhasings.SelectedIndex = sS.Phasing;
             this.domainUpDownRelayType.SelectedIndex = sS.RelayType;
-            checkBox277Protector.Checked = sS.V277Protector;
-            checkBox277DNPOutputs.Checked = sS.V277Outputs;
+            if (sS.V277Protector)
+                comboBoxDNPVoltage.SelectedItem =
+                    ProtectorVoltages.GetVoltage(ProtectorVoltageBits.V277);
+            else if (sS.V600Protector)
+                comboBoxDNPVoltage.SelectedItem =
+                    ProtectorVoltages.GetVoltage(ProtectorVoltageBits.V600);
+            else
+                comboBoxDNPVoltage.SelectedItem =
+                    ProtectorVoltages.GetVoltage(new ProtectorVoltageBits());
+
         }
 
         private bool sendAll = false;
@@ -8050,58 +8077,8 @@ namespace RelayControl
             this.requestRelayRegisters();
         }
 
-        private bool protector277 = false;
-
-        private void checkBox277Protector_CheckedChanged(object sender, EventArgs e)
-        {
-            this.protector277 = this.checkBox277Protector.Checked;
-            this.checkBox277ProtectorPQ.Checked = this.protector277;
-
-#if CHICAGO
-            ucCloseMode1.Voltage277State = this.protector277;
-            ucSafeService1.Voltage277State = this.protector277;
-#endif
-
-            this.ucTransmitterMonitoring1.Protector277 = this.protector277;
-
-            this.ucPhasorGraph1.Protector277 = this.protector277;
-
-            this.ucEventGraph0.Protector277 = this.protector277;
-            this.ucEventGraph1.Protector277 = this.protector277;
-            this.ucEventGraph2.Protector277 = this.protector277;
-            this.ucEventGraph3.Protector277 = this.protector277;
-            this.ucEventGraph4.Protector277 = this.protector277;
-            this.ucEventGraph5.Protector277 = this.protector277;
-            this.ucEventGraph6.Protector277 = this.protector277;
-            this.ucEventGraph7.Protector277 = this.protector277;
-            this.ucLiveData1.Protector277 = this.protector277;
-        }
-
-        private void checkBox277Protector_CheckedChanged_PQ(object sender, EventArgs e)
-        {
-            this.protector277 = this.checkBox277ProtectorPQ.Checked;
-            this.checkBox277Protector.Checked = this.protector277;
-
-#if CHICAGO
-            ucCloseMode1.Voltage277State = this.protector277;
-            ucSafeService1.Voltage277State = this.protector277;
-#endif
-
-            this.ucTransmitterMonitoring1.Protector277 = this.protector277;
-
-            this.ucPhasorGraph1.Protector277 = this.protector277;
-
-            this.ucEventGraph0.Protector277 = this.protector277;
-            this.ucEventGraph1.Protector277 = this.protector277;
-            this.ucEventGraph2.Protector277 = this.protector277;
-            this.ucEventGraph3.Protector277 = this.protector277;
-            this.ucEventGraph4.Protector277 = this.protector277;
-            this.ucEventGraph5.Protector277 = this.protector277;
-            this.ucEventGraph6.Protector277 = this.protector277;
-            this.ucEventGraph7.Protector277 = this.protector277;
-            this.ucLiveData1.Protector277 = this.protector277;
-
-        }
+        private ProtectorVoltage protectorVoltage =
+            ProtectorVoltages.GetVoltage();
 
         private void buttonClearEvents_Click(object sender, EventArgs e)
         {
@@ -8523,6 +8500,35 @@ namespace RelayControl
             packet[1] = 0x55;
             packet[2] = 0x0D;
             sendPacket(packet);
+        }
+
+        private void comboBoxDNPVoltage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedVoltage = (ProtectorVoltage)comboBoxDNPVoltage.SelectedItem;
+
+            protectorVoltage = ProtectorVoltages.GetVoltage(selectedVoltage.SetBit);
+
+            updateProtectorVoltage(protectorVoltage);
+        }
+
+        private void updateProtectorVoltage(ProtectorVoltage value)
+        {
+#if CHICAGO
+            ucCloseMode1.ProtectorVoltage = protectorVoltage;
+            ucSafeService1.ProtectorVoltage = protectorVoltage;
+#endif
+            ucTransmitterMonitoring1.ProtectorVoltage = protectorVoltage;
+            ucPhasorGraph1.ProtectorVoltage = protectorVoltage;
+
+            ucEventGraph0.ProtectorVoltage = protectorVoltage;
+            ucEventGraph1.ProtectorVoltage = protectorVoltage;
+            ucEventGraph2.ProtectorVoltage = protectorVoltage;
+            ucEventGraph3.ProtectorVoltage = protectorVoltage;
+            ucEventGraph4.ProtectorVoltage = protectorVoltage;
+            ucEventGraph5.ProtectorVoltage = protectorVoltage;
+            ucEventGraph6.ProtectorVoltage = protectorVoltage;
+            ucEventGraph7.ProtectorVoltage = protectorVoltage;
+            ucLiveData1.ProtectorVoltage = protectorVoltage;
         }
     }
 
@@ -8958,7 +8964,10 @@ namespace RelayControl
         public bool V277Protector;
 
         [OptionalField]
-        public bool V277Outputs;
+        public bool ProtectorVoltageOutputs;
+
+        [OptionalField]
+        public bool V600Protector;
 
         public SavedSettingV4(SerializationInfo info, StreamingContext ctxt)
         {
@@ -9003,7 +9012,7 @@ namespace RelayControl
 
                 try
                 {
-                    V277Outputs = (bool)info.GetValue("V277Outputs", typeof(bool));
+                    ProtectorVoltageOutputs = (bool)info.GetValue("V277Outputs", typeof(bool));
                 }
                 catch
                 {
@@ -9033,7 +9042,7 @@ namespace RelayControl
                 info.AddValue("Phasing", this.Phasing);
                 info.AddValue("Safe Service Settings", this.SafeServiceSettings);
                 info.AddValue("V277Protector", V277Protector);
-                info.AddValue("V277Outputs", V277Outputs);
+                info.AddValue("V277Outputs", ProtectorVoltageOutputs);
             }
             catch (Exception ex)
             {

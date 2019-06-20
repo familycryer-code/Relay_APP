@@ -177,14 +177,15 @@ namespace RelayControlLibrary
             }
         }
 
-        private bool protector277 = false;
-        public bool Protector277
+        private ProtectorVoltage protectorVoltage =
+            ProtectorVoltages.GetVoltage();
+        public ProtectorVoltage ProtectorVoltage
         {
-            get { return this.protector277; }
+            get { return protectorVoltage; }
             set
             {
-                this.protector277 = value;
-                this.updateChart(this.protector277);
+                protectorVoltage = value;
+                this.updateChart(protectorVoltage);
             }
         }
 
@@ -235,8 +236,6 @@ namespace RelayControlLibrary
                 this.setFrequency(value);
             }
         }
-
-        float convert277 = 2.216f;
 
         private Series seriesVnA = new Series("VnA");
         private Series seriesVnB = new Series("VnB");
@@ -749,12 +748,17 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.RecalcLayout();
         }
 
-        private void updateChart(bool protector277)
+        private void updateChart(ProtectorVoltage protectorVoltage)
         {
-            if (protector277)
+            if (protectorVoltage.Value == ProtectorVoltageEnum.V277)
             {
                 this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 300;
                 this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 220;
+            }
+            else if (protectorVoltage.Value == ProtectorVoltageEnum.V600)
+            {
+                this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 650;
+                this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 477;
             }
             else
             {
@@ -778,10 +782,8 @@ namespace RelayControlLibrary
             }
             angleTemp = (float)RelayControlLibrary.RelayModeFunctions.RadiansToDegrees(Math.Atan((double)(this.convertRMSV(imaginaryValue) / this.convertRMSV(realValue))));
 
-            if (this.protector277)
-            {
-                voltageRMSTemp *= this.convert277;
-            }
+            // Multiply it by the protector scaling
+            voltageRMSTemp *= (float)protectorVoltage.Scaling;
 
             if (realValue == 0)
             {

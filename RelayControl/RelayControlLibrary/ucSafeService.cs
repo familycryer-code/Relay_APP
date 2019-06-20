@@ -104,18 +104,14 @@ namespace RelayControlLibrary
                 sEA.SendPacket[7] = (byte)(tempInt >> 8);
                 sEA.SendPacket[8] = (byte)tempInt;
 
-                if (voltage277State == true) //adjust for 277
-                    tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownLowVoltage.Value / (decimal)conversion277);
-                else
-                    tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownLowVoltage.Value);
+                tempInt = RelayModeFunctions.ConvertTo8_8(
+                    numericUpDownLowVoltage.Value / protectorVoltage.Scaling);
 
                 sEA.SendPacket[9] = (byte)(tempInt >> 8);
                 sEA.SendPacket[10] = (byte)tempInt;
 
-                if (voltage277State == true) //adjust for 277
-                    tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownVoltageImbalance.Value / (decimal)conversion277);
-                else
-                    tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownVoltageImbalance.Value);
+                tempInt = RelayModeFunctions.ConvertTo8_8(
+                    this.numericUpDownVoltageImbalance.Value / protectorVoltage.Scaling);
 
                 sEA.SendPacket[11] = (byte)(tempInt >> 8);
                 sEA.SendPacket[12] = (byte)tempInt;
@@ -253,19 +249,15 @@ namespace RelayControlLibrary
                 tempI <<= 8;
                 tempI += bytePacket[9];
 
-                if (voltage277State == true)
-                    this.numericUpDownLowVoltage.Value = RelayModeFunctions.ConvertFrom8_8(tempI) * conversion277;
-                else
-                    this.numericUpDownLowVoltage.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
+                numericUpDownLowVoltage.Value =
+                    RelayModeFunctions.ConvertFrom8_8(tempI) * protectorVoltage.Scaling;
 
                 tempI = bytePacket[10];
                 tempI <<= 8;
                 tempI += bytePacket[11];
 
-                if (voltage277State == true)
-                    this.numericUpDownVoltageImbalance.Value = RelayModeFunctions.ConvertFrom8_8(tempI) * conversion277;
-                else
-                    this.numericUpDownVoltageImbalance.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
+                numericUpDownVoltageImbalance.Value =
+                    RelayModeFunctions.ConvertFrom8_8(tempI) * protectorVoltage.Scaling;
 
                 comboBoxSSEnable_Temp = this.comboBoxSSEnable.SelectedIndex;
                 numericUpDownOverCurrent_Temp = this.numericUpDownOverCurrent.Value;
@@ -410,88 +402,69 @@ namespace RelayControlLibrary
             }
         }
 
-        private decimal conversion277 = 2.216m;
+        private ProtectorVoltage protectorVoltage = ProtectorVoltages.GetVoltage();
 
-        public bool voltage277State = false;
-
-        public bool Voltage277State
+        public ProtectorVoltage ProtectorVoltage
         {
-            get { return this.voltage277State; }
+            get { return this.protectorVoltage; }
             set
             {
-                if (this.voltage277State != value)
+                if (this.protectorVoltage != value)
                 {
-                    this.voltage277State = value;
-                    this.setVoltage277State();
+                    this.setProtectorVoltage(value);
                 }
             }
         }
 
-        private decimal storeLowVoltageIncrement = 0;
-        private decimal storeLowVoltageValue = 0;
-        private decimal storeLowVoltageMaximum = 0;
-        private decimal storeLowVoltageMinimum = 0;
-        private decimal storeVoltageImbalanceIncrement = 0;
-        private decimal storeVoltageImbalanceValue = 0;
-        private decimal storeVoltageImbalanceMaximum = 0;
-        private decimal storeVoltageImbalanceMinimum = 0;
+        private readonly decimal _lowVoltageIncrement = 0.5m;
+        private readonly decimal _lowVoltageMaximum = 120m;
+        private readonly decimal _lowVoltageMinimum = 65m;
+        private readonly decimal _voltageImbalanceIncrement = 0.5m;
+        private readonly decimal _voltageImbalanceMaximum = 50m;
+        private readonly decimal _voltageImbalanceMinimum = 0m;
 
-        private void setVoltage277State()
+        private void setProtectorVoltage(ProtectorVoltage newValue)
         {
             try
             {
-                if (voltage277State == true) //Increase voltage values
-                {
-                    this.storeLowVoltageIncrement = this.numericUpDownLowVoltage.Increment;
-                    this.storeLowVoltageValue = this.numericUpDownLowVoltage.Value;
-                    this.storeLowVoltageMaximum = this.numericUpDownLowVoltage.Maximum;
-                    this.storeLowVoltageMinimum = this.numericUpDownLowVoltage.Minimum;
-                    this.storeVoltageImbalanceIncrement = this.numericUpDownVoltageImbalance.Increment;
-                    this.storeVoltageImbalanceValue = this.numericUpDownVoltageImbalance.Value;
-                    this.storeVoltageImbalanceMaximum = this.numericUpDownVoltageImbalance.Maximum;
-                    this.storeVoltageImbalanceMinimum = this.numericUpDownVoltageImbalance.Minimum;
+                // Store the current settings before updating everything
+                // so they can be properly scaled later
 
-                    //Maximum must be increased before value
-                    this.numericUpDownLowVoltage.Maximum = numericUpDownLowVoltage.Maximum * conversion277;
-                    this.numericUpDownLowVoltage.Value = numericUpDownLowVoltage.Value * conversion277;
-                    this.numericUpDownLowVoltage.Increment = this.numericUpDownLowVoltage.Increment * conversion277;
-                    this.numericUpDownLowVoltage.Minimum = this.numericUpDownLowVoltage.Minimum * conversion277;
+                var currentLowVoltageSetting =
+                    numericUpDownLowVoltage.Value / protectorVoltage.Scaling;
+                var currentVoltageImbSetting =
+                    numericUpDownVoltageImbalance.Value / protectorVoltage.Scaling;
 
-                    this.numericUpDownVoltageImbalance.Maximum = numericUpDownVoltageImbalance.Maximum * conversion277;
-                    this.numericUpDownVoltageImbalance.Value = numericUpDownVoltageImbalance.Value * conversion277;
-                    this.numericUpDownVoltageImbalance.Increment = this.numericUpDownVoltageImbalance.Increment * conversion277;
-                    this.numericUpDownVoltageImbalance.Minimum = this.numericUpDownVoltageImbalance.Minimum * conversion277;
-                }
-                else //decrease voltage values
-                {
-                    //order matters must decrease minimum and voltage values before maximum value
+                protectorVoltage = newValue;
 
-                    this.numericUpDownLowVoltage.Minimum = this.storeLowVoltageMinimum;
-                    if (this.numericUpDownLowVoltage.Value != 0)
-                        this.numericUpDownLowVoltage.Value = numericUpDownLowVoltage.Value / conversion277;
-                    this.numericUpDownLowVoltage.Maximum = this.storeLowVoltageMaximum;
-                    this.numericUpDownLowVoltage.Increment = this.storeLowVoltageIncrement;
+                numericUpDownVoltageImbalance.Increment =
+                    _voltageImbalanceIncrement * protectorVoltage.Scaling;
+                numericUpDownVoltageImbalance.Minimum =
+                    _voltageImbalanceMinimum * protectorVoltage.Scaling;
+                numericUpDownVoltageImbalance.Maximum =
+                    _voltageImbalanceMaximum * protectorVoltage.Scaling;
+                numericUpDownVoltageImbalance.Value =
+                    currentVoltageImbSetting * protectorVoltage.Scaling;
 
-
-                    this.numericUpDownVoltageImbalance.Minimum = this.storeVoltageImbalanceMinimum;
-                    if (this.numericUpDownVoltageImbalance.Value != 0)
-                        this.numericUpDownVoltageImbalance.Value = numericUpDownVoltageImbalance.Value / conversion277;
-                    this.numericUpDownVoltageImbalance.Maximum = this.storeVoltageImbalanceMaximum;
-                    this.numericUpDownVoltageImbalance.Increment = this.storeVoltageImbalanceIncrement;
-                }
+                numericUpDownLowVoltage.Increment =
+                    _lowVoltageIncrement * protectorVoltage.Scaling;
+                numericUpDownLowVoltage.Minimum =
+                    _lowVoltageMinimum * protectorVoltage.Scaling;
+                numericUpDownLowVoltage.Maximum =
+                    _lowVoltageMaximum * protectorVoltage.Scaling;
+                numericUpDownLowVoltage.Value =
+                    currentLowVoltageSetting * protectorVoltage.Scaling;
             }
             catch
             {
-                MessageBox.Show("Error setting Safe Service 277 voltages");
+                MessageBox.Show("Error scaling Safe Service voltages");
 
-                this.numericUpDownLowVoltage.Increment = this.storeLowVoltageIncrement;
-                this.numericUpDownLowVoltage.Minimum = this.storeLowVoltageMinimum;
-                this.numericUpDownLowVoltage.Value = this.storeLowVoltageValue;
-                this.numericUpDownLowVoltage.Maximum = this.storeLowVoltageMaximum;
-                this.numericUpDownVoltageImbalance.Increment = this.storeVoltageImbalanceIncrement;
-                this.numericUpDownVoltageImbalance.Value = this.storeVoltageImbalanceMaximum;
-                this.numericUpDownVoltageImbalance.Maximum = this.storeVoltageImbalanceValue;
-                this.numericUpDownVoltageImbalance.Minimum = this.storeVoltageImbalanceMinimum;
+                numericUpDownLowVoltage.Increment = this._lowVoltageIncrement;
+                numericUpDownLowVoltage.Minimum = this._lowVoltageMinimum;
+                numericUpDownLowVoltage.Maximum = this._lowVoltageMaximum;
+                numericUpDownVoltageImbalance.Increment = this._voltageImbalanceIncrement;
+                numericUpDownVoltageImbalance.Value = this._voltageImbalanceMaximum;
+                numericUpDownVoltageImbalance.Minimum = this._voltageImbalanceMinimum;
             }
         }
 
@@ -605,15 +578,8 @@ namespace RelayControlLibrary
             this.domainUpDownDataViews.SelectedIndex = 0;
             setDataViewDefaults();
 
-            if (voltage277State == true)
-                this.numericUpDownLowVoltage.Value = 95m * conversion277;
-            else
-                this.numericUpDownLowVoltage.Value = 95m;
-
-            if (voltage277State == true)
-                this.numericUpDownVoltageImbalance.Value = 10.0m * conversion277;
-            else
-                this.numericUpDownVoltageImbalance.Value = 10.0m;
+            this.numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
+            this.numericUpDownVoltageImbalance.Value = 10.0m * protectorVoltage.Scaling;
 #else
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
@@ -621,15 +587,9 @@ namespace RelayControlLibrary
             this.domainUpDownDataViews.SelectedIndex = 0;
             setDataViewDefaults();
 
-            if (voltage277State == true)
-                this.numericUpDownLowVoltage.Value = 95m * conversion277;
-            else
-                this.numericUpDownLowVoltage.Value = 95m;
+            numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
 
-            if (voltage277State == true)
-                this.numericUpDownVoltageImbalance.Value = 10.0m * conversion277;
-            else
-                this.numericUpDownVoltageImbalance.Value = 10.0m;
+            this.numericUpDownVoltageImbalance.Value = 10.0m * protectorVoltage.Scaling;
 #endif
         }
 

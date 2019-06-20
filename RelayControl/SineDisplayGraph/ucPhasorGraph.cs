@@ -33,8 +33,9 @@ namespace SineDisplayGraph
 
         }
         public int CTRatio = 320;
-        public bool Protector277 = false;
-        private float conversion277 = 2.216f;
+        public ProtectorVoltage ProtectorVoltage =
+            ProtectorVoltages.GetVoltage();
+
         public uint RevisionNumber
         {
             get { return this.revisionNumber; }
@@ -527,7 +528,7 @@ namespace SineDisplayGraph
                         this.vnCAngle = angle;
                     }
 
-                    if (((!this.Protector277 && workingPD.RMSValue < 1.5) || (this.Protector277 && workingPD.RMSValue < 3.324)) && this.CTRatio != 1)
+                    if (workingPD.RMSValue < (float)(ProtectorVoltage.Scaling * 1.5m) && this.CTRatio != 1)
                     {
                         workingPD.Enabled = false;
                         this.setText("0.0", workingPD.AngleBox);
@@ -564,7 +565,10 @@ namespace SineDisplayGraph
                             angle = -180 + angle;
                     }
 
-                    if (this.CTRatio != 1 && ((!this.Protector277 && (workingPD.RMSValue < .2 && workingPD.RMSValue > -.2)) || (this.Protector277 && (workingPD.RMSValue < 0.4432 && workingPD.RMSValue > -0.4432))))
+                    if (this.CTRatio != 1 &&
+                        (workingPD.RMSValue < 0.2 * (float)ProtectorVoltage.Scaling &&
+                         workingPD.RMSValue > -0.2 * (float)ProtectorVoltage.Scaling)
+                        )
                     {
                         workingPD.Enabled = false;
 
@@ -624,7 +628,7 @@ namespace SineDisplayGraph
                             angle = -180 + angle;
                     }
 
-                    if (this.CTRatio != 1 && ((!this.Protector277 && workingPD.RMSValue < 1.5) || (this.Protector277 && workingPD.RMSValue < 3.324)))
+                    if (this.CTRatio != 1 && (workingPD.RMSValue < (1.5 * (float)ProtectorVoltage.Scaling)))
                     {
                         workingPD.Enabled = false;
                         this.setText("0.0", workingPD.AngleBox);
@@ -692,7 +696,7 @@ namespace SineDisplayGraph
                             angle = -180 + angle;
                     }
 
-                    if (this.CTRatio != 1 && ((!this.Protector277 && workingPD.RMSValue < .2) || (this.Protector277 && workingPD.RMSValue < .4432)))
+                    if (this.CTRatio != 1 && workingPD.RMSValue < 0.2 * (float)ProtectorVoltage.Scaling)
                     {
                         workingPD.Enabled = false;
                         this.setText("0.0", workingPD.AngleBox);
@@ -853,9 +857,9 @@ namespace SineDisplayGraph
                 case PhasorTypes.PB:
                 case PhasorTypes.PC:
                 case PhasorTypes.PT:
-                    workingPD.RealValue = this.convertRMSV(realValue) * this.CTRatio;              //V is the same as Power (12 frac bits)
-                    workingPD.ImaginaryValue = this.convertRMSV(imaginaryValue) * this.CTRatio;
-
+                    workingPD.RealValue = this.convertRMSV(realValue) * this.CTRatio;// * (float)ProtectorVoltage.Scaling;              //V is the same as Power (12 frac bits)
+                    workingPD.ImaginaryValue = this.convertRMSV(imaginaryValue) * this.CTRatio;// * (float)ProtectorVoltage.Scaling;
+                    workingPD.RMSValue = this.convertRMSV(rMS);
                     angle = (double)(workingPD.ImaginaryValue / workingPD.RealValue);
                     angle = RelayControlLibrary.RelayModeFunctions.RadiansToDegrees(Math.Atan(angle));
                     if (workingPD.RealValue < 0)
@@ -866,35 +870,18 @@ namespace SineDisplayGraph
                             angle = -180 + angle;
                     }
 
-                    if (this.Protector277)
+
+                    if (workingPD.RMSValue / (float)ProtectorVoltage.Scaling / (float)this.CTRatio < .012f)//2.052f)
                     {
-                        if ((workingPD.RMSValue / this.conversion277 / (float)this.CTRatio < .012f))//2.052f))
-                        {
-                            workingPD.Enabled = false;
-                            this.setText("0.0", workingPD.AngleBox);
-                            this.setText("0.0", workingPD.RMSBox);
-                        }
-                        else
-                        {
-                            workingPD.Enabled = true;
-                            this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
-                            this.setText(String.Format("{0:0.0}", workingPD.RMSValue / 1000.0), workingPD.RMSBox);
-                        }
+                        workingPD.Enabled = false;
+                        this.setText("0.0", workingPD.AngleBox);
+                        this.setText("0.0", workingPD.RMSBox);
                     }
                     else
                     {
-                        if (workingPD.RMSValue / (float)this.CTRatio < .012f)//2.052f)
-                        {
-                            workingPD.Enabled = false;
-                            this.setText("0.0", workingPD.AngleBox);
-                            this.setText("0.0", workingPD.RMSBox);
-                        }
-                        else
-                        {
-                            workingPD.Enabled = true;
-                            this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
-                            this.setText(String.Format("{0:0.0}", workingPD.RMSValue / 1000.0), workingPD.RMSBox);
-                        }
+                        workingPD.Enabled = true;
+                        this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
+                        this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
                     }
 
                     this.scalePowerPhasors();
@@ -1326,8 +1313,7 @@ namespace SineDisplayGraph
             returnFloat = (float)rMS;                     //convert to a float
             returnFloat = returnFloat * (float)Constants.TwelveFracBits;
 
-            if (this.Protector277)
-                returnFloat *= this.conversion277;
+            returnFloat *= (float)ProtectorVoltage.Scaling;
             return returnFloat;
         }
 

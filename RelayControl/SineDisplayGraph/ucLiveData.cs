@@ -75,19 +75,18 @@ namespace SineDisplayGraph
                 this.cTRatioChanged();
             }
         }
-        public bool Protector277
+        public ProtectorVoltage ProtectorVoltage
         {
-            get { return this.protector277; }
+            get { return protectorVoltage; }
             set
             {
-                this.protector277 = value;
+                protectorVoltage = value;
                 this.setProtectorValue();
             }
         }
 
-
-
-        private bool protector277 = false;
+        private ProtectorVoltage protectorVoltage =
+            ProtectorVoltages.GetVoltage();
         private Int32 cTRatio = 320;
 
         private void cTRatioChanged()
@@ -771,20 +770,20 @@ namespace SineDisplayGraph
 
         private void setProtectorValue()
         {
-            this.sineGraphIA.Protector277 = this.protector277;
-            this.sineGraphIB.Protector277 = this.protector277;
-            this.sineGraphIC.Protector277 = this.protector277;
+            this.sineGraphIA.ProtectorVoltage = protectorVoltage;
+            this.sineGraphIB.ProtectorVoltage = protectorVoltage;
+            this.sineGraphIC.ProtectorVoltage = protectorVoltage;
 
-            this.sineGraphVnA.Protector277 = this.protector277;
-            this.sineGraphVnB.Protector277 = this.protector277;
-            this.sineGraphVnC.Protector277 = this.protector277;
-            this.sineGraphVtA.Protector277 = this.protector277;
-            this.sineGraphVtB.Protector277 = this.protector277;
-            this.sineGraphVtC.Protector277 = this.protector277;
+            this.sineGraphVnA.ProtectorVoltage = protectorVoltage;
+            this.sineGraphVnB.ProtectorVoltage = protectorVoltage;
+            this.sineGraphVnC.ProtectorVoltage = protectorVoltage;
+            this.sineGraphVtA.ProtectorVoltage = protectorVoltage;
+            this.sineGraphVtB.ProtectorVoltage = protectorVoltage;
+            this.sineGraphVtC.ProtectorVoltage = protectorVoltage;
 
-            this.frequencyGraphA.Protector277 = this.protector277;
-            this.frequencyGraphB.Protector277 = this.protector277;
-            this.frequencyGraphC.Protector277 = this.protector277;
+            this.frequencyGraphA.ProtectorVoltage = protectorVoltage;
+            this.frequencyGraphB.ProtectorVoltage = protectorVoltage;
+            this.frequencyGraphC.ProtectorVoltage = protectorVoltage;
         }
 
         public void GetCycleInfo(CycleInfoRequestEventArgs cIREA)
