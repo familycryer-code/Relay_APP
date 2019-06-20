@@ -59,5 +59,14 @@ namespace RelayControl.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2019-06-20.
+        /// </summary>
+        internal static string _RevisionDate {
+            get {
+                return ResourceManager.GetString("_RevisionDate", resourceCulture);
+            }
+        }
     }
 }

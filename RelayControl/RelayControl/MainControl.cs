@@ -32,7 +32,6 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private const string revisionDate = "2019-05-20";
         private string customerRevisionName = "";
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
@@ -497,7 +496,7 @@ namespace RelayControl
                 this.downloadEventFromRelayToolStripMenuItem.Visible = false;
                 this.clearEventsToolStripMenuItem.Visible = false;
                 this.saveEventsToolStripMenuItem.Visible = false;
-                this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + revisionDate;// 2011-10-28";
+                this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + Properties.Resources._RevisionDate;// 2011-10-28";
                 this.toolStripStatusLabelMain.Text = "";
                 this.searchForRelay = false;
 #elif DEBUG
@@ -515,10 +514,10 @@ namespace RelayControl
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
 #if !DG288_TESTFIXTURE_GUI
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
 
 #elif DG288_TESTFIXTURE_GUI
-                this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + revisionDate + " - " + customerRevisionName;
+                this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
 #endif
                 this.ArcFaultEnabled = true;
                 this.Customer = Customers.DIGITALGRID;
@@ -541,7 +540,7 @@ namespace RelayControl
                 this.toolStripMenuItemAction.Visible = false;
                 this.sToolStripMenuItem.Visible = false;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
-                this.Text = "DIGITALGRID, INC. - Waterbury Testing Software " + revisionDate;// 2011-05-16";
+                this.Text = "DIGITALGRID, INC. - Waterbury Testing Software " + Properties.Resources._RevisionDate;// 2011-05-16";
 
                 this.listBoxA1SensorSelect.SelectedItem = "DGI Temperature";
                 this.listBoxA2SensorSelect.SelectedItem = "DGI Temperature";
@@ -573,7 +572,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + revisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version;// 2013-07-25"; 
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version;// 2013-07-25"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
