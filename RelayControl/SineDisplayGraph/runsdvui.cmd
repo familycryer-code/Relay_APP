@@ -1,0 +1,2 @@
+cd /d "F:\Work\RelayProjects\relay-dotnet-gui\RelayControl\SineDisplayGraph" &msbuild "SineDisplayGraph.csproj" /t:sdvViewer /p:configuration="Debug" /p:platform="Any CPU" /p:SolutionDir="F:\Work\RelayProjects\relay-dotnet-gui\RelayControl" 
+exit %errorlevel% 

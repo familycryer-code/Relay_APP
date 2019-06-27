@@ -101,11 +101,6 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            this.numericUpDownRecloseVolts.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.numericUpDownRecloseVolts.Name = "numericUpDownRecloseVolts";
             this.numericUpDownRecloseVolts.Size = new System.Drawing.Size(64, 20);
             this.numericUpDownRecloseVolts.TabIndex = 15;

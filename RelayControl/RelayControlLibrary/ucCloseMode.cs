@@ -312,14 +312,18 @@ namespace RelayControlLibrary
 
             buttonSendCloseMode_Click(this, new EventArgs());
 
-            mySEA = new SendEventArgs(_packetSize);
-            this.setVerticalLine();
-            this.setHorizontalLine();
+            // If sending relax, just send the command and no curves
+            if (mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose)
+            {
+                mySEA = new SendEventArgs(_packetSize);
+                this.setVerticalLine();
+                this.setHorizontalLine();
 
-            mySEA.SendPacket = this.CloseCurve.BytePacket();
-            mySEA.WithAck = true;
-            mySEA.RequestAll = true;
-            this.OnSend(this, mySEA);
+                mySEA.SendPacket = this.CloseCurve.BytePacket();
+                mySEA.WithAck = true;
+                mySEA.RequestAll = true;
+                this.OnSend(this, mySEA);
+            }
         }
 
         private void sendRelaxClose()
@@ -342,13 +346,13 @@ namespace RelayControlLibrary
                 {
                     this.CloseCurve.RecloseVolts = 0.0m;
                     this.numericUpDownRecloseVolts.Value = this.savedRecloseValue;
+                    this.CloseCurve.TiltAngle = 95;
                 }
                 else
                 {
                     this.CloseCurve.RecloseVolts = this.numericUpDownRecloseVolts.Value / protectorVoltage.Scaling;
+                    this.CloseCurve.TiltAngle = this.numericUpDownCloseTiltAngle.Value;
                 }
-
-                this.CloseCurve.TiltAngle = this.numericUpDownCloseTiltAngle.Value;
             }
             catch (Exception ex)
             {
