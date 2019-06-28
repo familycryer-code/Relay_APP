@@ -755,7 +755,7 @@ namespace RelayControlLibrary
                 this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 300;
                 this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 220;
             }
-            else if (protectorVoltage.Value == ProtectorVoltageEnum.V600)
+            else if (protectorVoltage.Value == ProtectorVoltageEnum.V346)
             {
                 this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 650;
                 this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 477;

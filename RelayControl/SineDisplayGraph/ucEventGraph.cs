@@ -133,13 +133,13 @@ namespace SineDisplayGraph
         public event PacketHandledHandler PacketHandled;
         public ProtectorVoltage ProtectorVoltage
         {
-            get { return this.protectorProtector; }
+            get { return this.protectorVoltage; }
             set
             {
-                if (value != this.protectorProtector)
+                if (value != this.protectorVoltage)
                 {
-                    this.protectorProtector = value;
-                    this.setProtector277Value();
+                    this.protectorVoltage = value;
+                    this.setProtectorVoltage();
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace SineDisplayGraph
         private DateTime eventTime;
         private delegate void setAllCallBack(byte[] bytePacket);
         private Int32 cTRatio;
-        private ProtectorVoltage protectorProtector =
+        private ProtectorVoltage protectorVoltage =
             ProtectorVoltages.GetVoltage();
         private uint delayToBFlag;
         private uint delayToFloat;
@@ -977,17 +977,17 @@ namespace SineDisplayGraph
                 this.sFP = null;
         }
 
-        private void setProtector277Value()
+        private void setProtectorVoltage()
         {
-            this.sineGraphVnA.ProtectorVoltage = this.protectorProtector;
-            this.sineGraphVnB.ProtectorVoltage = this.protectorProtector;
-            this.sineGraphVnC.ProtectorVoltage = this.protectorProtector;
-            this.sineGraphVtA.ProtectorVoltage = this.protectorProtector;
-            this.sineGraphVtB.ProtectorVoltage = this.protectorProtector;
-            this.sineGraphVtC.ProtectorVoltage = this.protectorProtector;
-            this.frequencyGraphA.ProtectorVoltage = this.protectorProtector;
-            this.frequencyGraphB.ProtectorVoltage = this.protectorProtector;
-            this.frequencyGraphC.ProtectorVoltage = this.protectorProtector;
+            this.sineGraphVnA.ProtectorVoltage = this.protectorVoltage;
+            this.sineGraphVnB.ProtectorVoltage = this.protectorVoltage;
+            this.sineGraphVnC.ProtectorVoltage = this.protectorVoltage;
+            this.sineGraphVtA.ProtectorVoltage = this.protectorVoltage;
+            this.sineGraphVtB.ProtectorVoltage = this.protectorVoltage;
+            this.sineGraphVtC.ProtectorVoltage = this.protectorVoltage;
+            this.frequencyGraphA.ProtectorVoltage = this.protectorVoltage;
+            this.frequencyGraphB.ProtectorVoltage = this.protectorVoltage;
+            this.frequencyGraphC.ProtectorVoltage = this.protectorVoltage;
         }
 
         public void GetCycleInfo(CycleInfoRequestEventArgs cIREA)

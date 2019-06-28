@@ -728,6 +728,7 @@
     <None Include="Resources\MasterProcessor_Oncor.S" />
     <None Include="Resources\MasterProcessor_Oncor_GE.S" />
     <None Include="Resources\MasterProcessor_with_DNP_PLC_GE.S" />
+    <Content Include="Resources\MasterProcessor_with_DNP_PLC.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />

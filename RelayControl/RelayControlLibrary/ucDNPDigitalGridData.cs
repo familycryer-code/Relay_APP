@@ -160,7 +160,7 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("DNP 277 In");
                 this.binaryInputs.Add("DNP Out Scaling");
                 if (relayMasterRevision >= _600V_ADDED)
-                    this.binaryInputs.Add("DNP 600 In");
+                    this.binaryInputs.Add("DNP 347 In");
 
                 pointsToAdd = (uint)binaryInputs.Count;
             }

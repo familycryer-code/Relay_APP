@@ -1684,7 +1684,7 @@ namespace RelayControl
             this.comboBoxDNPVoltage.Items.AddRange(new object[] {
             "125",
             "277",
-            "600"});
+            "347"});
             this.comboBoxDNPVoltage.Location = new System.Drawing.Point(102, 65);
             this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
             this.comboBoxDNPVoltage.Size = new System.Drawing.Size(65, 21);

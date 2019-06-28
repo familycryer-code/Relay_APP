@@ -1891,7 +1891,7 @@ namespace RelayControlLibrary
     {
         V125,
         V277,
-        V600
+        V346
     }
     public class ProtectorVoltage
     {
@@ -1915,8 +1915,8 @@ namespace RelayControlLibrary
         public static BindingList<ProtectorVoltage> Voltages { get; } =
             new BindingList<ProtectorVoltage> {
                 new ProtectorVoltage("125V", ProtectorVoltageEnum.V125, 1.0m, new ProtectorVoltageBits()),
-                new ProtectorVoltage("277V", ProtectorVoltageEnum.V277, 2.16m, ProtectorVoltageBits.V277),
-                new ProtectorVoltage("600V", ProtectorVoltageEnum.V600, 4.8m, ProtectorVoltageBits.V600)
+                new ProtectorVoltage("277V", ProtectorVoltageEnum.V277, 2.216m, ProtectorVoltageBits.V277),
+                new ProtectorVoltage("347V", ProtectorVoltageEnum.V346, 2.771m, ProtectorVoltageBits.V600)
             };
 
         public static ProtectorVoltage GetVoltage(ProtectorVoltageBits bits)
