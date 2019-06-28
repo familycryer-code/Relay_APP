@@ -11,17 +11,20 @@ namespace RelayControlLibrary
 {
     public partial class SineFrequencyPopup : Form
     {
-        public SineFrequencyPopup(SineWaveDefinition sWD, int cTRatio)
+        public SineFrequencyPopup(SineWaveDefinition sWD, int cTRatio, ProtectorVoltage voltage)
         {
             InitializeComponent();
+            this.voltage = voltage;
             this.myInitialization(sWD, cTRatio);
         }
 
         private int cTRatio = 320;
+        private ProtectorVoltage voltage;
 
         private void myInitialization(SineWaveDefinition sWD, int cTRatio)
         {
             this.sineGraph1.BackColor = Color.White;
+            sineGraph1.ProtectorVoltage = voltage;
             this.cTRatio = cTRatio;
             this.Text = sWD.Phase.ToString();
             this.SineFrequencyPopup_Resize(this, new EventArgs());

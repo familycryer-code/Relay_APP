@@ -757,7 +757,7 @@ namespace SineDisplayGraph
                 return;
             }
 
-            sFP = new SineFrequencyPopup((SineWaveDefinition)sG.sineWavesToDraw[0], this.CTRatio);
+            sFP = new SineFrequencyPopup((SineWaveDefinition)sG.sineWavesToDraw[0], this.CTRatio, protectorVoltage);
             sFP.Disposed += new EventHandler(sFP_Disposed);
             sFP.Show();
         }
