@@ -237,7 +237,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
+            this.labelKioskReceived = new System.Windows.Forms.Label();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -2336,6 +2336,7 @@ namespace RelayControl
             // 
             // tabPageEngineering2
             // 
+            this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
             this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
             this.tabPageEngineering2.Controls.Add(this.buttonTest);
             this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
@@ -2346,6 +2347,16 @@ namespace RelayControl
             this.tabPageEngineering2.TabIndex = 14;
             this.tabPageEngineering2.Text = "Engineer 2";
             this.tabPageEngineering2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSerialCommsDebugging
+            // 
+            this.checkBoxSerialCommsDebugging.AutoSize = true;
+            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
+            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
+            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxSerialCommsDebugging.TabIndex = 2;
+            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
+            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
             // 
             // buttonTest
             // 
@@ -2501,15 +2512,15 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // checkBoxSerialCommsDebugging
+            // labelKioskReceived
             // 
-            this.checkBoxSerialCommsDebugging.AutoSize = true;
-            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
-            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
-            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
-            this.checkBoxSerialCommsDebugging.TabIndex = 2;
-            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
-            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
+            this.labelKioskReceived.AutoSize = true;
+            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
+            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
+            this.labelKioskReceived.Name = "labelKioskReceived";
+            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
+            this.labelKioskReceived.TabIndex = 3;
+            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
             // 
             // MainControl
             // 
@@ -2786,6 +2797,7 @@ namespace RelayControl
         private System.Windows.Forms.CheckBox checkBoxSerialCommsDebugging;
         private System.Windows.Forms.Label labelDNPVoltage;
         private System.Windows.Forms.ComboBox comboBoxDNPVoltage;
+        private System.Windows.Forms.Label labelKioskReceived;
     }
 }
 
