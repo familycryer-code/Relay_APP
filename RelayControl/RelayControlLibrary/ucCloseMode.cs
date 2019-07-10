@@ -39,6 +39,7 @@ namespace RelayControlLibrary
 #endif
         }
 
+        private readonly int _singleCommandRelaxCloseUpdate = 20190627;
         private ToolTip toolTip = new ToolTip();
         private Customers customer = Customers.None;
 
@@ -138,12 +139,6 @@ namespace RelayControlLibrary
                         else if (this.Mode == CloseModes.CircleClose)
                             this.Mode = CloseModes.CircleAndRelax;
                     }
-                    /*
-                    if(value)
-                        this.buttonRelaxClose.BackColor = Color.Orange;
-                    else
-                        this.buttonRelaxClose.BackColor = Color.Transparent;
-                     */
                 }
             }
         }
@@ -313,7 +308,8 @@ namespace RelayControlLibrary
             buttonSendCloseMode_Click(this, new EventArgs());
 
             // If sending relax, just send the command and no curves
-            if (mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose)
+            if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
+                relayRevisionNumber < _singleCommandRelaxCloseUpdate)
             {
                 mySEA = new SendEventArgs(_packetSize);
                 this.setVerticalLine();
