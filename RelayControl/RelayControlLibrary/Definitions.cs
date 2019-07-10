@@ -154,7 +154,8 @@ namespace RelayControlLibrary
         DNPMessage4,
         LowVoltageThresReceived,
         NoMemFix,
-        Invalid
+        Invalid,
+        StandardPacket
     }
 
     public enum Phases

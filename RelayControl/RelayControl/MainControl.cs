@@ -1732,9 +1732,28 @@ namespace RelayControl
                             return;
                         }
 
-                        //check for special case of revision which has no length byte
-                        if (command == IncomingCommCommands.Revision)
+
+                        if (command == IncomingCommCommands.StandardPacket)
                         {
+                            // Check for modern packet method
+                            if (receiveArray[tempRXReadPtr] != 0x55)
+                            {
+                                // Not actually one of them
+                                this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
+                                command = IncomingCommCommands.Invalid;
+                                break;
+                            }
+                            else
+                            {
+                                // Is one, and there is only one at this point so
+                                // we'll say it is a success
+                                labelKioskReceived.Text = _kioskCommandReceived;
+                                labelKioskReceived.BackColor = Color.Green;
+                            }
+                        }
+                        else if (command == IncomingCommCommands.Revision)
+                        {
+                            //check for special case of revision which has no length byte
                             packetSize = 37;
 
                             if ((char)this.receiveArray[tempRXReadPtr] != 'E') //checks second character
@@ -2077,6 +2096,8 @@ namespace RelayControl
         {
             switch (value)
             {
+                case 0xAA:
+                    return IncomingCommCommands.StandardPacket;
                 case 0x0E:
                     return IncomingCommCommands.SafeService;
                 case 0x11:
@@ -8492,6 +8513,9 @@ namespace RelayControl
             }
         }
 
+        private readonly string _waitingForKioskCommand = "Waiting For Kiosk Command";
+        private readonly string _kioskCommandReceived = "Kiosk Command Received";
+
         private void buttonTest_Click(object sender, EventArgs e)
         {
             byte[] packet = new byte[3];
@@ -8499,6 +8523,9 @@ namespace RelayControl
             packet[0] = Convert.ToByte('I');
             packet[1] = 0x55;
             packet[2] = 0x0D;
+
+            labelKioskReceived.Text = _waitingForKioskCommand;
+            labelKioskReceived.BackColor = Color.Yellow;
             sendPacket(packet);
         }
 
