@@ -209,6 +209,7 @@ namespace RelayControlLibrary
             this.label30 = new System.Windows.Forms.Label();
             this.checkBoxFlagStatusA = new System.Windows.Forms.CheckBox();
             this.labelTransFlagStatus = new System.Windows.Forms.Label();
+            this.checkBoxExtendedPLCMessage = new System.Windows.Forms.CheckBox();
             this.panelFreqPanel.SuspendLayout();
             this.panelFlagSettings.SuspendLayout();
             this.panelFlagSettingH.SuspendLayout();
@@ -2331,10 +2332,21 @@ namespace RelayControlLibrary
             this.labelTransFlagStatus.TabIndex = 81;
             this.labelTransFlagStatus.Text = "Flag Status:";
             // 
+            // checkBoxExtendedPLCMessage
+            // 
+            this.checkBoxExtendedPLCMessage.AutoSize = true;
+            this.checkBoxExtendedPLCMessage.Location = new System.Drawing.Point(7, 507);
+            this.checkBoxExtendedPLCMessage.Name = "checkBoxExtendedPLCMessage";
+            this.checkBoxExtendedPLCMessage.Size = new System.Drawing.Size(140, 17);
+            this.checkBoxExtendedPLCMessage.TabIndex = 82;
+            this.checkBoxExtendedPLCMessage.Text = "Extended PLC Message";
+            this.checkBoxExtendedPLCMessage.UseVisualStyleBackColor = true;
+            // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBoxExtendedPLCMessage);
             this.Controls.Add(this.labelTransFlagStatus);
             this.Controls.Add(this.panelFlasgStatusWB);
             this.Controls.Add(this.buttonForceConfigMessage);
@@ -2601,5 +2613,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusA;
         private System.Windows.Forms.Label labelTransFlagStatus;
+        private System.Windows.Forms.CheckBox checkBoxExtendedPLCMessage;
     }
 }

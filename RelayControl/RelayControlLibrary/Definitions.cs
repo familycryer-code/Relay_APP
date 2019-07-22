@@ -1024,6 +1024,17 @@ namespace RelayControlLibrary
             }
         }
 
+        private bool extendedPLCMessage = false;
+        public bool ExtendedPLCMessage
+        {
+            get => extendedPLCMessage;
+            set
+            {
+                extendedPLCMessage = value;
+                SendPacket[28] = value ? (byte)1 : (byte)0;
+            }
+        }
+
         private byte type1MessageLength;
         public byte Type1MessageLength
         {
