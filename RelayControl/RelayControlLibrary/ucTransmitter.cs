@@ -56,6 +56,10 @@ namespace RelayControlLibrary
             this.labelTransFlagStatus.Visible = false;
 #endif
 
+#if NU
+            checkBoxExtendedPLCMessage.Visible = false;
+#endif
+
             this.comboBoxAnalog1OU.SelectedIndex = 0;
             this.comboBoxAnalog2OU.SelectedIndex = 0;
 
@@ -1912,6 +1916,16 @@ namespace RelayControlLibrary
         public bool CheckDNPEnable
         {
             get { return this.checkBoxDNPEnable.Checked; }
+        }
+
+        private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
+        {
+            checkBoxExtendedPLCMessage.Location =
+                new Point(panelFlagSettings.Location.X,
+                panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
+            buttonForceConfigMessage.Location =
+                new Point(checkBoxExtendedPLCMessage.Location.X,
+                checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
         }
     }
 }

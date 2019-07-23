@@ -431,6 +431,7 @@ namespace RelayControlLibrary
             this.panelFlagSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelFlagSettings.Size = new System.Drawing.Size(180, 217);
             this.panelFlagSettings.TabIndex = 6;
+            this.panelFlagSettings.Paint += new System.Windows.Forms.PaintEventHandler(this.panelFlagSettings_Paint);
             // 
             // panelFlagSettingH
             // 
