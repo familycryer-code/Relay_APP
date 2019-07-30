@@ -1308,6 +1308,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 85;
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 1;
+            this.domainUpDownType.SelectedIndex = 1;
 #elif DOMINION
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;

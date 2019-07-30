@@ -297,6 +297,23 @@
     <DefineConstants>DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG PLC|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug PSEG PLC\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG PLC|AnyCPU'">
+    <OutputPath>bin\Release PSEG PLC\</OutputPath>
+    <DefineConstants>PSEG, BASICRELEASE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">
       <HintPath>..\..\GSNet\3.5\Bin\GSNetWin.dll</HintPath>
