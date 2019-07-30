@@ -89,6 +89,10 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 3;
             this.listBoxA2SensorSelect.SelectedIndex = 3;
 #endif
+
+#if NU
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#endif
             this.checkBoxFrequenceBlue.Visible = false;
             this.checkBoxFrequencyGreen.Visible = false;
             this.checkBoxFrequencyRed.Visible = false;
@@ -1076,18 +1080,17 @@ namespace RelayControlLibrary
         {
 #if ENMAX //consider adding for chicago as well
             double oil_temp = .0393701 * bAN1 * 32;
-            return (int)(oil_temp);
+#elif NU
+            double oil_temp = (double)bAN1 * 160d / 5d; //coned gauge only 
 #else
             double oil_temp = 1.5993 * bAN1 - 5.0982; //coned gauge only 
-            //oil_temp += 0.5;
-            return (int)(oil_temp);
 #endif
+            return Convert.ToInt32(Math.Round(oil_temp));
         }
 
         private int getTankPressureFromAnalog(int bAN2)
         {
             double tank_pressure = 0.1754 * bAN2 - 2.11; //coned gauge only
-            //tank_pressure += 0.5;
             return (int)(tank_pressure);
         }
 #if ENMAX
