@@ -409,7 +409,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if NU || PSEG
+#if PSEG
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;
@@ -420,7 +420,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
-#elif CHICAGO || SEATTLE || DOMINION || ENMAX
+#elif CHICAGO || SEATTLE || DOMINION || ENMAX || NU
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
             this.checkBoxMotorCycles.Checked = true;

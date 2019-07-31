@@ -1298,6 +1298,9 @@ namespace RelayControlLibrary
 
         private void setTypeIndependentDefaults()
         {
+            // Making this the case for all defaults, I want them to 
+            // actively set it if they are going to use it.
+            checkBoxTripOnPowerDown.Checked = false;
             // Trip Style 
             // 0 - Hold, 1 - Pulse, 2 - Single
 #if NU
@@ -1306,7 +1309,6 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 95;
             this.numericUpDownGullWingAngle.Value = 85;
-            this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedIndex = 1;
             this.domainUpDownType.SelectedIndex = 1;
 #elif DOMINION
@@ -1315,7 +1317,6 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 3;
 #elif CHICAGO || MADISON
             this.checkBoxEnableGullWing.Checked = false;
@@ -1323,21 +1324,18 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 0;
 #elif BOSTON
             checkBoxEnableGullWing.Checked = false;
             gullWingEnabled = false;
             numericUpDownAngle.Value = 90;
             numericUpDownGullWingAngle.Value = 90;
-            checkBoxTripOnPowerDown.Checked = true;
             domainUpDownTripStyle.SelectedIndex = 0;
 #else //SEATTLE PSEG
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.checkBoxTripOnPowerDown.Checked = false;
             this.domainUpDownTripStyle.SelectedIndex = 0;
 #endif
             insensitiveCurrent = 2.5m;
