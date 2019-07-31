@@ -704,7 +704,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if CHICAGO ||  (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG
+#if CHICAGO ||  (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU
             showCustomerNameDebug = true;
 #endif
 
