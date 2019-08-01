@@ -581,6 +581,9 @@ namespace RelayControl
                 this.checkBoxInInsensRegion.Visible = false;
                 this.TransmitterEnabled = false;
                 this.ArcFaultEnabled = false;
+#if NU
+                checkBox277DNPOutputs.Visible = false;
+#endif
 #if CONED
                 this.Customer = Customers.ConEdison;
 #elif MEMPHIS
@@ -598,7 +601,7 @@ namespace RelayControl
                     tabControlMain.TabPages.Remove(tabPageTransmitter);
                 if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
                     tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
-                ucRemoteCommandBlock1.Visible = false;
+                ucRemoteCommandBlock1.Visible = false;                
 #endif
 #else
                 this.Customer = Customers.NonConEd;
@@ -5319,7 +5322,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX  || BOSTON || MADISON || ONCOR || MEMPHIS
+#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX   || MADISON || ONCOR || MEMPHIS
             this.domainUpDownCTRatioM.SelectedIndex = 2;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;

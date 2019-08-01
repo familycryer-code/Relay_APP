@@ -23,7 +23,6 @@ namespace RelayControlLibrary
 #if NU
             this.checkBoxEnableGullWing.Checked = true;
             this.showGullWing(true);
-            this.domainUpDownType.SelectedIndex = 1;
 #else
             this.checkBoxEnableGullWing.Checked = false;
             this.showGullWing(false);
@@ -1225,6 +1224,7 @@ namespace RelayControlLibrary
             this.numericUpDownSensTrip.Minimum = .1m;
             this.numericUpDownSensTrip.Maximum = 5000;
             this.numericUpDownSensTrip.Increment = .1m;
+            this.numericUpDownSensTrip.DecimalPlaces = 1;
 
             if (this.displayType == eDisplayType.Percent)
             {
@@ -1303,14 +1303,14 @@ namespace RelayControlLibrary
             checkBoxTripOnPowerDown.Checked = false;
             // Trip Style 
             // 0 - Hold, 1 - Pulse, 2 - Single
-#if NU
+#if NU || BOSTON
             this.checkBoxEnableGullWing.Checked = true;
             this.gullWingEnabled = true;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 95;
             this.numericUpDownGullWingAngle.Value = 85;
-            this.domainUpDownTripStyle.SelectedIndex = 1;
-            this.domainUpDownType.SelectedIndex = 1;
+            this.domainUpDownTripStyle.SelectedIndex = 0;
+            domainUpDownType.SelectedIndex = 0;
 #elif DOMINION
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
@@ -1325,12 +1325,6 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 0;
-#elif BOSTON
-            checkBoxEnableGullWing.Checked = false;
-            gullWingEnabled = false;
-            numericUpDownAngle.Value = 90;
-            numericUpDownGullWingAngle.Value = 90;
-            domainUpDownTripStyle.SelectedIndex = 0;
 #else //SEATTLE PSEG
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
