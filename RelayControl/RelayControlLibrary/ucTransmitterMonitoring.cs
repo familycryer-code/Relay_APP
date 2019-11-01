@@ -1079,9 +1079,9 @@ namespace RelayControlLibrary
         private int getOilTemperatureFromAnalog(int bAN1)
         {
 #if ENMAX //consider adding for chicago as well
-            double oil_temp = .0393701 * bAN1 * 32;
+            double oil_temp = .0393701 * bAN1 * 32; // 0.0393701 = 5V / 127 counts
 #elif NU
-            double oil_temp = (double)bAN1 * 160d / 5d; //coned gauge only 
+            double oil_temp = (double)bAN1 * 160d / 127d; // 127 Counts = 5V. 160 degrees / 5 v 
 #else
             double oil_temp = 1.5993 * bAN1 - 5.0982; //coned gauge only 
 #endif

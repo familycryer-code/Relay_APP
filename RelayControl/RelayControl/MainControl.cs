@@ -3078,12 +3078,14 @@ namespace RelayControl
 
                 if (temp.Contains("GE"))
                 {
+                    WHRelay = false;
                     this.gEEnableChangeBlocked = false;
                     this.GEEnabled = true;
                     this.gEEnableChangeBlocked = true;
                 }
                 else if (temp.Contains("WH"))
                 {
+                    WHRelay = true;
                     this.gEEnableChangeBlocked = false;
                     this.GEEnabled = false;
                     this.gEEnableChangeBlocked = true;
@@ -3157,6 +3159,23 @@ namespace RelayControl
                 this.ucRelayProgramming1.SerialNumber = (UInt32)tempI;
                 this.ucDNPSAv51.SerialNumber = tempI;
 
+                if (tempI >= 25000 && wHRelay)
+                {
+                    messageHandler("GE Serial Number programmed with WH Firmware", "Is this a GE Relay? If Yes, please manually reload with GE Software. If No, please contact DIGITALGRID");
+#if !DEBUG
+                    enableAll(false);
+                    return;
+#endif
+                }
+                else if (tempI < 25000 && !wHRelay)
+                {
+                    messageHandler("WH Serial Number programmed with GE Firmware", "Is this a WH Relay? If Yes, please manually reload with WH Software. If No, please contact DIGITALGRID");
+#if !DEBUG
+                    enableAll(false);
+                    return;
+#endif
+                }
+
                 if (this.savedSerialNumber != tempI && checkSerialNumber) //check to see if it matches old serial num
                 {
                     this.checkSerialNumber = false;
@@ -3227,18 +3246,7 @@ namespace RelayControl
                 else
                     this.GEEnabled = false;
 
-                if (this.masterRevision >= 110602)
-                {
-                    if ((bytePacket[28] & 0x10) == 0x10)
-                    {
-                        this.WHRelay = false;
-                    }
-                    else
-                    {
-                        this.WHRelay = true;
-                    }
-                }
-                else
+                if (this.masterRevision < 110602)
                 {
                     this.WHRelay = true;
                 }
@@ -5322,7 +5330,7 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
 
-#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX   || MADISON || ONCOR || MEMPHIS
+#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || ONCOR || MEMPHIS
             this.domainUpDownCTRatioM.SelectedIndex = 2;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;
