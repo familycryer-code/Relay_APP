@@ -601,7 +601,7 @@ namespace RelayControl
                     tabControlMain.TabPages.Remove(tabPageTransmitter);
                 if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
                     tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
-                ucRemoteCommandBlock1.Visible = false;                
+                ucRemoteCommandBlock1.Visible = false;
 #endif
 #else
                 this.Customer = Customers.NonConEd;
