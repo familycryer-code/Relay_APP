@@ -47,7 +47,7 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 0;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 190722;
+        private static UInt32 _masterCodeRevisionNumber = 191024;
         private static UInt32 _masterDNPRevisionNumber = 190722;
         private static UInt32 _relayCodeRevisionNumber = 20190627;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
