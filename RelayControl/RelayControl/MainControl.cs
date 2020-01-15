@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -629,6 +629,8 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+#else
+                checkBox277DNPOutputs.Visible = false;
 #endif
 
 #if DEBUG || CHICAGO
