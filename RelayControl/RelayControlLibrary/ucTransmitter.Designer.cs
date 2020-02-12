@@ -2342,7 +2342,6 @@
             this.checkBoxExtendedPLCMessage.TabIndex = 82;
             this.checkBoxExtendedPLCMessage.Text = "Extended PLC Message";
             this.checkBoxExtendedPLCMessage.UseVisualStyleBackColor = true;
-            this.checkBoxExtendedPLCMessage.Visible = false;
             // 
             // ucTransmitter
             // 
