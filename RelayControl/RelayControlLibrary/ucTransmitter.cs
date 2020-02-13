@@ -56,7 +56,7 @@ namespace RelayControlLibrary
             this.labelTransFlagStatus.Visible = false;
 #endif
 
-#if NU
+#if !DEBUG
             checkBoxExtendedPLCMessage.Visible = false;
 #endif
 
@@ -1179,8 +1179,11 @@ namespace RelayControlLibrary
                 {
                     this.TXSettings.LEDSpeed = (byte)this.numericUpDownLEDSpeed.Value;
                 }
-
+#if DEBUG
                 TXSettings.ExtendedPLCMessage = checkBoxExtendedPLCMessage.Checked;
+#else
+                TXSettings.ExtendedPLCMessage = true;
+#endif
             }
             catch (Exception ex)
             {
@@ -1699,7 +1702,7 @@ namespace RelayControlLibrary
         }
 
 
-        #region Error Handling
+#region Error Handling
 
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler TransmitterException;
@@ -1712,7 +1715,7 @@ namespace RelayControlLibrary
                 throw new Exception("No Exception Handler in Main for Transmitter Unit");
         }
 
-        #endregion
+#endregion
 
         private void checkBoxType2Off_CheckedChanged(object sender, EventArgs e)
         {
