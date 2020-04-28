@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -409,7 +409,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if PSEG
+#if PSEG  || NU || BOSTON
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;
@@ -420,7 +420,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
-#elif CHICAGO || SEATTLE || DOMINION || ENMAX || NU
+#elif CHICAGO || SEATTLE || DOMINION || ENMAX
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
             this.checkBoxMotorCycles.Checked = true;

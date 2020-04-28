@@ -227,7 +227,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
     <OutputPath>bin\Release Boston Eversource\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>BASICRELEASE,Boston</DefineConstants>
+    <DefineConstants>BASICRELEASE,BOSTON</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">

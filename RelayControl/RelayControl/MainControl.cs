@@ -1630,6 +1630,8 @@ namespace RelayControl
             this.dataReceived();
         }
 
+        private int testCount = 0;
+
         private void dataReceived()
         {
             byte lastByte = 0;
@@ -1643,7 +1645,21 @@ namespace RelayControl
 
                     lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
                     if (checkBoxSerialCommsDebugging.Checked)
-                        Debug.Write(String.Format("{0:X2}-", lastByte));
+                    {
+                        //Debug.Write(String.Format("{0:X2}-", lastByte));
+
+                        ASCIIEncoding ascii = new ASCIIEncoding();
+                        Debug.Write(ascii.GetString(new byte[] { lastByte }));
+                        if (lastByte == '-')
+                        {
+                            testCount++;
+                            if (testCount == 15)
+                            {
+                                testCount = 0;
+                                Debug.WriteLine(DateTime.Now.ToString());
+                            }
+                        }
+                    }
                     if (lastByte == 0x06)
                     {
                         this.SendConfirmed = true;
@@ -5792,7 +5808,7 @@ namespace RelayControl
         {
             string errorMessage = "None";
             if (checkBoxSerialCommsDebugging.Checked)
-                Debug.WriteLine(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
+                Debug.WriteLine(String.Format("\r\nSending Packet: {0}", BitConverter.ToString(bytePacket)));
             try
             {
                 errorMessage = "Error Checking if Port is open";
