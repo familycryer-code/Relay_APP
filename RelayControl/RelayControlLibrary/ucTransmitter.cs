@@ -411,7 +411,7 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
 
@@ -1702,7 +1702,7 @@ namespace RelayControlLibrary
         }
 
 
-#region Error Handling
+        #region Error Handling
 
         public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
         public event ExceptionHandler TransmitterException;
@@ -1715,7 +1715,7 @@ namespace RelayControlLibrary
                 throw new Exception("No Exception Handler in Main for Transmitter Unit");
         }
 
-#endregion
+        #endregion
 
         private void checkBoxType2Off_CheckedChanged(object sender, EventArgs e)
         {
@@ -1781,7 +1781,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;

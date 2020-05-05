@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -1318,7 +1318,7 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 3;
-#elif CHICAGO || MADISON
+#elif CHICAGO || MADISON || LONDONH
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
@@ -1351,6 +1351,10 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+#elif LONDONH
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 9.3m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
 #else
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10m;
@@ -1368,6 +1372,10 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
+#elif LONDONH
+            this.numericUpDownInsensTrip.Value = 50m;
+            this.numericUpDownSensTrip.Value = .186m;
+            this.numericUpDownWVCurrent.Value = 50m;
 #endif
         }
 
@@ -1380,6 +1388,10 @@ namespace RelayControlLibrary
 #elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
+            this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+#elif LONDONH
+            this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
+            this.numericUpDownSensTrip.Value = .0093m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
 #endif
         }

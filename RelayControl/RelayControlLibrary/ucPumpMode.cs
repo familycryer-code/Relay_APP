@@ -409,7 +409,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if PSEG  || NU || BOSTON
+#if PSEG  || NU || BOSTON || LONDONH
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;

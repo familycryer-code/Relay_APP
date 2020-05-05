@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -47,7 +47,7 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 
-#if (CHICAGO || MADISON || DEBUG) && !ENMAX
+#if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
 #elif ENMAX && !DEBUG
@@ -118,6 +118,16 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusF.Visible = false;
 
             this.labelGa.Visible = false;
+            this.labelHa.Visible = false;
+#elif LONDONH
+            this.textBoxHa.Visible = false;
+
+            this.checkBoxFlagStatusC.Visible = false;
+            this.checkBoxFlagStatusD.Visible = false;
+            this.checkBoxFlagStatusE.Visible = false;
+            this.checkBoxFlagStatusF.Visible = false;
+            this.checkBoxFlagStatusG.Visible = false;
+
             this.labelHa.Visible = false;
 #elif MADISON && !DEBUG
             this.textBoxCa.Visible = false;
@@ -1080,7 +1090,7 @@ namespace RelayControlLibrary
         {
 #if ENMAX //consider adding for chicago as well
             double oil_temp = .0393701 * bAN1 * 32; // 0.0393701 = 5V / 127 counts
-#elif NU
+#elif NU || LONDONH
             double oil_temp = (double)bAN1 * 160d / 127d; // 127 Counts = 5V. 160 degrees / 5 v 
 #else
             double oil_temp = 1.5993 * bAN1 - 5.0982; //coned gauge only 
@@ -1096,27 +1106,27 @@ namespace RelayControlLibrary
 #if ENMAX
         private int[] AnalogLookup =
         { // 15 columns
-			0,   1,   2,   3,   4,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
-			30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
-			48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3
-			62,  63,  64,  65,  66,  67,  68,  69,  70,  70,  71,  72,  73,  74,  75, // row 4
-			75,  76,  77,  78,  79,  80,  80,  81,  82,  83,  84,  85,  85,  86,  87, // row 5
-			88,  89,  90,  91,  92,  93,  94,  95,  97,  98,  99, 100, 102, 103, 104, // row 6
-			105, 107, 108, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124, 125, 128, // row 7
-			130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
-		};
+            0,   1,   2,   3,   4,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
+            30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
+            48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3
+            62,  63,  64,  65,  66,  67,  68,  69,  70,  70,  71,  72,  73,  74,  75, // row 4
+            75,  76,  77,  78,  79,  80,  80,  81,  82,  83,  84,  85,  85,  86,  87, // row 5
+            88,  89,  90,  91,  92,  93,  94,  95,  97,  98,  99, 100, 102, 103, 104, // row 6
+            105, 107, 108, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124, 125, 128, // row 7
+            130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
+        };
 #else
         private int[] AnalogLookup =
         { // 15 columns
-			0,   0,   0,   0,   3,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
-			30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
-			48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3
-			62,  63,  64,  65,  66,  67,  68,  69,  70,  70,  71,  72,  73,  74,  75, // row 4
-			75,  76,  77,  78,  79,  80,  80,  81,  82,  83,  84,  85,  85,  86,  87, // row 5
-			88,  89,  90,  91,  92,  93,  94,  95,  97,  98,  99, 100, 102, 103, 104, // row 6
-			105, 107, 108, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124, 125, 128, // row 7
-			130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
-		};
+            0,   0,   0,   0,   3,   5,  10,  13,  15,  18,  20,  23,  25,  27,  29, // row 1
+            30,  32,  34,  35,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47, // row 2
+            48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  60,  61, // row 3
+            62,  63,  64,  65,  66,  67,  68,  69,  70,  70,  71,  72,  73,  74,  75, // row 4
+            75,  76,  77,  78,  79,  80,  80,  81,  82,  83,  84,  85,  85,  86,  87, // row 5
+            88,  89,  90,  91,  92,  93,  94,  95,  97,  98,  99, 100, 102, 103, 104, // row 6
+            105, 107, 108, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124, 125, 128, // row 7
+            130, 133, 135, 138, 140, 143, 145, 150, 155 // plus 9
+        };
 #endif
 
     }

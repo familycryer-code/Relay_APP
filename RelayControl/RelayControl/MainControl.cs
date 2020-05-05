@@ -633,7 +633,7 @@ namespace RelayControl
                 checkBox277DNPOutputs.Visible = false;
 #endif
 
-#if DEBUG || CHICAGO
+#if DEBUG || CHICAGO || LONDONH
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
 
@@ -684,6 +684,8 @@ namespace RelayControl
             this.customerRevisionName = "Dominion";
 #elif CHICAGO
             this.customerRevisionName = "Chicago";
+#elif LONDONH
+            this.customerRevisionName = "London Hydro";
 #elif ENMAX && !DNP
             this.customerRevisionName = "Enmax PLC";
 #elif ENMAX && DNP
@@ -709,7 +711,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if CHICAGO ||  (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU
+#if CHICAGO ||  LONDONH || (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU
             showCustomerNameDebug = true;
 #endif
 
@@ -5340,14 +5342,24 @@ namespace RelayControl
 #elif ENMAX || PSEG
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
-#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
+#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS || LONDONH
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
-
+            /*
+             * 0    3750
+             * 1    3500
+             * 2    3000
+             * 3    2500
+             * 4    2000
+             * 5    1600
+             * 6    1200
+             * 7    800
+             * 8   "Special"
+             */
 #if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || ONCOR || MEMPHIS
             this.domainUpDownCTRatioM.SelectedIndex = 2;
 #else
@@ -8569,7 +8581,7 @@ namespace RelayControl
 
         private void updateProtectorVoltage(ProtectorVoltage value)
         {
-#if CHICAGO
+#if CHICAGO || LONDONH
             ucCloseMode1.ProtectorVoltage = protectorVoltage;
             ucSafeService1.ProtectorVoltage = protectorVoltage;
 #endif

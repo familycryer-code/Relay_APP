@@ -47,8 +47,8 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 0;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 200406;
-        private static UInt32 _masterDNPRevisionNumber = 200406;
+        private static UInt32 _masterCodeRevisionNumber = 200430;
+        private static UInt32 _masterDNPRevisionNumber = 200430;
         private static UInt32 _relayCodeRevisionNumber = 20190627;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 170131;
@@ -948,6 +948,34 @@ namespace RelayControlLibrary
 #if CHICAGO
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorChicago;
             this.textBoxMasterFileName.Text = "Master Relay Chicago";
+
+            if (this.GEEnabled)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            writeDebugLine("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
+
+#if LONDONH
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorLondonH;
+            this.textBoxMasterFileName.Text = "Master Relay LondonH";
 
             if (this.GEEnabled)
             {
