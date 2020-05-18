@@ -751,7 +751,7 @@ namespace RelayControlLibrary
 
             }
             */
-#if BASICRELEASE && !DNP
+#if !DNP
             // This is a non-DNP, transmitter Enabled Relay
             this.TransmitterEnabled = true;
             this.DNPRelay = false;
@@ -896,7 +896,7 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || BASICRELEASE) && !DNP
+#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
