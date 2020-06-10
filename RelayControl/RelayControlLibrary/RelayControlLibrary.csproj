@@ -323,6 +323,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloseCurves.cs" />
+    <Compile Include="CommTradeConverter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CommTradeConverter.Designer.cs">
+      <DependentUpon>CommTradeConverter.cs</DependentUpon>
+    </Compile>
     <Compile Include="CTRatioCaculator2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -612,6 +618,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CommTradeConverter.resx">
+      <DependentUpon>CommTradeConverter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CTRatioCaculator2.resx">
       <DependentUpon>CTRatioCaculator2.cs</DependentUpon>
     </EmbeddedResource>

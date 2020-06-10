@@ -218,6 +218,7 @@ namespace RelayControl
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
+            this.labelKioskReceived = new System.Windows.Forms.Label();
             this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
             this.buttonTest = new System.Windows.Forms.Button();
             this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
@@ -237,7 +238,7 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.labelKioskReceived = new System.Windows.Forms.Label();
+            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -355,7 +356,7 @@ namespace RelayControl
             this.loadEventSetToolStripMenuItem,
             this.clearEventsToolStripMenuItem});
             this.eventActionsToolStripMenuItem.Name = "eventActionsToolStripMenuItem";
-            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.eventActionsToolStripMenuItem.Text = "Event Actions";
             // 
             // downloadEventFromRelayToolStripMenuItem
@@ -393,7 +394,7 @@ namespace RelayControl
             this.saveLiveDataToolStripMenuItem,
             this.loadLiveDataToolStripMenuItem});
             this.liveDataActionsToolStripMenuItem.Name = "liveDataActionsToolStripMenuItem";
-            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.liveDataActionsToolStripMenuItem.Text = "Live Data Actions";
             // 
             // requestLiveDataToolStripMenuItem1
@@ -452,13 +453,13 @@ namespace RelayControl
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cTRatioCalculatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // cTRatioCalculatorToolStripMenuItem
             // 
             this.cTRatioCalculatorToolStripMenuItem.Name = "cTRatioCalculatorToolStripMenuItem";
-            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.cTRatioCalculatorToolStripMenuItem.Text = "CT Ratio Calculator";
             this.cTRatioCalculatorToolStripMenuItem.Click += new System.EventHandler(this.cTRatioCalculatorToolStripMenuItem_Click);
             // 
@@ -2336,6 +2337,7 @@ namespace RelayControl
             // 
             // tabPageEngineering2
             // 
+            this.tabPageEngineering2.Controls.Add(this.commTradeConverter1);
             this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
             this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
             this.tabPageEngineering2.Controls.Add(this.buttonTest);
@@ -2347,6 +2349,16 @@ namespace RelayControl
             this.tabPageEngineering2.TabIndex = 14;
             this.tabPageEngineering2.Text = "Engineer 2";
             this.tabPageEngineering2.UseVisualStyleBackColor = true;
+            // 
+            // labelKioskReceived
+            // 
+            this.labelKioskReceived.AutoSize = true;
+            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
+            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
+            this.labelKioskReceived.Name = "labelKioskReceived";
+            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
+            this.labelKioskReceived.TabIndex = 3;
+            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
             // 
             // checkBoxSerialCommsDebugging
             // 
@@ -2512,15 +2524,12 @@ namespace RelayControl
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // labelKioskReceived
+            // commTradeConverter1
             // 
-            this.labelKioskReceived.AutoSize = true;
-            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
-            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
-            this.labelKioskReceived.Name = "labelKioskReceived";
-            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
-            this.labelKioskReceived.TabIndex = 3;
-            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
+            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
+            this.commTradeConverter1.Name = "commTradeConverter1";
+            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
+            this.commTradeConverter1.TabIndex = 4;
             // 
             // MainControl
             // 
@@ -2798,6 +2807,7 @@ namespace RelayControl
         private System.Windows.Forms.Label labelDNPVoltage;
         private System.Windows.Forms.ComboBox comboBoxDNPVoltage;
         private System.Windows.Forms.Label labelKioskReceived;
+        private RelayControlLibrary.CommTradeConverter commTradeConverter1;
     }
 }
 
