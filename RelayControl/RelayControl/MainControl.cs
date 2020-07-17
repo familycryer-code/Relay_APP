@@ -686,6 +686,8 @@ namespace RelayControl
             this.customerRevisionName = "Chicago";
 #elif LONDONH
             this.customerRevisionName = "London Hydro";
+#elif TAUNTON
+            this.customerRevisionName = "Taunton";
 #elif ENMAX && !DNP
             this.customerRevisionName = "Enmax PLC";
 #elif ENMAX && DNP
@@ -711,7 +713,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if CHICAGO ||  LONDONH || (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU
+#if CHICAGO ||  LONDONH || (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU || TAUNTON
             showCustomerNameDebug = true;
 #endif
 
@@ -5339,7 +5341,7 @@ namespace RelayControl
 #if DOMINION
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif ENMAX || PSEG
+#elif ENMAX || PSEG || TAUNTON
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
 #elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS || LONDONH
@@ -7326,7 +7328,7 @@ namespace RelayControl
         {
             byte[] packet = new byte[3];
 
-            packet[0] = (byte)'y';
+            packet[0] = (byte)'B';
             packet[1] = 0x55;
             packet[2] = 0x0D;
 

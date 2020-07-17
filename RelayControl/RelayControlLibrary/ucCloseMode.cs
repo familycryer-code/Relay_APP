@@ -702,6 +702,15 @@ namespace RelayControlLibrary
                 this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
+#elif TAUNTON
+                numericUpDownTimeDelay.Value = CloseModeDef.TimeDelay = 5;
+                numericUpDownRecloseVolts.Value = 1.4m;
+                numericUpDownPDA.Value = -6;
+                numericUpDownCloseTiltAngle.Value = 95;
+                numericUpDownPDV.Value = 0.3m;
+                checkBoxCircleClose.Checked = false;
+                radioButtonNeverOverride.Checked = true;
+                CloseModeDef.CloseMode = CloseModes.Normal;
 #else // SEATTLE, DOMINION, CHICAGO
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.5m;
