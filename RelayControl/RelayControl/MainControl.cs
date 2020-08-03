@@ -1477,7 +1477,7 @@ namespace RelayControl
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     this.pauseMonitoring = false;
                     this.ucShortRange1.ResetThreshold();
-                    this.enableAll(true);
+                    //this.enableAll(true);
                     this.ProgramState = ProgramStates.CheckingForRelay;
                     this.timerRegisterPolling.Start();
                     this.allEnabled = true;
@@ -5338,13 +5338,13 @@ namespace RelayControl
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
             checkBox277DNPOutputs.Checked = false;
-#if DOMINION
+#if DOMINION || LONDONH
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #elif ENMAX || PSEG || TAUNTON
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
-#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS || LONDONH
+#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else

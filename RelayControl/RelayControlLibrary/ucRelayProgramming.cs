@@ -527,11 +527,7 @@ namespace RelayControlLibrary
 
         public void InitializeAutoload()
         {
-#if !DEBUG
             this.reprogramBootCodeAuto = true;
-#endif
-
-
 
             if ((askToUgradeShown == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
             {
@@ -1425,7 +1421,10 @@ namespace RelayControlLibrary
 
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
-            Thread.Sleep(75); // Put in so I don't go too fast for the processor
+            if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
+                Thread.Sleep(1000); // Put in so I don't go too fast for the processor
+            else
+                Thread.Sleep(75); // Put in so I don't go too fast for the processor
             if (this.Send != null)
                 this.Send(this, rPEA);
         }
