@@ -287,8 +287,6 @@ namespace RelayControl
                 this.initializeFromConfigFile();
 #if DEBUG
                 this.initializeFromConfigFileDebug();
-#else
-                this.checkBoxReprogramBootAuto.Visible = false;
 #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);

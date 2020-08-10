@@ -44,13 +44,11 @@ namespace RelayControlLibrary
         // These need to be updated when new files are used
 #if DEBUG && !DG288_TESTFIXTURE_GUI
         private static UInt32 _masterCodeRevisionNumber = 999999;
-        private static UInt32 _masterDNPRevisionNumber = 999999;
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 200413;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 200601;
-        private static UInt32 _masterDNPRevisionNumber = 200601;
+        private static UInt32 _masterCodeRevisionNumber = 200717;
         private static UInt32 _relayCodeRevisionNumber = 20190627;
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 200413;
@@ -327,7 +325,7 @@ namespace RelayControlLibrary
                 {
                     setWrongRelayTypeAutoLoad();
 #if DNP
-                    if ((this.remoteMasterRevisionNumber < _masterDNPRevisionNumber) || wrongRelayTypeAutoLoad)
+                    if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                         this.reprogramMaster = true;
                     else
                         this.reprogramMaster = false;
@@ -1253,7 +1251,7 @@ namespace RelayControlLibrary
         {
             writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 #if DNP
-            if ((remoteMasterRevisionNumber < _masterDNPRevisionNumber) || wrongRelayTypeAutoLoad)
+            if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #else
             if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #endif
