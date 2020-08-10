@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using System.Linq;
 using SharedResources;
 using System.Diagnostics;
+using NLog;
 
 namespace RelayControlLibrary
 {
@@ -38,6 +39,7 @@ namespace RelayControlLibrary
             this.programmingForm.FormClosed += programmingForm_FormClosed;
         }
 
+        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public bool ActiveRelay { get; set; }
         // These need to be updated when new files are used
 #if DEBUG && !DG288_TESTFIXTURE_GUI
@@ -91,7 +93,7 @@ namespace RelayControlLibrary
             get { return this.state; }
             set
             {
-                this.writeDebugLine(value.ToString());
+                this.writeDebugLine(String.Format("State: {0}", value.ToString()));
                 this.state = value;
             }
         }
@@ -298,9 +300,9 @@ namespace RelayControlLibrary
                         break;
                     case RelayProgrammingStates.ReprogramSuccess:
                         this.timerTimeout.Stop();
-                        this.restartProgram();
                         break;
                     case RelayProgrammingStates.Finalized:
+                        writeDebugLine("Finalized, state master rev");
                         this.State = RelayProgrammingStates.Idle;
                         break;
                     case RelayProgrammingStates.RequestAll:
@@ -527,6 +529,7 @@ namespace RelayControlLibrary
 
         public void InitializeAutoload()
         {
+            writeDebugLine("InitializeAutoLoad");
             this.reprogramBootCodeAuto = true;
 
             if ((askToUgradeShown == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
@@ -569,6 +572,7 @@ namespace RelayControlLibrary
 
         private bool MasterBootRevisionSet()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (CompareMasterRevisionToGUI())
             {
                 if (masterBootRevisionSet == false)
@@ -587,6 +591,7 @@ namespace RelayControlLibrary
 
         private void showAutoLoadDialog()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (!this.wrongRelayTypeAutoLoad)
                 this.setWrongRelayTypeAutoLoad();
 
@@ -607,6 +612,7 @@ namespace RelayControlLibrary
 
         private void ForceUpgradeCheck()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
             {
                 MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DIGITALGRID, INC. and return relay to factory.");
@@ -625,6 +631,7 @@ namespace RelayControlLibrary
 
         private void checkSafeServiceMaster()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
             {
                 MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DIGITALGRID, INC. return relay to factory.");
@@ -638,6 +645,7 @@ namespace RelayControlLibrary
 
         private void UpgradeBootCode()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.dontShowRelayUpgradeMessage = true;
 
             DialogResult warningBootDR = new DialogResult();
@@ -656,6 +664,7 @@ namespace RelayControlLibrary
 
         private DialogResult showAutoLoadUpdateMessage()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
             dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is recommended that the update be allowed. Update?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
             return dR;
@@ -663,6 +672,7 @@ namespace RelayControlLibrary
 
         private DialogResult checkDNPPLCMessage(DialogResult dR)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (masterRevisionString.Contains("DNP"))
             {
 #if !DNP
@@ -682,6 +692,7 @@ namespace RelayControlLibrary
 
         private bool setWrongRelayTypeAutoLoad()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (masterRevisionString != "")
             {
                 if (masterRevisionString.Contains("DNP"))
@@ -705,6 +716,7 @@ namespace RelayControlLibrary
 
         public void InitialAutoLoadFiles()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
 
             dR = MessageBox.Show("Do you want to attempt to reprogram the Relay?", "Initial Auto Reload", MessageBoxButtons.YesNo);
@@ -798,6 +810,7 @@ namespace RelayControlLibrary
 
         private void startManualReloadWithBootCheck()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.loadMasterFirst = true;
             this.masterCode.WithParameters = false;
 
@@ -815,6 +828,7 @@ namespace RelayControlLibrary
 
         private void startManualReload()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.loadMasterFirst = true;
             this.masterCode.WithParameters = false;
 
@@ -828,6 +842,7 @@ namespace RelayControlLibrary
 
         private void setManualReloadVars()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.autoLoad = true;
             this.reprogramMaster = true;
             this.reprogramRelay = true;
@@ -836,6 +851,7 @@ namespace RelayControlLibrary
 
         private void checkDNP()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 #if DNP
             this.DNPRelay = true;
 #else
@@ -845,11 +861,13 @@ namespace RelayControlLibrary
 
         private DialogResult askIfDNPRelay()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             return new CustomYesNoDialog("Select Communication Type", "Does this have DNP?", "Yes", "No").ShowDialog();
         }
 
         private void setDNPRelay(DialogResult dR)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (dR == DialogResult.Yes)
             {
                 this.DNPRelay = true;
@@ -860,7 +878,7 @@ namespace RelayControlLibrary
         private void determineIfTransmitterRelay()
         {
             DialogResult dR;
-
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             switch (this.customer)
             {
                 case Customers.Memphis:
@@ -885,6 +903,7 @@ namespace RelayControlLibrary
 
         private void setProgrammingFiles()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.dontReloadFromResource || RelayProgrammingStates.Idle != this.state)
                 return;
 
@@ -1193,6 +1212,7 @@ namespace RelayControlLibrary
 
         public void CheckForUpdate()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (forceRelayUpdate == false)
             {
                 if (!this.firstCheckForUpdate)
@@ -1222,6 +1242,7 @@ namespace RelayControlLibrary
 
         public bool CheckForBootCodeUpdate()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
                 return true;
             else
@@ -1230,6 +1251,7 @@ namespace RelayControlLibrary
 
         public bool CompareMasterRevisionToGUI()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 #if DNP
             if ((remoteMasterRevisionNumber < _masterDNPRevisionNumber) || wrongRelayTypeAutoLoad)
 #else
@@ -1242,6 +1264,7 @@ namespace RelayControlLibrary
 
         private void forceRelayToUpdate()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (forceUpdateOnce == false)
             {
                 forceUpdateOnce = true;
@@ -1263,6 +1286,7 @@ namespace RelayControlLibrary
 
         private void askIfGERelay()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.loadMasterFirst)
                 return;
 
@@ -1301,6 +1325,7 @@ namespace RelayControlLibrary
 
         private void addGERelayToTransmitterPacket(bool b)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (b)
                 this.TransmitterPacket[28] |= 0x10;
             else
@@ -1310,6 +1335,7 @@ namespace RelayControlLibrary
 
         private void startAutoLoad()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
             if (this.serialNumberError)
                 return;
@@ -1374,6 +1400,7 @@ namespace RelayControlLibrary
 
         public void PrepForBoot()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             switch (this.State)
             {
                 case RelayProgrammingStates.LoadingMasterData:
@@ -1397,11 +1424,13 @@ namespace RelayControlLibrary
 
         public void SetTransmitterPacket(byte[] bytePacket)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.TransmitterPacket = bytePacket;
         }
 
         private void SendTransmitterSettings()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             if (this.TransmitterPacket != null || this.manualReload)
             {
@@ -1421,8 +1450,9 @@ namespace RelayControlLibrary
 
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
-                Thread.Sleep(1000); // Put in so I don't go too fast for the processor
+                Thread.Sleep(500); // Put in so I don't go too fast for the processor
             else
                 Thread.Sleep(75); // Put in so I don't go too fast for the processor
             if (this.Send != null)
@@ -1430,6 +1460,7 @@ namespace RelayControlLibrary
         }
         private void packetAcknowledged(bool b)
         {
+
             try
             {
                 switch (this.State)
@@ -1551,14 +1582,17 @@ namespace RelayControlLibrary
                     this.sendFPGATransferPacket();
                     break;
                 case RelayProgrammingStates.CheckMasterBootCode:
+                    writeDebugLine("CheckMasterBootCode");
                     this.state = RelayProgrammingStates.Idle;
                     CheckProperMasterBootCode();
                     break;
                 case RelayProgrammingStates.AutoLoadCheckBoot:
+                    writeDebugLine("AutoLoadCheckBoot");
                     this.state = RelayProgrammingStates.Idle;
                     InitializeAutoload();
                     break;
                 case RelayProgrammingStates.ManualLoadCheckBoot:
+                    writeDebugLine("manualLoadCheckBoot");
                     this.state = RelayProgrammingStates.Idle;
                     startManualReloadWithBootCheck();
                     break;
@@ -1576,6 +1610,7 @@ namespace RelayControlLibrary
 
         bool IsDigitsOnly(string str)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             foreach (char c in str)
             {
                 if (c < '0' || c > '9')
@@ -1587,6 +1622,7 @@ namespace RelayControlLibrary
 
         private void masterFinished()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.writeDebugLine("Master Finished Loading");
             if (autoLoad)
             {
@@ -1599,6 +1635,7 @@ namespace RelayControlLibrary
 
         private void sendNextRelayPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1678,6 +1715,7 @@ namespace RelayControlLibrary
 
         private void sendNextRelayBootLoaderPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1713,6 +1751,7 @@ namespace RelayControlLibrary
 
         private void MasterBootLoaderStart()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1762,6 +1801,7 @@ namespace RelayControlLibrary
 
         private void confirmProgramMasterBoot()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1780,6 +1820,7 @@ namespace RelayControlLibrary
 
         private void sendMasterBootCode()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1827,6 +1868,7 @@ namespace RelayControlLibrary
 
         private void sendNextMasterPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1908,6 +1950,7 @@ namespace RelayControlLibrary
 
         private void sendNextFPGAPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1945,6 +1988,7 @@ namespace RelayControlLibrary
 
         private void doneLoadingFPGA()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (!this.programMasterBootFileSelect)
                 this.programmingForm.Hide();
 
@@ -1953,6 +1997,7 @@ namespace RelayControlLibrary
             this.writeDebugLine("");
             this.writeDebugLine("Done Loading FPGA");
 
+            logger.Trace("MasterBootFileSelect: {0}", this.programMasterBootFileSelect);
             if (this.autoLoad && !this.programMasterBootFileSelect)
                 this.allReprogramingDone();
             else if (this.autoLoad && this.programMasterBootFileSelect)
@@ -1962,6 +2007,7 @@ namespace RelayControlLibrary
 
         private void doneLoadingRelay()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.timerTimeout.Stop();
 
             if (!this.loadMasterFirst)
@@ -2020,6 +2066,7 @@ namespace RelayControlLibrary
 
         private void doneLoadingMaster()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
 
@@ -2051,6 +2098,7 @@ namespace RelayControlLibrary
                     else
                     {
                         this.programmingForm.FPGAComplete = true;
+                        writeDebugLine("doneloadingmaster");
                         this.State = RelayProgrammingStates.Idle;
 
                         this.allReprogramingDone();
@@ -2090,6 +2138,7 @@ namespace RelayControlLibrary
                     else
                     {
                         this.programmingForm.FPGAComplete = true;
+                        writeDebugLine("DoneLoadingMaster 2");
                         this.State = RelayProgrammingStates.Idle;
 
                         this.allReprogramingDone();
@@ -2104,17 +2153,20 @@ namespace RelayControlLibrary
 
         private void allReprogramingDone()
         {
-            this.writeDebugLine("All Loading Done");
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+            writeDebugLine("All Loading Done");
+            writeDebugLine(String.Format("autoload: {0}", autoLoad));
+
             this.reprogrammingInProgress = false;
             if (this.autoLoad)
             {
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
-                this.timerTimeout.Interval = 2000;
-                this.timerTimeout.Start();
+                this.restartProgram();
             }
             else
             {
+                writeDebugLine("All Loading Done, idle");
                 this.State = RelayProgrammingStates.Idle;
                 this.askToUgradeShown = true;
                 this.finalizeReprogram();
@@ -2123,6 +2175,7 @@ namespace RelayControlLibrary
 
         private void requestAll()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RequestAll;
             // Delay put in so I don't send before processor is ready.
@@ -2134,7 +2187,7 @@ namespace RelayControlLibrary
         private void finalizeReprogram()
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.enableButtons(true);
             this.programmingForm.Hide();
 
@@ -2150,6 +2203,7 @@ namespace RelayControlLibrary
 
         private void doneLoadingRelayBootLoader()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
             this.enableButtons(true);
@@ -2160,6 +2214,7 @@ namespace RelayControlLibrary
 
         private void doneLoadingMasterBootLoader()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
             this.State = RelayProgrammingStates.DoneLoadingMasterBootLoader;
@@ -2189,7 +2244,7 @@ namespace RelayControlLibrary
             if (!programBootCodeOnly)
             {
                 firstCheckForUpdate = true;
-
+                reprogramRelay = true;
                 CheckForUpdate();
             }
 
@@ -2202,7 +2257,7 @@ namespace RelayControlLibrary
                 this.programmingForm.Hide();
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
                 this.writeDebugLine("Reprogam Completed Successfully");
-                this.logUpdate();
+                writeDebugLine("FinalizeReprogram");
                 this.state = RelayProgrammingStates.Idle;
                 this.autoLoad = false;
                 this.loadMasterFirst = false;
@@ -2211,33 +2266,11 @@ namespace RelayControlLibrary
 
         }
 
-        private void logUpdate()
-        {
-            try
-            {
-                if (!Directory.Exists(@"C:\DGI Systems\Relay\Log\"))
-                    Directory.CreateDirectory(@"C:\DGI Systems\Relay\Log\");
-                if (!File.Exists(@"C:\DGI Systems\Relay\Log\UpdateLog.txt"))
-                    using (File.Create(@"C:\DGI Systems\Relay\Log\UpdateLog.txt")) { };
-                using (StreamWriter sW = new StreamWriter(@"C:\DGI Systems\Relay\Log\UpdateLog.txt", true))
-                {
-                    sW.WriteLine(this.currentRelayLog.GetLogString());
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error Writing Log File", "Could Not Write to LogFile.\r\nMaybe it is Open");
-            }
-        }
-
         private void writeDebugLine(string s)
         {
             try
             {
-#if !DEBUG
-                return;
-#endif
-                Debug.WriteLine(s);
+                logger.Trace(s);
             }
             catch (Exception ex)
             {
@@ -2252,6 +2285,7 @@ namespace RelayControlLibrary
 
         private void sendNonTransmitterSettings()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
             // Return if manual reload because we don't have settings
@@ -2269,6 +2303,7 @@ namespace RelayControlLibrary
 
         private void sendMasterTransferPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[4];
 
@@ -2296,6 +2331,7 @@ namespace RelayControlLibrary
 
         private void sendRelayTransferPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[4];
 
@@ -2319,6 +2355,7 @@ namespace RelayControlLibrary
 
         private void sendFPGATransferPacket()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[2];
 
@@ -2340,6 +2377,7 @@ namespace RelayControlLibrary
 
         public void CheckProperMasterBootCode()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             bool properBootCode = false;
 
             bool checkBootDate = true;
@@ -2451,6 +2489,10 @@ namespace RelayControlLibrary
                 {
                     checkBootCodeforProperDate();
                 }
+                else
+                {
+                    reprogramRelay = true;
+                }
 
                 this.reloadBootWithPrompt = false;
             }
@@ -2458,6 +2500,7 @@ namespace RelayControlLibrary
 
         private void wrongBootCodeShorcutMsg()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
 
             dR = new YesNoMessageBoxResized("Wrong Boot Code", "Wrong Boot Code Loaded. Would you like to fix the boot code?", "Yes", "No").ShowDialog();
@@ -2479,6 +2522,7 @@ namespace RelayControlLibrary
 
         private bool CheckForProperBootCodeAutoUpdate()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             reloadBootWithPrompt = false;
             CheckProperMasterBootCode();
             return wrongBootCodeLoaded;
@@ -2486,6 +2530,7 @@ namespace RelayControlLibrary
 
         private void CheckForProperBootCodeManualUpdate()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.manualReload = true;
             reloadBootWithPrompt = false;
             CheckProperMasterBootCode();
@@ -2495,6 +2540,7 @@ namespace RelayControlLibrary
 
         private void checkBootCodeforProperDate()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
 
             if (!manualReload)
@@ -2544,6 +2590,7 @@ namespace RelayControlLibrary
 
         private void restartProgram()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
             this.enableButtons(true);
@@ -2554,6 +2601,7 @@ namespace RelayControlLibrary
 
         private void useRelaySFile(string fileName)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             try
             {
                 using (StreamReader sR = new StreamReader(fileName, Encoding.ASCII))
@@ -2572,6 +2620,7 @@ namespace RelayControlLibrary
 
         private void useMasterSFile(string fileName)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             try
             {
                 using (StreamReader sR = new StreamReader(fileName, Encoding.ASCII))
@@ -2590,6 +2639,7 @@ namespace RelayControlLibrary
 
         private void parseFPGAFile(FPGAProgrammingData fPD)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             try
             {
                 if (this.fPGACode.UseFile && this.fPGACode.FileName == "")
@@ -2616,6 +2666,7 @@ namespace RelayControlLibrary
 
         private void parseBootLoaderSFile(RelayProgrammingData rPD)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             try
             {
                 using (StringReader sR = new StringReader(rPD.FileString))
@@ -3047,6 +3098,7 @@ namespace RelayControlLibrary
 
         private void startRelayProgramming()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if ((this.relayCode.FileString == "" || this.relayCode.FileString == null))
             {
                 MessageBox.Show("No Relay File Loaded");
@@ -3073,6 +3125,7 @@ namespace RelayControlLibrary
 
         private void startRelayBootLoaderProgramming()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if ((this.relayCode.FileString == "" || this.relayCode.FileString == null))
             {
                 MessageBox.Show("No Relay File Loaded");
@@ -3089,6 +3142,7 @@ namespace RelayControlLibrary
 
         private void sendBootLoaderClearMemory()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
             rPEA.Command = RelayProgrammingSendCommands.RawData;
@@ -3104,6 +3158,7 @@ namespace RelayControlLibrary
 
         private void startMasterProgramming()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if ((this.masterCode.FileString == "" || this.masterCode.FileString == null))
             {
                 MessageBox.Show("No Master File Loaded");
@@ -3136,6 +3191,7 @@ namespace RelayControlLibrary
 
         private void startMasterProgrammingWithParameters()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if ((this.masterCode.FileString == "" || this.masterCode.FileString == null))
             {
                 MessageBox.Show("No Master File Loaded");
@@ -3166,6 +3222,7 @@ namespace RelayControlLibrary
 
         private void startProgramming()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.reprogrammingInProgress = true;
             if (!this.loadMasterFirst)
             {
@@ -3281,6 +3338,7 @@ namespace RelayControlLibrary
 
         private void resetMasterProgramming()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.masterCode.FileString == "" || this.masterCode.FileString == null)
             {
                 MessageBox.Show("No Master File Loaded");
@@ -3308,6 +3366,7 @@ namespace RelayControlLibrary
 
         private void resetProgrammingRelay()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.relayCode.FileString == "" || this.relayCode.FileString == null)
             {
                 MessageBox.Show("No Relay File Loaded");
@@ -3336,6 +3395,7 @@ namespace RelayControlLibrary
 
         private void resetProgrammingFPGA()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.parseFPGAFile(this.fPGACode);
 
             this.programmingForm.CurrentTask = "Loading FPGA Code - Waiting For Boot - Please Wait";
@@ -3355,12 +3415,14 @@ namespace RelayControlLibrary
 
         private void sendQuietMode()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
         }
 
         private void sendRelayReset()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[3];
@@ -3374,6 +3436,7 @@ namespace RelayControlLibrary
 
         private void sendReset()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[3];
@@ -3387,6 +3450,7 @@ namespace RelayControlLibrary
 
         private void buttonProgramRelay_Click(object sender, EventArgs e)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.autoLoad = false;
             this.dontReloadFromResource = true;
             this.startRelayProgramming();
@@ -3454,6 +3518,7 @@ namespace RelayControlLibrary
 
         private void button1_Click(object sender, EventArgs e)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.PrepForBoot();
         }
 
@@ -3493,7 +3558,6 @@ namespace RelayControlLibrary
                     this.timerTimeout.Stop();
                     this.manualReload = false;
                     this.programmingForm.Hide();
-                    this.restartProgram();
                     break;
 
                 case RelayProgrammingStates.LoadingMasterBootLoader:
@@ -3506,6 +3570,7 @@ namespace RelayControlLibrary
 
         private void startManualBootCodeLoad()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.programBootCodeOnly = true;
             this.autoLoad = false;
             this.manualReload = false;
@@ -3568,6 +3633,7 @@ namespace RelayControlLibrary
 
         private void buttonClearAllProgrammingFields_Click(object sender, EventArgs e)
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.textBoxFPGAFile.Text = "";
             this.textBoxRelayFileName.Text = "";
             this.textBoxMasterFileName.Text = "";
@@ -3603,6 +3669,7 @@ namespace RelayControlLibrary
 
         private void selectNewestRelayFirmware()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 #if DEBUG
             if (Directory.Exists(@"C:\Freescale\RelayProcessor\output\"))
             {
@@ -3697,13 +3764,16 @@ namespace RelayControlLibrary
 
         public void CloseProgrammingForm()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.programmingForm.Hide();
         }
 
         public void AllParametersReceived()
         {
+            writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.State == RelayProgrammingStates.WaitForAllData)
             {
+                writeDebugLine("ParamsReceived-WaitingForAllData");
                 this.State = RelayProgrammingStates.Finalized;
                 this.SendTransmitterSettings();
                 this.sendNonTransmitterSettings();

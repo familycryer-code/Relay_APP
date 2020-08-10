@@ -24,6 +24,7 @@ using SharedResources;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
+using NLog;
 
 namespace RelayControl
 {
@@ -54,6 +55,8 @@ namespace RelayControl
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
+
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public Customers Customer
         {
@@ -1660,7 +1663,7 @@ namespace RelayControl
                             if (testCount == 15)
                             {
                                 testCount = 0;
-                                Debug.WriteLine(DateTime.Now.ToString());
+                                logger.Info(DateTime.Now.ToString());
                             }
                         }
                     }
@@ -2401,7 +2404,7 @@ namespace RelayControl
                 index <<= 8;
                 index += bytePacket[1];
 
-                Debug.WriteLine("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
+                logger.Info("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
 
                 type = RelayModeFunctions.PhasorTypeFrom((char)bytePacket[3], (char)bytePacket[2]);
 
@@ -4756,7 +4759,7 @@ namespace RelayControl
 
             this.phasorReceived = true;
             this.missedMonitoringCount = 0;
-            Debug.WriteLine("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
+            logger.Info("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
             phasorType = RelayModeFunctions.PhasorTypeFrom((char)packet[0], (char)packet[1]);
 
             try
@@ -5579,6 +5582,7 @@ namespace RelayControl
 
         private void requestMasterRevisionNumber()
         {
+
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'R';
@@ -5642,6 +5646,7 @@ namespace RelayControl
 
         private void requestAllData()
         {
+            logger.Info(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
@@ -5649,6 +5654,7 @@ namespace RelayControl
 
         private void requestAllDataNoMasterRev()
         {
+            logger.Info(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.InvokeRequired)
             {
                 requestAllCallBack rACB = new requestAllCallBack(this.requestAllData);
@@ -5822,7 +5828,7 @@ namespace RelayControl
         {
             string errorMessage = "None";
             if (checkBoxSerialCommsDebugging.Checked)
-                Debug.WriteLine(String.Format("\r\nSending Packet: {0}", BitConverter.ToString(bytePacket)));
+                logger.Info(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
             try
             {
                 errorMessage = "Error Checking if Port is open";
@@ -6792,7 +6798,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
 
                 this.enableAll(tempBool2);
                 this.monitoring(tempBool);
@@ -8521,7 +8527,7 @@ namespace RelayControl
                     {
                         this.SendConfirmed = true;
                         this.expectingAck = false;
-                        Debug.WriteLine("Ack");
+                        logger.Info("Ack");
                         packetAcknowledged(true);
                         this.timerSCITimeOut.Enabled = false;
                     }

@@ -218,6 +218,7 @@ namespace RelayControl
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
+            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
             this.labelKioskReceived = new System.Windows.Forms.Label();
             this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
             this.buttonTest = new System.Windows.Forms.Button();
@@ -238,7 +239,6 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -356,7 +356,7 @@ namespace RelayControl
             this.loadEventSetToolStripMenuItem,
             this.clearEventsToolStripMenuItem});
             this.eventActionsToolStripMenuItem.Name = "eventActionsToolStripMenuItem";
-            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.eventActionsToolStripMenuItem.Text = "Event Actions";
             // 
             // downloadEventFromRelayToolStripMenuItem
@@ -394,7 +394,7 @@ namespace RelayControl
             this.saveLiveDataToolStripMenuItem,
             this.loadLiveDataToolStripMenuItem});
             this.liveDataActionsToolStripMenuItem.Name = "liveDataActionsToolStripMenuItem";
-            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.liveDataActionsToolStripMenuItem.Text = "Live Data Actions";
             // 
             // requestLiveDataToolStripMenuItem1
@@ -2350,6 +2350,13 @@ namespace RelayControl
             this.tabPageEngineering2.Text = "Engineer 2";
             this.tabPageEngineering2.UseVisualStyleBackColor = true;
             // 
+            // commTradeConverter1
+            // 
+            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
+            this.commTradeConverter1.Name = "commTradeConverter1";
+            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
+            this.commTradeConverter1.TabIndex = 4;
+            // 
             // labelKioskReceived
             // 
             this.labelKioskReceived.AutoSize = true;
@@ -2363,6 +2370,8 @@ namespace RelayControl
             // checkBoxSerialCommsDebugging
             // 
             this.checkBoxSerialCommsDebugging.AutoSize = true;
+            this.checkBoxSerialCommsDebugging.Checked = true;
+            this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
             this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
             this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
@@ -2523,13 +2532,6 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // commTradeConverter1
-            // 
-            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
-            this.commTradeConverter1.Name = "commTradeConverter1";
-            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
-            this.commTradeConverter1.TabIndex = 4;
             // 
             // MainControl
             // 
