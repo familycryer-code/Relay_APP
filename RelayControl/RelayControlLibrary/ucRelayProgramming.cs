@@ -1451,6 +1451,7 @@ namespace RelayControlLibrary
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
             writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+            writeDebugLine(String.Format("Command: {0}", rPEA.Command));
             if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
                 Thread.Sleep(500); // Put in so I don't go too fast for the processor
             else
