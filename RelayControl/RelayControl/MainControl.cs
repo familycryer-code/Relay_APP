@@ -287,7 +287,6 @@ namespace RelayControl
                 this.initializeFromConfigFile();
 #if DEBUG
                 this.initializeFromConfigFileDebug();
-                this.checkBoxReprogramBootAuto.Visible = true;
 #else
                 this.checkBoxReprogramBootAuto.Visible = false;
 #endif
@@ -8461,27 +8460,9 @@ namespace RelayControl
             }
         }
 
-        private void checkBoxReprogramBootAuto_CheckedChanged(object sender, EventArgs e)
-        {
-            editConfigFileDebug();
-        }
-
-        public void editConfigFileDebug()
-        {
-            ProgramConfigDebug pC = new ProgramConfigDebug();
-
-            pC.Data.ReprogramBoot = this.checkBoxReprogramBootAuto.Checked;
-
-            this.ucRelayProgramming1.ReprogramBootCodeAuto = this.checkBoxReprogramBootAuto.Checked;
-
-            pC.SaveConfigFile();
-        }
-
         private void initializeFromConfigFileDebug()
         {
             ProgramConfigDebug pC = new ProgramConfigDebug();
-
-            this.checkBoxReprogramBootAuto.Checked = pC.Data.ReprogramBoot;
 
             this.ucRelayProgramming1.ReprogramBootCodeAuto = pC.Data.ReprogramBoot;
         }
