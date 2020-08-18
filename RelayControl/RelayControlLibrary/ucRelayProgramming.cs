@@ -603,7 +603,7 @@ namespace RelayControlLibrary
                 this.upgradeAutoDR = checkDNPPLCMessage(upgradeAutoDR);
 #endif
             if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
-                this.upgradeAutoDR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
+                this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 5 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
 
             this.askToUgradeShown = true;
         }
@@ -664,7 +664,7 @@ namespace RelayControlLibrary
         {
             writeDebugLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
-            dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is recommended that the update be allowed. Update?", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
             return dR;
         }
 
