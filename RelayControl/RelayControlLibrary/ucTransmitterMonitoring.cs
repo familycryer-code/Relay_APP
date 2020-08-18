@@ -51,8 +51,8 @@ namespace RelayControlLibrary
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
 #elif SEATTLE
-            labelEa.Visible = false;
-            textBoxEa.Visible = false;
+            labelFa.Visible = false;
+            textBoxFa.Visible = false;
             labelHa.Visible = false;
             textBoxHa.Visible = false;
             checkBoxFlagStatusH.Visible = false;

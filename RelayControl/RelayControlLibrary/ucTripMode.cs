@@ -1339,7 +1339,14 @@ namespace RelayControlLibrary
             numericUpDownAngle.Value = 90;
             numericUpDownGullWingAngle.Value = 90;
             domainUpDownTripStyle.SelectedIndex = 0;
-#else //SEATTLE PSEG
+#elif SEATTLE
+            this.checkBoxEnableGullWing.Checked = false;
+            checkBoxTripOnPowerDown.Checked = true;
+            this.gullWingEnabled = false;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value = 90;
+            this.domainUpDownTripStyle.SelectedIndex = 0;
+#elif PSEG
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownAngle.Value = 90;
