@@ -55,8 +55,6 @@ namespace RelayControlLibrary
             textBoxFa.Visible = false;
             labelHa.Visible = false;
             textBoxHa.Visible = false;
-            checkBoxFlagStatusH.Visible = false;
-
 #elif ENMAX && !DEBUG
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
