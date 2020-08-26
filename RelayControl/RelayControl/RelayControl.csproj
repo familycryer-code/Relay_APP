@@ -137,8 +137,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Seattle|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release Seattle\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, SEATTLE</DefineConstants>
-    <Optimize>true</Optimize>
+    <DefineConstants>BASICRELEASE, SEATTLE</DefineConstants>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
