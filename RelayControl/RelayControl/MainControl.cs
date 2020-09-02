@@ -5342,8 +5342,11 @@ namespace RelayControl
 #elif ENMAX || PSEG
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
-#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS || LONDONH
+#elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
             this.domainUpDownPhasings.SelectedIndex = 0;
+            this.domainUpDownRelayType.SelectedIndex = 1;
+#elif LONDONH
+            this.domainUpDownPhasings.SelectedIndex = 1;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #else
             this.domainUpDownPhasings.SelectedIndex = 2;
