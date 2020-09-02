@@ -931,8 +931,6 @@ namespace RelayControlLibrary
                 temp = bytePacket[16];
                 temp <<= 8;
                 temp += bytePacket[15];
-                temp <<= 16;
-                temp >>= 16;
 
                 if (temp == 0)
                 {
@@ -1298,9 +1296,17 @@ namespace RelayControlLibrary
 
         private void setTypeIndependentDefaults()
         {
+            insensitiveCurrent = 2.5m;
+            instantaneousCurrent = 2.5m;
+            this.listBoxTripModes.SelectedIndex = 0;
+            this.numericUpDownSensitiveTimeDelay.Value = 6;
+            this.numericUpDownExtendedTimeDelay.Value = 0;
+            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownWVAngle.Value = -60;
             // Making this the case for all defaults, I want them to 
             // actively set it if they are going to use it.
             checkBoxTripOnPowerDown.Checked = false;
+
             // Trip Style 
             // 0 - Hold, 1 - Pulse, 2 - Single
 #if NU || BOSTON
@@ -1325,20 +1331,28 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 0;
-#else //SEATTLE PSEG
+#elif TAUNTON
+            listBoxTripModes.SelectedIndex = 3;
+            checkBoxEnableGullWing.Checked = false;
+            gullWingEnabled = false;
+            numericUpDownTimeDelay.Value = 0;
+            numericUpDownAngle.Value = 90;
+            numericUpDownGullWingAngle.Value = 90;
+            domainUpDownTripStyle.SelectedIndex = 0;
+#elif SEATTLE
+            this.checkBoxEnableGullWing.Checked = false;
+            checkBoxTripOnPowerDown.Checked = true;
+            this.gullWingEnabled = false;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value = 90;
+            this.domainUpDownTripStyle.SelectedIndex = 0;
+#elif PSEG
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 0;
 #endif
-            insensitiveCurrent = 2.5m;
-            instantaneousCurrent = 2.5m;
-            this.listBoxTripModes.SelectedIndex = 0;
-            this.numericUpDownSensitiveTimeDelay.Value = 6;
-            this.numericUpDownExtendedTimeDelay.Value = 0;
-            this.numericUpDownTimeDelay.Value = 0;
-            this.numericUpDownWVAngle.Value = -60;
         }
 
         private void setRelayTypeDefaults()
@@ -1355,6 +1369,10 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 9.3m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+#elif TAUNTON
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 7.5m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
 #else
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10m;
@@ -1368,7 +1386,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .2m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG
+#elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG || TAUNTON
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
@@ -1385,7 +1403,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG
+#elif SEATTLE || DEBUG || DOMINION || CHICAGO || ENMAX || PSEG || TAUNTON
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;

@@ -431,6 +431,17 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
+#elif TAUNTON
+            checkBoxCycles.Checked = true;
+            checkBoxMotorTime.Checked = false;
+            checkBoxMotorCycles.Checked = false;
+            checkBoxNeverReclose.Checked = false;
+
+            numericUpDownCycleLimit.Value = 3;
+            numericUpDownPumpTime.Value = 30;
+            numericUpDownMotorTimeout.Value = 10;
+            numericUpDownMotorCycles.Value = 5;
+            numericUpDownProtectTime.Value = 15;
 #else
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;

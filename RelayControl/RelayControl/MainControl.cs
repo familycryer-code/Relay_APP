@@ -24,6 +24,7 @@ using SharedResources;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
+using NLog;
 
 namespace RelayControl
 {
@@ -54,6 +55,8 @@ namespace RelayControl
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
+
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public Customers Customer
         {
@@ -284,9 +287,6 @@ namespace RelayControl
                 this.initializeFromConfigFile();
 #if DEBUG
                 this.initializeFromConfigFileDebug();
-                this.checkBoxReprogramBootAuto.Visible = true;
-#else
-                this.checkBoxReprogramBootAuto.Visible = false;
 #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
@@ -686,6 +686,8 @@ namespace RelayControl
             this.customerRevisionName = "Chicago";
 #elif LONDONH
             this.customerRevisionName = "London Hydro";
+#elif TAUNTON
+            this.customerRevisionName = "Taunton";
 #elif ENMAX && !DNP
             this.customerRevisionName = "Enmax PLC";
 #elif ENMAX && DNP
@@ -711,7 +713,7 @@ namespace RelayControl
         {
             bool showCustomerNameDebug = false;
 
-#if CHICAGO ||  LONDONH || (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU
+#if CHICAGO ||  LONDONH || (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU || TAUNTON
             showCustomerNameDebug = true;
 #endif
 
@@ -1465,10 +1467,11 @@ namespace RelayControl
         {
             this.currentReprogramState = rPEA.Command;
 
+            logger.Trace("Programming Command: {0}", rPEA.Command);
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
-                    this.requestAllData();
+                    requestRelayRevision();
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
@@ -1476,7 +1479,7 @@ namespace RelayControl
                     this.pauseMonitoring = false;
                     this.ucShortRange1.ResetThreshold();
                     this.enableAll(true);
-                    this.ProgramState = ProgramStates.CheckingForRelay;
+                    this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.timerRegisterPolling.Start();
                     this.allEnabled = true;
                     break;
@@ -1648,17 +1651,14 @@ namespace RelayControl
                     lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
                     if (checkBoxSerialCommsDebugging.Checked)
                     {
-                        //Debug.Write(String.Format("{0:X2}-", lastByte));
-
-                        ASCIIEncoding ascii = new ASCIIEncoding();
-                        Debug.Write(ascii.GetString(new byte[] { lastByte }));
+                        //logger.Trace(new ASCIIEncoding().GetString(new byte[] { lastByte }));
                         if (lastByte == '-')
                         {
                             testCount++;
                             if (testCount == 15)
                             {
                                 testCount = 0;
-                                Debug.WriteLine(DateTime.Now.ToString());
+                                logger.Info(DateTime.Now.ToString());
                             }
                         }
                     }
@@ -1881,6 +1881,7 @@ namespace RelayControl
         {
             try
             {
+                //logger.Trace("Checking Valid Length - OpCode: {0}, Length: {1}", c, i);
                 switch (c)
                 {
                     case IncomingCommCommands.DNPMessage1:
@@ -2117,6 +2118,12 @@ namespace RelayControl
         }
         private IncomingCommCommands getCommand(byte value)
         {
+            // 32 is Space
+            //if (value >= 32)
+            //    logger.Trace("Check Opcode: {0}", Convert.ToChar(value));
+            //else
+            //    logger.Trace("Check Opcode: (byte){0:X}", value);
+
             switch (value)
             {
                 case 0xAA:
@@ -2399,7 +2406,7 @@ namespace RelayControl
                 index <<= 8;
                 index += bytePacket[1];
 
-                Debug.WriteLine("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
+                logger.Info("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
 
                 type = RelayModeFunctions.PhasorTypeFrom((char)bytePacket[3], (char)bytePacket[2]);
 
@@ -3073,6 +3080,8 @@ namespace RelayControl
                 temp = ASCIIEncoding.ASCII.GetString(bytePacket);
                 string temp2 = temp.Remove(0, 23);
                 this.relayCodeRevisionNumber = Convert.ToUInt32(temp2);
+                logger.Info("Relay Revision: {0}", relayCodeRevisionNumber);
+
                 this.ucPhasorGraph1.RevisionNumber = this.relayCodeRevisionNumber;
                 this.ucPumpMode1.RelayRevisionNumber = this.relayCodeRevisionNumber;
                 this.ucCloseMode1.RelayRevisionNumber = this.relayCodeRevisionNumber;
@@ -3211,6 +3220,7 @@ namespace RelayControl
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
 
                     this.requestRelayRevision();
+                    logger.Trace("Setting timerResponseTimeOut from setTransmitterSettings");
                     this.timerResponseTimeOut.Enabled = true;
 
                     return;
@@ -3334,12 +3344,7 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
 
-                if (this.loadingNewCode && !ucRelayProgramming1.ReprogrammingInProgress)
-                    MessageBox.Show("All Parameters Received", "Data Recieved", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                else
-                    this.messageHandler("Data Recieved", "All Parameters Received");
-
-
+                this.messageHandler("Data Recieved", "All Parameters Received");
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
                 {
@@ -4587,6 +4592,7 @@ namespace RelayControl
             {
                 fPGARevision = "F";
                 fPGARevision += ASCIIEncoding.ASCII.GetString(bytePacket);
+                logger.Info("FPGA Revision: {0}", fPGARevision);
                 if ((bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
                    bytePacket[16] == 0xFF && bytePacket[17] == 0xFF && bytePacket[18] == 0xFF) ||
                    (bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
@@ -4754,7 +4760,7 @@ namespace RelayControl
 
             this.phasorReceived = true;
             this.missedMonitoringCount = 0;
-            Debug.WriteLine("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
+            logger.Info("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
             phasorType = RelayModeFunctions.PhasorTypeFrom((char)packet[0], (char)packet[1]);
 
             try
@@ -5336,10 +5342,10 @@ namespace RelayControl
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
             checkBox277DNPOutputs.Checked = false;
-#if DOMINION
+#if DOMINION || LONDONH
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif ENMAX || PSEG
+#elif ENMAX || PSEG || TAUNTON
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
 #elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
@@ -5569,17 +5575,19 @@ namespace RelayControl
 
         private void clearRemoteBuffer()
         {
-            byte[] packet = new byte[2];
+            byte[] packet = new byte[3];
 
             packet[0] = 0x0D;
 
             packet[1] = 0x0D;
+            packet[2] = 0x0D;
 
             this.sendPacket(packet);
         }
 
         private void requestMasterRevisionNumber()
         {
+
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'R';
@@ -5643,6 +5651,7 @@ namespace RelayControl
 
         private void requestAllData()
         {
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
@@ -5650,6 +5659,7 @@ namespace RelayControl
 
         private void requestAllDataNoMasterRev()
         {
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.InvokeRequired)
             {
                 requestAllCallBack rACB = new requestAllCallBack(this.requestAllData);
@@ -5663,7 +5673,10 @@ namespace RelayControl
 
                 if (!ucRelayProgramming1.ReprogrammingInProgress)
                 {
+                    logger.Debug("Requesting Relay Revision");
+                    clearRemoteBuffer();
                     this.requestRelayRevision();
+                    logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
                     this.timerResponseTimeOut.Enabled = true;
                 }
 
@@ -5823,7 +5836,7 @@ namespace RelayControl
         {
             string errorMessage = "None";
             if (checkBoxSerialCommsDebugging.Checked)
-                Debug.WriteLine(String.Format("\r\nSending Packet: {0}", BitConverter.ToString(bytePacket)));
+                logger.Trace(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
             try
             {
                 errorMessage = "Error Checking if Port is open";
@@ -6793,7 +6806,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
 
                 this.enableAll(tempBool2);
                 this.monitoring(tempBool);
@@ -7329,7 +7342,7 @@ namespace RelayControl
         {
             byte[] packet = new byte[3];
 
-            packet[0] = (byte)'y';
+            packet[0] = (byte)'B';
             packet[1] = 0x55;
             packet[2] = 0x0D;
 
@@ -8456,27 +8469,9 @@ namespace RelayControl
             }
         }
 
-        private void checkBoxReprogramBootAuto_CheckedChanged(object sender, EventArgs e)
-        {
-            editConfigFileDebug();
-        }
-
-        public void editConfigFileDebug()
-        {
-            ProgramConfigDebug pC = new ProgramConfigDebug();
-
-            pC.Data.ReprogramBoot = this.checkBoxReprogramBootAuto.Checked;
-
-            this.ucRelayProgramming1.ReprogramBootCodeAuto = this.checkBoxReprogramBootAuto.Checked;
-
-            pC.SaveConfigFile();
-        }
-
         private void initializeFromConfigFileDebug()
         {
             ProgramConfigDebug pC = new ProgramConfigDebug();
-
-            this.checkBoxReprogramBootAuto.Checked = pC.Data.ReprogramBoot;
 
             this.ucRelayProgramming1.ReprogramBootCodeAuto = pC.Data.ReprogramBoot;
         }
@@ -8522,7 +8517,7 @@ namespace RelayControl
                     {
                         this.SendConfirmed = true;
                         this.expectingAck = false;
-                        Debug.WriteLine("Ack");
+                        logger.Info("Ack");
                         packetAcknowledged(true);
                         this.timerSCITimeOut.Enabled = false;
                     }

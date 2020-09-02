@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -568,7 +568,11 @@ namespace RelayControlLibrary
                 this.restoreDefaults();
         }
 
+#if TAUNTON
+        private decimal defaultOverCurrentValue = 6m;
+#else
         private decimal defaultOverCurrentValue = 10m;
+#endif
         private void restoreDefaults()
         {
 #if NU || SEATTLE || DOMINION
@@ -580,7 +584,17 @@ namespace RelayControlLibrary
 
             this.numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
             this.numericUpDownVoltageImbalance.Value = 10.0m * protectorVoltage.Scaling;
+#elif TAUNTON
+            this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
+            this.numericUpDownCurrentImbalance.Value = 0.8m;
+            this.numericUpDownDelay.Value = 0;
+            this.domainUpDownDataViews.SelectedIndex = 0;
+            setDataViewDefaults();
+
+            this.numericUpDownLowVoltage.Value = 100m * protectorVoltage.Scaling;
+            this.numericUpDownVoltageImbalance.Value = 20.0m * protectorVoltage.Scaling;
 #else
+
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;

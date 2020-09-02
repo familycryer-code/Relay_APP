@@ -50,6 +50,11 @@ namespace RelayControlLibrary
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
+#elif SEATTLE
+            labelFa.Visible = false;
+            textBoxFa.Visible = false;
+            labelHa.Visible = false;
+            textBoxHa.Visible = false;
 #elif ENMAX && !DEBUG
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
@@ -129,6 +134,28 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusG.Visible = false;
 
             this.labelHa.Visible = false;
+#elif TAUNTON
+            textBoxCa.Visible = false;
+            labelCa.Visible = false;
+            textBoxDa.Visible = false;
+            labelDa.Visible = false;
+            textBoxEa.Visible = false;
+            labelEa.Visible = false;
+            textBoxFa.Visible = false;
+            labelFa.Visible = false;
+            textBoxGa.Visible = false;
+            labelGa.Visible = false;
+            textBoxHa.Visible = false;
+            labelHa.Visible = false;
+
+            checkBoxFlagStatusC.Visible = false;
+            checkBoxFlagStatusD.Visible = false;
+            checkBoxFlagStatusE.Visible = false;
+            checkBoxFlagStatusF.Visible = false;
+            checkBoxFlagStatusG.Visible = false;
+            checkBoxFlagStatusH.Visible = false;
+
+
 #elif MADISON && !DEBUG
             this.textBoxCa.Visible = false;
             this.textBoxDa.Visible = false;

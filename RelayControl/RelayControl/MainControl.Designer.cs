@@ -137,7 +137,6 @@ namespace RelayControl
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.tabPageControl = new System.Windows.Forms.TabPage();
-            this.checkBoxReprogramBootAuto = new System.Windows.Forms.CheckBox();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
             this.labelLRLockoutMain = new System.Windows.Forms.Label();
@@ -218,6 +217,8 @@ namespace RelayControl
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
+            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
+            this.labelKioskReceived = new System.Windows.Forms.Label();
             this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
             this.buttonTest = new System.Windows.Forms.Button();
             this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
@@ -237,7 +238,6 @@ namespace RelayControl
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.labelKioskReceived = new System.Windows.Forms.Label();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -452,13 +452,13 @@ namespace RelayControl
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cTRatioCalculatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // cTRatioCalculatorToolStripMenuItem
             // 
             this.cTRatioCalculatorToolStripMenuItem.Name = "cTRatioCalculatorToolStripMenuItem";
-            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.cTRatioCalculatorToolStripMenuItem.Text = "CT Ratio Calculator";
             this.cTRatioCalculatorToolStripMenuItem.Click += new System.EventHandler(this.cTRatioCalculatorToolStripMenuItem_Click);
             // 
@@ -1381,7 +1381,6 @@ namespace RelayControl
             // 
             // tabPageControl
             // 
-            this.tabPageControl.Controls.Add(this.checkBoxReprogramBootAuto);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
@@ -1401,17 +1400,6 @@ namespace RelayControl
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             this.tabPageControl.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxReprogramBootAuto
-            // 
-            this.checkBoxReprogramBootAuto.AutoSize = true;
-            this.checkBoxReprogramBootAuto.Location = new System.Drawing.Point(755, 480);
-            this.checkBoxReprogramBootAuto.Name = "checkBoxReprogramBootAuto";
-            this.checkBoxReprogramBootAuto.Size = new System.Drawing.Size(197, 17);
-            this.checkBoxReprogramBootAuto.TabIndex = 120;
-            this.checkBoxReprogramBootAuto.Text = "Program Boot Code During Autoload";
-            this.checkBoxReprogramBootAuto.UseVisualStyleBackColor = true;
-            this.checkBoxReprogramBootAuto.CheckedChanged += new System.EventHandler(this.checkBoxReprogramBootAuto_CheckedChanged);
             // 
             // groupBoxLRLockoutMain
             // 
@@ -2336,6 +2324,7 @@ namespace RelayControl
             // 
             // tabPageEngineering2
             // 
+            this.tabPageEngineering2.Controls.Add(this.commTradeConverter1);
             this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
             this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
             this.tabPageEngineering2.Controls.Add(this.buttonTest);
@@ -2348,9 +2337,28 @@ namespace RelayControl
             this.tabPageEngineering2.Text = "Engineer 2";
             this.tabPageEngineering2.UseVisualStyleBackColor = true;
             // 
+            // commTradeConverter1
+            // 
+            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
+            this.commTradeConverter1.Name = "commTradeConverter1";
+            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
+            this.commTradeConverter1.TabIndex = 4;
+            // 
+            // labelKioskReceived
+            // 
+            this.labelKioskReceived.AutoSize = true;
+            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
+            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
+            this.labelKioskReceived.Name = "labelKioskReceived";
+            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
+            this.labelKioskReceived.TabIndex = 3;
+            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
+            // 
             // checkBoxSerialCommsDebugging
             // 
             this.checkBoxSerialCommsDebugging.AutoSize = true;
+            this.checkBoxSerialCommsDebugging.Checked = true;
+            this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
             this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
             this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
@@ -2511,16 +2519,6 @@ namespace RelayControl
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // labelKioskReceived
-            // 
-            this.labelKioskReceived.AutoSize = true;
-            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
-            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
-            this.labelKioskReceived.Name = "labelKioskReceived";
-            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
-            this.labelKioskReceived.TabIndex = 3;
-            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
             // 
             // MainControl
             // 
@@ -2785,7 +2783,6 @@ namespace RelayControl
         private System.Windows.Forms.Label labelLRLockoutMain;
         private RelayControlLibrary.ucTimeControl ucTimeControl1;
         private RelayControlLibrary.ucCoverFlags ucCoverFlags1;
-        private System.Windows.Forms.CheckBox checkBoxReprogramBootAuto;
         private System.Windows.Forms.Label labelBootRevision;
         private RelayControlLibrary.ucBlockControl ucBlockControl1;
         private RelayControlLibrary.ucRemoteCommandBlock ucRemoteCommandBlock1;
@@ -2798,6 +2795,7 @@ namespace RelayControl
         private System.Windows.Forms.Label labelDNPVoltage;
         private System.Windows.Forms.ComboBox comboBoxDNPVoltage;
         private System.Windows.Forms.Label labelKioskReceived;
+        private RelayControlLibrary.CommTradeConverter commTradeConverter1;
     }
 }
 

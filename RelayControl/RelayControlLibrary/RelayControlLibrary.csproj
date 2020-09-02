@@ -109,8 +109,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Seattle|AnyCPU'">
     <OutputPath>bin\Release Seattle\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, SEATTLE</DefineConstants>
-    <Optimize>true</Optimize>
+    <DefineConstants>BASICRELEASE, SEATTLE</DefineConstants>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -290,6 +290,33 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Seattle|AnyCPU'">
+    <OutputPath>bin\Debug Seattle\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;BASICRELEASE, SEATTLE</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Taunton|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Taunton\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;BASICRELEASE, TAUNTON</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Taunton|AnyCPU'">
+    <OutputPath>bin\Release Taunton\</OutputPath>
+    <DefineConstants>BASICRELEASE, TAUNTON</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
       <HintPath>..\..\GSNet\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>
@@ -303,17 +330,31 @@
     <Reference Include="GSNetWizard">
       <HintPath>..\..\GSNet\3.5\Bin\GSNetWizard.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.3\lib\net40-client\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloseCurves.cs" />
+    <Compile Include="CommTradeConverter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CommTradeConverter.Designer.cs">
+      <DependentUpon>CommTradeConverter.cs</DependentUpon>
+    </Compile>
     <Compile Include="CTRatioCaculator2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -603,6 +644,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CommTradeConverter.resx">
+      <DependentUpon>CommTradeConverter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CTRatioCaculator2.resx">
       <DependentUpon>CTRatioCaculator2.cs</DependentUpon>
     </EmbeddedResource>
@@ -761,9 +805,11 @@
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
     <Content Include="Resources\MasterProcessorChicago.S" />
+    <None Include="packages.config" />
     <None Include="Resources\MasterProcessorMemphis.S" />
     <None Include="Resources\MasterProcessorEnmaxPLC.S" />
     <None Include="Resources\MasterProcessorLondonH.S" />
+    <Content Include="Resources\MasterProcessorTaunton.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP.S" />
     <Content Include="Resources\MasterProcessor_Atlanta_DNP_GE.S" />
     <None Include="Resources\MasterProcessor_DNPSAv5_GE_SMUD.S" />
