@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -2033,14 +2033,14 @@ namespace SineDisplayGraph
         private void calculatePowerPhasors()
         {
             Phasors tempPhasor = new Phasors();
-            this.PA.RMS = this.VtA.RMS * this.IA.RMS;
+            this.PA.RMS = this.VnA.RMS * this.IA.RMS;
             this.PA.Degrees = this.IA.Degrees;
 
-            this.PB.RMS = this.VtB.RMS * this.IB.RMS;
-            this.PB.Degrees = this.IB.Degrees - this.VtB.Degrees;
+            this.PB.RMS = this.VnB.RMS * this.IB.RMS;
+            this.PB.Degrees = this.IB.Degrees - this.VnB.Degrees;
 
-            this.PC.RMS = this.VtC.RMS * this.IC.RMS;
-            this.PC.Degrees = this.IC.Degrees - this.VtC.Degrees;
+            this.PC.RMS = this.VnC.RMS * this.IC.RMS;
+            this.PC.Degrees = this.IC.Degrees - this.VnC.Degrees;
 
             this.PAvg.RMS = (this.PA.RMS + this.PB.RMS + this.PC.RMS) / 3f;
             tempPhasor.Real = this.PA.Real + this.PB.Real + this.PC.Real;
