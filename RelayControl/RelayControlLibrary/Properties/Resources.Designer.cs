@@ -61,6 +61,15 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 200413.
+        /// </summary>
+        internal static string BootRevision {
+            get {
+                return ResourceManager.GetString("BootRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] FPGAdata {
@@ -71,13 +80,22 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 121207.
+        /// </summary>
+        internal static string FPGARevision {
+            get {
+                return ResourceManager.GetString("FPGARevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
-        ///S325000000005CE104005CE10A0054E2500254E24C0254E2540254E2580254E24C0254E24C0222
-        ///S3250000002054E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C029A
-        ///S3250000004054E24C0254E2AF7354E2F58054E24C0254E25C0254E24C0254E24C0254E24C026F
-        ///S3250000006054E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C025A
-        ///S3250000008054E20A8654E24C0254E24C0254E24C0254E24C0254E24C0254E2548B54E24C0267
-        ///S325000000A054E2CC8654E24C0254E2518154E24C0254E24C0254E24C0254E2F18354E2 [rest of string was truncated]&quot;;.
+        ///S325000000005CE104005CE10A0054E24E0254E24A0254E2520254E2560254E24A0254E24A022E
+        ///S3250000002054E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A02AA
+        ///S3250000004054E24A0254E25E7554E2C88054E24A0254E25A0254E24A0254E24A0254E24A02F7
+        ///S3250000006054E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A026A
+        ///S3250000008054E2DD8554E24A0254E24A0254E24A0254E24A0254E24A0254E2208B54E24A02D5
+        ///S325000000A054E29F8654E24A0254E2248154E24A0254E24A0254E24A0254E2C48354E2 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MasterProcessor {
             get {
@@ -356,6 +374,15 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 201020.
+        /// </summary>
+        internal static string MasterRevision {
+            get {
+                return ResourceManager.GetString("MasterRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S3250000000054E25A0154E25A0154E2080154E2040154E20C0154E2100154E2040154E204013E
         ///S3250000002054E2040154E2040154E2040154E2040154E2040154E2040154E2040154E20401E2
@@ -442,6 +469,15 @@ namespace RelayControlLibrary.Properties {
         internal static string RelayProcessorSMUDGE {
             get {
                 return ResourceManager.GetString("RelayProcessorSMUDGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 20190627.
+        /// </summary>
+        internal static string RelayRevision {
+            get {
+                return ResourceManager.GetString("RelayRevision", resourceCulture);
             }
         }
     }

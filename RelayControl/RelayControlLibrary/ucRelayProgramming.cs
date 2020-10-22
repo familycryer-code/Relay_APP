@@ -48,10 +48,10 @@ namespace RelayControlLibrary
         private static UInt32 _fPGACodeRevisionNumber = 121207;
         private static UInt32 _bootCodeRevisionNumber = 200413;
 #else
-        private static UInt32 _masterCodeRevisionNumber = 200717;
-        private static UInt32 _relayCodeRevisionNumber = 20190627;
-        private static UInt32 _fPGACodeRevisionNumber = 121207;
-        private static UInt32 _bootCodeRevisionNumber = 200413;
+        private static UInt32 _masterCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.MasterRevision);
+        private static UInt32 _relayCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.RelayRevision);
+        private static UInt32 _fPGACodeRevisionNumber = Convert.ToUInt32(Properties.Resources.FPGARevision);
+        private static UInt32 _bootCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.BootRevision);
 #endif
         private static UInt32 _safeService_MASTER_REVISION = 160621;
         private static UInt32 _rEV1_MASTER_REVISION = 100713;
