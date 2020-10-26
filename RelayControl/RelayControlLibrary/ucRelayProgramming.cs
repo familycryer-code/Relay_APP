@@ -2074,14 +2074,6 @@ namespace RelayControlLibrary
             {
                 if (this.autoLoad)
                 {
-                    if (this.reprogramRelay)
-                    {
-                        this.parseSFile(this.relayCode);
-                        this.programmingForm.CurrentTask = "Loading Relay Code f";
-                        this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
-                        this.State = RelayProgrammingStates.WaitingForBootRelay;
-                        this.timerTimeout.Start();
-                    }
                     if (this.reprogramFPGA)
                     {
                         this.parseFPGAFile(this.fPGACode); //todo
@@ -2162,7 +2154,7 @@ namespace RelayControlLibrary
             {
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
-                //TODO this.restartProgram();
+                this.restartProgram();
             }
             else
             {
