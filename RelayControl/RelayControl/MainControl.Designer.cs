@@ -1,4 +1,4 @@
-namespace RelayControl
+﻿namespace RelayControl
 {
     partial class MainControl
     {
@@ -798,7 +798,7 @@ namespace RelayControl
             this.ucRelayProgramming1.ForceRelayUpdate = false;
             this.ucRelayProgramming1.ForceUpdateReason = "Generic";
             this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.GEEnabled = false;
+            this.ucRelayProgramming1.GERelay = false;
             this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
             this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
             this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
@@ -2798,4 +2798,3 @@ namespace RelayControl
         private RelayControlLibrary.CommTradeConverter commTradeConverter1;
     }
 }
-

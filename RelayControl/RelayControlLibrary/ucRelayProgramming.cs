@@ -234,7 +234,23 @@ namespace RelayControlLibrary
                     this.gERelaySerialMatch = true;
             }
         }
-        public bool GEEnabled
+
+        public event EventHandler<RelayTypeChangedEventArgs> RelayTypeChanged;
+
+        // This property added because we have to alert the main form that the type of the relay
+        // has changed when the type of the relay has been manually selected for reprogramming.
+        // If not, the main form will potentially generate an serial number mismatch error.
+        private bool internalGESetter
+        {
+            set
+            {
+                GERelay = value;
+                RelayTypeChangedEventArgs rTCEA = new RelayTypeChangedEventArgs(value);
+                RelayTypeChanged?.Invoke(this, rTCEA);
+            }
+        }
+
+        public bool GERelay
         {
             get { return this.gERelay; }
             set
@@ -370,7 +386,7 @@ namespace RelayControlLibrary
                 else
                     this.remoteFPGARevisionNumber = value;
 
-                if (this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber && this.TransmitterEnabled)
+                if (manualReload || (this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber && this.TransmitterEnabled))
                     this.reprogramFPGA = true;
                 else
                     this.reprogramFPGA = false;
@@ -735,29 +751,18 @@ namespace RelayControlLibrary
             switch (this.customer)
             {
                 case Customers.Memphis:
-                    this.GEEnabled = false;
+
+                    internalGESetter = false;
                     break;
                 default:
                     dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
                     if (dR == DialogResult.Yes)
-                        this.GEEnabled = true;
+                        internalGESetter = true;
                     else
-                        this.GEEnabled = false;
+                        internalGESetter = false;
                     break;
             }
-            /*
-            switch (this.customer)
-            {
-                case Customers.Memphis:
-                    this.DNPRelay = true;
-                    break;
-                default:
-                    dR = this.askIfDNPRelay();
 
-                    break;
-
-            }
-            */
 #if !DNP
             // This is a non-DNP, transmitter Enabled Relay
             this.TransmitterEnabled = true;
@@ -914,7 +919,7 @@ namespace RelayControlLibrary
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
-            if (this.GEEnabled)
+            if (this.GERelay)
             {
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
@@ -1299,7 +1304,7 @@ namespace RelayControlLibrary
                     this.serialNumberError = true;
                 }
 
-                this.GEEnabled = true;
+                internalGESetter = true;
                 this.addGERelayToTransmitterPacket(true);
             }
             else
@@ -1309,15 +1314,8 @@ namespace RelayControlLibrary
                     this.serialNumberError = true;
                     MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                /*
-                RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
-                rPEA.Command = RelayPorgrammingSendCommands.DisableGERelayFix;
-                if (this.Send != null)
-                    this.Send(this, rPEA);
-                */
-
-                this.GEEnabled = false;
+                internalGESetter = false;
                 this.addGERelayToTransmitterPacket(false);
             }
         }
@@ -2043,7 +2041,7 @@ namespace RelayControlLibrary
             }
             else
             {
-                if (this.autoLoad)
+                if (true)//this.autoLoad)
                 {
                     this.programmingForm.RelayDataComplete = true;
                     if (this.reprogramFPGA)
@@ -2186,8 +2184,9 @@ namespace RelayControlLibrary
 
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
 
-            if (!programBootCodeOnly)
-                this.requestAll();
+            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
+
+            this.onSend(rPEA);
         }
 
         private void doneLoadingRelayBootLoader()
@@ -3628,9 +3627,9 @@ namespace RelayControlLibrary
             DialogResult dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
 
             if (dR == DialogResult.Yes)
-                this.GEEnabled = true;
+                internalGESetter = true;
             else
-                this.GEEnabled = false;
+                internalGESetter = false;
 
             this.selectNewestMasterFirmware();
             this.selectNewestRelayFirmware();
@@ -4016,5 +4015,15 @@ namespace RelayControlLibrary
         public string MasterFileAtlantaDNPGE;
         public string MasterFileAtlantaDNPWH;
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
+    }
+
+    public class RelayTypeChangedEventArgs : EventArgs
+    {
+        public RelayTypeChangedEventArgs(bool gERelay)
+        {
+            GERelay = gERelay;
+        }
+
+        public bool GERelay { get; set; }
     }
 }

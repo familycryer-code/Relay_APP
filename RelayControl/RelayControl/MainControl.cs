@@ -227,49 +227,28 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Show();
         }
 
-        private bool gEEnableChangeBlocked = false;
-        private bool gEEnabled = false;
-        private bool GEEnabled
+        private bool gERelay = false;
+        private bool GERelay
         {
-            get { return this.gEEnabled; }
+            get { return this.gERelay; }
             set
             {
-                if (!this.gEEnableChangeBlocked)
-                {
-                    this.ucRelayProgramming1.GEEnabled = value;
-                    this.ucTransmitterMonitoring1.GEEnabled = value;
-                    this.ucLiveData1.GEEnabled = value;
-                    this.ucEventGraph0.GEEnabled = value;
-                    this.ucEventGraph1.GEEnabled = value;
-                    this.ucEventGraph2.GEEnabled = value;
-                    this.ucEventGraph3.GEEnabled = value;
-                    this.ucEventGraph4.GEEnabled = value;
-                    this.ucEventGraph5.GEEnabled = value;
-                    this.ucEventGraph6.GEEnabled = value;
-                    this.ucEventGraph7.GEEnabled = value;
-                }
+                gERelay = value;
+                this.ucRelayProgramming1.GERelay = value;
+                this.ucTransmitterMonitoring1.GEEnabled = value;
+                this.ucLiveData1.GEEnabled = value;
+                this.ucEventGraph0.GEEnabled = value;
+                this.ucEventGraph1.GEEnabled = value;
+                this.ucEventGraph2.GEEnabled = value;
+                this.ucEventGraph3.GEEnabled = value;
+                this.ucEventGraph4.GEEnabled = value;
+                this.ucEventGraph5.GEEnabled = value;
+                this.ucEventGraph6.GEEnabled = value;
+                this.ucEventGraph7.GEEnabled = value;
             }
         }
 
         private bool SCITimedOut = false;
-        private bool wHRelay = false;
-        private bool WHRelay
-        {
-            get { return this.wHRelay; }
-            set
-            {
-                this.wHRelay = value;
-                if (value)
-                {
-                    this.labelGEWH.Text = "WH";
-                }
-                else
-                {
-                    this.labelGEWH.Text = "GE";
-                }
-            }
-        }
-
         private int savedSaveFileComboBoxWidth;
 
         public MainControl()
@@ -352,6 +331,7 @@ namespace RelayControl
                 this.ucTransmitter1.CTChanged += new ucTransmitter.CTChangedHandler(ucTransmitter1_CTChanged);
                 this.ucTransmitterMonitoring1.MonitoringStateChange += new ucTransmitterMonitoring.MonitoringControlHandler(ucTransmitterMonitoring1_MonitoringStateChange);
 
+                ucRelayProgramming1.RelayTypeChanged += UcRelayProgramming1_RelayTypeChanged;
                 this.ucEventGraph0.EventNumber = 0;
                 this.ucEventGraph1.EventNumber = 1;
                 this.ucEventGraph2.EventNumber = 2;
@@ -579,7 +559,12 @@ namespace RelayControl
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
+#if DNP && !ENMAX
                 this.TransmitterEnabled = false;
+#else
+                TransmitterEnabled = true;
+#endif
+
                 this.ArcFaultEnabled = false;
 #if NU
                 checkBox277DNPOutputs.Visible = false;
@@ -653,6 +638,11 @@ namespace RelayControl
             {
                 this.messageHandler(ex.Message, ex.InnerException);
             }
+        }
+
+        private void UcRelayProgramming1_RelayTypeChanged(object sender, RelayTypeChangedEventArgs e)
+        {
+            GERelay = e.GERelay;
         }
 
         private void initializeDNPVoltageComboBox()
@@ -1551,7 +1541,7 @@ namespace RelayControl
 
             if (sEA.SendPacket[1] != 2 && !this.sendAll)
             {
-                this.buttonRequestRelayRegisters_Click(this, new EventArgs());
+                this.requestRelayRegisters();
                 this.requestAllData();
                 this.parametersLoaded = true;
             }
@@ -1569,7 +1559,7 @@ namespace RelayControl
 #endif
             if (!this.sendAll && sEA.SendPacket[0] != 0x55)
             {
-                this.buttonRequestRelayRegisters_Click(this, new EventArgs());
+                requestRelayRegisters();
                 this.requestAllData();
                 this.parametersLoaded = true;
                 this.ucTransmitter1.ForceDNPEnable = true;
@@ -3107,20 +3097,14 @@ namespace RelayControl
 
                 if (temp.Contains("GE"))
                 {
-                    WHRelay = false;
-                    this.gEEnableChangeBlocked = false;
-                    this.GEEnabled = true;
-                    this.gEEnableChangeBlocked = true;
+                    this.GERelay = true;
                 }
                 else if (temp.Contains("WH"))
                 {
-                    WHRelay = true;
-                    this.gEEnableChangeBlocked = false;
-                    this.GEEnabled = false;
-                    this.gEEnableChangeBlocked = true;
+                    this.GERelay = false;
                 }
                 else
-                    this.GEEnabled = false;
+                    this.GERelay = false;
 
                 if (this.relayCodeRevisionNumber < 20130111)
                 {
@@ -3188,20 +3172,18 @@ namespace RelayControl
                 this.ucRelayProgramming1.SerialNumber = (UInt32)tempI;
                 this.ucDNPSAv51.SerialNumber = tempI;
 
-                if (tempI >= 25000 && wHRelay)
+                if (tempI >= 25000 && !GERelay)
                 {
                     messageHandler("GE Serial Number programmed with WH Firmware", "Is this a GE Relay? If Yes, please manually reload with GE Software. If No, please contact DIGITALGRID");
 #if !DEBUG
                     enableAll(false);
-                    return;
 #endif
                 }
-                else if (tempI < 25000 && !wHRelay)
+                else if (tempI < 25000 && GERelay)
                 {
                     messageHandler("WH Serial Number programmed with GE Firmware", "Is this a WH Relay? If Yes, please manually reload with WH Software. If No, please contact DIGITALGRID");
 #if !DEBUG
                     enableAll(false);
-                    return;
 #endif
                 }
 
@@ -3271,14 +3253,9 @@ namespace RelayControl
                     }
                 }
 
-                if ((bytePacket[28] & 0x10) == 0x10)
-                    this.GEEnabled = true;
-                else
-                    this.GEEnabled = false;
-
                 if (this.masterRevision < 110602)
                 {
-                    this.WHRelay = true;
+                    this.GERelay = false;
                 }
 
                 this.setMonitoringPageFrequency(RelayModeFunctions.FrequencyFrom(bytePacket[8]));
@@ -3327,6 +3304,7 @@ namespace RelayControl
 
         private void parametersFinishedLoading()
         {
+            logger.Trace("parameters finished loading");
             ucRelayProgramming1.CloseProgrammingForm();
 
             if (this.parametersLoaded && this.badDataDetected == false)
@@ -5517,6 +5495,7 @@ namespace RelayControl
 
         private void RegisterPolling(bool p)
         {
+            logger.Trace("Register Polling: {0}", p);
             this.pauseMonitoring = !p;
             this.ucTimeControl1.EnablePolling(p);
         }
