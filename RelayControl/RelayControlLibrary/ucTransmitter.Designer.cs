@@ -187,7 +187,6 @@
             this.checkBoxWBC = new System.Windows.Forms.CheckBox();
             this.checkBoxDNPEnable = new System.Windows.Forms.CheckBox();
             this.checkBoxTransmitterEnable = new System.Windows.Forms.CheckBox();
-            this.checkBoxWH_GE = new System.Windows.Forms.CheckBox();
             this.numericUpDownLEDSpeed = new System.Windows.Forms.NumericUpDown();
             this.labelLEDSpeed = new System.Windows.Forms.Label();
             this.buttonForceConfigMessage = new System.Windows.Forms.Button();
@@ -2090,17 +2089,6 @@
             this.checkBoxTransmitterEnable.Text = "Transmitter Enabled";
             this.checkBoxTransmitterEnable.UseVisualStyleBackColor = true;
             // 
-            // checkBoxWH_GE
-            // 
-            this.checkBoxWH_GE.AutoSize = true;
-            this.checkBoxWH_GE.Location = new System.Drawing.Point(583, 154);
-            this.checkBoxWH_GE.Name = "checkBoxWH_GE";
-            this.checkBoxWH_GE.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWH_GE.Size = new System.Drawing.Size(72, 17);
-            this.checkBoxWH_GE.TabIndex = 74;
-            this.checkBoxWH_GE.Text = "GE/~WH";
-            this.checkBoxWH_GE.UseVisualStyleBackColor = true;
-            // 
             // numericUpDownLEDSpeed
             // 
             this.numericUpDownLEDSpeed.Location = new System.Drawing.Point(586, 215);
@@ -2353,7 +2341,6 @@
             this.Controls.Add(this.buttonForceConfigMessage);
             this.Controls.Add(this.labelLEDSpeed);
             this.Controls.Add(this.numericUpDownLEDSpeed);
-            this.Controls.Add(this.checkBoxWH_GE);
             this.Controls.Add(this.checkBoxTransmitterEnable);
             this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.labelSmartExternalCableMain);
@@ -2592,7 +2579,6 @@
         private System.Windows.Forms.CheckBox checkBoxMUXBOXOff;
         private System.Windows.Forms.CheckBox checkBoxDNPEnable;
         private System.Windows.Forms.CheckBox checkBoxTransmitterEnable;
-        private System.Windows.Forms.CheckBox checkBoxWH_GE;
         private System.Windows.Forms.NumericUpDown numericUpDownLEDSpeed;
         private System.Windows.Forms.Label labelLEDSpeed;
         private System.Windows.Forms.Button buttonForceConfigMessage;

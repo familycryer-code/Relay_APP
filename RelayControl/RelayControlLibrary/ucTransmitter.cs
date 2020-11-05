@@ -40,7 +40,6 @@ namespace RelayControlLibrary
             this.labelMessageFrequencySettings.Visible = false;
             this.customerVersion = true;
             this.checkBoxDNPEnable.Visible = false;
-            this.checkBoxWH_GE.Visible = false;
             this.dNPEnabled = this.checkBoxDNPEnable.Visible;
             this.checkBoxTransmitterEnable.Visible = false;
             this.panelMessageFreqSettings.Visible = false;
@@ -340,14 +339,6 @@ namespace RelayControlLibrary
                         this.checkBoxTransmitterEnable.Checked = true;
                     else
                         this.checkBoxTransmitterEnable.Checked = false;
-                }
-                if ((bA[28] & 0x10) == 0x10)
-                {
-                    this.checkBoxWH_GE.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxWH_GE.Checked = false;
                 }
 
                 //Waterbury Harness Data
@@ -1138,7 +1129,7 @@ namespace RelayControlLibrary
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0x7F);
 
-                if (this.checkBoxWH_GE.Checked)
+                if (GERelay)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x10);
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xEF);
@@ -1430,7 +1421,7 @@ namespace RelayControlLibrary
             {
                 if (this.Customer == Customers.Memphis)
                     this.setMemphisDefaults();
-                else if (this.GEEnabled)
+                else if (this.GERelay)
                     this.setGEDefaults();
                 else
                     this.SetDefaults();
@@ -1900,7 +1891,7 @@ namespace RelayControlLibrary
         }
 
 
-        public bool GEEnabled { get { return this.checkBoxWH_GE.Checked; } set { this.checkBoxWH_GE.Checked = value; } }
+        public bool GERelay { get; set; }
 
         private bool forceDNPEnable = false;
         public bool ForceDNPEnable

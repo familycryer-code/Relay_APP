@@ -47,9 +47,9 @@ namespace RelayControl
             DialogResult dR = cYN.ShowDialog();
 
             if (dR == System.Windows.Forms.DialogResult.Yes)
-                this.ucTransmitter1.GEEnabled = true;
+                this.ucTransmitter1.GERelay = true;
             else if (dR == System.Windows.Forms.DialogResult.No)
-                this.ucTransmitter1.GEEnabled = false;
+                this.ucTransmitter1.GERelay = false;
             else
                 return;
 

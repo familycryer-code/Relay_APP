@@ -233,6 +233,8 @@ namespace RelayControl
             get { return this.gERelay; }
             set
             {
+                labelGEWH.Text = value ? "GE" : "WH";
+
                 gERelay = value;
                 this.ucRelayProgramming1.GERelay = value;
                 this.ucTransmitterMonitoring1.GEEnabled = value;
@@ -1501,11 +1503,11 @@ namespace RelayControl
                     this.sendAllParameters();
                     break;
                 case RelayProgrammingSendCommands.DisableGERelayFix:
-                    this.ucTransmitter1.GEEnabled = false;
+                    this.ucTransmitter1.GERelay = false;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
                 case RelayProgrammingSendCommands.EnableGERelayFix:
-                    this.ucTransmitter1.GEEnabled = true;
+                    this.ucTransmitter1.GERelay = true;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }

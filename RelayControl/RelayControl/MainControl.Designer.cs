@@ -1238,7 +1238,7 @@
             this.ucTransmitter1.DNPEnabled = false;
             this.ucTransmitter1.ForceDNPEnable = false;
             this.ucTransmitter1.FPGARevisionValid = true;
-            this.ucTransmitter1.GEEnabled = false;
+            this.ucTransmitter1.GERelay = false;
             this.ucTransmitter1.Location = new System.Drawing.Point(8, 6);
             this.ucTransmitter1.Name = "ucTransmitter1";
             this.ucTransmitter1.PacketLength = 30;
