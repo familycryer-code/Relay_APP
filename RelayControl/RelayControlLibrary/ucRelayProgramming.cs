@@ -22,7 +22,7 @@ namespace RelayControlLibrary
             InitializeComponent();
 
             // Set this string to match code date below
-            this.fPGACode.Date = _fPGACodeRevisionNumber.ToString();
+            this.fPGACode.Date = "121207";// _fPGACodeRevisionNumber.ToString();
             this.programmingForm.FormClosed += programmingForm_FormClosed;
             this.currentRelayLog.MPRevision = _masterCodeRevisionNumber.ToString();
             this.currentRelayLog.RPRevision = _relayCodeRevisionNumber.ToString();
@@ -45,8 +45,8 @@ namespace RelayControlLibrary
 #if DEBUG && !DG288_TESTFIXTURE_GUI
         private static UInt32 _masterCodeRevisionNumber = 999999;
         private static UInt32 _relayCodeRevisionNumber = 99999999;
-        private static UInt32 _fPGACodeRevisionNumber = 121207;
-        private static UInt32 _bootCodeRevisionNumber = 200413;
+        private static UInt32 _fPGACodeRevisionNumber = 1212071;
+        private static UInt32 _bootCodeRevisionNumber = 99999999;
 #else
         private static UInt32 _masterCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.MasterRevision);
         private static UInt32 _relayCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.RelayRevision);
@@ -517,6 +517,9 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DNPwithPLC));
+                copyCustomerLoadFiles(workingLoadFile, regular);
+
                 workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
                 workingLoadFile.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
             }
@@ -769,16 +772,30 @@ namespace RelayControlLibrary
             this.DNPRelay = false;
             this.reprogramFPGA = true;
 #elif DNP
-            this.TransmitterEnabled = false;
             this.DNPRelay = true;
+#if PLC
+            this.TransmitterEnabled = true;
+            this.reprogramFPGA = true;
+#else
+            this.TransmitterEnabled = false;
             this.reprogramFPGA = false;
+#endif
 #endif
 #if DEBUG
             dR = new CustomYesNoDialog("Select Communication Type", "Does this have DNP?", "Yes", "No").ShowDialog();
             if (dR == DialogResult.Yes)
             {
                 this.DNPRelay = true;
-                this.TransmitterEnabled = false;
+
+                dR = new CustomYesNoDialog("Select Communication Type", "Does this use PLC?", "Yes", "No").ShowDialog();
+
+                if (dR == DialogResult.Yes)
+                {
+                    this.reprogramFPGA = true;
+                    this.TransmitterEnabled = true;
+                }
+                else
+                    this.TransmitterEnabled = false;
             }
             else
             {
@@ -934,7 +951,7 @@ namespace RelayControlLibrary
 #if (ENMAX || PSEG) && DNP
 
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC_GE;
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC GE Resource";
@@ -956,12 +973,6 @@ namespace RelayControlLibrary
                 this.parseFPGAFile(this.fPGACode);
                 this.textBoxFPGAFile.Text = "FPGA Code From Resource";
             }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
 #endif
 
 #if CHICAGO
@@ -1178,8 +1189,8 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if DNP
-            if (this.GEEnabled)
+#if DNP && !ENMAX
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
@@ -2051,6 +2062,7 @@ namespace RelayControlLibrary
                         this.programmingForm.Maximum = 96;
                         this.programmingForm.CurrentTask = "Loading FPGA";
                         logger.Trace("Loading FPGA");
+                        this.timerTimeout.Start();
                     }
                     else if (this.programMasterBootFileSelect)
                         startManualBootCodeLoad();
@@ -3649,7 +3661,7 @@ namespace RelayControlLibrary
                 FileInfo[] fI;
 
 
-                if (this.GEEnabled)
+                if (GERelay)
                     fI = dI.GetFiles("*GE*.s");
                 else
                     fI = dI.GetFiles("*WH*.s");

@@ -208,7 +208,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax PLC Only|AnyCPU'">
     <OutputPath>bin\Release Enmax PLC Only\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;BASICRELEASE, ENMAX</DefineConstants>
+    <DefineConstants>TRACE;ENMAX, DNP, PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -264,6 +264,8 @@ Global
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Mixed Platforms.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Win32.ActiveCfg = Release Enmax PLC Only|Any CPU
@@ -467,6 +469,8 @@ Global
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Mixed Platforms.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Win32.ActiveCfg = Release Enmax PLC Only|Any CPU
@@ -669,6 +673,8 @@ Global
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Mixed Platforms.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Win32.ActiveCfg = Release Enmax PLC Only|Any CPU
@@ -1082,6 +1088,8 @@ Global
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Mixed Platforms.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Win32.ActiveCfg = Release Enmax PLC Only|Any CPU
@@ -1291,6 +1299,8 @@ Global
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Mixed Platforms.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Win32.ActiveCfg = Release Enmax PLC Only|Any CPU
@@ -1497,6 +1507,8 @@ Global
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Mixed Platforms.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Win32.ActiveCfg = Release Enmax PLC Only|Any CPU
