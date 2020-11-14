@@ -68,7 +68,7 @@ namespace RelayControlLibrary
             this.labelGa.Visible = false;
             this.labelQPres.Visible = false;
             this.textBoxQBit.Visible = false;
-#if DNP
+#if ENMAX
             this.labelHa.Text = "Oil Level";
             this.labelHa.Location = new Point(4, 142);
             this.checkBoxFlagStatusH.Visible = false;

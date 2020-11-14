@@ -1208,6 +1208,33 @@ namespace RelayControlLibrary
             }
 #endif
 
+#if ENMAX && !DNP
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorEnmaxPLC;
+            this.textBoxMasterFileName.Text = "Master Relay LondonH";
+
+            if (GERelay)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+
+
+            this.parseFPGAFile(this.fPGACode);
+            this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
+
             if (this.transmitterEnabled)
             {
                 this.parseFPGAFile(this.fPGACode);
