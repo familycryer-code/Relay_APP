@@ -934,7 +934,7 @@ namespace RelayControlLibrary
 #if (ENMAX || PSEG) && DNP
 
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC_GE;
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC GE Resource";
@@ -968,7 +968,7 @@ namespace RelayControlLibrary
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorChicago;
             this.textBoxMasterFileName.Text = "Master Relay Chicago";
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
@@ -996,7 +996,7 @@ namespace RelayControlLibrary
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorLondonH;
             this.textBoxMasterFileName.Text = "Master Relay LondonH";
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
@@ -1024,7 +1024,7 @@ namespace RelayControlLibrary
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorTaunton;
             this.textBoxMasterFileName.Text = "Master Relay Taunton";
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
@@ -1052,7 +1052,7 @@ namespace RelayControlLibrary
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMadison;
             this.textBoxMasterFileName.Text = "Master Relay Madison";
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
@@ -1079,7 +1079,7 @@ namespace RelayControlLibrary
 #if ATLANTA && DNP
             
 
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
                 this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
@@ -1110,7 +1110,7 @@ namespace RelayControlLibrary
 #endif
 
 #if ONCOR && DNP
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Oncor_GE;
                 this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
@@ -1141,7 +1141,7 @@ namespace RelayControlLibrary
 #endif
 
 #if MEMPHIS
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
@@ -1160,7 +1160,7 @@ namespace RelayControlLibrary
 #endif
 
 #if SMUD
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorSMUDGE;
                 this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
@@ -1179,7 +1179,7 @@ namespace RelayControlLibrary
 #endif
 
 #if DNP
-            if (this.GEEnabled)
+            if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
@@ -3649,7 +3649,7 @@ namespace RelayControlLibrary
                 FileInfo[] fI;
 
 
-                if (this.GEEnabled)
+                if (GERelay)
                     fI = dI.GetFiles("*GE*.s");
                 else
                     fI = dI.GetFiles("*WH*.s");

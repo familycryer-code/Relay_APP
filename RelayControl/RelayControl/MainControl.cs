@@ -484,11 +484,7 @@ namespace RelayControl
                 this.toolStripStatusLabelMain.Text = "";
                 this.searchForRelay = false;
 #elif DEBUG
-                if (showCustomerNameDebug() == true)
-                {
-                    this.setCustomersRevisionName();
-                }
-
+                this.setCustomersRevisionName();
 
                 this.noMonitoringVersion = false;
                 this.buttonForceI.Visible = true;
@@ -700,18 +696,6 @@ namespace RelayControl
             this.customerRevisionName = "";
 #endif
         }
-
-        private bool showCustomerNameDebug()
-        {
-            bool showCustomerNameDebug = false;
-
-#if CHICAGO ||  LONDONH || (ENMAX && DNP) || ATLANTA || DG288_TESTFIXTURE_GUI || MADISON || ONCOR || PSEG || NU || TAUNTON
-            showCustomerNameDebug = true;
-#endif
-
-            return showCustomerNameDebug;
-        }
-
 
         private void initializeToolTip()
         {
