@@ -208,7 +208,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax PLC Only|AnyCPU'">
     <OutputPath>bin\Release Enmax PLC Only\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;BASICRELEASE, ENMAX</DefineConstants>
+    <DefineConstants>TRACE;ENMAX, PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -294,7 +294,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax DNP with PLC|AnyCPU'">
     <OutputPath>bin\Release Enmax DNP with PLC\</OutputPath>
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
-    <DefineConstants>DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
+    <DefineConstants>DNP, ENMAX, PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG PLC|AnyCPU'">
