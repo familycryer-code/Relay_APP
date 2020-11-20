@@ -1307,6 +1307,11 @@ namespace RelayControlLibrary
             // actively set it if they are going to use it.
             checkBoxTripOnPowerDown.Checked = false;
 
+#if ENMAX
+            checkBoxTripOnPowerDown.Checked = true;
+#endif
+
+
             // Trip Style 
             // 0 - Hold, 1 - Pulse, 2 - Single
 #if NU || BOSTON
