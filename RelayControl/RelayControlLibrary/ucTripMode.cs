@@ -1307,7 +1307,7 @@ namespace RelayControlLibrary
             // actively set it if they are going to use it.
             checkBoxTripOnPowerDown.Checked = false;
 
-#if ENMAX
+#if ENMAX || PSEG
             checkBoxTripOnPowerDown.Checked = true;
 #endif
 

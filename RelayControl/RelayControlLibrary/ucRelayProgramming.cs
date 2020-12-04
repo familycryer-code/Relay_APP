@@ -22,7 +22,7 @@ namespace RelayControlLibrary
             InitializeComponent();
 
             // Set this string to match code date below
-            this.fPGACode.Date = "121207";// _fPGACodeRevisionNumber.ToString();
+            this.fPGACode.Date = Properties.Resources.FPGARevisionDisplay;
             this.programmingForm.FormClosed += programmingForm_FormClosed;
             this.currentRelayLog.MPRevision = _masterCodeRevisionNumber.ToString();
             this.currentRelayLog.RPRevision = _relayCodeRevisionNumber.ToString();
@@ -83,6 +83,7 @@ namespace RelayControlLibrary
             get { return this.customer; }
             set
             {
+                logger.Trace("Customer: {0}", value);
                 this.customer = value;
             }
         }
@@ -932,7 +933,7 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE) && !DNP
+#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -1419,6 +1420,7 @@ namespace RelayControlLibrary
                     logger.Trace("User Verified Programming Start");
                     Thread.Sleep(500);
                     this.autoLoad = true;
+
                     if (!programmingForm.MasterBootComplete)
                         this.programmingForm.ClearAllChecks();
                     this.startProgramming();
@@ -2183,7 +2185,6 @@ namespace RelayControlLibrary
         private void allReprogramingDone()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            logger.Trace("All Loading Done");
             logger.Trace(String.Format("autoload: {0}", autoLoad));
 
             this.reprogrammingInProgress = false;
@@ -2191,7 +2192,7 @@ namespace RelayControlLibrary
             {
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
-                this.restartProgram();
+                this.requestAll();
             }
             else
             {
@@ -2279,6 +2280,7 @@ namespace RelayControlLibrary
 
         public void FinalizeReprogram()
         {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.state == RelayProgrammingStates.Finalized)
             {
                 this.programmingForm.Hide();
@@ -2289,7 +2291,7 @@ namespace RelayControlLibrary
                 this.autoLoad = false;
                 this.loadMasterFirst = false;
                 this.firstCheckForUpdate = false;
-                requestAll();
+                restartProgram();
             }
         }
 
@@ -3770,12 +3772,6 @@ namespace RelayControlLibrary
         private void buttonFixBootLoader_Click(object sender, EventArgs e)
         {
             this.startRelayBootLoaderProgramming();
-        }
-
-        public void CloseProgrammingForm()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.programmingForm.Hide();
         }
 
         public void AllParametersReceived()

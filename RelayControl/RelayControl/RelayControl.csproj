@@ -300,7 +300,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG PLC|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug PSEG PLC\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DIGITALGRID, PLC, PSEG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -308,7 +308,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG PLC|AnyCPU'">
     <OutputPath>bin\Release PSEG PLC\</OutputPath>
     <DefineConstants>PSEG, BASICRELEASE</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

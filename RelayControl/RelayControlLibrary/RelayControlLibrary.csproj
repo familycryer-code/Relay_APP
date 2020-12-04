@@ -251,7 +251,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG PLC|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug PSEG PLC\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, ENMAX ,PLC</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DIGITALGRID, PSEG,PLC</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>

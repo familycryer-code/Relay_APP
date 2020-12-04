@@ -1447,17 +1447,13 @@ namespace RelayControl
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
+                    this.ProgramState = ProgramStates.DownloadingAllParameters;
+                    loadingNewCode = false;
                     requestRelayRevision();
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
-                    this.pauseMonitoring = false;
-                    this.ucShortRange1.ResetThreshold();
-                    this.enableAll(true);
-                    this.ProgramState = ProgramStates.DownloadingAllParameters;
-                    this.timerRegisterPolling.Start();
-                    this.allEnabled = true;
                     break;
                 case RelayProgrammingSendCommands.SaveSettings:
                     this.ucSafeService1.LoadingNewCode = true;
@@ -1776,14 +1772,13 @@ namespace RelayControl
                         else if (command == IncomingCommCommands.FPGARevision)
                         {
                             packetSize = 20;
+                            logger.Trace("FPGA Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
                             if ((char)this.receiveArray[tempRXReadPtr] != 'P')
                             {
                                 this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
                                 command = IncomingCommCommands.Invalid;
                                 break;
                             }
-                            if (!ucRelayProgramming1.ReprogrammingInProgress)
-                                Thread.Sleep(100); //added to prevent duplicate requests
                         }
                         else if (command == IncomingCommCommands.Boot)
                         {
@@ -3075,6 +3070,7 @@ namespace RelayControl
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
+                    logger.Trace("Downloading All Parameters, loading new code: {0}", loadingNewCode);
                     this.timerResponseTimeOut.Enabled = false;
                     this.dataRetryCount = 0;
                     if (!loadingNewCode)
@@ -3291,7 +3287,6 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("parameters finished loading");
-            ucRelayProgramming1.CloseProgrammingForm();
 
             if (this.parametersLoaded && this.badDataDetected == false)
             {
@@ -3319,6 +3314,11 @@ namespace RelayControl
             }
 
 
+            if (ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
+            {
+                logger.Debug("-------------------------------Resetting ShortRange Parameters");
+                this.ucShortRange1.ResetThreshold();
+            }
             this.ucRelayProgramming1.AllParametersReceived();
 
 
@@ -3963,6 +3963,7 @@ namespace RelayControl
 
         private void setRelayParameters(byte[] bytePacket)
         {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Int32 temp;
             decimal tempM;
             double tempD;
@@ -4798,6 +4799,7 @@ namespace RelayControl
 
         private void requestRelayRevision()
         {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             byte[] sendArray = new byte[3];
 
             sendArray[0] = (byte)'Q';
@@ -4809,6 +4811,7 @@ namespace RelayControl
 
         private void requestFPGARevision()
         {
+            logger.Trace("requestFPGARevision()");
             byte[] sendArray = new byte[3];
 
             sendArray[0] = (byte)'n';
@@ -5801,7 +5804,10 @@ namespace RelayControl
         {
             string errorMessage = "None";
             if (checkBoxSerialCommsDebugging.Checked)
+            {
+                logger.Trace("Send OpCode: {0}", Convert.ToChar(bytePacket[0]));
                 logger.Trace(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
+            }
             try
             {
                 errorMessage = "Error Checking if Port is open";

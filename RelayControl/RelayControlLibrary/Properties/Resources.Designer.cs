@@ -89,13 +89,22 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 121207.
+        /// </summary>
+        internal static string FPGARevisionDisplay {
+            get {
+                return ResourceManager.GetString("FPGARevisionDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
-        ///S325000000005CE104005CE10A0054E24E0254E24A0254E2520254E2560254E24A0254E24A022E
+        ///S325000000005CE104005CE10E0054E24E0254E24A0254E2520254E2560254E24A0254E24A022A
         ///S3250000002054E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A02AA
-        ///S3250000004054E24A0254E25E7554E2C88054E24A0254E25A0254E24A0254E24A0254E24A02F7
+        ///S3250000004054E24A0254E2EE7454E2588054E24A0254E25A0254E24A0254E24A0254E24A02D8
         ///S3250000006054E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A0254E24A026A
-        ///S3250000008054E2DD8554E24A0254E24A0254E24A0254E24A0254E24A0254E2208B54E24A02D5
-        ///S325000000A054E29F8654E24A0254E2248154E24A0254E24A0254E24A0254E2C48354E2 [rest of string was truncated]&quot;;.
+        ///S3250000008054E26D8554E24A0254E24A0254E24A0254E24A0254E24A0254E2B08A54E24A02B6
+        ///S325000000A054E22F8654E24A0254E2B48054E24A0254E24A0254E24A0254E2548354E2 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MasterProcessor {
             get {
@@ -374,7 +383,7 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 201113.
+        ///   Looks up a localized string similar to 201204.
         /// </summary>
         internal static string MasterRevision {
             get {
