@@ -256,6 +256,12 @@ namespace RelayControl
         public MainControl()
         {
             InitializeComponent();
+            // Get the version number
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+            logger.Info("Version number: {0}", version);
+            // Officially start everything
             this.MainControlInit();
             tCPConnectionToolStripMenuItem.Visible = false;
         }
@@ -1449,6 +1455,9 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.RequestAll:
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     loadingNewCode = false;
+                    Thread.Sleep(6000);
+                    clearRemoteBuffer();
+                    Thread.Sleep(1000);
                     requestRelayRevision();
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
