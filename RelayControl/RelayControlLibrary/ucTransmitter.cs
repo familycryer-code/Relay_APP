@@ -405,6 +405,8 @@ namespace RelayControlLibrary
 #if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
+                this.panelSmartExternalCable.Hide();
+                labelSmartExternalCable.Hide();
 
                 this.panelFlasgStatusWB.Location = new Point(260, 300);
                 this.labelTransFlagStatus.Location = new Point(267, 294);
