@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SineDisplayGraph", "SineDisplayGraph\SineDisplayGraph.csproj", "{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}"
 EndProject
@@ -35,6 +35,9 @@ Global
 		Debug Chicago|Any CPU = Debug Chicago|Any CPU
 		Debug Chicago|Mixed Platforms = Debug Chicago|Mixed Platforms
 		Debug Chicago|Win32 = Debug Chicago|Win32
+		Debug Dominion|Any CPU = Debug Dominion|Any CPU
+		Debug Dominion|Mixed Platforms = Debug Dominion|Mixed Platforms
+		Debug Dominion|Win32 = Debug Dominion|Win32
 		Debug Enmax DNP PLC|Any CPU = Debug Enmax DNP PLC|Any CPU
 		Debug Enmax DNP PLC|Mixed Platforms = Debug Enmax DNP PLC|Mixed Platforms
 		Debug Enmax DNP PLC|Win32 = Debug Enmax DNP PLC|Win32
@@ -152,6 +155,12 @@ Global
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -262,8 +271,6 @@ Global
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Dominion|Mixed Platforms.Build.0 = Release Dominion|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Dominion|Win32.ActiveCfg = Release Dominion|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
-		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
-		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
@@ -356,6 +363,12 @@ Global
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -467,8 +480,6 @@ Global
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Dominion|Mixed Platforms.Build.0 = Release Dominion|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Dominion|Win32.ActiveCfg = Release Dominion|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
-		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
-		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
@@ -561,6 +572,12 @@ Global
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -671,8 +688,6 @@ Global
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Dominion|Mixed Platforms.Build.0 = Release Dominion|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Dominion|Win32.ActiveCfg = Release Dominion|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
-		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
-		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
@@ -765,6 +780,12 @@ Global
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -973,6 +994,12 @@ Global
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -1086,8 +1113,6 @@ Global
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Dominion|Mixed Platforms.Build.0 = Release Dominion|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Dominion|Win32.ActiveCfg = Release Dominion|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
-		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
-		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
@@ -1184,6 +1209,12 @@ Global
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -1297,8 +1328,6 @@ Global
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Dominion|Mixed Platforms.Build.0 = Release Dominion|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Dominion|Win32.ActiveCfg = Release Dominion|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
-		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
-		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
@@ -1392,6 +1421,12 @@ Global
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Chicago|Mixed Platforms.ActiveCfg = Debug Chicago|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Chicago|Mixed Platforms.Build.0 = Debug Chicago|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Chicago|Win32.ActiveCfg = Debug Chicago|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug Enmax DNP PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug Enmax DNP PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug Enmax DNP PLC|Any CPU
@@ -1505,8 +1540,6 @@ Global
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Dominion|Mixed Platforms.Build.0 = Release Dominion|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Dominion|Win32.ActiveCfg = Release Dominion|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Dominion|Win32.Build.0 = Release Dominion|Any CPU
-		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax PLC Only|Any CPU
-		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax PLC Only|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.ActiveCfg = Release Enmax DNP with PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Any CPU.Build.0 = Release Enmax DNP with PLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release ENMAX DNP with PLC|Mixed Platforms.ActiveCfg = Release Enmax DNP with PLC|Any CPU
@@ -1602,6 +1635,12 @@ Global
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Chicago|Mixed Platforms.Build.0 = Debug|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Chicago|Win32.ActiveCfg = Debug|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Chicago|Win32.Build.0 = Debug|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -1824,6 +1863,12 @@ Global
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Chicago|Mixed Platforms.Build.0 = Debug|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Chicago|Win32.ActiveCfg = Debug|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Chicago|Win32.Build.0 = Debug|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Dominion|Any CPU.ActiveCfg = Debug Dominion|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Dominion|Any CPU.Build.0 = Debug Dominion|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Dominion|Mixed Platforms.ActiveCfg = Debug Dominion|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Dominion|Mixed Platforms.Build.0 = Debug Dominion|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Dominion|Win32.ActiveCfg = Debug Dominion|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Dominion|Win32.Build.0 = Debug Dominion|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Enmax DNP PLC|Any CPU.ActiveCfg = Debug|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Enmax DNP PLC|Any CPU.Build.0 = Debug|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Debug Enmax DNP PLC|Mixed Platforms.ActiveCfg = Debug|Any CPU
