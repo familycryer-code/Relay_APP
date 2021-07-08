@@ -19,7 +19,7 @@ namespace RelayControlLibrary.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -397,8 +397,8 @@ namespace RelayControlLibrary.Properties {
         ///S3250000002054E2040154E2040154E2040154E2040154E2040154E2040154E2040154E20401E2
         ///S3250000004054E2040154E27D3354E2E63354E2040154E2140154E2040154E2040154E20401F3
         ///S3250000006054E2040154E2040154E2040154E2040154E2040154E2040154E2040154E20401A2
-        ///S3250000008054E26B8154E2040154E2040154E2040154E2040154E2040154E2040154E204019B
-        ///S325000000A054E2427F54E2040154E2040154E2040154E2040154E2040154E2040154E2 [rest of string was truncated]&quot;;.
+        ///S3250000008054E2938154E2040154E2040154E2040154E2040154E2040154E2040154E2040173
+        ///S325000000A054E26A7F54E2040154E2040154E2040154E2040154E2040154E2040154E2 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RelayProcessor {
             get {
@@ -442,8 +442,8 @@ namespace RelayControlLibrary.Properties {
         ///S3250000002054E2120154E2120154E2120154E2120154E2120154E2120154E2120154E2120172
         ///S3250000004054E2120154E2BB3D54E2243E54E2120154E2220154E2120154E2120154E212010E
         ///S3250000006054E2120154E2120154E2120154E2120154E2120154E2120154E2120154E2120132
-        ///S3250000008054E2AA8B54E2120154E2120154E2120154E2120154E2120154E2120154E21201F0
-        ///S325000000A054E2818954E2120154E2120154E2120154E2120154E2120154E2120154E2 [rest of string was truncated]&quot;;.
+        ///S3250000008054E2D28B54E2120154E2120154E2120154E2120154E2120154E2120154E21201C8
+        ///S325000000A054E2A98954E2120154E2120154E2120154E2120154E2120154E2120154E2 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RelayProcessorGE {
             get {
@@ -482,7 +482,7 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20190627.
+        ///   Looks up a localized string similar to 20210610.
         /// </summary>
         internal static string RelayRevision {
             get {
