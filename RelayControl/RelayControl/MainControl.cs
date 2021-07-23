@@ -263,7 +263,9 @@ namespace RelayControl
             logger.Info("Version number: {0}", version);
             // Officially start everything
             this.MainControlInit();
+#if !DEBUG
             tCPConnectionToolStripMenuItem.Visible = false;
+#endif
         }
         public void MainControlInit()
         {
@@ -723,7 +725,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.buttonTripRelay, "Send a Remote Trip to the relay");
         }
 
-        #region Relay Flags/Status
+#region Relay Flags/Status
 
         private List<string> relayStatus1 = new List<string>();
         private List<string> relayStatus2 = new List<string>();
@@ -835,7 +837,7 @@ namespace RelayControl
 
 
         }
-        #endregion
+#endregion
 
         void standardizedSendData(object o, SendEventArgs sEA)
         {
@@ -2437,7 +2439,7 @@ namespace RelayControl
             }
         }
 
-        #region Flight Recorder Section
+#region Flight Recorder Section
         private CalibrationConstant[] calibrationConstants = new CalibrationConstant[15];
 
         private void sendTime(DateTime dT)
@@ -2954,7 +2956,7 @@ namespace RelayControl
             this.sendPacket(sendPacket);
         }
 
-        #endregion
+#endregion
 
         private Thread closePort;
 
@@ -5403,7 +5405,7 @@ namespace RelayControl
             }
         }
 
-        #region Find Relay
+#region Find Relay
 
         private delegate string[] stringArrayCallBack();
         private string savedComPort;
@@ -5669,7 +5671,7 @@ namespace RelayControl
             this.serialPort1.Close();
         }
 
-        #endregion
+#endregion
 
         private void findRelayToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -5696,7 +5698,7 @@ namespace RelayControl
             this.requestRelayRevision();
         }
 
-        #region FileIO
+#region FileIO
         private MyFile savedFile;
         private const string _savedFilePath = @"C:\DGI Systems\Relay\Saved.txt";
 
@@ -5731,7 +5733,7 @@ namespace RelayControl
         {
             this.savedFile.WriteWholeFile(this.serialPort1.PortName);
         }
-        #endregion
+#endregion
 
         private string AcknowledgeCaller = "";
         private void sendPacketAck(byte[] bytePacket, string caller)
@@ -5860,7 +5862,7 @@ namespace RelayControl
         private bool monitorPort = false;
         private delegate void updatePortBoxCallBack(byte b, Color c);
 
-        #region Calibration
+#region Calibration
 
         void ucCalibration2_Send(object sender, SendEventArgs sEA)
         {
@@ -5975,7 +5977,7 @@ namespace RelayControl
             }
         }
 
-        #endregion
+#endregion
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
@@ -6432,7 +6434,7 @@ namespace RelayControl
             }
         }
 
-        #region Event Page
+#region Event Page
 
         private IDictionary eventDictionary = new Dictionary<object, int>();
 
@@ -6748,18 +6750,18 @@ namespace RelayControl
 
         }
 
-        #endregion
+#endregion
 
-        #region Live Data
+#region Live Data
 
         private void liveDataPacket(byte[] bytePacket)
         {
             this.ucLiveData1.PacketHandler(bytePacket);
         }
 
-        #endregion
+#endregion
 
-        #region Error Handling
+#region Error Handling
         /// <summary>
         /// Handles errors by temporarily disabling inputs and stopping monitoring to avoid overflows
         /// </summary>
@@ -6866,7 +6868,7 @@ namespace RelayControl
             return dR;
         }
 
-        #endregion
+#endregion
 
         private void buttonEnableAll_Click(object sender, EventArgs e)
         {
@@ -7982,7 +7984,7 @@ namespace RelayControl
             }
         }
 
-        #region Screen Save & Print
+#region Screen Save & Print
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
 
         private static extern long BitBlt(IntPtr hdcDest, int nXDest, int nYDest,
@@ -8113,7 +8115,7 @@ namespace RelayControl
             this.saveFileDialogVisible = false;
             this.timerScreenCapDelay.Enabled = false;
         }
-        #endregion
+#endregion
 
         private void buttonQuietMode_Click(object sender, EventArgs e)
         {
@@ -8186,7 +8188,7 @@ namespace RelayControl
 
 
 
-        #region ArcFault
+#region ArcFault
 
         private bool arcFaultEnabled = false;
         private bool ArcFaultEnabled
@@ -8251,7 +8253,7 @@ namespace RelayControl
                 this.buttonArcFaultStartMonitoring.Text = "Start Monitoring";
             }
         }
-        #endregion
+#endregion
 
         private void cTRatioCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
