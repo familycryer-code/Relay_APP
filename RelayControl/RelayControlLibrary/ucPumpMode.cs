@@ -420,7 +420,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
-#elif CHICAGO || SEATTLE || DOMINION || ENMAX
+#elif CHICAGO || SEATTLE || ENMAX
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
             this.checkBoxMotorCycles.Checked = true;
@@ -431,6 +431,17 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
+#elif DOMINION
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+            this.checkBoxNeverReclose.Checked = false;
+
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 60;
 #elif TAUNTON
             checkBoxCycles.Checked = true;
             checkBoxMotorTime.Checked = false;
