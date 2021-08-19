@@ -1336,6 +1336,7 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 0;
+            checkBoxTripOnPowerDown.Checked = true;
 #elif TAUNTON
             listBoxTripModes.SelectedIndex = 3;
             checkBoxEnableGullWing.Checked = false;
