@@ -47,7 +47,7 @@ namespace RelayControlLibrary
             this.numericUpDownLEDSpeed.Visible = false;
 #endif
 
-#if DOMINION || MADISON
+#if DOMINION || MADISON || BGE
             this.panelFlasgStatusWB.Visible = true;
             this.labelTransFlagStatus.Visible = true;
 #elif !DEBUG
@@ -402,7 +402,7 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
                 //this.panelMessageFreqSettings.Show();
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
                 this.panelSmartExternalCable.Hide();
@@ -1774,7 +1774,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p)
         {
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;

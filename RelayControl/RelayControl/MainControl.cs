@@ -442,7 +442,7 @@ namespace RelayControl
                 this.enableAutoloadToolStripMenuItem.Checked = false;
 #endif
 
-#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG)
+#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.enableAutoloadToolStripMenuItem.Checked = true;
 #endif
@@ -672,6 +672,8 @@ namespace RelayControl
 #else
             this.customerRevisionName = "Eversource Engineering";
 #endif
+#elif BGE
+            customerRevisionName = "BGE";
 #elif BOSTON
             this.customerRevisionName = "Boston Eversource";
 #elif SEATTLE
@@ -5320,7 +5322,7 @@ namespace RelayControl
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
             checkBox277DNPOutputs.Checked = false;
-#if DOMINION || LONDONH
+#if DOMINION || LONDONH || BGE
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #elif ENMAX || PSEG || TAUNTON

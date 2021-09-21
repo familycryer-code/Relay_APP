@@ -711,7 +711,7 @@ namespace RelayControlLibrary
                 checkBoxCircleClose.Checked = false;
                 radioButtonNeverOverride.Checked = true;
                 CloseModeDef.CloseMode = CloseModes.Normal;
-#else // SEATTLE, DOMINION, CHICAGO
+#else // SEATTLE, DOMINION, CHICAGO, BGE
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownPDA.Value = -5;

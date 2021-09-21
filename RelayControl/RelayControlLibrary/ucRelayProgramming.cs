@@ -933,7 +933,7 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG) && !DNP
+#if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG || BGE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
