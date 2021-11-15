@@ -238,6 +238,7 @@ namespace RelayControl
                 gERelay = value;
                 this.ucRelayProgramming1.GERelay = value;
                 this.ucTransmitterMonitoring1.GEEnabled = value;
+                ucTransmitter1.GERelay = value;
                 this.ucLiveData1.GEEnabled = value;
                 this.ucEventGraph0.GEEnabled = value;
                 this.ucEventGraph1.GEEnabled = value;

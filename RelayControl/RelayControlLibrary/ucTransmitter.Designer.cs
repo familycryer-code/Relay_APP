@@ -209,6 +209,7 @@
             this.checkBoxFlagStatusA = new System.Windows.Forms.CheckBox();
             this.labelTransFlagStatus = new System.Windows.Forms.Label();
             this.checkBoxExtendedPLCMessage = new System.Windows.Forms.CheckBox();
+            this.labelGEWHDisplay = new System.Windows.Forms.Label();
             this.panelFreqPanel.SuspendLayout();
             this.panelFlagSettings.SuspendLayout();
             this.panelFlagSettingH.SuspendLayout();
@@ -2331,10 +2332,21 @@
             this.checkBoxExtendedPLCMessage.Text = "Extended PLC Message";
             this.checkBoxExtendedPLCMessage.UseVisualStyleBackColor = true;
             // 
+            // labelGEWHDisplay
+            // 
+            this.labelGEWHDisplay.AutoSize = true;
+            this.labelGEWHDisplay.Location = new System.Drawing.Point(583, 157);
+            this.labelGEWHDisplay.Name = "labelGEWHDisplay";
+            this.labelGEWHDisplay.Size = new System.Drawing.Size(26, 13);
+            this.labelGEWHDisplay.TabIndex = 83;
+            this.labelGEWHDisplay.Text = "WH";
+            this.labelGEWHDisplay.Visible = false;
+            // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelGEWHDisplay);
             this.Controls.Add(this.checkBoxExtendedPLCMessage);
             this.Controls.Add(this.labelTransFlagStatus);
             this.Controls.Add(this.panelFlasgStatusWB);
@@ -2601,5 +2613,6 @@
         private System.Windows.Forms.CheckBox checkBoxFlagStatusA;
         private System.Windows.Forms.Label labelTransFlagStatus;
         private System.Windows.Forms.CheckBox checkBoxExtendedPLCMessage;
+        private System.Windows.Forms.Label labelGEWHDisplay;
     }
 }

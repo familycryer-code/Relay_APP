@@ -30,6 +30,7 @@ namespace RelayControlLibrary
             this.checkBoxWBH.Enabled = true;
             this.panelFlasgStatusWB.Location = new Point(730, 256);
             this.labelTransFlagStatus.Location = new Point(740, 250);
+            labelGEWHDisplay.Visible = true;
 #else
             this.textBoxSerialNumber.Enabled = false;
             this.numericUpDownCurrentThresholdLow.Visible = false;
@@ -339,6 +340,15 @@ namespace RelayControlLibrary
                         this.checkBoxTransmitterEnable.Checked = true;
                     else
                         this.checkBoxTransmitterEnable.Checked = false;
+                }
+
+                if ((bA[28] & 0x10) == 0x10)
+                {
+                    labelGEWHDisplay.Text = "GE";
+                }
+                else
+                {
+                    labelGEWHDisplay.Text = "WH";
                 }
 
                 //Waterbury Harness Data
@@ -1893,7 +1903,15 @@ namespace RelayControlLibrary
         }
 
 
-        public bool GERelay { get; set; }
+        public bool GERelay
+        {
+            get => gERelay;
+            set
+            {
+                gERelay = value;
+            }
+        }
+        private bool gERelay = false;
 
         private bool forceDNPEnable = false;
         public bool ForceDNPEnable
