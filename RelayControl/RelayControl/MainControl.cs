@@ -100,11 +100,7 @@ namespace RelayControl
                         this.makeConEdisonGUI();
                     else if (this.customer == Customers.Memphis)
                         this.makeMemphisGUI();
-                    else
-                        this.makeNonConEdGUI();
-
                 }
-
             }
         }
 
@@ -701,6 +697,8 @@ namespace RelayControl
             this.customerRevisionName = "DG-288 TestFixture";
 #elif SMUD
             this.customerRevisionName = "SMUD";
+#elif PSEG && DNP
+            this.customerRevisionName = "PSEG with DNP";
 #elif PSEG
             this.customerRevisionName = "PSEG";
 #else
@@ -4306,11 +4304,13 @@ namespace RelayControl
                 {
                     this.ucTripMode2.SequenceRelay = true;
                     this.setDomainIndex(1, this.domainUpDownRelayType);
+                    labelConEdPowerRelay.Text = "Sequence";
                 }
                 else if (temp == 'P')
                 {
                     this.ucTripMode2.SequenceRelay = false;
                     this.setDomainIndex(0, this.domainUpDownRelayType);
+                    labelConEdPowerRelay.Text = "Power";
                 }
                 else
                 {
@@ -5326,9 +5326,16 @@ namespace RelayControl
 #if DOMINION || LONDONH || BGE
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-#elif ENMAX || PSEG || TAUNTON
+#elif ENMAX || (PSEG && !DNP) || TAUNTON
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
+#elif PSEG && DNP
+            this.domainUpDownPhasings.SelectedIndex = 2;
+            this.domainUpDownRelayType.SelectedIndex = 1;
+            domainUpDownRelayType.Visible = false;
+            labelConEdPowerRelay.Text = "Sequence";
+            labelConEdPowerRelay.Visible = true;
+            tCPConnectionToolStripMenuItem.Visible = true;
 #elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
