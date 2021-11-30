@@ -371,7 +371,8 @@ namespace RelayControlLibrary
             set
             {
                 this.remoteRelayRevisionNumber = value;
-                if (this.remoteRelayRevisionNumber < _relayCodeRevisionNumber)
+                // Check manual reload here because it should reload regardless of the relative age
+                if (this.remoteRelayRevisionNumber < _relayCodeRevisionNumber || manualReload)
                     this.reprogramRelay = true;
                 else
                     this.reprogramRelay = false;
@@ -766,7 +767,7 @@ namespace RelayControlLibrary
                         internalGESetter = false;
                     break;
             }
-
+            reprogramRelay = true;
 #if !DNP
             // This is a non-DNP, transmitter Enabled Relay
             this.TransmitterEnabled = true;
@@ -1190,7 +1191,7 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if DNP && !ENMAX
+#if DNP && (!ENMAX && !PSEG)
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
