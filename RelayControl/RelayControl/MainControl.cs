@@ -3296,6 +3296,7 @@ namespace RelayControl
             }
         }
 
+        private bool paramsReceivedLock = false;
         private void parametersFinishedLoading()
         {
             logger.Trace("parameters finished loading");
@@ -3315,7 +3316,12 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
 
-                this.messageHandler("Data Recieved", "All Parameters Received");
+                if(!paramsReceivedLock)
+                {
+                    paramsReceivedLock = true;
+                    this.messageHandler("Data Recieved", "All Parameters Received");
+                    paramsReceivedLock = false;
+                }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
                 {
