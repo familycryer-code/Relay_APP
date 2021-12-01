@@ -179,6 +179,14 @@ namespace RelayControlLibrary
 #endif
 #if PSEG
             this.listBoxA2SensorSelect.SelectedItem = "Oil Temperature";
+            groupBoxAnalogFlagValues.Visible = true;
+            textBoxHa.Visible = false;
+            labelHa.Visible = false;
+            checkBoxFlagStatusC.Visible = false;
+            checkBoxFlagStatusD.Visible = false;
+            checkBoxFlagStatusE.Visible = false;
+            checkBoxFlagStatusF.Visible = false;
+            checkBoxFlagStatusG.Visible = false;
 #endif
         }
 
