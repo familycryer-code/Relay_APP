@@ -283,7 +283,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG|AnyCPU'">
     <OutputPath>bin\Debug PSEG\</OutputPath>
-    <DefineConstants>DEBUG;PSEG</DefineConstants>
+    <DefineConstants>DEBUG;PSEG, DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

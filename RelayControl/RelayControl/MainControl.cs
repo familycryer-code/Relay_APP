@@ -292,6 +292,16 @@ namespace RelayControl
                 this.initializeSaveObject();            //Check the save data to see
 #endif
 
+#if PSEG
+                tCPConnectionToolStripMenuItem.Visible = true;
+#if !DEBUG
+            domainUpDownRelayType.Visible = false;
+            labelConEdPowerRelay.Visible = true;
+#else
+                labelConEdPowerRelay.Visible = false;
+                domainUpDownRelayType.Visible = true;
+#endif
+#endif
 #if ATLANTA
                 this.groupBoxLowVoltThres.Visible = true;
 #else
@@ -5338,10 +5348,7 @@ namespace RelayControl
 #elif PSEG && DNP
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
-            domainUpDownRelayType.Visible = false;
             labelConEdPowerRelay.Text = "Sequence";
-            labelConEdPowerRelay.Visible = true;
-            tCPConnectionToolStripMenuItem.Visible = true;
 #elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
