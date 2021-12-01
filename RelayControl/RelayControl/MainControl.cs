@@ -294,12 +294,14 @@ namespace RelayControl
 
 #if PSEG
                 tCPConnectionToolStripMenuItem.Visible = true;
+#if DNP
 #if !DEBUG
-            domainUpDownRelayType.Visible = false;
-            labelConEdPowerRelay.Visible = true;
+                domainUpDownRelayType.Visible = false;
+                labelConEdPowerRelay.Visible = true;
 #else
                 labelConEdPowerRelay.Visible = false;
                 domainUpDownRelayType.Visible = true;
+#endif
 #endif
 #endif
 #if ATLANTA
