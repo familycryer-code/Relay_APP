@@ -5347,6 +5347,7 @@ namespace RelayControl
 #elif ENMAX || (PSEG && !DNP) || TAUNTON
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 0;
+            labelConEdPowerRelay.Visible = false;
 #elif PSEG && DNP
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;

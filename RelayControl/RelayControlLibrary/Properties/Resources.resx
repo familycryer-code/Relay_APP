@@ -186,7 +186,7 @@
     <value>..\resources\masterprocessor_with_dnp_smud.s;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="MasterRevision" xml:space="preserve">
-    <value>201113</value>
+    <value>201204</value>
   </data>
   <data name="RelayProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -207,7 +207,7 @@
     <value>..\Resources\RelayProcessorGESMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="RelayRevision" xml:space="preserve">
-    <value>20210610</value>
+    <value>20211221</value>
   </data>
   <data name="FPGARevisionDisplay" xml:space="preserve">
     <value>121207</value>
