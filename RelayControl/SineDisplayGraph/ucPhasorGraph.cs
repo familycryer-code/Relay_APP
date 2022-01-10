@@ -89,13 +89,15 @@ namespace SineDisplayGraph
         private string[] VdDisplayValues = new string[4];
         private string[] VdSeqDisplayValues = new string[4];
         private string[] VoltageSequenceValues = new string[4];
-
+        private readonly int _cycleCount = 128;
+        private readonly float _amplitude = 125f * (float)Math.Sqrt(2); // amplitude = sqrt(2) * rms
 
         private void myInitialize()
         {
             Array temp = Enum.GetValues(typeof(PhasorTypes));
             int count = 0;
 
+            generateRefWav();
             foreach (PhasorTypes pT in temp)
             {
                 ++count;
@@ -1814,47 +1816,27 @@ namespace SineDisplayGraph
             this.checkBoxBFlag.Visible = b;
         }
 
-        public float[] selectReferenceWave(CompleteCycleEventArgs sEA)
-        {
-            const float _cutOff = 20.0f;
-            VnA.CalculatePhasorFromWaves(sEA.VnA, sEA.VnA);
-            if (VnA.RMS > _cutOff)
-                return sEA.VnA;
-            VnB.CalculatePhasorFromWaves(sEA.VnB, sEA.VnB);
-            if (VnB.RMS > _cutOff)
-                return sEA.VnB;
-            VnC.CalculatePhasorFromWaves(sEA.VnC, sEA.VnC);
-            if (VnC.RMS > _cutOff)
-                return sEA.VnC;
-            if (!this.gEEnabled)
-            {
-                VtA.CalculatePhasorFromWaves(sEA.VtA, sEA.VtA);
-                if (VtA.RMS > _cutOff)
-                    return sEA.VtA;
-                VtB.CalculatePhasorFromWaves(sEA.VtB, sEA.VtB);
-                if (VtB.RMS > _cutOff)
-                    return sEA.VtB;
-                VtC.CalculatePhasorFromWaves(sEA.VtC, sEA.VtC);
-                if (VtC.RMS > _cutOff)
-                    return sEA.VtC;
-            }
-            IA.CalculatePhasorFromWaves(sEA.IA, sEA.IA);
-            if (IA.RMS > 0.5)
-                return sEA.IA;
-            IB.CalculatePhasorFromWaves(sEA.IB, sEA.IB);
-            if (IB.RMS > 0.5)
-                return sEA.IB;
-            IC.CalculatePhasorFromWaves(sEA.IC, sEA.IC);
-            if (IC.RMS > 0.5)
-                return sEA.IC;
+        private float[] referenceWave;
 
-            return sEA.VnA;
+        private void generateRefWav()
+        {
+            referenceWave = new float[_cycleCount];
+
+            for(int i = 0; i < _cycleCount; i++)
+            {
+                var rads = 2 * (float)Math.PI * (float)i / (float)_cycleCount;
+                referenceWave[i] = _amplitude * (float)Math.Sin(rads);
+            }
+        }
+
+        public float[] generateReferenceWave(CompleteCycleEventArgs sEA)
+        {
+            
+            return referenceWave;
         }
 
         public void UpdateValuesFromWaves(CompleteCycleEventArgs sEA)
         {
-            float[] referenceWave = this.selectReferenceWave(sEA);
-
             this.enableEventNavigation(true);
             this.RealTimeMonitoring = false;
             this.textBoxViewedCycleNumber.Text = sEA.CycleNumber.ToString();
@@ -1876,13 +1858,10 @@ namespace SineDisplayGraph
             IB.CalculatePhasorFromWaves(referenceWave, sEA.IB);
             IC.CalculatePhasorFromWaves(referenceWave, sEA.IC);
 
-            if (referenceWave == sEA.VnB || referenceWave == sEA.VtB || referenceWave == sEA.IB)
-                this.rotatePhasors(checkBoxABC.Checked ? -120 : 120);
-            else if (referenceWave == sEA.VnC || referenceWave == sEA.VtC || referenceWave == sEA.IC)
-                this.rotatePhasors(checkBoxABC.Checked ? 120 : -120);
+            // choose the phase to rotate by, in case VnA is dead
+            Phasors rotationPhasor = getRotationPhasor();
+            this.rotatePhasors(-rotationPhasor.Degrees);
 
-            this.scaleMeasuredVoltages();
-            this.scaleCurrents();
 
             //differential voltage section
             this.calculateDifferentialAndTransformerVoltages(sEA);
@@ -1892,18 +1871,24 @@ namespace SineDisplayGraph
             {
                 this.determineGEState();
             }
+            
             //Sequence section
             this.calculateAllSequenceVectors();
-            this.scaleDifferentialSequenceVoltages();
-            this.scaleSequenceCurrents();
-            this.scaleMeasuredSequenceVoltages();
 
             //Power
             this.calculatePowerPhasors();
-            this.scalePowerPhasors();
+            
 
             //ieff - needs to be done AFTER power.
             this.calculateEffectiveCurrentPhasor();
+
+            // scaling
+            this.scaleDifferentialSequenceVoltages();
+            this.scaleSequenceCurrents();
+            this.scaleMeasuredSequenceVoltages();
+            this.scalePowerPhasors();
+            this.scaleMeasuredVoltages();
+            this.scaleCurrents();
             this.scaleIEff();
 
             this.ClearAllLabels();
@@ -1945,7 +1930,42 @@ namespace SineDisplayGraph
             this.phasorGraph2.Invalidate();
         }
 
-        private void rotatePhasors(int p)
+        private readonly float _phasorCuttoff = 20.0f;
+        private Phasors getRotationPhasor()
+        {
+            Phasors rotationPhasor = VnA;
+            if (VnA.RMS >= _phasorCuttoff)
+            {
+                rotationPhasor = (Phasors)VnA.Clone();
+            }
+            else if (VnB.RMS >= _phasorCuttoff)
+            {
+                rotationPhasor = (Phasors)VnB.Clone();
+                rotationPhasor.Degrees += checkBoxABC.Checked ? 120 : -120;
+            }
+            else if (VnC.RMS >= _phasorCuttoff)
+            {
+                rotationPhasor = (Phasors)VnC.Clone();
+                rotationPhasor.Degrees += checkBoxABC.Checked ? -120 : 120;
+            }
+            else if (VtA.RMS >= _phasorCuttoff)
+            {
+                rotationPhasor = (Phasors)VtA.Clone();
+            }
+            else if (VtB.RMS >= _phasorCuttoff)
+            {
+                rotationPhasor = (Phasors)VtB.Clone();
+                rotationPhasor.Degrees += checkBoxABC.Checked ? 120 : -120;
+            }
+            else if (VtC.RMS >= _phasorCuttoff)
+            {
+                rotationPhasor = (Phasors)VtC.Clone();
+                rotationPhasor.Degrees += checkBoxABC.Checked ? -120 : 120;
+            }
+            return rotationPhasor;
+        }
+
+        private void rotatePhasors(float p)
         {
             VnA.Degrees += p;
             VnB.Degrees += p;
@@ -2049,17 +2069,40 @@ namespace SineDisplayGraph
         }
 
         private readonly float GEConversionFactor = 93.75f;
+        private float getRotationAngle()
+        {
+            float retVal = 0;
+            if (CTRatio == 1)
+                retVal = 0;
+            else if (CTRatio <= 400)
+                retVal = 5;
+            else if (CTRatio < 600)
+                retVal = 10;
+            else
+                retVal = 15;
+
+            return retVal;
+        }
+
+        private void convertDiff(ref Phasors diff, Phasors current)
+        {
+            diff.Real = current.Real * GEConversionFactor;
+            diff.Imaginary = current.Imaginary * GEConversionFactor;
+        }
 
         private void calculateGEDifferentialVoltages(CompleteCycleEventArgs sEA)
         {
-            VdA.Real = IA.Real * GEConversionFactor;
-            VdA.Imaginary = IA.Imaginary * GEConversionFactor;
+            Phasors temp = (Phasors)IA.Clone();
+            temp.Degrees += getRotationAngle();
+            convertDiff(ref VdA, temp);
 
-            VdB.Real = IB.Real * GEConversionFactor;
-            VdB.Imaginary = IB.Imaginary * GEConversionFactor;
+            temp = (Phasors)IB.Clone();
+            temp.Degrees += getRotationAngle();
+            convertDiff(ref VdB, temp);
 
-            VdC.Real = IC.Real * GEConversionFactor;
-            VdC.Imaginary = IC.Imaginary * GEConversionFactor;
+            temp = (Phasors)IC.Clone();
+            temp.Degrees += getRotationAngle();
+            convertDiff(ref VdC, temp);
 
             VtA.Real = VdA.Real + VnA.Real;
             VtA.Imaginary = VdA.Imaginary + VnA.Imaginary;
@@ -2079,9 +2122,9 @@ namespace SineDisplayGraph
 
             if (!this.gEEnabled)
             {
-                this.calculateDifferentialVotlage(VtA, VnA, VdA);
-                this.calculateDifferentialVotlage(VtB, VnB, VdB);
-                this.calculateDifferentialVotlage(VtC, VnC, VdC);
+                this.calculateDifferentialVoltage(VtA, VnA, VdA);
+                this.calculateDifferentialVoltage(VtB, VnB, VdB);
+                this.calculateDifferentialVoltage(VtC, VnC, VdC);
             }
             else
             {
@@ -2098,7 +2141,7 @@ namespace SineDisplayGraph
             // Here we choose which voltage to use as the relative voltage.
             // A is always at 0, so we can just choose it.
             tempdA.Degrees = VdA.Degrees;
-            if (VnB.RMS > 13.0 || VnB.RMS > VtB.RMS)
+            if (VnB.RMS > VtB.RMS)
             {
                 tempdB.Degrees = VdB.Degrees - VnB.Degrees;
             }
@@ -2107,7 +2150,7 @@ namespace SineDisplayGraph
                 tempdB.Degrees = VdB.Degrees - VtB.Degrees;
             }
 
-            if (VnC.RMS > 13.0 || VnC.RMS > VtC.RMS)
+            if (VnC.RMS > VtC.RMS)
             {
                 tempdC.Degrees = VdC.Degrees - VnC.Degrees;
             }
@@ -2147,7 +2190,7 @@ namespace SineDisplayGraph
 
         }
 
-        private void calculateDifferentialVotlage(Phasors transformer, Phasors network, Phasors differential)
+        private void calculateDifferentialVoltage(Phasors transformer, Phasors network, Phasors differential)
         {
             differential.Real = transformer.Real - network.Real;
             differential.Imaginary = transformer.Imaginary - network.Imaginary;
@@ -2343,7 +2386,7 @@ namespace SineDisplayGraph
 
     }
 
-    public class Phasors
+    public class Phasors : ICloneable
     {
         public Phasors()
         {
@@ -2496,6 +2539,10 @@ namespace SineDisplayGraph
             this.Imaginary *= (float)cTRatio;
         }
 
+        public object Clone()
+        {
+            return new Phasors() { PD = PD, Real = Real, Imaginary = Imaginary };
+        }
     }
 
     public static class SequenceMath

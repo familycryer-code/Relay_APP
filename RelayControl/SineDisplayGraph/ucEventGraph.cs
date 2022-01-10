@@ -34,12 +34,14 @@ namespace SineDisplayGraph
         {
             if (this.gEEnabled)
             {
+#if !DEBUG
                 this.sineGraphVtA.Visible = false;
                 this.sineGraphVtB.Visible = false;
                 this.sineGraphVtC.Visible = false;
                 this.sineGraphVnA.Location = this.sineGraphVtA.Location;
                 this.sineGraphVnB.Location = this.sineGraphVtB.Location;
                 this.sineGraphVnC.Location = this.sineGraphVtC.Location;
+#endif
             }
             else
             {

@@ -38,6 +38,7 @@ namespace SineDisplayGraph
         {
             if (this.gEEnabled)
             {
+#if !DEBUG
                 this.sineGraphVtA.Visible = false;
                 this.sineGraphVtB.Visible = false;
                 this.sineGraphVtC.Visible = false;
@@ -45,6 +46,7 @@ namespace SineDisplayGraph
                 this.sineGraphVnA.Location = this.sineGraphVtA.Location;
                 this.sineGraphVnB.Location = this.sineGraphVtB.Location;
                 this.sineGraphVnC.Location = this.sineGraphVtC.Location;
+#endif
             }
             else
             {
@@ -239,7 +241,7 @@ namespace SineDisplayGraph
             this.sineGraphIC.GraphRightClicked += new SineGraph.GraphRightClickedHandler(graphRightClicked);
         }
 
-        #region Setting Data
+#region Setting Data
 
         delegate void SetAllCallBack(byte[] bytePacket);
 
@@ -486,7 +488,7 @@ namespace SineDisplayGraph
             }
         }
 
-        #endregion
+#endregion
 
         public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
         public event ErrorHandler Error;
