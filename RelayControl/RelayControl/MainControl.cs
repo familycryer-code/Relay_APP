@@ -273,6 +273,7 @@ namespace RelayControl
                 this.initializeFromConfigFile();
 #if DEBUG
                 this.initializeFromConfigFileDebug();
+                labelConEdPowerRelay.Visible = false;
 #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
@@ -854,9 +855,10 @@ namespace RelayControl
 
         void standardizedSendData(object o, SendEventArgs sEA)
         {
-            if (this.quietMode || !this.relayFound)
+            if (!this.relayFound)
                 return;
 
+            logger.Trace("Sending Data to Relay: {0}", BitConverter.ToString(sEA.SendPacket.ToArray()));
             if (sEA.WithAck)
             {
                 if (!this.sendAll)
@@ -7804,8 +7806,7 @@ namespace RelayControl
                     }
                 }
             }
-            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter
-                || this.tabControlMain.SelectedTab == this.tabPageControl)
+            else if (this.tabControlMain.SelectedTab == this.tabPageTransmitterMonitoring || this.tabControlMain.SelectedTab == this.tabPageTransmitter)
             {
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
@@ -7814,6 +7815,10 @@ namespace RelayControl
 
                 this.requestPhasorData();
                 this.everyOtherMonitor = false;
+            }
+            else if (this.tabControlMain.SelectedTab == this.tabPageControl)
+            {
+                this.transmitterMonitoring = false;
             }
             else
             {
@@ -7857,7 +7862,15 @@ namespace RelayControl
             }
         }
 
-        private bool transmitterMonitoring = false;
+        private bool transmitterMonitoring
+        {
+            get => tempTM;
+            set
+            {
+                tempTM = value;
+            }
+        }
+        private bool tempTM = false;
 
 
         private void buttonStartMonitoring_Click(object sender, EventArgs e)
