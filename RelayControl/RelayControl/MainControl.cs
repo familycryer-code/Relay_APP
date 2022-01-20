@@ -5779,6 +5779,10 @@ namespace RelayControl
             AcknowledgeCaller = caller;
             try
             {
+                if (checkBoxSerialCommsDebugging.Checked)
+                {
+                    logger.Trace(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
+                }
                 this.SCITimedOut = false;
 
                 while (this.expectingAck && !this.loadingNewCode)
