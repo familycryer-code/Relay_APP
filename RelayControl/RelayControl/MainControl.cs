@@ -597,7 +597,7 @@ namespace RelayControl
 #elif DNP
                 this.Customer = Customers.DIGITALGRIDDNP;
                 this.DNPEnabled = true;
-#if ATLANTA || ONCOR
+#if ATLANTA || ONCOR 
                 if (tabControlMain.TabPages.Contains(tabPageTransmitter))
                     tabControlMain.TabPages.Remove(tabPageTransmitter);
                 if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
@@ -630,6 +630,10 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 #else
                 checkBox277DNPOutputs.Visible = false;
 #endif

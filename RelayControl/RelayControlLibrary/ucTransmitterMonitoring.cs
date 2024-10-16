@@ -82,7 +82,8 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 #else
-            groupBoxAnalogFlagValues.Visible = false;
+          //  groupBoxAnalogFlagValues.Visible = false;
+            groupBoxAnalogFlagValues.Visible = true;
 #endif
 
 #if DG288_TESTFIXTURE_GUI
