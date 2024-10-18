@@ -5,7 +5,7 @@
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        public System.ComponentModel.IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.textBoxOSName = new System.Windows.Forms.TextBox();
             this.buttonSendName = new System.Windows.Forms.Button();
@@ -102,10 +102,10 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBoxOSName;
-        private System.Windows.Forms.Button buttonSendName;
-        private System.Windows.Forms.GroupBox groupBoxMain;
-        private System.Windows.Forms.Button buttonGenerateName;
-        private System.Windows.Forms.Button buttonRequestName;
+        public System.Windows.Forms.TextBox textBoxOSName;
+        public System.Windows.Forms.Button buttonSendName;
+        public System.Windows.Forms.GroupBox groupBoxMain;
+        public System.Windows.Forms.Button buttonGenerateName;
+        public System.Windows.Forms.Button buttonRequestName;
     }
 }

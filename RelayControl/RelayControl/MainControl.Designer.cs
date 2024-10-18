@@ -5,8 +5,8 @@
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
+       // private System.ComponentModel.IContainer components = null;
+        public System.ComponentModel.IContainer components = null;
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -26,7 +26,8 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+       // private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label labelTemperature;
@@ -234,6 +235,8 @@
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
+            this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
+            this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
@@ -2397,13 +2400,16 @@
             // 
             // buttonResetRelay2
             // 
-            this.buttonResetRelay2.Location = new System.Drawing.Point(166, 415);
+            //this.buttonResetRelay2.Location = new System.Drawing.Point(166, 415);
+            this.buttonResetRelay2.Location = new System.Drawing.Point(60, 415);
             this.buttonResetRelay2.Name = "buttonResetRelay2";
             this.buttonResetRelay2.Size = new System.Drawing.Size(75, 23);
             this.buttonResetRelay2.TabIndex = 1;
             this.buttonResetRelay2.Text = "Reset Relay";
             this.buttonResetRelay2.UseVisualStyleBackColor = true;
             this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
+            this.buttonResetRelay2.Enabled = false;
+            this.buttonResetRelay2.Visible = false;
             // 
             // ucDNP1
             // 
@@ -2717,7 +2723,7 @@
         private System.Windows.Forms.TextBox textBoxRelaySNControl;
         private System.Windows.Forms.Timer timerFindRelayTimeout;
         private System.Windows.Forms.TabPage tabPageDNP;
-        private RelayControlLibrary.ucDNP ucDNP1;
+        public RelayControlLibrary.ucDNP ucDNP1;
         private System.Windows.Forms.Button buttonResetRelay2;
         private System.Windows.Forms.Button buttonToggleQuietMode;
         private System.Windows.Forms.Button buttonBlockAndTrip;
@@ -2770,7 +2776,9 @@
         private System.Windows.Forms.ToolStripMenuItem enableAutoloadToolStripMenuItem;
         private RelayControlLibrary.ucGeneralCommandHandler ucGeneralCommandHandler1;
         private System.Windows.Forms.TabPage tabPageDNPSecureAuth;
-        private RelayDNPSecurity.ucDNPSAv5 ucDNPSAv51;
+        public RelayDNPSecurity.ucDNPSAv5 ucDNPSAv51;
+        public RelayDNPSecurity.ucDNPSAv5OSName ucDNPSAv5OSName2;
+        public RelayDNPSecurity.ucDNPSAv5Settings ucDNPSAv5Settings2;
         private System.Windows.Forms.Label labelSNPQMonitor;
         private System.Windows.Forms.TextBox textBoxRelaySNControlPQ;
         private System.Windows.Forms.TextBox textBoxCTRatioPQMonitor;

@@ -68,13 +68,25 @@ namespace RelayControlLibrary
             this.labelGa.Visible = false;
             this.labelQPres.Visible = false;
             this.textBoxQBit.Visible = false;
+#elif ONCOR
+            this.textBoxCa.Visible = true;
+            this.textBoxDa.Visible = true;
+            this.textBoxEa.Visible = true;
+            this.textBoxGa.Visible = true;
+            this.textBoxHa.Visible = true;
+            this.labelCa.Visible = true;
+            this.labelDa.Visible = true;
+            this.labelEa.Visible = true;
+            this.labelGa.Visible = true;
+            this.labelHa.Visible = true;
+            
 #if ENMAX
             this.labelHa.Text = "Oil Level";
             this.labelHa.Location = new Point(4, 142);
             this.checkBoxFlagStatusH.Visible = false;
             this.labelQPres.Visible = true;
             this.textBoxQBit.Visible = true;
-#else
+#elif !ONCOR 
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
 #endif
@@ -82,7 +94,7 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
 #else
-          //  groupBoxAnalogFlagValues.Visible = false;
+            //  groupBoxAnalogFlagValues.Visible = false;
             groupBoxAnalogFlagValues.Visible = true;
 #endif
 

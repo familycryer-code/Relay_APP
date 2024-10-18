@@ -1,12 +1,11 @@
 ﻿namespace RelayDNPSecurity
 {
-    partial class ucDNPSAv5
-    {
+   partial class ucDNPSAv5
+   {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
+        public System.ComponentModel.IContainer components = null;
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -137,14 +136,14 @@
 
         #endregion
 
-        private ucDNPSAv5User ucDNPSAv5User1;
-        private System.Windows.Forms.Label labelLoadedUsersNumbersLabel;
-        private System.Windows.Forms.Label labelCurrentlyLoadedUsers;
-        private System.Windows.Forms.Button buttonGetLoadedUsers;
-        private System.Windows.Forms.Button buttonLoadDefaultUser;
-        private ucDNPSAv5AuthoritySym ucDNPSAv5AuthoritySym1;
-        private ucDNPSAv5OSName ucDNPSAv5OSName1;
-        private ucDNPSAv5Settings ucDNPSAv5Settings1;
-        private System.Windows.Forms.Button buttonLoadDefaultAuthorityKey;
+        public ucDNPSAv5User ucDNPSAv5User1;
+        public System.Windows.Forms.Label labelLoadedUsersNumbersLabel;
+        public System.Windows.Forms.Label labelCurrentlyLoadedUsers;
+        public System.Windows.Forms.Button buttonGetLoadedUsers;
+        public System.Windows.Forms.Button buttonLoadDefaultUser;
+        public ucDNPSAv5AuthoritySym ucDNPSAv5AuthoritySym1;
+        public ucDNPSAv5OSName ucDNPSAv5OSName1;
+        public ucDNPSAv5Settings ucDNPSAv5Settings1;
+        public System.Windows.Forms.Button buttonLoadDefaultAuthorityKey;
     }
 }

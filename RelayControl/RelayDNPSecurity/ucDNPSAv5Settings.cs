@@ -18,10 +18,10 @@ namespace RelayDNPSecurity
             this.initializeSecurityStatistics();
         }
 
-        private List<DNPSAv5SecurityStatisticItem> statisticPoints = new List<DNPSAv5SecurityStatisticItem>();
+        public List<DNPSAv5SecurityStatisticItem> statisticPoints = new List<DNPSAv5SecurityStatisticItem>();
         private static int _packetLength = 98;
 
-        private void initializeSecurityStatistics()
+        public void initializeSecurityStatistics()
         {
             this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Unexpected Messages", 3m));
             this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Authorization Failures", 5m));
@@ -74,12 +74,14 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void buttonSendSettings_Click(object sender, EventArgs e)
+        //private void buttonSendSettings_Click(object sender, EventArgs e)
+        public void buttonSendSettings_Click(object sender, EventArgs e)
         {
             this.sendSettings();
         }
 
-        private void sendSettings()
+        //private void sendSettings()
+        public void sendSettings()
         {
             SendEventArgs sSEA = new SendEventArgs(_packetLength);
             UInt16 tempInt;
@@ -174,12 +176,14 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void buttonDefault_Click(object sender, EventArgs e)
+        //private void buttonDefault_Click(object sender, EventArgs e)
+        public void buttonDefault_Click(object sender, EventArgs e)
         {
             this.setDefaults();
         }
 
-        private void setDefaults()
+        //private void setDefaults()
+        public void setDefaults()
         {
             this.checkBoxAggressiveMode.Checked = true;
             this.checkBoxSHA1.Checked = false;

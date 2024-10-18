@@ -122,7 +122,7 @@ namespace RelayControl
                 }
                 else
                 {
-#if !PLC && DNP
+#if ((!PLC && DNP) && !ONCOR)
                     if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
@@ -342,6 +342,8 @@ namespace RelayControl
                 this.ucSafeService1.SafeServiceException += this.standardExceptionMessage;
                 this.ucCalibration2.CalibrationException += standardExceptionMessage;
                 this.ucDNPSAv51.Error += standardExceptionMessage;
+                this.ucDNPSAv5OSName2.Send += standardizedSendData;
+                this.ucDNPSAv5Settings2.Send += standardizedSendData;
                 ucBlockControl1.Error += standardExceptionMessage;
                 ucRemoteCommandBlock1.Error += standardExceptionMessage;
                 ucPhasorRequest1.Error += standardExceptionMessage;
@@ -559,7 +561,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                //this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
                 this.buttonForceI.Visible = false;
@@ -570,13 +572,14 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version;// 2013-07-25"; 
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1"; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
 #if DNP && !ENMAX
-                this.TransmitterEnabled = false;
+                // this.TransmitterEnabled = false;
+                this.TransmitterEnabled = true;
 #else
                 TransmitterEnabled = true;
 #endif
@@ -598,11 +601,18 @@ namespace RelayControl
                 this.Customer = Customers.DIGITALGRIDDNP;
                 this.DNPEnabled = true;
 #if ATLANTA || ONCOR 
-                if (tabControlMain.TabPages.Contains(tabPageTransmitter))
-                    tabControlMain.TabPages.Remove(tabPageTransmitter);
-                if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
-                    tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
+               // if (tabControlMain.TabPages.Contains(tabPageTransmitter))
+               //     tabControlMain.TabPages.Remove(tabPageTransmitter);
+               // if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
+               //     tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
                 ucRemoteCommandBlock1.Visible = false;
+                this.ucRemoteCommandBlock1.Visible = false;
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
+                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
 #endif
 #else
                 this.Customer = Customers.NonConEd;
@@ -634,6 +644,10 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
+                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+               
+
 #else
                 checkBox277DNPOutputs.Visible = false;
 #endif
@@ -7138,8 +7152,17 @@ namespace RelayControl
 
         private void sendAllParameters()
         {
+            this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
+            this.ucDNPSAv5OSName2.newOSname();
+            Thread.Sleep(100);
+            this.ucDNPSAv5OSName2.sendOSName();
+            Thread.Sleep(100);
+            this.ucDNPSAv5Settings2.setDefaults();
+            Thread.Sleep(100);
+            this.ucDNPSAv5Settings2.sendSettings();
+            Thread.Sleep(100);
+            
             this.sendAll = true;
-
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             Thread.Sleep(100);
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());

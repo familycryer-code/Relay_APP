@@ -912,16 +912,20 @@ namespace RelayControlLibrary
 
         void setDNPLabelStatus()
         {
-            if (dNPLabelStatus == true)
-            {
-                this.labelDNPStatusInidcation.Text = "Enabled";
-                this.labelDNPStatusInidcation.BackColor = Color.SkyBlue;
-            }
-            else
-            {
-                this.labelDNPStatusInidcation.Text = "Disabled";
-                this.labelDNPStatusInidcation.BackColor = Color.LightSalmon;
-            }
+            this.labelDNPStatusInidcation.Visible = false;
+            // This label is no more displayed since it caused confusion regarding the DNP activation Vs being installated in the relay firmware
+
+            /*    if (dNPLabelStatus == true)
+              {
+                  this.labelDNPStatusInidcation.Text = "Enabled";
+                  this.labelDNPStatusInidcation.BackColor = Color.SkyBlue;
+              }
+              else
+              {
+                  this.labelDNPStatusInidcation.Text = "Disabled";
+                  this.labelDNPStatusInidcation.BackColor = Color.LightSalmon;
+              }
+            */
 
         }
 

@@ -129,7 +129,8 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void setOSName(byte[] bytePacket, int p)
+        //private void setOSName(byte[] bytePacket, int p)
+        public void setOSName(byte[] bytePacket, int p)
         {
             string workingString = Encoding.ASCII.GetString(bytePacket, 1, 35);
 
@@ -150,8 +151,8 @@ namespace RelayDNPSecurity
                         workingString = Encoding.ASCII.GetString(bytePacket, 2, 70);
                     }
                     this.oSName = workingString;
-                    this.ucDNPSAv5OSName1.OSName = this.oSName;
-
+                    //this.ucDNPSAv5OSName1.OSName = this.oSName;
+                    this.ucDNPSAv5OSName1.OSName = this.SerialNumber.ToString();
                     if (this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
                     {
                         this.ucDNPSAv5OSName1.RequestOSNameClicked = false;

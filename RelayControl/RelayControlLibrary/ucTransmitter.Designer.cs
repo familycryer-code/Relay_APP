@@ -2357,12 +2357,12 @@
             this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.labelSmartExternalCableMain);
             this.Controls.Add(this.panelWaterburyMain);
-            this.Controls.Add(this.labelSmartExternalCable);
-            this.Controls.Add(this.panelSmartExternalCable);
+          //  this.Controls.Add(this.labelSmartExternalCable);
+         //   this.Controls.Add(this.panelSmartExternalCable);
             this.Controls.Add(this.labelMessageFrequencySettings);
             this.Controls.Add(this.panelMessageFreqSettings);
-            this.Controls.Add(this.labelOtherAlarmSettings);
-            this.Controls.Add(this.panelOtherAlarmSettings);
+          //  this.Controls.Add(this.labelOtherAlarmSettings);
+           // this.Controls.Add(this.panelOtherAlarmSettings);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.panelSerialNumber);
             this.Controls.Add(this.labelGeneralSettings);
@@ -2371,8 +2371,8 @@
             this.Controls.Add(this.textBoxOperatingMode);
             this.Controls.Add(this.numericUpDownCurrentThresholdLow);
             this.Controls.Add(this.labelCurrentThresholdLow);
-            this.Controls.Add(this.labelAlarmSettings);
-            this.Controls.Add(this.panelAlarmSettings);
+          //  this.Controls.Add(this.labelAlarmSettings);
+          //  this.Controls.Add(this.panelAlarmSettings);
             this.Controls.Add(this.labelFlagPolarity);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.buttonRestoreDefaults);

@@ -5,8 +5,8 @@
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
+        //private System.ComponentModel.IContainer components = null;
+        public System.ComponentModel.IContainer components = null;
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.groupBoxMain = new System.Windows.Forms.GroupBox();
             this.comboBoxKeyChangeAlogrithm = new System.Windows.Forms.ComboBox();
@@ -336,25 +336,25 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBoxMain;
-        private System.Windows.Forms.Button buttonDefault;
-        private System.Windows.Forms.Button buttonRequestSettings;
-        private System.Windows.Forms.Button buttonSendSettings;
-        private System.Windows.Forms.CheckBox checkBoxAggressiveMode;
-        private System.Windows.Forms.CheckBox checkBoxSHA1;
-        private System.Windows.Forms.NumericUpDown numericUpDownReplyTimeout;
-        private System.Windows.Forms.Label labelReplyTimeout;
-        private System.Windows.Forms.GroupBox groupBoxSecurityStats;
-        private System.Windows.Forms.NumericUpDown numericUpDownSessionKeyInterval;
-        private System.Windows.Forms.Label labelSessionKeyInterval;
-        private System.Windows.Forms.NumericUpDown numericUpDownSessionKeyChangeCount;
-        private System.Windows.Forms.Label labelSessionKeyChangeCount;
-        private System.Windows.Forms.NumericUpDown numericUpDownMaxSessionKeyCount;
-        private System.Windows.Forms.Label labelMaxSessionKeyCount;
-        private System.Windows.Forms.CheckBox checkBoxAuthenticationEnabled;
-        private System.Windows.Forms.ComboBox comboBoxKeyChangeAlogrithm;
-        private System.Windows.Forms.Label labelKeyChangeAlgorithm;
-        private System.Windows.Forms.ComboBox comboBoxMACAlogrithm;
-        private System.Windows.Forms.Label labelMACAlgorithm;
+        public System.Windows.Forms.GroupBox groupBoxMain;
+        public System.Windows.Forms.Button buttonDefault;
+        public System.Windows.Forms.Button buttonRequestSettings;
+        public System.Windows.Forms.Button buttonSendSettings;
+        public System.Windows.Forms.CheckBox checkBoxAggressiveMode;
+        public System.Windows.Forms.CheckBox checkBoxSHA1;
+        public System.Windows.Forms.NumericUpDown numericUpDownReplyTimeout;
+        public System.Windows.Forms.Label labelReplyTimeout;
+        public System.Windows.Forms.GroupBox groupBoxSecurityStats;
+        public System.Windows.Forms.NumericUpDown numericUpDownSessionKeyInterval;
+        public System.Windows.Forms.Label labelSessionKeyInterval;
+        public System.Windows.Forms.NumericUpDown numericUpDownSessionKeyChangeCount;
+        public System.Windows.Forms.Label labelSessionKeyChangeCount;
+        public System.Windows.Forms.NumericUpDown numericUpDownMaxSessionKeyCount;
+        public System.Windows.Forms.Label labelMaxSessionKeyCount;
+        public System.Windows.Forms.CheckBox checkBoxAuthenticationEnabled;
+        public System.Windows.Forms.ComboBox comboBoxKeyChangeAlogrithm;
+        public System.Windows.Forms.Label labelKeyChangeAlgorithm;
+        public System.Windows.Forms.ComboBox comboBoxMACAlogrithm;
+        public System.Windows.Forms.Label labelMACAlgorithm;
     }
 }

@@ -1,12 +1,13 @@
 namespace RelayControlLibrary
 {
     partial class ucDNP
+    //public class ucDNP
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
+       // private System.ComponentModel.IContainer components = null;
+        public System.ComponentModel.IContainer components = null;
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -26,7 +27,8 @@ namespace RelayControlLibrary
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        //private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.labelLinkLayerConfirm = new System.Windows.Forms.Label();
             this.comboBoxLinkLayerConfirm = new System.Windows.Forms.ComboBox();
@@ -581,7 +583,8 @@ namespace RelayControlLibrary
             // 
             // buttonRQDNPSettings
             // 
-            this.buttonRQDNPSettings.Location = new System.Drawing.Point(0, 526);
+            // this.buttonRQDNPSettings.Location = new System.Drawing.Point(0, 526);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(60, 500);
             this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
             this.buttonRQDNPSettings.Size = new System.Drawing.Size(150, 23);
             this.buttonRQDNPSettings.TabIndex = 31;
@@ -646,7 +649,8 @@ namespace RelayControlLibrary
             // 
             // buttonDefaults
             // 
-            this.buttonDefaults.Location = new System.Drawing.Point(0, 497);
+            //this.buttonDefaults.Location = new System.Drawing.Point(0, 497);
+            this.buttonDefaults.Location = new System.Drawing.Point(60, 448);
             this.buttonDefaults.Name = "buttonDefaults";
             this.buttonDefaults.Size = new System.Drawing.Size(150, 23);
             this.buttonDefaults.TabIndex = 59;
@@ -1445,6 +1449,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPStatus.TabIndex = 151;
             this.groupBoxDNPStatus.TabStop = false;
             this.groupBoxDNPStatus.Text = "DNP Status";
+            this.groupBoxDNPStatus.Visible = false;
             // 
             // ucDNP
             // 
@@ -1538,8 +1543,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTriggerRangeVoltageUnits;
         private System.Windows.Forms.Label labelTriggerRangeTHDUnits;
         private System.Windows.Forms.Label labelTriggerRangeCurrentUnits;
-        private System.Windows.Forms.Button buttonRQDNPSettings;
-        private System.Windows.Forms.Button buttonSendAllDNPSettings;
+        public System.Windows.Forms.Button buttonRQDNPSettings;
+        public System.Windows.Forms.Button buttonSendAllDNPSettings;
         private System.Windows.Forms.Label labelZeroDisables;
         private System.Windows.Forms.Label labelTriggerRangeTemperatureUnits;
         private System.Windows.Forms.NumericUpDown numericUpDownTriggerRangeTemperature;
@@ -1601,8 +1606,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxSAv5UserUpdateKey;
         private System.Windows.Forms.ComboBox comboBoxDNPBaudRate;
         private System.Windows.Forms.Label labelBaudRate;
-        private System.Windows.Forms.Label labelDNPtext1;
-        private System.Windows.Forms.Label labelDNPStatusInidcation;
-        private System.Windows.Forms.GroupBox groupBoxDNPStatus;
+        public System.Windows.Forms.Label labelDNPtext1;
+        public System.Windows.Forms.Label labelDNPStatusInidcation;
+        public System.Windows.Forms.GroupBox groupBoxDNPStatus;
     }
 }

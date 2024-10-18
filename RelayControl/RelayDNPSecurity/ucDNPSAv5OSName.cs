@@ -16,14 +16,15 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
         }
-
+        public event ExceptionHandler DNPOSNameException;
         public int SerialNumber = 0;
         public string OSName
         {
             get { return this.textBoxOSName.Text; }
             set
             {
-                this.textBoxOSName.Text = value;
+                // this.textBoxOSName.Text = value;
+                this.textBoxOSName.Text = _OSDefaultName + value;
             }
         }
 
@@ -43,7 +44,7 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void textBoxOSName_TextChanged(object sender, EventArgs e)
+        public void textBoxOSName_TextChanged(object sender, EventArgs e)
         {
             if (this.textBoxOSName.Text.Length > _maxOSNameLength)
             {
@@ -52,8 +53,15 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void buttonSendName_Click(object sender, EventArgs e)
+        //   private void buttonSendName_Click(object sender, EventArgs e)
+        public void buttonSendName_Click(object sender, EventArgs e)
         {
+            sendOSName();
+        }
+
+        public void sendOSName()
+        {
+            // this.buttonGenerateName.BackColor = Color.Blue;
             SendEventArgs sSEA = new SendEventArgs(_packetLength);
             sSEA.WithAck = true;
             try
@@ -80,9 +88,22 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void buttonGenerateName_Click(object sender, EventArgs e)
+        public void buttonGenerateName_Click(object sender, EventArgs e)
         {
-            this.textBoxOSName.Text = _OSDefaultName + this.SerialNumber.ToString();
+            newOSname();
+        }
+
+        public void newOSname()
+        {
+            try
+            {
+                this.textBoxOSName.Text = _OSDefaultName + this.SerialNumber.ToString();
+                //this.textBoxOSName.Text = _OSDefaultName + this.OSName;
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(ex);
+            }
         }
 
         private void buttonRequestName_Click(object sender, EventArgs e)
@@ -108,5 +129,18 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("Error Requesting OS/Relay Name: " + ex.ToString()), "Error Requesting Name");
             }
         }
+
+        private void errorHandler(Exception ex)
+        {
+            if (DNPOSNameException != null)
+            {
+                DNPOSNameException(this, new ExceptionEventArgs(ex, "Error in DNPSAv5 Outstation Name"));
+            }
+            else
+            {
+                throw new Exception("No Exception Handler For DNPSAv5 OS Name");
+            }
+        }
+
     }
 }

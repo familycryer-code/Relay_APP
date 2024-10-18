@@ -442,8 +442,20 @@ namespace RelayControlLibrary
 
                 this.panelFlagSettings.Size = new Size(242, 217);
 #else
-                this.panelOtherAlarmSettings.Show();
-                this.labelOtherAlarmSettings.Show();
+                //this.panelOtherAlarmSettings.Show();
+                //this.labelOtherAlarmSettings.Show();
+                this.panelAlarmSettings.Hide();
+                this.labelAlarmSettings.Hide();
+
+                this.buttonTX.Location = new Point(260, 6);
+                this.buttonRQ.Location = new Point(260, 93);
+                this.buttonForceConfigMessage.Location = new Point(260, 180); //13, 250
+                this.buttonRestoreDefaults.Location = new Point(260, 235);
+
+                this.buttonRQ.Size = new Size(110, 74);
+                this.buttonForceConfigMessage.Size = new Size(110, 44);
+                this.buttonRestoreDefaults.Size = new Size(110, 44);
+                this.panelFlagSettings.Size = new Size(242, 217);
 #endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
