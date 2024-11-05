@@ -1500,7 +1500,7 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.enableWaterbury(true);
+          //  this.enableWaterbury(true);
 
             this.numericUpDownAnalog1Threshold.Value = 100;
             this.numericUpDownAnalog2Threshold.Value = 100;
@@ -1675,7 +1675,7 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.enableWaterbury(true);
+            //this.enableWaterbury(true);
 
             this.numericUpDownAnalog1Threshold.Value = 100;
             this.numericUpDownAnalog2Threshold.Value = 100;
@@ -1794,9 +1794,10 @@ namespace RelayControlLibrary
             this.pF.Close();
         }
 
-        private void enableWaterbury(bool p)
+        private void enableWaterbury(bool p) // SEC
         {
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+//#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE || ONCOR) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
             this.panelAlarmSettings.Visible = false;

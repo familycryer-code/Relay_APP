@@ -2355,10 +2355,10 @@
             this.Controls.Add(this.numericUpDownLEDSpeed);
             this.Controls.Add(this.checkBoxTransmitterEnable);
             this.Controls.Add(this.checkBoxDNPEnable);
-            this.Controls.Add(this.labelSmartExternalCableMain);
-            this.Controls.Add(this.panelWaterburyMain);
-          //  this.Controls.Add(this.labelSmartExternalCable);
-         //   this.Controls.Add(this.panelSmartExternalCable);
+          //  this.Controls.Add(this.labelSmartExternalCableMain);
+          //  this.Controls.Add(this.panelWaterburyMain);
+           // this.Controls.Add(this.labelSmartExternalCable);
+           // this.Controls.Add(this.panelSmartExternalCable);
             this.Controls.Add(this.labelMessageFrequencySettings);
             this.Controls.Add(this.panelMessageFreqSettings);
           //  this.Controls.Add(this.labelOtherAlarmSettings);
