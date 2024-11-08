@@ -514,8 +514,8 @@ namespace RelayControl
                 this.tabPageFlightRecorder.Show();
                 this.tabPageEvents.Show();
 #if !DG288_TESTFIXTURE_GUI
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
-
+                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
 #elif DG288_TESTFIXTURE_GUI
                 this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
 #endif
@@ -3616,7 +3616,7 @@ namespace RelayControl
             this.showLabel(false, this.toolStripStatusLabelRelayDisconnected);
 
             this.missedMonitoringCount = 0;
-
+            this.ucShortRange1.relayFound_forRNCMonitoring = true;
             if (this.checkSerialNumber == true)
                 this.requestTransmitterSettings();
 
@@ -4042,6 +4042,10 @@ namespace RelayControl
                 {
                 }
 
+            //    for (int index = 0; index < 94; ++index)
+            //        MessageBox.Show(bytePacket[index].ToString() + " byte#" + index + " bytePacket[index] Relay Parameters coming from master");// Only for testing - to be removed
+                //MessageBox.Show(bytePacket[1].ToString() + " bytePacket[1] Relay Parameters coming from master");// Only for testing - to be removed
+
                 //Reclose Voltage Btyes - Vertical
                 temp = bytePacket[1];
                 temp <<= 8;
@@ -4051,6 +4055,8 @@ namespace RelayControl
                 closePacket[1] = bytePacket[1];
 
 
+             //   MessageBox.Show(bytePacket[2].ToString() + " bytePacket[2] Relay Parameters coming from master");// Only for testing - to be removed
+             //   MessageBox.Show(bytePacket[3].ToString() + " bytePacket[3] Relay Parameters coming from master");// Only for testing - to be removed
 
                 //Tilt Angle Bytes - Vertical
                 temp = bytePacket[3];
@@ -4556,6 +4562,7 @@ namespace RelayControl
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
+                ucShortRange1.relayFound_forRNCMonitoring = true;
                 ucRelayProgramming1.ActiveRelay = true;
                 this.saveComPort();
 
@@ -4570,6 +4577,7 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
+                ucShortRange1.relayFound_forRNCMonitoring = false;
                 this.messageHandler("Error Setting Label: " + this.labelRevision, ex);
             }
         }
@@ -6371,6 +6379,7 @@ namespace RelayControl
                 {
                     if (this.missedMonitoringCount >= 2)
                     {
+                        this.ucShortRange1.relayFound_forRNCMonitoring = false;
                         if (this.transmitterMonitoring || this.pQMonitoringEnabled)
                         {
                             this.pauseTransmitterMonitoring();
@@ -7154,25 +7163,34 @@ namespace RelayControl
         {
             this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
             this.ucDNPSAv5OSName2.newOSname();
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.ucDNPSAv5OSName2.sendOSName();
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.ucDNPSAv5Settings2.setDefaults();
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.ucDNPSAv5Settings2.sendSettings();
-            Thread.Sleep(100);
-            
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
+
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.buttonRelayType_Click(this, new EventArgs());
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.buttonSendCTRatio_Click(this, new EventArgs());
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
-            Thread.Sleep(100);
+            //Thread.Sleep(100);  // 100 milliseconds
+            Thread.Sleep(1000);   // 1 seconds
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(100);
@@ -7185,7 +7203,8 @@ namespace RelayControl
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 this.ucSafeService1.SendAll();
-                Thread.Sleep(100);
+                //Thread.Sleep(100);  // 100 milliseconds
+                Thread.Sleep(1000);   // 1 seconds
             }
 
 #if DNP && ATLANTA

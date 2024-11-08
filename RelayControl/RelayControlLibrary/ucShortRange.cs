@@ -439,6 +439,8 @@ namespace RelayControlLibrary
             return listChanged;
         }
 
+        public bool relayFound_forRNCMonitoring = false;
+
         private void requestMonitoringData()
         {
             SendEventArgs sEA = new SendEventArgs(2);
@@ -580,16 +582,35 @@ namespace RelayControlLibrary
                 this.timerMonitor.Enabled = false;
                 this.buttonMonitor.Text = "Start Monitoring";
             }
-            else
+            else if (!this.timerMonitor.Enabled && this.relayFound_forRNCMonitoring == true)
             {
                 this.timerMonitor.Enabled = true;
                 this.buttonMonitor.Text = "Stop Monitoring";
+            }
+            else if (!this.timerMonitor.Enabled && this.relayFound_forRNCMonitoring == false)
+            {
+                string text = "Relay not found. Please check for its Power and then start the Monitoring "; // Only for testing - to be removed
+                MessageBox.Show(text);// Only for testing - to be removed
+                this.timerMonitor.Enabled = false;
+                this.buttonMonitor.Text = "Start Monitoring";
             }
         }
 
         private void timerMonitor_Tick(object sender, EventArgs e)
         {
-            this.requestMonitoringData();
+            if (this.relayFound_forRNCMonitoring == true)
+            {
+                this.requestMonitoringData();
+            }
+            else
+            {
+                this.timerMonitor.Enabled = false;
+                this.buttonMonitor.Text = "Start Monitoring";
+                this.relayFound_forRNCMonitoring = false;
+                string text = "Relay not found. Please check for its Power and then start the Monitoring "; // Only for testing - to be removed
+                MessageBox.Show(text);// Only for testing - to be removed
+                
+            }
         }
 
         public void DisableMonitoring()

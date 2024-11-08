@@ -421,8 +421,13 @@ namespace RelayControlLibrary
             Int16 temp;
             UInt16 uTemp;
 
+          //  string text = "HAHAHA ! Got ya - all error pop ups ;) "; // Only for testing - to be removed
+          //  MessageBox.Show(text);// Only for testing - to be removed
+
             try
             {
+              //  MessageBox.Show(bytePacket[10].ToString() + " bytePacket[10] used to check valid Close Type Character");// Only for testing - to be removed
+                
                 if ((char)bytePacket[10] == 'r' || (char)bytePacket[10] == 'R')
                 {
                     this.Mode = CloseModes.RelaxClose;
@@ -447,6 +452,8 @@ namespace RelayControlLibrary
 
             try
             {
+             //   MessageBox.Show(bytePacket[0].ToString() + " bytePacket[0] used to calculate valid Reclose/Circle Close Voltage Value");// Only for testing - to be removed
+             //   MessageBox.Show(bytePacket[1].ToString() + " bytePacket[1] used to calculate valid Reclose/Circle Close Voltage Value");// Only for testing - to be removed
 
                 uTemp = bytePacket[1];
                 uTemp <<= 8;
@@ -468,6 +475,9 @@ namespace RelayControlLibrary
             }
             try
             {
+             //   MessageBox.Show(bytePacket[2].ToString() + " bytePacket[2] used to calculate valid Tilt Angle");// Only for testing - to be removed
+             //   MessageBox.Show(bytePacket[3].ToString() + " bytePacket[3] used to calculate valid Tilt Angle");// Only for testing - to be removed
+
                 //Tilt Angle Bytes - Vertical
                 temp = bytePacket[3];
                 temp <<= 8;
@@ -499,6 +509,9 @@ namespace RelayControlLibrary
             }
             try
             {
+             //   MessageBox.Show(bytePacket[4].ToString() + " bytePacket[4] used for Phasing Voltage calculation");// Only for testing - to be removed
+             //   MessageBox.Show(bytePacket[5].ToString() + " bytePacket[5] used for Phasing Voltage calculation");// Only for testing - to be removed
+
                 //Phasing Voltage Bytes - Horizontal
                 uTemp = bytePacket[5];
                 uTemp <<= 8;
@@ -517,6 +530,9 @@ namespace RelayControlLibrary
             }
             try
             {
+             //   MessageBox.Show(bytePacket[6].ToString() + " bytePacket[6] used to calculate valid Phase Detect Angle");// Only for testing - to be removed
+             //   MessageBox.Show(bytePacket[7].ToString() + " bytePacket[7] used to calculate valid Phase Detect Angle");// Only for testing - to be removed
+
                 //Phase Detect Angle Bytes - Horizontal
                 temp = bytePacket[7];
                 temp <<= 8;
@@ -539,6 +555,9 @@ namespace RelayControlLibrary
             uTemp = 0;
             try
             {
+              //  MessageBox.Show(bytePacket[8].ToString() + " bytePacket[8] used to calculate valid Time Delay");// Only for testing - to be removed
+             //   MessageBox.Show(bytePacket[9].ToString() + " bytePacket[9] used to calculate valid Time Delay");// Only for testing - to be removed
+
                 //Time Delay Value
 
                 uTemp = bytePacket[9];
