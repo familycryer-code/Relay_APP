@@ -3,11 +3,6 @@
     partial class MainControl
     {
         /// <summary>
-        /// Required designer variable.
-        /// </summary>
-       // private System.ComponentModel.IContainer components = null;
-        public System.ComponentModel.IContainer components = null;
-        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -1384,6 +1379,7 @@
             // 
             // tabPageControl
             // 
+            this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
@@ -1402,10 +1398,10 @@
             this.tabPageControl.Size = new System.Drawing.Size(991, 624);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
-            this.tabPageControl.UseVisualStyleBackColor = true;
             // 
             // groupBoxLRLockoutMain
             // 
+            this.groupBoxLRLockoutMain.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxLRLockoutMain.Controls.Add(this.textBoxLRLockoutStatusMain);
             this.groupBoxLRLockoutMain.Controls.Add(this.labelLRLockoutMain);
             this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(448, 473);
@@ -1434,6 +1430,7 @@
             // 
             // groupBoxLowVoltThres
             // 
+            this.groupBoxLowVoltThres.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxLowVoltThres.Controls.Add(this.buttonRequestLowVotlageThres);
             this.groupBoxLowVoltThres.Controls.Add(this.numericUpDownLowVoltageThres);
             this.groupBoxLowVoltThres.Controls.Add(this.buttonSendLowVoltageThres);
@@ -1488,6 +1485,7 @@
             // 
             // groupBoxRelayStatus
             // 
+            this.groupBoxRelayStatus.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxRelayStatus.Controls.Add(this.labelNWPStatus);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxTripFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxPhasingOkayFlag);
@@ -1642,6 +1640,7 @@
             // 
             // groupBoxPhasingAndType
             // 
+            this.groupBoxPhasingAndType.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxPhasingAndType.Controls.Add(this.labelDNPVoltage);
             this.groupBoxPhasingAndType.Controls.Add(this.comboBoxDNPVoltage);
             this.groupBoxPhasingAndType.Controls.Add(this.checkBox277DNPOutputs);
@@ -1771,6 +1770,7 @@
             // 
             // groupBoxNetworkCTRatio
             // 
+            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxNetworkCTRatio.Controls.Add(this.labelOver5);
             this.groupBoxNetworkCTRatio.Controls.Add(this.label27);
             this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
@@ -1841,6 +1841,7 @@
             // 
             // groupBoxRelayFlags
             // 
+            this.groupBoxRelayFlags.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxRelayFlags.Controls.Add(this.labelQuietMode);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxOffsetOkay);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxCalibrating);
@@ -2018,6 +2019,7 @@
             // 
             // ucSafeService1
             // 
+            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
             this.ucSafeService1.CTRatio = 320;
             this.ucSafeService1.LoadingNewCode = false;
             this.ucSafeService1.Location = new System.Drawing.Point(734, 4);
@@ -2027,6 +2029,7 @@
             // 
             // panelOtherRelayControls
             // 
+            this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
             this.panelOtherRelayControls.Controls.Add(this.ucRemoteCommandBlock1);
             this.panelOtherRelayControls.Controls.Add(this.ucBlockControl1);
             this.panelOtherRelayControls.Controls.Add(this.labelBootRevision);
@@ -2264,6 +2267,7 @@
             // ucTripMode2
             // 
             this.ucTripMode2.AutoSize = true;
+            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
             this.ucTripMode2.CTRatio = 320;
             this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
             this.ucTripMode2.Location = new System.Drawing.Point(8, 3);
@@ -2276,8 +2280,9 @@
             // 
             // ucCloseMode1
             // 
+            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
             this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
-            this.ucCloseMode1.Location = new System.Drawing.Point(318, 4);
+            this.ucCloseMode1.Location = new System.Drawing.Point(315, 0);
             this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
@@ -2287,6 +2292,7 @@
             // 
             // ucPumpMode1
             // 
+            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
             this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucPumpMode1.Location = new System.Drawing.Point(187, 260);
             this.ucPumpMode1.Name = "ucPumpMode1";
@@ -2298,6 +2304,7 @@
             // 
             // ucCoverFlags1
             // 
+            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
             this.ucCoverFlags1.Location = new System.Drawing.Point(325, 517);
             this.ucCoverFlags1.Name = "ucCoverFlags1";
             this.ucCoverFlags1.Size = new System.Drawing.Size(215, 111);
@@ -2400,16 +2407,15 @@
             // 
             // buttonResetRelay2
             // 
-            //this.buttonResetRelay2.Location = new System.Drawing.Point(166, 415);
+            this.buttonResetRelay2.Enabled = false;
             this.buttonResetRelay2.Location = new System.Drawing.Point(60, 415);
             this.buttonResetRelay2.Name = "buttonResetRelay2";
             this.buttonResetRelay2.Size = new System.Drawing.Size(75, 23);
             this.buttonResetRelay2.TabIndex = 1;
             this.buttonResetRelay2.Text = "Reset Relay";
             this.buttonResetRelay2.UseVisualStyleBackColor = true;
-            this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
-            this.buttonResetRelay2.Enabled = false;
             this.buttonResetRelay2.Visible = false;
+            this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
             // 
             // ucDNP1
             // 
@@ -2507,6 +2513,23 @@
             this.ucDNPSAv51.ShowDNPSAV5Error = true;
             this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
             this.ucDNPSAv51.TabIndex = 0;
+            // 
+            // ucDNPSAv5OSName2
+            // 
+            this.ucDNPSAv5OSName2.Location = new System.Drawing.Point(0, 0);
+            this.ucDNPSAv5OSName2.Name = "ucDNPSAv5OSName2";
+            this.ucDNPSAv5OSName2.OSName = "DIGITALGRID, INC. DNP Relay Serial Number: DIGITALGRID, INC. DNP Relay";
+            this.ucDNPSAv5OSName2.RequestOSNameClicked = false;
+            this.ucDNPSAv5OSName2.Size = new System.Drawing.Size(605, 82);
+            this.ucDNPSAv5OSName2.TabIndex = 0;
+            // 
+            // ucDNPSAv5Settings2
+            // 
+            this.ucDNPSAv5Settings2.AuthenticationEnabled = false;
+            this.ucDNPSAv5Settings2.Location = new System.Drawing.Point(0, 0);
+            this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
+            this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
+            this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
             // timerResponseTimeOut
             // 
@@ -2804,5 +2827,6 @@
         private System.Windows.Forms.ComboBox comboBoxDNPVoltage;
         private System.Windows.Forms.Label labelKioskReceived;
         private RelayControlLibrary.CommTradeConverter commTradeConverter1;
+        private System.ComponentModel.IContainer components;
     }
 }
