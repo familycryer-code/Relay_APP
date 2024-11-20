@@ -249,6 +249,7 @@ namespace RelayControl
 
         private bool SCITimedOut = false;
         private int savedSaveFileComboBoxWidth;
+        public bool relayFound_forDNPdataMonitoring = false;
 
         public MainControl()
         {
@@ -572,7 +573,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1"; 
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + " ONCOR "; 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -1254,6 +1255,7 @@ namespace RelayControl
 
             this.buttonRQEventData.Enabled = true;
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
+            this.buttonReqLiveData.Enabled = true;
             this.enableAll(true);
             this.monitoring(true);
             this.RegisterPolling(true);
@@ -1430,7 +1432,7 @@ namespace RelayControl
                         this.clearEventsToolStripMenuItem.Enabled = false;
                         this.buttonRQEventData.Enabled = false;
                         this.buttonClearEvents.Enabled = false;
-
+                        this.buttonReqLiveData.Enabled = false;
                     }
                     else
                     {
@@ -1449,6 +1451,7 @@ namespace RelayControl
                         this.clearEventsToolStripMenuItem.Enabled = true;
                         this.buttonRQEventData.Enabled = true;
                         this.buttonClearEvents.Enabled = true;
+                        this.buttonReqLiveData.Enabled = true;
                         this.domainUpDownCTRatioM_SelectedItemChanged(this.domainUpDownCTRatioM, new EventArgs()); //put this in to properly grey out CT Ratio box when necessary
                     }
 
@@ -3617,6 +3620,7 @@ namespace RelayControl
 
             this.missedMonitoringCount = 0;
             this.ucShortRange1.relayFound_forRNCMonitoring = true;
+            this.relayFound_forDNPdataMonitoring = true;
             if (this.checkSerialNumber == true)
                 this.requestTransmitterSettings();
 
@@ -4563,6 +4567,7 @@ namespace RelayControl
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;
                 ucShortRange1.relayFound_forRNCMonitoring = true;
+                this.relayFound_forDNPdataMonitoring = true;
                 ucRelayProgramming1.ActiveRelay = true;
                 this.saveComPort();
 
@@ -4578,6 +4583,7 @@ namespace RelayControl
             catch (Exception ex)
             {
                 ucShortRange1.relayFound_forRNCMonitoring = false;
+                this.relayFound_forDNPdataMonitoring = false;
                 this.messageHandler("Error Setting Label: " + this.labelRevision, ex);
             }
         }
@@ -5386,6 +5392,9 @@ namespace RelayControl
 #elif LONDONH
             this.domainUpDownPhasings.SelectedIndex = 1;
             this.domainUpDownRelayType.SelectedIndex = 1;
+//#elif ONCOR
+//            this.domainUpDownPhasings.SelectedIndex = 2;
+//            this.domainUpDownRelayType.SelectedIndex = 1;
 #else
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
@@ -6022,7 +6031,7 @@ namespace RelayControl
                 this.messageHandler(statusLabel, "Relay Response Timed Out.");
                 this.requestLiveDataToolStripMenuItem1.Enabled = true;
                 this.buttonRQEventData.Enabled = true;
-
+                this.buttonReqLiveData.Enabled = true;
                 this.toolStripStatusLabelMain.Text = "Ready";
             }
             else if (this.calibrationCount % 5 == 0)
@@ -6288,7 +6297,7 @@ namespace RelayControl
         private bool portLost = false;
         private bool everyOtherMonitor = false;
         private ulong transmitterMonitoringCount = 0;
-
+        private bool temp = true;
         private void timerRegisterPolling_Tick(object sender, EventArgs e)
         {
             this.timerRegisterPolling.Enabled = false;
@@ -6377,9 +6386,25 @@ namespace RelayControl
             {
                 if (!this.phasorReceived)
                 {
+                   // if (this.relayFound_forDNPdataMonitoring)
+                   // {
+                   //     this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
+                   //     temp = true;
+                   // }
                     if (this.missedMonitoringCount >= 2)
                     {
                         this.ucShortRange1.relayFound_forRNCMonitoring = false;
+                        this.relayFound_forDNPdataMonitoring = false;
+
+                        if ((this.missedMonitoringCount == 2) && (temp == true) && (this.relayFound_forDNPdataMonitoring == false) )
+                        {
+                            this.enableDNPMonitoring(false);
+                            temp = false;
+                            string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                            MessageBox.Show(text);
+
+                        }
+                        
                         if (this.transmitterMonitoring || this.pQMonitoringEnabled)
                         {
                             this.pauseTransmitterMonitoring();
@@ -6557,6 +6582,13 @@ namespace RelayControl
                     this.ucEventGraph7.BringToFront();
                     break;
             }
+        }
+
+        private void buttonReqLiveData_Click(object sender, EventArgs e)
+        {
+           // string text = " Getting LIVE data from the realy ! ";
+           // MessageBox.Show(text);
+            this.requestLiveDataToolStripMenuItem1_Click(sender, e);
         }
 
         private bool initialLiveEventRequest = false;
@@ -7164,33 +7196,33 @@ namespace RelayControl
             this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
             this.ucDNPSAv5OSName2.newOSname();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.ucDNPSAv5OSName2.sendOSName();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.ucDNPSAv5Settings2.setDefaults();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.ucDNPSAv5Settings2.sendSettings();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
 
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.buttonRelayType_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.buttonSendCTRatio_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1000);   // 1 seconds
+            Thread.Sleep(500);   // 1 seconds
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(100);
@@ -7204,7 +7236,7 @@ namespace RelayControl
             {
                 this.ucSafeService1.SendAll();
                 //Thread.Sleep(100);  // 100 milliseconds
-                Thread.Sleep(1000);   // 1 seconds
+                Thread.Sleep(500);   // 1 seconds
             }
 
 #if DNP && ATLANTA
@@ -7292,6 +7324,7 @@ namespace RelayControl
 
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonRQEventData.Enabled = true;
+            this.buttonReqLiveData.Enabled = true;
 
             if (temp != "null")
                 this.downloadProgress.Dispose();
@@ -7893,8 +7926,14 @@ namespace RelayControl
                 this.ucShortRange1.DisableMonitoring();
             }
 
-            this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
-
+            if (this.relayFound_forDNPdataMonitoring)
+                this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
+            else
+            {
+                string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                MessageBox.Show(text);
+                this.enableDNPMonitoring(false);
+            }
             this.phasorGraphTabSwitchCall = false; //deset so next time it does not think it was called from the phasorGraph
         }
 
@@ -8374,7 +8413,17 @@ namespace RelayControl
 
         private void buttonRequestDNPData_Click(object sender, EventArgs e)
         {
-            this.enableDNPMonitoring(!this.requestingDNPData);
+            if (this.relayFound_forDNPdataMonitoring == true)
+            {
+                this.enableDNPMonitoring(!this.requestingDNPData);
+            }
+            else
+            {
+                this.enableDNPMonitoring(false);
+                this.relayFound_forDNPdataMonitoring = false;
+                string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                MessageBox.Show(text);
+            }
         }
 
         private void DNPDigitalGridData_PointChanged(object o, DNPPointEventArgs eA)
@@ -8393,8 +8442,15 @@ namespace RelayControl
             {
                 this.buttonRequestDNPData.Text = "Request DNP Data";
                 this.buttonRequestDNPData.BackColor = Color.Red;
+             /*   if (this.relayFound_forDNPdataMonitoring == false)
+                {
+                    this.enableDNPMonitoring(false);
+                    this.relayFound_forDNPdataMonitoring = false;
+                    string text = "Relay not found. Please check for its Power and then start the Monitoring ";
+                    MessageBox.Show(text);
+                }
+             */
             }
-
             this.requestingDNPData = val;
         }
 
@@ -8439,9 +8495,15 @@ namespace RelayControl
         private void domainUpDownRelayType_SelectedItemChanged(object sender, EventArgs e)
         {
             if (this.domainUpDownRelayType.SelectedIndex == 0)
+            {
+                labelConEdPowerRelay.Text = "Power";
                 this.ucTripMode2.SequenceRelay = false;
+            }
             else
-                this.ucTripMode2.SequenceRelay = true;
+            {
+                labelConEdPowerRelay.Text = "Sequence";
+                this.ucTripMode2.SequenceRelay = true; 
+            }
         }
 
 

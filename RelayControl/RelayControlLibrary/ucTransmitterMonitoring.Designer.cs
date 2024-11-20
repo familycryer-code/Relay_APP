@@ -180,20 +180,20 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusB = new System.Windows.Forms.CheckBox();
             this.checkBoxFlagStatusA = new System.Windows.Forms.CheckBox();
             this.groupBoxAnalogFlagValues = new System.Windows.Forms.GroupBox();
-            this.labelQPres = new System.Windows.Forms.Label();
             this.labelHa = new System.Windows.Forms.Label();
             this.labelGa = new System.Windows.Forms.Label();
             this.labelFa = new System.Windows.Forms.Label();
             this.labelEa = new System.Windows.Forms.Label();
             this.labelDa = new System.Windows.Forms.Label();
             this.labelCa = new System.Windows.Forms.Label();
-            this.textBoxQBit = new System.Windows.Forms.TextBox();
             this.textBoxHa = new System.Windows.Forms.TextBox();
             this.textBoxGa = new System.Windows.Forms.TextBox();
             this.textBoxFa = new System.Windows.Forms.TextBox();
             this.textBoxEa = new System.Windows.Forms.TextBox();
             this.textBoxDa = new System.Windows.Forms.TextBox();
             this.textBoxCa = new System.Windows.Forms.TextBox();
+            this.labelQPres = new System.Windows.Forms.Label();
+            this.textBoxQBit = new System.Windows.Forms.TextBox();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -2424,15 +2424,6 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.TabStop = false;
             this.groupBoxAnalogFlagValues.Text = "Analog Values";
             // 
-            // labelQPres
-            // 
-            this.labelQPres.AutoSize = true;
-            this.labelQPres.Location = new System.Drawing.Point(609, 118);
-            this.labelQPres.Name = "labelQPres";
-            this.labelQPres.Size = new System.Drawing.Size(75, 13);
-            this.labelQPres.TabIndex = 15;
-            this.labelQPres.Text = "Case Pressure";
-            // 
             // labelHa
             // 
             this.labelHa.AutoSize = true;
@@ -2487,13 +2478,6 @@ namespace RelayControlLibrary
             this.labelCa.TabIndex = 8;
             this.labelCa.Text = "Ca";
             // 
-            // textBoxQBit
-            // 
-            this.textBoxQBit.Location = new System.Drawing.Point(684, 113);
-            this.textBoxQBit.Name = "textBoxQBit";
-            this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
-            this.textBoxQBit.TabIndex = 7;
-            // 
             // textBoxHa
             // 
             this.textBoxHa.Location = new System.Drawing.Point(77, 139);
@@ -2535,6 +2519,22 @@ namespace RelayControlLibrary
             this.textBoxCa.Name = "textBoxCa";
             this.textBoxCa.Size = new System.Drawing.Size(33, 20);
             this.textBoxCa.TabIndex = 0;
+            // 
+            // labelQPres
+            // 
+            this.labelQPres.AutoSize = true;
+            this.labelQPres.Location = new System.Drawing.Point(609, 118);
+            this.labelQPres.Name = "labelQPres";
+            this.labelQPres.Size = new System.Drawing.Size(75, 13);
+            this.labelQPres.TabIndex = 15;
+            this.labelQPres.Text = "Case Pressure";
+            // 
+            // textBoxQBit
+            // 
+            this.textBoxQBit.Location = new System.Drawing.Point(684, 113);
+            this.textBoxQBit.Name = "textBoxQBit";
+            this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
+            this.textBoxQBit.TabIndex = 7;
             // 
             // ucTransmitterMonitoring
             // 

@@ -26,6 +26,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label labelTemperature;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainControl));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.OptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cOMPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,6 +115,7 @@
             this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
+            this.buttonReqLiveData = new System.Windows.Forms.Button();
             this.tabPageFlightRecorder = new System.Windows.Forms.TabPage();
             this.labelLiveDataTriggerTime = new System.Windows.Forms.Label();
             this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
@@ -125,13 +127,13 @@
             this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
-            this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
-            this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.buttonUpdateCTRatio = new System.Windows.Forms.Button();
             this.labelRelayTrippedOrClose = new System.Windows.Forms.Label();
             this.buttonToggleMonitor = new System.Windows.Forms.Button();
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
+            this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
+            this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
@@ -230,11 +232,11 @@
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
-            this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
-            this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
+            this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
+            this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -276,6 +278,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OptionsToolStripMenuItem,
             this.toolStripMenuItemAction,
@@ -490,6 +493,7 @@
             // 
             // statusStripMain
             // 
+            this.statusStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelMain,
             this.toolStripStatusLabelRelayDisconnected,
@@ -540,7 +544,7 @@
             this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(991, 624);
             this.tabPageTransmitterMonitoring.TabIndex = 8;
-            this.tabPageTransmitterMonitoring.Text = "Transmitter Monitoring";
+            this.tabPageTransmitterMonitoring.Text = "Sensor Monitoring";
             this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
             // 
             // ucTransmitterMonitoring1
@@ -1172,8 +1176,19 @@
             this.ucEventGraph0.TabIndex = 0;
             this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
             // 
+            // buttonReqLiveData
+            // 
+            this.buttonReqLiveData.Location = new System.Drawing.Point(850, 0);
+            this.buttonReqLiveData.Name = "buttonReqLiveData";
+            this.buttonReqLiveData.Size = new System.Drawing.Size(133, 23);
+            this.buttonReqLiveData.TabIndex = 0;
+            this.buttonReqLiveData.Text = "Request LIVE Data";
+            this.buttonReqLiveData.UseVisualStyleBackColor = true;
+            this.buttonReqLiveData.Click += new System.EventHandler(this.buttonReqLiveData_Click);
+            // 
             // tabPageFlightRecorder
             // 
+            this.tabPageFlightRecorder.Controls.Add(this.buttonReqLiveData);
             this.tabPageFlightRecorder.Controls.Add(this.labelLiveDataTriggerTime);
             this.tabPageFlightRecorder.Controls.Add(this.ucLiveData1);
             this.tabPageFlightRecorder.Location = new System.Drawing.Point(4, 22);
@@ -1251,8 +1266,6 @@
             this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
             this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
             this.tabPageMonitor.Controls.Add(this.checkBoxInTripRegion);
-            this.tabPageMonitor.Controls.Add(this.textBoxTemperatureMonitoringPage);
-            this.tabPageMonitor.Controls.Add(this.labelTemperatureMonitoringPage);
             this.tabPageMonitor.Controls.Add(this.buttonUpdateCTRatio);
             this.tabPageMonitor.Controls.Add(this.labelRelayTrippedOrClose);
             this.tabPageMonitor.Controls.Add(this.buttonToggleMonitor);
@@ -1308,24 +1321,6 @@
             this.checkBoxInTripRegion.Text = "In Trip Region";
             this.checkBoxInTripRegion.UseVisualStyleBackColor = true;
             // 
-            // textBoxTemperatureMonitoringPage
-            // 
-            this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
-            this.textBoxTemperatureMonitoringPage.Name = "textBoxTemperatureMonitoringPage";
-            this.textBoxTemperatureMonitoringPage.ReadOnly = true;
-            this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(56, 20);
-            this.textBoxTemperatureMonitoringPage.TabIndex = 47;
-            this.textBoxTemperatureMonitoringPage.TabStop = false;
-            // 
-            // labelTemperatureMonitoringPage
-            // 
-            this.labelTemperatureMonitoringPage.AutoSize = true;
-            this.labelTemperatureMonitoringPage.Location = new System.Drawing.Point(3, 581);
-            this.labelTemperatureMonitoringPage.Name = "labelTemperatureMonitoringPage";
-            this.labelTemperatureMonitoringPage.Size = new System.Drawing.Size(86, 13);
-            this.labelTemperatureMonitoringPage.TabIndex = 46;
-            this.labelTemperatureMonitoringPage.Text = "Temperature (C):";
-            // 
             // buttonUpdateCTRatio
             // 
             this.buttonUpdateCTRatio.Location = new System.Drawing.Point(681, 597);
@@ -1376,6 +1371,24 @@
             this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
             this.ucPhasorGraph1.Size = new System.Drawing.Size(992, 572);
             this.ucPhasorGraph1.TabIndex = 45;
+            // 
+            // textBoxTemperatureMonitoringPage
+            // 
+            this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
+            this.textBoxTemperatureMonitoringPage.Name = "textBoxTemperatureMonitoringPage";
+            this.textBoxTemperatureMonitoringPage.ReadOnly = true;
+            this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(56, 20);
+            this.textBoxTemperatureMonitoringPage.TabIndex = 47;
+            this.textBoxTemperatureMonitoringPage.TabStop = false;
+            // 
+            // labelTemperatureMonitoringPage
+            // 
+            this.labelTemperatureMonitoringPage.AutoSize = true;
+            this.labelTemperatureMonitoringPage.Location = new System.Drawing.Point(3, 581);
+            this.labelTemperatureMonitoringPage.Name = "labelTemperatureMonitoringPage";
+            this.labelTemperatureMonitoringPage.Size = new System.Drawing.Size(86, 13);
+            this.labelTemperatureMonitoringPage.TabIndex = 46;
+            this.labelTemperatureMonitoringPage.Text = "Temperature (C):";
             // 
             // tabPageControl
             // 
@@ -1694,6 +1707,7 @@
             // labelConEdPowerRelay
             // 
             this.labelConEdPowerRelay.AutoSize = true;
+            this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
             this.labelConEdPowerRelay.Location = new System.Drawing.Point(81, 16);
             this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
             this.labelConEdPowerRelay.Size = new System.Drawing.Size(37, 13);
@@ -1723,7 +1737,7 @@
             this.domainUpDownPhasings.Items.Add("ABC");
             this.domainUpDownPhasings.Items.Add("ACB");
             this.domainUpDownPhasings.Items.Add("AutoDetect");
-            this.domainUpDownPhasings.Location = new System.Drawing.Point(79, 39);
+            this.domainUpDownPhasings.Location = new System.Drawing.Point(75, 39);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
             this.domainUpDownPhasings.Size = new System.Drawing.Size(84, 20);
             this.domainUpDownPhasings.TabIndex = 47;
@@ -2514,6 +2528,19 @@
             this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
             this.ucDNPSAv51.TabIndex = 0;
             // 
+            // timerResponseTimeOut
+            // 
+            this.timerResponseTimeOut.Interval = 1000;
+            this.timerResponseTimeOut.Tick += new System.EventHandler(this.timerResponseTimeOut_Tick);
+            // 
+            // timerScreenCapDelay
+            // 
+            this.timerScreenCapDelay.Tick += new System.EventHandler(this.timerScreenCapDelay_Tick);
+            // 
+            // timerFindRelayTimeout
+            // 
+            this.timerFindRelayTimeout.Interval = 500;
+            // 
             // ucDNPSAv5OSName2
             // 
             this.ucDNPSAv5OSName2.Location = new System.Drawing.Point(0, 0);
@@ -2531,19 +2558,6 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
-            // timerResponseTimeOut
-            // 
-            this.timerResponseTimeOut.Interval = 1000;
-            this.timerResponseTimeOut.Tick += new System.EventHandler(this.timerResponseTimeOut_Tick);
-            // 
-            // timerScreenCapDelay
-            // 
-            this.timerScreenCapDelay.Tick += new System.EventHandler(this.timerScreenCapDelay_Tick);
-            // 
-            // timerFindRelayTimeout
-            // 
-            this.timerFindRelayTimeout.Interval = 500;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -2558,6 +2572,7 @@
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainControl";
@@ -2653,6 +2668,7 @@
         private System.Windows.Forms.Button buttonRequestRelayRegisters;
         private System.Windows.Forms.TabPage tabPageEvents;
         private System.Windows.Forms.Button buttonRQEventData;
+        private System.Windows.Forms.Button buttonReqLiveData;
         private System.Windows.Forms.Panel panelEventSelect;
         private System.Windows.Forms.RadioButton radioButtonEvent7;
         private System.Windows.Forms.RadioButton radioButtonEvent6;

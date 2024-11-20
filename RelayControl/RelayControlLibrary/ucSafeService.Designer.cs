@@ -29,6 +29,7 @@ namespace RelayControlLibrary
         private void InitializeComponent()
         {
             this.groupBoxSafeService = new System.Windows.Forms.GroupBox();
+            this.labelCurrentlyEnabled = new System.Windows.Forms.Label();
             this.buttonRestoreDefaults = new System.Windows.Forms.Button();
             this.domainUpDownDataViews = new System.Windows.Forms.DomainUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@ namespace RelayControlLibrary
             this.labelSafeServiceEnable = new System.Windows.Forms.Label();
             this.buttonRequest = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
-            this.labelCurrentlyEnabled = new System.Windows.Forms.Label();
             this.groupBoxSafeService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVoltageImbalance)).BeginInit();
@@ -87,6 +87,17 @@ namespace RelayControlLibrary
             this.groupBoxSafeService.TabIndex = 0;
             this.groupBoxSafeService.TabStop = false;
             this.groupBoxSafeService.Text = "Safe Service Mode";
+            // 
+            // labelCurrentlyEnabled
+            // 
+            this.labelCurrentlyEnabled.AutoSize = true;
+            this.labelCurrentlyEnabled.BackColor = System.Drawing.Color.White;
+            this.labelCurrentlyEnabled.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelCurrentlyEnabled.Location = new System.Drawing.Point(8, 69);
+            this.labelCurrentlyEnabled.Name = "labelCurrentlyEnabled";
+            this.labelCurrentlyEnabled.Size = new System.Drawing.Size(50, 15);
+            this.labelCurrentlyEnabled.TabIndex = 21;
+            this.labelCurrentlyEnabled.Text = "Disabled";
             // 
             // buttonRestoreDefaults
             // 
@@ -251,9 +262,9 @@ namespace RelayControlLibrary
             this.labelOverCurrentUnits.AutoSize = true;
             this.labelOverCurrentUnits.Location = new System.Drawing.Point(181, 89);
             this.labelOverCurrentUnits.Name = "labelOverCurrentUnits";
-            this.labelOverCurrentUnits.Size = new System.Drawing.Size(33, 13);
+            this.labelOverCurrentUnits.Size = new System.Drawing.Size(22, 13);
             this.labelOverCurrentUnits.TabIndex = 6;
-            this.labelOverCurrentUnits.Text = "Amps";
+            this.labelOverCurrentUnits.Text = "mA";
             // 
             // numericUpDownOverCurrent
             // 
@@ -322,17 +333,6 @@ namespace RelayControlLibrary
             this.buttonSend.Text = "Send";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
-            // 
-            // labelCurrentlyEnabled
-            // 
-            this.labelCurrentlyEnabled.AutoSize = true;
-            this.labelCurrentlyEnabled.BackColor = System.Drawing.Color.White;
-            this.labelCurrentlyEnabled.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelCurrentlyEnabled.Location = new System.Drawing.Point(8, 69);
-            this.labelCurrentlyEnabled.Name = "labelCurrentlyEnabled";
-            this.labelCurrentlyEnabled.Size = new System.Drawing.Size(50, 15);
-            this.labelCurrentlyEnabled.TabIndex = 21;
-            this.labelCurrentlyEnabled.Text = "Disabled";
             // 
             // ucSafeService
             // 

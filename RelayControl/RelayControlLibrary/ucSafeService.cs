@@ -351,6 +351,7 @@ namespace RelayControlLibrary
             try
             {
                 decimal currentValue;
+                DomainUpDown doUp = (DomainUpDown)sender;
 
                 switch (previousSelectedItem)
                 {
@@ -363,6 +364,22 @@ namespace RelayControlLibrary
                         break;
                     case 2:
                         currentValue = this.numericUpDownOverCurrent.Value / 20m;
+                        break;
+                }
+
+                switch (doUp.SelectedIndex)
+                {
+                    case 0:
+                        this.labelOverCurrentUnits.Text = "mA";
+                        break;
+                    case 1:
+                        this.labelOverCurrentUnits.Text = "Amps";
+                        break;
+                    case 2:
+                        this.labelOverCurrentUnits.Text = "%";
+                        break;
+                    default:
+                        this.labelOverCurrentUnits.Text = "mA";
                         break;
                 }
 
