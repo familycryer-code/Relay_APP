@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using SharedResources;
+using static RelayControlLibrary.ucTransmitterMonitoring;
 
 namespace RelayControlLibrary
 {
@@ -15,6 +16,7 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             this.textBoxTXCTRatio.Text = "120";
+            this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
 
 #if DEBUG
             this.textBoxSerialNumber.Enabled = true;

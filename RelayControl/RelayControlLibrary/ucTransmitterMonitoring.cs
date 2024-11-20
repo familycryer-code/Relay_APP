@@ -440,7 +440,11 @@ namespace RelayControlLibrary
                 this.setAll(bytePacket);
             }
         }
-
+        
+        public static class powerP
+        {
+            public static int pwrPer { get; set; }
+        }
         private void setAll(byte[] bytePacket)
         {
             int localTemp, powerPercent, monByteLength = 0;
@@ -473,7 +477,9 @@ namespace RelayControlLibrary
                 powerPercent = 90;
             else
                 powerPercent = 100;
-            this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
+
+            powerP.pwrPer = powerPercent;
+            // this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
 
             //Transmitter Temperature
 

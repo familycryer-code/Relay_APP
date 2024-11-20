@@ -210,6 +210,8 @@
             this.labelTransFlagStatus = new System.Windows.Forms.Label();
             this.checkBoxExtendedPLCMessage = new System.Windows.Forms.CheckBox();
             this.labelGEWHDisplay = new System.Windows.Forms.Label();
+            this.textBoxTransmitterOutputPower = new System.Windows.Forms.TextBox();
+            this.labelTMonTransOutput = new System.Windows.Forms.Label();
             this.panelFreqPanel.SuspendLayout();
             this.panelFlagSettings.SuspendLayout();
             this.panelFlagSettingH.SuspendLayout();
@@ -1045,6 +1047,25 @@
             this.labelCurrentThresholdLow.TabIndex = 24;
             this.labelCurrentThresholdLow.Text = "Current Threshold Low:";
             this.labelCurrentThresholdLow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxTransmitterOutputPower
+            // 
+            this.textBoxTransmitterOutputPower.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxTransmitterOutputPower.Location = new System.Drawing.Point(570, 170);
+            this.textBoxTransmitterOutputPower.Name = "textBoxTransmitterOutputPower";
+            this.textBoxTransmitterOutputPower.Size = new System.Drawing.Size(76, 20);
+            this.textBoxTransmitterOutputPower.TabIndex = 0;
+            this.textBoxTransmitterOutputPower.TabStop = false;
+            this.textBoxTransmitterOutputPower.Tag = "";
+            // 
+            // labelTMonTransOutput
+            //
+            this.labelTMonTransOutput.AutoSize = true;
+            this.labelTMonTransOutput.Location = new System.Drawing.Point(550, 150);
+            this.labelTMonTransOutput.Name = "labelTMonTransOutput";
+            this.labelTMonTransOutput.Size = new System.Drawing.Size(130, 13);
+            this.labelTMonTransOutput.TabIndex = 0;
+            this.labelTMonTransOutput.Text = "Transmitter Output Power:";
             // 
             // numericUpDownCurrentThresholdHigh
             // 
@@ -2371,8 +2392,10 @@
             this.Controls.Add(this.textBoxOperatingMode);
             this.Controls.Add(this.numericUpDownCurrentThresholdLow);
             this.Controls.Add(this.labelCurrentThresholdLow);
-          //  this.Controls.Add(this.labelAlarmSettings);
-          //  this.Controls.Add(this.panelAlarmSettings);
+            this.Controls.Add(this.textBoxTransmitterOutputPower);
+            this.Controls.Add(this.labelTMonTransOutput);
+            //  this.Controls.Add(this.labelAlarmSettings);
+            //  this.Controls.Add(this.panelAlarmSettings);
             this.Controls.Add(this.labelFlagPolarity);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.buttonRestoreDefaults);
@@ -2614,5 +2637,7 @@
         private System.Windows.Forms.Label labelTransFlagStatus;
         private System.Windows.Forms.CheckBox checkBoxExtendedPLCMessage;
         private System.Windows.Forms.Label labelGEWHDisplay;
+        private System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
+        private System.Windows.Forms.Label labelTMonTransOutput;
     }
 }
