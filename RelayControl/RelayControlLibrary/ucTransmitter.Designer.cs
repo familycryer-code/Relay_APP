@@ -1048,25 +1048,6 @@
             this.labelCurrentThresholdLow.Text = "Current Threshold Low:";
             this.labelCurrentThresholdLow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBoxTransmitterOutputPower
-            // 
-            this.textBoxTransmitterOutputPower.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxTransmitterOutputPower.Location = new System.Drawing.Point(570, 170);
-            this.textBoxTransmitterOutputPower.Name = "textBoxTransmitterOutputPower";
-            this.textBoxTransmitterOutputPower.Size = new System.Drawing.Size(76, 20);
-            this.textBoxTransmitterOutputPower.TabIndex = 0;
-            this.textBoxTransmitterOutputPower.TabStop = false;
-            this.textBoxTransmitterOutputPower.Tag = "";
-            // 
-            // labelTMonTransOutput
-            //
-            this.labelTMonTransOutput.AutoSize = true;
-            this.labelTMonTransOutput.Location = new System.Drawing.Point(550, 150);
-            this.labelTMonTransOutput.Name = "labelTMonTransOutput";
-            this.labelTMonTransOutput.Size = new System.Drawing.Size(130, 13);
-            this.labelTMonTransOutput.TabIndex = 0;
-            this.labelTMonTransOutput.Text = "Transmitter Output Power:";
-            // 
             // numericUpDownCurrentThresholdHigh
             // 
             this.numericUpDownCurrentThresholdHigh.Location = new System.Drawing.Point(139, 32);
@@ -2363,6 +2344,25 @@
             this.labelGEWHDisplay.Text = "WH";
             this.labelGEWHDisplay.Visible = false;
             // 
+            // textBoxTransmitterOutputPower
+            // 
+            this.textBoxTransmitterOutputPower.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxTransmitterOutputPower.Location = new System.Drawing.Point(570, 170);
+            this.textBoxTransmitterOutputPower.Name = "textBoxTransmitterOutputPower";
+            this.textBoxTransmitterOutputPower.Size = new System.Drawing.Size(76, 20);
+            this.textBoxTransmitterOutputPower.TabIndex = 0;
+            this.textBoxTransmitterOutputPower.TabStop = false;
+            this.textBoxTransmitterOutputPower.Tag = "";
+            // 
+            // labelTMonTransOutput
+            // 
+            this.labelTMonTransOutput.AutoSize = true;
+            this.labelTMonTransOutput.Location = new System.Drawing.Point(550, 150);
+            this.labelTMonTransOutput.Name = "labelTMonTransOutput";
+            this.labelTMonTransOutput.Size = new System.Drawing.Size(130, 13);
+            this.labelTMonTransOutput.TabIndex = 0;
+            this.labelTMonTransOutput.Text = "Transmitter Output Power:";
+            // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2376,14 +2376,8 @@
             this.Controls.Add(this.numericUpDownLEDSpeed);
             this.Controls.Add(this.checkBoxTransmitterEnable);
             this.Controls.Add(this.checkBoxDNPEnable);
-          //  this.Controls.Add(this.labelSmartExternalCableMain);
-          //  this.Controls.Add(this.panelWaterburyMain);
-           // this.Controls.Add(this.labelSmartExternalCable);
-           // this.Controls.Add(this.panelSmartExternalCable);
             this.Controls.Add(this.labelMessageFrequencySettings);
             this.Controls.Add(this.panelMessageFreqSettings);
-          //  this.Controls.Add(this.labelOtherAlarmSettings);
-           // this.Controls.Add(this.panelOtherAlarmSettings);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.panelSerialNumber);
             this.Controls.Add(this.labelGeneralSettings);
@@ -2394,8 +2388,6 @@
             this.Controls.Add(this.labelCurrentThresholdLow);
             this.Controls.Add(this.textBoxTransmitterOutputPower);
             this.Controls.Add(this.labelTMonTransOutput);
-            //  this.Controls.Add(this.labelAlarmSettings);
-            //  this.Controls.Add(this.panelAlarmSettings);
             this.Controls.Add(this.labelFlagPolarity);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.buttonRestoreDefaults);
@@ -2637,7 +2629,7 @@
         private System.Windows.Forms.Label labelTransFlagStatus;
         private System.Windows.Forms.CheckBox checkBoxExtendedPLCMessage;
         private System.Windows.Forms.Label labelGEWHDisplay;
-        private System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
-        private System.Windows.Forms.Label labelTMonTransOutput;
+        public System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
+        public System.Windows.Forms.Label labelTMonTransOutput;
     }
 }

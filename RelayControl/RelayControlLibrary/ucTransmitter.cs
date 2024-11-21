@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SharedResources;
 using static RelayControlLibrary.ucTransmitterMonitoring;
+using System.Threading;
 
 namespace RelayControlLibrary
 {
@@ -16,10 +17,12 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             this.textBoxTXCTRatio.Text = "120";
+           
             this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
 
 #if DEBUG
             this.textBoxSerialNumber.Enabled = true;
+            this.textBoxTransmitterOutputPower.Enabled = true;
             this.numericUpDownCurrentThresholdLow.Visible = true;
             this.labelCurrentThresholdLow.Visible = true;
             this.labelOperatingMode.Visible = true;
@@ -216,7 +219,7 @@ namespace RelayControlLibrary
             try
             {
                 UInt16 uTemp;
-
+                this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
                 //Set ID number
 
                 uTemp = bA[1];
@@ -720,6 +723,7 @@ namespace RelayControlLibrary
 
         public void setMonitoringData(byte[] bytePacket)
         {
+            this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
             SetMonitoringData(bytePacket);
         }
 

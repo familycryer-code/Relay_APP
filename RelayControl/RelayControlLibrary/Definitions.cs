@@ -1949,6 +1949,11 @@ namespace RelayControlLibrary
         }
     }
 
+    public static class powerP
+    {
+        public static int pwrPer;
+    }
+
     [Flags]
     public enum ProtectorVoltageBits
     {

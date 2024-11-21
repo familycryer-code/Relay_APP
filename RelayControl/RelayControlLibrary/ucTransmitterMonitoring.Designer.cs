@@ -2662,8 +2662,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblTEMP;
         private System.Windows.Forms.CheckBox checkBoxVoltageLow;
         private System.Windows.Forms.CheckBox checkBoxPhaseError;
-       // private System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
-       // private System.Windows.Forms.Label labelTMonTransOutput;
+        // private System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
+        // private System.Windows.Forms.Label labelTMonTransOutput;
         private System.Windows.Forms.GroupBox groupBoxFlagStatus;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusH;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusG;

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using GraphicsServer.GSNet.SeriesData;
 using GraphicsServer.GSNet.Charting;
 using GraphicsServer.GSNet.Widgets;
+using System.Threading;
 
 namespace RelayControlLibrary
 {
@@ -46,7 +47,7 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
-
+          
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
@@ -346,7 +347,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private string timeElapsedSeconds = "";
+       private string timeElapsedSeconds = "";
         public string TimeElapsedSeconds
         {
             get { return this.timeElapsedSeconds; }
@@ -440,11 +441,7 @@ namespace RelayControlLibrary
                 this.setAll(bytePacket);
             }
         }
-        
-        public static class powerP
-        {
-            public static int pwrPer { get; set; }
-        }
+                
         private void setAll(byte[] bytePacket)
         {
             int localTemp, powerPercent, monByteLength = 0;
@@ -478,11 +475,10 @@ namespace RelayControlLibrary
             else
                 powerPercent = 100;
 
-            powerP.pwrPer = powerPercent;
-            // this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
-
+           powerP.pwrPer = powerPercent;
+           // this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
+           
             //Transmitter Temperature
-
             localTemp = bytePacket[3];
             localTemp <<= 8;
             localTemp += bytePacket[2];
