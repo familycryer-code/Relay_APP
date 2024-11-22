@@ -491,40 +491,40 @@
         #endregion
  
         private System.Windows.Forms.Label labelFlagSettingsFlagPostPositionRelay;
-        private System.Windows.Forms.Panel panelFlagSettingARelay;
-        private System.Windows.Forms.RadioButton radioButtonFPACloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPAOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingARelay;
+        public System.Windows.Forms.RadioButton radioButtonFPACloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPAOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingFRelay;
-        private System.Windows.Forms.Panel panelFlagSettingBRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPBCloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPBOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingBRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPBCloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPBOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingERelay;
-        private System.Windows.Forms.Panel panelFlagSettingCRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPCCloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPCOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingCRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPCCloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPCOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingDRelay;
-        private System.Windows.Forms.Panel panelFlagSettingDRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPDCloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPDOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingDRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPDCloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPDOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingCRelay;
-        private System.Windows.Forms.Panel panelFlagSettingERelay;
-        private System.Windows.Forms.RadioButton radioButtonFPECloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPEOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingERelay;
+        public System.Windows.Forms.RadioButton radioButtonFPECloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPEOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingBRelay;
-        private System.Windows.Forms.Panel panelFlagSettingFRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPFCloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPFOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingFRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPFCloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPFOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingGRelay;
         private System.Windows.Forms.Label labelFlagSettingARelay;
         private System.Windows.Forms.Label labelFlagSettingHRelay;
-        private System.Windows.Forms.Panel panelFlagSettingGRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPGCloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPGOpenRelay;
+        public System.Windows.Forms.Panel panelFlagSettingGRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPGCloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPGOpenRelay;
         private System.Windows.Forms.Label labelFlagSettingsFlagRelay;
-        private System.Windows.Forms.Panel panelFlagSettingHRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPHCloseRelay;
-        private System.Windows.Forms.RadioButton radioButtonFPHOpenRelay;
-        private System.Windows.Forms.GroupBox groupBoxRelayFlagPolarityCover;
+        public System.Windows.Forms.Panel panelFlagSettingHRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPHCloseRelay;
+        public System.Windows.Forms.RadioButton radioButtonFPHOpenRelay;
+        public System.Windows.Forms.GroupBox groupBoxRelayFlagPolarityCover;
  
     }
  }

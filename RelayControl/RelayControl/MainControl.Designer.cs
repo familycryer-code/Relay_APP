@@ -1247,7 +1247,7 @@
             // 
             this.ucTransmitter1.CTRatio = ((uint)(320u));
             this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
+            //this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
             this.ucTransmitter1.DNPEnabled = false;
             this.ucTransmitter1.ForceDNPEnable = false;
             this.ucTransmitter1.FPGARevisionValid = true;

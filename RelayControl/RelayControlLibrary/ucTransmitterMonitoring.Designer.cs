@@ -28,22 +28,22 @@ namespace RelayControlLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            GraphicsServer.GSNet.Widgets.Meter meter3 = new GraphicsServer.GSNet.Widgets.Meter();
-            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel5 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.Meter meter1 = new GraphicsServer.GSNet.Widgets.Meter();
+            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel1 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone1 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone2 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone3 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone4 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone5 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle1 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
+            GraphicsServer.GSNet.Widgets.Thermometer thermometer1 = new GraphicsServer.GSNet.Widgets.Thermometer();
+            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel2 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.Meter meter2 = new GraphicsServer.GSNet.Widgets.Meter();
+            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel3 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone6 = new GraphicsServer.GSNet.Widgets.MeterZone();
             GraphicsServer.GSNet.Widgets.MeterZone meterZone7 = new GraphicsServer.GSNet.Widgets.MeterZone();
             GraphicsServer.GSNet.Widgets.MeterZone meterZone8 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone9 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone10 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone11 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle3 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
-            GraphicsServer.GSNet.Widgets.Thermometer thermometer1 = new GraphicsServer.GSNet.Widgets.Thermometer();
-            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel6 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
-            GraphicsServer.GSNet.Widgets.Meter meter4 = new GraphicsServer.GSNet.Widgets.Meter();
-            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel7 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone12 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone13 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone14 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle4 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
+            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle2 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
             GraphicsServer.GSNet.Charting.Annotation annotation1 = new GraphicsServer.GSNet.Charting.Annotation();
             GraphicsServer.GSNet.Charting.Annotation annotation2 = new GraphicsServer.GSNet.Charting.Annotation();
             GraphicsServer.GSNet.Charting.AxisX axisX1 = new GraphicsServer.GSNet.Charting.AxisX();
@@ -63,22 +63,22 @@ namespace RelayControlLibrary
             GraphicsServer.GSNet.Charting.SeriesDrawing seriesDrawing5 = new GraphicsServer.GSNet.Charting.SeriesDrawing();
             GraphicsServer.GSNet.Charting.SeriesDrawing seriesDrawing6 = new GraphicsServer.GSNet.Charting.SeriesDrawing();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucTransmitterMonitoring));
-            GraphicsServer.GSNet.Widgets.Meter meter5 = new GraphicsServer.GSNet.Widgets.Meter();
-            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel1 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.Meter meter3 = new GraphicsServer.GSNet.Widgets.Meter();
+            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel4 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone9 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone10 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone11 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone12 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone13 = new GraphicsServer.GSNet.Widgets.MeterZone();
+            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle3 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
+            GraphicsServer.GSNet.Widgets.Meter meter4 = new GraphicsServer.GSNet.Widgets.Meter();
+            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel5 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.MeterZone meterZone14 = new GraphicsServer.GSNet.Widgets.MeterZone();
             GraphicsServer.GSNet.Widgets.MeterZone meterZone15 = new GraphicsServer.GSNet.Widgets.MeterZone();
             GraphicsServer.GSNet.Widgets.MeterZone meterZone16 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone17 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone18 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone19 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle5 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
-            GraphicsServer.GSNet.Widgets.Meter meter1 = new GraphicsServer.GSNet.Widgets.Meter();
-            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel2 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone1 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone2 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterZone meterZone3 = new GraphicsServer.GSNet.Widgets.MeterZone();
-            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle1 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
+            GraphicsServer.GSNet.Widgets.MeterNeedle meterNeedle4 = new GraphicsServer.GSNet.Widgets.MeterNeedle();
             GraphicsServer.GSNet.Widgets.Thermometer thermometer2 = new GraphicsServer.GSNet.Widgets.Thermometer();
-            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel3 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
+            GraphicsServer.GSNet.Widgets.WidgetBorderLabel widgetBorderLabel6 = new GraphicsServer.GSNet.Widgets.WidgetBorderLabel();
             this.groupBoxVoltageReadings = new System.Windows.Forms.GroupBox();
             this.labelVtC = new System.Windows.Forms.Label();
             this.labelVtB = new System.Windows.Forms.Label();
@@ -192,6 +192,42 @@ namespace RelayControlLibrary
             this.textBoxCa = new System.Windows.Forms.TextBox();
             this.labelQPres = new System.Windows.Forms.Label();
             this.textBoxQBit = new System.Windows.Forms.TextBox();
+            this.panelFlagSettings = new System.Windows.Forms.Panel();
+            this.panelFlagSettingH = new System.Windows.Forms.Panel();
+            this.radioButtonFPHClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPHOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingG = new System.Windows.Forms.Panel();
+            this.radioButtonFPGClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPGOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingF = new System.Windows.Forms.Panel();
+            this.radioButtonFPFClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPFOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingE = new System.Windows.Forms.Panel();
+            this.radioButtonFPEClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPEOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingD = new System.Windows.Forms.Panel();
+            this.radioButtonFPDClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPDOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingC = new System.Windows.Forms.Panel();
+            this.radioButtonFPCClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPCOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingB = new System.Windows.Forms.Panel();
+            this.radioButtonFPBClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPBOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingA = new System.Windows.Forms.Panel();
+            this.radioButtonFPAClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPAOpen = new System.Windows.Forms.RadioButton();
+            this.labelFlagSettingsFlagPostPosition = new System.Windows.Forms.Label();
+            this.labelFlagSettingsFlag = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelFlagSettingA = new System.Windows.Forms.Label();
+            this.labelFlagPolarity = new System.Windows.Forms.Label();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -213,6 +249,15 @@ namespace RelayControlLibrary
             this.groupBoxAdvancedReadings.SuspendLayout();
             this.groupBoxFlagStatus.SuspendLayout();
             this.groupBoxAnalogFlagValues.SuspendLayout();
+            this.panelFlagSettings.SuspendLayout();
+            this.panelFlagSettingH.SuspendLayout();
+            this.panelFlagSettingG.SuspendLayout();
+            this.panelFlagSettingF.SuspendLayout();
+            this.panelFlagSettingE.SuspendLayout();
+            this.panelFlagSettingD.SuspendLayout();
+            this.panelFlagSettingC.SuspendLayout();
+            this.panelFlagSettingB.SuspendLayout();
+            this.panelFlagSettingA.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxVoltageReadings
@@ -391,7 +436,7 @@ namespace RelayControlLibrary
             this.groupBoxGeneralSettings.Controls.Add(this.labelTMonTransmitterID);
             this.groupBoxGeneralSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
-            this.groupBoxGeneralSettings.Size = new System.Drawing.Size(207, 143);
+            this.groupBoxGeneralSettings.Size = new System.Drawing.Size(207, 135);
             this.groupBoxGeneralSettings.TabIndex = 82;
             this.groupBoxGeneralSettings.TabStop = false;
             this.groupBoxGeneralSettings.Text = "General Settings:";
@@ -542,100 +587,100 @@ namespace RelayControlLibrary
             this.myThermometerA2.Size = new System.Drawing.Size(126, 115);
             this.myThermometerA2.TabIndex = 65;
             this.myThermometerA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
-            meter3.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
+            meter1.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
-            meter3.Background.Color = System.Drawing.SystemColors.Control;
-            meter3.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
-            meter3.Border.SimpleColor = System.Drawing.SystemColors.Control;
-            widgetBorderLabel5.OffsetTopBottom = 80;
-            widgetBorderLabel5.Text = "°C";
-            widgetBorderLabel5.TextFormat.Color = System.Drawing.SystemColors.Desktop;
-            widgetBorderLabel5.TextFormat.FontEmSize = 9F;
-            widgetBorderLabel5.TextFormat.FontGdiCharSet = ((byte)(1));
-            widgetBorderLabel5.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter3.BorderLabelList.Add(widgetBorderLabel5);
-            meter3.DeviceName = "Meter with Zones";
-            meter3.Location = new System.Drawing.Point(-1, 9);
-            meter3.MajorTicks = 9;
-            meter3.MarginBottom = -20;
-            meter3.MarginLeft = -5;
-            meter3.MarginRight = 0;
-            meter3.MarginTop = 20;
-            meterZone7.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone7.Background.GradientEndColor = System.Drawing.Color.Green;
-            meterZone7.Background.GradientStartColor = System.Drawing.Color.Chartreuse;
-            meterZone7.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
-            meterZone7.Name = "Low";
-            meterZone7.ThicknessPercent = 20;
-            meterZone7.TooltipText = "";
-            meterZone7.ValueEnd = 60D;
-            meterZone8.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone8.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalTopLeftDownStartAt;
-            meterZone8.Name = "Guarded";
-            meterZone8.ThicknessPercent = 45;
-            meterZone8.TooltipText = "";
-            meterZone8.ValueEnd = 60D;
-            meterZone8.ValueStart = 60D;
-            meterZone9.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone9.Background.GradientEndColor = System.Drawing.Color.Yellow;
-            meterZone9.Background.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            meterZone9.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
-            meterZone9.Name = "Elevated";
-            meterZone9.ThicknessPercent = 55;
-            meterZone9.TooltipText = "";
-            meterZone9.ValueEnd = 60D;
-            meterZone9.ValueStart = 100D;
-            meterZone10.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone10.Background.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            meterZone10.Background.GradientStartColor = System.Drawing.Color.PeachPuff;
-            meterZone10.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalBottomLeftUpEndAt;
-            meterZone10.Name = "High";
-            meterZone10.ThicknessPercent = 65;
-            meterZone10.TooltipText = "";
-            meterZone10.ValueEnd = 125D;
-            meterZone10.ValueStart = 100D;
-            meterZone11.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone11.Background.Color = System.Drawing.Color.Tomato;
-            meterZone11.Background.GradientEndColor = System.Drawing.Color.Red;
-            meterZone11.Background.GradientStartColor = System.Drawing.Color.Coral;
-            meterZone11.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalRightLeft;
-            meterZone11.Name = "Severe";
-            meterZone11.ThicknessPercent = 80;
-            meterZone11.TooltipText = "";
-            meterZone11.ValueEnd = 160D;
-            meterZone11.ValueStart = 125D;
-            meter3.MeterZoneList.Add(meterZone7);
-            meter3.MeterZoneList.Add(meterZone8);
-            meter3.MeterZoneList.Add(meterZone9);
-            meter3.MeterZoneList.Add(meterZone10);
-            meter3.MeterZoneList.Add(meterZone11);
-            meter3.MinorTicks = 3;
-            meterNeedle3.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterNeedle3.Background.Color = System.Drawing.Color.OrangeRed;
-            meterNeedle3.Background.GradientEndColor = System.Drawing.SystemColors.ControlText;
-            meterNeedle3.Background.GradientStartColor = System.Drawing.SystemColors.ControlDark;
-            meterNeedle3.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.VerticalMiddleOut;
-            meterNeedle3.LabelFormatMask = "°C";
-            meterNeedle3.NeedleName = "needle1";
-            meterNeedle3.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            meterNeedle3.WidthAtBase = 6;
-            meter3.NeedleList.Add(meterNeedle3);
-            meter3.ScaleLabelFormatMask = "###";
-            meter3.ScaleLabelOffset = -2;
-            meter3.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
-            meter3.ScaleLabelProperties.DrawShadow = true;
-            meter3.ScaleLabelProperties.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            meter3.ScaleLabelProperties.FontEmSize = 8.25F;
-            meter3.ScaleLabelProperties.FontFamilyName = "Tahoma";
-            meter3.ScaleLabelProperties.FontGdiCharSet = ((byte)(0));
-            meter3.ScaleLabelProperties.TextRenderingMode = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            meter3.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter3.ScaleValueMax = 160D;
-            meter3.Size = new System.Drawing.Size(124, 91);
-            meter3.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            meter3.TickSize = 15;
-            this.myThermometerA2.Widget.DeviceList.Add(meter3);
+            meter1.Background.Color = System.Drawing.SystemColors.Control;
+            meter1.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
+            meter1.Border.SimpleColor = System.Drawing.SystemColors.Control;
+            widgetBorderLabel1.OffsetTopBottom = 80;
+            widgetBorderLabel1.Text = "°C";
+            widgetBorderLabel1.TextFormat.Color = System.Drawing.SystemColors.Desktop;
+            widgetBorderLabel1.TextFormat.FontEmSize = 9F;
+            widgetBorderLabel1.TextFormat.FontGdiCharSet = ((byte)(1));
+            widgetBorderLabel1.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter1.BorderLabelList.Add(widgetBorderLabel1);
+            meter1.DeviceName = "Meter with Zones";
+            meter1.Location = new System.Drawing.Point(-1, 9);
+            meter1.MajorTicks = 9;
+            meter1.MarginBottom = -20;
+            meter1.MarginLeft = -5;
+            meter1.MarginRight = 0;
+            meter1.MarginTop = 20;
+            meterZone1.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone1.Background.GradientEndColor = System.Drawing.Color.Green;
+            meterZone1.Background.GradientStartColor = System.Drawing.Color.Chartreuse;
+            meterZone1.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
+            meterZone1.Name = "Low";
+            meterZone1.ThicknessPercent = 20;
+            meterZone1.TooltipText = "";
+            meterZone1.ValueEnd = 60D;
+            meterZone2.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone2.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalTopLeftDownStartAt;
+            meterZone2.Name = "Guarded";
+            meterZone2.ThicknessPercent = 45;
+            meterZone2.TooltipText = "";
+            meterZone2.ValueEnd = 60D;
+            meterZone2.ValueStart = 60D;
+            meterZone3.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone3.Background.GradientEndColor = System.Drawing.Color.Yellow;
+            meterZone3.Background.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            meterZone3.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
+            meterZone3.Name = "Elevated";
+            meterZone3.ThicknessPercent = 55;
+            meterZone3.TooltipText = "";
+            meterZone3.ValueEnd = 60D;
+            meterZone3.ValueStart = 100D;
+            meterZone4.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone4.Background.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            meterZone4.Background.GradientStartColor = System.Drawing.Color.PeachPuff;
+            meterZone4.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalBottomLeftUpEndAt;
+            meterZone4.Name = "High";
+            meterZone4.ThicknessPercent = 65;
+            meterZone4.TooltipText = "";
+            meterZone4.ValueEnd = 125D;
+            meterZone4.ValueStart = 100D;
+            meterZone5.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone5.Background.Color = System.Drawing.Color.Tomato;
+            meterZone5.Background.GradientEndColor = System.Drawing.Color.Red;
+            meterZone5.Background.GradientStartColor = System.Drawing.Color.Coral;
+            meterZone5.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalRightLeft;
+            meterZone5.Name = "Severe";
+            meterZone5.ThicknessPercent = 80;
+            meterZone5.TooltipText = "";
+            meterZone5.ValueEnd = 160D;
+            meterZone5.ValueStart = 125D;
+            meter1.MeterZoneList.Add(meterZone1);
+            meter1.MeterZoneList.Add(meterZone2);
+            meter1.MeterZoneList.Add(meterZone3);
+            meter1.MeterZoneList.Add(meterZone4);
+            meter1.MeterZoneList.Add(meterZone5);
+            meter1.MinorTicks = 3;
+            meterNeedle1.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterNeedle1.Background.Color = System.Drawing.Color.OrangeRed;
+            meterNeedle1.Background.GradientEndColor = System.Drawing.SystemColors.ControlText;
+            meterNeedle1.Background.GradientStartColor = System.Drawing.SystemColors.ControlDark;
+            meterNeedle1.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.VerticalMiddleOut;
+            meterNeedle1.LabelFormatMask = "°C";
+            meterNeedle1.NeedleName = "needle1";
+            meterNeedle1.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            meterNeedle1.WidthAtBase = 6;
+            meter1.NeedleList.Add(meterNeedle1);
+            meter1.ScaleLabelFormatMask = "###";
+            meter1.ScaleLabelOffset = -2;
+            meter1.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
+            meter1.ScaleLabelProperties.DrawShadow = true;
+            meter1.ScaleLabelProperties.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            meter1.ScaleLabelProperties.FontEmSize = 8.25F;
+            meter1.ScaleLabelProperties.FontFamilyName = "Tahoma";
+            meter1.ScaleLabelProperties.FontGdiCharSet = ((byte)(0));
+            meter1.ScaleLabelProperties.TextRenderingMode = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            meter1.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter1.ScaleValueMax = 160D;
+            meter1.Size = new System.Drawing.Size(124, 91);
+            meter1.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            meter1.TickSize = 15;
+            this.myThermometerA2.Widget.DeviceList.Add(meter1);
             this.myThermometerA2.Widget.Size = new System.Drawing.Size(126, 115);
             // 
             // myTempWidgetA2
@@ -654,14 +699,14 @@ namespace RelayControlLibrary
             thermometer1.Background.GradientStartColor = System.Drawing.Color.LightGray;
             thermometer1.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalRightLeft;
             thermometer1.Border.SimpleColor = System.Drawing.Color.Transparent;
-            widgetBorderLabel6.OffsetTopBottom = 0;
-            widgetBorderLabel6.RelativeLocation = GraphicsServer.GSNet.Charting.RelativeLocation.TopLeft;
-            widgetBorderLabel6.Text = "°C";
-            widgetBorderLabel6.TextFormat.Color = System.Drawing.SystemColors.Desktop;
-            widgetBorderLabel6.TextFormat.FontEmSize = 9F;
-            widgetBorderLabel6.TextFormat.FontGdiCharSet = ((byte)(1));
-            widgetBorderLabel6.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            thermometer1.BorderLabelList.Add(widgetBorderLabel6);
+            widgetBorderLabel2.OffsetTopBottom = 0;
+            widgetBorderLabel2.RelativeLocation = GraphicsServer.GSNet.Charting.RelativeLocation.TopLeft;
+            widgetBorderLabel2.Text = "°C";
+            widgetBorderLabel2.TextFormat.Color = System.Drawing.SystemColors.Desktop;
+            widgetBorderLabel2.TextFormat.FontEmSize = 9F;
+            widgetBorderLabel2.TextFormat.FontGdiCharSet = ((byte)(1));
+            widgetBorderLabel2.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            thermometer1.BorderLabelList.Add(widgetBorderLabel2);
             thermometer1.BorderLabelName = "NeedleValue";
             thermometer1.DeviceName = "Thermometer - Style 1";
             thermometer1.MajorTicks = 9;
@@ -698,75 +743,75 @@ namespace RelayControlLibrary
             this.myPSIWidgetA2.Size = new System.Drawing.Size(126, 125);
             this.myPSIWidgetA2.TabIndex = 63;
             this.myPSIWidgetA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
-            meter4.Background.Color = System.Drawing.SystemColors.Control;
-            meter4.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
-            meter4.Border.SimpleColor = System.Drawing.SystemColors.Control;
-            widgetBorderLabel7.Name = "NeedleValue";
-            widgetBorderLabel7.OffsetTopBottom = 0;
-            widgetBorderLabel7.Text = "PSI";
-            widgetBorderLabel7.TextFormat.AutoAdjustAlignment = false;
-            widgetBorderLabel7.TextFormat.Color = System.Drawing.SystemColors.Desktop;
-            widgetBorderLabel7.TextFormat.FontEmSize = 9F;
-            widgetBorderLabel7.TextFormat.FontGdiCharSet = ((byte)(1));
-            widgetBorderLabel7.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter4.BorderLabelList.Add(widgetBorderLabel7);
-            meter4.DeviceName = "Meter - Dial Style";
-            meter4.MajorTicks = 6;
-            meter4.MarginBottom = 5;
-            meter4.MarginLeft = 10;
-            meter4.MarginRight = 12;
-            meter4.MarginTop = 20;
-            meterZone12.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone12.Background.Color = System.Drawing.Color.Black;
-            meterZone12.Background.GradientEndColor = System.Drawing.Color.Black;
-            meterZone12.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
-            meterZone12.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.RadiallyCenterOut;
-            meterZone12.Name = "Bottom Zone";
-            meterZone12.OutlineEnabled = false;
-            meterZone12.TooltipText = "";
-            meterZone12.ValueEnd = 133.330001831055D;
-            meterZone13.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone13.Background.Color = System.Drawing.Color.Black;
-            meterZone13.Background.GradientEndColor = System.Drawing.Color.Black;
-            meterZone13.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
-            meterZone13.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
-            meterZone13.Name = "Middle Zone";
-            meterZone13.OutlineEnabled = false;
-            meterZone13.ThicknessPercent = 81;
-            meterZone13.TooltipText = "";
-            meterZone13.ValueEnd = 133.330001831055D;
-            meterZone14.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone14.Background.GradientEndColor = System.Drawing.Color.LightSlateGray;
-            meterZone14.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
-            meterZone14.Name = "TopZone";
-            meterZone14.OutlineEnabled = false;
-            meterZone14.ThicknessPercent = 80;
-            meterZone14.TooltipText = "";
-            meterZone14.ValueEnd = 133.330001831055D;
-            meter4.MeterZoneList.Add(meterZone12);
-            meter4.MeterZoneList.Add(meterZone13);
-            meter4.MeterZoneList.Add(meterZone14);
-            meter4.MinorTicks = 10;
-            meterNeedle4.Background.Color = System.Drawing.Color.Gold;
-            meterNeedle4.BorderLabelName = "NeedleValue";
-            meterNeedle4.LabelFormatMask = "PSI";
-            meterNeedle4.NeedleName = "needle1";
-            meterNeedle4.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(69)))), ((int)(((byte)(0)))));
-            meterNeedle4.WidthAtBase = 3;
-            meter4.NeedleList.Add(meterNeedle4);
-            meter4.ScaleLabelFormatMask = "##";
-            meter4.ScaleLabelOffset = 1;
-            meter4.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
-            meter4.ScaleLabelProperties.FontEmSize = 8F;
-            meter4.ScaleLabelProperties.FontGdiCharSet = ((byte)(1));
-            meter4.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter4.ScaleValueMax = 20D;
-            meter4.Size = new System.Drawing.Size(120, 120);
-            meter4.StartAngle = 135;
-            meter4.SweepAngle = 270;
-            meter4.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(110)))), ((int)(((byte)(165)))));
-            meter4.TooltipText = "Tank Pressure";
-            this.myPSIWidgetA2.Widget.DeviceList.Add(meter4);
+            meter2.Background.Color = System.Drawing.SystemColors.Control;
+            meter2.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
+            meter2.Border.SimpleColor = System.Drawing.SystemColors.Control;
+            widgetBorderLabel3.Name = "NeedleValue";
+            widgetBorderLabel3.OffsetTopBottom = 0;
+            widgetBorderLabel3.Text = "PSI";
+            widgetBorderLabel3.TextFormat.AutoAdjustAlignment = false;
+            widgetBorderLabel3.TextFormat.Color = System.Drawing.SystemColors.Desktop;
+            widgetBorderLabel3.TextFormat.FontEmSize = 9F;
+            widgetBorderLabel3.TextFormat.FontGdiCharSet = ((byte)(1));
+            widgetBorderLabel3.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter2.BorderLabelList.Add(widgetBorderLabel3);
+            meter2.DeviceName = "Meter - Dial Style";
+            meter2.MajorTicks = 6;
+            meter2.MarginBottom = 5;
+            meter2.MarginLeft = 10;
+            meter2.MarginRight = 12;
+            meter2.MarginTop = 20;
+            meterZone6.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone6.Background.Color = System.Drawing.Color.Black;
+            meterZone6.Background.GradientEndColor = System.Drawing.Color.Black;
+            meterZone6.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
+            meterZone6.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.RadiallyCenterOut;
+            meterZone6.Name = "Bottom Zone";
+            meterZone6.OutlineEnabled = false;
+            meterZone6.TooltipText = "";
+            meterZone6.ValueEnd = 133.330001831055D;
+            meterZone7.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone7.Background.Color = System.Drawing.Color.Black;
+            meterZone7.Background.GradientEndColor = System.Drawing.Color.Black;
+            meterZone7.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
+            meterZone7.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
+            meterZone7.Name = "Middle Zone";
+            meterZone7.OutlineEnabled = false;
+            meterZone7.ThicknessPercent = 81;
+            meterZone7.TooltipText = "";
+            meterZone7.ValueEnd = 133.330001831055D;
+            meterZone8.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone8.Background.GradientEndColor = System.Drawing.Color.LightSlateGray;
+            meterZone8.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
+            meterZone8.Name = "TopZone";
+            meterZone8.OutlineEnabled = false;
+            meterZone8.ThicknessPercent = 80;
+            meterZone8.TooltipText = "";
+            meterZone8.ValueEnd = 133.330001831055D;
+            meter2.MeterZoneList.Add(meterZone6);
+            meter2.MeterZoneList.Add(meterZone7);
+            meter2.MeterZoneList.Add(meterZone8);
+            meter2.MinorTicks = 10;
+            meterNeedle2.Background.Color = System.Drawing.Color.Gold;
+            meterNeedle2.BorderLabelName = "NeedleValue";
+            meterNeedle2.LabelFormatMask = "PSI";
+            meterNeedle2.NeedleName = "needle1";
+            meterNeedle2.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(69)))), ((int)(((byte)(0)))));
+            meterNeedle2.WidthAtBase = 3;
+            meter2.NeedleList.Add(meterNeedle2);
+            meter2.ScaleLabelFormatMask = "##";
+            meter2.ScaleLabelOffset = 1;
+            meter2.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
+            meter2.ScaleLabelProperties.FontEmSize = 8F;
+            meter2.ScaleLabelProperties.FontGdiCharSet = ((byte)(1));
+            meter2.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter2.ScaleValueMax = 20D;
+            meter2.Size = new System.Drawing.Size(120, 120);
+            meter2.StartAngle = 135;
+            meter2.SweepAngle = 270;
+            meter2.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(110)))), ((int)(((byte)(165)))));
+            meter2.TooltipText = "Tank Pressure";
+            this.myPSIWidgetA2.Widget.DeviceList.Add(meter2);
             this.myPSIWidgetA2.Widget.Size = new System.Drawing.Size(126, 125);
             // 
             // label103
@@ -818,7 +863,7 @@ namespace RelayControlLibrary
             annotation1.Background.Transparency = 100;
             annotation1.CoupleToEdge = GraphicsServer.GSNet.Charting.CoupleToEdge.Left;
             annotation1.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation1.Location = new System.Drawing.Point(-1, -61);
+            annotation1.Location = new System.Drawing.Point(-1, -79);
             annotation1.Name = "GridLeftTitle";
             annotation1.Size = new System.Drawing.Size(20, 320);
             annotation1.Text = "Load (%)";
@@ -831,7 +876,7 @@ namespace RelayControlLibrary
             annotation1.TextFormat.VerticalAlignment = System.Drawing.StringAlignment.Center;
             annotation2.Background.Transparency = 100;
             annotation2.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation2.Location = new System.Drawing.Point(-21, 194);
+            annotation2.Location = new System.Drawing.Point(-21, 159);
             annotation2.Name = "GridBottomTitle";
             annotation2.Size = new System.Drawing.Size(546, 20);
             annotation2.Text = "Sample Number";
@@ -1010,7 +1055,7 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.Grid.MarginAxisLeft = 36;
             this.myChartLoads.Chart.Grid.MarginAxisRight = 15;
             this.myChartLoads.Chart.Grid.MarginAxisTop = 5;
-            this.myChartLoads.Chart.Grid.Size = new System.Drawing.Size(466, 192);
+            this.myChartLoads.Chart.Grid.Size = new System.Drawing.Size(466, 157);
             this.myChartLoads.Chart.Grid.SurfaceChart.SideWallsFill.Color = System.Drawing.Color.PaleGoldenrod;
             this.myChartLoads.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
@@ -1024,7 +1069,7 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.Legend.BoxMode = GraphicsServer.GSNet.Charting.LegendBoxMode.BoxesOn;
             this.myChartLoads.Chart.Legend.BoxSize = new System.Drawing.Size(16, 12);
             this.myChartLoads.Chart.Legend.DisplayHorizontal = true;
-            this.myChartLoads.Chart.Legend.Location = new System.Drawing.Point(103, 216);
+            this.myChartLoads.Chart.Legend.Location = new System.Drawing.Point(103, 181);
             this.myChartLoads.Chart.Legend.Size = new System.Drawing.Size(323, 20);
             this.myChartLoads.Chart.Legend.TextFormat.FontEmSize = 10F;
             this.myChartLoads.Chart.Legend.TextFormat.FontGdiCharSet = ((byte)(1));
@@ -1113,14 +1158,14 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.SeriesDrawingList.Add(seriesDrawing1);
             this.myChartLoads.Chart.SeriesDrawingList.Add(seriesDrawing2);
             this.myChartLoads.Chart.SeriesDrawingList.Add(seriesDrawing3);
-            this.myChartLoads.Chart.Size = new System.Drawing.Size(486, 235);
+            this.myChartLoads.Chart.Size = new System.Drawing.Size(486, 200);
             this.myChartLoads.EnableCopyButton = false;
             this.myChartLoads.EnablePrintButton = false;
             this.myChartLoads.EnableSaveButton = false;
-            this.myChartLoads.Location = new System.Drawing.Point(490, 336);
+            this.myChartLoads.Location = new System.Drawing.Point(490, 363);
             this.myChartLoads.LockChartObjects = true;
             this.myChartLoads.Name = "myChartLoads";
-            this.myChartLoads.Size = new System.Drawing.Size(486, 235);
+            this.myChartLoads.Size = new System.Drawing.Size(486, 200);
             this.myChartLoads.TabIndex = 80;
             this.myChartLoads.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.X, this.myChartLoads.Chart.OleDBConnect.OleDBDataProvider, "@userData");
             this.myChartLoads.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.Y, this.myChartLoads.Chart.OleDBConnect.OleDBDataProvider, "@userData");
@@ -1157,7 +1202,7 @@ namespace RelayControlLibrary
             annotation3.Background.Transparency = 100;
             annotation3.CoupleToEdge = GraphicsServer.GSNet.Charting.CoupleToEdge.Left;
             annotation3.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation3.Location = new System.Drawing.Point(-1, -61);
+            annotation3.Location = new System.Drawing.Point(-1, -79);
             annotation3.Name = "GridLeftTitle";
             annotation3.Size = new System.Drawing.Size(20, 320);
             annotation3.Text = "Voltages (Volts)";
@@ -1170,7 +1215,7 @@ namespace RelayControlLibrary
             annotation3.TextFormat.VerticalAlignment = System.Drawing.StringAlignment.Center;
             annotation4.Background.Transparency = 100;
             annotation4.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation4.Location = new System.Drawing.Point(-21, 194);
+            annotation4.Location = new System.Drawing.Point(-21, 159);
             annotation4.Name = "GridBottomTitle";
             annotation4.Size = new System.Drawing.Size(546, 20);
             annotation4.Text = "Sample Number";
@@ -1352,7 +1397,7 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.Grid.MarginAxisLeft = 36;
             this.myChartVoltages.Chart.Grid.MarginAxisRight = 15;
             this.myChartVoltages.Chart.Grid.MarginAxisTop = 5;
-            this.myChartVoltages.Chart.Grid.Size = new System.Drawing.Size(466, 192);
+            this.myChartVoltages.Chart.Grid.Size = new System.Drawing.Size(466, 157);
             this.myChartVoltages.Chart.Grid.SurfaceChart.SideWallsFill.Color = System.Drawing.Color.PaleGoldenrod;
             this.myChartVoltages.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
@@ -1366,7 +1411,7 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.Legend.BoxMode = GraphicsServer.GSNet.Charting.LegendBoxMode.BoxesOn;
             this.myChartVoltages.Chart.Legend.BoxSize = new System.Drawing.Size(16, 12);
             this.myChartVoltages.Chart.Legend.DisplayHorizontal = true;
-            this.myChartVoltages.Chart.Legend.Location = new System.Drawing.Point(30, 216);
+            this.myChartVoltages.Chart.Legend.Location = new System.Drawing.Point(30, 181);
             this.myChartVoltages.Chart.Legend.Size = new System.Drawing.Size(426, 20);
             this.myChartVoltages.Chart.Legend.TextFormat.FontEmSize = 10F;
             this.myChartVoltages.Chart.Legend.TextFormat.FontGdiCharSet = ((byte)(1));
@@ -1455,14 +1500,14 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.SeriesDrawingList.Add(seriesDrawing4);
             this.myChartVoltages.Chart.SeriesDrawingList.Add(seriesDrawing5);
             this.myChartVoltages.Chart.SeriesDrawingList.Add(seriesDrawing6);
-            this.myChartVoltages.Chart.Size = new System.Drawing.Size(486, 235);
+            this.myChartVoltages.Chart.Size = new System.Drawing.Size(486, 200);
             this.myChartVoltages.EnableCopyButton = false;
             this.myChartVoltages.EnablePrintButton = false;
             this.myChartVoltages.EnableSaveButton = false;
-            this.myChartVoltages.Location = new System.Drawing.Point(5, 336);
+            this.myChartVoltages.Location = new System.Drawing.Point(5, 363);
             this.myChartVoltages.LockChartObjects = true;
             this.myChartVoltages.Name = "myChartVoltages";
-            this.myChartVoltages.Size = new System.Drawing.Size(486, 235);
+            this.myChartVoltages.Size = new System.Drawing.Size(486, 200);
             this.myChartVoltages.TabIndex = 79;
             this.myChartVoltages.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.X, this.myChartVoltages.Chart.OleDBConnect.OleDBDataProvider, "@userData");
             this.myChartVoltages.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.Y, this.myChartVoltages.Chart.OleDBConnect.OleDBDataProvider, "@userData");
@@ -1785,100 +1830,100 @@ namespace RelayControlLibrary
             this.myThermometerA1.Size = new System.Drawing.Size(126, 115);
             this.myThermometerA1.TabIndex = 63;
             this.myThermometerA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
-            meter5.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
+            meter3.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
-            meter5.Background.Color = System.Drawing.SystemColors.Control;
-            meter5.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
-            meter5.Border.SimpleColor = System.Drawing.SystemColors.Control;
-            widgetBorderLabel1.OffsetTopBottom = 80;
-            widgetBorderLabel1.Text = "°C";
-            widgetBorderLabel1.TextFormat.Color = System.Drawing.SystemColors.Desktop;
-            widgetBorderLabel1.TextFormat.FontEmSize = 9F;
-            widgetBorderLabel1.TextFormat.FontGdiCharSet = ((byte)(1));
-            widgetBorderLabel1.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter5.BorderLabelList.Add(widgetBorderLabel1);
-            meter5.DeviceName = "Meter with Zones";
-            meter5.Location = new System.Drawing.Point(-1, 9);
-            meter5.MajorTicks = 9;
-            meter5.MarginBottom = -20;
-            meter5.MarginLeft = -5;
-            meter5.MarginRight = 0;
-            meter5.MarginTop = 20;
-            meterZone15.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone15.Background.GradientEndColor = System.Drawing.Color.Green;
-            meterZone15.Background.GradientStartColor = System.Drawing.Color.Chartreuse;
-            meterZone15.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
-            meterZone15.Name = "Low";
-            meterZone15.ThicknessPercent = 20;
-            meterZone15.TooltipText = "";
-            meterZone15.ValueEnd = 60D;
-            meterZone16.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone16.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalTopLeftDownStartAt;
-            meterZone16.Name = "Guarded";
-            meterZone16.ThicknessPercent = 45;
-            meterZone16.TooltipText = "";
-            meterZone16.ValueEnd = 60D;
-            meterZone16.ValueStart = 60D;
-            meterZone17.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone17.Background.GradientEndColor = System.Drawing.Color.Yellow;
-            meterZone17.Background.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            meterZone17.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
-            meterZone17.Name = "Elevated";
-            meterZone17.ThicknessPercent = 55;
-            meterZone17.TooltipText = "";
-            meterZone17.ValueEnd = 60D;
-            meterZone17.ValueStart = 100D;
-            meterZone18.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone18.Background.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            meterZone18.Background.GradientStartColor = System.Drawing.Color.PeachPuff;
-            meterZone18.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalBottomLeftUpEndAt;
-            meterZone18.Name = "High";
-            meterZone18.ThicknessPercent = 65;
-            meterZone18.TooltipText = "";
-            meterZone18.ValueEnd = 125D;
-            meterZone18.ValueStart = 100D;
-            meterZone19.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone19.Background.Color = System.Drawing.Color.Tomato;
-            meterZone19.Background.GradientEndColor = System.Drawing.Color.Red;
-            meterZone19.Background.GradientStartColor = System.Drawing.Color.Coral;
-            meterZone19.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalRightLeft;
-            meterZone19.Name = "Severe";
-            meterZone19.ThicknessPercent = 80;
-            meterZone19.TooltipText = "";
-            meterZone19.ValueEnd = 160D;
-            meterZone19.ValueStart = 125D;
-            meter5.MeterZoneList.Add(meterZone15);
-            meter5.MeterZoneList.Add(meterZone16);
-            meter5.MeterZoneList.Add(meterZone17);
-            meter5.MeterZoneList.Add(meterZone18);
-            meter5.MeterZoneList.Add(meterZone19);
-            meter5.MinorTicks = 3;
-            meterNeedle5.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterNeedle5.Background.Color = System.Drawing.Color.OrangeRed;
-            meterNeedle5.Background.GradientEndColor = System.Drawing.SystemColors.ControlText;
-            meterNeedle5.Background.GradientStartColor = System.Drawing.SystemColors.ControlDark;
-            meterNeedle5.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.VerticalMiddleOut;
-            meterNeedle5.LabelFormatMask = "°C";
-            meterNeedle5.NeedleName = "needle1";
-            meterNeedle5.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            meterNeedle5.WidthAtBase = 6;
-            meter5.NeedleList.Add(meterNeedle5);
-            meter5.ScaleLabelFormatMask = "###";
-            meter5.ScaleLabelOffset = -2;
-            meter5.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
-            meter5.ScaleLabelProperties.DrawShadow = true;
-            meter5.ScaleLabelProperties.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            meter5.ScaleLabelProperties.FontEmSize = 8.25F;
-            meter5.ScaleLabelProperties.FontFamilyName = "Tahoma";
-            meter5.ScaleLabelProperties.FontGdiCharSet = ((byte)(0));
-            meter5.ScaleLabelProperties.TextRenderingMode = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            meter5.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter5.ScaleValueMax = 160D;
-            meter5.Size = new System.Drawing.Size(124, 91);
-            meter5.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            meter5.TickSize = 15;
-            this.myThermometerA1.Widget.DeviceList.Add(meter5);
+            meter3.Background.Color = System.Drawing.SystemColors.Control;
+            meter3.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
+            meter3.Border.SimpleColor = System.Drawing.SystemColors.Control;
+            widgetBorderLabel4.OffsetTopBottom = 80;
+            widgetBorderLabel4.Text = "°C";
+            widgetBorderLabel4.TextFormat.Color = System.Drawing.SystemColors.Desktop;
+            widgetBorderLabel4.TextFormat.FontEmSize = 9F;
+            widgetBorderLabel4.TextFormat.FontGdiCharSet = ((byte)(1));
+            widgetBorderLabel4.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter3.BorderLabelList.Add(widgetBorderLabel4);
+            meter3.DeviceName = "Meter with Zones";
+            meter3.Location = new System.Drawing.Point(-1, 9);
+            meter3.MajorTicks = 9;
+            meter3.MarginBottom = -20;
+            meter3.MarginLeft = -5;
+            meter3.MarginRight = 0;
+            meter3.MarginTop = 20;
+            meterZone9.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone9.Background.GradientEndColor = System.Drawing.Color.Green;
+            meterZone9.Background.GradientStartColor = System.Drawing.Color.Chartreuse;
+            meterZone9.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
+            meterZone9.Name = "Low";
+            meterZone9.ThicknessPercent = 20;
+            meterZone9.TooltipText = "";
+            meterZone9.ValueEnd = 60D;
+            meterZone10.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone10.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalTopLeftDownStartAt;
+            meterZone10.Name = "Guarded";
+            meterZone10.ThicknessPercent = 45;
+            meterZone10.TooltipText = "";
+            meterZone10.ValueEnd = 60D;
+            meterZone10.ValueStart = 60D;
+            meterZone11.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone11.Background.GradientEndColor = System.Drawing.Color.Yellow;
+            meterZone11.Background.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            meterZone11.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalLeftRight;
+            meterZone11.Name = "Elevated";
+            meterZone11.ThicknessPercent = 55;
+            meterZone11.TooltipText = "";
+            meterZone11.ValueEnd = 60D;
+            meterZone11.ValueStart = 100D;
+            meterZone12.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone12.Background.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            meterZone12.Background.GradientStartColor = System.Drawing.Color.PeachPuff;
+            meterZone12.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.DiagonalBottomLeftUpEndAt;
+            meterZone12.Name = "High";
+            meterZone12.ThicknessPercent = 65;
+            meterZone12.TooltipText = "";
+            meterZone12.ValueEnd = 125D;
+            meterZone12.ValueStart = 100D;
+            meterZone13.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone13.Background.Color = System.Drawing.Color.Tomato;
+            meterZone13.Background.GradientEndColor = System.Drawing.Color.Red;
+            meterZone13.Background.GradientStartColor = System.Drawing.Color.Coral;
+            meterZone13.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalRightLeft;
+            meterZone13.Name = "Severe";
+            meterZone13.ThicknessPercent = 80;
+            meterZone13.TooltipText = "";
+            meterZone13.ValueEnd = 160D;
+            meterZone13.ValueStart = 125D;
+            meter3.MeterZoneList.Add(meterZone9);
+            meter3.MeterZoneList.Add(meterZone10);
+            meter3.MeterZoneList.Add(meterZone11);
+            meter3.MeterZoneList.Add(meterZone12);
+            meter3.MeterZoneList.Add(meterZone13);
+            meter3.MinorTicks = 3;
+            meterNeedle3.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterNeedle3.Background.Color = System.Drawing.Color.OrangeRed;
+            meterNeedle3.Background.GradientEndColor = System.Drawing.SystemColors.ControlText;
+            meterNeedle3.Background.GradientStartColor = System.Drawing.SystemColors.ControlDark;
+            meterNeedle3.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.VerticalMiddleOut;
+            meterNeedle3.LabelFormatMask = "°C";
+            meterNeedle3.NeedleName = "needle1";
+            meterNeedle3.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            meterNeedle3.WidthAtBase = 6;
+            meter3.NeedleList.Add(meterNeedle3);
+            meter3.ScaleLabelFormatMask = "###";
+            meter3.ScaleLabelOffset = -2;
+            meter3.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
+            meter3.ScaleLabelProperties.DrawShadow = true;
+            meter3.ScaleLabelProperties.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            meter3.ScaleLabelProperties.FontEmSize = 8.25F;
+            meter3.ScaleLabelProperties.FontFamilyName = "Tahoma";
+            meter3.ScaleLabelProperties.FontGdiCharSet = ((byte)(0));
+            meter3.ScaleLabelProperties.TextRenderingMode = System.Drawing.Text.TextRenderingHint.SystemDefault;
+            meter3.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter3.ScaleValueMax = 160D;
+            meter3.Size = new System.Drawing.Size(124, 91);
+            meter3.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            meter3.TickSize = 15;
+            this.myThermometerA1.Widget.DeviceList.Add(meter3);
             this.myThermometerA1.Widget.Size = new System.Drawing.Size(126, 115);
             // 
             // myPSIWidgetA1
@@ -1892,75 +1937,75 @@ namespace RelayControlLibrary
             this.myPSIWidgetA1.Size = new System.Drawing.Size(126, 125);
             this.myPSIWidgetA1.TabIndex = 61;
             this.myPSIWidgetA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
-            meter1.Background.Color = System.Drawing.SystemColors.Control;
-            meter1.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
-            meter1.Border.SimpleColor = System.Drawing.SystemColors.Control;
-            widgetBorderLabel2.Name = "NeedleValue";
-            widgetBorderLabel2.OffsetTopBottom = 0;
-            widgetBorderLabel2.Text = "PSI";
-            widgetBorderLabel2.TextFormat.AutoAdjustAlignment = false;
-            widgetBorderLabel2.TextFormat.Color = System.Drawing.SystemColors.Desktop;
-            widgetBorderLabel2.TextFormat.FontEmSize = 9F;
-            widgetBorderLabel2.TextFormat.FontGdiCharSet = ((byte)(1));
-            widgetBorderLabel2.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter1.BorderLabelList.Add(widgetBorderLabel2);
-            meter1.DeviceName = "Meter - Dial Style";
-            meter1.MajorTicks = 6;
-            meter1.MarginBottom = 5;
-            meter1.MarginLeft = 10;
-            meter1.MarginRight = 12;
-            meter1.MarginTop = 20;
-            meterZone1.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone1.Background.Color = System.Drawing.Color.Black;
-            meterZone1.Background.GradientEndColor = System.Drawing.Color.Black;
-            meterZone1.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
-            meterZone1.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.RadiallyCenterOut;
-            meterZone1.Name = "Bottom Zone";
-            meterZone1.OutlineEnabled = false;
-            meterZone1.TooltipText = "";
-            meterZone1.ValueEnd = 133.330001831055D;
-            meterZone2.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone2.Background.Color = System.Drawing.Color.Black;
-            meterZone2.Background.GradientEndColor = System.Drawing.Color.Black;
-            meterZone2.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
-            meterZone2.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
-            meterZone2.Name = "Middle Zone";
-            meterZone2.OutlineEnabled = false;
-            meterZone2.ThicknessPercent = 81;
-            meterZone2.TooltipText = "";
-            meterZone2.ValueEnd = 133.330001831055D;
-            meterZone3.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
-            meterZone3.Background.GradientEndColor = System.Drawing.Color.LightSlateGray;
-            meterZone3.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
-            meterZone3.Name = "TopZone";
-            meterZone3.OutlineEnabled = false;
-            meterZone3.ThicknessPercent = 80;
-            meterZone3.TooltipText = "";
-            meterZone3.ValueEnd = 133.330001831055D;
-            meter1.MeterZoneList.Add(meterZone1);
-            meter1.MeterZoneList.Add(meterZone2);
-            meter1.MeterZoneList.Add(meterZone3);
-            meter1.MinorTicks = 10;
-            meterNeedle1.Background.Color = System.Drawing.Color.Gold;
-            meterNeedle1.BorderLabelName = "NeedleValue";
-            meterNeedle1.LabelFormatMask = "PSI";
-            meterNeedle1.NeedleName = "needle1";
-            meterNeedle1.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(69)))), ((int)(((byte)(0)))));
-            meterNeedle1.WidthAtBase = 3;
-            meter1.NeedleList.Add(meterNeedle1);
-            meter1.ScaleLabelFormatMask = "##";
-            meter1.ScaleLabelOffset = 1;
-            meter1.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
-            meter1.ScaleLabelProperties.FontEmSize = 8F;
-            meter1.ScaleLabelProperties.FontGdiCharSet = ((byte)(1));
-            meter1.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            meter1.ScaleValueMax = 20D;
-            meter1.Size = new System.Drawing.Size(120, 120);
-            meter1.StartAngle = 135;
-            meter1.SweepAngle = 270;
-            meter1.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(110)))), ((int)(((byte)(165)))));
-            meter1.TooltipText = "Tank Pressure";
-            this.myPSIWidgetA1.Widget.DeviceList.Add(meter1);
+            meter4.Background.Color = System.Drawing.SystemColors.Control;
+            meter4.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
+            meter4.Border.SimpleColor = System.Drawing.SystemColors.Control;
+            widgetBorderLabel5.Name = "NeedleValue";
+            widgetBorderLabel5.OffsetTopBottom = 0;
+            widgetBorderLabel5.Text = "PSI";
+            widgetBorderLabel5.TextFormat.AutoAdjustAlignment = false;
+            widgetBorderLabel5.TextFormat.Color = System.Drawing.SystemColors.Desktop;
+            widgetBorderLabel5.TextFormat.FontEmSize = 9F;
+            widgetBorderLabel5.TextFormat.FontGdiCharSet = ((byte)(1));
+            widgetBorderLabel5.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter4.BorderLabelList.Add(widgetBorderLabel5);
+            meter4.DeviceName = "Meter - Dial Style";
+            meter4.MajorTicks = 6;
+            meter4.MarginBottom = 5;
+            meter4.MarginLeft = 10;
+            meter4.MarginRight = 12;
+            meter4.MarginTop = 20;
+            meterZone14.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone14.Background.Color = System.Drawing.Color.Black;
+            meterZone14.Background.GradientEndColor = System.Drawing.Color.Black;
+            meterZone14.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
+            meterZone14.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.RadiallyCenterOut;
+            meterZone14.Name = "Bottom Zone";
+            meterZone14.OutlineEnabled = false;
+            meterZone14.TooltipText = "";
+            meterZone14.ValueEnd = 133.330001831055D;
+            meterZone15.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone15.Background.Color = System.Drawing.Color.Black;
+            meterZone15.Background.GradientEndColor = System.Drawing.Color.Black;
+            meterZone15.Background.GradientStartColor = System.Drawing.Color.WhiteSmoke;
+            meterZone15.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
+            meterZone15.Name = "Middle Zone";
+            meterZone15.OutlineEnabled = false;
+            meterZone15.ThicknessPercent = 81;
+            meterZone15.TooltipText = "";
+            meterZone15.ValueEnd = 133.330001831055D;
+            meterZone16.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
+            meterZone16.Background.GradientEndColor = System.Drawing.Color.LightSlateGray;
+            meterZone16.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.ThreeDBubble;
+            meterZone16.Name = "TopZone";
+            meterZone16.OutlineEnabled = false;
+            meterZone16.ThicknessPercent = 80;
+            meterZone16.TooltipText = "";
+            meterZone16.ValueEnd = 133.330001831055D;
+            meter4.MeterZoneList.Add(meterZone14);
+            meter4.MeterZoneList.Add(meterZone15);
+            meter4.MeterZoneList.Add(meterZone16);
+            meter4.MinorTicks = 10;
+            meterNeedle4.Background.Color = System.Drawing.Color.Gold;
+            meterNeedle4.BorderLabelName = "NeedleValue";
+            meterNeedle4.LabelFormatMask = "PSI";
+            meterNeedle4.NeedleName = "needle1";
+            meterNeedle4.Outline.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(69)))), ((int)(((byte)(0)))));
+            meterNeedle4.WidthAtBase = 3;
+            meter4.NeedleList.Add(meterNeedle4);
+            meter4.ScaleLabelFormatMask = "##";
+            meter4.ScaleLabelOffset = 1;
+            meter4.ScaleLabelProperties.Color = System.Drawing.SystemColors.Desktop;
+            meter4.ScaleLabelProperties.FontEmSize = 8F;
+            meter4.ScaleLabelProperties.FontGdiCharSet = ((byte)(1));
+            meter4.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            meter4.ScaleValueMax = 20D;
+            meter4.Size = new System.Drawing.Size(120, 120);
+            meter4.StartAngle = 135;
+            meter4.SweepAngle = 270;
+            meter4.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(110)))), ((int)(((byte)(165)))));
+            meter4.TooltipText = "Tank Pressure";
+            this.myPSIWidgetA1.Widget.DeviceList.Add(meter4);
             this.myPSIWidgetA1.Widget.Size = new System.Drawing.Size(126, 125);
             // 
             // myTempWidgetA1
@@ -1979,14 +2024,14 @@ namespace RelayControlLibrary
             thermometer2.Background.GradientStartColor = System.Drawing.Color.LightGray;
             thermometer2.Background.GradientStyle = GraphicsServer.GSNet.Charting.GradientType.HorizontalRightLeft;
             thermometer2.Border.SimpleColor = System.Drawing.Color.Transparent;
-            widgetBorderLabel3.OffsetTopBottom = 0;
-            widgetBorderLabel3.RelativeLocation = GraphicsServer.GSNet.Charting.RelativeLocation.TopLeft;
-            widgetBorderLabel3.Text = "°C";
-            widgetBorderLabel3.TextFormat.Color = System.Drawing.SystemColors.Desktop;
-            widgetBorderLabel3.TextFormat.FontEmSize = 9F;
-            widgetBorderLabel3.TextFormat.FontGdiCharSet = ((byte)(1));
-            widgetBorderLabel3.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
-            thermometer2.BorderLabelList.Add(widgetBorderLabel3);
+            widgetBorderLabel6.OffsetTopBottom = 0;
+            widgetBorderLabel6.RelativeLocation = GraphicsServer.GSNet.Charting.RelativeLocation.TopLeft;
+            widgetBorderLabel6.Text = "°C";
+            widgetBorderLabel6.TextFormat.Color = System.Drawing.SystemColors.Desktop;
+            widgetBorderLabel6.TextFormat.FontEmSize = 9F;
+            widgetBorderLabel6.TextFormat.FontGdiCharSet = ((byte)(1));
+            widgetBorderLabel6.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
+            thermometer2.BorderLabelList.Add(widgetBorderLabel6);
             thermometer2.BorderLabelName = "NeedleValue";
             thermometer2.DeviceName = "Thermometer - Style 1";
             thermometer2.MajorTicks = 9;
@@ -2285,7 +2330,7 @@ namespace RelayControlLibrary
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusC);
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusB);
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusA);
-            this.groupBoxFlagStatus.Location = new System.Drawing.Point(4, 149);
+            this.groupBoxFlagStatus.Location = new System.Drawing.Point(210, 149);
             this.groupBoxFlagStatus.Name = "groupBoxFlagStatus";
             this.groupBoxFlagStatus.Size = new System.Drawing.Size(88, 187);
             this.groupBoxFlagStatus.TabIndex = 74;
@@ -2513,6 +2558,402 @@ namespace RelayControlLibrary
             this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
             this.textBoxQBit.TabIndex = 7;
             // 
+            // panelFlagSettings
+            // 
+            this.panelFlagSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingH);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingG);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingF);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingE);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingD);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingC);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingB);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingA);
+            this.panelFlagSettings.Controls.Add(this.labelFlagSettingsFlagPostPosition);
+            this.panelFlagSettings.Controls.Add(this.labelFlagSettingsFlag);
+            this.panelFlagSettings.Controls.Add(this.label12);
+            this.panelFlagSettings.Controls.Add(this.label11);
+            this.panelFlagSettings.Controls.Add(this.label10);
+            this.panelFlagSettings.Controls.Add(this.label9);
+            this.panelFlagSettings.Controls.Add(this.label8);
+            this.panelFlagSettings.Controls.Add(this.label6);
+            this.panelFlagSettings.Controls.Add(this.label5);
+            this.panelFlagSettings.Controls.Add(this.labelFlagSettingA);
+            this.panelFlagSettings.Location = new System.Drawing.Point(7, 140);
+            this.panelFlagSettings.Name = "panelFlagSettings";
+            this.panelFlagSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.panelFlagSettings.Size = new System.Drawing.Size(180, 217);
+            this.panelFlagSettings.TabIndex = 6;
+            // 
+            // panelFlagSettingH
+            // 
+            this.panelFlagSettingH.Controls.Add(this.radioButtonFPHClose);
+            this.panelFlagSettingH.Controls.Add(this.radioButtonFPHOpen);
+            this.panelFlagSettingH.Location = new System.Drawing.Point(42, 191);
+            this.panelFlagSettingH.Name = "panelFlagSettingH";
+            this.panelFlagSettingH.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingH.TabIndex = 55;
+            // 
+            // radioButtonFPHClose
+            // 
+            this.radioButtonFPHClose.AutoSize = true;
+            this.radioButtonFPHClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPHClose.Name = "radioButtonFPHClose";
+            this.radioButtonFPHClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPHClose.TabIndex = 54;
+            this.radioButtonFPHClose.TabStop = true;
+            this.radioButtonFPHClose.Text = "Close";
+            this.radioButtonFPHClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPHOpen
+            // 
+            this.radioButtonFPHOpen.AutoSize = true;
+            this.radioButtonFPHOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPHOpen.Name = "radioButtonFPHOpen";
+            this.radioButtonFPHOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPHOpen.TabIndex = 53;
+            this.radioButtonFPHOpen.TabStop = true;
+            this.radioButtonFPHOpen.Text = "Open";
+            this.radioButtonFPHOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingG
+            // 
+            this.panelFlagSettingG.Controls.Add(this.radioButtonFPGClose);
+            this.panelFlagSettingG.Controls.Add(this.radioButtonFPGOpen);
+            this.panelFlagSettingG.Location = new System.Drawing.Point(42, 168);
+            this.panelFlagSettingG.Name = "panelFlagSettingG";
+            this.panelFlagSettingG.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingG.TabIndex = 55;
+            // 
+            // radioButtonFPGClose
+            // 
+            this.radioButtonFPGClose.AutoSize = true;
+            this.radioButtonFPGClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPGClose.Name = "radioButtonFPGClose";
+            this.radioButtonFPGClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPGClose.TabIndex = 54;
+            this.radioButtonFPGClose.TabStop = true;
+            this.radioButtonFPGClose.Text = "Close";
+            this.radioButtonFPGClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPGOpen
+            // 
+            this.radioButtonFPGOpen.AutoSize = true;
+            this.radioButtonFPGOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPGOpen.Name = "radioButtonFPGOpen";
+            this.radioButtonFPGOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPGOpen.TabIndex = 53;
+            this.radioButtonFPGOpen.TabStop = true;
+            this.radioButtonFPGOpen.Text = "Open";
+            this.radioButtonFPGOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingF
+            // 
+            this.panelFlagSettingF.Controls.Add(this.radioButtonFPFClose);
+            this.panelFlagSettingF.Controls.Add(this.radioButtonFPFOpen);
+            this.panelFlagSettingF.Location = new System.Drawing.Point(42, 145);
+            this.panelFlagSettingF.Name = "panelFlagSettingF";
+            this.panelFlagSettingF.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingF.TabIndex = 55;
+            // 
+            // radioButtonFPFClose
+            // 
+            this.radioButtonFPFClose.AutoSize = true;
+            this.radioButtonFPFClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPFClose.Name = "radioButtonFPFClose";
+            this.radioButtonFPFClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPFClose.TabIndex = 54;
+            this.radioButtonFPFClose.TabStop = true;
+            this.radioButtonFPFClose.Text = "Close";
+            this.radioButtonFPFClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPFOpen
+            // 
+            this.radioButtonFPFOpen.AutoSize = true;
+            this.radioButtonFPFOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPFOpen.Name = "radioButtonFPFOpen";
+            this.radioButtonFPFOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPFOpen.TabIndex = 53;
+            this.radioButtonFPFOpen.TabStop = true;
+            this.radioButtonFPFOpen.Text = "Open";
+            this.radioButtonFPFOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingE
+            // 
+            this.panelFlagSettingE.Controls.Add(this.radioButtonFPEClose);
+            this.panelFlagSettingE.Controls.Add(this.radioButtonFPEOpen);
+            this.panelFlagSettingE.Location = new System.Drawing.Point(42, 122);
+            this.panelFlagSettingE.Name = "panelFlagSettingE";
+            this.panelFlagSettingE.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingE.TabIndex = 55;
+            // 
+            // radioButtonFPEClose
+            // 
+            this.radioButtonFPEClose.AutoSize = true;
+            this.radioButtonFPEClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPEClose.Name = "radioButtonFPEClose";
+            this.radioButtonFPEClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPEClose.TabIndex = 54;
+            this.radioButtonFPEClose.TabStop = true;
+            this.radioButtonFPEClose.Text = "Close";
+            this.radioButtonFPEClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPEOpen
+            // 
+            this.radioButtonFPEOpen.AutoSize = true;
+            this.radioButtonFPEOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPEOpen.Name = "radioButtonFPEOpen";
+            this.radioButtonFPEOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPEOpen.TabIndex = 53;
+            this.radioButtonFPEOpen.TabStop = true;
+            this.radioButtonFPEOpen.Text = "Open";
+            this.radioButtonFPEOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingD
+            // 
+            this.panelFlagSettingD.Controls.Add(this.radioButtonFPDClose);
+            this.panelFlagSettingD.Controls.Add(this.radioButtonFPDOpen);
+            this.panelFlagSettingD.Location = new System.Drawing.Point(42, 99);
+            this.panelFlagSettingD.Name = "panelFlagSettingD";
+            this.panelFlagSettingD.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingD.TabIndex = 55;
+            // 
+            // radioButtonFPDClose
+            // 
+            this.radioButtonFPDClose.AutoSize = true;
+            this.radioButtonFPDClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPDClose.Name = "radioButtonFPDClose";
+            this.radioButtonFPDClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPDClose.TabIndex = 54;
+            this.radioButtonFPDClose.TabStop = true;
+            this.radioButtonFPDClose.Text = "Close";
+            this.radioButtonFPDClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPDOpen
+            // 
+            this.radioButtonFPDOpen.AutoSize = true;
+            this.radioButtonFPDOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPDOpen.Name = "radioButtonFPDOpen";
+            this.radioButtonFPDOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPDOpen.TabIndex = 53;
+            this.radioButtonFPDOpen.TabStop = true;
+            this.radioButtonFPDOpen.Text = "Open";
+            this.radioButtonFPDOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingC
+            // 
+            this.panelFlagSettingC.Controls.Add(this.radioButtonFPCClose);
+            this.panelFlagSettingC.Controls.Add(this.radioButtonFPCOpen);
+            this.panelFlagSettingC.Location = new System.Drawing.Point(42, 76);
+            this.panelFlagSettingC.Name = "panelFlagSettingC";
+            this.panelFlagSettingC.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingC.TabIndex = 55;
+            // 
+            // radioButtonFPCClose
+            // 
+            this.radioButtonFPCClose.AutoSize = true;
+            this.radioButtonFPCClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPCClose.Name = "radioButtonFPCClose";
+            this.radioButtonFPCClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPCClose.TabIndex = 54;
+            this.radioButtonFPCClose.TabStop = true;
+            this.radioButtonFPCClose.Text = "Close";
+            this.radioButtonFPCClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPCOpen
+            // 
+            this.radioButtonFPCOpen.AutoSize = true;
+            this.radioButtonFPCOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPCOpen.Name = "radioButtonFPCOpen";
+            this.radioButtonFPCOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPCOpen.TabIndex = 53;
+            this.radioButtonFPCOpen.TabStop = true;
+            this.radioButtonFPCOpen.Text = "Open";
+            this.radioButtonFPCOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingB
+            // 
+            this.panelFlagSettingB.Controls.Add(this.radioButtonFPBClose);
+            this.panelFlagSettingB.Controls.Add(this.radioButtonFPBOpen);
+            this.panelFlagSettingB.Location = new System.Drawing.Point(42, 53);
+            this.panelFlagSettingB.Name = "panelFlagSettingB";
+            this.panelFlagSettingB.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingB.TabIndex = 55;
+            // 
+            // radioButtonFPBClose
+            // 
+            this.radioButtonFPBClose.AutoSize = true;
+            this.radioButtonFPBClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPBClose.Name = "radioButtonFPBClose";
+            this.radioButtonFPBClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPBClose.TabIndex = 54;
+            this.radioButtonFPBClose.TabStop = true;
+            this.radioButtonFPBClose.Text = "Close";
+            this.radioButtonFPBClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPBOpen
+            // 
+            this.radioButtonFPBOpen.AutoSize = true;
+            this.radioButtonFPBOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPBOpen.Name = "radioButtonFPBOpen";
+            this.radioButtonFPBOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPBOpen.TabIndex = 53;
+            this.radioButtonFPBOpen.TabStop = true;
+            this.radioButtonFPBOpen.Text = "Open";
+            this.radioButtonFPBOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingA
+            // 
+            this.panelFlagSettingA.Controls.Add(this.radioButtonFPAClose);
+            this.panelFlagSettingA.Controls.Add(this.radioButtonFPAOpen);
+            this.panelFlagSettingA.Location = new System.Drawing.Point(42, 30);
+            this.panelFlagSettingA.Name = "panelFlagSettingA";
+            this.panelFlagSettingA.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingA.TabIndex = 52;
+            // 
+            // radioButtonFPAClose
+            // 
+            this.radioButtonFPAClose.AutoSize = true;
+            this.radioButtonFPAClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPAClose.Name = "radioButtonFPAClose";
+            this.radioButtonFPAClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPAClose.TabIndex = 54;
+            this.radioButtonFPAClose.TabStop = true;
+            this.radioButtonFPAClose.Text = "Close";
+            this.radioButtonFPAClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPAOpen
+            // 
+            this.radioButtonFPAOpen.AutoSize = true;
+            this.radioButtonFPAOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPAOpen.Name = "radioButtonFPAOpen";
+            this.radioButtonFPAOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPAOpen.TabIndex = 53;
+            this.radioButtonFPAOpen.TabStop = true;
+            this.radioButtonFPAOpen.Text = "Open";
+            this.radioButtonFPAOpen.UseVisualStyleBackColor = true;
+            // 
+            // labelFlagSettingsFlagPostPosition
+            // 
+            this.labelFlagSettingsFlagPostPosition.AutoSize = true;
+            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(59, 13);
+            this.labelFlagSettingsFlagPostPosition.Name = "labelFlagSettingsFlagPostPosition";
+            this.labelFlagSettingsFlagPostPosition.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(94, 13);
+            this.labelFlagSettingsFlagPostPosition.TabIndex = 51;
+            this.labelFlagSettingsFlagPostPosition.Text = "Flag Post Position:";
+            this.labelFlagSettingsFlagPostPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingsFlag
+            // 
+            this.labelFlagSettingsFlag.AutoSize = true;
+            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(5, 13);
+            this.labelFlagSettingsFlag.Name = "labelFlagSettingsFlag";
+            this.labelFlagSettingsFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingsFlag.Size = new System.Drawing.Size(30, 13);
+            this.labelFlagSettingsFlag.TabIndex = 43;
+            this.labelFlagSettingsFlag.Text = "Flag:";
+            this.labelFlagSettingsFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(19, 196);
+            this.label12.Name = "label12";
+            this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label12.Size = new System.Drawing.Size(18, 13);
+            this.label12.TabIndex = 50;
+            this.label12.Text = "H:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(19, 173);
+            this.label11.Name = "label11";
+            this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label11.Size = new System.Drawing.Size(18, 13);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "G:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(19, 150);
+            this.label10.Name = "label10";
+            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label10.Size = new System.Drawing.Size(16, 13);
+            this.label10.TabIndex = 48;
+            this.label10.Text = "F:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(19, 127);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(17, 13);
+            this.label9.TabIndex = 47;
+            this.label9.Text = "E:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(19, 104);
+            this.label8.Name = "label8";
+            this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label8.Size = new System.Drawing.Size(18, 13);
+            this.label8.TabIndex = 46;
+            this.label8.Text = "D:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(19, 81);
+            this.label6.Name = "label6";
+            this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label6.Size = new System.Drawing.Size(17, 13);
+            this.label6.TabIndex = 45;
+            this.label6.Text = "C:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(19, 58);
+            this.label5.Name = "label5";
+            this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label5.Size = new System.Drawing.Size(17, 13);
+            this.label5.TabIndex = 44;
+            this.label5.Text = "B:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingA
+            // 
+            this.labelFlagSettingA.AutoSize = true;
+            this.labelFlagSettingA.Location = new System.Drawing.Point(19, 35);
+            this.labelFlagSettingA.Name = "labelFlagSettingA";
+            this.labelFlagSettingA.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingA.Size = new System.Drawing.Size(17, 13);
+            this.labelFlagSettingA.TabIndex = 43;
+            this.labelFlagSettingA.Text = "A:";
+            this.labelFlagSettingA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagPolarity
+            // 
+            this.labelFlagPolarity.AutoSize = true;
+            this.labelFlagPolarity.Location = new System.Drawing.Point(13, 140);
+            this.labelFlagPolarity.Name = "labelFlagPolarity";
+            this.labelFlagPolarity.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagPolarity.Size = new System.Drawing.Size(71, 13);
+            this.labelFlagPolarity.TabIndex = 18;
+            this.labelFlagPolarity.Text = "Flag Settings:";
+            this.labelFlagPolarity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // ucTransmitterMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2533,6 +2974,8 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxCurrentReadings);
             this.Controls.Add(this.groupBoxAdvancedReadings);
             this.Controls.Add(this.groupBoxFlagStatus);
+            this.Controls.Add(this.labelFlagPolarity);
+            this.Controls.Add(this.panelFlagSettings);
             this.Name = "ucTransmitterMonitoring";
             this.Size = new System.Drawing.Size(981, 575);
             this.groupBoxVoltageReadings.ResumeLayout(false);
@@ -2567,6 +3010,24 @@ namespace RelayControlLibrary
             this.groupBoxFlagStatus.PerformLayout();
             this.groupBoxAnalogFlagValues.ResumeLayout(false);
             this.groupBoxAnalogFlagValues.PerformLayout();
+            this.panelFlagSettings.ResumeLayout(false);
+            this.panelFlagSettings.PerformLayout();
+            this.panelFlagSettingH.ResumeLayout(false);
+            this.panelFlagSettingH.PerformLayout();
+            this.panelFlagSettingG.ResumeLayout(false);
+            this.panelFlagSettingG.PerformLayout();
+            this.panelFlagSettingF.ResumeLayout(false);
+            this.panelFlagSettingF.PerformLayout();
+            this.panelFlagSettingE.ResumeLayout(false);
+            this.panelFlagSettingE.PerformLayout();
+            this.panelFlagSettingD.ResumeLayout(false);
+            this.panelFlagSettingD.PerformLayout();
+            this.panelFlagSettingC.ResumeLayout(false);
+            this.panelFlagSettingC.PerformLayout();
+            this.panelFlagSettingB.ResumeLayout(false);
+            this.panelFlagSettingB.PerformLayout();
+            this.panelFlagSettingA.ResumeLayout(false);
+            this.panelFlagSettingA.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2689,5 +3150,42 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxEa;
         private System.Windows.Forms.TextBox textBoxDa;
         private System.Windows.Forms.TextBox textBoxCa;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelFlagSettingA;
+        private System.Windows.Forms.Label labelFlagSettingsFlagPostPosition;
+        private System.Windows.Forms.Label labelFlagSettingsFlag;
+        private System.Windows.Forms.Panel panelFlagSettingA;
+        public System.Windows.Forms.RadioButton radioButtonFPAOpen;
+        private System.Windows.Forms.Panel panelFlagSettingH;
+        public System.Windows.Forms.RadioButton radioButtonFPHClose;
+        public System.Windows.Forms.RadioButton radioButtonFPHOpen;
+        private System.Windows.Forms.Panel panelFlagSettingG;
+        public System.Windows.Forms.RadioButton radioButtonFPGClose;
+        public System.Windows.Forms.RadioButton radioButtonFPGOpen;
+        private System.Windows.Forms.Panel panelFlagSettingF;
+        public System.Windows.Forms.RadioButton radioButtonFPFClose;
+        public System.Windows.Forms.RadioButton radioButtonFPFOpen;
+        private System.Windows.Forms.Panel panelFlagSettingE;
+        public System.Windows.Forms.RadioButton radioButtonFPEClose;
+        public System.Windows.Forms.RadioButton radioButtonFPEOpen;
+        private System.Windows.Forms.Panel panelFlagSettingD;
+        public System.Windows.Forms.RadioButton radioButtonFPDClose;
+        public System.Windows.Forms.RadioButton radioButtonFPDOpen;
+        private System.Windows.Forms.Panel panelFlagSettingC;
+        public System.Windows.Forms.RadioButton radioButtonFPCClose;
+        public System.Windows.Forms.RadioButton radioButtonFPCOpen;
+        private System.Windows.Forms.Panel panelFlagSettingB;
+        public System.Windows.Forms.RadioButton radioButtonFPBClose;
+        public System.Windows.Forms.RadioButton radioButtonFPBOpen;
+        public System.Windows.Forms.RadioButton radioButtonFPAClose;
+        private System.Windows.Forms.Panel panelFlagSettings;
+        private System.Windows.Forms.Label labelFlagPolarity;
     }
 }

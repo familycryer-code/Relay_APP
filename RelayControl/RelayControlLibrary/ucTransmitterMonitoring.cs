@@ -15,7 +15,7 @@ namespace RelayControlLibrary
     public partial class ucTransmitterMonitoring : UserControl
     {
         #region Initialization
-
+        public TransmitterSettings SensorMonitoringSettings = new TransmitterSettings();
         public ucTransmitterMonitoring()
         {
             InitializeComponent();
@@ -47,7 +47,8 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
-          
+            groupBoxVoltageReadings.Visible = false;
+            groupBox17.Visible = false;   
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
@@ -1072,6 +1073,94 @@ namespace RelayControlLibrary
             }
         }
 
+        public void setFlagPolarity(byte p)
+        {
+            if ((p & 1) == 1)
+                this.radioButtonFPAClose.Checked = true;
+            else
+                this.radioButtonFPAOpen.Checked = true;
+
+            if ((p & 2) == 2)
+                this.radioButtonFPBClose.Checked = true;
+            else
+                this.radioButtonFPBOpen.Checked = true;
+
+            if ((p & 4) == 4)
+                this.radioButtonFPCClose.Checked = true;
+            else
+                this.radioButtonFPCOpen.Checked = true;
+
+            if ((p & 8) == 8)
+                this.radioButtonFPDClose.Checked = true;
+            else
+                this.radioButtonFPDOpen.Checked = true;
+
+            if ((p & 16) == 16)
+                this.radioButtonFPEClose.Checked = true;
+            else
+                this.radioButtonFPEOpen.Checked = true;
+
+            if ((p & 32) == 32)
+                this.radioButtonFPFClose.Checked = true;
+            else
+                this.radioButtonFPFOpen.Checked = true;
+
+            if ((p & 64) == 64)
+                this.radioButtonFPGClose.Checked = true;
+            else
+                this.radioButtonFPGOpen.Checked = true;
+
+            if ((p & 128) == 128)
+                this.radioButtonFPHClose.Checked = true;
+            else
+                this.radioButtonFPHOpen.Checked = true;
+
+        }
+
+        public byte dNPCoverFlags = 0;
+        public byte DNPCoverFlags
+        {
+            get { return this.dNPCoverFlags; }
+            set
+            {
+                this.dNPCoverFlags = value;
+                this.setFlagPolarity(dNPCoverFlags);
+
+            }
+        }
+
+        public void setPolarityFromRelaySettings()
+        {
+            this.SensorMonitoringSettings.FlagPolarity.A = Convert.ToBoolean(dNPCoverFlags & 1);
+            this.SensorMonitoringSettings.FlagPolarity.B = Convert.ToBoolean(dNPCoverFlags & 2);
+            this.SensorMonitoringSettings.FlagPolarity.C = Convert.ToBoolean(dNPCoverFlags & 4);
+            this.SensorMonitoringSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
+            this.SensorMonitoringSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
+            this.SensorMonitoringSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
+            this.SensorMonitoringSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
+            this.SensorMonitoringSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
+            this.SensorMonitoringSettings.SetFlagPolartityByte();
+
+            this.radioButtonFPAClose.Checked = this.SensorMonitoringSettings.FlagPolarity.A;
+            this.radioButtonFPBClose.Checked = this.SensorMonitoringSettings.FlagPolarity.B;
+            this.radioButtonFPCClose.Checked = this.SensorMonitoringSettings.FlagPolarity.C;
+            this.radioButtonFPDClose.Checked = this.SensorMonitoringSettings.FlagPolarity.D;
+            this.radioButtonFPEClose.Checked = this.SensorMonitoringSettings.FlagPolarity.E;
+            this.radioButtonFPFClose.Checked = this.SensorMonitoringSettings.FlagPolarity.F;
+            this.radioButtonFPGClose.Checked = this.SensorMonitoringSettings.FlagPolarity.G;
+            this.radioButtonFPHClose.Checked = this.SensorMonitoringSettings.FlagPolarity.H;
+        }
+
+       /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
+        {
+            checkBoxExtendedPLCMessage.Location =
+                new Point(panelFlagSettings.Location.X,
+                panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
+            buttonForceConfigMessage.Location =
+                new Point(checkBoxExtendedPLCMessage.Location.X,
+                checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
+        }
+       */
         private bool waterBugActive = false;
         public bool WaterBugActive
         {

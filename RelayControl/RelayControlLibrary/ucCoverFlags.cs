@@ -45,7 +45,7 @@ namespace RelayControlLibrary
             this.setFlagPolarityDNPCover(bytePacket[9]);
         }
 
-        private void setFlagPolarityDNPCover(byte p)
+        public void setFlagPolarityDNPCover(byte p)
         {
             if ((p & 1) == 1)
                 this.radioButtonFPACloseRelay.Checked = true;
