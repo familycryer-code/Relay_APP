@@ -44,6 +44,7 @@
             this.buttonRestoreDefaults = new System.Windows.Forms.Button();
             this.textBoxSerialNumber = new System.Windows.Forms.TextBox();
             this.labelTXSN = new System.Windows.Forms.Label();
+            this.labelTMonTransOutput = new System.Windows.Forms.Label();
             this.labelAlarmSettings = new System.Windows.Forms.Label();
             this.panelAlarmSettings = new System.Windows.Forms.Panel();
             this.labelASEnable = new System.Windows.Forms.Label();
@@ -81,7 +82,10 @@
             this.panelGeneralSettings = new System.Windows.Forms.Panel();
             this.labelGeneralSettings = new System.Windows.Forms.Label();
             this.panelSerialNumber = new System.Windows.Forms.Panel();
+            this.textBoxTransmitterOutputPower = new System.Windows.Forms.TextBox();
+            this.panelPowerOut = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
+            this.pwrLabel = new System.Windows.Forms.Label();
             this.panelOtherAlarmSettings = new System.Windows.Forms.Panel();
             this.labelOtherAlarmThreshold = new System.Windows.Forms.Label();
             this.comboBoxAnalog2OU = new System.Windows.Forms.ComboBox();
@@ -174,8 +178,6 @@
             this.labelTransFlagStatus = new System.Windows.Forms.Label();
             this.checkBoxExtendedPLCMessage = new System.Windows.Forms.CheckBox();
             this.labelGEWHDisplay = new System.Windows.Forms.Label();
-            this.textBoxTransmitterOutputPower = new System.Windows.Forms.TextBox();
-            this.labelTMonTransOutput = new System.Windows.Forms.Label();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -362,6 +364,17 @@
             this.labelTXSN.TabIndex = 17;
             this.labelTXSN.Text = "Relay S/N:";
             this.labelTXSN.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelTMonTransOutput
+            // 
+            this.labelTMonTransOutput.AutoSize = true;
+            this.labelTMonTransOutput.Location = new System.Drawing.Point(15, 274);
+            this.labelTMonTransOutput.Name = "labelTMonTransOutput";
+            this.labelTMonTransOutput.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelTMonTransOutput.Size = new System.Drawing.Size(130, 13);
+            this.labelTMonTransOutput.TabIndex = 18;
+            this.labelTMonTransOutput.Text = "Transmitter Output Power:";
+            this.labelTMonTransOutput.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelAlarmSettings
             // 
@@ -820,6 +833,25 @@
             this.panelSerialNumber.Size = new System.Drawing.Size(242, 39);
             this.panelSerialNumber.TabIndex = 41;
             // 
+            // textBoxTransmitterOutputPower
+            // 
+            this.textBoxTransmitterOutputPower.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxTransmitterOutputPower.Location = new System.Drawing.Point(150, 269);
+            this.textBoxTransmitterOutputPower.Name = "textBoxTransmitterOutputPower";
+            this.textBoxTransmitterOutputPower.Size = new System.Drawing.Size(76, 20);
+            this.textBoxTransmitterOutputPower.TabIndex = 0;
+            this.textBoxTransmitterOutputPower.TabStop = false;
+            this.textBoxTransmitterOutputPower.Tag = "";
+            // 
+            // panelPowerOut
+            // 
+            this.panelPowerOut.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelPowerOut.Location = new System.Drawing.Point(7, 255);
+            this.panelPowerOut.Name = "panelPowerOut";
+            this.panelPowerOut.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.panelPowerOut.Size = new System.Drawing.Size(242, 46);
+            this.panelPowerOut.TabIndex = 43;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -830,6 +862,17 @@
             this.label4.TabIndex = 42;
             this.label4.Text = "Serial Number:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // pwrLabel
+            // 
+            this.pwrLabel.AutoSize = true;
+            this.pwrLabel.Location = new System.Drawing.Point(16, 250);
+            this.pwrLabel.Name = "pwrLabel";
+            this.pwrLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.pwrLabel.Size = new System.Drawing.Size(40, 13);
+            this.pwrLabel.TabIndex = 44;
+            this.pwrLabel.Text = "Power:";
+            this.pwrLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panelOtherAlarmSettings
             // 
@@ -1903,25 +1946,6 @@
             this.labelGEWHDisplay.Text = "WH";
             this.labelGEWHDisplay.Visible = false;
             // 
-            // textBoxTransmitterOutputPower
-            // 
-            this.textBoxTransmitterOutputPower.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxTransmitterOutputPower.Location = new System.Drawing.Point(55, 320);
-            this.textBoxTransmitterOutputPower.Name = "textBoxTransmitterOutputPower";
-            this.textBoxTransmitterOutputPower.Size = new System.Drawing.Size(76, 20);
-            this.textBoxTransmitterOutputPower.TabIndex = 0;
-            this.textBoxTransmitterOutputPower.TabStop = false;
-            this.textBoxTransmitterOutputPower.Tag = "";
-            // 
-            // labelTMonTransOutput
-            // 
-            this.labelTMonTransOutput.AutoSize = true;
-            this.labelTMonTransOutput.Location = new System.Drawing.Point(40, 300);
-            this.labelTMonTransOutput.Name = "labelTMonTransOutput";
-            this.labelTMonTransOutput.Size = new System.Drawing.Size(130, 13);
-            this.labelTMonTransOutput.TabIndex = 0;
-            this.labelTMonTransOutput.Text = "Transmitter Output Power:";
-            // 
             // ucTransmitterMonitoring2
             // 
             this.ucTransmitterMonitoring2.CTMult = "";
@@ -1931,9 +1955,10 @@
             this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
             this.ucTransmitterMonitoring2.GEEnabled = false;
             this.ucTransmitterMonitoring2.Location = new System.Drawing.Point(4, 0);
+            this.ucTransmitterMonitoring2.Margin = new System.Windows.Forms.Padding(4);
             this.ucTransmitterMonitoring2.Name = "ucTransmitterMonitoring2";
             this.ucTransmitterMonitoring2.Size = new System.Drawing.Size(981, 575);
-            this.ucTransmitterMonitoring2.TabIndex = 86;
+            this.ucTransmitterMonitoring2.TabIndex = 88;
             this.ucTransmitterMonitoring2.TimeElapsedHours = "";
             this.ucTransmitterMonitoring2.TimeElapsedMinutes = "";
             this.ucTransmitterMonitoring2.TimeElapsedSeconds = "";
@@ -1941,6 +1966,7 @@
             this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring2.TransmitterSN = "";
             this.ucTransmitterMonitoring2.WaterBugActive = false;
+            this.ucTransmitterMonitoring2.DNPCoverFlags = ((byte)(0));
             // 
             // ucTransmitter
             // 
@@ -1957,16 +1983,18 @@
             this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.labelMessageFrequencySettings);
             this.Controls.Add(this.panelMessageFreqSettings);
+            this.Controls.Add(this.textBoxTransmitterOutputPower);
+            this.Controls.Add(this.labelTMonTransOutput);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.pwrLabel);
             this.Controls.Add(this.panelSerialNumber);
+            this.Controls.Add(this.panelPowerOut);
             this.Controls.Add(this.labelGeneralSettings);
             this.Controls.Add(this.panelGeneralSettings);
             this.Controls.Add(this.labelOperatingMode);
             this.Controls.Add(this.textBoxOperatingMode);
             this.Controls.Add(this.numericUpDownCurrentThresholdLow);
             this.Controls.Add(this.labelCurrentThresholdLow);
-            this.Controls.Add(this.textBoxTransmitterOutputPower);
-            this.Controls.Add(this.labelTMonTransOutput);
             this.Controls.Add(this.buttonRestoreDefaults);
             this.Controls.Add(this.labelErrorLabel);
             this.Controls.Add(this.buttonRQ);
@@ -2023,7 +2051,7 @@
         private System.Windows.Forms.TextBox textBoxSerialNumber;
         private System.Windows.Forms.Label labelTXSN;
         //private System.Windows.Forms.Panel panelFlagSettings;
-       // private System.Windows.Forms.Label labelFlagPolarity;
+        // private System.Windows.Forms.Label labelFlagPolarity;
         private System.Windows.Forms.Label labelAlarmSettings;
         private System.Windows.Forms.Panel panelAlarmSettings;
         private System.Windows.Forms.CheckBox checkBoxFAH;
@@ -2051,7 +2079,8 @@
         private System.Windows.Forms.Panel panelGeneralSettings;
         private System.Windows.Forms.Label labelGeneralSettings;
         private System.Windows.Forms.Panel panelSerialNumber;
-         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label pwrLabel;
         /* private System.Windows.Forms.Label label12;
          private System.Windows.Forms.Label label11;
          private System.Windows.Forms.Label label10;
@@ -2190,7 +2219,8 @@
         private System.Windows.Forms.CheckBox checkBoxExtendedPLCMessage;
         private System.Windows.Forms.Label labelGEWHDisplay;
         public System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
-        public System.Windows.Forms.Label labelTMonTransOutput;
         public RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
+        private System.Windows.Forms.Panel panelPowerOut;
+        private System.Windows.Forms.Label labelTMonTransOutput;
     }
 }

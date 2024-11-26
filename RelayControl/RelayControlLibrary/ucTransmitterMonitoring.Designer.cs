@@ -228,6 +228,7 @@ namespace RelayControlLibrary
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
             this.labelFlagPolarity = new System.Windows.Forms.Label();
+           // this.ucTransmitter2 = new RelayControlLibrary.ucTransmitter();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -587,8 +588,8 @@ namespace RelayControlLibrary
             this.myThermometerA2.Size = new System.Drawing.Size(126, 115);
             this.myThermometerA2.TabIndex = 65;
             this.myThermometerA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
-            meter1.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
-            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            meter1.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom)
+            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             meter1.Background.Color = System.Drawing.SystemColors.Control;
             meter1.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
@@ -891,7 +892,7 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
             this.myChartLoads.Chart.Background.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
             this.myChartLoads.Chart.Background.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
-            this.myChartLoads.Chart.ChartTitle.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            this.myChartLoads.Chart.ChartTitle.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartLoads.Chart.ChartTitle.Background.Transparency = 100;
             this.myChartLoads.Chart.ChartTitle.Location = new System.Drawing.Point(30, 20);
@@ -903,8 +904,8 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.ChartTitle.TextFormat.HorizontalAlignment = System.Drawing.StringAlignment.Center;
             this.myChartLoads.Chart.ChartTitle.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
             this.myChartLoads.Chart.ChartTitle.TextFormat.VerticalAlignment = System.Drawing.StringAlignment.Center;
-            this.myChartLoads.Chart.Grid.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
-            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            this.myChartLoads.Chart.Grid.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom)
+            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartLoads.Chart.Grid.Axis3DX.AxisMode = GraphicsServer.GSNet.Charting.AxisMode.Category;
             this.myChartLoads.Chart.Grid.Axis3DX.Color = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
@@ -1057,7 +1058,7 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.Grid.MarginAxisTop = 5;
             this.myChartLoads.Chart.Grid.Size = new System.Drawing.Size(466, 157);
             this.myChartLoads.Chart.Grid.SurfaceChart.SideWallsFill.Color = System.Drawing.Color.PaleGoldenrod;
-            this.myChartLoads.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            this.myChartLoads.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartLoads.Chart.Legend.AutoTextColor = false;
             this.myChartLoads.Chart.Legend.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
@@ -1230,7 +1231,7 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
             this.myChartVoltages.Chart.Background.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
             this.myChartVoltages.Chart.Background.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
-            this.myChartVoltages.Chart.ChartTitle.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            this.myChartVoltages.Chart.ChartTitle.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartVoltages.Chart.ChartTitle.Background.Transparency = 100;
             this.myChartVoltages.Chart.ChartTitle.Location = new System.Drawing.Point(30, 20);
@@ -1242,8 +1243,8 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.ChartTitle.TextFormat.HorizontalAlignment = System.Drawing.StringAlignment.Center;
             this.myChartVoltages.Chart.ChartTitle.TextFormat.TextTrimmingMode = System.Drawing.StringTrimming.None;
             this.myChartVoltages.Chart.ChartTitle.TextFormat.VerticalAlignment = System.Drawing.StringAlignment.Center;
-            this.myChartVoltages.Chart.Grid.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
-            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            this.myChartVoltages.Chart.Grid.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom)
+            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartVoltages.Chart.Grid.Axis3DX.AxisMode = GraphicsServer.GSNet.Charting.AxisMode.Category;
             this.myChartVoltages.Chart.Grid.Axis3DX.Color = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
@@ -1399,7 +1400,7 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.Grid.MarginAxisTop = 5;
             this.myChartVoltages.Chart.Grid.Size = new System.Drawing.Size(466, 157);
             this.myChartVoltages.Chart.Grid.SurfaceChart.SideWallsFill.Color = System.Drawing.Color.PaleGoldenrod;
-            this.myChartVoltages.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            this.myChartVoltages.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartVoltages.Chart.Legend.AutoTextColor = false;
             this.myChartVoltages.Chart.Legend.Background.BackgroundType = GraphicsServer.GSNet.Charting.BackgroundType.Gradient;
@@ -1830,8 +1831,8 @@ namespace RelayControlLibrary
             this.myThermometerA1.Size = new System.Drawing.Size(126, 115);
             this.myThermometerA1.TabIndex = 63;
             this.myThermometerA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
-            meter3.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
-            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
+            meter3.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom)
+            | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left)
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             meter3.Background.Color = System.Drawing.SystemColors.Control;
             meter3.Border.BorderType = GraphicsServer.GSNet.Charting.BorderType.Simple;
@@ -2558,6 +2559,24 @@ namespace RelayControlLibrary
             this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
             this.textBoxQBit.TabIndex = 7;
             // 
+            // ucTransmitter2
+            // 
+           /* this.ucTransmitter2.CTRatio = ((uint)(320u));
+            this.ucTransmitter2.Customer = RelayControlLibrary.Customers.NonConEd;
+            //this.ucTransmitter2.DNPCoverFlags = ((byte)(0));
+            this.ucTransmitter2.DNPEnabled = false;
+            this.ucTransmitter2.ForceDNPEnable = false;
+            this.ucTransmitter2.FPGARevisionValid = true;
+            this.ucTransmitter2.GERelay = false;
+            this.ucTransmitter2.Location = new System.Drawing.Point(8, 6);
+            this.ucTransmitter2.Name = "ucTransmitter2";
+            this.ucTransmitter2.PacketLength = 30;
+            this.ucTransmitter2.SerialNumber = 0;
+            this.ucTransmitter2.Size = new System.Drawing.Size(869, 612);
+            this.ucTransmitter2.TabIndex = 0;
+            this.ucTransmitter2.WaterBugNoTransmitter = false;
+            */
+            // 
             // panelFlagSettings
             // 
             this.panelFlagSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -3187,5 +3206,6 @@ namespace RelayControlLibrary
         public System.Windows.Forms.RadioButton radioButtonFPAClose;
         private System.Windows.Forms.Panel panelFlagSettings;
         private System.Windows.Forms.Label labelFlagPolarity;
+      //  public RelayControlLibrary.ucTransmitter ucTransmitter2;
     }
 }

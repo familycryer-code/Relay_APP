@@ -62,6 +62,7 @@
             this.timerRegisterPolling = new System.Windows.Forms.Timer(this.components);
             this.tabPageTransmitterMonitoring = new System.Windows.Forms.TabPage();
             this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
+            this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
             this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
@@ -565,6 +566,27 @@
             this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring1.TransmitterSN = "";
             this.ucTransmitterMonitoring1.WaterBugActive = false;
+            this.ucTransmitterMonitoring1.DNPCoverFlags = ((byte)(0));
+            // 
+            // ucTransmitterMonitoring2
+            // 
+            this.ucTransmitterMonitoring2.CTMult = "";
+            this.ucTransmitterMonitoring2.CTRatio = 320;
+            this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
+            this.ucTransmitterMonitoring2.GEEnabled = false;
+            this.ucTransmitterMonitoring2.Location = new System.Drawing.Point(4, 0);
+            this.ucTransmitterMonitoring2.Name = "ucTransmitterMonitoring1";
+            this.ucTransmitterMonitoring2.Size = new System.Drawing.Size(981, 575);
+            this.ucTransmitterMonitoring2.TabIndex = 87;
+            this.ucTransmitterMonitoring2.TimeElapsedHours = "";
+            this.ucTransmitterMonitoring2.TimeElapsedMinutes = "";
+            this.ucTransmitterMonitoring2.TimeElapsedSeconds = "";
+            this.ucTransmitterMonitoring2.TransmitterID = "";
+            this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
+            this.ucTransmitterMonitoring2.TransmitterSN = "";
+            this.ucTransmitterMonitoring2.WaterBugActive = false;
+            this.ucTransmitterMonitoring2.DNPCoverFlags = ((byte)(0));
             // 
             // labelRelayDisconnected2
             // 
@@ -2690,7 +2712,8 @@
         private System.Windows.Forms.Label labelLiveDataTriggerTime;
         private SineDisplayGraph.ucLiveData ucLiveData1;
         private System.Windows.Forms.TabPage tabPageTransmitter;
-        private RelayControlLibrary.ucTransmitter ucTransmitter1;
+        private RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
+        private RelayControlLibrary.ucTransmitter ucTransmitter2;
         private System.Windows.Forms.TabPage tabPageMonitor;
         private System.Windows.Forms.CheckBox checkBoxInTripRegion;
         private System.Windows.Forms.TextBox textBoxTemperatureMonitoringPage;
@@ -2844,5 +2867,6 @@
         private System.Windows.Forms.Label labelKioskReceived;
         private RelayControlLibrary.CommTradeConverter commTradeConverter1;
         private System.ComponentModel.IContainer components;
+        public RelayControlLibrary.ucTransmitter ucTransmitter1;
     }
 }

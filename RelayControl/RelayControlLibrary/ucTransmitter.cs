@@ -17,7 +17,7 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             this.textBoxTXCTRatio.Text = "120";
-           
+
             this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
 
 #if DEBUG
@@ -86,7 +86,7 @@ namespace RelayControlLibrary
             }
         }
 
-        
+
 
         private uint cTRatio = 320;
         public uint CTRatio
@@ -244,7 +244,10 @@ namespace RelayControlLibrary
                 //Set the Flag Polarity
                 this.TXSettings.FlagPolarity.ByteValue = bA[9];
                 //this.setFlagPolarity(bA[9]);
-                this.ucTransmitterMonitoring2.setFlagPolarity(bA[10]);
+                flagP.transmitterFlagPolarity = bA[9];
+                this.ucTransmitterMonitoring2.setFlagPolarity(bA[9]);
+                
+
                 //Enable Flag Alarms
                 this.TXSettings.EnableFlagAlarms = bA[10];
                 this.setEnableFlagAlarms(bA[10]);
@@ -450,7 +453,7 @@ namespace RelayControlLibrary
                 this.buttonRQ.Size = new Size(110, 74);
                 this.buttonForceConfigMessage.Size = new Size(110, 44);
                 this.buttonRestoreDefaults.Size = new Size(110, 44);
-               // this.panelFlagSettings.Size = new Size(242, 217);
+                // this.panelFlagSettings.Size = new Size(242, 217);
 #endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
@@ -579,7 +582,7 @@ namespace RelayControlLibrary
                 this.checkBoxOverVolt.Checked = false;
         }
 
-        
+
 
         private void setWaterburyEnables(byte p)
         {
@@ -672,7 +675,6 @@ namespace RelayControlLibrary
         public void setMonitoringData(byte[] bytePacket)
         {
             this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
-            this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
             SetMonitoringData(bytePacket);
         }
 
@@ -893,13 +895,13 @@ namespace RelayControlLibrary
             OnSend(RQSEA);
         }
 
-       
-
         private void buttonTX_Click(object sender, EventArgs e)
         {
+            string text = "Sending Transmitter settings to the Relay. Flag settings, as seen on the Sensor Monitoring tab, will be sent as well !";
+            MessageBox.Show(text);
             this.SendTransmitterSettings();
         }
-
+        
         public void SendTransmitterSettings()
         {
             string errorMessage = "";
@@ -1148,6 +1150,7 @@ namespace RelayControlLibrary
 
             OnSend(this.TXSEA);
         }
+        
 
         private void updateCheckBox(CheckBox cB, bool b)
         {
@@ -1399,15 +1402,15 @@ namespace RelayControlLibrary
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
 
-           /* this.radioButtonFPAClose.Checked = true;
-            this.radioButtonFPBClose.Checked = true;
-            this.radioButtonFPCClose.Checked = true;
-            this.radioButtonFPDClose.Checked = true;
-            this.radioButtonFPEClose.Checked = true;
-            this.radioButtonFPFClose.Checked = true;
-            this.radioButtonFPGClose.Checked = true;
-            this.radioButtonFPHClose.Checked = true;
-           */
+             this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
+             this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
+            
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;
             this.checkBoxFAC.Checked = false;
@@ -1435,7 +1438,7 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-          //  this.enableWaterbury(true);
+            //  this.enableWaterbury(true);
 
             this.numericUpDownAnalog1Threshold.Value = 100;
             this.numericUpDownAnalog2Threshold.Value = 100;
@@ -1479,15 +1482,15 @@ namespace RelayControlLibrary
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
 
-           /* this.radioButtonFPAClose.Checked = true;
-            this.radioButtonFPBClose.Checked = true;
-            this.radioButtonFPCClose.Checked = true;
-            this.radioButtonFPDClose.Checked = true;
-            this.radioButtonFPEClose.Checked = true;
-            this.radioButtonFPFClose.Checked = true;
-            this.radioButtonFPGClose.Checked = true;
-            this.radioButtonFPHClose.Checked = true;
-           */
+            this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
+
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;
             this.checkBoxFAC.Checked = false;
@@ -1568,7 +1571,7 @@ namespace RelayControlLibrary
 #else
             this.CTRatio = 600;
 #endif
-            
+
             this.checkBoxBlue.Checked = true;
             this.checkBoxGreen.Checked = false;
             this.checkBoxRed.Checked = false;
@@ -1583,15 +1586,6 @@ namespace RelayControlLibrary
             this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
             this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
 
-            /*  this.radioButtonFPAClose.Checked = true;
-              this.radioButtonFPBClose.Checked = true;
-              this.radioButtonFPCClose.Checked = true;
-              this.radioButtonFPDClose.Checked = true;
-              this.radioButtonFPEClose.Checked = true;
-              this.radioButtonFPFClose.Checked = true;
-              this.radioButtonFPGClose.Checked = true;
-              this.radioButtonFPHClose.Checked = true;
-            */
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;
             this.checkBoxFAC.Checked = false;
@@ -1740,7 +1734,7 @@ namespace RelayControlLibrary
 
         private void enableWaterbury(bool p) // SEC
         {
-//#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+            //#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
 #if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE || ONCOR) && !DEBUG
             this.panelWaterburyMain.Visible = false;
             this.labelSmartExternalCableMain.Visible = false;
@@ -1889,15 +1883,15 @@ namespace RelayControlLibrary
             get { return this.checkBoxDNPEnable.Checked; }
         }
 
-       /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
-        {
-            checkBoxExtendedPLCMessage.Location =
-                new Point(panelFlagSettings.Location.X,
-                panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
-            buttonForceConfigMessage.Location =
-                new Point(checkBoxExtendedPLCMessage.Location.X,
-                checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
-        }
-       */
+        /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
+         {
+             checkBoxExtendedPLCMessage.Location =
+                 new Point(panelFlagSettings.Location.X,
+                 panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
+             buttonForceConfigMessage.Location =
+                 new Point(checkBoxExtendedPLCMessage.Location.X,
+                 checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
+         }
+        */
     }
 }

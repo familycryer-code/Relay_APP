@@ -1954,6 +1954,13 @@ namespace RelayControlLibrary
         public static int pwrPer;
     }
 
+    public static class flagP
+    {
+        public static byte transmitterFlagPolarity;
+    }
+
+
+
     [Flags]
     public enum ProtectorVoltageBits
     {

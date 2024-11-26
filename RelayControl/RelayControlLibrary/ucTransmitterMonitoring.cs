@@ -48,7 +48,7 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.SelectedIndex = 2;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
             groupBoxVoltageReadings.Visible = false;
-            groupBox17.Visible = false;   
+            groupBox17.Visible = false;
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
@@ -81,14 +81,14 @@ namespace RelayControlLibrary
             this.labelEa.Visible = true;
             this.labelGa.Visible = true;
             this.labelHa.Visible = true;
-            
+
 #if ENMAX
             this.labelHa.Text = "Oil Level";
             this.labelHa.Location = new Point(4, 142);
             this.checkBoxFlagStatusH.Visible = false;
             this.labelQPres.Visible = true;
             this.textBoxQBit.Visible = true;
-#elif !ONCOR 
+#elif !ONCOR
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
 #endif
@@ -348,7 +348,7 @@ namespace RelayControlLibrary
             }
         }
 
-       private string timeElapsedSeconds = "";
+        private string timeElapsedSeconds = "";
         public string TimeElapsedSeconds
         {
             get { return this.timeElapsedSeconds; }
@@ -414,8 +414,8 @@ namespace RelayControlLibrary
             this.enableMonitoring();
 
 #if !WATERBUG
-            this.myChartVoltages.Visible = true;
-            this.myChartLoads.Visible = true;
+            //  this.myChartVoltages.Visible = true;
+            //  this.myChartLoads.Visible = true;
 #endif
             this.enableMonitoring();
         }
@@ -442,7 +442,7 @@ namespace RelayControlLibrary
                 this.setAll(bytePacket);
             }
         }
-                
+
         private void setAll(byte[] bytePacket)
         {
             int localTemp, powerPercent, monByteLength = 0;
@@ -476,9 +476,9 @@ namespace RelayControlLibrary
             else
                 powerPercent = 100;
 
-           powerP.pwrPer = powerPercent;
-           // this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
-           
+            powerP.pwrPer = powerPercent;
+            // this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
+
             //Transmitter Temperature
             localTemp = bytePacket[3];
             localTemp <<= 8;
@@ -781,7 +781,7 @@ namespace RelayControlLibrary
         private void updateAllSeries()
         {
             this.dVGraphingValues.Table = this.graphingValues.Tables[0];
-
+            this.setFlagPolarity(flagP.transmitterFlagPolarity);
             DataView temp = this.dVGraphingValues;
             DataRow dR = this.dVGraphingValues.Table.Rows[0];
             DataViewDataProvider graphingDVP = new DataViewDataProvider(this.dVGraphingValues);
@@ -1151,16 +1151,16 @@ namespace RelayControlLibrary
             this.radioButtonFPHClose.Checked = this.SensorMonitoringSettings.FlagPolarity.H;
         }
 
-       /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
-        {
-            checkBoxExtendedPLCMessage.Location =
-                new Point(panelFlagSettings.Location.X,
-                panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
-            buttonForceConfigMessage.Location =
-                new Point(checkBoxExtendedPLCMessage.Location.X,
-                checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
-        }
-       */
+        /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
+         {
+             checkBoxExtendedPLCMessage.Location =
+                 new Point(panelFlagSettings.Location.X,
+                 panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
+             buttonForceConfigMessage.Location =
+                 new Point(checkBoxExtendedPLCMessage.Location.X,
+                 checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
+         }
+        */
         private bool waterBugActive = false;
         public bool WaterBugActive
         {

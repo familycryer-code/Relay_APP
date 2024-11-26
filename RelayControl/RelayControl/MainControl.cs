@@ -1457,7 +1457,7 @@ namespace RelayControl
 
                     this.allEnabled = b;
                     this.ucTransmitter1.EnableControl();
-                }
+                 }
             }
             catch (Exception ex)
             {
@@ -3192,7 +3192,7 @@ namespace RelayControl
                 tempI += bytePacket[0];
 
                 this.ucTransmitterMonitoring1.TransmitterID = tempI.ToString();
-
+                this.ucTransmitterMonitoring2.TransmitterID = tempI.ToString();
                 //Serial Number
                 tempI = bytePacket[3];
                 tempI <<= 8;
@@ -3241,6 +3241,7 @@ namespace RelayControl
                 this.savedSerialNumber = tempI;
 
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
+                this.ucTransmitterMonitoring2.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
@@ -3250,7 +3251,7 @@ namespace RelayControl
                 tempI += bytePacket[4];
 
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
-
+                this.ucTransmitterMonitoring2.CTMult = tempI.ToString();
                 //DNP Enabled
                 if (!this.blockDNPEnableFromTransmitterSettings)
                 {
@@ -3290,7 +3291,7 @@ namespace RelayControl
                 this.setMonitoringPageFrequency(RelayModeFunctions.FrequencyFrom(bytePacket[8]));
 
                 this.ucTransmitter1.SetAllValues(settings);
-
+                
 #if DNP && ATLANTA
                 this.ucCoverFlags1.setDNPCoverFlags(settings);
 #endif
@@ -7241,7 +7242,7 @@ namespace RelayControl
 
 #if DNP && ATLANTA
             this.ucTransmitter1.DNPCoverFlags = this.ucCoverFlags1.getDNPCoverFlagsByte();
-            this.ucTransmitter1.setPolarityFromRelaySettings();
+            this.ucTransmitterMonitoring1.setPolarityFromRelaySettings(); //this.ucTransmitter1.setPolarityFromRelaySettings();
             this.ucTransmitter1.SendTransmitterSettings();
             Thread.Sleep(100);
 #endif
