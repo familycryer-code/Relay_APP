@@ -420,8 +420,8 @@ namespace RelayControlLibrary
                 this.labelTransFlagStatus.Location = new Point(267, 294);
 
                 //position size and location for release
-                this.panelFlagSettings.Location = new Point(7, 300);
-                this.labelFlagPolarity.Location = new Point(13, 294); //13, 250
+             //   this.panelFlagSettings.Location = new Point(7, 300);
+             //   this.labelFlagPolarity.Location = new Point(13, 294); //13, 250
 
                 this.buttonTX.Location = new Point(260, 6);
                 this.buttonRQ.Location = new Point(260, 93);
@@ -438,7 +438,7 @@ namespace RelayControlLibrary
                 this.labelSmartExternalCable.Location = new Point(16, 243);
                 this.checkBoxSmartExternalCableEnable.Location = new Point(63, 12);
 
-                this.panelFlagSettings.Size = new Size(242, 217);
+                //this.panelFlagSettings.Size = new Size(242, 217);
 #else
                 //this.panelOtherAlarmSettings.Show();
                 //this.labelOtherAlarmSettings.Show();

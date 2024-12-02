@@ -96,8 +96,8 @@ namespace RelayControl
                     if (this.dNPDIGITALGRIDData != null)
                         this.dNPDIGITALGRIDData.Customer = this.customer;
 
-                    if (this.customer == Customers.ConEdison)
-                        this.makeConEdisonGUI();
+                    if (this.customer == Customers.ConEdison) { }
+                      // this.makeConEdisonGUI();
                     else if (this.customer == Customers.Memphis)
                         this.makeMemphisGUI();
                 }
@@ -573,7 +573,14 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + " ONCOR "; 
+#if LONDONH
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " LONDON HYDRO ";
+#elif CONED
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " CONED ";
+#else
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
+#endif
+                // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + this.Customer;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -591,6 +598,12 @@ namespace RelayControl
 #endif
 #if CONED
                 this.Customer = Customers.ConEdison;
+                ucRemoteCommandBlock1.Visible = false;
+                this.ucRemoteCommandBlock1.Visible = false;
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 #elif MEMPHIS
                 this.Customer = Customers.Memphis;
 #elif GERELAY
@@ -601,7 +614,7 @@ namespace RelayControl
 #elif DNP
                 this.Customer = Customers.DIGITALGRIDDNP;
                 this.DNPEnabled = true;
-#if ATLANTA || ONCOR 
+#if ATLANTA || ONCOR
                // if (tabControlMain.TabPages.Contains(tabPageTransmitter))
                //     tabControlMain.TabPages.Remove(tabPageTransmitter);
                // if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
@@ -5396,6 +5409,9 @@ namespace RelayControl
 //#elif ONCOR
 //            this.domainUpDownPhasings.SelectedIndex = 2;
 //            this.domainUpDownRelayType.SelectedIndex = 1;
+#elif CONED
+            this.domainUpDownPhasings.SelectedIndex = 0;
+            this.domainUpDownRelayType.SelectedIndex = 0;
 #else
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
@@ -5411,8 +5427,10 @@ namespace RelayControl
              * 7    800
              * 8   "Special"
              */
-#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || ONCOR || MEMPHIS
+#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || ONCOR || MEMPHIS //|| LONDONH
             this.domainUpDownCTRatioM.SelectedIndex = 2;
+#elif CONED ||  LONDONH
+            this.domainUpDownCTRatioM.SelectedIndex = 5;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;
 #endif
