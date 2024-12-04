@@ -934,6 +934,20 @@ namespace RelayControlLibrary
 
             checkDNP();
 
+            
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
+            this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
+
+            this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+            this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
 #if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG || BGE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
@@ -950,8 +964,8 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if (ENMAX || PSEG) && DNP
-
+            //#if (ENMAX || PSEG) && DNP
+#if (ENMAX || PSEG || CONED) && DNP
 
             if (GERelay)
             {

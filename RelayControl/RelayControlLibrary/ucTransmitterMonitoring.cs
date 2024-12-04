@@ -654,7 +654,7 @@ namespace RelayControlLibrary
         {
             string text = "New button to send TX settings !";
             MessageBox.Show(text);
-            
+           
            // this.SendTransmitterSettings();
         }
 
