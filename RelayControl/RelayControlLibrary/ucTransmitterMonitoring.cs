@@ -49,6 +49,11 @@ namespace RelayControlLibrary
             this.listBoxA2SensorSelect.SelectedIndex = 2;
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
+            this.newButtonSensMonTX.Visible = true;
+            this.newButtonSensMonTX.Enabled = true;
+            this.textBoxTransmitterTemp.Enabled = false;
+            this.textBoxQBit.Enabled = false;
+            
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
@@ -599,6 +604,11 @@ namespace RelayControlLibrary
 
         private void enableMonitoring()
         {
+            if (statusNew.flagFromRelay)
+            { 
+                this.setFlagPolarity(flagS.flagSettings);
+                statusNew.flagFromRelay = false;
+            }
             TransmitterMonitoringEventArgs tMEA = new TransmitterMonitoringEventArgs(true);
             if (MonitoringStateChange != null)
                 MonitoringStateChange(this, tMEA);
@@ -638,6 +648,14 @@ namespace RelayControlLibrary
             {
                 throw new Exception("Invalid ListBox Value: " + this.listBoxA1SensorSelect.Text + " in " + this.listBoxA1SensorSelect.ToString());
             }
+        }
+
+        private void newButtonSensMonTX_Click(object sender, EventArgs e)
+        {
+            string text = "New button to send TX settings !";
+            MessageBox.Show(text);
+            
+           // this.SendTransmitterSettings();
         }
 
         private void listBoxA1SensorSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -781,7 +799,8 @@ namespace RelayControlLibrary
         private void updateAllSeries()
         {
             this.dVGraphingValues.Table = this.graphingValues.Tables[0];
-            this.setFlagPolarity(flagP.transmitterFlagPolarity);
+           // this.setFlagPolarity(flagP.transmitterFlagPolarity);
+
             DataView temp = this.dVGraphingValues;
             DataRow dR = this.dVGraphingValues.Table.Rows[0];
             DataViewDataProvider graphingDVP = new DataViewDataProvider(this.dVGraphingValues);

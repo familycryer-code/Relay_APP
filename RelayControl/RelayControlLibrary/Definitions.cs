@@ -1959,7 +1959,15 @@ namespace RelayControlLibrary
         public static byte transmitterFlagPolarity;
     }
 
+    public static class flagS
+    {
+        public static byte flagSettings;
+    }
 
+    public static class statusNew
+    {
+        public static bool flagFromRelay;
+    }
 
     [Flags]
     public enum ProtectorVoltageBits

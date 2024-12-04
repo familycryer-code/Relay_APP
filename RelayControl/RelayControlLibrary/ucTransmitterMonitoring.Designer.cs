@@ -139,6 +139,7 @@ namespace RelayControlLibrary
             this.groupBoxVaultMonitoringCommands = new System.Windows.Forms.GroupBox();
             this.buttonPauseMonitoring = new System.Windows.Forms.Button();
             this.buttonStartMonitoring = new System.Windows.Forms.Button();
+            this.newButtonSensMonTX = new System.Windows.Forms.Button();
             this.groupBoxAnalog1 = new System.Windows.Forms.GroupBox();
             this.myThermometerA1 = new GraphicsServer.GSNet.Widgets.GSNetWinWidget();
             this.myPSIWidgetA1 = new GraphicsServer.GSNet.Widgets.GSNetWinWidget();
@@ -228,7 +229,7 @@ namespace RelayControlLibrary
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
             this.labelFlagPolarity = new System.Windows.Forms.Label();
-           // this.ucTransmitter2 = new RelayControlLibrary.ucTransmitter();
+           // this.ucTransmitter3 = new RelayControlLibrary.ucTransmitter();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -1804,6 +1805,18 @@ namespace RelayControlLibrary
             this.buttonStartMonitoring.UseVisualStyleBackColor = true;
             this.buttonStartMonitoring.Click += new System.EventHandler(this.buttonStartMonitoring_Click);
             // 
+            // newButtonSensMonTX
+            // 
+            this.newButtonSensMonTX.Enabled = false;
+            this.newButtonSensMonTX.Location = new System.Drawing.Point(47, 365);
+            this.newButtonSensMonTX.Name = "newButtonSensMonTX";
+            this.newButtonSensMonTX.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.newButtonSensMonTX.Size = new System.Drawing.Size(100, 44);
+            this.newButtonSensMonTX.TabIndex = 0;
+            this.newButtonSensMonTX.Text = "Send Settings";
+            this.newButtonSensMonTX.UseVisualStyleBackColor = true;
+            this.newButtonSensMonTX.Click += new System.EventHandler(this.newButtonSensMonTX_Click);
+            // 
             // groupBoxAnalog1
             // 
             this.groupBoxAnalog1.Controls.Add(this.myThermometerA1);
@@ -2559,22 +2572,22 @@ namespace RelayControlLibrary
             this.textBoxQBit.Size = new System.Drawing.Size(33, 20);
             this.textBoxQBit.TabIndex = 7;
             // 
-            // ucTransmitter2
+            // ucTransmitter3
             // 
-           /* this.ucTransmitter2.CTRatio = ((uint)(320u));
-            this.ucTransmitter2.Customer = RelayControlLibrary.Customers.NonConEd;
-            //this.ucTransmitter2.DNPCoverFlags = ((byte)(0));
-            this.ucTransmitter2.DNPEnabled = false;
-            this.ucTransmitter2.ForceDNPEnable = false;
-            this.ucTransmitter2.FPGARevisionValid = true;
-            this.ucTransmitter2.GERelay = false;
-            this.ucTransmitter2.Location = new System.Drawing.Point(8, 6);
-            this.ucTransmitter2.Name = "ucTransmitter2";
-            this.ucTransmitter2.PacketLength = 30;
-            this.ucTransmitter2.SerialNumber = 0;
-            this.ucTransmitter2.Size = new System.Drawing.Size(869, 612);
-            this.ucTransmitter2.TabIndex = 0;
-            this.ucTransmitter2.WaterBugNoTransmitter = false;
+            /*this.ucTransmitter3.CTRatio = ((uint)(320u));
+            //this.ucTransmitter3.Customer = RelayControlLibrary.Customers.NonConEd;
+            //this.ucTransmitter3.DNPCoverFlags = ((byte)(0));
+            this.ucTransmitter3.DNPEnabled = false;
+            this.ucTransmitter3.ForceDNPEnable = false;
+            this.ucTransmitter3.FPGARevisionValid = true;
+            this.ucTransmitter3.GERelay = false;
+            this.ucTransmitter3.Location = new System.Drawing.Point(8, 6);
+            this.ucTransmitter3.Name = "ucTransmitter3";
+            this.ucTransmitter3.PacketLength = 30;
+            this.ucTransmitter3.SerialNumber = 0;
+            this.ucTransmitter3.Size = new System.Drawing.Size(869, 612);
+            this.ucTransmitter3.TabIndex = 0;
+            this.ucTransmitter3.WaterBugNoTransmitter = false;
             */
             // 
             // panelFlagSettings
@@ -2995,6 +3008,7 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxFlagStatus);
             this.Controls.Add(this.labelFlagPolarity);
             this.Controls.Add(this.panelFlagSettings);
+            this.Controls.Add(this.newButtonSensMonTX);
             this.Name = "ucTransmitterMonitoring";
             this.Size = new System.Drawing.Size(981, 575);
             this.groupBoxVoltageReadings.ResumeLayout(false);
@@ -3206,6 +3220,7 @@ namespace RelayControlLibrary
         public System.Windows.Forms.RadioButton radioButtonFPAClose;
         private System.Windows.Forms.Panel panelFlagSettings;
         private System.Windows.Forms.Label labelFlagPolarity;
-      //  public RelayControlLibrary.ucTransmitter ucTransmitter2;
+        private System.Windows.Forms.Button newButtonSensMonTX;
+        //public RelayControlLibrary.ucTransmitter ucTransmitter3;
     }
 }

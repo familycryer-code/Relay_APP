@@ -311,6 +311,7 @@ namespace RelayControl
 #else
                 this.groupBoxLowVoltThres.Visible = false;
 #endif
+                statusNew.flagFromRelay = false;
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);

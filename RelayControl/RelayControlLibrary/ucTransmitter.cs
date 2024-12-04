@@ -19,7 +19,7 @@ namespace RelayControlLibrary
             this.textBoxTXCTRatio.Text = "120";
 
             this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
-
+            this.textBoxTransmitterOutputPower.Enabled = false;
 #if DEBUG
             this.textBoxSerialNumber.Enabled = true;
             this.textBoxTransmitterOutputPower.Enabled = true;
@@ -244,9 +244,10 @@ namespace RelayControlLibrary
                 //Set the Flag Polarity
                 this.TXSettings.FlagPolarity.ByteValue = bA[9];
                 //this.setFlagPolarity(bA[9]);
+                statusNew.flagFromRelay = true;
                 flagP.transmitterFlagPolarity = bA[9];
                 this.ucTransmitterMonitoring2.setFlagPolarity(bA[9]);
-                
+                flagS.flagSettings = bA[9];
 
                 //Enable Flag Alarms
                 this.TXSettings.EnableFlagAlarms = bA[10];
