@@ -125,6 +125,7 @@ namespace RelayControlLibrary
                 case Customers.SMUD:
                 case Customers.Atlanta:
                 case Customers.Oncor:
+                case Customers.LondonH:
                     this.makeNonConEd();
                     break;
                 case Customers.ConEdison:

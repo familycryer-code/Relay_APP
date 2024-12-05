@@ -62,7 +62,7 @@
             this.timerRegisterPolling = new System.Windows.Forms.Timer(this.components);
             this.tabPageTransmitterMonitoring = new System.Windows.Forms.TabPage();
             this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
-            this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
+          //  this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
             this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
@@ -570,7 +570,7 @@
             // 
             // ucTransmitterMonitoring2
             // 
-            this.ucTransmitterMonitoring2.CTMult = "";
+            /*this.ucTransmitterMonitoring2.CTMult = "";
             this.ucTransmitterMonitoring2.CTRatio = 320;
             this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
@@ -587,6 +587,7 @@
             this.ucTransmitterMonitoring2.TransmitterSN = "";
             this.ucTransmitterMonitoring2.WaterBugActive = false;
             this.ucTransmitterMonitoring2.DNPCoverFlags = ((byte)(0));
+            */
             // 
             // labelRelayDisconnected2
             // 
@@ -2712,7 +2713,7 @@
         private System.Windows.Forms.Label labelLiveDataTriggerTime;
         private SineDisplayGraph.ucLiveData ucLiveData1;
         private System.Windows.Forms.TabPage tabPageTransmitter;
-        private RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
+       // private RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
         private RelayControlLibrary.ucTransmitter ucTransmitter2;
         private System.Windows.Forms.TabPage tabPageMonitor;
         private System.Windows.Forms.CheckBox checkBoxInTripRegion;

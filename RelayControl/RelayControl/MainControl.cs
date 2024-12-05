@@ -97,7 +97,7 @@ namespace RelayControl
                         this.dNPDIGITALGRIDData.Customer = this.customer;
 
                     if (this.customer == Customers.ConEdison) { }
-                      // this.makeConEdisonGUI();
+                    //this.makeConEdisonGUI();
                     else if (this.customer == Customers.Memphis)
                         this.makeMemphisGUI();
                 }
@@ -155,13 +155,15 @@ namespace RelayControl
 #if !WATERBUG
                     if (this.Customer == Customers.SMUD)
                         this.TransmitterEnabled = false;
-
+                    
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
+#if !LONDONH
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                         this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+#endif
                     }
-                    if (this.customer != Customers.Memphis)
+                    if (this.customer != Customers.Memphis) 
                     {
                         if (this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
                         {
@@ -183,19 +185,20 @@ namespace RelayControl
 
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
+#if !LONDONH
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+#endif
                         }
                     }
-                    else // Memphis style
+                    else // Memphis style or London Hydro
                     {
                         if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                             this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-
                     }
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
-                }
+                        }
                 else
                 {
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
@@ -210,6 +213,7 @@ namespace RelayControl
                 }
 
             }
+
         }
 
         private void setDNPTabPoints()
@@ -310,6 +314,9 @@ namespace RelayControl
                 this.groupBoxLowVoltThres.Visible = true;
 #else
                 this.groupBoxLowVoltThres.Visible = false;
+#endif
+#if LONDONH
+                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
                 statusNew.flagFromRelay = false;
                 this.timerLiveEventAcknowledge.Interval = 250;
@@ -575,7 +582,8 @@ namespace RelayControl
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
 #if LONDONH
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " LONDON HYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
+                this.Customer = Customers.LondonH;
 #elif CONED
                     this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " CONED ";
 #else
@@ -3206,7 +3214,7 @@ namespace RelayControl
                 tempI += bytePacket[0];
 
                 this.ucTransmitterMonitoring1.TransmitterID = tempI.ToString();
-                this.ucTransmitterMonitoring2.TransmitterID = tempI.ToString();
+            //    this.ucTransmitterMonitoring2.TransmitterID = tempI.ToString();
                 //Serial Number
                 tempI = bytePacket[3];
                 tempI <<= 8;
@@ -3255,7 +3263,7 @@ namespace RelayControl
                 this.savedSerialNumber = tempI;
 
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
-                this.ucTransmitterMonitoring2.TransmitterSN = tempI.ToString();
+             //   this.ucTransmitterMonitoring2.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
@@ -3265,7 +3273,7 @@ namespace RelayControl
                 tempI += bytePacket[4];
 
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
-                this.ucTransmitterMonitoring2.CTMult = tempI.ToString();
+              //  this.ucTransmitterMonitoring2.CTMult = tempI.ToString();
                 //DNP Enabled
                 if (!this.blockDNPEnableFromTransmitterSettings)
                 {
@@ -8128,7 +8136,7 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                this.messageHandler("Error Settin DNPData", ex);
+                this.messageHandler("Error Setting DNPData", ex);
             }
         }
 

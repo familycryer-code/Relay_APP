@@ -902,7 +902,7 @@ namespace RelayControlLibrary
             MessageBox.Show(text);
             this.SendTransmitterSettings();
         }
-        
+
         public void SendTransmitterSettings()
         {
             string errorMessage = "";
@@ -1151,7 +1151,7 @@ namespace RelayControlLibrary
 
             OnSend(this.TXSEA);
         }
-        
+
 
         private void updateCheckBox(CheckBox cB, bool b)
         {
@@ -1403,15 +1403,15 @@ namespace RelayControlLibrary
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
 
-             this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
-             this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
-            
+            this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
+            this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
+
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;
             this.checkBoxFAC.Checked = false;

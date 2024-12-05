@@ -49,11 +49,11 @@ namespace RelayControlLibrary
             this.listBoxA2SensorSelect.SelectedIndex = 2;
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
-            this.newButtonSensMonTX.Visible = true;
-            this.newButtonSensMonTX.Enabled = true;
+            this.newButtonSensMonTX.Visible = false;
+            this.newButtonSensMonTX.Enabled = false;
             this.textBoxTransmitterTemp.Enabled = false;
             this.textBoxQBit.Enabled = false;
-            
+
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
@@ -605,7 +605,7 @@ namespace RelayControlLibrary
         private void enableMonitoring()
         {
             if (statusNew.flagFromRelay)
-            { 
+            {
                 this.setFlagPolarity(flagS.flagSettings);
                 statusNew.flagFromRelay = false;
             }
@@ -654,8 +654,8 @@ namespace RelayControlLibrary
         {
             string text = "New button to send TX settings !";
             MessageBox.Show(text);
-           
-           // this.SendTransmitterSettings();
+
+            // this.SendTransmitterSettings();
         }
 
         private void listBoxA1SensorSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -799,7 +799,7 @@ namespace RelayControlLibrary
         private void updateAllSeries()
         {
             this.dVGraphingValues.Table = this.graphingValues.Tables[0];
-           // this.setFlagPolarity(flagP.transmitterFlagPolarity);
+            // this.setFlagPolarity(flagP.transmitterFlagPolarity);
 
             DataView temp = this.dVGraphingValues;
             DataRow dR = this.dVGraphingValues.Table.Rows[0];

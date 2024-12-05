@@ -94,6 +94,7 @@ namespace RelayControlLibrary
         Dominion,
         Atlanta,
         Oncor,
+        LondonH,
         None
     }
 
