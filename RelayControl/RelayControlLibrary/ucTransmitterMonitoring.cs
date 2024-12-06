@@ -151,7 +151,7 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusG.Visible = true;
 
             this.labelHa.Visible = true;
-#elif TAUNTON
+/*#elif TAUNTON
             textBoxCa.Visible = false;
             labelCa.Visible = false;
             textBoxDa.Visible = false;
@@ -171,8 +171,7 @@ namespace RelayControlLibrary
             checkBoxFlagStatusF.Visible = false;
             checkBoxFlagStatusG.Visible = false;
             checkBoxFlagStatusH.Visible = false;
-
-
+*/
 #elif MADISON && !DEBUG
             this.textBoxCa.Visible = false;
             this.textBoxDa.Visible = false;

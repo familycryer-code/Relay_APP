@@ -95,6 +95,7 @@ namespace RelayControlLibrary
         Atlanta,
         Oncor,
         LondonH,
+        SCE,
         None
     }
 

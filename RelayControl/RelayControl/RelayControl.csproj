@@ -406,6 +406,15 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCE|AnyCPU'">
+    <OutputPath>bin\Release SCE\</OutputPath>
+    <DefineConstants>TRACE;SCE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSNetWin">
       <HintPath>..\..\GSNet\3.5\Bin\GSNetWin.dll</HintPath>

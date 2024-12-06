@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SineDisplayGraph", "SineDisplayGraph\SineDisplayGraph.csproj", "{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}"
 EndProject
@@ -137,6 +137,9 @@ Global
 		Release PSEG|Any CPU = Release PSEG|Any CPU
 		Release PSEG|Mixed Platforms = Release PSEG|Mixed Platforms
 		Release PSEG|Win32 = Release PSEG|Win32
+		Release SCE|Any CPU = Release SCE|Any CPU
+		Release SCE|Mixed Platforms = Release SCE|Mixed Platforms
+		Release SCE|Win32 = Release SCE|Win32
 		Release Seattle|Any CPU = Release Seattle|Any CPU
 		Release Seattle|Mixed Platforms = Release Seattle|Mixed Platforms
 		Release Seattle|Win32 = Release Seattle|Win32
@@ -350,6 +353,12 @@ Global
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release PSEG|Win32.ActiveCfg = Release DIGITALGRIDDNPwPLC|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release PSEG|Win32.Build.0 = Release DIGITALGRIDDNPwPLC|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release SCE|Mixed Platforms.ActiveCfg = Release SCE|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release SCE|Mixed Platforms.Build.0 = Release SCE|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Seattle|Any CPU.ActiveCfg = Release Seattle|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Seattle|Any CPU.Build.0 = Release Seattle|Any CPU
 		{DDE0CDF5-C8DE-4887-8E7A-AD7BF23BEE3F}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -571,6 +580,12 @@ Global
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release PSEG|Win32.ActiveCfg = Release DIGITALGRIDDNPwPLC|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release PSEG|Win32.Build.0 = Release DIGITALGRIDDNPwPLC|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release SCE|Mixed Platforms.ActiveCfg = Release SCE|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release SCE|Mixed Platforms.Build.0 = Release SCE|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Seattle|Any CPU.ActiveCfg = Release Seattle|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Seattle|Any CPU.Build.0 = Release Seattle|Any CPU
 		{B0E5F73E-DC0B-4BE0-8BBF-1903864D67DF}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -791,6 +806,12 @@ Global
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release PSEG|Win32.ActiveCfg = Release DIGITALGRIDDNPwPLC|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release PSEG|Win32.Build.0 = Release DIGITALGRIDDNPwPLC|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release SCE|Any CPU.ActiveCfg = Release SCE|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release SCE|Any CPU.Build.0 = Release SCE|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release SCE|Mixed Platforms.ActiveCfg = Release SCE|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release SCE|Mixed Platforms.Build.0 = Release SCE|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release SCE|Win32.ActiveCfg = Release SCE|Any CPU
+		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release SCE|Win32.Build.0 = Release SCE|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Seattle|Any CPU.ActiveCfg = Release Seattle|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Seattle|Any CPU.Build.0 = Release Seattle|Any CPU
 		{D1B42759-31A0-42B0-B4F4-3F764632E326}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -1015,6 +1036,12 @@ Global
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release PSEG|Win32.ActiveCfg = Release Oncor|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release PSEG|Win32.Build.0 = Release Oncor|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release SCE|Mixed Platforms.ActiveCfg = Release SCE|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release SCE|Mixed Platforms.Build.0 = Release SCE|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release Seattle|Any CPU.ActiveCfg = Release Oncor|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release Seattle|Any CPU.Build.0 = Release Oncor|Any CPU
 		{1904A41B-D1B8-40E5-ADBB-728DDCF7C816}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -1242,6 +1269,12 @@ Global
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release PSEG|Win32.ActiveCfg = Release Oncor|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release PSEG|Win32.Build.0 = Release Oncor|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release SCE|Mixed Platforms.ActiveCfg = Release SCE|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release SCE|Mixed Platforms.Build.0 = Release SCE|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Seattle|Any CPU.ActiveCfg = Release Oncor|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Seattle|Any CPU.Build.0 = Release Oncor|Any CPU
 		{8C1FD785-7558-4ED5-A937-4A63AF83F53C}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -1468,6 +1501,12 @@ Global
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release PSEG|Win32.ActiveCfg = Release DIGITALGRIDDNPwPLC|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release PSEG|Win32.Build.0 = Release DIGITALGRIDDNPwPLC|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release SCE|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release SCE|Mixed Platforms.Build.0 = Release|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Seattle|Any CPU.ActiveCfg = Release Seattle|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Seattle|Any CPU.Build.0 = Release Seattle|Any CPU
 		{E861DC92-010B-456B-85DA-DF917F6F05D7}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -1692,6 +1731,12 @@ Global
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release PSEG|Win32.ActiveCfg = Release DIGITALGRIDDNPwPLC|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release PSEG|Win32.Build.0 = Release DIGITALGRIDDNPwPLC|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release SCE|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release SCE|Mixed Platforms.Build.0 = Release|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Seattle|Any CPU.ActiveCfg = Release Seattle|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Seattle|Any CPU.Build.0 = Release Seattle|Any CPU
 		{E69D17C3-3869-4390-9415-ECB7DB9CF3C0}.Release Seattle|Mixed Platforms.ActiveCfg = Release Seattle|Any CPU
@@ -1929,6 +1974,12 @@ Global
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release PSEG|Mixed Platforms.Build.0 = Release PSEG|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release PSEG|Win32.ActiveCfg = Release PSEG|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release PSEG|Win32.Build.0 = Release PSEG|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release SCE|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release SCE|Mixed Platforms.Build.0 = Release|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release Seattle|Any CPU.ActiveCfg = Release|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release Seattle|Any CPU.Build.0 = Release|Any CPU
 		{937D58BA-E306-4996-B9A9-9E577E80FDBF}.Release Seattle|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -2169,6 +2220,12 @@ Global
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release PSEG|Mixed Platforms.Build.0 = Release|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release PSEG|Win32.ActiveCfg = Release|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release PSEG|Win32.Build.0 = Release|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release SCE|Any CPU.ActiveCfg = Release Taunton|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release SCE|Any CPU.Build.0 = Release Taunton|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release SCE|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release SCE|Mixed Platforms.Build.0 = Release|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release SCE|Win32.ActiveCfg = Release Taunton|Any CPU
+		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release SCE|Win32.Build.0 = Release Taunton|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release Seattle|Any CPU.ActiveCfg = Release|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release Seattle|Any CPU.Build.0 = Release|Any CPU
 		{804EAE0F-F93E-46C2-AC10-BD2BFDCADD92}.Release Seattle|Mixed Platforms.ActiveCfg = Release|Any CPU

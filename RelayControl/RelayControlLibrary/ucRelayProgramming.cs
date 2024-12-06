@@ -934,7 +934,7 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-            
+
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
             this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
 
@@ -1046,7 +1046,7 @@ namespace RelayControlLibrary
             logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
-
+/*
 #if TAUNTON
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorTaunton;
             this.textBoxMasterFileName.Text = "Master Relay Taunton";
@@ -1074,7 +1074,7 @@ namespace RelayControlLibrary
             logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
-
+*/
 #if MADISON
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMadison;
             this.textBoxMasterFileName.Text = "Master Relay Madison";
