@@ -142,15 +142,15 @@ namespace RelayControlLibrary
 
             this.labelHa.Visible = false;
 #elif LONDONH
-            this.textBoxHa.Visible = false;
+            this.textBoxHa.Visible = true;
 
-            this.checkBoxFlagStatusC.Visible = false;
-            this.checkBoxFlagStatusD.Visible = false;
-            this.checkBoxFlagStatusE.Visible = false;
-            this.checkBoxFlagStatusF.Visible = false;
-            this.checkBoxFlagStatusG.Visible = false;
+            this.checkBoxFlagStatusC.Visible = true;
+            this.checkBoxFlagStatusD.Visible = true;
+            this.checkBoxFlagStatusE.Visible = true;
+            this.checkBoxFlagStatusF.Visible = true;
+            this.checkBoxFlagStatusG.Visible = true;
 
-            this.labelHa.Visible = false;
+            this.labelHa.Visible = true;
 #elif TAUNTON
             textBoxCa.Visible = false;
             labelCa.Visible = false;

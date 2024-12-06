@@ -170,8 +170,8 @@ namespace RelayControl
                             this.tabPageDNPData.Controls.Remove(this.dNPMemphisData);
                             this.dNPMemphisData.Dispose();
                         }
-
-                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                        //if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         {
                             setDNPTabPoints();
                         }
@@ -315,7 +315,8 @@ namespace RelayControl
 #else
                 this.groupBoxLowVoltThres.Visible = false;
 #endif
-#if LONDONH
+//#if LONDONH
+#if (!DIGITALGRID || DIGITALGRIDDNP)
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
                 statusNew.flagFromRelay = false;
@@ -5438,7 +5439,7 @@ namespace RelayControl
              */
 #if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || ONCOR || MEMPHIS //|| LONDONH
             this.domainUpDownCTRatioM.SelectedIndex = 2;
-#elif CONED ||  LONDONH
+#elif CONED || LONDONH
             this.domainUpDownCTRatioM.SelectedIndex = 5;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;

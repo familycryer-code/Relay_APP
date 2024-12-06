@@ -229,7 +229,7 @@ namespace RelayControlLibrary
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
             this.labelFlagPolarity = new System.Windows.Forms.Label();
-           // this.ucTransmitter3 = new RelayControlLibrary.ucTransmitter();
+          //  this.ucTransmitter3 = new RelayControlLibrary.ucTransmitter();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -3221,6 +3221,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Panel panelFlagSettings;
         private System.Windows.Forms.Label labelFlagPolarity;
         private System.Windows.Forms.Button newButtonSensMonTX;
-        //public RelayControlLibrary.ucTransmitter ucTransmitter3;
+      //  public RelayControlLibrary.ucTransmitter ucTransmitter3;
     }
 }
