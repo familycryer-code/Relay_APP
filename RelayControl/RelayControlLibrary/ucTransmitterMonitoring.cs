@@ -141,7 +141,7 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusG.Visible = false;
 
             this.labelHa.Visible = false;
-#elif LONDONH
+#elif LONDONH 
             this.textBoxHa.Visible = true;
 
             this.checkBoxFlagStatusC.Visible = true;
@@ -199,13 +199,13 @@ namespace RelayControlLibrary
 #if PSEG
             this.listBoxA2SensorSelect.SelectedItem = "Oil Temperature";
             groupBoxAnalogFlagValues.Visible = true;
-            textBoxHa.Visible = false;
-            labelHa.Visible = false;
-            checkBoxFlagStatusC.Visible = false;
-            checkBoxFlagStatusD.Visible = false;
-            checkBoxFlagStatusE.Visible = false;
-            checkBoxFlagStatusF.Visible = false;
-            checkBoxFlagStatusG.Visible = false;
+            textBoxHa.Visible = true;//= false;
+            labelHa.Visible = true;//false;
+            checkBoxFlagStatusC.Visible = true;//false;
+            checkBoxFlagStatusD.Visible = true;//false;
+            checkBoxFlagStatusE.Visible = true;//false;
+            checkBoxFlagStatusF.Visible = true;//false;
+            checkBoxFlagStatusG.Visible = true;//false;
 #endif
         }
 

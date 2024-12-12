@@ -37,6 +37,7 @@
             // 
             this.labelEventEnable.AutoSize = true;
             this.labelEventEnable.Location = new System.Drawing.Point(339, 3);
+           // this.labelEventEnable.Location = new System.Drawing.Point(349, 3);
             this.labelEventEnable.Name = "labelEventEnable";
             this.labelEventEnable.Size = new System.Drawing.Size(74, 13);
             this.labelEventEnable.TabIndex = 9;
@@ -55,7 +56,8 @@
             // labelPointNumber
             // 
             this.labelPointNumber.AutoSize = true;
-            this.labelPointNumber.Location = new System.Drawing.Point(7, 3);
+           // this.labelPointNumber.Location = new System.Drawing.Point(7, 3);
+            this.labelPointNumber.Location = new System.Drawing.Point(3, 3);
             this.labelPointNumber.Name = "labelPointNumber";
             this.labelPointNumber.Size = new System.Drawing.Size(35, 13);
             this.labelPointNumber.TabIndex = 10;

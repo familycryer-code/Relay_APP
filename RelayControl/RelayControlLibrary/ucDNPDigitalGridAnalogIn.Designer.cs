@@ -36,7 +36,8 @@ namespace RelayControlLibrary
             // textBoxPointValue
             // 
             this.textBoxPointValue.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxPointValue.Location = new System.Drawing.Point(48, 0);
+            //this.textBoxPointValue.Location = new System.Drawing.Point(48, 0);
+            this.textBoxPointValue.Location = new System.Drawing.Point(20, 0);
             this.textBoxPointValue.Name = "textBoxPointValue";
             this.textBoxPointValue.ReadOnly = true;
             this.textBoxPointValue.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -47,7 +48,8 @@ namespace RelayControlLibrary
             // labelPointName
             // 
             this.labelPointName.AutoSize = true;
-            this.labelPointName.Location = new System.Drawing.Point(154, 3);
+           // this.labelPointName.Location = new System.Drawing.Point(154, 3);
+            this.labelPointName.Location = new System.Drawing.Point(124, 3);
             this.labelPointName.Name = "labelPointName";
             this.labelPointName.Size = new System.Drawing.Size(35, 13);
             this.labelPointName.TabIndex = 11;

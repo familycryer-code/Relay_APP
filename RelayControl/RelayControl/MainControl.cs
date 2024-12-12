@@ -319,6 +319,12 @@ namespace RelayControl
 #if (!DIGITALGRID || DIGITALGRIDDNP)
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
+#if PSEG
+                
+                this.ucShortRange1.Enabled = false;
+                this.ucShortRange1.Visible = false;
+                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+#endif
                 statusNew.flagFromRelay = false;
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
@@ -571,10 +577,10 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-                //this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
-                this.buttonForceI.Visible = false;
+                this.buttonForceI.Visible = false; 
                 this.buttonUpdateCTRatio.Visible = false;
                 this.buttonRequestRelayRegisters.Visible = false;
                 this.buttonResetMaster.Visible = false;
@@ -590,8 +596,12 @@ namespace RelayControl
 #elif SCE
                     this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                     this.Customer = Customers.SCE;
+#elif PSEG
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " PSE&G ";
+#elif ENMAX
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
 #else
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
                 // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + this.Customer;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
@@ -679,9 +689,11 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+//#if (!DIGITALGRID || DIGITALGRIDDNP)
+#if (DIGITALGRIDDNP)
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
                     this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-               
+#endif
 
 #else
                 checkBox277DNPOutputs.Visible = false;
@@ -6440,7 +6452,8 @@ namespace RelayControl
                         {
                             this.enableDNPMonitoring(false);
                             temp = false;
-                            string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                            //string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                            string text = "Relay not found. Please check for its Power and Connection.";
                             MessageBox.Show(text);
 
                         }
@@ -7970,7 +7983,8 @@ namespace RelayControl
                 this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
             else
             {
-                string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                //string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
+                string text = "Relay not found. Please check for its Power and Connection.";
                 MessageBox.Show(text);
                 this.enableDNPMonitoring(false);
             }

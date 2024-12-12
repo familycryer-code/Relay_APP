@@ -27,6 +27,7 @@ namespace RelayControlLibrary
             this.checkBoxEnableGullWing.Checked = false;
             this.showGullWing(false);
 #endif
+
             this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
             this.domainUpDownTripStyle.Hide();
             this.labelTripStyle.Hide();
@@ -1359,7 +1360,7 @@ namespace RelayControlLibrary
             this.gullWingEnabled = false;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.domainUpDownTripStyle.SelectedIndex = 0;
+            this.domainUpDownTripStyle.SelectedIndex = 1;// 0;
 #endif
         }
 
