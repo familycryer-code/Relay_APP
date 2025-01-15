@@ -2530,7 +2530,9 @@
             // 
             // timerResponseTimeOut
             // 
-            this.timerResponseTimeOut.Interval = 1000;
+            //this.timerResponseTimeOut.Interval = 1000;
+            // increased to 5000 to accomodate the new sleep times for all individual 'Sends' done with the 'Send A' button on main  page
+            this.timerResponseTimeOut.Interval = 5000;
             this.timerResponseTimeOut.Tick += new System.EventHandler(this.timerResponseTimeOut_Tick);
             // 
             // timerScreenCapDelay
