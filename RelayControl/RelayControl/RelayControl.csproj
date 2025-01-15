@@ -189,7 +189,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNPwPLC|AnyCPU'">
     <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
     <OutputPath>bin\Release DIGITALGRIDDNPwPLC\</OutputPath>
-    <DefineConstants>DNP, DIGITALGRID,PLC</DefineConstants>
+    <DefineConstants>DIGITALGRID,PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -271,7 +271,7 @@
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release PSEG\</OutputPath>
     <Optimize>true</Optimize>
-    <DefineConstants>PSEG,DNP, DIGITALGRID, PLC</DefineConstants>
+    <DefineConstants>PSEG, DIGITALGRID, PLC</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

@@ -1250,6 +1250,24 @@ namespace RelayControlLibrary
             logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
+#if DIGITALGRID
+            if (GERelay)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMemphis; // Master Processor for GE with PLC only
+                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;  // Relay Processor for GE with PLC only
+                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor; // Master Processor for WH with PLC only
+                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;    // Relay Processor for WH with PLC only
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif
 
             if (this.transmitterEnabled)
             {

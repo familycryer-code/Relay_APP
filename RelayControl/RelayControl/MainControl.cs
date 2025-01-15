@@ -158,7 +158,8 @@ namespace RelayControl
                     
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
-#if !LONDONH
+//#if !LONDONH
+#if !LONDONH && !DIGITALGRID
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                         this.tabControlMain.TabPages.Add(this.tabPageDNPData);
 #endif
@@ -170,8 +171,8 @@ namespace RelayControl
                             this.tabPageDNPData.Controls.Remove(this.dNPMemphisData);
                             this.dNPMemphisData.Dispose();
                         }
-                       // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                       // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                        // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                        // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         {
                             setDNPTabPoints();
@@ -185,7 +186,7 @@ namespace RelayControl
 #endif
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
-#if !LONDONH
+#if !LONDONH && !DIGITALGRID
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
                         }
@@ -198,8 +199,8 @@ namespace RelayControl
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
-                        }
-                else
+                    }
+                    else
                 {
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
@@ -218,6 +219,7 @@ namespace RelayControl
 
         private void setDNPTabPoints()
         {
+#if !DIGITALGRID
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
             this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
@@ -225,6 +227,17 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
             this.dNPDIGITALGRIDData.Show();
+#elif DIGITALGRID
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+            {
+                this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+            }
+            this.dNPEnabledSavedVal = false;
+            this.ucRelayProgramming1.DNPRelay = false;
+#endif
         }
 
         private bool gERelay = false;
@@ -576,7 +589,7 @@ namespace RelayControl
                 this.ucCalibration1.Visible = false;
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
-                this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
+               // this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
@@ -600,6 +613,8 @@ namespace RelayControl
                     this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " PSE&G ";
 #elif ENMAX
                     this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
+#elif DIGITALGRID
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -678,7 +693,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
 #endif
-
+#if (!DIGITALGRID || DIGITALGRIDDNP)
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -689,7 +704,8 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-//#if (!DIGITALGRID || DIGITALGRIDDNP)
+#endif
+                //#if (!DIGITALGRID || DIGITALGRIDDNP)
 #if (DIGITALGRIDDNP)
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
                     this.tabControlMain.TabPages.Add(this.tabPageShortRange);
@@ -5427,7 +5443,8 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
 #elif ENMAX || (PSEG && !DNP) || TAUNTON
             this.domainUpDownPhasings.SelectedIndex = 2;
-            this.domainUpDownRelayType.SelectedIndex = 0;
+            //this.domainUpDownRelayType.SelectedIndex = 0;
+            this.domainUpDownRelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Visible = false;
 #elif PSEG && DNP
             this.domainUpDownPhasings.SelectedIndex = 2;
@@ -7249,33 +7266,33 @@ namespace RelayControl
             this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
             this.ucDNPSAv5OSName2.newOSname();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
             this.ucDNPSAv5OSName2.sendOSName();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
             this.ucDNPSAv5Settings2.setDefaults();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
             this.ucDNPSAv5Settings2.sendSettings();
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
 
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
             this.buttonRelayType_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   //.5 seconds
             this.buttonSendCTRatio_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // 1 seconds
+            Thread.Sleep(500);   // .5 seconds
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(100);
