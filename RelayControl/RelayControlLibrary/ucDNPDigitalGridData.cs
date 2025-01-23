@@ -83,8 +83,8 @@ namespace RelayControlLibrary
 
         private void initializeBinaryInputs()
         {
-              uint pointsToAdd = 46;
-           // uint pointsToAdd;
+         //     uint pointsToAdd = 46;
+            uint pointsToAdd;
             this.binaryInputs.Clear();
 
             this.tabPageBinaryInputs.Controls.Clear();
@@ -268,7 +268,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Failure to Close");
             this.binaryInputs.Add("Failure to Trip");
             this.binaryInputs.Add("Relaying Failure");
-            this.binaryInputs.Add("Cross Phase Detected"); 
+            this.binaryInputs.Add("Cross Phase Detected");
 #endif
             pointsToAdd = (uint)binaryInputs.Count;
             pointsToAdd += 12;
@@ -285,14 +285,16 @@ namespace RelayControlLibrary
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
                 if (i < 50)
-                 this.addBinaryBox(workingBox, this.tabPageBinaryInputs);
+                //this.addBinaryBox(workingBox, this.tabPageBinaryInputs); 
+                 this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
 
                 if (i == pointsToAdd)
                     break;
                 i++;
+                
             }
 
-            int j = this.tabPageBinaryInputs.Controls.Count;
+         //   int j = this.tabPageBinaryInputs.Controls.Count;
         }
 
         private void dNPPoint_PointChanged(object o, DNPPointEventArgs dPEA)
@@ -786,6 +788,9 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase C", false));//48
+            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power Phase C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Voltage Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
@@ -981,6 +986,15 @@ namespace RelayControlLibrary
         }
 
         //Adds a binary box to the selected page
+        private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
+        {
+            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+            int x = box.Width * (tB.Controls.Count / 25) + 1;
+
+            box.Location = new Point(x, y);
+            tB.Controls.Add(box);
+        }
+
         private void addBinaryBox(ucDNPMemphisBinary box, TabPage tB)
         {
             int y = tB.Controls.Count % 20 * 22 + 1; //22 is the height of the control - %20 because 20 per row

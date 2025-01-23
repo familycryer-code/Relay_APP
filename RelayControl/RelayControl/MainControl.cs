@@ -186,9 +186,9 @@ namespace RelayControl
 #endif
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
-#if !LONDONH && !DIGITALGRID
+                        #if !LONDONH && !DIGITALGRID
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-#endif
+                        #endif
                         }
                     }
                     else // Memphis style or London Hydro
@@ -199,8 +199,8 @@ namespace RelayControl
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
-                    }
-                    else
+                        }
+                        else
                 {
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
@@ -219,7 +219,8 @@ namespace RelayControl
 
         private void setDNPTabPoints()
         {
-#if !DIGITALGRID
+//#if !DIGITALGRID 
+#if (!DIGITALGRID || ONCOR)
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
             this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
@@ -227,7 +228,8 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
             this.dNPDIGITALGRIDData.Show();
-#elif DIGITALGRID
+//#elif DIGITALGRID
+#elif (DIGITALGRID && !ONCOR)
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
@@ -343,6 +345,8 @@ namespace RelayControl
                     this.ucShortRange1.Enabled = false;
                     this.ucShortRange1.Visible = false;
                     this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                    this.loadConfigurationToolStripMenuItem.Visible = false;
+                    this.enableAutoloadToolStripMenuItem.Checked = true;
 #endif
 #if PSEG
                 
@@ -695,7 +699,7 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = true;
 
 #if DNP
-    #if DEBUG
+#if DEBUG
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
@@ -703,8 +707,9 @@ namespace RelayControl
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
-    #endif
-    #if (!DIGITALGRID || DIGITALGRIDDNP)
+#endif
+//#if (!DIGITALGRID || DIGITALGRIDDNP)
+#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR)
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -715,12 +720,12 @@ namespace RelayControl
                         this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                         this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-    #endif
-    #if (DIGITALGRID && !ONCOR )
+#endif
+#if (DIGITALGRID && !ONCOR)
     //#if (DIGITALGRIDDNP)
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
                         this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-    #endif
+#endif
 
 #else
                 checkBox277DNPOutputs.Visible = false;
@@ -5486,9 +5491,9 @@ namespace RelayControl
              * 7    800
              * 8   "Special"
              */
-#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || ONCOR || MEMPHIS //|| LONDONH
+#if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || MEMPHIS //|| LONDONH
             this.domainUpDownCTRatioM.SelectedIndex = 2;
-#elif CONED || LONDONH
+#elif CONED || LONDONH || ONCOR
             this.domainUpDownCTRatioM.SelectedIndex = 5;
 #else
             this.domainUpDownCTRatioM.SelectedIndex = 5;
