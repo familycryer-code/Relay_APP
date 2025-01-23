@@ -28,7 +28,6 @@ namespace RelayControlLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBoxNoise = new System.Windows.Forms.GroupBox();
             this.labelNoise47KHz = new System.Windows.Forms.Label();
             this.textBoxNoise153KHz = new System.Windows.Forms.TextBox();
@@ -54,7 +53,7 @@ namespace RelayControlLibrary
             this.textBoxSignal52KHz = new System.Windows.Forms.TextBox();
             this.textBoxSignal58KHz = new System.Windows.Forms.TextBox();
             this.buttonMonitor = new System.Windows.Forms.Button();
-            this.timerMonitor = new System.Windows.Forms.Timer(this.components);
+            this.timerMonitor = new System.Windows.Forms.Timer();
             this.labelFilterTable = new System.Windows.Forms.Label();
             this.labelFilterTableSignalStrength = new System.Windows.Forms.Label();
             this.labelFilterTableSignalAge = new System.Windows.Forms.Label();

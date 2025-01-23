@@ -289,10 +289,10 @@ namespace RelayControl
                 initializeDNPVoltageComboBox();
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
-#if DEBUG
-                this.initializeFromConfigFileDebug();
-                labelConEdPowerRelay.Visible = false;
-#endif
+                #if DEBUG
+                    this.initializeFromConfigFileDebug();
+                    labelConEdPowerRelay.Visible = false;
+                #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
                 this.labelQuietMode.Visible = false;
@@ -306,37 +306,49 @@ namespace RelayControl
                 this.buttonUpdateCTRatio.Visible = false;
 
                 this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
-#if !SeattleTest
-                this.initializeExternalFileRevisionNumber(); //Get the saved data version
-                this.initializeSaveObject();            //Check the save data to see
-#endif
+                #if !SeattleTest
+                    this.initializeExternalFileRevisionNumber(); //Get the saved data version
+                    this.initializeSaveObject();            //Check the save data to see
+                #endif
 
-#if PSEG
-                tCPConnectionToolStripMenuItem.Visible = true;
-#if DNP
-#if !DEBUG
-                domainUpDownRelayType.Visible = false;
-                labelConEdPowerRelay.Visible = true;
-#else
-                labelConEdPowerRelay.Visible = false;
-                domainUpDownRelayType.Visible = true;
-#endif
-#endif
-#endif
-#if ATLANTA
-                this.groupBoxLowVoltThres.Visible = true;
-#else
-                this.groupBoxLowVoltThres.Visible = false;
-#endif
-//#if LONDONH
-#if (!DIGITALGRID || DIGITALGRIDDNP)
-                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                #if PSEG
+                    tCPConnectionToolStripMenuItem.Visible = true;
+                    #if DNP
+                        #if !DEBUG
+                            domainUpDownRelayType.Visible = false;
+                            labelConEdPowerRelay.Visible = true;
+                        #else
+                            labelConEdPowerRelay.Visible = false;
+                            domainUpDownRelayType.Visible = true;
+                        #endif
+                    #endif
+                #endif
+
+                #if ATLANTA
+                    this.groupBoxLowVoltThres.Visible = true;
+                #else
+                    this.groupBoxLowVoltThres.Visible = false;
+                #endif
+                //#if LONDONH
+                #if (!DIGITALGRID || DIGITALGRIDDNP)
+                     this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                #endif
+               /* #if (DIGITALGRID && !ONCOR)
+                    this.ucShortRange1.Enabled = true;
+                    this.ucShortRange1.Visible = true;
+                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+                #endif
+               */
+#if ONCOR
+                    this.ucShortRange1.Enabled = false;
+                    this.ucShortRange1.Visible = false;
+                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
 #if PSEG
                 
-                this.ucShortRange1.Enabled = false;
-                this.ucShortRange1.Visible = false;
-                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                    this.ucShortRange1.Enabled = false;
+                    this.ucShortRange1.Visible = false;
+                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
                 statusNew.flagFromRelay = false;
                 this.timerLiveEventAcknowledge.Interval = 250;
@@ -429,64 +441,64 @@ namespace RelayControl
 
                 this.radioButtonEvent0.Checked = true;
                 this.initializeToolTip();
-#if DG288_TESTFIXTURE_GUI
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                if(this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageEvents))
-                    this.tabControlMain.TabPages.Remove(this.tabPageEvents);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageFlightRecorder))
-                    this.tabControlMain.TabPages.Remove(this.tabPageFlightRecorder);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageMonitor))
-                    this.tabControlMain.TabPages.Remove(this.tabPageMonitor);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageEngineering))
-                    this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageArcFault))
-                    this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
-                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                if (tabControlMain.TabPages.Contains(tabPageEngineering2))
-                    tabControlMain.TabPages.Remove(tabPageEngineering2);
+                #if DG288_TESTFIXTURE_GUI
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                    if(this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                        this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageEvents))
+                        this.tabControlMain.TabPages.Remove(this.tabPageEvents);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageFlightRecorder))
+                        this.tabControlMain.TabPages.Remove(this.tabPageFlightRecorder);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageMonitor))
+                        this.tabControlMain.TabPages.Remove(this.tabPageMonitor);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageEngineering))
+                        this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageArcFault))
+                        this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
+                        this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                    if (tabControlMain.TabPages.Contains(tabPageEngineering2))
+                        tabControlMain.TabPages.Remove(tabPageEngineering2);
 
-                this.dNPEnabledSavedVal = false;
-                this.ucRelayProgramming1.DNPRelay = false;
+                    this.dNPEnabledSavedVal = false;
+                    this.ucRelayProgramming1.DNPRelay = false;
 
-                this.ucTripMode2.Visible = false;
-                this.ucCloseMode1.Visible = false;
-                this.groupBoxNetworkCTRatio.Visible = false;
-                this.panelOtherRelayControls.Visible = false;
-                this.ucPumpMode1.Visible = false;
-                this.groupBoxLowVoltThres.Visible = false;
-                this.groupBoxPhasingAndType.Visible = false;
-                this.checkBox277Protector.Visible = false;
-                this.checkBox277Protector.Checked = false;
-                this.checkBox277DNPOutputs.Visible = false;
-                this.groupBoxLRLockoutMain.Visible = false;
-                this.groupBoxRelayFlags.Visible = false;
-                this.groupBoxRelayStatus.Visible = false;
-                checkBoxReprogramBootAuto.Visible = false;
+                    this.ucTripMode2.Visible = false;
+                    this.ucCloseMode1.Visible = false;
+                    this.groupBoxNetworkCTRatio.Visible = false;
+                    this.panelOtherRelayControls.Visible = false;
+                    this.ucPumpMode1.Visible = false;
+                    this.groupBoxLowVoltThres.Visible = false;
+                    this.groupBoxPhasingAndType.Visible = false;
+                    this.checkBox277Protector.Visible = false;
+                    this.checkBox277Protector.Checked = false;
+                    this.checkBox277DNPOutputs.Visible = false;
+                    this.groupBoxLRLockoutMain.Visible = false;
+                    this.groupBoxRelayFlags.Visible = false;
+                    this.groupBoxRelayStatus.Visible = false;
+                    checkBoxReprogramBootAuto.Visible = false;
 
-                this.tabPageControl.Text = "Safe Service";
+                    this.tabPageControl.Text = "Safe Service";
 
-                this.ucSafeService1.Location = new Point(tabPageControl.Width / 3, tabPageControl.Height / 4);
+                    this.ucSafeService1.Location = new Point(tabPageControl.Width / 3, tabPageControl.Height / 4);
                 
 
-                this.tabPageTransmitterMonitoring.Refresh();
-                this.toolStripMenuItemAction.Visible = false;
-                this.acknowledgeToolStripMenuItem1.Visible = false;
-                this.toolsToolStripMenuItem.Visible = false;
-                this.enableAutoloadToolStripMenuItem.Checked = false;
-#endif
+                    this.tabPageTransmitterMonitoring.Refresh();
+                    this.toolStripMenuItemAction.Visible = false;
+                    this.acknowledgeToolStripMenuItem1.Visible = false;
+                    this.toolsToolStripMenuItem.Visible = false;
+                    this.enableAutoloadToolStripMenuItem.Checked = false;
+                #endif
 
-#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
-                this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.enableAutoloadToolStripMenuItem.Checked = true;
-#endif
+                #if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
+                    this.loadConfigurationToolStripMenuItem.Visible = false;
+                    this.enableAutoloadToolStripMenuItem.Checked = true;
+                #endif
             }
             catch (Exception ex)
             {
@@ -508,81 +520,81 @@ namespace RelayControl
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
 
 
-#if SeattleTest
-                this.noMonitoringVersion = true;
-                this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
-                this.tabControlMain.TabPages.Remove(this.tabPageControl);
-                this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-                //this.tabControlMain.TabPages.Remove(this.tabPageEvents);
-                this.tabControlMain.TabPages.Remove(this.tabPageFlightRecorder);
-                this.tabControlMain.TabPages.Remove(this.tabPageMonitor);
-                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
-                this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
-                this.eventActionsToolStripMenuItem.Enabled = true;
-                this.sToolStripMenuItem.Enabled = false;
-                this.OptionsToolStripMenuItem.Enabled = false;
-                this.acknowledgeToolStripMenuItem1.Visible = false;
-                this.buttonRQEventData.Enabled = false;
-                this.buttonClearEvents.Enabled = false;
-                this.downloadEventFromRelayToolStripMenuItem.Visible = false;
-                this.clearEventsToolStripMenuItem.Visible = false;
-                this.saveEventsToolStripMenuItem.Visible = false;
-                this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + Properties.Resources._RevisionDate;// 2011-10-28";
-                this.toolStripStatusLabelMain.Text = "";
-                this.searchForRelay = false;
-#elif DEBUG
-                this.setCustomersRevisionName();
+                #if SeattleTest
+                    this.noMonitoringVersion = true;
+                    this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
+                    this.tabControlMain.TabPages.Remove(this.tabPageControl);
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                    this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
+                    //this.tabControlMain.TabPages.Remove(this.tabPageEvents);
+                    this.tabControlMain.TabPages.Remove(this.tabPageFlightRecorder);
+                    this.tabControlMain.TabPages.Remove(this.tabPageMonitor);
+                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                    this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
+                    this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
+                    this.eventActionsToolStripMenuItem.Enabled = true;
+                    this.sToolStripMenuItem.Enabled = false;
+                    this.OptionsToolStripMenuItem.Enabled = false;
+                    this.acknowledgeToolStripMenuItem1.Visible = false;
+                    this.buttonRQEventData.Enabled = false;
+                    this.buttonClearEvents.Enabled = false;
+                    this.downloadEventFromRelayToolStripMenuItem.Visible = false;
+                    this.clearEventsToolStripMenuItem.Visible = false;
+                    this.saveEventsToolStripMenuItem.Visible = false;
+                    this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + Properties.Resources._RevisionDate;// 2011-10-28";
+                    this.toolStripStatusLabelMain.Text = "";
+                    this.searchForRelay = false;
+                #elif DEBUG
+                    this.setCustomersRevisionName();
 
-                this.noMonitoringVersion = false;
-                this.buttonForceI.Visible = true;
-                this.ucCalibration1.Visible = true;
-                this.buttonUpdateDisplay.Visible = true;
-                this.enableAll(true);
-                this.tabPageFlightRecorder.Show();
-                this.tabPageEvents.Show();
-#if !DG288_TESTFIXTURE_GUI
-                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
-#elif DG288_TESTFIXTURE_GUI
-                this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
-#endif
-                this.ArcFaultEnabled = true;
-                this.Customer = Customers.DIGITALGRID;
+                    this.noMonitoringVersion = false;
+                    this.buttonForceI.Visible = true;
+                    this.ucCalibration1.Visible = true;
+                    this.buttonUpdateDisplay.Visible = true;
+                    this.enableAll(true);
+                    this.tabPageFlightRecorder.Show();
+                    this.tabPageEvents.Show();
+                    #if !DG288_TESTFIXTURE_GUI
+                                    //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
+                                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
+                    #elif DG288_TESTFIXTURE_GUI
+                                    this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
+                    #endif
+                    this.ArcFaultEnabled = true;
+                    this.Customer = Customers.DIGITALGRID;
 
-#elif WATERBUG
-                this.noMonitoringVersion = false;
-                this.buttonForceI.Visible = true;
-                this.tabControlMain.TabPages.Clear();
-                this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-                this.groupBoxGeneralSettings.Visible = false;
-                this.groupBoxAdvancedReadings.Visible = false;
-                this.groupBoxCurrentReadings.Visible = false;
-                this.groupBoxGeneralSettings.Visible = false;
-                this.groupBoxPowerDirectionalFlow.Visible = false;
-                this.groupBoxRelayProgramming.Visible = false;
-                this.groupBoxVoltageReadings.Visible = false;
-                this.groupBoxAmpCalibration.Visible = false;
-                this.groupBox17.Visible = false;
-                this.DNPEnabled = false;
-                this.toolStripMenuItemAction.Visible = false;
-                this.sToolStripMenuItem.Visible = false;
-                this.acknowledgeToolStripMenuItem1.Visible = false;
-                this.Text = "DIGITALGRID, INC. - Waterbury Testing Software " + Properties.Resources._RevisionDate;// 2011-05-16";
+                #elif WATERBUG
+                    this.noMonitoringVersion = false;
+                    this.buttonForceI.Visible = true;
+                    this.tabControlMain.TabPages.Clear();
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+                    this.groupBoxGeneralSettings.Visible = false;
+                    this.groupBoxAdvancedReadings.Visible = false;
+                    this.groupBoxCurrentReadings.Visible = false;
+                    this.groupBoxGeneralSettings.Visible = false;
+                    this.groupBoxPowerDirectionalFlow.Visible = false;
+                    this.groupBoxRelayProgramming.Visible = false;
+                    this.groupBoxVoltageReadings.Visible = false;
+                    this.groupBoxAmpCalibration.Visible = false;
+                    this.groupBox17.Visible = false;
+                    this.DNPEnabled = false;
+                    this.toolStripMenuItemAction.Visible = false;
+                    this.sToolStripMenuItem.Visible = false;
+                    this.acknowledgeToolStripMenuItem1.Visible = false;
+                    this.Text = "DIGITALGRID, INC. - Waterbury Testing Software " + Properties.Resources._RevisionDate;// 2011-05-16";
 
-                this.listBoxA1SensorSelect.SelectedItem = "DGI Temperature";
-                this.listBoxA2SensorSelect.SelectedItem = "DGI Temperature";
-                this.listBoxA1SensorSelect.Enabled = false;
-                this.listBoxA2SensorSelect.Enabled = false;
-                this.checkBoxFlagStatusA.Visible = false;
-                this.checkBoxFlagStatusB.Visible = false;
-                this.tabPageTransmitterMonitoring.Text = "Monitoring";
-                this.findRelayToolStripMenuItem.Text = "Find Test Set";
-                this.groupBoxVaultMonitoringCommands.Text = "Monitoring Commands";
-                this.enableAllToolStripMenuItem.Visible = false;
-                this.ArcFaultEnabled = false;
-#else
+                    this.listBoxA1SensorSelect.SelectedItem = "DGI Temperature";
+                    this.listBoxA2SensorSelect.SelectedItem = "DGI Temperature";
+                    this.listBoxA1SensorSelect.Enabled = false;
+                    this.listBoxA2SensorSelect.Enabled = false;
+                    this.checkBoxFlagStatusA.Visible = false;
+                    this.checkBoxFlagStatusB.Visible = false;
+                    this.tabPageTransmitterMonitoring.Text = "Monitoring";
+                    this.findRelayToolStripMenuItem.Text = "Find Test Set";
+                    this.groupBoxVaultMonitoringCommands.Text = "Monitoring Commands";
+                    this.enableAllToolStripMenuItem.Visible = false;
+                                this.ArcFaultEnabled = false;
+                #else
                 this.setCustomersRevisionName();
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
@@ -590,7 +602,7 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
                // this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+             //   this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
                 this.buttonForceI.Visible = false; 
@@ -601,40 +613,42 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-#if LONDONH
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
-                this.Customer = Customers.LondonH;
-#elif CONED
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " CONED ";
-#elif SCE
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
-                    this.Customer = Customers.SCE;
-#elif PSEG
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " PSE&G ";
-#elif ENMAX
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
-#elif DIGITALGRID
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
-#else
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
-#endif
+                #if LONDONH
+                                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
+                                this.Customer = Customers.LondonH;
+                #elif CONED
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " CONED ";
+                #elif SCE
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
+                         this.Customer = Customers.SCE;
+                #elif PSEG
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " PSE&G ";
+                #elif ENMAX
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
+                #elif ONCOR
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " ONCOR ";
+                #elif DIGITALGRID            
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
+                #else
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
+                #endif
                 // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + this.Customer;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
-#if DNP && !ENMAX
-                // this.TransmitterEnabled = false;
-                this.TransmitterEnabled = true;
-#else
-                TransmitterEnabled = true;
-#endif
+                #if DNP && !ENMAX
+                    // this.TransmitterEnabled = false;
+                    this.TransmitterEnabled = true;
+                #else
+                    TransmitterEnabled = true;
+                #endif
 
                 this.ArcFaultEnabled = false;
-#if NU
-                checkBox277DNPOutputs.Visible = false;
-#endif
-#if CONED
+                #if NU
+                    checkBox277DNPOutputs.Visible = false;
+                #endif
+            #if CONED
                 this.Customer = Customers.ConEdison;
                 ucRemoteCommandBlock1.Visible = false;
                 this.ucRemoteCommandBlock1.Visible = false;
@@ -642,7 +656,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-#elif SCE
+            #elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;
                 this.ucRemoteCommandBlock1.Visible = false;
@@ -650,66 +664,63 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
-#elif MEMPHIS
+            #elif MEMPHIS
                 this.Customer = Customers.Memphis;
-#elif GERELAY
-                this.Customer = Customers.NonConEdGE;
-                this.DNPEnabled = false;
-                this.enableAllToolStripMenuItem.Visible = true;
-                this.TransmitterEnabled = true;
-#elif DNP
-                this.Customer = Customers.DIGITALGRIDDNP;
-                this.DNPEnabled = true;
-#if ATLANTA || ONCOR
-               // if (tabControlMain.TabPages.Contains(tabPageTransmitter))
-               //     tabControlMain.TabPages.Remove(tabPageTransmitter);
-               // if (tabControlMain.TabPages.Contains(tabPageTransmitterMonitoring))
-               //     tabControlMain.TabPages.Remove(tabPageTransmitterMonitoring);
-                ucRemoteCommandBlock1.Visible = false;
-                this.ucRemoteCommandBlock1.Visible = false;
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
-                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-#endif
-#else
-                this.Customer = Customers.NonConEd;
-                this.DNPEnabled = false;
-                this.TransmitterEnabled = true;
-                this.enableAllToolStripMenuItem.Visible = true;
-#endif
-#endif
+
+            #elif GERELAY
+                            this.Customer = Customers.NonConEdGE;
+                            this.DNPEnabled = false;
+                            this.enableAllToolStripMenuItem.Visible = true;
+                            this.TransmitterEnabled = true;
+            #elif DNP
+                            this.Customer = Customers.DIGITALGRIDDNP;
+                            this.DNPEnabled = true;
+                #if ATLANTA //|| ONCOR
+                               ucRemoteCommandBlock1.Visible = false;
+                                this.ucRemoteCommandBlock1.Visible = false;
+                                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+                                if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
+                                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+                #endif
+            #else
+                            this.Customer = Customers.NonConEd;
+                            this.DNPEnabled = false;
+                            this.TransmitterEnabled = true;
+                            this.enableAllToolStripMenuItem.Visible = true;
+            #endif
+    #endif
                 this.enableAllToolStripMenuItem.Visible = true;
 
 #if DNP
-#if DEBUG
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+    #if DEBUG
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
-#endif
-#if (!DIGITALGRID || DIGITALGRIDDNP)
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNPData);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-#endif
-                //#if (!DIGITALGRID || DIGITALGRIDDNP)
-#if (DIGITALGRIDDNP)
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
-                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-#endif
+    #endif
+    #if (!DIGITALGRID || DIGITALGRIDDNP)
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                        this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                        this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+    #endif
+    #if (DIGITALGRID && !ONCOR )
+    //#if (DIGITALGRIDDNP)
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
+                        this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+    #endif
 
 #else
                 checkBox277DNPOutputs.Visible = false;
@@ -718,9 +729,7 @@ namespace RelayControl
 #if DEBUG || CHICAGO || LONDONH
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
-
-                this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-
+               this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
             }
             catch (Exception ex)
             {

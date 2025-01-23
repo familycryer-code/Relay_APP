@@ -1306,6 +1306,7 @@ namespace RelayControlLibrary
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownWVAngle.Value = -60;
+          //  this.numericUpDownAngle.Value = 90;
             // Making this the case for all defaults, I want them to 
             // actively set it if they are going to use it.
             checkBoxTripOnPowerDown.Checked = false;
@@ -1382,10 +1383,17 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+#elif DIGITALGRID
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 7.5m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
+            this.numericUpDownAngle.Value = 90;
+            
 #else
             this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 10m;
+            this.numericUpDownSensTrip.Value = 7.5m;//10m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+            this.numericUpDownAngle.Value = 90;
 #endif
         }
 
@@ -1403,6 +1411,12 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .186m;
             this.numericUpDownWVCurrent.Value = 50m;
+#elif DIGITALGRID
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 7.5m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
+            this.numericUpDownAngle.Value = 90;
+            
 #endif
         }
 
@@ -1420,6 +1434,12 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0093m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+#elif DIGITALGRID
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 7.5m;
+            this.numericUpDownWVCurrent.Value = 2.5m;
+            this.numericUpDownAngle.Value = 90;
+            
 #endif
         }
 

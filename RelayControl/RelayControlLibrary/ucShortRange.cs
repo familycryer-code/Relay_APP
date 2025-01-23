@@ -648,7 +648,5 @@ namespace RelayControlLibrary
                 item.ChangeCount = 0;
             }
         }
-
-
     }
 }
