@@ -602,7 +602,7 @@ namespace RelayControl
                 this.setCustomersRevisionName();
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
-                this.ucCalibration1.Visible = false;
+                this.ucCalibration1.Visible = true;// false;
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
                // this.tabControlMain.TabPages.Remove(this.tabPageEngineering);

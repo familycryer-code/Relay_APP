@@ -74,7 +74,7 @@ namespace RelayControlLibrary
         private void releaseInitialize()
         {
             this.groupBoxNoise.Hide();
-            this.groupBoxSignal.Hide();
+          //  this.groupBoxSignal.Hide();
         }
 
         #region Communications
