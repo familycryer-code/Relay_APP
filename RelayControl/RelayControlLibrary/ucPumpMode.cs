@@ -241,6 +241,8 @@ namespace RelayControlLibrary
             catch (Exception ex)
             {
                 this.errorHandler(ex);
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.buttonSend_Click(this, new EventArgs());
             }
         }
 
@@ -261,6 +263,7 @@ namespace RelayControlLibrary
             catch
             {
                 this.setDefaults();
+                this.buttonSend_Click(this, new EventArgs());
             }
         }
 
@@ -308,6 +311,8 @@ namespace RelayControlLibrary
             catch
             {
                 this.errorHandler(new Exception("Problem with Pump Enable Value"));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.buttonSend_Click(this, new EventArgs());
             }
             try
             {
@@ -316,6 +321,8 @@ namespace RelayControlLibrary
             catch
             {
                 this.errorHandler(new Exception(bytePacket[1].ToString() + " is not a valid Cycle Limit value."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.buttonSend_Click(this, new EventArgs());
             }
             try
             {
@@ -328,6 +335,8 @@ namespace RelayControlLibrary
             catch
             {
                 this.errorHandler(new Exception(tempM.ToString() + " is not a valid Pump Time value."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.buttonSend_Click(this, new EventArgs());
             }
             try
             {
@@ -345,6 +354,8 @@ namespace RelayControlLibrary
             catch
             {
                 this.errorHandler(new Exception(bytePacket[4].ToString() + " is not a valid Pump Protect Time value."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.buttonSend_Click(this, new EventArgs());
             }
 
             bool needsUpdate = false;
@@ -365,6 +376,8 @@ namespace RelayControlLibrary
                     else
                     {
                         this.errorHandler(new Exception(bytePacket[5].ToString() + " is not a valid Motor Cycle value."));
+                        this.buttonRestoreDefaults_Click(this, new EventArgs());
+                        this.buttonSend_Click(this, new EventArgs());
                     }
                 }
 
@@ -381,7 +394,11 @@ namespace RelayControlLibrary
                         this.numericUpDownMotorTimeout.Value = 10;
                     }
                     else
+                    {
                         this.errorHandler(new Exception(bytePacket[6].ToString() + " is not a valid Motor Timeout value."));
+                        this.buttonRestoreDefaults_Click(this, new EventArgs());
+                        this.buttonSend_Click(this, new EventArgs());
+                    }
                 }
 
                 if (needsUpdate)
@@ -402,7 +419,8 @@ namespace RelayControlLibrary
         private int motorTimeoutValue = 10;
 
 
-        private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
             this.setDefaults();
         }

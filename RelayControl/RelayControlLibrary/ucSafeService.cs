@@ -272,7 +272,11 @@ namespace RelayControlLibrary
                 if (this.LoadingNewCode)
                     this.restoreDefaults();
                 else
+                {
                     this.errorHandler("Error in setAll", ex);
+                    this.restoreDefaults();
+                    this.buttonSend_Click(this, new EventArgs());
+                }
 #else
 
                 this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;

@@ -387,10 +387,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -407,10 +409,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Self Address", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -427,10 +431,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -447,10 +453,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -467,10 +475,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -485,10 +495,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -511,10 +523,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -531,10 +545,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Fragment Size", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -551,10 +567,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Destination Address", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
             //12 13 Source Addy
@@ -570,10 +588,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Source Address", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
             //14 15 unsol max retries
@@ -589,10 +609,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -607,10 +629,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Max Events", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -623,10 +647,12 @@ namespace RelayControlLibrary
             {
 #if DEBUG
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
-//#else
+                //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                this.buttonDefaults_Click(this, new EventArgs());
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 #endif
