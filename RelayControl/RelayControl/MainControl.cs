@@ -4380,7 +4380,9 @@ namespace RelayControl
                     this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
                     if (temp == 2)
                     {
+#if !DOMINION                                                         
                         this.setDomainIndex(2, this.domainUpDownPhasings);
+#endif
                     }
                     else if (temp == 1)
                     {
@@ -4392,14 +4394,16 @@ namespace RelayControl
                     }
                     else if (temp > 48 && temp <= 54) //if it is a coned relay, the phasing will be in ASCII
                     {
+#if !DOMINION
                         this.setDomainIndex(2, this.domainUpDownPhasings);
                         this.conedPhasing = (uint)temp;
                         //this.Customer = Customers.ConEdison;
+#endif
                     }
                     else
                     {
-                        //throw new Exception(temp.ToString() + " is not a valid value for Phasing");
-                       // this.messageHandler("Invalid value for phasing received from relay", "Setting default values for phasing");
+                     //   throw new Exception(temp.ToString() + " is not a valid value for Phasing");
+                      //  this.messageHandler("Invalid value for phasing received from relay", "Setting default values for phasing");
                         this.messageHandler("Setting default values for phasing", "temp.ToString()" + " " + "Invalid value for phasing received from relay");
                         this.restoreDefaultsTypeAndPhasing();
                         this.buttonRelayType_Click(this, new EventArgs());
@@ -5486,6 +5490,10 @@ namespace RelayControl
             checkBox277DNPOutputs.Checked = false;
 #if DOMINION
             this.domainUpDownRelayType.SelectedIndex = 1;
+            this.domainUpDownPhasings.SelectedIndex = 0;// 2;
+            //this.domainUpDownRelayType.SelectedIndex = 0;
+            this.domainUpDownRelayType.SelectedIndex = 1;
+            labelConEdPowerRelay.Visible = false;
 #elif LONDONH || BGE
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
