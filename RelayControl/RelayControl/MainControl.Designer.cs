@@ -1736,7 +1736,9 @@
             // 
             this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
             this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
+#if !DOMINION
             this.domainUpDownPhasings.Items.Add("AutoDetect");
+#endif
             this.domainUpDownPhasings.Location = new System.Drawing.Point(45, 39);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
             this.domainUpDownPhasings.Size = new System.Drawing.Size(114, 20);
@@ -2627,7 +2629,7 @@
 
         }
 
-        #endregion
+#endregion
 
         //private System.IO.Ports.SerialPort serialPort1;
         //private RelayControlLibrary.ucTripMode ucTripMode2;

@@ -557,8 +557,8 @@ namespace RelayControlLibrary
                 this.checkBoxFlagStatusH.Checked = false;
             }
 
-            this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4];
-            this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5];
+            this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4]; 
+            this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5]; 
 
             ((Thermometer)this.myTempWidgetA1.Widget.DeviceList.GetDevice(0)).Value = this.transmitterMeterValuesA1.DGITemp;
             ((Meter)this.myPSIWidgetA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA1.Pressure;
@@ -568,8 +568,10 @@ namespace RelayControlLibrary
             ((Meter)this.myPSIWidgetA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA2.Pressure;
             ((Meter)this.myThermometerA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA2.OilTemp;
 
-            this.setA1Value();
-            this.setA2Value();
+          //  this.setA1Value();
+           // this.setA2Value();
+            this.textBoxA1Analog1.Text = bytePacket[13].ToString();
+            this.textBoxA2Analog2.Text = bytePacket[14].ToString();
 
             this.myPSIWidgetA2.Invalidate();
             this.myTempWidgetA2.Invalidate();

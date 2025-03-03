@@ -159,9 +159,9 @@ namespace RelayControl
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
 //#if !LONDONH
-#if !LONDONH && !DIGITALGRID
+#if !LONDONH && !DIGITALGRID && !DOMINION
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);                      
 #endif
                     }
                     if (this.customer != Customers.Memphis) 
@@ -173,7 +173,7 @@ namespace RelayControl
                         }
                         // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))                        
                         {
                             setDNPTabPoints();
                         }
@@ -186,9 +186,10 @@ namespace RelayControl
 #endif
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
-                        #if !LONDONH && !DIGITALGRID
+//#if !LONDONH && !DIGITALGRID
+#if !LONDONH && !DIGITALGRID && !DOMINION
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-                        #endif
+#endif
                         }
                     }
                     else // Memphis style or London Hydro
@@ -199,8 +200,8 @@ namespace RelayControl
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
-                        }
-                        else
+                    }
+                    else
                 {
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
@@ -219,8 +220,8 @@ namespace RelayControl
 
         private void setDNPTabPoints()
         {
-//#if !DIGITALGRID 
-#if (!DIGITALGRID || ONCOR)
+            //#if (!DIGITALGRID || ONCOR)
+#if ((!DIGITALGRID || ONCOR) && !DOMINION)
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
             this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
@@ -228,8 +229,7 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
             this.dNPDIGITALGRIDData.Show();
-//#elif DIGITALGRID
-#elif (DIGITALGRID && !ONCOR)
+#elif (DIGITALGRID && !ONCOR) || DOMINION
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
@@ -617,24 +617,26 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                #if LONDONH
+#if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
-                #elif CONED
+#elif CONED
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " CONED ";
-                #elif SCE
+#elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
-                #elif PSEG
+#elif PSEG
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " PSE&G ";
-                #elif ENMAX
+#elif ENMAX
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
-                #elif ONCOR
+#elif ONCOR
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " ONCOR ";
-                #elif DIGITALGRID            
+#elif DIGITALGRID
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
-                #else
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
+#elif DOMINION
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " DOMINION ";
+#else
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
                 #endif
                 // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + this.Customer;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
@@ -5482,7 +5484,9 @@ namespace RelayControl
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
             checkBox277DNPOutputs.Checked = false;
-#if DOMINION || LONDONH || BGE
+#if DOMINION
+            this.domainUpDownRelayType.SelectedIndex = 1;
+#elif LONDONH || BGE
             this.domainUpDownPhasings.SelectedIndex = 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #elif ENMAX || (PSEG && !DNP) || TAUNTON
