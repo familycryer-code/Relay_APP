@@ -330,23 +330,23 @@ namespace RelayControl
                     this.groupBoxLowVoltThres.Visible = true;
                 #else
                     this.groupBoxLowVoltThres.Visible = false;
-                #endif
+#endif
                 //#if LONDONH
-                #if (!DIGITALGRID || DIGITALGRIDDNP)
+#if (!DIGITALGRID || DIGITALGRIDDNP)
                      this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                #endif
-               /* #if (DIGITALGRID && !ONCOR)
-                    this.ucShortRange1.Enabled = true;
-                    this.ucShortRange1.Visible = true;
-                    this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-                #endif
-               */
+#endif
+                /* #if (DIGITALGRID && !ONCOR)
+                     this.ucShortRange1.Enabled = true;
+                     this.ucShortRange1.Visible = true;
+                     this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+                 #endif
+                */
 #if ONCOR
-                    this.ucShortRange1.Enabled = false;
-                    this.ucShortRange1.Visible = false;
-                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                    this.loadConfigurationToolStripMenuItem.Visible = false;
-                    this.enableAutoloadToolStripMenuItem.Checked = true;
+                this.ucShortRange1.Enabled = false;
+                this.ucShortRange1.Visible = false;
+                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                this.loadConfigurationToolStripMenuItem.Visible = false;
+                this.enableAutoloadToolStripMenuItem.Checked = true;
 #endif
 #if PSEG
                 
@@ -605,8 +605,6 @@ namespace RelayControl
                 this.ucCalibration1.Visible = true;// false;
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
-               // this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-             //   this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
                 this.buttonForceI.Visible = false; 
@@ -630,7 +628,7 @@ namespace RelayControl
 #elif ENMAX
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
 #elif ONCOR
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " ONCOR ";
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif DOMINION
@@ -736,7 +734,7 @@ namespace RelayControl
 #if DEBUG || CHICAGO || LONDONH
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
-               this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+                this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
             }
             catch (Exception ex)
             {
