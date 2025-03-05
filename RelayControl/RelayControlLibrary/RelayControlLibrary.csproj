@@ -365,6 +365,12 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TorontoHydro|AnyCPU'">
+    <OutputPath>bin\Release TorontoHydro\</OutputPath>
+    <DefineConstants>TORONTO_HYDRO,DNP</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dart.PowerWEB.LiveControls">
       <HintPath>..\..\GSNet\3.5\Bin\Dart.PowerWEB.LiveControls.dll</HintPath>

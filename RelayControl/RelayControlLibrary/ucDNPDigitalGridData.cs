@@ -222,7 +222,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Unused");
             this.binaryInputs.Add("Unused");
 #endif
-#if (ONCOR || DEBUG)
+#if (ONCOR || DEBUG || TORONTO_HYDRO)
             this.binaryInputs.Add("Calling for Open"); //0
             this.binaryInputs.Add("Calling for Close");
             this.binaryInputs.Add("Float");
@@ -383,7 +383,7 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Unused");
             this.binaryOutputs.Add("Unused");
 #endif
-#if ONCOR
+#if (ONCOR || TORONTO_HYDRO)
             this.binaryOutputs.Add("Remote Trip");//0
             this.binaryOutputs.Add("Relax Close");
             this.binaryOutputs.Add("Trip and Block Open");
@@ -738,7 +738,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Number of RNC(s) Reporting", false));
             this.analogInputs.Add(new AnalogPointDefinition("See Tab RNC", false));
 #endif
-#if ONCOR
+#if (ONCOR || TORONTO_HYDRO)
             this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
             this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
             this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt) A", false));
@@ -924,7 +924,7 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
 
 #endif
-#if (ENMAX || ONCOR)
+#if (ENMAX || ONCOR || TORONTO_HYDRO)
             this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
             this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));

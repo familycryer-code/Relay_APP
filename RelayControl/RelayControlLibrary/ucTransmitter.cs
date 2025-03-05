@@ -54,8 +54,8 @@ namespace RelayControlLibrary
 #endif
 
 #if DOMINION || MADISON || BGE
-            this.panelFlasgStatusWB.Visible = true;
-            this.labelTransFlagStatus.Visible = true;
+            this.panelFlasgStatusWB.Visible = false;// true;
+            this.labelTransFlagStatus.Visible = false;// true;
 #elif !DEBUG
             this.panelFlasgStatusWB.Visible = false;
             this.labelTransFlagStatus.Visible = false;

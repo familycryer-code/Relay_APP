@@ -1736,9 +1736,10 @@
             // 
             this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
             this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
-#if !DOMINION
+/*#if !DOMINION
             this.domainUpDownPhasings.Items.Add("AutoDetect");
 #endif
+*/
             this.domainUpDownPhasings.Location = new System.Drawing.Point(45, 39);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
             this.domainUpDownPhasings.Size = new System.Drawing.Size(114, 20);
@@ -2332,8 +2333,10 @@
             this.tabControlMain.Controls.Add(this.tabPageMonitor);
             this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
             this.tabControlMain.Controls.Add(this.tabPageEvents);
+#if (!DOMINION)// || !ONCOR|| !TORONTO_HYDRO)
             this.tabControlMain.Controls.Add(this.tabPageEngineering);
             this.tabControlMain.Controls.Add(this.tabPageEngineering2);
+#endif
             this.tabControlMain.Controls.Add(this.tabPageTransmitter);
             this.tabControlMain.Controls.Add(this.tabPageTransmitterMonitoring);
             this.tabControlMain.Controls.Add(this.tabPageDNP);

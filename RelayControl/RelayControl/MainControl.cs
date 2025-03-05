@@ -122,7 +122,8 @@ namespace RelayControl
                 }
                 else
                 {
-#if ((!PLC && DNP) && !ONCOR)
+//#if ((!PLC && DNP) && !ONCOR)
+#if ((!PLC && DNP) && !ONCOR && !TORONTO_HYDRO)
                     if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
@@ -173,7 +174,7 @@ namespace RelayControl
                         }
                         // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))                        
+                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor || this.Customer == Customers.TorontoHydro) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))                        
                         {
                             setDNPTabPoints();
                         }
@@ -335,13 +336,14 @@ namespace RelayControl
 #if (!DIGITALGRID || DIGITALGRIDDNP)
                      this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
+
                 /* #if (DIGITALGRID && !ONCOR)
                      this.ucShortRange1.Enabled = true;
                      this.ucShortRange1.Visible = true;
                      this.tabControlMain.TabPages.Add(this.tabPageShortRange);
                  #endif
                 */
-#if ONCOR
+#if (ONCOR || TORONTO_HYDRO)
                 this.ucShortRange1.Enabled = false;
                 this.ucShortRange1.Visible = false;
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
@@ -630,12 +632,15 @@ namespace RelayControl
 #elif ONCOR
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
+#elif TORONTO_HYDRO
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " TORONTOHYDRO ";
+                this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
-                #endif
+#endif
                 // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + this.Customer;
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
@@ -649,10 +654,10 @@ namespace RelayControl
                 #endif
 
                 this.ArcFaultEnabled = false;
-                #if NU
+#if NU
                     checkBox277DNPOutputs.Visible = false;
-                #endif
-            #if CONED
+#endif
+#if CONED
                 this.Customer = Customers.ConEdison;
                 ucRemoteCommandBlock1.Visible = false;
                 this.ucRemoteCommandBlock1.Visible = false;
@@ -660,7 +665,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-            #elif SCE
+#elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;
                 this.ucRemoteCommandBlock1.Visible = false;
@@ -668,16 +673,24 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
-            #elif MEMPHIS
+#elif TORONTO_HYDRO
+                this.Customer = Customers.TorontoHydro;
+                ucRemoteCommandBlock1.Visible = false;
+                this.ucRemoteCommandBlock1.Visible = false;
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+#elif MEMPHIS
                 this.Customer = Customers.Memphis;
 
-            #elif GERELAY
+#elif GERELAY
                             this.Customer = Customers.NonConEdGE;
                             this.DNPEnabled = false;
                             this.enableAllToolStripMenuItem.Visible = true;
                             this.TransmitterEnabled = true;
-            #elif DNP
-                            this.Customer = Customers.DIGITALGRIDDNP;
+#elif DNP
+                this.Customer = Customers.DIGITALGRIDDNP;
                             this.DNPEnabled = true;
                 #if ATLANTA //|| ONCOR
                                ucRemoteCommandBlock1.Visible = false;
@@ -709,7 +722,7 @@ namespace RelayControl
 
 #endif
 //#if (!DIGITALGRID || DIGITALGRIDDNP)
-#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR)
+#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO)
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -801,6 +814,8 @@ namespace RelayControl
             this.customerRevisionName = "Atlanta";
 #elif ONCOR
             this.customerRevisionName = "Oncor";
+#elif TORONTO_HYDRO
+            this.customerRevisionName = "Toronto Hydro";
 #elif DG288_TESTFIXTURE_GUI
             this.customerRevisionName = "DG-288 TestFixture";
 #elif SMUD
@@ -5417,14 +5432,16 @@ namespace RelayControl
                 {
                     if (this.Customer != Customers.ConEdison)
                     {
-                        if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC")
-                            packet[2] = 0x00;
-                        else if (this.domainUpDownPhasings.SelectedItem.ToString() == "ACB")
-                            packet[2] = 0x01;
-                        else if (this.domainUpDownPhasings.SelectedItem.ToString() == "AutoDetect")
-                            packet[2] = 0x02;
-                        else
-                            throw new Exception(packet[2].ToString() + " is a bad Phasing");
+                        //if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC")
+                        if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                                packet[2] = 0x00;
+                        //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "ACB")//
+                        else if (this.domainUpDownPhasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                                    packet[2] = 0x01;
+                       //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "AutoDetect")
+                       //    packet[2] = 0x02;
+                         else
+                           throw new Exception(packet[2].ToString() + " is a bad Phasing");
                     }
                     else
                     {
@@ -5493,15 +5510,15 @@ namespace RelayControl
             this.domainUpDownRelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Visible = false;
 #elif LONDONH || BGE
-            this.domainUpDownPhasings.SelectedIndex = 2;
+            this.domainUpDownPhasings.SelectedIndex = 0;//2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #elif ENMAX || (PSEG && !DNP) || TAUNTON
-            this.domainUpDownPhasings.SelectedIndex = 2;
+            this.domainUpDownPhasings.SelectedIndex = 0;//2;
             //this.domainUpDownRelayType.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Visible = false;
 #elif PSEG && DNP
-            this.domainUpDownPhasings.SelectedIndex = 2;
+            this.domainUpDownPhasings.SelectedIndex = 0;//2;
             this.domainUpDownRelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Text = "Sequence";
 #elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
@@ -6783,11 +6800,15 @@ namespace RelayControl
             this.requestLiveDataToolStripMenuItem1.Enabled = false;
             this.buttonRQEventData.Enabled = false;
 
-            DialogResult dR = this.messageHandler("Downloading Live Data", "Downloading Data.  \r\nThis will take a while.  Continue?", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-
             this.liveDataTriggerTime = DateTime.UtcNow;
 
-            this.labelLiveDataTriggerTime.Text = DateTime.UtcNow.ToString();
+            this.labelLiveDataTriggerTime.Text = DateTime.Now.ToString();
+
+            DialogResult dR = this.messageHandler("Downloading Live Data", "Downloading Data.  \r\nThis will take a while.  Continue?", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+           // this.liveDataTriggerTime = DateTime.UtcNow;
+
+           // this.labelLiveDataTriggerTime.Text = DateTime.UtcNow.ToString();
 
             if (dR == DialogResult.OK)
             {

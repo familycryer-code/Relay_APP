@@ -75,7 +75,7 @@ namespace RelayControlLibrary
             this.labelGa.Visible = false;
             this.labelQPres.Visible = false;
             this.textBoxQBit.Visible = false;
-#elif ONCOR
+#elif (ONCOR || TORONTO_HYDRO)
             this.textBoxCa.Visible = true;
             this.textBoxDa.Visible = true;
             this.textBoxEa.Visible = true;

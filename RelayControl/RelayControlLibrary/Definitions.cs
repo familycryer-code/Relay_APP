@@ -96,6 +96,7 @@ namespace RelayControlLibrary
         Oncor,
         LondonH,
         SCE,
+        TorontoHydro,
         None
     }
 
