@@ -4391,13 +4391,14 @@ namespace RelayControl
                 if (this.customer != Customers.ConEdison)
                 {
                     this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
-                    if (temp == 2)
-                    {
-#if !DOMINION                                                         
-                        this.setDomainIndex(2, this.domainUpDownPhasings);
-#endif
-                    }
-                    else if (temp == 1)
+                    /* if (temp == 2)
+                     {
+ #if !DOMINION                                                         
+                         this.setDomainIndex(2, this.domainUpDownPhasings);
+ #endif
+                     }*/
+                     //else
+                    if (temp == 1)
                     {
                         this.setDomainIndex(1, this.domainUpDownPhasings);
                     }
@@ -4408,7 +4409,8 @@ namespace RelayControl
                     else if (temp > 48 && temp <= 54) //if it is a coned relay, the phasing will be in ASCII
                     {
 #if !DOMINION
-                        this.setDomainIndex(2, this.domainUpDownPhasings);
+                        // this.setDomainIndex(2, this.domainUpDownPhasings);
+                        this.setDomainIndex(0, this.domainUpDownPhasings);
                         this.conedPhasing = (uint)temp;
                         //this.Customer = Customers.ConEdison;
 #endif
@@ -5528,13 +5530,13 @@ namespace RelayControl
             this.domainUpDownPhasings.SelectedIndex = 1;
             this.domainUpDownRelayType.SelectedIndex = 1;
 //#elif ONCOR
-//            this.domainUpDownPhasings.SelectedIndex = 2;
+//            this.domainUpDownPhasings.SelectedIndex = 0;//2;
 //            this.domainUpDownRelayType.SelectedIndex = 1;
 #elif CONED
             this.domainUpDownPhasings.SelectedIndex = 0;
             this.domainUpDownRelayType.SelectedIndex = 0;
 #else
-            this.domainUpDownPhasings.SelectedIndex = 2;
+            this.domainUpDownPhasings.SelectedIndex = 0;// 2;
             this.domainUpDownRelayType.SelectedIndex = 1;
 #endif
             /*
@@ -7338,37 +7340,43 @@ namespace RelayControl
 
         private void sendAllParameters()
         {
-            this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
-            this.ucDNPSAv5OSName2.newOSname();
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
-            this.ucDNPSAv5OSName2.sendOSName();
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
-            this.ucDNPSAv5Settings2.setDefaults();
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
-            this.ucDNPSAv5Settings2.sendSettings();
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
-
+#if DNP
+                   this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
+                   this.ucDNPSAv5OSName2.newOSname();
+                   //Thread.Sleep(100);  // 100 milliseconds
+                   //Thread.Sleep(500);   // .5 seconds
+                   Thread.Sleep(2500);   // 2.5 seconds
+                   this.ucDNPSAv5OSName2.sendOSName();
+                   //Thread.Sleep(100);  // 100 milliseconds
+                   //Thread.Sleep(500);   // .5 seconds
+                   Thread.Sleep(2500);   // 2.5 seconds
+                   this.ucDNPSAv5Settings2.setDefaults();
+                   //Thread.Sleep(100);  // 100 milliseconds
+                   //Thread.Sleep(500);   // .5 seconds
+                   Thread.Sleep(2500);   // 2.5 seconds
+                   this.ucDNPSAv5Settings2.sendSettings();
+                   //Thread.Sleep(100);  // 100 milliseconds
+                   //Thread.Sleep(500);   // .5 seconds
+                   Thread.Sleep(2500);   // 2.5 seconds
+            
+#endif
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(1500);   // 2.5 seconds
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(1500);   // 2.5 seconds
             this.buttonRelayType_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   //.5 seconds
+            Thread.Sleep(1500);   // 2.5 seconds
             this.buttonSendCTRatio_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(1500);   // 2.5 seconds
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(500);   // .5 seconds
-
+            Thread.Sleep(1500);   // 2.5 seconds
+             
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(100);
@@ -7382,7 +7390,7 @@ namespace RelayControl
             {
                 this.ucSafeService1.SendAll();
                 //Thread.Sleep(100);  // 100 milliseconds
-                Thread.Sleep(500);   // 1 seconds
+                Thread.Sleep(1500);   // 1 seconds
             }
 
 #if DNP && ATLANTA

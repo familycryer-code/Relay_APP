@@ -705,7 +705,7 @@ namespace RelayControlLibrary
                 //#if DNP
 #if (!DIGITALGRID)
                 //show that it is PLC relay on DNP PLC GUI
-                 dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                // dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
 #elif (DNP && ONCOR)
                 //show that it is PLC relay on DNP PLC GUI
                 dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);

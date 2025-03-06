@@ -2333,7 +2333,8 @@
             this.tabControlMain.Controls.Add(this.tabPageMonitor);
             this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
             this.tabControlMain.Controls.Add(this.tabPageEvents);
-#if (!DOMINION)// || !ONCOR|| !TORONTO_HYDRO)
+            //#if (!DOMINION)// || !ONCOR|| !TORONTO_HYDRO)
+#if (DIGITALGRID) // !TORONTO_HYDRO)
             this.tabControlMain.Controls.Add(this.tabPageEngineering);
             this.tabControlMain.Controls.Add(this.tabPageEngineering2);
 #endif

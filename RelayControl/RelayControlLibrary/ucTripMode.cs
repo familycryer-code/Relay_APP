@@ -1281,23 +1281,29 @@ namespace RelayControlLibrary
 
         private void restoreDefaults()
         {
-            this.setTypeIndependentDefaults();
+             /*   this.setTypeIndependentDefaults();
 
-            switch (this.displayType)
-            {
-                case eDisplayType.Percent:
-                    this.setPercentageTypeDefaults();
-                    break;
-                case eDisplayType.Protector:
-                    this.setProtectorTypeDefaults();
-                    break;
-                case eDisplayType.Relay:
-                default:
-                    this.setRelayTypeDefaults();
-                    break;
-            }
+                switch (this.displayType)
+                {
+                    case eDisplayType.Percent:
+                        this.setPercentageTypeDefaults();
+                        break;
+                    case eDisplayType.Protector:
+                        this.setProtectorTypeDefaults();
+                        break;
+                    case eDisplayType.Relay:
+                    default:
+                        this.setRelayTypeDefaults();
+                        break;
+                }
+             */
+
+            this.domainUpDownType.SelectedIndex = 0;
+            this.setRelayTypeDefaults();
+            this.makeRelayType();
+
         }
-
+        
         private void setTypeIndependentDefaults()
         {
             insensitiveCurrent = 2.5m;
