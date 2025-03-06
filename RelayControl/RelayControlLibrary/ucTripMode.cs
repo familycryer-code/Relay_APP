@@ -1375,6 +1375,7 @@ namespace RelayControlLibrary
         private void setRelayTypeDefaults()
         {
 #if NU || DOMINION || CHICAGO || ENMAX || BOSTON
+            this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
