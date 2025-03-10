@@ -1281,7 +1281,7 @@ namespace RelayControlLibrary
 
         private void restoreDefaults()
         {
-             /*   this.setTypeIndependentDefaults();
+            /*   this.setTypeIndependentDefaults();
 
                 switch (this.displayType)
                 {
@@ -1297,11 +1297,11 @@ namespace RelayControlLibrary
                         break;
                 }
              */
-
+             
             this.domainUpDownType.SelectedIndex = 0;
             this.setRelayTypeDefaults();
             this.makeRelayType();
-
+             
         }
         
         private void setTypeIndependentDefaults()
@@ -1379,7 +1379,15 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
+
+            this.checkBoxEnableGullWing.Checked = false;
+            this.gullWingEnabled = false;
+            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value = 90;
+            this.domainUpDownTripStyle.SelectedIndex = 3;
 #elif SEATTLE || ATLANTA || CONED || PSEG || ONCOR
+            this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;

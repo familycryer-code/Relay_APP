@@ -3435,6 +3435,7 @@ namespace RelayControl
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                this.SendAll_Message_PopUp1.Visible = false;
             }
             else if (this.badDataDetected == true)
             {
@@ -7340,42 +7341,47 @@ namespace RelayControl
 
         private void sendAllParameters()
         {
+            //string text = "Please wait. Relay Parameters are being updated.";
+            //MessageBox.Show(text);
+            this.SendAll_Message_PopUp1.Enabled = true;
+            this.SendAll_Message_PopUp1.Visible = true;
+            
 #if DNP
                    this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
                    this.ucDNPSAv5OSName2.newOSname();
                    //Thread.Sleep(100);  // 100 milliseconds
                    //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(2500);   // 2.5 seconds
+                   Thread.Sleep(834);   // 2.5 seconds
                    this.ucDNPSAv5OSName2.sendOSName();
                    //Thread.Sleep(100);  // 100 milliseconds
                    //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(2500);   // 2.5 seconds
+                   Thread.Sleep(834);   // 2.5 seconds
                    this.ucDNPSAv5Settings2.setDefaults();
                    //Thread.Sleep(100);  // 100 milliseconds
                    //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(2500);   // 2.5 seconds
+                   Thread.Sleep(834);   // 2.5 seconds
                    this.ucDNPSAv5Settings2.sendSettings();
                    //Thread.Sleep(100);  // 100 milliseconds
                    //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(2500);   // 2.5 seconds
+                   Thread.Sleep(834);   // 2.5 seconds
             
 #endif
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1500);   // 2.5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1500);   // 2.5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
             this.buttonRelayType_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1500);   // 2.5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
             this.buttonSendCTRatio_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1500);   // 2.5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(1500);   // 2.5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
              
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
@@ -7390,7 +7396,7 @@ namespace RelayControl
             {
                 this.ucSafeService1.SendAll();
                 //Thread.Sleep(100);  // 100 milliseconds
-                Thread.Sleep(1500);   // 1 seconds
+                Thread.Sleep(834);   // 1 seconds
             }
 
 #if DNP && ATLANTA

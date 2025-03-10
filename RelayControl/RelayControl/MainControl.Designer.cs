@@ -210,6 +210,7 @@
             this.buttonSaveSetting = new System.Windows.Forms.Button();
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
+            this.SendAll_Message_PopUp1 = new RelayControlLibrary.SendAll_Message_PopUp();
             this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
             this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
@@ -1402,6 +1403,7 @@
             this.tabPageControl.Controls.Add(this.ucSafeService1);
             this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
             this.tabPageControl.Controls.Add(this.ucTripMode2);
+           // this.tabPageControl.Controls.Add(this.SendAll_Message_PopUp1);
             this.tabPageControl.Controls.Add(this.ucCloseMode1);
             this.tabPageControl.Controls.Add(this.ucPumpMode1);
             this.tabPageControl.Controls.Add(this.ucCoverFlags1);
@@ -2295,6 +2297,15 @@
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = ((uint)(0u));
             // 
+            // SendAll_Message_PopUp1
+            // 
+            this.SendAll_Message_PopUp1.AutoSize = true;
+            this.SendAll_Message_PopUp1.Location = new System.Drawing.Point(10, 100);
+            this.SendAll_Message_PopUp1.Name = "Please Wait!";
+            this.SendAll_Message_PopUp1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.SendAll_Message_PopUp1.Size = new System.Drawing.Size(850, 100);
+            this.SendAll_Message_PopUp1.TabIndex = 40;
+            // 
             // ucCloseMode1
             // 
             this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
@@ -2732,6 +2743,7 @@
         private System.Windows.Forms.DomainUpDown domainUpDownPhasings;
         private RelayControlLibrary.ucPumpMode ucPumpMode1;
         private RelayControlLibrary.ucTripMode ucTripMode2;
+        private RelayControlLibrary.SendAll_Message_PopUp SendAll_Message_PopUp1;
         private System.Windows.Forms.CheckBox checkBoxPhasingOkayFlag;
         private System.Windows.Forms.TextBox textBoxTemperature;
         private System.Windows.Forms.CheckBox checkBoxBlockedOpenFlag;
