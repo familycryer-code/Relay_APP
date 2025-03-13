@@ -260,11 +260,11 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(171, 213);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(151, 202);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
-            this.buttonSendCloseData.Size = new System.Drawing.Size(102, 23);
+            this.buttonSendCloseData.Size = new System.Drawing.Size(75, 23);
             this.buttonSendCloseData.TabIndex = 28;
-            this.buttonSendCloseData.Text = "Send Close Data";
+            this.buttonSendCloseData.Text = "Send";
             this.buttonSendCloseData.UseVisualStyleBackColor = true;
             this.buttonSendCloseData.Click += new System.EventHandler(this.buttonSendCloseData_Click);
             // 

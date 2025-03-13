@@ -18,6 +18,8 @@ namespace RelayControlLibrary
             this.setCTRatioValues(this.cTRatio);
             this.domainUpDownDataViews.Items.AddRange(dataViews);
             this.domainUpDownDataViews.SelectedIndex = 0;
+            this.buttonRequest.Enabled = false;
+            this.buttonRequest.Visible = false;
             toolTip.SetToolTip(this.numericUpDownCurrentImbalance, "Ratio between the Negative Sequence and the Positive Sequence of the Currents");
             toolTip.SetToolTip(this.numericUpDownDelay, "Number of cycles to Delay after an Arc Flash has been detected before tripping");
             toolTip.SetToolTip(this.numericUpDownLowVoltage, "Positive Sequence of the Network Voltages");
@@ -140,7 +142,12 @@ namespace RelayControlLibrary
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            this.send();
+            var choice = MessageBox.Show("Sending Safe Service Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+            if (choice == DialogResult.OK)
+            {
+                this.send();
+            }
+            
         }
 
         public void SendAll()

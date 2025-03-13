@@ -95,9 +95,9 @@ namespace RelayControlLibrary
             // 
             this.buttonSendTripData.Location = new System.Drawing.Point(195, 226);
             this.buttonSendTripData.Name = "buttonSendTripData";
-            this.buttonSendTripData.Size = new System.Drawing.Size(104, 23);
+            this.buttonSendTripData.Size = new System.Drawing.Size(75, 23);
             this.buttonSendTripData.TabIndex = 1;
-            this.buttonSendTripData.Text = "Send Trip Data";
+            this.buttonSendTripData.Text = "Send";
             this.buttonSendTripData.UseVisualStyleBackColor = true;
             this.buttonSendTripData.Click += new System.EventHandler(this.buttonSendTripMode_Click);
             // 

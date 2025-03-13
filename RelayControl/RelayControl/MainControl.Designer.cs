@@ -215,12 +215,6 @@
             this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
-            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
-            this.labelKioskReceived = new System.Windows.Forms.Label();
-            this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
-            this.buttonTest = new System.Windows.Forms.Button();
-            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
@@ -233,6 +227,12 @@
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
+            this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
+            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
+            this.labelKioskReceived = new System.Windows.Forms.Label();
+            this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
+            this.buttonTest = new System.Windows.Forms.Button();
+            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
@@ -260,12 +260,12 @@
             this.groupBoxRelayFlags.SuspendLayout();
             this.panelOtherRelayControls.SuspendLayout();
             this.tabControlMain.SuspendLayout();
-            this.tabPageEngineering2.SuspendLayout();
             this.tabPageDNP.SuspendLayout();
             this.tabPageArcFault.SuspendLayout();
             this.tabPageShortRange.SuspendLayout();
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
+            this.tabPageEngineering2.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -1205,7 +1205,7 @@
             // 
             this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-5896, 6);
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-6295, 6);
             this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
             this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 13);
             this.labelLiveDataTriggerTime.TabIndex = 1;
@@ -1403,7 +1403,6 @@
             this.tabPageControl.Controls.Add(this.ucSafeService1);
             this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
             this.tabPageControl.Controls.Add(this.ucTripMode2);
-           // this.tabPageControl.Controls.Add(this.SendAll_Message_PopUp1);
             this.tabPageControl.Controls.Add(this.ucCloseMode1);
             this.tabPageControl.Controls.Add(this.ucPumpMode1);
             this.tabPageControl.Controls.Add(this.ucCoverFlags1);
@@ -1738,10 +1737,6 @@
             // 
             this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
             this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
-/*#if !DOMINION
-            this.domainUpDownPhasings.Items.Add("AutoDetect");
-#endif
-*/
             this.domainUpDownPhasings.Location = new System.Drawing.Point(45, 39);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
             this.domainUpDownPhasings.Size = new System.Drawing.Size(114, 20);
@@ -2344,11 +2339,6 @@
             this.tabControlMain.Controls.Add(this.tabPageMonitor);
             this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
             this.tabControlMain.Controls.Add(this.tabPageEvents);
-            //#if (!DOMINION)// || !ONCOR|| !TORONTO_HYDRO)
-#if (DIGITALGRID) // !TORONTO_HYDRO)
-            this.tabControlMain.Controls.Add(this.tabPageEngineering);
-            this.tabControlMain.Controls.Add(this.tabPageEngineering2);
-#endif
             this.tabControlMain.Controls.Add(this.tabPageTransmitter);
             this.tabControlMain.Controls.Add(this.tabPageTransmitterMonitoring);
             this.tabControlMain.Controls.Add(this.tabPageDNP);
@@ -2362,67 +2352,6 @@
             this.tabControlMain.Size = new System.Drawing.Size(999, 650);
             this.tabControlMain.TabIndex = 36;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
-            // 
-            // tabPageEngineering2
-            // 
-            this.tabPageEngineering2.Controls.Add(this.commTradeConverter1);
-            this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
-            this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
-            this.tabPageEngineering2.Controls.Add(this.buttonTest);
-            this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
-            this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
-            this.tabPageEngineering2.Name = "tabPageEngineering2";
-            this.tabPageEngineering2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEngineering2.Size = new System.Drawing.Size(991, 624);
-            this.tabPageEngineering2.TabIndex = 14;
-            this.tabPageEngineering2.Text = "Engineer 2";
-            this.tabPageEngineering2.UseVisualStyleBackColor = true;
-            // 
-            // commTradeConverter1
-            // 
-            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
-            this.commTradeConverter1.Name = "commTradeConverter1";
-            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
-            this.commTradeConverter1.TabIndex = 4;
-            // 
-            // labelKioskReceived
-            // 
-            this.labelKioskReceived.AutoSize = true;
-            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
-            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
-            this.labelKioskReceived.Name = "labelKioskReceived";
-            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
-            this.labelKioskReceived.TabIndex = 3;
-            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
-            // 
-            // checkBoxSerialCommsDebugging
-            // 
-            this.checkBoxSerialCommsDebugging.AutoSize = true;
-            this.checkBoxSerialCommsDebugging.Checked = true;
-            this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
-            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
-            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
-            this.checkBoxSerialCommsDebugging.TabIndex = 2;
-            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
-            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
-            // 
-            // buttonTest
-            // 
-            this.buttonTest.Location = new System.Drawing.Point(293, 15);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(86, 58);
-            this.buttonTest.TabIndex = 1;
-            this.buttonTest.Text = "Send Test Command";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
-            // 
-            // ucPhasorRequest1
-            // 
-            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
-            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
-            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
-            this.ucPhasorRequest1.TabIndex = 0;
             // 
             // tabPageDNP
             // 
@@ -2545,6 +2474,67 @@
             this.ucDNPSAv51.Size = new System.Drawing.Size(978, 733);
             this.ucDNPSAv51.TabIndex = 0;
             // 
+            // tabPageEngineering2
+            // 
+            this.tabPageEngineering2.Controls.Add(this.commTradeConverter1);
+            this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
+            this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
+            this.tabPageEngineering2.Controls.Add(this.buttonTest);
+            this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
+            this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEngineering2.Name = "tabPageEngineering2";
+            this.tabPageEngineering2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEngineering2.Size = new System.Drawing.Size(991, 624);
+            this.tabPageEngineering2.TabIndex = 14;
+            this.tabPageEngineering2.Text = "Engineer 2";
+            this.tabPageEngineering2.UseVisualStyleBackColor = true;
+            // 
+            // commTradeConverter1
+            // 
+            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
+            this.commTradeConverter1.Name = "commTradeConverter1";
+            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
+            this.commTradeConverter1.TabIndex = 4;
+            // 
+            // labelKioskReceived
+            // 
+            this.labelKioskReceived.AutoSize = true;
+            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
+            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
+            this.labelKioskReceived.Name = "labelKioskReceived";
+            this.labelKioskReceived.Size = new System.Drawing.Size(140, 13);
+            this.labelKioskReceived.TabIndex = 3;
+            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
+            // 
+            // checkBoxSerialCommsDebugging
+            // 
+            this.checkBoxSerialCommsDebugging.AutoSize = true;
+            this.checkBoxSerialCommsDebugging.Checked = true;
+            this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
+            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
+            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxSerialCommsDebugging.TabIndex = 2;
+            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
+            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(293, 15);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(86, 58);
+            this.buttonTest.TabIndex = 1;
+            this.buttonTest.Text = "Send Test Command";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
+            // ucPhasorRequest1
+            // 
+            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
+            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
+            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
+            this.ucPhasorRequest1.TabIndex = 0;
+            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 5000;
@@ -2632,13 +2622,13 @@
             this.panelOtherRelayControls.ResumeLayout(false);
             this.panelOtherRelayControls.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
-            this.tabPageEngineering2.ResumeLayout(false);
-            this.tabPageEngineering2.PerformLayout();
             this.tabPageDNP.ResumeLayout(false);
             this.tabPageArcFault.ResumeLayout(false);
             this.tabPageShortRange.ResumeLayout(false);
             this.tabPageDNPData.ResumeLayout(false);
             this.tabPageDNPSecureAuth.ResumeLayout(false);
+            this.tabPageEngineering2.ResumeLayout(false);
+            this.tabPageEngineering2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

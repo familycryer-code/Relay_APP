@@ -292,8 +292,19 @@ namespace RelayControlLibrary
                 this.Mode = CloseModes.CircleClose;
             else
                 this.Mode = CloseModes.Normal;
-
-            this.sendCloseData();
+            if (sendAllF.SendAllFlag == false)
+            {
+                var choice = MessageBox.Show("Sending Close Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+                if (choice == DialogResult.OK)
+                {
+                    this.sendCloseData();
+                }
+            }
+            else
+            {
+                this.sendCloseData();
+            }
+            //this.sendCloseData();
         }
 
         private void buttonRelaxClose_Click(object sender, EventArgs e)

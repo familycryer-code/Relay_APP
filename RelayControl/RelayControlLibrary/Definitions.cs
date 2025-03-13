@@ -1972,6 +1972,11 @@ namespace RelayControlLibrary
         public static bool flagFromRelay;
     }
 
+    public static class sendAllF
+    {
+        public static bool SendAllFlag;
+    }
+
     [Flags]
     public enum ProtectorVoltageBits
     {

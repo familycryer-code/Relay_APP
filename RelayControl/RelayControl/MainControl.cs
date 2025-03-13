@@ -3436,6 +3436,7 @@ namespace RelayControl
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                 this.SendAll_Message_PopUp1.Visible = false;
+                sendAllF.SendAllFlag = false;
             }
             else if (this.badDataDetected == true)
             {
@@ -3450,6 +3451,7 @@ namespace RelayControl
                 if(!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
+                    this.SendAll_Message_PopUp1.Visible = false;
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                 }
@@ -5414,85 +5416,95 @@ namespace RelayControl
 
         private void buttonRelayType_Click(object sender, EventArgs e)
         {
-            try
-            {
-                byte[] packet = new byte[4];
+            var choice = DialogResult.Cancel;
 
-                packet[0] = (byte)'s';
+            if (sendAllF.SendAllFlag == false)
+            {
+                choice = MessageBox.Show("Sending Network Protector and Phasing Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+            }
+            if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            {
+                
                 try
                 {
-                    if (this.domainUpDownRelayType.SelectedItem.ToString() == "Sequence")
-                        packet[1] = (byte)'S';
-                    else if (this.domainUpDownRelayType.SelectedItem.ToString() == "Power")
-                        packet[1] = (byte)'P';
-                }
-                catch
-                {
-                    this.messageHandler("No Relay Type Selected", new Exception("Please Select Relay Type"));
-                    return;
-                }
-                try
-                {
-                    if (this.Customer != Customers.ConEdison)
+                    byte[] packet = new byte[4];
+
+                    packet[0] = (byte)'s';
+                    try
                     {
-                        //if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC")
-                        if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                        if (this.domainUpDownRelayType.SelectedItem.ToString() == "Sequence")
+                            packet[1] = (byte)'S';
+                        else if (this.domainUpDownRelayType.SelectedItem.ToString() == "Power")
+                            packet[1] = (byte)'P';
+                    }
+                    catch
+                    {
+                        this.messageHandler("No Relay Type Selected", new Exception("Please Select Relay Type"));
+                        return;
+                    }
+                    try
+                    {
+                        if (this.Customer != Customers.ConEdison)
+                        {
+                            //if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC")
+                            if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC : CAB : BCA")
                                 packet[2] = 0x00;
-                        //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "ACB")//
-                        else if (this.domainUpDownPhasings.SelectedItem.ToString() == "CBA : BAC : ACB")
-                                    packet[2] = 0x01;
-                       //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "AutoDetect")
-                       //    packet[2] = 0x02;
-                         else
-                           throw new Exception(packet[2].ToString() + " is a bad Phasing");
+                            //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "ACB")//
+                            else if (this.domainUpDownPhasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                                packet[2] = 0x01;
+                            //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "AutoDetect")
+                            //    packet[2] = 0x02;
+                            else
+                                throw new Exception(packet[2].ToString() + " is a bad Phasing");
+                        }
+                        else
+                        {
+                            packet[2] = (byte)this.conedPhasing;
+                        }
                     }
-                    else
+                    catch
                     {
-                        packet[2] = (byte)this.conedPhasing;
+                        this.messageHandler("No Phasing Selected", new Exception("Please Select Phasing"));
+                        return;
+                    }
+
+                    try
+                    {
+                        // set proper bit voltage protector Voltage
+                        packet[2] |= (byte)protectorVoltage.SetBit;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        messageHandler("Problem Setting Protector Voltage bits", ex);
+                    }
+
+                    try
+                    {
+                        if (checkBox277DNPOutputs.Checked)
+                            packet[2] |= 0x10;
+                    }
+                    catch (Exception ex)
+                    {
+                        messageHandler("Problem setting 277 V Outputs bit", ex);
+                    }
+
+                    packet[3] = 0x0D;
+
+                    this.sendPacketAck(packet, "Relay Type Send");
+
+                    Thread.Sleep(100);
+                    if (!this.sendAll)
+                    {
+                        this.requestAllData();
+                        this.parametersLoaded = true;
                     }
                 }
-                catch
-                {
-                    this.messageHandler("No Phasing Selected", new Exception("Please Select Phasing"));
-                    return;
-                }
-
-                try
-                {
-                    // set proper bit voltage protector Voltage
-                    packet[2] |= (byte)protectorVoltage.SetBit;
-
-                }
                 catch (Exception ex)
                 {
-                    messageHandler("Problem Setting Protector Voltage bits", ex);
+                    this.messageHandler("Error Setting Relay Type", ex);
                 }
-
-                try
-                {
-                    if (checkBox277DNPOutputs.Checked)
-                        packet[2] |= 0x10;
-                }
-                catch (Exception ex)
-                {
-                    messageHandler("Problem setting 277 V Outputs bit", ex);
-                }
-
-                packet[3] = 0x0D;
-
-                this.sendPacketAck(packet, "Relay Type Send");
-
-                Thread.Sleep(100);
-                if (!this.sendAll)
-                {
-                    this.requestAllData();
-                    this.parametersLoaded = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                this.messageHandler("Error Setting Relay Type", ex);
-            }
+            }// if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
         }
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
@@ -7336,13 +7348,15 @@ namespace RelayControl
 
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
-            this.sendAllParameters();
+            //this.downloadingDialogCountDown("Please have patience. The relay is updating its critical parameters", "", 3);
+            this.sendAllParameters();            
         }
 
         private void sendAllParameters()
         {
-            //string text = "Please wait. Relay Parameters are being updated.";
+            //string text = "Please wait. Relay Parameters are being updated. This will take few seconds !";
             //MessageBox.Show(text);
+            sendAllF.SendAllFlag = true;
             this.SendAll_Message_PopUp1.Enabled = true;
             this.SendAll_Message_PopUp1.Visible = true;
             
@@ -7406,7 +7420,7 @@ namespace RelayControl
             Thread.Sleep(100);
 #endif
 
-            this.sendAll = false;
+            //this.sendAll = false;
             if (!this.loadingNewCode)
                 this.requestAllData();
 
@@ -7511,10 +7525,13 @@ namespace RelayControl
                 case ProgressFormCompleteStates.Success:
                     break;
                 case ProgressFormCompleteStates.TimeOut:
-                    this.messageHandler(temp + " Timed Out.", new Exception("Error " + temp));
+                    if (sendAll == false)
+                    {
+                        this.messageHandler(temp + " Timed Out.", new Exception("Error " + temp));
+                    }
                     break;
             }
-
+            this.sendAll = false;
             this.enableAll(true);
             this.monitoring(true);
             this.RegisterPolling(true);
@@ -8116,6 +8133,7 @@ namespace RelayControl
             if (this.requestedAllParameters && !this.loadingNewCode)
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
+                this.SendAll_Message_PopUp1.Visible = false;
             }
         }
 

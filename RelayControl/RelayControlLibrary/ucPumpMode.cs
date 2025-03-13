@@ -146,33 +146,42 @@ namespace RelayControlLibrary
 
         public void buttonSend_Click(object sender, EventArgs e)
         {
-            try
-            {
-                PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
-                PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
-                PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
-                PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
+            var choice = DialogResult.Cancel;
 
-                PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
-                PD.PumpTime = (Int16)this.numericUpDownPumpTime.Value;
-                PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
-                PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
-                if (this.checkBoxNeverReclose.Checked)
-                {
-                    PD.PumpProtectTime = 0;
-                }
-                else
-                {
-                    PD.PumpProtectTime = (Int16)this.numericUpDownProtectTime.Value;
-                }
-
-                this.sEA.SendPacket = this.bytePacketFor(PD);
-                this.sEA.WithAck = true;
-                OnSend(sEA);
-            }
-            catch
+            if (sendAllF.SendAllFlag == false)
             {
+                choice = MessageBox.Show("Sending Pump Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             }
+            if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            {
+                try
+                {
+                    PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
+                    PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
+                    PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
+                    PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
+
+                    PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
+                    PD.PumpTime = (Int16)this.numericUpDownPumpTime.Value;
+                    PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
+                    PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
+                    if (this.checkBoxNeverReclose.Checked)
+                    {
+                        PD.PumpProtectTime = 0;
+                    }
+                    else
+                    {
+                        PD.PumpProtectTime = (Int16)this.numericUpDownProtectTime.Value;
+                    }
+
+                    this.sEA.SendPacket = this.bytePacketFor(PD);
+                    this.sEA.WithAck = true;
+                    OnSend(sEA);
+                }
+                catch
+                {
+                }
+            }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
         }
 
         public byte[] bytePacketFor(PumpDefinition pD)
