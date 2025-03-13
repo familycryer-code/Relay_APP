@@ -61,12 +61,8 @@
             this.timerTimeOutCountdown = new System.Windows.Forms.Timer(this.components);
             this.timerRegisterPolling = new System.Windows.Forms.Timer(this.components);
             this.tabPageTransmitterMonitoring = new System.Windows.Forms.TabPage();
-            this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
-            this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
-            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
-            this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
             this.groupBoxTimeConvert = new System.Windows.Forms.GroupBox();
             this.textBoxTimeOutput = new System.Windows.Forms.TextBox();
             this.textBoxTimeInput = new System.Windows.Forms.TextBox();
@@ -83,18 +79,6 @@
             this.buttonRQRelayProcVersion = new System.Windows.Forms.Button();
             this.buttonForceI = new System.Windows.Forms.Button();
             this.buttonRequestRelayRegisters = new System.Windows.Forms.Button();
-            this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
-            this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucCalibration2 = new RelayControlLibrary.ucCalibration();
-            this.uc8CheckBoxFlagsCommFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsCommFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayStatus2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -107,21 +91,11 @@
             this.radioButtonEvent2 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent1 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent0 = new System.Windows.Forms.RadioButton();
-            this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
             this.buttonReqLiveData = new System.Windows.Forms.Button();
             this.tabPageFlightRecorder = new System.Windows.Forms.TabPage();
             this.labelLiveDataTriggerTime = new System.Windows.Forms.Label();
-            this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
             this.tabPageTransmitter = new System.Windows.Forms.TabPage();
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
-            this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
             this.labelSNPQMonitor = new System.Windows.Forms.Label();
             this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
@@ -131,7 +105,6 @@
             this.labelRelayTrippedOrClose = new System.Windows.Forms.Label();
             this.buttonToggleMonitor = new System.Windows.Forms.Button();
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
-            this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
@@ -187,10 +160,7 @@
             this.checkBoxACB = new System.Windows.Forms.CheckBox();
             this.checkBoxFlag1 = new System.Windows.Forms.CheckBox();
             this.checkBoxPowerSaveFlag = new System.Windows.Forms.CheckBox();
-            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
-            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
-            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.labelBootRevision = new System.Windows.Forms.Label();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
@@ -209,35 +179,65 @@
             this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
             this.buttonSaveSetting = new System.Windows.Forms.Button();
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
-            this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
-            this.SendAll_Message_PopUp1 = new RelayControlLibrary.SendAll_Message_PopUp();
-            this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
-            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
-            this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
-            this.ucDNP1 = new RelayControlLibrary.ucDNP();
             this.tabPageArcFault = new System.Windows.Forms.TabPage();
             this.buttonArcFaultStartMonitoring = new System.Windows.Forms.Button();
-            this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
             this.tabPageShortRange = new System.Windows.Forms.TabPage();
-            this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
             this.tabPageDNPData = new System.Windows.Forms.TabPage();
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
-            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
             this.labelKioskReceived = new System.Windows.Forms.Label();
             this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
             this.buttonTest = new System.Windows.Forms.Button();
-            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
+            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
+            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
+            this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
+            this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
+            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
+            this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
+            this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
+            this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
+            this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
+            this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
+            this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
+            this.ucDNP1 = new RelayControlLibrary.ucDNP();
+            this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
+            this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
+            this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
+            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
+            this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
+            this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
+            this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.ucCalibration2 = new RelayControlLibrary.ucCalibration();
+            this.uc8CheckBoxFlagsCommFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsCommFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayStatus2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
+            this.SendAll_Message_PopUp1 = new RelayControlLibrary.SendAll_Message_PopUp();
+            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
+            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -289,7 +289,7 @@
             this.loadConfigurationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(999, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(799, 19);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -302,7 +302,7 @@
             this.reprogramRelayFileSelectToolStripMenuItem,
             this.tCPConnectionToolStripMenuItem});
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
-            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(61, 15);
             this.OptionsToolStripMenuItem.Text = "Options";
             this.OptionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
@@ -346,7 +346,7 @@
             this.eventActionsToolStripMenuItem,
             this.liveDataActionsToolStripMenuItem});
             this.toolStripMenuItemAction.Name = "toolStripMenuItemAction";
-            this.toolStripMenuItemAction.Size = new System.Drawing.Size(59, 20);
+            this.toolStripMenuItemAction.Size = new System.Drawing.Size(59, 15);
             this.toolStripMenuItemAction.Text = "Actions";
             // 
             // eventActionsToolStripMenuItem
@@ -422,7 +422,7 @@
             // acknowledgeToolStripMenuItem1
             // 
             this.acknowledgeToolStripMenuItem1.Name = "acknowledgeToolStripMenuItem1";
-            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(91, 20);
+            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(91, 15);
             this.acknowledgeToolStripMenuItem1.Text = "Acknowledge";
             this.acknowledgeToolStripMenuItem1.Click += new System.EventHandler(this.acknowledgeToolStripMenuItem1_Click);
             // 
@@ -432,7 +432,7 @@
             this.saveToolStripMenuItem,
             this.printScreenToolStripMenuItem});
             this.sToolStripMenuItem.Name = "sToolStripMenuItem";
-            this.sToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.sToolStripMenuItem.Size = new System.Drawing.Size(99, 15);
             this.sToolStripMenuItem.Text = "Screen Capture";
             // 
             // saveToolStripMenuItem
@@ -454,7 +454,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cTRatioCalculatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 15);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // cTRatioCalculatorToolStripMenuItem
@@ -469,7 +469,7 @@
             this.loadConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableAutoloadToolStripMenuItem});
             this.loadConfigurationToolStripMenuItem.Name = "loadConfigurationToolStripMenuItem";
-            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(122, 15);
             this.loadConfigurationToolStripMenuItem.Text = "Load Configuration";
             // 
             // enableAutoloadToolStripMenuItem
@@ -499,15 +499,15 @@
             this.toolStripStatusLabelMain,
             this.toolStripStatusLabelRelayDisconnected,
             this.toolStripStatusLabelReceiverStatus});
-            this.statusStripMain.Location = new System.Drawing.Point(0, 677);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 542);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(999, 22);
+            this.statusStripMain.Size = new System.Drawing.Size(799, 18);
             this.statusStripMain.TabIndex = 37;
             // 
             // toolStripStatusLabelMain
             // 
             this.toolStripStatusLabelMain.Name = "toolStripStatusLabelMain";
-            this.toolStripStatusLabelMain.Size = new System.Drawing.Size(108, 17);
+            this.toolStripStatusLabelMain.Size = new System.Drawing.Size(108, 13);
             this.toolStripStatusLabelMain.Text = "Checking For Relay";
             // 
             // toolStripStatusLabelRelayDisconnected
@@ -515,7 +515,7 @@
             this.toolStripStatusLabelRelayDisconnected.BackColor = System.Drawing.Color.Red;
             this.toolStripStatusLabelRelayDisconnected.Name = "toolStripStatusLabelRelayDisconnected";
             this.toolStripStatusLabelRelayDisconnected.RightToLeftAutoMirrorImage = true;
-            this.toolStripStatusLabelRelayDisconnected.Size = new System.Drawing.Size(110, 17);
+            this.toolStripStatusLabelRelayDisconnected.Size = new System.Drawing.Size(110, 13);
             this.toolStripStatusLabelRelayDisconnected.Text = "Relay Disconnected";
             // 
             // toolStripStatusLabelReceiverStatus
@@ -547,26 +547,6 @@
             this.tabPageTransmitterMonitoring.TabIndex = 8;
             this.tabPageTransmitterMonitoring.Text = "Sensor Monitoring";
             this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
-            // 
-            // ucTransmitterMonitoring1
-            // 
-            this.ucTransmitterMonitoring1.CTMult = "";
-            this.ucTransmitterMonitoring1.CTRatio = 320;
-            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitterMonitoring1.DNPCoverFlags = ((byte)(0));
-            this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
-            this.ucTransmitterMonitoring1.GEEnabled = false;
-            this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
-            this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
-            this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(981, 575);
-            this.ucTransmitterMonitoring1.TabIndex = 86;
-            this.ucTransmitterMonitoring1.TimeElapsedHours = "";
-            this.ucTransmitterMonitoring1.TimeElapsedMinutes = "";
-            this.ucTransmitterMonitoring1.TimeElapsedSeconds = "";
-            this.ucTransmitterMonitoring1.TransmitterID = "";
-            this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
-            this.ucTransmitterMonitoring1.TransmitterSN = "";
-            this.ucTransmitterMonitoring1.WaterBugActive = false;
             // 
             // labelRelayDisconnected2
             // 
@@ -615,27 +595,6 @@
             this.tabPageEngineering.TabIndex = 7;
             this.tabPageEngineering.Text = "Engineering";
             this.tabPageEngineering.UseVisualStyleBackColor = true;
-            // 
-            // ucCSVConverterCSVFile1
-            // 
-            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
-            this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
-            this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
-            this.ucCSVConverterCSVFile1.TabIndex = 109;
-            // 
-            // ucTimeControl1
-            // 
-            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
-            this.ucTimeControl1.Name = "ucTimeControl1";
-            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
-            this.ucTimeControl1.TabIndex = 119;
-            // 
-            // ucGeneralCommandHandler1
-            // 
-            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
-            this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
-            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
-            this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
             // groupBoxTimeConvert
             // 
@@ -794,118 +753,6 @@
             this.buttonRequestRelayRegisters.UseVisualStyleBackColor = true;
             this.buttonRequestRelayRegisters.Click += new System.EventHandler(this.buttonRequestRelayRegisters_Click);
             // 
-            // ucRelayProgramming1
-            // 
-            this.ucRelayProgramming1.ActiveRelay = false;
-            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
-            this.ucRelayProgramming1.DNPRelay = true;
-            this.ucRelayProgramming1.ForceRelayUpdate = false;
-            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
-            this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.GERelay = false;
-            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
-            this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
-            this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.MasterRevisionString = "";
-            this.ucRelayProgramming1.Name = "ucRelayProgramming1";
-            this.ucRelayProgramming1.NotPollingPort = false;
-            this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
-            this.ucRelayProgramming1.ProgramBootCodeStart = false;
-            this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
-            this.ucRelayProgramming1.ReprogrammingInProgress = false;
-            this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
-            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
-            this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
-            this.ucRelayProgramming1.TabIndex = 112;
-            this.ucRelayProgramming1.TransmitterEnabled = false;
-            // 
-            // uc8CheckBoxFlagsGEControl2
-            // 
-            this.uc8CheckBoxFlagsGEControl2.Location = new System.Drawing.Point(360, 431);
-            this.uc8CheckBoxFlagsGEControl2.Name = "uc8CheckBoxFlagsGEControl2";
-            this.uc8CheckBoxFlagsGEControl2.Names = null;
-            this.uc8CheckBoxFlagsGEControl2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsGEControl2.TabIndex = 111;
-            // 
-            // uc8CheckBoxFlagsGEControl1
-            // 
-            this.uc8CheckBoxFlagsGEControl1.Location = new System.Drawing.Point(360, 249);
-            this.uc8CheckBoxFlagsGEControl1.Name = "uc8CheckBoxFlagsGEControl1";
-            this.uc8CheckBoxFlagsGEControl1.Names = null;
-            this.uc8CheckBoxFlagsGEControl1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsGEControl1.TabIndex = 110;
-            // 
-            // ucCalibration2
-            // 
-            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
-            this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
-            this.ucCalibration2.Name = "ucCalibration2";
-            this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
-            this.ucCalibration2.TabIndex = 108;
-            // 
-            // uc8CheckBoxFlagsCommFlags2
-            // 
-            this.uc8CheckBoxFlagsCommFlags2.Location = new System.Drawing.Point(254, 431);
-            this.uc8CheckBoxFlagsCommFlags2.Name = "uc8CheckBoxFlagsCommFlags2";
-            this.uc8CheckBoxFlagsCommFlags2.Names = null;
-            this.uc8CheckBoxFlagsCommFlags2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsCommFlags2.TabIndex = 106;
-            // 
-            // uc8CheckBoxFlagsCommFlags1
-            // 
-            this.uc8CheckBoxFlagsCommFlags1.Location = new System.Drawing.Point(254, 249);
-            this.uc8CheckBoxFlagsCommFlags1.Name = "uc8CheckBoxFlagsCommFlags1";
-            this.uc8CheckBoxFlagsCommFlags1.Names = null;
-            this.uc8CheckBoxFlagsCommFlags1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsCommFlags1.TabIndex = 105;
-            // 
-            // uc8CheckBoxFlagsRelayStatus2
-            // 
-            this.uc8CheckBoxFlagsRelayStatus2.Location = new System.Drawing.Point(143, 431);
-            this.uc8CheckBoxFlagsRelayStatus2.Name = "uc8CheckBoxFlagsRelayStatus2";
-            this.uc8CheckBoxFlagsRelayStatus2.Names = null;
-            this.uc8CheckBoxFlagsRelayStatus2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayStatus2.TabIndex = 104;
-            // 
-            // uc8CheckBoxFlagsRelayStatus1
-            // 
-            this.uc8CheckBoxFlagsRelayStatus1.Location = new System.Drawing.Point(143, 249);
-            this.uc8CheckBoxFlagsRelayStatus1.Name = "uc8CheckBoxFlagsRelayStatus1";
-            this.uc8CheckBoxFlagsRelayStatus1.Names = null;
-            this.uc8CheckBoxFlagsRelayStatus1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayStatus1.TabIndex = 103;
-            // 
-            // uc8CheckBoxFlagsRelayFlags2
-            // 
-            this.uc8CheckBoxFlagsRelayFlags2.Location = new System.Drawing.Point(17, 431);
-            this.uc8CheckBoxFlagsRelayFlags2.Name = "uc8CheckBoxFlagsRelayFlags2";
-            this.uc8CheckBoxFlagsRelayFlags2.Names = null;
-            this.uc8CheckBoxFlagsRelayFlags2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayFlags2.TabIndex = 102;
-            // 
-            // uc8CheckBoxFlagsRelayFlags1
-            // 
-            this.uc8CheckBoxFlagsRelayFlags1.Location = new System.Drawing.Point(17, 249);
-            this.uc8CheckBoxFlagsRelayFlags1.Name = "uc8CheckBoxFlagsRelayFlags1";
-            this.uc8CheckBoxFlagsRelayFlags1.Names = null;
-            this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
-            // 
-            // ucCalibration1
-            // 
-            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
-            this.ucCalibration1.Name = "ucCalibration1";
-            this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
-            this.ucCalibration1.TabIndex = 82;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -1058,126 +905,6 @@
             this.radioButtonEvent0.UseVisualStyleBackColor = true;
             this.radioButtonEvent0.CheckedChanged += new System.EventHandler(this.radioButtonEventSelect_CheckedChanged);
             // 
-            // ucEventGraph7
-            // 
-            this.ucEventGraph7.CTRatio = 320;
-            this.ucEventGraph7.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph7.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph7.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph7.EventNumber = ((uint)(0u));
-            this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph7.GEEnabled = false;
-            this.ucEventGraph7.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph7.Name = "ucEventGraph7";
-            this.ucEventGraph7.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph7.TabIndex = 8;
-            this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph6
-            // 
-            this.ucEventGraph6.CTRatio = 320;
-            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph6.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph6.EventNumber = ((uint)(0u));
-            this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph6.GEEnabled = false;
-            this.ucEventGraph6.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph6.Name = "ucEventGraph6";
-            this.ucEventGraph6.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph6.TabIndex = 7;
-            this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph5
-            // 
-            this.ucEventGraph5.CTRatio = 320;
-            this.ucEventGraph5.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph5.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph5.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph5.EventNumber = ((uint)(0u));
-            this.ucEventGraph5.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph5.GEEnabled = false;
-            this.ucEventGraph5.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph5.Name = "ucEventGraph5";
-            this.ucEventGraph5.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph5.TabIndex = 6;
-            this.ucEventGraph5.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph4
-            // 
-            this.ucEventGraph4.CTRatio = 320;
-            this.ucEventGraph4.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph4.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph4.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph4.EventNumber = ((uint)(0u));
-            this.ucEventGraph4.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph4.GEEnabled = false;
-            this.ucEventGraph4.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph4.Name = "ucEventGraph4";
-            this.ucEventGraph4.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph4.TabIndex = 5;
-            this.ucEventGraph4.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph3
-            // 
-            this.ucEventGraph3.CTRatio = 320;
-            this.ucEventGraph3.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph3.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph3.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph3.EventNumber = ((uint)(0u));
-            this.ucEventGraph3.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph3.GEEnabled = false;
-            this.ucEventGraph3.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph3.Name = "ucEventGraph3";
-            this.ucEventGraph3.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph3.TabIndex = 4;
-            this.ucEventGraph3.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph2
-            // 
-            this.ucEventGraph2.CTRatio = 320;
-            this.ucEventGraph2.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph2.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph2.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph2.EventNumber = ((uint)(0u));
-            this.ucEventGraph2.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph2.GEEnabled = false;
-            this.ucEventGraph2.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph2.Name = "ucEventGraph2";
-            this.ucEventGraph2.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph2.TabIndex = 3;
-            this.ucEventGraph2.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph1
-            // 
-            this.ucEventGraph1.CTRatio = 320;
-            this.ucEventGraph1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph1.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph1.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph1.EventNumber = ((uint)(0u));
-            this.ucEventGraph1.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph1.GEEnabled = false;
-            this.ucEventGraph1.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph1.Name = "ucEventGraph1";
-            this.ucEventGraph1.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph1.TabIndex = 2;
-            this.ucEventGraph1.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph0
-            // 
-            this.ucEventGraph0.CTRatio = 320;
-            this.ucEventGraph0.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph0.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph0.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph0.EventNumber = ((uint)(0u));
-            this.ucEventGraph0.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph0.GEEnabled = false;
-            this.ucEventGraph0.Location = new System.Drawing.Point(0, 33);
-            this.ucEventGraph0.Name = "ucEventGraph0";
-            this.ucEventGraph0.Size = new System.Drawing.Size(988, 593);
-            this.ucEventGraph0.TabIndex = 0;
-            this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
             // buttonReqLiveData
             // 
             this.buttonReqLiveData.Location = new System.Drawing.Point(850, 0);
@@ -1205,21 +932,11 @@
             // 
             this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-6295, 6);
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-6694, 6);
             this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
             this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 13);
             this.labelLiveDataTriggerTime.TabIndex = 1;
             this.labelLiveDataTriggerTime.Resize += new System.EventHandler(this.labelLiveEventTriggerTime_Resize);
-            // 
-            // ucLiveData1
-            // 
-            this.ucLiveData1.CTRatio = 320;
-            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucLiveData1.GEEnabled = false;
-            this.ucLiveData1.Location = new System.Drawing.Point(0, 22);
-            this.ucLiveData1.Name = "ucLiveData1";
-            this.ucLiveData1.Size = new System.Drawing.Size(991, 602);
-            this.ucLiveData1.TabIndex = 0;
             // 
             // tabPageTransmitter
             // 
@@ -1244,22 +961,6 @@
             this.labelRelayDisconnected3.TabIndex = 70;
             this.labelRelayDisconnected3.Text = "Relay Disconnected";
             this.labelRelayDisconnected3.Visible = false;
-            // 
-            // ucTransmitter1
-            // 
-            this.ucTransmitter1.CTRatio = ((uint)(320u));
-            this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitter1.DNPEnabled = false;
-            this.ucTransmitter1.ForceDNPEnable = false;
-            this.ucTransmitter1.FPGARevisionValid = true;
-            this.ucTransmitter1.GERelay = false;
-            this.ucTransmitter1.Location = new System.Drawing.Point(8, 6);
-            this.ucTransmitter1.Name = "ucTransmitter1";
-            this.ucTransmitter1.PacketLength = 30;
-            this.ucTransmitter1.SerialNumber = 0;
-            this.ucTransmitter1.Size = new System.Drawing.Size(869, 612);
-            this.ucTransmitter1.TabIndex = 0;
-            this.ucTransmitter1.WaterBugNoTransmitter = false;
             // 
             // tabPageMonitor
             // 
@@ -1363,16 +1064,6 @@
             this.labelCtRatioMonitor.TabIndex = 31;
             this.labelCtRatioMonitor.Text = "CT Ratio:";
             // 
-            // ucPhasorGraph1
-            // 
-            this.ucPhasorGraph1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
-            this.ucPhasorGraph1.Name = "ucPhasorGraph1";
-            this.ucPhasorGraph1.RealTimeMonitoring = false;
-            this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
-            this.ucPhasorGraph1.Size = new System.Drawing.Size(992, 572);
-            this.ucPhasorGraph1.TabIndex = 45;
-            // 
             // textBoxTemperatureMonitoringPage
             // 
             this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
@@ -1409,7 +1100,7 @@
             this.tabPageControl.Location = new System.Drawing.Point(4, 22);
             this.tabPageControl.Name = "tabPageControl";
             this.tabPageControl.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageControl.Size = new System.Drawing.Size(991, 624);
+            this.tabPageControl.Size = new System.Drawing.Size(1241, 787);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             // 
@@ -2031,16 +1722,6 @@
             this.checkBoxPowerSaveFlag.Text = "Power Save";
             this.checkBoxPowerSaveFlag.UseVisualStyleBackColor = true;
             // 
-            // ucSafeService1
-            // 
-            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
-            this.ucSafeService1.CTRatio = 320;
-            this.ucSafeService1.LoadingNewCode = false;
-            this.ucSafeService1.Location = new System.Drawing.Point(734, 4);
-            this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(232, 250);
-            this.ucSafeService1.TabIndex = 108;
-            // 
             // panelOtherRelayControls
             // 
             this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
@@ -2068,23 +1749,6 @@
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
             this.panelOtherRelayControls.Size = new System.Drawing.Size(532, 209);
             this.panelOtherRelayControls.TabIndex = 77;
-            // 
-            // ucRemoteCommandBlock1
-            // 
-            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ucRemoteCommandBlock1.CommandsBlocked = false;
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(384, 70);
-            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
-            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(126, 69);
-            this.ucRemoteCommandBlock1.TabIndex = 80;
-            // 
-            // ucBlockControl1
-            // 
-            this.ucBlockControl1.Location = new System.Drawing.Point(389, 0);
-            this.ucBlockControl1.Name = "ucBlockControl1";
-            this.ucBlockControl1.RelayBlocked = false;
-            this.ucBlockControl1.Size = new System.Drawing.Size(104, 67);
-            this.ucBlockControl1.TabIndex = 79;
             // 
             // labelBootRevision
             // 
@@ -2278,61 +1942,6 @@
             this.buttonDeleteSetting.UseVisualStyleBackColor = true;
             this.buttonDeleteSetting.Click += new System.EventHandler(this.buttonDeleteSetting_Click);
             // 
-            // ucTripMode2
-            // 
-            this.ucTripMode2.AutoSize = true;
-            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
-            this.ucTripMode2.CTRatio = 320;
-            this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
-            this.ucTripMode2.Location = new System.Drawing.Point(8, 3);
-            this.ucTripMode2.Name = "ucTripMode2";
-            this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(313, 262);
-            this.ucTripMode2.TabIndex = 40;
-            this.ucTripMode2.VersionNumber = ((uint)(0u));
-            // 
-            // SendAll_Message_PopUp1
-            // 
-            this.SendAll_Message_PopUp1.AutoSize = true;
-            this.SendAll_Message_PopUp1.Location = new System.Drawing.Point(10, 100);
-            this.SendAll_Message_PopUp1.Name = "Please Wait!";
-            this.SendAll_Message_PopUp1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SendAll_Message_PopUp1.Size = new System.Drawing.Size(850, 100);
-            this.SendAll_Message_PopUp1.TabIndex = 40;
-            // 
-            // ucCloseMode1
-            // 
-            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
-            this.ucCloseMode1.Location = new System.Drawing.Point(315, 0);
-            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
-            this.ucCloseMode1.Name = "ucCloseMode1";
-            this.ucCloseMode1.RelaxClose = false;
-            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(286, 247);
-            this.ucCloseMode1.TabIndex = 26;
-            // 
-            // ucPumpMode1
-            // 
-            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Location = new System.Drawing.Point(187, 260);
-            this.ucPumpMode1.Name = "ucPumpMode1";
-            this.ucPumpMode1.PumpProtectEnabled = false;
-            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
-            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucPumpMode1.Size = new System.Drawing.Size(254, 270);
-            this.ucPumpMode1.TabIndex = 49;
-            // 
-            // ucCoverFlags1
-            // 
-            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCoverFlags1.Location = new System.Drawing.Point(325, 517);
-            this.ucCoverFlags1.Name = "ucCoverFlags1";
-            this.ucCoverFlags1.Size = new System.Drawing.Size(215, 111);
-            this.ucCoverFlags1.TabIndex = 119;
-            // 
             // tabControlMain
             // 
             this.tabControlMain.Controls.Add(this.tabPageControl);
@@ -2346,10 +1955,10 @@
             this.tabControlMain.Controls.Add(this.tabPageShortRange);
             this.tabControlMain.Controls.Add(this.tabPageDNPData);
             this.tabControlMain.Controls.Add(this.tabPageDNPSecureAuth);
-            this.tabControlMain.Location = new System.Drawing.Point(0, 27);
+            this.tabControlMain.Location = new System.Drawing.Point(0, 34);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(999, 650);
+            this.tabControlMain.Size = new System.Drawing.Size(1249, 813);
             this.tabControlMain.TabIndex = 36;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
@@ -2377,15 +1986,6 @@
             this.buttonResetRelay2.Visible = false;
             this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
             // 
-            // ucDNP1
-            // 
-            this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucDNP1.DNPLabelStatus = false;
-            this.ucDNP1.Location = new System.Drawing.Point(8, 3);
-            this.ucDNP1.Name = "ucDNP1";
-            this.ucDNP1.Size = new System.Drawing.Size(983, 558);
-            this.ucDNP1.TabIndex = 0;
-            // 
             // tabPageArcFault
             // 
             this.tabPageArcFault.Controls.Add(this.buttonArcFaultStartMonitoring);
@@ -2408,13 +2008,6 @@
             this.buttonArcFaultStartMonitoring.UseVisualStyleBackColor = true;
             this.buttonArcFaultStartMonitoring.Click += new System.EventHandler(this.buttonArcFaultStartMonitoring_Click);
             // 
-            // ucArcFault1
-            // 
-            this.ucArcFault1.Location = new System.Drawing.Point(8, 6);
-            this.ucArcFault1.Name = "ucArcFault1";
-            this.ucArcFault1.Size = new System.Drawing.Size(478, 429);
-            this.ucArcFault1.TabIndex = 3;
-            // 
             // tabPageShortRange
             // 
             this.tabPageShortRange.Controls.Add(this.ucShortRange1);
@@ -2424,13 +2017,6 @@
             this.tabPageShortRange.TabIndex = 11;
             this.tabPageShortRange.Text = "Sec Mon";
             this.tabPageShortRange.UseVisualStyleBackColor = true;
-            // 
-            // ucShortRange1
-            // 
-            this.ucShortRange1.Location = new System.Drawing.Point(8, 0);
-            this.ucShortRange1.Name = "ucShortRange1";
-            this.ucShortRange1.Size = new System.Drawing.Size(987, 624);
-            this.ucShortRange1.TabIndex = 0;
             // 
             // tabPageDNPData
             // 
@@ -2489,13 +2075,6 @@
             this.tabPageEngineering2.Text = "Engineer 2";
             this.tabPageEngineering2.UseVisualStyleBackColor = true;
             // 
-            // commTradeConverter1
-            // 
-            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
-            this.commTradeConverter1.Name = "commTradeConverter1";
-            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
-            this.commTradeConverter1.TabIndex = 4;
-            // 
             // labelKioskReceived
             // 
             this.labelKioskReceived.AutoSize = true;
@@ -2528,13 +2107,6 @@
             this.buttonTest.UseVisualStyleBackColor = true;
             this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
             // 
-            // ucPhasorRequest1
-            // 
-            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
-            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
-            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
-            this.ucPhasorRequest1.TabIndex = 0;
-            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 5000;
@@ -2564,6 +2136,439 @@
             this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
+            // 
+            // ucSafeService1
+            // 
+            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
+            this.ucSafeService1.CTRatio = 320;
+            this.ucSafeService1.LoadingNewCode = false;
+            this.ucSafeService1.Location = new System.Drawing.Point(734, 4);
+            this.ucSafeService1.Name = "ucSafeService1";
+            this.ucSafeService1.Size = new System.Drawing.Size(232, 250);
+            this.ucSafeService1.TabIndex = 108;
+            // 
+            // ucRemoteCommandBlock1
+            // 
+            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucRemoteCommandBlock1.CommandsBlocked = false;
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(384, 70);
+            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
+            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(126, 69);
+            this.ucRemoteCommandBlock1.TabIndex = 80;
+            // 
+            // ucBlockControl1
+            // 
+            this.ucBlockControl1.Location = new System.Drawing.Point(389, 0);
+            this.ucBlockControl1.Name = "ucBlockControl1";
+            this.ucBlockControl1.RelayBlocked = false;
+            this.ucBlockControl1.Size = new System.Drawing.Size(104, 67);
+            this.ucBlockControl1.TabIndex = 79;
+            // 
+            // ucTripMode2
+            // 
+            this.ucTripMode2.AutoSize = true;
+            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
+            this.ucTripMode2.CTRatio = 320;
+            this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
+            this.ucTripMode2.Location = new System.Drawing.Point(8, 3);
+            this.ucTripMode2.Name = "ucTripMode2";
+            this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ucTripMode2.SequenceRelay = false;
+            this.ucTripMode2.Size = new System.Drawing.Size(313, 262);
+            this.ucTripMode2.TabIndex = 40;
+            this.ucTripMode2.VersionNumber = ((uint)(0u));
+            // 
+            // ucCloseMode1
+            // 
+            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
+            this.ucCloseMode1.Location = new System.Drawing.Point(315, 0);
+            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
+            this.ucCloseMode1.Name = "ucCloseMode1";
+            this.ucCloseMode1.RelaxClose = false;
+            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucCloseMode1.Size = new System.Drawing.Size(286, 247);
+            this.ucCloseMode1.TabIndex = 26;
+            // 
+            // ucPumpMode1
+            // 
+            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucPumpMode1.Location = new System.Drawing.Point(187, 260);
+            this.ucPumpMode1.Name = "ucPumpMode1";
+            this.ucPumpMode1.PumpProtectEnabled = false;
+            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
+            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucPumpMode1.Size = new System.Drawing.Size(254, 270);
+            this.ucPumpMode1.TabIndex = 49;
+            // 
+            // ucCoverFlags1
+            // 
+            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCoverFlags1.Location = new System.Drawing.Point(325, 517);
+            this.ucCoverFlags1.Name = "ucCoverFlags1";
+            this.ucCoverFlags1.Size = new System.Drawing.Size(215, 111);
+            this.ucCoverFlags1.TabIndex = 119;
+            // 
+            // ucPhasorGraph1
+            // 
+            this.ucPhasorGraph1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
+            this.ucPhasorGraph1.Name = "ucPhasorGraph1";
+            this.ucPhasorGraph1.RealTimeMonitoring = false;
+            this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
+            this.ucPhasorGraph1.Size = new System.Drawing.Size(992, 572);
+            this.ucPhasorGraph1.TabIndex = 45;
+            // 
+            // ucLiveData1
+            // 
+            this.ucLiveData1.CTRatio = 320;
+            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucLiveData1.GEEnabled = false;
+            this.ucLiveData1.Location = new System.Drawing.Point(0, 22);
+            this.ucLiveData1.Name = "ucLiveData1";
+            this.ucLiveData1.Size = new System.Drawing.Size(991, 602);
+            this.ucLiveData1.TabIndex = 0;
+            // 
+            // ucEventGraph7
+            // 
+            this.ucEventGraph7.CTRatio = 320;
+            this.ucEventGraph7.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph7.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph7.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph7.EventNumber = ((uint)(0u));
+            this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph7.GEEnabled = false;
+            this.ucEventGraph7.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph7.Name = "ucEventGraph7";
+            this.ucEventGraph7.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph7.TabIndex = 8;
+            this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph6
+            // 
+            this.ucEventGraph6.CTRatio = 320;
+            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph6.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph6.EventNumber = ((uint)(0u));
+            this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph6.GEEnabled = false;
+            this.ucEventGraph6.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph6.Name = "ucEventGraph6";
+            this.ucEventGraph6.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph6.TabIndex = 7;
+            this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph5
+            // 
+            this.ucEventGraph5.CTRatio = 320;
+            this.ucEventGraph5.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph5.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph5.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph5.EventNumber = ((uint)(0u));
+            this.ucEventGraph5.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph5.GEEnabled = false;
+            this.ucEventGraph5.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph5.Name = "ucEventGraph5";
+            this.ucEventGraph5.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph5.TabIndex = 6;
+            this.ucEventGraph5.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph4
+            // 
+            this.ucEventGraph4.CTRatio = 320;
+            this.ucEventGraph4.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph4.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph4.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph4.EventNumber = ((uint)(0u));
+            this.ucEventGraph4.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph4.GEEnabled = false;
+            this.ucEventGraph4.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph4.Name = "ucEventGraph4";
+            this.ucEventGraph4.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph4.TabIndex = 5;
+            this.ucEventGraph4.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph3
+            // 
+            this.ucEventGraph3.CTRatio = 320;
+            this.ucEventGraph3.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph3.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph3.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph3.EventNumber = ((uint)(0u));
+            this.ucEventGraph3.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph3.GEEnabled = false;
+            this.ucEventGraph3.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph3.Name = "ucEventGraph3";
+            this.ucEventGraph3.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph3.TabIndex = 4;
+            this.ucEventGraph3.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph2
+            // 
+            this.ucEventGraph2.CTRatio = 320;
+            this.ucEventGraph2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph2.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph2.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph2.EventNumber = ((uint)(0u));
+            this.ucEventGraph2.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph2.GEEnabled = false;
+            this.ucEventGraph2.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph2.Name = "ucEventGraph2";
+            this.ucEventGraph2.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph2.TabIndex = 3;
+            this.ucEventGraph2.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph1
+            // 
+            this.ucEventGraph1.CTRatio = 320;
+            this.ucEventGraph1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph1.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph1.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph1.EventNumber = ((uint)(0u));
+            this.ucEventGraph1.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph1.GEEnabled = false;
+            this.ucEventGraph1.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph1.Name = "ucEventGraph1";
+            this.ucEventGraph1.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph1.TabIndex = 2;
+            this.ucEventGraph1.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph0
+            // 
+            this.ucEventGraph0.CTRatio = 320;
+            this.ucEventGraph0.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph0.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph0.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph0.EventNumber = ((uint)(0u));
+            this.ucEventGraph0.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph0.GEEnabled = false;
+            this.ucEventGraph0.Location = new System.Drawing.Point(0, 33);
+            this.ucEventGraph0.Name = "ucEventGraph0";
+            this.ucEventGraph0.Size = new System.Drawing.Size(988, 593);
+            this.ucEventGraph0.TabIndex = 0;
+            this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucTransmitter1
+            // 
+            this.ucTransmitter1.CTRatio = ((uint)(320u));
+            this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitter1.DNPEnabled = false;
+            this.ucTransmitter1.ForceDNPEnable = false;
+            this.ucTransmitter1.FPGARevisionValid = true;
+            this.ucTransmitter1.GERelay = false;
+            this.ucTransmitter1.Location = new System.Drawing.Point(8, 6);
+            this.ucTransmitter1.Name = "ucTransmitter1";
+            this.ucTransmitter1.PacketLength = 30;
+            this.ucTransmitter1.SerialNumber = 0;
+            this.ucTransmitter1.Size = new System.Drawing.Size(869, 612);
+            this.ucTransmitter1.TabIndex = 0;
+            this.ucTransmitter1.WaterBugNoTransmitter = false;
+            // 
+            // ucTransmitterMonitoring1
+            // 
+            this.ucTransmitterMonitoring1.CTMult = "";
+            this.ucTransmitterMonitoring1.CTRatio = 320;
+            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring1.DNPCoverFlags = ((byte)(0));
+            this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
+            this.ucTransmitterMonitoring1.GEEnabled = false;
+            this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
+            this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
+            this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(981, 575);
+            this.ucTransmitterMonitoring1.TabIndex = 86;
+            this.ucTransmitterMonitoring1.TimeElapsedHours = "";
+            this.ucTransmitterMonitoring1.TimeElapsedMinutes = "";
+            this.ucTransmitterMonitoring1.TimeElapsedSeconds = "";
+            this.ucTransmitterMonitoring1.TransmitterID = "";
+            this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
+            this.ucTransmitterMonitoring1.TransmitterSN = "";
+            this.ucTransmitterMonitoring1.WaterBugActive = false;
+            // 
+            // ucDNP1
+            // 
+            this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP1.DNPLabelStatus = false;
+            this.ucDNP1.Location = new System.Drawing.Point(8, 3);
+            this.ucDNP1.Name = "ucDNP1";
+            this.ucDNP1.Size = new System.Drawing.Size(983, 558);
+            this.ucDNP1.TabIndex = 0;
+            // 
+            // ucArcFault1
+            // 
+            this.ucArcFault1.Location = new System.Drawing.Point(8, 6);
+            this.ucArcFault1.Name = "ucArcFault1";
+            this.ucArcFault1.Size = new System.Drawing.Size(478, 429);
+            this.ucArcFault1.TabIndex = 3;
+            // 
+            // ucShortRange1
+            // 
+            this.ucShortRange1.Location = new System.Drawing.Point(8, 0);
+            this.ucShortRange1.Name = "ucShortRange1";
+            this.ucShortRange1.Size = new System.Drawing.Size(987, 624);
+            this.ucShortRange1.TabIndex = 0;
+            // 
+            // ucCSVConverterCSVFile1
+            // 
+            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
+            this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
+            this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
+            this.ucCSVConverterCSVFile1.TabIndex = 109;
+            // 
+            // ucTimeControl1
+            // 
+            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
+            this.ucTimeControl1.Name = "ucTimeControl1";
+            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
+            this.ucTimeControl1.TabIndex = 119;
+            // 
+            // ucGeneralCommandHandler1
+            // 
+            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
+            this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
+            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
+            this.ucGeneralCommandHandler1.TabIndex = 117;
+            // 
+            // ucRelayProgramming1
+            // 
+            this.ucRelayProgramming1.ActiveRelay = false;
+            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
+            this.ucRelayProgramming1.DNPRelay = true;
+            this.ucRelayProgramming1.ForceRelayUpdate = false;
+            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
+            this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.GERelay = false;
+            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
+            this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionString = "";
+            this.ucRelayProgramming1.Name = "ucRelayProgramming1";
+            this.ucRelayProgramming1.NotPollingPort = false;
+            this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
+            this.ucRelayProgramming1.ProgramBootCodeStart = false;
+            this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
+            this.ucRelayProgramming1.ReprogrammingInProgress = false;
+            this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
+            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
+            this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
+            this.ucRelayProgramming1.TabIndex = 112;
+            this.ucRelayProgramming1.TransmitterEnabled = false;
+            // 
+            // uc8CheckBoxFlagsGEControl2
+            // 
+            this.uc8CheckBoxFlagsGEControl2.Location = new System.Drawing.Point(360, 431);
+            this.uc8CheckBoxFlagsGEControl2.Name = "uc8CheckBoxFlagsGEControl2";
+            this.uc8CheckBoxFlagsGEControl2.Names = null;
+            this.uc8CheckBoxFlagsGEControl2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsGEControl2.TabIndex = 111;
+            // 
+            // uc8CheckBoxFlagsGEControl1
+            // 
+            this.uc8CheckBoxFlagsGEControl1.Location = new System.Drawing.Point(360, 249);
+            this.uc8CheckBoxFlagsGEControl1.Name = "uc8CheckBoxFlagsGEControl1";
+            this.uc8CheckBoxFlagsGEControl1.Names = null;
+            this.uc8CheckBoxFlagsGEControl1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsGEControl1.TabIndex = 110;
+            // 
+            // ucCalibration2
+            // 
+            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
+            this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
+            this.ucCalibration2.Name = "ucCalibration2";
+            this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
+            this.ucCalibration2.TabIndex = 108;
+            // 
+            // uc8CheckBoxFlagsCommFlags2
+            // 
+            this.uc8CheckBoxFlagsCommFlags2.Location = new System.Drawing.Point(254, 431);
+            this.uc8CheckBoxFlagsCommFlags2.Name = "uc8CheckBoxFlagsCommFlags2";
+            this.uc8CheckBoxFlagsCommFlags2.Names = null;
+            this.uc8CheckBoxFlagsCommFlags2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsCommFlags2.TabIndex = 106;
+            // 
+            // uc8CheckBoxFlagsCommFlags1
+            // 
+            this.uc8CheckBoxFlagsCommFlags1.Location = new System.Drawing.Point(254, 249);
+            this.uc8CheckBoxFlagsCommFlags1.Name = "uc8CheckBoxFlagsCommFlags1";
+            this.uc8CheckBoxFlagsCommFlags1.Names = null;
+            this.uc8CheckBoxFlagsCommFlags1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsCommFlags1.TabIndex = 105;
+            // 
+            // uc8CheckBoxFlagsRelayStatus2
+            // 
+            this.uc8CheckBoxFlagsRelayStatus2.Location = new System.Drawing.Point(143, 431);
+            this.uc8CheckBoxFlagsRelayStatus2.Name = "uc8CheckBoxFlagsRelayStatus2";
+            this.uc8CheckBoxFlagsRelayStatus2.Names = null;
+            this.uc8CheckBoxFlagsRelayStatus2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayStatus2.TabIndex = 104;
+            // 
+            // uc8CheckBoxFlagsRelayStatus1
+            // 
+            this.uc8CheckBoxFlagsRelayStatus1.Location = new System.Drawing.Point(143, 249);
+            this.uc8CheckBoxFlagsRelayStatus1.Name = "uc8CheckBoxFlagsRelayStatus1";
+            this.uc8CheckBoxFlagsRelayStatus1.Names = null;
+            this.uc8CheckBoxFlagsRelayStatus1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayStatus1.TabIndex = 103;
+            // 
+            // uc8CheckBoxFlagsRelayFlags2
+            // 
+            this.uc8CheckBoxFlagsRelayFlags2.Location = new System.Drawing.Point(17, 431);
+            this.uc8CheckBoxFlagsRelayFlags2.Name = "uc8CheckBoxFlagsRelayFlags2";
+            this.uc8CheckBoxFlagsRelayFlags2.Names = null;
+            this.uc8CheckBoxFlagsRelayFlags2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayFlags2.TabIndex = 102;
+            // 
+            // uc8CheckBoxFlagsRelayFlags1
+            // 
+            this.uc8CheckBoxFlagsRelayFlags1.Location = new System.Drawing.Point(17, 249);
+            this.uc8CheckBoxFlagsRelayFlags1.Name = "uc8CheckBoxFlagsRelayFlags1";
+            this.uc8CheckBoxFlagsRelayFlags1.Names = null;
+            this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
+            // 
+            // ucCalibration1
+            // 
+            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
+            this.ucCalibration1.Name = "ucCalibration1";
+            this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
+            this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
+            // SendAll_Message_PopUp1
+            // 
+            this.SendAll_Message_PopUp1.AutoSize = true;
+            this.SendAll_Message_PopUp1.BackColor = System.Drawing.SystemColors.Control;
+            this.SendAll_Message_PopUp1.ClientSize = new System.Drawing.Size(0, 0);
+            this.SendAll_Message_PopUp1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SendAll_Message_PopUp1.Location = new System.Drawing.Point(-32000, -32000);
+            this.SendAll_Message_PopUp1.Margin = new System.Windows.Forms.Padding(7);
+            this.SendAll_Message_PopUp1.Name = "SendAll_Message_PopUp1";
+            this.SendAll_Message_PopUp1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.SendAll_Message_PopUp1.ShowIcon = false;
+            this.SendAll_Message_PopUp1.Visible = false;
+            this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            // 
+            // commTradeConverter1
+            // 
+            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
+            this.commTradeConverter1.Name = "commTradeConverter1";
+            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
+            this.commTradeConverter1.TabIndex = 4;
+            // 
+            // ucPhasorRequest1
+            // 
+            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
+            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
+            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
+            this.ucPhasorRequest1.TabIndex = 0;
             // 
             // serialPort1
             // 

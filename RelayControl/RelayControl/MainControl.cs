@@ -6796,7 +6796,7 @@ namespace RelayControl
 
         int getEventDownloadTime()
         {
-            int downloadTime = 50;
+            int downloadTime = 100;// 50;
             if (tCPConnection)
                 downloadTime = 100;
 
