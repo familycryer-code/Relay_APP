@@ -20,6 +20,7 @@ namespace RelayControlLibrary
 
             this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
             this.textBoxTransmitterOutputPower.Enabled = false;
+            this.DNPCoverFlags = ((byte)(0));
 #if DEBUG
             this.textBoxSerialNumber.Enabled = true;
             this.textBoxTransmitterOutputPower.Enabled = true;
@@ -243,10 +244,10 @@ namespace RelayControlLibrary
 
                 //Set the Flag Polarity
                 this.TXSettings.FlagPolarity.ByteValue = bA[9];
-                //this.setFlagPolarity(bA[9]);
+                this.setFlagPolarity(bA[9]);
                 statusNew.flagFromRelay = true;
                 flagP.transmitterFlagPolarity = bA[9];
-                this.ucTransmitterMonitoring2.setFlagPolarity(bA[9]);
+                //this.ucTransmitterMonitoring2.setFlagPolarity(bA[9]);
                 flagS.flagSettings = bA[9];
 
                 //Enable Flag Alarms
@@ -899,8 +900,8 @@ namespace RelayControlLibrary
         //private void buttonTX_Click(object sender, EventArgs e)
         public void buttonTX_Click(object sender, EventArgs e)
         {
-            string text = "Sending Transmitter settings to the Relay. Flag settings, as seen on the Sensor Monitoring tab, will be sent as well !";
-            MessageBox.Show(text);
+            //string text = "Sending Transmitter settings to the Relay. Flag settings, as seen on the Sensor Monitoring tab, will be sent as well !";
+            //MessageBox.Show(text);
             this.SendTransmitterSettings();
         }
 
@@ -938,14 +939,15 @@ namespace RelayControlLibrary
                 //Flag Polarity
 
                 errorMessage = "Error Setting Flag Polarities";
-                this.TXSettings.FlagPolarity.A = this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked;
-                this.TXSettings.FlagPolarity.B = this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked;
-                this.TXSettings.FlagPolarity.C = this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked;
-                this.TXSettings.FlagPolarity.D = this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked;
-                this.TXSettings.FlagPolarity.E = this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked;
-                this.TXSettings.FlagPolarity.F = this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked;
-                this.TXSettings.FlagPolarity.G = this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked;
-                this.TXSettings.FlagPolarity.H = this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked;
+                
+                this.TXSettings.FlagPolarity.A = radioButtonFPAClose.Checked;
+                this.TXSettings.FlagPolarity.B = radioButtonFPBClose.Checked;
+                this.TXSettings.FlagPolarity.C = radioButtonFPCClose.Checked;
+                this.TXSettings.FlagPolarity.D = radioButtonFPDClose.Checked;
+                this.TXSettings.FlagPolarity.E = radioButtonFPEClose.Checked;
+                this.TXSettings.FlagPolarity.F = radioButtonFPFClose.Checked;
+                this.TXSettings.FlagPolarity.G = radioButtonFPGClose.Checked;
+                this.TXSettings.FlagPolarity.H = radioButtonFPHClose.Checked;
                 this.TXSettings.SetFlagPolartityByte();
 
 
@@ -1153,6 +1155,84 @@ namespace RelayControlLibrary
             OnSend(this.TXSEA);
         }
 
+        public void setFlagPolarity(byte p)
+        {
+            if ((p & 1) == 1)
+                this.radioButtonFPAClose.Checked = true;
+            else
+                this.radioButtonFPAOpen.Checked = true;
+
+            if ((p & 2) == 2)
+                this.radioButtonFPBClose.Checked = true;
+            else
+                this.radioButtonFPBOpen.Checked = true;
+
+            if ((p & 4) == 4)
+                this.radioButtonFPCClose.Checked = true;
+            else
+                this.radioButtonFPCOpen.Checked = true;
+
+            if ((p & 8) == 8)
+                this.radioButtonFPDClose.Checked = true;
+            else
+                this.radioButtonFPDOpen.Checked = true;
+
+            if ((p & 16) == 16)
+                this.radioButtonFPEClose.Checked = true;
+            else
+                this.radioButtonFPEOpen.Checked = true;
+
+            if ((p & 32) == 32)
+                this.radioButtonFPFClose.Checked = true;
+            else
+                this.radioButtonFPFOpen.Checked = true;
+
+            if ((p & 64) == 64)
+                this.radioButtonFPGClose.Checked = true;
+            else
+                this.radioButtonFPGOpen.Checked = true;
+
+            if ((p & 128) == 128)
+                this.radioButtonFPHClose.Checked = true;
+            else
+                this.radioButtonFPHOpen.Checked = true;
+
+        }
+
+        public byte dNPCoverFlags = 0;
+        public byte DNPCoverFlags
+        {
+            get { return this.dNPCoverFlags; }
+            set
+            {
+                this.dNPCoverFlags = value;
+                this.setFlagPolarity(dNPCoverFlags);
+
+            }
+        }
+
+        public void setPolarityFromRelaySettings()
+        {
+            this.TXSettings.FlagPolarity.A = Convert.ToBoolean(dNPCoverFlags & 1);
+            this.TXSettings.FlagPolarity.B = Convert.ToBoolean(dNPCoverFlags & 2);
+            this.TXSettings.FlagPolarity.C = Convert.ToBoolean(dNPCoverFlags & 4);
+            this.TXSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
+            this.TXSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
+            this.TXSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
+            this.TXSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
+            this.TXSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
+            this.TXSettings.SetFlagPolartityByte();
+
+            this.radioButtonFPAClose.Checked = this.TXSettings.FlagPolarity.A;
+            this.radioButtonFPBClose.Checked = this.TXSettings.FlagPolarity.B;
+            this.radioButtonFPCClose.Checked = this.TXSettings.FlagPolarity.C;
+            this.radioButtonFPDClose.Checked = this.TXSettings.FlagPolarity.D;
+            this.radioButtonFPEClose.Checked = this.TXSettings.FlagPolarity.E;
+            this.radioButtonFPFClose.Checked = this.TXSettings.FlagPolarity.F;
+            this.radioButtonFPGClose.Checked = this.TXSettings.FlagPolarity.G;
+            this.radioButtonFPHClose.Checked = this.TXSettings.FlagPolarity.H;
+
+        }
 
         private void updateCheckBox(CheckBox cB, bool b)
         {
@@ -1404,14 +1484,14 @@ namespace RelayControlLibrary
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
 
-            this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
+            this.radioButtonFPAClose.Checked = true;
+            this.radioButtonFPBClose.Checked = true;
+            this.radioButtonFPCClose.Checked = true;
+            this.radioButtonFPDClose.Checked = true;
+            this.radioButtonFPEClose.Checked = true;
+            this.radioButtonFPFClose.Checked = true;
+            this.radioButtonFPGClose.Checked = true;
+            this.radioButtonFPHClose.Checked = true;
 
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;
@@ -1484,14 +1564,14 @@ namespace RelayControlLibrary
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
 
-            this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
+            this.radioButtonFPAClose.Checked = true;
+            this.radioButtonFPBClose.Checked = true;
+            this.radioButtonFPCClose.Checked = true;
+            this.radioButtonFPDClose.Checked = true;
+            this.radioButtonFPEClose.Checked = true;
+            this.radioButtonFPFClose.Checked = true;
+            this.radioButtonFPGClose.Checked = true;
+            this.radioButtonFPHClose.Checked = true;
 
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;
@@ -1579,14 +1659,14 @@ namespace RelayControlLibrary
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
 
-            this.ucTransmitterMonitoring2.radioButtonFPAClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPBClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPCClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPDClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPEClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPFClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPGClose.Checked = true;
-            this.ucTransmitterMonitoring2.radioButtonFPHClose.Checked = true;
+            this.radioButtonFPAClose.Checked = true;
+            this.radioButtonFPBClose.Checked = true;
+            this.radioButtonFPCClose.Checked = true;
+            this.radioButtonFPDClose.Checked = true;
+            this.radioButtonFPEClose.Checked = true;
+            this.radioButtonFPFClose.Checked = true;
+            this.radioButtonFPGClose.Checked = true;
+            this.radioButtonFPHClose.Checked = true;
 
             this.checkBoxFAA.Checked = false;
             this.checkBoxFAB.Checked = false;

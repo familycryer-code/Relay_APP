@@ -15,7 +15,7 @@ namespace RelayControlLibrary
     public partial class ucTransmitterMonitoring : UserControl
     {
         #region Initialization
-        public TransmitterSettings SensorMonitoringSettings = new TransmitterSettings();
+       // public TransmitterSettings SensorMonitoringSettings = new TransmitterSettings();
         public ucTransmitterMonitoring()
         {
             InitializeComponent();
@@ -53,7 +53,6 @@ namespace RelayControlLibrary
             this.newButtonSensMonTX.Enabled = false;
             this.textBoxTransmitterTemp.Enabled = false;
             this.textBoxQBit.Enabled = false;
-
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
             this.listBoxA2SensorSelect.SelectedIndex = 0;
             groupBoxAnalogFlagValues.Visible = true;
@@ -248,6 +247,23 @@ namespace RelayControlLibrary
                 this.textBoxVtA.Visible = true;
                 this.textBoxVtB.Visible = true;
                 this.textBoxVtC.Visible = true;
+                /*this.radioButtonFPAClose.Checked = true;
+                this.radioButtonFPBClose.Checked = true;
+                this.radioButtonFPCClose.Checked = true;
+                this.radioButtonFPDClose.Checked = true;
+                this.radioButtonFPEClose.Checked = true;
+                this.radioButtonFPFClose.Checked = true;
+                this.radioButtonFPGClose.Checked = true;
+                this.radioButtonFPHClose.Checked = true;
+                this.radioButtonFPAOpen.Checked = false;
+                this.radioButtonFPBOpen.Checked = false;
+                this.radioButtonFPCOpen.Checked = false;
+                this.radioButtonFPDOpen.Checked = false;
+                this.radioButtonFPEOpen.Checked = false;
+                this.radioButtonFPFOpen.Checked = false;
+                this.radioButtonFPGOpen.Checked = false;
+                this.radioButtonFPHOpen.Checked = false;
+                */
             }
         }
 
@@ -607,7 +623,7 @@ namespace RelayControlLibrary
         {
             if (statusNew.flagFromRelay)
             {
-                this.setFlagPolarity(flagS.flagSettings);
+               // this.setFlagPolarity(flagS.flagSettings);
                 statusNew.flagFromRelay = false;
             }
             TransmitterMonitoringEventArgs tMEA = new TransmitterMonitoringEventArgs(true);
@@ -1093,83 +1109,6 @@ namespace RelayControlLibrary
             }
         }
 
-        public void setFlagPolarity(byte p)
-        {
-            if ((p & 1) == 1)
-                this.radioButtonFPAClose.Checked = true;
-            else
-                this.radioButtonFPAOpen.Checked = true;
-
-            if ((p & 2) == 2)
-                this.radioButtonFPBClose.Checked = true;
-            else
-                this.radioButtonFPBOpen.Checked = true;
-
-            if ((p & 4) == 4)
-                this.radioButtonFPCClose.Checked = true;
-            else
-                this.radioButtonFPCOpen.Checked = true;
-
-            if ((p & 8) == 8)
-                this.radioButtonFPDClose.Checked = true;
-            else
-                this.radioButtonFPDOpen.Checked = true;
-
-            if ((p & 16) == 16)
-                this.radioButtonFPEClose.Checked = true;
-            else
-                this.radioButtonFPEOpen.Checked = true;
-
-            if ((p & 32) == 32)
-                this.radioButtonFPFClose.Checked = true;
-            else
-                this.radioButtonFPFOpen.Checked = true;
-
-            if ((p & 64) == 64)
-                this.radioButtonFPGClose.Checked = true;
-            else
-                this.radioButtonFPGOpen.Checked = true;
-
-            if ((p & 128) == 128)
-                this.radioButtonFPHClose.Checked = true;
-            else
-                this.radioButtonFPHOpen.Checked = true;
-
-        }
-
-        public byte dNPCoverFlags = 0;
-        public byte DNPCoverFlags
-        {
-            get { return this.dNPCoverFlags; }
-            set
-            {
-                this.dNPCoverFlags = value;
-                this.setFlagPolarity(dNPCoverFlags);
-
-            }
-        }
-
-        public void setPolarityFromRelaySettings()
-        {
-            this.SensorMonitoringSettings.FlagPolarity.A = Convert.ToBoolean(dNPCoverFlags & 1);
-            this.SensorMonitoringSettings.FlagPolarity.B = Convert.ToBoolean(dNPCoverFlags & 2);
-            this.SensorMonitoringSettings.FlagPolarity.C = Convert.ToBoolean(dNPCoverFlags & 4);
-            this.SensorMonitoringSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
-            this.SensorMonitoringSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
-            this.SensorMonitoringSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
-            this.SensorMonitoringSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
-            this.SensorMonitoringSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
-            this.SensorMonitoringSettings.SetFlagPolartityByte();
-
-            this.radioButtonFPAClose.Checked = this.SensorMonitoringSettings.FlagPolarity.A;
-            this.radioButtonFPBClose.Checked = this.SensorMonitoringSettings.FlagPolarity.B;
-            this.radioButtonFPCClose.Checked = this.SensorMonitoringSettings.FlagPolarity.C;
-            this.radioButtonFPDClose.Checked = this.SensorMonitoringSettings.FlagPolarity.D;
-            this.radioButtonFPEClose.Checked = this.SensorMonitoringSettings.FlagPolarity.E;
-            this.radioButtonFPFClose.Checked = this.SensorMonitoringSettings.FlagPolarity.F;
-            this.radioButtonFPGClose.Checked = this.SensorMonitoringSettings.FlagPolarity.G;
-            this.radioButtonFPHClose.Checked = this.SensorMonitoringSettings.FlagPolarity.H;
-        }
 
         /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
          {
@@ -1190,6 +1129,7 @@ namespace RelayControlLibrary
                 this.waterBugActive = value;
             }
         }
+
     }
 
     public class TransmitterMonitoringEventArgs : EventArgs

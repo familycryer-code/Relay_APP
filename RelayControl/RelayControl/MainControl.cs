@@ -3464,7 +3464,7 @@ namespace RelayControl
                 }
             }
 
-
+            
             if (ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
             {
                 logger.Debug("-------------------------------Resetting ShortRange Parameters");
@@ -7357,9 +7357,12 @@ namespace RelayControl
             //string text = "Please wait. Relay Parameters are being updated. This will take few seconds !";
             //MessageBox.Show(text);
             sendAllF.SendAllFlag = true;
+            this.SendAll_Message_PopUp1.BringToFront();
             this.SendAll_Message_PopUp1.Enabled = true;
             this.SendAll_Message_PopUp1.Visible = true;
-            
+          
+           // this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 8, true);
+
 #if DNP
                    this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
                    this.ucDNPSAv5OSName2.newOSname();
@@ -7415,7 +7418,8 @@ namespace RelayControl
 
 #if DNP && ATLANTA
             this.ucTransmitter1.DNPCoverFlags = this.ucCoverFlags1.getDNPCoverFlagsByte();
-            this.ucTransmitterMonitoring1.setPolarityFromRelaySettings(); //this.ucTransmitter1.setPolarityFromRelaySettings();
+            //this.ucTransmitterMonitoring1.setPolarityFromRelaySettings(); //this.ucTransmitter1.setPolarityFromRelaySettings();
+            this.ucTransmitter1.setPolarityFromRelaySettings();
             this.ucTransmitter1.SendTransmitterSettings();
             Thread.Sleep(100);
 #endif

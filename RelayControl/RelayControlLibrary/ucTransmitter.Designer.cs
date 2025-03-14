@@ -179,6 +179,43 @@
             this.checkBoxExtendedPLCMessage = new System.Windows.Forms.CheckBox();
             this.labelGEWHDisplay = new System.Windows.Forms.Label();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
+            this.panelFlagSettings = new System.Windows.Forms.Panel();
+            this.panelFlagSettingH = new System.Windows.Forms.Panel();
+            this.radioButtonFPHClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPHOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingG = new System.Windows.Forms.Panel();
+            this.radioButtonFPGClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPGOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingF = new System.Windows.Forms.Panel();
+            this.radioButtonFPFClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPFOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingE = new System.Windows.Forms.Panel();
+            this.radioButtonFPEClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPEOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingD = new System.Windows.Forms.Panel();
+            this.radioButtonFPDClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPDOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingC = new System.Windows.Forms.Panel();
+            this.radioButtonFPCClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPCOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingB = new System.Windows.Forms.Panel();
+            this.radioButtonFPBClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPBOpen = new System.Windows.Forms.RadioButton();
+            this.panelFlagSettingA = new System.Windows.Forms.Panel();
+            this.radioButtonFPAClose = new System.Windows.Forms.RadioButton();
+            this.radioButtonFPAOpen = new System.Windows.Forms.RadioButton();
+            this.labelFlagSettingsFlagPostPosition = new System.Windows.Forms.Label();
+            this.labelFlagSettingsFlag = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelFlagSettingA = new System.Windows.Forms.Label();
+            //this.labelFlagPolarity = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentThresholdHigh)).BeginInit();
@@ -196,6 +233,15 @@
             this.panelWaterburyMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLEDSpeed)).BeginInit();
             this.panelFlasgStatusWB.SuspendLayout();
+            this.panelFlagSettings.SuspendLayout();
+            this.panelFlagSettingH.SuspendLayout();
+            this.panelFlagSettingG.SuspendLayout();
+            this.panelFlagSettingF.SuspendLayout();
+            this.panelFlagSettingE.SuspendLayout();
+            this.panelFlagSettingD.SuspendLayout();
+            this.panelFlagSettingC.SuspendLayout();
+            this.panelFlagSettingB.SuspendLayout();
+            this.panelFlagSettingA.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonTX
@@ -1752,7 +1798,7 @@
             this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusB);
             this.panelFlasgStatusWB.Controls.Add(this.label30);
             this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusA);
-            this.panelFlasgStatusWB.Location = new System.Drawing.Point(193, 256);
+            this.panelFlasgStatusWB.Location = new System.Drawing.Point(10, 256); //(193, 256);
             this.panelFlasgStatusWB.Name = "panelFlasgStatusWB";
             this.panelFlasgStatusWB.Size = new System.Drawing.Size(111, 217);
             this.panelFlasgStatusWB.TabIndex = 80;
@@ -1951,7 +1997,6 @@
             this.ucTransmitterMonitoring2.CTMult = "";
             this.ucTransmitterMonitoring2.CTRatio = 320;
             this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitterMonitoring2.DNPCoverFlags = ((byte)(0));
             this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
             this.ucTransmitterMonitoring2.GEEnabled = false;
             this.ucTransmitterMonitoring2.Location = new System.Drawing.Point(4, 0);
@@ -1966,12 +2011,423 @@
             this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring2.TransmitterSN = "";
             this.ucTransmitterMonitoring2.WaterBugActive = false;
-            this.ucTransmitterMonitoring2.DNPCoverFlags = ((byte)(0));
+            // 
+            // panelFlagSettings
+            // 
+            this.panelFlagSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingH);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingG);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingF);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingE);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingD);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingC);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingB);
+            this.panelFlagSettings.Controls.Add(this.panelFlagSettingA);
+            this.panelFlagSettings.Controls.Add(this.labelFlagSettingsFlagPostPosition);
+            this.panelFlagSettings.Controls.Add(this.labelFlagSettingsFlag);
+            this.panelFlagSettings.Controls.Add(this.label12);
+            this.panelFlagSettings.Controls.Add(this.label11);
+            this.panelFlagSettings.Controls.Add(this.label10);
+            this.panelFlagSettings.Controls.Add(this.label9);
+            this.panelFlagSettings.Controls.Add(this.label8);
+            this.panelFlagSettings.Controls.Add(this.label6);
+            this.panelFlagSettings.Controls.Add(this.label5);
+            this.panelFlagSettings.Controls.Add(this.labelFlagSettingA);
+            this.panelFlagSettings.Location = new System.Drawing.Point(400, 10); //(362, 13);
+            this.panelFlagSettings.Name = "panelFlagSettings";
+            this.panelFlagSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.panelFlagSettings.Size = new System.Drawing.Size(180, 217);
+            this.panelFlagSettings.TabIndex = 84;
+            // 
+            // panelFlagSettingH
+            // 
+            this.panelFlagSettingH.Controls.Add(this.radioButtonFPHClose);
+            this.panelFlagSettingH.Controls.Add(this.radioButtonFPHOpen);
+            this.panelFlagSettingH.Location = new System.Drawing.Point(42, 191);
+            this.panelFlagSettingH.Name = "panelFlagSettingH";
+            this.panelFlagSettingH.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingH.TabIndex = 55;
+            // 
+            // radioButtonFPHClose
+            // 
+            this.radioButtonFPHClose.AutoSize = true;
+            this.radioButtonFPHClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPHClose.Name = "radioButtonFPHClose";
+            this.radioButtonFPHClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPHClose.TabIndex = 54;
+            this.radioButtonFPHClose.TabStop = true;
+            this.radioButtonFPHClose.Text = "Close";
+            this.radioButtonFPHClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPHOpen
+            // 
+            this.radioButtonFPHOpen.AutoSize = true;
+            this.radioButtonFPHOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPHOpen.Name = "radioButtonFPHOpen";
+            this.radioButtonFPHOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPHOpen.TabIndex = 53;
+            this.radioButtonFPHOpen.TabStop = true;
+            this.radioButtonFPHOpen.Text = "Open";
+            this.radioButtonFPHOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingG
+            // 
+            this.panelFlagSettingG.Controls.Add(this.radioButtonFPGClose);
+            this.panelFlagSettingG.Controls.Add(this.radioButtonFPGOpen);
+            this.panelFlagSettingG.Location = new System.Drawing.Point(42, 168);
+            this.panelFlagSettingG.Name = "panelFlagSettingG";
+            this.panelFlagSettingG.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingG.TabIndex = 55;
+            // 
+            // radioButtonFPGClose
+            // 
+            this.radioButtonFPGClose.AutoSize = true;
+            this.radioButtonFPGClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPGClose.Name = "radioButtonFPGClose";
+            this.radioButtonFPGClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPGClose.TabIndex = 54;
+            this.radioButtonFPGClose.TabStop = true;
+            this.radioButtonFPGClose.Text = "Close";
+            this.radioButtonFPGClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPGOpen
+            // 
+            this.radioButtonFPGOpen.AutoSize = true;
+            this.radioButtonFPGOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPGOpen.Name = "radioButtonFPGOpen";
+            this.radioButtonFPGOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPGOpen.TabIndex = 53;
+            this.radioButtonFPGOpen.TabStop = true;
+            this.radioButtonFPGOpen.Text = "Open";
+            this.radioButtonFPGOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingF
+            // 
+            this.panelFlagSettingF.Controls.Add(this.radioButtonFPFClose);
+            this.panelFlagSettingF.Controls.Add(this.radioButtonFPFOpen);
+            this.panelFlagSettingF.Location = new System.Drawing.Point(42, 145);
+            this.panelFlagSettingF.Name = "panelFlagSettingF";
+            this.panelFlagSettingF.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingF.TabIndex = 55;
+            // 
+            // radioButtonFPFClose
+            // 
+            this.radioButtonFPFClose.AutoSize = true;
+            this.radioButtonFPFClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPFClose.Name = "radioButtonFPFClose";
+            this.radioButtonFPFClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPFClose.TabIndex = 54;
+            this.radioButtonFPFClose.TabStop = true;
+            this.radioButtonFPFClose.Text = "Close";
+            this.radioButtonFPFClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPFOpen
+            // 
+            this.radioButtonFPFOpen.AutoSize = true;
+            this.radioButtonFPFOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPFOpen.Name = "radioButtonFPFOpen";
+            this.radioButtonFPFOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPFOpen.TabIndex = 53;
+            this.radioButtonFPFOpen.TabStop = true;
+            this.radioButtonFPFOpen.Text = "Open";
+            this.radioButtonFPFOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingE
+            // 
+            this.panelFlagSettingE.Controls.Add(this.radioButtonFPEClose);
+            this.panelFlagSettingE.Controls.Add(this.radioButtonFPEOpen);
+            this.panelFlagSettingE.Location = new System.Drawing.Point(42, 122);
+            this.panelFlagSettingE.Name = "panelFlagSettingE";
+            this.panelFlagSettingE.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingE.TabIndex = 55;
+            // 
+            // radioButtonFPEClose
+            // 
+            this.radioButtonFPEClose.AutoSize = true;
+            this.radioButtonFPEClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPEClose.Name = "radioButtonFPEClose";
+            this.radioButtonFPEClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPEClose.TabIndex = 54;
+            this.radioButtonFPEClose.TabStop = true;
+            this.radioButtonFPEClose.Text = "Close";
+            this.radioButtonFPEClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPEOpen
+            // 
+            this.radioButtonFPEOpen.AutoSize = true;
+            this.radioButtonFPEOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPEOpen.Name = "radioButtonFPEOpen";
+            this.radioButtonFPEOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPEOpen.TabIndex = 53;
+            this.radioButtonFPEOpen.TabStop = true;
+            this.radioButtonFPEOpen.Text = "Open";
+            this.radioButtonFPEOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingD
+            // 
+            this.panelFlagSettingD.Controls.Add(this.radioButtonFPDClose);
+            this.panelFlagSettingD.Controls.Add(this.radioButtonFPDOpen);
+            this.panelFlagSettingD.Location = new System.Drawing.Point(42, 99);
+            this.panelFlagSettingD.Name = "panelFlagSettingD";
+            this.panelFlagSettingD.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingD.TabIndex = 55;
+            // 
+            // radioButtonFPDClose
+            // 
+            this.radioButtonFPDClose.AutoSize = true;
+            this.radioButtonFPDClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPDClose.Name = "radioButtonFPDClose";
+            this.radioButtonFPDClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPDClose.TabIndex = 54;
+            this.radioButtonFPDClose.TabStop = true;
+            this.radioButtonFPDClose.Text = "Close";
+            this.radioButtonFPDClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPDOpen
+            // 
+            this.radioButtonFPDOpen.AutoSize = true;
+            this.radioButtonFPDOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPDOpen.Name = "radioButtonFPDOpen";
+            this.radioButtonFPDOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPDOpen.TabIndex = 53;
+            this.radioButtonFPDOpen.TabStop = true;
+            this.radioButtonFPDOpen.Text = "Open";
+            this.radioButtonFPDOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingC
+            // 
+            this.panelFlagSettingC.Controls.Add(this.radioButtonFPCClose);
+            this.panelFlagSettingC.Controls.Add(this.radioButtonFPCOpen);
+            this.panelFlagSettingC.Location = new System.Drawing.Point(42, 76);
+            this.panelFlagSettingC.Name = "panelFlagSettingC";
+            this.panelFlagSettingC.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingC.TabIndex = 55;
+            // 
+            // radioButtonFPCClose
+            // 
+            this.radioButtonFPCClose.AutoSize = true;
+            this.radioButtonFPCClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPCClose.Name = "radioButtonFPCClose";
+            this.radioButtonFPCClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPCClose.TabIndex = 54;
+            this.radioButtonFPCClose.TabStop = true;
+            this.radioButtonFPCClose.Text = "Close";
+            this.radioButtonFPCClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPCOpen
+            // 
+            this.radioButtonFPCOpen.AutoSize = true;
+            this.radioButtonFPCOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPCOpen.Name = "radioButtonFPCOpen";
+            this.radioButtonFPCOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPCOpen.TabIndex = 53;
+            this.radioButtonFPCOpen.TabStop = true;
+            this.radioButtonFPCOpen.Text = "Open";
+            this.radioButtonFPCOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingB
+            // 
+            this.panelFlagSettingB.Controls.Add(this.radioButtonFPBClose);
+            this.panelFlagSettingB.Controls.Add(this.radioButtonFPBOpen);
+            this.panelFlagSettingB.Location = new System.Drawing.Point(42, 53);
+            this.panelFlagSettingB.Name = "panelFlagSettingB";
+            this.panelFlagSettingB.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingB.TabIndex = 55;
+            // 
+            // radioButtonFPBClose
+            // 
+            this.radioButtonFPBClose.AutoSize = true;
+            this.radioButtonFPBClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPBClose.Name = "radioButtonFPBClose";
+            this.radioButtonFPBClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPBClose.TabIndex = 54;
+            this.radioButtonFPBClose.TabStop = true;
+            this.radioButtonFPBClose.Text = "Close";
+            this.radioButtonFPBClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPBOpen
+            // 
+            this.radioButtonFPBOpen.AutoSize = true;
+            this.radioButtonFPBOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPBOpen.Name = "radioButtonFPBOpen";
+            this.radioButtonFPBOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPBOpen.TabIndex = 53;
+            this.radioButtonFPBOpen.TabStop = true;
+            this.radioButtonFPBOpen.Text = "Open";
+            this.radioButtonFPBOpen.UseVisualStyleBackColor = true;
+            // 
+            // panelFlagSettingA
+            // 
+            this.panelFlagSettingA.Controls.Add(this.radioButtonFPAClose);
+            this.panelFlagSettingA.Controls.Add(this.radioButtonFPAOpen);
+            this.panelFlagSettingA.Location = new System.Drawing.Point(42, 30);
+            this.panelFlagSettingA.Name = "panelFlagSettingA";
+            this.panelFlagSettingA.Size = new System.Drawing.Size(128, 23);
+            this.panelFlagSettingA.TabIndex = 52;
+            // 
+            // radioButtonFPAClose
+            // 
+            this.radioButtonFPAClose.AutoSize = true;
+            this.radioButtonFPAClose.Location = new System.Drawing.Point(60, 2);
+            this.radioButtonFPAClose.Name = "radioButtonFPAClose";
+            this.radioButtonFPAClose.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPAClose.TabIndex = 54;
+            this.radioButtonFPAClose.TabStop = true;
+            this.radioButtonFPAClose.Text = "Close";
+            this.radioButtonFPAClose.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFPAOpen
+            // 
+            this.radioButtonFPAOpen.AutoSize = true;
+            this.radioButtonFPAOpen.Location = new System.Drawing.Point(3, 2);
+            this.radioButtonFPAOpen.Name = "radioButtonFPAOpen";
+            this.radioButtonFPAOpen.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonFPAOpen.TabIndex = 53;
+            this.radioButtonFPAOpen.TabStop = true;
+            this.radioButtonFPAOpen.Text = "Open";
+            this.radioButtonFPAOpen.UseVisualStyleBackColor = true;
+            // 
+            // labelFlagSettingsFlagPostPosition
+            // 
+            this.labelFlagSettingsFlagPostPosition.AutoSize = true;
+            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(59, 13);
+            this.labelFlagSettingsFlagPostPosition.Name = "labelFlagSettingsFlagPostPosition";
+            this.labelFlagSettingsFlagPostPosition.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(94, 13);
+            this.labelFlagSettingsFlagPostPosition.TabIndex = 51;
+            this.labelFlagSettingsFlagPostPosition.Text = "Flag Post Position:";
+            this.labelFlagSettingsFlagPostPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingsFlag
+            // 
+            this.labelFlagSettingsFlag.AutoSize = true;
+            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(5, 13);
+            this.labelFlagSettingsFlag.Name = "labelFlagSettingsFlag";
+            this.labelFlagSettingsFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingsFlag.Size = new System.Drawing.Size(30, 13);
+            this.labelFlagSettingsFlag.TabIndex = 43;
+            this.labelFlagSettingsFlag.Text = "Flag:";
+            this.labelFlagSettingsFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(19, 196);
+            this.label12.Name = "label12";
+            this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label12.Size = new System.Drawing.Size(18, 13);
+            this.label12.TabIndex = 50;
+            this.label12.Text = "H:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(19, 173);
+            this.label11.Name = "label11";
+            this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label11.Size = new System.Drawing.Size(18, 13);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "G:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(19, 150);
+            this.label10.Name = "label10";
+            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label10.Size = new System.Drawing.Size(16, 13);
+            this.label10.TabIndex = 48;
+            this.label10.Text = "F:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(19, 127);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(17, 13);
+            this.label9.TabIndex = 47;
+            this.label9.Text = "E:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(19, 104);
+            this.label8.Name = "label8";
+            this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label8.Size = new System.Drawing.Size(18, 13);
+            this.label8.TabIndex = 46;
+            this.label8.Text = "D:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(19, 81);
+            this.label6.Name = "label6";
+            this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label6.Size = new System.Drawing.Size(17, 13);
+            this.label6.TabIndex = 45;
+            this.label6.Text = "C:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(19, 58);
+            this.label5.Name = "label5";
+            this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label5.Size = new System.Drawing.Size(17, 13);
+            this.label5.TabIndex = 44;
+            this.label5.Text = "B:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFlagSettingA
+            // 
+            this.labelFlagSettingA.AutoSize = true;
+            this.labelFlagSettingA.Location = new System.Drawing.Point(19, 35);
+            this.labelFlagSettingA.Name = "labelFlagSettingA";
+            this.labelFlagSettingA.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagSettingA.Size = new System.Drawing.Size(17, 13);
+            this.labelFlagSettingA.TabIndex = 43;
+            this.labelFlagSettingA.Text = "A:";
+            this.labelFlagSettingA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            /*
+            // 
+            // labelFlagPolarity
+            // 
+            this.labelFlagPolarity.AutoSize = true;
+            this.labelFlagPolarity.Location = new System.Drawing.Point(427, 281);
+            this.labelFlagPolarity.Name = "labelFlagPolarity";
+            this.labelFlagPolarity.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelFlagPolarity.Size = new System.Drawing.Size(71, 13);
+            this.labelFlagPolarity.TabIndex = 85;
+            this.labelFlagPolarity.Text = "Flag Settings:";
+            this.labelFlagPolarity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            */
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(415, 5); //(291, 18);
+            this.label21.Name = "label21";
+            this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label21.Size = new System.Drawing.Size(71, 13);
+            this.label21.TabIndex = 85;
+            this.label21.Text = "Flag Settings:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label21);
+           // this.Controls.Add(this.labelFlagPolarity);
+            this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.labelGEWHDisplay);
             this.Controls.Add(this.checkBoxExtendedPLCMessage);
             this.Controls.Add(this.labelTransFlagStatus);
@@ -2027,6 +2483,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLEDSpeed)).EndInit();
             this.panelFlasgStatusWB.ResumeLayout(false);
             this.panelFlasgStatusWB.PerformLayout();
+            this.panelFlagSettings.ResumeLayout(false);
+            this.panelFlagSettings.PerformLayout();
+            this.panelFlagSettingH.ResumeLayout(false);
+            this.panelFlagSettingH.PerformLayout();
+            this.panelFlagSettingG.ResumeLayout(false);
+            this.panelFlagSettingG.PerformLayout();
+            this.panelFlagSettingF.ResumeLayout(false);
+            this.panelFlagSettingF.PerformLayout();
+            this.panelFlagSettingE.ResumeLayout(false);
+            this.panelFlagSettingE.PerformLayout();
+            this.panelFlagSettingD.ResumeLayout(false);
+            this.panelFlagSettingD.PerformLayout();
+            this.panelFlagSettingC.ResumeLayout(false);
+            this.panelFlagSettingC.PerformLayout();
+            this.panelFlagSettingB.ResumeLayout(false);
+            this.panelFlagSettingB.PerformLayout();
+            this.panelFlagSettingA.ResumeLayout(false);
+            this.panelFlagSettingA.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2051,7 +2525,6 @@
         private System.Windows.Forms.TextBox textBoxSerialNumber;
         private System.Windows.Forms.Label labelTXSN;
         //private System.Windows.Forms.Panel panelFlagSettings;
-        // private System.Windows.Forms.Label labelFlagPolarity;
         private System.Windows.Forms.Label labelAlarmSettings;
         private System.Windows.Forms.Panel panelAlarmSettings;
         private System.Windows.Forms.CheckBox checkBoxFAH;
@@ -2222,5 +2695,42 @@
         public RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
         private System.Windows.Forms.Panel panelPowerOut;
         private System.Windows.Forms.Label labelTMonTransOutput;
+        private System.Windows.Forms.Panel panelFlagSettings;
+        private System.Windows.Forms.Panel panelFlagSettingH;
+        public System.Windows.Forms.RadioButton radioButtonFPHClose;
+        public System.Windows.Forms.RadioButton radioButtonFPHOpen;
+        private System.Windows.Forms.Panel panelFlagSettingG;
+        public System.Windows.Forms.RadioButton radioButtonFPGClose;
+        public System.Windows.Forms.RadioButton radioButtonFPGOpen;
+        private System.Windows.Forms.Panel panelFlagSettingF;
+        public System.Windows.Forms.RadioButton radioButtonFPFClose;
+        public System.Windows.Forms.RadioButton radioButtonFPFOpen;
+        private System.Windows.Forms.Panel panelFlagSettingE;
+        public System.Windows.Forms.RadioButton radioButtonFPEClose;
+        public System.Windows.Forms.RadioButton radioButtonFPEOpen;
+        private System.Windows.Forms.Panel panelFlagSettingD;
+        public System.Windows.Forms.RadioButton radioButtonFPDClose;
+        public System.Windows.Forms.RadioButton radioButtonFPDOpen;
+        private System.Windows.Forms.Panel panelFlagSettingC;
+        public System.Windows.Forms.RadioButton radioButtonFPCClose;
+        public System.Windows.Forms.RadioButton radioButtonFPCOpen;
+        private System.Windows.Forms.Panel panelFlagSettingB;
+        public System.Windows.Forms.RadioButton radioButtonFPBClose;
+        public System.Windows.Forms.RadioButton radioButtonFPBOpen;
+        private System.Windows.Forms.Panel panelFlagSettingA;
+        public System.Windows.Forms.RadioButton radioButtonFPAClose;
+        public System.Windows.Forms.RadioButton radioButtonFPAOpen;
+        private System.Windows.Forms.Label labelFlagSettingsFlagPostPosition;
+        private System.Windows.Forms.Label labelFlagSettingsFlag;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelFlagSettingA;
+        //private System.Windows.Forms.Label labelFlagPolarity;
+        private System.Windows.Forms.Label label21;
     }
 }

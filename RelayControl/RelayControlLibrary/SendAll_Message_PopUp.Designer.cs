@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.progressBar1__SendAll = new System.Windows.Forms.ProgressBar();
-            this.timer_SendAll = new System.Windows.Forms.Timer(this.components);
+            this.timer_SendAll = new System.Windows.Forms.Timer();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar1__SendAll
             // 
-            this.progressBar1__SendAll.Location = new System.Drawing.Point(57, 30);
+            this.progressBar1__SendAll.ForeColor = System.Drawing.Color.Blue;
+            this.progressBar1__SendAll.Location = new System.Drawing.Point(40, 30);
             this.progressBar1__SendAll.MarqueeAnimationSpeed = 5;
+            this.progressBar1__SendAll.Maximum = 50;
             this.progressBar1__SendAll.Name = "progressBar1__SendAll";
             this.progressBar1__SendAll.Size = new System.Drawing.Size(626, 20);
             this.progressBar1__SendAll.TabIndex = 0;
@@ -46,7 +47,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(47, 5);
+            this.label1.Location = new System.Drawing.Point(25, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(654, 25);
             this.label1.TabIndex = 3;
@@ -56,8 +57,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2000, 972);
+            this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1__SendAll);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
