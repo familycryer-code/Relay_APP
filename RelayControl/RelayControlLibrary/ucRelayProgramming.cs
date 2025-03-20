@@ -764,8 +764,14 @@ namespace RelayControlLibrary
                     internalGESetter = false;
                     break;
                 default:
-                    dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
-                    if (dR == DialogResult.Yes)
+                    /*
+                     dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+                     if (dR == DialogResult.Yes)
+                         internalGESetter = true;
+                     else
+                         internalGESetter = false;
+                    */
+                    if (GeWhF.GeWh == true)
                         internalGESetter = true;
                     else
                         internalGESetter = false;

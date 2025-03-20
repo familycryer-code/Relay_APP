@@ -584,7 +584,7 @@ namespace RelayControlLibrary
             // buttonRQDNPSettings
             // 
             // this.buttonRQDNPSettings.Location = new System.Drawing.Point(0, 526);
-            this.buttonRQDNPSettings.Location = new System.Drawing.Point(60, 500);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(60, 460);
             this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
             this.buttonRQDNPSettings.Size = new System.Drawing.Size(150, 23);
             this.buttonRQDNPSettings.TabIndex = 31;
@@ -650,7 +650,7 @@ namespace RelayControlLibrary
             // buttonDefaults
             // 
             //this.buttonDefaults.Location = new System.Drawing.Point(0, 497);
-            this.buttonDefaults.Location = new System.Drawing.Point(60, 448);
+            this.buttonDefaults.Location = new System.Drawing.Point(60, 425);
             this.buttonDefaults.Name = "buttonDefaults";
             this.buttonDefaults.Size = new System.Drawing.Size(150, 23);
             this.buttonDefaults.TabIndex = 59;
@@ -1443,13 +1443,13 @@ namespace RelayControlLibrary
             // 
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPtext1);
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPStatusInidcation);
-            this.groupBoxDNPStatus.Location = new System.Drawing.Point(155, 497);
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(75, 500); //(155, 497);
             this.groupBoxDNPStatus.Name = "groupBoxDNPStatus";
             this.groupBoxDNPStatus.Size = new System.Drawing.Size(116, 52);
             this.groupBoxDNPStatus.TabIndex = 151;
             this.groupBoxDNPStatus.TabStop = false;
             this.groupBoxDNPStatus.Text = "DNP Status";
-            this.groupBoxDNPStatus.Visible = false;
+         //   this.groupBoxDNPStatus.Visible = false;
             // 
             // ucDNP
             // 

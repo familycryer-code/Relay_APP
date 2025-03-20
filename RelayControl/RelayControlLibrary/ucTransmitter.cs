@@ -345,10 +345,12 @@ namespace RelayControlLibrary
                 if ((bA[28] & 0x10) == 0x10)
                 {
                     labelGEWHDisplay.Text = "GE";
+                    GeWhF.GeWh = true;
                 }
                 else
                 {
                     labelGEWHDisplay.Text = "WH";
+                    GeWhF.GeWh = false;
                 }
 
                 //Waterbury Harness Data

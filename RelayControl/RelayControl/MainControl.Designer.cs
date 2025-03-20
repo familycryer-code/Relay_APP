@@ -2556,13 +2556,14 @@
             this.SendAll_Message_PopUp1.ClientSize = new System.Drawing.Size(0, 0);
             this.SendAll_Message_PopUp1.ControlBox = false;
             this.SendAll_Message_PopUp1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SendAll_Message_PopUp1.Location = new System.Drawing.Point(-32000, -32000);
+            this.SendAll_Message_PopUp1.Location = new System.Drawing.Point(160, 430); //(-32000, -32000);
             this.SendAll_Message_PopUp1.Margin = new System.Windows.Forms.Padding(7);
             this.SendAll_Message_PopUp1.Name = "SendAll_Message_PopUp1";
             this.SendAll_Message_PopUp1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SendAll_Message_PopUp1.ShowIcon = false;
-            this.SendAll_Message_PopUp1.Visible = false;
-            this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            this.SendAll_Message_PopUp1.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.SendAll_Message_PopUp1.Visible = true;// false;
+            this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Normal; //System.Windows.Forms.FormWindowState.Minimized;
             // 
             // ucForceCustomerSwitch1
             // 

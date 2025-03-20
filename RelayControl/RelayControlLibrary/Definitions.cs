@@ -1977,6 +1977,11 @@ namespace RelayControlLibrary
         public static bool SendAllFlag;
     }
 
+    public static class GeWhF
+    {
+        public static bool GeWh;
+    }
+
     [Flags]
     public enum ProtectorVoltageBits
     {
