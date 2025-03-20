@@ -1041,8 +1041,6 @@ namespace RelayControlLibrary
                 else
                     comboBoxUnsolResponse.SelectedIndex = 1;
 
-
-
                 numericUpDownUnsolTimeout.Value = DNPSS.UnsolTimeout;
                 numericUpDownFragmentSize.Value = DNPSS.FragmentSize;
                 numericUpDownSourceAddress.Value = DNPSS.SourceAddress;
