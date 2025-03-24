@@ -297,7 +297,7 @@ namespace RelayControlLibrary
                 }
             }
         }
-
+        
         public UInt32 MasterRevisionNumber
         {
             get { return this.remoteMasterRevisionNumber; }
