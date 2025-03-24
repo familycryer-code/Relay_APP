@@ -281,8 +281,10 @@ namespace RelayControl
             logger.Info("Version number: {0}", version);
             // Officially start everything
             this.MainControlInit();
-#if !DEBUG
-            tCPConnectionToolStripMenuItem.Visible = false;
+//#if !DEBUG
+//            tCPConnectionToolStripMenuItem.Visible = false;
+#if DNP
+            tCPConnectionToolStripMenuItem.Visible = true;
 #endif
         }
         public void MainControlInit()
@@ -3430,12 +3432,12 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("parameters finished loading");
-
+            
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-                this.SendAll_Message_PopUp1.Visible = false;
+               // this.SendAll_Message_PopUp1.Visible = false;
                 sendAllF.SendAllFlag = false;
             }
             else if (this.badDataDetected == true)
@@ -3451,7 +3453,7 @@ namespace RelayControl
                 if(!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
-                    this.SendAll_Message_PopUp1.Visible = false;
+                 //   this.SendAll_Message_PopUp1.Visible = false;
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                 }
@@ -7357,11 +7359,12 @@ namespace RelayControl
             //string text = "Please wait. Relay Parameters are being updated. This will take few seconds !";
             //MessageBox.Show(text);
             sendAllF.SendAllFlag = true;
-            this.SendAll_Message_PopUp1.BringToFront();
-            this.SendAll_Message_PopUp1.Enabled = true;
-            this.SendAll_Message_PopUp1.Visible = true;
-          
-           // this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 8, true);
+            /*  this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Normal; //System.Windows.Forms.FormWindowState.Minimized;
+              this.SendAll_Message_PopUp1.BringToFront();
+              this.SendAll_Message_PopUp1.Enabled = true;
+              this.SendAll_Message_PopUp1.Visible = true;
+            */
+            this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
 
 #if DNP
                    this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
@@ -8137,7 +8140,7 @@ namespace RelayControl
             if (this.requestedAllParameters && !this.loadingNewCode)
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
-                this.SendAll_Message_PopUp1.Visible = false;
+             //   this.SendAll_Message_PopUp1.Visible = false;
             }
         }
 

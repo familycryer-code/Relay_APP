@@ -94,6 +94,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -236,8 +237,6 @@
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.SendAll_Message_PopUp1 = new RelayControlLibrary.SendAll_Message_PopUp();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -309,34 +308,34 @@
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // tCPConnectionToolStripMenuItem
             // 
             this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
-            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
             this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
@@ -357,7 +356,7 @@
             this.loadEventSetToolStripMenuItem,
             this.clearEventsToolStripMenuItem});
             this.eventActionsToolStripMenuItem.Name = "eventActionsToolStripMenuItem";
-            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.eventActionsToolStripMenuItem.Text = "Event Actions";
             // 
             // downloadEventFromRelayToolStripMenuItem
@@ -395,7 +394,7 @@
             this.saveLiveDataToolStripMenuItem,
             this.loadLiveDataToolStripMenuItem});
             this.liveDataActionsToolStripMenuItem.Name = "liveDataActionsToolStripMenuItem";
-            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.liveDataActionsToolStripMenuItem.Text = "Live Data Actions";
             // 
             // requestLiveDataToolStripMenuItem1
@@ -438,14 +437,14 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save Screen";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.mnuFileSaveScreen_Click);
             // 
             // printScreenToolStripMenuItem
             // 
             this.printScreenToolStripMenuItem.Name = "printScreenToolStripMenuItem";
-            this.printScreenToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.printScreenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.printScreenToolStripMenuItem.Text = "Print Screen";
             this.printScreenToolStripMenuItem.Click += new System.EventHandler(this.mnuFilePrintScreen_Click);
             // 
@@ -460,7 +459,7 @@
             // cTRatioCalculatorToolStripMenuItem
             // 
             this.cTRatioCalculatorToolStripMenuItem.Name = "cTRatioCalculatorToolStripMenuItem";
-            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cTRatioCalculatorToolStripMenuItem.Text = "CT Ratio Calculator";
             this.cTRatioCalculatorToolStripMenuItem.Click += new System.EventHandler(this.cTRatioCalculatorToolStripMenuItem_Click);
             // 
@@ -478,7 +477,7 @@
             this.enableAutoloadToolStripMenuItem.CheckOnClick = true;
             this.enableAutoloadToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableAutoloadToolStripMenuItem.Name = "enableAutoloadToolStripMenuItem";
-            this.enableAutoloadToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.enableAutoloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enableAutoloadToolStripMenuItem.Text = "Enable Autoload";
             this.enableAutoloadToolStripMenuItem.Click += new System.EventHandler(this.enableAutoloadToolStripMenuItem_Click);
             // 
@@ -897,6 +896,13 @@
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -2549,29 +2555,6 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
-            // SendAll_Message_PopUp1
-            // 
-            this.SendAll_Message_PopUp1.AutoSize = true;
-            this.SendAll_Message_PopUp1.BackColor = System.Drawing.SystemColors.Control;
-            this.SendAll_Message_PopUp1.ClientSize = new System.Drawing.Size(0, 0);
-            this.SendAll_Message_PopUp1.ControlBox = false;
-            this.SendAll_Message_PopUp1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SendAll_Message_PopUp1.Location = new System.Drawing.Point(160, 430); //(-32000, -32000);
-            this.SendAll_Message_PopUp1.Margin = new System.Windows.Forms.Padding(7);
-            this.SendAll_Message_PopUp1.Name = "SendAll_Message_PopUp1";
-            this.SendAll_Message_PopUp1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SendAll_Message_PopUp1.ShowIcon = false;
-            this.SendAll_Message_PopUp1.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.SendAll_Message_PopUp1.Visible = true;// false;
-            this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Normal; //System.Windows.Forms.FormWindowState.Minimized;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -2739,7 +2722,7 @@
         private System.Windows.Forms.DomainUpDown domainUpDownPhasings;
         private RelayControlLibrary.ucPumpMode ucPumpMode1;
         private RelayControlLibrary.ucTripMode ucTripMode2;
-        private RelayControlLibrary.SendAll_Message_PopUp SendAll_Message_PopUp1;
+        //private RelayControlLibrary.SendAll_Message_PopUp SendAll_Message_PopUp1;
         private System.Windows.Forms.CheckBox checkBoxPhasingOkayFlag;
         private System.Windows.Forms.TextBox textBoxTemperature;
         private System.Windows.Forms.CheckBox checkBoxBlockedOpenFlag;

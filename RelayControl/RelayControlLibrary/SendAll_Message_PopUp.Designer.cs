@@ -60,7 +60,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2000, 972);
+            this.ClientSize = new System.Drawing.Size(1540, 964);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1__SendAll);
@@ -70,6 +70,7 @@
             this.Name = "SendAll_Message_PopUp";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Load += new System.EventHandler(this.SendAll_Message_PopUp_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
