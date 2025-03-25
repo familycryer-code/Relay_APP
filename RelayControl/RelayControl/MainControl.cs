@@ -2443,7 +2443,10 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.DNPData:
                     if (!ucRelayProgramming1.ProgramBootCodeInProgress)
+                    {
+                        Thread.Sleep(1000);  // 2.5 seconds
                         this.setDNPSettings(bytePacket);
+                    }
                     break;
                 case IncomingCommCommands.DNPSAv5:
                     this.ucDNPSAv51.Message(bytePacket);
