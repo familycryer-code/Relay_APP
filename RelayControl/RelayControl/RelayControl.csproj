@@ -460,6 +460,11 @@
     </Compile>
     <Compile Include="Properties\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Throbber_SendAll2.gif" />
+    <None Include="Throbber_SendAll1.gif" />
+    <None Include="loading-buffering.gif" />
+    <None Include="loading-load.gif" />
+    <Content Include="Throbber_SendAll.gif" />
     <EmbeddedResource Include="CTRatioCaculator.resx">
       <DependentUpon>CTRatioCaculator.cs</DependentUpon>
     </EmbeddedResource>

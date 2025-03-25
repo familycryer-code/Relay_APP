@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections;
 using System.IO;
 using SharedResources;
+using System.Threading;
 
 namespace RelayControlLibrary
 {
@@ -466,6 +467,7 @@ namespace RelayControlLibrary
 
                 sending = false;
             } //((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            Thread.Sleep(1000);   // 2.5 seconds
         }
 
         private void OnSend(SendEventArgs sEA)
@@ -1320,7 +1322,7 @@ namespace RelayControlLibrary
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownWVAngle.Value = -60;
-          //  this.numericUpDownAngle.Value = 90;
+            //  this.numericUpDownAngle.Value = 90;
             // Making this the case for all defaults, I want them to 
             // actively set it if they are going to use it.
             checkBoxTripOnPowerDown.Checked = false;
@@ -1381,11 +1383,13 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {
-#if NU || DOMINION || CHICAGO || ENMAX || BOSTON
+#if NU || DOMINION || CHICAGO || ENMAX || BOSTON || ONCOR
+            insensitiveCurrent = 2.5m;
+            instantaneousCurrent = 2.5m;
             this.listBoxTripModes.SelectedIndex = 0;
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 10.0m;
+            this.numericUpDownSensTrip.Value = 7.5m;// 10.0m;
             this.numericUpDownWVCurrent.Value = 2.5m;
 
             this.checkBoxEnableGullWing.Checked = false;
@@ -1395,7 +1399,12 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 3;
-#elif SEATTLE || ATLANTA || CONED || PSEG || ONCOR
+
+            this.numericUpDownExtendedTimeDelay.Value = 0;
+            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.domainUpDownTripStyle.SelectedIndex = 0;
+            this.numericUpDownWVAngle.Value = -60;
+#elif SEATTLE || ATLANTA || CONED || PSEG //|| ONCOR
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;

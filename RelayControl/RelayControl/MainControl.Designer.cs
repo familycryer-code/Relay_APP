@@ -135,6 +135,7 @@
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.pictureBox_SendAll = new System.Windows.Forms.PictureBox();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
             this.labelLRLockoutMain = new System.Windows.Forms.Label();
@@ -237,6 +238,7 @@
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -250,6 +252,7 @@
             this.tabPageTransmitter.SuspendLayout();
             this.tabPageMonitor.SuspendLayout();
             this.tabPageControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SendAll)).BeginInit();
             this.groupBoxLRLockoutMain.SuspendLayout();
             this.groupBoxLowVoltThres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).BeginInit();
@@ -308,34 +311,34 @@
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // tCPConnectionToolStripMenuItem
             // 
             this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
-            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
             this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
@@ -356,7 +359,7 @@
             this.loadEventSetToolStripMenuItem,
             this.clearEventsToolStripMenuItem});
             this.eventActionsToolStripMenuItem.Name = "eventActionsToolStripMenuItem";
-            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.eventActionsToolStripMenuItem.Text = "Event Actions";
             // 
             // downloadEventFromRelayToolStripMenuItem
@@ -394,7 +397,7 @@
             this.saveLiveDataToolStripMenuItem,
             this.loadLiveDataToolStripMenuItem});
             this.liveDataActionsToolStripMenuItem.Name = "liveDataActionsToolStripMenuItem";
-            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.liveDataActionsToolStripMenuItem.Text = "Live Data Actions";
             // 
             // requestLiveDataToolStripMenuItem1
@@ -437,14 +440,14 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.saveToolStripMenuItem.Text = "Save Screen";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.mnuFileSaveScreen_Click);
             // 
             // printScreenToolStripMenuItem
             // 
             this.printScreenToolStripMenuItem.Name = "printScreenToolStripMenuItem";
-            this.printScreenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.printScreenToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.printScreenToolStripMenuItem.Text = "Print Screen";
             this.printScreenToolStripMenuItem.Click += new System.EventHandler(this.mnuFilePrintScreen_Click);
             // 
@@ -459,7 +462,7 @@
             // cTRatioCalculatorToolStripMenuItem
             // 
             this.cTRatioCalculatorToolStripMenuItem.Name = "cTRatioCalculatorToolStripMenuItem";
-            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.cTRatioCalculatorToolStripMenuItem.Text = "CT Ratio Calculator";
             this.cTRatioCalculatorToolStripMenuItem.Click += new System.EventHandler(this.cTRatioCalculatorToolStripMenuItem_Click);
             // 
@@ -477,7 +480,7 @@
             this.enableAutoloadToolStripMenuItem.CheckOnClick = true;
             this.enableAutoloadToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableAutoloadToolStripMenuItem.Name = "enableAutoloadToolStripMenuItem";
-            this.enableAutoloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.enableAutoloadToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.enableAutoloadToolStripMenuItem.Text = "Enable Autoload";
             this.enableAutoloadToolStripMenuItem.Click += new System.EventHandler(this.enableAutoloadToolStripMenuItem_Click);
             // 
@@ -1393,6 +1396,7 @@
             // tabPageControl
             // 
             this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageControl.Controls.Add(this.pictureBox_SendAll);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
@@ -1411,6 +1415,19 @@
             this.tabPageControl.Size = new System.Drawing.Size(1241, 787);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
+            // 
+            // pictureBox_SendAll
+            // 
+            this.pictureBox_SendAll.Enabled = false;
+            this.pictureBox_SendAll.Image = global::RelayControl.Properties.Resources.Throbber_SendAll;
+            this.pictureBox_SendAll.InitialImage = global::RelayControl.Properties.Resources.Throbber_SendAll1;
+            this.pictureBox_SendAll.Location = new System.Drawing.Point(353, 100);
+            this.pictureBox_SendAll.Name = "pictureBox_SendAll";
+            this.pictureBox_SendAll.Size = new System.Drawing.Size(200, 200);
+            this.pictureBox_SendAll.TabIndex = 120;
+            this.pictureBox_SendAll.TabStop = false;
+            this.pictureBox_SendAll.UseWaitCursor = true;
+            this.pictureBox_SendAll.Visible = false;
             // 
             // groupBoxLRLockoutMain
             // 
@@ -2564,10 +2581,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(999, 761);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStrip1);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
@@ -2596,6 +2615,7 @@
             this.tabPageMonitor.PerformLayout();
             this.tabPageControl.ResumeLayout(false);
             this.tabPageControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SendAll)).EndInit();
             this.groupBoxLRLockoutMain.ResumeLayout(false);
             this.groupBoxLRLockoutMain.PerformLayout();
             this.groupBoxLowVoltThres.ResumeLayout(false);
@@ -2843,5 +2863,7 @@
         private RelayControlLibrary.CommTradeConverter commTradeConverter1;
         private System.ComponentModel.IContainer components;
         public RelayControlLibrary.ucTransmitter ucTransmitter1;
+        private System.Windows.Forms.PictureBox pictureBox_SendAll;
+        private System.Windows.Forms.Timer timer_SendAll_GIF;
     }
 }

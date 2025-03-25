@@ -117,7 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Throbber_SendAll2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Throbber_SendAll2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Throbber_SendAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Throbber_SendAll.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="loading-buffering" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\loading-buffering.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Throbber_SendAll1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Throbber_SendAll1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="_RevisionDate" xml:space="preserve">
     <value>2025-03-04</value>
+  </data>
+  <data name="loading-load" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\loading-load.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

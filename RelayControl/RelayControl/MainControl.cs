@@ -1432,6 +1432,7 @@ namespace RelayControl
         private void MainControl_Load(object sender, EventArgs e)
         {
             this.Location = new Point(0, 0);
+            this.pictureBox_SendAll.Image = Properties.Resources.Throbber_SendAll;
         }
 
         private List<string> getPortNames()
@@ -7350,8 +7351,16 @@ namespace RelayControl
 
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+                // this.pictureBox_SendAll.Enabled = true;
+                //this.pictureBox_SendAll.Visible = true;
             //this.downloadingDialogCountDown("Please have patience. The relay is updating its critical parameters", "", 3);
-            this.sendAllParameters();            
+            this.sendAllParameters();
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+           //this.pictureBox_SendAll.Enabled = false;
+           // this.pictureBox_SendAll.Visible = false;
         }
 
         private void sendAllParameters()
@@ -7359,12 +7368,12 @@ namespace RelayControl
             //string text = "Please wait. Relay Parameters are being updated. This will take few seconds !";
             //MessageBox.Show(text);
             sendAllF.SendAllFlag = true;
-            /*  this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Normal; //System.Windows.Forms.FormWindowState.Minimized;
-              this.SendAll_Message_PopUp1.BringToFront();
-              this.SendAll_Message_PopUp1.Enabled = true;
-              this.SendAll_Message_PopUp1.Visible = true;
-            */
-            this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
+            /*   this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Normal; //System.Windows.Forms.FormWindowState.Minimized;
+               this.SendAll_Message_PopUp1.BringToFront();
+               this.SendAll_Message_PopUp1.Enabled = true;
+               this.SendAll_Message_PopUp1.Visible = true;
+             */
+         //  this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
 
 #if DNP
                    this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;

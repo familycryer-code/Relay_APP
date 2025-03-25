@@ -29,7 +29,7 @@ namespace RelayControlLibrary
             this.timeOutAcceptable = timeoutacceptable;
 
             this.startProgressBar();
-        }
+       }
 
         public ProgressBarForm(string downloadingText, string title, int halfSecondCounts)
         {
