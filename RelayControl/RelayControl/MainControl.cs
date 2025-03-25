@@ -7351,16 +7351,23 @@ namespace RelayControl
 
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            DialogResult SendAll_DelayAlertDR = new DialogResult();
+            SendAll_DelayAlertDR = MessageBox.Show("Please have patience. The relay is updating its critical parameters", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            if (SendAll_DelayAlertDR == DialogResult.OK)
+            {
+                this.enableAll(false);
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
                 // this.pictureBox_SendAll.Enabled = true;
                 //this.pictureBox_SendAll.Visible = true;
-            //this.downloadingDialogCountDown("Please have patience. The relay is updating its critical parameters", "", 3);
-            this.sendAllParameters();
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
-           //this.pictureBox_SendAll.Enabled = false;
-           // this.pictureBox_SendAll.Visible = false;
+                //this.downloadingDialogCountDown("Please have patience. The relay is updating its critical parameters", "", 3);
+                this.sendAllParameters();
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+                //this.pictureBox_SendAll.Enabled = false;
+                // this.pictureBox_SendAll.Visible = false;
+            }
         }
 
         private void sendAllParameters()
