@@ -262,9 +262,9 @@ namespace RelayControlLibrary
             this.labelOverCurrentUnits.AutoSize = true;
             this.labelOverCurrentUnits.Location = new System.Drawing.Point(181, 89);
             this.labelOverCurrentUnits.Name = "labelOverCurrentUnits";
-            this.labelOverCurrentUnits.Size = new System.Drawing.Size(22, 13);
+            this.labelOverCurrentUnits.Size = new System.Drawing.Size(33, 13);
             this.labelOverCurrentUnits.TabIndex = 6;
-            this.labelOverCurrentUnits.Text = "mA";
+            this.labelOverCurrentUnits.Text = "Amps";
             // 
             // numericUpDownOverCurrent
             // 

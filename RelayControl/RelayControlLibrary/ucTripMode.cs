@@ -1389,7 +1389,10 @@ namespace RelayControlLibrary
             this.listBoxTripModes.SelectedIndex = 0;
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownSensTrip.Value = 10.0m;
+#if ONCOR
             this.numericUpDownSensTrip.Value = 7.5m;// 10.0m;
+#endif
             this.numericUpDownWVCurrent.Value = 2.5m;
 
             this.checkBoxEnableGullWing.Checked = false;

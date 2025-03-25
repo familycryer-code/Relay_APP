@@ -1421,9 +1421,9 @@
             this.pictureBox_SendAll.Enabled = false;
             this.pictureBox_SendAll.Image = global::RelayControl.Properties.Resources.Throbber_SendAll;
             this.pictureBox_SendAll.InitialImage = global::RelayControl.Properties.Resources.Throbber_SendAll1;
-            this.pictureBox_SendAll.Location = new System.Drawing.Point(353, 100);
+            this.pictureBox_SendAll.Location = new System.Drawing.Point(402, 541);
             this.pictureBox_SendAll.Name = "pictureBox_SendAll";
-            this.pictureBox_SendAll.Size = new System.Drawing.Size(200, 200);
+            this.pictureBox_SendAll.Size = new System.Drawing.Size(114, 102);
             this.pictureBox_SendAll.TabIndex = 120;
             this.pictureBox_SendAll.TabStop = false;
             this.pictureBox_SendAll.UseWaitCursor = true;
