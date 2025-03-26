@@ -294,10 +294,12 @@ namespace RelayControl
                 initializeDNPVoltageComboBox();
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
-                #if DEBUG
+                AutoReProgramR.AutoReProgramRelay = false;
+                AutoReProgramF.AutoReProgramFPGA = false;
+#if DEBUG
                     this.initializeFromConfigFileDebug();
                     labelConEdPowerRelay.Visible = false;
-                #endif
+#endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
                 this.labelQuietMode.Visible = false;

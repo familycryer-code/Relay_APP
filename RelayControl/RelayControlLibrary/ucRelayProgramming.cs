@@ -373,9 +373,15 @@ namespace RelayControlLibrary
                 this.remoteRelayRevisionNumber = value;
                 // Check manual reload here because it should reload regardless of the relative age
                 if (this.remoteRelayRevisionNumber < _relayCodeRevisionNumber || manualReload)
+                {
                     this.reprogramRelay = true;
+                    AutoReProgramR.AutoReProgramRelay = true;
+                }
                 else
+                { 
                     this.reprogramRelay = false;
+                    AutoReProgramR.AutoReProgramRelay = false;
+                }
             }
         }
         public UInt32 FPGARevisionNumber
@@ -389,9 +395,15 @@ namespace RelayControlLibrary
                     this.remoteFPGARevisionNumber = value;
 
                 if (manualReload || (this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber && this.TransmitterEnabled))
+                {
                     this.reprogramFPGA = true;
+                    AutoReProgramF.AutoReProgramFPGA = true;
+                }
                 else
+                {
                     this.reprogramFPGA = false;
+                    AutoReProgramF.AutoReProgramFPGA = false;
+                }
 
             }
         }
@@ -1561,20 +1573,26 @@ namespace RelayControlLibrary
                         break;
                     case RelayProgrammingStates.LoadingRelayCode:
                     case RelayProgrammingStates.LoadingRelayData:
-                        logger.Trace("AckR, ");
-                        if (this.State == RelayProgrammingStates.WaitingForBootRelay)
-                            this.State = RelayProgrammingStates.LoadingRelayCode;
-                        this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
-                        this.timerTimeout.Start();
-                        this.sendNextRelayPacket();
+                        if (AutoReProgramR.AutoReProgramRelay == true)
+                        {
+                            logger.Trace("AckR, ");
+                            if (this.State == RelayProgrammingStates.WaitingForBootRelay)
+                                this.State = RelayProgrammingStates.LoadingRelayCode;
+                            this.timerTimeout.Stop();
+                            this.timerTimeout.Interval = 1500;
+                            this.timerTimeout.Start();
+                            this.sendNextRelayPacket();
+                        }
                         break;
                     case RelayProgrammingStates.LoadingFPGACode:
-                        logger.Trace("AckF, ");
-                        this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
-                        this.timerTimeout.Start();
-                        this.sendNextFPGAPacket();
+                        if (AutoReProgramF.AutoReProgramFPGA == true)
+                        {
+                            logger.Trace("AckF, ");
+                            this.timerTimeout.Stop();
+                            this.timerTimeout.Interval = 1500;
+                            this.timerTimeout.Start();
+                            this.sendNextFPGAPacket();
+                        }
                         break;
                     case RelayProgrammingStates.ClearingBootLoader:
                         logger.Trace("AckU, ");
@@ -2264,7 +2282,8 @@ namespace RelayControlLibrary
             this.autoLoad = false;
             this.loadMasterFirst = false;
             this.firstCheckForUpdate = false;
-
+            AutoReProgramR.AutoReProgramRelay = false;
+            AutoReProgramF.AutoReProgramFPGA = false;
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
 
             rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
@@ -2327,6 +2346,8 @@ namespace RelayControlLibrary
             if (this.state == RelayProgrammingStates.Finalized)
             {
                 this.programmingForm.Hide();
+                AutoReProgramR.AutoReProgramRelay = false;
+                AutoReProgramF.AutoReProgramFPGA = false;
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
                 logger.Trace("Reprogam Completed Successfully");
                 logger.Trace("FinalizeReprogram");

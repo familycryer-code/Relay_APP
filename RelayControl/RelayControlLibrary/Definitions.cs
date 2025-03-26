@@ -1972,6 +1972,15 @@ namespace RelayControlLibrary
         public static bool flagFromRelay;
     }
 
+    public static class AutoReProgramR
+    {
+        public static bool AutoReProgramRelay;
+    }
+    public static class AutoReProgramF
+    {
+        public static bool AutoReProgramFPGA;
+    }
+
     public static class sendAllF
     {
         public static bool SendAllFlag;

@@ -482,7 +482,7 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20211221.
+        ///   Looks up a localized string similar to 20250303.
         /// </summary>
         internal static string RelayRevision {
             get {
