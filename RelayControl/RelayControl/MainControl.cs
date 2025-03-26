@@ -5513,6 +5513,7 @@ namespace RelayControl
                     this.messageHandler("Error Setting Relay Type", ex);
                 }
             }// if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            Thread.Sleep(1000);   // 1 second
         }
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
