@@ -467,7 +467,7 @@ namespace RelayControlLibrary
 
                 sending = false;
             } //((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
-            Thread.Sleep(1000);   // 1 second
+            Thread.Sleep(1500);   // 1 second
         }
 
         private void OnSend(SendEventArgs sEA)
