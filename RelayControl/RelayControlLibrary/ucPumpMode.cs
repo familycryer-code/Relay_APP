@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using SharedResources;
+using System.Threading;
 
 namespace RelayControlLibrary
 {
@@ -150,7 +151,7 @@ namespace RelayControlLibrary
 
             if (sendAllF.SendAllFlag == false)
             {
-                choice = MessageBox.Show("Sending Pump Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+                choice = DialogResult.OK;// MessageBox.Show("Sending Pump Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             }
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
@@ -182,6 +183,7 @@ namespace RelayControlLibrary
                 {
                 }
             }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            Thread.Sleep(1000);   // 1 second
         }
 
         public byte[] bytePacketFor(PumpDefinition pD)

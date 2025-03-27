@@ -142,7 +142,7 @@ namespace RelayControlLibrary
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            var choice = MessageBox.Show("Sending Safe Service Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+            var choice = DialogResult.OK;// MessageBox.Show("Sending Safe Service Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             if (choice == DialogResult.OK)
             {
                 this.send();

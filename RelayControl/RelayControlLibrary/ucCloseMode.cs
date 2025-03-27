@@ -294,7 +294,7 @@ namespace RelayControlLibrary
                 this.Mode = CloseModes.Normal;
             if (sendAllF.SendAllFlag == false)
             {
-                var choice = MessageBox.Show("Sending Close Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+                var choice = DialogResult.OK;// MessageBox.Show("Sending Close Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
                 if (choice == DialogResult.OK)
                 {
                     this.sendCloseData();

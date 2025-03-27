@@ -1280,6 +1280,15 @@ namespace RelayControlLibrary
             logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
             return;
 #endif
+
+#if (TORONTO_HYDRO) 
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_TorontoHydro;
+            this.textBoxMasterFileName.Text = "Master Relay From Resource";
+
+            this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+            this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+#endif
+
 #if DIGITALGRID
             if (GERelay)
             {
