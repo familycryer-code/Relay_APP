@@ -151,7 +151,7 @@ namespace RelayControlLibrary
 
             if (sendAllF.SendAllFlag == false)
             {
-                choice = DialogResult.OK;// MessageBox.Show("Sending Pump Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+                choice = DialogResult.OK; // MessageBox.Show("Sending Pump Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             }
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
