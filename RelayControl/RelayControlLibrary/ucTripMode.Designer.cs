@@ -573,6 +573,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.Controls.Add(this.labelETD);
             this.groupBoxTripModeSettings.Controls.Add(this.labelSTDunit);
             this.groupBoxTripModeSettings.Controls.Add(this.labelWVAngle);
+            this.groupBoxTripModeSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.groupBoxTripModeSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxTripModeSettings.Name = "groupBoxTripModeSettings";
             this.groupBoxTripModeSettings.Size = new System.Drawing.Size(307, 254);

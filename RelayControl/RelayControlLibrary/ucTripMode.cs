@@ -1383,7 +1383,7 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {
-#if NU || DOMINION || CHICAGO || ENMAX || BOSTON || ONCOR
+#if NU || DOMINION || CHICAGO || ENMAX || BOSTON || ONCOR || TORONTO_HYDRO
             insensitiveCurrent = 2.5m;
             instantaneousCurrent = 2.5m;
             this.listBoxTripModes.SelectedIndex = 0;
