@@ -7449,7 +7449,7 @@ namespace RelayControl
             Thread.Sleep(100);
 #endif
 
-            //this.sendAll = false;
+            this.sendAll = false;
             if (!this.loadingNewCode)
                 this.requestAllData();
 
