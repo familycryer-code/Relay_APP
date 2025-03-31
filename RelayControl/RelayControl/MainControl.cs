@@ -7485,7 +7485,7 @@ namespace RelayControl
 
             this.downloadingLiveData = true;
 
-            this.downloadingDialogCountDown("Downloading", "Downloading Live Data ",
+            this.downloadingDialogCountDown("Downloading", "Downloading Live Data",
                 tCPConnection ? 420 : 210, false);
         }
 
