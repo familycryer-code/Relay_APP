@@ -92,7 +92,7 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusH.Visible = false;
             this.labelQPres.Visible = true;
             this.textBoxQBit.Visible = true;
-#elif !ONCOR
+#elif (!ONCOR && !TORONTO_HYDRO)
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
 #endif
