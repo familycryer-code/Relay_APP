@@ -602,12 +602,13 @@ namespace RelayControlLibrary
 
             if (monByteLength != 7)
             {
-                this.textBoxCa.Text = bytePacket[7].ToString();
-                this.textBoxDa.Text = bytePacket[8].ToString();
-                this.textBoxEa.Text = bytePacket[9].ToString();
-                this.textBoxFa.Text = bytePacket[10].ToString();
-                this.textBoxGa.Text = bytePacket[11].ToString();
-                this.textBoxHa.Text = bytePacket[12].ToString();
+                this.textBoxCa.Text = bytePacket[7].ToString();     // Analog Input 1
+                this.textBoxDa.Text = bytePacket[8].ToString();     // Analog Input 2
+                this.textBoxEa.Text = bytePacket[9].ToString();     // Analog Input 3
+                this.textBoxFa.Text = bytePacket[10].ToString();    // Analog Input 4
+                this.textBoxGa.Text = bytePacket[11].ToString();    // Analog Input 5
+                this.textBoxHa.Text = bytePacket[12].ToString();    // Analog Input 6
+                this.textBox_Input7.Text = bytePacket[13].ToString(); // Analog Input 7
                 if (this.waterBugActive)
                     this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1) ? "LOW" : "OK";
                 else

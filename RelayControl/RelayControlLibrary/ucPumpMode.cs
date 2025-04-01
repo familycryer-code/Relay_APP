@@ -495,10 +495,15 @@ namespace RelayControlLibrary
             numericUpDownProtectTime.Value = 15;
 #else
             this.checkBoxNeverReclose.Checked = false;
+#if TORONTO_HYDRO
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+#else
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;
             this.checkBoxMotorTime.Checked = false;
-
+#endif
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;
             this.numericUpDownMotorTimeout.Value = 10;

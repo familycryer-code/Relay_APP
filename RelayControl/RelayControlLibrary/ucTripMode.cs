@@ -1027,7 +1027,8 @@ namespace RelayControlLibrary
                     }
                     else if ((bytePacket[22] & 0x03) == 3)
                     {
-                        this.domainUpDownTripStyle.SelectedIndex = 3;
+                      //  this.domainUpDownTripStyle.SelectedIndex = 3;
+                        this.domainUpDownTripStyle.SelectedItem = "Short Trip";
                     }
                     else
                     {
@@ -1386,26 +1387,31 @@ namespace RelayControlLibrary
 #if NU || DOMINION || CHICAGO || ENMAX || BOSTON || ONCOR || TORONTO_HYDRO
             insensitiveCurrent = 2.5m;
             instantaneousCurrent = 2.5m;
-            this.listBoxTripModes.SelectedIndex = 0;
+            this.listBoxTripModes.SelectedIndex = 0;    // Sensitive
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
-#if ONCOR
+#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
             this.numericUpDownSensTrip.Value = 7.5m;// 10.0m;
 #endif
             this.numericUpDownWVCurrent.Value = 2.5m;
 
             this.checkBoxEnableGullWing.Checked = false;
             this.checkBoxTripOnPowerDown.Checked = false;
+#if TORONTO_HYDRO
+            this.checkBoxTripOnPowerDown.Checked = true;
+#endif            
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 3;
-
+#if TORONTO_HYDRO
+            this.domainUpDownTripStyle.SelectedIndex = 0; 
+#endif
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownInsensTrip.Value = 2.5m;
-            this.domainUpDownTripStyle.SelectedIndex = 0;
+            //this.domainUpDownTripStyle.SelectedIndex = 0;
             this.numericUpDownWVAngle.Value = -60;
 #elif SEATTLE || ATLANTA || CONED || PSEG //|| ONCOR
             this.numericUpDownSensitiveTimeDelay.Value = 6;
