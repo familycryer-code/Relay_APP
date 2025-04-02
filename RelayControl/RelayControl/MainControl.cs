@@ -2488,7 +2488,7 @@ namespace RelayControl
                         // The DialogResult is used so that if the window hasn't returned a value yet (meaning it is still open)
                         // it won't be displayed again.
                         dR = DialogResult.None;
-                        dR = MessageBox.Show("Warning Relay is detecting cross phase condition", "Cross Phase Detected!");
+                        dR = MessageBox.Show("Warning Relay is detecting cross phase condition ", "Cross Phase Detected!");
                     }
                 }
             }
