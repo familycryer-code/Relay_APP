@@ -101,10 +101,10 @@ namespace RelayControlLibrary.Properties {
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10E0054E2500254E24C0254E2540254E2580254E24C0254E24C021E
         ///S3250000002054E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C029A
-        ///S3250000004054E24C0254E22A7B54E2948654E24C0254E25C0254E24C0254E24C0254E24C0247
+        ///S3250000004054E24C0254E22C7B54E2968654E24C0254E25C0254E24C0254E24C0254E24C0243
         ///S3250000006054E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C0254E24C025A
-        ///S3250000008054E2A98B54E24C0254E24C0254E24C0254E24C0254E24C0254E2EC9054E24C0226
-        ///S325000000A054E26B8C54E24C0254E2F08654E24C0254E24C0254E24C0254E2908954E2 [rest of string was truncated]&quot;;.
+        ///S3250000008054E2AB8B54E24C0254E24C0254E24C0254E24C0254E24C0254E2EE9054E24C0222
+        ///S325000000A054E26D8C54E24C0254E2F28654E24C0254E24C0254E24C0254E2928954E2 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MasterProcessor {
             get {
@@ -398,7 +398,7 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 250320.
+        ///   Looks up a localized string similar to 250403.
         /// </summary>
         internal static string MasterRevision {
             get {
@@ -497,7 +497,7 @@ namespace RelayControlLibrary.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20250303.
+        ///   Looks up a localized string similar to 20250304.
         /// </summary>
         internal static string RelayRevision {
             get {

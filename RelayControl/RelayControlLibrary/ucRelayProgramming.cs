@@ -351,7 +351,10 @@ namespace RelayControlLibrary
                     if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                         this.reprogramMaster = true;
                     else
+                    { 
                         this.reprogramMaster = false;
+                        this.reprogramRelay = false;
+                    }
 #endif
                 }
 

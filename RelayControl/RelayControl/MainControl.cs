@@ -521,7 +521,7 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                this.messageHandler("Error Setting Port Menu", ex);
+                this.messageHandler("Error Setting Port Menu ", ex);
             }
             try
             {
