@@ -2488,7 +2488,7 @@ namespace RelayControl
                         // The DialogResult is used so that if the window hasn't returned a value yet (meaning it is still open)
                         // it won't be displayed again.
                         dR = DialogResult.None;
-                        dR = MessageBox.Show("Warning Relay is detecting cross phase condition ", "Cross Phase Detected!");
+                        dR = MessageBox.Show("Warning Relay is detecting cross phase condition", "Cross Phase Detected!");
                     }
                 }
             }
@@ -2879,7 +2879,7 @@ namespace RelayControl
                 }
                 if (this.ucEventGraph0.Type == EventTypes.NoEvent)
                 {
-                    this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Event To Download");
+                    this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Event To Download ");
                 }
                 this.requestCalibrationConstants();
             }
