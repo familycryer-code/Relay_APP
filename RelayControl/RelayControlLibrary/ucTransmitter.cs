@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using SharedResources;
 using static RelayControlLibrary.ucTransmitterMonitoring;
 using System.Threading;
+using System.IO;
 
 namespace RelayControlLibrary
 {
@@ -219,18 +220,25 @@ namespace RelayControlLibrary
                 this.TXSettings.ID = uTemp;
                 this.textBoxID.Text = this.TXSettings.ID.ToString();
 
+                //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData.txt";
+                //TextWriter tw = new StreamWriter(path, true);
+                //tw.WriteLine("ID"+uTemp);
+                //tw.Close();
+
                 //Set Serial Number
                 uTemp = bA[3];
                 uTemp <<= 8;
                 uTemp += bA[2];
                 this.TXSettings.SerialNumber = uTemp;
                 this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
+                //tw.WriteLine("SN" + uTemp);
+                //tw.Close();
 
                 //set Relay CT Ratio
                 uTemp = bA[7];
                 uTemp <<= 8;
                 uTemp += bA[6];
-
+                
                 //set TX Ratio
                 uTemp = bA[5];
                 uTemp <<= 8;
@@ -238,6 +246,8 @@ namespace RelayControlLibrary
                 this.TXSettings.TXCTRatio = uTemp;
 
                 this.textBoxTXCTRatio.Text = this.TXSettings.TXCTRatio.ToString();
+                //tw.WriteLine("CT" + this.TXSettings.TXCTRatio.ToString());
+                //tw.Close();
 
                 //Set the frequency
                 this.SetFrequency(RelayModeFunctions.FrequencyFrom(bA[8]));

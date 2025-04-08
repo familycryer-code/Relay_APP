@@ -2364,6 +2364,18 @@ namespace RelayControl
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
                     break;
                 case IncomingCommCommands.ArcFaultData:
+                    if (dataBackup_fromRelay == true) // write Arc Fault parameters currently residing in the relay to the backup file on computer
+                    {
+                        string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                        TextWriter tw = new StreamWriter(path, true);
+                        tw.WriteLine("Arc Fault Parameters:");
+                        for (int index = 0; index < 40; ++index)
+                        {
+                            tw.WriteLine(bytePacket[index]);
+                        }
+                        tw.Close();
+                        dataBackup_fromRelay = false;
+                    }
                     this.setArcFaultData(bytePacket);
                     break;
                 case IncomingCommCommands.Boot:
@@ -2383,6 +2395,19 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
+
+                    if (dataBackup_fromRelay == true) // write safe service currently residing in the relay to the backup file on computer
+                    {
+                        string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                        TextWriter tw = new StreamWriter(path, true);
+                        tw.WriteLine("Safe Service Data:");
+                        for (int index = 0; index <= 19; ++index)
+                        {
+                            tw.WriteLine(bytePacket[index]);
+                        }
+                        tw.Close();
+                    }
+
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
                         if (this.DNPEnabled && receivedMasterRevision.Contains("DNP") && !ucRelayProgramming1.ProgramBootCodeInProgress)
@@ -2949,6 +2974,18 @@ namespace RelayControl
 
             focusEventGraphDownloading(eventValue);
 
+            if (dataBackup_fromRelay == true) // write calibration constants currently residing in the relay to the backup file on computer
+            {
+                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                TextWriter tw = new StreamWriter(path, true);
+                tw.WriteLine("Calibration Constants:");
+                for (int index = 0; index <= 59; ++index)
+                {
+                    tw.WriteLine(bytePacket[index]);
+                }
+                tw.Close();
+            }
+
             for (int i = 0; i < 15; ++i)
             {
                 if (this.calibrationConstants[i] == null)
@@ -3261,6 +3298,17 @@ namespace RelayControl
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
 
+            if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
+            {
+                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                TextWriter tw = new StreamWriter(path, true);
+                tw.WriteLine("Transmitter Parameters:");
+                for (int index = 0; index <= 31; ++index)
+                {
+                    tw.WriteLine(bytePacket[index]);
+                }
+                tw.Close();
+            }
 
             for (int i = 0; i < settings.Length; ++i)
             {
@@ -3293,7 +3341,7 @@ namespace RelayControl
                 tempI += bytePacket[0];
 
                 this.ucTransmitterMonitoring1.TransmitterID = tempI.ToString();
-            //    this.ucTransmitterMonitoring2.TransmitterID = tempI.ToString();
+                
                 //Serial Number
                 tempI = bytePacket[3];
                 tempI <<= 8;
@@ -4158,9 +4206,17 @@ namespace RelayControl
                 {
                 }
 
-            //    for (int index = 0; index < 94; ++index)
-            //        MessageBox.Show(bytePacket[index].ToString() + " byte#" + index + " bytePacket[index] Relay Parameters coming from master");// Only for testing - to be removed
-                //MessageBox.Show(bytePacket[1].ToString() + " bytePacket[1] Relay Parameters coming from master");// Only for testing - to be removed
+                if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
+                {
+                    string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                    TextWriter tw = new StreamWriter(path, true);
+                    tw.WriteLine("Relay Parameters:");
+                    for (int index = 0; index < 94; ++index)
+                    {
+                         tw.WriteLine(bytePacket[index]);
+                    }
+                    tw.Close();
+                }
 
                 //Reclose Voltage Btyes - Vertical
                 temp = bytePacket[1];
@@ -4854,6 +4910,21 @@ namespace RelayControl
         private void setShortRangeParameters(byte[] bytePacket)
         {
             this.ucShortRange1.SetAll(bytePacket);
+            if (dataBackup_fromRelay == true)
+            {
+                /*
+                 bytePacket[30] holds the "SR_sig_strength_xmit_level".
+                store that in an array and write it later to the RelayData file.
+                OR
+                write it to the file now as done in the trial write to file in transmitter.cs line 223
+                 */
+                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                TextWriter tw = new StreamWriter(path, true);
+                tw.WriteLine("XS:"+bytePacket[30]);  // write Transmitter strength currently residing in the relay to the backup file on computer
+                tw.Close();
+
+            }
+            
         }
 
         private void setTextBox(string s, TextBox tB)
@@ -7160,7 +7231,7 @@ namespace RelayControl
         private void buttonSaveSetting_Click(object sender, EventArgs e)
         {
             SavedSettingV4 sS = new SavedSettingV4();
-
+            this.data_BackUp_reprogramingOldRelay();
             try
             {
                 if (!validTextBoxValue(this.textBoxSaveStateName.Text))
@@ -7181,6 +7252,7 @@ namespace RelayControl
                 this.getAllSaveStates(sS);
                 this.saveObject.AddState(sS);
                 this.writeSaveObjectToFile();
+
             }
             catch (Exception ex)
             {
@@ -7721,6 +7793,16 @@ namespace RelayControl
                 this.nAcknowledge();
             }
             this.timerLiveEventAcknowledge.Start();
+        }
+
+        private void data_BackUp_reprogramingOldRelay()
+        {
+            //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData.txt";
+            string path = @"C:\DGI Systems\Relay\Saved Data\RelayData " + String.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now) + ".txt";
+
+            TextWriter tw = new StreamWriter(path, true);
+            tw.WriteLine("Data currently residing in the relay :");
+            tw.Close();
         }
 
         private void MainControl_FormClosed(object sender, FormClosedEventArgs e)
@@ -8304,6 +8386,19 @@ namespace RelayControl
         private void setDNPSettings(byte[] bytePacket)
         {
             byte memphisStage = 0;
+
+            if (dataBackup_fromRelay == true) // write DNP Data currently residing in the relay to the backup file on computer
+            {
+                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                TextWriter tw = new StreamWriter(path, true);
+                tw.WriteLine("DNP Data:");
+                for (int index = 0; index <= 97; ++index)
+                {
+                    tw.WriteLine(bytePacket[index]);
+                }
+                tw.Close();
+            }
+
             try
             {
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
@@ -8943,6 +9038,26 @@ namespace RelayControl
             ucEventGraph6.ProtectorVoltage = protectorVoltage;
             ucEventGraph7.ProtectorVoltage = protectorVoltage;
             ucLiveData1.ProtectorVoltage = protectorVoltage;
+        }
+
+        public bool dataBackup_fromRelay = false;
+        private void button_dataStore_Click(object sender, EventArgs e)
+        {
+            dataBackup_fromRelay = true;
+            string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            
+            TextWriter tw = new StreamWriter(path, true);
+            tw.WriteLine("Data currently residing in the relay :");
+
+            this.ucShortRange1.buttonRequest_Click(sender, e);
+            this.requestRelayParameters();
+            this.requestCalibrationConstants();
+            this.requestTransmitterSettings();
+            this.requestDNPSettings();
+            this.requestSafeServiceSettings();
+            this.arcFaultEnableMonitoring(true);
+            tw.Close();
+            //dataBackup_fromRelay = false;
         }
     }
 

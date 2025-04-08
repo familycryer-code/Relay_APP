@@ -455,7 +455,8 @@ namespace RelayControlLibrary
             this.onSend(sEA);
         }
 
-        private void buttonRequest_Click(object sender, EventArgs e)
+        //private void buttonRequest_Click(object sender, EventArgs e)
+        public void buttonRequest_Click(object sender, EventArgs e)
         {
             SendEventArgs sEA = new SendEventArgs(2);
 
