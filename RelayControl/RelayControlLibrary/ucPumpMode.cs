@@ -120,8 +120,13 @@ namespace RelayControlLibrary
                     this.checkBoxNeverReclose.Visible = true;
                     this.labelProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
+#if !ONCOR
                     this.groupBoxMotorCycles.Visible = false;
                     this.groupBoxMotorTimeout.Visible = false;
+#else
+                    this.groupBoxMotorCycles.Visible = true;
+                    this.groupBoxMotorTimeout.Visible = true;                    
+#endif
                     this.checkBoxMotorCycles.Checked = false;
                     this.checkBoxMotorTime.Checked = false;
                     this.numericUpDownProtectTime.Visible = true;
@@ -438,7 +443,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if PSEG  || NU || BOSTON || LONDONH
+#if PSEG || NU || BOSTON || LONDONH
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = false;
             this.checkBoxMotorCycles.Checked = false;
