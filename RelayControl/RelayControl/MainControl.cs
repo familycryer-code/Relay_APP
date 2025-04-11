@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
 using NLog;
+using GraphicsServer.GSNet.Charting;
 
 namespace RelayControl
 {
@@ -621,8 +622,8 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.button_dataStore.Enabled = false;
-                this.button_dataStore.Visible = false;
+             //   this.button_dataStore.Enabled = false;
+             //   this.button_dataStore.Visible = false;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -2398,7 +2399,7 @@ namespace RelayControl
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
 
-                    if (dataBackup_fromRelay == true) // write safe service currently residing in the relay to the backup file on computer
+                    if (dataBackup_fromRelay == true) // write safe service data that is currently residing in the relay to the backup file on computer
                     {
                         string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                         TextWriter tw = new StreamWriter(path, true);
@@ -2916,7 +2917,7 @@ namespace RelayControl
         {
             SendEventArgs sEA = new SendEventArgs(2);
 
-            sEA.SendPacket[0] = 0x6C;
+            sEA.SendPacket[0] = 0x6C;  // 'l'
             sEA.SendPacket[1] = 0x0D;
 
             this.sendPacket(sEA.SendPacket);
@@ -6210,8 +6211,8 @@ namespace RelayControl
             //}
             //else 
             if (bytePacket[1] == 2)
-            {
-                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved", "ok").ShowDialog();
+            { // calibration constants are saved / stored from relay uP to master uP
+                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved", "ok").ShowDialog(); 
             }
             else if (bytePacket[1] == 0)
             {
@@ -9042,12 +9043,75 @@ namespace RelayControl
             ucLiveData1.ProtectorVoltage = protectorVoltage;
         }
 
+        public delegate void SendHandler(object sender, SendEventArgs sEA);
+        public event SendHandler Send;
+
+        private void OnSend(object sender, SendEventArgs sEA)
+        {
+            if (Send != null)
+            {
+                Send(this, sEA);
+            }
+            else
+            {
+                this.errorHandler(new Exception("OnSend Not Set for writing backup Parameters to master processor"), "In OnSend");
+            }
+        }
+        public delegate void ExceptionHandler(object o, ExceptionEventArgs eEA);
+
+        public event ExceptionHandler CalibrationException;
+
+        private void errorHandler(Exception ex, string title)
+        {
+            if (CalibrationException != null)
+            {
+                CalibrationException(this, new ExceptionEventArgs(ex, title));
+            }
+            else
+            {
+                throw new Exception("No Exception Handler For Trip Control");
+            }
+        }
+
         public bool dataBackup_fromRelay = false;
+        private void sendCparams_toMasterProcessor()
+        {
+            /*SendEventArgs sEA = new SendEventArgs(10);
+
+            sEA.SendPacket[0] = (byte)'C'; // 'C' : Load C parameters (C_byte1 to C_byte8) to Master uP
+            sEA.SendPacket[1] = 55;      
+            sEA.SendPacket[2] = 55;
+            sEA.SendPacket[3] = 55;      
+            sEA.SendPacket[4] = 55;
+            sEA.SendPacket[5] = 55;      
+            sEA.SendPacket[6] = 55;      
+            sEA.SendPacket[7] = 55;
+            sEA.SendPacket[8] = 55;
+            sEA.SendPacket[9] = 0x0D;
+
+            this.Send(this, sEA);
+            */
+            byte[] sendPacket = new byte[10];
+            
+            sendPacket[0] = (byte)'C';
+            sendPacket[1] = 55;
+            sendPacket[2] = 55;
+            sendPacket[3] = 55;
+            sendPacket[4] = 55;
+            sendPacket[5] = 55;
+            sendPacket[6] = 55;
+            sendPacket[7] = 55;
+            sendPacket[8] = 55;
+            sendPacket[9] = 0x0D;
+
+            this.sendPacket(sendPacket);
+        }
         private void button_dataStore_Click(object sender, EventArgs e)
         {
+            //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
             dataBackup_fromRelay = true;
             string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-            
+
             TextWriter tw = new StreamWriter(path, true);
             tw.WriteLine("Data currently residing in the relay :");
 
@@ -9058,9 +9122,28 @@ namespace RelayControl
             this.requestDNPSettings();
             this.requestSafeServiceSettings();
             this.arcFaultEnableMonitoring(true);
+            Thread.Sleep(1000);   // delay 1second
             tw.Close();
-            //dataBackup_fromRelay = false;
+
+            //WRITE TO MASTER PROCESSOR
+            string lineRead;
+            StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+            lineRead = sr.ReadLine();
+            while (lineRead != null)
+            {
+                this.messageHandler("Read back from the file:", lineRead);
+                lineRead = sr.ReadLine(); //Read the next line
+            }
+            sr.Close();
+            this.sendCparams_toMasterProcessor(); // 8 bytes C_byte1 to C_byte8 
+            Thread.Sleep(834);   // delay 834 milliseconds 
+
+
+            
+            
         }
+
+        
     }
 
     public partial class MyPort : SerialPort
@@ -9197,7 +9280,7 @@ namespace RelayControl
             {
                 throw new Exception("Error Deleting Saved State", ex);
             }
-        }
+        }   
 
     }
 

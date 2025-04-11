@@ -428,8 +428,8 @@ namespace RelayControlLibrary
         private bool dNPRelay = false;
         private bool transmitterEnabled = false;
         private RelayProgrammingStates state;
-        private RelayProgrammingData masterCode = new RelayProgrammingData(1024);
-        private RelayProgrammingData relayCode = new RelayProgrammingData(1024);
+        private RelayProgrammingData masterCode = new RelayProgrammingData(1024);   // 1024 gets used as the flashBlobkSize
+        private RelayProgrammingData relayCode = new RelayProgrammingData(1024);    // 1024 gets used as the flashBlobkSize
         private FPGAProgrammingData fPGACode = new FPGAProgrammingData();
         private UInt32 remoteMasterRevisionNumber = 0;
         private UInt32 remoteRelayRevisionNumber = 0;
