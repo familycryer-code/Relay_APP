@@ -378,7 +378,7 @@ namespace RelayControlLibrary
             byte[] returnArray = new byte[14];
             index += 0x30;
 
-            returnArray[0] = (byte)_TripOpCode;
+            returnArray[0] = (byte)_TripOpCode; // 'T'
             returnArray[1] = (byte)index;
             returnArray[2] = ByteFrom(tCD.CurveType);
             returnArray[3] = tCD.OffsetHighByte;

@@ -228,6 +228,8 @@ namespace RelayControlLibrary
 
         private void buttonSendCloseMode_Click(object sender, EventArgs e)
         {
+            // writes to 6 bytes MClose_byte 1 to MClose_byte6 in master uP
+            // these 6 bytes correspond to the byte packet refering to APP contents as seen on line 501-510 in RelayModeFunctions.cs
             try
             {
                 mySEA = new SendEventArgs(_packetSize);
@@ -235,6 +237,20 @@ namespace RelayControlLibrary
                 mySEA.RequestAll = false;
                 CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(CloseModeDef);
+                if (dataBackupR.dataBackup_fromRelay == true)
+                {
+                    string lineRead;
+                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                    
+                    mySEA.SendPacket[0] = 77;  // 'M'
+                    mySEA.SendPacket[1] = 67;  // 'C'
+                    for (int cnt = 2; cnt <= 6; cnt++)
+                    {
+                        lineRead = sr.ReadLine(); //Read the next line
+                        mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
+                    }
+
+                }
                 OnSend(this, mySEA);
             }
             catch (Exception ex)
@@ -312,7 +328,8 @@ namespace RelayControlLibrary
             this.sendRelaxClose();
         }
 
-        private void sendCloseData()
+        //private void sendCloseData()
+        public void sendCloseData()
         {
             this.SendTimedOut = false;
 

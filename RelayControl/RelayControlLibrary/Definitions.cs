@@ -1986,6 +1986,11 @@ namespace RelayControlLibrary
         public static bool SendAllFlag;
     }
 
+    public static class dataBackupR
+    {
+        public static bool dataBackup_fromRelay;
+    }
+
     public static class GeWhF
     {
         public static bool GeWh;
