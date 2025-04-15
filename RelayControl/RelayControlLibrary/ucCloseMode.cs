@@ -316,7 +316,7 @@ namespace RelayControlLibrary
         {
             this.SendTimedOut = false;
 
-            buttonSendCloseMode_Click(this, new EventArgs());
+            buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
 
             // If sending relax, just send the command and no curves
             if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
@@ -326,7 +326,7 @@ namespace RelayControlLibrary
                 this.setVerticalLine();
                 this.setHorizontalLine();
 
-                mySEA.SendPacket = this.CloseCurve.BytePacket();
+                mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
                 mySEA.WithAck = true;
                 mySEA.RequestAll = true;
                 this.OnSend(this, mySEA);

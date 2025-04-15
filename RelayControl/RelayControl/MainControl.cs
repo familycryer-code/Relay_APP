@@ -3300,7 +3300,7 @@ namespace RelayControl
             timerResponseTimeOut.Enabled = false;
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
-
+            Thread.Sleep(1000);   // delay 1second
             if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
             {
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -3454,7 +3454,10 @@ namespace RelayControl
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
                     if (this.relayCodeRevisionNumber >= 20130111)
-                        this.requestSafeServiceSettings();
+                    {
+                        if (dataBackup_fromRelay != true)
+                            this.requestSafeServiceSettings(); 
+                    }
                     else
                         this.parametersFinishedLoading();
                 }
@@ -4605,7 +4608,8 @@ namespace RelayControl
 
             if (this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
-                this.requestTransmitterSettings();
+                if(dataBackup_fromRelay != true)
+                    this.requestTransmitterSettings();
             }
         }
 
@@ -9076,32 +9080,17 @@ namespace RelayControl
         public bool dataBackup_fromRelay = false;
         private void sendCparams_toMasterProcessor()
         {
-            /*SendEventArgs sEA = new SendEventArgs(10);
-
-            sEA.SendPacket[0] = (byte)'C'; // 'C' : Load C parameters (C_byte1 to C_byte8) to Master uP
-            sEA.SendPacket[1] = 55;      
-            sEA.SendPacket[2] = 55;
-            sEA.SendPacket[3] = 55;      
-            sEA.SendPacket[4] = 55;
-            sEA.SendPacket[5] = 55;      
-            sEA.SendPacket[6] = 55;      
-            sEA.SendPacket[7] = 55;
-            sEA.SendPacket[8] = 55;
-            sEA.SendPacket[9] = 0x0D;
-
-            this.Send(this, sEA);
-            */
             byte[] sendPacket = new byte[10];
             
             sendPacket[0] = (byte)'C';
-            sendPacket[1] = 55;
-            sendPacket[2] = 55;
-            sendPacket[3] = 55;
-            sendPacket[4] = 55;
-            sendPacket[5] = 55;
-            sendPacket[6] = 55;
-            sendPacket[7] = 55;
-            sendPacket[8] = 55;
+            sendPacket[1] = 1;// 0;
+            sendPacket[2] = 21;// 24;
+            sendPacket[3] = 141;// 146;
+            sendPacket[4] = 241;// 244;
+            sendPacket[5] = 1;// 0;
+            sendPacket[6] = 1;// 0;
+            sendPacket[7] = 151;// 154;
+            sendPacket[8] = 151;// 254;
             sendPacket[9] = 0x0D;
 
             this.sendPacket(sendPacket);
@@ -9128,19 +9117,43 @@ namespace RelayControl
             //WRITE TO MASTER PROCESSOR
             string lineRead;
             StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-            lineRead = sr.ReadLine();
-            while (lineRead != null)
+            /* lineRead = sr.ReadLine();
+             while (lineRead != null)
+             {
+                 if(lineRead == "Relay Parameters:")
+                 { 
+                     this.messageHandler("Read back from the file:", lineRead);
+                     lineRead = sr.ReadLine(); //Read the next line
+                 }
+             }
+            */
+            //READ 8 BYTES OF C PARAMETRS FROM FILE AND WRITE THEM TO THE MASTER uP
+            byte[] sendPacketC = new byte[10];
+            sendPacketC[0] = (byte)'C';
+            for (int cnt = 1; cnt <= 8; cnt++)
             {
-                this.messageHandler("Read back from the file:", lineRead);
                 lineRead = sr.ReadLine(); //Read the next line
+                sendPacketC[cnt] = Convert.ToByte(lineRead);
             }
+            sendPacketC[9] = 0x0D;
+            this.sendPacket(sendPacketC);
+            
+            //READ 6 BYTES OF MClose PARAMETRS FROM FILE AND WRITE THEM TO THE MASTER uP
+            byte[] sendPacketMC = new byte[8];
+            sendPacketMC[0] = (byte)'M';
+            sendPacketMC[1] = (byte)'C';
+            for (int cnt = 2; cnt <= 6; cnt++)
+            {
+                lineRead = sr.ReadLine(); //Read the next line
+                sendPacketMC[cnt] = Convert.ToByte(lineRead);
+            }
+            sendPacketMC[7] = 0x0D;
+            this.sendPacket(sendPacketMC);
+
             sr.Close();
-            this.sendCparams_toMasterProcessor(); // 8 bytes C_byte1 to C_byte8 
-            Thread.Sleep(834);   // delay 834 milliseconds 
-
-
-            
-            
+            //this.sendCparams_toMasterProcessor(); // 8 bytes C_byte1 to C_byte8 
+            Thread.Sleep(1000);   // delay 1 second  
+  
         }
 
         
