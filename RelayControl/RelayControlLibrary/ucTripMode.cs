@@ -434,6 +434,37 @@ namespace RelayControlLibrary
                 OnSend(mySEA);
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                if (dataBackupR.dataBackup_fromRelay == true)
+                {
+                    // writes to 6 bytes Mtrip_byte1 to Mtrip_byte6 in master uP
+                    // these 6 bytes correspond to the byte packet refering to APP contents as seen on line 342-349 in RelayModeFunctions.cs
+                    string lineRead;
+                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                    int c = 1;
+                    while (c <= 14)
+                    {// skiip through first 14 data bytes
+                        lineRead = sr.ReadLine(); //Read the next line
+                        c++;
+                    }
+
+                    mySEA.SendPacket[0] = 77;  // 'M'
+                    mySEA.SendPacket[1] = 84;  // 'T'
+                    for (int cnt = 2; cnt <= 6; cnt++)
+                    {
+                        lineRead = sr.ReadLine(); //Read the next line
+                        if ((cnt % 2) == 0)//odd 
+                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
+                        else
+                            mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
+
+
+                    }
+                    mySEA.SendPacket[7] = 0x0D;
+
+                    dataBackupR.dataBackup_fromRelay = false;
+                    sr.Close();
+
+                }
 
                 OnSend(mySEA);
 

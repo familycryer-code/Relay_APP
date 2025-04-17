@@ -9116,70 +9116,9 @@ namespace RelayControl
             tw.Close();
 
             //WRITE TO MASTER PROCESSOR
-            string lineRead;
-            StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-            /* lineRead = sr.ReadLine();
-             while (lineRead != null)
-             {
-                 if(lineRead == "Relay Parameters:")
-                 { 
-                     this.messageHandler("Read back from the file:", lineRead);
-                     lineRead = sr.ReadLine(); //Read the next line
-                 }
-             }
-            */
-
+            
             this.ucCloseMode1.sendCloseData(); // write 14 bytes ( 8 Cbyte + 6 MClose) to master
-            /*
-                        //READ 8 BYTES OF C PARAMETRS FROM FILE AND WRITE THEM TO THE MASTER uP
-                        byte[] sendPacketC = new byte[10];
-                        sendPacketC[0] = (byte)'C';
-                        for (int cnt = 1; cnt <= 8; cnt++)
-                        {
-                            lineRead = sr.ReadLine(); //Read the next line
-                            sendPacketC[cnt] = Convert.ToByte(lineRead);
-                        }
-                        sendPacketC[9] = 0x0D;
-                        this.sendPacket(sendPacketC);
-
-                               //READ 6 BYTES OF MClose PARAMETRS FROM FILE AND WRITE THEM TO THE MASTER uP
-                               byte[] sendPacketMC = new byte[8];
-                               sendPacketMC[0] = (byte)'M';
-                               sendPacketMC[1] = (byte)'C';
-                               for (int cnt = 2; cnt <= 6; cnt++)
-                               {
-                                   lineRead = sr.ReadLine(); //Read the next line
-                                   sendPacketMC[cnt] = Convert.ToByte(lineRead);
-                               }
-                               sendPacketMC[7] = 0x0D;
-                               this.sendPacket(sendPacketMC);
-
-                               //READ 6 BYTES OF MTrip PARAMETRS FROM FILE AND WRITE THEM TO THE MASTER uP
-                               byte[] sendPacketMT = new byte[8];
-                               sendPacketMT[0] = (byte)'M';
-                               sendPacketMT[1] = (byte)'T';
-                               for (int cnt = 2; cnt <= 6; cnt++)
-                               {
-                                   lineRead = sr.ReadLine(); //Read the next line
-                                   sendPacketMT[cnt] = Convert.ToByte(lineRead);
-                               }
-                               sendPacketMT[7] = 0x0D;
-                               this.sendPacket(sendPacketMT);
-
-                               //READ 12 BYTES OF T0_byte PARAMETRS FROM FILE AND WRITE THEM TO THE MASTER uP
-                               byte[] sendPacketT0 = new byte[14];
-                               sendPacketT0[0] = (byte)'T';
-                               sendPacketT0[1] = (byte)'0';
-                               for (int cnt = 2; cnt <= 12; cnt++)
-                               {
-                                   lineRead = sr.ReadLine(); //Read the next line
-                                   sendPacketT0[cnt] = Convert.ToByte(lineRead);
-                               }
-                               sendPacketT0[13] = 0x0D;
-                               this.sendPacket(sendPacketT0);
-                   */
-            sr.Close();
-            //this.sendCparams_toMasterProcessor(); // 8 bytes C_byte1 to C_byte8 
+            this.ucTripMode2.buttonSendTripMode_Click(sender, e);
             Thread.Sleep(1000);   // delay 1 second  
   
         }
