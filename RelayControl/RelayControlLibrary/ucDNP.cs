@@ -822,7 +822,8 @@ namespace RelayControlLibrary
                 location.Y = this.groupBoxDNPSettings.Location.Y;
                 location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
 
-                this.groupBoxDIGITALGRIDDNPDeadBand.Location = location;
+                //this.groupBoxDIGITALGRIDDNPDeadBand.Location = location;
+                this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(288, 2);
                 this.groupBoxDIGITALGRIDDNPDeadBand.Height = 0;
 
                 location = new Point(2, 15);//Now make location the starting spot of the first control
@@ -846,10 +847,12 @@ namespace RelayControlLibrary
                 if (workingDDB != null)
                     location = new Point(location.X, location.Y - workingDDB.Height);
 
-                this.groupBoxDIGITALGRIDDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
+                //this.groupBoxDIGITALGRIDDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
+                this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(840, 550);
                 this.groupBoxDIGITALGRIDDNPDeadBand.Show();
 
-                this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
+                //this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
+                this.buttonSendDeadBand.Location = new System.Drawing.Point(620, 570);
             }
             this.buttonDefaults.Text = "Restore Defaults";
         }

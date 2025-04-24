@@ -2300,7 +2300,8 @@ namespace RelayControlLibrary
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusC);
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusB);
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusA);
-#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+            //#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+#if (TORONTO_HYDRO) //H Board + DNP customers
             this.groupBoxFlagStatus.Location = new System.Drawing.Point(315, 250); //(85, 149); //(210, 149);
 #else
             this.groupBoxFlagStatus.Location = new System.Drawing.Point(85, 149); //(210, 149);
@@ -2401,7 +2402,8 @@ namespace RelayControlLibrary
             // 
             // groupBoxAnalogFlagValues
             // 
-#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+//#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+#if (TORONTO_HYDRO)//H Board + DNP customers
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBox_Input7);
             this.groupBoxAnalogFlagValues.Controls.Add(this.label2);
 #endif
@@ -2417,7 +2419,8 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxEa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxDa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxCa);
-#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+//#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+#if (TORONTO_HYDRO)//H Board + DNP customers
             this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(480, 250); //(210, 149); //(315, 149);
 #else
             this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(210, 149); //(315, 149);
@@ -2427,7 +2430,7 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.TabIndex = 84;
             this.groupBoxAnalogFlagValues.TabStop = false;
             this.groupBoxAnalogFlagValues.Text = "Analog Values";
-#if DOMINION
+#if (DOMINION || ONCOR) // SEC and /or DNP customers
             // 
             // label2
             // 
@@ -2534,7 +2537,8 @@ namespace RelayControlLibrary
             this.textBoxCa.Name = "textBoxCa";
             this.textBoxCa.Size = new System.Drawing.Size(33, 20);
             this.textBoxCa.TabIndex = 0;
-#elif (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+//#elif (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+#elif (TORONTO_HYDRO)//H Board and DNP customers
             // Input 7
             // 
             this.label2.AutoSize = true;
@@ -2679,7 +2683,8 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxTimeElapsed);
             this.Controls.Add(this.groupBox17);
             this.Controls.Add(this.groupBoxVaultMonitoringCommands);
-#if DOMINION//SEC only customers
+//#if DOMINION//SEC only customers
+#if (DOMINION || ONCOR)
             this.Controls.Add(this.groupBoxAnalog1);
             this.Controls.Add(this.groupBoxAnalog2);
 #endif

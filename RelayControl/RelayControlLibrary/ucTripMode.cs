@@ -11,6 +11,7 @@ using System.Collections;
 using System.IO;
 using SharedResources;
 using System.Threading;
+using System.Reflection;
 
 namespace RelayControlLibrary
 {
@@ -343,11 +344,43 @@ namespace RelayControlLibrary
                 TripCurve1.Tilt = this.numericUpDownAngle.Value;
                 TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0);
-
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0); // To be saved in master uP as T0_byte
+                Thread.Sleep(1000);   // 1 second delay
                 OnSend(mySEA);
-
+                
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
+               /* if (dataBackupR.dataBackup_fromRelay == true)
+                {
+                    // writes to 12 bytes T1_byte1 to T1_byte12 in master uP
+                    // these 12 bytes correspond to the byte packet refering to APP contents as seen on line 381-394 in RelayModeFunctions.cs
+                    string lineRead;
+                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                    int c = 1;
+                    while (c <= 32)
+                    {// skip through first 32 data bytes
+                        lineRead = sr.ReadLine(); //Read the next line
+                        c++;
+                    }
+
+                    mySEA.SendPacket[0] = 84;  // 'T'
+                    //mySEA.SendPacket[1] = 49;   // '1'
+                    for (int cnt = 1; cnt <= 12; cnt++)
+                    {
+                        lineRead = sr.ReadLine(); //Read the next line
+                        if ((cnt % 2) != 0)//odd 
+                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
+                        else
+                            mySEA.SendPacket[cnt - 2] = Convert.ToByte(lineRead);
+
+
+                    }
+                    mySEA.SendPacket[13] = 0x0D;
+
+                    dataBackupR.dataBackup_fromRelay = false;
+                    sr.Close();
+
+                }
+               */
                 this.OnSend(mySEA);
 
                 decimal tempDecimal;
@@ -442,7 +475,7 @@ namespace RelayControlLibrary
                     StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
                     int c = 1;
                     while (c <= 14)
-                    {// skiip through first 14 data bytes
+                    {// skip through first 14 data bytes
                         lineRead = sr.ReadLine(); //Read the next line
                         c++;
                     }
@@ -461,7 +494,7 @@ namespace RelayControlLibrary
                     }
                     mySEA.SendPacket[7] = 0x0D;
 
-                    dataBackupR.dataBackup_fromRelay = false;
+                    //dataBackupR.dataBackup_fromRelay = false;
                     sr.Close();
 
                 }
@@ -832,6 +865,8 @@ namespace RelayControlLibrary
 
             try
             {
+                //bytePacket[5] = 113;// 20;
+                //bytePacket[6] = 253;// 254;
                 //Sensitive Trip Setting
                 temp = bytePacket[12];
                 temp <<= 8;

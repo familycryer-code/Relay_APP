@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Threading;
+using System.IO;
 //using SineDisplayGraph; 
 
 namespace RelayControlLibrary
@@ -392,6 +394,58 @@ namespace RelayControlLibrary
             returnArray[11] = tCD.MagnitudeHighByte;
             returnArray[12] = tCD.MagnitudeLowByte;
             returnArray[13] = (byte)DC4;
+
+            if (dataBackupR.dataBackup_fromRelay == true)
+            {
+                // writes to 12 bytes T0_byte1 to T0_byte12 in master uP
+                // these 12 bytes correspond to the byte packet refering to APP contents as seen on line 381-394 in RelayModeFunctions.cs
+                string lineRead;
+                StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                int c = 1;
+                int skipFwdBy = 0;
+                
+                switch (index)
+                {
+                    case 48:    // T0
+                        skipFwdBy = 20;
+                        break;
+                    case 49:    // T1
+                        skipFwdBy = 32;
+                        break;
+                    case 50:    // T2
+                        break;
+                    case 51:    // T3
+                        break;
+                    case 52:    // T4
+                        break;
+                    default:
+                        break;
+                }
+
+                while (c <= skipFwdBy)
+                {// skip through first 20 data bytes 
+                    lineRead = sr.ReadLine(); //Read the next line
+                    c++;
+                }
+
+                returnArray[0] = (byte)_TripOpCode; // 'T'
+                //returnArray[1] = (byte)index;
+                for (int cnt = 1; cnt <= 12; cnt++)
+                {
+                    lineRead = sr.ReadLine(); //Read the next line
+                    if ((cnt % 2) != 0)//odd 
+                        returnArray[cnt+1] = Convert.ToByte(lineRead);
+                    else
+                        returnArray[cnt - 1] = Convert.ToByte(lineRead);
+                }
+                returnArray[13] = (byte)DC4;
+                sr.Close();
+                if (index == 2)
+                { 
+                    dataBackupR.dataBackup_fromRelay = false; 
+                }
+                Thread.Sleep(4000);   // 1 second delay
+            }
 
             return returnArray;
         }

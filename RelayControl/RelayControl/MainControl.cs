@@ -622,8 +622,8 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-             //   this.button_dataStore.Enabled = false;
-             //   this.button_dataStore.Visible = false;
+                this.button_dataStore.Enabled = false;
+                this.button_dataStore.Visible = false;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -3953,7 +3953,7 @@ namespace RelayControl
                 }
 
                 this.setCheckedValue(RelayFlags.PhasingOkay, this.checkBoxPhasingOkayFlag);
-
+                
                 if ((b & 32) == 32)
                 {
                     RelayFlags.BlockedOpen = true;
@@ -4091,7 +4091,7 @@ namespace RelayControl
                     setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                 }
 
-                b = bytePacket[3];
+                b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)
                 {
                     ucRemoteCommandBlock1.CommandsBlocked = true;
