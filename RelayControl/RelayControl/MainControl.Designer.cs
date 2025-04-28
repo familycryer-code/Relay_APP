@@ -2451,7 +2451,7 @@
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(370, 360);
+            this.ucTripMode2.Size = new System.Drawing.Size(370, 300);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = ((uint)(0u));
             // 
