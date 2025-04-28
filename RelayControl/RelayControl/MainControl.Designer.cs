@@ -61,8 +61,12 @@
             this.timerTimeOutCountdown = new System.Windows.Forms.Timer(this.components);
             this.timerRegisterPolling = new System.Windows.Forms.Timer(this.components);
             this.tabPageTransmitterMonitoring = new System.Windows.Forms.TabPage();
+            this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
+            this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
+            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
+            this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
             this.groupBoxTimeConvert = new System.Windows.Forms.GroupBox();
             this.textBoxTimeOutput = new System.Windows.Forms.TextBox();
             this.textBoxTimeInput = new System.Windows.Forms.TextBox();
@@ -79,6 +83,18 @@
             this.buttonRQRelayProcVersion = new System.Windows.Forms.Button();
             this.buttonForceI = new System.Windows.Forms.Button();
             this.buttonRequestRelayRegisters = new System.Windows.Forms.Button();
+            this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
+            this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.ucCalibration2 = new RelayControlLibrary.ucCalibration();
+            this.uc8CheckBoxFlagsCommFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsCommFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayStatus2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -91,11 +107,21 @@
             this.radioButtonEvent2 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent1 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent0 = new System.Windows.Forms.RadioButton();
+            this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
             this.buttonReqLiveData = new System.Windows.Forms.Button();
             this.tabPageFlightRecorder = new System.Windows.Forms.TabPage();
             this.labelLiveDataTriggerTime = new System.Windows.Forms.Label();
+            this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
             this.tabPageTransmitter = new System.Windows.Forms.TabPage();
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
+            this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
             this.labelSNPQMonitor = new System.Windows.Forms.Label();
             this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
@@ -105,6 +131,7 @@
             this.labelRelayTrippedOrClose = new System.Windows.Forms.Label();
             this.buttonToggleMonitor = new System.Windows.Forms.Button();
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
+            this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
@@ -162,7 +189,10 @@
             this.checkBoxACB = new System.Windows.Forms.CheckBox();
             this.checkBoxFlag1 = new System.Windows.Forms.CheckBox();
             this.checkBoxPowerSaveFlag = new System.Windows.Forms.CheckBox();
+            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
+            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
+            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.labelBootRevision = new System.Windows.Forms.Label();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
@@ -181,63 +211,33 @@
             this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
             this.buttonSaveSetting = new System.Windows.Forms.Button();
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.buttonResetRelay2 = new System.Windows.Forms.Button();
-            this.tabPageArcFault = new System.Windows.Forms.TabPage();
-            this.buttonArcFaultStartMonitoring = new System.Windows.Forms.Button();
-            this.tabPageShortRange = new System.Windows.Forms.TabPage();
-            this.tabPageDNPData = new System.Windows.Forms.TabPage();
-            this.buttonRequestDNPData = new System.Windows.Forms.Button();
-            this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
-            this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
-            this.labelKioskReceived = new System.Windows.Forms.Label();
-            this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
-            this.buttonTest = new System.Windows.Forms.Button();
-            this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
-            this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
-            this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
-            this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
-            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
-            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
-            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
             this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
-            this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
-            this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
-            this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
-            this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
-            this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
+            this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPageDNP = new System.Windows.Forms.TabPage();
+            this.buttonResetRelay2 = new System.Windows.Forms.Button();
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
+            this.tabPageArcFault = new System.Windows.Forms.TabPage();
+            this.buttonArcFaultStartMonitoring = new System.Windows.Forms.Button();
             this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
+            this.tabPageShortRange = new System.Windows.Forms.TabPage();
             this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
+            this.tabPageDNPData = new System.Windows.Forms.TabPage();
+            this.buttonRequestDNPData = new System.Windows.Forms.Button();
+            this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
             this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
-            this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
-            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
-            this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
-            this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
-            this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucCalibration2 = new RelayControlLibrary.ucCalibration();
-            this.uc8CheckBoxFlagsCommFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsCommFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayStatus2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
+            this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
             this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
+            this.labelKioskReceived = new System.Windows.Forms.Label();
+            this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
+            this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
+            this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
+            this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
+            this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.serialPort1 = new RelayControl.MyPort(this.components);
@@ -277,7 +277,7 @@
             labelTemperature.Location = new System.Drawing.Point(73, 254);
             labelTemperature.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelTemperature.Name = "labelTemperature";
-            labelTemperature.Size = new System.Drawing.Size(61, 15);
+            labelTemperature.Size = new System.Drawing.Size(75, 18);
             labelTemperature.TabIndex = 50;
             labelTemperature.Text = "Temp (C):";
             // 
@@ -294,7 +294,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1166, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1166, 28);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -307,41 +307,41 @@
             this.reprogramRelayFileSelectToolStripMenuItem,
             this.tCPConnectionToolStripMenuItem});
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
-            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.OptionsToolStripMenuItem.Text = "Options";
             this.OptionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // tCPConnectionToolStripMenuItem
             // 
             this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
-            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
             this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
@@ -351,7 +351,7 @@
             this.eventActionsToolStripMenuItem,
             this.liveDataActionsToolStripMenuItem});
             this.toolStripMenuItemAction.Name = "toolStripMenuItemAction";
-            this.toolStripMenuItemAction.Size = new System.Drawing.Size(59, 20);
+            this.toolStripMenuItemAction.Size = new System.Drawing.Size(72, 24);
             this.toolStripMenuItemAction.Text = "Actions";
             // 
             // eventActionsToolStripMenuItem
@@ -362,34 +362,34 @@
             this.loadEventSetToolStripMenuItem,
             this.clearEventsToolStripMenuItem});
             this.eventActionsToolStripMenuItem.Name = "eventActionsToolStripMenuItem";
-            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.eventActionsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.eventActionsToolStripMenuItem.Text = "Event Actions";
             // 
             // downloadEventFromRelayToolStripMenuItem
             // 
             this.downloadEventFromRelayToolStripMenuItem.Name = "downloadEventFromRelayToolStripMenuItem";
-            this.downloadEventFromRelayToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.downloadEventFromRelayToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.downloadEventFromRelayToolStripMenuItem.Text = "Download Event From Relay";
             this.downloadEventFromRelayToolStripMenuItem.Click += new System.EventHandler(this.downloadEventFromRelayToolStripMenuItem_Click);
             // 
             // saveEventsToolStripMenuItem
             // 
             this.saveEventsToolStripMenuItem.Name = "saveEventsToolStripMenuItem";
-            this.saveEventsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.saveEventsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.saveEventsToolStripMenuItem.Text = "Save Event Set to File";
             this.saveEventsToolStripMenuItem.Click += new System.EventHandler(this.saveEventsToolStripMenuItem_Click);
             // 
             // loadEventSetToolStripMenuItem
             // 
             this.loadEventSetToolStripMenuItem.Name = "loadEventSetToolStripMenuItem";
-            this.loadEventSetToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.loadEventSetToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.loadEventSetToolStripMenuItem.Text = "Load Event Set from File";
             this.loadEventSetToolStripMenuItem.Click += new System.EventHandler(this.loadEventSetToolStripMenuItem_Click);
             // 
             // clearEventsToolStripMenuItem
             // 
             this.clearEventsToolStripMenuItem.Name = "clearEventsToolStripMenuItem";
-            this.clearEventsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.clearEventsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.clearEventsToolStripMenuItem.Text = "Clear Events";
             this.clearEventsToolStripMenuItem.Click += new System.EventHandler(this.clearEventsToolStripMenuItem_Click);
             // 
@@ -400,34 +400,34 @@
             this.saveLiveDataToolStripMenuItem,
             this.loadLiveDataToolStripMenuItem});
             this.liveDataActionsToolStripMenuItem.Name = "liveDataActionsToolStripMenuItem";
-            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.liveDataActionsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.liveDataActionsToolStripMenuItem.Text = "Live Data Actions";
             // 
             // requestLiveDataToolStripMenuItem1
             // 
             this.requestLiveDataToolStripMenuItem1.Name = "requestLiveDataToolStripMenuItem1";
-            this.requestLiveDataToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.requestLiveDataToolStripMenuItem1.Size = new System.Drawing.Size(303, 26);
             this.requestLiveDataToolStripMenuItem1.Text = "Download Live Data from Relay";
             this.requestLiveDataToolStripMenuItem1.Click += new System.EventHandler(this.requestLiveDataToolStripMenuItem1_Click);
             // 
             // saveLiveDataToolStripMenuItem
             // 
             this.saveLiveDataToolStripMenuItem.Name = "saveLiveDataToolStripMenuItem";
-            this.saveLiveDataToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.saveLiveDataToolStripMenuItem.Size = new System.Drawing.Size(303, 26);
             this.saveLiveDataToolStripMenuItem.Text = "Save Live Data to File";
             this.saveLiveDataToolStripMenuItem.Click += new System.EventHandler(this.saveLiveDataToolStripMenuItem_Click);
             // 
             // loadLiveDataToolStripMenuItem
             // 
             this.loadLiveDataToolStripMenuItem.Name = "loadLiveDataToolStripMenuItem";
-            this.loadLiveDataToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.loadLiveDataToolStripMenuItem.Size = new System.Drawing.Size(303, 26);
             this.loadLiveDataToolStripMenuItem.Text = "Load Live Data from File";
             this.loadLiveDataToolStripMenuItem.Click += new System.EventHandler(this.loadLiveDataToolStripMenuItem_Click);
             // 
             // acknowledgeToolStripMenuItem1
             // 
             this.acknowledgeToolStripMenuItem1.Name = "acknowledgeToolStripMenuItem1";
-            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(91, 20);
+            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(113, 24);
             this.acknowledgeToolStripMenuItem1.Text = "Acknowledge";
             this.acknowledgeToolStripMenuItem1.Click += new System.EventHandler(this.acknowledgeToolStripMenuItem1_Click);
             // 
@@ -437,20 +437,20 @@
             this.saveToolStripMenuItem,
             this.printScreenToolStripMenuItem});
             this.sToolStripMenuItem.Name = "sToolStripMenuItem";
-            this.sToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.sToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.sToolStripMenuItem.Text = "Screen Capture";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.saveToolStripMenuItem.Text = "Save Screen";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.mnuFileSaveScreen_Click);
             // 
             // printScreenToolStripMenuItem
             // 
             this.printScreenToolStripMenuItem.Name = "printScreenToolStripMenuItem";
-            this.printScreenToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.printScreenToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.printScreenToolStripMenuItem.Text = "Print Screen";
             this.printScreenToolStripMenuItem.Click += new System.EventHandler(this.mnuFilePrintScreen_Click);
             // 
@@ -459,13 +459,13 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cTRatioCalculatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // cTRatioCalculatorToolStripMenuItem
             // 
             this.cTRatioCalculatorToolStripMenuItem.Name = "cTRatioCalculatorToolStripMenuItem";
-            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.cTRatioCalculatorToolStripMenuItem.Text = "CT Ratio Calculator";
             this.cTRatioCalculatorToolStripMenuItem.Click += new System.EventHandler(this.cTRatioCalculatorToolStripMenuItem_Click);
             // 
@@ -474,7 +474,7 @@
             this.loadConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableAutoloadToolStripMenuItem});
             this.loadConfigurationToolStripMenuItem.Name = "loadConfigurationToolStripMenuItem";
-            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.loadConfigurationToolStripMenuItem.Text = "Load Configuration";
             // 
             // enableAutoloadToolStripMenuItem
@@ -483,7 +483,7 @@
             this.enableAutoloadToolStripMenuItem.CheckOnClick = true;
             this.enableAutoloadToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableAutoloadToolStripMenuItem.Name = "enableAutoloadToolStripMenuItem";
-            this.enableAutoloadToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.enableAutoloadToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.enableAutoloadToolStripMenuItem.Text = "Enable Autoload";
             this.enableAutoloadToolStripMenuItem.Click += new System.EventHandler(this.enableAutoloadToolStripMenuItem_Click);
             // 
@@ -504,16 +504,16 @@
             this.toolStripStatusLabelMain,
             this.toolStripStatusLabelRelayDisconnected,
             this.toolStripStatusLabelReceiverStatus});
-            this.statusStripMain.Location = new System.Drawing.Point(0, 856);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 852);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 17, 0);
-            this.statusStripMain.Size = new System.Drawing.Size(1166, 22);
+            this.statusStripMain.Size = new System.Drawing.Size(1166, 26);
             this.statusStripMain.TabIndex = 37;
             // 
             // toolStripStatusLabelMain
             // 
             this.toolStripStatusLabelMain.Name = "toolStripStatusLabelMain";
-            this.toolStripStatusLabelMain.Size = new System.Drawing.Size(108, 17);
+            this.toolStripStatusLabelMain.Size = new System.Drawing.Size(134, 20);
             this.toolStripStatusLabelMain.Text = "Checking For Relay";
             // 
             // toolStripStatusLabelRelayDisconnected
@@ -521,13 +521,13 @@
             this.toolStripStatusLabelRelayDisconnected.BackColor = System.Drawing.Color.Red;
             this.toolStripStatusLabelRelayDisconnected.Name = "toolStripStatusLabelRelayDisconnected";
             this.toolStripStatusLabelRelayDisconnected.RightToLeftAutoMirrorImage = true;
-            this.toolStripStatusLabelRelayDisconnected.Size = new System.Drawing.Size(110, 17);
+            this.toolStripStatusLabelRelayDisconnected.Size = new System.Drawing.Size(139, 20);
             this.toolStripStatusLabelRelayDisconnected.Text = "Relay Disconnected";
             // 
             // toolStripStatusLabelReceiverStatus
             // 
             this.toolStripStatusLabelReceiverStatus.Name = "toolStripStatusLabelReceiverStatus";
-            this.toolStripStatusLabelReceiverStatus.Size = new System.Drawing.Size(23, 17);
+            this.toolStripStatusLabelReceiverStatus.Size = new System.Drawing.Size(29, 20);
             this.toolStripStatusLabelReceiverStatus.Text = "NR";
             this.toolStripStatusLabelReceiverStatus.Visible = false;
             // 
@@ -546,14 +546,34 @@
             this.tabPageTransmitterMonitoring.BackColor = System.Drawing.Color.Transparent;
             this.tabPageTransmitterMonitoring.Controls.Add(this.ucTransmitterMonitoring1);
             this.tabPageTransmitterMonitoring.Controls.Add(this.labelRelayDisconnected2);
-            this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 24);
+            this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 27);
             this.tabPageTransmitterMonitoring.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
             this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1449, 910);
+            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1449, 907);
             this.tabPageTransmitterMonitoring.TabIndex = 8;
             this.tabPageTransmitterMonitoring.Text = "Sensor Monitoring";
             this.tabPageTransmitterMonitoring.UseVisualStyleBackColor = true;
+            // 
+            // ucTransmitterMonitoring1
+            // 
+            this.ucTransmitterMonitoring1.CTMult = "";
+            this.ucTransmitterMonitoring1.CTRatio = 320;
+            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
+            this.ucTransmitterMonitoring1.GEEnabled = false;
+            this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
+            this.ucTransmitterMonitoring1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
+            this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(1144, 664);
+            this.ucTransmitterMonitoring1.TabIndex = 86;
+            this.ucTransmitterMonitoring1.TimeElapsedHours = "";
+            this.ucTransmitterMonitoring1.TimeElapsedMinutes = "";
+            this.ucTransmitterMonitoring1.TimeElapsedSeconds = "";
+            this.ucTransmitterMonitoring1.TransmitterID = "";
+            this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
+            this.ucTransmitterMonitoring1.TransmitterSN = "";
+            this.ucTransmitterMonitoring1.WaterBugActive = false;
             // 
             // labelRelayDisconnected2
             // 
@@ -563,7 +583,7 @@
             this.labelRelayDisconnected2.Location = new System.Drawing.Point(491, 694);
             this.labelRelayDisconnected2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRelayDisconnected2.Name = "labelRelayDisconnected2";
-            this.labelRelayDisconnected2.Size = new System.Drawing.Size(151, 20);
+            this.labelRelayDisconnected2.Size = new System.Drawing.Size(185, 25);
             this.labelRelayDisconnected2.TabIndex = 85;
             this.labelRelayDisconnected2.Text = "Relay Disconnected";
             this.labelRelayDisconnected2.Visible = false;
@@ -603,6 +623,30 @@
             this.tabPageEngineering.TabIndex = 7;
             this.tabPageEngineering.Text = "Engineering";
             this.tabPageEngineering.UseVisualStyleBackColor = true;
+            // 
+            // ucCSVConverterCSVFile1
+            // 
+            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
+            this.ucCSVConverterCSVFile1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
+            this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
+            this.ucCSVConverterCSVFile1.TabIndex = 109;
+            // 
+            // ucTimeControl1
+            // 
+            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
+            this.ucTimeControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucTimeControl1.Name = "ucTimeControl1";
+            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
+            this.ucTimeControl1.TabIndex = 119;
+            // 
+            // ucGeneralCommandHandler1
+            // 
+            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
+            this.ucGeneralCommandHandler1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
+            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
+            this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
             // groupBoxTimeConvert
             // 
@@ -761,6 +805,130 @@
             this.buttonRequestRelayRegisters.UseVisualStyleBackColor = true;
             this.buttonRequestRelayRegisters.Click += new System.EventHandler(this.buttonRequestRelayRegisters_Click);
             // 
+            // ucRelayProgramming1
+            // 
+            this.ucRelayProgramming1.ActiveRelay = false;
+            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
+            this.ucRelayProgramming1.DNPRelay = true;
+            this.ucRelayProgramming1.ForceRelayUpdate = false;
+            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
+            this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.GERelay = false;
+            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
+            this.ucRelayProgramming1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionString = "";
+            this.ucRelayProgramming1.Name = "ucRelayProgramming1";
+            this.ucRelayProgramming1.NotPollingPort = false;
+            this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
+            this.ucRelayProgramming1.ProgramBootCodeStart = false;
+            this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
+            this.ucRelayProgramming1.ReprogrammingInProgress = false;
+            this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
+            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
+            this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
+            this.ucRelayProgramming1.TabIndex = 112;
+            this.ucRelayProgramming1.TransmitterEnabled = false;
+            // 
+            // uc8CheckBoxFlagsGEControl2
+            // 
+            this.uc8CheckBoxFlagsGEControl2.Location = new System.Drawing.Point(360, 431);
+            this.uc8CheckBoxFlagsGEControl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsGEControl2.Name = "uc8CheckBoxFlagsGEControl2";
+            this.uc8CheckBoxFlagsGEControl2.Names = null;
+            this.uc8CheckBoxFlagsGEControl2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsGEControl2.TabIndex = 111;
+            // 
+            // uc8CheckBoxFlagsGEControl1
+            // 
+            this.uc8CheckBoxFlagsGEControl1.Location = new System.Drawing.Point(360, 249);
+            this.uc8CheckBoxFlagsGEControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsGEControl1.Name = "uc8CheckBoxFlagsGEControl1";
+            this.uc8CheckBoxFlagsGEControl1.Names = null;
+            this.uc8CheckBoxFlagsGEControl1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsGEControl1.TabIndex = 110;
+            // 
+            // ucCalibration2
+            // 
+            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
+            this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
+            this.ucCalibration2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCalibration2.Name = "ucCalibration2";
+            this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
+            this.ucCalibration2.TabIndex = 108;
+            // 
+            // uc8CheckBoxFlagsCommFlags2
+            // 
+            this.uc8CheckBoxFlagsCommFlags2.Location = new System.Drawing.Point(254, 431);
+            this.uc8CheckBoxFlagsCommFlags2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsCommFlags2.Name = "uc8CheckBoxFlagsCommFlags2";
+            this.uc8CheckBoxFlagsCommFlags2.Names = null;
+            this.uc8CheckBoxFlagsCommFlags2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsCommFlags2.TabIndex = 106;
+            // 
+            // uc8CheckBoxFlagsCommFlags1
+            // 
+            this.uc8CheckBoxFlagsCommFlags1.Location = new System.Drawing.Point(254, 249);
+            this.uc8CheckBoxFlagsCommFlags1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsCommFlags1.Name = "uc8CheckBoxFlagsCommFlags1";
+            this.uc8CheckBoxFlagsCommFlags1.Names = null;
+            this.uc8CheckBoxFlagsCommFlags1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsCommFlags1.TabIndex = 105;
+            // 
+            // uc8CheckBoxFlagsRelayStatus2
+            // 
+            this.uc8CheckBoxFlagsRelayStatus2.Location = new System.Drawing.Point(143, 431);
+            this.uc8CheckBoxFlagsRelayStatus2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsRelayStatus2.Name = "uc8CheckBoxFlagsRelayStatus2";
+            this.uc8CheckBoxFlagsRelayStatus2.Names = null;
+            this.uc8CheckBoxFlagsRelayStatus2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayStatus2.TabIndex = 104;
+            // 
+            // uc8CheckBoxFlagsRelayStatus1
+            // 
+            this.uc8CheckBoxFlagsRelayStatus1.Location = new System.Drawing.Point(143, 249);
+            this.uc8CheckBoxFlagsRelayStatus1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsRelayStatus1.Name = "uc8CheckBoxFlagsRelayStatus1";
+            this.uc8CheckBoxFlagsRelayStatus1.Names = null;
+            this.uc8CheckBoxFlagsRelayStatus1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayStatus1.TabIndex = 103;
+            // 
+            // uc8CheckBoxFlagsRelayFlags2
+            // 
+            this.uc8CheckBoxFlagsRelayFlags2.Location = new System.Drawing.Point(17, 431);
+            this.uc8CheckBoxFlagsRelayFlags2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsRelayFlags2.Name = "uc8CheckBoxFlagsRelayFlags2";
+            this.uc8CheckBoxFlagsRelayFlags2.Names = null;
+            this.uc8CheckBoxFlagsRelayFlags2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayFlags2.TabIndex = 102;
+            // 
+            // uc8CheckBoxFlagsRelayFlags1
+            // 
+            this.uc8CheckBoxFlagsRelayFlags1.Location = new System.Drawing.Point(17, 249);
+            this.uc8CheckBoxFlagsRelayFlags1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uc8CheckBoxFlagsRelayFlags1.Name = "uc8CheckBoxFlagsRelayFlags1";
+            this.uc8CheckBoxFlagsRelayFlags1.Names = null;
+            this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
+            // 
+            // ucCalibration1
+            // 
+            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
+            this.ucCalibration1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCalibration1.Name = "ucCalibration1";
+            this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
+            this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -774,11 +942,11 @@
             this.tabPageEvents.Controls.Add(this.ucEventGraph2);
             this.tabPageEvents.Controls.Add(this.ucEventGraph1);
             this.tabPageEvents.Controls.Add(this.ucEventGraph0);
-            this.tabPageEvents.Location = new System.Drawing.Point(4, 24);
+            this.tabPageEvents.Location = new System.Drawing.Point(4, 27);
             this.tabPageEvents.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageEvents.Name = "tabPageEvents";
             this.tabPageEvents.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageEvents.Size = new System.Drawing.Size(1449, 910);
+            this.tabPageEvents.Size = new System.Drawing.Size(1449, 907);
             this.tabPageEvents.TabIndex = 6;
             this.tabPageEvents.Text = "Events";
             this.tabPageEvents.UseVisualStyleBackColor = true;
@@ -827,7 +995,7 @@
             this.radioButtonEvent7.Location = new System.Drawing.Point(750, 8);
             this.radioButtonEvent7.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent7.Name = "radioButtonEvent7";
-            this.radioButtonEvent7.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent7.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent7.TabIndex = 7;
             this.radioButtonEvent7.TabStop = true;
             this.radioButtonEvent7.Text = "Event 8";
@@ -840,7 +1008,7 @@
             this.radioButtonEvent6.Location = new System.Drawing.Point(644, 8);
             this.radioButtonEvent6.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent6.Name = "radioButtonEvent6";
-            this.radioButtonEvent6.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent6.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent6.TabIndex = 6;
             this.radioButtonEvent6.TabStop = true;
             this.radioButtonEvent6.Text = "Event 7";
@@ -853,7 +1021,7 @@
             this.radioButtonEvent5.Location = new System.Drawing.Point(538, 8);
             this.radioButtonEvent5.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent5.Name = "radioButtonEvent5";
-            this.radioButtonEvent5.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent5.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent5.TabIndex = 5;
             this.radioButtonEvent5.TabStop = true;
             this.radioButtonEvent5.Text = "Event 6";
@@ -866,7 +1034,7 @@
             this.radioButtonEvent4.Location = new System.Drawing.Point(431, 8);
             this.radioButtonEvent4.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent4.Name = "radioButtonEvent4";
-            this.radioButtonEvent4.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent4.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent4.TabIndex = 4;
             this.radioButtonEvent4.TabStop = true;
             this.radioButtonEvent4.Text = "Event 5";
@@ -879,7 +1047,7 @@
             this.radioButtonEvent3.Location = new System.Drawing.Point(326, 8);
             this.radioButtonEvent3.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent3.Name = "radioButtonEvent3";
-            this.radioButtonEvent3.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent3.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent3.TabIndex = 3;
             this.radioButtonEvent3.TabStop = true;
             this.radioButtonEvent3.Text = "Event 4";
@@ -892,7 +1060,7 @@
             this.radioButtonEvent2.Location = new System.Drawing.Point(220, 8);
             this.radioButtonEvent2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent2.Name = "radioButtonEvent2";
-            this.radioButtonEvent2.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent2.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent2.TabIndex = 2;
             this.radioButtonEvent2.TabStop = true;
             this.radioButtonEvent2.Text = "Event 3";
@@ -905,7 +1073,7 @@
             this.radioButtonEvent1.Location = new System.Drawing.Point(113, 8);
             this.radioButtonEvent1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent1.Name = "radioButtonEvent1";
-            this.radioButtonEvent1.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent1.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent1.TabIndex = 1;
             this.radioButtonEvent1.TabStop = true;
             this.radioButtonEvent1.Text = "Event 2";
@@ -918,1441 +1086,12 @@
             this.radioButtonEvent0.Location = new System.Drawing.Point(7, 8);
             this.radioButtonEvent0.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent0.Name = "radioButtonEvent0";
-            this.radioButtonEvent0.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent0.Size = new System.Drawing.Size(78, 22);
             this.radioButtonEvent0.TabIndex = 0;
             this.radioButtonEvent0.TabStop = true;
             this.radioButtonEvent0.Text = "Event 1";
             this.radioButtonEvent0.UseVisualStyleBackColor = true;
             this.radioButtonEvent0.CheckedChanged += new System.EventHandler(this.radioButtonEventSelect_CheckedChanged);
-            // 
-            // buttonReqLiveData
-            // 
-            this.buttonReqLiveData.Location = new System.Drawing.Point(991, 0);
-            this.buttonReqLiveData.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonReqLiveData.Name = "buttonReqLiveData";
-            this.buttonReqLiveData.Size = new System.Drawing.Size(155, 26);
-            this.buttonReqLiveData.TabIndex = 0;
-            this.buttonReqLiveData.Text = "Request LIVE Data";
-            this.buttonReqLiveData.UseVisualStyleBackColor = true;
-            this.buttonReqLiveData.Click += new System.EventHandler(this.buttonReqLiveData_Click);
-            // 
-            // tabPageFlightRecorder
-            // 
-            this.tabPageFlightRecorder.Controls.Add(this.buttonReqLiveData);
-            this.tabPageFlightRecorder.Controls.Add(this.labelLiveDataTriggerTime);
-            this.tabPageFlightRecorder.Controls.Add(this.ucLiveData1);
-            this.tabPageFlightRecorder.Location = new System.Drawing.Point(4, 24);
-            this.tabPageFlightRecorder.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageFlightRecorder.Name = "tabPageFlightRecorder";
-            this.tabPageFlightRecorder.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageFlightRecorder.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageFlightRecorder.TabIndex = 5;
-            this.tabPageFlightRecorder.Text = "Live Data";
-            this.tabPageFlightRecorder.UseVisualStyleBackColor = true;
-            // 
-            // labelLiveDataTriggerTime
-            // 
-            this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-7809, 7);
-            this.labelLiveDataTriggerTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
-            this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 15);
-            this.labelLiveDataTriggerTime.TabIndex = 1;
-            this.labelLiveDataTriggerTime.Resize += new System.EventHandler(this.labelLiveEventTriggerTime_Resize);
-            // 
-            // tabPageTransmitter
-            // 
-            this.tabPageTransmitter.Controls.Add(this.labelRelayDisconnected3);
-            this.tabPageTransmitter.Controls.Add(this.ucTransmitter1);
-            this.tabPageTransmitter.Location = new System.Drawing.Point(4, 24);
-            this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitter.Name = "tabPageTransmitter";
-            this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitter.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageTransmitter.TabIndex = 2;
-            this.tabPageTransmitter.Text = "Transmitter Settings";
-            this.tabPageTransmitter.UseVisualStyleBackColor = true;
-            // 
-            // labelRelayDisconnected3
-            // 
-            this.labelRelayDisconnected3.AutoSize = true;
-            this.labelRelayDisconnected3.BackColor = System.Drawing.Color.Red;
-            this.labelRelayDisconnected3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayDisconnected3.Location = new System.Drawing.Point(232, 579);
-            this.labelRelayDisconnected3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelRelayDisconnected3.Name = "labelRelayDisconnected3";
-            this.labelRelayDisconnected3.Size = new System.Drawing.Size(151, 20);
-            this.labelRelayDisconnected3.TabIndex = 70;
-            this.labelRelayDisconnected3.Text = "Relay Disconnected";
-            this.labelRelayDisconnected3.Visible = false;
-            // 
-            // tabPageMonitor
-            // 
-            this.tabPageMonitor.Controls.Add(this.labelSNPQMonitor);
-            this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
-            this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
-            this.tabPageMonitor.Controls.Add(this.checkBoxInTripRegion);
-            this.tabPageMonitor.Controls.Add(this.buttonUpdateCTRatio);
-            this.tabPageMonitor.Controls.Add(this.labelRelayTrippedOrClose);
-            this.tabPageMonitor.Controls.Add(this.buttonToggleMonitor);
-            this.tabPageMonitor.Controls.Add(this.labelCtRatioMonitor);
-            this.tabPageMonitor.Controls.Add(this.ucPhasorGraph1);
-            this.tabPageMonitor.Location = new System.Drawing.Point(4, 24);
-            this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageMonitor.Name = "tabPageMonitor";
-            this.tabPageMonitor.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMonitor.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageMonitor.TabIndex = 1;
-            this.tabPageMonitor.Text = "PQ Monitor";
-            this.tabPageMonitor.UseVisualStyleBackColor = true;
-            // 
-            // labelSNPQMonitor
-            // 
-            this.labelSNPQMonitor.AutoSize = true;
-            this.labelSNPQMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(183, 670);
-            this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelSNPQMonitor.Name = "labelSNPQMonitor";
-            this.labelSNPQMonitor.Size = new System.Drawing.Size(60, 13);
-            this.labelSNPQMonitor.TabIndex = 76;
-            this.labelSNPQMonitor.Text = "Relay S/N:";
-            // 
-            // textBoxRelaySNControlPQ
-            // 
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(260, 667);
-            this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxRelaySNControlPQ.MaxLength = 5;
-            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
-            this.textBoxRelaySNControlPQ.ReadOnly = true;
-            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(85, 21);
-            this.textBoxRelaySNControlPQ.TabIndex = 75;
-            this.textBoxRelaySNControlPQ.Tag = "SN";
-            // 
-            // textBoxCTRatioPQMonitor
-            // 
-            this.textBoxCTRatioPQMonitor.Enabled = false;
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(417, 667);
-            this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
-            this.textBoxCTRatioPQMonitor.ReadOnly = true;
-            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(56, 21);
-            this.textBoxCTRatioPQMonitor.TabIndex = 65;
-            this.textBoxCTRatioPQMonitor.Text = "320";
-            // 
-            // checkBoxInTripRegion
-            // 
-            this.checkBoxInTripRegion.AutoCheck = false;
-            this.checkBoxInTripRegion.AutoSize = true;
-            this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInTripRegion.Location = new System.Drawing.Point(1040, 666);
-            this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
-            this.checkBoxInTripRegion.Size = new System.Drawing.Size(103, 19);
-            this.checkBoxInTripRegion.TabIndex = 49;
-            this.checkBoxInTripRegion.Text = "In Trip Region";
-            this.checkBoxInTripRegion.UseVisualStyleBackColor = true;
-            // 
-            // buttonUpdateCTRatio
-            // 
-            this.buttonUpdateCTRatio.Location = new System.Drawing.Point(794, 689);
-            this.buttonUpdateCTRatio.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonUpdateCTRatio.Name = "buttonUpdateCTRatio";
-            this.buttonUpdateCTRatio.Size = new System.Drawing.Size(116, 26);
-            this.buttonUpdateCTRatio.TabIndex = 44;
-            this.buttonUpdateCTRatio.Text = "Update CT Ratio";
-            this.buttonUpdateCTRatio.UseVisualStyleBackColor = true;
-            this.buttonUpdateCTRatio.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // labelRelayTrippedOrClose
-            // 
-            this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(490, 659);
-            this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
-            this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(116, 30);
-            this.labelRelayTrippedOrClose.TabIndex = 36;
-            this.labelRelayTrippedOrClose.Text = "Unkown";
-            this.labelRelayTrippedOrClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buttonToggleMonitor
-            // 
-            this.buttonToggleMonitor.Location = new System.Drawing.Point(496, 691);
-            this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonToggleMonitor.Name = "buttonToggleMonitor";
-            this.buttonToggleMonitor.Size = new System.Drawing.Size(106, 26);
-            this.buttonToggleMonitor.TabIndex = 35;
-            this.buttonToggleMonitor.Text = "Toggle Monitor";
-            this.buttonToggleMonitor.UseVisualStyleBackColor = true;
-            this.buttonToggleMonitor.Click += new System.EventHandler(this.buttonToggleMonitor_Click);
-            // 
-            // labelCtRatioMonitor
-            // 
-            this.labelCtRatioMonitor.AutoSize = true;
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(357, 671);
-            this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
-            this.labelCtRatioMonitor.Size = new System.Drawing.Size(57, 15);
-            this.labelCtRatioMonitor.TabIndex = 31;
-            this.labelCtRatioMonitor.Text = "CT Ratio:";
-            // 
-            // textBoxTemperatureMonitoringPage
-            // 
-            this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
-            this.textBoxTemperatureMonitoringPage.Name = "textBoxTemperatureMonitoringPage";
-            this.textBoxTemperatureMonitoringPage.ReadOnly = true;
-            this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(56, 22);
-            this.textBoxTemperatureMonitoringPage.TabIndex = 47;
-            this.textBoxTemperatureMonitoringPage.TabStop = false;
-            // 
-            // labelTemperatureMonitoringPage
-            // 
-            this.labelTemperatureMonitoringPage.AutoSize = true;
-            this.labelTemperatureMonitoringPage.Location = new System.Drawing.Point(3, 581);
-            this.labelTemperatureMonitoringPage.Name = "labelTemperatureMonitoringPage";
-            this.labelTemperatureMonitoringPage.Size = new System.Drawing.Size(86, 13);
-            this.labelTemperatureMonitoringPage.TabIndex = 46;
-            this.labelTemperatureMonitoringPage.Text = "Temperature (C):";
-            // 
-            // tabPageControl
-            // 
-            this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
-            this.tabPageControl.Controls.Add(this.button_dataStore);
-            this.tabPageControl.Controls.Add(this.pictureBox_SendAll);
-            this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
-            this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
-            this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
-            this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
-            this.tabPageControl.Controls.Add(this.groupBoxNetworkCTRatio);
-            this.tabPageControl.Controls.Add(this.groupBoxRelayFlags);
-            this.tabPageControl.Controls.Add(this.ucSafeService1);
-            this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
-            this.tabPageControl.Controls.Add(this.ucTripMode2);
-            this.tabPageControl.Controls.Add(this.ucCloseMode1);
-            this.tabPageControl.Controls.Add(this.ucPumpMode1);
-            this.tabPageControl.Controls.Add(this.ucCoverFlags1);
-            this.tabPageControl.Location = new System.Drawing.Point(4, 24);
-            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageControl.Name = "tabPageControl";
-            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageControl.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageControl.TabIndex = 0;
-            this.tabPageControl.Text = "Relay Settings";
-            // 
-            // button_dataStore
-            // 
-            this.button_dataStore.Location = new System.Drawing.Point(994, 567);
-            this.button_dataStore.Name = "button_dataStore";
-            this.button_dataStore.Size = new System.Drawing.Size(133, 23);
-            this.button_dataStore.TabIndex = 121;
-            this.button_dataStore.Text = "Temp_Data_Store";
-            this.button_dataStore.UseVisualStyleBackColor = true;
-            this.button_dataStore.Click += new System.EventHandler(this.button_dataStore_Click);
-            // 
-            // pictureBox_SendAll
-            // 
-            this.pictureBox_SendAll.Enabled = false;
-            this.pictureBox_SendAll.Image = global::RelayControl.Properties.Resources.Throbber_SendAll;
-            this.pictureBox_SendAll.InitialImage = global::RelayControl.Properties.Resources.Throbber_SendAll1;
-            this.pictureBox_SendAll.Location = new System.Drawing.Point(469, 624);
-            this.pictureBox_SendAll.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox_SendAll.Name = "pictureBox_SendAll";
-            this.pictureBox_SendAll.Size = new System.Drawing.Size(133, 118);
-            this.pictureBox_SendAll.TabIndex = 120;
-            this.pictureBox_SendAll.TabStop = false;
-            this.pictureBox_SendAll.UseWaitCursor = true;
-            this.pictureBox_SendAll.Visible = false;
-            // 
-            // groupBoxLRLockoutMain
-            // 
-            this.groupBoxLRLockoutMain.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxLRLockoutMain.Controls.Add(this.textBoxLRLockoutStatusMain);
-            this.groupBoxLRLockoutMain.Controls.Add(this.labelLRLockoutMain);
-            this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(522, 546);
-            this.groupBoxLRLockoutMain.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxLRLockoutMain.Name = "groupBoxLRLockoutMain";
-            this.groupBoxLRLockoutMain.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxLRLockoutMain.Size = new System.Drawing.Size(297, 56);
-            this.groupBoxLRLockoutMain.TabIndex = 118;
-            this.groupBoxLRLockoutMain.TabStop = false;
-            this.groupBoxLRLockoutMain.Text = "Remote Command Lockout";
-            this.groupBoxLRLockoutMain.Visible = false;
-            // 
-            // textBoxLRLockoutStatusMain
-            // 
-            this.textBoxLRLockoutStatusMain.Location = new System.Drawing.Point(144, 23);
-            this.textBoxLRLockoutStatusMain.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxLRLockoutStatusMain.Name = "textBoxLRLockoutStatusMain";
-            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(116, 21);
-            this.textBoxLRLockoutStatusMain.TabIndex = 1;
-            // 
-            // labelLRLockoutMain
-            // 
-            this.labelLRLockoutMain.AutoSize = true;
-            this.labelLRLockoutMain.Location = new System.Drawing.Point(15, 26);
-            this.labelLRLockoutMain.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelLRLockoutMain.Name = "labelLRLockoutMain";
-            this.labelLRLockoutMain.Size = new System.Drawing.Size(110, 15);
-            this.labelLRLockoutMain.TabIndex = 0;
-            this.labelLRLockoutMain.Text = "RC Lockout Status:";
-            // 
-            // groupBoxLowVoltThres
-            // 
-            this.groupBoxLowVoltThres.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxLowVoltThres.Controls.Add(this.buttonRequestLowVotlageThres);
-            this.groupBoxLowVoltThres.Controls.Add(this.numericUpDownLowVoltageThres);
-            this.groupBoxLowVoltThres.Controls.Add(this.buttonSendLowVoltageThres);
-            this.groupBoxLowVoltThres.Location = new System.Drawing.Point(13, 611);
-            this.groupBoxLowVoltThres.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxLowVoltThres.Name = "groupBoxLowVoltThres";
-            this.groupBoxLowVoltThres.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxLowVoltThres.Size = new System.Drawing.Size(386, 101);
-            this.groupBoxLowVoltThres.TabIndex = 117;
-            this.groupBoxLowVoltThres.TabStop = false;
-            this.groupBoxLowVoltThres.Text = "Low Voltage Threshold";
-            // 
-            // buttonRequestLowVotlageThres
-            // 
-            this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(293, 35);
-            this.buttonRequestLowVotlageThres.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRequestLowVotlageThres.Name = "buttonRequestLowVotlageThres";
-            this.buttonRequestLowVotlageThres.Size = new System.Drawing.Size(88, 26);
-            this.buttonRequestLowVotlageThres.TabIndex = 116;
-            this.buttonRequestLowVotlageThres.Text = "Request";
-            this.buttonRequestLowVotlageThres.UseVisualStyleBackColor = true;
-            this.buttonRequestLowVotlageThres.Click += new System.EventHandler(this.buttonRequestLowVotlageThres_Click);
-            // 
-            // numericUpDownLowVoltageThres
-            // 
-            this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(17, 38);
-            this.numericUpDownLowVoltageThres.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDownLowVoltageThres.Maximum = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-            this.numericUpDownLowVoltageThres.Minimum = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            this.numericUpDownLowVoltageThres.Name = "numericUpDownLowVoltageThres";
-            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(140, 21);
-            this.numericUpDownLowVoltageThres.TabIndex = 114;
-            this.numericUpDownLowVoltageThres.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            // 
-            // buttonSendLowVoltageThres
-            // 
-            this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(186, 35);
-            this.buttonSendLowVoltageThres.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonSendLowVoltageThres.Name = "buttonSendLowVoltageThres";
-            this.buttonSendLowVoltageThres.Size = new System.Drawing.Size(88, 26);
-            this.buttonSendLowVoltageThres.TabIndex = 113;
-            this.buttonSendLowVoltageThres.Text = "Send";
-            this.buttonSendLowVoltageThres.UseVisualStyleBackColor = true;
-            this.buttonSendLowVoltageThres.Click += new System.EventHandler(this.buttonSendLowVoltageThres_Click);
-            // 
-            // groupBoxRelayStatus
-            // 
-            this.groupBoxRelayStatus.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxRelayStatus.Controls.Add(this.labelNWPStatus);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxTripFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxPhasingOkayFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxPumping);
-            this.groupBoxRelayStatus.Controls.Add(this.textBoxTemperature);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxDefaultsUsed);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxBlockedOpenFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.textBoxTripCount);
-            this.groupBoxRelayStatus.Controls.Add(labelTemperature);
-            this.groupBoxRelayStatus.Controls.Add(this.label4);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxBFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxTrippingFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxFloatFlag);
-            this.groupBoxRelayStatus.Location = new System.Drawing.Point(699, 8);
-            this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
-            this.groupBoxRelayStatus.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxRelayStatus.Size = new System.Drawing.Size(154, 281);
-            this.groupBoxRelayStatus.TabIndex = 112;
-            this.groupBoxRelayStatus.TabStop = false;
-            this.groupBoxRelayStatus.Text = "Relay Status:";
-            // 
-            // labelNWPStatus
-            // 
-            this.labelNWPStatus.AutoSize = true;
-            this.labelNWPStatus.Location = new System.Drawing.Point(10, 205);
-            this.labelNWPStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelNWPStatus.Name = "labelNWPStatus";
-            this.labelNWPStatus.Size = new System.Drawing.Size(93, 15);
-            this.labelNWPStatus.TabIndex = 52;
-            this.labelNWPStatus.Text = "NWP: Unknown";
-            // 
-            // checkBoxTripFlag
-            // 
-            this.checkBoxTripFlag.AutoCheck = false;
-            this.checkBoxTripFlag.AutoSize = true;
-            this.checkBoxTripFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxTripFlag.Location = new System.Drawing.Point(10, 22);
-            this.checkBoxTripFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxTripFlag.Name = "checkBoxTripFlag";
-            this.checkBoxTripFlag.Size = new System.Drawing.Size(68, 19);
-            this.checkBoxTripFlag.TabIndex = 0;
-            this.checkBoxTripFlag.Text = "Tripped";
-            this.checkBoxTripFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxPhasingOkayFlag
-            // 
-            this.checkBoxPhasingOkayFlag.AutoCheck = false;
-            this.checkBoxPhasingOkayFlag.AutoSize = true;
-            this.checkBoxPhasingOkayFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxPhasingOkayFlag.Location = new System.Drawing.Point(10, 156);
-            this.checkBoxPhasingOkayFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxPhasingOkayFlag.Name = "checkBoxPhasingOkayFlag";
-            this.checkBoxPhasingOkayFlag.Size = new System.Drawing.Size(101, 19);
-            this.checkBoxPhasingOkayFlag.TabIndex = 50;
-            this.checkBoxPhasingOkayFlag.Text = "Phasing Okay";
-            this.checkBoxPhasingOkayFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxPumping
-            // 
-            this.checkBoxPumping.AutoCheck = false;
-            this.checkBoxPumping.AutoSize = true;
-            this.checkBoxPumping.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxPumping.Location = new System.Drawing.Point(10, 180);
-            this.checkBoxPumping.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxPumping.Name = "checkBoxPumping";
-            this.checkBoxPumping.Size = new System.Drawing.Size(100, 19);
-            this.checkBoxPumping.TabIndex = 35;
-            this.checkBoxPumping.Text = "Pump Protect";
-            this.checkBoxPumping.UseVisualStyleBackColor = true;
-            // 
-            // textBoxTemperature
-            // 
-            this.textBoxTemperature.Location = new System.Drawing.Point(10, 250);
-            this.textBoxTemperature.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTemperature.Name = "textBoxTemperature";
-            this.textBoxTemperature.ReadOnly = true;
-            this.textBoxTemperature.Size = new System.Drawing.Size(56, 21);
-            this.textBoxTemperature.TabIndex = 51;
-            // 
-            // checkBoxDefaultsUsed
-            // 
-            this.checkBoxDefaultsUsed.AutoCheck = false;
-            this.checkBoxDefaultsUsed.AutoSize = true;
-            this.checkBoxDefaultsUsed.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxDefaultsUsed.Location = new System.Drawing.Point(10, 229);
-            this.checkBoxDefaultsUsed.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxDefaultsUsed.Name = "checkBoxDefaultsUsed";
-            this.checkBoxDefaultsUsed.Size = new System.Drawing.Size(103, 19);
-            this.checkBoxDefaultsUsed.TabIndex = 38;
-            this.checkBoxDefaultsUsed.Text = "Defaults Used";
-            this.checkBoxDefaultsUsed.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxBlockedOpenFlag
-            // 
-            this.checkBoxBlockedOpenFlag.AutoCheck = false;
-            this.checkBoxBlockedOpenFlag.AutoSize = true;
-            this.checkBoxBlockedOpenFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxBlockedOpenFlag.Location = new System.Drawing.Point(10, 131);
-            this.checkBoxBlockedOpenFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxBlockedOpenFlag.Name = "checkBoxBlockedOpenFlag";
-            this.checkBoxBlockedOpenFlag.Size = new System.Drawing.Size(103, 19);
-            this.checkBoxBlockedOpenFlag.TabIndex = 48;
-            this.checkBoxBlockedOpenFlag.Text = "Blocked Open";
-            this.checkBoxBlockedOpenFlag.UseVisualStyleBackColor = true;
-            // 
-            // textBoxTripCount
-            // 
-            this.textBoxTripCount.Location = new System.Drawing.Point(10, 99);
-            this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTripCount.Name = "textBoxTripCount";
-            this.textBoxTripCount.ReadOnly = true;
-            this.textBoxTripCount.Size = new System.Drawing.Size(54, 21);
-            this.textBoxTripCount.TabIndex = 43;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(73, 103);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 15);
-            this.label4.TabIndex = 44;
-            this.label4.Text = "Trip Cycles";
-            // 
-            // checkBoxBFlag
-            // 
-            this.checkBoxBFlag.AutoCheck = false;
-            this.checkBoxBFlag.AutoSize = true;
-            this.checkBoxBFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxBFlag.Location = new System.Drawing.Point(10, 204);
-            this.checkBoxBFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxBFlag.Name = "checkBoxBFlag";
-            this.checkBoxBFlag.Size = new System.Drawing.Size(112, 19);
-            this.checkBoxBFlag.TabIndex = 46;
-            this.checkBoxBFlag.Text = "Protector Status";
-            this.checkBoxBFlag.UseVisualStyleBackColor = true;
-            this.checkBoxBFlag.Visible = false;
-            // 
-            // checkBoxTrippingFlag
-            // 
-            this.checkBoxTrippingFlag.AutoCheck = false;
-            this.checkBoxTrippingFlag.AutoSize = true;
-            this.checkBoxTrippingFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxTrippingFlag.Location = new System.Drawing.Point(10, 46);
-            this.checkBoxTrippingFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxTrippingFlag.Name = "checkBoxTrippingFlag";
-            this.checkBoxTrippingFlag.Size = new System.Drawing.Size(71, 19);
-            this.checkBoxTrippingFlag.TabIndex = 46;
-            this.checkBoxTrippingFlag.Text = "Tripping";
-            this.checkBoxTrippingFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFloatFlag
-            // 
-            this.checkBoxFloatFlag.AutoCheck = false;
-            this.checkBoxFloatFlag.AutoSize = true;
-            this.checkBoxFloatFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxFloatFlag.Location = new System.Drawing.Point(10, 73);
-            this.checkBoxFloatFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxFloatFlag.Name = "checkBoxFloatFlag";
-            this.checkBoxFloatFlag.Size = new System.Drawing.Size(53, 19);
-            this.checkBoxFloatFlag.TabIndex = 47;
-            this.checkBoxFloatFlag.Text = "Float";
-            this.checkBoxFloatFlag.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxPhasingAndType
-            // 
-            this.groupBoxPhasingAndType.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxPhasingAndType.Controls.Add(this.labelDNPVoltage);
-            this.groupBoxPhasingAndType.Controls.Add(this.comboBoxDNPVoltage);
-            this.groupBoxPhasingAndType.Controls.Add(this.checkBox277DNPOutputs);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelConEdPowerRelay);
-            this.groupBoxPhasingAndType.Controls.Add(this.label20);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelProtectorType);
-            this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownPhasings);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelGEWH);
-            this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownRelayType);
-            this.groupBoxPhasingAndType.Controls.Add(this.buttonTypePhasingRestoreDefaults);
-            this.groupBoxPhasingAndType.Controls.Add(this.buttonRelayType);
-            this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 390);
-            this.groupBoxPhasingAndType.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxPhasingAndType.Name = "groupBoxPhasingAndType";
-            this.groupBoxPhasingAndType.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxPhasingAndType.Size = new System.Drawing.Size(202, 184);
-            this.groupBoxPhasingAndType.TabIndex = 111;
-            this.groupBoxPhasingAndType.TabStop = false;
-            this.groupBoxPhasingAndType.Text = "Relay Phasing and Type:";
-            // 
-            // labelDNPVoltage
-            // 
-            this.labelDNPVoltage.AutoSize = true;
-            this.labelDNPVoltage.Location = new System.Drawing.Point(8, 79);
-            this.labelDNPVoltage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelDNPVoltage.Name = "labelDNPVoltage";
-            this.labelDNPVoltage.Size = new System.Drawing.Size(103, 15);
-            this.labelDNPVoltage.TabIndex = 78;
-            this.labelDNPVoltage.Text = "Protector Voltage:";
-            // 
-            // comboBoxDNPVoltage
-            // 
-            this.comboBoxDNPVoltage.FormattingEnabled = true;
-            this.comboBoxDNPVoltage.Items.AddRange(new object[] {
-            "125",
-            "277",
-            "347"});
-            this.comboBoxDNPVoltage.Location = new System.Drawing.Point(119, 75);
-            this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
-            this.comboBoxDNPVoltage.Size = new System.Drawing.Size(75, 23);
-            this.comboBoxDNPVoltage.TabIndex = 77;
-            this.comboBoxDNPVoltage.SelectedIndexChanged += new System.EventHandler(this.comboBoxDNPVoltage_SelectedIndexChanged);
-            // 
-            // checkBox277DNPOutputs
-            // 
-            this.checkBox277DNPOutputs.AutoSize = true;
-            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(10, 99);
-            this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
-            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(179, 19);
-            this.checkBox277DNPOutputs.TabIndex = 76;
-            this.checkBox277DNPOutputs.Text = "Convert DNP Output Voltage";
-            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
-            // 
-            // labelConEdPowerRelay
-            // 
-            this.labelConEdPowerRelay.AutoSize = true;
-            this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
-            this.labelConEdPowerRelay.Location = new System.Drawing.Point(94, 19);
-            this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
-            this.labelConEdPowerRelay.Size = new System.Drawing.Size(42, 15);
-            this.labelConEdPowerRelay.TabIndex = 51;
-            this.labelConEdPowerRelay.Text = "Power";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 19);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(70, 15);
-            this.label20.TabIndex = 44;
-            this.label20.Text = "Relay Type:";
-            // 
-            // labelProtectorType
-            // 
-            this.labelProtectorType.AutoSize = true;
-            this.labelProtectorType.Location = new System.Drawing.Point(13, 125);
-            this.labelProtectorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelProtectorType.Name = "labelProtectorType";
-            this.labelProtectorType.Size = new System.Drawing.Size(88, 15);
-            this.labelProtectorType.TabIndex = 50;
-            this.labelProtectorType.Text = "Protector Type:";
-            // 
-            // domainUpDownPhasings
-            // 
-            this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
-            this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
-            this.domainUpDownPhasings.Location = new System.Drawing.Point(52, 45);
-            this.domainUpDownPhasings.Margin = new System.Windows.Forms.Padding(4);
-            this.domainUpDownPhasings.Name = "domainUpDownPhasings";
-            this.domainUpDownPhasings.Size = new System.Drawing.Size(133, 21);
-            this.domainUpDownPhasings.TabIndex = 47;
-            // 
-            // labelGEWH
-            // 
-            this.labelGEWH.AutoSize = true;
-            this.labelGEWH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelGEWH.Location = new System.Drawing.Point(113, 125);
-            this.labelGEWH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelGEWH.Name = "labelGEWH";
-            this.labelGEWH.Size = new System.Drawing.Size(29, 17);
-            this.labelGEWH.TabIndex = 49;
-            this.labelGEWH.Text = "WH";
-            // 
-            // domainUpDownRelayType
-            // 
-            this.domainUpDownRelayType.Items.Add("Power");
-            this.domainUpDownRelayType.Items.Add("Sequence");
-            this.domainUpDownRelayType.Location = new System.Drawing.Point(92, 16);
-            this.domainUpDownRelayType.Margin = new System.Windows.Forms.Padding(4);
-            this.domainUpDownRelayType.Name = "domainUpDownRelayType";
-            this.domainUpDownRelayType.Size = new System.Drawing.Size(98, 21);
-            this.domainUpDownRelayType.TabIndex = 43;
-            this.domainUpDownRelayType.SelectedItemChanged += new System.EventHandler(this.domainUpDownRelayType_SelectedItemChanged);
-            // 
-            // buttonTypePhasingRestoreDefaults
-            // 
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(8, 154);
-            this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
-            this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(112, 26);
-            this.buttonTypePhasingRestoreDefaults.TabIndex = 48;
-            this.buttonTypePhasingRestoreDefaults.Text = "Restore Defaults";
-            this.buttonTypePhasingRestoreDefaults.UseVisualStyleBackColor = true;
-            this.buttonTypePhasingRestoreDefaults.Click += new System.EventHandler(this.buttonTypePhasingRestoreDefaults_Click);
-            // 
-            // buttonRelayType
-            // 
-            this.buttonRelayType.Location = new System.Drawing.Point(137, 154);
-            this.buttonRelayType.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRelayType.Name = "buttonRelayType";
-            this.buttonRelayType.Size = new System.Drawing.Size(52, 26);
-            this.buttonRelayType.TabIndex = 41;
-            this.buttonRelayType.Text = "Send";
-            this.buttonRelayType.UseVisualStyleBackColor = true;
-            this.buttonRelayType.Click += new System.EventHandler(this.buttonRelayType_Click);
-            // 
-            // groupBoxNetworkCTRatio
-            // 
-            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxNetworkCTRatio.Controls.Add(this.labelOver5);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.label27);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.textBoxCTRatio);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.domainUpDownCTRatioM);
-            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 304);
-            this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
-            this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(202, 80);
-            this.groupBoxNetworkCTRatio.TabIndex = 110;
-            this.groupBoxNetworkCTRatio.TabStop = false;
-            this.groupBoxNetworkCTRatio.Text = "Network Protector CT Ratio:";
-            // 
-            // labelOver5
-            // 
-            this.labelOver5.AutoSize = true;
-            this.labelOver5.Location = new System.Drawing.Point(66, 56);
-            this.labelOver5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelOver5.Name = "labelOver5";
-            this.labelOver5.Size = new System.Drawing.Size(17, 15);
-            this.labelOver5.TabIndex = 73;
-            this.labelOver5.Text = "/5";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(7, 23);
-            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(39, 15);
-            this.label27.TabIndex = 68;
-            this.label27.Text = "Ratio:";
-            // 
-            // buttonSendCTRatio
-            // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(98, 51);
-            this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonSendCTRatio.Name = "buttonSendCTRatio";
-            this.buttonSendCTRatio.Size = new System.Drawing.Size(88, 26);
-            this.buttonSendCTRatio.TabIndex = 61;
-            this.buttonSendCTRatio.Text = "Send";
-            this.buttonSendCTRatio.UseVisualStyleBackColor = true;
-            this.buttonSendCTRatio.Click += new System.EventHandler(this.buttonSendCTRatio_Click);
-            // 
-            // textBoxCTRatio
-            // 
-            this.textBoxCTRatio.Enabled = false;
-            this.textBoxCTRatio.Location = new System.Drawing.Point(8, 53);
-            this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxCTRatio.Name = "textBoxCTRatio";
-            this.textBoxCTRatio.Size = new System.Drawing.Size(56, 21);
-            this.textBoxCTRatio.TabIndex = 64;
-            this.textBoxCTRatio.Text = "320";
-            this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_Leave);
-            // 
-            // domainUpDownCTRatioM
-            // 
-            this.domainUpDownCTRatioM.Items.Add("3750:5");
-            this.domainUpDownCTRatioM.Items.Add("3500:5");
-            this.domainUpDownCTRatioM.Items.Add("3000:5");
-            this.domainUpDownCTRatioM.Items.Add("2500:5");
-            this.domainUpDownCTRatioM.Items.Add("2000:5");
-            this.domainUpDownCTRatioM.Items.Add("1600:5");
-            this.domainUpDownCTRatioM.Items.Add("1200:5");
-            this.domainUpDownCTRatioM.Items.Add("800:5");
-            this.domainUpDownCTRatioM.Items.Add("Special");
-            this.domainUpDownCTRatioM.Location = new System.Drawing.Point(55, 21);
-            this.domainUpDownCTRatioM.Margin = new System.Windows.Forms.Padding(4);
-            this.domainUpDownCTRatioM.Name = "domainUpDownCTRatioM";
-            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(71, 21);
-            this.domainUpDownCTRatioM.TabIndex = 62;
-            this.domainUpDownCTRatioM.Text = "1600:5";
-            this.domainUpDownCTRatioM.SelectedItemChanged += new System.EventHandler(this.domainUpDownCTRatioM_SelectedItemChanged);
-            // 
-            // groupBoxRelayFlags
-            // 
-            this.groupBoxRelayFlags.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxRelayFlags.Controls.Add(this.labelQuietMode);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxOffsetOkay);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxCalibrating);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxMathOverTime);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxBlockedCloseFlag);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxMathError);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxInInsensRegion);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxMonitorPhasors);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag2);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxSequence);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxACB);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag1);
-            this.groupBoxRelayFlags.Controls.Add(this.checkBoxPowerSaveFlag);
-            this.groupBoxRelayFlags.Location = new System.Drawing.Point(662, 602);
-            this.groupBoxRelayFlags.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxRelayFlags.Name = "groupBoxRelayFlags";
-            this.groupBoxRelayFlags.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxRelayFlags.Size = new System.Drawing.Size(491, 112);
-            this.groupBoxRelayFlags.TabIndex = 109;
-            this.groupBoxRelayFlags.TabStop = false;
-            this.groupBoxRelayFlags.Text = "Relay Flags:";
-            // 
-            // labelQuietMode
-            // 
-            this.labelQuietMode.AutoSize = true;
-            this.labelQuietMode.BackColor = System.Drawing.Color.Yellow;
-            this.labelQuietMode.Location = new System.Drawing.Point(216, 91);
-            this.labelQuietMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelQuietMode.Name = "labelQuietMode";
-            this.labelQuietMode.Size = new System.Drawing.Size(71, 15);
-            this.labelQuietMode.TabIndex = 52;
-            this.labelQuietMode.Text = "Quiet Mode";
-            this.labelQuietMode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.labelQuietMode_MouseDown);
-            // 
-            // checkBoxOffsetOkay
-            // 
-            this.checkBoxOffsetOkay.AutoCheck = false;
-            this.checkBoxOffsetOkay.AutoSize = true;
-            this.checkBoxOffsetOkay.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxOffsetOkay.Location = new System.Drawing.Point(7, 22);
-            this.checkBoxOffsetOkay.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxOffsetOkay.Name = "checkBoxOffsetOkay";
-            this.checkBoxOffsetOkay.Size = new System.Drawing.Size(87, 19);
-            this.checkBoxOffsetOkay.TabIndex = 37;
-            this.checkBoxOffsetOkay.Text = "Offset Okay";
-            this.checkBoxOffsetOkay.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxCalibrating
-            // 
-            this.checkBoxCalibrating.AutoCheck = false;
-            this.checkBoxCalibrating.AutoSize = true;
-            this.checkBoxCalibrating.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxCalibrating.Location = new System.Drawing.Point(123, 69);
-            this.checkBoxCalibrating.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxCalibrating.Name = "checkBoxCalibrating";
-            this.checkBoxCalibrating.Size = new System.Drawing.Size(85, 19);
-            this.checkBoxCalibrating.TabIndex = 51;
-            this.checkBoxCalibrating.Text = "Calibrating";
-            this.checkBoxCalibrating.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxMathOverTime
-            // 
-            this.checkBoxMathOverTime.AutoCheck = false;
-            this.checkBoxMathOverTime.AutoSize = true;
-            this.checkBoxMathOverTime.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxMathOverTime.Location = new System.Drawing.Point(332, 67);
-            this.checkBoxMathOverTime.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxMathOverTime.Name = "checkBoxMathOverTime";
-            this.checkBoxMathOverTime.Size = new System.Drawing.Size(113, 19);
-            this.checkBoxMathOverTime.TabIndex = 36;
-            this.checkBoxMathOverTime.Text = "Math Over Time";
-            this.checkBoxMathOverTime.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxBlockedCloseFlag
-            // 
-            this.checkBoxBlockedCloseFlag.AutoCheck = false;
-            this.checkBoxBlockedCloseFlag.AutoSize = true;
-            this.checkBoxBlockedCloseFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxBlockedCloseFlag.Location = new System.Drawing.Point(216, 44);
-            this.checkBoxBlockedCloseFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxBlockedCloseFlag.Name = "checkBoxBlockedCloseFlag";
-            this.checkBoxBlockedCloseFlag.Size = new System.Drawing.Size(104, 19);
-            this.checkBoxBlockedCloseFlag.TabIndex = 49;
-            this.checkBoxBlockedCloseFlag.Text = "Blocked Close";
-            this.checkBoxBlockedCloseFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxMathError
-            // 
-            this.checkBoxMathError.AutoCheck = false;
-            this.checkBoxMathError.AutoSize = true;
-            this.checkBoxMathError.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxMathError.Location = new System.Drawing.Point(332, 44);
-            this.checkBoxMathError.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxMathError.Name = "checkBoxMathError";
-            this.checkBoxMathError.Size = new System.Drawing.Size(84, 19);
-            this.checkBoxMathError.TabIndex = 39;
-            this.checkBoxMathError.Text = "Math Error";
-            this.checkBoxMathError.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxInInsensRegion
-            // 
-            this.checkBoxInInsensRegion.AutoCheck = false;
-            this.checkBoxInInsensRegion.AutoSize = true;
-            this.checkBoxInInsensRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInInsensRegion.Location = new System.Drawing.Point(307, 22);
-            this.checkBoxInInsensRegion.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxInInsensRegion.Name = "checkBoxInInsensRegion";
-            this.checkBoxInInsensRegion.Size = new System.Drawing.Size(139, 19);
-            this.checkBoxInInsensRegion.TabIndex = 47;
-            this.checkBoxInInsensRegion.Text = "In Insensitive Reigon";
-            this.checkBoxInInsensRegion.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxMonitorPhasors
-            // 
-            this.checkBoxMonitorPhasors.AutoCheck = false;
-            this.checkBoxMonitorPhasors.AutoSize = true;
-            this.checkBoxMonitorPhasors.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxMonitorPhasors.Location = new System.Drawing.Point(7, 45);
-            this.checkBoxMonitorPhasors.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxMonitorPhasors.Name = "checkBoxMonitorPhasors";
-            this.checkBoxMonitorPhasors.Size = new System.Drawing.Size(116, 19);
-            this.checkBoxMonitorPhasors.TabIndex = 40;
-            this.checkBoxMonitorPhasors.Text = "Monitor Phasors";
-            this.checkBoxMonitorPhasors.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFlag2
-            // 
-            this.checkBoxFlag2.AutoCheck = false;
-            this.checkBoxFlag2.AutoSize = true;
-            this.checkBoxFlag2.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxFlag2.Location = new System.Drawing.Point(123, 43);
-            this.checkBoxFlag2.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxFlag2.Name = "checkBoxFlag2";
-            this.checkBoxFlag2.Size = new System.Drawing.Size(57, 19);
-            this.checkBoxFlag2.TabIndex = 45;
-            this.checkBoxFlag2.Text = "Flag2";
-            this.checkBoxFlag2.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSequence
-            // 
-            this.checkBoxSequence.AutoCheck = false;
-            this.checkBoxSequence.AutoSize = true;
-            this.checkBoxSequence.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxSequence.Location = new System.Drawing.Point(7, 68);
-            this.checkBoxSequence.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxSequence.Name = "checkBoxSequence";
-            this.checkBoxSequence.Size = new System.Drawing.Size(82, 19);
-            this.checkBoxSequence.TabIndex = 42;
-            this.checkBoxSequence.Text = "Sequence";
-            this.checkBoxSequence.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxACB
-            // 
-            this.checkBoxACB.AutoCheck = false;
-            this.checkBoxACB.AutoSize = true;
-            this.checkBoxACB.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxACB.Location = new System.Drawing.Point(216, 22);
-            this.checkBoxACB.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxACB.Name = "checkBoxACB";
-            this.checkBoxACB.Size = new System.Drawing.Size(49, 19);
-            this.checkBoxACB.TabIndex = 43;
-            this.checkBoxACB.Text = "ACB";
-            this.checkBoxACB.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFlag1
-            // 
-            this.checkBoxFlag1.AutoCheck = false;
-            this.checkBoxFlag1.AutoSize = true;
-            this.checkBoxFlag1.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxFlag1.Location = new System.Drawing.Point(123, 20);
-            this.checkBoxFlag1.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxFlag1.Name = "checkBoxFlag1";
-            this.checkBoxFlag1.Size = new System.Drawing.Size(57, 19);
-            this.checkBoxFlag1.TabIndex = 44;
-            this.checkBoxFlag1.Text = "Flag1";
-            this.checkBoxFlag1.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxPowerSaveFlag
-            // 
-            this.checkBoxPowerSaveFlag.AutoCheck = false;
-            this.checkBoxPowerSaveFlag.AutoSize = true;
-            this.checkBoxPowerSaveFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxPowerSaveFlag.Location = new System.Drawing.Point(216, 68);
-            this.checkBoxPowerSaveFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxPowerSaveFlag.Name = "checkBoxPowerSaveFlag";
-            this.checkBoxPowerSaveFlag.Size = new System.Drawing.Size(91, 19);
-            this.checkBoxPowerSaveFlag.TabIndex = 45;
-            this.checkBoxPowerSaveFlag.Text = "Power Save";
-            this.checkBoxPowerSaveFlag.UseVisualStyleBackColor = true;
-            // 
-            // panelOtherRelayControls
-            // 
-            this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
-            this.panelOtherRelayControls.Controls.Add(this.ucRemoteCommandBlock1);
-            this.panelOtherRelayControls.Controls.Add(this.ucBlockControl1);
-            this.panelOtherRelayControls.Controls.Add(this.labelBootRevision);
-            this.panelOtherRelayControls.Controls.Add(this.buttonClearCycleCount);
-            this.panelOtherRelayControls.Controls.Add(this.buttonBlockAndTrip);
-            this.panelOtherRelayControls.Controls.Add(this.buttonRequestRelayParamaters);
-            this.panelOtherRelayControls.Controls.Add(this.labelRelaySNControl);
-            this.panelOtherRelayControls.Controls.Add(this.textBoxRelaySNControl);
-            this.panelOtherRelayControls.Controls.Add(this.labelRevision);
-            this.panelOtherRelayControls.Controls.Add(this.labelFPGARevision);
-            this.panelOtherRelayControls.Controls.Add(this.labelRelayRevision);
-            this.panelOtherRelayControls.Controls.Add(this.buttonResetBothProc);
-            this.panelOtherRelayControls.Controls.Add(this.labelRelayStateControlPage);
-            this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
-            this.panelOtherRelayControls.Controls.Add(this.textBoxSaveStateName);
-            this.panelOtherRelayControls.Controls.Add(this.buttonTripRelay);
-            this.panelOtherRelayControls.Controls.Add(this.labelRelayDisconnected);
-            this.panelOtherRelayControls.Controls.Add(this.comboBoxSavedStates);
-            this.panelOtherRelayControls.Controls.Add(this.buttonSaveSetting);
-            this.panelOtherRelayControls.Controls.Add(this.buttonDeleteSetting);
-            this.panelOtherRelayControls.Location = new System.Drawing.Point(522, 289);
-            this.panelOtherRelayControls.Margin = new System.Windows.Forms.Padding(4);
-            this.panelOtherRelayControls.Name = "panelOtherRelayControls";
-            this.panelOtherRelayControls.Size = new System.Drawing.Size(620, 241);
-            this.panelOtherRelayControls.TabIndex = 77;
-            // 
-            // labelBootRevision
-            // 
-            this.labelBootRevision.AutoSize = true;
-            this.labelBootRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelBootRevision.Location = new System.Drawing.Point(4, 186);
-            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelBootRevision.Name = "labelBootRevision";
-            this.labelBootRevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelBootRevision.Size = new System.Drawing.Size(4, 19);
-            this.labelBootRevision.TabIndex = 77;
-            this.labelBootRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelBootRevision.Visible = false;
-            // 
-            // buttonClearCycleCount
-            // 
-            this.buttonClearCycleCount.Location = new System.Drawing.Point(4, 4);
-            this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonClearCycleCount.Name = "buttonClearCycleCount";
-            this.buttonClearCycleCount.Size = new System.Drawing.Size(130, 26);
-            this.buttonClearCycleCount.TabIndex = 62;
-            this.buttonClearCycleCount.Text = "Clear Cycle Count";
-            this.buttonClearCycleCount.UseVisualStyleBackColor = true;
-            this.buttonClearCycleCount.Click += new System.EventHandler(this.buttonClearCycleCount_Click);
-            // 
-            // buttonBlockAndTrip
-            // 
-            this.buttonBlockAndTrip.Location = new System.Drawing.Point(305, 81);
-            this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
-            this.buttonBlockAndTrip.Size = new System.Drawing.Size(141, 26);
-            this.buttonBlockAndTrip.TabIndex = 76;
-            this.buttonBlockAndTrip.Text = "Block and Trip Relay";
-            this.buttonBlockAndTrip.UseVisualStyleBackColor = true;
-            this.buttonBlockAndTrip.Click += new System.EventHandler(this.buttonBlockAndTrip_Click);
-            // 
-            // buttonRequestRelayParamaters
-            // 
-            this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(290, 185);
-            this.buttonRequestRelayParamaters.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
-            this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(164, 49);
-            this.buttonRequestRelayParamaters.TabIndex = 33;
-            this.buttonRequestRelayParamaters.Text = "Request Relay Parameters";
-            this.buttonRequestRelayParamaters.UseVisualStyleBackColor = true;
-            this.buttonRequestRelayParamaters.Click += new System.EventHandler(this.buttonRequestRelayParamaters_Click);
-            // 
-            // labelRelaySNControl
-            // 
-            this.labelRelaySNControl.AutoSize = true;
-            this.labelRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelaySNControl.Location = new System.Drawing.Point(140, 9);
-            this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelRelaySNControl.Name = "labelRelaySNControl";
-            this.labelRelaySNControl.Size = new System.Drawing.Size(60, 13);
-            this.labelRelaySNControl.TabIndex = 74;
-            this.labelRelaySNControl.Text = "Relay S/N:";
-            // 
-            // textBoxRelaySNControl
-            // 
-            this.textBoxRelaySNControl.Location = new System.Drawing.Point(217, 6);
-            this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxRelaySNControl.MaxLength = 5;
-            this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
-            this.textBoxRelaySNControl.ReadOnly = true;
-            this.textBoxRelaySNControl.Size = new System.Drawing.Size(101, 21);
-            this.textBoxRelaySNControl.TabIndex = 73;
-            this.textBoxRelaySNControl.Tag = "SN";
-            // 
-            // labelRevision
-            // 
-            this.labelRevision.AutoSize = true;
-            this.labelRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRevision.Location = new System.Drawing.Point(4, 99);
-            this.labelRevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRevision.Name = "labelRevision";
-            this.labelRevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRevision.Size = new System.Drawing.Size(4, 19);
-            this.labelRevision.TabIndex = 54;
-            this.labelRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelFPGARevision
-            // 
-            this.labelFPGARevision.AutoSize = true;
-            this.labelFPGARevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelFPGARevision.Location = new System.Drawing.Point(4, 157);
-            this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelFPGARevision.Name = "labelFPGARevision";
-            this.labelFPGARevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelFPGARevision.Size = new System.Drawing.Size(4, 19);
-            this.labelFPGARevision.TabIndex = 72;
-            this.labelFPGARevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelRelayRevision
-            // 
-            this.labelRelayRevision.AutoSize = true;
-            this.labelRelayRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRelayRevision.Location = new System.Drawing.Point(4, 127);
-            this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRelayRevision.Name = "labelRelayRevision";
-            this.labelRelayRevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayRevision.Size = new System.Drawing.Size(4, 19);
-            this.labelRelayRevision.TabIndex = 55;
-            this.labelRelayRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buttonResetBothProc
-            // 
-            this.buttonResetBothProc.Location = new System.Drawing.Point(305, 111);
-            this.buttonResetBothProc.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonResetBothProc.Name = "buttonResetBothProc";
-            this.buttonResetBothProc.Size = new System.Drawing.Size(141, 26);
-            this.buttonResetBothProc.TabIndex = 71;
-            this.buttonResetBothProc.Text = "Reset Relay";
-            this.buttonResetBothProc.UseVisualStyleBackColor = true;
-            this.buttonResetBothProc.Click += new System.EventHandler(this.buttonResetBothProc_Click);
-            // 
-            // labelRelayStateControlPage
-            // 
-            this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelRelayStateControlPage.Location = new System.Drawing.Point(325, 6);
-            this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
-            this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayStateControlPage.Size = new System.Drawing.Size(130, 32);
-            this.labelRelayStateControlPage.TabIndex = 63;
-            this.labelRelayStateControlPage.Text = "Unkown";
-            this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buttonSendAll
-            // 
-            this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.buttonSendAll.Location = new System.Drawing.Point(458, 186);
-            this.buttonSendAll.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonSendAll.Name = "buttonSendAll";
-            this.buttonSendAll.Size = new System.Drawing.Size(147, 49);
-            this.buttonSendAll.TabIndex = 70;
-            this.buttonSendAll.Text = "Send All Relay Parameters";
-            this.buttonSendAll.UseVisualStyleBackColor = true;
-            this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
-            // 
-            // textBoxSaveStateName
-            // 
-            this.textBoxSaveStateName.Location = new System.Drawing.Point(4, 69);
-            this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxSaveStateName.Name = "textBoxSaveStateName";
-            this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 21);
-            this.textBoxSaveStateName.TabIndex = 69;
-            // 
-            // buttonTripRelay
-            // 
-            this.buttonTripRelay.Location = new System.Drawing.Point(305, 51);
-            this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonTripRelay.Name = "buttonTripRelay";
-            this.buttonTripRelay.Size = new System.Drawing.Size(141, 26);
-            this.buttonTripRelay.TabIndex = 65;
-            this.buttonTripRelay.Text = "Trip Relay";
-            this.buttonTripRelay.UseVisualStyleBackColor = true;
-            this.buttonTripRelay.Click += new System.EventHandler(this.buttonTripRelay_Click);
-            // 
-            // labelRelayDisconnected
-            // 
-            this.labelRelayDisconnected.AutoSize = true;
-            this.labelRelayDisconnected.BackColor = System.Drawing.Color.Red;
-            this.labelRelayDisconnected.Location = new System.Drawing.Point(455, 167);
-            this.labelRelayDisconnected.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelRelayDisconnected.Name = "labelRelayDisconnected";
-            this.labelRelayDisconnected.Size = new System.Drawing.Size(116, 15);
-            this.labelRelayDisconnected.TabIndex = 49;
-            this.labelRelayDisconnected.Text = "Relay Disconnected";
-            this.labelRelayDisconnected.Visible = false;
-            // 
-            // comboBoxSavedStates
-            // 
-            this.comboBoxSavedStates.FormattingEnabled = true;
-            this.comboBoxSavedStates.Location = new System.Drawing.Point(4, 37);
-            this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBoxSavedStates.Name = "comboBoxSavedStates";
-            this.comboBoxSavedStates.Size = new System.Drawing.Size(140, 23);
-            this.comboBoxSavedStates.TabIndex = 66;
-            this.comboBoxSavedStates.DropDown += new System.EventHandler(this.comboBoxSavedStates_DropDown);
-            this.comboBoxSavedStates.SelectedIndexChanged += new System.EventHandler(this.comboBoxSavedStates_SelectedIndexChanged);
-            this.comboBoxSavedStates.DropDownClosed += new System.EventHandler(this.comboBoxSavedStates_DropDownClosed);
-            // 
-            // buttonSaveSetting
-            // 
-            this.buttonSaveSetting.Location = new System.Drawing.Point(151, 67);
-            this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonSaveSetting.Name = "buttonSaveSetting";
-            this.buttonSaveSetting.Size = new System.Drawing.Size(109, 26);
-            this.buttonSaveSetting.TabIndex = 68;
-            this.buttonSaveSetting.Text = "Save Settings";
-            this.buttonSaveSetting.UseVisualStyleBackColor = true;
-            this.buttonSaveSetting.Click += new System.EventHandler(this.buttonSaveSetting_Click);
-            // 
-            // buttonDeleteSetting
-            // 
-            this.buttonDeleteSetting.Location = new System.Drawing.Point(151, 36);
-            this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonDeleteSetting.Name = "buttonDeleteSetting";
-            this.buttonDeleteSetting.Size = new System.Drawing.Size(109, 26);
-            this.buttonDeleteSetting.TabIndex = 67;
-            this.buttonDeleteSetting.Text = "Delete Setting";
-            this.buttonDeleteSetting.UseVisualStyleBackColor = true;
-            this.buttonDeleteSetting.Click += new System.EventHandler(this.buttonDeleteSetting_Click);
-            // 
-            // tabControlMain
-            // 
-            this.tabControlMain.Controls.Add(this.tabPageControl);
-            this.tabControlMain.Controls.Add(this.tabPageMonitor);
-            this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
-            this.tabControlMain.Controls.Add(this.tabPageEvents);
-            this.tabControlMain.Controls.Add(this.tabPageTransmitter);
-            this.tabControlMain.Controls.Add(this.tabPageTransmitterMonitoring);
-            this.tabControlMain.Controls.Add(this.tabPageDNP);
-            this.tabControlMain.Controls.Add(this.tabPageArcFault);
-            this.tabControlMain.Controls.Add(this.tabPageShortRange);
-            this.tabControlMain.Controls.Add(this.tabPageDNPData);
-            this.tabControlMain.Controls.Add(this.tabPageDNPSecureAuth);
-            this.tabControlMain.Location = new System.Drawing.Point(0, 39);
-            this.tabControlMain.Margin = new System.Windows.Forms.Padding(4);
-            this.tabControlMain.Name = "tabControlMain";
-            this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1457, 938);
-            this.tabControlMain.TabIndex = 36;
-            this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
-            // 
-            // tabPageDNP
-            // 
-            this.tabPageDNP.Controls.Add(this.buttonResetRelay2);
-            this.tabPageDNP.Controls.Add(this.ucDNP1);
-            this.tabPageDNP.Location = new System.Drawing.Point(4, 24);
-            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageDNP.Name = "tabPageDNP";
-            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageDNP.TabIndex = 9;
-            this.tabPageDNP.Text = "DNP";
-            this.tabPageDNP.UseVisualStyleBackColor = true;
-            // 
-            // buttonResetRelay2
-            // 
-            this.buttonResetRelay2.Enabled = false;
-            this.buttonResetRelay2.Location = new System.Drawing.Point(70, 479);
-            this.buttonResetRelay2.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonResetRelay2.Name = "buttonResetRelay2";
-            this.buttonResetRelay2.Size = new System.Drawing.Size(88, 26);
-            this.buttonResetRelay2.TabIndex = 1;
-            this.buttonResetRelay2.Text = "Reset Relay";
-            this.buttonResetRelay2.UseVisualStyleBackColor = true;
-            this.buttonResetRelay2.Visible = false;
-            this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
-            // 
-            // tabPageArcFault
-            // 
-            this.tabPageArcFault.Controls.Add(this.buttonArcFaultStartMonitoring);
-            this.tabPageArcFault.Controls.Add(this.ucArcFault1);
-            this.tabPageArcFault.Location = new System.Drawing.Point(4, 24);
-            this.tabPageArcFault.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageArcFault.Name = "tabPageArcFault";
-            this.tabPageArcFault.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageArcFault.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageArcFault.TabIndex = 10;
-            this.tabPageArcFault.Text = "Arc Fault";
-            this.tabPageArcFault.UseVisualStyleBackColor = true;
-            // 
-            // buttonArcFaultStartMonitoring
-            // 
-            this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(419, 455);
-            this.buttonArcFaultStartMonitoring.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonArcFaultStartMonitoring.Name = "buttonArcFaultStartMonitoring";
-            this.buttonArcFaultStartMonitoring.Size = new System.Drawing.Size(137, 26);
-            this.buttonArcFaultStartMonitoring.TabIndex = 4;
-            this.buttonArcFaultStartMonitoring.Text = "Start Monitoring";
-            this.buttonArcFaultStartMonitoring.UseVisualStyleBackColor = true;
-            this.buttonArcFaultStartMonitoring.Click += new System.EventHandler(this.buttonArcFaultStartMonitoring_Click);
-            // 
-            // tabPageShortRange
-            // 
-            this.tabPageShortRange.Controls.Add(this.ucShortRange1);
-            this.tabPageShortRange.Location = new System.Drawing.Point(4, 24);
-            this.tabPageShortRange.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageShortRange.Name = "tabPageShortRange";
-            this.tabPageShortRange.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageShortRange.TabIndex = 11;
-            this.tabPageShortRange.Text = "Sec Mon";
-            this.tabPageShortRange.UseVisualStyleBackColor = true;
-            // 
-            // tabPageDNPData
-            // 
-            this.tabPageDNPData.Controls.Add(this.buttonRequestDNPData);
-            this.tabPageDNPData.Location = new System.Drawing.Point(4, 24);
-            this.tabPageDNPData.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPData.Name = "tabPageDNPData";
-            this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPData.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageDNPData.TabIndex = 12;
-            this.tabPageDNPData.Text = "DNP Data";
-            this.tabPageDNPData.UseVisualStyleBackColor = true;
-            // 
-            // buttonRequestDNPData
-            // 
-            this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
-            this.buttonRequestDNPData.Location = new System.Drawing.Point(1002, 690);
-            this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRequestDNPData.Name = "buttonRequestDNPData";
-            this.buttonRequestDNPData.Size = new System.Drawing.Size(144, 26);
-            this.buttonRequestDNPData.TabIndex = 1;
-            this.buttonRequestDNPData.Text = "Request DNP Data";
-            this.buttonRequestDNPData.UseVisualStyleBackColor = false;
-            this.buttonRequestDNPData.Click += new System.EventHandler(this.buttonRequestDNPData_Click);
-            // 
-            // tabPageDNPSecureAuth
-            // 
-            this.tabPageDNPSecureAuth.Controls.Add(this.ucDNPSAv51);
-            this.tabPageDNPSecureAuth.Location = new System.Drawing.Point(4, 24);
-            this.tabPageDNPSecureAuth.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
-            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageDNPSecureAuth.TabIndex = 13;
-            this.tabPageDNPSecureAuth.Text = "DNP SAv5";
-            this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
-            // 
-            // tabPageEngineering2
-            // 
-            this.tabPageEngineering2.Controls.Add(this.commTradeConverter1);
-            this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
-            this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
-            this.tabPageEngineering2.Controls.Add(this.buttonTest);
-            this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
-            this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
-            this.tabPageEngineering2.Name = "tabPageEngineering2";
-            this.tabPageEngineering2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEngineering2.Size = new System.Drawing.Size(991, 624);
-            this.tabPageEngineering2.TabIndex = 14;
-            this.tabPageEngineering2.Text = "Engineer 2";
-            this.tabPageEngineering2.UseVisualStyleBackColor = true;
-            // 
-            // labelKioskReceived
-            // 
-            this.labelKioskReceived.AutoSize = true;
-            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
-            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
-            this.labelKioskReceived.Name = "labelKioskReceived";
-            this.labelKioskReceived.Size = new System.Drawing.Size(176, 16);
-            this.labelKioskReceived.TabIndex = 3;
-            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
-            // 
-            // checkBoxSerialCommsDebugging
-            // 
-            this.checkBoxSerialCommsDebugging.AutoSize = true;
-            this.checkBoxSerialCommsDebugging.Checked = true;
-            this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
-            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
-            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(226, 20);
-            this.checkBoxSerialCommsDebugging.TabIndex = 2;
-            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
-            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
-            // 
-            // buttonTest
-            // 
-            this.buttonTest.Location = new System.Drawing.Point(293, 15);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(86, 58);
-            this.buttonTest.TabIndex = 1;
-            this.buttonTest.Text = "Send Test Command";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
-            // 
-            // timerResponseTimeOut
-            // 
-            this.timerResponseTimeOut.Interval = 5000;
-            this.timerResponseTimeOut.Tick += new System.EventHandler(this.timerResponseTimeOut_Tick);
-            // 
-            // timerScreenCapDelay
-            // 
-            this.timerScreenCapDelay.Tick += new System.EventHandler(this.timerScreenCapDelay_Tick);
-            // 
-            // timerFindRelayTimeout
-            // 
-            this.timerFindRelayTimeout.Interval = 500;
-            // 
-            // ucSafeService1
-            // 
-            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
-            this.ucSafeService1.CTRatio = 320;
-            this.ucSafeService1.LoadingNewCode = false;
-            this.ucSafeService1.Location = new System.Drawing.Point(857, 5);
-            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(270, 289);
-            this.ucSafeService1.TabIndex = 108;
-            // 
-            // ucRemoteCommandBlock1
-            // 
-            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ucRemoteCommandBlock1.CommandsBlocked = false;
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(448, 81);
-            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
-            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(147, 80);
-            this.ucRemoteCommandBlock1.TabIndex = 80;
-            // 
-            // ucBlockControl1
-            // 
-            this.ucBlockControl1.Location = new System.Drawing.Point(454, 0);
-            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucBlockControl1.Name = "ucBlockControl1";
-            this.ucBlockControl1.RelayBlocked = false;
-            this.ucBlockControl1.Size = new System.Drawing.Size(122, 77);
-            this.ucBlockControl1.TabIndex = 79;
-            // 
-            // ucTripMode2
-            // 
-            this.ucTripMode2.AutoSize = true;
-            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
-            this.ucTripMode2.CTRatio = 320;
-            this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
-            this.ucTripMode2.Location = new System.Drawing.Point(-6, 0);
-            this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucTripMode2.Name = "ucTripMode2";
-            this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(366, 301);
-            this.ucTripMode2.TabIndex = 40;
-            this.ucTripMode2.VersionNumber = ((uint)(0u));
-            // 
-            // ucCloseMode1
-            // 
-            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
-            this.ucCloseMode1.Location = new System.Drawing.Point(368, 0);
-            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
-            this.ucCloseMode1.Name = "ucCloseMode1";
-            this.ucCloseMode1.RelaxClose = false;
-            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(333, 285);
-            this.ucCloseMode1.TabIndex = 26;
-            // 
-            // ucPumpMode1
-            // 
-            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Location = new System.Drawing.Point(218, 300);
-            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucPumpMode1.Name = "ucPumpMode1";
-            this.ucPumpMode1.PumpProtectEnabled = false;
-            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
-            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucPumpMode1.Size = new System.Drawing.Size(297, 311);
-            this.ucPumpMode1.TabIndex = 49;
-            // 
-            // ucCoverFlags1
-            // 
-            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCoverFlags1.Location = new System.Drawing.Point(379, 596);
-            this.ucCoverFlags1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCoverFlags1.Name = "ucCoverFlags1";
-            this.ucCoverFlags1.Size = new System.Drawing.Size(251, 128);
-            this.ucCoverFlags1.TabIndex = 119;
-            // 
-            // ucPhasorGraph1
-            // 
-            this.ucPhasorGraph1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
-            this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucPhasorGraph1.Name = "ucPhasorGraph1";
-            this.ucPhasorGraph1.RealTimeMonitoring = false;
-            this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
-            this.ucPhasorGraph1.Size = new System.Drawing.Size(1158, 660);
-            this.ucPhasorGraph1.TabIndex = 45;
-            // 
-            // ucLiveData1
-            // 
-            this.ucLiveData1.CTRatio = 320;
-            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucLiveData1.GEEnabled = false;
-            this.ucLiveData1.Location = new System.Drawing.Point(0, 25);
-            this.ucLiveData1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucLiveData1.Name = "ucLiveData1";
-            this.ucLiveData1.Size = new System.Drawing.Size(1156, 695);
-            this.ucLiveData1.TabIndex = 0;
             // 
             // ucEventGraph7
             // 
@@ -2482,6 +1221,79 @@
             this.ucEventGraph0.TabIndex = 0;
             this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
             // 
+            // buttonReqLiveData
+            // 
+            this.buttonReqLiveData.Location = new System.Drawing.Point(991, 0);
+            this.buttonReqLiveData.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonReqLiveData.Name = "buttonReqLiveData";
+            this.buttonReqLiveData.Size = new System.Drawing.Size(155, 24);
+            this.buttonReqLiveData.TabIndex = 0;
+            this.buttonReqLiveData.Text = "Request LIVE Data";
+            this.buttonReqLiveData.UseVisualStyleBackColor = true;
+            this.buttonReqLiveData.Click += new System.EventHandler(this.buttonReqLiveData_Click);
+            // 
+            // tabPageFlightRecorder
+            // 
+            this.tabPageFlightRecorder.Controls.Add(this.buttonReqLiveData);
+            this.tabPageFlightRecorder.Controls.Add(this.labelLiveDataTriggerTime);
+            this.tabPageFlightRecorder.Controls.Add(this.ucLiveData1);
+            this.tabPageFlightRecorder.Location = new System.Drawing.Point(4, 27);
+            this.tabPageFlightRecorder.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageFlightRecorder.Name = "tabPageFlightRecorder";
+            this.tabPageFlightRecorder.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageFlightRecorder.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageFlightRecorder.TabIndex = 5;
+            this.tabPageFlightRecorder.Text = "Live Data";
+            this.tabPageFlightRecorder.UseVisualStyleBackColor = true;
+            // 
+            // labelLiveDataTriggerTime
+            // 
+            this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.labelLiveDataTriggerTime.AutoSize = true;
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-7809, 7);
+            this.labelLiveDataTriggerTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
+            this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 18);
+            this.labelLiveDataTriggerTime.TabIndex = 1;
+            this.labelLiveDataTriggerTime.Resize += new System.EventHandler(this.labelLiveEventTriggerTime_Resize);
+            // 
+            // ucLiveData1
+            // 
+            this.ucLiveData1.CTRatio = 320;
+            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucLiveData1.GEEnabled = false;
+            this.ucLiveData1.Location = new System.Drawing.Point(0, 25);
+            this.ucLiveData1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucLiveData1.Name = "ucLiveData1";
+            this.ucLiveData1.Size = new System.Drawing.Size(1156, 695);
+            this.ucLiveData1.TabIndex = 0;
+            // 
+            // tabPageTransmitter
+            // 
+            this.tabPageTransmitter.Controls.Add(this.labelRelayDisconnected3);
+            this.tabPageTransmitter.Controls.Add(this.ucTransmitter1);
+            this.tabPageTransmitter.Location = new System.Drawing.Point(4, 27);
+            this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageTransmitter.Name = "tabPageTransmitter";
+            this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageTransmitter.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageTransmitter.TabIndex = 2;
+            this.tabPageTransmitter.Text = "Transmitter Settings";
+            this.tabPageTransmitter.UseVisualStyleBackColor = true;
+            // 
+            // labelRelayDisconnected3
+            // 
+            this.labelRelayDisconnected3.AutoSize = true;
+            this.labelRelayDisconnected3.BackColor = System.Drawing.Color.Red;
+            this.labelRelayDisconnected3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelayDisconnected3.Location = new System.Drawing.Point(232, 579);
+            this.labelRelayDisconnected3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelRelayDisconnected3.Name = "labelRelayDisconnected3";
+            this.labelRelayDisconnected3.Size = new System.Drawing.Size(185, 25);
+            this.labelRelayDisconnected3.TabIndex = 70;
+            this.labelRelayDisconnected3.Text = "Relay Disconnected";
+            this.labelRelayDisconnected3.Visible = false;
+            // 
             // ucTransmitter1
             // 
             this.ucTransmitter1.CTRatio = ((uint)(320u));
@@ -2500,25 +1312,1230 @@
             this.ucTransmitter1.TabIndex = 0;
             this.ucTransmitter1.WaterBugNoTransmitter = false;
             // 
-            // ucTransmitterMonitoring1
+            // tabPageMonitor
             // 
-            this.ucTransmitterMonitoring1.CTMult = "";
-            this.ucTransmitterMonitoring1.CTRatio = 320;
-            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
-            this.ucTransmitterMonitoring1.GEEnabled = false;
-            this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
-            this.ucTransmitterMonitoring1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
-            this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(1144, 664);
-            this.ucTransmitterMonitoring1.TabIndex = 86;
-            this.ucTransmitterMonitoring1.TimeElapsedHours = "";
-            this.ucTransmitterMonitoring1.TimeElapsedMinutes = "";
-            this.ucTransmitterMonitoring1.TimeElapsedSeconds = "";
-            this.ucTransmitterMonitoring1.TransmitterID = "";
-            this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
-            this.ucTransmitterMonitoring1.TransmitterSN = "";
-            this.ucTransmitterMonitoring1.WaterBugActive = false;
+            this.tabPageMonitor.Controls.Add(this.labelSNPQMonitor);
+            this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
+            this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
+            this.tabPageMonitor.Controls.Add(this.checkBoxInTripRegion);
+            this.tabPageMonitor.Controls.Add(this.buttonUpdateCTRatio);
+            this.tabPageMonitor.Controls.Add(this.labelRelayTrippedOrClose);
+            this.tabPageMonitor.Controls.Add(this.buttonToggleMonitor);
+            this.tabPageMonitor.Controls.Add(this.labelCtRatioMonitor);
+            this.tabPageMonitor.Controls.Add(this.ucPhasorGraph1);
+            this.tabPageMonitor.Location = new System.Drawing.Point(4, 27);
+            this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageMonitor.Name = "tabPageMonitor";
+            this.tabPageMonitor.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageMonitor.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageMonitor.TabIndex = 1;
+            this.tabPageMonitor.Text = "PQ Monitor";
+            this.tabPageMonitor.UseVisualStyleBackColor = true;
+            // 
+            // labelSNPQMonitor
+            // 
+            this.labelSNPQMonitor.AutoSize = true;
+            this.labelSNPQMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(183, 670);
+            this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelSNPQMonitor.Name = "labelSNPQMonitor";
+            this.labelSNPQMonitor.Size = new System.Drawing.Size(72, 16);
+            this.labelSNPQMonitor.TabIndex = 76;
+            this.labelSNPQMonitor.Text = "Relay S/N:";
+            // 
+            // textBoxRelaySNControlPQ
+            // 
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(260, 667);
+            this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxRelaySNControlPQ.MaxLength = 5;
+            this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
+            this.textBoxRelaySNControlPQ.ReadOnly = true;
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(85, 24);
+            this.textBoxRelaySNControlPQ.TabIndex = 75;
+            this.textBoxRelaySNControlPQ.Tag = "SN";
+            // 
+            // textBoxCTRatioPQMonitor
+            // 
+            this.textBoxCTRatioPQMonitor.Enabled = false;
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(417, 667);
+            this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
+            this.textBoxCTRatioPQMonitor.ReadOnly = true;
+            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(56, 24);
+            this.textBoxCTRatioPQMonitor.TabIndex = 65;
+            this.textBoxCTRatioPQMonitor.Text = "320";
+            // 
+            // checkBoxInTripRegion
+            // 
+            this.checkBoxInTripRegion.AutoCheck = false;
+            this.checkBoxInTripRegion.AutoSize = true;
+            this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxInTripRegion.Location = new System.Drawing.Point(1040, 666);
+            this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
+            this.checkBoxInTripRegion.Size = new System.Drawing.Size(121, 22);
+            this.checkBoxInTripRegion.TabIndex = 49;
+            this.checkBoxInTripRegion.Text = "In Trip Region";
+            this.checkBoxInTripRegion.UseVisualStyleBackColor = true;
+            // 
+            // buttonUpdateCTRatio
+            // 
+            this.buttonUpdateCTRatio.Location = new System.Drawing.Point(794, 689);
+            this.buttonUpdateCTRatio.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUpdateCTRatio.Name = "buttonUpdateCTRatio";
+            this.buttonUpdateCTRatio.Size = new System.Drawing.Size(116, 26);
+            this.buttonUpdateCTRatio.TabIndex = 44;
+            this.buttonUpdateCTRatio.Text = "Update CT Ratio";
+            this.buttonUpdateCTRatio.UseVisualStyleBackColor = true;
+            this.buttonUpdateCTRatio.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // labelRelayTrippedOrClose
+            // 
+            this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(490, 659);
+            this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
+            this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(116, 30);
+            this.labelRelayTrippedOrClose.TabIndex = 36;
+            this.labelRelayTrippedOrClose.Text = "Unkown";
+            this.labelRelayTrippedOrClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonToggleMonitor
+            // 
+            this.buttonToggleMonitor.Location = new System.Drawing.Point(496, 691);
+            this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonToggleMonitor.Name = "buttonToggleMonitor";
+            this.buttonToggleMonitor.Size = new System.Drawing.Size(106, 26);
+            this.buttonToggleMonitor.TabIndex = 35;
+            this.buttonToggleMonitor.Text = "Toggle Monitor";
+            this.buttonToggleMonitor.UseVisualStyleBackColor = true;
+            this.buttonToggleMonitor.Click += new System.EventHandler(this.buttonToggleMonitor_Click);
+            // 
+            // labelCtRatioMonitor
+            // 
+            this.labelCtRatioMonitor.AutoSize = true;
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(357, 671);
+            this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
+            this.labelCtRatioMonitor.Size = new System.Drawing.Size(71, 18);
+            this.labelCtRatioMonitor.TabIndex = 31;
+            this.labelCtRatioMonitor.Text = "CT Ratio:";
+            // 
+            // ucPhasorGraph1
+            // 
+            this.ucPhasorGraph1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
+            this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucPhasorGraph1.Name = "ucPhasorGraph1";
+            this.ucPhasorGraph1.RealTimeMonitoring = false;
+            this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
+            this.ucPhasorGraph1.Size = new System.Drawing.Size(1158, 660);
+            this.ucPhasorGraph1.TabIndex = 45;
+            // 
+            // textBoxTemperatureMonitoringPage
+            // 
+            this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
+            this.textBoxTemperatureMonitoringPage.Name = "textBoxTemperatureMonitoringPage";
+            this.textBoxTemperatureMonitoringPage.ReadOnly = true;
+            this.textBoxTemperatureMonitoringPage.Size = new System.Drawing.Size(56, 22);
+            this.textBoxTemperatureMonitoringPage.TabIndex = 47;
+            this.textBoxTemperatureMonitoringPage.TabStop = false;
+            // 
+            // labelTemperatureMonitoringPage
+            // 
+            this.labelTemperatureMonitoringPage.AutoSize = true;
+            this.labelTemperatureMonitoringPage.Location = new System.Drawing.Point(3, 581);
+            this.labelTemperatureMonitoringPage.Name = "labelTemperatureMonitoringPage";
+            this.labelTemperatureMonitoringPage.Size = new System.Drawing.Size(86, 13);
+            this.labelTemperatureMonitoringPage.TabIndex = 46;
+            this.labelTemperatureMonitoringPage.Text = "Temperature (C):";
+            // 
+            // tabPageControl
+            // 
+            this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageControl.Controls.Add(this.button_dataStore);
+            this.tabPageControl.Controls.Add(this.pictureBox_SendAll);
+            this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
+            this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
+            this.tabPageControl.Controls.Add(this.groupBoxRelayStatus);
+            this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
+            this.tabPageControl.Controls.Add(this.groupBoxNetworkCTRatio);
+            this.tabPageControl.Controls.Add(this.groupBoxRelayFlags);
+            this.tabPageControl.Controls.Add(this.ucSafeService1);
+            this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
+            this.tabPageControl.Controls.Add(this.ucTripMode2);
+            this.tabPageControl.Controls.Add(this.ucCloseMode1);
+            this.tabPageControl.Controls.Add(this.ucPumpMode1);
+            this.tabPageControl.Controls.Add(this.ucCoverFlags1);
+            this.tabPageControl.Location = new System.Drawing.Point(4, 27);
+            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageControl.Name = "tabPageControl";
+            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageControl.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageControl.TabIndex = 0;
+            this.tabPageControl.Text = "Relay Settings";
+            // 
+            // button_dataStore
+            // 
+            this.button_dataStore.Location = new System.Drawing.Point(994, 567);
+            this.button_dataStore.Name = "button_dataStore";
+            this.button_dataStore.Size = new System.Drawing.Size(133, 23);
+            this.button_dataStore.TabIndex = 121;
+            this.button_dataStore.Text = "Temp_Data_Store";
+            this.button_dataStore.UseVisualStyleBackColor = true;
+            this.button_dataStore.Click += new System.EventHandler(this.button_dataStore_Click);
+            // 
+            // pictureBox_SendAll
+            // 
+            this.pictureBox_SendAll.Enabled = false;
+            this.pictureBox_SendAll.Image = global::RelayControl.Properties.Resources.Throbber_SendAll;
+            this.pictureBox_SendAll.InitialImage = global::RelayControl.Properties.Resources.Throbber_SendAll1;
+            this.pictureBox_SendAll.Location = new System.Drawing.Point(469, 624);
+            this.pictureBox_SendAll.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox_SendAll.Name = "pictureBox_SendAll";
+            this.pictureBox_SendAll.Size = new System.Drawing.Size(133, 118);
+            this.pictureBox_SendAll.TabIndex = 120;
+            this.pictureBox_SendAll.TabStop = false;
+            this.pictureBox_SendAll.UseWaitCursor = true;
+            this.pictureBox_SendAll.Visible = false;
+            // 
+            // groupBoxLRLockoutMain
+            // 
+            this.groupBoxLRLockoutMain.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxLRLockoutMain.Controls.Add(this.textBoxLRLockoutStatusMain);
+            this.groupBoxLRLockoutMain.Controls.Add(this.labelLRLockoutMain);
+            this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(522, 546);
+            this.groupBoxLRLockoutMain.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxLRLockoutMain.Name = "groupBoxLRLockoutMain";
+            this.groupBoxLRLockoutMain.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxLRLockoutMain.Size = new System.Drawing.Size(297, 56);
+            this.groupBoxLRLockoutMain.TabIndex = 118;
+            this.groupBoxLRLockoutMain.TabStop = false;
+            this.groupBoxLRLockoutMain.Text = "Remote Command Lockout";
+            this.groupBoxLRLockoutMain.Visible = false;
+            // 
+            // textBoxLRLockoutStatusMain
+            // 
+            this.textBoxLRLockoutStatusMain.Location = new System.Drawing.Point(144, 23);
+            this.textBoxLRLockoutStatusMain.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxLRLockoutStatusMain.Name = "textBoxLRLockoutStatusMain";
+            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(116, 24);
+            this.textBoxLRLockoutStatusMain.TabIndex = 1;
+            // 
+            // labelLRLockoutMain
+            // 
+            this.labelLRLockoutMain.AutoSize = true;
+            this.labelLRLockoutMain.Location = new System.Drawing.Point(15, 26);
+            this.labelLRLockoutMain.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelLRLockoutMain.Name = "labelLRLockoutMain";
+            this.labelLRLockoutMain.Size = new System.Drawing.Size(138, 18);
+            this.labelLRLockoutMain.TabIndex = 0;
+            this.labelLRLockoutMain.Text = "RC Lockout Status:";
+            // 
+            // groupBoxLowVoltThres
+            // 
+            this.groupBoxLowVoltThres.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxLowVoltThres.Controls.Add(this.buttonRequestLowVotlageThres);
+            this.groupBoxLowVoltThres.Controls.Add(this.numericUpDownLowVoltageThres);
+            this.groupBoxLowVoltThres.Controls.Add(this.buttonSendLowVoltageThres);
+            this.groupBoxLowVoltThres.Location = new System.Drawing.Point(13, 611);
+            this.groupBoxLowVoltThres.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxLowVoltThres.Name = "groupBoxLowVoltThres";
+            this.groupBoxLowVoltThres.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxLowVoltThres.Size = new System.Drawing.Size(386, 101);
+            this.groupBoxLowVoltThres.TabIndex = 117;
+            this.groupBoxLowVoltThres.TabStop = false;
+            this.groupBoxLowVoltThres.Text = "Low Voltage Threshold";
+            // 
+            // buttonRequestLowVotlageThres
+            // 
+            this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(293, 35);
+            this.buttonRequestLowVotlageThres.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRequestLowVotlageThres.Name = "buttonRequestLowVotlageThres";
+            this.buttonRequestLowVotlageThres.Size = new System.Drawing.Size(88, 26);
+            this.buttonRequestLowVotlageThres.TabIndex = 116;
+            this.buttonRequestLowVotlageThres.Text = "Request";
+            this.buttonRequestLowVotlageThres.UseVisualStyleBackColor = true;
+            this.buttonRequestLowVotlageThres.Click += new System.EventHandler(this.buttonRequestLowVotlageThres_Click);
+            // 
+            // numericUpDownLowVoltageThres
+            // 
+            this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(17, 38);
+            this.numericUpDownLowVoltageThres.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDownLowVoltageThres.Maximum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.numericUpDownLowVoltageThres.Minimum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.numericUpDownLowVoltageThres.Name = "numericUpDownLowVoltageThres";
+            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(140, 24);
+            this.numericUpDownLowVoltageThres.TabIndex = 114;
+            this.numericUpDownLowVoltageThres.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // buttonSendLowVoltageThres
+            // 
+            this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(186, 35);
+            this.buttonSendLowVoltageThres.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSendLowVoltageThres.Name = "buttonSendLowVoltageThres";
+            this.buttonSendLowVoltageThres.Size = new System.Drawing.Size(88, 26);
+            this.buttonSendLowVoltageThres.TabIndex = 113;
+            this.buttonSendLowVoltageThres.Text = "Send";
+            this.buttonSendLowVoltageThres.UseVisualStyleBackColor = true;
+            this.buttonSendLowVoltageThres.Click += new System.EventHandler(this.buttonSendLowVoltageThres_Click);
+            // 
+            // groupBoxRelayStatus
+            // 
+            this.groupBoxRelayStatus.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxRelayStatus.Controls.Add(this.labelNWPStatus);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxTripFlag);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxPhasingOkayFlag);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxPumping);
+            this.groupBoxRelayStatus.Controls.Add(this.textBoxTemperature);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxDefaultsUsed);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxBlockedOpenFlag);
+            this.groupBoxRelayStatus.Controls.Add(this.textBoxTripCount);
+            this.groupBoxRelayStatus.Controls.Add(labelTemperature);
+            this.groupBoxRelayStatus.Controls.Add(this.label4);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxBFlag);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxTrippingFlag);
+            this.groupBoxRelayStatus.Controls.Add(this.checkBoxFloatFlag);
+            this.groupBoxRelayStatus.Location = new System.Drawing.Point(699, 8);
+            this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
+            this.groupBoxRelayStatus.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxRelayStatus.Size = new System.Drawing.Size(154, 281);
+            this.groupBoxRelayStatus.TabIndex = 112;
+            this.groupBoxRelayStatus.TabStop = false;
+            this.groupBoxRelayStatus.Text = "Relay Status:";
+            // 
+            // labelNWPStatus
+            // 
+            this.labelNWPStatus.AutoSize = true;
+            this.labelNWPStatus.Location = new System.Drawing.Point(10, 205);
+            this.labelNWPStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelNWPStatus.Name = "labelNWPStatus";
+            this.labelNWPStatus.Size = new System.Drawing.Size(115, 18);
+            this.labelNWPStatus.TabIndex = 52;
+            this.labelNWPStatus.Text = "NWP: Unknown";
+            // 
+            // checkBoxTripFlag
+            // 
+            this.checkBoxTripFlag.AutoCheck = false;
+            this.checkBoxTripFlag.AutoSize = true;
+            this.checkBoxTripFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxTripFlag.Location = new System.Drawing.Point(10, 22);
+            this.checkBoxTripFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTripFlag.Name = "checkBoxTripFlag";
+            this.checkBoxTripFlag.Size = new System.Drawing.Size(79, 22);
+            this.checkBoxTripFlag.TabIndex = 0;
+            this.checkBoxTripFlag.Text = "Tripped";
+            this.checkBoxTripFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPhasingOkayFlag
+            // 
+            this.checkBoxPhasingOkayFlag.AutoCheck = false;
+            this.checkBoxPhasingOkayFlag.AutoSize = true;
+            this.checkBoxPhasingOkayFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxPhasingOkayFlag.Location = new System.Drawing.Point(10, 156);
+            this.checkBoxPhasingOkayFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxPhasingOkayFlag.Name = "checkBoxPhasingOkayFlag";
+            this.checkBoxPhasingOkayFlag.Size = new System.Drawing.Size(122, 22);
+            this.checkBoxPhasingOkayFlag.TabIndex = 50;
+            this.checkBoxPhasingOkayFlag.Text = "Phasing Okay";
+            this.checkBoxPhasingOkayFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPumping
+            // 
+            this.checkBoxPumping.AutoCheck = false;
+            this.checkBoxPumping.AutoSize = true;
+            this.checkBoxPumping.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxPumping.Location = new System.Drawing.Point(10, 180);
+            this.checkBoxPumping.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxPumping.Name = "checkBoxPumping";
+            this.checkBoxPumping.Size = new System.Drawing.Size(121, 22);
+            this.checkBoxPumping.TabIndex = 35;
+            this.checkBoxPumping.Text = "Pump Protect";
+            this.checkBoxPumping.UseVisualStyleBackColor = true;
+            // 
+            // textBoxTemperature
+            // 
+            this.textBoxTemperature.Location = new System.Drawing.Point(10, 250);
+            this.textBoxTemperature.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTemperature.Name = "textBoxTemperature";
+            this.textBoxTemperature.ReadOnly = true;
+            this.textBoxTemperature.Size = new System.Drawing.Size(56, 24);
+            this.textBoxTemperature.TabIndex = 51;
+            // 
+            // checkBoxDefaultsUsed
+            // 
+            this.checkBoxDefaultsUsed.AutoCheck = false;
+            this.checkBoxDefaultsUsed.AutoSize = true;
+            this.checkBoxDefaultsUsed.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxDefaultsUsed.Location = new System.Drawing.Point(10, 229);
+            this.checkBoxDefaultsUsed.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxDefaultsUsed.Name = "checkBoxDefaultsUsed";
+            this.checkBoxDefaultsUsed.Size = new System.Drawing.Size(123, 22);
+            this.checkBoxDefaultsUsed.TabIndex = 38;
+            this.checkBoxDefaultsUsed.Text = "Defaults Used";
+            this.checkBoxDefaultsUsed.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBlockedOpenFlag
+            // 
+            this.checkBoxBlockedOpenFlag.AutoCheck = false;
+            this.checkBoxBlockedOpenFlag.AutoSize = true;
+            this.checkBoxBlockedOpenFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxBlockedOpenFlag.Location = new System.Drawing.Point(10, 131);
+            this.checkBoxBlockedOpenFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxBlockedOpenFlag.Name = "checkBoxBlockedOpenFlag";
+            this.checkBoxBlockedOpenFlag.Size = new System.Drawing.Size(124, 22);
+            this.checkBoxBlockedOpenFlag.TabIndex = 48;
+            this.checkBoxBlockedOpenFlag.Text = "Blocked Open";
+            this.checkBoxBlockedOpenFlag.UseVisualStyleBackColor = true;
+            // 
+            // textBoxTripCount
+            // 
+            this.textBoxTripCount.Location = new System.Drawing.Point(10, 99);
+            this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTripCount.Name = "textBoxTripCount";
+            this.textBoxTripCount.ReadOnly = true;
+            this.textBoxTripCount.Size = new System.Drawing.Size(54, 24);
+            this.textBoxTripCount.TabIndex = 43;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(73, 103);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 18);
+            this.label4.TabIndex = 44;
+            this.label4.Text = "Trip Cycles";
+            // 
+            // checkBoxBFlag
+            // 
+            this.checkBoxBFlag.AutoCheck = false;
+            this.checkBoxBFlag.AutoSize = true;
+            this.checkBoxBFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxBFlag.Location = new System.Drawing.Point(10, 204);
+            this.checkBoxBFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxBFlag.Name = "checkBoxBFlag";
+            this.checkBoxBFlag.Size = new System.Drawing.Size(138, 22);
+            this.checkBoxBFlag.TabIndex = 46;
+            this.checkBoxBFlag.Text = "Protector Status";
+            this.checkBoxBFlag.UseVisualStyleBackColor = true;
+            this.checkBoxBFlag.Visible = false;
+            // 
+            // checkBoxTrippingFlag
+            // 
+            this.checkBoxTrippingFlag.AutoCheck = false;
+            this.checkBoxTrippingFlag.AutoSize = true;
+            this.checkBoxTrippingFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxTrippingFlag.Location = new System.Drawing.Point(10, 46);
+            this.checkBoxTrippingFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTrippingFlag.Name = "checkBoxTrippingFlag";
+            this.checkBoxTrippingFlag.Size = new System.Drawing.Size(82, 22);
+            this.checkBoxTrippingFlag.TabIndex = 46;
+            this.checkBoxTrippingFlag.Text = "Tripping";
+            this.checkBoxTrippingFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxFloatFlag
+            // 
+            this.checkBoxFloatFlag.AutoCheck = false;
+            this.checkBoxFloatFlag.AutoSize = true;
+            this.checkBoxFloatFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxFloatFlag.Location = new System.Drawing.Point(10, 73);
+            this.checkBoxFloatFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxFloatFlag.Name = "checkBoxFloatFlag";
+            this.checkBoxFloatFlag.Size = new System.Drawing.Size(63, 22);
+            this.checkBoxFloatFlag.TabIndex = 47;
+            this.checkBoxFloatFlag.Text = "Float";
+            this.checkBoxFloatFlag.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxPhasingAndType
+            // 
+            this.groupBoxPhasingAndType.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxPhasingAndType.Controls.Add(this.labelDNPVoltage);
+            this.groupBoxPhasingAndType.Controls.Add(this.comboBoxDNPVoltage);
+            this.groupBoxPhasingAndType.Controls.Add(this.checkBox277DNPOutputs);
+            this.groupBoxPhasingAndType.Controls.Add(this.labelConEdPowerRelay);
+            this.groupBoxPhasingAndType.Controls.Add(this.label20);
+            this.groupBoxPhasingAndType.Controls.Add(this.labelProtectorType);
+            this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownPhasings);
+            this.groupBoxPhasingAndType.Controls.Add(this.labelGEWH);
+            this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownRelayType);
+            this.groupBoxPhasingAndType.Controls.Add(this.buttonTypePhasingRestoreDefaults);
+            this.groupBoxPhasingAndType.Controls.Add(this.buttonRelayType);
+            this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 390);
+            this.groupBoxPhasingAndType.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxPhasingAndType.Name = "groupBoxPhasingAndType";
+            this.groupBoxPhasingAndType.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxPhasingAndType.Size = new System.Drawing.Size(202, 184);
+            this.groupBoxPhasingAndType.TabIndex = 111;
+            this.groupBoxPhasingAndType.TabStop = false;
+            this.groupBoxPhasingAndType.Text = "Relay Phasing and Type:";
+            // 
+            // labelDNPVoltage
+            // 
+            this.labelDNPVoltage.AutoSize = true;
+            this.labelDNPVoltage.Location = new System.Drawing.Point(8, 79);
+            this.labelDNPVoltage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDNPVoltage.Name = "labelDNPVoltage";
+            this.labelDNPVoltage.Size = new System.Drawing.Size(127, 18);
+            this.labelDNPVoltage.TabIndex = 78;
+            this.labelDNPVoltage.Text = "Protector Voltage:";
+            // 
+            // comboBoxDNPVoltage
+            // 
+            this.comboBoxDNPVoltage.FormattingEnabled = true;
+            this.comboBoxDNPVoltage.Items.AddRange(new object[] {
+            "125",
+            "277",
+            "347"});
+            this.comboBoxDNPVoltage.Location = new System.Drawing.Point(119, 75);
+            this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
+            this.comboBoxDNPVoltage.Size = new System.Drawing.Size(75, 26);
+            this.comboBoxDNPVoltage.TabIndex = 77;
+            this.comboBoxDNPVoltage.SelectedIndexChanged += new System.EventHandler(this.comboBoxDNPVoltage_SelectedIndexChanged);
+            // 
+            // checkBox277DNPOutputs
+            // 
+            this.checkBox277DNPOutputs.AutoSize = true;
+            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(10, 99);
+            this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
+            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(219, 22);
+            this.checkBox277DNPOutputs.TabIndex = 76;
+            this.checkBox277DNPOutputs.Text = "Convert DNP Output Voltage";
+            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
+            // 
+            // labelConEdPowerRelay
+            // 
+            this.labelConEdPowerRelay.AutoSize = true;
+            this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
+            this.labelConEdPowerRelay.Location = new System.Drawing.Point(94, 19);
+            this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
+            this.labelConEdPowerRelay.Size = new System.Drawing.Size(51, 18);
+            this.labelConEdPowerRelay.TabIndex = 51;
+            this.labelConEdPowerRelay.Text = "Power";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(13, 19);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(85, 18);
+            this.label20.TabIndex = 44;
+            this.label20.Text = "Relay Type:";
+            // 
+            // labelProtectorType
+            // 
+            this.labelProtectorType.AutoSize = true;
+            this.labelProtectorType.Location = new System.Drawing.Point(13, 125);
+            this.labelProtectorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelProtectorType.Name = "labelProtectorType";
+            this.labelProtectorType.Size = new System.Drawing.Size(110, 18);
+            this.labelProtectorType.TabIndex = 50;
+            this.labelProtectorType.Text = "Protector Type:";
+            // 
+            // domainUpDownPhasings
+            // 
+            this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
+            this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
+            this.domainUpDownPhasings.Location = new System.Drawing.Point(52, 45);
+            this.domainUpDownPhasings.Margin = new System.Windows.Forms.Padding(4);
+            this.domainUpDownPhasings.Name = "domainUpDownPhasings";
+            this.domainUpDownPhasings.Size = new System.Drawing.Size(133, 24);
+            this.domainUpDownPhasings.TabIndex = 47;
+            // 
+            // labelGEWH
+            // 
+            this.labelGEWH.AutoSize = true;
+            this.labelGEWH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelGEWH.Location = new System.Drawing.Point(113, 125);
+            this.labelGEWH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelGEWH.Name = "labelGEWH";
+            this.labelGEWH.Size = new System.Drawing.Size(36, 20);
+            this.labelGEWH.TabIndex = 49;
+            this.labelGEWH.Text = "WH";
+            // 
+            // domainUpDownRelayType
+            // 
+            this.domainUpDownRelayType.Items.Add("Power");
+            this.domainUpDownRelayType.Items.Add("Sequence");
+            this.domainUpDownRelayType.Location = new System.Drawing.Point(92, 16);
+            this.domainUpDownRelayType.Margin = new System.Windows.Forms.Padding(4);
+            this.domainUpDownRelayType.Name = "domainUpDownRelayType";
+            this.domainUpDownRelayType.Size = new System.Drawing.Size(98, 24);
+            this.domainUpDownRelayType.TabIndex = 43;
+            this.domainUpDownRelayType.SelectedItemChanged += new System.EventHandler(this.domainUpDownRelayType_SelectedItemChanged);
+            // 
+            // buttonTypePhasingRestoreDefaults
+            // 
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(8, 154);
+            this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
+            this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(112, 26);
+            this.buttonTypePhasingRestoreDefaults.TabIndex = 48;
+            this.buttonTypePhasingRestoreDefaults.Text = "Restore Defaults";
+            this.buttonTypePhasingRestoreDefaults.UseVisualStyleBackColor = true;
+            this.buttonTypePhasingRestoreDefaults.Click += new System.EventHandler(this.buttonTypePhasingRestoreDefaults_Click);
+            // 
+            // buttonRelayType
+            // 
+            this.buttonRelayType.Location = new System.Drawing.Point(137, 154);
+            this.buttonRelayType.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRelayType.Name = "buttonRelayType";
+            this.buttonRelayType.Size = new System.Drawing.Size(52, 26);
+            this.buttonRelayType.TabIndex = 41;
+            this.buttonRelayType.Text = "Send";
+            this.buttonRelayType.UseVisualStyleBackColor = true;
+            this.buttonRelayType.Click += new System.EventHandler(this.buttonRelayType_Click);
+            // 
+            // groupBoxNetworkCTRatio
+            // 
+            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxNetworkCTRatio.Controls.Add(this.labelOver5);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.label27);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.textBoxCTRatio);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.domainUpDownCTRatioM);
+            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 304);
+            this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
+            this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(202, 80);
+            this.groupBoxNetworkCTRatio.TabIndex = 110;
+            this.groupBoxNetworkCTRatio.TabStop = false;
+            this.groupBoxNetworkCTRatio.Text = "Network Protector CT Ratio:";
+            // 
+            // labelOver5
+            // 
+            this.labelOver5.AutoSize = true;
+            this.labelOver5.Location = new System.Drawing.Point(66, 56);
+            this.labelOver5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelOver5.Name = "labelOver5";
+            this.labelOver5.Size = new System.Drawing.Size(20, 18);
+            this.labelOver5.TabIndex = 73;
+            this.labelOver5.Text = "/5";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(7, 23);
+            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(47, 18);
+            this.label27.TabIndex = 68;
+            this.label27.Text = "Ratio:";
+            // 
+            // buttonSendCTRatio
+            // 
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(98, 51);
+            this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSendCTRatio.Name = "buttonSendCTRatio";
+            this.buttonSendCTRatio.Size = new System.Drawing.Size(88, 26);
+            this.buttonSendCTRatio.TabIndex = 61;
+            this.buttonSendCTRatio.Text = "Send";
+            this.buttonSendCTRatio.UseVisualStyleBackColor = true;
+            this.buttonSendCTRatio.Click += new System.EventHandler(this.buttonSendCTRatio_Click);
+            // 
+            // textBoxCTRatio
+            // 
+            this.textBoxCTRatio.Enabled = false;
+            this.textBoxCTRatio.Location = new System.Drawing.Point(8, 53);
+            this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxCTRatio.Name = "textBoxCTRatio";
+            this.textBoxCTRatio.Size = new System.Drawing.Size(56, 24);
+            this.textBoxCTRatio.TabIndex = 64;
+            this.textBoxCTRatio.Text = "320";
+            this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_Leave);
+            // 
+            // domainUpDownCTRatioM
+            // 
+            this.domainUpDownCTRatioM.Items.Add("3750:5");
+            this.domainUpDownCTRatioM.Items.Add("3500:5");
+            this.domainUpDownCTRatioM.Items.Add("3000:5");
+            this.domainUpDownCTRatioM.Items.Add("2500:5");
+            this.domainUpDownCTRatioM.Items.Add("2000:5");
+            this.domainUpDownCTRatioM.Items.Add("1600:5");
+            this.domainUpDownCTRatioM.Items.Add("1200:5");
+            this.domainUpDownCTRatioM.Items.Add("800:5");
+            this.domainUpDownCTRatioM.Items.Add("Special");
+            this.domainUpDownCTRatioM.Location = new System.Drawing.Point(55, 21);
+            this.domainUpDownCTRatioM.Margin = new System.Windows.Forms.Padding(4);
+            this.domainUpDownCTRatioM.Name = "domainUpDownCTRatioM";
+            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(71, 24);
+            this.domainUpDownCTRatioM.TabIndex = 62;
+            this.domainUpDownCTRatioM.Text = "1600:5";
+            this.domainUpDownCTRatioM.SelectedItemChanged += new System.EventHandler(this.domainUpDownCTRatioM_SelectedItemChanged);
+            // 
+            // groupBoxRelayFlags
+            // 
+            this.groupBoxRelayFlags.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxRelayFlags.Controls.Add(this.labelQuietMode);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxOffsetOkay);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxCalibrating);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxMathOverTime);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxBlockedCloseFlag);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxMathError);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxInInsensRegion);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxMonitorPhasors);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag2);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxSequence);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxACB);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag1);
+            this.groupBoxRelayFlags.Controls.Add(this.checkBoxPowerSaveFlag);
+            this.groupBoxRelayFlags.Location = new System.Drawing.Point(662, 602);
+            this.groupBoxRelayFlags.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxRelayFlags.Name = "groupBoxRelayFlags";
+            this.groupBoxRelayFlags.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxRelayFlags.Size = new System.Drawing.Size(491, 112);
+            this.groupBoxRelayFlags.TabIndex = 109;
+            this.groupBoxRelayFlags.TabStop = false;
+            this.groupBoxRelayFlags.Text = "Relay Flags:";
+            // 
+            // labelQuietMode
+            // 
+            this.labelQuietMode.AutoSize = true;
+            this.labelQuietMode.BackColor = System.Drawing.Color.Yellow;
+            this.labelQuietMode.Location = new System.Drawing.Point(216, 91);
+            this.labelQuietMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelQuietMode.Name = "labelQuietMode";
+            this.labelQuietMode.Size = new System.Drawing.Size(85, 18);
+            this.labelQuietMode.TabIndex = 52;
+            this.labelQuietMode.Text = "Quiet Mode";
+            this.labelQuietMode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.labelQuietMode_MouseDown);
+            // 
+            // checkBoxOffsetOkay
+            // 
+            this.checkBoxOffsetOkay.AutoCheck = false;
+            this.checkBoxOffsetOkay.AutoSize = true;
+            this.checkBoxOffsetOkay.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxOffsetOkay.Location = new System.Drawing.Point(7, 22);
+            this.checkBoxOffsetOkay.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxOffsetOkay.Name = "checkBoxOffsetOkay";
+            this.checkBoxOffsetOkay.Size = new System.Drawing.Size(109, 22);
+            this.checkBoxOffsetOkay.TabIndex = 37;
+            this.checkBoxOffsetOkay.Text = "Offset Okay";
+            this.checkBoxOffsetOkay.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalibrating
+            // 
+            this.checkBoxCalibrating.AutoCheck = false;
+            this.checkBoxCalibrating.AutoSize = true;
+            this.checkBoxCalibrating.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxCalibrating.Location = new System.Drawing.Point(123, 69);
+            this.checkBoxCalibrating.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxCalibrating.Name = "checkBoxCalibrating";
+            this.checkBoxCalibrating.Size = new System.Drawing.Size(99, 22);
+            this.checkBoxCalibrating.TabIndex = 51;
+            this.checkBoxCalibrating.Text = "Calibrating";
+            this.checkBoxCalibrating.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMathOverTime
+            // 
+            this.checkBoxMathOverTime.AutoCheck = false;
+            this.checkBoxMathOverTime.AutoSize = true;
+            this.checkBoxMathOverTime.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxMathOverTime.Location = new System.Drawing.Point(332, 67);
+            this.checkBoxMathOverTime.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxMathOverTime.Name = "checkBoxMathOverTime";
+            this.checkBoxMathOverTime.Size = new System.Drawing.Size(136, 22);
+            this.checkBoxMathOverTime.TabIndex = 36;
+            this.checkBoxMathOverTime.Text = "Math Over Time";
+            this.checkBoxMathOverTime.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBlockedCloseFlag
+            // 
+            this.checkBoxBlockedCloseFlag.AutoCheck = false;
+            this.checkBoxBlockedCloseFlag.AutoSize = true;
+            this.checkBoxBlockedCloseFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxBlockedCloseFlag.Location = new System.Drawing.Point(216, 44);
+            this.checkBoxBlockedCloseFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxBlockedCloseFlag.Name = "checkBoxBlockedCloseFlag";
+            this.checkBoxBlockedCloseFlag.Size = new System.Drawing.Size(127, 22);
+            this.checkBoxBlockedCloseFlag.TabIndex = 49;
+            this.checkBoxBlockedCloseFlag.Text = "Blocked Close";
+            this.checkBoxBlockedCloseFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMathError
+            // 
+            this.checkBoxMathError.AutoCheck = false;
+            this.checkBoxMathError.AutoSize = true;
+            this.checkBoxMathError.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxMathError.Location = new System.Drawing.Point(332, 44);
+            this.checkBoxMathError.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxMathError.Name = "checkBoxMathError";
+            this.checkBoxMathError.Size = new System.Drawing.Size(101, 22);
+            this.checkBoxMathError.TabIndex = 39;
+            this.checkBoxMathError.Text = "Math Error";
+            this.checkBoxMathError.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxInInsensRegion
+            // 
+            this.checkBoxInInsensRegion.AutoCheck = false;
+            this.checkBoxInInsensRegion.AutoSize = true;
+            this.checkBoxInInsensRegion.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxInInsensRegion.Location = new System.Drawing.Point(307, 22);
+            this.checkBoxInInsensRegion.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxInInsensRegion.Name = "checkBoxInInsensRegion";
+            this.checkBoxInInsensRegion.Size = new System.Drawing.Size(164, 22);
+            this.checkBoxInInsensRegion.TabIndex = 47;
+            this.checkBoxInInsensRegion.Text = "In Insensitive Reigon";
+            this.checkBoxInInsensRegion.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMonitorPhasors
+            // 
+            this.checkBoxMonitorPhasors.AutoCheck = false;
+            this.checkBoxMonitorPhasors.AutoSize = true;
+            this.checkBoxMonitorPhasors.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxMonitorPhasors.Location = new System.Drawing.Point(7, 45);
+            this.checkBoxMonitorPhasors.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxMonitorPhasors.Name = "checkBoxMonitorPhasors";
+            this.checkBoxMonitorPhasors.Size = new System.Drawing.Size(141, 22);
+            this.checkBoxMonitorPhasors.TabIndex = 40;
+            this.checkBoxMonitorPhasors.Text = "Monitor Phasors";
+            this.checkBoxMonitorPhasors.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxFlag2
+            // 
+            this.checkBoxFlag2.AutoCheck = false;
+            this.checkBoxFlag2.AutoSize = true;
+            this.checkBoxFlag2.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxFlag2.Location = new System.Drawing.Point(123, 43);
+            this.checkBoxFlag2.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxFlag2.Name = "checkBoxFlag2";
+            this.checkBoxFlag2.Size = new System.Drawing.Size(66, 22);
+            this.checkBoxFlag2.TabIndex = 45;
+            this.checkBoxFlag2.Text = "Flag2";
+            this.checkBoxFlag2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSequence
+            // 
+            this.checkBoxSequence.AutoCheck = false;
+            this.checkBoxSequence.AutoSize = true;
+            this.checkBoxSequence.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxSequence.Location = new System.Drawing.Point(7, 68);
+            this.checkBoxSequence.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxSequence.Name = "checkBoxSequence";
+            this.checkBoxSequence.Size = new System.Drawing.Size(96, 22);
+            this.checkBoxSequence.TabIndex = 42;
+            this.checkBoxSequence.Text = "Sequence";
+            this.checkBoxSequence.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxACB
+            // 
+            this.checkBoxACB.AutoCheck = false;
+            this.checkBoxACB.AutoSize = true;
+            this.checkBoxACB.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxACB.Location = new System.Drawing.Point(216, 22);
+            this.checkBoxACB.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxACB.Name = "checkBoxACB";
+            this.checkBoxACB.Size = new System.Drawing.Size(60, 22);
+            this.checkBoxACB.TabIndex = 43;
+            this.checkBoxACB.Text = "ACB";
+            this.checkBoxACB.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxFlag1
+            // 
+            this.checkBoxFlag1.AutoCheck = false;
+            this.checkBoxFlag1.AutoSize = true;
+            this.checkBoxFlag1.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxFlag1.Location = new System.Drawing.Point(123, 20);
+            this.checkBoxFlag1.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxFlag1.Name = "checkBoxFlag1";
+            this.checkBoxFlag1.Size = new System.Drawing.Size(66, 22);
+            this.checkBoxFlag1.TabIndex = 44;
+            this.checkBoxFlag1.Text = "Flag1";
+            this.checkBoxFlag1.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPowerSaveFlag
+            // 
+            this.checkBoxPowerSaveFlag.AutoCheck = false;
+            this.checkBoxPowerSaveFlag.AutoSize = true;
+            this.checkBoxPowerSaveFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxPowerSaveFlag.Location = new System.Drawing.Point(216, 68);
+            this.checkBoxPowerSaveFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxPowerSaveFlag.Name = "checkBoxPowerSaveFlag";
+            this.checkBoxPowerSaveFlag.Size = new System.Drawing.Size(110, 22);
+            this.checkBoxPowerSaveFlag.TabIndex = 45;
+            this.checkBoxPowerSaveFlag.Text = "Power Save";
+            this.checkBoxPowerSaveFlag.UseVisualStyleBackColor = true;
+            // 
+            // ucSafeService1
+            // 
+            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
+            this.ucSafeService1.CTRatio = 320;
+            this.ucSafeService1.LoadingNewCode = false;
+            this.ucSafeService1.Location = new System.Drawing.Point(857, 5);
+            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucSafeService1.Name = "ucSafeService1";
+            this.ucSafeService1.Size = new System.Drawing.Size(270, 289);
+            this.ucSafeService1.TabIndex = 108;
+            // 
+            // panelOtherRelayControls
+            // 
+            this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
+            this.panelOtherRelayControls.Controls.Add(this.ucRemoteCommandBlock1);
+            this.panelOtherRelayControls.Controls.Add(this.ucBlockControl1);
+            this.panelOtherRelayControls.Controls.Add(this.labelBootRevision);
+            this.panelOtherRelayControls.Controls.Add(this.buttonClearCycleCount);
+            this.panelOtherRelayControls.Controls.Add(this.buttonBlockAndTrip);
+            this.panelOtherRelayControls.Controls.Add(this.buttonRequestRelayParamaters);
+            this.panelOtherRelayControls.Controls.Add(this.labelRelaySNControl);
+            this.panelOtherRelayControls.Controls.Add(this.textBoxRelaySNControl);
+            this.panelOtherRelayControls.Controls.Add(this.labelRevision);
+            this.panelOtherRelayControls.Controls.Add(this.labelFPGARevision);
+            this.panelOtherRelayControls.Controls.Add(this.labelRelayRevision);
+            this.panelOtherRelayControls.Controls.Add(this.buttonResetBothProc);
+            this.panelOtherRelayControls.Controls.Add(this.labelRelayStateControlPage);
+            this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
+            this.panelOtherRelayControls.Controls.Add(this.textBoxSaveStateName);
+            this.panelOtherRelayControls.Controls.Add(this.buttonTripRelay);
+            this.panelOtherRelayControls.Controls.Add(this.labelRelayDisconnected);
+            this.panelOtherRelayControls.Controls.Add(this.comboBoxSavedStates);
+            this.panelOtherRelayControls.Controls.Add(this.buttonSaveSetting);
+            this.panelOtherRelayControls.Controls.Add(this.buttonDeleteSetting);
+            this.panelOtherRelayControls.Location = new System.Drawing.Point(522, 289);
+            this.panelOtherRelayControls.Margin = new System.Windows.Forms.Padding(4);
+            this.panelOtherRelayControls.Name = "panelOtherRelayControls";
+            this.panelOtherRelayControls.Size = new System.Drawing.Size(620, 241);
+            this.panelOtherRelayControls.TabIndex = 77;
+            // 
+            // ucRemoteCommandBlock1
+            // 
+            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucRemoteCommandBlock1.CommandsBlocked = false;
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(448, 81);
+            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
+            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(147, 80);
+            this.ucRemoteCommandBlock1.TabIndex = 80;
+            // 
+            // ucBlockControl1
+            // 
+            this.ucBlockControl1.Location = new System.Drawing.Point(454, 0);
+            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucBlockControl1.Name = "ucBlockControl1";
+            this.ucBlockControl1.RelayBlocked = false;
+            this.ucBlockControl1.Size = new System.Drawing.Size(122, 77);
+            this.ucBlockControl1.TabIndex = 79;
+            // 
+            // labelBootRevision
+            // 
+            this.labelBootRevision.AutoSize = true;
+            this.labelBootRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelBootRevision.Location = new System.Drawing.Point(4, 186);
+            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelBootRevision.Name = "labelBootRevision";
+            this.labelBootRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelBootRevision.Size = new System.Drawing.Size(4, 22);
+            this.labelBootRevision.TabIndex = 77;
+            this.labelBootRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBootRevision.Visible = false;
+            // 
+            // buttonClearCycleCount
+            // 
+            this.buttonClearCycleCount.Location = new System.Drawing.Point(4, 4);
+            this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonClearCycleCount.Name = "buttonClearCycleCount";
+            this.buttonClearCycleCount.Size = new System.Drawing.Size(130, 26);
+            this.buttonClearCycleCount.TabIndex = 62;
+            this.buttonClearCycleCount.Text = "Clear Cycle Count";
+            this.buttonClearCycleCount.UseVisualStyleBackColor = true;
+            this.buttonClearCycleCount.Click += new System.EventHandler(this.buttonClearCycleCount_Click);
+            // 
+            // buttonBlockAndTrip
+            // 
+            this.buttonBlockAndTrip.Location = new System.Drawing.Point(305, 81);
+            this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
+            this.buttonBlockAndTrip.Size = new System.Drawing.Size(141, 26);
+            this.buttonBlockAndTrip.TabIndex = 76;
+            this.buttonBlockAndTrip.Text = "Block and Trip Relay";
+            this.buttonBlockAndTrip.UseVisualStyleBackColor = true;
+            this.buttonBlockAndTrip.Click += new System.EventHandler(this.buttonBlockAndTrip_Click);
+            // 
+            // buttonRequestRelayParamaters
+            // 
+            this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(290, 185);
+            this.buttonRequestRelayParamaters.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
+            this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(164, 49);
+            this.buttonRequestRelayParamaters.TabIndex = 33;
+            this.buttonRequestRelayParamaters.Text = "Request Relay Parameters";
+            this.buttonRequestRelayParamaters.UseVisualStyleBackColor = true;
+            this.buttonRequestRelayParamaters.Click += new System.EventHandler(this.buttonRequestRelayParamaters_Click);
+            // 
+            // labelRelaySNControl
+            // 
+            this.labelRelaySNControl.AutoSize = true;
+            this.labelRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelaySNControl.Location = new System.Drawing.Point(140, 9);
+            this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelRelaySNControl.Name = "labelRelaySNControl";
+            this.labelRelaySNControl.Size = new System.Drawing.Size(72, 16);
+            this.labelRelaySNControl.TabIndex = 74;
+            this.labelRelaySNControl.Text = "Relay S/N:";
+            // 
+            // textBoxRelaySNControl
+            // 
+            this.textBoxRelaySNControl.Location = new System.Drawing.Point(217, 6);
+            this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxRelaySNControl.MaxLength = 5;
+            this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
+            this.textBoxRelaySNControl.ReadOnly = true;
+            this.textBoxRelaySNControl.Size = new System.Drawing.Size(101, 24);
+            this.textBoxRelaySNControl.TabIndex = 73;
+            this.textBoxRelaySNControl.Tag = "SN";
+            // 
+            // labelRevision
+            // 
+            this.labelRevision.AutoSize = true;
+            this.labelRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelRevision.Location = new System.Drawing.Point(4, 99);
+            this.labelRevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRevision.Name = "labelRevision";
+            this.labelRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRevision.Size = new System.Drawing.Size(4, 22);
+            this.labelRevision.TabIndex = 54;
+            this.labelRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelFPGARevision
+            // 
+            this.labelFPGARevision.AutoSize = true;
+            this.labelFPGARevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelFPGARevision.Location = new System.Drawing.Point(4, 157);
+            this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelFPGARevision.Name = "labelFPGARevision";
+            this.labelFPGARevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelFPGARevision.Size = new System.Drawing.Size(4, 22);
+            this.labelFPGARevision.TabIndex = 72;
+            this.labelFPGARevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelRelayRevision
+            // 
+            this.labelRelayRevision.AutoSize = true;
+            this.labelRelayRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelRelayRevision.Location = new System.Drawing.Point(4, 127);
+            this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRelayRevision.Name = "labelRelayRevision";
+            this.labelRelayRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRelayRevision.Size = new System.Drawing.Size(4, 22);
+            this.labelRelayRevision.TabIndex = 55;
+            this.labelRelayRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonResetBothProc
+            // 
+            this.buttonResetBothProc.Location = new System.Drawing.Point(305, 111);
+            this.buttonResetBothProc.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonResetBothProc.Name = "buttonResetBothProc";
+            this.buttonResetBothProc.Size = new System.Drawing.Size(141, 26);
+            this.buttonResetBothProc.TabIndex = 71;
+            this.buttonResetBothProc.Text = "Reset Relay";
+            this.buttonResetBothProc.UseVisualStyleBackColor = true;
+            this.buttonResetBothProc.Click += new System.EventHandler(this.buttonResetBothProc_Click);
+            // 
+            // labelRelayStateControlPage
+            // 
+            this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelRelayStateControlPage.Location = new System.Drawing.Point(325, 6);
+            this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
+            this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRelayStateControlPage.Size = new System.Drawing.Size(130, 32);
+            this.labelRelayStateControlPage.TabIndex = 63;
+            this.labelRelayStateControlPage.Text = "Unkown";
+            this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonSendAll
+            // 
+            this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.buttonSendAll.Location = new System.Drawing.Point(458, 186);
+            this.buttonSendAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSendAll.Name = "buttonSendAll";
+            this.buttonSendAll.Size = new System.Drawing.Size(147, 49);
+            this.buttonSendAll.TabIndex = 70;
+            this.buttonSendAll.Text = "Send All Relay Parameters";
+            this.buttonSendAll.UseVisualStyleBackColor = true;
+            this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
+            // 
+            // textBoxSaveStateName
+            // 
+            this.textBoxSaveStateName.Location = new System.Drawing.Point(4, 69);
+            this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSaveStateName.Name = "textBoxSaveStateName";
+            this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 24);
+            this.textBoxSaveStateName.TabIndex = 69;
+            // 
+            // buttonTripRelay
+            // 
+            this.buttonTripRelay.Location = new System.Drawing.Point(305, 51);
+            this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTripRelay.Name = "buttonTripRelay";
+            this.buttonTripRelay.Size = new System.Drawing.Size(141, 26);
+            this.buttonTripRelay.TabIndex = 65;
+            this.buttonTripRelay.Text = "Trip Relay";
+            this.buttonTripRelay.UseVisualStyleBackColor = true;
+            this.buttonTripRelay.Click += new System.EventHandler(this.buttonTripRelay_Click);
+            // 
+            // labelRelayDisconnected
+            // 
+            this.labelRelayDisconnected.AutoSize = true;
+            this.labelRelayDisconnected.BackColor = System.Drawing.Color.Red;
+            this.labelRelayDisconnected.Location = new System.Drawing.Point(455, 167);
+            this.labelRelayDisconnected.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelRelayDisconnected.Name = "labelRelayDisconnected";
+            this.labelRelayDisconnected.Size = new System.Drawing.Size(140, 18);
+            this.labelRelayDisconnected.TabIndex = 49;
+            this.labelRelayDisconnected.Text = "Relay Disconnected";
+            this.labelRelayDisconnected.Visible = false;
+            // 
+            // comboBoxSavedStates
+            // 
+            this.comboBoxSavedStates.FormattingEnabled = true;
+            this.comboBoxSavedStates.Location = new System.Drawing.Point(4, 37);
+            this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxSavedStates.Name = "comboBoxSavedStates";
+            this.comboBoxSavedStates.Size = new System.Drawing.Size(140, 26);
+            this.comboBoxSavedStates.TabIndex = 66;
+            this.comboBoxSavedStates.DropDown += new System.EventHandler(this.comboBoxSavedStates_DropDown);
+            this.comboBoxSavedStates.SelectedIndexChanged += new System.EventHandler(this.comboBoxSavedStates_SelectedIndexChanged);
+            this.comboBoxSavedStates.DropDownClosed += new System.EventHandler(this.comboBoxSavedStates_DropDownClosed);
+            // 
+            // buttonSaveSetting
+            // 
+            this.buttonSaveSetting.Location = new System.Drawing.Point(151, 67);
+            this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSaveSetting.Name = "buttonSaveSetting";
+            this.buttonSaveSetting.Size = new System.Drawing.Size(109, 26);
+            this.buttonSaveSetting.TabIndex = 68;
+            this.buttonSaveSetting.Text = "Save Settings";
+            this.buttonSaveSetting.UseVisualStyleBackColor = true;
+            this.buttonSaveSetting.Click += new System.EventHandler(this.buttonSaveSetting_Click);
+            // 
+            // buttonDeleteSetting
+            // 
+            this.buttonDeleteSetting.Location = new System.Drawing.Point(151, 36);
+            this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDeleteSetting.Name = "buttonDeleteSetting";
+            this.buttonDeleteSetting.Size = new System.Drawing.Size(109, 26);
+            this.buttonDeleteSetting.TabIndex = 67;
+            this.buttonDeleteSetting.Text = "Delete Setting";
+            this.buttonDeleteSetting.UseVisualStyleBackColor = true;
+            this.buttonDeleteSetting.Click += new System.EventHandler(this.buttonDeleteSetting_Click);
+            // 
+            // ucTripMode2
+            // 
+            this.ucTripMode2.AutoSize = true;
+            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
+            this.ucTripMode2.CTRatio = 320;
+            this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
+            this.ucTripMode2.Location = new System.Drawing.Point(-6, 0);
+            this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucTripMode2.Name = "ucTripMode2";
+            this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ucTripMode2.SequenceRelay = false;
+            this.ucTripMode2.Size = new System.Drawing.Size(370, 360);
+            this.ucTripMode2.TabIndex = 40;
+            this.ucTripMode2.VersionNumber = ((uint)(0u));
+            // 
+            // ucCloseMode1
+            // 
+            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
+            this.ucCloseMode1.Location = new System.Drawing.Point(368, 0);
+            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
+            this.ucCloseMode1.Name = "ucCloseMode1";
+            this.ucCloseMode1.RelaxClose = false;
+            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucCloseMode1.Size = new System.Drawing.Size(333, 285);
+            this.ucCloseMode1.TabIndex = 26;
+            // 
+            // ucPumpMode1
+            // 
+            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucPumpMode1.Location = new System.Drawing.Point(218, 300);
+            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucPumpMode1.Name = "ucPumpMode1";
+            this.ucPumpMode1.PumpProtectEnabled = false;
+            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
+            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucPumpMode1.Size = new System.Drawing.Size(297, 311);
+            this.ucPumpMode1.TabIndex = 49;
+            // 
+            // ucCoverFlags1
+            // 
+            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCoverFlags1.Location = new System.Drawing.Point(379, 596);
+            this.ucCoverFlags1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCoverFlags1.Name = "ucCoverFlags1";
+            this.ucCoverFlags1.Size = new System.Drawing.Size(251, 128);
+            this.ucCoverFlags1.TabIndex = 119;
+            // 
+            // tabControlMain
+            // 
+            this.tabControlMain.Controls.Add(this.tabPageControl);
+            this.tabControlMain.Controls.Add(this.tabPageMonitor);
+            this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
+            this.tabControlMain.Controls.Add(this.tabPageEvents);
+            this.tabControlMain.Controls.Add(this.tabPageTransmitter);
+            this.tabControlMain.Controls.Add(this.tabPageTransmitterMonitoring);
+            this.tabControlMain.Controls.Add(this.tabPageDNP);
+            this.tabControlMain.Controls.Add(this.tabPageArcFault);
+            this.tabControlMain.Controls.Add(this.tabPageShortRange);
+            this.tabControlMain.Controls.Add(this.tabPageDNPData);
+            this.tabControlMain.Controls.Add(this.tabPageDNPSecureAuth);
+            this.tabControlMain.Location = new System.Drawing.Point(0, 39);
+            this.tabControlMain.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(1457, 938);
+            this.tabControlMain.TabIndex = 36;
+            this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
+            // 
+            // tabPageDNP
+            // 
+            this.tabPageDNP.Controls.Add(this.buttonResetRelay2);
+            this.tabPageDNP.Controls.Add(this.ucDNP1);
+            this.tabPageDNP.Location = new System.Drawing.Point(4, 27);
+            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageDNP.Name = "tabPageDNP";
+            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageDNP.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageDNP.TabIndex = 9;
+            this.tabPageDNP.Text = "DNP";
+            this.tabPageDNP.UseVisualStyleBackColor = true;
+            // 
+            // buttonResetRelay2
+            // 
+            this.buttonResetRelay2.Enabled = false;
+            this.buttonResetRelay2.Location = new System.Drawing.Point(70, 479);
+            this.buttonResetRelay2.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonResetRelay2.Name = "buttonResetRelay2";
+            this.buttonResetRelay2.Size = new System.Drawing.Size(88, 26);
+            this.buttonResetRelay2.TabIndex = 1;
+            this.buttonResetRelay2.Text = "Reset Relay";
+            this.buttonResetRelay2.UseVisualStyleBackColor = true;
+            this.buttonResetRelay2.Visible = false;
+            this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
             // 
             // ucDNP1
             // 
@@ -2530,6 +2547,30 @@
             this.ucDNP1.Size = new System.Drawing.Size(1147, 644);
             this.ucDNP1.TabIndex = 0;
             // 
+            // tabPageArcFault
+            // 
+            this.tabPageArcFault.Controls.Add(this.buttonArcFaultStartMonitoring);
+            this.tabPageArcFault.Controls.Add(this.ucArcFault1);
+            this.tabPageArcFault.Location = new System.Drawing.Point(4, 27);
+            this.tabPageArcFault.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageArcFault.Name = "tabPageArcFault";
+            this.tabPageArcFault.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageArcFault.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageArcFault.TabIndex = 10;
+            this.tabPageArcFault.Text = "Arc Fault";
+            this.tabPageArcFault.UseVisualStyleBackColor = true;
+            // 
+            // buttonArcFaultStartMonitoring
+            // 
+            this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(419, 455);
+            this.buttonArcFaultStartMonitoring.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonArcFaultStartMonitoring.Name = "buttonArcFaultStartMonitoring";
+            this.buttonArcFaultStartMonitoring.Size = new System.Drawing.Size(137, 26);
+            this.buttonArcFaultStartMonitoring.TabIndex = 4;
+            this.buttonArcFaultStartMonitoring.Text = "Start Monitoring";
+            this.buttonArcFaultStartMonitoring.UseVisualStyleBackColor = true;
+            this.buttonArcFaultStartMonitoring.Click += new System.EventHandler(this.buttonArcFaultStartMonitoring_Click);
+            // 
             // ucArcFault1
             // 
             this.ucArcFault1.Location = new System.Drawing.Point(10, 7);
@@ -2538,6 +2579,17 @@
             this.ucArcFault1.Size = new System.Drawing.Size(557, 495);
             this.ucArcFault1.TabIndex = 3;
             // 
+            // tabPageShortRange
+            // 
+            this.tabPageShortRange.Controls.Add(this.ucShortRange1);
+            this.tabPageShortRange.Location = new System.Drawing.Point(4, 27);
+            this.tabPageShortRange.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageShortRange.Name = "tabPageShortRange";
+            this.tabPageShortRange.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageShortRange.TabIndex = 11;
+            this.tabPageShortRange.Text = "Sec Mon";
+            this.tabPageShortRange.UseVisualStyleBackColor = true;
+            // 
             // ucShortRange1
             // 
             this.ucShortRange1.Location = new System.Drawing.Point(10, 0);
@@ -2545,6 +2597,42 @@
             this.ucShortRange1.Name = "ucShortRange1";
             this.ucShortRange1.Size = new System.Drawing.Size(1152, 720);
             this.ucShortRange1.TabIndex = 0;
+            // 
+            // tabPageDNPData
+            // 
+            this.tabPageDNPData.Controls.Add(this.buttonRequestDNPData);
+            this.tabPageDNPData.Location = new System.Drawing.Point(4, 27);
+            this.tabPageDNPData.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageDNPData.Name = "tabPageDNPData";
+            this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageDNPData.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageDNPData.TabIndex = 12;
+            this.tabPageDNPData.Text = "DNP Data";
+            this.tabPageDNPData.UseVisualStyleBackColor = true;
+            // 
+            // buttonRequestDNPData
+            // 
+            this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
+            this.buttonRequestDNPData.Location = new System.Drawing.Point(1002, 690);
+            this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRequestDNPData.Name = "buttonRequestDNPData";
+            this.buttonRequestDNPData.Size = new System.Drawing.Size(144, 26);
+            this.buttonRequestDNPData.TabIndex = 1;
+            this.buttonRequestDNPData.Text = "Request DNP Data";
+            this.buttonRequestDNPData.UseVisualStyleBackColor = false;
+            this.buttonRequestDNPData.Click += new System.EventHandler(this.buttonRequestDNPData_Click);
+            // 
+            // tabPageDNPSecureAuth
+            // 
+            this.tabPageDNPSecureAuth.Controls.Add(this.ucDNPSAv51);
+            this.tabPageDNPSecureAuth.Location = new System.Drawing.Point(4, 27);
+            this.tabPageDNPSecureAuth.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
+            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1449, 907);
+            this.tabPageDNPSecureAuth.TabIndex = 13;
+            this.tabPageDNPSecureAuth.Text = "DNP SAv5";
+            this.tabPageDNPSecureAuth.UseVisualStyleBackColor = true;
             // 
             // ucDNPSAv51
             // 
@@ -2556,153 +2644,20 @@
             this.ucDNPSAv51.Size = new System.Drawing.Size(1141, 846);
             this.ucDNPSAv51.TabIndex = 0;
             // 
-            // ucCSVConverterCSVFile1
+            // tabPageEngineering2
             // 
-            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
-            this.ucCSVConverterCSVFile1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
-            this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
-            this.ucCSVConverterCSVFile1.TabIndex = 109;
-            // 
-            // ucTimeControl1
-            // 
-            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
-            this.ucTimeControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucTimeControl1.Name = "ucTimeControl1";
-            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
-            this.ucTimeControl1.TabIndex = 119;
-            // 
-            // ucGeneralCommandHandler1
-            // 
-            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
-            this.ucGeneralCommandHandler1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
-            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
-            this.ucGeneralCommandHandler1.TabIndex = 117;
-            // 
-            // ucRelayProgramming1
-            // 
-            this.ucRelayProgramming1.ActiveRelay = false;
-            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
-            this.ucRelayProgramming1.DNPRelay = true;
-            this.ucRelayProgramming1.ForceRelayUpdate = false;
-            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
-            this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.GERelay = false;
-            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
-            this.ucRelayProgramming1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
-            this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.MasterRevisionString = "";
-            this.ucRelayProgramming1.Name = "ucRelayProgramming1";
-            this.ucRelayProgramming1.NotPollingPort = false;
-            this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
-            this.ucRelayProgramming1.ProgramBootCodeStart = false;
-            this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
-            this.ucRelayProgramming1.ReprogrammingInProgress = false;
-            this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
-            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
-            this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
-            this.ucRelayProgramming1.TabIndex = 112;
-            this.ucRelayProgramming1.TransmitterEnabled = false;
-            // 
-            // uc8CheckBoxFlagsGEControl2
-            // 
-            this.uc8CheckBoxFlagsGEControl2.Location = new System.Drawing.Point(360, 431);
-            this.uc8CheckBoxFlagsGEControl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsGEControl2.Name = "uc8CheckBoxFlagsGEControl2";
-            this.uc8CheckBoxFlagsGEControl2.Names = null;
-            this.uc8CheckBoxFlagsGEControl2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsGEControl2.TabIndex = 111;
-            // 
-            // uc8CheckBoxFlagsGEControl1
-            // 
-            this.uc8CheckBoxFlagsGEControl1.Location = new System.Drawing.Point(360, 249);
-            this.uc8CheckBoxFlagsGEControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsGEControl1.Name = "uc8CheckBoxFlagsGEControl1";
-            this.uc8CheckBoxFlagsGEControl1.Names = null;
-            this.uc8CheckBoxFlagsGEControl1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsGEControl1.TabIndex = 110;
-            // 
-            // ucCalibration2
-            // 
-            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
-            this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
-            this.ucCalibration2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCalibration2.Name = "ucCalibration2";
-            this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
-            this.ucCalibration2.TabIndex = 108;
-            // 
-            // uc8CheckBoxFlagsCommFlags2
-            // 
-            this.uc8CheckBoxFlagsCommFlags2.Location = new System.Drawing.Point(254, 431);
-            this.uc8CheckBoxFlagsCommFlags2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsCommFlags2.Name = "uc8CheckBoxFlagsCommFlags2";
-            this.uc8CheckBoxFlagsCommFlags2.Names = null;
-            this.uc8CheckBoxFlagsCommFlags2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsCommFlags2.TabIndex = 106;
-            // 
-            // uc8CheckBoxFlagsCommFlags1
-            // 
-            this.uc8CheckBoxFlagsCommFlags1.Location = new System.Drawing.Point(254, 249);
-            this.uc8CheckBoxFlagsCommFlags1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsCommFlags1.Name = "uc8CheckBoxFlagsCommFlags1";
-            this.uc8CheckBoxFlagsCommFlags1.Names = null;
-            this.uc8CheckBoxFlagsCommFlags1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsCommFlags1.TabIndex = 105;
-            // 
-            // uc8CheckBoxFlagsRelayStatus2
-            // 
-            this.uc8CheckBoxFlagsRelayStatus2.Location = new System.Drawing.Point(143, 431);
-            this.uc8CheckBoxFlagsRelayStatus2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsRelayStatus2.Name = "uc8CheckBoxFlagsRelayStatus2";
-            this.uc8CheckBoxFlagsRelayStatus2.Names = null;
-            this.uc8CheckBoxFlagsRelayStatus2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayStatus2.TabIndex = 104;
-            // 
-            // uc8CheckBoxFlagsRelayStatus1
-            // 
-            this.uc8CheckBoxFlagsRelayStatus1.Location = new System.Drawing.Point(143, 249);
-            this.uc8CheckBoxFlagsRelayStatus1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsRelayStatus1.Name = "uc8CheckBoxFlagsRelayStatus1";
-            this.uc8CheckBoxFlagsRelayStatus1.Names = null;
-            this.uc8CheckBoxFlagsRelayStatus1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayStatus1.TabIndex = 103;
-            // 
-            // uc8CheckBoxFlagsRelayFlags2
-            // 
-            this.uc8CheckBoxFlagsRelayFlags2.Location = new System.Drawing.Point(17, 431);
-            this.uc8CheckBoxFlagsRelayFlags2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsRelayFlags2.Name = "uc8CheckBoxFlagsRelayFlags2";
-            this.uc8CheckBoxFlagsRelayFlags2.Names = null;
-            this.uc8CheckBoxFlagsRelayFlags2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayFlags2.TabIndex = 102;
-            // 
-            // uc8CheckBoxFlagsRelayFlags1
-            // 
-            this.uc8CheckBoxFlagsRelayFlags1.Location = new System.Drawing.Point(17, 249);
-            this.uc8CheckBoxFlagsRelayFlags1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.uc8CheckBoxFlagsRelayFlags1.Name = "uc8CheckBoxFlagsRelayFlags1";
-            this.uc8CheckBoxFlagsRelayFlags1.Names = null;
-            this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
-            // 
-            // ucCalibration1
-            // 
-            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
-            this.ucCalibration1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCalibration1.Name = "ucCalibration1";
-            this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
-            this.ucCalibration1.TabIndex = 82;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
+            this.tabPageEngineering2.Controls.Add(this.commTradeConverter1);
+            this.tabPageEngineering2.Controls.Add(this.labelKioskReceived);
+            this.tabPageEngineering2.Controls.Add(this.checkBoxSerialCommsDebugging);
+            this.tabPageEngineering2.Controls.Add(this.buttonTest);
+            this.tabPageEngineering2.Controls.Add(this.ucPhasorRequest1);
+            this.tabPageEngineering2.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEngineering2.Name = "tabPageEngineering2";
+            this.tabPageEngineering2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEngineering2.Size = new System.Drawing.Size(991, 624);
+            this.tabPageEngineering2.TabIndex = 14;
+            this.tabPageEngineering2.Text = "Engineer 2";
+            this.tabPageEngineering2.UseVisualStyleBackColor = true;
             // 
             // commTradeConverter1
             // 
@@ -2712,6 +2667,38 @@
             this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
             this.commTradeConverter1.TabIndex = 4;
             // 
+            // labelKioskReceived
+            // 
+            this.labelKioskReceived.AutoSize = true;
+            this.labelKioskReceived.BackColor = System.Drawing.Color.Yellow;
+            this.labelKioskReceived.Location = new System.Drawing.Point(293, 76);
+            this.labelKioskReceived.Name = "labelKioskReceived";
+            this.labelKioskReceived.Size = new System.Drawing.Size(176, 16);
+            this.labelKioskReceived.TabIndex = 3;
+            this.labelKioskReceived.Text = "Waiting For Kiosk Command";
+            // 
+            // checkBoxSerialCommsDebugging
+            // 
+            this.checkBoxSerialCommsDebugging.AutoSize = true;
+            this.checkBoxSerialCommsDebugging.Checked = true;
+            this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
+            this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";
+            this.checkBoxSerialCommsDebugging.Size = new System.Drawing.Size(229, 20);
+            this.checkBoxSerialCommsDebugging.TabIndex = 2;
+            this.checkBoxSerialCommsDebugging.Text = "Enable Serial Comms Debugging";
+            this.checkBoxSerialCommsDebugging.UseVisualStyleBackColor = true;
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(293, 15);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(86, 58);
+            this.buttonTest.TabIndex = 1;
+            this.buttonTest.Text = "Send Test Command";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
             // ucPhasorRequest1
             // 
             this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
@@ -2719,6 +2706,19 @@
             this.ucPhasorRequest1.Name = "ucPhasorRequest1";
             this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
             this.ucPhasorRequest1.TabIndex = 0;
+            // 
+            // timerResponseTimeOut
+            // 
+            this.timerResponseTimeOut.Interval = 5000;
+            this.timerResponseTimeOut.Tick += new System.EventHandler(this.timerResponseTimeOut_Tick);
+            // 
+            // timerScreenCapDelay
+            // 
+            this.timerScreenCapDelay.Tick += new System.EventHandler(this.timerScreenCapDelay_Tick);
+            // 
+            // timerFindRelayTimeout
+            // 
+            this.timerFindRelayTimeout.Interval = 500;
             // 
             // ucDNPSAv5OSName2
             // 
@@ -2746,7 +2746,7 @@
             // 
             // MainControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1166, 878);

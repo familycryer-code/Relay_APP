@@ -1472,6 +1472,9 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
             this.domainUpDownTripStyle.SelectedIndex = 3;
+#if ONCOR
+            this.domainUpDownTripStyle.SelectedIndex = 0; // Hold Trip
+#endif
 #if TORONTO_HYDRO
             this.domainUpDownTripStyle.SelectedIndex = 0; 
 #endif
