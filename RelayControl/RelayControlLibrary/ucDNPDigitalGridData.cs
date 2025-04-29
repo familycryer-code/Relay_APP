@@ -237,7 +237,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Digital In 1");
             this.binaryInputs.Add("Digital In 2");
             this.binaryInputs.Add("Physical Lockout");
-            this.binaryInputs.Add("Relax CLose");
+            this.binaryInputs.Add("Relay Close");
             this.binaryInputs.Add("Sensitive Trip Enabled");
             this.binaryInputs.Add("Insensitive");
             this.binaryInputs.Add("Time Delay");

@@ -29,6 +29,8 @@
         public void InitializeComponent()
         {
             this.groupBoxMain = new System.Windows.Forms.GroupBox();
+            this.comboBoxMACAlogrithm = new System.Windows.Forms.ComboBox();
+            this.labelMACAlgorithm = new System.Windows.Forms.Label();
             this.comboBoxKeyChangeAlogrithm = new System.Windows.Forms.ComboBox();
             this.labelKeyChangeAlgorithm = new System.Windows.Forms.Label();
             this.checkBoxAuthenticationEnabled = new System.Windows.Forms.CheckBox();
@@ -46,8 +48,6 @@
             this.buttonRequestSettings = new System.Windows.Forms.Button();
             this.buttonSendSettings = new System.Windows.Forms.Button();
             this.checkBoxAggressiveMode = new System.Windows.Forms.CheckBox();
-            this.comboBoxMACAlogrithm = new System.Windows.Forms.ComboBox();
-            this.labelMACAlgorithm = new System.Windows.Forms.Label();
             this.groupBoxMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSessionKeyChangeCount)).BeginInit();
@@ -78,10 +78,33 @@
             this.groupBoxMain.Controls.Add(this.checkBoxAggressiveMode);
             this.groupBoxMain.Location = new System.Drawing.Point(3, 3);
             this.groupBoxMain.Name = "groupBoxMain";
-            this.groupBoxMain.Size = new System.Drawing.Size(917, 290);
+            this.groupBoxMain.Size = new System.Drawing.Size(973, 380);
             this.groupBoxMain.TabIndex = 0;
             this.groupBoxMain.TabStop = false;
             this.groupBoxMain.Text = "SAv5 Settings";
+            // 
+            // comboBoxMACAlogrithm
+            // 
+            this.comboBoxMACAlogrithm.FormattingEnabled = true;
+            this.comboBoxMACAlogrithm.Items.AddRange(new object[] {
+            "SHA1 10 OCTET",
+            "SHA256 8 OCTET",
+            "SHA256 16 OCTET",
+            "SHA1 8 OCTET",
+            "AESGMAC 12 OCTET"});
+            this.comboBoxMACAlogrithm.Location = new System.Drawing.Point(160, 204);
+            this.comboBoxMACAlogrithm.Name = "comboBoxMACAlogrithm";
+            this.comboBoxMACAlogrithm.Size = new System.Drawing.Size(149, 21);
+            this.comboBoxMACAlogrithm.TabIndex = 16;
+            // 
+            // labelMACAlgorithm
+            // 
+            this.labelMACAlgorithm.AutoSize = true;
+            this.labelMACAlgorithm.Location = new System.Drawing.Point(19, 207);
+            this.labelMACAlgorithm.Name = "labelMACAlgorithm";
+            this.labelMACAlgorithm.Size = new System.Drawing.Size(79, 13);
+            this.labelMACAlgorithm.TabIndex = 17;
+            this.labelMACAlgorithm.Text = "MAC Algorithm:";
             // 
             // comboBoxKeyChangeAlogrithm
             // 
@@ -202,7 +225,7 @@
             // 
             this.groupBoxSecurityStats.Location = new System.Drawing.Point(343, 19);
             this.groupBoxSecurityStats.Name = "groupBoxSecurityStats";
-            this.groupBoxSecurityStats.Size = new System.Drawing.Size(568, 264);
+            this.groupBoxSecurityStats.Size = new System.Drawing.Size(595, 380);
             this.groupBoxSecurityStats.TabIndex = 7;
             this.groupBoxSecurityStats.TabStop = false;
             this.groupBoxSecurityStats.Text = "Security Statistics Thresholds";
@@ -294,36 +317,13 @@
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;
             // 
-            // comboBoxMACAlogrithm
-            // 
-            this.comboBoxMACAlogrithm.FormattingEnabled = true;
-            this.comboBoxMACAlogrithm.Items.AddRange(new object[] {
-            "SHA1 10 OCTET",
-            "SHA256 8 OCTET",
-            "SHA256 16 OCTET",
-            "SHA1 8 OCTET",
-            "AESGMAC 12 OCTET"});
-            this.comboBoxMACAlogrithm.Location = new System.Drawing.Point(160, 204);
-            this.comboBoxMACAlogrithm.Name = "comboBoxMACAlogrithm";
-            this.comboBoxMACAlogrithm.Size = new System.Drawing.Size(149, 21);
-            this.comboBoxMACAlogrithm.TabIndex = 16;
-            // 
-            // labelMACAlgorithm
-            // 
-            this.labelMACAlgorithm.AutoSize = true;
-            this.labelMACAlgorithm.Location = new System.Drawing.Point(19, 207);
-            this.labelMACAlgorithm.Name = "labelMACAlgorithm";
-            this.labelMACAlgorithm.Size = new System.Drawing.Size(79, 13);
-            this.labelMACAlgorithm.TabIndex = 17;
-            this.labelMACAlgorithm.Text = "MAC Algorithm:";
-            // 
             // ucDNPSAv5Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxMain);
             this.Name = "ucDNPSAv5Settings";
-            this.Size = new System.Drawing.Size(979, 298);
+            this.Size = new System.Drawing.Size(979, 390);
             this.groupBoxMain.ResumeLayout(false);
             this.groupBoxMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSessionKeyCount)).EndInit();

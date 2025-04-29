@@ -52,7 +52,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release ConEd|AnyCPU' ">
     <OutputPath>bin\Release ConEd\</OutputPath>
-    <DefineConstants>TRACE;CONED</DefineConstants>
+    <DefineConstants>TRACE;CONED,DNP,DIGITALGRID</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -77,22 +77,27 @@
             // 
             // ucDNPSAv5Settings1
             // 
+            this.ucDNPSAv5Settings1.AuthenticationEnabled = false;
             this.ucDNPSAv5Settings1.Location = new System.Drawing.Point(8, 316);
+            this.ucDNPSAv5Settings1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucDNPSAv5Settings1.Name = "ucDNPSAv5Settings1";
-            this.ucDNPSAv5Settings1.Size = new System.Drawing.Size(920, 319);
+            this.ucDNPSAv5Settings1.Size = new System.Drawing.Size(960, 380);
             this.ucDNPSAv5Settings1.TabIndex = 10;
             // 
             // ucDNPSAv5OSName1
             // 
             this.ucDNPSAv5OSName1.Location = new System.Drawing.Point(8, 239);
+            this.ucDNPSAv5OSName1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucDNPSAv5OSName1.Name = "ucDNPSAv5OSName1";
-            this.ucDNPSAv5OSName1.OSName = "";
+            this.ucDNPSAv5OSName1.OSName = "DIGITALGRID, INC. DNP Relay Serial Number: DIGITALGRID, INC. DNP Relay";
+            this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
             this.ucDNPSAv5OSName1.Size = new System.Drawing.Size(605, 84);
             this.ucDNPSAv5OSName1.TabIndex = 9;
             // 
             // ucDNPSAv5AuthoritySym1
             // 
             this.ucDNPSAv5AuthoritySym1.Location = new System.Drawing.Point(6, 162);
+            this.ucDNPSAv5AuthoritySym1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucDNPSAv5AuthoritySym1.Name = "ucDNPSAv5AuthoritySym1";
             this.ucDNPSAv5AuthoritySym1.Size = new System.Drawing.Size(862, 82);
             this.ucDNPSAv5AuthoritySym1.TabIndex = 8;
@@ -100,6 +105,7 @@
             // ucDNPSAv5User1
             // 
             this.ucDNPSAv5User1.Location = new System.Drawing.Point(8, 3);
+            this.ucDNPSAv5User1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucDNPSAv5User1.Name = "ucDNPSAv5User1";
             this.ucDNPSAv5User1.Size = new System.Drawing.Size(876, 132);
             this.ucDNPSAv5User1.TabIndex = 2;

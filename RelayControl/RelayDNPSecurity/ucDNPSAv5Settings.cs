@@ -51,7 +51,8 @@ namespace RelayDNPSecurity
                 this.groupBoxSecurityStats.Controls.Add(workingStatistic);
 
                 workingPoint = new Point(workingPoint.X, workingPoint.Y + workingStatistic.Height);
-                if (workingPoint.Y > this.groupBoxSecurityStats.Height - workingStatistic.Height)
+                //if (workingPoint.Y > this.groupBoxSecurityStats.Height - workingStatistic.Height)
+                if (workingPoint.Y > 320 - workingStatistic.Height)
                     workingPoint = new Point(workingPoint.X + workingStatistic.Width, 15);
             }
         }
