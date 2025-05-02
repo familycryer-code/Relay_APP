@@ -14,6 +14,8 @@ namespace RelayControlLibrary
         public ucDNPPointSuperClass()
         {
             InitializeComponent();
+            this.labelEventEnable.Visible = false;
+            this.checkBoxEventEnabled.Visible = false;
         }
 
         public delegate void PointChangedHandler(object o, DNPPointEventArgs dPEA);

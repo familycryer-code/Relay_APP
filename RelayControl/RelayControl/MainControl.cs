@@ -223,7 +223,8 @@ namespace RelayControl
         private void setDNPTabPoints()
         {
             //#if (!DIGITALGRID || ONCOR)
-#if ((!DIGITALGRID || ONCOR) && !DOMINION)
+//#if ((!DIGITALGRID || ONCOR) && !DOMINION)
+#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX  )
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
             this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
@@ -275,6 +276,7 @@ namespace RelayControl
         public MainControl()
         {
             InitializeComponent();
+            this.AutoSize = false;
             // Get the version number
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -314,27 +316,27 @@ namespace RelayControl
                 this.buttonUpdateCTRatio.Visible = false;
 
                 this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
-                #if !SeattleTest
+#if !SeattleTest
                     this.initializeExternalFileRevisionNumber(); //Get the saved data version
                     this.initializeSaveObject();            //Check the save data to see
-                #endif
+#endif
 
-                #if PSEG
+#if PSEG
                     tCPConnectionToolStripMenuItem.Visible = true;
-                    #if DNP
-                        #if !DEBUG
+#if DNP
+#if !DEBUG
                             domainUpDownRelayType.Visible = false;
                             labelConEdPowerRelay.Visible = true;
-                        #else
+#else
                             labelConEdPowerRelay.Visible = false;
                             domainUpDownRelayType.Visible = true;
-                        #endif
-                    #endif
-                #endif
+#endif
+#endif
+#endif
 
-                #if ATLANTA
+#if ATLANTA
                     this.groupBoxLowVoltThres.Visible = true;
-                #else
+#else
                     this.groupBoxLowVoltThres.Visible = false;
 #endif
                 //#if LONDONH
@@ -346,8 +348,8 @@ namespace RelayControl
                      this.ucShortRange1.Enabled = true;
                      this.ucShortRange1.Visible = true;
                      this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-                 #endif
-                */
+#endif
+            */
 #if (ONCOR || TORONTO_HYDRO)
                 this.ucShortRange1.Enabled = false;
                 this.ucShortRange1.Visible = false;
@@ -729,7 +731,7 @@ namespace RelayControl
 
 #endif
 //#if (!DIGITALGRID || DIGITALGRIDDNP)
-#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO)
+#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX)
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -1848,7 +1850,8 @@ namespace RelayControl
 
                     while (true)
                     {
-
+                        if (screenD.screenDisable == true)
+                            this.enableAll(false);
                         initialRXPtr = tempRXReadPtr = this.rXReadPtr;
                         //check to see if we have found a command or we have reached the end of the data
                         command = this.getCommand(this.receiveArray[tempRXReadPtr]);
@@ -3497,8 +3500,10 @@ namespace RelayControl
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-               // this.SendAll_Message_PopUp1.Visible = false;
                 sendAllF.SendAllFlag = false;
+                screenD.screenDisable = false;
+                Application.UseWaitCursor = false; 
+                Cursor.Current = Cursors.Default;
             }
             else if (this.badDataDetected == true)
             {
@@ -5510,7 +5515,9 @@ namespace RelayControl
             }
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
-                
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
                 try
                 {
                     byte[] packet = new byte[4];
@@ -6312,7 +6319,11 @@ namespace RelayControl
 
         private void buttonSendCTRatio_Click(object sender, EventArgs e)
         {
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
             this.sendCTRatio();
+            Thread.Sleep(1000);   //1 second delay
         }
 
         private void sendCTRatio()

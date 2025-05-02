@@ -42,6 +42,8 @@
             this.labelEventEnable.Size = new System.Drawing.Size(74, 13);
             this.labelEventEnable.TabIndex = 9;
             this.labelEventEnable.Text = "Enable Event:";
+            this.labelEventEnable.Enabled = false;
+            this.labelEventEnable.Visible = false;
             // 
             // checkBoxEventEnabled
             // 
@@ -52,6 +54,8 @@
             this.checkBoxEventEnabled.TabIndex = 8;
             this.checkBoxEventEnabled.UseVisualStyleBackColor = true;
             this.checkBoxEventEnabled.Click += new System.EventHandler(this.checkBoxEventEnabled_Click);
+            this.checkBoxEventEnabled.Enabled = false;
+            this.checkBoxEventEnabled.Visible = false;
             // 
             // labelPointNumber
             // 

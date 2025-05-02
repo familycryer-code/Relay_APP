@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using SharedResources;
+using System.Threading;
 
 namespace RelayControlLibrary
 {
@@ -339,6 +340,9 @@ namespace RelayControlLibrary
         //private void sendCloseData()
         public void sendCloseData()
         {
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
             this.SendTimedOut = false;
 
             buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
@@ -387,6 +391,7 @@ namespace RelayControlLibrary
                 mySEA.RequestAll = true;
                 this.OnSend(this, mySEA);
             }
+            Thread.Sleep(1000);   //1 second delay
         }
 
         private void sendRelaxClose()

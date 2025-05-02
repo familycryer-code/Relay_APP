@@ -160,6 +160,9 @@ namespace RelayControlLibrary
             }
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
+                Application.UseWaitCursor = true;  //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
                 try
                 {
                     PD.RelayCycleEnabled = this.checkBoxCycles.Checked;

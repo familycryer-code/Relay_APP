@@ -187,6 +187,15 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.ResumeLayout(false);
             this.ResumeLayout(false);
 
+#if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
+            this.buttonDisableAllBinaryEvents.Enabled = false;
+            this.buttonDisableAllBinaryEvents.Visible = false;
+            this.buttonEnableAllBinaryEvents.Enabled = false;
+            this.buttonEnableAllBinaryEvents.Visible = false;
+            this.buttonSendBinaryEventEnables.Enabled = false;
+            this.buttonSendBinaryEventEnables.Visible = false;
+#endif
+
         }
 
         #endregion
@@ -197,6 +206,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TabPage tabPageBinaryOuputs;
         private System.Windows.Forms.TabPage tabPageAnalogInputs1;
         private System.Windows.Forms.TabPage tabPageAnalogInputs2;
+        private System.Windows.Forms.TabPage tabPageAnalogInputs3;
         private System.Windows.Forms.TabPage tabPageAnalogOutputs;
         private System.Windows.Forms.Button buttonSendAnalogEnables;
         private System.Windows.Forms.Button buttonEnableAllBinaryEvents;

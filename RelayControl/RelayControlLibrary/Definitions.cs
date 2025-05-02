@@ -1952,6 +1952,11 @@ namespace RelayControlLibrary
         }
     }
 
+    public static class screenD
+    {
+        public static bool screenDisable;
+    }
+
     public static class powerP
     {
         public static int pwrPer;

@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.Serialization;
 using SharedResources;
+using System.Threading;
 
 namespace RelayControlLibrary
 {
@@ -145,7 +146,11 @@ namespace RelayControlLibrary
             var choice = DialogResult.OK;// MessageBox.Show("Sending Safe Service Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             if (choice == DialogResult.OK)
             {
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
                 this.send();
+                Thread.Sleep(1000);   //1 second delay
             }
             
         }

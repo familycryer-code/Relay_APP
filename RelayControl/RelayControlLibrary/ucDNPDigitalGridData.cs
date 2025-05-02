@@ -62,7 +62,8 @@ namespace RelayControlLibrary
         private List<string> binaryOutputs = new List<string>();
         private List<AnalogPointDefinition> analogInputs = new List<AnalogPointDefinition>();
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
-        private byte[] dNPData = new byte[1008]; //252 packet size * 4
+        //private byte[] dNPData = new byte[1008]; //252 packet size * 4
+        private byte[] dNPData = new byte[1043]; //per the new increased data size coming for Oncor master firmware
         private UInt32 relayMasterRevision = 140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
@@ -77,7 +78,6 @@ namespace RelayControlLibrary
             this.initializeBinaryOutputs();
             this.initializeAnalogInputs();
             this.initializeAnalogOutputs();
-
             this.tabControlMemphisDNP_SelectedIndexChanged_1(this, new EventArgs());
         }
 
@@ -222,7 +222,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Unused");
             this.binaryInputs.Add("Unused");
 #endif
-#if (ONCOR || DEBUG || TORONTO_HYDRO)
+#if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
             this.binaryInputs.Add("Calling for Open"); //0
             this.binaryInputs.Add("Calling for Close");
             this.binaryInputs.Add("Float");
@@ -821,9 +821,9 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
             this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase C", false));//79
+            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Number of RNC(s) Reporting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("See Tab RNC", false));
+            this.analogInputs.Add(new AnalogPointDefinition("See Tab RNC", false));//85
 #endif
             pointsToAdd = (uint)analogInputs.Count;
             pointsToAdd += 12;
@@ -839,8 +839,9 @@ namespace RelayControlLibrary
                 workingBox.Signed = aPD.Signed;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
+               // if (i < 50)
                 if (i < 50)
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                        this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
                 else
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
 
@@ -930,7 +931,6 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));//4
-
             this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
@@ -1125,8 +1125,17 @@ namespace RelayControlLibrary
             int savedIndex = 0;
 
             savedIndex = this.setBinaryInputs(this.dNPData, savedIndex);
+#if ONCOR
+           savedIndex = 192; // starting point for setBinaryOutputs considering 48 bytes of BinaryInputs ( per ver10 Oncor firmware )
+#endif
             savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
+#if ONCOR
+            savedIndex = 296; // starting point for setAnalogInputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 Oncor firmware )
+#endif
             savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
+#if ONCOR
+            savedIndex = 926; // starting point for setAnalogOutputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs & 105 bytes of AnalogInputs( per ver10 Oncor firmware )
+#endif
             this.setAnalogOutputs(this.dNPData, savedIndex);
         }
 
@@ -1299,11 +1308,11 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
+                this.buttonSendAnalogEnables.Visible = false;//true;
                 this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonEnableAllAnalogEvents.Visible = false;//true;
                 this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
+                this.buttonDisableAllAnalogEvents.Visible = false;// true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2)
             {
@@ -1320,11 +1329,11 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
+                this.buttonSendAnalogEnables.Visible = false;//true;
                 this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonEnableAllAnalogEvents.Visible = false;//true;
                 this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
+                this.buttonDisableAllAnalogEvents.Visible = false;// true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
             {
@@ -1340,6 +1349,14 @@ namespace RelayControlLibrary
                 this.buttonEnableAllBinaryEvents.Visible = true;
                 this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
                 this.buttonDisableAllBinaryEvents.Visible = true;
+#if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
+                this.buttonDisableAllBinaryEvents.Enabled = false;
+                this.buttonDisableAllBinaryEvents.Visible = false;
+                this.buttonEnableAllBinaryEvents.Enabled = false;
+                this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonSendBinaryEventEnables.Enabled = false;
+                this.buttonSendBinaryEventEnables.Visible = false;
+#endif
             }
         }
 

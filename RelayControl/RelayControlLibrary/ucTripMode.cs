@@ -279,6 +279,9 @@ namespace RelayControlLibrary
             }
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
                 this.SendTimedOut = false;
                 sending = true;
                 mySEA.WithAck = true;
