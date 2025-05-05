@@ -63,7 +63,12 @@ namespace RelayControlLibrary
         private List<AnalogPointDefinition> analogInputs = new List<AnalogPointDefinition>();
         private List<AnalogPointDefinition> analogOutputs = new List<AnalogPointDefinition>();
         //private byte[] dNPData = new byte[1008]; //252 packet size * 4
-        private byte[] dNPData = new byte[1043]; //per the new increased data size coming for Oncor master firmware
+#if ONCOR
+        private byte[] dNPData = new byte[1043]; //per the new increased data size coming for Oncor master firmware : 1008 + 30 extra bytes + 4 bytes  added at end by analog output function
+#elif CONED
+        private byte[] dNPData = new byte[1196]; //per the new increased data size coming for ConED master firmware : 
+        // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
+#endif
         private UInt32 relayMasterRevision = 140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
@@ -1126,15 +1131,31 @@ namespace RelayControlLibrary
 
             savedIndex = this.setBinaryInputs(this.dNPData, savedIndex);
 #if ONCOR
-           savedIndex = 192; // starting point for setBinaryOutputs considering 48 bytes of BinaryInputs ( per ver10 Oncor firmware )
+// starting point for setBinaryOutputs considering 48 bytes of BinaryInputs ( per ver10 Oncor firmware )
+           savedIndex = 192; 
+#elif CONED
+            // starting point for setBinaryOutputs considering 56 bytes of BinaryInputs ( per ver10 CONED firmware )
+            savedIndex = 224; 
 #endif
             savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
 #if ONCOR
-            savedIndex = 296; // starting point for setAnalogInputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 Oncor firmware )
+// starting point for setAnalogInputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 Oncor firmware )
+// 48 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 296
+            savedIndex = 296; 
+#elif CONED
+            // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 Oncor firmware )
+            // 56 * 4(binary input incremented by 4 for each reading)  + 32 * 4(binary output incremented by 4 for each reading) = 352
+            savedIndex = 352; // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 Oncor firmware )
 #endif
             savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
 #if ONCOR
-            savedIndex = 926; // starting point for setAnalogOutputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs & 105 bytes of AnalogInputs( per ver10 Oncor firmware )
+// starting point for setAnalogOutputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs & 105 bytes of AnalogInputs( per ver10 Oncor firmware )
+// 48*4(binary input incremented by 4 for each reading)  + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
+            savedIndex = 926; 
+#elif CONED
+            // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 Oncor firmware )
+            // 56 * 4(binary input incremented by 4 for each reading)  + 32 * 4(binary output incremented by 4 for each reading) + 128*6(analog input incremented by 6 for each reading)= 1120
+            savedIndex = 1120; 
 #endif
             this.setAnalogOutputs(this.dNPData, savedIndex);
         }

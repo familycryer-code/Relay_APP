@@ -1238,7 +1238,8 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if DNP && (!ENMAX && !PSEG)
+            //#if DNP && (!ENMAX && !PSEG)
+#if DNP && (!ENMAX && !PSEG) && !CONED
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
@@ -1284,7 +1285,7 @@ namespace RelayControlLibrary
             return;
 #endif
 
-#if (TORONTO_HYDRO) 
+#if (TORONTO_HYDRO)
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_TorontoHydro;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -1292,7 +1293,8 @@ namespace RelayControlLibrary
             this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
 #endif
 
-#if DIGITALGRID
+//#if DIGITALGRID
+#if DIGITALGRID && !CONED
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMemphis; // Master Processor for GE with PLC only
