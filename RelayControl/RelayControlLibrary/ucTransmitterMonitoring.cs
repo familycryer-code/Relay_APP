@@ -75,7 +75,7 @@ namespace RelayControlLibrary
             this.labelQPres.Visible = false;
             this.textBoxQBit.Visible = false;
 //#elif (ONCOR || TORONTO_HYDRO)
-#elif (ONCOR || TORONTO_HYDRO || CONED)
+#elif (ONCOR || TORONTO_HYDRO || CONED) 
             this.textBoxCa.Visible = true;
             this.textBoxDa.Visible = true;
             this.textBoxEa.Visible = true;
@@ -604,13 +604,13 @@ namespace RelayControlLibrary
 
             if (monByteLength != 7)
             {
-                this.textBoxCa.Text = bytePacket[7].ToString();     // Analog Input 1
-                this.textBoxDa.Text = bytePacket[8].ToString();     // Analog Input 2
-                this.textBoxEa.Text = bytePacket[9].ToString();     // Analog Input 3
-                this.textBoxFa.Text = bytePacket[10].ToString();    // Analog Input 4
-                this.textBoxGa.Text = bytePacket[11].ToString();    // Analog Input 5
-                this.textBoxHa.Text = bytePacket[12].ToString();    // Analog Input 6
-                this.textBox_Input7.Text = bytePacket[13].ToString(); // Analog Input 7
+                this.textBoxCa.Text = bytePacket[7].ToString();     // Analog Input 1 : Oil Temperature
+                this.textBoxDa.Text = bytePacket[8].ToString();     // Analog Input 2 : Transformer Pressure
+                this.textBoxEa.Text = bytePacket[9].ToString();     // Analog Input 3 : Oil Level
+                this.textBoxFa.Text = bytePacket[10].ToString();    // Analog Input 4 : Spare
+                this.textBoxGa.Text = bytePacket[11].ToString();    // Analog Input 5 : NWP Pressure
+                this.textBoxHa.Text = bytePacket[12].ToString();    // Analog Input 6 : Spare
+                this.textBox_Input7.Text = bytePacket[13].ToString(); // Analog Input 7: Spare
                 if (this.waterBugActive)
                     this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1) ? "LOW" : "OK";
                 else
@@ -624,6 +624,11 @@ namespace RelayControlLibrary
 
         private void enableMonitoring()
         {
+            if (relayHBD.relayWithHBD == true)
+            {
+                Hboard_layout();
+            }
+
             if (statusNew.flagFromRelay)
             {
                // this.setFlagPolarity(flagS.flagSettings);
@@ -639,6 +644,159 @@ namespace RelayControlLibrary
             TransmitterMonitoringEventArgs tMEA = new TransmitterMonitoringEventArgs(false);
             if (MonitoringStateChange != null)
                 MonitoringStateChange(this, tMEA);
+        }
+
+        private void Hboard_layout()
+        {
+                this.groupBoxAnalog1.Enabled = false;
+                this.groupBoxAnalog1.Visible = false;
+                this.groupBoxAnalog2.Enabled = false;
+                this.groupBoxAnalog2.Visible = false;
+
+                this.textBoxCa.Visible = true;
+                this.textBoxDa.Visible = true;
+                this.textBoxEa.Visible = true;
+                this.textBoxGa.Visible = true;
+                this.textBoxHa.Visible = true;
+
+                this.labelCa.Visible = true;
+                this.labelDa.Visible = true;
+                this.labelEa.Visible = true;
+                this.labelGa.Visible = true;
+                this.labelHa.Visible = true;
+
+                this.groupBoxFlagStatus.Text = "Digital Values:";
+                this.groupBoxFlagStatus.Location = new System.Drawing.Point(420, 250);
+                this.groupBoxFlagStatus.Size = new System.Drawing.Size(100, 150);
+                this.checkBoxFlagStatusA.Text = "Flag B";
+                this.checkBoxFlagStatusB.Text = "Flag D";
+                this.checkBoxFlagStatusC.Text = "Flag A";
+                this.checkBoxFlagStatusD.Text = "Flag E";
+                this.checkBoxFlagStatusE.Enabled = false;
+                this.checkBoxFlagStatusE.Visible = false;
+                this.checkBoxFlagStatusF.Enabled = false;
+                this.checkBoxFlagStatusF.Visible = false;
+                this.checkBoxFlagStatusG.Enabled = false;
+                this.checkBoxFlagStatusG.Visible = false;
+                this.checkBoxFlagStatusH.Enabled = false;
+                this.checkBoxFlagStatusH.Visible = false;
+
+                this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(550, 250); 
+                this.groupBoxAnalogFlagValues.Name = "groupBoxAnalogFlagValues";
+                this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(125, 200);
+                this.groupBoxAnalogFlagValues.TabIndex = 84;
+                this.groupBoxAnalogFlagValues.TabStop = false;
+                this.groupBoxAnalogFlagValues.Text = "Analog Values";
+                this.groupBoxAnalogFlagValues.Controls.Add(this.textBox_Input7);
+                this.groupBoxAnalogFlagValues.Controls.Add(this.label2);
+
+                // Input 7
+                // 
+                this.label2.Visible = true;
+                this.label2.AutoSize = true;
+                this.label2.Location = new System.Drawing.Point(17, 167);
+                this.label2.Name = "label2";
+                this.label2.Size = new System.Drawing.Size(35, 13);
+                this.label2.TabIndex = 16;
+                this.label2.Text = "Input 7";
+                // 
+                // Input 6
+                // 
+                this.labelHa.AutoSize = true;
+                this.labelHa.Location = new System.Drawing.Point(17, 143);
+                this.labelHa.Name = "labelHa";
+                this.labelHa.Size = new System.Drawing.Size(40, 13);
+                this.labelHa.TabIndex = 14;
+                this.labelHa.Text = "Input 6";
+                // 
+                // Input 5
+                // 
+                this.labelGa.AutoSize = true;
+                this.labelGa.Location = new System.Drawing.Point(17, 119);
+                this.labelGa.Name = "labelGa";
+                this.labelGa.Size = new System.Drawing.Size(40, 13);
+                this.labelGa.TabIndex = 13;
+                this.labelGa.Text = "Input 5";
+                // 
+                // Input 4
+                // 
+                this.labelFa.AutoSize = true;
+                this.labelFa.Location = new System.Drawing.Point(17, 94);
+                this.labelFa.Name = "labelFa";
+                this.labelFa.Size = new System.Drawing.Size(40, 13);
+                this.labelFa.TabIndex = 12;
+                this.labelFa.Text = "Input 4";
+                // 
+                // Input 3
+                // 
+                this.labelEa.AutoSize = true;
+                this.labelEa.Location = new System.Drawing.Point(17, 70);
+                this.labelEa.Name = "labelEa";
+                this.labelEa.Size = new System.Drawing.Size(40, 13);
+                this.labelEa.TabIndex = 11;
+                this.labelEa.Text = "Input 3";
+                // 
+                // Input 2
+                // 
+                this.labelDa.AutoSize = true;
+                this.labelDa.Location = new System.Drawing.Point(17, 46);
+                this.labelDa.Name = "labelDa";
+                this.labelDa.Size = new System.Drawing.Size(40, 13);
+                this.labelDa.TabIndex = 10;
+                this.labelDa.Text = "Input 2";
+                // 
+                // Input 1
+                // 
+                this.labelCa.AutoSize = true;
+                this.labelCa.Location = new System.Drawing.Point(17, 21);
+                this.labelCa.Name = "labelCa";
+                this.labelCa.Size = new System.Drawing.Size(40, 13);
+                this.labelCa.TabIndex = 8;
+                this.labelCa.Text = "Input 1";
+                // 
+                // textBoxHa
+                // 
+                this.textBoxHa.Location = new System.Drawing.Point(67, 139);
+                this.textBoxHa.Name = "textBoxHa";
+                this.textBoxHa.Size = new System.Drawing.Size(33, 20);
+                this.textBoxHa.TabIndex = 6;
+                // 
+                // textBoxGa
+                // 
+                this.textBoxGa.Location = new System.Drawing.Point(67, 116);
+                this.textBoxGa.Name = "textBoxGa";
+                this.textBoxGa.Size = new System.Drawing.Size(33, 20);
+                this.textBoxGa.TabIndex = 5;
+                // 
+                // textBoxFa
+                // 
+                this.textBoxFa.Location = new System.Drawing.Point(67, 91);
+                this.textBoxFa.Name = "textBoxFa";
+                this.textBoxFa.Size = new System.Drawing.Size(33, 20);
+                this.textBoxFa.TabIndex = 4;
+                // 
+                // textBoxEa
+                // 
+                this.textBoxEa.Location = new System.Drawing.Point(67, 67);
+                this.textBoxEa.Name = "textBoxEa";
+                this.textBoxEa.Size = new System.Drawing.Size(33, 20);
+                this.textBoxEa.TabIndex = 3;
+                // 
+                // textBoxDa
+                // 
+                this.textBoxDa.Location = new System.Drawing.Point(67, 44);
+                this.textBoxDa.Name = "textBoxDa";
+                this.textBoxDa.Size = new System.Drawing.Size(33, 20);
+                this.textBoxDa.TabIndex = 2;
+                // 
+                // textBoxCa
+                // 
+                this.textBoxCa.Location = new System.Drawing.Point(67, 18);
+                this.textBoxCa.Name = "textBoxCa";
+                this.textBoxCa.Size = new System.Drawing.Size(33, 20);
+                this.textBoxCa.TabIndex = 0;
+
+            
         }
 
 

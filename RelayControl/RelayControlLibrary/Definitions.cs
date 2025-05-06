@@ -1977,6 +1977,12 @@ namespace RelayControlLibrary
         public static bool flagFromRelay;
     }
 
+    public static class relayHBD
+    {
+        public static bool relayWithHBD;
+    }
+
+
     public static class AutoReProgramR
     {
         public static bool AutoReProgramRelay;

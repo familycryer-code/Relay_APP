@@ -364,6 +364,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
                 statusNew.flagFromRelay = false;
+                relayHBD.relayWithHBD = false; // considereing non H Board relay until revision is received from master
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
@@ -4767,8 +4768,13 @@ namespace RelayControl
                         break;
                 }
 
+                if (revision.Contains("HBD"))
+                {
+                    relayHBD.relayWithHBD = true;
+                }
+
                 if (this.Customer == Customers.None)
-                    this.Customer = Customers.DIGITALGRID;
+                this.Customer = Customers.DIGITALGRID;
 
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
