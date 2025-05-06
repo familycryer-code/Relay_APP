@@ -49,8 +49,7 @@ namespace RelayControlLibrary
             this.labelCircleCloseVolts = new System.Windows.Forms.Label();
             this.buttonRelaxClose = new System.Windows.Forms.Button();
             this.panelBlockedOpenOverride = new System.Windows.Forms.Panel();
-            this.radioButtonNeverOverride = new System.Windows.Forms.RadioButton();
-            this.radioButtonOverrideBlockedOpen = new System.Windows.Forms.RadioButton();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBoxCloseMode = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
@@ -311,36 +310,22 @@ namespace RelayControlLibrary
             // 
             // panelBlockedOpenOverride
             // 
-            this.panelBlockedOpenOverride.Controls.Add(this.radioButtonNeverOverride);
-            this.panelBlockedOpenOverride.Controls.Add(this.radioButtonOverrideBlockedOpen);
+            this.panelBlockedOpenOverride.Controls.Add(this.checkBox1);
             this.panelBlockedOpenOverride.Location = new System.Drawing.Point(6, 156);
             this.panelBlockedOpenOverride.Name = "panelBlockedOpenOverride";
-            this.panelBlockedOpenOverride.Size = new System.Drawing.Size(203, 45);
+            this.panelBlockedOpenOverride.Size = new System.Drawing.Size(246, 45);
             this.panelBlockedOpenOverride.TabIndex = 38;
             // 
-            // radioButtonNeverOverride
+            // checkBox1
             // 
-            this.radioButtonNeverOverride.AutoSize = true;
-            this.radioButtonNeverOverride.Location = new System.Drawing.Point(4, 25);
-            this.radioButtonNeverOverride.Name = "radioButtonNeverOverride";
-            this.radioButtonNeverOverride.Size = new System.Drawing.Size(168, 17);
-            this.radioButtonNeverOverride.TabIndex = 40;
-            this.radioButtonNeverOverride.TabStop = true;
-            this.radioButtonNeverOverride.Text = "Never Override Blocked Open";
-            this.radioButtonNeverOverride.UseVisualStyleBackColor = true;
-            this.radioButtonNeverOverride.CheckedChanged += new System.EventHandler(this.radioOverride_CheckedChanged);
-            // 
-            // radioButtonOverrideBlockedOpen
-            // 
-            this.radioButtonOverrideBlockedOpen.AutoSize = true;
-            this.radioButtonOverrideBlockedOpen.Location = new System.Drawing.Point(4, 3);
-            this.radioButtonOverrideBlockedOpen.Name = "radioButtonOverrideBlockedOpen";
-            this.radioButtonOverrideBlockedOpen.Size = new System.Drawing.Size(196, 17);
-            this.radioButtonOverrideBlockedOpen.TabIndex = 39;
-            this.radioButtonOverrideBlockedOpen.TabStop = true;
-            this.radioButtonOverrideBlockedOpen.Text = "Override Blocked On Dead Network";
-            this.radioButtonOverrideBlockedOpen.UseVisualStyleBackColor = true;
-            this.radioButtonOverrideBlockedOpen.CheckedChanged += new System.EventHandler(this.radioOverride_CheckedChanged);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(3, 13);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(226, 17);
+            this.checkBox1.TabIndex = 40;
+            this.checkBox1.Text = "Override Blocked Open On Dead Network";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // groupBoxCloseMode
             // 
@@ -414,10 +399,10 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonRestoreDefaults;
         private System.Windows.Forms.Label labelCircleCloseVolts;
         private System.Windows.Forms.Panel panelBlockedOpenOverride;
-        private System.Windows.Forms.RadioButton radioButtonNeverOverride;
-        private System.Windows.Forms.RadioButton radioButtonOverrideBlockedOpen;
+        //private System.Windows.Forms.RadioButton radioButtonNeverOverride;
+        //private System.Windows.Forms.RadioButton radioButtonOverrideBlockedOpen;
         private System.Windows.Forms.Button buttonRelaxClose;
         private System.Windows.Forms.GroupBox groupBoxCloseMode;
-
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

@@ -180,12 +180,14 @@ namespace RelayControlLibrary
                 toolTip.SetToolTip(this.buttonRelaxClose, "Temporarily Sets Reclose Voltage to 0.1 V");
                 toolTip.SetToolTip(this.checkBoxCircleClose, "Enables Circle Close Algorithm");
                 toolTip.SetToolTip(this.panelBlockedOpenOverride, "Determines how Relay Treats Blocked Open command on a Dead Network");
-                toolTip.SetToolTip(this.radioButtonNeverOverride, "Determines how Relay Treats Blocked Open command on a Dead Network");
-                toolTip.SetToolTip(this.radioButtonOverrideBlockedOpen, "Determines how Relay Treats Blocked Open command on a Dead Network");
+               // toolTip.SetToolTip(this.radioButtonNeverOverride, "Determines how Relay Treats Blocked Open command on a Dead Network");
+                //toolTip.SetToolTip(this.radioButtonOverrideBlockedOpen, "Determines how Relay Treats Blocked Open command on a Dead Network");
+                toolTip.SetToolTip(this.checkBox1, "Enables Block OverRide");
                 CloseModeDef.TimeDelay = 0;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
-                this.radioButtonNeverOverride.Checked = true;
+                //this.radioButtonNeverOverride.Checked = true;
                 this.CloseCurve = new CloseCurveDefinition();
+                this.checkBox1.Checked = false; 
             }
             catch (Exception ex)
             {
@@ -664,11 +666,13 @@ namespace RelayControlLibrary
 
                 if (uTemp == 0)
                 {
-                    this.radioButtonNeverOverride.Checked = true;
+                   // this.radioButtonNeverOverride.Checked = true;
+                    this.checkBox1.Checked = false;
                 }
                 else
                 {
-                    this.radioButtonOverrideBlockedOpen.Checked = true;
+                    //this.radioButtonOverrideBlockedOpen.Checked = true;
+                    this.checkBox1.Checked = true;
                 }
             }
             catch
@@ -753,6 +757,14 @@ namespace RelayControlLibrary
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+             if (this.checkBox1.Checked)
+                this.CloseModeDef.OverrideBlockedClose = true;
+             else
+                this.CloseModeDef.OverrideBlockedClose = false;
+        }
+
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
@@ -764,9 +776,10 @@ namespace RelayControlLibrary
                 this.numericUpDownPDV.Value = 0.4m;
                 this.numericUpDownRecloseVolts.Value = 1.4m;
                 this.numericUpDownTimeDelay.Value = 6;
-
+                this.checkBox1.Checked = false;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
+                
             }
             else
             {
@@ -826,9 +839,10 @@ namespace RelayControlLibrary
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDV.Value = 0.0m;
                 this.checkBoxCircleClose.Checked = false;
-                this.radioButtonNeverOverride.Checked = true;
+                //this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
+                this.checkBox1.Checked = false;
 #endif
 
             }
@@ -854,7 +868,8 @@ namespace RelayControlLibrary
             cMSS.PhaseDetectionOffset = this.numericUpDownPDV.Value;
             cMSS.RecloseVolts = this.numericUpDownRecloseVolts.Value;
             cMSS.TiltAngle = (int)this.numericUpDownCloseTiltAngle.Value;
-            cMSS.BlockedOverride = this.radioButtonOverrideBlockedOpen.Checked;
+            // cMSS.BlockedOverride = this.radioButtonOverrideBlockedOpen.Checked;
+            cMSS.BlockedOverride = this.checkBox1.Checked;
         }
 
         public void SetAllValues(CloseModeSaveStateV4 cMSS)
@@ -867,11 +882,12 @@ namespace RelayControlLibrary
                 this.numericUpDownPDA.Value = cMSS.PhaseDetectionAngle;
                 this.numericUpDownPDV.Value = cMSS.PhaseDetectionOffset;
                 this.numericUpDownCloseTiltAngle.Value = cMSS.TiltAngle;
-                if (cMSS.BlockedOverride)
-                    this.radioButtonOverrideBlockedOpen.Checked = true;
+                /*if (cMSS.BlockedOverride)
+                   this.radioButtonOverrideBlockedOpen.Checked = true;
                 else
                     this.radioButtonNeverOverride.Checked = true;
-
+                */
+                this.checkBox1.Checked = cMSS.BlockedOverride;
             }
             catch (Exception ex)
             {
@@ -890,11 +906,12 @@ namespace RelayControlLibrary
 
         private void radioOverride_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.radioButtonNeverOverride.Checked)
-                this.CloseModeDef.OverrideBlockedClose = false;
-            else
-                this.CloseModeDef.OverrideBlockedClose = true;
+           // if (this.radioButtonNeverOverride.Checked)
+            //    this.CloseModeDef.OverrideBlockedClose = false;
+           // else
+            //    this.CloseModeDef.OverrideBlockedClose = true;
         }
+
     }
 
     [Serializable()]

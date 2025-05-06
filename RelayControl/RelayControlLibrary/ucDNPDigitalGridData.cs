@@ -68,6 +68,9 @@ namespace RelayControlLibrary
 #elif CONED
         private byte[] dNPData = new byte[1196]; //per the new increased data size coming for ConED master firmware : 
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
+#else
+        private byte[] dNPData = new byte[1196]; //per the new increased data size coming for ConED master firmware : 
+        // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
         private UInt32 relayMasterRevision = 140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
@@ -98,7 +101,7 @@ namespace RelayControlLibrary
 #if CONED
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Network Protect Status/B Flag");
-            this.binaryInputs.Add("Pump Protect Lockout");
+            this.binaryInputs.Add("Not Available");
             this.binaryInputs.Add("Not Available");
             this.binaryInputs.Add("WattVar");
             this.binaryInputs.Add("TimeDelay");
@@ -443,8 +446,8 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.Controls.Clear();
             this.tabPageAnalogInputs2.Controls.Clear();
 #if CONED
-            this.analogInputs.Add(new AnalogPointDefinition("ReClose Volts", false));   //0
-            this.analogInputs.Add(new AnalogPointDefinition("ReClose Angle", false));   //1
+            this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));   //0
+            this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle", false));   //1
             this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip", false));  //2
             this.analogInputs.Add(new AnalogPointDefinition("Time Delay", false));      //3
             this.analogInputs.Add(new AnalogPointDefinition("Instant Trip current", false));    //4
@@ -452,7 +455,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));        //6
             this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation angle", false)); //7
             this.analogInputs.Add(new AnalogPointDefinition("Extended Delay", false));  //8
-            this.analogInputs.Add(new AnalogPointDefinition("ReClose Time Delay", false));  //9
+            this.analogInputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));  //9
             this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));//10
             this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Current", false));  //11
             this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Current", false));  //12
@@ -847,7 +850,8 @@ namespace RelayControlLibrary
                // if (i < 50)
                 if (i < 50)
                         this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                else
+                //else
+                else if(i <= 63)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
 
                 if (i == pointsToAdd)
@@ -863,8 +867,8 @@ namespace RelayControlLibrary
             this.analogOutputs.Clear();
             this.tabPageAnalogOutputs.Controls.Clear();
 #if CONED
-            this.analogOutputs.Add(new AnalogPointDefinition("ReClose Volt Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("ReClose Angle", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Volt Setting", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Setting", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
@@ -872,7 +876,7 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Extended Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("ReClose Time Delay", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Sensetive Time Delay", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));

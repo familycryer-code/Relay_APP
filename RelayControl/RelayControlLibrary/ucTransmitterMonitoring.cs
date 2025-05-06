@@ -74,7 +74,8 @@ namespace RelayControlLibrary
             this.labelGa.Visible = false;
             this.labelQPres.Visible = false;
             this.textBoxQBit.Visible = false;
-#elif (ONCOR || TORONTO_HYDRO)
+//#elif (ONCOR || TORONTO_HYDRO)
+#elif (ONCOR || TORONTO_HYDRO || CONED)
             this.textBoxCa.Visible = true;
             this.textBoxDa.Visible = true;
             this.textBoxEa.Visible = true;
@@ -92,7 +93,8 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusH.Visible = false;
             this.labelQPres.Visible = true;
             this.textBoxQBit.Visible = true;
-#elif (!ONCOR && !TORONTO_HYDRO)
+//#elif (!ONCOR && !TORONTO_HYDRO)
+#elif (!ONCOR && !TORONTO_HYDRO && !CONED)
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
 #endif

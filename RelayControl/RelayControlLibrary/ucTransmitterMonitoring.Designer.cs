@@ -2430,7 +2430,8 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.TabIndex = 84;
             this.groupBoxAnalogFlagValues.TabStop = false;
             this.groupBoxAnalogFlagValues.Text = "Analog Values";
-#if (DOMINION || ONCOR) // SEC and /or DNP customers
+//#if (DOMINION || ONCOR) // SEC and /or DNP customers
+#if (DOMINION || ONCOR || CONED) // SEC and /or DNP customers
             // 
             // label2
             // 
@@ -2684,7 +2685,7 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBox17);
             this.Controls.Add(this.groupBoxVaultMonitoringCommands);
 //#if DOMINION//SEC only customers
-#if (DOMINION || ONCOR)
+#if (DOMINION || ONCOR || CONED)
             this.Controls.Add(this.groupBoxAnalog1);
             this.Controls.Add(this.groupBoxAnalog2);
 #endif
