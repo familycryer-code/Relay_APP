@@ -81,6 +81,7 @@ namespace RelayControlLibrary
             this.tabPageBinaryInputs.TabIndex = 0;
             this.tabPageBinaryInputs.Text = "Binary Inputs";
             this.tabPageBinaryInputs.UseVisualStyleBackColor = true;
+            this.tabPageBinaryInputs.BackColor = System.Drawing.SystemColors.Control;
             // 
             // buttonDisableAllBinaryEvents
             // 
@@ -111,6 +112,7 @@ namespace RelayControlLibrary
             this.tabPageBinaryOuputs.TabIndex = 1;
             this.tabPageBinaryOuputs.Text = "Binary Outputs";
             this.tabPageBinaryOuputs.UseVisualStyleBackColor = true;
+            this.tabPageBinaryOuputs.BackColor = System.Drawing.SystemColors.Control;
             // 
             // tabPageAnalogInputs1
             // 
@@ -124,6 +126,7 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.TabIndex = 2;
             this.tabPageAnalogInputs1.Text = "Analog Inputs";
             this.tabPageAnalogInputs1.UseVisualStyleBackColor = true;
+            this.tabPageAnalogInputs1.BackColor = System.Drawing.SystemColors.Control;
             // 
             // buttonEnableAllAnalogEvents
             // 
@@ -154,6 +157,7 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs2.TabIndex = 3;
             this.tabPageAnalogInputs2.Text = "Analog Inputs";
             this.tabPageAnalogInputs2.UseVisualStyleBackColor = true;
+            this.tabPageAnalogInputs2.BackColor = System.Drawing.SystemColors.Control;
             // 
             // tabPageAnalogOutputs
             // 
@@ -164,6 +168,7 @@ namespace RelayControlLibrary
             this.tabPageAnalogOutputs.TabIndex = 4;
             this.tabPageAnalogOutputs.Text = "Analog Outputs";
             this.tabPageAnalogOutputs.UseVisualStyleBackColor = true;
+            this.tabPageAnalogOutputs.BackColor = System.Drawing.SystemColors.Control;
             // 
             // buttonDisableAllAnalogEvents
             // 
