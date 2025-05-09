@@ -145,13 +145,15 @@ namespace RelayControlLibrary
         string[] conEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
-            "Time Delay"};
+            "Time Delay",
+            "Adaptive"};
 
         string[] nonConEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
             "Time Delay",
-            "Watt-Var"};
+            "Watt-Var",
+            "Adaptive"};
 
         private void makeConEd()
         {
@@ -548,6 +550,23 @@ namespace RelayControlLibrary
         private void listBoxTripModes_SelectedIndexChanged(object sender, EventArgs e)
         {
             TripModes tripMode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+            
+            this.lblGreenDelay.Visible = false;
+            this.numericUpDown_GreenDelay.Visible = false;
+            this.lblUnitGreenDelay.Visible = false;
+            this.lblGreenMagX.Visible = false;
+            this.numericUpDown_GreenMagX.Visible = false;
+            this.lblUnitGreenMagX.Visible = false;
+            this.lblGreenMagY.Visible = false;
+            this.numericUpDown_GreenMagY.Visible = false;
+            this.lblUnitGreenMagY.Visible = false;
+            this.lbl_InstCurrent_kWdirection.Visible = false;
+            this.numericUpDown_InCurrkW.Visible = false;
+            this.lblUnitInCur_kWdir.Visible = false;
+            this.lbl_InstCurrent_kVARdirection.Visible = false;
+            this.numericUpDown_InCurrkVAR.Visible = false;
+            this.lblUnitInCur_kVARdir.Visible = false;
+            this.checkBoxEnableGullWing.Visible = true;
 
             myTMCEA.TripMode = tripMode;
             switch (tripMode)
@@ -633,10 +652,64 @@ namespace RelayControlLibrary
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
                     break;
+                case TripModes.Adaptive:
+                    this.numericUpDownInsensTrip.Visible = false;
+                    this.labelInsensTripUnit.Visible = false;
+                    this.labelInstantCurrent.Visible = false;
+                    this.labelInsensTrip.Visible = false;
+                    this.checkBoxEnableGullWing.Visible = false;
+                    this.sensitiveTimeVisible(false);
+                    this.SensitiveVisible(false);
+                    this.TimeDelayVisible(false);
+                    this.TimeDelayInstantCurrentLabelVisible(false);
+                    this.InsensitiveLabelVisible(false);
+                    this.ExtendedTDVisible(false);
+                    this.WattVarVisible(false);
+                    this.Display_adaptiveTrip_Settings();
+                    break;
             }
 
             this.modeChanged();
         }
+
+        private void Display_adaptiveTrip_Settings()
+        {
+            this.lblGreenDelay.Visible = true;
+            this.numericUpDown_GreenDelay.Visible = true;
+            this.lblGreenDelay.Location = new System.Drawing.Point(150, 74);
+            this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(235, 72);
+            this.lblUnitGreenDelay.Visible = true;
+            this.lblUnitGreenDelay.Location = new System.Drawing.Point(300, 74);
+            
+            this.lblGreenMagX.Visible = true; 
+            this.numericUpDown_GreenMagX.Visible = true;
+            this.lblGreenMagX.Location = new System.Drawing.Point(110, 104);
+            this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(235, 102);
+            this.lblUnitGreenMagX.Visible = true;
+            this.lblUnitGreenMagX.Location = new System.Drawing.Point(300, 104);
+            
+            this.lblGreenMagY.Visible = true;
+            this.numericUpDown_GreenMagY.Visible = true;
+            this.lblGreenMagY.Location = new System.Drawing.Point(110, 134);
+            this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(235, 132);
+            this.lblUnitGreenMagY.Visible = true;
+            this.lblUnitGreenMagY.Location = new System.Drawing.Point(300, 134);
+
+            this.lbl_InstCurrent_kWdirection.Visible = true;
+            this.numericUpDown_InCurrkW.Visible = true;
+            this.lbl_InstCurrent_kWdirection.Location = new System.Drawing.Point(40, 164);
+            this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(232, 162);
+            this.lblUnitInCur_kWdir.Visible = true;
+            this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(300, 166);
+
+            this.lbl_InstCurrent_kVARdirection.Visible = true;
+            this.numericUpDown_InCurrkVAR.Visible = true;
+            this.lbl_InstCurrent_kVARdirection.Location = new System.Drawing.Point(10, 194);
+            this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(232, 192);
+            this.lblUnitInCur_kVARdir.Visible = true;
+            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(300, 196);
+        }
+
 
         /// <summary>
         /// Converts a decimal on Relay Setting into the appropriate display value
@@ -1469,7 +1542,7 @@ namespace RelayControlLibrary
             this.checkBoxTripOnPowerDown.Checked = false;
 #if TORONTO_HYDRO
             this.checkBoxTripOnPowerDown.Checked = true;
-#endif            
+#endif
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
