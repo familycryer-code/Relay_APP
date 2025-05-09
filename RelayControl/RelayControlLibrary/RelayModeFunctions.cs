@@ -34,6 +34,8 @@ namespace RelayControlLibrary
         public const char _CircleCloseOpCode = 'C';
         public const char _DNPControlOpCode = 'D';
         public const char _DNPDataRequestOpCode = 'U';
+        public const char _PermissiveCloseCircleOpCode = 'E';
+        public const char _PermissiveCloseNormalOpCode = 'L';
 
         #region Trip Mode Functions
 
@@ -514,6 +516,10 @@ namespace RelayControlLibrary
                     return (byte)_RelaxCloseOpCode;
                 case CloseModes.CircleAndRelax:
                     return (byte)_RelaxCircleOpCode;
+                case CloseModes.PermissiveCircle:
+                    return (byte)_PermissiveCloseCircleOpCode;
+                case CloseModes.PermissiveNormal:
+                    return (byte)_PermissiveCloseNormalOpCode;
             }
         }
         public static byte[] BytePacketFor(CloseModeDefinition cMD)

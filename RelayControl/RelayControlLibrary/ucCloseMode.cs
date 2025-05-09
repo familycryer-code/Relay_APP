@@ -152,11 +152,12 @@ namespace RelayControlLibrary
             set
             {
                 this.relayRevisionNumber = value;
-                if (value < 20110907)
+               /* if (value < 20110907)
                     this.panelBlockedOpenOverride.Visible = false;
                 else
                     if (this.customer != Customers.ConEdison)
                     this.panelBlockedOpenOverride.Visible = true;
+               */
             }
         }
         public delegate void SendHandler(object sender, SendEventArgs sEA);
@@ -179,7 +180,7 @@ namespace RelayControlLibrary
                 toolTip.SetToolTip(this.numericUpDownTimeDelay, "Number of Cycles the Close Condition must exist before Close Operation is initiated");
                 toolTip.SetToolTip(this.buttonRelaxClose, "Temporarily Sets Reclose Voltage to 0.1 V");
                 toolTip.SetToolTip(this.checkBoxCircleClose, "Enables Circle Close Algorithm");
-                toolTip.SetToolTip(this.panelBlockedOpenOverride, "Determines how Relay Treats Blocked Open command on a Dead Network");
+               // toolTip.SetToolTip(this.panelBlockedOpenOverride, "Determines how Relay Treats Blocked Open command on a Dead Network");
                // toolTip.SetToolTip(this.radioButtonNeverOverride, "Determines how Relay Treats Blocked Open command on a Dead Network");
                 //toolTip.SetToolTip(this.radioButtonOverrideBlockedOpen, "Determines how Relay Treats Blocked Open command on a Dead Network");
                 toolTip.SetToolTip(this.checkBox1, "Enables Block OverRide");
@@ -213,7 +214,7 @@ namespace RelayControlLibrary
         private void setConEd()
         {
             this.checkBoxCircleClose.Visible = false;
-            this.panelBlockedOpenOverride.Visible = false;
+            //this.panelBlockedOpenOverride.Visible = false;
             this.buttonRelaxClose.Visible = false;
             this.numericUpDownPDV.Value = 0.4m;
             this.numericUpDownPDV.Maximum = 0.4m;
@@ -223,7 +224,7 @@ namespace RelayControlLibrary
         private void setNonConEd()
         {
             this.checkBoxCircleClose.Visible = true;
-            this.panelBlockedOpenOverride.Visible = true;
+            //this.panelBlockedOpenOverride.Visible = false;// true;
             this.buttonRelaxClose.Visible = true;
             this.numericUpDownPDV.Maximum = 0.4m * (decimal)protectorVoltage.Scaling;
             this.numericUpDownPDV.Minimum = 0.0m;
@@ -754,6 +755,7 @@ namespace RelayControlLibrary
 
                 this.labelReclose.Visible = true;
                 this.labelCircleCloseVolts.Visible = false;
+                this.labelReclose.Location = new Point(95,74);
             }
         }
 

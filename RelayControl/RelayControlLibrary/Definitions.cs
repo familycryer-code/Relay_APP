@@ -62,6 +62,8 @@ namespace RelayControlLibrary
         Normal,
         RelaxClose,
         CircleAndRelax,
+        PermissiveNormal,
+        PermissiveCircle,
         None
     }
 
