@@ -694,71 +694,112 @@ namespace RelayControlLibrary
 
         private void SetMonitoringData(byte[] bytePacket)
         {
-            //Transmitter Flags A is LSB
-            if ((bytePacket[6] & 1) == 1)
-            {
-                this.checkBoxFlagStatusA.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusA.Checked = false;
-            }
+            if (relayHBD.relayWithHBD == false)
+            {// For master uP with SEC
 
-            if ((bytePacket[6] & 2) == 2)
-            {
-                this.checkBoxFlagStatusB.Checked = true;
+                if ((bytePacket[6] & 1) == 1)//Transmitter Flags A is LSB
+                {
+                    this.checkBoxFlagStatusA.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusA.Checked = false;
+                }
+
+                if ((bytePacket[6] & 2) == 2)
+                {
+                    this.checkBoxFlagStatusB.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusB.Checked = false;
+                }
+                if ((bytePacket[6] & 4) == 4)
+                {
+                    this.checkBoxFlagStatusC.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusC.Checked = false;
+                }
+                if ((bytePacket[6] & 8) == 8)
+                {
+                    this.checkBoxFlagStatusD.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusD.Checked = false;
+                }
+                if ((bytePacket[6] & 16) == 16)
+                {
+                    this.checkBoxFlagStatusE.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusE.Checked = false;
+                }
+                if ((bytePacket[6] & 32) == 32)
+                {
+                    this.checkBoxFlagStatusF.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusF.Checked = false;
+                }
+                if ((bytePacket[6] & 64) == 64)
+                {
+                    this.checkBoxFlagStatusG.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusG.Checked = false;
+                }
+                if ((bytePacket[6] & 128) == 128)
+                {
+                    this.checkBoxFlagStatusH.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusH.Checked = false;
+                }
             }
-            else
-            {
-                this.checkBoxFlagStatusB.Checked = false;
-            }
-            if ((bytePacket[6] & 4) == 4)
-            {
-                this.checkBoxFlagStatusC.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusC.Checked = false;
-            }
-            if ((bytePacket[6] & 8) == 8)
-            {
-                this.checkBoxFlagStatusD.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusD.Checked = false;
-            }
-            if ((bytePacket[6] & 16) == 16)
-            {
-                this.checkBoxFlagStatusE.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusE.Checked = false;
-            }
-            if ((bytePacket[6] & 32) == 32)
-            {
-                this.checkBoxFlagStatusF.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusF.Checked = false;
-            }
-            if ((bytePacket[6] & 64) == 64)
-            {
-                this.checkBoxFlagStatusG.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusG.Checked = false;
-            }
-            if ((bytePacket[6] & 128) == 128)
-            {
-                this.checkBoxFlagStatusH.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusH.Checked = false;
+            else if (relayHBD.relayWithHBD == true)
+            {// For master uP with HBoard
+                if ((bytePacket[6] & 2) == 2) // Digital Input 1
+                {
+                    this.checkBoxFlagStatusA.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusA.Checked = false;
+                }
+
+                if ((bytePacket[6] & 8) == 8) // Digital Input 2
+                {
+                    this.checkBoxFlagStatusB.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusB.Checked = false;
+                }
+
+                if ((bytePacket[6] & 1) == 1) // Digital Input 3
+                {
+                    this.checkBoxFlagStatusC.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusC.Checked = false;
+                }
+
+                if ((bytePacket[6] & 16) == 16) // Digital Input 4
+                {
+                    this.checkBoxFlagStatusD.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusD.Checked = false;
+                }
             }
         }
 

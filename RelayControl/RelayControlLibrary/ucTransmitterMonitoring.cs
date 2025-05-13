@@ -507,74 +507,113 @@ namespace RelayControlLibrary
             localTemp += bytePacket[2];
 
             this.textBoxTransmitterTemp.Text = localTemp.ToString();
+            if (relayHBD.relayWithHBD == false)
+            {// For master uP with SEC
+               
+                if ((bytePacket[6] & 1) == 1) //Transmitter Flags A is LSB
+                {
+                    this.checkBoxFlagStatusA.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusA.Checked = false;
+                }
 
-            //Transmitter Flags A is LSB
-            if ((bytePacket[6] & 1) == 1)
-            {
-                this.checkBoxFlagStatusA.Checked = true;
+                if ((bytePacket[6] & 2) == 2)
+                {
+                    this.checkBoxFlagStatusB.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusB.Checked = false;
+                }
+                if ((bytePacket[6] & 4) == 4)
+                {
+                    this.checkBoxFlagStatusC.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusC.Checked = false;
+                }
+                if ((bytePacket[6] & 8) == 8)
+                {
+                    this.checkBoxFlagStatusD.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusD.Checked = false;
+                }
+                if ((bytePacket[6] & 16) == 16)
+                {
+                    this.checkBoxFlagStatusE.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusE.Checked = false;
+                }
+                if ((bytePacket[6] & 32) == 32)
+                {
+                    this.checkBoxFlagStatusF.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusF.Checked = false;
+                }
+                if ((bytePacket[6] & 64) == 64)
+                {
+                    this.checkBoxFlagStatusG.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusG.Checked = false;
+                }
+                if ((bytePacket[6] & 128) == 128)
+                {
+                    this.checkBoxFlagStatusH.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusH.Checked = false;
+                }
             }
-            else
-            {
-                this.checkBoxFlagStatusA.Checked = false;
-            }
+            else if (relayHBD.relayWithHBD == true)
+            {// For master uP with HBoard
+                if ((bytePacket[6] & 2) == 2) // Digital Input 1
+                {
+                    this.checkBoxFlagStatusA.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusA.Checked = false;
+                }
 
-            if ((bytePacket[6] & 2) == 2)
-            {
-                this.checkBoxFlagStatusB.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusB.Checked = false;
-            }
-            if ((bytePacket[6] & 4) == 4)
-            {
-                this.checkBoxFlagStatusC.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusC.Checked = false;
-            }
-            if ((bytePacket[6] & 8) == 8)
-            {
-                this.checkBoxFlagStatusD.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusD.Checked = false;
-            }
-            if ((bytePacket[6] & 16) == 16)
-            {
-                this.checkBoxFlagStatusE.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusE.Checked = false;
-            }
-            if ((bytePacket[6] & 32) == 32)
-            {
-                this.checkBoxFlagStatusF.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusF.Checked = false;
-            }
-            if ((bytePacket[6] & 64) == 64)
-            {
-                this.checkBoxFlagStatusG.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusG.Checked = false;
-            }
-            if ((bytePacket[6] & 128) == 128)
-            {
-                this.checkBoxFlagStatusH.Checked = true;
-            }
-            else
-            {
-                this.checkBoxFlagStatusH.Checked = false;
-            }
+                if ((bytePacket[6] & 8) == 8) // Digital Input 2
+                {
+                    this.checkBoxFlagStatusB.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusB.Checked = false;
+                }
 
+                if ((bytePacket[6] & 1) == 1) // Digital Input 3
+                {
+                    this.checkBoxFlagStatusC.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusC.Checked = false;
+                }
+
+                if ((bytePacket[6] & 16) == 16) // Digital Input 4
+                {
+                    this.checkBoxFlagStatusD.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusD.Checked = false;
+                }
+            }
             this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4]; 
             this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5]; 
 
@@ -668,10 +707,10 @@ namespace RelayControlLibrary
                 this.groupBoxFlagStatus.Text = "Digital Values:";
                 this.groupBoxFlagStatus.Location = new System.Drawing.Point(420, 250);
                 this.groupBoxFlagStatus.Size = new System.Drawing.Size(100, 150);
-                this.checkBoxFlagStatusA.Text = "Flag B";
-                this.checkBoxFlagStatusB.Text = "Flag D";
-                this.checkBoxFlagStatusC.Text = "Flag A";
-                this.checkBoxFlagStatusD.Text = "Flag E";
+                this.checkBoxFlagStatusA.Text = "Input 1";//"Flag B";
+                this.checkBoxFlagStatusB.Text = "Input 2";//"Flag D";
+                this.checkBoxFlagStatusC.Text = "Input 3";//"Flag A";
+                this.checkBoxFlagStatusD.Text = "Input 4";//"Flag E";
                 this.checkBoxFlagStatusE.Enabled = false;
                 this.checkBoxFlagStatusE.Visible = false;
                 this.checkBoxFlagStatusF.Enabled = false;
