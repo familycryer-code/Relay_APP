@@ -141,19 +141,30 @@ namespace RelayControlLibrary
                     break;
             }
         }
+        /*
+                string[] conEdTripModes = new string[] {
+                    "Sensitive",
+                    "Insensitive",
+                    "Time Delay",
+                    "Adaptive"};
 
+                string[] nonConEdTripModes = new string[] {
+                    "Sensitive",
+                    "Insensitive",
+                    "Time Delay",
+                    "Watt-Var",
+                    "Adaptive"};
+        */
         string[] conEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
-            "Time Delay",
-            "Adaptive"};
+            "Time Delay"};
 
         string[] nonConEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
             "Time Delay",
-            "Watt-Var",
-            "Adaptive"};
+            "Watt-Var"};
 
         private void makeConEd()
         {
