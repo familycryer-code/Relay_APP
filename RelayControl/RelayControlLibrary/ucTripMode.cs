@@ -272,6 +272,7 @@ namespace RelayControlLibrary
         public void buttonSendTripMode_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.Cancel;
+            //decimal temp_AT = 0;
 
             if (sending)
                 return;
@@ -281,261 +282,297 @@ namespace RelayControlLibrary
             }
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-                this.SendTimedOut = false;
-                sending = true;
-                mySEA.WithAck = true;
-                mySEA.RequestAll = false;
-
-                this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
-                TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
-                TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
-                if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
-                    TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
-                else
-                    TripModeDef.TimeDelay = 0;
-
-                if (this.TripModeDef.Mode == TripModes.RemoteTrip)
+                if (this.listBoxTripModes.SelectedIndex != 4) // For Trip Modes other than Adaptive trip mode
                 {
-                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
-                    OnSend(mySEA);
-                    return;
-                }
+                    Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                    Cursor.Current = Cursors.WaitCursor;
+                    screenD.screenDisable = true;
+                    this.SendTimedOut = false;
+                    sending = true;
+                    mySEA.WithAck = true;
+                    mySEA.RequestAll = false;
 
-                TripCurve1.CurveNumber = 0;
-                TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
+                    this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+                    TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
+                    TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
+                    if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
+                        TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
+                    else
+                        TripModeDef.TimeDelay = 0;
 
-                TripCurveGW.CurveNumber = 1;
-
-                if (this.checkBoxEnableGullWing.Checked)
-                {
-
-                    TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
-                    TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
-                    TripCurveGW.CodomainMinimum = 0;
-                    TripCurve1.CodomainMaximum = 0;
-                    TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
-                }
-                else
-                {
-                    TripCurveGW.CurveType = TripCurveTypes.NoCurve;
-                    TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
-                    TripCurveGW.CodomainMinimum = 0;
-                    TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
-                    TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
-                }
-
-                if (this.displayType == eDisplayType.Relay)
-                {
-                    TripCurve1.Offset = this.numericUpDownSensTrip.Value;
-                    TripCurveGW.Offset = this.numericUpDownSensTrip.Value;
-                    TripCurveWV.Offset = this.numericUpDownSensTrip.Value;
-                }
-                else if (this.displayType == eDisplayType.Percent)
-                {
-                    TripCurve1.Offset = this.numericUpDownSensTrip.Value * 50m;
-                    TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 50m;
-                    TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 50m;
-                }
-                else
-                {
-                    TripCurve1.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                    TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                    TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                }
-
-                TripCurve1.Tilt = this.numericUpDownAngle.Value;
-                TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
-
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0); // To be saved in master uP as T0_byte
-                Thread.Sleep(1000);   // 1 second delay
-                OnSend(mySEA);
-                
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
-               /* if (dataBackupR.dataBackup_fromRelay == true)
-                {
-                    // writes to 12 bytes T1_byte1 to T1_byte12 in master uP
-                    // these 12 bytes correspond to the byte packet refering to APP contents as seen on line 381-394 in RelayModeFunctions.cs
-                    string lineRead;
-                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                    int c = 1;
-                    while (c <= 32)
-                    {// skip through first 32 data bytes
-                        lineRead = sr.ReadLine(); //Read the next line
-                        c++;
-                    }
-
-                    mySEA.SendPacket[0] = 84;  // 'T'
-                    //mySEA.SendPacket[1] = 49;   // '1'
-                    for (int cnt = 1; cnt <= 12; cnt++)
+                    if (this.TripModeDef.Mode == TripModes.RemoteTrip)
                     {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        if ((cnt % 2) != 0)//odd 
-                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
-                        else
-                            mySEA.SendPacket[cnt - 2] = Convert.ToByte(lineRead);
-
-
+                        mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                        OnSend(mySEA);
+                        return;
                     }
-                    mySEA.SendPacket[13] = 0x0D;
 
-                    dataBackupR.dataBackup_fromRelay = false;
-                    sr.Close();
+                    TripCurve1.CurveNumber = 0;
+                    TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
 
-                }
-               */
-                this.OnSend(mySEA);
+                    TripCurveGW.CurveNumber = 1;
 
-                decimal tempDecimal;
+                    if (this.checkBoxEnableGullWing.Checked)
+                    {
 
-                if (this.displayType == eDisplayType.Relay)
-                    tempDecimal = this.numericUpDownInsensTrip.Value;
-                else if (this.displayType == eDisplayType.Percent)
-                    tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
-                else
-                    tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
+                        TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
+                        TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+                        TripCurveGW.CodomainMinimum = 0;
+                        TripCurve1.CodomainMaximum = 0;
+                        TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+                    }
+                    else
+                    {
+                        TripCurveGW.CurveType = TripCurveTypes.NoCurve;
+                        TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+                        TripCurveGW.CodomainMinimum = 0;
+                        TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
+                        TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+                    }
+
+                    if (this.displayType == eDisplayType.Relay)
+                    {
+                        TripCurve1.Offset = this.numericUpDownSensTrip.Value;
+                        TripCurveGW.Offset = this.numericUpDownSensTrip.Value;
+                        TripCurveWV.Offset = this.numericUpDownSensTrip.Value;
+                    }
+                    else if (this.displayType == eDisplayType.Percent)
+                    {
+                        TripCurve1.Offset = this.numericUpDownSensTrip.Value * 50m;
+                        TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 50m;
+                        TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 50m;
+                    }
+                    else
+                    {
+                        TripCurve1.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                        TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                        TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                    }
+
+                    TripCurve1.Tilt = this.numericUpDownAngle.Value;
+                    TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
+
+                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0); // To be saved in master uP as T0_byte
+                    Thread.Sleep(1000);   // 1 second delay
+                    OnSend(mySEA);
+
+                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
+                    /* if (dataBackupR.dataBackup_fromRelay == true)
+                     {
+                         // writes to 12 bytes T1_byte1 to T1_byte12 in master uP
+                         // these 12 bytes correspond to the byte packet refering to APP contents as seen on line 381-394 in RelayModeFunctions.cs
+                         string lineRead;
+                         StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                         int c = 1;
+                         while (c <= 32)
+                         {// skip through first 32 data bytes
+                             lineRead = sr.ReadLine(); //Read the next line
+                             c++;
+                         }
+
+                         mySEA.SendPacket[0] = 84;  // 'T'
+                         //mySEA.SendPacket[1] = 49;   // '1'
+                         for (int cnt = 1; cnt <= 12; cnt++)
+                         {
+                             lineRead = sr.ReadLine(); //Read the next line
+                             if ((cnt % 2) != 0)//odd 
+                                 mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
+                             else
+                                 mySEA.SendPacket[cnt - 2] = Convert.ToByte(lineRead);
+
+
+                         }
+                         mySEA.SendPacket[13] = 0x0D;
+
+                         dataBackupR.dataBackup_fromRelay = false;
+                         sr.Close();
+
+                     }
+                    */
+                    this.OnSend(mySEA);
+
+                    decimal tempDecimal;
+
+                    if (this.displayType == eDisplayType.Relay)
+                        tempDecimal = this.numericUpDownInsensTrip.Value;
+                    else if (this.displayType == eDisplayType.Percent)
+                        tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
+                    else
+                        tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
 
 
 
-                if (this.numericUpDownTimeDelay.Visible)
-                {
-                    this.instantaneousCurrent = tempDecimal;
-                }
-                else
-                {
-                    this.insensitiveCurrent = tempDecimal;
-                }
+                    if (this.numericUpDownTimeDelay.Visible)
+                    {
+                        this.instantaneousCurrent = tempDecimal;
+                    }
+                    else
+                    {
+                        this.insensitiveCurrent = tempDecimal;
+                    }
 
-                TripCurveTimeDelay.CurveNumber = 3;
-                TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
-                TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
-                TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
-                TripCurveTimeDelay.Offset = 0;
-                TripCurveTimeDelay.Tilt = 90;
-                TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
-
-                if (!this.numericUpDownTimeDelay.Visible)
-                {
-                    TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
-
-                }
-                else
-                {
+                    TripCurveTimeDelay.CurveNumber = 3;
                     TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
-                }
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
-                OnSend(mySEA);
+                    TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
+                    TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
+                    TripCurveTimeDelay.Offset = 0;
+                    TripCurveTimeDelay.Tilt = 90;
+                    TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
 
-                this.TripCurveInsensTripMag.CurveNumber = 2;
-                this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
-                this.TripCurveInsensTripMag.CodomainMaximum = Constants.MaxFixedPointValue;
-                this.TripCurveInsensTripMag.CodomainMinimum = Constants.MinFixedPointValue;
-                this.TripCurveInsensTripMag.Offset = 0;
-                this.TripCurveInsensTripMag.Tilt = 90;
-                this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
-
-                if (!this.labelInsensTrip.Visible)
-                {
-                    this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
-                }
-                else
-                {
-                    this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
-                }
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
-                OnSend(mySEA);
-
-
-                TripCurveWV.CurveNumber = 4;
-                TripCurveWV.CurveType = TripCurveTypes.WattVar;
-                //Offset Set Above
-                TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
-                TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
-                TripCurveWV.Tilt = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
-
-                if (this.displayType == eDisplayType.Relay)
-                    TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value;
-                else if (this.displayType == eDisplayType.Percent)
-                    TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value * .050m;
-                else
-                    TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value / CTRatio;
-
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
-
-                if (this.numericUpDownWVCurrent.Visible)
-                    this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
-                else
-                    this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
-
-                OnSend(mySEA);
-
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
-                if (dataBackupR.dataBackup_fromRelay == true)
-                {
-                    // writes to 6 bytes Mtrip_byte1 to Mtrip_byte6 in master uP
-                    // these 6 bytes correspond to the byte packet refering to APP contents as seen on line 342-349 in RelayModeFunctions.cs
-                    string lineRead;
-                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                    int c = 1;
-                    while (c <= 14)
-                    {// skip through first 14 data bytes
-                        lineRead = sr.ReadLine(); //Read the next line
-                        c++;
-                    }
-
-                    mySEA.SendPacket[0] = 77;  // 'M'
-                    mySEA.SendPacket[1] = 84;  // 'T'
-                    for (int cnt = 2; cnt <= 6; cnt++)
+                    if (!this.numericUpDownTimeDelay.Visible)
                     {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        if ((cnt % 2) == 0)//odd 
-                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
-                        else
-                            mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
-
+                        TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
 
                     }
-                    mySEA.SendPacket[7] = 0x0D;
-
-                    //dataBackupR.dataBackup_fromRelay = false;
-                    sr.Close();
-
-                }
-
-                OnSend(mySEA);
-
-                //New Trip Parameters
-                mySEA.WithAck = true;
-                mySEA.RequestAll = true;
-                mySEA.SendPacket[0] = (byte)'M';
-                mySEA.SendPacket[1] = (byte)'S';
-
-                mySEA.SendPacket[2] = 0;
-                if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
-                    mySEA.SendPacket[2] = 0;
-                else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
-                    mySEA.SendPacket[2] = 1;
-                else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
-                    mySEA.SendPacket[2] = 2;
-                else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
-                    mySEA.SendPacket[2] = 3;
-                else
-                    throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
-
-                if (this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
-                    mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
-                else
-                    mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
-
-                mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
-                mySEA.SendPacket[7] = 0x0D;
-                if (this.VersionNumber >= 110609)
+                    else
+                    {
+                        TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
+                    }
+                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
                     OnSend(mySEA);
 
-                sending = false;
-            } //((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+                    this.TripCurveInsensTripMag.CurveNumber = 2;
+                    this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
+                    this.TripCurveInsensTripMag.CodomainMaximum = Constants.MaxFixedPointValue;
+                    this.TripCurveInsensTripMag.CodomainMinimum = Constants.MinFixedPointValue;
+                    this.TripCurveInsensTripMag.Offset = 0;
+                    this.TripCurveInsensTripMag.Tilt = 90;
+                    this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
+
+                    if (!this.labelInsensTrip.Visible)
+                    {
+                        this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
+                    }
+                    else
+                    {
+                        this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
+                    }
+                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
+                    OnSend(mySEA);
+
+
+                    TripCurveWV.CurveNumber = 4;
+                    TripCurveWV.CurveType = TripCurveTypes.WattVar;
+                    //Offset Set Above
+                    TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
+                    TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
+                    TripCurveWV.Tilt = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
+
+                    if (this.displayType == eDisplayType.Relay)
+                        TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value;
+                    else if (this.displayType == eDisplayType.Percent)
+                        TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value * .050m;
+                    else
+                        TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value / CTRatio;
+
+                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
+
+                    if (this.numericUpDownWVCurrent.Visible)
+                        this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
+                    else
+                        this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
+
+                    OnSend(mySEA);
+
+                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                    if (dataBackupR.dataBackup_fromRelay == true)
+                    {
+                        // writes to 6 bytes Mtrip_byte1 to Mtrip_byte6 in master uP
+                        // these 6 bytes correspond to the byte packet refering to APP contents as seen on line 342-349 in RelayModeFunctions.cs
+                        string lineRead;
+                        StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                        int c = 1;
+                        while (c <= 14)
+                        {// skip through first 14 data bytes
+                            lineRead = sr.ReadLine(); //Read the next line
+                            c++;
+                        }
+
+                        mySEA.SendPacket[0] = 77;  // 'M'
+                        mySEA.SendPacket[1] = 84;  // 'T'
+                        for (int cnt = 2; cnt <= 6; cnt++)
+                        {
+                            lineRead = sr.ReadLine(); //Read the next line
+                            if ((cnt % 2) == 0)//odd 
+                                mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
+                            else
+                                mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
+
+
+                        }
+                        mySEA.SendPacket[7] = 0x0D;
+
+                        //dataBackupR.dataBackup_fromRelay = false;
+                        sr.Close();
+
+                    }
+
+                    OnSend(mySEA);
+
+                    //New Trip Parameters
+                    mySEA.WithAck = true;
+                    mySEA.RequestAll = true;
+                    mySEA.SendPacket[0] = (byte)'M';
+                    mySEA.SendPacket[1] = (byte)'S';
+
+                    mySEA.SendPacket[2] = 0;
+                    if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
+                        mySEA.SendPacket[2] = 0;
+                    else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
+                        mySEA.SendPacket[2] = 1;
+                    else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
+                        mySEA.SendPacket[2] = 2;
+                    else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
+                        mySEA.SendPacket[2] = 3;
+                    else
+                        throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
+
+                    if (this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
+                        mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
+                    else
+                        mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
+
+                    mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
+                    mySEA.SendPacket[7] = 0x0D;
+                    if (this.VersionNumber >= 110609)
+                        OnSend(mySEA);
+
+                    sending = false;
+                } // For Trip Modes other than Adaptive trip mode
+                else if (this.listBoxTripModes.SelectedIndex == 4) 
+                {
+                    // for Adaptive trip mode
+                    Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                    Cursor.Current = Cursors.WaitCursor;
+                    screenD.screenDisable = true;
+                    this.SendTimedOut = false;
+                    sending = true;
+                    mySEA.WithAck = true;
+                    mySEA.RequestAll = false;
+
+                    byte[] adaptiveTrip_package = new byte[10];
+
+                    adaptiveTrip_package[0] = (byte)'M';
+                    adaptiveTrip_package[1] = (byte)'T';     // 5
+                    adaptiveTrip_package[2] = (byte)'P'; // Adaptive Trip
+                    //adaptiveTrip_package[3] = (byte)this.numericUpDown_GreenDelay.Value;
+                   // temp_AT = Math.Round(this.numericUpDown_GreenDelay.Value, 1);
+                   // temp_AT *= 10;
+                    adaptiveTrip_package[3] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);     // high byte of GreenDelay
+                    adaptiveTrip_package[4] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value); // low byte of GreenDelay
+
+                    adaptiveTrip_package[5] = (byte)((int)((this.numericUpDown_GreenMagX.Value * 5)*10) >> 8);          // high byte of Green Magnitude X
+                    adaptiveTrip_package[6] = (byte)(0x00FF & (int)((this.numericUpDown_GreenMagX.Value * 5) * 10));    // low byte of Green Magnitude X
+
+                    adaptiveTrip_package[7] = (byte)((int)((this.numericUpDown_GreenMagY.Value * 5) * 10) >> 8);        // high byte of Green Magnitude Y
+                    adaptiveTrip_package[8] = (byte)(0x00FF & (int)((this.numericUpDown_GreenMagY.Value * 5) * 10));    // low byte of Green Magnitude Y
+
+                    adaptiveTrip_package[9] = (byte)0x0D;
+                    mySEA.SendPacket = adaptiveTrip_package; // To be saved in master uP as in place of Green Delay parameter storage
+                    Thread.Sleep(1000);   // 1 second delay
+                    OnSend(mySEA);
+                }
+            }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             Thread.Sleep(1500);   // 1 second
         }
 
@@ -652,7 +689,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
                     break;
-                case TripModes.Adaptive:
+             /*   case TripModes.Adaptive:
                     this.numericUpDownInsensTrip.Visible = false;
                     this.labelInsensTripUnit.Visible = false;
                     this.labelInstantCurrent.Visible = false;
@@ -667,6 +704,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.Display_adaptiveTrip_Settings();
                     break;
+             */
             }
 
             this.modeChanged();

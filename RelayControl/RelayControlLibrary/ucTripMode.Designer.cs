@@ -65,6 +65,7 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle = new System.Windows.Forms.DomainUpDown();
             this.labelTripStyle = new System.Windows.Forms.Label();
             this.groupBoxTripModeSettings = new System.Windows.Forms.GroupBox();
+            this.lblUnitInCur_kVARdir = new System.Windows.Forms.Label();
             this.lblUnitInCur_kWdir = new System.Windows.Forms.Label();
             this.lblUnitGreenMagY = new System.Windows.Forms.Label();
             this.lblUnitGreenMagX = new System.Windows.Forms.Label();
@@ -79,7 +80,6 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kVARdirection = new System.Windows.Forms.Label();
             this.numericUpDown_InCurrkVAR = new System.Windows.Forms.NumericUpDown();
-            this.lblUnitInCur_kVARdir = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).BeginInit();
@@ -104,11 +104,10 @@ namespace RelayControlLibrary
             "Sensitive",
             "Insensitive",
             "Time Delay",
-            "Watt-Var",
-            "Adaptive"});
+            "Watt-Var"});
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
-            this.listBoxTripModes.Size = new System.Drawing.Size(75, 69);
+            this.listBoxTripModes.Size = new System.Drawing.Size(75, 56);
             this.listBoxTripModes.TabIndex = 2;
             this.listBoxTripModes.SelectedIndexChanged += new System.EventHandler(this.listBoxTripModes_SelectedIndexChanged);
             // 
@@ -609,6 +608,15 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.TabStop = false;
             this.groupBoxTripModeSettings.Text = "Trip Mode Settings:";
             // 
+            // lblUnitInCur_kVARdir
+            // 
+            this.lblUnitInCur_kVARdir.AutoSize = true;
+            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(27, 163);
+            this.lblUnitInCur_kVARdir.Name = "lblUnitInCur_kVARdir";
+            this.lblUnitInCur_kVARdir.Size = new System.Drawing.Size(15, 13);
+            this.lblUnitInCur_kVARdir.TabIndex = 67;
+            this.lblUnitInCur_kVARdir.Text = "%";
+            // 
             // lblUnitInCur_kWdir
             // 
             this.lblUnitInCur_kWdir.AutoSize = true;
@@ -789,15 +797,6 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            // 
-            // lblUnitInCur_kVARdir
-            // 
-            this.lblUnitInCur_kVARdir.AutoSize = true;
-            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(27, 163);
-            this.lblUnitInCur_kVARdir.Name = "lblUnitInCur_kVARdir";
-            this.lblUnitInCur_kVARdir.Size = new System.Drawing.Size(15, 13);
-            this.lblUnitInCur_kVARdir.TabIndex = 67;
-            this.lblUnitInCur_kVARdir.Text = "%";
             // 
             // ucTripMode
             // 

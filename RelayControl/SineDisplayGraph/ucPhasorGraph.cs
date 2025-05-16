@@ -1461,7 +1461,7 @@ namespace SineDisplayGraph
         private void listBoxMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lb = (ListBox)sender;
-
+            
             if (lb.SelectedItem.ToString().Equals(RawPhasorGroups.Tripped.ToString()))
                 this.switchToTripped();
             if (lb.SelectedItem.ToString().Equals(RawPhasorGroups.Closed.ToString()))

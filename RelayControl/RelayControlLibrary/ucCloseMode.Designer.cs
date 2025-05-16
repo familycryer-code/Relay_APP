@@ -382,9 +382,9 @@ namespace RelayControlLibrary
             this.lblUnitPermClAcTime.AutoSize = true;
             this.lblUnitPermClAcTime.Location = new System.Drawing.Point(227, 163);
             this.lblUnitPermClAcTime.Name = "lblUnitPermClAcTime";
-            this.lblUnitPermClAcTime.Size = new System.Drawing.Size(15, 13);
+            this.lblUnitPermClAcTime.Size = new System.Drawing.Size(22, 10);
             this.lblUnitPermClAcTime.TabIndex = 48;
-            this.lblUnitPermClAcTime.Text = "%";
+            this.lblUnitPermClAcTime.Text = "min";
             // 
             // lblUnitFloatTime
             // 
@@ -425,12 +425,12 @@ namespace RelayControlLibrary
             // 
             this.numericUpDown_PermClActTime.Location = new System.Drawing.Point(157, 161);
             this.numericUpDown_PermClActTime.Maximum = new decimal(new int[] {
-            60,
+            20,
             0,
             0,
             0});
             this.numericUpDown_PermClActTime.Minimum = new decimal(new int[] {
-            40,
+            10,
             0,
             0,
             0});
@@ -438,7 +438,7 @@ namespace RelayControlLibrary
             this.numericUpDown_PermClActTime.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_PermClActTime.TabIndex = 44;
             this.numericUpDown_PermClActTime.Value = new decimal(new int[] {
-            50,
+            15,
             0,
             0,
             0});

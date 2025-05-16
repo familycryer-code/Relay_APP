@@ -36,6 +36,7 @@ namespace RelayControlLibrary
         public const char _DNPDataRequestOpCode = 'U';
         public const char _PermissiveCloseCircleOpCode = 'E';
         public const char _PermissiveCloseNormalOpCode = 'L';
+        public const char _AdaptiveTrip = 'P';
 
         #region Trip Mode Functions
 
@@ -351,9 +352,9 @@ namespace RelayControlLibrary
         {
             byte[] returnArray = new byte[8];
 
-            returnArray[0] = (byte)_ModeOpCode;
-            returnArray[1] = (byte)_TripOpCode;
-            returnArray[2] = ByteRepresentationOf(tMD.Mode);
+            returnArray[0] = (byte)_ModeOpCode; // M
+            returnArray[1] = (byte)_TripOpCode; // T
+            returnArray[2] = ByteRepresentationOf(tMD.Mode); // T - Time Delay
             returnArray[3] = tMD.TimeDelayHighByte;
             returnArray[4] = tMD.TimeDelayLowByte;
             returnArray[5] = (byte)tMD.ExtendedDelay;//tMD.SensitiveTimeDelayHighByte;

@@ -271,7 +271,7 @@ namespace SineDisplayGraph
             "Closed"});
             this.listBoxMode.Location = new System.Drawing.Point(406, 8);
             this.listBoxMode.Name = "listBoxMode";
-            this.listBoxMode.Size = new System.Drawing.Size(76, 17);
+            this.listBoxMode.Size = new System.Drawing.Size(76, 35);
             this.listBoxMode.TabIndex = 1;
             this.listBoxMode.SelectedIndexChanged += new System.EventHandler(this.listBoxMode_SelectedIndexChanged);
             // 

@@ -851,7 +851,7 @@ namespace RelayControlLibrary
                 if (i < 50)
                         this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
                 //else
-                else if(i <= 63)
+                else if (i <= 90) //if (i <= 63)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
 
                 if (i == pointsToAdd)
