@@ -62,8 +62,7 @@ namespace RelayControlLibrary
         Normal,
         RelaxClose,
         CircleAndRelax,
-        PermissiveNormal,
-        PermissiveCircle,
+        PermissiveClose,
         None
     }
 
@@ -242,7 +241,7 @@ namespace RelayControlLibrary
         Insensitive,
         TimeDelay,
         WattVar,
-        //Adaptive,
+      //  Adaptive,
         RemoteTrip
     }
 
@@ -1227,7 +1226,7 @@ namespace RelayControlLibrary
                     Int16 temp;
 
                     this.magnitude = value;
-                    temp = (Int16)(this.magnitude / Constants.TenFracBits);
+                    temp = (Int16)(this.magnitude / Constants.TenFracBits); // 0.0009765625m;
 
                     this.MagnitudeHighByte = this.highByte(temp);
                     this.MagnitudeLowByte = this.lowByte(temp);

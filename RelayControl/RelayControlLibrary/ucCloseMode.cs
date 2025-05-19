@@ -189,6 +189,28 @@ namespace RelayControlLibrary
                 //this.radioButtonNeverOverride.Checked = true;
                 this.CloseCurve = new CloseCurveDefinition();
                 this.checkBox1.Checked = false; 
+
+                // APP without AT and PC feature :
+                this.lblFloattTime.Enabled = false;
+                this.lblFloattTime.Visible = false;
+                this.numericUpDown_FloatTime.Enabled = false;
+                this.numericUpDown_FloatTime.Visible = false;
+                this.lblUnitFloatTime.Enabled= false;
+                this.lblUnitFloatTime.Visible= false;
+
+                this.lblPermCloseActiveTime.Enabled= false;
+                this.lblPermCloseActiveTime.Visible= false;
+                this.numericUpDown_PermClActTime.Enabled= false;
+                this.numericUpDown_PermClActTime.Visible= false;
+                this.lblUnitPermClAcTime.Enabled= false;
+                this.lblUnitPermClAcTime.Visible= false;
+
+                this.lblPermCloseVoltage.Enabled= false;
+                this.lblPermCloseVoltage.Visible= false;
+                this.numericnumericUpDown_PermClVoltage.Enabled= false;
+                this.numericnumericUpDown_PermClVoltage.Visible= false;
+                this.lblUnitPerClVoltage.Enabled = false;
+                this.lblUnitPerClVoltage.Visible = false;
             }
             catch (Exception ex)
             {

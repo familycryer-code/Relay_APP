@@ -100,6 +100,12 @@ namespace RelayControlLibrary
             // listBoxTripModes
             // 
             this.listBoxTripModes.FormattingEnabled = true;
+            /*this.listBoxTripModes.Items.AddRange(new object[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Watt-Var",
+            "Adaptive"}); */
             this.listBoxTripModes.Items.AddRange(new object[] {
             "Sensitive",
             "Insensitive",
@@ -107,7 +113,7 @@ namespace RelayControlLibrary
             "Watt-Var"});
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
-            this.listBoxTripModes.Size = new System.Drawing.Size(75, 56);
+            this.listBoxTripModes.Size = new System.Drawing.Size(75, 69);
             this.listBoxTripModes.TabIndex = 2;
             this.listBoxTripModes.SelectedIndexChanged += new System.EventHandler(this.listBoxTripModes_SelectedIndexChanged);
             // 

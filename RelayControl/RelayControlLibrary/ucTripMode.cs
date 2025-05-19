@@ -12,6 +12,7 @@ using System.IO;
 using SharedResources;
 using System.Threading;
 using System.Reflection;
+using GraphicsServer.GSNet.Charting;
 
 namespace RelayControlLibrary
 {
@@ -141,20 +142,20 @@ namespace RelayControlLibrary
                     break;
             }
         }
-        /*
-                string[] conEdTripModes = new string[] {
-                    "Sensitive",
-                    "Insensitive",
-                    "Time Delay",
-                    "Adaptive"};
+        
+      /*  string[] conEdTripModes = new string[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Adaptive"};
 
-                string[] nonConEdTripModes = new string[] {
-                    "Sensitive",
-                    "Insensitive",
-                    "Time Delay",
-                    "Watt-Var",
-                    "Adaptive"};
-        */
+        string[] nonConEdTripModes = new string[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Watt-Var",
+            "Adaptive"};
+      */
         string[] conEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
@@ -283,7 +284,7 @@ namespace RelayControlLibrary
         public void buttonSendTripMode_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.Cancel;
-            //decimal temp_AT = 0;
+            decimal temp_AT = 0;
 
             if (sending)
                 return;
@@ -561,16 +562,14 @@ namespace RelayControlLibrary
                     mySEA.WithAck = true;
                     mySEA.RequestAll = false;
 
-                    byte[] adaptiveTrip_package = new byte[10];
+                    byte[] adaptiveTrip_package = new byte[14]; 
 
                     adaptiveTrip_package[0] = (byte)'M';
                     adaptiveTrip_package[1] = (byte)'T';     // 5
                     adaptiveTrip_package[2] = (byte)'P'; // Adaptive Trip
-                    //adaptiveTrip_package[3] = (byte)this.numericUpDown_GreenDelay.Value;
-                   // temp_AT = Math.Round(this.numericUpDown_GreenDelay.Value, 1);
-                   // temp_AT *= 10;
-                    adaptiveTrip_package[3] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);     // high byte of GreenDelay
-                    adaptiveTrip_package[4] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value); // low byte of GreenDelay
+                    
+                    adaptiveTrip_package[3] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);                   // high byte of GreenDelay
+                    adaptiveTrip_package[4] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value);               // low byte of GreenDelay
 
                     adaptiveTrip_package[5] = (byte)((int)((this.numericUpDown_GreenMagX.Value * 5)*10) >> 8);          // high byte of Green Magnitude X
                     adaptiveTrip_package[6] = (byte)(0x00FF & (int)((this.numericUpDown_GreenMagX.Value * 5) * 10));    // low byte of Green Magnitude X
@@ -578,7 +577,27 @@ namespace RelayControlLibrary
                     adaptiveTrip_package[7] = (byte)((int)((this.numericUpDown_GreenMagY.Value * 5) * 10) >> 8);        // high byte of Green Magnitude Y
                     adaptiveTrip_package[8] = (byte)(0x00FF & (int)((this.numericUpDown_GreenMagY.Value * 5) * 10));    // low byte of Green Magnitude Y
 
-                    adaptiveTrip_package[9] = (byte)0x0D;
+                    if (this.displayType == eDisplayType.Relay)
+                        temp_AT = this.numericUpDown_InCurrkW.Value;
+                    else if (this.displayType == eDisplayType.Percent)
+                        temp_AT = this.numericUpDown_InCurrkW.Value * .050m;
+                    else
+                        temp_AT = this.numericUpDown_InCurrkW.Value / CTRatio;
+
+                    adaptiveTrip_package[9] = (byte)((int)((temp_AT * 5) * 10) >> 8);                                   // high byte of Instantenous Current KW direction
+                    adaptiveTrip_package[10] = (byte)(0x00FF & (int)((temp_AT * 5) * 10));                              // low byte of Instantenous Current KW direction
+
+                    if (this.displayType == eDisplayType.Relay)
+                        temp_AT = this.numericUpDown_InCurrkVAR.Value;
+                    else if (this.displayType == eDisplayType.Percent)
+                        temp_AT = this.numericUpDown_InCurrkVAR.Value * .050m;
+                    else
+                        temp_AT = this.numericUpDown_InCurrkVAR.Value / CTRatio;
+
+                    adaptiveTrip_package[11] = (byte)((int)((temp_AT * 5) * 10) >> 8);                                   // high byte of Instantenous Current kVAR direction
+                    adaptiveTrip_package[12] = (byte)(0x00FF & (int)((temp_AT * 5) * 10));                              // low byte of Instantenous Current kVAR direction
+
+                    adaptiveTrip_package[13] = (byte)0x0D;
                     mySEA.SendPacket = adaptiveTrip_package; // To be saved in master uP as in place of Green Delay parameter storage
                     Thread.Sleep(1000);   // 1 second delay
                     OnSend(mySEA);
@@ -700,7 +719,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
                     break;
-             /*   case TripModes.Adaptive:
+               /* case TripModes.Adaptive:
                     this.numericUpDownInsensTrip.Visible = false;
                     this.labelInsensTripUnit.Visible = false;
                     this.labelInstantCurrent.Visible = false;
@@ -935,6 +954,9 @@ namespace RelayControlLibrary
                     case TripModes.WattVar:
                         this.listBoxTripModes.SelectedIndex = 3;
                         break;
+                    /*case TripModes.Adaptive:
+                        this.listBoxTripModes.SelectedIndex = 4;
+                        break;*/
                     case TripModes.Sensitive:
                     case TripModes.RemoteTrip:
                     default:
