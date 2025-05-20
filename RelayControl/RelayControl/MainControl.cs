@@ -8810,8 +8810,12 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.ucRelayProgramming1.InitialAutoLoadFiles();
-            this.checkedDNPEnable = false;
+           // this.ucRelayProgramming1.InitialAutoLoadFiles();
+            //this.checkedDNPEnable = false;
+            this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
+            this.ucRelayProgramming1.askToUgradeShown = true;
+            this.ucRelayProgramming1.InitializeAutoload();
+            //this.BeginInvoke(new EventHandler(this.ucRelayProgramming1.buttonStartAutoLoad_Click));
         }
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)

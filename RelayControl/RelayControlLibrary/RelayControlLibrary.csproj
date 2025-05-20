@@ -215,7 +215,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>
-    <DefineConstants>ONCOR,DNP,DIGITALGRID</DefineConstants>
+    <DefineConstants>ONCOR,DNP,DIGITALGRID, PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Oncor|AnyCPU'">

@@ -64,7 +64,7 @@ namespace RelayControlLibrary
         private bool revTooLowErrorAlreadyShown = false;
         private bool dontShowRelayUpgradeMessage = false;
         private bool masterBootRevisionSet = false;
-        private bool askToUgradeShown = false;
+        public bool askToUgradeShown = false; //private bool askToUgradeShown = false;
         private bool reprogramBootCodeAuto = false;
         private string bootStartUpChar = "0";
         private bool wrongBootCodeLoaded = false;
@@ -75,7 +75,7 @@ namespace RelayControlLibrary
         private string masterRevisionString = "";
         private bool notPollingPort = false;
         private bool wrongRelayTypeAutoLoad = false;
-        private DialogResult upgradeAutoDR = DialogResult.No;
+        public DialogResult upgradeAutoDR = DialogResult.No; //private DialogResult upgradeAutoDR = DialogResult.No;
         private bool reprogrammingInProgress = false;
 
         public Customers Customer
@@ -853,11 +853,11 @@ namespace RelayControlLibrary
             {
                 this.CheckForProperBootCodeManualUpdate();
                 if (masterBootRevisionSet == true)
-                    this.startManualReloadWithBootCheck();
+                    this.startManualReloadWithBootCheck(); // finds a valid port with a relay
             }
             else
             {
-                this.startManualReload();
+                this.startManualReload(); // does not find any relay on any port
             }
 
         }
@@ -3701,7 +3701,8 @@ namespace RelayControlLibrary
             ProgramBootCodeStart = true;
         }
 
-        private void buttonStartAutoLoad_Click(object sender, EventArgs e)
+        //private void buttonStartAutoLoad_Click(object sender, EventArgs e)
+        public void buttonStartAutoLoad_Click(object sender, EventArgs e)
         {
             this.useDefaultSettings = false;
             this.dontReloadFromResource = true;
