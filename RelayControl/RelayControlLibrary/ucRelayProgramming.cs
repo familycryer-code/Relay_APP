@@ -305,7 +305,7 @@ namespace RelayControlLibrary
             {
                 // 012345 is the value loaded in the boot loader
                 if (value == 012345 || value == 121116)
-                    this.loadMasterFirst = true;
+                    this.loadMasterFirst = false;// true;
 
                 switch (this.State)
                 {
@@ -418,11 +418,11 @@ namespace RelayControlLibrary
         }
 
 
-        private bool reprogramMaster = false;
+        public bool reprogramMaster = false; //private bool reprogramMaster = false;
         private bool reprogramRelay = false;
         private bool reprogramFPGA = false;
         // initiaLoad is required because loading the relay from the boot code requires loading master first.  Once loaded, it is safer to load relay code first.
-        private bool loadMasterFirst = false;
+        public bool loadMasterFirst = false; //private bool loadMasterFirst = false;
         private bool gERelay = false;
         private bool gERelaySerialMatch = true;
         private bool dNPRelay = false;
@@ -684,7 +684,8 @@ namespace RelayControlLibrary
             }
         }
 
-        private void UpgradeBootCode()
+        //private void UpgradeBootCode()
+         public void UpgradeBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.dontShowRelayUpgradeMessage = true;
@@ -865,7 +866,8 @@ namespace RelayControlLibrary
         private void startManualReloadWithBootCheck()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.loadMasterFirst = true;
+           // this.loadMasterFirst = true;
+            this.loadMasterFirst = false;
             this.masterCode.WithParameters = false;
 
             setManualReloadVars();
@@ -1446,7 +1448,8 @@ namespace RelayControlLibrary
         }
 
 
-        private void startAutoLoad()
+        //private void startAutoLoad()
+        public void startAutoLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
@@ -1947,7 +1950,8 @@ namespace RelayControlLibrary
             }
         }
 
-        private void sendMasterBootCode()
+       // private void sendMasterBootCode()
+         public void sendMasterBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();

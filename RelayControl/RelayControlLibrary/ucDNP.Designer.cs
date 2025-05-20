@@ -1270,7 +1270,7 @@ namespace RelayControlLibrary
             this.comboBoxDNPBaudRate.Name = "comboBoxDNPBaudRate";
             this.comboBoxDNPBaudRate.Size = new System.Drawing.Size(100, 21);
             this.comboBoxDNPBaudRate.TabIndex = 35;
-            this.comboBoxDNPBaudRate.Text = "19200";
+            this.comboBoxDNPBaudRate.Text = "9600";//"19200";
             // 
             // labelBaudRate
             // 
