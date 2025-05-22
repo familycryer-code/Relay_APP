@@ -58,8 +58,8 @@ namespace RelayControlLibrary
 
         private uint tempBootAddress = 0;
         private bool programBootCodeOnly = false;
-        private bool programBootCodeStart = false;
-        private bool programBootCodeInProgress = false;
+        public bool programBootCodeStart = false;
+        public bool programBootCodeInProgress = false;
         private UInt32 masterBootRevisionNumberReceived = 0;
         private bool revTooLowErrorAlreadyShown = false;
         private bool dontShowRelayUpgradeMessage = false;
@@ -71,7 +71,7 @@ namespace RelayControlLibrary
         private bool reloadBootWithPrompt = false;
         private bool programMasterBootFileSelect = false;
         private string masterBootStringReceived = "0";
-        private bool autoLoad = false;
+        public bool autoLoad = false;
         private string masterRevisionString = "";
         private bool notPollingPort = false;
         private bool wrongRelayTypeAutoLoad = false;
@@ -306,7 +306,7 @@ namespace RelayControlLibrary
                 // 012345 is the value loaded in the boot loader
                 if (value == 012345 || value == 121116)
                     this.loadMasterFirst = false;// true;
-
+                
                 switch (this.State)
                 {
                     case RelayProgrammingStates.LoadingMasterCode:
@@ -343,23 +343,33 @@ namespace RelayControlLibrary
                 {
                     setWrongRelayTypeAutoLoad();
 #if DNP
-                    if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
-                        this.reprogramMaster = true;
-                    else
-                        this.reprogramMaster = false;
-#else
-                    if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
-                        this.reprogramMaster = true;
-                    else
-                    { 
-                        this.reprogramMaster = false;
-                        this.reprogramRelay = false;
+                    if (manualP.manualProgramming == false)
+                    {
+
+                        if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
+                            this.reprogramMaster = true;
+                        else
+                            this.reprogramMaster = false;
                     }
+                    else if (manualP.manualProgramming == true)
+                        this.reprogramMaster = true;
+#else
+                    if (manualP.manualProgramming == false)
+                    {
+                        if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
+                            this.reprogramMaster = true;
+                        else
+                        { 
+                            this.reprogramMaster = false;
+                            this.reprogramRelay = false;
+                        }
+                    }
+                    else if (manualP.manualProgramming == true)
+                        this.reprogramMaster = true;
 #endif
                 }
 
                 // This section handles rebooting the relay to get to the next loading section.
-
                 if (this.autoLoad && this.State == RelayProgrammingStates.WaitingForBootMaster)
                     this.startMasterProgramming();
                 else if (this.autoLoad && this.State == RelayProgrammingStates.WaitingForBootRelay)
@@ -370,10 +380,11 @@ namespace RelayControlLibrary
                 else if (this.autoLoad && this.State == RelayProgrammingStates.WaitingForBootFPGA && this.transmitterEnabled)
                 {
                     if (AutoReProgramF.AutoReProgramFPGA == true)
-                        this.programFPGA(); 
+                        this.programFPGA();
                 }
             }
         }
+
         public UInt32 RelayRevisionNumber
         {
             get { return this.remoteRelayRevisionNumber; }
@@ -419,7 +430,7 @@ namespace RelayControlLibrary
 
 
         public bool reprogramMaster = false; //private bool reprogramMaster = false;
-        private bool reprogramRelay = false;
+        public bool reprogramRelay = false; //private bool reprogramRelay = false;
         private bool reprogramFPGA = false;
         // initiaLoad is required because loading the relay from the boot code requires loading master first.  Once loaded, it is safer to load relay code first.
         public bool loadMasterFirst = false; //private bool loadMasterFirst = false;
@@ -588,9 +599,9 @@ namespace RelayControlLibrary
                 {
                     this.autoLoad = true;
 
-                    if (!this.MasterBootRevisionSet())
-                        return;
-
+                      if (!this.MasterBootRevisionSet())
+                          return;
+                   
                     if ((this.CheckForBootCodeUpdate() && masterBootRevisionSet == true) || (this.CheckForProperBootCodeAutoUpdate() && this.masterBootRevisionSet == true))
                     {
                         this.UpgradeBootCode();
@@ -694,7 +705,7 @@ namespace RelayControlLibrary
 
             this.programmingForm.ClearAllChecks();
 
-            warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
             if (warningBootDR == DialogResult.OK)
             {
@@ -726,10 +737,10 @@ namespace RelayControlLibrary
             {
                 //#if DNP
 #if (!DIGITALGRID)
-                //show that it is PLC relay on DNP PLC GUI
+                //show that it is PLC relay on DNP PLC APP
                 // dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
 #elif (DNP && ONCOR)
-                //show that it is PLC relay on DNP PLC GUI
+                //show that it is PLC relay on DNP PLC APP
                 //dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
 #endif
             }
@@ -866,8 +877,8 @@ namespace RelayControlLibrary
         private void startManualReloadWithBootCheck()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-           // this.loadMasterFirst = true;
-            this.loadMasterFirst = false;
+            this.loadMasterFirst = true;
+           // this.loadMasterFirst = false;
             this.masterCode.WithParameters = false;
 
             setManualReloadVars();
@@ -1082,7 +1093,7 @@ namespace RelayControlLibrary
             return;
 #endif
             /*
-            #if TAUNTON
+#if TAUNTON
                         this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorTaunton;
                         this.textBoxMasterFileName.Text = "Master Relay Taunton";
 
@@ -1108,7 +1119,7 @@ namespace RelayControlLibrary
 
                         logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
                         return;
-            #endif
+#endif
             */
 #if MADISON
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMadison;
@@ -1495,7 +1506,7 @@ namespace RelayControlLibrary
 
                     // If we aren't loading from resource, don't bother warning
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
-                        MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
+                        MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process");
 
                     logger.Trace("User Verified Programming Start");
                     Thread.Sleep(500);
@@ -1948,6 +1959,8 @@ namespace RelayControlLibrary
                 rPEA.BytesToSend[2] = Convert.ToByte('S');
                 this.onSend(rPEA);
             }
+            this.programBootCodeInProgress = false;
+            setManualReloadVars();
         }
 
        // private void sendMasterBootCode()
@@ -2620,7 +2633,7 @@ namespace RelayControlLibrary
             if (dR == DialogResult.Yes)
             {
                 this.programBootCodeOnly = true;
-                dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                 Thread.Sleep(3000); //need this delay here
                 ProgramBootCodeStart = true;
             }
@@ -2665,7 +2678,7 @@ namespace RelayControlLibrary
                     {
 
                         this.programBootCodeOnly = true;
-                        dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                        dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                         Thread.Sleep(3000); //need this delay here
                         this.ProgramBootCodeStart = true;
                     }
@@ -3693,7 +3706,7 @@ namespace RelayControlLibrary
 
         }
 
-        private void startManualBootCodeLoad()
+        public void startManualBootCodeLoad()//private void startManualBootCodeLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.programBootCodeOnly = true;

@@ -27,7 +27,7 @@ namespace RelayControlLibrary
             toolTip.SetToolTip(this.numericUpDownOverCurrent, "Current required in any phase (or ground) before looking at /rCurrent Imbalance, Low Voltage and Voltage Imbalance");
             toolTip.SetToolTip(this.numericUpDownVoltageImbalance, "Negative Sequence of the Network Voltages");
             toolTip.SetToolTip(this.comboBoxSSEnable, "Enable or Disable the mode");
-            toolTip.SetToolTip(this.domainUpDownDataViews, "Selects the way the values are viewed in the GUI");
+            toolTip.SetToolTip(this.domainUpDownDataViews, "Selects the way the values are viewed in the APP");
         }
 
         public bool EnableSafeService

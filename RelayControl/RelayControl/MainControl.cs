@@ -860,7 +860,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.checkBox277DNPOutputs, "Configures DNP outputs to scale to 277V");
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
-            this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
+            this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to APP");
             this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonRSTRelay, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
@@ -4216,7 +4216,7 @@ namespace RelayControl
                     else
                     {
 #if !DEBUG
-                        if (this.Customer != Customers.ConEdison) //if the GUI is not currently in ConEd mode
+                        if (this.Customer != Customers.ConEdison) //if the APP is not currently in ConEd mode
                         {
                             this.Customer = Customers.ConEdison;
                         }
@@ -8810,19 +8810,38 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-         //  this.ucRelayProgramming1.InitialAutoLoadFiles();
-          // this.checkedDNPEnable = false;
+              //this.ucRelayProgramming1.InitialAutoLoadFiles();
+              //this.checkedDNPEnable = false;
 
 
+
+            // ***************************** FOR NEW SEQUENCING ********************************
+            
+            this.ucRelayProgramming1.startManualBootCodeLoad();
+            
+            AutoReProgramR.AutoReProgramRelay = true;
+            this.ucRelayProgramming1.autoLoad = true;
+            this.ucRelayProgramming1.reprogramRelay = true;
+            this.ucRelayProgramming1.CheckForUpdate();
+
+            /*manualP.manualProgramming = true;
+            this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
             this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
             this.ucRelayProgramming1.InitializeAutoload();
-         /*   this.ucRelayProgramming1.askToUgradeShown = true;
-            this.ucRelayProgramming1.loadMasterFirst = false;
-          //  this.ucRelayProgramming1.State = RelayProgrammingStates.LoadingMasterBootLoader;
-          //  this.ucRelayProgramming1.sendMasterBootCode();
-            //    this.ucRelayProgramming1.InitializeAutoload();
-            this.ucRelayProgramming1.startAutoLoad();
             */
+            // this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
+            // this.ucRelayProgramming1.programBootCodeInProgress = false;
+            // this.ucRelayProgramming1.programBootCodeStart = true;
+            // this.ucRelayProgramming1.InitializeAutoload();
+
+
+            /*   this.ucRelayProgramming1.askToUgradeShown = true;
+               this.ucRelayProgramming1.loadMasterFirst = false;
+             //  this.ucRelayProgramming1.State = RelayProgrammingStates.LoadingMasterBootLoader;
+             //  this.ucRelayProgramming1.sendMasterBootCode();
+               //    this.ucRelayProgramming1.InitializeAutoload();
+               this.ucRelayProgramming1.startAutoLoad();
+               */
         }
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)

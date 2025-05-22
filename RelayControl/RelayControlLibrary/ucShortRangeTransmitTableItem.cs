@@ -27,7 +27,7 @@ namespace RelayControlLibrary
         {
             this.toolTip.SetToolTip(this.textBoxID, "The ID of the remote RNC box");
             this.toolTip.SetToolTip(this.textBoxAvgStrength, "The average strength of the two channels for ID " + this.ID.ToString());
-            this.toolTip.SetToolTip(this.textBoxChangeCount, "Number of times the ID has been replaced for this slot while the GUI has been attached to the relay");
+            this.toolTip.SetToolTip(this.textBoxChangeCount, "Number of times the ID has been replaced for this slot while the APP has been attached to the relay");
         }
 
         public int SlotNumber
@@ -78,7 +78,7 @@ namespace RelayControlLibrary
                     return;
                 }
 
-                // 65535 is the original ID number, both in the relay and in the GUI
+                // 65535 is the original ID number, both in the relay and in the APP
                 if (this.iD != value)
                     this.ChangeCount++;
 

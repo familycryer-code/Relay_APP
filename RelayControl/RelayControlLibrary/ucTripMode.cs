@@ -75,7 +75,7 @@ namespace RelayControlLibrary
             this.toolTip.SetToolTip(this.numericUpDownWVCurrent, "Amount of Current needed to trigger Watt-Var tripping characteristics");
             this.toolTip.SetToolTip(this.listBoxTripModes, "Select trip algorithm");
             this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
-            this.toolTip.SetToolTip(this.domainUpDownType, "Determines how the values are viewed in the GUI for the Trip Settings");
+            this.toolTip.SetToolTip(this.domainUpDownType, "Determines how the values are viewed in the APP for the Trip Settings");
             this.toolTip.SetToolTip(this.checkBoxEnableGullWing, "Enables the Trim Curve");
             this.toolTip.SetToolTip(this.checkBoxTripOnPowerDown, "Relay will attempt to Trip as it is losing power");
 

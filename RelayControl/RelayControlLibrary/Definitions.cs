@@ -1964,6 +1964,11 @@ namespace RelayControlLibrary
         public static int pwrPer;
     }
 
+    public static class manualP
+    {
+        public static bool manualProgramming;
+    }
+
     public static class flagP
     {
         public static byte transmitterFlagPolarity;

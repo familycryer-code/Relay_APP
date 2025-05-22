@@ -896,7 +896,7 @@ namespace RelayControlLibrary
 #if ENMAX
             this.comboBoxDNPBaudRate.SelectedIndex = 3;
 #else
-            this.comboBoxDNPBaudRate.SelectedIndex = 5;
+            this.comboBoxDNPBaudRate.SelectedIndex = 3;// 5;
 #endif
         }
 
