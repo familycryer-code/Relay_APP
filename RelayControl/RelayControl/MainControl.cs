@@ -8810,18 +8810,20 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-              //this.ucRelayProgramming1.InitialAutoLoadFiles();
-              //this.checkedDNPEnable = false;
+            //this.ucRelayProgramming1.InitialAutoLoadFiles();
+            //this.checkedDNPEnable = false;
 
 
 
             // ***************************** FOR NEW SEQUENCING ********************************
-            
+            manualP.manualProgramming = true;
             this.ucRelayProgramming1.startManualBootCodeLoad();
             
             AutoReProgramR.AutoReProgramRelay = true;
             this.ucRelayProgramming1.autoLoad = true;
             this.ucRelayProgramming1.reprogramRelay = true;
+            this.ucRelayProgramming1.reprogramFPGA = true;
+            AutoReProgramF.AutoReProgramFPGA = true;
             this.ucRelayProgramming1.CheckForUpdate();
 
             /*manualP.manualProgramming = true;

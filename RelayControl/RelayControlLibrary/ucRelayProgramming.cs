@@ -283,7 +283,10 @@ namespace RelayControlLibrary
             set
             {
                 this.transmitterEnabled = value;
-                this.programmingForm.TransmitterPresent = value;
+                if(!manualP.manualProgramming)
+                    this.programmingForm.TransmitterPresent = value;
+                else
+                    this.programmingForm.TransmitterPresent = true;
                 this.currentRelayLog.FPGAPresent = value;
                 if (!value)
                     this.reprogramFPGA = false;
@@ -431,7 +434,7 @@ namespace RelayControlLibrary
 
         public bool reprogramMaster = false; //private bool reprogramMaster = false;
         public bool reprogramRelay = false; //private bool reprogramRelay = false;
-        private bool reprogramFPGA = false;
+        public bool reprogramFPGA = false; //private bool reprogramFPGA = false;
         // initiaLoad is required because loading the relay from the boot code requires loading master first.  Once loaded, it is safer to load relay code first.
         public bool loadMasterFirst = false; //private bool loadMasterFirst = false;
         private bool gERelay = false;
@@ -1464,8 +1467,8 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
-            if (this.serialNumberError)
-                return;
+           // if (this.serialNumberError)
+           //     return;
 
             if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
@@ -1498,6 +1501,7 @@ namespace RelayControlLibrary
 
                 if (dR == DialogResult.Yes)
                 {
+                    
                     RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
                     rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
@@ -1506,8 +1510,13 @@ namespace RelayControlLibrary
 
                     // If we aren't loading from resource, don't bother warning
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
-                        MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process");
+                    MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process");
 
+                    /*
+                    startManualBootCodeLoad();
+                    ProgramBootCode();
+                    sendMasterBootCode();
+                    */
                     logger.Trace("User Verified Programming Start");
                     Thread.Sleep(500);
                     this.autoLoad = true;
@@ -1517,6 +1526,9 @@ namespace RelayControlLibrary
                     this.startProgramming();
                     if (!this.programmingForm.Visible)
                         this.programmingForm.ShowDialog();
+                    
+
+
                 }
             }
             else
@@ -2069,6 +2081,11 @@ namespace RelayControlLibrary
                 if (this.masterCode.DataBytes.Count == 0 || (temp == this.masterCode.NonParameterCount && !this.masterCode.WithParameters))
                 {
                     logger.Trace("");
+                    if (manualP.manualProgramming)
+                    { 
+                        this.reprogramFPGA = true;
+                        
+                    }
                     this.doneLoadingMaster();
                     return;
                 }
@@ -2332,7 +2349,7 @@ namespace RelayControlLibrary
             AutoReProgramR.AutoReProgramRelay = false;
             AutoReProgramF.AutoReProgramFPGA = false;
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
-
+            manualP.manualProgramming = false;
             rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
 
             this.onSend(rPEA);
@@ -2399,10 +2416,13 @@ namespace RelayControlLibrary
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
                 logger.Trace("Reprogam Completed Successfully");
                 logger.Trace("FinalizeReprogram");
+                manualP.manualProgramming = false;
                 this.state = RelayProgrammingStates.Idle;
                 this.autoLoad = false;
                 this.loadMasterFirst = false;
                 this.firstCheckForUpdate = false;
+                this.reprogramRelay = true;
+                this.programmingForm.ClearAllChecks();
                 restartProgram();
             }
         }
@@ -2495,7 +2515,7 @@ namespace RelayControlLibrary
                 logger.Trace("Sent FPGA Transfer Packet");
             }
             this.timerTimeout.Stop();
-            this.timerTimeout.Interval = 7000;
+            this.timerTimeout.Interval = 10000;// 7000;
             this.timerTimeout.Start();
         }
 
@@ -3549,6 +3569,14 @@ namespace RelayControlLibrary
             this.sendRelayReset();
             if ((wrongRelayTypeAutoLoad && !masterRevisionString.Contains("DNP")) || programmingForm.MasterBootComplete)
                 Thread.Sleep(1000);
+
+            this.programmingForm.RelayCodeComplete = true;
+            this.programmingForm.RelayDataComplete = true;
+            this.programmingForm.MasterCodeComplete = true;
+            this.programmingForm.MasterDataComplete = true;
+            Thread.Sleep(3000);
+            this.programFPGA();
+
         }
 
         private void sendQuietMode()
@@ -3628,6 +3656,7 @@ namespace RelayControlLibrary
 
         private void programFPGA()
         {
+            this.programmingForm.TransmitterPresent = true;
             this.reprogramFPGA = true;
             this.transmitterEnabled = true;
             this.parseFPGAFile(this.fPGACode);
@@ -3665,7 +3694,7 @@ namespace RelayControlLibrary
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
+            
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out - Restarting";
             logger.Trace("Timed Out in State " + this.state);
@@ -3708,8 +3737,9 @@ namespace RelayControlLibrary
 
         public void startManualBootCodeLoad()//private void startManualBootCodeLoad()
         {
+            this.programmingForm.TransmitterPresent = true;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.programBootCodeOnly = true;
+         //   this.programBootCodeOnly = true;
             this.autoLoad = false;
             this.manualReload = false;
             this.timerTimeout.Stop();
