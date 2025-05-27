@@ -1256,7 +1256,7 @@ namespace RelayControlLibrary
 #endif
 
             //#if DNP && (!ENMAX && !PSEG)
-#if DNP && (!ENMAX && !PSEG) && !CONED && !TORONTO_HYDRO
+#if DNP && (!ENMAX && !PSEG) && !CONED && !TORONTO_HYDRO && !ONCOR
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;

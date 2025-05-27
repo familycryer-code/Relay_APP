@@ -765,6 +765,7 @@ namespace RelayControlLibrary
             }
             else if (relayHBD.relayWithHBD == true)
             {// For master uP with HBoard
+#if CONED
                 if ((bytePacket[6] & 2) == 2) // Digital Input 1
                 {
                     this.checkBoxFlagStatusA.Checked = true;
@@ -782,7 +783,25 @@ namespace RelayControlLibrary
                 {
                     this.checkBoxFlagStatusB.Checked = false;
                 }
+#elif TORONTO_HYDRO
+                if ((bytePacket[6] & 2) == 2) // Digital Input 1
+                {
+                    this.checkBoxFlagStatusB.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusB.Checked = false;
+                }
 
+                if ((bytePacket[6] & 8) == 8) // Digital Input 2
+                {
+                    this.checkBoxFlagStatusA.Checked = true;
+                }
+                else
+                {
+                    this.checkBoxFlagStatusA.Checked = false;
+                }
+#endif
                 if ((bytePacket[6] & 1) == 1) // Digital Input 3
                 {
                     this.checkBoxFlagStatusC.Checked = true;
