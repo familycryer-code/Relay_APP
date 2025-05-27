@@ -310,6 +310,12 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TorontoHydro|AnyCPU'">
+    <OutputPath>bin\Debug TorontoHydro\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -8810,40 +8810,8 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.ucRelayProgramming1.InitialAutoLoadFiles();
-            //this.checkedDNPEnable = false;
-
-
-
-            // ***************************** FOR NEW SEQUENCING ********************************
-            manualP.manualProgramming = true;
-            this.ucRelayProgramming1.startManualBootCodeLoad();
-            
-            AutoReProgramR.AutoReProgramRelay = true;
-            this.ucRelayProgramming1.autoLoad = true;
-            this.ucRelayProgramming1.reprogramRelay = true;
-            this.ucRelayProgramming1.reprogramFPGA = true;
-            AutoReProgramF.AutoReProgramFPGA = true;
-            this.ucRelayProgramming1.CheckForUpdate();
-
-            /*manualP.manualProgramming = true;
-            this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
-            this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
-            this.ucRelayProgramming1.InitializeAutoload();
-            */
-            // this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
-            // this.ucRelayProgramming1.programBootCodeInProgress = false;
-            // this.ucRelayProgramming1.programBootCodeStart = true;
-            // this.ucRelayProgramming1.InitializeAutoload();
-
-
-            /*   this.ucRelayProgramming1.askToUgradeShown = true;
-               this.ucRelayProgramming1.loadMasterFirst = false;
-             //  this.ucRelayProgramming1.State = RelayProgrammingStates.LoadingMasterBootLoader;
-             //  this.ucRelayProgramming1.sendMasterBootCode();
-               //    this.ucRelayProgramming1.InitializeAutoload();
-               this.ucRelayProgramming1.startAutoLoad();
-               */
+            this.ucRelayProgramming1.InitialAutoLoadFiles();
+            this.checkedDNPEnable = false;
         }
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)

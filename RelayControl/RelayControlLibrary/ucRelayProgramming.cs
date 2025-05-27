@@ -989,13 +989,14 @@ namespace RelayControlLibrary
 
             this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
             this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            */
+            
 
             if (this.transmitterEnabled)
             {
                 this.parseFPGAFile(this.fPGACode);
                 this.textBoxFPGAFile.Text = "FPGA Code From Resource";
             }
+            */
 
 #if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG || BGE) && !DNP
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
@@ -1255,7 +1256,7 @@ namespace RelayControlLibrary
 #endif
 
             //#if DNP && (!ENMAX && !PSEG)
-#if DNP && (!ENMAX && !PSEG) && !CONED
+#if DNP && (!ENMAX && !PSEG) && !CONED && !TORONTO_HYDRO
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
@@ -1301,7 +1302,7 @@ namespace RelayControlLibrary
             return;
 #endif
 
-#if (TORONTO_HYDRO)
+#if (TORONTO_HYDRO && DNP)
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_TorontoHydro;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -1309,8 +1310,8 @@ namespace RelayControlLibrary
             this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
 #endif
 
-//#if DIGITALGRID
-#if DIGITALGRID && !CONED
+            //#if DIGITALGRID
+#if DIGITALGRID && !CONED && !TORONTO_HYDRO
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMemphis; // Master Processor for GE with PLC only
