@@ -100,17 +100,17 @@ namespace RelayControlLibrary
             // listBoxTripModes
             // 
             this.listBoxTripModes.FormattingEnabled = true;
-            /*this.listBoxTripModes.Items.AddRange(new object[] {
-            "Sensitive",
-            "Insensitive",
-            "Time Delay",
-            "Watt-Var",
-            "Adaptive"}); */
             this.listBoxTripModes.Items.AddRange(new object[] {
             "Sensitive",
             "Insensitive",
             "Time Delay",
-            "Watt-Var"});
+            "Watt-Var",
+            "Adaptive"}); 
+           /* this.listBoxTripModes.Items.AddRange(new object[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Watt-Var"});*/
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
             this.listBoxTripModes.Size = new System.Drawing.Size(75, 69);
