@@ -61,7 +61,9 @@ namespace RelayControlLibrary
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
+            #if !TORONTO_HYDRO
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogOutputs);
+            #endif
             this.tabControlMemphisDNP.Location = new System.Drawing.Point(0, 0);
             this.tabControlMemphisDNP.Name = "tabControlMemphisDNP";
             this.tabControlMemphisDNP.SelectedIndex = 0;
@@ -203,7 +205,7 @@ namespace RelayControlLibrary
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.Button buttonSendBinaryEventEnables;
         private System.Windows.Forms.TabControl tabControlMemphisDNP;
