@@ -376,6 +376,7 @@ namespace RelayControlLibrary
             this.lblUnitPerClVoltage.Size = new System.Drawing.Size(14, 13);
             this.lblUnitPerClVoltage.TabIndex = 49;
             this.lblUnitPerClVoltage.Text = "V";
+            this.lblUnitPerClVoltage.Visible = false;
             // 
             // lblUnitPermClAcTime
             // 
@@ -385,6 +386,7 @@ namespace RelayControlLibrary
             this.lblUnitPermClAcTime.Size = new System.Drawing.Size(22, 10);
             this.lblUnitPermClAcTime.TabIndex = 48;
             this.lblUnitPermClAcTime.Text = "min";
+            this.lblUnitPermClAcTime.Visible = false;
             // 
             // lblUnitFloatTime
             // 
@@ -394,6 +396,7 @@ namespace RelayControlLibrary
             this.lblUnitFloatTime.Size = new System.Drawing.Size(35, 13);
             this.lblUnitFloatTime.TabIndex = 47;
             this.lblUnitFloatTime.Text = "Hours";
+            this.lblUnitFloatTime.Visible = false;
             // 
             // numericnumericUpDown_PermClVoltage
             // 
@@ -411,6 +414,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
+            this.numericnumericUpDown_PermClVoltage.Visible = false;
             // 
             // lblPermCloseVoltage
             // 
@@ -420,6 +424,7 @@ namespace RelayControlLibrary
             this.lblPermCloseVoltage.Size = new System.Drawing.Size(128, 13);
             this.lblPermCloseVoltage.TabIndex = 45;
             this.lblPermCloseVoltage.Text = "Permissive Close Voltage:";
+            this.lblPermCloseVoltage.Visible = false;
             // 
             // numericUpDown_PermClActTime
             // 
@@ -442,6 +447,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
+            this.numericUpDown_PermClActTime.Visible = false;
             // 
             // lblPermCloseActiveTime
             // 
@@ -451,6 +457,7 @@ namespace RelayControlLibrary
             this.lblPermCloseActiveTime.Size = new System.Drawing.Size(148, 13);
             this.lblPermCloseActiveTime.TabIndex = 43;
             this.lblPermCloseActiveTime.Text = "Permissive Close Active Time:";
+            this.lblPermCloseActiveTime.Visible = false;
             // 
             // numericUpDown_FloatTime
             // 
@@ -473,6 +480,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
+            this.numericUpDown_FloatTime.Visible = false;
             // 
             // lblFloattTime
             // 
@@ -482,6 +490,7 @@ namespace RelayControlLibrary
             this.lblFloattTime.Size = new System.Drawing.Size(59, 13);
             this.lblFloattTime.TabIndex = 41;
             this.lblFloattTime.Text = "Float Time:";
+            this.lblFloattTime.Visible = false;
             // 
             // ucCloseMode
             // 

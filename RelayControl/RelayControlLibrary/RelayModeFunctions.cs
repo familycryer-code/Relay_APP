@@ -75,8 +75,8 @@ namespace RelayControlLibrary
                 case TripModes.TimeDelay:
                     return (byte)_TimeDelayOpCode;
 
-                case TripModes.Adaptive:
-                    return (byte)_AdaptiveTripOpCode;
+             //  case TripModes.Adaptive:
+             //       return (byte)_AdaptiveTripOpCode;
 
                 case TripModes.RemoteTrip:
                     return (byte)_RemoteTripOpCode;
@@ -132,8 +132,8 @@ namespace RelayControlLibrary
                     return TripModes.TimeDelay;
                 case 'W':
                     return TripModes.WattVar;
-                case 'A':
-                    return TripModes.Adaptive;
+              //  case 'A':
+              //      return TripModes.Adaptive;
                 default:
                     throw new Exception("Unrecognized Character");
             }
@@ -162,10 +162,10 @@ namespace RelayControlLibrary
             {
                 tM = TripModes.WattVar;
             }
-            else if (s == "Adaptive" || s == "A")
+           /* else if (s == "Adaptive" || s == "A")
             {
                 tM = TripModes.Adaptive;
-            }
+            }*/
             else
             {
                 throw new Exception("Unrecognized Input String");
@@ -188,8 +188,8 @@ namespace RelayControlLibrary
                     return "Time Delay";
                 case TripModes.WattVar:
                     return "Watt-Var";
-                case TripModes.Adaptive:
-                    return "Adaptive";
+               // case TripModes.Adaptive:
+                //    return "Adaptive";
                 default:
                     throw new Exception("Bad Trip Mode Value");
             }

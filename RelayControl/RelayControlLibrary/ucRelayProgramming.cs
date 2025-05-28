@@ -523,6 +523,7 @@ namespace RelayControlLibrary
                 regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor;
                 regular.RelayFileAtlantaWH = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
                 regular.RelayFileAtlantaGE = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
+                regular.MasterFileTorontoHydroDNPHBD = RelayControlLibrary.Properties.Resources.MasterProcessor_TorontoHydro;
 
                 CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
@@ -4197,6 +4198,7 @@ namespace RelayControlLibrary
             this.RelayFileWH = cLF.RelayFileWH;
             this.RelayFileAtlantaWH = cLF.RelayFileAtlantaWH;
             this.RelayFileAtlantaGE = cLF.RelayFileAtlantaGE;
+            this.MasterFileTorontoHydroDNPHBD = cLF.MasterFileTorontoHydroDNPHBD;
         }
 
         public Customers Customer = Customers.None;
@@ -4214,6 +4216,7 @@ namespace RelayControlLibrary
         public string MasterFileDNPPLC;
         public string MasterFileAtlantaDNPGE;
         public string MasterFileAtlantaDNPWH;
+        public string MasterFileTorontoHydroDNPHBD;
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
     }
 
