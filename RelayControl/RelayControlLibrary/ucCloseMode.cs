@@ -613,10 +613,7 @@ namespace RelayControlLibrary
             }
             try
             {
-             //   MessageBox.Show(bytePacket[4].ToString() + " bytePacket[4] used for Phasing Voltage calculation");// Only for testing - to be removed
-             //   MessageBox.Show(bytePacket[5].ToString() + " bytePacket[5] used for Phasing Voltage calculation");// Only for testing - to be removed
-
-                //Phasing Voltage Bytes - Horizontal
+              //Phasing Voltage Bytes - Horizontal
                 uTemp = bytePacket[5];
                 uTemp <<= 8;
                 uTemp += bytePacket[4];
