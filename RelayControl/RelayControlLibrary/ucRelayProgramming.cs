@@ -12,6 +12,7 @@ using System.Linq;
 using SharedResources;
 using System.Diagnostics;
 using NLog;
+using System.Timers;
 
 namespace RelayControlLibrary
 {
@@ -283,7 +284,7 @@ namespace RelayControlLibrary
             set
             {
                 this.transmitterEnabled = value;
-                if(!manualP.manualProgramming)
+                if (!manualP.manualProgramming)
                     this.programmingForm.TransmitterPresent = value;
                 else
                     this.programmingForm.TransmitterPresent = true;
@@ -300,7 +301,7 @@ namespace RelayControlLibrary
                 }
             }
         }
-        
+
         public UInt32 MasterRevisionNumber
         {
             get { return this.remoteMasterRevisionNumber; }
@@ -309,7 +310,7 @@ namespace RelayControlLibrary
                 // 012345 is the value loaded in the boot loader
                 if (value == 012345 || value == 121116)
                     this.loadMasterFirst = false;// true;
-                
+
                 switch (this.State)
                 {
                     case RelayProgrammingStates.LoadingMasterCode:
@@ -401,7 +402,7 @@ namespace RelayControlLibrary
                     AutoReProgramR.AutoReProgramRelay = true;
                 }
                 else
-                { 
+                {
                     this.reprogramRelay = false;
                     AutoReProgramR.AutoReProgramRelay = false;
                 }
@@ -603,9 +604,9 @@ namespace RelayControlLibrary
                 {
                     this.autoLoad = true;
 
-                      if (!this.MasterBootRevisionSet())
-                          return;
-                   
+                    if (!this.MasterBootRevisionSet())
+                        return;
+
                     if ((this.CheckForBootCodeUpdate() && masterBootRevisionSet == true) || (this.CheckForProperBootCodeAutoUpdate() && this.masterBootRevisionSet == true))
                     {
                         this.UpgradeBootCode();
@@ -700,7 +701,7 @@ namespace RelayControlLibrary
         }
 
         //private void UpgradeBootCode()
-         public void UpgradeBootCode()
+        public void UpgradeBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.dontShowRelayUpgradeMessage = true;
@@ -882,7 +883,7 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.loadMasterFirst = true;
-           // this.loadMasterFirst = false;
+            // this.loadMasterFirst = false;
             this.masterCode.WithParameters = false;
 
             setManualReloadVars();
@@ -1367,7 +1368,13 @@ namespace RelayControlLibrary
                         this.askIfGERelay();
                     this.setProgrammingFiles();
 
-                    this.startAutoLoad();
+                    if (manualP.manualProgramming)
+                    {
+                        manualP.manualProgramming = false;
+                        this.InitializeAutoload(); 
+                    }
+                    else
+                        this.startAutoLoad();
                 }
                 else
                     logger.Trace("No Updated Needed");
@@ -1469,8 +1476,8 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
-           // if (this.serialNumberError)
-           //     return;
+             if (this.serialNumberError)
+                 return;
 
             if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
@@ -1503,7 +1510,7 @@ namespace RelayControlLibrary
 
                 if (dR == DialogResult.Yes)
                 {
-                    
+
                     RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
                     rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
@@ -1511,14 +1518,11 @@ namespace RelayControlLibrary
                     this.onSend(rPEA);
 
                     // If we aren't loading from resource, don't bother warning
-                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
+                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false) // when programming files are NOT tobe selected manually usnig engineering APP
                     MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the APP during the upgrade process");
+                    //    MessageBox.Show("");
 
-                    /*
-                    startManualBootCodeLoad();
-                    ProgramBootCode();
-                    sendMasterBootCode();
-                    */
+
                     logger.Trace("User Verified Programming Start");
                     Thread.Sleep(500);
                     this.autoLoad = true;
@@ -1528,7 +1532,7 @@ namespace RelayControlLibrary
                     this.startProgramming();
                     if (!this.programmingForm.Visible)
                         this.programmingForm.ShowDialog();
-                    
+
 
 
                 }
@@ -1977,8 +1981,8 @@ namespace RelayControlLibrary
             setManualReloadVars();
         }
 
-       // private void sendMasterBootCode()
-         public void sendMasterBootCode()
+        // private void sendMasterBootCode()
+        public void sendMasterBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
@@ -2084,9 +2088,9 @@ namespace RelayControlLibrary
                 {
                     logger.Trace("");
                     if (manualP.manualProgramming)
-                    { 
+                    {
                         this.reprogramFPGA = true;
-                        
+
                     }
                     this.doneLoadingMaster();
                     return;
@@ -2208,7 +2212,8 @@ namespace RelayControlLibrary
             }
             else
             {
-                if (true)//this.autoLoad)
+                //if (true)//this.autoLoad)
+                if (this.autoLoad)
                 {
                     this.programmingForm.RelayDataComplete = true;
                     if (this.reprogramFPGA)
@@ -2350,6 +2355,7 @@ namespace RelayControlLibrary
             this.firstCheckForUpdate = false;
             AutoReProgramR.AutoReProgramRelay = false;
             AutoReProgramF.AutoReProgramFPGA = false;
+            askToUgradeShown = false;
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
             manualP.manualProgramming = false;
             rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
@@ -3387,8 +3393,8 @@ namespace RelayControlLibrary
                             this.programmingForm.MasterCodeComplete = true;
                             this.programmingForm.MasterDataComplete = true;
                             if (AutoReProgramF.AutoReProgramFPGA == true)
-                            { 
-                                this.programFPGA(); 
+                            {
+                                this.programFPGA();
                             }
                         }
                         else
@@ -3696,7 +3702,7 @@ namespace RelayControlLibrary
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            
+
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out - Restarting";
             logger.Trace("Timed Out in State " + this.state);
@@ -3741,7 +3747,7 @@ namespace RelayControlLibrary
         {
             this.programmingForm.TransmitterPresent = true;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-         //   this.programBootCodeOnly = true;
+            //   this.programBootCodeOnly = true;
             this.autoLoad = false;
             this.manualReload = false;
             this.timerTimeout.Stop();
@@ -3770,7 +3776,7 @@ namespace RelayControlLibrary
                 AutoReProgramR.AutoReProgramRelay = true;
             }
             else
-            { 
+            {
                 this.reprogramRelay = false;
                 AutoReProgramR.AutoReProgramRelay = false;
             }

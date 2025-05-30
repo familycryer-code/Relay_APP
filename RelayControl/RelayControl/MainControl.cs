@@ -157,16 +157,16 @@ namespace RelayControl
 #if !WATERBUG
                     if (this.Customer == Customers.SMUD)
                         this.TransmitterEnabled = false;
-                    
+
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     {
-//#if !LONDONH
+                        //#if !LONDONH
 #if !LONDONH && !DIGITALGRID && !DOMINION
                         this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);                      
+                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);
 #endif
                     }
-                    if (this.customer != Customers.Memphis) 
+                    if (this.customer != Customers.Memphis)
                     {
                         if (this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
                         {
@@ -175,7 +175,7 @@ namespace RelayControl
                         }
                         // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor || this.Customer == Customers.TorontoHydro) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))                        
+                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor || this.Customer == Customers.TorontoHydro) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         {
                             setDNPTabPoints();
                         }
@@ -188,7 +188,7 @@ namespace RelayControl
 #endif
                         if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         {
-//#if !LONDONH && !DIGITALGRID
+                            //#if !LONDONH && !DIGITALGRID
 #if !LONDONH && !DIGITALGRID && !DOMINION
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
@@ -202,8 +202,8 @@ namespace RelayControl
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
-                    }
-                    else
+                }
+                else
                 {
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
@@ -223,8 +223,8 @@ namespace RelayControl
         private void setDNPTabPoints()
         {
             //#if (!DIGITALGRID || ONCOR)
-//#if ((!DIGITALGRID || ONCOR) && !DOMINION)
-#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX  )
+            //#if ((!DIGITALGRID || ONCOR) && !DOMINION)
+#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX)
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
             this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
@@ -282,8 +282,8 @@ namespace RelayControl
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 2;
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 2;
             Location = new Point(screen.Left + (screen.Width - w) / 2, screen.Top + (screen.Height - h) / 2);
-            Size = new Size(w-300, h);
-            
+            Size = new Size(w - 300, h);
+
 
             this.AutoSize = false;
             // Get the version number
@@ -293,8 +293,8 @@ namespace RelayControl
             logger.Info("Version number: {0}", version);
             // Officially start everything
             this.MainControlInit();
-//#if !DEBUG
-//            tCPConnectionToolStripMenuItem.Visible = false;
+            //#if !DEBUG
+            //            tCPConnectionToolStripMenuItem.Visible = false;
 #if DNP
             tCPConnectionToolStripMenuItem.Visible = true;
 #endif
@@ -309,8 +309,8 @@ namespace RelayControl
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
 #if DEBUG
-                    this.initializeFromConfigFileDebug();
-                    labelConEdPowerRelay.Visible = false;
+                this.initializeFromConfigFileDebug();
+                labelConEdPowerRelay.Visible = false;
 #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
@@ -326,8 +326,8 @@ namespace RelayControl
 
                 this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
 #if !SeattleTest
-                    this.initializeExternalFileRevisionNumber(); //Get the saved data version
-                    this.initializeSaveObject();            //Check the save data to see
+                this.initializeExternalFileRevisionNumber(); //Get the saved data version
+                this.initializeSaveObject();            //Check the save data to see
 #endif
 
 #if PSEG
@@ -346,11 +346,11 @@ namespace RelayControl
 #if ATLANTA
                     this.groupBoxLowVoltThres.Visible = true;
 #else
-                    this.groupBoxLowVoltThres.Visible = false;
+                this.groupBoxLowVoltThres.Visible = false;
 #endif
                 //#if LONDONH
 #if (!DIGITALGRID || DIGITALGRIDDNP)
-                     this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
 
                 /* #if (DIGITALGRID && !ONCOR)
@@ -464,7 +464,7 @@ namespace RelayControl
 
                 this.radioButtonEvent0.Checked = true;
                 this.initializeToolTip();
-                #if DG288_TESTFIXTURE_GUI
+#if DG288_TESTFIXTURE_GUI
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                         this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
@@ -516,12 +516,12 @@ namespace RelayControl
                     this.acknowledgeToolStripMenuItem1.Visible = false;
                     this.toolsToolStripMenuItem.Visible = false;
                     this.enableAutoloadToolStripMenuItem.Checked = false;
-                #endif
+#endif
 
-                #if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
+#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
                     this.loadConfigurationToolStripMenuItem.Visible = false;
                     this.enableAutoloadToolStripMenuItem.Checked = true;
-                #endif
+#endif
             }
             catch (Exception ex)
             {
@@ -543,7 +543,7 @@ namespace RelayControl
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
 
 
-                #if SeattleTest
+#if SeattleTest
                     this.noMonitoringVersion = true;
                     this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
                     this.tabControlMain.TabPages.Remove(this.tabPageControl);
@@ -567,26 +567,26 @@ namespace RelayControl
                     this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + Properties.Resources._RevisionDate;// 2011-10-28";
                     this.toolStripStatusLabelMain.Text = "";
                     this.searchForRelay = false;
-                #elif DEBUG
-                    this.setCustomersRevisionName();
+#elif DEBUG
+                this.setCustomersRevisionName();
 
-                    this.noMonitoringVersion = false;
-                    this.buttonForceI.Visible = true;
-                    this.ucCalibration1.Visible = true;
-                    this.buttonUpdateDisplay.Visible = true;
-                    this.enableAll(true);
-                    this.tabPageFlightRecorder.Show();
-                    this.tabPageEvents.Show();
-                    #if !DG288_TESTFIXTURE_GUI
-                                    //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
-                                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
-                    #elif DG288_TESTFIXTURE_GUI
+                this.noMonitoringVersion = false;
+                this.buttonForceI.Visible = true;
+                this.ucCalibration1.Visible = true;
+                this.buttonUpdateDisplay.Visible = true;
+                this.enableAll(true);
+                this.tabPageFlightRecorder.Show();
+                this.tabPageEvents.Show();
+#if !DG288_TESTFIXTURE_GUI
+                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
+#elif DG288_TESTFIXTURE_GUI
                                     this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
-                    #endif
-                    this.ArcFaultEnabled = true;
-                    this.Customer = Customers.DIGITALGRID;
+#endif
+                this.ArcFaultEnabled = true;
+                this.Customer = Customers.DIGITALGRID;
 
-                #elif WATERBUG
+#elif WATERBUG
                     this.noMonitoringVersion = false;
                     this.buttonForceI.Visible = true;
                     this.tabControlMain.TabPages.Clear();
@@ -617,7 +617,7 @@ namespace RelayControl
                     this.groupBoxVaultMonitoringCommands.Text = "Monitoring Commands";
                     this.enableAllToolStripMenuItem.Visible = false;
                                 this.ArcFaultEnabled = false;
-                #else
+#else
                 this.setCustomersRevisionName();
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
@@ -665,12 +665,12 @@ namespace RelayControl
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
-                #if DNP && !ENMAX
+#if DNP && !ENMAX
                     // this.TransmitterEnabled = false;
                     this.TransmitterEnabled = true;
-                #else
+#else
                     TransmitterEnabled = true;
-                #endif
+#endif
 
                 this.ArcFaultEnabled = false;
 #if NU
@@ -711,7 +711,7 @@ namespace RelayControl
 #elif DNP
                 this.Customer = Customers.DIGITALGRIDDNP;
                             this.DNPEnabled = true;
-                #if ATLANTA //|| ONCOR
+#if ATLANTA //|| ONCOR
                                ucRemoteCommandBlock1.Visible = false;
                                 this.ucRemoteCommandBlock1.Visible = false;
                                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
@@ -720,38 +720,38 @@ namespace RelayControl
                                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
                                 if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
                                     this.tabControlMain.TabPages.Add(this.tabPageShortRange);
-                #endif
-            #else
+#endif
+#else
                             this.Customer = Customers.NonConEd;
                             this.DNPEnabled = false;
                             this.TransmitterEnabled = true;
                             this.enableAllToolStripMenuItem.Visible = true;
-            #endif
-    #endif
+#endif
+#endif
                 this.enableAllToolStripMenuItem.Visible = true;
 
 #if DNP
 #if DEBUG
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
 #endif
-//#if (!DIGITALGRID || DIGITALGRIDDNP)
+                //#if (!DIGITALGRID || DIGITALGRIDDNP)
 #if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX)
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                        this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                        this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                        this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                        this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 #endif
 #if (DIGITALGRID && !ONCOR)
     //#if (DIGITALGRIDDNP)
@@ -868,7 +868,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.buttonTripRelay, "Send a Remote Trip to the relay");
         }
 
-#region Relay Flags/Status
+        #region Relay Flags/Status
 
         private List<string> relayStatus1 = new List<string>();
         private List<string> relayStatus2 = new List<string>();
@@ -980,7 +980,7 @@ namespace RelayControl
 
 
         }
-#endregion
+        #endregion
 
         void standardizedSendData(object o, SendEventArgs sEA)
         {
@@ -1568,7 +1568,7 @@ namespace RelayControl
 
                     this.allEnabled = b;
                     this.ucTransmitter1.EnableControl();
-                 }
+                }
             }
             catch (Exception ex)
             {
@@ -2615,7 +2615,7 @@ namespace RelayControl
             }
         }
 
-#region Flight Recorder Section
+        #region Flight Recorder Section
         private CalibrationConstant[] calibrationConstants = new CalibrationConstant[15];
 
         private void sendTime(DateTime dT)
@@ -3144,7 +3144,7 @@ namespace RelayControl
             this.sendPacket(sendPacket);
         }
 
-#endregion
+        #endregion
 
         private Thread closePort;
 
@@ -3357,7 +3357,7 @@ namespace RelayControl
                 tempI += bytePacket[0];
 
                 this.ucTransmitterMonitoring1.TransmitterID = tempI.ToString();
-                
+
                 //Serial Number
                 tempI = bytePacket[3];
                 tempI <<= 8;
@@ -3406,7 +3406,7 @@ namespace RelayControl
                 this.savedSerialNumber = tempI;
 
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
-             //   this.ucTransmitterMonitoring2.TransmitterSN = tempI.ToString();
+                //   this.ucTransmitterMonitoring2.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
@@ -3416,7 +3416,7 @@ namespace RelayControl
                 tempI += bytePacket[4];
 
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
-              //  this.ucTransmitterMonitoring2.CTMult = tempI.ToString();
+                //  this.ucTransmitterMonitoring2.CTMult = tempI.ToString();
                 //DNP Enabled
                 if (!this.blockDNPEnableFromTransmitterSettings)
                 {
@@ -3456,7 +3456,7 @@ namespace RelayControl
                 this.setMonitoringPageFrequency(RelayModeFunctions.FrequencyFrom(bytePacket[8]));
 
                 this.ucTransmitter1.SetAllValues(settings);
-                
+
 #if DNP && ATLANTA
                 this.ucCoverFlags1.setDNPCoverFlags(settings);
 #endif
@@ -3469,7 +3469,7 @@ namespace RelayControl
                     if (this.relayCodeRevisionNumber >= 20130111)
                     {
                         if (dataBackup_fromRelay != true)
-                            this.requestSafeServiceSettings(); 
+                            this.requestSafeServiceSettings();
                     }
                     else
                         this.parametersFinishedLoading();
@@ -3505,14 +3505,14 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("parameters finished loading");
-            
+
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                 sendAllF.SendAllFlag = false;
                 screenD.screenDisable = false;
-                Application.UseWaitCursor = false; 
+                Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
             }
             else if (this.badDataDetected == true)
@@ -3525,10 +3525,10 @@ namespace RelayControl
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
 
-                if(!paramsReceivedLock)
+                if (!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
-                 //   this.SendAll_Message_PopUp1.Visible = false;
+                    //   this.SendAll_Message_PopUp1.Visible = false;
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                 }
@@ -3541,7 +3541,7 @@ namespace RelayControl
                 }
             }
 
-            
+
             if (ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
             {
                 logger.Debug("-------------------------------Resetting ShortRange Parameters");
@@ -3968,7 +3968,7 @@ namespace RelayControl
                 }
 
                 this.setCheckedValue(RelayFlags.PhasingOkay, this.checkBoxPhasingOkayFlag);
-                
+
                 if ((b & 32) == 32)
                 {
                     RelayFlags.BlockedOpen = true;
@@ -4059,7 +4059,7 @@ namespace RelayControl
                             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
                             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
                             throw new Exception(b.ToString() + " is not a valid Pump Reason byte value");
-                            
+
 
                     }
                 }
@@ -4234,7 +4234,7 @@ namespace RelayControl
                     tw.WriteLine("Relay Parameters:");
                     for (int index = 0; index < 94; ++index)
                     {
-                         tw.WriteLine(bytePacket[index]);
+                        tw.WriteLine(bytePacket[index]);
                     }
                     tw.Close();
                 }
@@ -4248,8 +4248,8 @@ namespace RelayControl
                 closePacket[1] = bytePacket[1];
 
 
-             //   MessageBox.Show(bytePacket[2].ToString() + " bytePacket[2] Relay Parameters coming from master");// Only for testing - to be removed
-             //   MessageBox.Show(bytePacket[3].ToString() + " bytePacket[3] Relay Parameters coming from master");// Only for testing - to be removed
+                //   MessageBox.Show(bytePacket[2].ToString() + " bytePacket[2] Relay Parameters coming from master");// Only for testing - to be removed
+                //   MessageBox.Show(bytePacket[3].ToString() + " bytePacket[3] Relay Parameters coming from master");// Only for testing - to be removed
 
                 //Tilt Angle Bytes - Vertical
                 temp = bytePacket[3];
@@ -4316,7 +4316,7 @@ namespace RelayControl
             {
                 this.badDataDetected = true;
                 this.messageHandler("Error in Relay Close Data", ex);
-               //this.resetCloseData();
+                //this.resetCloseData();
                 this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
                 this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             }
@@ -4475,7 +4475,7 @@ namespace RelayControl
             {
                 // ABC or ACB
                 // The bottom three bits of the packet
-                temp = 0x07 & bytePacket[80];                
+                temp = 0x07 & bytePacket[80];
                 if (this.customer != Customers.ConEdison)
                 {
                     this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
@@ -4485,7 +4485,7 @@ namespace RelayControl
                          this.setDomainIndex(2, this.domainUpDownPhasings);
  #endif
                      }*/
-                     //else
+                    //else
                     if (temp == 1)
                     {
                         this.setDomainIndex(1, this.domainUpDownPhasings);
@@ -4505,8 +4505,8 @@ namespace RelayControl
                     }
                     else
                     {
-                     //   throw new Exception(temp.ToString() + " is not a valid value for Phasing");
-                      //  this.messageHandler("Invalid value for phasing received from relay", "Setting default values for phasing");
+                        //   throw new Exception(temp.ToString() + " is not a valid value for Phasing");
+                        //  this.messageHandler("Invalid value for phasing received from relay", "Setting default values for phasing");
                         this.messageHandler("Setting default values for phasing", "temp.ToString()" + " " + "Invalid value for phasing received from relay");
                         this.restoreDefaultsTypeAndPhasing();
                         this.buttonRelayType_Click(this, new EventArgs());
@@ -4570,9 +4570,9 @@ namespace RelayControl
                 }
                 else
                 {
-                    
+
                     //throw new Exception("'" + Convert.ToChar(temp).ToString() + "' is not a valid Relay Type character.");
-                    this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString()  + " " + "Invalid value for phasing received from relay");
+                    this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
                     this.restoreDefaultsTypeAndPhasing();
                     this.buttonRelayType_Click(this, new EventArgs());
                 }
@@ -4623,7 +4623,7 @@ namespace RelayControl
 
             if (this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
-                if(dataBackup_fromRelay != true)
+                if (dataBackup_fromRelay != true)
                     this.requestTransmitterSettings();
             }
         }
@@ -4783,7 +4783,7 @@ namespace RelayControl
                 }
 
                 if (this.Customer == Customers.None)
-                this.Customer = Customers.DIGITALGRID;
+                    this.Customer = Customers.DIGITALGRID;
 
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
@@ -4947,11 +4947,11 @@ namespace RelayControl
                  */
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                 TextWriter tw = new StreamWriter(path, true);
-                tw.WriteLine("XS:"+bytePacket[30]);  // write Transmitter strength currently residing in the relay to the backup file on computer
+                tw.WriteLine("XS:" + bytePacket[30]);  // write Transmitter strength currently residing in the relay to the backup file on computer
                 tw.Close();
 
             }
-            
+
         }
 
         private void setTextBox(string s, TextBox tB)
@@ -5732,7 +5732,7 @@ namespace RelayControl
             }
         }
 
-#region Find Relay
+        #region Find Relay
 
         private delegate string[] stringArrayCallBack();
         private string savedComPort;
@@ -5998,7 +5998,7 @@ namespace RelayControl
             this.serialPort1.Close();
         }
 
-#endregion
+        #endregion
 
         private void findRelayToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -6025,7 +6025,7 @@ namespace RelayControl
             this.requestRelayRevision();
         }
 
-#region FileIO
+        #region FileIO
         private MyFile savedFile;
         private const string _savedFilePath = @"C:\DGI Systems\Relay\Saved.txt";
 
@@ -6060,7 +6060,7 @@ namespace RelayControl
         {
             this.savedFile.WriteWholeFile(this.serialPort1.PortName);
         }
-#endregion
+        #endregion
 
         private string AcknowledgeCaller = "";
         private void sendPacketAck(byte[] bytePacket, string caller)
@@ -6193,7 +6193,7 @@ namespace RelayControl
         private bool monitorPort = false;
         private delegate void updatePortBoxCallBack(byte b, Color c);
 
-#region Calibration
+        #region Calibration
 
         void ucCalibration2_Send(object sender, SendEventArgs sEA)
         {
@@ -6238,7 +6238,7 @@ namespace RelayControl
             //else 
             if (bytePacket[1] == 2)
             { // calibration constants are saved / stored from relay uP to master uP
-                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved", "ok").ShowDialog(); 
+                DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved", "ok").ShowDialog();
             }
             else if (bytePacket[1] == 0)
             {
@@ -6308,7 +6308,7 @@ namespace RelayControl
             }
         }
 
-#endregion
+        #endregion
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
@@ -6654,17 +6654,17 @@ namespace RelayControl
             {
                 if (!this.phasorReceived)
                 {
-                   // if (this.relayFound_forDNPdataMonitoring)
-                   // {
-                   //     this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
-                   //     temp = true;
-                   // }
+                    // if (this.relayFound_forDNPdataMonitoring)
+                    // {
+                    //     this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
+                    //     temp = true;
+                    // }
                     if (this.missedMonitoringCount >= 2)
                     {
                         this.ucShortRange1.relayFound_forRNCMonitoring = false;
                         this.relayFound_forDNPdataMonitoring = false;
 
-                        if ((this.missedMonitoringCount == 2) && (temp == true) && (this.relayFound_forDNPdataMonitoring == false) )
+                        if ((this.missedMonitoringCount == 2) && (temp == true) && (this.relayFound_forDNPdataMonitoring == false))
                         {
                             this.enableDNPMonitoring(false);
                             temp = false;
@@ -6673,7 +6673,7 @@ namespace RelayControl
                             MessageBox.Show(text);
 
                         }
-                        
+
                         if (this.transmitterMonitoring || this.pQMonitoringEnabled)
                         {
                             this.pauseTransmitterMonitoring();
@@ -6787,7 +6787,7 @@ namespace RelayControl
             }
         }
 
-#region Event Page
+        #region Event Page
 
         private IDictionary eventDictionary = new Dictionary<object, int>();
 
@@ -6855,8 +6855,8 @@ namespace RelayControl
 
         private void buttonReqLiveData_Click(object sender, EventArgs e)
         {
-           // string text = " Getting LIVE data from the realy ! ";
-           // MessageBox.Show(text);
+            // string text = " Getting LIVE data from the realy ! ";
+            // MessageBox.Show(text);
             this.requestLiveDataToolStripMenuItem1_Click(sender, e);
         }
 
@@ -6934,9 +6934,9 @@ namespace RelayControl
 
             DialogResult dR = this.messageHandler("Downloading Live Data", "Downloading Data.  \r\nThis will take a while.  Continue?", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
-           // this.liveDataTriggerTime = DateTime.UtcNow;
+            // this.liveDataTriggerTime = DateTime.UtcNow;
 
-           // this.labelLiveDataTriggerTime.Text = DateTime.UtcNow.ToString();
+            // this.labelLiveDataTriggerTime.Text = DateTime.UtcNow.ToString();
 
             if (dR == DialogResult.OK)
             {
@@ -7114,18 +7114,18 @@ namespace RelayControl
 
         }
 
-#endregion
+        #endregion
 
-#region Live Data
+        #region Live Data
 
         private void liveDataPacket(byte[] bytePacket)
         {
             this.ucLiveData1.PacketHandler(bytePacket);
         }
 
-#endregion
+        #endregion
 
-#region Error Handling
+        #region Error Handling
         /// <summary>
         /// Handles errors by temporarily disabling inputs and stopping monitoring to avoid overflows
         /// </summary>
@@ -7232,7 +7232,7 @@ namespace RelayControl
             return dR;
         }
 
-#endregion
+        #endregion
 
         private void buttonEnableAll_Click(object sender, EventArgs e)
         {
@@ -7491,27 +7491,27 @@ namespace RelayControl
                this.SendAll_Message_PopUp1.Enabled = true;
                this.SendAll_Message_PopUp1.Visible = true;
              */
-         //  this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
+            //  this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
 
 #if DNP
-                   this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
-                   this.ucDNPSAv5OSName2.newOSname();
-                   //Thread.Sleep(100);  // 100 milliseconds
-                   //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(834);   // 2.5 seconds
-                   this.ucDNPSAv5OSName2.sendOSName();
-                   //Thread.Sleep(100);  // 100 milliseconds
-                   //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(834);   // 2.5 seconds
-                   this.ucDNPSAv5Settings2.setDefaults();
-                   //Thread.Sleep(100);  // 100 milliseconds
-                   //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(834);   // 2.5 seconds
-                   this.ucDNPSAv5Settings2.sendSettings();
-                   //Thread.Sleep(100);  // 100 milliseconds
-                   //Thread.Sleep(500);   // .5 seconds
-                   Thread.Sleep(834);   // 2.5 seconds
-            
+            this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
+            this.ucDNPSAv5OSName2.newOSname();
+            //Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
+            this.ucDNPSAv5OSName2.sendOSName();
+            //Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
+            this.ucDNPSAv5Settings2.setDefaults();
+            //Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
+            this.ucDNPSAv5Settings2.sendSettings();
+            //Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(500);   // .5 seconds
+            Thread.Sleep(834);   // 2.5 seconds
+
 #endif
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
@@ -7529,7 +7529,7 @@ namespace RelayControl
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             //Thread.Sleep(100);  // 100 milliseconds
             Thread.Sleep(834);   // 2.5 seconds
-             
+
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
             Thread.Sleep(100);
@@ -8277,7 +8277,7 @@ namespace RelayControl
             if (this.requestedAllParameters && !this.loadingNewCode)
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
-             //   this.SendAll_Message_PopUp1.Visible = false;
+                //   this.SendAll_Message_PopUp1.Visible = false;
             }
         }
 
@@ -8455,7 +8455,7 @@ namespace RelayControl
             }
         }
 
-#region Screen Save & Print
+        #region Screen Save & Print
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
 
         private static extern long BitBlt(IntPtr hdcDest, int nXDest, int nYDest,
@@ -8586,7 +8586,7 @@ namespace RelayControl
             this.saveFileDialogVisible = false;
             this.timerScreenCapDelay.Enabled = false;
         }
-#endregion
+        #endregion
 
         private void buttonQuietMode_Click(object sender, EventArgs e)
         {
@@ -8659,7 +8659,7 @@ namespace RelayControl
 
 
 
-#region ArcFault
+        #region ArcFault
 
         private bool arcFaultEnabled = false;
         private bool ArcFaultEnabled
@@ -8724,7 +8724,7 @@ namespace RelayControl
                 this.buttonArcFaultStartMonitoring.Text = "Start Monitoring";
             }
         }
-#endregion
+        #endregion
 
         private void cTRatioCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -8785,14 +8785,14 @@ namespace RelayControl
             {
                 this.buttonRequestDNPData.Text = "Request DNP Data";
                 this.buttonRequestDNPData.BackColor = Color.Red;
-             /*   if (this.relayFound_forDNPdataMonitoring == false)
-                {
-                    this.enableDNPMonitoring(false);
-                    this.relayFound_forDNPdataMonitoring = false;
-                    string text = "Relay not found. Please check for its Power and then start the Monitoring ";
-                    MessageBox.Show(text);
-                }
-             */
+                /*   if (this.relayFound_forDNPdataMonitoring == false)
+                   {
+                       this.enableDNPMonitoring(false);
+                       this.relayFound_forDNPdataMonitoring = false;
+                       string text = "Relay not found. Please check for its Power and then start the Monitoring ";
+                       MessageBox.Show(text);
+                   }
+                */
             }
             this.requestingDNPData = val;
         }
@@ -8844,7 +8844,6 @@ namespace RelayControl
                //    this.ucRelayProgramming1.InitializeAutoload();
                this.ucRelayProgramming1.startAutoLoad();
                */
-
         }
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -8878,7 +8877,7 @@ namespace RelayControl
             else
             {
                 labelConEdPowerRelay.Text = "Sequence";
-                this.ucTripMode2.SequenceRelay = true; 
+                this.ucTripMode2.SequenceRelay = true;
             }
         }
 
@@ -9140,7 +9139,7 @@ namespace RelayControl
         private void sendCparams_toMasterProcessor()
         {
             byte[] sendPacket = new byte[10];
-            
+
             sendPacket[0] = (byte)'C';
             sendPacket[1] = 1;// 0;
             sendPacket[2] = 21;// 24;
@@ -9175,14 +9174,14 @@ namespace RelayControl
             tw.Close();
 
             //WRITE TO MASTER PROCESSOR
-            
+
             this.ucCloseMode1.sendCloseData(); // write 14 bytes ( 8 Cbyte + 6 MClose) to master
             this.ucTripMode2.buttonSendTripMode_Click(sender, e);
             Thread.Sleep(1000);   // delay 1 second  
-  
+
         }
 
-        
+
     }
 
     public partial class MyPort : SerialPort
@@ -9319,7 +9318,7 @@ namespace RelayControl
             {
                 throw new Exception("Error Deleting Saved State", ex);
             }
-        }   
+        }
 
     }
 

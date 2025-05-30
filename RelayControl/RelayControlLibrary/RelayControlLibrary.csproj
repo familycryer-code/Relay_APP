@@ -797,6 +797,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucRelayProgramming.resx">
       <DependentUpon>ucRelayProgramming.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ucRemoteCommandBlock.resx">
       <DependentUpon>ucRemoteCommandBlock.cs</DependentUpon>
