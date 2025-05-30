@@ -8817,7 +8817,10 @@ namespace RelayControl
 
             // ***************************** FOR NEW SEQUENCING ********************************
             manualP.manualProgramming = true;
-            this.ucRelayProgramming1.startManualBootCodeLoad();
+            this.ucRelayProgramming1.programFPGA_first();
+
+
+          //  this.ucRelayProgramming1.startManualBootCodeLoad();
 
             AutoReProgramR.AutoReProgramRelay = true;
             this.ucRelayProgramming1.autoLoad = true;
