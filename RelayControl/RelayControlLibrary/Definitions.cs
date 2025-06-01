@@ -1968,6 +1968,10 @@ namespace RelayControlLibrary
     {
         public static bool manualProgramming;
     }
+    public static class oneTimeRelayDataF
+    {
+        public static bool oneTimeRelayDataFinish;
+    }
 
     public static class flagP
     {

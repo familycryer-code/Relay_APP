@@ -123,7 +123,7 @@ namespace RelayControl
                 }
                 else
                 {
-//#if ((!PLC && DNP) && !ONCOR)
+                    //#if ((!PLC && DNP) && !ONCOR)
 #if ((!PLC && DNP) && !ONCOR && !TORONTO_HYDRO)
                     if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
@@ -626,7 +626,7 @@ namespace RelayControl
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
                 this.labelCtRatioMonitor.Visible = true;
-                this.buttonForceI.Visible = false; 
+                this.buttonForceI.Visible = false;
                 this.buttonUpdateCTRatio.Visible = false;
                 this.buttonRequestRelayRegisters.Visible = false;
                 this.buttonResetMaster.Visible = false;
@@ -666,8 +666,8 @@ namespace RelayControl
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
 #if DNP && !ENMAX
-                    // this.TransmitterEnabled = false;
-                    this.TransmitterEnabled = true;
+                // this.TransmitterEnabled = false;
+                this.TransmitterEnabled = true;
 #else
                     TransmitterEnabled = true;
 #endif
@@ -8810,24 +8810,26 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.ucRelayProgramming1.InitialAutoLoadFiles();
-            //this.checkedDNPEnable = false;
-
-
+            //   this.ucRelayProgramming1.InitialAutoLoadFiles();
+            //   this.checkedDNPEnable = false;
 
             // ***************************** FOR NEW SEQUENCING ********************************
             manualP.manualProgramming = true;
             this.ucRelayProgramming1.programFPGA_first();
+            this.ucRelayProgramming1.programBoot_second();
+            this.ucRelayProgramming1.programRelayProcessor_third();
 
 
-          //  this.ucRelayProgramming1.startManualBootCodeLoad();
-
+            /*this.ucRelayProgramming1.startManualBootCodeLoad();
+            manualP.manualProgramming = true;
             AutoReProgramR.AutoReProgramRelay = true;
             this.ucRelayProgramming1.autoLoad = true;
             this.ucRelayProgramming1.reprogramRelay = true;
             this.ucRelayProgramming1.reprogramFPGA = true;
             AutoReProgramF.AutoReProgramFPGA = true;
             this.ucRelayProgramming1.CheckForUpdate();
+            */
+
 
             /*manualP.manualProgramming = true;
             this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
