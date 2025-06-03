@@ -143,7 +143,7 @@ namespace RelayControlLibrary
             }
         }
         
-     /*   string[] conEdTripModes = new string[] {
+        string[] conEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
             "Time Delay",
@@ -155,8 +155,8 @@ namespace RelayControlLibrary
             "Time Delay",
             "Watt-Var",
             "Adaptive"};
-      */
-        string[] conEdTripModes = new string[] {
+      
+       /* string[] conEdTripModes = new string[] {
             "Sensitive",
             "Insensitive",
             "Time Delay"};
@@ -166,7 +166,7 @@ namespace RelayControlLibrary
             "Insensitive",
             "Time Delay",
             "Watt-Var"};
-       
+       */
         private void makeConEd()
         {
             int savedSelectedIndex = this.listBoxTripModes.SelectedIndex;
@@ -719,7 +719,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
                     break;
-               /* case TripModes.Adaptive:
+                case TripModes.Adaptive:
                     this.numericUpDownInsensTrip.Visible = false;
                     this.labelInsensTripUnit.Visible = false;
                     this.labelInstantCurrent.Visible = false;
@@ -734,7 +734,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.Display_adaptiveTrip_Settings();
                     break;
-                */
+                
             }
 
             this.modeChanged();
@@ -954,9 +954,9 @@ namespace RelayControlLibrary
                     case TripModes.WattVar:
                         this.listBoxTripModes.SelectedIndex = 3;
                         break;
-                 //   case TripModes.Adaptive:
-                 //       this.listBoxTripModes.SelectedIndex = 4;
-                 //       break;
+                    case TripModes.Adaptive:
+                        this.listBoxTripModes.SelectedIndex = 4;
+                        break;
                     case TripModes.Sensitive:
                     case TripModes.RemoteTrip:
                     default:

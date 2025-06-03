@@ -189,7 +189,7 @@ namespace RelayControlLibrary
                 //this.radioButtonNeverOverride.Checked = true;
                 this.CloseCurve = new CloseCurveDefinition();
                 this.checkBox1.Checked = false; 
-/*
+
                 // APP without AT and PC feature :
                 this.lblFloattTime.Enabled = true;
                 this.lblFloattTime.Visible = true;
@@ -211,7 +211,7 @@ namespace RelayControlLibrary
                 this.numericnumericUpDown_PermClVoltage.Visible= true;
                 this.lblUnitPerClVoltage.Enabled = true;
                 this.lblUnitPerClVoltage.Visible = true;
-*/
+
             }
             catch (Exception ex)
             {
@@ -236,7 +236,7 @@ namespace RelayControlLibrary
 
         private void setConEd()
         {
-            this.checkBoxCircleClose.Visible = false;
+            this.checkBoxCircleClose.Visible = true;// false;
             //this.panelBlockedOpenOverride.Visible = false;
             this.buttonRelaxClose.Visible = false;
             this.numericUpDownPDV.Value = 0.4m;

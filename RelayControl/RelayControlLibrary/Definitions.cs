@@ -241,7 +241,7 @@ namespace RelayControlLibrary
         Insensitive,
         TimeDelay,
         WattVar,
-        //Adaptive,
+        Adaptive,
         RemoteTrip
     }
 

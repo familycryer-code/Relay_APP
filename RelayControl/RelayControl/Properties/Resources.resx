@@ -136,4 +136,7 @@
   <data name="loading-load" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\loading-load.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BootRevision" xml:space="preserve">
+    <value>250401</value>
+  </data>
 </root>

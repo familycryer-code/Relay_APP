@@ -70,6 +70,15 @@ namespace RelayControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 250401.
+        /// </summary>
+        internal static string BootRevision {
+            get {
+                return ResourceManager.GetString("BootRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap loading_buffering {

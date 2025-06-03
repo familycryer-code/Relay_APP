@@ -280,7 +280,7 @@ namespace RelayControlLibrary
             // checkBoxCircleClose
             // 
             this.checkBoxCircleClose.AutoSize = true;
-            this.checkBoxCircleClose.Location = new System.Drawing.Point(0, 64);
+            this.checkBoxCircleClose.Location = new System.Drawing.Point(4, 242);
             this.checkBoxCircleClose.Name = "checkBoxCircleClose";
             this.checkBoxCircleClose.Size = new System.Drawing.Size(81, 17);
             this.checkBoxCircleClose.TabIndex = 29;
@@ -321,7 +321,7 @@ namespace RelayControlLibrary
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(0, 227);
+            this.checkBox1.Location = new System.Drawing.Point(4, 227);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(226, 17);
             this.checkBox1.TabIndex = 40;
@@ -363,7 +363,7 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.Controls.Add(this.numericUpDownPDV);
             this.groupBoxCloseMode.Location = new System.Drawing.Point(3, 3);
             this.groupBoxCloseMode.Name = "groupBoxCloseMode";
-            this.groupBoxCloseMode.Size = new System.Drawing.Size(277, 244);
+            this.groupBoxCloseMode.Size = new System.Drawing.Size(277, 260);
             this.groupBoxCloseMode.TabIndex = 33;
             this.groupBoxCloseMode.TabStop = false;
             this.groupBoxCloseMode.Text = "Close Mode Settings:";
@@ -383,7 +383,7 @@ namespace RelayControlLibrary
             this.lblUnitPermClAcTime.AutoSize = true;
             this.lblUnitPermClAcTime.Location = new System.Drawing.Point(227, 163);
             this.lblUnitPermClAcTime.Name = "lblUnitPermClAcTime";
-            this.lblUnitPermClAcTime.Size = new System.Drawing.Size(22, 10);
+            this.lblUnitPermClAcTime.Size = new System.Drawing.Size(23, 13);
             this.lblUnitPermClAcTime.TabIndex = 48;
             this.lblUnitPermClAcTime.Text = "min";
             this.lblUnitPermClAcTime.Visible = false;

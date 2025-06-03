@@ -1370,8 +1370,8 @@ namespace RelayControlLibrary
 
                     if (manualP.manualProgramming)
                     {
-                        this.InitializeAutoload();
                         manualP.manualProgramming = false;
+                        this.InitializeAutoload();
                     }
                     else
                         this.startAutoLoad();
@@ -1942,14 +1942,14 @@ namespace RelayControlLibrary
                 this.labelCodeTotal.Text = temp.ToString();
                 this.labelDataTotal.Text = "0";
 
-                this.programmingForm.Maximum = temp; // 31
+                this.programmingForm.Maximum = temp;
                 this.labelDataCount.Text = "0";
                 this.labelCodeCount.Text = "0";
                 this.enableButtons(false);
 
                 rPEA.BytesToSend[0] = 0x23; // '#'
                 rPEA.BytesToSend[1] = 0x55; // 'U'
-                rPEA.BytesToSend[2] = 32;   //can be 32 or 24
+                rPEA.BytesToSend[2] = 32; //can be 32 or 24
                 rPEA.BytesToSend[3] = 0x0D;
 
                 logger.Trace("BL, ");
@@ -1978,18 +1978,7 @@ namespace RelayControlLibrary
                 this.onSend(rPEA);
             }
             this.programBootCodeInProgress = false;
-
-            if (!manualP.manualProgramming)
-                setManualReloadVars();
-            else
-            {
-                logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-                this.autoLoad = true;
-                this.reprogramMaster = true;
-                this.reprogramRelay = true;
-                this.askToUgradeShown = true;
-                AutoReProgramR.AutoReProgramRelay = true;
-            }
+            setManualReloadVars();
         }
 
         // private void sendMasterBootCode()
@@ -2022,7 +2011,7 @@ namespace RelayControlLibrary
                     if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
                         this.onSend(rPEA);
 
-                    if (temp == programmingForm.Maximum) // 31
+                    if (temp == programmingForm.Maximum)
                     {
                         this.doneLoadingMasterBootLoader();
                     }
@@ -2169,10 +2158,8 @@ namespace RelayControlLibrary
         private void doneLoadingFPGA()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            // if (!this.programMasterBootFileSelect)
-            if ((!this.programMasterBootFileSelect) && (!manualP.manualProgramming))
+            if (!this.programMasterBootFileSelect)
                 this.programmingForm.Hide();
-            manualP.manualProgramming = false;
 
             this.programmingForm.FPGAComplete = true;
             this.timerTimeout.Stop();
@@ -2253,85 +2240,78 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
-            if (manualP.manualProgramming)
-            {
-                this.allReprogramingDone();
-                manualP.manualProgramming = false;
-            }
-            else
-            {
-                if (!this.loadMasterFirst)
-                {
-                    if (this.autoLoad)
-                    {
-                        if (this.reprogramFPGA)
-                        {
-                            this.parseFPGAFile(this.fPGACode); //todo
-                            this.programmingForm.RelayCodeComplete = true;
-                            this.programmingForm.RelayDataComplete = true;
-                            this.programmingForm.CurrentTask = "Loading FPGA";
-                            logger.Trace("Loading FPGA");
-                            this.programmingForm.Maximum = 96;
-                            this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                            this.sendReset();
-                            Thread.Sleep(1000);
-                            this.timerTimeout.Start();
-                        }
-                        else
-                        {
-                            this.programmingForm.FPGAComplete = true;
-                            logger.Trace("doneloadingmaster");
-                            this.State = RelayProgrammingStates.Idle;
 
-                            this.allReprogramingDone();
-                        }
+            if (!this.loadMasterFirst)
+            {
+                if (this.autoLoad)
+                {
+                    if (this.reprogramFPGA)
+                    {
+                        this.parseFPGAFile(this.fPGACode); //todo
+                        this.programmingForm.RelayCodeComplete = true;
+                        this.programmingForm.RelayDataComplete = true;
+                        this.programmingForm.CurrentTask = "Loading FPGA";
+                        logger.Trace("Loading FPGA");
+                        this.programmingForm.Maximum = 96;
+                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                        this.sendReset();
+                        Thread.Sleep(1000);
+                        this.timerTimeout.Start();
                     }
                     else
                     {
+                        this.programmingForm.FPGAComplete = true;
+                        logger.Trace("doneloadingmaster");
+                        this.State = RelayProgrammingStates.Idle;
+
                         this.allReprogramingDone();
                     }
                 }
                 else
                 {
-                    if (this.autoLoad)
+                    this.allReprogramingDone();
+                }
+            }
+            else
+            {
+                if (this.autoLoad)
+                {
+                    if (this.reprogramRelay)
                     {
-                        if (this.reprogramRelay)
-                        {
-                            this.parseSFile(this.relayCode);
-                            this.programmingForm.CurrentTask = "Loading Relay Code g";
-                            logger.Trace("Loading Relay Code g");
-                            this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
-                            this.State = RelayProgrammingStates.WaitingForBootRelay;
-                            this.timerTimeout.Start();
-                        }
-                        else if (this.reprogramFPGA)
-                        {
-                            this.parseFPGAFile(this.fPGACode);
-                            this.programmingForm.RelayCodeComplete = true;
-                            this.programmingForm.RelayDataComplete = true;
-                            this.programmingForm.CurrentTask = "Loading FPGA";
-                            logger.Trace("Loading FPGA");
-                            this.programmingForm.Maximum = 96;
-                            this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                            this.timerTimeout.Start();
-                        }
-                        else if (this.programMasterBootFileSelect)
-                            startManualBootCodeLoad();
-                        else
-                        {
-                            this.programmingForm.FPGAComplete = true;
-                            logger.Trace("DoneLoadingMaster 2");
-                            this.State = RelayProgrammingStates.Idle;
-
-                            this.allReprogramingDone();
-                        }
+                        this.parseSFile(this.relayCode);
+                        this.programmingForm.CurrentTask = "Loading Relay Code g";
+                        logger.Trace("Loading Relay Code g");
+                        this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
+                        this.State = RelayProgrammingStates.WaitingForBootRelay;
+                        this.timerTimeout.Start();
                     }
+                    else if (this.reprogramFPGA)
+                    {
+                        this.parseFPGAFile(this.fPGACode);
+                        this.programmingForm.RelayCodeComplete = true;
+                        this.programmingForm.RelayDataComplete = true;
+                        this.programmingForm.CurrentTask = "Loading FPGA";
+                        logger.Trace("Loading FPGA");
+                        this.programmingForm.Maximum = 96;
+                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                        this.timerTimeout.Start();
+                    }
+                    else if (this.programMasterBootFileSelect)
+                        startManualBootCodeLoad();
                     else
                     {
+                        this.programmingForm.FPGAComplete = true;
+                        logger.Trace("DoneLoadingMaster 2");
+                        this.State = RelayProgrammingStates.Idle;
+
                         this.allReprogramingDone();
                     }
                 }
-            }//if (manualP.manualProgramming)
+                else
+                {
+                    this.allReprogramingDone();
+                }
+            }
         }
 
         private void allReprogramingDone()
@@ -2428,61 +2408,10 @@ namespace RelayControlLibrary
                 firstCheckForUpdate = true;
                 if (AutoReProgramR.AutoReProgramRelay == true)
                     reprogramRelay = true;
-                if (manualP.manualProgramming)
-                {
-                    programmingForm.FPGAComplete = true;
-                    programmingForm.MasterBootComplete = true;
-                }
-                else
-                    CheckForUpdate();
+                CheckForUpdate();
             }
 
         }
-
-        public void programFPGA_first()
-        {
-            this.setProgrammingFiles();
-            this.parseFPGAFile(this.fPGACode);
-            this.State = RelayProgrammingStates.WaitingForBootFPGA;
-            this.sendRelayReset();
-            this.programmingForm.Maximum = 96;
-            this.programmingForm.CurrentTask = "Loading FPGA";
-            this.programFPGA();
-            logger.Trace("Loading FPGA");
-            //  this.PrepForBoot();
-            this.programmingForm.CurrentTask = "Loading FPGA Code";
-            this.sendFPGATransferPacket();
-            while (this.fPGACode.SendIndex < 98304)
-            {
-                this.sendNextFPGAPacket();
-            }
-            //this.resetProgrammingFPGA();
-        }
-
-        public void programBoot_second()
-        {
-            int temp_cnt = 0;
-            manualP.manualProgramming = true;
-            this.State = RelayProgrammingStates.LoadingMasterBootLoader;
-            this.MasterBootLoaderStart();
-            while (temp_cnt < this.programmingForm.Maximum) // 31
-            {
-                this.sendMasterBootCode();
-                temp_cnt++;
-            }
-        }
-
-        public void programRelayProcessor_third()
-        {
-            this.startRelayProgramming();
-            this.sendRelayTransferPacket();
-            while (this.relayCode.DataBytes.Count > 0)
-            {
-                this.sendNextRelayPacket();
-            }
-        }
-
-
 
         public void FinalizeReprogram()
         {
@@ -3818,7 +3747,7 @@ namespace RelayControlLibrary
         {
             this.programmingForm.TransmitterPresent = true;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            //   this.programBootCodeOnly = true;
+            this.programBootCodeOnly = true;
             this.autoLoad = false;
             this.manualReload = false;
             this.timerTimeout.Stop();
