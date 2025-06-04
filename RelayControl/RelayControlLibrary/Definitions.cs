@@ -2008,6 +2008,11 @@ namespace RelayControlLibrary
         public static bool SendAllFlag;
     }
 
+    public static class relaxCloseC
+    {
+        public static bool RelaxCloseClick;
+    }
+
     public static class dataBackupR
     {
         public static bool dataBackup_fromRelay;

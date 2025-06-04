@@ -360,17 +360,21 @@ namespace RelayControlLibrary
 
         private void buttonRelaxClose_Click(object sender, EventArgs e)
         {
+            relaxCloseC.RelaxCloseClick = true;
             this.sendRelaxClose();
         }
 
         //private void sendCloseData()
         public void sendCloseData()
         {
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
-            this.SendTimedOut = false;
-
+            if (relaxCloseC.RelaxCloseClick == false)
+            { 
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
+                this.SendTimedOut = false;
+            }
+            relaxCloseC.RelaxCloseClick = false;
             buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
 
             // If sending relax, just send the command and no curves
