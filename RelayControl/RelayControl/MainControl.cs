@@ -309,8 +309,8 @@ namespace RelayControl
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
 #if DEBUG
-                this.initializeFromConfigFileDebug();
-                labelConEdPowerRelay.Visible = false;
+                    this.initializeFromConfigFileDebug();
+                    labelConEdPowerRelay.Visible = false;
 #endif
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
@@ -568,23 +568,23 @@ namespace RelayControl
                     this.toolStripStatusLabelMain.Text = "";
                     this.searchForRelay = false;
 #elif DEBUG
-                this.setCustomersRevisionName();
+                    this.setCustomersRevisionName();
 
-                this.noMonitoringVersion = false;
-                this.buttonForceI.Visible = true;
-                this.ucCalibration1.Visible = true;
-                this.buttonUpdateDisplay.Visible = true;
-                this.enableAll(true);
-                this.tabPageFlightRecorder.Show();
-                this.tabPageEvents.Show();
+                    this.noMonitoringVersion = false;
+                    this.buttonForceI.Visible = true;
+                    this.ucCalibration1.Visible = true;
+                    this.buttonUpdateDisplay.Visible = true;
+                    this.enableAll(true);
+                    this.tabPageFlightRecorder.Show();
+                    this.tabPageEvents.Show();
 #if !DG288_TESTFIXTURE_GUI
-                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
+                                    //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
+                                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
 #elif DG288_TESTFIXTURE_GUI
                                     this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
 #endif
-                this.ArcFaultEnabled = true;
-                this.Customer = Customers.DIGITALGRID;
+                    this.ArcFaultEnabled = true;
+                    this.Customer = Customers.DIGITALGRID;
 
 #elif WATERBUG
                     this.noMonitoringVersion = false;
@@ -649,7 +649,7 @@ namespace RelayControl
 #elif ENMAX
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
 #elif ONCOR
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
@@ -710,7 +710,7 @@ namespace RelayControl
                             this.TransmitterEnabled = true;
 #elif DNP
                 this.Customer = Customers.DIGITALGRIDDNP;
-                            this.DNPEnabled = true;
+                this.DNPEnabled = true;
 #if ATLANTA //|| ONCOR
                                ucRemoteCommandBlock1.Visible = false;
                                 this.ucRemoteCommandBlock1.Visible = false;
@@ -732,12 +732,12 @@ namespace RelayControl
 
 #if DNP
 #if DEBUG
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
 #endif
                 //#if (!DIGITALGRID || DIGITALGRIDDNP)
@@ -860,7 +860,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.checkBox277DNPOutputs, "Configures DNP outputs to scale to 277V");
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
-            this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to APP");
+            this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
             this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonRSTRelay, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
@@ -4216,7 +4216,7 @@ namespace RelayControl
                     else
                     {
 #if !DEBUG
-                        if (this.Customer != Customers.ConEdison) //if the APP is not currently in ConEd mode
+                        if (this.Customer != Customers.ConEdison) //if the GUI is not currently in ConEd mode
                         {
                             this.Customer = Customers.ConEdison;
                         }
@@ -8810,45 +8810,8 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-               this.ucRelayProgramming1.InitialAutoLoadFiles();
-               this.checkedDNPEnable = false;
-
-            // ***************************** FOR NEW SEQUENCING ********************************
-          /*  manualP.manualProgramming = true;
-            this.ucRelayProgramming1.programFPGA_first();
-            this.ucRelayProgramming1.programBoot_second();
-            this.ucRelayProgramming1.programRelayProcessor_third();
-          */
-
-         /*   this.ucRelayProgramming1.startManualBootCodeLoad();
-            manualP.manualProgramming = true;
-            AutoReProgramR.AutoReProgramRelay = true;
-            this.ucRelayProgramming1.autoLoad = true;
-            this.ucRelayProgramming1.reprogramRelay = true;
-            this.ucRelayProgramming1.reprogramFPGA = true;
-            AutoReProgramF.AutoReProgramFPGA = true;
-            this.ucRelayProgramming1.CheckForUpdate();
-            
-            */
-
-            /*manualP.manualProgramming = true;
-            this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
-            this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
-            this.ucRelayProgramming1.InitializeAutoload();
-            */
-            // this.ucRelayProgramming1.upgradeAutoDR = DialogResult.Yes;
-            // this.ucRelayProgramming1.programBootCodeInProgress = false;
-            // this.ucRelayProgramming1.programBootCodeStart = true;
-            // this.ucRelayProgramming1.InitializeAutoload();
-
-
-            /*   this.ucRelayProgramming1.askToUgradeShown = true;
-               this.ucRelayProgramming1.loadMasterFirst = false;
-             //  this.ucRelayProgramming1.State = RelayProgrammingStates.LoadingMasterBootLoader;
-             //  this.ucRelayProgramming1.sendMasterBootCode();
-               //    this.ucRelayProgramming1.InitializeAutoload();
-               this.ucRelayProgramming1.startAutoLoad();
-               */
+            this.ucRelayProgramming1.InitialAutoLoadFiles();
+            this.checkedDNPEnable = false;
         }
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)

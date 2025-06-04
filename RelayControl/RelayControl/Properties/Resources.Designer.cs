@@ -70,7 +70,7 @@ namespace RelayControl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 250401.
+        ///   Looks up a localized string similar to 250403.
         /// </summary>
         internal static string BootRevision {
             get {
