@@ -43,6 +43,7 @@ namespace RelayControlLibrary
             }
         }
         public uint PointValue
+        //public int PointValue
         {
             set
             {

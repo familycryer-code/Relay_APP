@@ -59,6 +59,7 @@ namespace RelayControlLibrary
             this.lblPermCloseActiveTime = new System.Windows.Forms.Label();
             this.numericUpDown_FloatTime = new System.Windows.Forms.NumericUpDown();
             this.lblFloattTime = new System.Windows.Forms.Label();
+            this.chkBox_EnablePermClose = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDA)).BeginInit();
@@ -72,7 +73,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownTimeDelay
             // 
-            this.numericUpDownTimeDelay.Location = new System.Drawing.Point(157, 39);
+            this.numericUpDownTimeDelay.Location = new System.Drawing.Point(157, 37);
             this.numericUpDownTimeDelay.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -90,7 +91,7 @@ namespace RelayControlLibrary
             // labelTD
             // 
             this.labelTD.AutoSize = true;
-            this.labelTD.Location = new System.Drawing.Point(59, 41);
+            this.labelTD.Location = new System.Drawing.Point(59, 39);
             this.labelTD.Name = "labelTD";
             this.labelTD.Size = new System.Drawing.Size(92, 13);
             this.labelTD.TabIndex = 14;
@@ -104,7 +105,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownRecloseVolts.Location = new System.Drawing.Point(169, 63);
+            this.numericUpDownRecloseVolts.Location = new System.Drawing.Point(157, 61);
             this.numericUpDownRecloseVolts.Maximum = new decimal(new int[] {
             10,
             0,
@@ -121,7 +122,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownPDA
             // 
-            this.numericUpDownPDA.Location = new System.Drawing.Point(157, 87);
+            this.numericUpDownPDA.Location = new System.Drawing.Point(157, 85);
             this.numericUpDownPDA.Maximum = new decimal(new int[] {
             5,
             0,
@@ -149,7 +150,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownPDV.Location = new System.Drawing.Point(157, 111);
+            this.numericUpDownPDV.Location = new System.Drawing.Point(157, 109);
             this.numericUpDownPDV.Maximum = new decimal(new int[] {
             4,
             0,
@@ -166,7 +167,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownCloseTiltAngle
             // 
-            this.numericUpDownCloseTiltAngle.Location = new System.Drawing.Point(157, 134);
+            this.numericUpDownCloseTiltAngle.Location = new System.Drawing.Point(156, 13);
             this.numericUpDownCloseTiltAngle.Maximum = new decimal(new int[] {
             95,
             0,
@@ -189,7 +190,7 @@ namespace RelayControlLibrary
             // labelReclose
             // 
             this.labelReclose.AutoSize = true;
-            this.labelReclose.Location = new System.Drawing.Point(79, 65);
+            this.labelReclose.Location = new System.Drawing.Point(71, 63);
             this.labelReclose.Name = "labelReclose";
             this.labelReclose.Size = new System.Drawing.Size(75, 13);
             this.labelReclose.TabIndex = 19;
@@ -198,7 +199,7 @@ namespace RelayControlLibrary
             // labelPDA
             // 
             this.labelPDA.AutoSize = true;
-            this.labelPDA.Location = new System.Drawing.Point(32, 89);
+            this.labelPDA.Location = new System.Drawing.Point(32, 87);
             this.labelPDA.Name = "labelPDA";
             this.labelPDA.Size = new System.Drawing.Size(119, 13);
             this.labelPDA.TabIndex = 20;
@@ -207,7 +208,7 @@ namespace RelayControlLibrary
             // labelPhaseDetectOffsetVolts
             // 
             this.labelPhaseDetectOffsetVolts.AutoSize = true;
-            this.labelPhaseDetectOffsetVolts.Location = new System.Drawing.Point(31, 113);
+            this.labelPhaseDetectOffsetVolts.Location = new System.Drawing.Point(31, 111);
             this.labelPhaseDetectOffsetVolts.Name = "labelPhaseDetectOffsetVolts";
             this.labelPhaseDetectOffsetVolts.Size = new System.Drawing.Size(120, 13);
             this.labelPhaseDetectOffsetVolts.TabIndex = 21;
@@ -216,7 +217,7 @@ namespace RelayControlLibrary
             // labelTiltAngle
             // 
             this.labelTiltAngle.AutoSize = true;
-            this.labelTiltAngle.Location = new System.Drawing.Point(97, 136);
+            this.labelTiltAngle.Location = new System.Drawing.Point(94, 16);
             this.labelTiltAngle.Name = "labelTiltAngle";
             this.labelTiltAngle.Size = new System.Drawing.Size(54, 13);
             this.labelTiltAngle.TabIndex = 22;
@@ -234,7 +235,7 @@ namespace RelayControlLibrary
             // labelRecloseUnit
             // 
             this.labelRecloseUnit.AutoSize = true;
-            this.labelRecloseUnit.Location = new System.Drawing.Point(240, 65);
+            this.labelRecloseUnit.Location = new System.Drawing.Point(227, 65);
             this.labelRecloseUnit.Name = "labelRecloseUnit";
             this.labelRecloseUnit.Size = new System.Drawing.Size(14, 13);
             this.labelRecloseUnit.TabIndex = 24;
@@ -261,7 +262,7 @@ namespace RelayControlLibrary
             // labelTiltAngleUnit
             // 
             this.labelTiltAngleUnit.AutoSize = true;
-            this.labelTiltAngleUnit.Location = new System.Drawing.Point(227, 136);
+            this.labelTiltAngleUnit.Location = new System.Drawing.Point(227, 20);
             this.labelTiltAngleUnit.Name = "labelTiltAngleUnit";
             this.labelTiltAngleUnit.Size = new System.Drawing.Size(47, 13);
             this.labelTiltAngleUnit.TabIndex = 27;
@@ -269,7 +270,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(100, 202);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(100, 234);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
             this.buttonSendCloseData.Size = new System.Drawing.Size(75, 23);
             this.buttonSendCloseData.TabIndex = 28;
@@ -280,7 +281,7 @@ namespace RelayControlLibrary
             // checkBoxCircleClose
             // 
             this.checkBoxCircleClose.AutoSize = true;
-            this.checkBoxCircleClose.Location = new System.Drawing.Point(4, 242);
+            this.checkBoxCircleClose.Location = new System.Drawing.Point(6, 218);
             this.checkBoxCircleClose.Name = "checkBoxCircleClose";
             this.checkBoxCircleClose.Size = new System.Drawing.Size(81, 17);
             this.checkBoxCircleClose.TabIndex = 29;
@@ -290,9 +291,9 @@ namespace RelayControlLibrary
             // 
             // buttonRestoreDefaults
             // 
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(175, 202);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(0, 234);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(102, 23);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
             this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
@@ -301,7 +302,7 @@ namespace RelayControlLibrary
             // labelCircleCloseVolts
             // 
             this.labelCircleCloseVolts.AutoSize = true;
-            this.labelCircleCloseVolts.Location = new System.Drawing.Point(75, 65);
+            this.labelCircleCloseVolts.Location = new System.Drawing.Point(57, 63);
             this.labelCircleCloseVolts.Name = "labelCircleCloseVolts";
             this.labelCircleCloseVolts.Size = new System.Drawing.Size(91, 13);
             this.labelCircleCloseVolts.TabIndex = 31;
@@ -310,7 +311,7 @@ namespace RelayControlLibrary
             // 
             // buttonRelaxClose
             // 
-            this.buttonRelaxClose.Location = new System.Drawing.Point(0, 202);
+            this.buttonRelaxClose.Location = new System.Drawing.Point(175, 234);
             this.buttonRelaxClose.Name = "buttonRelaxClose";
             this.buttonRelaxClose.Size = new System.Drawing.Size(102, 23);
             this.buttonRelaxClose.TabIndex = 39;
@@ -321,7 +322,7 @@ namespace RelayControlLibrary
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(4, 227);
+            this.checkBox1.Location = new System.Drawing.Point(6, 202);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(226, 17);
             this.checkBox1.TabIndex = 40;
@@ -331,6 +332,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxCloseMode
             // 
+            this.groupBoxCloseMode.Controls.Add(this.chkBox_EnablePermClose);
             this.groupBoxCloseMode.Controls.Add(this.lblUnitPerClVoltage);
             this.groupBoxCloseMode.Controls.Add(this.lblUnitPermClAcTime);
             this.groupBoxCloseMode.Controls.Add(this.lblUnitFloatTime);
@@ -391,7 +393,7 @@ namespace RelayControlLibrary
             // lblUnitFloatTime
             // 
             this.lblUnitFloatTime.AutoSize = true;
-            this.lblUnitFloatTime.Location = new System.Drawing.Point(227, 16);
+            this.lblUnitFloatTime.Location = new System.Drawing.Point(229, 140);
             this.lblUnitFloatTime.Name = "lblUnitFloatTime";
             this.lblUnitFloatTime.Size = new System.Drawing.Size(35, 13);
             this.lblUnitFloatTime.TabIndex = 47;
@@ -400,7 +402,7 @@ namespace RelayControlLibrary
             // 
             // numericnumericUpDown_PermClVoltage
             // 
-            this.numericnumericUpDown_PermClVoltage.Location = new System.Drawing.Point(157, 184);
+            this.numericnumericUpDown_PermClVoltage.Location = new System.Drawing.Point(157, 180);
             this.numericnumericUpDown_PermClVoltage.Maximum = new decimal(new int[] {
             5,
             0,
@@ -419,7 +421,7 @@ namespace RelayControlLibrary
             // lblPermCloseVoltage
             // 
             this.lblPermCloseVoltage.AutoSize = true;
-            this.lblPermCloseVoltage.Location = new System.Drawing.Point(22, 186);
+            this.lblPermCloseVoltage.Location = new System.Drawing.Point(22, 182);
             this.lblPermCloseVoltage.Name = "lblPermCloseVoltage";
             this.lblPermCloseVoltage.Size = new System.Drawing.Size(128, 13);
             this.lblPermCloseVoltage.TabIndex = 45;
@@ -428,7 +430,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_PermClActTime
             // 
-            this.numericUpDown_PermClActTime.Location = new System.Drawing.Point(157, 161);
+            this.numericUpDown_PermClActTime.Location = new System.Drawing.Point(157, 157);
             this.numericUpDown_PermClActTime.Maximum = new decimal(new int[] {
             20,
             0,
@@ -452,7 +454,7 @@ namespace RelayControlLibrary
             // lblPermCloseActiveTime
             // 
             this.lblPermCloseActiveTime.AutoSize = true;
-            this.lblPermCloseActiveTime.Location = new System.Drawing.Point(4, 163);
+            this.lblPermCloseActiveTime.Location = new System.Drawing.Point(4, 159);
             this.lblPermCloseActiveTime.Name = "lblPermCloseActiveTime";
             this.lblPermCloseActiveTime.Size = new System.Drawing.Size(148, 13);
             this.lblPermCloseActiveTime.TabIndex = 43;
@@ -461,7 +463,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_FloatTime
             // 
-            this.numericUpDown_FloatTime.Location = new System.Drawing.Point(154, 13);
+            this.numericUpDown_FloatTime.Location = new System.Drawing.Point(156, 133);
             this.numericUpDown_FloatTime.Maximum = new decimal(new int[] {
             50,
             0,
@@ -485,12 +487,23 @@ namespace RelayControlLibrary
             // lblFloattTime
             // 
             this.lblFloattTime.AutoSize = true;
-            this.lblFloattTime.Location = new System.Drawing.Point(89, 16);
+            this.lblFloattTime.Location = new System.Drawing.Point(89, 135);
             this.lblFloattTime.Name = "lblFloattTime";
             this.lblFloattTime.Size = new System.Drawing.Size(59, 13);
             this.lblFloattTime.TabIndex = 41;
             this.lblFloattTime.Text = "Float Time:";
             this.lblFloattTime.Visible = false;
+            // 
+            // chkBox_EnablePermClose
+            // 
+            this.chkBox_EnablePermClose.AutoSize = true;
+            this.chkBox_EnablePermClose.Location = new System.Drawing.Point(129, 218);
+            this.chkBox_EnablePermClose.Name = "chkBox_EnablePermClose";
+            this.chkBox_EnablePermClose.Size = new System.Drawing.Size(141, 17);
+            this.chkBox_EnablePermClose.TabIndex = 51;
+            this.chkBox_EnablePermClose.Text = "Enable Permissive Close";
+            this.chkBox_EnablePermClose.UseVisualStyleBackColor = true;
+            this.chkBox_EnablePermClose.Checked = true;
             // 
             // ucCloseMode
             // 
@@ -548,5 +561,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitFloatTime;
         private System.Windows.Forms.Label lblUnitPermClAcTime;
         private System.Windows.Forms.Label lblUnitPerClVoltage;
+        private System.Windows.Forms.CheckBox chkBox_EnablePermClose;
     }
 }

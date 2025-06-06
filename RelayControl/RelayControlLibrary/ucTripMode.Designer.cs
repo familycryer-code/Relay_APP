@@ -114,7 +114,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendTripData
             // 
-            this.buttonSendTripData.Location = new System.Drawing.Point(195, 226);
+            this.buttonSendTripData.Location = new System.Drawing.Point(155, 226);
             this.buttonSendTripData.Name = "buttonSendTripData";
             this.buttonSendTripData.Size = new System.Drawing.Size(75, 23);
             this.buttonSendTripData.TabIndex = 1;
@@ -463,9 +463,9 @@ namespace RelayControlLibrary
             // 
             // buttonRestoreDefaults
             // 
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(15, 19);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(15, 225);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(124, 23);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
             this.buttonRestoreDefaults.TabIndex = 41;
             this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
@@ -540,7 +540,7 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle.Items.Add("Pulse Trip");
             this.domainUpDownTripStyle.Items.Add("Single Attempt");
             this.domainUpDownTripStyle.Items.Add("Short Trip");
-            this.domainUpDownTripStyle.Location = new System.Drawing.Point(62, 229);
+            this.domainUpDownTripStyle.Location = new System.Drawing.Point(57, 21);
             this.domainUpDownTripStyle.Name = "domainUpDownTripStyle";
             this.domainUpDownTripStyle.ReadOnly = true;
             this.domainUpDownTripStyle.Size = new System.Drawing.Size(102, 20);
@@ -550,7 +550,7 @@ namespace RelayControlLibrary
             // labelTripStyle
             // 
             this.labelTripStyle.AutoSize = true;
-            this.labelTripStyle.Location = new System.Drawing.Point(2, 231);
+            this.labelTripStyle.Location = new System.Drawing.Point(6, 23);
             this.labelTripStyle.Name = "labelTripStyle";
             this.labelTripStyle.Size = new System.Drawing.Size(54, 13);
             this.labelTripStyle.TabIndex = 52;
@@ -612,47 +612,47 @@ namespace RelayControlLibrary
             // lblUnitInCur_kVARdir
             // 
             this.lblUnitInCur_kVARdir.AutoSize = true;
-            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(27, 163);
+            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(41, 163);
             this.lblUnitInCur_kVARdir.Name = "lblUnitInCur_kVARdir";
-            this.lblUnitInCur_kVARdir.Size = new System.Drawing.Size(15, 13);
+            this.lblUnitInCur_kVARdir.Size = new System.Drawing.Size(33, 13);
             this.lblUnitInCur_kVARdir.TabIndex = 67;
-            this.lblUnitInCur_kVARdir.Text = "%";
+            this.lblUnitInCur_kVARdir.Text = "% of I";
             // 
             // lblUnitInCur_kWdir
             // 
             this.lblUnitInCur_kWdir.AutoSize = true;
             this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(6, 162);
             this.lblUnitInCur_kWdir.Name = "lblUnitInCur_kWdir";
-            this.lblUnitInCur_kWdir.Size = new System.Drawing.Size(15, 13);
+            this.lblUnitInCur_kWdir.Size = new System.Drawing.Size(33, 13);
             this.lblUnitInCur_kWdir.TabIndex = 66;
-            this.lblUnitInCur_kWdir.Text = "%";
+            this.lblUnitInCur_kWdir.Text = "% of I";
             // 
             // lblUnitGreenMagY
             // 
             this.lblUnitGreenMagY.AutoSize = true;
             this.lblUnitGreenMagY.Location = new System.Drawing.Point(6, 149);
             this.lblUnitGreenMagY.Name = "lblUnitGreenMagY";
-            this.lblUnitGreenMagY.Size = new System.Drawing.Size(15, 13);
+            this.lblUnitGreenMagY.Size = new System.Drawing.Size(33, 13);
             this.lblUnitGreenMagY.TabIndex = 65;
-            this.lblUnitGreenMagY.Text = "%";
+            this.lblUnitGreenMagY.Text = "% of I";
             // 
             // lblUnitGreenMagX
             // 
             this.lblUnitGreenMagX.AutoSize = true;
             this.lblUnitGreenMagX.Location = new System.Drawing.Point(12, 136);
             this.lblUnitGreenMagX.Name = "lblUnitGreenMagX";
-            this.lblUnitGreenMagX.Size = new System.Drawing.Size(15, 13);
+            this.lblUnitGreenMagX.Size = new System.Drawing.Size(33, 13);
             this.lblUnitGreenMagX.TabIndex = 64;
-            this.lblUnitGreenMagX.Text = "%";
+            this.lblUnitGreenMagX.Text = "% of I";
             // 
             // lblUnitGreenDelay
             // 
             this.lblUnitGreenDelay.AutoSize = true;
             this.lblUnitGreenDelay.Location = new System.Drawing.Point(12, 123);
             this.lblUnitGreenDelay.Name = "lblUnitGreenDelay";
-            this.lblUnitGreenDelay.Size = new System.Drawing.Size(22, 13);
+            this.lblUnitGreenDelay.Size = new System.Drawing.Size(20, 13);
             this.lblUnitGreenDelay.TabIndex = 63;
-            this.lblUnitGreenDelay.Text = "mS";
+            this.lblUnitGreenDelay.Text = "ms";
             // 
             // numericUpDown_InCurrkW
             // 

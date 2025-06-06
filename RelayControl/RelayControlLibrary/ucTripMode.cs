@@ -1635,6 +1635,9 @@ namespace RelayControlLibrary
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
             this.numericUpDownAngle.Value = 90;
+            this.listBoxTripModes.SelectedIndex = 0;    // Sensitive
+            this.domainUpDownTripStyle.SelectedIndex = 2; // Single Attempt
+            this.numericUpDownTimeDelay.Value = 150;
 #elif LONDONH
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 9.3m;

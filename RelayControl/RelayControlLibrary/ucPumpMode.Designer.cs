@@ -112,7 +112,7 @@ namespace RelayControlLibrary
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(152, 215);
+            this.buttonSend.Location = new System.Drawing.Point(136, 231);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(75, 23);
             this.buttonSend.TabIndex = 13;
@@ -162,7 +162,7 @@ namespace RelayControlLibrary
             // 
             // buttonRestoreDefaults
             // 
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(6, 14);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(15, 231);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
             this.buttonRestoreDefaults.TabIndex = 1;
@@ -279,7 +279,7 @@ namespace RelayControlLibrary
             // labelPumpTypeDisplay
             // 
             this.labelPumpTypeDisplay.AutoSize = true;
-            this.labelPumpTypeDisplay.Location = new System.Drawing.Point(87, 241);
+            this.labelPumpTypeDisplay.Location = new System.Drawing.Point(82, 16);
             this.labelPumpTypeDisplay.Name = "labelPumpTypeDisplay";
             this.labelPumpTypeDisplay.Size = new System.Drawing.Size(51, 13);
             this.labelPumpTypeDisplay.TabIndex = 29;
@@ -288,11 +288,11 @@ namespace RelayControlLibrary
             // labelPumpType
             // 
             this.labelPumpType.AutoSize = true;
-            this.labelPumpType.Location = new System.Drawing.Point(17, 241);
+            this.labelPumpType.Location = new System.Drawing.Point(17, 16);
             this.labelPumpType.Name = "labelPumpType";
-            this.labelPumpType.Size = new System.Drawing.Size(64, 13);
+            this.labelPumpType.Size = new System.Drawing.Size(70, 13);
             this.labelPumpType.TabIndex = 28;
-            this.labelPumpType.Text = "Pump Type:";
+            this.labelPumpType.Text = "Pump Status:";
             // 
             // labelEnable
             // 
@@ -307,7 +307,7 @@ namespace RelayControlLibrary
             // 
             this.labelPumpProtect.AutoSize = true;
             this.labelPumpProtect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.labelPumpProtect.Location = new System.Drawing.Point(121, 18);
+            this.labelPumpProtect.Location = new System.Drawing.Point(89, 215);
             this.labelPumpProtect.Name = "labelPumpProtect";
             this.labelPumpProtect.Size = new System.Drawing.Size(71, 13);
             this.labelPumpProtect.TabIndex = 18;
@@ -442,7 +442,7 @@ namespace RelayControlLibrary
             // checkBoxAlarmOnly
             // 
             this.checkBoxAlarmOnly.AutoSize = true;
-            this.checkBoxAlarmOnly.Location = new System.Drawing.Point(18, 215);
+            this.checkBoxAlarmOnly.Location = new System.Drawing.Point(172, 211);
             this.checkBoxAlarmOnly.Name = "checkBoxAlarmOnly";
             this.checkBoxAlarmOnly.Size = new System.Drawing.Size(76, 17);
             this.checkBoxAlarmOnly.TabIndex = 33;

@@ -893,7 +893,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
-#if ENMAX
+#if (ENMAX || CONED)
             this.comboBoxDNPBaudRate.SelectedIndex = 3;
 #else
             this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200

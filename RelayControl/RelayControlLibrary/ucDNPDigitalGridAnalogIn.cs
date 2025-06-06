@@ -61,6 +61,7 @@ namespace RelayControlLibrary
             }
         }
         public uint PointValue
+        //public int PointValue
         {
             set
             {
@@ -77,7 +78,8 @@ namespace RelayControlLibrary
                     }
                 }
                 else
-                    this.textBoxPointValue.Text = value.ToString();
+                     this.textBoxPointValue.Text = value.ToString();
+                    
             }
         }
     }

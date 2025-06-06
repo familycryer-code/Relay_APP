@@ -91,7 +91,7 @@ namespace RelayControlLibrary
 
         private void initializeBinaryInputs()
         {
-         //     uint pointsToAdd = 46;
+            //     uint pointsToAdd = 46;
             uint pointsToAdd;
             this.binaryInputs.Clear();
 
@@ -298,10 +298,10 @@ namespace RelayControlLibrary
                 if (i == pointsToAdd)
                     break;
                 i++;
-                
+
             }
 
-         //   int j = this.tabPageBinaryInputs.Controls.Count;
+            //   int j = this.tabPageBinaryInputs.Controls.Count;
         }
 
         private void dNPPoint_PointChanged(object o, DNPPointEventArgs dPEA)
@@ -439,11 +439,11 @@ namespace RelayControlLibrary
         private void initializeAnalogInputs()
         {
             uint pointsToAdd;
-         /*   if (this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
-                pointsToAdd = 69;
-            else
-                pointsToAdd = 73;
-         */
+            /*   if (this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
+                   pointsToAdd = 69;
+               else
+                   pointsToAdd = 73;
+            */
             this.analogInputs.Clear();
             this.tabPageAnalogInputs1.Controls.Clear();
             this.tabPageAnalogInputs2.Controls.Clear();
@@ -858,9 +858,9 @@ namespace RelayControlLibrary
                 workingBox.Signed = aPD.Signed;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-               // if (i < 50)
+                // if (i < 50)
                 if (i < 50)
-                        this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
                 //else
                 else if (i <= 95) //if (i <= 63)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
@@ -1047,7 +1047,7 @@ namespace RelayControlLibrary
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
-#endregion
+        #endregion
 
         #region Send Region
 
@@ -1150,7 +1150,7 @@ namespace RelayControlLibrary
            savedIndex = 192; 
 #elif CONED
             // starting point for setBinaryOutputs considering 56 bytes of BinaryInputs ( per ver10 CONED firmware )
-            savedIndex = 224; 
+            savedIndex = 224;
 #elif TORONTO_HYDRO
             // starting point for setBinaryOutputs considering 51 bytes of BinaryInputs ( per ver10 TorontoHydro firmware - including the 10 newly added ones )
             savedIndex = 204;
@@ -1177,7 +1177,7 @@ namespace RelayControlLibrary
 #elif CONED
             // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 Oncor firmware )
             // 56 * 4(binary input incremented by 4 for each reading)  + 32 * 4(binary output incremented by 4 for each reading) + 128*6(analog input incremented by 6 for each reading)= 1120
-            savedIndex = 1120; 
+            savedIndex = 1120;
 #endif
             this.setAnalogOutputs(this.dNPData, savedIndex);
         }
@@ -1260,7 +1260,9 @@ namespace RelayControlLibrary
                         uDDGA.PointEnabled = true;
                     else
                         uDDGA.PointEnabled = false;
+
                     uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
+
                     index += 6;
                 }
             }

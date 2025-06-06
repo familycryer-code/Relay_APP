@@ -779,7 +779,7 @@ namespace RelayControlLibrary
 
                 this.labelReclose.Visible = true;
                 this.labelCircleCloseVolts.Visible = false;
-                this.labelReclose.Location = new Point(95,74);
+                this.labelReclose.Location = new Point(79, 73); //new Point(95,74);
             }
         }
 
@@ -805,7 +805,7 @@ namespace RelayControlLibrary
                 this.checkBox1.Checked = false;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
-                
+                this.chkBox_EnablePermClose.Checked = true;
             }
             else
             {
@@ -863,12 +863,13 @@ namespace RelayControlLibrary
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownPDA.Value = -5;
                 this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDV.Value = 0.0m;
                 this.checkBoxCircleClose.Checked = false;
                 //this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
                 this.checkBox1.Checked = false;
+                this.numericUpDownPDV.Value = 0.4m;
+                this.chkBox_EnablePermClose.Checked = true;
 #endif
 
             }
