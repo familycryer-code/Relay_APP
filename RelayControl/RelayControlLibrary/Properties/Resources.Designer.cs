@@ -186,7 +186,22 @@ namespace RelayControlLibrary.Properties {
                 return ResourceManager.GetString("MasterProcessor_TorontoHydro", resourceCulture);
             }
         }
-        
+
+        internal static string MasterProcessor_ConEd_HBD
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor_ConEd_HBD", resourceCulture);
+            }
+        }
+
+        internal static string MasterProcessor_ConEd_SEC
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor_ConEd_SEC", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10A0054E2560154E2520154E25A0154E25E0154E2520154E2520104

@@ -1461,7 +1461,7 @@ namespace SineDisplayGraph
         private void listBoxMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lb = (ListBox)sender;
-            
+
             if (lb.SelectedItem.ToString().Equals(RawPhasorGroups.Tripped.ToString()))
                 this.switchToTripped();
             if (lb.SelectedItem.ToString().Equals(RawPhasorGroups.Closed.ToString()))
@@ -1822,7 +1822,7 @@ namespace SineDisplayGraph
         {
             referenceWave = new float[_cycleCount];
 
-            for(int i = 0; i < _cycleCount; i++)
+            for (int i = 0; i < _cycleCount; i++)
             {
                 var rads = 2 * (float)Math.PI * (float)i / (float)_cycleCount;
                 referenceWave[i] = _amplitude * (float)Math.Sin(rads);
@@ -1831,7 +1831,7 @@ namespace SineDisplayGraph
 
         public float[] generateReferenceWave(CompleteCycleEventArgs sEA)
         {
-            
+
             return referenceWave;
         }
 
@@ -1871,13 +1871,13 @@ namespace SineDisplayGraph
             {
                 this.determineGEState();
             }
-            
+
             //Sequence section
             this.calculateAllSequenceVectors();
 
             //Power
             this.calculatePowerPhasors();
-            
+
 
             //ieff - needs to be done AFTER power.
             this.calculateEffectiveCurrentPhasor();

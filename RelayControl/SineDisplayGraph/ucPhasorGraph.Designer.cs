@@ -246,13 +246,12 @@ namespace SineDisplayGraph
             this.textBoxCTRatio = new System.Windows.Forms.TextBox();
             this.labelCTRatio = new System.Windows.Forms.Label();
             this.labelCTRatioOver5 = new System.Windows.Forms.Label();
+            this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
+            this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
             this.checkBoxGERelay = new System.Windows.Forms.CheckBox();
             this.checkBoxABC = new System.Windows.Forms.CheckBox();
             this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
             this.labelAngle3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
-            this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
             this.panelTripped.SuspendLayout();
             this.panelClosed.SuspendLayout();
             this.panelPower.SuspendLayout();
@@ -269,9 +268,9 @@ namespace SineDisplayGraph
             this.listBoxMode.Items.AddRange(new object[] {
             "Tripped",
             "Closed"});
-            this.listBoxMode.Location = new System.Drawing.Point(406, 8);
+            this.listBoxMode.Location = new System.Drawing.Point(406, 3);
             this.listBoxMode.Name = "listBoxMode";
-            this.listBoxMode.Size = new System.Drawing.Size(76, 35);
+            this.listBoxMode.Size = new System.Drawing.Size(76, 30);
             this.listBoxMode.TabIndex = 1;
             this.listBoxMode.SelectedIndexChanged += new System.EventHandler(this.listBoxMode_SelectedIndexChanged);
             // 
@@ -280,7 +279,7 @@ namespace SineDisplayGraph
             this.listBoxSequencePower.FormattingEnabled = true;
             this.listBoxSequencePower.Location = new System.Drawing.Point(818, 0);
             this.listBoxSequencePower.Name = "listBoxSequencePower";
-            this.listBoxSequencePower.Size = new System.Drawing.Size(128, 43);
+            this.listBoxSequencePower.Size = new System.Drawing.Size(128, 82);
             this.listBoxSequencePower.TabIndex = 3;
             this.listBoxSequencePower.SelectedIndexChanged += new System.EventHandler(this.listBoxSequencePower_SelectedIndexChanged);
             // 
@@ -1092,7 +1091,7 @@ namespace SineDisplayGraph
             // label56
             // 
             this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(179, 0);
+            this.label56.Location = new System.Drawing.Point(179, 1);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(19, 13);
             this.label56.TabIndex = 196;
@@ -1137,7 +1136,7 @@ namespace SineDisplayGraph
             // label62
             // 
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(638, 0);
+            this.label62.Location = new System.Drawing.Point(638, 2);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(19, 13);
             this.label62.TabIndex = 201;
@@ -1236,7 +1235,7 @@ namespace SineDisplayGraph
             // labelVdNUnits
             // 
             this.labelVdNUnits.AutoSize = true;
-            this.labelVdNUnits.Location = new System.Drawing.Point(903, 382);
+            this.labelVdNUnits.Location = new System.Drawing.Point(888, 382);
             this.labelVdNUnits.Name = "labelVdNUnits";
             this.labelVdNUnits.Size = new System.Drawing.Size(14, 13);
             this.labelVdNUnits.TabIndex = 212;
@@ -1245,7 +1244,7 @@ namespace SineDisplayGraph
             // labelVdPUnits
             // 
             this.labelVdPUnits.AutoSize = true;
-            this.labelVdPUnits.Location = new System.Drawing.Point(903, 361);
+            this.labelVdPUnits.Location = new System.Drawing.Point(888, 361);
             this.labelVdPUnits.Name = "labelVdPUnits";
             this.labelVdPUnits.Size = new System.Drawing.Size(14, 13);
             this.labelVdPUnits.TabIndex = 213;
@@ -1254,7 +1253,7 @@ namespace SineDisplayGraph
             // labelVtPUnits
             // 
             this.labelVtPUnits.AutoSize = true;
-            this.labelVtPUnits.Location = new System.Drawing.Point(903, 403);
+            this.labelVtPUnits.Location = new System.Drawing.Point(888, 403);
             this.labelVtPUnits.Name = "labelVtPUnits";
             this.labelVtPUnits.Size = new System.Drawing.Size(14, 13);
             this.labelVtPUnits.TabIndex = 214;
@@ -1263,7 +1262,7 @@ namespace SineDisplayGraph
             // labelVtNUnits
             // 
             this.labelVtNUnits.AutoSize = true;
-            this.labelVtNUnits.Location = new System.Drawing.Point(903, 424);
+            this.labelVtNUnits.Location = new System.Drawing.Point(888, 424);
             this.labelVtNUnits.Name = "labelVtNUnits";
             this.labelVtNUnits.Size = new System.Drawing.Size(14, 13);
             this.labelVtNUnits.TabIndex = 215;
@@ -1272,7 +1271,7 @@ namespace SineDisplayGraph
             // labelVnPUnits
             // 
             this.labelVnPUnits.AutoSize = true;
-            this.labelVnPUnits.Location = new System.Drawing.Point(903, 445);
+            this.labelVnPUnits.Location = new System.Drawing.Point(888, 445);
             this.labelVnPUnits.Name = "labelVnPUnits";
             this.labelVnPUnits.Size = new System.Drawing.Size(14, 13);
             this.labelVnPUnits.TabIndex = 216;
@@ -1281,7 +1280,7 @@ namespace SineDisplayGraph
             // labelVnNUnits
             // 
             this.labelVnNUnits.AutoSize = true;
-            this.labelVnNUnits.Location = new System.Drawing.Point(903, 466);
+            this.labelVnNUnits.Location = new System.Drawing.Point(888, 466);
             this.labelVnNUnits.Name = "labelVnNUnits";
             this.labelVnNUnits.Size = new System.Drawing.Size(14, 13);
             this.labelVnNUnits.TabIndex = 217;
@@ -1290,61 +1289,61 @@ namespace SineDisplayGraph
             // labelIAUnits
             // 
             this.labelIAUnits.AutoSize = true;
-            this.labelIAUnits.Location = new System.Drawing.Point(510, 361);
+            this.labelIAUnits.Location = new System.Drawing.Point(497, 361);
             this.labelIAUnits.Name = "labelIAUnits";
-            this.labelIAUnits.Size = new System.Drawing.Size(14, 13);
+            this.labelIAUnits.Size = new System.Drawing.Size(33, 13);
             this.labelIAUnits.TabIndex = 218;
-            this.labelIAUnits.Text = "A";
+            this.labelIAUnits.Text = "Amps";
             // 
             // labelIBUnits
             // 
             this.labelIBUnits.AutoSize = true;
-            this.labelIBUnits.Location = new System.Drawing.Point(510, 382);
+            this.labelIBUnits.Location = new System.Drawing.Point(497, 382);
             this.labelIBUnits.Name = "labelIBUnits";
-            this.labelIBUnits.Size = new System.Drawing.Size(14, 13);
+            this.labelIBUnits.Size = new System.Drawing.Size(33, 13);
             this.labelIBUnits.TabIndex = 219;
-            this.labelIBUnits.Text = "A";
+            this.labelIBUnits.Text = "Amps";
             // 
             // labelICUnits
             // 
             this.labelICUnits.AutoSize = true;
-            this.labelICUnits.Location = new System.Drawing.Point(510, 403);
+            this.labelICUnits.Location = new System.Drawing.Point(497, 403);
             this.labelICUnits.Name = "labelICUnits";
-            this.labelICUnits.Size = new System.Drawing.Size(14, 13);
+            this.labelICUnits.Size = new System.Drawing.Size(33, 13);
             this.labelICUnits.TabIndex = 220;
-            this.labelICUnits.Text = "A";
+            this.labelICUnits.Text = "Amps";
             // 
             // labelIEffUnits
             // 
             this.labelIEffUnits.AutoSize = true;
-            this.labelIEffUnits.Location = new System.Drawing.Point(510, 424);
+            this.labelIEffUnits.Location = new System.Drawing.Point(498, 424);
             this.labelIEffUnits.Name = "labelIEffUnits";
-            this.labelIEffUnits.Size = new System.Drawing.Size(14, 13);
+            this.labelIEffUnits.Size = new System.Drawing.Size(33, 13);
             this.labelIEffUnits.TabIndex = 221;
-            this.labelIEffUnits.Text = "A";
+            this.labelIEffUnits.Text = "Amps";
             // 
             // labelINUnits
             // 
             this.labelINUnits.AutoSize = true;
-            this.labelINUnits.Location = new System.Drawing.Point(510, 445);
+            this.labelINUnits.Location = new System.Drawing.Point(498, 445);
             this.labelINUnits.Name = "labelINUnits";
-            this.labelINUnits.Size = new System.Drawing.Size(14, 13);
+            this.labelINUnits.Size = new System.Drawing.Size(33, 13);
             this.labelINUnits.TabIndex = 222;
-            this.labelINUnits.Text = "A";
+            this.labelINUnits.Text = "Amps";
             // 
             // labelIPUnits
             // 
             this.labelIPUnits.AutoSize = true;
-            this.labelIPUnits.Location = new System.Drawing.Point(510, 466);
+            this.labelIPUnits.Location = new System.Drawing.Point(498, 466);
             this.labelIPUnits.Name = "labelIPUnits";
-            this.labelIPUnits.Size = new System.Drawing.Size(14, 13);
+            this.labelIPUnits.Size = new System.Drawing.Size(33, 13);
             this.labelIPUnits.TabIndex = 223;
-            this.labelIPUnits.Text = "A";
+            this.labelIPUnits.Text = "Amps";
             // 
             // labelPAUnits
             // 
             this.labelPAUnits.AutoSize = true;
-            this.labelPAUnits.Location = new System.Drawing.Point(510, 487);
+            this.labelPAUnits.Location = new System.Drawing.Point(498, 487);
             this.labelPAUnits.Name = "labelPAUnits";
             this.labelPAUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPAUnits.TabIndex = 224;
@@ -1353,7 +1352,7 @@ namespace SineDisplayGraph
             // labelPBUnits
             // 
             this.labelPBUnits.AutoSize = true;
-            this.labelPBUnits.Location = new System.Drawing.Point(510, 508);
+            this.labelPBUnits.Location = new System.Drawing.Point(498, 508);
             this.labelPBUnits.Name = "labelPBUnits";
             this.labelPBUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPBUnits.TabIndex = 225;
@@ -1362,7 +1361,7 @@ namespace SineDisplayGraph
             // labelPCUnits
             // 
             this.labelPCUnits.AutoSize = true;
-            this.labelPCUnits.Location = new System.Drawing.Point(510, 529);
+            this.labelPCUnits.Location = new System.Drawing.Point(498, 529);
             this.labelPCUnits.Name = "labelPCUnits";
             this.labelPCUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPCUnits.TabIndex = 226;
@@ -1371,7 +1370,7 @@ namespace SineDisplayGraph
             // labelPTUnits
             // 
             this.labelPTUnits.AutoSize = true;
-            this.labelPTUnits.Location = new System.Drawing.Point(510, 550);
+            this.labelPTUnits.Location = new System.Drawing.Point(498, 550);
             this.labelPTUnits.Name = "labelPTUnits";
             this.labelPTUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPTUnits.TabIndex = 227;
@@ -1379,10 +1378,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVtARMS
             // 
-            this.textBoxVtARMS.Location = new System.Drawing.Point(162, 358);
+            this.textBoxVtARMS.Location = new System.Drawing.Point(156, 358);
             this.textBoxVtARMS.Name = "textBoxVtARMS";
             this.textBoxVtARMS.ReadOnly = true;
-            this.textBoxVtARMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVtARMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVtARMS.TabIndex = 228;
             this.textBoxVtARMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1406,10 +1405,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVtBRMS
             // 
-            this.textBoxVtBRMS.Location = new System.Drawing.Point(162, 379);
+            this.textBoxVtBRMS.Location = new System.Drawing.Point(156, 379);
             this.textBoxVtBRMS.Name = "textBoxVtBRMS";
             this.textBoxVtBRMS.ReadOnly = true;
-            this.textBoxVtBRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVtBRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVtBRMS.TabIndex = 230;
             this.textBoxVtBRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1424,10 +1423,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVnARMS
             // 
-            this.textBoxVnARMS.Location = new System.Drawing.Point(162, 421);
+            this.textBoxVnARMS.Location = new System.Drawing.Point(156, 421);
             this.textBoxVnARMS.Name = "textBoxVnARMS";
             this.textBoxVnARMS.ReadOnly = true;
-            this.textBoxVnARMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVnARMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVnARMS.TabIndex = 234;
             this.textBoxVnARMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1442,10 +1441,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVtCRMS
             // 
-            this.textBoxVtCRMS.Location = new System.Drawing.Point(162, 400);
+            this.textBoxVtCRMS.Location = new System.Drawing.Point(156, 400);
             this.textBoxVtCRMS.Name = "textBoxVtCRMS";
             this.textBoxVtCRMS.ReadOnly = true;
-            this.textBoxVtCRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVtCRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVtCRMS.TabIndex = 232;
             this.textBoxVtCRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1460,10 +1459,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVnCRMS
             // 
-            this.textBoxVnCRMS.Location = new System.Drawing.Point(162, 463);
+            this.textBoxVnCRMS.Location = new System.Drawing.Point(156, 463);
             this.textBoxVnCRMS.Name = "textBoxVnCRMS";
             this.textBoxVnCRMS.ReadOnly = true;
-            this.textBoxVnCRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVnCRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVnCRMS.TabIndex = 238;
             this.textBoxVnCRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1478,10 +1477,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVnBRMS
             // 
-            this.textBoxVnBRMS.Location = new System.Drawing.Point(162, 442);
+            this.textBoxVnBRMS.Location = new System.Drawing.Point(156, 442);
             this.textBoxVnBRMS.Name = "textBoxVnBRMS";
             this.textBoxVnBRMS.ReadOnly = true;
-            this.textBoxVnBRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVnBRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVnBRMS.TabIndex = 236;
             this.textBoxVnBRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1496,10 +1495,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVdBRMS
             // 
-            this.textBoxVdBRMS.Location = new System.Drawing.Point(162, 505);
+            this.textBoxVdBRMS.Location = new System.Drawing.Point(156, 505);
             this.textBoxVdBRMS.Name = "textBoxVdBRMS";
             this.textBoxVdBRMS.ReadOnly = true;
-            this.textBoxVdBRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVdBRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVdBRMS.TabIndex = 242;
             this.textBoxVdBRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1514,10 +1513,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVdARMS
             // 
-            this.textBoxVdARMS.Location = new System.Drawing.Point(162, 484);
+            this.textBoxVdARMS.Location = new System.Drawing.Point(156, 484);
             this.textBoxVdARMS.Name = "textBoxVdARMS";
             this.textBoxVdARMS.ReadOnly = true;
-            this.textBoxVdARMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVdARMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVdARMS.TabIndex = 240;
             this.textBoxVdARMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1532,10 +1531,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVdTRMS
             // 
-            this.textBoxVdTRMS.Location = new System.Drawing.Point(162, 547);
+            this.textBoxVdTRMS.Location = new System.Drawing.Point(156, 547);
             this.textBoxVdTRMS.Name = "textBoxVdTRMS";
             this.textBoxVdTRMS.ReadOnly = true;
-            this.textBoxVdTRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVdTRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVdTRMS.TabIndex = 246;
             this.textBoxVdTRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1550,10 +1549,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVdCRMS
             // 
-            this.textBoxVdCRMS.Location = new System.Drawing.Point(162, 526);
+            this.textBoxVdCRMS.Location = new System.Drawing.Point(156, 526);
             this.textBoxVdCRMS.Name = "textBoxVdCRMS";
             this.textBoxVdCRMS.ReadOnly = true;
-            this.textBoxVdCRMS.Size = new System.Drawing.Size(40, 20);
+            this.textBoxVdCRMS.Size = new System.Drawing.Size(44, 20);
             this.textBoxVdCRMS.TabIndex = 244;
             this.textBoxVdCRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1568,7 +1567,7 @@ namespace SineDisplayGraph
             // 
             // textBoxIBRMS
             // 
-            this.textBoxIBRMS.Location = new System.Drawing.Point(442, 379);
+            this.textBoxIBRMS.Location = new System.Drawing.Point(432, 379);
             this.textBoxIBRMS.Name = "textBoxIBRMS";
             this.textBoxIBRMS.ReadOnly = true;
             this.textBoxIBRMS.Size = new System.Drawing.Size(66, 20);
@@ -1586,7 +1585,7 @@ namespace SineDisplayGraph
             // 
             // textBoxIARMS
             // 
-            this.textBoxIARMS.Location = new System.Drawing.Point(442, 358);
+            this.textBoxIARMS.Location = new System.Drawing.Point(432, 358);
             this.textBoxIARMS.Name = "textBoxIARMS";
             this.textBoxIARMS.ReadOnly = true;
             this.textBoxIARMS.Size = new System.Drawing.Size(66, 20);
@@ -1604,7 +1603,7 @@ namespace SineDisplayGraph
             // 
             // textBoxIEffRMS
             // 
-            this.textBoxIEffRMS.Location = new System.Drawing.Point(442, 421);
+            this.textBoxIEffRMS.Location = new System.Drawing.Point(432, 421);
             this.textBoxIEffRMS.Name = "textBoxIEffRMS";
             this.textBoxIEffRMS.ReadOnly = true;
             this.textBoxIEffRMS.Size = new System.Drawing.Size(66, 20);
@@ -1622,7 +1621,7 @@ namespace SineDisplayGraph
             // 
             // textBoxICRMS
             // 
-            this.textBoxICRMS.Location = new System.Drawing.Point(442, 400);
+            this.textBoxICRMS.Location = new System.Drawing.Point(432, 400);
             this.textBoxICRMS.Name = "textBoxICRMS";
             this.textBoxICRMS.ReadOnly = true;
             this.textBoxICRMS.Size = new System.Drawing.Size(66, 20);
@@ -1640,7 +1639,7 @@ namespace SineDisplayGraph
             // 
             // textBoxIPRMS
             // 
-            this.textBoxIPRMS.Location = new System.Drawing.Point(442, 463);
+            this.textBoxIPRMS.Location = new System.Drawing.Point(432, 463);
             this.textBoxIPRMS.Name = "textBoxIPRMS";
             this.textBoxIPRMS.ReadOnly = true;
             this.textBoxIPRMS.Size = new System.Drawing.Size(66, 20);
@@ -1658,7 +1657,7 @@ namespace SineDisplayGraph
             // 
             // textBoxINRMS
             // 
-            this.textBoxINRMS.Location = new System.Drawing.Point(442, 442);
+            this.textBoxINRMS.Location = new System.Drawing.Point(432, 442);
             this.textBoxINRMS.Name = "textBoxINRMS";
             this.textBoxINRMS.ReadOnly = true;
             this.textBoxINRMS.Size = new System.Drawing.Size(66, 20);
@@ -1677,7 +1676,7 @@ namespace SineDisplayGraph
             // 
             // textBoxPBRMS
             // 
-            this.textBoxPBRMS.Location = new System.Drawing.Point(442, 505);
+            this.textBoxPBRMS.Location = new System.Drawing.Point(432, 505);
             this.textBoxPBRMS.Name = "textBoxPBRMS";
             this.textBoxPBRMS.ReadOnly = true;
             this.textBoxPBRMS.Size = new System.Drawing.Size(66, 20);
@@ -1696,7 +1695,7 @@ namespace SineDisplayGraph
             // 
             // textBoxPARMS
             // 
-            this.textBoxPARMS.Location = new System.Drawing.Point(442, 484);
+            this.textBoxPARMS.Location = new System.Drawing.Point(432, 484);
             this.textBoxPARMS.Name = "textBoxPARMS";
             this.textBoxPARMS.ReadOnly = true;
             this.textBoxPARMS.Size = new System.Drawing.Size(66, 20);
@@ -1715,7 +1714,7 @@ namespace SineDisplayGraph
             // 
             // textBoxPTRMS
             // 
-            this.textBoxPTRMS.Location = new System.Drawing.Point(442, 547);
+            this.textBoxPTRMS.Location = new System.Drawing.Point(432, 547);
             this.textBoxPTRMS.Name = "textBoxPTRMS";
             this.textBoxPTRMS.ReadOnly = true;
             this.textBoxPTRMS.Size = new System.Drawing.Size(66, 20);
@@ -1734,7 +1733,7 @@ namespace SineDisplayGraph
             // 
             // textBoxPCRMS
             // 
-            this.textBoxPCRMS.Location = new System.Drawing.Point(442, 526);
+            this.textBoxPCRMS.Location = new System.Drawing.Point(432, 526);
             this.textBoxPCRMS.Name = "textBoxPCRMS";
             this.textBoxPCRMS.ReadOnly = true;
             this.textBoxPCRMS.Size = new System.Drawing.Size(66, 20);
@@ -1743,7 +1742,7 @@ namespace SineDisplayGraph
             // 
             // textBoxVnNAngle
             // 
-            this.textBoxVnNAngle.Location = new System.Drawing.Point(928, 463);
+            this.textBoxVnNAngle.Location = new System.Drawing.Point(908, 463);
             this.textBoxVnNAngle.Name = "textBoxVnNAngle";
             this.textBoxVnNAngle.ReadOnly = true;
             this.textBoxVnNAngle.Size = new System.Drawing.Size(40, 20);
@@ -1752,16 +1751,16 @@ namespace SineDisplayGraph
             // 
             // textBoxVnNRMS
             // 
-            this.textBoxVnNRMS.Location = new System.Drawing.Point(841, 463);
+            this.textBoxVnNRMS.Location = new System.Drawing.Point(821, 463);
             this.textBoxVnNRMS.Name = "textBoxVnNRMS";
             this.textBoxVnNRMS.ReadOnly = true;
-            this.textBoxVnNRMS.Size = new System.Drawing.Size(62, 20);
+            this.textBoxVnNRMS.Size = new System.Drawing.Size(66, 20);
             this.textBoxVnNRMS.TabIndex = 278;
             this.textBoxVnNRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBoxVnPAngle
             // 
-            this.textBoxVnPAngle.Location = new System.Drawing.Point(928, 442);
+            this.textBoxVnPAngle.Location = new System.Drawing.Point(908, 442);
             this.textBoxVnPAngle.Name = "textBoxVnPAngle";
             this.textBoxVnPAngle.ReadOnly = true;
             this.textBoxVnPAngle.Size = new System.Drawing.Size(40, 20);
@@ -1770,16 +1769,16 @@ namespace SineDisplayGraph
             // 
             // textBoxVnPRMS
             // 
-            this.textBoxVnPRMS.Location = new System.Drawing.Point(841, 442);
+            this.textBoxVnPRMS.Location = new System.Drawing.Point(821, 442);
             this.textBoxVnPRMS.Name = "textBoxVnPRMS";
             this.textBoxVnPRMS.ReadOnly = true;
-            this.textBoxVnPRMS.Size = new System.Drawing.Size(62, 20);
+            this.textBoxVnPRMS.Size = new System.Drawing.Size(66, 20);
             this.textBoxVnPRMS.TabIndex = 276;
             this.textBoxVnPRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBoxVtNAngle
             // 
-            this.textBoxVtNAngle.Location = new System.Drawing.Point(928, 421);
+            this.textBoxVtNAngle.Location = new System.Drawing.Point(908, 421);
             this.textBoxVtNAngle.Name = "textBoxVtNAngle";
             this.textBoxVtNAngle.ReadOnly = true;
             this.textBoxVtNAngle.Size = new System.Drawing.Size(40, 20);
@@ -1788,16 +1787,16 @@ namespace SineDisplayGraph
             // 
             // textBoxVtNRMS
             // 
-            this.textBoxVtNRMS.Location = new System.Drawing.Point(841, 421);
+            this.textBoxVtNRMS.Location = new System.Drawing.Point(821, 421);
             this.textBoxVtNRMS.Name = "textBoxVtNRMS";
             this.textBoxVtNRMS.ReadOnly = true;
-            this.textBoxVtNRMS.Size = new System.Drawing.Size(62, 20);
+            this.textBoxVtNRMS.Size = new System.Drawing.Size(66, 20);
             this.textBoxVtNRMS.TabIndex = 274;
             this.textBoxVtNRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBoxVtPAngle
             // 
-            this.textBoxVtPAngle.Location = new System.Drawing.Point(928, 400);
+            this.textBoxVtPAngle.Location = new System.Drawing.Point(908, 400);
             this.textBoxVtPAngle.Name = "textBoxVtPAngle";
             this.textBoxVtPAngle.ReadOnly = true;
             this.textBoxVtPAngle.Size = new System.Drawing.Size(40, 20);
@@ -1806,16 +1805,16 @@ namespace SineDisplayGraph
             // 
             // textBoxVtPRMS
             // 
-            this.textBoxVtPRMS.Location = new System.Drawing.Point(841, 400);
+            this.textBoxVtPRMS.Location = new System.Drawing.Point(821, 400);
             this.textBoxVtPRMS.Name = "textBoxVtPRMS";
             this.textBoxVtPRMS.ReadOnly = true;
-            this.textBoxVtPRMS.Size = new System.Drawing.Size(62, 20);
+            this.textBoxVtPRMS.Size = new System.Drawing.Size(66, 20);
             this.textBoxVtPRMS.TabIndex = 272;
             this.textBoxVtPRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBoxVdPAngle
             // 
-            this.textBoxVdPAngle.Location = new System.Drawing.Point(928, 358);
+            this.textBoxVdPAngle.Location = new System.Drawing.Point(908, 358);
             this.textBoxVdPAngle.Name = "textBoxVdPAngle";
             this.textBoxVdPAngle.ReadOnly = true;
             this.textBoxVdPAngle.Size = new System.Drawing.Size(40, 20);
@@ -1824,16 +1823,16 @@ namespace SineDisplayGraph
             // 
             // textBoxVdPRMS
             // 
-            this.textBoxVdPRMS.Location = new System.Drawing.Point(841, 358);
+            this.textBoxVdPRMS.Location = new System.Drawing.Point(821, 358);
             this.textBoxVdPRMS.Name = "textBoxVdPRMS";
             this.textBoxVdPRMS.ReadOnly = true;
-            this.textBoxVdPRMS.Size = new System.Drawing.Size(62, 20);
+            this.textBoxVdPRMS.Size = new System.Drawing.Size(66, 20);
             this.textBoxVdPRMS.TabIndex = 270;
             this.textBoxVdPRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBoxVdNAngle
             // 
-            this.textBoxVdNAngle.Location = new System.Drawing.Point(928, 379);
+            this.textBoxVdNAngle.Location = new System.Drawing.Point(908, 379);
             this.textBoxVdNAngle.Name = "textBoxVdNAngle";
             this.textBoxVdNAngle.ReadOnly = true;
             this.textBoxVdNAngle.Size = new System.Drawing.Size(40, 20);
@@ -1842,10 +1841,10 @@ namespace SineDisplayGraph
             // 
             // textBoxVdNRMS
             // 
-            this.textBoxVdNRMS.Location = new System.Drawing.Point(841, 379);
+            this.textBoxVdNRMS.Location = new System.Drawing.Point(821, 379);
             this.textBoxVdNRMS.Name = "textBoxVdNRMS";
             this.textBoxVdNRMS.ReadOnly = true;
-            this.textBoxVdNRMS.Size = new System.Drawing.Size(62, 20);
+            this.textBoxVdNRMS.Size = new System.Drawing.Size(66, 20);
             this.textBoxVdNRMS.TabIndex = 268;
             this.textBoxVdNRMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -1989,9 +1988,9 @@ namespace SineDisplayGraph
             this.groupBoxTHD.Controls.Add(this.textBoxVnCTHD);
             this.groupBoxTHD.Controls.Add(this.textBoxVnBTHD);
             this.groupBoxTHD.Controls.Add(this.textBoxVnATHD);
-            this.groupBoxTHD.Location = new System.Drawing.Point(665, 493);
+            this.groupBoxTHD.Location = new System.Drawing.Point(644, 484);
             this.groupBoxTHD.Name = "groupBoxTHD";
-            this.groupBoxTHD.Size = new System.Drawing.Size(305, 89);
+            this.groupBoxTHD.Size = new System.Drawing.Size(305, 83);
             this.groupBoxTHD.TabIndex = 294;
             this.groupBoxTHD.TabStop = false;
             this.groupBoxTHD.Text = "THD";
@@ -2255,6 +2254,22 @@ namespace SineDisplayGraph
             this.labelCTRatioOver5.Text = "/5";
             this.labelCTRatioOver5.Visible = false;
             // 
+            // phasorGraph2
+            // 
+            this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
+            this.phasorGraph2.Location = new System.Drawing.Point(488, 15);
+            this.phasorGraph2.Name = "phasorGraph2";
+            this.phasorGraph2.Size = new System.Drawing.Size(318, 307);
+            this.phasorGraph2.TabIndex = 2;
+            // 
+            // phasorGraph1
+            // 
+            this.phasorGraph1.BackColor = System.Drawing.Color.Transparent;
+            this.phasorGraph1.Location = new System.Drawing.Point(28, 15);
+            this.phasorGraph1.Name = "phasorGraph1";
+            this.phasorGraph1.Size = new System.Drawing.Size(318, 307);
+            this.phasorGraph1.TabIndex = 0;
+            // 
             // checkBoxGERelay
             // 
             this.checkBoxGERelay.AutoSize = true;
@@ -2292,41 +2307,15 @@ namespace SineDisplayGraph
             // labelAngle3
             // 
             this.labelAngle3.AutoSize = true;
-            this.labelAngle3.Location = new System.Drawing.Point(928, 344);
+            this.labelAngle3.Location = new System.Drawing.Point(915, 344);
             this.labelAngle3.Name = "labelAngle3";
             this.labelAngle3.Size = new System.Drawing.Size(34, 13);
             this.labelAngle3.TabIndex = 314;
             this.labelAngle3.Text = "Angle";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(350, 160);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
-            this.label1.TabIndex = 315;
-            this.label1.Text = "0";
-            // 
-            // phasorGraph2
-            // 
-            this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
-            this.phasorGraph2.Location = new System.Drawing.Point(488, 15);
-            this.phasorGraph2.Name = "phasorGraph2";
-            this.phasorGraph2.Size = new System.Drawing.Size(318, 307);
-            this.phasorGraph2.TabIndex = 2;
-            // 
-            // phasorGraph1
-            // 
-            this.phasorGraph1.BackColor = System.Drawing.Color.Transparent;
-            this.phasorGraph1.Location = new System.Drawing.Point(28, 15);
-            this.phasorGraph1.Name = "phasorGraph1";
-            this.phasorGraph1.Size = new System.Drawing.Size(318, 307);
-            this.phasorGraph1.TabIndex = 0;
-            // 
             // ucPhasorGraph
             // 
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelAngle3);
             this.Controls.Add(this.checkBoxBFlag);
             this.Controls.Add(this.checkBoxABC);
@@ -2498,7 +2487,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.labelVtA);
             this.Controls.Add(this.listBoxMode);
             this.Name = "ucPhasorGraph";
-            this.Size = new System.Drawing.Size(1000, 611);
+            this.Size = new System.Drawing.Size(949, 569);
             this.panelTripped.ResumeLayout(false);
             this.panelTripped.PerformLayout();
             this.panelClosed.ResumeLayout(false);
@@ -2746,6 +2735,5 @@ namespace SineDisplayGraph
         private System.Windows.Forms.CheckBox checkBoxABC;
         private System.Windows.Forms.CheckBox checkBoxBFlag;
         private System.Windows.Forms.Label labelAngle3;
-        private System.Windows.Forms.Label label1;
     }
 }

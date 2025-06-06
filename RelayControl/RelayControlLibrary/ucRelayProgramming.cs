@@ -509,7 +509,17 @@ namespace RelayControlLibrary
                 regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor;
                 regular.RelayFileAtlantaWH = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
                 regular.RelayFileAtlantaGE = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
-               
+               // regular.MasterFileTorontoHydro = RelayControlLibrary.Properties.Resources.MasterProcessor_TorontoHydro;
+                if (relayHBD.relayWithHBD == true)
+                {
+                    regular.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
+                }
+                else if (relayHBD.relayWithHBD == false) // SEC
+                {
+                    regular.MasterFileConEdSEC = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
+                }
+
+
                 CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
                 this.copyCustomerLoadFiles(workingLoadFile, regular);
 
@@ -543,6 +553,9 @@ namespace RelayControlLibrary
                 workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DNPwithPLC));
                 copyCustomerLoadFiles(workingLoadFile, regular);
 
+                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.ConEdison));
+                copyCustomerLoadFiles(workingLoadFile, regular);
+
                 workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
                 workingLoadFile.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
             }
@@ -550,6 +563,11 @@ namespace RelayControlLibrary
             {
                 this.errorHandler("Error creating Customer File Lists", ex);
             }
+        }
+
+        public void setConEdFiles()
+        {
+            this.initializeCustomerFileSets(); // update programming files for ConEd based on what is currently stored in the relay
         }
 
         private void copyCustomerLoadFiles(CustomerLoadFiles destination, CustomerLoadFiles source)
@@ -566,6 +584,8 @@ namespace RelayControlLibrary
             destination.RelayFileWH = source.RelayFileWH;
             destination.RelayFileAtlantaGE = source.RelayFileAtlantaGE;
             destination.RelayFileAtlantaWH = source.RelayFileAtlantaWH;
+            destination.MasterFileConEdHBD = source.MasterFileConEdHBD;
+            destination.MasterFileConEdSEC = source.MasterFileConEdSEC;
         }
 
         public void InitializeAutoload()
@@ -997,8 +1017,8 @@ namespace RelayControlLibrary
             }
 #endif
 
-            //#if (ENMAX || PSEG) && DNP
-#if (ENMAX || PSEG || CONED) && DNP
+#if (ENMAX || PSEG) && DNP
+//#if (ENMAX || PSEG || CONED) && DNP
 
             if (GERelay)
             {
@@ -1017,6 +1037,28 @@ namespace RelayControlLibrary
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
 
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+#endif
+
+#if CONED
+            if (relayHBD.relayWithHBD == true)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
+                this.textBoxMasterFileName.Text = "ConEd Master Relay HBD DNP with PLC Resource";
+            }
+            else if (relayHBD.relayWithHBD == false) // SEC
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
+                this.textBoxMasterFileName.Text = "ConEd Master Relay SEC DNP with PLC Resource";
+            }
+
+            this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+            this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            
             if (this.transmitterEnabled)
             {
                 this.parseFPGAFile(this.fPGACode);
@@ -1080,7 +1122,7 @@ namespace RelayControlLibrary
             return;
 #endif
             /*
-            #if TAUNTON
+#if TAUNTON
                         this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorTaunton;
                         this.textBoxMasterFileName.Text = "Master Relay Taunton";
 
@@ -1106,7 +1148,7 @@ namespace RelayControlLibrary
 
                         logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
                         return;
-            #endif
+#endif
             */
 #if MADISON
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMadison;
@@ -4144,6 +4186,8 @@ namespace RelayControlLibrary
             this.MasterFileWHDNP = cLF.MasterFileWHDNP;
             this.MasterFileAtlantaDNPGE = cLF.MasterFileAtlantaDNPGE;
             this.MasterFileAtlantaDNPWH = cLF.MasterFileAtlantaDNPWH;
+            this.MasterFileConEdHBD = cLF.MasterFileConEdHBD;
+            this.MasterFileConEdSEC = cLF.MasterFileConEdSEC;
             this.RelayFileGE = cLF.RelayFileGE;
             this.RelayFileWH = cLF.RelayFileWH;
             this.RelayFileAtlantaWH = cLF.RelayFileAtlantaWH;
@@ -4165,6 +4209,8 @@ namespace RelayControlLibrary
         public string MasterFileDNPPLC;
         public string MasterFileAtlantaDNPGE;
         public string MasterFileAtlantaDNPWH;
+        public string MasterFileConEdHBD;
+        public string MasterFileConEdSEC;
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
     }
 

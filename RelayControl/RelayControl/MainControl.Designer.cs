@@ -2894,7 +2894,7 @@
         private System.Windows.Forms.Label labelRelayTrippedOrClose;
         private System.Windows.Forms.Button buttonToggleMonitor;
         private System.Windows.Forms.Label labelCtRatioMonitor;
-        private SineDisplayGraph.ucPhasorGraph ucPhasorGraph1;
+        public SineDisplayGraph.ucPhasorGraph ucPhasorGraph1;
         private System.Windows.Forms.TabPage tabPageControl;
         private System.Windows.Forms.Label labelFPGARevision;
         private System.Windows.Forms.Button buttonResetBothProc;

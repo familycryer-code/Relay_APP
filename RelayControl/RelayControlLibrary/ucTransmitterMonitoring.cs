@@ -454,6 +454,14 @@ namespace RelayControlLibrary
 
         public void SetAll(byte[] bytePacket)
         {
+            if (relayHBD.relayWithHBD == true)
+            {
+                this.labelQPres.Enabled = false;
+                this.labelQPres.Visible = false;
+                this.textBoxQBit.Enabled = false;
+                this.textBoxQBit.Visible = false;
+            }
+
             if (this.InvokeRequired)
             {
                 bytePacketCallback bPCB = new bytePacketCallback(setAll);

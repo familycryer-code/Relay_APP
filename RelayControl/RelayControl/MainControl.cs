@@ -4785,6 +4785,8 @@ namespace RelayControl
                 if (this.Customer == Customers.None)
                     this.Customer = Customers.DIGITALGRID;
 
+                this.ucRelayProgramming1.setConEdFiles();
+
                 this.handleNewMasterRevision();
                 this.setLabelText(revision, this.labelRevision);
                 this.relayFound = true;

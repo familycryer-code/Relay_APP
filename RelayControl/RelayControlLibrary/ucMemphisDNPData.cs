@@ -213,7 +213,7 @@ namespace RelayControlLibrary
             this.analogInputs.Clear();
             this.tabPageAnalogInputs1.Controls.Clear();
             this.tabPageAnalogInputs2.Controls.Clear();
-
+            
             this.analogInputs.Add(new AnalogPointDefinition("Device DNP Address", false));
             this.analogInputs.Add(new AnalogPointDefinition("Relay Serial Number High", false));
             this.analogInputs.Add(new AnalogPointDefinition("Relay Serial Number Low", false));

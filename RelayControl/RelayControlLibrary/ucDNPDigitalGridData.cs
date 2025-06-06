@@ -124,6 +124,30 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Digital Input 4");
             this.binaryInputs.Add("Failure to Close");
             this.binaryInputs.Add("Failure to Trip");
+
+            //Additional points per rev10 ConEd firmware
+            this.binaryInputs.Add("Motor TimeOut");
+            this.binaryInputs.Add("Motor Cycles");
+            this.binaryInputs.Add("A-Flag");
+            this.binaryInputs.Add("Circle Close");
+            this.binaryInputs.Add("Trim curve");
+            this.binaryInputs.Add("Relay Cycles");
+            this.binaryInputs.Add("Trip on Power Down");
+            this.binaryInputs.Add("Relay Algorithm");
+            this.binaryInputs.Add("Override Blocked Open");
+            this.binaryInputs.Add("Test Relay Ack");
+            this.binaryInputs.Add("Sensitive");
+            this.binaryInputs.Add("Never Reclose");
+            this.binaryInputs.Add("Safe Service");
+            this.binaryInputs.Add("Relay Failure");
+            this.binaryInputs.Add("XP Detected");
+            this.binaryInputs.Add("Phase ACB");
+            this.binaryInputs.Add("Relay Phased OK");
+            this.binaryInputs.Add("Insensitive Back Feed Detected");
+            this.binaryInputs.Add("Command Lockout");
+            this.binaryInputs.Add("Pump Protect Lockout");
+
+
 #endif
 #if SCE
             this.binaryInputs.Add("Time Delay Mode"); //0
@@ -334,6 +358,28 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Clear Changes");
             this.binaryOutputs.Add("Enable Relaxed Close");
             this.binaryOutputs.Add("Disable Relaxed Close");
+
+            //Additional points per rev10 ConEd firmware
+            this.binaryOutputs.Add("Enabled Pump Mode Motor Cycles");
+            this.binaryOutputs.Add("Trip On Power Down");
+            this.binaryOutputs.Add("Override Blocked Close on Dead Network");
+            this.binaryOutputs.Add("Relay Algorithm");
+            this.binaryOutputs.Add("Not Used");
+            this.binaryOutputs.Add("Command Test");
+            this.binaryOutputs.Add("Not Used");
+            this.binaryOutputs.Add("Safe Service Mode Enable");
+            this.binaryOutputs.Add("Circle Close");
+            this.binaryOutputs.Add("Trim Curve");
+            this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
+            this.binaryOutputs.Add("Pump Lockout Never Reclose");
+            this.binaryOutputs.Add("Clear Pump Protect Lockout");
+            this.binaryOutputs.Add("Clear Cycle Counter");
+            this.binaryOutputs.Add("Sensitive Trip");
+            this.binaryOutputs.Add("Watt Var");
+            this.binaryOutputs.Add("Time Delay");
+            this.binaryOutputs.Add("Insenstive Trip");
+            this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
+            this.binaryOutputs.Add("Command Lockout");
 #endif
 #if SCE
             this.binaryOutputs.Add("Trip");
@@ -447,6 +493,7 @@ namespace RelayControlLibrary
             this.analogInputs.Clear();
             this.tabPageAnalogInputs1.Controls.Clear();
             this.tabPageAnalogInputs2.Controls.Clear();
+            this.tabPageAnalogInputs3.Controls.Clear();
 #if CONED
             this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));   //0
             this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle", false));   //1
@@ -513,6 +560,55 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
             this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage offset setting", false));
             this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
+
+            //Additional points per rev10 ConEd firmware
+            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase B ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase C ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("NV Angle - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("NV Angle - Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle B ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence  Differential Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Three Phase Power Factor", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Average Relay Differential Voltage", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % A ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("L% B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("L% C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase Cr", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog D", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog E", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog F", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog A1", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog A2", false));
 #endif
 #if SCE
             this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));
@@ -862,8 +958,10 @@ namespace RelayControlLibrary
                 if (i < 50)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
                 //else
-                else if (i <= 95) //if (i <= 63)
+                else if (i <= 99) //if (i <= 63)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                else if (i <= 111) 
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
 
                 if (i == pointsToAdd)
                     break;
@@ -873,7 +971,7 @@ namespace RelayControlLibrary
 
         private void initializeAnalogOutputs()
         {
-            uint pointsToAdd = 28;
+            uint pointsToAdd = 35;// 28;
 
             this.analogOutputs.Clear();
             this.tabPageAnalogOutputs.Controls.Clear();
@@ -897,6 +995,25 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
             this.analogOutputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
+
+            //Additional points per rev10 ConEd firmware
+            this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Offset", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Angle", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Lockout time", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Limit", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Time", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Current Imbalance", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Trip Delay", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Low Voltage", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Overcurrent", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Voltage Imbalance", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Trip Mode Trim Angle", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
+            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
 #endif
 #if SCE
             this.analogOutputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));
@@ -1149,8 +1266,9 @@ namespace RelayControlLibrary
 // starting point for setBinaryOutputs considering 48 bytes of BinaryInputs ( per ver10 Oncor firmware )
            savedIndex = 192; 
 #elif CONED
-            // starting point for setBinaryOutputs considering 56 bytes of BinaryInputs ( per ver10 CONED firmware )
-            savedIndex = 224;
+            // starting point for setBinaryOutputs considering 45 BinaryInputs points ( per ver10 ConEd firmware - including the 10 newly added ones )
+            // 4 bytes per binary input point : 44 * 4 = 176
+            savedIndex = 176 + 4;// 224;
 #elif TORONTO_HYDRO
             // starting point for setBinaryOutputs considering 51 bytes of BinaryInputs ( per ver10 TorontoHydro firmware - including the 10 newly added ones )
             savedIndex = 204;
@@ -1161,9 +1279,9 @@ namespace RelayControlLibrary
 // 48 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 296
             savedIndex = 296; 
 #elif CONED
-            // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 ConEd firmware )
-            // 56 * 4(binary input incremented by 4 for each reading)  + 32 * 4(binary output incremented by 4 for each reading) = 352
-            savedIndex = 352; // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 Oncor firmware )
+            // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware )
+            // 44 * 4(binary input incremented by 4 for each reading) + 4 + 28 * 4(binary output incremented by 4 for each reading) = 292
+            savedIndex = 352;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
 #elif TORONTO_HYDRO
             // starting point for setAnalogInputs considering 51 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
             // 51 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 256
@@ -1171,13 +1289,13 @@ namespace RelayControlLibrary
 #endif
             savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
 #if ONCOR
-// starting point for setAnalogOutputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs & 105 bytes of AnalogInputs( per ver10 Oncor firmware )
-// 48*4(binary input incremented by 4 for each reading)  + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
+// starting point for setAnalogOutputs considering 44 bytes of BinaryInputs & 28 bytes of BinaryOutputs & 111 bytes of AnalogInputs( per ver10 ConEd firmware )
+// 48*4(binary input incremented by 4 for each reading)   + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
             savedIndex = 926; 
 #elif CONED
-            // starting point for setAnalogInputs considering 56 bytes of BinaryInputs & 32 bytes of BinaryOutputs( per ver10 Oncor firmware )
-            // 56 * 4(binary input incremented by 4 for each reading)  + 32 * 4(binary output incremented by 4 for each reading) + 128*6(analog input incremented by 6 for each reading)= 1120
-            savedIndex = 1120;
+            // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware ) & 112 points of Analog Inputs
+            // 44 * 4(binary input incremented by 4 for each reading)  + 4 + 28 * 4(binary output incremented by 4 for each reading) + 4 + 111*6(analog input incremented by 6 for each reading)= 962
+            savedIndex = 1025;// 962 + 6;
 #endif
             this.setAnalogOutputs(this.dNPData, savedIndex);
         }
@@ -1267,6 +1385,31 @@ namespace RelayControlLibrary
                 }
             }
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
+            {
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                bool failed = false;
+
+                try
+                {
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+
+                if (!failed)
+                {
+                    uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
+                    if ((bytePacket[index + 4] & 0x01) == 0x01)
+                        uDDGA.PointEnabled = true;
+                    else
+                        uDDGA.PointEnabled = false;
+                    uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
+                    index += 6;
+                }
+            }
+            foreach (Control C in this.tabPageAnalogInputs3.Controls)
             {
                 ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
                 bool failed = false;
@@ -1585,6 +1728,58 @@ namespace RelayControlLibrary
                     sEA.SendPacket[packetByteNumber] = tempByte;
                 }
             }
+            foreach (Control C in this.tabPageAnalogInputs3.Controls)
+            {
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                bool failed = false;
+
+                try
+                {
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+                if (!failed)
+                {
+                    if (i % 8 == 0)
+                    {
+                        tempByte = 0; //First value of byte, so clear tempByte
+                        if (uDDGA.EventEnabled)
+                            tempByte = 1;
+                    }
+                    else if (i % 8 == 7) //last value of group
+                    {
+                        if (uDDGA.EventEnabled)
+                            tempByte += (byte)0x80;
+
+                        sEA.SendPacket[packetByteNumber] = tempByte;
+
+                        packetByteNumber++; //next byte goes into next byte of packet
+                    }
+                    else
+                    {
+                        if (uDDGA.EventEnabled)
+                        {
+                            byte j = 0;
+                            byte value = 1;
+                            for (j = 0; j < i % 8; ++j)
+                            {
+                                value <<= 1;
+                            }
+
+                            tempByte += value;
+                        }
+                    }
+
+                    i++;
+                }
+                if (i % 8 != 0)
+                {
+                    sEA.SendPacket[packetByteNumber] = tempByte;
+                }
+            }
 
             sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
             if (this.Send != null)
@@ -1625,6 +1820,21 @@ namespace RelayControlLibrary
             if (PointChanged != null)
             {
                 this.PointChanged(this, new DNPPointEventArgs(true));
+            }
+            foreach (Control C in this.tabPageAnalogInputs3.Controls)
+            {
+                try
+                {
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+                if (!failed)
+                {
+                    uDDGA.EventEnabled = true;
+                }
             }
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {
@@ -1692,6 +1902,21 @@ namespace RelayControlLibrary
             if (PointChanged != null)
             {
                 this.PointChanged(this, new DNPPointEventArgs(false));
+            }
+            foreach (Control C in this.tabPageAnalogInputs3.Controls)
+            {
+                try
+                {
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+                if (!failed)
+                {
+                    uDDGA.EventEnabled = false;
+                }
             }
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {

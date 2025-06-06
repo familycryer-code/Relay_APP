@@ -38,6 +38,7 @@ namespace RelayControlLibrary
             this.buttonEnableAllAnalogEvents = new System.Windows.Forms.Button();
             this.buttonSendAnalogEnables = new System.Windows.Forms.Button();
             this.tabPageAnalogInputs2 = new System.Windows.Forms.TabPage();
+            this.tabPageAnalogInputs3 = new System.Windows.Forms.TabPage();
             this.tabPageAnalogOutputs = new System.Windows.Forms.TabPage();
             this.buttonDisableAllAnalogEvents = new System.Windows.Forms.Button();
             this.tabControlMemphisDNP.SuspendLayout();
@@ -58,12 +59,16 @@ namespace RelayControlLibrary
             // tabControlMemphisDNP
             // 
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs);
+#if !CONED
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
+#endif
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
-            #if !TORONTO_HYDRO
+            this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs3);
+//#if !TORONTO_HYDRO
+#if !CONED
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogOutputs);
-            #endif
+#endif
             this.tabControlMemphisDNP.Location = new System.Drawing.Point(0, 0);
             this.tabControlMemphisDNP.Name = "tabControlMemphisDNP";
             this.tabControlMemphisDNP.SelectedIndex = 0;
@@ -160,6 +165,17 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs2.Text = "Analog Inputs";
             this.tabPageAnalogInputs2.UseVisualStyleBackColor = true;
             this.tabPageAnalogInputs2.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // tabPageAnalogInputs3
+            // 
+            this.tabPageAnalogInputs3.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAnalogInputs3.Name = "tabPageAnalogInputs2";
+            this.tabPageAnalogInputs3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAnalogInputs3.Size = new System.Drawing.Size(981, 544);
+            this.tabPageAnalogInputs3.TabIndex = 3;
+            this.tabPageAnalogInputs3.Text = "Analog Inputs";
+            this.tabPageAnalogInputs3.UseVisualStyleBackColor = true;
+            this.tabPageAnalogInputs3.BackColor = System.Drawing.SystemColors.Control;
             // 
             // tabPageAnalogOutputs
             // 
