@@ -721,9 +721,9 @@ namespace RelayControlLibrary
             this.lblGreenMagX.AutoSize = true;
             this.lblGreenMagX.Location = new System.Drawing.Point(145, 255);
             this.lblGreenMagX.Name = "lblGreenMagX";
-            this.lblGreenMagX.Size = new System.Drawing.Size(102, 13);
+            this.lblGreenMagX.Size = new System.Drawing.Size(115, 13);
             this.lblGreenMagX.TabIndex = 57;
-            this.lblGreenMagX.Text = "Green Magnitude X:";
+            this.lblGreenMagX.Text = "Adaptive Magnitude X:";
             // 
             // numericUpDown_GreenMagX
             // 
@@ -747,9 +747,9 @@ namespace RelayControlLibrary
             this.lblGreenMagY.AutoSize = true;
             this.lblGreenMagY.Location = new System.Drawing.Point(5, 273);
             this.lblGreenMagY.Name = "lblGreenMagY";
-            this.lblGreenMagY.Size = new System.Drawing.Size(102, 13);
+            this.lblGreenMagY.Size = new System.Drawing.Size(115, 13);
             this.lblGreenMagY.TabIndex = 59;
-            this.lblGreenMagY.Text = "Green Magnitude Y:";
+            this.lblGreenMagY.Text = "Adaptive Magnitude Y:";
             // 
             // numericUpDown_GreenMagY
             // 

@@ -744,35 +744,35 @@ namespace RelayControlLibrary
         {
             this.lblGreenDelay.Visible = true;
             this.numericUpDown_GreenDelay.Visible = true;
-            this.lblGreenDelay.Location = new System.Drawing.Point(150, 74);
+            this.lblGreenDelay.Location = new System.Drawing.Point(153, 74);
             this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(235, 72);
             this.lblUnitGreenDelay.Visible = true;
             this.lblUnitGreenDelay.Location = new System.Drawing.Point(300, 74);
             
             this.lblGreenMagX.Visible = true; 
             this.numericUpDown_GreenMagX.Visible = true;
-            this.lblGreenMagX.Location = new System.Drawing.Point(110, 104);
+            this.lblGreenMagX.Location = new System.Drawing.Point(102, 104);
             this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(235, 102);
             this.lblUnitGreenMagX.Visible = true;
             this.lblUnitGreenMagX.Location = new System.Drawing.Point(300, 104);
             
             this.lblGreenMagY.Visible = true;
             this.numericUpDown_GreenMagY.Visible = true;
-            this.lblGreenMagY.Location = new System.Drawing.Point(110, 134);
+            this.lblGreenMagY.Location = new System.Drawing.Point(102, 134);
             this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(235, 132);
             this.lblUnitGreenMagY.Visible = true;
             this.lblUnitGreenMagY.Location = new System.Drawing.Point(300, 134);
 
             this.lbl_InstCurrent_kWdirection.Visible = true;
             this.numericUpDown_InCurrkW.Visible = true;
-            this.lbl_InstCurrent_kWdirection.Location = new System.Drawing.Point(40, 164);
+            this.lbl_InstCurrent_kWdirection.Location = new System.Drawing.Point(45, 164);
             this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(232, 162);
             this.lblUnitInCur_kWdir.Visible = true;
             this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(300, 166);
 
             this.lbl_InstCurrent_kVARdirection.Visible = true;
             this.numericUpDown_InCurrkVAR.Visible = true;
-            this.lbl_InstCurrent_kVARdirection.Location = new System.Drawing.Point(10, 194);
+            this.lbl_InstCurrent_kVARdirection.Location = new System.Drawing.Point(12, 194);
             this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(232, 192);
             this.lblUnitInCur_kVARdir.Visible = true;
             this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(300, 196);
