@@ -883,8 +883,7 @@ namespace SineDisplayGraph
                     {
                         workingPD.Enabled = true;
                         this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
-                       // this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
-                        this.setText(String.Format("{0:0.0}", workingPD.RMSValue-100), workingPD.RMSBox);
+                        this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
                     }
 
                     this.scalePowerPhasors();
