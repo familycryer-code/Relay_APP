@@ -60,8 +60,8 @@ namespace RelayControlLibrary
                 this.signed = value;
             }
         }
-        public uint PointValue
-        //public int PointValue
+        //public uint PointValue
+        public int PointValue
         {
             set
             {

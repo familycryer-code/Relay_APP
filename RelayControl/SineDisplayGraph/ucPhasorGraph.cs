@@ -314,11 +314,11 @@ namespace SineDisplayGraph
 
             trippedPhasors[0].EndPoint = new PointF(1, 2);
             string[] str = Enum.GetNames(typeof(RawPhasorGroups));
-            foreach (string s in str)
+           /* foreach (string s in str)
             {
                 this.listBoxMode.Items.Add(s);
             }
-
+            */
             this.listBoxMode.SelectedIndex = 0;
         }
 

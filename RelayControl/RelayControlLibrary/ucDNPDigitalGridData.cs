@@ -66,8 +66,8 @@ namespace RelayControlLibrary
 #if ONCOR
         private byte[] dNPData = new byte[1043]; //per the new increased data size coming for Oncor master firmware : 1008 + 30 extra bytes + 4 bytes  added at end by analog output function
 #elif CONED
-        private byte[] dNPData = new byte[1196]; //per the new increased data size coming for ConED master firmware : 
-        // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
+        private byte[] dNPData = new byte[1165];//[1196]; //per the new increased data size coming for ConED master firmware : 
+        // index goes to 1025 at starting point of analog ouput reads. so, 35*4 bytes more after that
 #else
         private byte[] dNPData = new byte[1196]; //per the new increased data size coming for ConED master firmware : 
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
@@ -1379,9 +1379,9 @@ namespace RelayControlLibrary
                     else
                         uDDGA.PointEnabled = false;
 
-                    
-                    uDDGA.PointValue =  this.convertDataBytesToAnalog(bytePacket, index);
 
+                    //uDDGA.PointValue = -100;// this.convertDataBytesToAnalog(bytePacket, index);
+                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index);
                     index += 6;
                 }
             }
@@ -1406,7 +1406,14 @@ namespace RelayControlLibrary
                         uDDGA.PointEnabled = true;
                     else
                         uDDGA.PointEnabled = false;
-                    uDDGA.PointValue =  this.convertDataBytesToAnalog(bytePacket, index);
+
+                    /*if (index == 758)
+                    {
+                       uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index); 
+                    }
+                    else
+                        uDDGA.PointValue = -150;*/
+                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index);
                     index += 6;
                 }
             }
@@ -1431,7 +1438,8 @@ namespace RelayControlLibrary
                         uDDGA.PointEnabled = true;
                     else
                         uDDGA.PointEnabled = false;
-                    uDDGA.PointValue =  this.convertDataBytesToAnalog(bytePacket, index);
+                    //uDDGA.PointValue = -100;// this.convertDataBytesToAnalog(bytePacket, index);
+                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index);
                     index += 6;
                 }
             }
@@ -1461,15 +1469,18 @@ namespace RelayControlLibrary
             temp <<= 8;
             temp += bytePacket[i];
 
-            int twosComplement = ~temp + 1;
+            //int twosComplement = ~temp + 1;
 
-            return twosComplement;
+           // temp = temp--;
+           // int twosComplement = ~temp;
+
+            return temp;
         }
 
-        //private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
         private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
         {
             UInt16 temp;
+            
             temp = bytePacket[i + 1];
             temp <<= 8;
             temp += bytePacket[i];
