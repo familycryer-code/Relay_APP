@@ -598,7 +598,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
             this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase Cr", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
             this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
@@ -1281,7 +1281,7 @@ namespace RelayControlLibrary
 #elif CONED
             // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware )
             // 44 * 4(binary input incremented by 4 for each reading) + 4 + 28 * 4(binary output incremented by 4 for each reading) = 292
-            savedIndex = 352;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
+            savedIndex = 344;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
 #elif TORONTO_HYDRO
             // starting point for setAnalogInputs considering 51 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
             // 51 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 256
@@ -1379,7 +1379,8 @@ namespace RelayControlLibrary
                     else
                         uDDGA.PointEnabled = false;
 
-                    uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
+                    
+                    uDDGA.PointValue =  this.convertDataBytesToAnalog(bytePacket, index);
 
                     index += 6;
                 }
@@ -1405,7 +1406,7 @@ namespace RelayControlLibrary
                         uDDGA.PointEnabled = true;
                     else
                         uDDGA.PointEnabled = false;
-                    uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
+                    uDDGA.PointValue =  this.convertDataBytesToAnalog(bytePacket, index);
                     index += 6;
                 }
             }
@@ -1430,7 +1431,7 @@ namespace RelayControlLibrary
                         uDDGA.PointEnabled = true;
                     else
                         uDDGA.PointEnabled = false;
-                    uDDGA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
+                    uDDGA.PointValue =  this.convertDataBytesToAnalog(bytePacket, index);
                     index += 6;
                 }
             }
@@ -1452,6 +1453,20 @@ namespace RelayControlLibrary
             }
         }
 
+        //private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
+        private int convertDataBytesToAnalogIn(byte[] bytePacket, int i)
+        {
+            Int16 temp;
+            temp = bytePacket[i + 1];
+            temp <<= 8;
+            temp += bytePacket[i];
+
+            int twosComplement = ~temp + 1;
+
+            return twosComplement;
+        }
+
+        //private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
         private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
         {
             UInt16 temp;
