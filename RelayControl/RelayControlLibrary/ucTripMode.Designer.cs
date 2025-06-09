@@ -210,7 +210,7 @@ namespace RelayControlLibrary
             // labelTDunit
             // 
             this.labelTDunit.AutoSize = true;
-            this.labelTDunit.Location = new System.Drawing.Point(251, 73);
+            this.labelTDunit.Location = new System.Drawing.Point(260, 73);
             this.labelTDunit.Name = "labelTDunit";
             this.labelTDunit.Size = new System.Drawing.Size(12, 13);
             this.labelTDunit.TabIndex = 20;
@@ -219,7 +219,7 @@ namespace RelayControlLibrary
             // labelETDunit
             // 
             this.labelETDunit.AutoSize = true;
-            this.labelETDunit.Location = new System.Drawing.Point(251, 51);
+            this.labelETDunit.Location = new System.Drawing.Point(260, 51);
             this.labelETDunit.Name = "labelETDunit";
             this.labelETDunit.Size = new System.Drawing.Size(12, 13);
             this.labelETDunit.TabIndex = 21;
@@ -823,7 +823,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDown_InCurrkVAR.Name = "numericUpDown_InCurrkVAR";
-            this.numericUpDown_InCurrkVAR.Size = new System.Drawing.Size(57, 20);
+            this.numericUpDown_InCurrkVAR.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_InCurrkVAR.TabIndex = 64;
             this.numericUpDown_InCurrkVAR.Value = new decimal(new int[] {
             25,

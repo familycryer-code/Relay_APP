@@ -758,13 +758,16 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(235, 72);
             this.lblUnitGreenDelay.Visible = true;
             this.lblUnitGreenDelay.Location = new System.Drawing.Point(300, 74);
+            this.numericUpDown_GreenDelay.Enabled = false;
+
 
             this.lblGreenMagX.Visible = true;
             this.numericUpDown_GreenMagX.Visible = true;
             this.lblGreenMagX.Location = new System.Drawing.Point(100, 104); //Point(110, 104);
             this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(235, 102);
-            this.lblUnitGreenMagX.Visible = true;
+            this.lblUnitGreenMagX.Visible = true; ;
             this.lblUnitGreenMagX.Location = new System.Drawing.Point(300, 104);
+            this.numericUpDown_GreenMagX.Enabled = false;
 
             this.lblGreenMagY.Visible = true;
             this.numericUpDown_GreenMagY.Visible = true;
@@ -772,6 +775,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(235, 132);
             this.lblUnitGreenMagY.Visible = true;
             this.lblUnitGreenMagY.Location = new System.Drawing.Point(300, 134);
+            this.numericUpDown_GreenMagY.Enabled = false;
 
             this.lbl_InstCurrent_kWdirection.Visible = true;
             this.numericUpDown_InCurrkW.Visible = true;
@@ -779,13 +783,15 @@ namespace RelayControlLibrary
             this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(232, 162);
             this.lblUnitInCur_kWdir.Visible = true;
             this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(300, 166);
+            this.numericUpDown_InCurrkW.Enabled = false;
 
             this.lbl_InstCurrent_kVARdirection.Visible = true;
             this.numericUpDown_InCurrkVAR.Visible = true;
             this.lbl_InstCurrent_kVARdirection.Location = new System.Drawing.Point(15, 194); //(10, 194);
-            this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(232, 192);
+            this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(235, 192);
             this.lblUnitInCur_kVARdir.Visible = true;
             this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(300, 196);
+            this.numericUpDown_InCurrkVAR.Enabled = false;
         }
 
 
@@ -1748,6 +1754,13 @@ namespace RelayControlLibrary
             this.numericUpDownWVCurrent.Value = 2.5m;
             this.numericUpDownAngle.Value = 90;
             this.listBoxTripModes.SelectedIndex = 0;
+
+            this.numericUpDown_GreenDelay.Value = 250;
+            this.numericUpDown_GreenMagX.Value = 150;
+            this.numericUpDown_GreenMagY.Value = 150;
+            this.numericUpDown_InCurrkW.Value = 1.25m;
+            this.numericUpDown_InCurrkVAR.Value = 2.5m;    
+
 #elif LONDONH
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 9.3m;

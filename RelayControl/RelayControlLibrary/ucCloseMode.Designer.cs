@@ -50,6 +50,7 @@ namespace RelayControlLibrary
             this.buttonRelaxClose = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBoxCloseMode = new System.Windows.Forms.GroupBox();
+            this.chkBox_EnablePermClose = new System.Windows.Forms.CheckBox();
             this.lblUnitPerClVoltage = new System.Windows.Forms.Label();
             this.lblUnitPermClAcTime = new System.Windows.Forms.Label();
             this.lblUnitFloatTime = new System.Windows.Forms.Label();
@@ -59,7 +60,6 @@ namespace RelayControlLibrary
             this.lblPermCloseActiveTime = new System.Windows.Forms.Label();
             this.numericUpDown_FloatTime = new System.Windows.Forms.NumericUpDown();
             this.lblFloattTime = new System.Windows.Forms.Label();
-            this.chkBox_EnablePermClose = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDA)).BeginInit();
@@ -370,6 +370,18 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.TabStop = false;
             this.groupBoxCloseMode.Text = "Close Mode Settings:";
             // 
+            // chkBox_EnablePermClose
+            // 
+            this.chkBox_EnablePermClose.AutoSize = true;
+            this.chkBox_EnablePermClose.Checked = true;
+            this.chkBox_EnablePermClose.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBox_EnablePermClose.Location = new System.Drawing.Point(129, 218);
+            this.chkBox_EnablePermClose.Name = "chkBox_EnablePermClose";
+            this.chkBox_EnablePermClose.Size = new System.Drawing.Size(141, 17);
+            this.chkBox_EnablePermClose.TabIndex = 51;
+            this.chkBox_EnablePermClose.Text = "Enable Permissive Close";
+            this.chkBox_EnablePermClose.UseVisualStyleBackColor = true;
+            // 
             // lblUnitPerClVoltage
             // 
             this.lblUnitPerClVoltage.AutoSize = true;
@@ -383,7 +395,7 @@ namespace RelayControlLibrary
             // lblUnitPermClAcTime
             // 
             this.lblUnitPermClAcTime.AutoSize = true;
-            this.lblUnitPermClAcTime.Location = new System.Drawing.Point(227, 163);
+            this.lblUnitPermClAcTime.Location = new System.Drawing.Point(227, 160);
             this.lblUnitPermClAcTime.Name = "lblUnitPermClAcTime";
             this.lblUnitPermClAcTime.Size = new System.Drawing.Size(23, 13);
             this.lblUnitPermClAcTime.TabIndex = 48;
@@ -393,18 +405,18 @@ namespace RelayControlLibrary
             // lblUnitFloatTime
             // 
             this.lblUnitFloatTime.AutoSize = true;
-            this.lblUnitFloatTime.Location = new System.Drawing.Point(229, 140);
+            this.lblUnitFloatTime.Location = new System.Drawing.Point(229, 135);
             this.lblUnitFloatTime.Name = "lblUnitFloatTime";
-            this.lblUnitFloatTime.Size = new System.Drawing.Size(35, 13);
+            this.lblUnitFloatTime.Size = new System.Drawing.Size(49, 13);
             this.lblUnitFloatTime.TabIndex = 47;
-            this.lblUnitFloatTime.Text = "Hours";
+            this.lblUnitFloatTime.Text = "Seconds";
             this.lblUnitFloatTime.Visible = false;
             // 
             // numericnumericUpDown_PermClVoltage
             // 
             this.numericnumericUpDown_PermClVoltage.Location = new System.Drawing.Point(157, 180);
             this.numericnumericUpDown_PermClVoltage.Maximum = new decimal(new int[] {
-            5,
+            6,
             0,
             0,
             0});
@@ -412,7 +424,7 @@ namespace RelayControlLibrary
             this.numericnumericUpDown_PermClVoltage.Size = new System.Drawing.Size(64, 20);
             this.numericnumericUpDown_PermClVoltage.TabIndex = 46;
             this.numericnumericUpDown_PermClVoltage.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
@@ -432,7 +444,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDown_PermClActTime.Location = new System.Drawing.Point(157, 157);
             this.numericUpDown_PermClActTime.Maximum = new decimal(new int[] {
-            20,
+            40,
             0,
             0,
             0});
@@ -445,7 +457,7 @@ namespace RelayControlLibrary
             this.numericUpDown_PermClActTime.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_PermClActTime.TabIndex = 44;
             this.numericUpDown_PermClActTime.Value = new decimal(new int[] {
-            15,
+            30,
             0,
             0,
             0});
@@ -470,7 +482,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDown_FloatTime.Minimum = new decimal(new int[] {
-            30,
+            10,
             0,
             0,
             0});
@@ -478,7 +490,7 @@ namespace RelayControlLibrary
             this.numericUpDown_FloatTime.Size = new System.Drawing.Size(67, 20);
             this.numericUpDown_FloatTime.TabIndex = 42;
             this.numericUpDown_FloatTime.Value = new decimal(new int[] {
-            38,
+            20,
             0,
             0,
             0});
@@ -493,17 +505,6 @@ namespace RelayControlLibrary
             this.lblFloattTime.TabIndex = 41;
             this.lblFloattTime.Text = "Float Time:";
             this.lblFloattTime.Visible = false;
-            // 
-            // chkBox_EnablePermClose
-            // 
-            this.chkBox_EnablePermClose.AutoSize = true;
-            this.chkBox_EnablePermClose.Location = new System.Drawing.Point(129, 218);
-            this.chkBox_EnablePermClose.Name = "chkBox_EnablePermClose";
-            this.chkBox_EnablePermClose.Size = new System.Drawing.Size(141, 17);
-            this.chkBox_EnablePermClose.TabIndex = 51;
-            this.chkBox_EnablePermClose.Text = "Enable Permissive Close";
-            this.chkBox_EnablePermClose.UseVisualStyleBackColor = true;
-            this.chkBox_EnablePermClose.Checked = true;
             // 
             // ucCloseMode
             // 

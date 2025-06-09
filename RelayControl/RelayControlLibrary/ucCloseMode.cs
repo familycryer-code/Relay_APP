@@ -193,21 +193,21 @@ namespace RelayControlLibrary
                 // APP without AT and PC feature :
                 this.lblFloattTime.Enabled = true;
                 this.lblFloattTime.Visible = true;
-                this.numericUpDown_FloatTime.Enabled = true;
+                this.numericUpDown_FloatTime.Enabled = false;// true;
                 this.numericUpDown_FloatTime.Visible = true;
                 this.lblUnitFloatTime.Enabled= true;
                 this.lblUnitFloatTime.Visible= true;
-
+                
                 this.lblPermCloseActiveTime.Enabled= true;
                 this.lblPermCloseActiveTime.Visible= true;
-                this.numericUpDown_PermClActTime.Enabled= true;
+                this.numericUpDown_PermClActTime.Enabled = false;// true;
                 this.numericUpDown_PermClActTime.Visible= true;
                 this.lblUnitPermClAcTime.Enabled= true;
                 this.lblUnitPermClAcTime.Visible= true;
 
                 this.lblPermCloseVoltage.Enabled= true;
                 this.lblPermCloseVoltage.Visible= true;
-                this.numericnumericUpDown_PermClVoltage.Enabled= true;
+                this.numericnumericUpDown_PermClVoltage.Enabled = false;// true;
                 this.numericnumericUpDown_PermClVoltage.Visible= true;
                 this.lblUnitPerClVoltage.Enabled = true;
                 this.lblUnitPerClVoltage.Visible = true;
@@ -367,68 +367,65 @@ namespace RelayControlLibrary
         //private void sendCloseData()
         public void sendCloseData()
         {
-            if (chkBox_EnablePermClose.Checked == false)
+            if (relaxCloseC.RelaxCloseClick == false)
             {
-                if (relaxCloseC.RelaxCloseClick == false)
-                {
-                    Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                    Cursor.Current = Cursors.WaitCursor;
-                    screenD.screenDisable = true;
-                    this.SendTimedOut = false;
-                }
-                relaxCloseC.RelaxCloseClick = false;
-                buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
+                this.SendTimedOut = false;
+            }
+            relaxCloseC.RelaxCloseClick = false;
+            buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
 
-                // If sending relax, just send the command and no curves
-                if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
-                    relayRevisionNumber < _singleCommandRelaxCloseUpdate)
-                {
-                    mySEA = new SendEventArgs(_packetSize);
-                    this.setVerticalLine();
-                    this.setHorizontalLine();
+            // If sending relax, just send the command and no curves
+            if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
+                relayRevisionNumber < _singleCommandRelaxCloseUpdate)
+            {
+                mySEA = new SendEventArgs(_packetSize);
+                this.setVerticalLine();
+                this.setHorizontalLine();
 
-                    mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
-                    if (dataBackupR.dataBackup_fromRelay == true)
+                mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
+                if (dataBackupR.dataBackup_fromRelay == true)
+                {
+                    // writes to 8 bytes C_byte1 to C_byte8 in master uP
+                    // these 8 bytes correspond to the byte packet refering to APP contents as seen on line 501-510 in RelayModeFunctions.cs
+
+                    string lineRead;
+                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                    int c = 1;
+                    while (c <= 6)
                     {
-                        // writes to 8 bytes C_byte1 to C_byte8 in master uP
-                        // these 8 bytes correspond to the byte packet refering to APP contents as seen on line 501-510 in RelayModeFunctions.cs
-
-                        string lineRead;
-                        StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                        int c = 1;
-                        while (c <= 6)
-                        {
-                            lineRead = sr.ReadLine(); //Read the next line
-                            c++;
-                        }
-
-                        mySEA.SendPacket[0] = 67;  // 'C'
-                        for (int cnt = 1; cnt <= 8; cnt++)
-                        {
-                            lineRead = sr.ReadLine(); //Read the next line
-                            if ((cnt % 2) != 0)//odd 
-                                mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
-                            else
-                                mySEA.SendPacket[cnt - 1] = Convert.ToByte(lineRead);
-
-
-                        }
-                        mySEA.SendPacket[9] = 0x0D;
-
-                        //dataBackupR.dataBackup_fromRelay = false;
-                        sr.Close();
+                        lineRead = sr.ReadLine(); //Read the next line
+                        c++;
                     }
 
-                    mySEA.WithAck = true;
-                    mySEA.RequestAll = true;
-                    this.OnSend(this, mySEA);
+                    mySEA.SendPacket[0] = 67;  // 'C'
+                    for (int cnt = 1; cnt <= 8; cnt++)
+                    {
+                        lineRead = sr.ReadLine(); //Read the next line
+                        if ((cnt % 2) != 0)//odd 
+                            mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
+                        else
+                            mySEA.SendPacket[cnt - 1] = Convert.ToByte(lineRead);
+
+
+                    }
+                    mySEA.SendPacket[9] = 0x0D;
+
+                    //dataBackupR.dataBackup_fromRelay = false;
+                    sr.Close();
                 }
-                Thread.Sleep(1000);   //1 second delay
-            }
-            else if (chkBox_EnablePermClose.Checked == false)
-            {
+
+                if(chkBox_EnablePermClose.Checked == true)
                 this.SendPermissiveData();
+
+                mySEA.WithAck = true;
+                mySEA.RequestAll = true;
+                this.OnSend(this, mySEA);
             }
+            Thread.Sleep(1000);   //1 second delay
+           
         }
 
         public void SendPermissiveData()
@@ -898,6 +895,9 @@ namespace RelayControlLibrary
                 this.checkBox1.Checked = false;
                 this.numericUpDownPDV.Value = 0.4m;
                 this.chkBox_EnablePermClose.Checked = true;
+                this.numericUpDown_FloatTime.Value = 20;
+                this.numericUpDown_PermClActTime.Value = 30;
+                this.numericnumericUpDown_PermClVoltage.Value = 5;
 #endif
 
             }
