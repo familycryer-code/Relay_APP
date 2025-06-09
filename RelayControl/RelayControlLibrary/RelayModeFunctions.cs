@@ -35,7 +35,7 @@ namespace RelayControlLibrary
         public const char _DNPControlOpCode = 'D';
         public const char _DNPDataRequestOpCode = 'U';
         public const char _PermissiveClose = 'L';
-        public const char _AdaptiveTripOpCode = 'P';
+        public const char _AdaptiveTripOpCode = 'A';
 
         #region Trip Mode Functions
 
@@ -57,6 +57,9 @@ namespace RelayControlLibrary
 
                 case TripModes.WattVar:
                     return _WattVarTripOpCode;
+
+                case TripModes.Adaptive:
+                    return _AdaptiveTripOpCode;
                 default:
                     return '\0';
             }
@@ -75,11 +78,12 @@ namespace RelayControlLibrary
                 case TripModes.TimeDelay:
                     return (byte)_TimeDelayOpCode;
 
-               case TripModes.Adaptive:
+                case TripModes.Adaptive:
                     return (byte)_AdaptiveTripOpCode;
 
                 case TripModes.RemoteTrip:
                     return (byte)_RemoteTripOpCode;
+
                 case TripModes.WattVar:
                     return (byte)_WattVarTripOpCode;
                 default:
@@ -416,7 +420,7 @@ namespace RelayControlLibrary
                 StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
                 int c = 1;
                 int skipFwdBy = 0;
-                
+
                 switch (index)
                 {
                     case 48:    // T0
@@ -447,15 +451,15 @@ namespace RelayControlLibrary
                 {
                     lineRead = sr.ReadLine(); //Read the next line
                     if ((cnt % 2) != 0)//odd 
-                        returnArray[cnt+1] = Convert.ToByte(lineRead);
+                        returnArray[cnt + 1] = Convert.ToByte(lineRead);
                     else
                         returnArray[cnt - 1] = Convert.ToByte(lineRead);
                 }
                 returnArray[13] = (byte)DC4;
                 sr.Close();
                 if (index == 2)
-                { 
-                    dataBackupR.dataBackup_fromRelay = false; 
+                {
+                    dataBackupR.dataBackup_fromRelay = false;
                 }
                 Thread.Sleep(4000);   // 1 second delay
             }

@@ -114,7 +114,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendTripData
             // 
-            this.buttonSendTripData.Location = new System.Drawing.Point(155, 226);
+            this.buttonSendTripData.Location = new System.Drawing.Point(195, 226);
             this.buttonSendTripData.Name = "buttonSendTripData";
             this.buttonSendTripData.Size = new System.Drawing.Size(75, 23);
             this.buttonSendTripData.TabIndex = 1;
@@ -463,7 +463,7 @@ namespace RelayControlLibrary
             // 
             // buttonRestoreDefaults
             // 
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(15, 225);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(30, 225);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
             this.buttonRestoreDefaults.TabIndex = 41;
@@ -612,69 +612,75 @@ namespace RelayControlLibrary
             // lblUnitInCur_kVARdir
             // 
             this.lblUnitInCur_kVARdir.AutoSize = true;
-            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(41, 163);
+            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(27, 163);
             this.lblUnitInCur_kVARdir.Name = "lblUnitInCur_kVARdir";
-            this.lblUnitInCur_kVARdir.Size = new System.Drawing.Size(33, 13);
+            this.lblUnitInCur_kVARdir.Size = new System.Drawing.Size(15, 13);
             this.lblUnitInCur_kVARdir.TabIndex = 67;
-            this.lblUnitInCur_kVARdir.Text = "% of I";
+            this.lblUnitInCur_kVARdir.Text = "%";
             // 
             // lblUnitInCur_kWdir
             // 
             this.lblUnitInCur_kWdir.AutoSize = true;
             this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(6, 162);
             this.lblUnitInCur_kWdir.Name = "lblUnitInCur_kWdir";
-            this.lblUnitInCur_kWdir.Size = new System.Drawing.Size(33, 13);
+            this.lblUnitInCur_kWdir.Size = new System.Drawing.Size(15, 13);
             this.lblUnitInCur_kWdir.TabIndex = 66;
-            this.lblUnitInCur_kWdir.Text = "% of I";
+            this.lblUnitInCur_kWdir.Text = "%";
             // 
             // lblUnitGreenMagY
             // 
             this.lblUnitGreenMagY.AutoSize = true;
             this.lblUnitGreenMagY.Location = new System.Drawing.Point(6, 149);
             this.lblUnitGreenMagY.Name = "lblUnitGreenMagY";
-            this.lblUnitGreenMagY.Size = new System.Drawing.Size(33, 13);
+            this.lblUnitGreenMagY.Size = new System.Drawing.Size(15, 13);
             this.lblUnitGreenMagY.TabIndex = 65;
-            this.lblUnitGreenMagY.Text = "% of I";
+            this.lblUnitGreenMagY.Text = "%";
             // 
             // lblUnitGreenMagX
             // 
             this.lblUnitGreenMagX.AutoSize = true;
             this.lblUnitGreenMagX.Location = new System.Drawing.Point(12, 136);
             this.lblUnitGreenMagX.Name = "lblUnitGreenMagX";
-            this.lblUnitGreenMagX.Size = new System.Drawing.Size(33, 13);
+            this.lblUnitGreenMagX.Size = new System.Drawing.Size(15, 13);
             this.lblUnitGreenMagX.TabIndex = 64;
-            this.lblUnitGreenMagX.Text = "% of I";
+            this.lblUnitGreenMagX.Text = "%";
             // 
             // lblUnitGreenDelay
             // 
             this.lblUnitGreenDelay.AutoSize = true;
             this.lblUnitGreenDelay.Location = new System.Drawing.Point(12, 123);
             this.lblUnitGreenDelay.Name = "lblUnitGreenDelay";
-            this.lblUnitGreenDelay.Size = new System.Drawing.Size(20, 13);
+            this.lblUnitGreenDelay.Size = new System.Drawing.Size(22, 13);
             this.lblUnitGreenDelay.TabIndex = 63;
-            this.lblUnitGreenDelay.Text = "ms";
+            this.lblUnitGreenDelay.Text = "mS";
             // 
             // numericUpDown_InCurrkW
             // 
+            this.numericUpDown_InCurrkW.DecimalPlaces = 2;
+            this.numericUpDown_InCurrkW.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
             this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(235, -2);
             this.numericUpDown_InCurrkW.Maximum = new decimal(new int[] {
-            30,
+            5,
             0,
             0,
             0});
             this.numericUpDown_InCurrkW.Minimum = new decimal(new int[] {
-            20,
+            1,
             0,
             0,
-            0});
+            65536});
             this.numericUpDown_InCurrkW.Name = "numericUpDown_InCurrkW";
             this.numericUpDown_InCurrkW.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_InCurrkW.TabIndex = 62;
             this.numericUpDown_InCurrkW.Value = new decimal(new int[] {
-            25,
+            125,
             0,
             0,
-            0});
+            131072});
             // 
             // lbl_InstCurrent_kWdirection
             // 
@@ -690,9 +696,9 @@ namespace RelayControlLibrary
             this.lblGreenDelay.AutoSize = true;
             this.lblGreenDelay.Location = new System.Drawing.Point(3, 260);
             this.lblGreenDelay.Name = "lblGreenDelay";
-            this.lblGreenDelay.Size = new System.Drawing.Size(69, 13);
+            this.lblGreenDelay.Size = new System.Drawing.Size(82, 13);
             this.lblGreenDelay.TabIndex = 55;
-            this.lblGreenDelay.Text = "Green Delay:";
+            this.lblGreenDelay.Text = "Adaptive Delay:";
             // 
             // numericUpDown_GreenDelay
             // 
@@ -727,8 +733,18 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_GreenMagX
             // 
+            this.numericUpDown_GreenMagX.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(253, 253);
             this.numericUpDown_GreenMagX.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown_GreenMagX.Minimum = new decimal(new int[] {
             10,
             0,
             0,
@@ -737,7 +753,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagX.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_GreenMagX.TabIndex = 58;
             this.numericUpDown_GreenMagX.Value = new decimal(new int[] {
-            3,
+            150,
             0,
             0,
             0});
@@ -753,8 +769,18 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_GreenMagY
             // 
+            this.numericUpDown_GreenMagY.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(109, 270);
             this.numericUpDown_GreenMagY.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown_GreenMagY.Minimum = new decimal(new int[] {
             10,
             0,
             0,
@@ -763,7 +789,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_GreenMagY.TabIndex = 60;
             this.numericUpDown_GreenMagY.Value = new decimal(new int[] {
-            3,
+            150,
             0,
             0,
             0});
@@ -779,25 +805,31 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_InCurrkVAR
             // 
+            this.numericUpDown_InCurrkVAR.DecimalPlaces = 2;
+            this.numericUpDown_InCurrkVAR.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
             this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(176, 271);
             this.numericUpDown_InCurrkVAR.Maximum = new decimal(new int[] {
-            60,
+            5,
             0,
             0,
             0});
             this.numericUpDown_InCurrkVAR.Minimum = new decimal(new int[] {
-            40,
+            1,
             0,
             0,
-            0});
+            65536});
             this.numericUpDown_InCurrkVAR.Name = "numericUpDown_InCurrkVAR";
             this.numericUpDown_InCurrkVAR.Size = new System.Drawing.Size(57, 20);
             this.numericUpDown_InCurrkVAR.TabIndex = 64;
             this.numericUpDown_InCurrkVAR.Value = new decimal(new int[] {
-            50,
+            25,
             0,
             0,
-            0});
+            65536});
             // 
             // ucTripMode
             // 
@@ -815,7 +847,7 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxTripModeSettings);
             this.Name = "ucTripMode";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Size = new System.Drawing.Size(318, 294);
+            this.Size = new System.Drawing.Size(450, 368);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).EndInit();

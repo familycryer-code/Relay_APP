@@ -367,61 +367,89 @@ namespace RelayControlLibrary
         //private void sendCloseData()
         public void sendCloseData()
         {
-            if (relaxCloseC.RelaxCloseClick == false)
-            { 
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-                this.SendTimedOut = false;
-            }
-            relaxCloseC.RelaxCloseClick = false;
-            buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
-
-            // If sending relax, just send the command and no curves
-            if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
-                relayRevisionNumber < _singleCommandRelaxCloseUpdate)
+            if (chkBox_EnablePermClose.Checked == false)
             {
-                mySEA = new SendEventArgs(_packetSize);
-                this.setVerticalLine();
-                this.setHorizontalLine();
-
-                mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
-                if (dataBackupR.dataBackup_fromRelay == true)
+                if (relaxCloseC.RelaxCloseClick == false)
                 {
-                    // writes to 8 bytes C_byte1 to C_byte8 in master uP
-                    // these 8 bytes correspond to the byte packet refering to APP contents as seen on line 501-510 in RelayModeFunctions.cs
-
-                    string lineRead;
-                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                    int c = 1;
-                    while (c <= 6) 
-                    { 
-                        lineRead = sr.ReadLine(); //Read the next line
-                        c++;
-                    }
-
-                    mySEA.SendPacket[0] = 67;  // 'C'
-                    for (int cnt = 1; cnt <= 8; cnt++)
-                    {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        if ((cnt % 2) != 0)//odd 
-                            mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
-                        else
-                            mySEA.SendPacket[cnt - 1] = Convert.ToByte(lineRead);
-
-
-                    }
-                    mySEA.SendPacket[9] = 0x0D;
-
-                    //dataBackupR.dataBackup_fromRelay = false;
-                    sr.Close();
+                    Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                    Cursor.Current = Cursors.WaitCursor;
+                    screenD.screenDisable = true;
+                    this.SendTimedOut = false;
                 }
-                
-                mySEA.WithAck = true;
-                mySEA.RequestAll = true;
-                this.OnSend(this, mySEA);
+                relaxCloseC.RelaxCloseClick = false;
+                buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
+
+                // If sending relax, just send the command and no curves
+                if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
+                    relayRevisionNumber < _singleCommandRelaxCloseUpdate)
+                {
+                    mySEA = new SendEventArgs(_packetSize);
+                    this.setVerticalLine();
+                    this.setHorizontalLine();
+
+                    mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
+                    if (dataBackupR.dataBackup_fromRelay == true)
+                    {
+                        // writes to 8 bytes C_byte1 to C_byte8 in master uP
+                        // these 8 bytes correspond to the byte packet refering to APP contents as seen on line 501-510 in RelayModeFunctions.cs
+
+                        string lineRead;
+                        StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
+                        int c = 1;
+                        while (c <= 6)
+                        {
+                            lineRead = sr.ReadLine(); //Read the next line
+                            c++;
+                        }
+
+                        mySEA.SendPacket[0] = 67;  // 'C'
+                        for (int cnt = 1; cnt <= 8; cnt++)
+                        {
+                            lineRead = sr.ReadLine(); //Read the next line
+                            if ((cnt % 2) != 0)//odd 
+                                mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
+                            else
+                                mySEA.SendPacket[cnt - 1] = Convert.ToByte(lineRead);
+
+
+                        }
+                        mySEA.SendPacket[9] = 0x0D;
+
+                        //dataBackupR.dataBackup_fromRelay = false;
+                        sr.Close();
+                    }
+
+                    mySEA.WithAck = true;
+                    mySEA.RequestAll = true;
+                    this.OnSend(this, mySEA);
+                }
+                Thread.Sleep(1000);   //1 second delay
             }
-            Thread.Sleep(1000);   //1 second delay
+            else if (chkBox_EnablePermClose.Checked == false)
+            {
+                this.SendPermissiveData();
+            }
+        }
+
+        public void SendPermissiveData()
+        {
+            decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
+            byte[] packet = new byte[6]; //permissivePacketSize
+            packet[0] = (byte)'}';
+            packet[1] = (byte)numericUpDown_FloatTime.Value;
+            packet[2] = (byte)numericUpDown_PermClActTime.Value;
+            packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
+            packet[4] = (byte)((int)tempVoltage & 0x00FF);
+            packet[5] = 0x0D;
+
+            this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
+        }
+
+        public decimal GetFixed_12FracBits(decimal value)
+        {
+            Int16 temp;
+            temp = (Int16)(value / Constants.TwelveFracBits);
+            return (decimal)temp;
         }
 
         private void sendRelaxClose()
