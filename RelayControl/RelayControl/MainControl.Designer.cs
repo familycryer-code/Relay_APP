@@ -2346,6 +2346,8 @@
             this.buttonResetBothProc.Text = "Reset Relay";
             this.buttonResetBothProc.UseVisualStyleBackColor = true;
             this.buttonResetBothProc.Click += new System.EventHandler(this.buttonResetBothProc_Click);
+            this.buttonResetBothProc.Enabled = false;
+            this.buttonResetBothProc.Visible = false;
             // 
             // labelRelayStateControlPage
             // 

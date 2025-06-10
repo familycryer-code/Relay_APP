@@ -2723,7 +2723,8 @@ namespace RelayControlLibrary
             }
             else if (manualReload)
             {
-                if (masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
+                //if (masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
+                if (masterBootRevisionNumberReceived <= _bootCodeRevisionNumber)
                 {
                     programMasterBootFileSelect = true;
                 }

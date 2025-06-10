@@ -1760,6 +1760,12 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY.Value = 150;
             this.numericUpDown_InCurrkW.Value = 1.25m;
             this.numericUpDown_InCurrkVAR.Value = 2.5m;    
+            this.checkBoxTripOnPowerDown.Checked = true;
+            this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
+            this.checkBoxEnableGullWing.Checked = false;
+            this.numericUpDownExtendedTimeDelay.Value = 0;
+            this.numericUpDownTimeDelay.Value = 150;
+            this.numericUpDownWVAngle.Value = -60;
 
 #elif LONDONH
             this.numericUpDownInsensTrip.Value = 2.5m;
