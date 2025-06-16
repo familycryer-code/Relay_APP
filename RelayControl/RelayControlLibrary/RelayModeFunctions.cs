@@ -400,13 +400,13 @@ namespace RelayControlLibrary
             returnArray[0] = (byte)_TripOpCode; // 'T'
             returnArray[1] = (byte)index;
             returnArray[2] = ByteFrom(tCD.CurveType);
-            returnArray[3] = tCD.OffsetHighByte;
+            returnArray[3] = tCD.OffsetHighByte;      // Sensitive Trip
             returnArray[4] = tCD.OffsetLowByte;
             returnArray[5] = tCD.TiltHighByte;
             returnArray[6] = tCD.TiltLowByte;
-            returnArray[7] = tCD.CodomainMaxHighByte;
-            returnArray[8] = tCD.CodomainMaxLowByte;
-            returnArray[9] = tCD.CodomainMinHighByte;
+            returnArray[7] = tCD.CodomainMaxHighByte; // Constants.MaxFixedPointValue;
+            returnArray[8] = tCD.CodomainMaxLowByte;  
+            returnArray[9] = tCD.CodomainMinHighByte; //Constants.MinFixedPointValue;
             returnArray[10] = tCD.CodomainMinLowByte;
             returnArray[11] = tCD.MagnitudeHighByte;
             returnArray[12] = tCD.MagnitudeLowByte;

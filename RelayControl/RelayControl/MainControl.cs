@@ -634,8 +634,8 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.button_dataStore.Enabled = false;
-                this.button_dataStore.Visible = false;
+                this.button_dataStore.Enabled = true;
+                this.button_dataStore.Visible = true;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -4949,7 +4949,9 @@ namespace RelayControl
                  */
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                 TextWriter tw = new StreamWriter(path, true);
-                tw.WriteLine("XS:" + bytePacket[30]);  // write Transmitter strength currently residing in the relay to the backup file on computer
+                // write Transmitter strength currently residing in the relay to the backup file on computer
+                // "XS" = "SR_sig_strength_xmit_level" is byte[30] out of the 31 byte packet coming to the APP with command 'K'
+                tw.WriteLine("XS:" + bytePacket[30]);  
                 tw.Close();
 
             }
@@ -9125,31 +9127,176 @@ namespace RelayControl
         }
         private void button_dataStore_Click(object sender, EventArgs e)
         {
-            //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
-            dataBackup_fromRelay = true;
-            dataBackupR.dataBackup_fromRelay = true;
-            string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            /*   
+               //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
+               dataBackup_fromRelay = true;
+               dataBackupR.dataBackup_fromRelay = true;
+               string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
-            TextWriter tw = new StreamWriter(path, true);
-            tw.WriteLine("Data currently residing in the relay :");
+               TextWriter tw = new StreamWriter(path, true);
+               tw.WriteLine("Data currently residing in the relay :");
 
-            this.ucShortRange1.buttonRequest_Click(sender, e);
-            this.requestRelayParameters();
-            this.requestCalibrationConstants();
-            this.requestTransmitterSettings();
-            this.requestDNPSettings();
-            this.requestSafeServiceSettings();
-            this.arcFaultEnableMonitoring(true);
-            Thread.Sleep(1000);   // delay 1second
-            tw.Close();
+               this.ucShortRange1.buttonRequest_Click(sender, e);
+               this.requestRelayParameters();
+               this.requestCalibrationConstants();
+               this.requestTransmitterSettings();
+               this.requestDNPSettings();
+               this.requestSafeServiceSettings();
+               this.arcFaultEnableMonitoring(true);
+               Thread.Sleep(1000);   // delay 1second
+               tw.Close();
 
-            //WRITE TO MASTER PROCESSOR
 
-            this.ucCloseMode1.sendCloseData(); // write 14 bytes ( 8 Cbyte + 6 MClose) to master
-            this.ucTripMode2.buttonSendTripMode_Click(sender, e);
-            Thread.Sleep(1000);   // delay 1 second  
+           //WRITE TO MASTER PROCESSOR
+           dataBackup_fromRelay = true;
+           dataBackupR.dataBackup_fromRelay = true;
+
+           this.ucCloseMode1.sendCloseData(); // write 14 bytes ( 8 Cbyte + 6 MClose) to master
+           this.ucTripMode2.buttonSendTripMode_Click(sender, e);
+           Thread.Sleep(1000);   // delay 1 second  
+           */
+
+            this.writeCloseModeDataBackUp_ToMaster();
+            this.writeTripModeDataBackUp_ToMaster();
+        }
+
+        private void writeCloseModeDataBackUp_ToMaster()
+        {
+            byte[] packet_C = new byte[10];
+            string lineRead;
+            StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int c = 1;
+            while (c <= 3)
+            { //Read through the next line untill we reach 'Relay Parameters:'
+                lineRead = sr.ReadLine();
+                c++;
+            }
+            packet_C[0] = 67;    // 'C'
+         /*   packet_C[1] = 23;    // C_byte1 - RecloseVoltsByteHigh
+            packet_C[2] = 0;     // C_byte2
+            packet_C[3] = 244;   // C_byte3 - TiltAngleTangentHighByte
+            packet_C[4] = 146;   // C_byte4
+            packet_C[5] = 6;     // C_byte5 - PhasingOffsetHighByte
+            packet_C[6] = 102;   // C_byte6
+            packet_C[7] = 254;   // C_byte7 - PhaseDetectTangentHighByte
+            packet_C[8] = 154;   // C_byte8
+          */
+              for (int cnt = 1; cnt <= 8; cnt++)
+              {
+                  lineRead = sr.ReadLine(); //Read the next line
+                  if ((cnt % 2) != 0)//odd numbered ?
+                      packet_C[cnt + 1] = Convert.ToByte(lineRead);
+                  else
+                      packet_C[cnt - 1] = Convert.ToByte(lineRead);
+              }
+            
+            packet_C[9] = 0x0D;
+              this.sendPacket(packet_C);
+            
+            byte[] packet_MC = new byte[8];
+            StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int mc = 1; // go to the beginning of the data backup file
+            while (mc <= 11)
+            {
+                lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining ofdata to with with command'C'
+                mc++;
+            }
+          
+            packet_MC[0] = 77;    // 'M'
+          /*  packet_MC[1] = 67;  // 'C' - Mclose_byte1
+            packet_MC[2] = 78;  // Mclose_byte2
+            packet_MC[3] = 0;   // Mclose_byte3
+            packet_MC[4] = 7;   // Mclose_byte4 - Close Time Delay
+            packet_MC[5] = 0;   // Mclose_byte5
+            packet_MC[6] = 0;   // Mclose_byte6
+           */
+              for (int cnt = 1; cnt <= 6; cnt++)
+              {
+                  lineRead = sr1.ReadLine(); //Read the next line
+                  if ((cnt % 2) != 0)//odd numbered ?
+                    packet_MC[cnt+1] = Convert.ToByte(lineRead);
+                  else
+                    packet_MC[cnt-1] = Convert.ToByte(lineRead);
+              }
+            
+            packet_MC[7] = 0x0D;
+            
+
+            this.sendPacket(packet_MC);
+        }
+
+        private void writeTripModeDataBackUp_ToMaster()
+        {
+            byte[] packet_MT = new byte[8];
+            string lineRead;
+            StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int mc = 1; // go to the beginning of the data backup file
+            while (mc <= 17)
+            {
+                lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining of data to with with command'MT'
+                mc++;
+            }
+
+            packet_MT[0] = 77;    // 'M'
+          /*  packet_MT[1] = 84;  // 'T' - Mtrip_byte1
+            packet_MT[2] = 83;  // Mtrip_byte2
+            packet_MT[3] = 0;   // Mtrip_byte3 - TimeDelayHighByte
+            packet_MT[4] = 0;   // Mtrip_byte4 
+            packet_MT[5] = 2;   // Mtrip_byte5 - //tMD.SensitiveTimeDelayHighByte;
+            packet_MT[6] = 6;   // Mtrip_byte6
+          */
+             for (int cnt = 1; cnt <= 6; cnt++)
+             {
+                 lineRead = sr1.ReadLine(); //Read the next line
+                 if ((cnt % 2) != 0)//odd numbered ?
+                     packet_MT[cnt + 1] = Convert.ToByte(lineRead);
+                 else
+                     packet_MT[cnt - 1] = Convert.ToByte(lineRead);
+             }
+            
+            packet_MT[7] = 0x0D;
+            this.sendPacket(packet_MT);
+
+            //======================================================================================================
+
+            byte[] packet_T0 = new byte[14];
+            StreamReader sr2 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int t0 = 1; // go to the beginning of the data backup file
+            while (t0 <= 23)
+            {
+                lineRead = sr2.ReadLine(); //Read the next line untill we reach the begining ofdata to with with command'T0'
+                t0++;
+            }
+
+            packet_T0[0] = 84;      // 'T'
+            /* packet_T0[1] = 48;      // '0' - T0_byte1
+             packet_T0[2] = 79;      // T0_byte2
+             packet_T0[3] = 250;     // T0_byte3 - Sensitive Trip
+             packet_T0[4] = 20;      // T0_byte4
+             packet_T0[5] = 0;       // T0_byte5 - TiltHighByte;
+             packet_T0[6] = 0;       // T0_byte6
+             packet_T0[7] = 64;      // T0_byte7 - Constants.MaxFixedPointValue
+             packet_T0[8] = 0;       // T0_byte8
+             packet_T0[9] = 192;     // T0_byte9 - Constants.MinFixedPointValue
+             packet_T0[10] = 0;      // T0_byte10
+             packet_T0[11] = 255;    // T0_byte11 - MagnitudeHighByte
+             packet_T0[12] = 255;    // T0_byte12
+            */
+            
+            for (int cnt = 1; cnt <= 12; cnt++)
+            {
+                lineRead = sr2.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_T0[cnt + 1] = Convert.ToByte(lineRead);
+                else
+                    packet_T0[cnt - 1] = Convert.ToByte(lineRead);
+            }
+
+            packet_T0[13] = 0x0D;
+            this.sendPacket(packet_T0);
 
         }
+
 
         private void label4_Click(object sender, EventArgs e)
         {
