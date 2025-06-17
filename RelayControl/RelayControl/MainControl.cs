@@ -9143,6 +9143,7 @@ namespace RelayControl
             this.writeCloseModeDataBackUp_ToMaster();
             this.writeTripModeDataBackUp_ToMaster();
             this.writeNWProtectorDataBackUp_ToMaster();
+            this.writePumpModeDataBackUp_ToMaster();
         }
 
         private void writeCloseModeDataBackUp_ToMaster()
@@ -9498,6 +9499,50 @@ namespace RelayControl
             this.sendPacket(packet_s);
             Thread.Sleep(1000);   // 1 second delay
         }
+
+        private void writePumpModeDataBackUp_ToMaster()
+        {
+            //=======================      pump_mode_enabled to timeout_on_breaker_close ( G )      ===================================================
+            byte[] packet_G = new byte[10];
+            string lineRead;
+            StreamReader srG = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int G = 1; // go to the beginning of the data backup file
+            while (G <= 85)
+            {
+                lineRead = srG.ReadLine(); //Read the next line untill we reach the begining of data with command 'G'
+                G++;
+            }
+
+            packet_G[0] = 71;   // 'G'
+            /* packet_G[1] = 0;    // EnableSendByte
+             packet_G[2] = 3;    // Cycles ( pump_cycles )
+             packet_G[3] = 0;    // PumpTimeHigh
+             packet_G[4] = 120;
+             packet_G[5] = 0;    // PumpProtectTimeHigh
+             packet_G[6] = 15;
+             packet_G[7] = 8;    // MotorCycles
+             packet_G[8] = 100;  // MotorTimeout
+            */
+            
+            for (int cnt = 1; cnt <= 8; cnt++)
+            {
+                lineRead = srG.ReadLine(); //Read the next line
+                if ((cnt < 3) || (cnt >= 7))
+                    packet_G[cnt] = Convert.ToByte(lineRead);
+                else if ((cnt >= 3) && (cnt < 7))
+                { 
+                      if ((cnt % 2) != 0)//odd numbered ?
+                        packet_G[cnt + 1] = Convert.ToByte(lineRead);
+                     else
+                         packet_G[cnt - 1] = Convert.ToByte(lineRead);
+                }
+            }
+            
+            packet_G[9] = 0x0D;
+            this.sendPacket(packet_G);
+            Thread.Sleep(1000);   // 1 second delay
+        }
+
 
         private void label4_Click(object sender, EventArgs e)
         {
