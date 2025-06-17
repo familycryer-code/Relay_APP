@@ -9108,23 +9108,7 @@ namespace RelayControl
         }
 
         public bool dataBackup_fromRelay = false;
-        private void sendCparams_toMasterProcessor()
-        {
-            byte[] sendPacket = new byte[10];
-
-            sendPacket[0] = (byte)'C';
-            sendPacket[1] = 1;// 0;
-            sendPacket[2] = 21;// 24;
-            sendPacket[3] = 141;// 146;
-            sendPacket[4] = 241;// 244;
-            sendPacket[5] = 1;// 0;
-            sendPacket[6] = 1;// 0;
-            sendPacket[7] = 151;// 154;
-            sendPacket[8] = 151;// 254;
-            sendPacket[9] = 0x0D;
-
-            this.sendPacket(sendPacket);
-        }
+        
         private void button_dataStore_Click(object sender, EventArgs e)
         {
             /*   
@@ -9158,6 +9142,7 @@ namespace RelayControl
 
             this.writeCloseModeDataBackUp_ToMaster();
             this.writeTripModeDataBackUp_ToMaster();
+            this.writeNWProtectorDataBackUp_ToMaster();
         }
 
         private void writeCloseModeDataBackUp_ToMaster()
@@ -9482,6 +9467,37 @@ namespace RelayControl
             Thread.Sleep(1000);   // 1 second delay
         }
 
+        private void writeNWProtectorDataBackUp_ToMaster()
+        {
+            //=======================      relay_type_byte2 ( s )      ===================================================
+            byte[] packet_s = new byte[4];
+            string lineRead;
+            StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int s = 1; // go to the beginning of the data backup file
+            while (s <= 83)
+            {
+                lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining of data with command 's'
+                s++;
+            }
+
+            packet_s[0] = 115;  // 's'
+           /* packet_s[1] = 83;   // domainUpDownRelayType.SelectedItem (relay_type_byte2)
+            packet_s[2] = 1;    // domainUpDownPhasings.SelectedItem (relay_type_byte1)
+            */
+
+             for (int cnt = 1; cnt <= 2; cnt++)
+             {
+                 lineRead = sr1.ReadLine(); //Read the next line
+                 if ((cnt % 2) != 0)//odd numbered ?
+                     packet_s[2] = Convert.ToByte(lineRead);
+                 else
+                     packet_s[1] = Convert.ToByte(lineRead);
+             }
+             
+            packet_s[3] = 0x0D;
+            this.sendPacket(packet_s);
+            Thread.Sleep(1000);   // 1 second delay
+        }
 
         private void label4_Click(object sender, EventArgs e)
         {
