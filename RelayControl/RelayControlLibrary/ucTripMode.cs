@@ -527,14 +527,14 @@ namespace RelayControlLibrary
                 tempKW = GetFixed_12FracBits(tempKW);
                 tempkVA = GetFixed_12FracBits(tempkVA);
 
-                adaptiveTrip_package[3] = (byte)((int)temp_AdaptiveMag_X >> 8);              // high byte of Green Magnitude X
+                adaptiveTrip_package[3] = (byte)((int)temp_AdaptiveMag_X >> 8);             // high byte of Green Magnitude X
                 adaptiveTrip_package[4] = (byte)(0x00FF & (int)temp_AdaptiveMag_X);         // low byte of Green Magnitude X
-                adaptiveTrip_package[5] = (byte)((int)temp_AdaptiveMag_Y >> 8);            // high byte of Green Magnitude X
+                adaptiveTrip_package[5] = (byte)((int)temp_AdaptiveMag_Y >> 8);             // high byte of Green Magnitude X
                 adaptiveTrip_package[6] = (byte)(0x00FF & (int)temp_AdaptiveMag_Y);
-                adaptiveTrip_package[7] = (byte)((int)tempKW >> 8);     // high byte of Instantenous Current KW direction
-                adaptiveTrip_package[8] = (byte)(0x00FF & (int)tempKW);     // low byte of Instantenous Current KW direction
-                adaptiveTrip_package[9] = (byte)((int)tempkVA >> 8);     // high byte of Instantenous Current kVAR direction
-                adaptiveTrip_package[10] = (byte)(0x00FF & (int)tempkVA);      // low byte of Instantenous Current kVAR direction
+                adaptiveTrip_package[7] = (byte)((int)tempKW >> 8);                         // high byte of Instantenous Current KW direction
+                adaptiveTrip_package[8] = (byte)(0x00FF & (int)tempKW);                     // low byte of Instantenous Current KW direction
+                adaptiveTrip_package[9] = (byte)((int)tempkVA >> 8);                        // high byte of Instantenous Current kVAR direction
+                adaptiveTrip_package[10] = (byte)(0x00FF & (int)tempkVA);                   // low byte of Instantenous Current kVAR direction
                 adaptiveTrip_package[11] = (byte)0x0D;
 
                 mySEA.SendPacket = adaptiveTrip_package; // To be saved in master uP as in place of Green Delay parameter storage
