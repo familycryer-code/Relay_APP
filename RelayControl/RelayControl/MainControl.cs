@@ -9145,6 +9145,7 @@ namespace RelayControl
             this.writeNWProtectorDataBackUp_ToMaster();
             this.writePumpModeDataBackUp_ToMaster();
             this.writeSafeServiceDataBackUp_ToMaster();
+            this.writeTransmitterDataBackUp_ToMaster();
         }
 
         private void writeCloseModeDataBackUp_ToMaster()
@@ -9590,6 +9591,68 @@ namespace RelayControl
             this.sendPacket(packet_F);
             Thread.Sleep(1000);   // 1 second delay
         }
+
+        private void writeTransmitterDataBackUp_ToMaster()
+        {
+            //=======================      ID_lsbyte to SRlinktest ( Y )      ===================================================
+            byte[] packet_Y = new byte[34];
+            string lineRead;
+            StreamReader srY = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int Y = 1; // go to the beginning of the data backup file
+            while (Y <= 159)
+            {
+                lineRead = srY.ReadLine(); //Read the next line untill we reach the begining of data with command '0x0F'
+                Y++;
+            }
+
+             packet_Y[0] = 89;     // 'Y'
+            /* packet_Y[1] = 169;    // ID - lsb  
+             packet_Y[2] = 2;      // ID - msb
+             packet_Y[3] = 15;     // SN - lsb
+             packet_Y[4] = 0;      // SN - msb
+             packet_Y[5] = 120;    // CT Multiplier - lsb
+             packet_Y[6] = 0;      // CT Multiplier - msb
+             packet_Y[7] = 64;     // CT lsb
+             packet_Y[8] = 1;      // CT msb
+             packet_Y[9] = 1;      // XM Frequency
+             packet_Y[10] = 255;   // Flag Polarity
+             packet_Y[11] = 0;     // Enable Flag Alarms
+             packet_Y[12] = 0;     // Enable other Alarms
+             packet_Y[13] = 100;    // I_threshold_high
+             packet_Y[14] = 75;     // I_threshold_low 
+             packet_Y[15] = 135;    // V_threshold_high
+             packet_Y[16] = 110;    // V_threshold_low
+             packet_Y[17] = 100;    // A1_threshold
+             packet_Y[18] = 100;   // A2_threshold 
+             packet_Y[19] = 3;     // analog_alarm_sense
+             packet_Y[20] = 2;       //type1_msg_period
+             packet_Y[21] = 15;      // MUX_period
+             packet_Y[22] = 255;     // type2_msg_period
+             packet_Y[23] = 23;      // config_msg_period
+             packet_Y[24] = 4;       // alarm_burst_count
+             packet_Y[25] = 20;      // alarm_spacing
+             packet_Y[26] = 4;       // other_msg_burst_count
+             packet_Y[27] = 5;       // other_msg_spacing
+             packet_Y[28] = 1;       // ZeroCrossing_phase
+             packet_Y[29] = 12;      // type1msglength
+             packet_Y[30] = 255;     // data_from_waterbug
+             packet_Y[31] = 20;      // display_update_interval
+             packet_Y[32] = 0;       // SRlinktest
+            */
+
+            // this.ucTransmitter1.SendTransmitterSettings();
+
+            for (int cnt = 1; cnt <= 32; cnt++)
+            {
+                lineRead = srY.ReadLine(); //Read the next line
+                packet_Y[cnt] = Convert.ToByte(lineRead);
+            }
+            
+            packet_Y[33] = 0x0D;
+            this.sendPacket(packet_Y);
+            Thread.Sleep(1000);   // 1 second delay
+        }
+
 
         private void label4_Click(object sender, EventArgs e)
         {
