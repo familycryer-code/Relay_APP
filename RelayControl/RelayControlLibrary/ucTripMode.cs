@@ -497,40 +497,44 @@ namespace RelayControlLibrary
                 adaptiveTrip_package[0] = (byte)'{'; //Adaptive trip command
                 adaptiveTrip_package[1] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);                   // high byte of GreenDelay
                 adaptiveTrip_package[2] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value);               // low byte of GreenDelay
-                decimal tempKW, temp_AdaptiveMag_X, temp_AdaptiveMag_Y = 0;
+                decimal tempKW, tempkVA, temp_AdaptiveMag_X, temp_AdaptiveMag_Y = 0;
                 if (this.displayType == eDisplayType.Relay)
                 {
                     temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value);
                     temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value);
-                    tempKW = GetFixed_12FracBits(-this.numericUpDown_InCurrkW.Value);
-                    AdaptiveKVA_Curve.Magnitude = this.numericUpDown_InCurrkVAR.Value;
+                    tempKW = (-this.numericUpDown_InCurrkW.Value);
+                    tempkVA = (this.numericUpDown_InCurrkVAR.Value);
                 }
 
                 else if (this.displayType == eDisplayType.Percent)
                 {
                     temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value * 50m);
                     temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value * 50m);
-                    tempKW = GetFixed_12FracBits(-this.numericUpDown_InCurrkW.Value * .050m);
-                    AdaptiveKVA_Curve.Magnitude = this.numericUpDown_InCurrkVAR.Value * .050m;
+                    tempKW = (-this.numericUpDown_InCurrkW.Value * .050m);
+                    tempkVA = (this.numericUpDown_InCurrkVAR.Value * .050m);
                 }
 
                 else
                 {
                     temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value / CTRatio);
                     temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value / CTRatio);
-                    tempKW = GetFixed_12FracBits(-this.numericUpDown_InCurrkW.Value / CTRatio);
-                    AdaptiveKVA_Curve.Magnitude = this.numericUpDown_InCurrkVAR.Value / CTRatio;
+                    tempKW = (-this.numericUpDown_InCurrkW.Value / CTRatio);
+                    tempkVA = (this.numericUpDown_InCurrkVAR.Value / CTRatio);
                 }
+
                 temp_AdaptiveMag_X = GetFixed_16FracBits(temp_AdaptiveMag_X);
                 temp_AdaptiveMag_Y = GetFixed_16FracBits(temp_AdaptiveMag_Y);
+                tempKW = GetFixed_12FracBits(tempKW);
+                tempkVA = GetFixed_12FracBits(tempkVA);
+
                 adaptiveTrip_package[3] = (byte)((int)temp_AdaptiveMag_X >> 8);              // high byte of Green Magnitude X
                 adaptiveTrip_package[4] = (byte)(0x00FF & (int)temp_AdaptiveMag_X);         // low byte of Green Magnitude X
                 adaptiveTrip_package[5] = (byte)((int)temp_AdaptiveMag_Y >> 8);            // high byte of Green Magnitude X
                 adaptiveTrip_package[6] = (byte)(0x00FF & (int)temp_AdaptiveMag_Y);
                 adaptiveTrip_package[7] = (byte)((int)tempKW >> 8);     // high byte of Instantenous Current KW direction
                 adaptiveTrip_package[8] = (byte)(0x00FF & (int)tempKW);     // low byte of Instantenous Current KW direction
-                adaptiveTrip_package[9] = AdaptiveKVA_Curve.MagnitudeHighByte;     // high byte of Instantenous Current kVAR direction
-                adaptiveTrip_package[10] = AdaptiveKVA_Curve.MagnitudeLowByte;      // low byte of Instantenous Current kVAR direction
+                adaptiveTrip_package[9] = (byte)((int)tempkVA >> 8);     // high byte of Instantenous Current kVAR direction
+                adaptiveTrip_package[10] = (byte)(0x00FF & (int)tempkVA);      // low byte of Instantenous Current kVAR direction
                 adaptiveTrip_package[11] = (byte)0x0D;
 
                 mySEA.SendPacket = adaptiveTrip_package; // To be saved in master uP as in place of Green Delay parameter storage
