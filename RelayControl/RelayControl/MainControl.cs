@@ -9144,6 +9144,7 @@ namespace RelayControl
             this.writeTripModeDataBackUp_ToMaster();
             this.writeNWProtectorDataBackUp_ToMaster();
             this.writePumpModeDataBackUp_ToMaster();
+            this.writeSafeServiceDataBackUp_ToMaster();
         }
 
         private void writeCloseModeDataBackUp_ToMaster()
@@ -9543,6 +9544,52 @@ namespace RelayControl
             Thread.Sleep(1000);   // 1 second delay
         }
 
+        private void writeSafeServiceDataBackUp_ToMaster()
+        {
+            //=======================      safe_service_data_byte ( 0x0F )      ===================================================
+            byte[] packet_F = new byte[22];
+            string lineRead;
+            StreamReader srF = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int F = 1; // go to the beginning of the data backup file
+            while (F <= 291)
+            {
+                lineRead = srF.ReadLine(); //Read the next line untill we reach the begining of data with command '0x0F'
+                F++;
+            }
+
+            packet_F[0] = 0x0F;   // '0x0F'
+            /*packet_F[1] = 0;      
+            packet_F[2] = 1;      // Enable/Disable ( comboBoxSSEnable.SelectedIndex )
+            packet_F[3] = 40;     // OverCurrent ( numericUpDownOverCurrent )
+            packet_F[4] = 0;
+            packet_F[5] = 0;      // Current Imbalance(numericUpDownCurrentImbalance)
+            packet_F[6] = 204;
+            packet_F[7] = 0;      // Delay (numericUpDownDelay)
+            packet_F[8] = 0;      
+            packet_F[9] = 95;     // Low Voltage (numericUpDownLowVoltage)
+            packet_F[10] = 0;     
+            packet_F[11] = 10;    // Voltage Imbalance (numericUpDownVoltageImbalance)
+            packet_F[12] = 0;
+            packet_F[13] = 0;     
+            packet_F[14] = 0;
+            packet_F[15] = 0;     
+            packet_F[16] = 0;     
+            packet_F[17] = 0;     
+            packet_F[18] = 0;
+            packet_F[19] = 0;     
+            packet_F[20] = 0;     
+            */
+
+            for (int cnt = 1; cnt <= 20; cnt++)
+            {
+                lineRead = srF.ReadLine(); //Read the next line
+                packet_F[cnt] = Convert.ToByte(lineRead);
+            }
+           
+            packet_F[21] = 0x0D;
+            this.sendPacket(packet_F);
+            Thread.Sleep(1000);   // 1 second delay
+        }
 
         private void label4_Click(object sender, EventArgs e)
         {
