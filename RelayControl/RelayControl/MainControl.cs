@@ -26,6 +26,7 @@ using System.Reflection;
 using System.Linq;
 using NLog;
 using GraphicsServer.GSNet.Charting;
+using RelayDNPSecurity;
 
 namespace RelayControl
 {
@@ -9111,7 +9112,7 @@ namespace RelayControl
         
         private void button_dataStore_Click(object sender, EventArgs e)
         {
-            /*   
+              /* 
                //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
                dataBackup_fromRelay = true;
                dataBackupR.dataBackup_fromRelay = true;
@@ -9127,25 +9128,35 @@ namespace RelayControl
                this.requestDNPSettings();
                this.requestSafeServiceSettings();
                this.arcFaultEnableMonitoring(true);
-               Thread.Sleep(1000);   // delay 1second
+              // this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
+            Thread.Sleep(1000);   // delay 1second
                tw.Close();
-
+              */
 
            //WRITE TO MASTER PROCESSOR
-           dataBackup_fromRelay = true;
-           dataBackupR.dataBackup_fromRelay = true;
+           //dataBackup_fromRelay = true;
+           //dataBackupR.dataBackup_fromRelay = true;
 
-           this.ucCloseMode1.sendCloseData(); // write 14 bytes ( 8 Cbyte + 6 MClose) to master
-           this.ucTripMode2.buttonSendTripMode_Click(sender, e);
-           Thread.Sleep(1000);   // delay 1 second  
-           */
-
+            
             this.writeCloseModeDataBackUp_ToMaster();
             this.writeTripModeDataBackUp_ToMaster();
             this.writeNWProtectorDataBackUp_ToMaster();
             this.writePumpModeDataBackUp_ToMaster();
             this.writeSafeServiceDataBackUp_ToMaster();
             this.writeTransmitterDataBackUp_ToMaster();
+            this.writeDNPDataBackUp_ToMaster();
+           
+        }
+
+        private void RequestDNPSav5Settings()
+        {
+            byte[] sendArray = new byte[98];
+
+            sendArray[0] = (byte)'D';
+            sendArray[1] = (byte)'s';
+            sendArray[97] = 0x0D;
+
+            this.sendPacket(sendArray);
         }
 
         private void writeCloseModeDataBackUp_ToMaster()
@@ -9601,7 +9612,7 @@ namespace RelayControl
             int Y = 1; // go to the beginning of the data backup file
             while (Y <= 159)
             {
-                lineRead = srY.ReadLine(); //Read the next line untill we reach the begining of data with command '0x0F'
+                lineRead = srY.ReadLine(); //Read the next line untill we reach the begining of data with command 'Y'
                 Y++;
             }
 
@@ -9653,6 +9664,66 @@ namespace RelayControl
             Thread.Sleep(1000);   // 1 second delay
         }
 
+        private void writeDNPDataBackUp_ToMaster()
+        {
+            //=======================      DNP_params_as_bytes ( D )      ===================================================
+            byte[] packet_D = new byte[98];
+            string lineRead;
+            StreamReader srD = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int D = 1; // go to the beginning of the data backup file
+            while (D <= 196)
+            {
+                lineRead = srD.ReadLine(); //Read the next line untill we reach the begining of data with command 'D'
+                D++;
+            }
+
+            packet_D[0] = 68;     // 'D'
+            packet_D[1] = 97;     
+            packet_D[2] = 0;      
+            packet_D[3] = 0;     
+           /* packet_D[4] = 0;      
+            packet_D[5] = 0;     // Unsolicited Timeout
+            packet_D[6] = 0;     // Unsolicited Timeout
+            packet_D[7] = 252;   // Unsolicited Timeout 
+            packet_D[8] = 38;    // Unsolicited Timeout  
+            packet_D[9] = 236;   // Fragment Size 
+            packet_D[10] = 3;    // Fragment Size
+            packet_D[11] = 3;     
+            packet_D[12] = 0;     
+            packet_D[13] = 4;    
+            packet_D[14] = 0;     
+            packet_D[15] = 5;    
+            packet_D[16] = 0;    
+            packet_D[17] = 20;   
+            packet_D[18] = 3;   
+            for (int cnt = 19; cnt <= 96; cnt++)
+            {
+                packet_D[cnt] = 0;
+            }
+            */
+
+            // this.ucTransmitter1.SendTransmitterSettings();
+            
+            for (int cnt = 7; cnt <= 8; cnt++)
+            {
+                lineRead = srD.ReadLine(); //Read the next line
+                packet_D[cnt] = Convert.ToByte(lineRead);
+            }
+            for (int cnt = 4; cnt <= 5; cnt++)
+            {
+                lineRead = srD.ReadLine(); //Read the next line
+                packet_D[cnt] = Convert.ToByte(lineRead);
+            }
+            for (int cnt = 9; cnt <= 96; cnt++)
+            {
+                lineRead = srD.ReadLine(); //Read the next line
+                packet_D[cnt] = Convert.ToByte(lineRead);
+            }
+           
+            packet_D[97] = 0x0D;
+            this.sendPacket(packet_D);
+            Thread.Sleep(1000);   // 1 second delay
+        }
 
         private void label4_Click(object sender, EventArgs e)
         {
