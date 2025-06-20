@@ -2493,6 +2493,17 @@ namespace RelayControl
                     }
                     break;
                 case IncomingCommCommands.DNPSAv5:
+                    if (dataBackupR.dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
+                    {
+                        string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+                        TextWriter tw = new StreamWriter(path, true);
+                        tw.WriteLine("DNPSAv5 Settings:");
+                        for (int index = 0; index <= 97; ++index)
+                        {
+                            tw.WriteLine(bytePacket[index]);
+                        }
+                        tw.Close();
+                    }
                     this.ucDNPSAv51.Message(bytePacket);
                     break;
                 case IncomingCommCommands.LowVoltageThresReceived:
@@ -9112,7 +9123,7 @@ namespace RelayControl
         
         private void button_dataStore_Click(object sender, EventArgs e)
         {
-              /* 
+               /*
                //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
                dataBackup_fromRelay = true;
                dataBackupR.dataBackup_fromRelay = true;
@@ -9120,16 +9131,16 @@ namespace RelayControl
 
                TextWriter tw = new StreamWriter(path, true);
                tw.WriteLine("Data currently residing in the relay :");
-
-               this.ucShortRange1.buttonRequest_Click(sender, e);
-               this.requestRelayParameters();
-               this.requestCalibrationConstants();
-               this.requestTransmitterSettings();
-               this.requestDNPSettings();
-               this.requestSafeServiceSettings();
-               this.arcFaultEnableMonitoring(true);
-              // this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
-            Thread.Sleep(1000);   // delay 1second
+            
+             this.ucShortRange1.buttonRequest_Click(sender, e);
+             this.requestRelayParameters();
+             this.requestCalibrationConstants();
+             this.requestTransmitterSettings();
+             this.requestDNPSettings();
+             this.requestSafeServiceSettings();
+             this.arcFaultEnableMonitoring(true);
+             this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 'S' )
+             Thread.Sleep(1000);   // delay 1second
                tw.Close();
               */
 
@@ -9145,7 +9156,7 @@ namespace RelayControl
             this.writeSafeServiceDataBackUp_ToMaster();
             this.writeTransmitterDataBackUp_ToMaster();
             this.writeDNPDataBackUp_ToMaster();
-           
+            this.writeDNPSAv5SettingsDataBackUp_ToMaster();
         }
 
         private void RequestDNPSav5Settings()
@@ -9722,6 +9733,102 @@ namespace RelayControl
            
             packet_D[97] = 0x0D;
             this.sendPacket(packet_D);
+            Thread.Sleep(1000);   // 1 second delay
+        }
+
+        private void writeDNPSAv5SettingsDataBackUp_ToMaster()
+        {
+            //=======================      ( 'D' + 'S' )      ===================================================
+            byte[] packet_DS = new byte[98];
+            string lineRead;
+            StreamReader srDS = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int DS = 1; // go to the beginning of the data backup file
+            while (DS <= 312)
+            {
+                lineRead = srDS.ReadLine(); //Read the next line untill we reach the begining of data with command 'D' + 'S'
+                DS++;
+            }
+
+            packet_DS[0] = 68;    // 'D'
+            /* packet_DS[1] = 83;    // 'S'  
+             packet_DS[2] = 0;
+             packet_DS[3] = 8;     // Aggressive mode enabled + SHA1 enabled + authentication enabled + Key change algorithm selection
+             packet_DS[4] = 0;
+             packet_DS[5] = 20;
+             packet_DS[6] = 0;
+             packet_DS[7] = 8;
+             packet_DS[8] = 7;
+             packet_DS[9] = 160;
+             packet_DS[10] = 15;
+             packet_DS[11] = 5;
+             packet_DS[12] = 2;
+             packet_DS[13] = 3;
+             packet_DS[14] = 0;
+             packet_DS[15] = 5;
+             packet_DS[16] = 0;
+             packet_DS[17] = 5;
+             packet_DS[18] = 0;
+             packet_DS[19] = 3;
+             packet_DS[20] = 0;
+             packet_DS[21] = 3;
+             packet_DS[22] = 0;
+             packet_DS[23] = 100;
+             packet_DS[24] = 0;
+             packet_DS[25] = 100;
+             packet_DS[26] = 0;
+             packet_DS[27] = 100;
+             packet_DS[28] = 0;
+             packet_DS[29] = 100;
+             packet_DS[30] = 0;
+             packet_DS[31] = 10;
+             packet_DS[32] = 0;
+             packet_DS[33] = 2;
+             packet_DS[34] = 0;
+             packet_DS[35] = 10;
+             packet_DS[36] = 0;
+             packet_DS[37] = 100;
+             packet_DS[38] = 0;
+             packet_DS[39] = 10;
+             packet_DS[40] = 0;
+             packet_DS[41] = 5;
+             packet_DS[42] = 0;
+             packet_DS[43] = 1;
+             packet_DS[44] = 0;
+             packet_DS[45] = 1;
+             for (int cnt = 46; cnt <= 96; cnt++)
+             {
+                 packet_DS[cnt] = 0;
+             }
+            */
+
+            lineRead = srDS.ReadLine(); //Read the next line
+            packet_DS[1] = Convert.ToByte(lineRead);
+
+            for (int cnt = 2; cnt <= 3; cnt++)
+            {
+                lineRead = srDS.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_DS[2] = Convert.ToByte(lineRead);
+                else
+                    packet_DS[3] = Convert.ToByte(lineRead);
+            }
+            for (int cnt = 4; cnt <= 5; cnt++)
+            {
+                lineRead = srDS.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_DS[4] = Convert.ToByte(lineRead);
+                else
+                    packet_DS[5] = Convert.ToByte(lineRead);
+            }
+            for (int cnt = 7; cnt <= 96; cnt++)
+            {
+                lineRead = srDS.ReadLine(); //Read the next line
+                packet_DS[cnt] = Convert.ToByte(lineRead);
+            }
+
+
+            packet_DS[97] = 0x0D;
+            this.sendPacket(packet_DS);
             Thread.Sleep(1000);   // 1 second delay
         }
 
