@@ -9157,6 +9157,8 @@ namespace RelayControl
             this.writeTransmitterDataBackUp_ToMaster();
             this.writeDNPDataBackUp_ToMaster();
             this.writeDNPSAv5SettingsDataBackUp_ToMaster();
+            this.writeArcFaultDataBackUp_ToMaster();
+            
         }
 
         private void RequestDNPSav5Settings()
@@ -9829,6 +9831,32 @@ namespace RelayControl
 
             packet_DS[97] = 0x0D;
             this.sendPacket(packet_DS);
+            Thread.Sleep(1000);   // 1 second delay
+        }
+
+        private void writeArcFaultDataBackUp_ToMaster()
+        {
+            //=======================      ARC_fault_params_as_bytes ( E )      ===================================================
+            byte[] packet_E = new byte[42];
+            string lineRead;
+            StreamReader srE = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int E = 1; // go to the beginning of the data backup file
+            while (E <= 411)
+            {
+                lineRead = srE.ReadLine(); //Read the next line untill we reach the begining of data with command 'E'
+                E++;
+            }
+
+            packet_E[0] = 69;   // 'E'
+            
+            for (int cnt = 1; cnt <= 40; cnt++)
+            {
+                lineRead = srE.ReadLine(); //Read the next line
+                packet_E[cnt] = Convert.ToByte(lineRead);
+            }
+            
+            packet_E[41] = 0x0D;
+            this.sendPacket(packet_E);
             Thread.Sleep(1000);   // 1 second delay
         }
 
