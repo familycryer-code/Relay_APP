@@ -1397,6 +1397,15 @@ namespace RelayControlLibrary
                 return false;
         }
 
+        public bool IsMasterRev10orMore()
+        {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if ((remoteMasterRevisionNumber < Constants.MasterRev10Marker) || wrongRelayTypeAutoLoad)
+                return false;
+            else
+                return true;
+        }
+
         private void forceRelayToUpdate()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);

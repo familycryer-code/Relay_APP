@@ -466,6 +466,16 @@ namespace RelayControlLibrary
             this.onSend(sEA);
         }
 
+        public void Request_SignalStrength()
+        {
+            SendEventArgs sEA = new SendEventArgs(2);
+
+            sEA.SendPacket[0] = (byte)'K';
+            sEA.SendPacket[1] = (byte)0x0D;
+
+            this.onSend(sEA);
+        }
+
         private void onSend(SendEventArgs sEA)
         {
             if (sEA.SendPacket.Length > 3)

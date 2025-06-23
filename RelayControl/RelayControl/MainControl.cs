@@ -2503,6 +2503,7 @@ namespace RelayControl
                             tw.WriteLine(bytePacket[index]);
                         }
                         tw.Close();
+                        dataBackupR.dataBackup_fromRelay = false;
                     }
                     this.ucDNPSAv51.Message(bytePacket);
                     break;
@@ -8826,12 +8827,22 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!this.ucRelayProgramming1.IsMasterRev10orMore())
+            {
+                // If Master uP revision is less than Rev 10, backup its data to the computer
+                // And rewrite that data to go with the rev 10 firmware after programming is done
+                this.BackUpRelayDatatoFile();
+            }
+            
             this.ucRelayProgramming1.InitialAutoLoadFiles();
             this.checkedDNPEnable = false;
         }
 
+
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
+            if(dataBackupR.dataBackup_fromRelay == false)
             this.editConfigFile();
         }
 
@@ -9123,7 +9134,7 @@ namespace RelayControl
         
         private void button_dataStore_Click(object sender, EventArgs e)
         {
-               /*
+               
                //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
                dataBackup_fromRelay = true;
                dataBackupR.dataBackup_fromRelay = true;
@@ -9142,13 +9153,13 @@ namespace RelayControl
              this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 'S' )
              Thread.Sleep(1000);   // delay 1second
                tw.Close();
-              */
+              
 
            //WRITE TO MASTER PROCESSOR
            //dataBackup_fromRelay = true;
            //dataBackupR.dataBackup_fromRelay = true;
 
-            
+            /*
             this.writeCloseModeDataBackUp_ToMaster();
             this.writeTripModeDataBackUp_ToMaster();
             this.writeNWProtectorDataBackUp_ToMaster();
@@ -9158,7 +9169,34 @@ namespace RelayControl
             this.writeDNPDataBackUp_ToMaster();
             this.writeDNPSAv5SettingsDataBackUp_ToMaster();
             this.writeArcFaultDataBackUp_ToMaster();
+            */
+        }
+
+        private void BackUpRelayDatatoFile() 
+        {
+            // Pull data from relay master uP if its firmware is les then rev 10
+            // Sincerev 10 onwards there are some changes in data storage to take care of memory corruption
+
             
+            //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
+            dataBackup_fromRelay = true;
+            dataBackupR.dataBackup_fromRelay = true;
+            string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+
+            TextWriter tw = new StreamWriter(path, true);
+            tw.WriteLine("Data currently residing in the relay :");
+            
+             this.ucShortRange1.Request_SignalStrength();
+             this.requestRelayParameters();
+             this.requestCalibrationConstants();
+             this.requestTransmitterSettings();
+             this.requestDNPSettings();
+             this.requestSafeServiceSettings();
+             this.arcFaultEnableMonitoring(true);
+             this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
+             Thread.Sleep(1000);   // delay 1second
+               tw.Close();
+              
         }
 
         private void RequestDNPSav5Settings()
