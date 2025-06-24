@@ -315,7 +315,7 @@ namespace RelayDNPSecurity
             catch (Exception ex)
             {
 #if DEBUG
-                this.onError(new Exception("Error Loadinged Loaded Users", ex),"Error in SAv5 Requesting User");
+                this.onError(new Exception("Error Loading Loaded Users", ex),"Error in SAv5 Requesting User");
 #else
                 this.showSAV5ErrorMessage();
                 return;

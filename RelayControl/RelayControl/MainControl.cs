@@ -27,6 +27,7 @@ using System.Linq;
 using NLog;
 using GraphicsServer.GSNet.Charting;
 using RelayDNPSecurity;
+using System.ServiceModel.Channels;
 
 namespace RelayControl
 {
@@ -3544,6 +3545,12 @@ namespace RelayControl
                     //   this.SendAll_Message_PopUp1.Visible = false;
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
+                    if (dataB.oldDataBackup == true)
+                    {
+                        this.WriteBackUpData_FileToRelay();
+                        dataB.oldDataBackup = false;
+                        MessageBox.Show("Backup data loaded to the Relay !");
+                    }
                 }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
@@ -8831,6 +8838,7 @@ namespace RelayControl
             {
                 // If Master uP revision is less than Rev 10, backup its data to the computer
                 // And rewrite that data to go with the rev 10 firmware after programming is done
+                dataB.oldDataBackup = true;
                 this.BackUpRelayDatatoFile();
             }
             
@@ -9134,7 +9142,7 @@ namespace RelayControl
         
         private void button_dataStore_Click(object sender, EventArgs e)
         {
-               
+              /* 
                //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
                dataBackup_fromRelay = true;
                dataBackupR.dataBackup_fromRelay = true;
@@ -9153,7 +9161,7 @@ namespace RelayControl
              this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 'S' )
              Thread.Sleep(1000);   // delay 1second
                tw.Close();
-              
+              */
 
            //WRITE TO MASTER PROCESSOR
            //dataBackup_fromRelay = true;
@@ -9175,7 +9183,7 @@ namespace RelayControl
         private void BackUpRelayDatatoFile() 
         {
             // Pull data from relay master uP if its firmware is les then rev 10
-            // Sincerev 10 onwards there are some changes in data storage to take care of memory corruption
+            // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
 
             
             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
@@ -9198,6 +9206,24 @@ namespace RelayControl
                tw.Close();
               
         }
+
+        private void WriteBackUpData_FileToRelay()
+        {
+            // Push data backed up in the "RelayData_Backup.txt" from a relay with firmware rev 9 or older
+            // to relay master uP  (for programming a firmware with rev 10 or more) 
+            // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
+
+            this.writeCloseModeDataBackUp_ToMaster();
+            this.writeTripModeDataBackUp_ToMaster();
+            this.writeNWProtectorDataBackUp_ToMaster();
+            this.writePumpModeDataBackUp_ToMaster();
+            this.writeSafeServiceDataBackUp_ToMaster();
+            this.writeTransmitterDataBackUp_ToMaster();
+            this.writeDNPDataBackUp_ToMaster();
+            this.writeDNPSAv5SettingsDataBackUp_ToMaster();
+            this.writeArcFaultDataBackUp_ToMaster();
+        }
+        
 
         private void RequestDNPSav5Settings()
         {

@@ -1984,6 +1984,11 @@ namespace RelayControlLibrary
         public static byte flagSettings;
     }
 
+    public static class dataB
+    {
+        public static bool oldDataBackup;
+    }
+
     public static class statusNew
     {
         public static bool flagFromRelay;

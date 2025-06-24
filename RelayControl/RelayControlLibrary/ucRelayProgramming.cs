@@ -12,6 +12,7 @@ using System.Linq;
 using SharedResources;
 using System.Diagnostics;
 using NLog;
+using System.Net.Sockets;
 
 namespace RelayControlLibrary
 {
