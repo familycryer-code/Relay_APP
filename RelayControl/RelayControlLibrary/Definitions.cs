@@ -264,6 +264,8 @@ namespace RelayControlLibrary
         public const long IntZeroTime = 633846816000000000;//August 1, 2010b;
         public const float Protector277Convert = 2.216f;
         public const UInt32 MasterRev10Marker = 250000;
+        public const UInt16 BackupDataFields = 8;
+        public const UInt32 MasterRevBlankRelay = 121116;
     }
 
     public class PumpDefinition

@@ -642,7 +642,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -671,7 +671,7 @@ namespace RelayControl
                 // this.TransmitterEnabled = false;
                 this.TransmitterEnabled = true;
 #else
-                    TransmitterEnabled = true;
+                TransmitterEnabled = true;
 #endif
 
                 this.ArcFaultEnabled = false;
@@ -4249,6 +4249,7 @@ namespace RelayControl
 
                 if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
                 {
+                    Thread.Sleep(3000);
                     string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                     TextWriter tw = new StreamWriter(path, true);
                     tw.WriteLine("Relay Parameters:");
@@ -4257,6 +4258,7 @@ namespace RelayControl
                         tw.WriteLine(bytePacket[index]);
                     }
                     tw.Close();
+                    Thread.Sleep(3000);
                 }
 
                 //Reclose Voltage Btyes - Vertical
@@ -4971,7 +4973,7 @@ namespace RelayControl
                 TextWriter tw = new StreamWriter(path, true);
                 // write Transmitter strength currently residing in the relay to the backup file on computer
                 // "XS" = "SR_sig_strength_xmit_level" is byte[30] out of the 31 byte packet coming to the APP with command 'K'
-                tw.WriteLine("XS:" + bytePacket[30]);  
+                tw.WriteLine("XS:" + bytePacket[30]);
                 tw.Close();
 
             }
@@ -8836,12 +8838,16 @@ namespace RelayControl
         {
             if (!this.ucRelayProgramming1.IsMasterRev10orMore())
             {
+                string text1 = "Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process";
+                MessageBox.Show(text1);
+                string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
+                MessageBox.Show(text);
                 // If Master uP revision is less than Rev 10, backup its data to the computer
                 // And rewrite that data to go with the rev 10 firmware after programming is done
                 dataB.oldDataBackup = true;
                 this.BackUpRelayDatatoFile();
             }
-            
+            Thread.Sleep(16000); // 13 seconds
             this.ucRelayProgramming1.InitialAutoLoadFiles();
             this.checkedDNPEnable = false;
         }
@@ -8849,9 +8855,9 @@ namespace RelayControl
 
         private void enableAutoloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            if(dataBackupR.dataBackup_fromRelay == false)
-            this.editConfigFile();
+
+            if (dataBackupR.dataBackup_fromRelay == false)
+                this.editConfigFile();
         }
 
         private void editConfigFile()
@@ -9139,33 +9145,33 @@ namespace RelayControl
         }
 
         public bool dataBackup_fromRelay = false;
-        
+
         private void button_dataStore_Click(object sender, EventArgs e)
         {
-              /* 
-               //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
-               dataBackup_fromRelay = true;
-               dataBackupR.dataBackup_fromRelay = true;
-               string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            /* 
+             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
+             dataBackup_fromRelay = true;
+             dataBackupR.dataBackup_fromRelay = true;
+             string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
-               TextWriter tw = new StreamWriter(path, true);
-               tw.WriteLine("Data currently residing in the relay :");
-            
-             this.ucShortRange1.buttonRequest_Click(sender, e);
-             this.requestRelayParameters();
-             this.requestCalibrationConstants();
-             this.requestTransmitterSettings();
-             this.requestDNPSettings();
-             this.requestSafeServiceSettings();
-             this.arcFaultEnableMonitoring(true);
-             this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 'S' )
-             Thread.Sleep(1000);   // delay 1second
-               tw.Close();
-              */
+             TextWriter tw = new StreamWriter(path, true);
+             tw.WriteLine("Data currently residing in the relay :");
 
-           //WRITE TO MASTER PROCESSOR
-           //dataBackup_fromRelay = true;
-           //dataBackupR.dataBackup_fromRelay = true;
+           this.ucShortRange1.buttonRequest_Click(sender, e);
+           this.requestRelayParameters();
+           this.requestCalibrationConstants();
+           this.requestTransmitterSettings();
+           this.requestDNPSettings();
+           this.requestSafeServiceSettings();
+           this.arcFaultEnableMonitoring(true);
+           this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 'S' )
+           Thread.Sleep(1000);   // delay 1second
+             tw.Close();
+            */
+
+            //WRITE TO MASTER PROCESSOR
+            //dataBackup_fromRelay = true;
+            //dataBackupR.dataBackup_fromRelay = true;
 
             /*
             this.writeCloseModeDataBackUp_ToMaster();
@@ -9180,12 +9186,12 @@ namespace RelayControl
             */
         }
 
-        private void BackUpRelayDatatoFile() 
+        private void BackUpRelayDatatoFile()
         {
             // Pull data from relay master uP if its firmware is les then rev 10
             // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
 
-            
+
             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
             dataBackup_fromRelay = true;
             dataBackupR.dataBackup_fromRelay = true;
@@ -9193,18 +9199,18 @@ namespace RelayControl
 
             TextWriter tw = new StreamWriter(path, true);
             tw.WriteLine("Data currently residing in the relay :");
-            
-             this.ucShortRange1.Request_SignalStrength();
-             this.requestRelayParameters();
-             this.requestCalibrationConstants();
-             this.requestTransmitterSettings();
-             this.requestDNPSettings();
-             this.requestSafeServiceSettings();
-             this.arcFaultEnableMonitoring(true);
-             this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
-             Thread.Sleep(1000);   // delay 1second
-               tw.Close();
-              
+
+            this.ucShortRange1.Request_SignalStrength();
+            this.requestRelayParameters();
+            this.requestCalibrationConstants();
+            this.requestTransmitterSettings();
+            this.requestDNPSettings();
+            this.requestSafeServiceSettings();
+            this.arcFaultEnableMonitoring(true);
+            this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
+            Thread.Sleep(1000);   // delay 1second
+            tw.Close();
+
         }
 
         private void WriteBackUpData_FileToRelay()
@@ -9223,7 +9229,7 @@ namespace RelayControl
             this.writeDNPSAv5SettingsDataBackUp_ToMaster();
             this.writeArcFaultDataBackUp_ToMaster();
         }
-        
+
 
         private void RequestDNPSav5Settings()
         {
@@ -9248,27 +9254,27 @@ namespace RelayControl
                 c++;
             }
             packet_C[0] = 67;    // 'C'
-         /*   packet_C[1] = 23;    // C_byte1 - RecloseVoltsByteHigh
-            packet_C[2] = 0;     // C_byte2
-            packet_C[3] = 244;   // C_byte3 - TiltAngleTangentHighByte
-            packet_C[4] = 146;   // C_byte4
-            packet_C[5] = 6;     // C_byte5 - PhasingOffsetHighByte
-            packet_C[6] = 102;   // C_byte6
-            packet_C[7] = 254;   // C_byte7 - PhaseDetectTangentHighByte
-            packet_C[8] = 154;   // C_byte8
-          */
-              for (int cnt = 1; cnt <= 8; cnt++)
-              {
-                  lineRead = sr.ReadLine(); //Read the next line
-                  if ((cnt % 2) != 0)//odd numbered ?
-                      packet_C[cnt + 1] = Convert.ToByte(lineRead);
-                  else
-                      packet_C[cnt - 1] = Convert.ToByte(lineRead);
-              }
-            
+            /*   packet_C[1] = 23;    // C_byte1 - RecloseVoltsByteHigh
+               packet_C[2] = 0;     // C_byte2
+               packet_C[3] = 244;   // C_byte3 - TiltAngleTangentHighByte
+               packet_C[4] = 146;   // C_byte4
+               packet_C[5] = 6;     // C_byte5 - PhasingOffsetHighByte
+               packet_C[6] = 102;   // C_byte6
+               packet_C[7] = 254;   // C_byte7 - PhaseDetectTangentHighByte
+               packet_C[8] = 154;   // C_byte8
+             */
+            for (int cnt = 1; cnt <= 8; cnt++)
+            {
+                lineRead = sr.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_C[cnt + 1] = Convert.ToByte(lineRead);
+                else
+                    packet_C[cnt - 1] = Convert.ToByte(lineRead);
+            }
+
             packet_C[9] = 0x0D;
-              this.sendPacket(packet_C);
-            
+            this.sendPacket(packet_C);
+
             byte[] packet_MC = new byte[8];
             StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
             int mc = 1; // go to the beginning of the data backup file
@@ -9277,26 +9283,26 @@ namespace RelayControl
                 lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining of data with command 'M' + 'C'
                 mc++;
             }
-          
+
             packet_MC[0] = 77;    // 'M'
-          /*  packet_MC[1] = 67;  // 'C' - Mclose_byte1
-            packet_MC[2] = 78;  // Mclose_byte2
-            packet_MC[3] = 0;   // Mclose_byte3
-            packet_MC[4] = 7;   // Mclose_byte4 - Close Time Delay
-            packet_MC[5] = 0;   // Mclose_byte5
-            packet_MC[6] = 0;   // Mclose_byte6
-           */
-              for (int cnt = 1; cnt <= 6; cnt++)
-              {
-                  lineRead = sr1.ReadLine(); //Read the next line
-                  if ((cnt % 2) != 0)//odd numbered ?
-                    packet_MC[cnt+1] = Convert.ToByte(lineRead);
-                  else
-                    packet_MC[cnt-1] = Convert.ToByte(lineRead);
-              }
-            
+            /*  packet_MC[1] = 67;  // 'C' - Mclose_byte1
+              packet_MC[2] = 78;  // Mclose_byte2
+              packet_MC[3] = 0;   // Mclose_byte3
+              packet_MC[4] = 7;   // Mclose_byte4 - Close Time Delay
+              packet_MC[5] = 0;   // Mclose_byte5
+              packet_MC[6] = 0;   // Mclose_byte6
+             */
+            for (int cnt = 1; cnt <= 6; cnt++)
+            {
+                lineRead = sr1.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_MC[cnt + 1] = Convert.ToByte(lineRead);
+                else
+                    packet_MC[cnt - 1] = Convert.ToByte(lineRead);
+            }
+
             packet_MC[7] = 0x0D;
-            
+
 
             this.sendPacket(packet_MC);
         }
@@ -9315,22 +9321,22 @@ namespace RelayControl
             }
 
             packet_MT[0] = 77;    // 'M'
-          /*  packet_MT[1] = 84;  // 'T' - Mtrip_byte1
-            packet_MT[2] = 83;  // Mtrip_byte2
-            packet_MT[3] = 0;   // Mtrip_byte3 - TimeDelayHighByte
-            packet_MT[4] = 0;   // Mtrip_byte4 
-            packet_MT[5] = 2;   // Mtrip_byte5 - //tMD.SensitiveTimeDelayHighByte;
-            packet_MT[6] = 6;   // Mtrip_byte6
-          */
-             for (int cnt = 1; cnt <= 6; cnt++)
-             {
-                 lineRead = sr1.ReadLine(); //Read the next line
-                 if ((cnt % 2) != 0)//odd numbered ?
-                     packet_MT[cnt + 1] = Convert.ToByte(lineRead);
-                 else
-                     packet_MT[cnt - 1] = Convert.ToByte(lineRead);
-             }
-            
+            /*  packet_MT[1] = 84;  // 'T' - Mtrip_byte1
+              packet_MT[2] = 83;  // Mtrip_byte2
+              packet_MT[3] = 0;   // Mtrip_byte3 - TimeDelayHighByte
+              packet_MT[4] = 0;   // Mtrip_byte4 
+              packet_MT[5] = 2;   // Mtrip_byte5 - //tMD.SensitiveTimeDelayHighByte;
+              packet_MT[6] = 6;   // Mtrip_byte6
+            */
+            for (int cnt = 1; cnt <= 6; cnt++)
+            {
+                lineRead = sr1.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_MT[cnt + 1] = Convert.ToByte(lineRead);
+                else
+                    packet_MT[cnt - 1] = Convert.ToByte(lineRead);
+            }
+
             packet_MT[7] = 0x0D;
             this.sendPacket(packet_MT);
             Thread.Sleep(1000);   // 1 second delay
@@ -9359,7 +9365,7 @@ namespace RelayControl
              packet_T0[11] = 255;    // T0_byte11 - MagnitudeHighByte
              packet_T0[12] = 255;    // T0_byte12
             */
-            
+
             for (int cnt = 1; cnt <= 12; cnt++)
             {
                 lineRead = sr2.ReadLine(); //Read the next line
@@ -9368,7 +9374,7 @@ namespace RelayControl
                 else
                     packet_T0[cnt - 1] = Convert.ToByte(lineRead);
             }
-           
+
             packet_T0[13] = 0x0D;
             this.sendPacket(packet_T0);
             Thread.Sleep(1000);   // 1 second delay
@@ -9406,7 +9412,7 @@ namespace RelayControl
                 else
                     packet_T1[cnt - 1] = Convert.ToByte(lineRead);
             }
-            
+
             packet_T1[13] = 0x0D;
             this.sendPacket(packet_T1);
             Thread.Sleep(1000);   // 1 second delay
@@ -9444,7 +9450,7 @@ namespace RelayControl
                 else
                     packet_T2[cnt - 1] = Convert.ToByte(lineRead);
             }
-           
+
             packet_T2[13] = 0x0D;
             this.sendPacket(packet_T2);
             Thread.Sleep(1000);   // 1 second delay
@@ -9482,7 +9488,7 @@ namespace RelayControl
                 else
                     packet_T3[cnt - 1] = Convert.ToByte(lineRead);
             }
-            
+
             packet_T3[13] = 0x0D;
             this.sendPacket(packet_T3);
             Thread.Sleep(1000);   // 1 second delay
@@ -9498,19 +9504,19 @@ namespace RelayControl
             }
 
             packet_T4[0] = 84;      // 'T'
-           /* packet_T4[1] = 52;      // '4' - T4_byte1
-            packet_T4[2] = 87;      // T4_byte2
-            packet_T4[3] = 254;      // T4_byte3 - Offset ( 0 )
-            packet_T4[4] = 20;      // T4_byte4
-            packet_T4[5] = 0;       // T4_byte5 - Tilt (numericUpDownAngle.Value + numericUpDownWVAngle.Value)
-            packet_T4[6] = 148;       // T4_byte6
-            packet_T4[7] = 64;      // T4_byte7 - Constants.MaxFixedPointValue
-            packet_T4[8] = 0;       // T4_byte8
-            packet_T4[9] = 192;     // T4_byte9 - Constants.MinFixedPointValue
-            packet_T4[10] = 0;      // T4_byte10
-            packet_T4[11] = 30;     // T4_byte11 - numericUpDownWVCurrent
-            packet_T4[12] = 0;      // T4_byte12
-            */
+            /* packet_T4[1] = 52;      // '4' - T4_byte1
+             packet_T4[2] = 87;      // T4_byte2
+             packet_T4[3] = 254;      // T4_byte3 - Offset ( 0 )
+             packet_T4[4] = 20;      // T4_byte4
+             packet_T4[5] = 0;       // T4_byte5 - Tilt (numericUpDownAngle.Value + numericUpDownWVAngle.Value)
+             packet_T4[6] = 148;       // T4_byte6
+             packet_T4[7] = 64;      // T4_byte7 - Constants.MaxFixedPointValue
+             packet_T4[8] = 0;       // T4_byte8
+             packet_T4[9] = 192;     // T4_byte9 - Constants.MinFixedPointValue
+             packet_T4[10] = 0;      // T4_byte10
+             packet_T4[11] = 30;     // T4_byte11 - numericUpDownWVCurrent
+             packet_T4[12] = 0;      // T4_byte12
+             */
 
             for (int cnt = 1; cnt <= 12; cnt++)
             {
@@ -9520,7 +9526,7 @@ namespace RelayControl
                 else
                     packet_T4[cnt - 1] = Convert.ToByte(lineRead);
             }
-           
+
             packet_T4[13] = 0x0D;
             this.sendPacket(packet_T4);
             Thread.Sleep(1000);   // 1 second delay
@@ -9537,12 +9543,12 @@ namespace RelayControl
 
             packet_MS[0] = 77;  // 'M'
             packet_MS[1] = 83;  // 'S' - dummy_PC_param_bytes
-           /* packet_MS[2] = 3;   // domainUpDownTripStyle.SelectedItem
-            packet_MS[3] = 0;   
-            packet_MS[4] = 0;    
-            packet_MS[5] = 0;   
-            packet_MS[6] = 0;   
-            */
+            /* packet_MS[2] = 3;   // domainUpDownTripStyle.SelectedItem
+             packet_MS[3] = 0;   
+             packet_MS[4] = 0;    
+             packet_MS[5] = 0;   
+             packet_MS[6] = 0;   
+             */
             for (int cnt = 1; cnt <= 2; cnt++)
             {
                 lineRead = sr7.ReadLine(); //Read the next line
@@ -9552,7 +9558,7 @@ namespace RelayControl
                     packet_MS[3] = Convert.ToByte(lineRead);
             }
             packet_MS[4] = packet_MS[5] = packet_MS[6] = 0;
-           
+
             packet_MS[7] = 0x0D;
             this.sendPacket(packet_MS);
             Thread.Sleep(1000);   // 1 second delay
@@ -9572,19 +9578,19 @@ namespace RelayControl
             }
 
             packet_s[0] = 115;  // 's'
-           /* packet_s[1] = 83;   // domainUpDownRelayType.SelectedItem (relay_type_byte2)
-            packet_s[2] = 1;    // domainUpDownPhasings.SelectedItem (relay_type_byte1)
-            */
+            /* packet_s[1] = 83;   // domainUpDownRelayType.SelectedItem (relay_type_byte2)
+             packet_s[2] = 1;    // domainUpDownPhasings.SelectedItem (relay_type_byte1)
+             */
 
-             for (int cnt = 1; cnt <= 2; cnt++)
-             {
-                 lineRead = sr1.ReadLine(); //Read the next line
-                 if ((cnt % 2) != 0)//odd numbered ?
-                     packet_s[2] = Convert.ToByte(lineRead);
-                 else
-                     packet_s[1] = Convert.ToByte(lineRead);
-             }
-             
+            for (int cnt = 1; cnt <= 2; cnt++)
+            {
+                lineRead = sr1.ReadLine(); //Read the next line
+                if ((cnt % 2) != 0)//odd numbered ?
+                    packet_s[2] = Convert.ToByte(lineRead);
+                else
+                    packet_s[1] = Convert.ToByte(lineRead);
+            }
+
             packet_s[3] = 0x0D;
             this.sendPacket(packet_s);
             Thread.Sleep(1000);   // 1 second delay
@@ -9613,21 +9619,21 @@ namespace RelayControl
              packet_G[7] = 8;    // MotorCycles
              packet_G[8] = 100;  // MotorTimeout
             */
-            
+
             for (int cnt = 1; cnt <= 8; cnt++)
             {
                 lineRead = srG.ReadLine(); //Read the next line
                 if ((cnt < 3) || (cnt >= 7))
                     packet_G[cnt] = Convert.ToByte(lineRead);
                 else if ((cnt >= 3) && (cnt < 7))
-                { 
-                      if ((cnt % 2) != 0)//odd numbered ?
+                {
+                    if ((cnt % 2) != 0)//odd numbered ?
                         packet_G[cnt + 1] = Convert.ToByte(lineRead);
-                     else
-                         packet_G[cnt - 1] = Convert.ToByte(lineRead);
+                    else
+                        packet_G[cnt - 1] = Convert.ToByte(lineRead);
                 }
             }
-            
+
             packet_G[9] = 0x0D;
             this.sendPacket(packet_G);
             Thread.Sleep(1000);   // 1 second delay
@@ -9674,7 +9680,7 @@ namespace RelayControl
                 lineRead = srF.ReadLine(); //Read the next line
                 packet_F[cnt] = Convert.ToByte(lineRead);
             }
-           
+
             packet_F[21] = 0x0D;
             this.sendPacket(packet_F);
             Thread.Sleep(1000);   // 1 second delay
@@ -9693,7 +9699,7 @@ namespace RelayControl
                 Y++;
             }
 
-             packet_Y[0] = 89;     // 'Y'
+            packet_Y[0] = 89;     // 'Y'
             /* packet_Y[1] = 169;    // ID - lsb  
              packet_Y[2] = 2;      // ID - msb
              packet_Y[3] = 15;     // SN - lsb
@@ -9735,7 +9741,7 @@ namespace RelayControl
                 lineRead = srY.ReadLine(); //Read the next line
                 packet_Y[cnt] = Convert.ToByte(lineRead);
             }
-            
+
             packet_Y[33] = 0x0D;
             this.sendPacket(packet_Y);
             Thread.Sleep(1000);   // 1 second delay
@@ -9755,32 +9761,32 @@ namespace RelayControl
             }
 
             packet_D[0] = 68;     // 'D'
-            packet_D[1] = 97;     
-            packet_D[2] = 0;      
-            packet_D[3] = 0;     
-           /* packet_D[4] = 0;      
-            packet_D[5] = 0;     // Unsolicited Timeout
-            packet_D[6] = 0;     // Unsolicited Timeout
-            packet_D[7] = 252;   // Unsolicited Timeout 
-            packet_D[8] = 38;    // Unsolicited Timeout  
-            packet_D[9] = 236;   // Fragment Size 
-            packet_D[10] = 3;    // Fragment Size
-            packet_D[11] = 3;     
-            packet_D[12] = 0;     
-            packet_D[13] = 4;    
-            packet_D[14] = 0;     
-            packet_D[15] = 5;    
-            packet_D[16] = 0;    
-            packet_D[17] = 20;   
-            packet_D[18] = 3;   
-            for (int cnt = 19; cnt <= 96; cnt++)
-            {
-                packet_D[cnt] = 0;
-            }
-            */
+            packet_D[1] = 97;
+            packet_D[2] = 0;
+            packet_D[3] = 0;
+            /* packet_D[4] = 0;      
+             packet_D[5] = 0;     // Unsolicited Timeout
+             packet_D[6] = 0;     // Unsolicited Timeout
+             packet_D[7] = 252;   // Unsolicited Timeout 
+             packet_D[8] = 38;    // Unsolicited Timeout  
+             packet_D[9] = 236;   // Fragment Size 
+             packet_D[10] = 3;    // Fragment Size
+             packet_D[11] = 3;     
+             packet_D[12] = 0;     
+             packet_D[13] = 4;    
+             packet_D[14] = 0;     
+             packet_D[15] = 5;    
+             packet_D[16] = 0;    
+             packet_D[17] = 20;   
+             packet_D[18] = 3;   
+             for (int cnt = 19; cnt <= 96; cnt++)
+             {
+                 packet_D[cnt] = 0;
+             }
+             */
 
             // this.ucTransmitter1.SendTransmitterSettings();
-            
+
             for (int cnt = 7; cnt <= 8; cnt++)
             {
                 lineRead = srD.ReadLine(); //Read the next line
@@ -9796,7 +9802,7 @@ namespace RelayControl
                 lineRead = srD.ReadLine(); //Read the next line
                 packet_D[cnt] = Convert.ToByte(lineRead);
             }
-           
+
             packet_D[97] = 0x0D;
             this.sendPacket(packet_D);
             Thread.Sleep(1000);   // 1 second delay
@@ -9912,13 +9918,13 @@ namespace RelayControl
             }
 
             packet_E[0] = 69;   // 'E'
-            
+
             for (int cnt = 1; cnt <= 40; cnt++)
             {
                 lineRead = srE.ReadLine(); //Read the next line
                 packet_E[cnt] = Convert.ToByte(lineRead);
             }
-            
+
             packet_E[41] = 0x0D;
             this.sendPacket(packet_E);
             Thread.Sleep(1000);   // 1 second delay
