@@ -656,31 +656,30 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_InCurrkW
             // 
-            this.numericUpDown_InCurrkW.DecimalPlaces = 2;
             this.numericUpDown_InCurrkW.Increment = new decimal(new int[] {
-            5,
+            16,
             0,
             0,
-            131072});
+            0});
             this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(235, -2);
             this.numericUpDown_InCurrkW.Maximum = new decimal(new int[] {
-            5,
+            2880,
             0,
             0,
             0});
             this.numericUpDown_InCurrkW.Minimum = new decimal(new int[] {
-            1,
+            16,
             0,
             0,
-            65536});
+            0});
             this.numericUpDown_InCurrkW.Name = "numericUpDown_InCurrkW";
             this.numericUpDown_InCurrkW.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_InCurrkW.TabIndex = 62;
             this.numericUpDown_InCurrkW.Value = new decimal(new int[] {
-            125,
+            128,
             0,
             0,
-            131072});
+            0});
             // 
             // lbl_InstCurrent_kWdirection
             // 
@@ -702,14 +701,19 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_GreenDelay
             // 
+            this.numericUpDown_GreenDelay.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(80, 260);
             this.numericUpDown_GreenDelay.Maximum = new decimal(new int[] {
-            300,
+            5000,
             0,
             0,
             0});
             this.numericUpDown_GreenDelay.Minimum = new decimal(new int[] {
-            200,
+            50,
             0,
             0,
             0});
@@ -734,18 +738,13 @@ namespace RelayControlLibrary
             // numericUpDown_GreenMagX
             // 
             this.numericUpDown_GreenMagX.Increment = new decimal(new int[] {
-            10,
+            16,
             0,
             0,
             0});
             this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(253, 253);
             this.numericUpDown_GreenMagX.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDown_GreenMagX.Minimum = new decimal(new int[] {
-            10,
+            160,
             0,
             0,
             0});
@@ -770,18 +769,13 @@ namespace RelayControlLibrary
             // numericUpDown_GreenMagY
             // 
             this.numericUpDown_GreenMagY.Increment = new decimal(new int[] {
-            10,
+            16,
             0,
             0,
             0});
             this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(109, 270);
             this.numericUpDown_GreenMagY.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDown_GreenMagY.Minimum = new decimal(new int[] {
-            10,
+            160,
             0,
             0,
             0});
@@ -805,31 +799,30 @@ namespace RelayControlLibrary
             // 
             // numericUpDown_InCurrkVAR
             // 
-            this.numericUpDown_InCurrkVAR.DecimalPlaces = 2;
             this.numericUpDown_InCurrkVAR.Increment = new decimal(new int[] {
-            5,
+            16,
             0,
             0,
-            131072});
+            0});
             this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(176, 271);
             this.numericUpDown_InCurrkVAR.Maximum = new decimal(new int[] {
-            5,
+            2880,
             0,
             0,
             0});
             this.numericUpDown_InCurrkVAR.Minimum = new decimal(new int[] {
-            1,
+            16,
             0,
             0,
-            65536});
+            0});
             this.numericUpDown_InCurrkVAR.Name = "numericUpDown_InCurrkVAR";
             this.numericUpDown_InCurrkVAR.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_InCurrkVAR.TabIndex = 64;
             this.numericUpDown_InCurrkVAR.Value = new decimal(new int[] {
-            25,
+            16,
             0,
             0,
-            65536});
+            0});
             // 
             // ucTripMode
             // 

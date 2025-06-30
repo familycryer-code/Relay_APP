@@ -1593,14 +1593,14 @@ namespace RelayControlLibrary
             temp3 = this.numericUpDown_InCurrkW.Value;
             temp4 = this.numericUpDown_InCurrkVAR.Value;
 
-            this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = 1;
-            this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = 1000;
-            this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = 10;
-            this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "mA";
+            this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = 0;// 1;
+            this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = 160;// 1000;
+            this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = 16;// 10;
+            this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "A";// "mA";
 
-            this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = 0.5m;
-            this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 10;
-            this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = 0.1m;
+            this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = 16;// 0.5m;
+            this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 2880;// 10;
+            this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = 16;// 0.1m;
             this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "A";
             if (this.displayType == eDisplayType.Percent)
             {
@@ -1762,8 +1762,8 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenDelay.Value = 250;
             this.numericUpDown_GreenMagX.Value = 150;
             this.numericUpDown_GreenMagY.Value = 150;
-            this.numericUpDown_InCurrkW.Value = 1.25m;
-            this.numericUpDown_InCurrkVAR.Value = 2.5m;    
+            this.numericUpDown_InCurrkW.Value = 128;// 1.25m;
+            this.numericUpDown_InCurrkVAR.Value = 128;// 2.5m;    
             this.checkBoxTripOnPowerDown.Checked = true;
             this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
             this.checkBoxEnableGullWing.Checked = false;

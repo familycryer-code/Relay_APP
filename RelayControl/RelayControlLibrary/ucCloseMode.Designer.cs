@@ -409,14 +409,19 @@ namespace RelayControlLibrary
             this.lblUnitFloatTime.Name = "lblUnitFloatTime";
             this.lblUnitFloatTime.Size = new System.Drawing.Size(49, 13);
             this.lblUnitFloatTime.TabIndex = 47;
-            this.lblUnitFloatTime.Text = "Seconds";
+            this.lblUnitFloatTime.Text = "Hours"; //"Seconds";
             this.lblUnitFloatTime.Visible = false;
             // 
             // numericnumericUpDown_PermClVoltage
             // 
             this.numericnumericUpDown_PermClVoltage.Location = new System.Drawing.Point(157, 180);
             this.numericnumericUpDown_PermClVoltage.Maximum = new decimal(new int[] {
-            6,
+            5,
+            0,
+            0,
+            0});
+            this.numericnumericUpDown_PermClVoltage.Minimum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
@@ -444,12 +449,12 @@ namespace RelayControlLibrary
             // 
             this.numericUpDown_PermClActTime.Location = new System.Drawing.Point(157, 157);
             this.numericUpDown_PermClActTime.Maximum = new decimal(new int[] {
-            40,
+            120,
             0,
             0,
             0});
             this.numericUpDown_PermClActTime.Minimum = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -477,12 +482,12 @@ namespace RelayControlLibrary
             // 
             this.numericUpDown_FloatTime.Location = new System.Drawing.Point(156, 133);
             this.numericUpDown_FloatTime.Maximum = new decimal(new int[] {
-            50,
+            144,
             0,
             0,
             0});
             this.numericUpDown_FloatTime.Minimum = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
