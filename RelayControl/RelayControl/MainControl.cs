@@ -3547,9 +3547,12 @@ namespace RelayControl
                     paramsReceivedLock = false;
                     if (dataB.oldDataBackup == true)
                     {
-                        this.WriteBackUpData_FileToRelay();
-                        dataB.oldDataBackup = false;
-                        MessageBox.Show("Backup data loaded to the Relay !");
+                        if (checkValidDataBackup())
+                        {
+                            this.WriteBackUpData_FileToRelay();
+                            dataB.oldDataBackup = false;
+                            MessageBox.Show("Backup data loaded to the Relay !");
+                        }
                     }
                 }
 
@@ -3612,12 +3615,10 @@ namespace RelayControl
                     {
                         File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
                     }
-                    //if (checkValidDataBackup())
-                    //{
+                    
                     dataB.oldDataBackup = true;
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
-                    //}
 
                 }
 
@@ -8872,7 +8873,7 @@ namespace RelayControl
                 // And rewrite that data to go with the rev 10 firmware after programming is done
                 dataB.oldDataBackup = true;
                 this.BackUpRelayDatatoFile();
-            }
+           }
             Thread.Sleep(16000); // 13 seconds
             this.ucRelayProgramming1.InitialAutoLoadFiles();
             this.checkedDNPEnable = false;
@@ -9955,6 +9956,95 @@ namespace RelayControl
             this.sendPacket(packet_E);
             Thread.Sleep(1000);   // 1 second delay
         }
+
+        private bool checkValidDataBackup()
+        {
+            string lineRead;
+            StreamReader srV1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            int V, cnt = 0; // go to the beginning of the data backup file
+
+            lineRead = srV1.ReadLine(); //Read line
+            if (lineRead == "Data currently residing in the relay :")
+                cnt++;//1
+
+            StreamReader srV2 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 3)
+            {
+                lineRead = srV2.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "Relay Parameters:")
+                cnt++;//2
+
+            StreamReader srV3 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 98)
+            {
+                lineRead = srV3.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "Calibration Constants:")
+                cnt++;//3
+            
+            StreamReader srV4 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 159)
+            {
+                lineRead = srV4.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "Transmitter Parameters:")
+                 cnt++;//4
+            
+            StreamReader srV5 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 192)
+            {
+                lineRead = srV5.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "DNP Data:")
+                cnt++;//5
+            
+            StreamReader srV6 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 291)
+            {
+                lineRead = srV6.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "Safe Service Data:")
+                cnt++;//6
+            
+            StreamReader srV7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 312)
+            {
+                lineRead = srV7.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "DNPSAv5 Settings:")
+                cnt++;//7
+            
+            StreamReader srV8 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+            V = 1;
+            while (V <= 411)
+            {
+                lineRead = srV8.ReadLine(); //Read the next line 
+                V++;
+            }
+            if (lineRead == "Arc Fault Parameters:")
+                cnt++;//8
+                                 
+
+            if (cnt == Constants.BackupDataFields) // Data Backup file verified to contain all the data Fields (8) required to be pushed back to the relay
+                return true;
+            else
+                return false;
+
+        }
+
 
         private void label4_Click(object sender, EventArgs e)
         {
