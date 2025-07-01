@@ -3617,6 +3617,10 @@ namespace RelayControl
                     }
                     
                     dataB.oldDataBackup = true;
+                    if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
+                    {//if relay has old DNP firmware
+                        dataBackupD.dataBackup_withDNP = true;
+                    }
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
 
@@ -10016,32 +10020,55 @@ namespace RelayControl
             }
             if (lineRead == "Safe Service Data:")
                 cnt++;//6
-            
-            StreamReader srV7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= 312)
-            {
-                lineRead = srV7.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "DNPSAv5 Settings:")
-                cnt++;//7
-            
-            StreamReader srV8 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= 411)
-            {
-                lineRead = srV8.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "Arc Fault Parameters:")
-                cnt++;//8
-                                 
 
-            if (cnt == Constants.BackupDataFields) // Data Backup file verified to contain all the data Fields (8) required to be pushed back to the relay
-                return true;
-            else
-                return false;
+            if (dataBackupD.dataBackup_withDNP == true)
+            {//if old firmware was a DNP one
+                StreamReader srV7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+                V = 1;
+                while (V <= 312)
+                {
+                    lineRead = srV7.ReadLine(); //Read the next line 
+                    V++;
+                }
+                if (lineRead == "DNPSAv5 Settings:")
+                    cnt++;//7
+
+                StreamReader srV8 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+                V = 1;
+                while (V <= 411)
+                {
+                    lineRead = srV8.ReadLine(); //Read the next line 
+                    V++;
+                }
+                if (lineRead == "Arc Fault Parameters:")
+                    cnt++;//8
+
+                if (cnt == Constants.BackupDataFields) // Data Backup file verified to contain all the data Fields (8) required to be pushed back to the relay
+                    return true;
+                else
+                    return false;
+
+            }
+            else //if old firmware was a non DNP one
+            {
+                StreamReader srV7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+                V = 1;
+                while (V <= 312)
+                {
+                    lineRead = srV7.ReadLine(); //Read the next line 
+                    V++;
+                }
+                if (lineRead == "Arc Fault Parameters:")
+                    cnt++;//7
+
+                if (cnt == Constants.BackupDataFields_NoDNP) // Data Backup file verified to contain all the data Fields (8) required to be pushed back to the relay
+                    return true;
+                else
+                    return false;
+
+            }
+
+                
 
         }
 

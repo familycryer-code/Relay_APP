@@ -265,6 +265,7 @@ namespace RelayControlLibrary
         public const float Protector277Convert = 2.216f;
         public const UInt32 MasterRev10Marker = 250000;
         public const UInt16 BackupDataFields = 8;
+        public const UInt16 BackupDataFields_NoDNP = 7;
         public const UInt32 MasterRevBlankRelay = 121116;
     }
 
@@ -2024,6 +2025,11 @@ namespace RelayControlLibrary
     public static class dataBackupR
     {
         public static bool dataBackup_fromRelay;
+    }
+
+    public static class dataBackupD
+    {
+        public static bool dataBackup_withDNP;
     }
 
     public static class GeWhF
