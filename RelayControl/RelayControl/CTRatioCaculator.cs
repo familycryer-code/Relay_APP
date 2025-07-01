@@ -32,11 +32,11 @@ namespace RelayControl
 
             cTSize = this.getCTSize();
             secondaryVoltage = this.getSecondaryVoltage();
-            kVA = this.getKVA();
+            kVA = this.getKVA(); 
 
-            cTValue = 3f * secondaryVoltage;
-            cTValue /= kVA * 1000f;
-            cTValue *= cTSize * 100;
+            cTValue = 3f * secondaryVoltage; 
+            cTValue /= kVA * 1000f; 
+            cTValue *= cTSize * 100; 
 
             cTValue = (float)Math.Round(cTValue, 0);
 
@@ -76,6 +76,7 @@ namespace RelayControl
         {
             if (this.radioButtonKVA1000.Checked) return 1000f;
             if (this.radioButtonKVA1120.Checked) return 1120f;
+            if (this.radioButtonKVA1200.Checked) return 1200f;
             if (this.radioButtonKVA1250.Checked) return 1250f;
             if (this.radioButtonKVA150.Checked) return 150f;
             if (this.radioButtonKVA1500.Checked) return 1500f;
@@ -90,7 +91,7 @@ namespace RelayControl
             if (this.radioButtonKVA500.Checked) return 500f;
             if (this.radioButtonKVA560.Checked) return 560f;
             if (this.radioButtonKVA750.Checked) return 750f;
-
+            
             return 150f;
         }
 
