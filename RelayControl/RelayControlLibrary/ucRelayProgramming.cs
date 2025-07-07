@@ -724,6 +724,12 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
             dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+
+            // If newer version is not getting programmed, the relay already has the old data. 
+            // So do not write the backed up data from the file to the relay
+            if (dR == DialogResult.No)
+                dataB.oldDataBackup = false; 
+
             return dR;
         }
 

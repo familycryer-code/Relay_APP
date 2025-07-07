@@ -230,7 +230,10 @@ namespace RelayControlLibrary
                 uTemp <<= 8;
                 uTemp += bA[2];
                 this.TXSettings.SerialNumber = uTemp;
-                this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
+                if (uTemp >= 1 || uTemp < 65535)
+                    this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
+                else
+                    this.textBoxSerialNumber.Text = "3076"; // default serial number
                 //tw.WriteLine("SN" + uTemp);
                 //tw.Close();
 
@@ -390,6 +393,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
+                dataBackupTX.dataBackup_txDefaults = true;
                 this.errorHandler(new Exception(ex.Message + " " + errorString));
             }
         }
@@ -1529,7 +1533,8 @@ namespace RelayControlLibrary
             this.labelErrorLabel.Text = "";
         }
 
-        private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Are you sure you want to restore default settings?", "Restore Defaults", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 

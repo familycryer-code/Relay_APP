@@ -276,6 +276,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupPM.dataBackup_pumpModeDefaults = true;
                 this.setDefaults();
                 this.buttonSend_Click(this, new EventArgs());
             }

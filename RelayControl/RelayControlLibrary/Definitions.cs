@@ -267,6 +267,15 @@ namespace RelayControlLibrary
         public const UInt16 BackupDataFields = 8;
         public const UInt16 BackupDataFields_NoDNP = 7;
         public const UInt32 MasterRevBlankRelay = 121116;
+
+        // used by checkValidDataBackup()
+        public const UInt16 SkipUntillLine_RelayParams = 3;
+        public const UInt16 SkipUntillLine_CalibCons = 98;
+        public const UInt16 SkipUntillLine_TransmitterParams = 159;
+        public const UInt16 SkipUntillLine_DNPdata = 192;
+        public const UInt16 SkipUntillLine_SafeService = 291;
+        public const UInt16 SkipUntillLine_SAv5settings = 312;
+        public const UInt16 SkipUntillLine_ArcFault = 411;
     }
 
     public class PumpDefinition
@@ -679,6 +688,7 @@ namespace RelayControlLibrary
             {
                 if (value < 1 || value > 1023)
                 {
+                    dataBackupTX.dataBackup_txDefaults = true;
                     throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 1023");
                 }
                 else
@@ -2030,6 +2040,51 @@ namespace RelayControlLibrary
     public static class dataBackupD
     {
         public static bool dataBackup_withDNP;
+    }
+
+    public static class dataBackupSR
+    {
+        public static bool dataBackup_shortRangeDefaults;
+    }
+
+    public static class dataBackupCM
+    {
+        public static bool dataBackup_closeModeDefaults;
+    }
+
+    public static class dataBackupTM
+    {
+        public static bool dataBackup_tripModeDefaults;
+    }
+
+    public static class dataBackupNW
+    {
+        public static bool dataBackup_nwProtectorDefaults;
+    }
+
+    public static class dataBackupPM
+    {
+        public static bool dataBackup_pumpModeDefaults;
+    }
+
+    public static class dataBackupSSM
+    {
+        public static bool dataBackup_safeServiceDefaults;
+    }
+
+    public static class dataBackupTX
+    {
+        public static bool dataBackup_txDefaults;
+    }
+
+    public static class dataBackupDNP
+    {
+        public static bool dataBackup_dnpDefaults;
+    }
+
+    public static class dataBackupSAV5
+    {
+        public static bool dataBackup_sav5Defaults;
     }
 
     public static class GeWhF

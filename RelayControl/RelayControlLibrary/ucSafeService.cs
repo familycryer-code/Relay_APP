@@ -141,7 +141,8 @@ namespace RelayControlLibrary
             }
         }
 
-        private void buttonSend_Click(object sender, EventArgs e)
+        //private void buttonSend_Click(object sender, EventArgs e)
+        public void buttonSend_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.OK;// MessageBox.Show("Sending Safe Service Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             if (choice == DialogResult.OK)
@@ -290,7 +291,7 @@ namespace RelayControlLibrary
                     this.buttonSend_Click(this, new EventArgs());
                 }
 #else
-
+                dataBackupSSM.dataBackup_safeServiceDefaults = true;
                 this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;
                 this.numericUpDownOverCurrent.Value = numericUpDownOverCurrent_Temp;
                 this.numericUpDownCurrentImbalance.Value = numericUpDownCurrentImbalance_Temp;
@@ -593,7 +594,8 @@ namespace RelayControlLibrary
         }
         #endregion
 
-        private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Do you really want to restore default Safe Service Settings?", "Restore Safe Service Defaults", MessageBoxButtons.YesNo);
 

@@ -663,7 +663,7 @@ namespace RelayControlLibrary
             0});
             this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(235, -2);
             this.numericUpDown_InCurrkW.Maximum = new decimal(new int[] {
-            2880,
+            150,//2880,
             0,
             0,
             0});

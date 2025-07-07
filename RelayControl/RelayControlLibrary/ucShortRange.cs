@@ -204,6 +204,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
+                dataBackupSR.dataBackup_shortRangeDefaults = true;
                 this.errorHandler(new Exception("Error Setting Transmit Values because: " + ex.ToString()));
             }
         }

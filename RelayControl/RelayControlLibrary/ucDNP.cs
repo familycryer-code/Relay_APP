@@ -45,7 +45,8 @@ namespace RelayControlLibrary
         private bool customerChanged = false;
         #region Send Functions
 
-        private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
+        //private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
+        public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
             SendAllDNPSettings();
         }
@@ -391,6 +392,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -413,6 +415,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -435,6 +438,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -457,6 +461,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -479,6 +484,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -499,6 +505,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -527,6 +534,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -549,6 +557,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -571,6 +580,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -592,6 +602,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -613,6 +624,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -633,6 +645,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -651,6 +664,7 @@ namespace RelayControlLibrary
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.buttonDefaults_Click(this, new EventArgs());
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
@@ -704,6 +718,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.restoreDefaultsDeadBandVariables();
 
                 //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex));
@@ -871,7 +886,8 @@ namespace RelayControlLibrary
             this.buttonDefaults.Text = "Restore Memphis Defaults";
         }
 
-        private void buttonDefaults_Click(object sender, EventArgs e)
+        //private void buttonDefaults_Click(object sender, EventArgs e)
+        public void buttonDefaults_Click(object sender, EventArgs e)
         {
             if (this.customer == Customers.Memphis)
                 this.setMemphisDefaults();

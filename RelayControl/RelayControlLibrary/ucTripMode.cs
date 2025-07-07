@@ -526,6 +526,7 @@ namespace RelayControlLibrary
                 temp_AdaptiveMag_Y = GetFixed_16FracBits(temp_AdaptiveMag_Y);
                 tempKW = GetFixed_12FracBits(tempKW);
                 tempkVA = GetFixed_12FracBits(tempkVA);
+                
 
                 adaptiveTrip_package[3] = (byte)((int)temp_AdaptiveMag_X >> 8);             // high byte of Green Magnitude X
                 adaptiveTrip_package[4] = (byte)(0x00FF & (int)temp_AdaptiveMag_X);         // low byte of Green Magnitude X
@@ -623,8 +624,10 @@ namespace RelayControlLibrary
 
         public decimal GetFixed_12FracBits(decimal value)
         {
-            Int16 temp;
-            temp = (Int16)(value / Constants.TwelveFracBits);
+            //Int16 temp;
+            //temp = (Int16)(value / Constants.TwelveFracBits);
+            Int32 temp;
+            temp = (Int32)(value / Constants.TwelveFracBits);
             return (decimal)temp;
         }
 
@@ -988,6 +991,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[0]).ToString() + " is not a valid Trip Mode Character."));
             }
             //TimeDelay
@@ -1003,6 +1007,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(temp.ToString() + " is not a valid Time Delay Value."));
             }
             try
@@ -1014,8 +1019,8 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(temp.ToString() + " is not a valid Extended Time Delay Value."));
-
             }
             try
             {
@@ -1026,6 +1031,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(temp.ToString() + " is not a valid Sensitive Time Delay Value."));
                 throw new Exception("Bad Trip Delay Value");
             }
@@ -1067,6 +1073,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Sensitive Trip Value."));
             }
 
@@ -1105,6 +1112,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Sensitive Trip Angle."));
             }
 
@@ -1128,6 +1136,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Instantaneous Current Value."));
             }
 
@@ -1151,6 +1160,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Insensitive Trip Value."));
             }
 
@@ -1168,6 +1178,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(tempD.ToString() + " is not a valid Watt Varr Value."));
             }
 
@@ -1202,6 +1213,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 this.errorHandler(new Exception(Math.Round(tempD).ToString() + " is not a valid Watt Varr Angle."));
             }
 
@@ -1243,7 +1255,10 @@ namespace RelayControlLibrary
                     this.numericUpDownGullWingAngle.Value = 180m + tempD;
                 }
             }
-            catch { }
+            catch 
+            {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
+            }
 
             try
             {
@@ -1281,8 +1296,8 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
+                dataBackupTM.dataBackup_tripModeDefaults = true;
                 Exception except = new Exception("Error Setting Trip Style, Trip Mode", ex);
-
                 this.errorHandler(except);
             }
 
@@ -1619,7 +1634,8 @@ namespace RelayControlLibrary
             displayType = eDisplayType.Relay;
         }
 
-        private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
+        public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
             this.restoreDefaults();
         }
