@@ -413,6 +413,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RelayControlLibrary\RelayControlLibrary.csproj">
+      <Project>{b0e5f73e-dc0b-4be0-8bbf-1903864d67df}</Project>
+      <Name>RelayControlLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedResources\SharedResources.csproj">
       <Project>{937d58ba-e306-4996-b9a9-9e577e80fdbf}</Project>
       <Name>SharedResources</Name>

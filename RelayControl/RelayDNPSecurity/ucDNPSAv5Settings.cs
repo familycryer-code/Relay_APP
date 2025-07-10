@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RelayControlLibrary;
 using SharedResources;
 
 namespace RelayDNPSecurity
@@ -230,6 +231,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("Error Setting DNP SAv5 bit Settings: " + ex.ToString()), "Error Setting DNP SAv5 bit");
             }
 
@@ -242,6 +244,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception(tempByte.ToString() + " not a valid index value for DNP SAv5 Key Change ALgorithm.  Threw error: " + ex.ToString()), "Error Setting KeyChange Algorithm");
             }
 
@@ -256,6 +259,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting Reply Timeout: " + ex.ToString()), "Error Changing SAv5 Timeout");
             }
 
@@ -269,6 +273,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting Session Key Interval: " + ex.ToString()), "Error Setting SAv5 Session Key");
             }
 
@@ -282,8 +287,8 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting Session Key Change Count: " + ex.ToString()), "Error Setting SAv5 Session Key Change Count");
-
             }
 
             try
@@ -292,6 +297,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting Max Session Key Change Count: " + ex.ToString()), "Error Setting SAv5 Max Session Key Change");
             }
 
@@ -301,6 +307,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting MAC Algorithm: " + ex.ToString()), "Error Setting SAv5 MAC Algorithm");
             }
 
@@ -316,6 +323,7 @@ namespace RelayDNPSecurity
             }
             catch (Exception ex)
             {
+                dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting Security Thresholds: " + ex.ToString()), "Error Setting SAv5 Security Thresholds");
             }
 

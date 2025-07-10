@@ -2169,7 +2169,7 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.timerTimeout.Stop();
-
+            Thread.Sleep(6000); // delay 6 seconds
             if (!this.loadMasterFirst)
             {
                 if (this.autoLoad)

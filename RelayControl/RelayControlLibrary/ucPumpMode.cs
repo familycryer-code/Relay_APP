@@ -325,6 +325,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupPM.dataBackup_pumpModeDefaults = true;
                 this.errorHandler(new Exception("Problem with Pump Enable Value"));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.buttonSend_Click(this, new EventArgs());
@@ -335,6 +336,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupPM.dataBackup_pumpModeDefaults = true;
                 this.errorHandler(new Exception(bytePacket[1].ToString() + " is not a valid Cycle Limit value."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.buttonSend_Click(this, new EventArgs());
@@ -349,6 +351,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupPM.dataBackup_pumpModeDefaults = true;
                 this.errorHandler(new Exception(tempM.ToString() + " is not a valid Pump Time value."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.buttonSend_Click(this, new EventArgs());
@@ -368,6 +371,7 @@ namespace RelayControlLibrary
             }
             catch
             {
+                dataBackupPM.dataBackup_pumpModeDefaults = true;
                 this.errorHandler(new Exception(bytePacket[4].ToString() + " is not a valid Pump Protect Time value."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.buttonSend_Click(this, new EventArgs());
@@ -390,6 +394,7 @@ namespace RelayControlLibrary
                     }
                     else
                     {
+                        dataBackupPM.dataBackup_pumpModeDefaults = true;
                         this.errorHandler(new Exception(bytePacket[5].ToString() + " is not a valid Motor Cycle value."));
                         this.buttonRestoreDefaults_Click(this, new EventArgs());
                         this.buttonSend_Click(this, new EventArgs());
@@ -410,6 +415,7 @@ namespace RelayControlLibrary
                     }
                     else
                     {
+                        dataBackupPM.dataBackup_pumpModeDefaults = true;
                         this.errorHandler(new Exception(bytePacket[6].ToString() + " is not a valid Motor Timeout value."));
                         this.buttonRestoreDefaults_Click(this, new EventArgs());
                         this.buttonSend_Click(this, new EventArgs());

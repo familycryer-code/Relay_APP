@@ -164,18 +164,18 @@ namespace RelayControlLibrary
             "Time Delay",
             "Watt-Var",
             "Adaptive"};
+       
+       /* string[] conEdTripModes = new string[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay"};
 
-        //string[] conEdTripModes = new string[] {
-        //    "Sensitive",
-        //    "Insensitive",
-        //    "Time Delay"};
-
-        //string[] nonConEdTripModes = new string[] {
-        //    "Sensitive",
-        //    "Insensitive",
-        //    "Time Delay",
-        //    "Watt-Var"};
-
+        string[] nonConEdTripModes = new string[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Watt-Var"};
+       */
         private void makeConEd()
         {
             int savedSelectedIndex = this.listBoxTripModes.SelectedIndex;
@@ -751,7 +751,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.Display_adaptiveTrip_Settings();
                     break;
-
+                
             }
 
             this.modeChanged();

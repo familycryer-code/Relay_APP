@@ -636,8 +636,8 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.button_dataStore.Enabled = true;
-                this.button_dataStore.Visible = true;
+                this.button_dataStore.Enabled = false;
+                this.button_dataStore.Visible = false;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -9921,98 +9921,109 @@ namespace RelayControl
 
         private void writeDNPSAv5SettingsDataBackUp_ToMaster()
         {
-            //=======================      ( 'D' + 'S' )      ===================================================
-            byte[] packet_DS = new byte[98];
-            string lineRead;
-            StreamReader srDS = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            int DS = 1; // go to the beginning of the data backup file
-            while (DS <= 312)
+            if (dataBackupTX.dataBackup_txDefaults == false) //if not loading SAv5 defaults - and loading old SAv5 params back to the relay
             {
-                lineRead = srDS.ReadLine(); //Read the next line untill we reach the begining of data with command 'D' + 'S'
-                DS++;
-            }
+                //=======================      ( 'D' + 'S' )      ===================================================
+                byte[] packet_DS = new byte[98];
+                string lineRead;
+                StreamReader srDS = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+                int DS = 1; // go to the beginning of the data backup file
+                while (DS <= 312)
+                {
+                    lineRead = srDS.ReadLine(); //Read the next line untill we reach the begining of data with command 'D' + 'S'
+                    DS++;
+                }
 
-            packet_DS[0] = 68;    // 'D'
-            /* packet_DS[1] = 83;    // 'S'  
-             packet_DS[2] = 0;
-             packet_DS[3] = 8;     // Aggressive mode enabled + SHA1 enabled + authentication enabled + Key change algorithm selection
-             packet_DS[4] = 0;
-             packet_DS[5] = 20;
-             packet_DS[6] = 0;
-             packet_DS[7] = 8;
-             packet_DS[8] = 7;
-             packet_DS[9] = 160;
-             packet_DS[10] = 15;
-             packet_DS[11] = 5;
-             packet_DS[12] = 2;
-             packet_DS[13] = 3;
-             packet_DS[14] = 0;
-             packet_DS[15] = 5;
-             packet_DS[16] = 0;
-             packet_DS[17] = 5;
-             packet_DS[18] = 0;
-             packet_DS[19] = 3;
-             packet_DS[20] = 0;
-             packet_DS[21] = 3;
-             packet_DS[22] = 0;
-             packet_DS[23] = 100;
-             packet_DS[24] = 0;
-             packet_DS[25] = 100;
-             packet_DS[26] = 0;
-             packet_DS[27] = 100;
-             packet_DS[28] = 0;
-             packet_DS[29] = 100;
-             packet_DS[30] = 0;
-             packet_DS[31] = 10;
-             packet_DS[32] = 0;
-             packet_DS[33] = 2;
-             packet_DS[34] = 0;
-             packet_DS[35] = 10;
-             packet_DS[36] = 0;
-             packet_DS[37] = 100;
-             packet_DS[38] = 0;
-             packet_DS[39] = 10;
-             packet_DS[40] = 0;
-             packet_DS[41] = 5;
-             packet_DS[42] = 0;
-             packet_DS[43] = 1;
-             packet_DS[44] = 0;
-             packet_DS[45] = 1;
-             for (int cnt = 46; cnt <= 96; cnt++)
-             {
-                 packet_DS[cnt] = 0;
-             }
-            */
+                packet_DS[0] = 68;    // 'D'
+                /* packet_DS[1] = 83;    // 'S'  
+                 packet_DS[2] = 0;
+                 packet_DS[3] = 8;     // Aggressive mode enabled + SHA1 enabled + authentication enabled + Key change algorithm selection
+                 packet_DS[4] = 0;
+                 packet_DS[5] = 20;
+                 packet_DS[6] = 0;
+                 packet_DS[7] = 8;
+                 packet_DS[8] = 7;
+                 packet_DS[9] = 160;
+                 packet_DS[10] = 15;
+                 packet_DS[11] = 5;
+                 packet_DS[12] = 2;
+                 packet_DS[13] = 3;
+                 packet_DS[14] = 0;
+                 packet_DS[15] = 5;
+                 packet_DS[16] = 0;
+                 packet_DS[17] = 5;
+                 packet_DS[18] = 0;
+                 packet_DS[19] = 3;
+                 packet_DS[20] = 0;
+                 packet_DS[21] = 3;
+                 packet_DS[22] = 0;
+                 packet_DS[23] = 100;
+                 packet_DS[24] = 0;
+                 packet_DS[25] = 100;
+                 packet_DS[26] = 0;
+                 packet_DS[27] = 100;
+                 packet_DS[28] = 0;
+                 packet_DS[29] = 100;
+                 packet_DS[30] = 0;
+                 packet_DS[31] = 10;
+                 packet_DS[32] = 0;
+                 packet_DS[33] = 2;
+                 packet_DS[34] = 0;
+                 packet_DS[35] = 10;
+                 packet_DS[36] = 0;
+                 packet_DS[37] = 100;
+                 packet_DS[38] = 0;
+                 packet_DS[39] = 10;
+                 packet_DS[40] = 0;
+                 packet_DS[41] = 5;
+                 packet_DS[42] = 0;
+                 packet_DS[43] = 1;
+                 packet_DS[44] = 0;
+                 packet_DS[45] = 1;
+                 for (int cnt = 46; cnt <= 96; cnt++)
+                 {
+                     packet_DS[cnt] = 0;
+                 }
+                */
 
-            lineRead = srDS.ReadLine(); //Read the next line
-            packet_DS[1] = Convert.ToByte(lineRead);
-
-            for (int cnt = 2; cnt <= 3; cnt++)
-            {
                 lineRead = srDS.ReadLine(); //Read the next line
-                if ((cnt % 2) != 0)//odd numbered ?
-                    packet_DS[2] = Convert.ToByte(lineRead);
-                else
-                    packet_DS[3] = Convert.ToByte(lineRead);
-            }
-            for (int cnt = 4; cnt <= 5; cnt++)
-            {
-                lineRead = srDS.ReadLine(); //Read the next line
-                if ((cnt % 2) != 0)//odd numbered ?
-                    packet_DS[4] = Convert.ToByte(lineRead);
-                else
-                    packet_DS[5] = Convert.ToByte(lineRead);
-            }
-            for (int cnt = 7; cnt <= 96; cnt++)
-            {
-                lineRead = srDS.ReadLine(); //Read the next line
-                packet_DS[cnt] = Convert.ToByte(lineRead);
-            }
+                packet_DS[1] = Convert.ToByte(lineRead);
+
+                for (int cnt = 2; cnt <= 3; cnt++)
+                {
+                    lineRead = srDS.ReadLine(); //Read the next line
+                    if ((cnt % 2) != 0)//odd numbered ?
+                        packet_DS[2] = Convert.ToByte(lineRead);
+                    else
+                        packet_DS[3] = Convert.ToByte(lineRead);
+                }
+                for (int cnt = 4; cnt <= 5; cnt++)
+                {
+                    lineRead = srDS.ReadLine(); //Read the next line
+                    if ((cnt % 2) != 0)//odd numbered ?
+                        packet_DS[4] = Convert.ToByte(lineRead);
+                    else
+                        packet_DS[5] = Convert.ToByte(lineRead);
+                }
+                for (int cnt = 7; cnt <= 96; cnt++)
+                {
+                    lineRead = srDS.ReadLine(); //Read the next line
+                    packet_DS[cnt] = Convert.ToByte(lineRead);
+                }
 
 
-            packet_DS[97] = 0x0D;
-            this.sendPacket(packet_DS);
-            Thread.Sleep(1000);   // 1 second delay
+                packet_DS[97] = 0x0D;
+                this.sendPacket(packet_DS);
+                Thread.Sleep(1000);   // 1 second delay
+            }//if not loading SAv5 defaults - and loading old SAv5 params back to the relay
+            else
+            {
+                // since SAv5 parameters from old firmware rev was found out to be bad / corrupt / out of range
+                // do not load that data ( which is backed up in the file)
+                // instead load the default SAv5 params to the relay with the new firmware
+                this.ucDNPSAv5Settings2.buttonDefault_Click(this, new EventArgs());
+                this.ucDNPSAv5Settings2.buttonSendSettings_Click(this, new EventArgs());
+            }
         }
 
         private void writeArcFaultDataBackUp_ToMaster()

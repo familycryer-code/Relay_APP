@@ -106,6 +106,11 @@ namespace RelayControlLibrary
             "Time Delay",
             "Watt-Var",
             "Adaptive"});
+           /*this.listBoxTripModes.Items.AddRange(new object[] {
+            "Sensitive",
+            "Insensitive",
+            "Time Delay",
+            "Watt-Var"});*/
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
             this.listBoxTripModes.Size = new System.Drawing.Size(75, 69);
@@ -663,7 +668,7 @@ namespace RelayControlLibrary
             0});
             this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(235, -2);
             this.numericUpDown_InCurrkW.Maximum = new decimal(new int[] {
-            150,//2880,
+            150,
             0,
             0,
             0});

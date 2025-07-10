@@ -211,7 +211,7 @@ namespace RelayControlLibrary
                 this.numericnumericUpDown_PermClVoltage.Visible= true;
                 this.lblUnitPerClVoltage.Enabled = true;
                 this.lblUnitPerClVoltage.Visible = true;
-
+              
             }
             catch (Exception ex)
             {
