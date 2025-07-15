@@ -45,8 +45,8 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("IB", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("IC", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
-            this.listBoxA1SensorSelect.SelectedIndex = 2;
-            this.listBoxA2SensorSelect.SelectedIndex = 2;
+            this.listBoxA1SensorSelect.SelectedIndex = 0;// 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 1;// 2;
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
             this.newButtonSensMonTX.Visible = false;

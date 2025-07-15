@@ -7602,6 +7602,21 @@ namespace RelayControl
                 Thread.Sleep(834);   // 1 seconds
             }
 
+            this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
+            Thread.Sleep(834);   // 2.5 seconds
+
+            this.ucDNP1.buttonSendAllDNPSettings_Click(this, new EventArgs());
+            Thread.Sleep(834);   // 2.5 seconds
+
+            this.ucDNPSAv5OSName2.sendOSName();
+            Thread.Sleep(834);   // 2.5 seconds
+           /* 
+            //this.ucDNPSAv5Settings2.buttonSendSettings_Click(this, new EventArgs());
+            this.ucDNPSAv5Settings2.buttonRequestSettings_Click(this, new EventArgs());
+            Thread.Sleep(3000);   // 2.5 seconds
+            this.ucDNPSAv5Settings2.sendSettings();
+            Thread.Sleep(834);   // 2.5 seconds
+           */
 #if DNP && ATLANTA
             this.ucTransmitter1.DNPCoverFlags = this.ucCoverFlags1.getDNPCoverFlagsByte();
             //this.ucTransmitterMonitoring1.setPolarityFromRelaySettings(); //this.ucTransmitter1.setPolarityFromRelaySettings();

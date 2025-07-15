@@ -42,8 +42,10 @@ namespace RelayControlLibrary
         {
             if (value)
             {
-                this.labelCurrentlyEnabled.BackColor = Color.LightBlue;
-                this.labelCurrentlyEnabled.Text = "Enabled";
+                //this.labelCurrentlyEnabled.BackColor = Color.LightBlue;
+                this.labelCurrentlyEnabled.BackColor = Color.Yellow;
+                //this.labelCurrentlyEnabled.Text = "Enabled";
+                this.labelCurrentlyEnabled.Text = "ENABLED";
             }
             else
             {

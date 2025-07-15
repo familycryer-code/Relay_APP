@@ -876,7 +876,7 @@ namespace RelayControlLibrary
                 CloseModeDef.CloseMode = CloseModes.Normal;
 #else // SEATTLE, DOMINION, CHICAGO, BGE
                 this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.5m;
+                this.numericUpDownRecloseVolts.Value = 1.4m;
                 this.numericUpDownPDA.Value = -5;
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.checkBoxCircleClose.Checked = false;

@@ -102,15 +102,10 @@ namespace RelayControlLibrary
             this.listBoxTripModes.FormattingEnabled = true;
             this.listBoxTripModes.Items.AddRange(new object[] {
             "Sensitive",
-            "Insensitive",
             "Time Delay",
+            "Insensitive",
             "Watt-Var",
             "Adaptive"});
-           /*this.listBoxTripModes.Items.AddRange(new object[] {
-            "Sensitive",
-            "Insensitive",
-            "Time Delay",
-            "Watt-Var"});*/
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
             this.listBoxTripModes.Size = new System.Drawing.Size(75, 69);
@@ -365,10 +360,10 @@ namespace RelayControlLibrary
             this.domainUpDownType.Items.Add("Relay");
             this.domainUpDownType.Items.Add("Percent");
             this.domainUpDownType.Items.Add("Protector");
-            this.domainUpDownType.Location = new System.Drawing.Point(173, 21);
+            this.domainUpDownType.Location = new System.Drawing.Point(220, 21);
             this.domainUpDownType.Name = "domainUpDownType";
             this.domainUpDownType.ReadOnly = true;
-            this.domainUpDownType.Size = new System.Drawing.Size(120, 20);
+            this.domainUpDownType.Size = new System.Drawing.Size(78, 20);
             this.domainUpDownType.TabIndex = 31;
             this.domainUpDownType.Text = "Relay";
             this.domainUpDownType.SelectedItemChanged += new System.EventHandler(this.domainUpDownType_SelectedItemChanged);
@@ -541,16 +536,17 @@ namespace RelayControlLibrary
             // domainUpDownTripStyle
             // 
             this.domainUpDownTripStyle.BackColor = System.Drawing.SystemColors.Window;
-            this.domainUpDownTripStyle.Items.Add("Hold Trip");
-            this.domainUpDownTripStyle.Items.Add("Pulse Trip");
-            this.domainUpDownTripStyle.Items.Add("Single Attempt");
+            this.domainUpDownTripStyle.Items.Add("Hold Trip (Troubleshooting Only)");
+            this.domainUpDownTripStyle.Items.Add("Continuous Pulse");
+            this.domainUpDownTripStyle.Items.Add("3 Pulse, then off");
             this.domainUpDownTripStyle.Items.Add("Short Trip");
-            this.domainUpDownTripStyle.Location = new System.Drawing.Point(57, 21);
+            this.domainUpDownTripStyle.Location = new System.Drawing.Point(52, 21);
             this.domainUpDownTripStyle.Name = "domainUpDownTripStyle";
             this.domainUpDownTripStyle.ReadOnly = true;
-            this.domainUpDownTripStyle.Size = new System.Drawing.Size(102, 20);
+            this.domainUpDownTripStyle.Size = new System.Drawing.Size(150, 20);
             this.domainUpDownTripStyle.TabIndex = 53;
-            this.domainUpDownTripStyle.Text = "Hold Trip";
+            this.domainUpDownTripStyle.Text = "Hold Trip (Troubleshooting Only)";
+            this.domainUpDownTripStyle.SelectedItemChanged += new System.EventHandler(this.domainUpDownTripStyle_SelectedItemChanged);
             // 
             // labelTripStyle
             // 

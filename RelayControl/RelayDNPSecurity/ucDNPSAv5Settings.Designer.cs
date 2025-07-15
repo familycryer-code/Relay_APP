@@ -1,4 +1,6 @@
-﻿namespace RelayDNPSecurity
+﻿using System.Windows.Forms;
+
+namespace RelayDNPSecurity
 {
     partial class ucDNPSAv5Settings
     {
@@ -181,7 +183,7 @@
             this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(66, 20);
             this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
             this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
-            1000,
+            4025,//1000,
             0,
             0,
             0});
@@ -207,7 +209,7 @@
             this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(66, 20);
             this.numericUpDownSessionKeyInterval.TabIndex = 4;
             this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
-            900,
+            1800,//900,
             0,
             0,
             0});
@@ -257,6 +259,8 @@
             0,
             0,
             0});
+            //this.numericUpDownReplyTimeout.ValueChanged += new System.EventHandler(this.numericUpDownReplyTimeout_ValueChanged);
+            ((Control)numericUpDownReplyTimeout).TextChanged += numericUpDownReplyTimeout_TextChanged;
             // 
             // labelReplyTimeout
             // 
@@ -316,6 +320,7 @@
             this.checkBoxAggressiveMode.TabIndex = 0;
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;
+            this.checkBoxAggressiveMode.Checked = true;
             // 
             // ucDNPSAv5Settings
             // 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using RelayControlLibrary;
 using SharedResources;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RelayDNPSecurity
 {
@@ -155,7 +156,14 @@ namespace RelayDNPSecurity
             }
         }
 
-        private void buttonRequestSettings_Click(object sender, EventArgs e)
+        //private void numericUpDownReplyTimeout_ValueChanged(object sender, EventArgs e)
+        private void numericUpDownReplyTimeout_TextChanged(object sender, EventArgs e)
+        {
+            this.numericUpDownReplyTimeout.Value = numericUpDownReplyTimeout.Value;
+        }
+
+        //private void buttonRequestSettings_Click(object sender, EventArgs e)
+        public void buttonRequestSettings_Click(object sender, EventArgs e)
         {
             this.RequestSettings();
         }

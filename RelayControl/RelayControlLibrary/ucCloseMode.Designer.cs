@@ -495,7 +495,7 @@ namespace RelayControlLibrary
             this.numericUpDown_FloatTime.Size = new System.Drawing.Size(67, 20);
             this.numericUpDown_FloatTime.TabIndex = 42;
             this.numericUpDown_FloatTime.Value = new decimal(new int[] {
-            20,
+            38,
             0,
             0,
             0});

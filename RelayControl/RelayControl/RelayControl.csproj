@@ -484,6 +484,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="TCPConnectionForm.resx">
       <DependentUpon>TCPConnectionForm.cs</DependentUpon>
