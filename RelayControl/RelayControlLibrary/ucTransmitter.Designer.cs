@@ -214,7 +214,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
-            //this.labelFlagPolarity = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -389,7 +388,7 @@
             this.buttonRestoreDefaults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(112, 23);
             this.buttonRestoreDefaults.TabIndex = 15;
-            this.buttonRestoreDefaults.Text = "Restore Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 
@@ -1798,7 +1797,7 @@
             this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusB);
             this.panelFlasgStatusWB.Controls.Add(this.label30);
             this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusA);
-            this.panelFlasgStatusWB.Location = new System.Drawing.Point(10, 256); //(193, 256);
+            this.panelFlasgStatusWB.Location = new System.Drawing.Point(10, 256);
             this.panelFlasgStatusWB.Name = "panelFlasgStatusWB";
             this.panelFlasgStatusWB.Size = new System.Drawing.Size(111, 217);
             this.panelFlasgStatusWB.TabIndex = 80;
@@ -2033,7 +2032,7 @@
             this.panelFlagSettings.Controls.Add(this.label6);
             this.panelFlagSettings.Controls.Add(this.label5);
             this.panelFlagSettings.Controls.Add(this.labelFlagSettingA);
-            this.panelFlagSettings.Location = new System.Drawing.Point(400, 10); //(362, 13);
+            this.panelFlagSettings.Location = new System.Drawing.Point(400, 10);
             this.panelFlagSettings.Name = "panelFlagSettings";
             this.panelFlagSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelFlagSettings.Size = new System.Drawing.Size(180, 217);
@@ -2396,24 +2395,11 @@
             this.labelFlagSettingA.TabIndex = 43;
             this.labelFlagSettingA.Text = "A:";
             this.labelFlagSettingA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            /*
-            // 
-            // labelFlagPolarity
-            // 
-            this.labelFlagPolarity.AutoSize = true;
-            this.labelFlagPolarity.Location = new System.Drawing.Point(427, 281);
-            this.labelFlagPolarity.Name = "labelFlagPolarity";
-            this.labelFlagPolarity.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelFlagPolarity.Size = new System.Drawing.Size(71, 13);
-            this.labelFlagPolarity.TabIndex = 85;
-            this.labelFlagPolarity.Text = "Flag Settings:";
-            this.labelFlagPolarity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            */
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(415, 5); //(291, 18);
+            this.label21.Location = new System.Drawing.Point(415, 5);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(71, 13);
@@ -2426,7 +2412,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label21);
-           // this.Controls.Add(this.labelFlagPolarity);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.labelGEWHDisplay);
             this.Controls.Add(this.checkBoxExtendedPLCMessage);

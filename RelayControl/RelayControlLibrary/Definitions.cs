@@ -2087,6 +2087,11 @@ namespace RelayControlLibrary
         public static bool dataBackup_sav5Defaults;
     }
 
+    public static class tripModeM
+    {
+        public static bool tripMode_message;
+    }
+
     public static class GeWhF
     {
         public static bool GeWh;

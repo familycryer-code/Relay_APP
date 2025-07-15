@@ -869,7 +869,7 @@ namespace RelayControlLibrary
                 //this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
                 this.buttonSendDeadBand.Location = new System.Drawing.Point(620, 570);
             }
-            this.buttonDefaults.Text = "Restore Defaults";
+            this.buttonDefaults.Text = "Restore Factory Defaults";
         }
 
         private void makeMemphis()

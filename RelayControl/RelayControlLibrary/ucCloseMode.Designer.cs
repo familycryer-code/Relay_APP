@@ -270,9 +270,9 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(100, 234);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(128, 234);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
-            this.buttonSendCloseData.Size = new System.Drawing.Size(75, 23);
+            this.buttonSendCloseData.Size = new System.Drawing.Size(55, 23);
             this.buttonSendCloseData.TabIndex = 28;
             this.buttonSendCloseData.Text = "Send";
             this.buttonSendCloseData.UseVisualStyleBackColor = true;
@@ -291,11 +291,12 @@ namespace RelayControlLibrary
             // 
             // buttonRestoreDefaults
             // 
+            this.buttonRestoreDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRestoreDefaults.Location = new System.Drawing.Point(0, 234);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(125, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
-            this.buttonRestoreDefaults.Text = "Restore Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 
@@ -311,9 +312,9 @@ namespace RelayControlLibrary
             // 
             // buttonRelaxClose
             // 
-            this.buttonRelaxClose.Location = new System.Drawing.Point(175, 234);
+            this.buttonRelaxClose.Location = new System.Drawing.Point(185, 234);
             this.buttonRelaxClose.Name = "buttonRelaxClose";
-            this.buttonRelaxClose.Size = new System.Drawing.Size(102, 23);
+            this.buttonRelaxClose.Size = new System.Drawing.Size(92, 23);
             this.buttonRelaxClose.TabIndex = 39;
             this.buttonRelaxClose.Text = "Relax Close";
             this.buttonRelaxClose.UseVisualStyleBackColor = true;
@@ -407,9 +408,9 @@ namespace RelayControlLibrary
             this.lblUnitFloatTime.AutoSize = true;
             this.lblUnitFloatTime.Location = new System.Drawing.Point(229, 135);
             this.lblUnitFloatTime.Name = "lblUnitFloatTime";
-            this.lblUnitFloatTime.Size = new System.Drawing.Size(49, 13);
+            this.lblUnitFloatTime.Size = new System.Drawing.Size(35, 13);
             this.lblUnitFloatTime.TabIndex = 47;
-            this.lblUnitFloatTime.Text = "Hours"; //"Seconds";
+            this.lblUnitFloatTime.Text = "Hours";
             this.lblUnitFloatTime.Visible = false;
             // 
             // numericnumericUpDown_PermClVoltage

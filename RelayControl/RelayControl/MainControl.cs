@@ -3546,6 +3546,7 @@ namespace RelayControl
                     //   this.SendAll_Message_PopUp1.Visible = false;
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
+                    tripModeM.tripMode_message = true;
                     if (dataB.oldDataBackup == true)
                     {
                         if (checkValidDataBackup())
@@ -7608,15 +7609,10 @@ namespace RelayControl
             this.ucDNP1.buttonSendAllDNPSettings_Click(this, new EventArgs());
             Thread.Sleep(834);   // 2.5 seconds
 
-            this.ucDNPSAv5OSName2.sendOSName();
-            Thread.Sleep(834);   // 2.5 seconds
-           /* 
-            //this.ucDNPSAv5Settings2.buttonSendSettings_Click(this, new EventArgs());
-            this.ucDNPSAv5Settings2.buttonRequestSettings_Click(this, new EventArgs());
-            Thread.Sleep(3000);   // 2.5 seconds
-            this.ucDNPSAv5Settings2.sendSettings();
-            Thread.Sleep(834);   // 2.5 seconds
-           */
+            /*
+             DNPSAv5 settings not sent with the PROGRAM button
+             */
+           
 #if DNP && ATLANTA
             this.ucTransmitter1.DNPCoverFlags = this.ucCoverFlags1.getDNPCoverFlagsByte();
             //this.ucTransmitterMonitoring1.setPolarityFromRelaySettings(); //this.ucTransmitter1.setPolarityFromRelaySettings();

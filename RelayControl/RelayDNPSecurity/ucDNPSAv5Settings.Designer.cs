@@ -183,7 +183,7 @@ namespace RelayDNPSecurity
             this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(66, 20);
             this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
             this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
-            4025,//1000,
+            4025,
             0,
             0,
             0});
@@ -209,7 +209,7 @@ namespace RelayDNPSecurity
             this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(66, 20);
             this.numericUpDownSessionKeyInterval.TabIndex = 4;
             this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
-            1800,//900,
+            1800,
             0,
             0,
             0});
@@ -259,8 +259,6 @@ namespace RelayDNPSecurity
             0,
             0,
             0});
-            //this.numericUpDownReplyTimeout.ValueChanged += new System.EventHandler(this.numericUpDownReplyTimeout_ValueChanged);
-            ((Control)numericUpDownReplyTimeout).TextChanged += numericUpDownReplyTimeout_TextChanged;
             // 
             // labelReplyTimeout
             // 
@@ -283,17 +281,19 @@ namespace RelayDNPSecurity
             // 
             // buttonDefault
             // 
-            this.buttonDefault.Location = new System.Drawing.Point(119, 260);
+            this.buttonDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDefault.Location = new System.Drawing.Point(85, 278);
             this.buttonDefault.Name = "buttonDefault";
-            this.buttonDefault.Size = new System.Drawing.Size(107, 23);
+            this.buttonDefault.Size = new System.Drawing.Size(125, 23);
             this.buttonDefault.TabIndex = 3;
-            this.buttonDefault.Text = "Set Defaults";
+            this.buttonDefault.Text = "Restore Factory Defaults";
+            this.buttonDefault.UseMnemonic = false;
             this.buttonDefault.UseVisualStyleBackColor = true;
             this.buttonDefault.Click += new System.EventHandler(this.buttonDefault_Click);
             // 
             // buttonRequestSettings
             // 
-            this.buttonRequestSettings.Location = new System.Drawing.Point(6, 260);
+            this.buttonRequestSettings.Location = new System.Drawing.Point(85, 249);
             this.buttonRequestSettings.Name = "buttonRequestSettings";
             this.buttonRequestSettings.Size = new System.Drawing.Size(107, 23);
             this.buttonRequestSettings.TabIndex = 2;
@@ -303,7 +303,7 @@ namespace RelayDNPSecurity
             // 
             // buttonSendSettings
             // 
-            this.buttonSendSettings.Location = new System.Drawing.Point(232, 260);
+            this.buttonSendSettings.Location = new System.Drawing.Point(85, 307);
             this.buttonSendSettings.Name = "buttonSendSettings";
             this.buttonSendSettings.Size = new System.Drawing.Size(103, 23);
             this.buttonSendSettings.TabIndex = 1;
@@ -314,13 +314,14 @@ namespace RelayDNPSecurity
             // checkBoxAggressiveMode
             // 
             this.checkBoxAggressiveMode.AutoSize = true;
+            this.checkBoxAggressiveMode.Checked = true;
+            this.checkBoxAggressiveMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAggressiveMode.Location = new System.Drawing.Point(19, 19);
             this.checkBoxAggressiveMode.Name = "checkBoxAggressiveMode";
             this.checkBoxAggressiveMode.Size = new System.Drawing.Size(150, 17);
             this.checkBoxAggressiveMode.TabIndex = 0;
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;
-            this.checkBoxAggressiveMode.Checked = true;
             // 
             // ucDNPSAv5Settings
             // 

@@ -112,7 +112,7 @@ namespace RelayControlLibrary
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(136, 231);
+            this.buttonSend.Location = new System.Drawing.Point(161, 230);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(75, 23);
             this.buttonSend.TabIndex = 13;
@@ -162,11 +162,12 @@ namespace RelayControlLibrary
             // 
             // buttonRestoreDefaults
             // 
+            this.buttonRestoreDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRestoreDefaults.Location = new System.Drawing.Point(15, 231);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(125, 23);
             this.buttonRestoreDefaults.TabIndex = 1;
-            this.buttonRestoreDefaults.Text = "Restore Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 
