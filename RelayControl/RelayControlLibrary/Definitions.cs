@@ -1947,7 +1947,9 @@ namespace RelayControlLibrary
             new BindingList<ProtectorVoltage> {
                 new ProtectorVoltage("125V", ProtectorVoltageEnum.V125, 1.0m, new ProtectorVoltageBits()),
                 new ProtectorVoltage("277V", ProtectorVoltageEnum.V277, 2.216m, ProtectorVoltageBits.V277),
-                new ProtectorVoltage("347V", ProtectorVoltageEnum.V346, 2.771m, ProtectorVoltageBits.V600)
+                #if !CONED
+                    new ProtectorVoltage("347V", ProtectorVoltageEnum.V346, 2.771m, ProtectorVoltageBits.V600)
+                #endif
             };
 
         public static ProtectorVoltage GetVoltage(ProtectorVoltageBits bits)

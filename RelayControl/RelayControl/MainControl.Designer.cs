@@ -1794,10 +1794,17 @@
             // comboBoxDNPVoltage
             // 
             this.comboBoxDNPVoltage.FormattingEnabled = true;
+#if !CONED
             this.comboBoxDNPVoltage.Items.AddRange(new object[] {
             "125",
             "277",
             "347"});
+#else
+            this.comboBoxDNPVoltage.Items.AddRange(new object[] {
+            "125",
+            "277"});
+#endif
+
             this.comboBoxDNPVoltage.Location = new System.Drawing.Point(119, 75);
             this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";

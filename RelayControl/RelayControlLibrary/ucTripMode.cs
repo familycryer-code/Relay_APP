@@ -1354,19 +1354,19 @@ namespace RelayControlLibrary
                 switch (dUP.SelectedIndex)
                 {
                     case 0:
-                        MessageBox.Show("Maintains the trip contact in the closed state as long as the trip condition exists");
+                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Maintains the trip contact in the closed state as long as the trip condition exists");
                         break;
                     case 1:
-                        MessageBox.Show("Continuously pulses the trip contact on and off at one-second intervals for the duration of the trip condition");
+                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Continuously pulses the trip contact on and off at one-second intervals for the duration of the trip conditions");
                         break;
                     case 2:
-                        MessageBox.Show("Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
+                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
                         break;
                     case 3:
-                        MessageBox.Show("Pulses the trip contact three times. If the trip still exists afterward, the contact opens. However, if a Close or Float condition is detected prior to the trip sequence being completed, the relay aborts the sequence and transitions immediately to the appropriate stat");
+                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times. If the trip still exists afterward, the contact opens. However, if a Close or Float condition is detected prior to the trip sequence being completed, the relay aborts the sequence and transitions immediately to the appropriate state");
                         break;
                     default:
-                        MessageBox.Show("Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
+                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
                         break;
                 }
             }

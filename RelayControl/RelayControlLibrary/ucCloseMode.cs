@@ -886,7 +886,7 @@ namespace RelayControlLibrary
                 this.checkBox1.Checked = false;
                 this.numericUpDownPDV.Value = 0.4m;
                 this.chkBox_EnablePermClose.Checked = true;
-                this.numericUpDown_FloatTime.Value = 20;
+                this.numericUpDown_FloatTime.Value = 38;// 20;
                 this.numericUpDown_PermClActTime.Value = 30;
                 this.numericnumericUpDown_PermClVoltage.Value = 5;
 #endif

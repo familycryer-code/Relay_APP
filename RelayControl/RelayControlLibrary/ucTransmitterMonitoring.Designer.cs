@@ -821,15 +821,26 @@ namespace RelayControlLibrary
             // 
             this.listBoxA2SensorSelect.FormattingEnabled = true;
             this.listBoxA2SensorSelect.ItemHeight = 16;
+#if !CONED
             this.listBoxA2SensorSelect.Items.AddRange(new object[] {
             "Oil Temperature",
             "Tank Pressure",
             "DGI Temperature",
             "Raw Number"});
-            this.listBoxA2SensorSelect.Location = new System.Drawing.Point(25, 52);
+#else
+            this.listBoxA2SensorSelect.Items.AddRange(new object[] {
+            "Tank Pressure"});
+#endif
+            
             this.listBoxA2SensorSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listBoxA2SensorSelect.Name = "listBoxA2SensorSelect";
+#if !CONED
+            this.listBoxA2SensorSelect.Location = new System.Drawing.Point(25, 52);
             this.listBoxA2SensorSelect.Size = new System.Drawing.Size(132, 68);
+#else
+            this.listBoxA2SensorSelect.Location = new System.Drawing.Point(25, 82);
+            this.listBoxA2SensorSelect.Size = new System.Drawing.Size(132, 30);
+#endif
             this.listBoxA2SensorSelect.TabIndex = 61;
             this.listBoxA2SensorSelect.TabStop = false;
             this.listBoxA2SensorSelect.SelectedIndexChanged += new System.EventHandler(this.listBoxA2SensorSelect_SelectedIndexChanged);
@@ -2115,15 +2126,27 @@ namespace RelayControlLibrary
             // 
             this.listBoxA1SensorSelect.FormattingEnabled = true;
             this.listBoxA1SensorSelect.ItemHeight = 16;
+#if !CONED
             this.listBoxA1SensorSelect.Items.AddRange(new object[] {
             "Oil Temperature",
             "Tank Pressure",
             "DGI Temperature",
             "Raw Number"});
-            this.listBoxA1SensorSelect.Location = new System.Drawing.Point(25, 52);
+#else
+            this.listBoxA1SensorSelect.Items.AddRange(new object[] {
+            "Oil Temperature"});
+#endif
+            
             this.listBoxA1SensorSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listBoxA1SensorSelect.Name = "listBoxA1SensorSelect";
+
+#if !CONED
+            this.listBoxA1SensorSelect.Location = new System.Drawing.Point(25, 52);
             this.listBoxA1SensorSelect.Size = new System.Drawing.Size(132, 68);
+#else
+            this.listBoxA1SensorSelect.Location = new System.Drawing.Point(25, 82);
+            this.listBoxA1SensorSelect.Size = new System.Drawing.Size(132, 30);
+#endif
             this.listBoxA1SensorSelect.TabIndex = 56;
             this.listBoxA1SensorSelect.TabStop = false;
             this.listBoxA1SensorSelect.SelectedIndexChanged += new System.EventHandler(this.listBoxA1SensorSelect_SelectedIndexChanged);

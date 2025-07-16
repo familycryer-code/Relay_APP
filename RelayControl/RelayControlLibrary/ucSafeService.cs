@@ -19,6 +19,7 @@ namespace RelayControlLibrary
             this.setCTRatioValues(this.cTRatio);
             this.domainUpDownDataViews.Items.AddRange(dataViews);
             this.domainUpDownDataViews.SelectedIndex = 0;
+            
             this.buttonRequest.Enabled = false;
             this.buttonRequest.Visible = false;
             toolTip.SetToolTip(this.numericUpDownCurrentImbalance, "Ratio between the Negative Sequence and the Positive Sequence of the Currents");
@@ -90,6 +91,7 @@ namespace RelayControlLibrary
                     tempValue = this.numericUpDownOverCurrent.Value / 20m;
                     break;
             }
+            
             try
             {
                 //low byte comes first
@@ -155,7 +157,7 @@ namespace RelayControlLibrary
                 this.send();
                 Thread.Sleep(1000);   //1 second delay
             }
-            
+
         }
 
         public void SendAll()
