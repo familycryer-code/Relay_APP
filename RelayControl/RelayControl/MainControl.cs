@@ -853,7 +853,8 @@ namespace RelayControl
         private void initializeToolTip()
         {
             this.toolTip.SetToolTip(this.comboBoxSavedStates, "Recall previously saved states");
-            this.toolTip.SetToolTip(this.domainUpDownCTRatioM, "Set to match the CT Ratio of the protector");
+            //this.toolTip.SetToolTip(this.domainUpDownCTRatioM, "Set to match the CT Ratio of the protector");
+            this.toolTip.SetToolTip(this.comboBox_CTRatio, "Set to match the CT Ratio of the protector");
             this.toolTip.SetToolTip(this.domainUpDownPhasings, "How to determine phasing of the protector");
             this.toolTip.SetToolTip(this.domainUpDownRelayType, "Changes Relay Algorithm");
             this.toolTip.SetToolTip(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
@@ -1565,7 +1566,8 @@ namespace RelayControl
                         this.buttonRQEventData.Enabled = true;
                         this.buttonClearEvents.Enabled = true;
                         this.buttonReqLiveData.Enabled = true;
-                        this.domainUpDownCTRatioM_SelectedItemChanged(this.domainUpDownCTRatioM, new EventArgs()); //put this in to properly grey out CT Ratio box when necessary
+                        //this.domainUpDownCTRatioM_SelectedItemChanged(this.domainUpDownCTRatioM, new EventArgs()); //put this in to properly grey out CT Ratio box when necessary
+                        this.comboBox_CTRatio_SelectedItemChanged(this.comboBox_CTRatio, new EventArgs()); //put this in to properly grey out CT Ratio box when necessary
                     }
 
                     this.allEnabled = b;
@@ -3351,8 +3353,8 @@ namespace RelayControl
                 this.CTRatio += settings[6];
 
                 this.updateCTRatio(this.CTRatio);
-                this.updateCTRatioDomain(this.CTRatio, this.domainUpDownCTRatioM);
-
+                //this.updateCTRatioDomain(this.CTRatio, this.domainUpDownCTRatioM);
+                this.updateCTRatioDomain(this.CTRatio, this.comboBox_CTRatio.SelectedIndex);
             }
             catch
             {
@@ -3547,7 +3549,7 @@ namespace RelayControl
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                    if (dataB.oldDataBackup == true)
+                    /*if (dataB.oldDataBackup == true)
                     {
                         if (checkValidDataBackup())
                         {
@@ -3555,7 +3557,7 @@ namespace RelayControl
                             dataB.oldDataBackup = false;
                             MessageBox.Show("Backup data loaded to the Relay !");
                         }
-                    }
+                    }*/
                 }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
@@ -3607,7 +3609,7 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+               /* if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
                 {
                     // If Master uP revision is less than Rev 10, backup its data to the computer
                     // And rewrite that data to go with the rev 10 firmware after programming is done
@@ -3621,12 +3623,12 @@ namespace RelayControl
                     dataB.oldDataBackup = true;
                     if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
                     {//if relay has old DNP firmware
-                        dataBackupD.dataBackup_withDNP = true;
+                        dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
                     }
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
 
-                }
+                }*/
 
                 ucRelayProgramming1.InitializeAutoload();
             }
@@ -3655,36 +3657,46 @@ namespace RelayControl
                 tabControlMain_SelectedIndexChanged(null, null);
         }
 
-        private void updateCTRatioDomain(int CT_ratio, DomainUpDown dUP)
+        //private void updateCTRatioDomain(int CT_ratio, DomainUpDown dUP)
+        private void updateCTRatioDomain(int CT_ratio, int comboBoxCT)
         {
             switch (CT_ratio)
             {
                 case 160:
-                    this.setDomainIndex(7, dUP);
+                    //this.setDomainIndex(7, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 7;
                     break;
                 case 240:
-                    this.setDomainIndex(6, dUP);
+                    //this.setDomainIndex(6, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 6;
                     break;
                 case 320:
-                    this.setDomainIndex(5, dUP);
+                    //this.setDomainIndex(5, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 5;
                     break;
                 case 400:
-                    this.setDomainIndex(4, dUP);
+                    //this.setDomainIndex(4, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 4;
                     break;
                 case 500:
-                    this.setDomainIndex(3, dUP);
+                    //this.setDomainIndex(3, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 3;
                     break;
                 case 600:
-                    this.setDomainIndex(2, dUP);
+                    //this.setDomainIndex(2, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 2;
                     break;
                 case 700:
-                    this.setDomainIndex(1, dUP);
+                    //this.setDomainIndex(1, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 1;
                     break;
                 case 750:
-                    this.setDomainIndex(0, dUP);
+                    //this.setDomainIndex(0, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 0;
                     break;
                 default:
-                    this.setDomainIndex(8, dUP);
+                    //this.setDomainIndex(8, comboBoxCT);
+                    this.comboBox_CTRatio.SelectedIndex = 8;
                     break;
             }
         }
@@ -5730,12 +5742,16 @@ namespace RelayControl
              * 8   "Special"
              */
 #if SEATTLE || DOMINION || CHICAGO || ATLANTA || ENMAX || MADISON || MEMPHIS //|| LONDONH
-            this.domainUpDownCTRatioM.SelectedIndex = 2;
+            //this.domainUpDownCTRatioM.SelectedIndex = 2;
+            this.comboBox_CTRatio.SelectedIndex = 2;
 #elif CONED || LONDONH || ONCOR
-            this.domainUpDownCTRatioM.SelectedIndex = 5;
+            //this.domainUpDownCTRatioM.SelectedIndex = 5;
+            this.comboBox_CTRatio.SelectedIndex = 5;
 #else
-            this.domainUpDownCTRatioM.SelectedIndex = 5;
+            //this.domainUpDownCTRatioM.SelectedIndex = 5;
+            this.comboBox_CTRatio.SelectedIndex = 5;
 #endif
+
         }
 
         private bool pauseMonitoring = false;
@@ -6442,7 +6458,8 @@ namespace RelayControl
         {
             int cTRatio5 = this.CTRatio;
 
-            if (this.domainUpDownCTRatioM.SelectedIndex == 8)
+            //if (this.domainUpDownCTRatioM.SelectedIndex == 8)
+            if (this.comboBox_CTRatio.SelectedIndex == 8)
             {
                 try
                 {
@@ -6490,13 +6507,15 @@ namespace RelayControl
             }
         }
 
-        private void domainUpDownCTRatioM_SelectedItemChanged(object sender, EventArgs e)
+        //private void domainUpDownCTRatioM_SelectedItemChanged(object sender, EventArgs e)
+        private void comboBox_CTRatio_SelectedItemChanged(object sender, EventArgs e)
         {
-            DomainUpDown dUD = (DomainUpDown)sender;
+            //DomainUpDown dUD = (DomainUpDown)sender;
             int ratio = this.CTRatio;
             int ratio5 = this.CTRatio * 5;
 
-            switch (dUD.SelectedIndex)
+            //switch (dUD.SelectedIndex)
+            switch (this.comboBox_CTRatio.SelectedIndex)
             {
                 case 7:
                     ratio = 160;
@@ -6540,11 +6559,12 @@ namespace RelayControl
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
-                case 0:
+                case 0: //3750 : 5
                     ratio = 750;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
+                    this.comboBox_CTRatio.Text = "3750:5";
                     break;
                 case 8:
                     try
@@ -7498,7 +7518,8 @@ namespace RelayControl
                 this.ucSafeService1.SetAllValues(sS.SafeServiceSettings);
             }
 
-            this.updateCTRatioDomain(sS.CTRatio, this.domainUpDownCTRatioM);
+            //this.updateCTRatioDomain(sS.CTRatio, this.domainUpDownCTRatioM);
+            this.updateCTRatioDomain(this.CTRatio, this.comboBox_CTRatio.SelectedIndex);
             this.updateCTRatio(sS.CTRatio);
 
             this.domainUpDownPhasings.SelectedIndex = sS.Phasing;
@@ -7757,7 +7778,8 @@ namespace RelayControl
 
         void ucTransmitter1_CTChanged(object sender, EventArgs e)
         {
-            this.updateCTRatioDomain((int)this.ucTransmitter1.CTRatio, this.domainUpDownCTRatioM);
+            //this.updateCTRatioDomain((int)this.ucTransmitter1.CTRatio, this.domainUpDownCTRatioM);
+            this.updateCTRatioDomain(this.CTRatio, this.comboBox_CTRatio.SelectedIndex);
             this.updateCTRatio((int)this.ucTransmitter1.CTRatio);
         }
 
@@ -7771,8 +7793,8 @@ namespace RelayControl
                 this.CTRatio = 320;
                 ratio = 320;
                 ratio5 = 1600;
-                this.domainUpDownCTRatioM.SelectedIndex = 4;
-
+                //this.domainUpDownCTRatioM.SelectedIndex = 4;
+                this.comboBox_CTRatio.SelectedIndex = 4;
 
             }
             if (ratio5 > 12750)
@@ -7781,7 +7803,8 @@ namespace RelayControl
                 this.CTRatio = 320;
                 ratio = 320;
                 ratio5 = 1600;
-                this.domainUpDownCTRatioM.SelectedIndex = 4;
+                //this.domainUpDownCTRatioM.SelectedIndex = 4;
+                this.comboBox_CTRatio.SelectedIndex = 4;
                 this.updateCTRatio(ratio5);
             }
             this.ucPhasorGraph1.CTRatio = ratio;
@@ -8878,7 +8901,7 @@ namespace RelayControl
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (!this.ucRelayProgramming1.IsMasterRev10orMore()) 
-            if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
+          /*  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
             {
                 string text1 = "Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process";
                 MessageBox.Show(text1);
@@ -8892,8 +8915,8 @@ namespace RelayControl
                 // And rewrite that data to go with the rev 10 firmware after programming is done
                 dataB.oldDataBackup = true;
                 this.BackUpRelayDatatoFile();
-           }
-            Thread.Sleep(16000); // 13 seconds
+           }*/
+           // Thread.Sleep(16000); // 13 seconds
             this.ucRelayProgramming1.InitialAutoLoadFiles();
             this.checkedDNPEnable = false;
         }

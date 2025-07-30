@@ -1032,7 +1032,21 @@ namespace RelayControlLibrary
             }
             else
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
+                /*  this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
+                  this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
+
+                  this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                  this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+                */
+
+                if (relayHBD.relayWithHBD == true)
+                {
+                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
+                }
+                else if (relayHBD.relayWithHBD == false) // SEC
+                {
+                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
+                }
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
 
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;

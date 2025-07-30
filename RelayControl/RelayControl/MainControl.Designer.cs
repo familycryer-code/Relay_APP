@@ -239,6 +239,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.comboBox_CTRatio = new System.Windows.Forms.ComboBox();
             this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
@@ -1794,17 +1795,9 @@
             // comboBoxDNPVoltage
             // 
             this.comboBoxDNPVoltage.FormattingEnabled = true;
-#if !CONED
-            this.comboBoxDNPVoltage.Items.AddRange(new object[] {
-            "125",
-            "277",
-            "347"});
-#else
             this.comboBoxDNPVoltage.Items.AddRange(new object[] {
             "125",
             "277"});
-#endif
-
             this.comboBoxDNPVoltage.Location = new System.Drawing.Point(119, 75);
             this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
@@ -1912,6 +1905,7 @@
             // groupBoxNetworkCTRatio
             // 
             this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxNetworkCTRatio.Controls.Add(this.comboBox_CTRatio);
             this.groupBoxNetworkCTRatio.Controls.Add(this.labelOver5);
             this.groupBoxNetworkCTRatio.Controls.Add(this.label27);
             this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
@@ -1985,7 +1979,7 @@
             this.domainUpDownCTRatioM.Size = new System.Drawing.Size(71, 21);
             this.domainUpDownCTRatioM.TabIndex = 62;
             this.domainUpDownCTRatioM.Text = "1600:5";
-            this.domainUpDownCTRatioM.SelectedItemChanged += new System.EventHandler(this.domainUpDownCTRatioM_SelectedItemChanged);
+      //      this.domainUpDownCTRatioM.SelectedItemChanged += new System.EventHandler(this.domainUpDownCTRatioM_SelectedItemChanged);
             // 
             // groupBoxRelayFlags
             // 
@@ -2746,6 +2740,26 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
+            // comboBox_CTRatio
+            // 
+            this.comboBox_CTRatio.FormattingEnabled = true;
+            this.comboBox_CTRatio.Items.AddRange(new object[] {
+            "3750:5",
+            "3500:5",
+            "3000:5",
+            "2500:5",
+            "2000:5",
+            "1600:5",
+            "1200:5",
+            "800:5",
+            "Special"});
+            this.comboBox_CTRatio.Location = new System.Drawing.Point(133, 20);
+            this.comboBox_CTRatio.Name = "comboBox_CTRatio";
+            this.comboBox_CTRatio.Size = new System.Drawing.Size(62, 23);
+            this.comboBox_CTRatio.TabIndex = 74;
+            this.comboBox_CTRatio.Text = "1600:5";
+            this.comboBox_CTRatio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CTRatio_SelectedItemChanged);
+            // 
             // ucForceCustomerSwitch1
             // 
             this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
@@ -3052,5 +3066,6 @@
         private System.Windows.Forms.PictureBox pictureBox_SendAll;
         private System.Windows.Forms.Timer timer_SendAll_GIF;
         private System.Windows.Forms.Button button_dataStore;
+        private System.Windows.Forms.ComboBox comboBox_CTRatio;
     }
 }

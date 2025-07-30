@@ -17,9 +17,10 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             this.setCTRatioValues(this.cTRatio);
-            this.domainUpDownDataViews.Items.AddRange(dataViews);
-            this.domainUpDownDataViews.SelectedIndex = 0;
-            
+           // this.domainUpDownDataViews.Items.AddRange(dataViews);
+            //this.domainUpDownDataViews.SelectedIndex = 0;
+            this.comboBox_DataViews.SelectedIndex = 0;
+
             this.buttonRequest.Enabled = false;
             this.buttonRequest.Visible = false;
             toolTip.SetToolTip(this.numericUpDownCurrentImbalance, "Ratio between the Negative Sequence and the Positive Sequence of the Currents");
@@ -28,7 +29,8 @@ namespace RelayControlLibrary
             toolTip.SetToolTip(this.numericUpDownOverCurrent, "Current required in any phase (or ground) before looking at /rCurrent Imbalance, Low Voltage and Voltage Imbalance");
             toolTip.SetToolTip(this.numericUpDownVoltageImbalance, "Negative Sequence of the Network Voltages");
             toolTip.SetToolTip(this.comboBoxSSEnable, "Enable or Disable the mode");
-            toolTip.SetToolTip(this.domainUpDownDataViews, "Selects the way the values are viewed in the APP");
+            //toolTip.SetToolTip(this.domainUpDownDataViews, "Selects the way the values are viewed in the APP");
+            toolTip.SetToolTip(this.comboBox_DataViews, "Selects the way the values are viewed in the APP");
         }
 
         public bool EnableSafeService
@@ -78,20 +80,33 @@ namespace RelayControlLibrary
             sEA.WithAck = true;
 
             decimal tempValue;
-            switch (this.domainUpDownDataViews.SelectedIndex)
+            /* switch (this.domainUpDownDataViews.SelectedIndex)
+             {
+                 case 0:
+                 default:
+                     tempValue = this.numericUpDownOverCurrent.Value;
+                     break;
+                 case 1:
+                     tempValue = this.numericUpDownOverCurrent.Value / (decimal)this.CTRatio;
+                     break;
+                 case 2:
+                     tempValue = this.numericUpDownOverCurrent.Value / 20m;
+                     break;
+             }*/
+            switch (this.comboBox_DataViews.SelectedIndex)
             {
-                case 0:
+                case 0: // relay
                 default:
                     tempValue = this.numericUpDownOverCurrent.Value;
                     break;
-                case 1:
+                case 1: // protector
                     tempValue = this.numericUpDownOverCurrent.Value / (decimal)this.CTRatio;
                     break;
-                case 2:
+                case 2: // percent
                     tempValue = this.numericUpDownOverCurrent.Value / 20m;
                     break;
             }
-            
+
             try
             {
                 //low byte comes first
@@ -236,7 +251,20 @@ namespace RelayControlLibrary
                 tempI <<= 8;
                 tempI += bytePacket[3];
 
-                switch (this.domainUpDownDataViews.SelectedIndex)
+                /* switch (this.domainUpDownDataViews.SelectedIndex)
+                 {
+                     case 0:
+                     default:
+                         this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI);
+                         break;
+                     case 1:
+                         this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI * (uint)this.CTRatio);
+                         break;
+                     case 2:
+                         this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI * 20);
+                         break;
+                 }*/
+                switch (this.comboBox_DataViews.SelectedIndex)
                 {
                     case 0:
                     default:
@@ -347,7 +375,8 @@ namespace RelayControlLibrary
             this.cTRatio = value;
 
             // If it is set to "Protector"
-            if (this.domainUpDownDataViews.SelectedIndex == 1)
+            //if (this.domainUpDownDataViews.SelectedIndex == 1)
+            if (this.comboBox_DataViews.SelectedIndex == 1)
             {
                 this.numericUpDownOverCurrent.Value = 5;
                 this.numericUpDownOverCurrent.Maximum = this.cTRatio * 5 * 6;
@@ -367,12 +396,13 @@ namespace RelayControlLibrary
         private ToolTip toolTip = new ToolTip();
         private int previousSelectedItem = 0;
 
-        private void domainUpDownDataViews_SelectedItemChanged(object sender, EventArgs e)
+        //private void domainUpDownDataViews_SelectedItemChanged(object sender, EventArgs e)
+        private void comboBox_DataViews_SelectedItemChanged(object sender, EventArgs e)
         {
             try
             {
                 decimal currentValue;
-                DomainUpDown doUp = (DomainUpDown)sender;
+                //DomainUpDown doUp = (DomainUpDown)sender;
 
                 switch (previousSelectedItem)
                 {
@@ -388,7 +418,8 @@ namespace RelayControlLibrary
                         break;
                 }
 
-                switch (doUp.SelectedIndex)
+                //switch (doUp.SelectedIndex)
+                switch (this.comboBox_DataViews.SelectedIndex)
                 {
                     case 0:
                         this.labelOverCurrentUnits.Text = "mA";
@@ -406,7 +437,8 @@ namespace RelayControlLibrary
 
                 this.numericUpDownOverCurrent.Value = 0;
 
-                switch (this.domainUpDownDataViews.SelectedIndex)
+                // switch (this.domainUpDownDataViews.SelectedIndex)
+                switch (this.comboBox_DataViews.SelectedIndex)
                 {
                     case 0:
                     default:
@@ -529,7 +561,8 @@ namespace RelayControlLibrary
                 sSSS.VoltageImbalance = this.numericUpDownVoltageImbalance.Value;
                 sSSS.CurrentImbalance = this.numericUpDownCurrentImbalance.Value;
 
-                switch (this.domainUpDownDataViews.SelectedIndex)
+                //switch (this.domainUpDownDataViews.SelectedIndex)
+                switch (this.comboBox_DataViews.SelectedIndex)
                 {
                     case 0:
                     default:
@@ -560,7 +593,8 @@ namespace RelayControlLibrary
                     this.restoreDefaults();
                     return;
                 }
-                switch (this.domainUpDownDataViews.SelectedIndex)
+                // switch (this.domainUpDownDataViews.SelectedIndex)
+                switch (this.comboBox_DataViews.SelectedIndex)
                 {
                     case 0:
                     default:
@@ -618,7 +652,8 @@ namespace RelayControlLibrary
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
-            this.domainUpDownDataViews.SelectedIndex = 0;
+           // this.domainUpDownDataViews.SelectedIndex = 0;
+            this.comboBox_DataViews.SelectedIndex = 0;
             setDataViewDefaults();
 
             this.numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
@@ -627,7 +662,8 @@ namespace RelayControlLibrary
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
-            this.domainUpDownDataViews.SelectedIndex = 0;
+            //this.domainUpDownDataViews.SelectedIndex = 0;
+            this.comboBox_DataViews.SelectedIndex = 0;
             setDataViewDefaults();
 
             this.numericUpDownLowVoltage.Value = 100m * protectorVoltage.Scaling;
@@ -637,7 +673,8 @@ namespace RelayControlLibrary
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;
-            this.domainUpDownDataViews.SelectedIndex = 0;
+            //this.domainUpDownDataViews.SelectedIndex = 0;
+            this.comboBox_DataViews.SelectedIndex = 0;
             setDataViewDefaults();
 
             numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
@@ -659,7 +696,8 @@ namespace RelayControlLibrary
 
         private void setDataViewDefaults()
         {
-            switch (this.domainUpDownDataViews.SelectedIndex)
+            //switch (this.domainUpDownDataViews.SelectedIndex)
+            switch (this.comboBox_DataViews.SelectedIndex)
             {
                 case 0:
                 default:

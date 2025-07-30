@@ -29,6 +29,7 @@ namespace RelayControlLibrary
         private void InitializeComponent()
         {
             this.groupBoxSafeService = new System.Windows.Forms.GroupBox();
+            this.comboBox_DataViews = new System.Windows.Forms.ComboBox();
             this.labelCurrentlyEnabled = new System.Windows.Forms.Label();
             this.buttonRestoreDefaults = new System.Windows.Forms.Button();
             this.domainUpDownDataViews = new System.Windows.Forms.DomainUpDown();
@@ -60,6 +61,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxSafeService
             // 
+            this.groupBoxSafeService.Controls.Add(this.comboBox_DataViews);
             this.groupBoxSafeService.Controls.Add(this.labelCurrentlyEnabled);
             this.groupBoxSafeService.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxSafeService.Controls.Add(this.domainUpDownDataViews);
@@ -88,6 +90,19 @@ namespace RelayControlLibrary
             this.groupBoxSafeService.TabStop = false;
             this.groupBoxSafeService.Text = "Safe Service Mode";
             // 
+            // comboBox_DataViews
+            // 
+            this.comboBox_DataViews.FormattingEnabled = true;
+            this.comboBox_DataViews.Items.AddRange(new object[] {
+            "Relay",
+            "Protector",
+            "Percent"});
+            this.comboBox_DataViews.Location = new System.Drawing.Point(115, 16);
+            this.comboBox_DataViews.Name = "comboBox_DataViews";
+            this.comboBox_DataViews.Size = new System.Drawing.Size(64, 21);
+            this.comboBox_DataViews.TabIndex = 22;
+            this.comboBox_DataViews.SelectedIndexChanged += new System.EventHandler(this.comboBox_DataViews_SelectedItemChanged);
+            // 
             // labelCurrentlyEnabled
             // 
             this.labelCurrentlyEnabled.AutoSize = true;
@@ -112,12 +127,13 @@ namespace RelayControlLibrary
             // 
             // domainUpDownDataViews
             // 
-            this.domainUpDownDataViews.Location = new System.Drawing.Point(107, 16);
+            this.domainUpDownDataViews.Location = new System.Drawing.Point(136, 38);
             this.domainUpDownDataViews.Name = "domainUpDownDataViews";
             this.domainUpDownDataViews.Size = new System.Drawing.Size(78, 20);
             this.domainUpDownDataViews.TabIndex = 19;
             this.domainUpDownDataViews.Text = "Relay";
-            this.domainUpDownDataViews.SelectedItemChanged += new System.EventHandler(this.domainUpDownDataViews_SelectedItemChanged);
+            this.domainUpDownDataViews.Enabled = false;
+            this.domainUpDownDataViews.Visible = false;
             // 
             // label1
             // 
@@ -383,5 +399,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.DomainUpDown domainUpDownDataViews;
         private System.Windows.Forms.Button buttonRestoreDefaults;
         private System.Windows.Forms.Label labelCurrentlyEnabled;
+        private System.Windows.Forms.ComboBox comboBox_DataViews;
     }
 }
