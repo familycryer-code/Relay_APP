@@ -94,6 +94,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -157,6 +158,8 @@
             this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxFloatFlag = new System.Windows.Forms.CheckBox();
             this.groupBoxPhasingAndType = new System.Windows.Forms.GroupBox();
+            this.comboBox_Phasings = new System.Windows.Forms.ComboBox();
+            this.comboBox_RelayType = new System.Windows.Forms.ComboBox();
             this.labelDNPVoltage = new System.Windows.Forms.Label();
             this.comboBoxDNPVoltage = new System.Windows.Forms.ComboBox();
             this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
@@ -240,8 +243,6 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.comboBox_RelayType = new System.Windows.Forms.ComboBox();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -922,6 +923,14 @@
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -1763,6 +1772,7 @@
             // groupBoxPhasingAndType
             // 
             this.groupBoxPhasingAndType.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxPhasingAndType.Controls.Add(this.comboBox_Phasings);
             this.groupBoxPhasingAndType.Controls.Add(this.comboBox_RelayType);
             this.groupBoxPhasingAndType.Controls.Add(this.labelDNPVoltage);
             this.groupBoxPhasingAndType.Controls.Add(this.comboBoxDNPVoltage);
@@ -1783,6 +1793,28 @@
             this.groupBoxPhasingAndType.TabIndex = 111;
             this.groupBoxPhasingAndType.TabStop = false;
             this.groupBoxPhasingAndType.Text = "Relay Phasing and Type:";
+            // 
+            // comboBox_Phasings
+            // 
+            this.comboBox_Phasings.FormattingEnabled = true;
+            this.comboBox_Phasings.Items.Add("ABC : CAB : BCA");
+            this.comboBox_Phasings.Items.Add("CBA : BAC : ACB");
+            this.comboBox_Phasings.Location = new System.Drawing.Point(56, 43);
+            this.comboBox_Phasings.Name = "comboBox_Phasings";
+            this.comboBox_Phasings.Size = new System.Drawing.Size(121, 23);
+            this.comboBox_Phasings.TabIndex = 80;
+            // 
+            // comboBox_RelayType
+            // 
+            this.comboBox_RelayType.FormattingEnabled = true;
+            this.comboBox_RelayType.Items.AddRange(new object[] {
+            "Power",
+            "Sequence"});
+            this.comboBox_RelayType.Location = new System.Drawing.Point(90, 16);
+            this.comboBox_RelayType.Name = "comboBox_RelayType";
+            this.comboBox_RelayType.Size = new System.Drawing.Size(87, 23);
+            this.comboBox_RelayType.TabIndex = 79;
+            this.comboBox_RelayType.SelectedIndexChanged += new System.EventHandler(this.comboBox_RelayType_SelectedItemChanged);
             // 
             // labelDNPVoltage
             // 
@@ -1853,11 +1885,13 @@
             // 
             this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
             this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
-            this.domainUpDownPhasings.Location = new System.Drawing.Point(52, 45);
+            this.domainUpDownPhasings.Location = new System.Drawing.Point(41, 60);
             this.domainUpDownPhasings.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
             this.domainUpDownPhasings.Size = new System.Drawing.Size(133, 21);
             this.domainUpDownPhasings.TabIndex = 47;
+            this.domainUpDownPhasings.Enabled = false;
+            this.domainUpDownPhasings.Visible = false;
             // 
             // labelGEWH
             // 
@@ -1872,15 +1906,14 @@
             // 
             // domainUpDownRelayType
             // 
+            this.domainUpDownRelayType.Enabled = false;
             this.domainUpDownRelayType.Items.Add("Power");
             this.domainUpDownRelayType.Items.Add("Sequence");
             this.domainUpDownRelayType.Location = new System.Drawing.Point(8, 60);
             this.domainUpDownRelayType.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownRelayType.Name = "domainUpDownRelayType";
-            this.domainUpDownRelayType.Size = new System.Drawing.Size(98, 21);
+            this.domainUpDownRelayType.Size = new System.Drawing.Size(27, 21);
             this.domainUpDownRelayType.TabIndex = 43;
-            //this.domainUpDownRelayType.SelectedItemChanged += new System.EventHandler(this.domainUpDownRelayType_SelectedItemChanged);
-            this.domainUpDownRelayType.Enabled = false;
             this.domainUpDownRelayType.Visible = false;
             // 
             // buttonTypePhasingRestoreDefaults
@@ -2765,25 +2798,6 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
-            // comboBox_RelayType
-            // 
-            this.comboBox_RelayType.FormattingEnabled = true;
-            this.comboBox_RelayType.Items.Add("Power");
-            this.comboBox_RelayType.Items.Add("Sequence");
-            this.comboBox_RelayType.Location = new System.Drawing.Point(90, 16);
-            this.comboBox_RelayType.Name = "comboBox_RelayType";
-            this.comboBox_RelayType.Size = new System.Drawing.Size(87, 23);
-            this.comboBox_RelayType.TabIndex = 79;
-            this.comboBox_RelayType.SelectedIndexChanged += new System.EventHandler(this.comboBox_RelayType_SelectedItemChanged);
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -3084,5 +3098,6 @@
         private System.Windows.Forms.Button button_dataStore;
         private System.Windows.Forms.ComboBox comboBox_CTRatio;
         private System.Windows.Forms.ComboBox comboBox_RelayType;
+        private System.Windows.Forms.ComboBox comboBox_Phasings;
     }
 }

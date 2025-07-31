@@ -857,8 +857,9 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.comboBoxSavedStates, "Recall previously saved states");
             //this.toolTip.SetToolTip(this.domainUpDownCTRatioM, "Set to match the CT Ratio of the protector");
             this.toolTip.SetToolTip(this.comboBox_CTRatio, "Set to match the CT Ratio of the protector");
-            this.toolTip.SetToolTip(this.domainUpDownPhasings, "How to determine phasing of the protector");
-           // this.toolTip.SetToolTip(this.domainUpDownRelayType, "Changes Relay Algorithm");
+            //this.toolTip.SetToolTip(this.domainUpDownPhasings, "How to determine phasing of the protector");
+            this.toolTip.SetToolTip(this.comboBox_Phasings, "How to determine phasing of the protector");
+            // this.toolTip.SetToolTip(this.domainUpDownRelayType, "Changes Relay Algorithm");
             this.toolTip.SetToolTip(this.comboBox_RelayType, "Changes Relay Algorithm");
             this.toolTip.SetToolTip(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
             this.toolTip.SetToolTip(this.textBoxSaveStateName, "Enter name to save current settings to file");
@@ -1030,7 +1031,8 @@ namespace RelayControl
             this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
             this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
             this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
-            this.domainUpDownPhasings.Visible = false;
+            //this.domainUpDownPhasings.Visible = false;
+            this.comboBox_Phasings.Visible = false;
             this.labelConEdPowerRelay.Visible = true;
            // this.domainUpDownRelayType.Visible = false;
             this.comboBox_RelayType.Visible = false;
@@ -1051,7 +1053,8 @@ namespace RelayControl
 
             //this.domainUpDownRelayType.Visible = true;
             this.comboBox_RelayType.Visible = false;
-            this.domainUpDownPhasings.Visible = true;
+            //this.domainUpDownPhasings.Visible = true;
+            this.comboBox_Phasings.Visible = false;
             this.labelConEdPowerRelay.Visible = false;
             this.buttonTypePhasingRestoreDefaults.Visible = true;
             this.buttonRelayType.Visible = true;
@@ -4549,25 +4552,28 @@ namespace RelayControl
                     /* if (temp == 2)
                      {
  #if !DOMINION                                                         
-                         this.setDomainIndex(2, this.domainUpDownPhasings);
+                        // this.setDomainIndex(2, this.domainUpDownPhasings);
+                         this.comboBox_Phasings.SelectedIndex = 2;
  #endif
                      }*/
                     //else
                     if (temp == 1)
                     {
-                        this.setDomainIndex(1, this.domainUpDownPhasings);
+                        //this.setDomainIndex(1, this.domainUpDownPhasings);
+                        this.comboBox_Phasings.SelectedIndex = 1;
                     }
                     else if (temp == 0)
                     {
-                        this.setDomainIndex(0, this.domainUpDownPhasings);
+                        //this.setDomainIndex(0, this.domainUpDownPhasings);
+                        this.comboBox_Phasings.SelectedIndex = 0;
                     }
                     else if (temp > 48 && temp <= 54) //if it is a coned relay, the phasing will be in ASCII
                     {
 #if !DOMINION
-                        // this.setDomainIndex(2, this.domainUpDownPhasings);
-                        this.setDomainIndex(0, this.domainUpDownPhasings);
+                        //this.setDomainIndex(0, this.domainUpDownPhasings);
+                        this.comboBox_Phasings.SelectedIndex = 0;
                         this.conedPhasing = (uint)temp;
-                        //this.Customer = Customers.ConEdison;
+                        
 #endif
                     }
                     else
@@ -5633,14 +5639,12 @@ namespace RelayControl
                     {
                         if (this.Customer != Customers.ConEdison)
                         {
-                            //if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC")
-                            if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                            //if (this.domainUpDownPhasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                            if (this.comboBox_Phasings.SelectedItem.ToString() == "ABC : CAB : BCA")
                                 packet[2] = 0x00;
-                            //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "ACB")//
-                            else if (this.domainUpDownPhasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                            //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                            else if (this.comboBox_Phasings.SelectedItem.ToString() == "CBA : BAC : ACB")
                                 packet[2] = 0x01;
-                            //else if (this.domainUpDownPhasings.SelectedItem.ToString() == "AutoDetect")
-                            //    packet[2] = 0x02;
                             else
                                 throw new Exception(packet[2].ToString() + " is a bad Phasing");
                         }
@@ -5710,44 +5714,52 @@ namespace RelayControl
 #if DOMINION
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
-            this.domainUpDownPhasings.SelectedIndex = 0;// 2;
+            //this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 0;
             this.comboBox_RelayType.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Visible = false;
 #elif LONDONH || BGE
-            this.domainUpDownPhasings.SelectedIndex = 0;//2;
+           //this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
 #elif ENMAX || (PSEG && !DNP) || TAUNTON
-            this.domainUpDownPhasings.SelectedIndex = 0;//2;
+            //this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Visible = false;
 #elif PSEG && DNP
-            this.domainUpDownPhasings.SelectedIndex = 0;//2;
+           // this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
             labelConEdPowerRelay.Text = "Sequence";
 #elif BOSTON || NU || SEATTLE || CHICAGO || MADISON || MEMPHIS
-            this.domainUpDownPhasings.SelectedIndex = 0;
+            //this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
 #elif LONDONH
             this.domainUpDownPhasings.SelectedIndex = 1;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
 //#elif ONCOR
-//            this.domainUpDownPhasings.SelectedIndex = 0;//2;
+//            this.domainUpDownPhasings.SelectedIndex = 0;
 //            //this.domainUpDownRelayType.SelectedIndex = 1;
               this.comboBox_RelayType.SelectedIndex = 1;
 #elif CONED
-            this.domainUpDownPhasings.SelectedIndex = 0;
+            //this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
             //this.domainUpDownRelayType.SelectedIndex = 0;
             this.comboBox_RelayType.SelectedIndex = 0;
 #else
-            this.domainUpDownPhasings.SelectedIndex = 0;// 2;
+            //this.domainUpDownPhasings.SelectedIndex = 0;
+            this.comboBox_Phasings.SelectedIndex = 0;
            // this.domainUpDownRelayType.SelectedIndex = 1;
             this.comboBox_RelayType.SelectedIndex = 1;
 #endif
@@ -7489,7 +7501,8 @@ namespace RelayControl
 #endif
             sS.SafeServiceSettings = this.ucSafeService1.GetSavedState();
             sS.CTRatio = this.CTRatio;
-            sS.Phasing = this.domainUpDownPhasings.SelectedIndex;
+            //sS.Phasing = this.domainUpDownPhasings.SelectedIndex;
+            sS.Phasing = this.comboBox_Phasings.SelectedIndex;
             //sS.RelayType = this.domainUpDownRelayType.SelectedIndex;
             sS.RelayType = this.comboBox_RelayType.SelectedIndex;
             sS.V277Protector = protectorVoltage.SetBit.HasFlag(ProtectorVoltageBits.V277);
@@ -7551,9 +7564,10 @@ namespace RelayControl
             this.updateCTRatioDomain(this.CTRatio, this.comboBox_CTRatio.SelectedIndex);
             this.updateCTRatio(sS.CTRatio);
 
-            this.domainUpDownPhasings.SelectedIndex = sS.Phasing;
-           // this.domainUpDownRelayType.SelectedIndex = sS.RelayType;
-           this.comboBox_RelayType.SelectedIndex = sS.RelayType;
+            //this.domainUpDownPhasings.SelectedIndex = sS.Phasing;
+            this.comboBox_Phasings.SelectedIndex = sS.Phasing;
+            // this.domainUpDownRelayType.SelectedIndex = sS.RelayType;
+            this.comboBox_RelayType.SelectedIndex = sS.RelayType;
             if (sS.V277Protector)
                 comboBoxDNPVoltage.SelectedItem =
                     ProtectorVoltages.GetVoltage(ProtectorVoltageBits.V277);
