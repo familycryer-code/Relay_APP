@@ -41,7 +41,8 @@
             this.labelSerialNumber.Name = "labelSerialNumber";
             this.labelSerialNumber.Size = new System.Drawing.Size(76, 13);
             this.labelSerialNumber.TabIndex = 0;
-            this.labelSerialNumber.Text = "Serial Number:";
+            //this.labelSerialNumber.Text = "Serial Number:";
+            this.labelSerialNumber.Text = "License Key:";
             // 
             // textBoxSerialNumber
             // 

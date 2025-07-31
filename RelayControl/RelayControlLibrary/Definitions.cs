@@ -2014,7 +2014,6 @@ namespace RelayControlLibrary
         public static bool relayWithHBD;
     }
 
-
     public static class AutoReProgramR
     {
         public static bool AutoReProgramRelay;
