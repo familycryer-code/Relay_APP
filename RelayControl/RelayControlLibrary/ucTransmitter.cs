@@ -76,6 +76,10 @@ namespace RelayControlLibrary
             this.checkBoxWBF.Checked = true;
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
+
+            this.button_DNPenabled.Location = new System.Drawing.Point(440,240);
+            this.button_FastMode.Location = new System.Drawing.Point(440, 280);
+            this.button_FastMode.Text = "Fast Mode Disabled";
         }
 
         private Customers customer;
@@ -2042,15 +2046,37 @@ namespace RelayControlLibrary
             get { return this.checkBoxDNPEnable.Checked; }
         }
 
-        /* private void panelFlagSettings_Paint(object sender, PaintEventArgs e)
-         {
-             checkBoxExtendedPLCMessage.Location =
-                 new Point(panelFlagSettings.Location.X,
-                 panelFlagSettings.Location.Y + panelFlagSettings.Size.Height + 5);
-             buttonForceConfigMessage.Location =
-                 new Point(checkBoxExtendedPLCMessage.Location.X,
-                 checkBoxExtendedPLCMessage.Location.Y + checkBoxExtendedPLCMessage.Size.Height + 5);
-         }
-        */
+        private void button_FastMode_Click(object sender, EventArgs e)
+        {
+            if (button_FastMode.Text == "Fast Mode Enabled")
+            { 
+                button_FastMode.Text = "Fast Mode Disabled";
+                button_FastMode.BackColor = Color.Transparent;
+            }
+            else if (button_FastMode.Text == "Fast Mode Disabled")
+            {
+                button_FastMode.Text = "Fast Mode Enabled";
+                button_FastMode.BackColor = Color.Yellow;
+
+                // The sequence in which these timers are enabledhere matters - to follow up the next timer time out
+                // so do not change this sequence
+                this.timer_FireFastConfig.Enabled = true; // 3 minutes
+                this.timer_FastMode.Enabled = true;       // 10 minutes
+            }
+
+        }
+
+        private void timer_FastMode_Tick(object sender, EventArgs e)
+        {
+            this.timer_FastMode.Enabled = false;
+            MessageBox.Show("Disabling Fast Mode. 10 minute Time Out");
+        }
+
+        private void timer_FireFastConfig_Tick(object sender, EventArgs e)
+        {
+            this.timer_FireFastConfig.Enabled = false;
+            MessageBox.Show("3 minute Time Out. Another Fire of Fast config");
+        }
+
     }
 }

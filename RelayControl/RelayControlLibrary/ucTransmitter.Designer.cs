@@ -178,7 +178,6 @@
             this.labelTransFlagStatus = new System.Windows.Forms.Label();
             this.checkBoxExtendedPLCMessage = new System.Windows.Forms.CheckBox();
             this.labelGEWHDisplay = new System.Windows.Forms.Label();
-            this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFlagSettings = new System.Windows.Forms.Panel();
             this.panelFlagSettingH = new System.Windows.Forms.Panel();
             this.radioButtonFPHClose = new System.Windows.Forms.RadioButton();
@@ -215,6 +214,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.button_DNPenabled = new System.Windows.Forms.Button();
+            this.button_FastMode = new System.Windows.Forms.Button();
+            this.timer_FastMode = new System.Windows.Forms.Timer();
+            this.timer_FireFastConfig = new System.Windows.Forms.Timer();
+            this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentThresholdHigh)).BeginInit();
@@ -1991,26 +1995,6 @@
             this.labelGEWHDisplay.Text = "WH";
             this.labelGEWHDisplay.Visible = false;
             // 
-            // ucTransmitterMonitoring2
-            // 
-            this.ucTransmitterMonitoring2.CTMult = "";
-            this.ucTransmitterMonitoring2.CTRatio = 320;
-            this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
-            this.ucTransmitterMonitoring2.GEEnabled = false;
-            this.ucTransmitterMonitoring2.Location = new System.Drawing.Point(4, 0);
-            this.ucTransmitterMonitoring2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucTransmitterMonitoring2.Name = "ucTransmitterMonitoring2";
-            this.ucTransmitterMonitoring2.Size = new System.Drawing.Size(981, 575);
-            this.ucTransmitterMonitoring2.TabIndex = 88;
-            this.ucTransmitterMonitoring2.TimeElapsedHours = "";
-            this.ucTransmitterMonitoring2.TimeElapsedMinutes = "";
-            this.ucTransmitterMonitoring2.TimeElapsedSeconds = "";
-            this.ucTransmitterMonitoring2.TransmitterID = "";
-            this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
-            this.ucTransmitterMonitoring2.TransmitterSN = "";
-            this.ucTransmitterMonitoring2.WaterBugActive = false;
-            // 
             // panelFlagSettings
             // 
             this.panelFlagSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -2407,10 +2391,61 @@
             this.label21.Text = "Flag Settings:";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // button_DNPenabled
+            // 
+            this.button_DNPenabled.Location = new System.Drawing.Point(598, 280);
+            this.button_DNPenabled.Name = "button_DNPenabled";
+            this.button_DNPenabled.Size = new System.Drawing.Size(115, 23);
+            this.button_DNPenabled.TabIndex = 86;
+            this.button_DNPenabled.Text = "DNP Enabled";
+            this.button_DNPenabled.UseVisualStyleBackColor = true;
+            // 
+            // button_FastMode
+            // 
+            this.button_FastMode.Location = new System.Drawing.Point(605, 325);
+            this.button_FastMode.Name = "button_FastMode";
+            this.button_FastMode.Size = new System.Drawing.Size(115, 23);
+            this.button_FastMode.TabIndex = 87;
+            this.button_FastMode.Text = "Fast Mode";
+            this.button_FastMode.UseVisualStyleBackColor = true;
+            this.button_FastMode.Click += new System.EventHandler(this.button_FastMode_Click);
+            // 
+            // timer_FastMode
+            // 
+            this.timer_FastMode.Interval = 4000;
+            this.timer_FastMode.Tick += new System.EventHandler(this.timer_FastMode_Tick);
+            // 
+            // timer_FireFastConfig
+            // 
+            this.timer_FireFastConfig.Interval = 2000;
+            this.timer_FireFastConfig.Tick += new System.EventHandler(this.timer_FireFastConfig_Tick);
+            // 
+            // ucTransmitterMonitoring2
+            // 
+            this.ucTransmitterMonitoring2.CTMult = "";
+            this.ucTransmitterMonitoring2.CTRatio = 320;
+            this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
+            this.ucTransmitterMonitoring2.GEEnabled = false;
+            this.ucTransmitterMonitoring2.Location = new System.Drawing.Point(4, 0);
+            this.ucTransmitterMonitoring2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucTransmitterMonitoring2.Name = "ucTransmitterMonitoring2";
+            this.ucTransmitterMonitoring2.Size = new System.Drawing.Size(981, 575);
+            this.ucTransmitterMonitoring2.TabIndex = 88;
+            this.ucTransmitterMonitoring2.TimeElapsedHours = "";
+            this.ucTransmitterMonitoring2.TimeElapsedMinutes = "";
+            this.ucTransmitterMonitoring2.TimeElapsedSeconds = "";
+            this.ucTransmitterMonitoring2.TransmitterID = "";
+            this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
+            this.ucTransmitterMonitoring2.TransmitterSN = "";
+            this.ucTransmitterMonitoring2.WaterBugActive = false;
+            // 
             // ucTransmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_FastMode);
+            this.Controls.Add(this.button_DNPenabled);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.labelGEWHDisplay);
@@ -2717,5 +2752,9 @@
         private System.Windows.Forms.Label labelFlagSettingA;
         //private System.Windows.Forms.Label labelFlagPolarity;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button button_DNPenabled;
+        private System.Windows.Forms.Button button_FastMode;
+        private System.Windows.Forms.Timer timer_FastMode;
+        private System.Windows.Forms.Timer timer_FireFastConfig;
     }
 }
