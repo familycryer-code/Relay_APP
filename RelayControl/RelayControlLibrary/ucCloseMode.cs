@@ -10,6 +10,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using SharedResources;
 using System.Threading;
+using System.Drawing.Text;
 
 namespace RelayControlLibrary
 {
@@ -193,21 +194,21 @@ namespace RelayControlLibrary
                 // APP without AT and PC feature :
                 this.lblFloattTime.Enabled = true;
                 this.lblFloattTime.Visible = true;
-                this.numericUpDown_FloatTime.Enabled = false;// true;
+                this.numericUpDown_FloatTime.Enabled = true;//  false;
                 this.numericUpDown_FloatTime.Visible = true;
                 this.lblUnitFloatTime.Enabled= true;
                 this.lblUnitFloatTime.Visible= true;
                 
                 this.lblPermCloseActiveTime.Enabled= true;
                 this.lblPermCloseActiveTime.Visible= true;
-                this.numericUpDown_PermClActTime.Enabled = false;// true;
+                this.numericUpDown_PermClActTime.Enabled = true;//false;
                 this.numericUpDown_PermClActTime.Visible= true;
                 this.lblUnitPermClAcTime.Enabled= true;
                 this.lblUnitPermClAcTime.Visible= true;
 
                 this.lblPermCloseVoltage.Enabled= true;
                 this.lblPermCloseVoltage.Visible= true;
-                this.numericnumericUpDown_PermClVoltage.Enabled = false;// true;
+                this.numericnumericUpDown_PermClVoltage.Enabled = true;//false;
                 this.numericnumericUpDown_PermClVoltage.Visible= true;
                 this.lblUnitPerClVoltage.Enabled = true;
                 this.lblUnitPerClVoltage.Visible = true;
@@ -754,7 +755,7 @@ namespace RelayControlLibrary
                             break;
                         case CloseModes.RelaxClose:
                             this.checkBoxCircleClose.Checked = false;
-                            this.buttonRelaxClose.BackColor = Color.Orange;
+                            this.buttonRelaxClose.BackColor = Color.Yellow; //Color.Orange;
                             break;
                         case CloseModes.Normal:
                         default:
@@ -763,7 +764,7 @@ namespace RelayControlLibrary
                             break;
                         case CloseModes.CircleAndRelax:
                             this.checkBoxCircleClose.Checked = true;
-                            this.buttonRelaxClose.BackColor = Color.Orange;
+                            this.buttonRelaxClose.BackColor = Color.Yellow; //Color.Orange;
                             break;
                     }
                 }
@@ -958,6 +959,13 @@ namespace RelayControlLibrary
             //    this.CloseModeDef.OverrideBlockedClose = true;
         }
 
+        private void button_PC_Click(object sender, EventArgs e)
+        {
+            if( button_PC.BackColor == Color.Transparent)
+            this.button_PC.BackColor = Color.Yellow;
+            else if (button_PC.BackColor == Color.Yellow)
+                this.button_PC.BackColor = Color.Transparent;
+        }
     }
 
     [Serializable()]

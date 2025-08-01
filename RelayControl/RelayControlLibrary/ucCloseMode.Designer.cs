@@ -60,6 +60,7 @@ namespace RelayControlLibrary
             this.lblPermCloseActiveTime = new System.Windows.Forms.Label();
             this.numericUpDown_FloatTime = new System.Windows.Forms.NumericUpDown();
             this.lblFloattTime = new System.Windows.Forms.Label();
+            this.button_PC = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDA)).BeginInit();
@@ -270,7 +271,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(128, 234);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(128, 236);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
             this.buttonSendCloseData.Size = new System.Drawing.Size(55, 23);
             this.buttonSendCloseData.TabIndex = 28;
@@ -281,7 +282,7 @@ namespace RelayControlLibrary
             // checkBoxCircleClose
             // 
             this.checkBoxCircleClose.AutoSize = true;
-            this.checkBoxCircleClose.Location = new System.Drawing.Point(6, 218);
+            this.checkBoxCircleClose.Location = new System.Drawing.Point(0, 218);
             this.checkBoxCircleClose.Name = "checkBoxCircleClose";
             this.checkBoxCircleClose.Size = new System.Drawing.Size(81, 17);
             this.checkBoxCircleClose.TabIndex = 29;
@@ -292,7 +293,7 @@ namespace RelayControlLibrary
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(0, 234);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(0, 236);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(125, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
@@ -312,7 +313,7 @@ namespace RelayControlLibrary
             // 
             // buttonRelaxClose
             // 
-            this.buttonRelaxClose.Location = new System.Drawing.Point(185, 234);
+            this.buttonRelaxClose.Location = new System.Drawing.Point(184, 236);
             this.buttonRelaxClose.Name = "buttonRelaxClose";
             this.buttonRelaxClose.Size = new System.Drawing.Size(92, 23);
             this.buttonRelaxClose.TabIndex = 39;
@@ -323,7 +324,7 @@ namespace RelayControlLibrary
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 202);
+            this.checkBox1.Location = new System.Drawing.Point(6, 200);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(226, 17);
             this.checkBox1.TabIndex = 40;
@@ -333,6 +334,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxCloseMode
             // 
+            this.groupBoxCloseMode.Controls.Add(this.button_PC);
             this.groupBoxCloseMode.Controls.Add(this.chkBox_EnablePermClose);
             this.groupBoxCloseMode.Controls.Add(this.lblUnitPerClVoltage);
             this.groupBoxCloseMode.Controls.Add(this.lblUnitPermClAcTime);
@@ -376,11 +378,11 @@ namespace RelayControlLibrary
             this.chkBox_EnablePermClose.AutoSize = true;
             this.chkBox_EnablePermClose.Checked = true;
             this.chkBox_EnablePermClose.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBox_EnablePermClose.Location = new System.Drawing.Point(129, 218);
+            this.chkBox_EnablePermClose.Location = new System.Drawing.Point(79, 218);
             this.chkBox_EnablePermClose.Name = "chkBox_EnablePermClose";
-            this.chkBox_EnablePermClose.Size = new System.Drawing.Size(141, 17);
+            this.chkBox_EnablePermClose.Size = new System.Drawing.Size(76, 17);
             this.chkBox_EnablePermClose.TabIndex = 51;
-            this.chkBox_EnablePermClose.Text = "Enable Permissive Close";
+            this.chkBox_EnablePermClose.Text = "Enable PC";
             this.chkBox_EnablePermClose.UseVisualStyleBackColor = true;
             // 
             // lblUnitPerClVoltage
@@ -512,6 +514,16 @@ namespace RelayControlLibrary
             this.lblFloattTime.Text = "Float Time:";
             this.lblFloattTime.Visible = false;
             // 
+            // button_PC
+            // 
+            this.button_PC.Location = new System.Drawing.Point(175, 212);
+            this.button_PC.Name = "button_PC";
+            this.button_PC.Size = new System.Drawing.Size(100, 23);
+            this.button_PC.TabIndex = 52;
+            this.button_PC.Text = "Permissive Close";
+            this.button_PC.UseVisualStyleBackColor = true;
+            this.button_PC.Click += new System.EventHandler(this.button_PC_Click);
+            // 
             // ucCloseMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -569,5 +581,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitPermClAcTime;
         private System.Windows.Forms.Label lblUnitPerClVoltage;
         private System.Windows.Forms.CheckBox chkBox_EnablePermClose;
+        private System.Windows.Forms.Button button_PC;
     }
 }
