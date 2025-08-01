@@ -81,6 +81,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kVARdirection = new System.Windows.Forms.Label();
             this.numericUpDown_InCurrkVAR = new System.Windows.Forms.NumericUpDown();
+            this.comboBox_TripType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).BeginInit();
@@ -361,13 +362,15 @@ namespace RelayControlLibrary
             this.domainUpDownType.Items.Add("Relay");
             this.domainUpDownType.Items.Add("Percent");
             this.domainUpDownType.Items.Add("Protector");
-            this.domainUpDownType.Location = new System.Drawing.Point(220, 21);
+            this.domainUpDownType.Location = new System.Drawing.Point(52, 152);
             this.domainUpDownType.Name = "domainUpDownType";
             this.domainUpDownType.ReadOnly = true;
             this.domainUpDownType.Size = new System.Drawing.Size(78, 20);
             this.domainUpDownType.TabIndex = 31;
             this.domainUpDownType.Text = "Relay";
-            this.domainUpDownType.SelectedItemChanged += new System.EventHandler(this.domainUpDownType_SelectedItemChanged);
+            //this.domainUpDownType.SelectedItemChanged += new System.EventHandler(this.domainUpDownType_SelectedItemChanged);
+            this.domainUpDownType.Enabled = false;
+            this.domainUpDownType.Visible = false;
             // 
             // labelWVCurrentUnit
             // 
@@ -538,6 +541,7 @@ namespace RelayControlLibrary
             // domainUpDownTripStyle
             // 
             this.domainUpDownTripStyle.BackColor = System.Drawing.SystemColors.Window;
+            this.domainUpDownTripStyle.Enabled = false;
             this.domainUpDownTripStyle.Items.Add("Hold Trip (Troubleshooting Only)");
             this.domainUpDownTripStyle.Items.Add("Continuous Pulse");
             this.domainUpDownTripStyle.Items.Add("3 Pulse, then off");
@@ -548,8 +552,6 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle.Size = new System.Drawing.Size(150, 20);
             this.domainUpDownTripStyle.TabIndex = 53;
             this.domainUpDownTripStyle.Text = "Hold Trip (Troubleshooting Only)";
-            //this.domainUpDownTripStyle.SelectedItemChanged += new System.EventHandler(this.domainUpDownTripStyle_SelectedItemChanged);
-            this.domainUpDownTripStyle.Enabled = false;
             this.domainUpDownTripStyle.Visible = false;
             // 
             // labelTripStyle
@@ -563,6 +565,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxTripModeSettings
             // 
+            this.groupBoxTripModeSettings.Controls.Add(this.comboBox_TripType);
             this.groupBoxTripModeSettings.Controls.Add(this.comboBox_TripStyle);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kVARdir);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kWdir);
@@ -844,6 +847,18 @@ namespace RelayControlLibrary
             0,
             0});
             // 
+            // comboBox_TripType
+            // 
+            this.comboBox_TripType.FormattingEnabled = true;
+            this.comboBox_TripType.Items.Add("Relay");
+            this.comboBox_TripType.Items.Add("Percent");
+            this.comboBox_TripType.Items.Add("Protector");
+            this.comboBox_TripType.Location = new System.Drawing.Point(220, 20);
+            this.comboBox_TripType.Name = "comboBox_TripType";
+            this.comboBox_TripType.Size = new System.Drawing.Size(75, 21);
+            this.comboBox_TripType.TabIndex = 69;
+            this.comboBox_TripType.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripType_SelectedItemChanged);
+            // 
             // ucTripMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -937,5 +952,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitInCur_kWdir;
         private System.Windows.Forms.Label lblUnitInCur_kVARdir;
         private System.Windows.Forms.ComboBox comboBox_TripStyle;
+        private System.Windows.Forms.ComboBox comboBox_TripType;
     }
 }

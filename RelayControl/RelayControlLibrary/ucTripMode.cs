@@ -24,7 +24,8 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             this.listBoxTripModes.SelectedIndex = 0;
-            this.domainUpDownType.SelectedIndex = 0;
+            //this.domainUpDownType.SelectedIndex = 0;
+            this.comboBox_TripType.SelectedIndex = 0;
 #if NU
             this.checkBoxEnableGullWing.Checked = true;
             this.showGullWing(true);
@@ -88,7 +89,8 @@ namespace RelayControlLibrary
             this.toolTip.SetToolTip(this.listBoxTripModes, "Select trip algorithm");
             //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
             this.toolTip.SetToolTip(this.comboBox_TripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
-            this.toolTip.SetToolTip(this.domainUpDownType, "Determines how the values are viewed in the GUI for the Trip Settings");
+            //this.toolTip.SetToolTip(this.domainUpDownType, "Determines how the values are viewed in the GUI for the Trip Settings");
+            this.toolTip.SetToolTip(this.comboBox_TripType, "Determines how the values are viewed in the GUI for the Trip Settings");
             this.toolTip.SetToolTip(this.checkBoxEnableGullWing, "Enables the Trim Curve");
             this.toolTip.SetToolTip(this.checkBoxTripOnPowerDown, "Relay will attempt to Trip as it is losing power");
 
@@ -217,7 +219,8 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Visible = false;
             this.checkBoxTripOnPowerDown.Visible = false;
 
-            this.domainUpDownType.Visible = false;
+            //this.domainUpDownType.Visible = false;
+            this.comboBox_TripType.Visible = false;
         }
 
         private void makeNonConEd()
@@ -238,7 +241,8 @@ namespace RelayControlLibrary
             this.labelTripStyle.Visible = true;
             this.checkBoxEnableGullWing.Visible = true;
             this.checkBoxTripOnPowerDown.Visible = true;
-            this.domainUpDownType.Visible = true;
+            //this.domainUpDownType.Visible = true;
+            this.comboBox_TripType.Visible = true;
         }
 
         private void hideSensitiveTimeDelay()
@@ -975,7 +979,8 @@ namespace RelayControlLibrary
             Int32 temp = 0;
             decimal tempD = 0, tripAngle = 0, conversionFactor = 1m;
 
-            switch (this.domainUpDownType.SelectedIndex)
+            //switch (this.domainUpDownType.SelectedIndex)
+            switch (this.comboBox_TripType.SelectedIndex)
             {
                 case 0:
                     conversionFactor = 1m;
@@ -1340,11 +1345,13 @@ namespace RelayControlLibrary
 
         }
 
-        private void domainUpDownType_SelectedItemChanged(object sender, EventArgs e)
+        //private void domainUpDownType_SelectedItemChanged(object sender, EventArgs e)
+        private void comboBox_TripType_SelectedItemChanged(object sender, EventArgs e)
         {
-            DomainUpDown dUP = (DomainUpDown)sender;
+            //DomainUpDown dUP = (DomainUpDown)sender;
 
-            switch (dUP.SelectedIndex)
+            //switch (dUP.SelectedIndex)
+            switch (this.comboBox_TripType.SelectedIndex)
             {
                 case 0:
                     this.makeRelayType();
@@ -1733,7 +1740,8 @@ namespace RelayControlLibrary
                 }
              */
 
-            this.domainUpDownType.SelectedIndex = 0;
+            //this.domainUpDownType.SelectedIndex = 0;
+            this.comboBox_TripType.SelectedIndex = 0;
             this.setRelayTypeDefaults();
             this.makeRelayType();
 
@@ -1768,7 +1776,8 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 85;
             //this.domainUpDownTripStyle.SelectedIndex = 0;
             this.comboBox_TripStyle.SelectedIndex = 0;
-            domainUpDownType.SelectedIndex = 0;
+            //domainUpDownType.SelectedIndex = 0;
+            this.comboBox_TripType.SelectedIndex = 0;
 #elif DOMINION || BGE
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
@@ -1993,7 +2002,8 @@ namespace RelayControlLibrary
         private void populateTripModeSavedData(TripModeSavedStateV4 tSS)
         {
             decimal sensConversionFactor, insensConversionFactor;
-            switch (this.domainUpDownType.SelectedIndex)
+            //switch (this.domainUpDownType.SelectedIndex)
+            switch (this.comboBox_TripType.SelectedIndex)
             {
                 case 0:
                     sensConversionFactor = 1m;
@@ -2032,7 +2042,8 @@ namespace RelayControlLibrary
         {
             decimal sensConversionFactor, insensConversionFactor;
 
-            switch (this.domainUpDownType.SelectedIndex)
+            //switch (this.domainUpDownType.SelectedIndex)
+            switch (this.comboBox_TripType.SelectedIndex)
             {
                 case 0:
                     sensConversionFactor = insensConversionFactor = 1m;
