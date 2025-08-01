@@ -34,8 +34,10 @@ namespace RelayControlLibrary
 #endif
 
             //this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
-            this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
-            this.domainUpDownTripStyle.Hide();
+            //this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+            this.comboBox_TripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+            //this.domainUpDownTripStyle.Hide();
+            this.comboBox_TripStyle.Hide();
             this.labelTripStyle.Hide();
             this.initializeToolTip();
 
@@ -84,7 +86,8 @@ namespace RelayControlLibrary
             this.toolTip.SetToolTip(this.numericUpDownWVAngle, "Number of degrees to rotate the Sensitive Trip Curve when Watt-Var Current has been exceeded");
             this.toolTip.SetToolTip(this.numericUpDownWVCurrent, "Amount of Current needed to trigger Watt-Var tripping characteristics");
             this.toolTip.SetToolTip(this.listBoxTripModes, "Select trip algorithm");
-            this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
+            //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
+            this.toolTip.SetToolTip(this.comboBox_TripStyle, "Determines what relay does after the 3 trip pulses and the Trip Condition still exists");
             this.toolTip.SetToolTip(this.domainUpDownType, "Determines how the values are viewed in the GUI for the Trip Settings");
             this.toolTip.SetToolTip(this.checkBoxEnableGullWing, "Enables the Trim Curve");
             this.toolTip.SetToolTip(this.checkBoxTripOnPowerDown, "Relay will attempt to Trip as it is losing power");
@@ -177,7 +180,7 @@ namespace RelayControlLibrary
              "Time Delay",
              "Watt-Var"};
         */
-        
+
         string[] conEdTripModes = new string[] {
             "Sensitive",
             "Time Delay",
@@ -190,7 +193,7 @@ namespace RelayControlLibrary
             "Insensitive",
             "Watt-Var",
             "Adaptive"};
-       
+
         private void makeConEd()
         {
             int savedSelectedIndex = this.listBoxTripModes.SelectedIndex;
@@ -205,7 +208,8 @@ namespace RelayControlLibrary
             {
                 this.listBoxTripModes.SelectedIndex = 0;
             }
-            this.domainUpDownTripStyle.Visible = false;
+            //this.domainUpDownTripStyle.Visible = false;
+            this.comboBox_TripStyle.Visible = false;
             this.labelTripStyle.Visible = false;
             this.labelGullWingAngle.Visible = false;
             this.checkBoxEnableGullWing.Visible = false;
@@ -229,7 +233,8 @@ namespace RelayControlLibrary
             {
                 this.listBoxTripModes.SelectedIndex = 0;
             }
-            this.domainUpDownTripStyle.Visible = true;
+            // this.domainUpDownTripStyle.Visible = true;
+            this.comboBox_TripStyle.Visible = true;
             this.labelTripStyle.Visible = true;
             this.checkBoxEnableGullWing.Visible = true;
             this.checkBoxTripOnPowerDown.Visible = true;
@@ -279,13 +284,15 @@ namespace RelayControlLibrary
                 if (this.versionNumber >= 110609 && this.Customer != Customers.ConEdison)
                 {
                     this.labelTripStyle.Visible = true;
-                    this.domainUpDownTripStyle.Visible = true;
+                    // this.domainUpDownTripStyle.Visible = true;
+                    this.comboBox_TripStyle.Visible = true;
                     this.checkBoxTripOnPowerDown.Visible = true;
                 }
                 else
                 {
                     this.labelTripStyle.Hide();
-                    this.domainUpDownTripStyle.Hide();
+                    // this.domainUpDownTripStyle.Hide();
+                    this.comboBox_TripStyle.Hide();
                     this.checkBoxTripOnPowerDown.Hide();
                 }
             }
@@ -541,7 +548,7 @@ namespace RelayControlLibrary
                 temp_AdaptiveMag_Y = GetFixed_16FracBits(temp_AdaptiveMag_Y);
                 tempKW = GetFixed_12FracBits(tempKW);
                 tempkVA = GetFixed_12FracBits(tempkVA);
-                
+
 
                 adaptiveTrip_package[3] = (byte)((int)temp_AdaptiveMag_X >> 8);             // high byte of Green Magnitude X
                 adaptiveTrip_package[4] = (byte)(0x00FF & (int)temp_AdaptiveMag_X);         // low byte of Green Magnitude X
@@ -596,20 +603,25 @@ namespace RelayControlLibrary
                 mySEA.SendPacket[0] = (byte)'M';
                 mySEA.SendPacket[1] = (byte)'S';
 
-                mySEA.SendPacket[2] = 0;
+                //mySEA.SendPacket[2] = 0;
                 //if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
-                if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
+                //if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
+                if ((string)this.comboBox_TripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
                     mySEA.SendPacket[2] = 0;
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
-                else if ((string)this.domainUpDownTripStyle.SelectedItem == "Continuous Pulse")
+                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Continuous Pulse")
+                else if ((string)this.comboBox_TripStyle.SelectedItem == "Continuous Pulse")
                     mySEA.SendPacket[2] = 1;
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
-                else if ((string)this.domainUpDownTripStyle.SelectedItem == "3 Pulse, then off")
+                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "3 Pulse, then off")
+                else if ((string)this.comboBox_TripStyle.SelectedItem == "3 Pulse, then off")
                     mySEA.SendPacket[2] = 2;
-                else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
+                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
+                else if ((string)this.comboBox_TripStyle.SelectedItem == "Short Trip")
                     mySEA.SendPacket[2] = 3;
                 else
-                    throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
+                    //throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
+                    throw new Exception(this.comboBox_TripStyle.SelectedItem.ToString());
 
                 if (this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
                     mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
@@ -769,7 +781,7 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.Display_adaptiveTrip_Settings();
                     break;
-                
+
             }
 
             this.modeChanged();
@@ -1273,7 +1285,7 @@ namespace RelayControlLibrary
                     this.numericUpDownGullWingAngle.Value = 180m + tempD;
                 }
             }
-            catch 
+            catch
             {
                 dataBackupTM.dataBackup_tripModeDefaults = true;
             }
@@ -1286,22 +1298,26 @@ namespace RelayControlLibrary
                     if ((bytePacket[22] & 0x03) == 1)
                     {
                         //this.domainUpDownTripStyle.SelectedItem = "Pulse Trip";
-                        this.domainUpDownTripStyle.SelectedItem = "Continuous Pulse";
+                        //this.domainUpDownTripStyle.SelectedItem = "Continuous Pulse";
+                        this.comboBox_TripStyle.SelectedItem = "Continuous Pulse";
                     }
                     else if ((bytePacket[22] & 0x03) == 2)
                     {
                         //this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
-                        this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
+                        //this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
+                        this.comboBox_TripStyle.SelectedItem = "3 Pulse, then off";
                     }
                     else if ((bytePacket[22] & 0x03) == 3)
                     {
                         //  this.domainUpDownTripStyle.SelectedIndex = 3;
-                        this.domainUpDownTripStyle.SelectedItem = "Short Trip";
+                        //this.domainUpDownTripStyle.SelectedItem = "Short Trip";
+                        this.comboBox_TripStyle.SelectedItem = "Short Trip";
                     }
                     else
                     {
                         //this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
-                        this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+                        //this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+                        this.comboBox_TripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
                     }
 
                     //Set Power Down Trip Checkbox - reversed for backwards compatibility
@@ -1345,28 +1361,35 @@ namespace RelayControlLibrary
             }
         }
 
-        private void domainUpDownTripStyle_SelectedItemChanged(object sender, EventArgs e)
+        //private void domainUpDownTripStyle_SelectedItemChanged(object sender, EventArgs e)
+        private void comboBox_TripStyle_SelectedItemChanged(object sender, EventArgs e)
         {
-            DomainUpDown dUP = (DomainUpDown)sender;
+            // DomainUpDown dUP = (DomainUpDown)sender;
 
             if (tripModeM.tripMode_message == true)
             {
-                switch (dUP.SelectedIndex)
+                //switch (dUP.SelectedIndex)
+                switch (this.comboBox_TripStyle.SelectedIndex)
                 {
                     case 0:
-                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Maintains the trip contact in the closed state as long as the trip condition exists");
+                        //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Maintains the trip contact in the closed state as long as the trip condition exists");
+                        this.toolTip.SetToolTip(this.comboBox_TripStyle, "Maintains the trip contact in the closed state as long as the trip condition exists");
                         break;
                     case 1:
-                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Continuously pulses the trip contact on and off at one-second intervals for the duration of the trip conditions");
+                        //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Continuously pulses the trip contact on and off at one-second intervals for the duration of the trip conditions");
+                        this.toolTip.SetToolTip(this.comboBox_TripStyle, "Continuously pulses the trip contact on and off at one-second intervals for the duration of the trip conditions");
                         break;
                     case 2:
-                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
+                        //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
+                        this.toolTip.SetToolTip(this.comboBox_TripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
                         break;
                     case 3:
-                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times. If the trip still exists afterward, the contact opens. However, if a Close or Float condition is detected prior to the trip sequence being completed, the relay aborts the sequence and transitions immediately to the appropriate state");
+                        //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times. If the trip still exists afterward, the contact opens. However, if a Close or Float condition is detected prior to the trip sequence being completed, the relay aborts the sequence and transitions immediately to the appropriate state");
+                        this.toolTip.SetToolTip(this.comboBox_TripStyle, "Pulses the trip contact three times. If the trip still exists afterward, the contact opens. However, if a Close or Float condition is detected prior to the trip sequence being completed, the relay aborts the sequence and transitions immediately to the appropriate state");
                         break;
                     default:
-                        this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
+                        //this.toolTip.SetToolTip(this.domainUpDownTripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
+                        this.toolTip.SetToolTip(this.comboBox_TripStyle, "Pulses the trip contact three times, then deactivates the contact and flashes the trip LED until the trip condition clears");
                         break;
                 }
             }
@@ -1743,7 +1766,8 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 95;
             this.numericUpDownGullWingAngle.Value = 85;
-            this.domainUpDownTripStyle.SelectedIndex = 0;
+            //this.domainUpDownTripStyle.SelectedIndex = 0;
+            this.comboBox_TripStyle.SelectedIndex = 0;
             domainUpDownType.SelectedIndex = 0;
 #elif DOMINION || BGE
             this.checkBoxEnableGullWing.Checked = false;
@@ -1751,14 +1775,16 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.domainUpDownTripStyle.SelectedIndex = 3;
+            //this.domainUpDownTripStyle.SelectedIndex = 3;
+            this.comboBox_TripStyle.SelectedIndex = 3;
 #elif CHICAGO || MADISON || LONDONH
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.domainUpDownTripStyle.SelectedIndex = 0;
+            //this.domainUpDownTripStyle.SelectedIndex = 0;
+            this.comboBox_TripStyle.SelectedIndex = 0;
             checkBoxTripOnPowerDown.Checked = true;
 #elif TAUNTON
             listBoxTripModes.SelectedIndex = 3;
@@ -1767,20 +1793,23 @@ namespace RelayControlLibrary
             numericUpDownTimeDelay.Value = 0;
             numericUpDownAngle.Value = 90;
             numericUpDownGullWingAngle.Value = 90;
-            domainUpDownTripStyle.SelectedIndex = 0;
+            //domainUpDownTripStyle.SelectedIndex = 0;
+            this.comboBox_TripStyle.SelectedIndex = 0;
 #elif SEATTLE
             this.checkBoxEnableGullWing.Checked = false;
             checkBoxTripOnPowerDown.Checked = true;
             this.gullWingEnabled = false;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.domainUpDownTripStyle.SelectedIndex = 0;
+            //this.domainUpDownTripStyle.SelectedIndex = 0;
+            this.comboBox_TripStyle.SelectedIndex = 0;
 #elif PSEG
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.domainUpDownTripStyle.SelectedIndex = 1;// 0;
+            //this.domainUpDownTripStyle.SelectedIndex = 1;
+            this.comboBox_TripStyle.SelectedIndex = 1;
 #endif
         }
 
@@ -1807,16 +1836,18 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-            this.domainUpDownTripStyle.SelectedIndex = 3;
+            //this.domainUpDownTripStyle.SelectedIndex = 3;
+            this.comboBox_TripStyle.SelectedIndex = 3;
 #if ONCOR
-            this.domainUpDownTripStyle.SelectedIndex = 0; // Hold Trip (Troubleshooting Only)
+            //this.domainUpDownTripStyle.SelectedIndex = 0; // Hold Trip (Troubleshooting Only)
+            this.comboBox_TripStyle.SelectedIndex = 0;
 #endif
 #if TORONTO_HYDRO
-            this.domainUpDownTripStyle.SelectedIndex = 0; 
+            //this.domainUpDownTripStyle.SelectedIndex = 0; 
+            this.comboBox_TripStyle.SelectedIndex = 0;
 #endif
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownInsensTrip.Value = 2.5m;
-            //this.domainUpDownTripStyle.SelectedIndex = 0;
             this.numericUpDownWVAngle.Value = -60;
 #elif SEATTLE || ATLANTA || CONED || PSEG //|| ONCOR
             this.numericUpDownSensitiveTimeDelay.Value = 6;
@@ -1833,7 +1864,8 @@ namespace RelayControlLibrary
             this.numericUpDown_InCurrkVAR.Value = 128;// 2.5m;    
             this.checkBoxTripOnPowerDown.Checked = true;
             //this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
-            this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
+            //this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
+            this.comboBox_TripStyle.SelectedItem = "3 Pulse, then off";
             this.checkBoxEnableGullWing.Checked = false;
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownTimeDelay.Value = 150;
@@ -1991,7 +2023,8 @@ namespace RelayControlLibrary
             tSS.TripMode = RelayModeFunctions.TripModeFrom((string)this.listBoxTripModes.SelectedItem);
             tSS.WattVarAngle = (int)this.numericUpDownWVAngle.Value;
             tSS.WattVarCurrent = this.numericUpDownWVCurrent.Value * insensConversionFactor;
-            tSS.TripStyle = (int)this.domainUpDownTripStyle.SelectedIndex;
+            //tSS.TripStyle = (int)this.domainUpDownTripStyle.SelectedIndex;
+            tSS.TripStyle = (int)this.comboBox_TripStyle.SelectedIndex;
             tSS.TripOnPowerDown = this.checkBoxTripOnPowerDown.Checked;
         }
 
@@ -2030,7 +2063,8 @@ namespace RelayControlLibrary
                 this.numericUpDownWVAngle.Value = lTSS.WattVarAngle;
                 this.numericUpDownWVCurrent.Value = lTSS.WattVarCurrent * insensConversionFactor;
                 this.checkBoxEnableGullWing.Checked = lTSS.GullWingEnabled;
-                this.domainUpDownTripStyle.SelectedIndex = lTSS.TripStyle;
+                //this.domainUpDownTripStyle.SelectedIndex = lTSS.TripStyle;
+                this.comboBox_TripStyle.SelectedIndex = lTSS.TripStyle;
                 this.checkBoxTripOnPowerDown.Checked = lTSS.TripOnPowerDown;
             }
             catch (Exception ex)

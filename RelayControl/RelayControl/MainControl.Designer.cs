@@ -317,34 +317,34 @@
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cOMPortToolStripMenuItem.Text = "COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.findRelayToolStripMenuItem.Text = "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Reprogram Relay";
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Firmware Update";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // tCPConnectionToolStripMenuItem
             // 
             this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
-            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
             this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
@@ -1797,8 +1797,9 @@
             // comboBox_Phasings
             // 
             this.comboBox_Phasings.FormattingEnabled = true;
-            this.comboBox_Phasings.Items.Add("ABC : CAB : BCA");
-            this.comboBox_Phasings.Items.Add("CBA : BAC : ACB");
+            this.comboBox_Phasings.Items.AddRange(new object[] {
+            "ABC : CAB : BCA",
+            "CBA : BAC : ACB"});
             this.comboBox_Phasings.Location = new System.Drawing.Point(56, 43);
             this.comboBox_Phasings.Name = "comboBox_Phasings";
             this.comboBox_Phasings.Size = new System.Drawing.Size(121, 23);
@@ -1883,6 +1884,7 @@
             // 
             // domainUpDownPhasings
             // 
+            this.domainUpDownPhasings.Enabled = false;
             this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
             this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
             this.domainUpDownPhasings.Location = new System.Drawing.Point(41, 60);
@@ -1890,7 +1892,6 @@
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
             this.domainUpDownPhasings.Size = new System.Drawing.Size(133, 21);
             this.domainUpDownPhasings.TabIndex = 47;
-            this.domainUpDownPhasings.Enabled = false;
             this.domainUpDownPhasings.Visible = false;
             // 
             // labelGEWH

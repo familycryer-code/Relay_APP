@@ -65,6 +65,7 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle = new System.Windows.Forms.DomainUpDown();
             this.labelTripStyle = new System.Windows.Forms.Label();
             this.groupBoxTripModeSettings = new System.Windows.Forms.GroupBox();
+            this.comboBox_TripStyle = new System.Windows.Forms.ComboBox();
             this.lblUnitInCur_kVARdir = new System.Windows.Forms.Label();
             this.lblUnitInCur_kWdir = new System.Windows.Forms.Label();
             this.lblUnitGreenMagY = new System.Windows.Forms.Label();
@@ -541,13 +542,15 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle.Items.Add("Continuous Pulse");
             this.domainUpDownTripStyle.Items.Add("3 Pulse, then off");
             this.domainUpDownTripStyle.Items.Add("Short Trip");
-            this.domainUpDownTripStyle.Location = new System.Drawing.Point(52, 21);
+            this.domainUpDownTripStyle.Location = new System.Drawing.Point(41, 126);
             this.domainUpDownTripStyle.Name = "domainUpDownTripStyle";
             this.domainUpDownTripStyle.ReadOnly = true;
             this.domainUpDownTripStyle.Size = new System.Drawing.Size(150, 20);
             this.domainUpDownTripStyle.TabIndex = 53;
             this.domainUpDownTripStyle.Text = "Hold Trip (Troubleshooting Only)";
-            this.domainUpDownTripStyle.SelectedItemChanged += new System.EventHandler(this.domainUpDownTripStyle_SelectedItemChanged);
+            //this.domainUpDownTripStyle.SelectedItemChanged += new System.EventHandler(this.domainUpDownTripStyle_SelectedItemChanged);
+            this.domainUpDownTripStyle.Enabled = false;
+            this.domainUpDownTripStyle.Visible = false;
             // 
             // labelTripStyle
             // 
@@ -560,6 +563,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxTripModeSettings
             // 
+            this.groupBoxTripModeSettings.Controls.Add(this.comboBox_TripStyle);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kVARdir);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kWdir);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitGreenMagY);
@@ -610,6 +614,20 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.TabIndex = 47;
             this.groupBoxTripModeSettings.TabStop = false;
             this.groupBoxTripModeSettings.Text = "Trip Mode Settings:";
+            // 
+            // comboBox_TripStyle
+            // 
+            this.comboBox_TripStyle.FormattingEnabled = true;
+            this.comboBox_TripStyle.Items.AddRange(new object[] {
+            "Hold Trip (Troubleshooting Only)",
+            "Continuous Pulse",
+            "3 Pulse, then off",
+            "Short Trip"});
+            this.comboBox_TripStyle.Location = new System.Drawing.Point(60, 20);
+            this.comboBox_TripStyle.Name = "comboBox_TripStyle";
+            this.comboBox_TripStyle.Size = new System.Drawing.Size(154, 21);
+            this.comboBox_TripStyle.TabIndex = 68;
+            this.comboBox_TripStyle.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripStyle_SelectedItemChanged);
             // 
             // lblUnitInCur_kVARdir
             // 
@@ -918,5 +936,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitGreenMagY;
         private System.Windows.Forms.Label lblUnitInCur_kWdir;
         private System.Windows.Forms.Label lblUnitInCur_kVARdir;
+        private System.Windows.Forms.ComboBox comboBox_TripStyle;
     }
 }
