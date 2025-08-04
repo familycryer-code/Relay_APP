@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonTX = new System.Windows.Forms.Button();
             this.buttonRQ = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -214,10 +215,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.button_DNPenabled = new System.Windows.Forms.Button();
+            this.button_FastFire = new System.Windows.Forms.Button();
             this.button_FastMode = new System.Windows.Forms.Button();
-            this.timer_FastMode = new System.Windows.Forms.Timer();
-            this.timer_FireFastConfig = new System.Windows.Forms.Timer();
+            this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
+            this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -2391,14 +2392,15 @@
             this.label21.Text = "Flag Settings:";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // button_DNPenabled
+            // button_FastFire
             // 
-            this.button_DNPenabled.Location = new System.Drawing.Point(598, 280);
-            this.button_DNPenabled.Name = "button_DNPenabled";
-            this.button_DNPenabled.Size = new System.Drawing.Size(115, 23);
-            this.button_DNPenabled.TabIndex = 86;
-            this.button_DNPenabled.Text = "DNP Enabled";
-            this.button_DNPenabled.UseVisualStyleBackColor = true;
+            this.button_FastFire.Location = new System.Drawing.Point(598, 280);
+            this.button_FastFire.Name = "button_FastFire";
+            this.button_FastFire.Size = new System.Drawing.Size(115, 23);
+            this.button_FastFire.TabIndex = 86;
+            this.button_FastFire.Text = "Fast Fire";
+            this.button_FastFire.UseVisualStyleBackColor = true;
+            this.button_FastFire.Click += new System.EventHandler(this.button_FastFire_Click);
             // 
             // button_FastMode
             // 
@@ -2412,12 +2414,12 @@
             // 
             // timer_FastMode
             // 
-            this.timer_FastMode.Interval = 4000;
+            this.timer_FastMode.Interval = 10000;
             this.timer_FastMode.Tick += new System.EventHandler(this.timer_FastMode_Tick);
             // 
             // timer_FireFastConfig
             // 
-            this.timer_FireFastConfig.Interval = 2000;
+            this.timer_FireFastConfig.Interval = 3000;
             this.timer_FireFastConfig.Tick += new System.EventHandler(this.timer_FireFastConfig_Tick);
             // 
             // ucTransmitterMonitoring2
@@ -2445,7 +2447,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button_FastMode);
-            this.Controls.Add(this.button_DNPenabled);
+            this.Controls.Add(this.button_FastFire);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.labelGEWHDisplay);
@@ -2752,7 +2754,7 @@
         private System.Windows.Forms.Label labelFlagSettingA;
         //private System.Windows.Forms.Label labelFlagPolarity;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Button button_DNPenabled;
+        private System.Windows.Forms.Button button_FastFire;
         private System.Windows.Forms.Button button_FastMode;
         private System.Windows.Forms.Timer timer_FastMode;
         private System.Windows.Forms.Timer timer_FireFastConfig;

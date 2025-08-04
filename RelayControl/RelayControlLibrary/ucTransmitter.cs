@@ -47,7 +47,7 @@ namespace RelayControlLibrary
             this.panelMessageFreqSettings.Visible = false;
             this.labelMessageFrequencySettings.Visible = false;
             this.customerVersion = true;
-            this.checkBoxDNPEnable.Visible = false;
+            this.checkBoxDNPEnable.Visible = true;// false;
             this.dNPEnabled = this.checkBoxDNPEnable.Visible;
             this.checkBoxTransmitterEnable.Visible = false;
             this.panelMessageFreqSettings.Visible = false;
@@ -77,9 +77,11 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.button_DNPenabled.Location = new System.Drawing.Point(440,240);
+            this.button_FastFire.Location = new System.Drawing.Point(440,240);
             this.button_FastMode.Location = new System.Drawing.Point(440, 280);
             this.button_FastMode.Text = "Fast Mode Disabled";
+
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(270, 311);
         }
 
         private Customers customer;
@@ -2068,15 +2070,31 @@ namespace RelayControlLibrary
 
         private void timer_FastMode_Tick(object sender, EventArgs e)
         {
+            // 10 minute timer for fast mode is finished
+            // stop the 3 minute fast fire timer
+            // get this fast mode button background color and text to default
             this.timer_FastMode.Enabled = false;
+            this.timer_FireFastConfig.Enabled = false;
+            this.button_FastMode.BackColor = Color.Transparent;
+            this.button_FastMode.Text = "Fast Mode Disabled";
             MessageBox.Show("Disabling Fast Mode. 10 minute Time Out");
+            MessageBox.Show("No more firing of fast config every 3 minutes");
+            
         }
 
         private void timer_FireFastConfig_Tick(object sender, EventArgs e)
         {
             this.timer_FireFastConfig.Enabled = false;
             MessageBox.Show("3 minute Time Out. Another Fire of Fast config");
+            this.radioButton10S.Checked = true;
+            buttonForceConfigMessage_Click(this, new EventArgs());
+            this.timer_FireFastConfig.Enabled = true; // 3 minutes
         }
 
+        private void button_FastFire_Click(object sender, EventArgs e)
+        {
+            this.radioButton10S.Checked = true;
+            this.buttonForceConfigMessage_Click(this, new EventArgs());
+        }
     }
 }
