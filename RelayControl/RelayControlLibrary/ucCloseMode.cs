@@ -961,10 +961,36 @@ namespace RelayControlLibrary
 
         private void button_PC_Click(object sender, EventArgs e)
         {
-            if( button_PC.BackColor == Color.Transparent)
-            this.button_PC.BackColor = Color.Yellow;
+            if (button_PC.BackColor == Color.Transparent)
+            {
+                this.button_PC.BackColor = Color.Yellow;
+
+                decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
+                byte[] packet = new byte[6]; //permissivePacketSize
+                packet[0] = (byte)'}';
+                packet[1] = 0; // special - only used to indicated a click of this(Permissive Close) button
+                packet[2] = (byte)numericUpDown_PermClActTime.Value;
+                packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
+                packet[4] = (byte)((int)tempVoltage & 0x00FF);
+                packet[5] = 0x0D;
+
+                this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
+            }
             else if (button_PC.BackColor == Color.Yellow)
+            { 
                 this.button_PC.BackColor = Color.Transparent;
+
+                decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
+                byte[] packet = new byte[6]; //permissivePacketSize
+                packet[0] = (byte)'}';
+                packet[1] = (byte)numericUpDown_FloatTime.Value;
+                packet[2] = (byte)numericUpDown_PermClActTime.Value;
+                packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
+                packet[4] = (byte)((int)tempVoltage & 0x00FF);
+                packet[5] = 0x0D;
+
+                this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
+            }
         }
     }
 
