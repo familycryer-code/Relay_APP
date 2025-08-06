@@ -2060,6 +2060,10 @@ namespace RelayControlLibrary
                 button_FastMode.Text = "Fast Mode Enabled";
                 button_FastMode.BackColor = Color.Yellow;
 
+                //set the 10 second config and send it to the relay
+                this.radioButton10S.Checked = true;
+                SendTransmitterSettings();
+
                 // The sequence in which these timers are enabledhere matters - to follow up the next timer time out
                 // so do not change this sequence
                 this.timer_FireFastConfig.Enabled = true; // 3 minutes
@@ -2079,7 +2083,10 @@ namespace RelayControlLibrary
             this.button_FastMode.Text = "Fast Mode Disabled";
             MessageBox.Show("Disabling Fast Mode. 10 minute Time Out");
             MessageBox.Show("No more firing of fast config every 3 minutes");
-            
+
+            //After 10 minutes getting the config back to 60 second in the relay
+            this.radioButton60S.Checked = true;
+            SendTransmitterSettings();
         }
 
         private void timer_FireFastConfig_Tick(object sender, EventArgs e)
@@ -2088,12 +2095,13 @@ namespace RelayControlLibrary
             MessageBox.Show("3 minute Time Out. Another Fire of Fast config");
             this.radioButton10S.Checked = true;
             buttonForceConfigMessage_Click(this, new EventArgs());
-            this.timer_FireFastConfig.Enabled = true; // 3 minutes
+            this.timer_FireFastConfig.Enabled = true; // restart the 3 minute timer
         }
 
         private void button_FastFire_Click(object sender, EventArgs e)
         {
             this.radioButton10S.Checked = true;
+            SendTransmitterSettings();
             this.buttonForceConfigMessage_Click(this, new EventArgs());
         }
     }

@@ -12,7 +12,6 @@ using System.Linq;
 using SharedResources;
 using System.Diagnostics;
 using NLog;
-using System.Net.Sockets;
 
 namespace RelayControlLibrary
 {
@@ -432,7 +431,7 @@ namespace RelayControlLibrary
         private RelayProgrammingData masterCode = new RelayProgrammingData(1024);   // 1024 gets used as the flashBlobkSize
         private RelayProgrammingData relayCode = new RelayProgrammingData(1024);    // 1024 gets used as the flashBlobkSize
         private FPGAProgrammingData fPGACode = new FPGAProgrammingData();
-        public UInt32 remoteMasterRevisionNumber = 0;
+        private UInt32 remoteMasterRevisionNumber = 0;
         private UInt32 remoteRelayRevisionNumber = 0;
         private UInt32 remoteFPGARevisionNumber = 0;
         private UInt32 failCount = 0;
@@ -724,12 +723,6 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
             dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-
-            // If newer version is not getting programmed, the relay already has the old data. 
-            // So do not write the backed up data from the file to the relay
-            if (dR == DialogResult.No)
-                dataB.oldDataBackup = false; 
-
             return dR;
         }
 
@@ -1032,21 +1025,7 @@ namespace RelayControlLibrary
             }
             else
             {
-                /*  this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
-                  this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
-
-                  this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                  this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-                */
-
-                if (relayHBD.relayWithHBD == true)
-                {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
-                }
-                else if (relayHBD.relayWithHBD == false) // SEC
-                {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
-                }
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
 
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
@@ -1416,15 +1395,6 @@ namespace RelayControlLibrary
                 return true;
             else
                 return false;
-        }
-
-        public bool IsMasterRev10orMore()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if ((remoteMasterRevisionNumber < Constants.MasterRev10Marker) || wrongRelayTypeAutoLoad)
-                return false;
-            else
-                return true;
         }
 
         private void forceRelayToUpdate()
@@ -1860,6 +1830,7 @@ namespace RelayControlLibrary
 
                 if (this.relayCode.DataBytes.Count == 0)
                 {
+                    Thread.Sleep(5000);
                     this.doneLoadingRelay();
                     return;
                 }
@@ -2136,6 +2107,7 @@ namespace RelayControlLibrary
 
                 if (this.fPGACode.SendIndex >= 98304)
                 {
+                    Thread.Sleep(5000);
                     doneLoadingFPGA();
                     return;
                 }
@@ -2183,7 +2155,7 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.timerTimeout.Stop();
-            Thread.Sleep(6000); // delay 6 seconds
+
             if (!this.loadMasterFirst)
             {
                 if (this.autoLoad)

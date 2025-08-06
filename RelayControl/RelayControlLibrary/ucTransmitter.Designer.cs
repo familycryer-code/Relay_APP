@@ -2414,12 +2414,12 @@
             // 
             // timer_FastMode
             // 
-            this.timer_FastMode.Interval = 10000;
+            this.timer_FastMode.Interval = 600000;
             this.timer_FastMode.Tick += new System.EventHandler(this.timer_FastMode_Tick);
             // 
             // timer_FireFastConfig
             // 
-            this.timer_FireFastConfig.Interval = 3000;
+            this.timer_FireFastConfig.Interval = 180000;
             this.timer_FireFastConfig.Tick += new System.EventHandler(this.timer_FireFastConfig_Tick);
             // 
             // ucTransmitterMonitoring2

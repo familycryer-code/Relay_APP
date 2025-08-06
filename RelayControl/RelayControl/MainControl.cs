@@ -8963,8 +8963,11 @@ namespace RelayControl
                 this.BackUpRelayDatatoFile();
            }*/
            // Thread.Sleep(16000); // 13 seconds
+           
+            
             this.ucRelayProgramming1.InitialAutoLoadFiles();
             this.checkedDNPEnable = false;
+            
         }
 
 
