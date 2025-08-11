@@ -1846,7 +1846,16 @@ namespace RelayControlLibrary
                 if (this.relayCode.DataBytes.Count == 0)
                 {
                     Thread.Sleep(5000);
-                    this.doneLoadingRelay();
+                    //this.doneLoadingRelay();
+
+                    this.programmingForm.RelayDataComplete = true;
+                    this.parseFPGAFile(this.fPGACode);
+                    this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                    this.programmingForm.Maximum = 96;
+                    this.programmingForm.CurrentTask = "Loading FPGA";
+                    logger.Trace("Loading FPGA");
+                    this.timerTimeout.Start();
+                    
                     return;
                 }
 
@@ -2123,7 +2132,40 @@ namespace RelayControlLibrary
                 if (this.fPGACode.SendIndex >= 98304)
                 {
                     Thread.Sleep(5000);
-                    doneLoadingFPGA();
+                    //doneLoadingFPGA();
+
+                    logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    if (!this.programMasterBootFileSelect)
+                        this.programmingForm.Hide();
+
+                    this.programmingForm.FPGAComplete = true;
+                    this.timerTimeout.Stop();
+                    logger.Trace("");
+                    logger.Trace("Done Loading FPGA");
+
+                    logger.Info("MasterBootFileSelect: {0}", this.programMasterBootFileSelect);
+                    if (this.autoLoad && !this.programMasterBootFileSelect)
+                        this.allReprogramingDone();
+                    else if (this.autoLoad && this.programMasterBootFileSelect)
+                        //startManualBootCodeLoad();
+                        logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+                        this.programBootCodeOnly = true;
+                        this.autoLoad = false;
+                        this.manualReload = false;
+                        this.timerTimeout.Stop();
+                        programMasterBootFileSelect = false;
+                        ProgramBootCodeStart = true;
+
+                    MasterBootLoaderStart();
+                    this.sendMasterBootCode();
+                    //resetMaster();
+                    rPEA.BytesToSend = new byte[3];
+
+                    rPEA.BytesToSend[0] = (byte)'b';
+                    rPEA.BytesToSend[1] = 0x55;
+                    rPEA.BytesToSend[2] = 0x0D;
+
+                    this.onSend(rPEA);
                     return;
                 }
 
