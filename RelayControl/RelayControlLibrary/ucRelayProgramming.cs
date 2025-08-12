@@ -1855,7 +1855,7 @@ namespace RelayControlLibrary
                     this.programmingForm.CurrentTask = "Loading FPGA";
                     logger.Trace("Loading FPGA");
                     this.timerTimeout.Start();
-                    
+
                     return;
                 }
 
@@ -2149,23 +2149,25 @@ namespace RelayControlLibrary
                     else if (this.autoLoad && this.programMasterBootFileSelect)
                         //startManualBootCodeLoad();
                         logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-                        this.programBootCodeOnly = true;
-                        this.autoLoad = false;
-                        this.manualReload = false;
-                        this.timerTimeout.Stop();
-                        programMasterBootFileSelect = false;
-                        ProgramBootCodeStart = true;
+                    this.programBootCodeOnly = true;
+                    this.autoLoad = false;
+                    this.manualReload = false;
+                    this.timerTimeout.Stop();
+                    programMasterBootFileSelect = false;
+                    ProgramBootCodeStart = true;
 
                     MasterBootLoaderStart();
-                    this.sendMasterBootCode();
+                    for (int i = 0; i <= 31; i++)
+                    {
+                        this.sendMasterBootCode();
+                    }
                     //resetMaster();
                     rPEA.BytesToSend = new byte[3];
-
                     rPEA.BytesToSend[0] = (byte)'b';
                     rPEA.BytesToSend[1] = 0x55;
                     rPEA.BytesToSend[2] = 0x0D;
-
                     this.onSend(rPEA);
+
                     return;
                 }
 
