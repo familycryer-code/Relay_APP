@@ -1979,6 +1979,11 @@ namespace RelayControlLibrary
     {
         public static int pwrPer;
     }
+    
+    public static class dnpUplinkK
+    {
+        public static bool dnpEnabledWithKit;
+    }
 
     public static class manualP
     {

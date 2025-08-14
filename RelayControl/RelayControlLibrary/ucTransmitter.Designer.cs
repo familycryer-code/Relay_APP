@@ -220,6 +220,7 @@
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentThresholdHigh)).BeginInit();
@@ -1728,10 +1729,11 @@
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(583, 111);
             this.checkBoxDNPEnable.Name = "checkBoxDNPEnable";
             this.checkBoxDNPEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxDNPEnable.Size = new System.Drawing.Size(91, 17);
+            this.checkBoxDNPEnable.Size = new System.Drawing.Size(155, 17);
             this.checkBoxDNPEnable.TabIndex = 72;
-            this.checkBoxDNPEnable.Text = "DNP Enabled";
+            this.checkBoxDNPEnable.Text = "DNP Uplink ( Kit Required )";
             this.checkBoxDNPEnable.UseVisualStyleBackColor = true;
+            this.checkBoxDNPEnable.Click += new System.EventHandler(this.dnpUplink_Click);
             // 
             // checkBoxTransmitterEnable
             // 
@@ -2441,6 +2443,17 @@
             this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring2.TransmitterSN = "";
             this.ucTransmitterMonitoring2.WaterBugActive = false;
+            //
+            //ucDNP2
+            //
+            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP2.DNPLabelStatus = false;
+            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
+            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucDNP2.Name = "ucDNP2";
+            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
+            this.ucDNP2.TabIndex = 0;
             // 
             // ucTransmitter
             // 
@@ -2715,6 +2728,7 @@
         private System.Windows.Forms.Label labelGEWHDisplay;
         public System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
         public RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
+        public RelayControlLibrary.ucDNP ucDNP2;
         private System.Windows.Forms.Panel panelPowerOut;
         private System.Windows.Forms.Label labelTMonTransOutput;
         private System.Windows.Forms.Panel panelFlagSettings;

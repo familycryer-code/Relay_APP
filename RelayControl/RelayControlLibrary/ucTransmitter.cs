@@ -1,14 +1,15 @@
-﻿using System;
+﻿using NLog;
+using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using SharedResources;
-using static RelayControlLibrary.ucTransmitterMonitoring;
-using System.Threading;
+using System.Drawing;
 using System.IO;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using static RelayControlLibrary.ucTransmitterMonitoring;
 
 namespace RelayControlLibrary
 {
@@ -83,7 +84,7 @@ namespace RelayControlLibrary
 
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(270, 311);
         }
-
+        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private Customers customer;
         public Customers Customer
         {
@@ -979,6 +980,32 @@ namespace RelayControlLibrary
             OnSend(RQSEA);
         }
 
+        private void dnpUplink_Click(object sender, EventArgs e)
+        {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            DialogResult dR;
+
+            if (this.checkBoxDNPEnable.Checked == true)
+            {
+                dR = new YesNoMessageBoxResized("DNP Uplink", "Have you installed the 'DNP Uplink Kit'?", "Yes", "No").ShowDialog();
+
+                if (dR == DialogResult.Yes)
+                {
+                    dnpUplinkK.dnpEnabledWithKit = true;
+                    this.ucDNP2.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                }
+                else
+                {
+                    MessageBox.Show("Please ensure the 'DNP Uplink Kit' is installed before activating the 'DNP Uplink' feature. Activating this feature without the required kit will disable communication with the Relay Control and monitoring Application", "Kit Required");
+                    dnpUplinkK.dnpEnabledWithKit = false;
+                }
+            }
+            else
+            {
+                dnpUplinkK.dnpEnabledWithKit = false;
+            }
+        }
+
         //private void buttonTX_Click(object sender, EventArgs e)
         public void buttonTX_Click(object sender, EventArgs e)
         {
@@ -1181,7 +1208,8 @@ namespace RelayControlLibrary
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xEF);
 
-                if (this.checkBoxDNPEnable.Checked)
+                //if (this.checkBoxDNPEnable.Checked)
+                if (dnpUplinkK.dnpEnabledWithKit == true) // check box checked AND DNP Uplink kit is also present
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xFB);
