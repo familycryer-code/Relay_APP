@@ -992,7 +992,7 @@ namespace RelayControlLibrary
                 if (dR == DialogResult.Yes)
                 {
                     dnpUplinkK.dnpEnabledWithKit = true;
-                    this.ucDNP2.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                    //this.ucDNP2.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 }
                 else
                 {
