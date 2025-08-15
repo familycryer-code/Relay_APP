@@ -220,6 +220,7 @@
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
+            this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -247,6 +248,7 @@
             this.panelFlagSettingC.SuspendLayout();
             this.panelFlagSettingB.SuspendLayout();
             this.panelFlagSettingA.SuspendLayout();
+            this.tabPageDNP.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonTX
@@ -2443,6 +2445,18 @@
             this.ucTransmitterMonitoring2.TransmitterMonitoring = false;
             this.ucTransmitterMonitoring2.TransmitterSN = "";
             this.ucTransmitterMonitoring2.WaterBugActive = false;
+            // 
+            // tabPageDNP
+            // 
+            this.tabPageDNP.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageDNP.Controls.Add(this.ucDNP2);
+            this.tabPageDNP.Location = new System.Drawing.Point(4, 24);
+            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageDNP.Name = "tabPageDNP";
+            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
+            this.tabPageDNP.TabIndex = 9;
+            this.tabPageDNP.Text = "DNP";
             //
             //ucDNP2
             //
@@ -2536,6 +2550,7 @@
             this.panelFlagSettingB.PerformLayout();
             this.panelFlagSettingA.ResumeLayout(false);
             this.panelFlagSettingA.PerformLayout();
+            this.tabPageDNP.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2767,6 +2782,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label labelFlagSettingA;
         //private System.Windows.Forms.Label labelFlagPolarity;
+        private System.Windows.Forms.TabPage tabPageDNP;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button button_FastFire;
         private System.Windows.Forms.Button button_FastMode;

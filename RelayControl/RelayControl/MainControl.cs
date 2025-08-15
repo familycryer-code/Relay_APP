@@ -160,7 +160,8 @@ namespace RelayControl
                     if (this.Customer == Customers.SMUD)
                         this.TransmitterEnabled = false;
 
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    //if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNP)) && (dnpUplinkK.dnpEnabledWithKit != false))
                     {
                         //#if !LONDONH
 #if !LONDONH && !DIGITALGRID && !DOMINION
@@ -188,7 +189,8 @@ namespace RelayControl
                             setDNPTabPoints();
                         }
 #endif
-                        if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        //if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth)) && (dnpUplinkK.dnpEnabledWithKit != false))
                         {
                             //#if !LONDONH && !DIGITALGRID
 #if !LONDONH && !DIGITALGRID && !DOMINION
@@ -245,6 +247,21 @@ namespace RelayControl
             this.dNPEnabledSavedVal = false;
             this.ucRelayProgramming1.DNPRelay = false;
 #endif
+
+            if (dnpUplinkK.dnpEnabledWithKit == false)
+            {
+                /* if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                 if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                 {
+                     this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                     this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                 }*/
+                this.removeDNPTabs();
+                this.dNPEnabledSavedVal = false;
+                this.ucRelayProgramming1.DNPRelay = false;
+            }
+
         }
 
         private bool gERelay = false;
@@ -3539,6 +3556,8 @@ namespace RelayControl
                 screenD.screenDisable = false;
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
+                // update display of DNP tabs based on change in DNP UPlink checkbox in TX Settings tab
+                setDNPTabPoints();
             }
             else if (this.badDataDetected == true)
             {

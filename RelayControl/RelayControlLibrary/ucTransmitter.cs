@@ -83,6 +83,7 @@ namespace RelayControlLibrary
             this.button_FastMode.Text = "Fast Mode Disabled";
 
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(270, 311);
+
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private Customers customer;
@@ -1503,7 +1504,7 @@ namespace RelayControlLibrary
                 tB.Enabled = b;
             }
         }
-
+                
         private void domainUpDownTXCTRatio_SelectedItemChanged(object sender, EventArgs e)
         {
             DomainUpDown dUD = (DomainUpDown)sender;
