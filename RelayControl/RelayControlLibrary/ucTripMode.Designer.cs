@@ -65,6 +65,7 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle = new System.Windows.Forms.DomainUpDown();
             this.labelTripStyle = new System.Windows.Forms.Label();
             this.groupBoxTripModeSettings = new System.Windows.Forms.GroupBox();
+            this.comboBox_TripType = new System.Windows.Forms.ComboBox();
             this.comboBox_TripStyle = new System.Windows.Forms.ComboBox();
             this.lblUnitInCur_kVARdir = new System.Windows.Forms.Label();
             this.lblUnitInCur_kWdir = new System.Windows.Forms.Label();
@@ -81,7 +82,6 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kVARdirection = new System.Windows.Forms.Label();
             this.numericUpDown_InCurrkVAR = new System.Windows.Forms.NumericUpDown();
-            this.comboBox_TripType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).BeginInit();
@@ -120,7 +120,7 @@ namespace RelayControlLibrary
             this.buttonSendTripData.Name = "buttonSendTripData";
             this.buttonSendTripData.Size = new System.Drawing.Size(75, 23);
             this.buttonSendTripData.TabIndex = 1;
-            this.buttonSendTripData.Text = "Send";
+            this.buttonSendTripData.Text = "Program Trip";
             this.buttonSendTripData.UseVisualStyleBackColor = true;
             this.buttonSendTripData.Click += new System.EventHandler(this.buttonSendTripMode_Click);
             // 
@@ -359,6 +359,7 @@ namespace RelayControlLibrary
             // 
             // domainUpDownType
             // 
+            this.domainUpDownType.Enabled = false;
             this.domainUpDownType.Items.Add("Relay");
             this.domainUpDownType.Items.Add("Percent");
             this.domainUpDownType.Items.Add("Protector");
@@ -368,8 +369,6 @@ namespace RelayControlLibrary
             this.domainUpDownType.Size = new System.Drawing.Size(78, 20);
             this.domainUpDownType.TabIndex = 31;
             this.domainUpDownType.Text = "Relay";
-            //this.domainUpDownType.SelectedItemChanged += new System.EventHandler(this.domainUpDownType_SelectedItemChanged);
-            this.domainUpDownType.Enabled = false;
             this.domainUpDownType.Visible = false;
             // 
             // labelWVCurrentUnit
@@ -618,6 +617,19 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.TabStop = false;
             this.groupBoxTripModeSettings.Text = "Trip Mode Settings:";
             // 
+            // comboBox_TripType
+            // 
+            this.comboBox_TripType.FormattingEnabled = true;
+            this.comboBox_TripType.Items.AddRange(new object[] {
+            "Relay",
+            "Percent",
+            "Protector"});
+            this.comboBox_TripType.Location = new System.Drawing.Point(220, 20);
+            this.comboBox_TripType.Name = "comboBox_TripType";
+            this.comboBox_TripType.Size = new System.Drawing.Size(75, 21);
+            this.comboBox_TripType.TabIndex = 69;
+            this.comboBox_TripType.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripType_SelectedItemChanged);
+            // 
             // comboBox_TripStyle
             // 
             this.comboBox_TripStyle.FormattingEnabled = true;
@@ -846,18 +858,6 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            // 
-            // comboBox_TripType
-            // 
-            this.comboBox_TripType.FormattingEnabled = true;
-            this.comboBox_TripType.Items.Add("Relay");
-            this.comboBox_TripType.Items.Add("Percent");
-            this.comboBox_TripType.Items.Add("Protector");
-            this.comboBox_TripType.Location = new System.Drawing.Point(220, 20);
-            this.comboBox_TripType.Name = "comboBox_TripType";
-            this.comboBox_TripType.Size = new System.Drawing.Size(75, 21);
-            this.comboBox_TripType.TabIndex = 69;
-            this.comboBox_TripType.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripType_SelectedItemChanged);
             // 
             // ucTripMode
             // 

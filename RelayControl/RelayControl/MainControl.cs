@@ -8983,10 +8983,14 @@ namespace RelayControl
              }*/
             // Thread.Sleep(16000); // 13 seconds
 
-           
-            this.ucRelayProgramming1.InitialAutoLoadFiles();
-            this.checkedDNPEnable = false;
-            
+
+             this.ucRelayProgramming1.InitialAutoLoadFiles();
+             this.checkedDNPEnable = false;
+
+            //initializeAutoLoad = false;
+            //this.ucRelayProgramming1.InitializeAutoload();
+
+
         }
 
 

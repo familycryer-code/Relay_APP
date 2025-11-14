@@ -83,7 +83,7 @@ namespace RelayControlLibrary
             this.button_FastMode.Text = "Fast Mode Disabled";
 
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(270, 311);
-
+            
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private Customers customer;
@@ -1010,8 +1010,6 @@ namespace RelayControlLibrary
         //private void buttonTX_Click(object sender, EventArgs e)
         public void buttonTX_Click(object sender, EventArgs e)
         {
-            //string text = "Sending Transmitter settings to the Relay. Flag settings, as seen on the Sensor Monitoring tab, will be sent as well !";
-            //MessageBox.Show(text);
             this.SendTransmitterSettings();
         }
 
