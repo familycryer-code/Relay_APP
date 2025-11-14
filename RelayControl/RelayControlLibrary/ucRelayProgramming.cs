@@ -632,8 +632,10 @@ namespace RelayControlLibrary
 #if ENMAX && !DEBUG
             this.checkSafeServiceMaster();
 #endif
-
-            this.upgradeAutoDR = showAutoLoadUpdateMessage();
+            if (ManualUpdate.usingManualMode == false)
+            { 
+                this.upgradeAutoDR = showAutoLoadUpdateMessage(); 
+            }
 #if !DEBUG
             if (upgradeAutoDR == DialogResult.Yes && notPollingPort)
                 this.upgradeAutoDR = checkDNPPLCMessage(upgradeAutoDR);
@@ -3569,45 +3571,48 @@ namespace RelayControlLibrary
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            
+            //if (ManualUpdate.usingManualMode == false)
+            //{
+                this.labelState.Text = "Time Out";
+                this.programmingForm.CurrentTask = "Timed Out - Restarting";
+                logger.Trace("Timed Out in State " + this.state);
+                this.timerTimeout.Stop();
+                this.timerTimeout.Interval = 10000;
+                this.timerTimeout.Start();
 
-            this.labelState.Text = "Time Out";
-            this.programmingForm.CurrentTask = "Timed Out - Restarting";
-            logger.Trace("Timed Out in State " + this.state);
-            this.timerTimeout.Stop();
-            this.timerTimeout.Interval = 10000;
-            this.timerTimeout.Start();
+            
+                switch (this.State)
+                {
+                    case RelayProgrammingStates.LoadingMasterData:
+                    case RelayProgrammingStates.LoadingMasterCode:
+                    case RelayProgrammingStates.WaitingForBootMaster:
+                        this.State = RelayProgrammingStates.WaitingForBootMaster;
+                        this.PrepForBoot();
+                        break;
+                    case RelayProgrammingStates.LoadingRelayCode:
+                    case RelayProgrammingStates.LoadingRelayData:
+                    case RelayProgrammingStates.WaitingForBootRelay:
+                        this.State = RelayProgrammingStates.WaitingForBootRelay;
+                        this.PrepForBoot();
+                        break;
+                    case RelayProgrammingStates.LoadingFPGACode:
+                    case RelayProgrammingStates.WaitingForBootFPGA:
+                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                        this.PrepForBoot();
+                        break;
+                    case RelayProgrammingStates.ReprogramSuccess:
+                        this.timerTimeout.Stop();
+                        this.manualReload = false;
+                        this.programmingForm.Hide();
+                        break;
 
-            switch (this.State)
-            {
-                case RelayProgrammingStates.LoadingMasterData:
-                case RelayProgrammingStates.LoadingMasterCode:
-                case RelayProgrammingStates.WaitingForBootMaster:
-                    this.State = RelayProgrammingStates.WaitingForBootMaster;
-                    this.PrepForBoot();
-                    break;
-                case RelayProgrammingStates.LoadingRelayCode:
-                case RelayProgrammingStates.LoadingRelayData:
-                case RelayProgrammingStates.WaitingForBootRelay:
-                    this.State = RelayProgrammingStates.WaitingForBootRelay;
-                    this.PrepForBoot();
-                    break;
-                case RelayProgrammingStates.LoadingFPGACode:
-                case RelayProgrammingStates.WaitingForBootFPGA:
-                    this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                    this.PrepForBoot();
-                    break;
-                case RelayProgrammingStates.ReprogramSuccess:
-                    this.timerTimeout.Stop();
-                    this.manualReload = false;
-                    this.programmingForm.Hide();
-                    break;
+                    case RelayProgrammingStates.LoadingMasterBootLoader:
+                        this.state = RelayProgrammingStates.ReloadMasterBoot;
+                        break;
+                }
 
-                case RelayProgrammingStates.LoadingMasterBootLoader:
-                    this.state = RelayProgrammingStates.ReloadMasterBoot;
-                    break;
-            }
-
-
+            //}
         }
 
         private void startManualBootCodeLoad()

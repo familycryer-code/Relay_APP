@@ -2033,6 +2033,11 @@ namespace RelayControlLibrary
         public static bool SendAllFlag;
     }
 
+    public static class ManualUpdate
+    {
+        public static bool usingManualMode;
+    }
+
     public static class relaxCloseC
     {
         public static bool RelaxCloseClick;

@@ -8965,32 +8965,11 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (!this.ucRelayProgramming1.IsMasterRev10orMore()) 
-            /*  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
-              {
-                  string text1 = "Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process";
-                  MessageBox.Show(text1);
-                  string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
-                  MessageBox.Show(text);
-                  if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
-                  {
-                      File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
-                  }
-                  // If Master uP revision is less than Rev 10, backup its data to the computer
-                  // And rewrite that data to go with the rev 10 firmware after programming is done
-                  dataB.oldDataBackup = true;
-                  this.BackUpRelayDatatoFile();
-             }*/
-            // Thread.Sleep(16000); // 13 seconds
+            // this.ucRelayProgramming1.InitialAutoLoadFiles();
+            // this.checkedDNPEnable = false;
 
-
-             this.ucRelayProgramming1.InitialAutoLoadFiles();
-             this.checkedDNPEnable = false;
-
-            //initializeAutoLoad = false;
-            //this.ucRelayProgramming1.InitializeAutoload();
-
-
+            this.ucRelayProgramming1.ProgramBootCodeStart = true;
+            ManualUpdate.usingManualMode = true;
         }
 
 
