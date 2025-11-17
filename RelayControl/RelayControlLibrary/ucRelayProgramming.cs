@@ -303,10 +303,11 @@ namespace RelayControlLibrary
             get { return this.remoteMasterRevisionNumber; }
             set
             {
-                // 012345 is the value loaded in the boot loader
-                if (value == 012345 || value == 121116)
-                    this.loadMasterFirst = true;
-
+                /* 
+                    // 012345 is the value loaded in the boot loader
+                     if (value == 012345 || value == 121116)
+                     this.loadMasterFirst = true;
+                */
                 switch (this.State)
                 {
                     case RelayProgrammingStates.LoadingMasterCode:
