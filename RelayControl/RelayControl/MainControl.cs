@@ -3447,9 +3447,16 @@ namespace RelayControl
                 this.checkSerialNumber = false;
                 this.savedSerialNumber = tempI;
 
-                this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
-                //   this.ucTransmitterMonitoring2.TransmitterSN = tempI.ToString();
+                //this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
+                //CONED asked to display serial numbers in range of 900001 to 965535
+                //Just so they can distinguish DGI relays
+#if CONED
+                this.ucTransmitterMonitoring1.TransmitterSN = (900000 + tempI).ToString();
+                this.textBoxRelaySNControl.Text = (900000+tempI).ToString();
+#else
+                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
+#endif
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 //Transmitter CT Ratio
@@ -3458,7 +3465,6 @@ namespace RelayControl
                 tempI += bytePacket[4];
 
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
-                //  this.ucTransmitterMonitoring2.CTMult = tempI.ToString();
                 //DNP Enabled
                 if (!this.blockDNPEnableFromTransmitterSettings)
                 {
@@ -4570,10 +4576,10 @@ namespace RelayControl
                     this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
                     /* if (temp == 2)
                      {
- #if !DOMINION                                                         
+#if !DOMINION
                         // this.setDomainIndex(2, this.domainUpDownPhasings);
                          this.comboBox_Phasings.SelectedIndex = 2;
- #endif
+#endif
                      }*/
                     //else
                     if (temp == 1)
