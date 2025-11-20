@@ -3642,7 +3642,7 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-               /* if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+                /*if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
                 {
                     // If Master uP revision is less than Rev 10, backup its data to the computer
                     // And rewrite that data to go with the rev 10 firmware after programming is done
@@ -3661,8 +3661,8 @@ namespace RelayControl
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
 
-                }*/
-
+                }
+                */
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
@@ -9326,8 +9326,9 @@ namespace RelayControl
             string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
             TextWriter tw = new StreamWriter(path, true);
-            tw.WriteLine("Data currently residing in the relay :");
-
+            //tw.WriteLine("Data currently residing in the relay :");
+            tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
+            
             this.ucShortRange1.Request_SignalStrength();
             this.requestRelayParameters();
             this.requestCalibrationConstants();

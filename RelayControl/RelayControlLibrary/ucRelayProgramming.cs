@@ -146,6 +146,10 @@ namespace RelayControlLibrary
             get { return this.programBootCodeStart; }
             set
             {
+                if (ManualUpdate.usingManualMode == true)
+                {
+                    this.programmingForm.ClearAllChecks();
+                }
                 this.programBootCodeStart = value;
                 if (programBootCodeStart == true)
                 {
@@ -2256,7 +2260,7 @@ namespace RelayControlLibrary
             this.firstCheckForUpdate = false;
 
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
-
+            this.programmingForm.ClearAllChecks();
             rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
 
             this.onSend(rPEA);
@@ -2305,7 +2309,10 @@ namespace RelayControlLibrary
             if (!programBootCodeOnly)
             {
                 firstCheckForUpdate = true;
-                reprogramRelay = true;
+                if((ManualUpdate.usingManualMode == true) && (this.remoteRelayRevisionNumber < _relayCodeRevisionNumber) )
+                    reprogramRelay = false;
+                else
+                    reprogramRelay = true;
                 CheckForUpdate();
             }
 
@@ -2318,7 +2325,12 @@ namespace RelayControlLibrary
             {
                 this.programmingForm.Hide();
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+                this.programmingForm.ClearAllChecks();
                 logger.Trace("Reprogam Completed Successfully");
+                if (ManualUpdate.usingManualMode == true)
+                {
+                    ManualUpdate.usingManualMode = false;
+                }
                 logger.Trace("FinalizeReprogram");
                 this.state = RelayProgrammingStates.Idle;
                 this.autoLoad = false;
