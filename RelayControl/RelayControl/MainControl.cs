@@ -2533,6 +2533,7 @@ namespace RelayControl
                         tw.Close();
                         dataBackupR.dataBackup_fromRelay = false;
                     }
+                    MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
                     this.ucDNPSAv51.Message(bytePacket);
                     break;
                 case IncomingCommCommands.LowVoltageThresReceived:
@@ -3642,7 +3643,7 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                /*if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+               /* if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
                 {
                     // If Master uP revision is less than Rev 10, backup its data to the computer
                     // And rewrite that data to go with the rev 10 firmware after programming is done
@@ -3660,7 +3661,6 @@ namespace RelayControl
                     }
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
-
                 }
                 */
                 ucRelayProgramming1.InitializeAutoload();
