@@ -2433,7 +2433,7 @@ namespace RelayControl
                     this.calibrationComplete(bytePacket);
                     break;
                 case IncomingCommCommands.CalibrationConstants:
-                    this.setCalibrationConstants(bytePacket);
+                    this.setCalibrationConstants(bytePacket); // store calibration constants received from master to the APP
                     break;
                 case IncomingCommCommands.CurrentTime:
                     this.storeCurrentTime(bytePacket);
@@ -3583,13 +3583,17 @@ namespace RelayControl
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                    /*if (dataB.oldDataBackup == true)
+                   /* if (dataB.oldDataBackup == true)
                     {
                         if (checkValidDataBackup())
                         {
                             this.WriteBackUpData_FileToRelay();
                             dataB.oldDataBackup = false;
                             MessageBox.Show("Backup data loaded to the Relay !");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
                         }
                     }*/
                 }
@@ -3643,7 +3647,7 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-               /* if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+              /*  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
                 {
                     // If Master uP revision is less than Rev 10, backup its data to the computer
                     // And rewrite that data to go with the rev 10 firmware after programming is done
@@ -6381,7 +6385,7 @@ namespace RelayControl
                 this.RegisterPolling(false);
                 DialogResult dR = new YesNoMessageBoxResized("Calibration Complete", "Save Calibration Constants?", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
-                    this.sendSaveCalibration();
+                    this.sendSaveCalibration(); // tells master to send the calibration constants that are saved in its flash
                 this.monitoring(tempBool1);
                 this.RegisterPolling(tempBool2);
                 this.toolStripStatusLabelMain.Text = "Ready";
@@ -6399,7 +6403,7 @@ namespace RelayControl
         }
 
         private void sendSaveCalibration()
-        {
+        { // asks the master to send the calibration data saved in it memory
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'a';
@@ -9323,22 +9327,30 @@ namespace RelayControl
             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
             dataBackup_fromRelay = true;
             dataBackupR.dataBackup_fromRelay = true;
-            string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            try
+            {
+                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
-            TextWriter tw = new StreamWriter(path, true);
-            //tw.WriteLine("Data currently residing in the relay :");
-            tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
-            
-            this.ucShortRange1.Request_SignalStrength();
-            this.requestRelayParameters();
-            this.requestCalibrationConstants();
-            this.requestTransmitterSettings();
-            this.requestDNPSettings();
-            this.requestSafeServiceSettings();
-            this.arcFaultEnableMonitoring(true);
-            this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
-            Thread.Sleep(1000);   // delay 1second
-            tw.Close();
+
+                TextWriter tw = new StreamWriter(path, true);
+                //tw.WriteLine("Data currently residing in the relay :");
+                tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
+
+                this.ucShortRange1.Request_SignalStrength();
+                this.requestRelayParameters();
+                this.requestCalibrationConstants();
+                this.requestTransmitterSettings();
+                this.requestDNPSettings();
+                this.requestSafeServiceSettings();
+                this.arcFaultEnableMonitoring(true);
+                this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
+                Thread.Sleep(1000);   // delay 1second
+                tw.Close();
+            }
+            catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
+            {
+                throw new Exception("Pull data File Corrupt", ex);
+            }
 
         }
 
@@ -9357,6 +9369,7 @@ namespace RelayControl
             this.writeDNPDataBackUp_ToMaster();
             this.writeDNPSAv5SettingsDataBackUp_ToMaster();
             this.writeArcFaultDataBackUp_ToMaster();
+            this.writeCalibrationDataBackUp_ToMaster();
         }
 
 
@@ -10143,12 +10156,61 @@ namespace RelayControl
             Thread.Sleep(1000);   // 1 second delay
         }
 
+        private void writeCalibrationDataBackUp_ToMaster()
+        {
+            if (dataBackupPM.dataBackup_pumpModeDefaults == false) //if not loading calibration constant defaults - and loading old calibration back to the relay
+            {
+                //=======================      pump_mode_enabled to timeout_on_breaker_close ( G )      ===================================================
+                byte[] packet_Cal = new byte[10];
+                string lineRead;
+                StreamReader srCal = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
+                int Cal = 1; // go to the beginning of the data backup file
+                while (Cal <= 98)
+                {
+                    lineRead = srCal.ReadLine(); //Read the next line untill we reach the begining of data with command 'J' for calibration
+                    Cal++;
+                }
+
+                packet_Cal[0] = 74;   // 'J' calibration data
+                /*packet_Cal[1] = 0;    
+                  packet_Cal[2] = 8;    
+                  packet_Cal[3] = 108;    
+                  packet_Cal[4] = 2;
+                  packet_Cal[5] = 0;    
+                  packet_Cal[6] = 8;
+                  packet_Cal[7] = 108;    
+                  packet_Cal[8] = 2;  
+                  */
+
+                for (int cnt = 1; cnt <= 60; cnt++)
+                {
+                    lineRead = srCal.ReadLine(); //Read the next line
+                    if ((cnt % 2) != 0)//odd numbered ?
+                        packet_Cal[cnt + 1] = Convert.ToByte(lineRead);
+                    else
+                        packet_Cal[cnt - 1] = Convert.ToByte(lineRead);
+                }
+
+                packet_Cal[59] = 0x0D;
+                this.sendPacket(packet_Cal);
+                Thread.Sleep(1000);   // 1 second delay
+            }//if not loading calibration constant defaults - and loading old calibration constants back to the relay
+            else
+            {
+                // since calibration constants from old firmware rev was found out to be bad / corrupt / out of range
+                // do not load those calibration constants ( which are backed up in the file)
+                // instead load the defaults calibration constants to the relay with the new firmware
+                this.ucPumpMode1.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+            }
+        }
+
         private bool checkValidDataBackup()
         {
             /*
              While programing a relay having firmware with older version, data from this relay gets 
             backed up / stored in file "RelayData_Backup.txt" on the computer. So that it gets written back
-            to the relay with its new structure for relay parameters implmented to secure memory corruption.
+            to the relay with its new structure for relay parameters implemented to secure memory corruption.
             This data that gets backed up in the "RelayData_Backup.txt" is stored in the following sequence :
 
             Data currently residing in the relay :
@@ -10162,7 +10224,7 @@ namespace RelayControl
             Arc Fault Parameters:   40 bytes, each one on 40 consecutives lines
             
             Accordingly this function checks if all the above fields of data ( Relay Params, Calibration .. etc
-            is stored at the correct line# of the back up file ) and only then considers it as a valid file 
+            are stored at the correct line# of the back up file ) and only then considers it as a valid file 
             with valid data to be written back to the relay.
             */
 
