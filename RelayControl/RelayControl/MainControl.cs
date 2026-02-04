@@ -250,18 +250,11 @@ namespace RelayControl
 
             if (dnpUplinkK.dnpEnabledWithKit == false)
             {
-                /* if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                 if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                 {
-                     this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                     this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-                 }*/
-                this.removeDNPTabs();
+               // this.removeDNPTabs();
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
             }
-
+            
         }
 
         private bool gERelay = false;

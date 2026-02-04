@@ -1001,13 +1001,35 @@ namespace RelayControlLibrary
 
             try
             {
-                switch (tempTM)
+                /*switch (tempTM)
                 {
                     case TripModes.Insensitive:
                         this.listBoxTripModes.SelectedIndex = 1;
                         break;
                     case TripModes.TimeDelay:
                         this.listBoxTripModes.SelectedIndex = 2;
+                        break;
+                    case TripModes.WattVar:
+                        this.listBoxTripModes.SelectedIndex = 3;
+                        break;
+                    case TripModes.Adaptive:
+                        this.listBoxTripModes.SelectedIndex = 4;
+                        break;
+                    case TripModes.Sensitive:
+                    case TripModes.RemoteTrip:
+                    default:
+                        this.listBoxTripModes.SelectedIndex = 0;
+                        break;
+
+                }*/
+
+                switch (tempTM)
+                {
+                    case TripModes.Insensitive:
+                        this.listBoxTripModes.SelectedIndex = 2;
+                        break;
+                    case TripModes.TimeDelay:
+                        this.listBoxTripModes.SelectedIndex = 1;
                         break;
                     case TripModes.WattVar:
                         this.listBoxTripModes.SelectedIndex = 3;
