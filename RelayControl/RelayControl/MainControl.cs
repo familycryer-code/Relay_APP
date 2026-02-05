@@ -2525,8 +2525,8 @@ namespace RelayControl
                         }
                         tw.Close();
                         dataBackupR.dataBackup_fromRelay = false;
+                        MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
                     }
-                    MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
                     this.ucDNPSAv51.Message(bytePacket);
                     break;
                 case IncomingCommCommands.LowVoltageThresReceived:
