@@ -131,7 +131,7 @@
     <value>..\Throbber_SendAll1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="_RevisionDate" xml:space="preserve">
-    <value>2025-05-18</value>
+    <value>2026-01-09</value>
   </data>
   <data name="loading-load" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\loading-load.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

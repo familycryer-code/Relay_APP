@@ -904,7 +904,7 @@ namespace RelayControlLibrary
             this.numericUpDownMaxEvents.Value = 20;
             this.numericUpDownSourceAddress.Value = 4;
             this.numericUpDownUnsolRetries.Value = 5;
-            this.numericUpDownUnsolTimeout.Value = 10000;
+            this.numericUpDownUnsolTimeout.Value = 1000;// 10000;
             this.comboBoxLinkLayerConfirm.SelectedIndex = 0;
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;

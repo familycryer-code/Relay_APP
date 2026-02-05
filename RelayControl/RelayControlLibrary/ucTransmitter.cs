@@ -241,10 +241,15 @@ namespace RelayControlLibrary
 #if CONED
                 //CONED asked to display serial numbers in range of 900001 to 965535
                 //Just so they can distinguish DGI relays
+                /* if (uTemp >= 1 || uTemp < 65535)
+                     this.textBoxSerialNumber.Text = (900000 + uTemp).ToString();
+                 else
+                     this.textBoxSerialNumber.Text = "903076"; // default serial number for CONED
+                */
                 if (uTemp >= 1 || uTemp < 65535)
-                    this.textBoxSerialNumber.Text = (900000 + uTemp).ToString();
+                    this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
                 else
-                    this.textBoxSerialNumber.Text = "903076"; // default serial number for CONED
+                    this.textBoxSerialNumber.Text = "3076"; // default serial number
 #else
                 if (uTemp >= 1 || uTemp < 65535)
                     this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();

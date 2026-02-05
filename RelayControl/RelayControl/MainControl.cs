@@ -654,7 +654,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.3" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -3445,8 +3445,11 @@ namespace RelayControl
                 //CONED asked to display serial numbers in range of 900001 to 965535
                 //Just so they can distinguish DGI relays
 #if CONED
-                this.ucTransmitterMonitoring1.TransmitterSN = (900000 + tempI).ToString();
-                this.textBoxRelaySNControl.Text = (900000+tempI).ToString();
+                /* this.ucTransmitterMonitoring1.TransmitterSN = (900000 + tempI).ToString();
+                 this.textBoxRelaySNControl.Text = (900000+tempI).ToString();
+                */
+                this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
+                this.textBoxRelaySNControl.Text = tempI.ToString();
 #else
                  this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
