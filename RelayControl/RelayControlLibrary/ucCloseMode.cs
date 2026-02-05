@@ -433,13 +433,22 @@ namespace RelayControlLibrary
         {
             decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
             byte[] packet = new byte[6]; //permissivePacketSize
+            /* packet[0] = (byte)'}';
+             packet[1] = (byte)numericUpDown_FloatTime.Value;
+             packet[2] = (byte)numericUpDown_PermClActTime.Value;
+             packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
+             packet[4] = (byte)((int)tempVoltage & 0x00FF);
+             packet[5] = 0x0D;
+            */
             packet[0] = (byte)'}';
-            packet[1] = (byte)numericUpDown_FloatTime.Value;
-            packet[2] = (byte)numericUpDown_PermClActTime.Value;
-            packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
+            if(this.chkBox_EnablePermClose.Checked == true)
+                packet[1] = 1;
+            else 
+                packet[1] = 0;
+            packet[2] = (byte)numericUpDown_FloatTime.Value;
+            packet[3] = (byte)numericUpDown_PermClActTime.Value;
             packet[4] = (byte)((int)tempVoltage & 0x00FF);
             packet[5] = 0x0D;
-
             this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
         }
 
@@ -966,11 +975,21 @@ namespace RelayControlLibrary
                 this.button_PC.BackColor = Color.Yellow;
 
                 decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
-                byte[] packet = new byte[6]; //permissivePacketSize
+                /*byte[] packet = new byte[6]; //permissivePacketSize
                 packet[0] = (byte)'}';
                 packet[1] = 0; // special - only used to indicated a click of this(Permissive Close) button
                 packet[2] = (byte)numericUpDown_PermClActTime.Value;
                 packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
+                packet[4] = (byte)((int)tempVoltage & 0x00FF);
+                packet[5] = 0x0D;
+                */
+                this.chkBox_EnablePermClose.Checked = true; // Enable Permissive Close
+
+                byte[] packet = new byte[6]; //permissivePacketSize
+                packet[0] = (byte)'}';
+                packet[1] = 1;               // Enable Permissive Close
+                packet[2] = 0;               // special - only for Permissive Close
+                packet[3] = (byte)numericUpDown_PermClActTime.Value;
                 packet[4] = (byte)((int)tempVoltage & 0x00FF);
                 packet[5] = 0x0D;
 
