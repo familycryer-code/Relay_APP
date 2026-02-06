@@ -94,7 +94,6 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -135,8 +134,9 @@
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
-            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
+            this.groupBox_PC = new System.Windows.Forms.GroupBox();
             this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
+            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
             this.button_dataStore = new System.Windows.Forms.Button();
             this.pictureBox_SendAll = new System.Windows.Forms.PictureBox();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
@@ -146,6 +146,7 @@
             this.buttonRequestLowVotlageThres = new System.Windows.Forms.Button();
             this.numericUpDownLowVoltageThres = new System.Windows.Forms.NumericUpDown();
             this.buttonSendLowVoltageThres = new System.Windows.Forms.Button();
+            this.labelRelayDisconnected = new System.Windows.Forms.Label();
             this.groupBoxPhasingAndType = new System.Windows.Forms.GroupBox();
             this.comboBox_Phasings = new System.Windows.Forms.ComboBox();
             this.comboBox_RelayType = new System.Windows.Forms.ComboBox();
@@ -189,7 +190,6 @@
             this.buttonResetBothProc = new System.Windows.Forms.Button();
             this.buttonSendAll = new System.Windows.Forms.Button();
             this.buttonTripRelay = new System.Windows.Forms.Button();
-            this.labelRelayDisconnected = new System.Windows.Forms.Label();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.tabControlMain = new System.Windows.Forms.TabControl();
@@ -220,7 +220,6 @@
             this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxFloatFlag = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
@@ -245,6 +244,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -927,14 +927,6 @@
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -1461,12 +1453,14 @@
             // tabPageControl
             // 
             this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageControl.Controls.Add(this.groupBox_PC);
             this.tabPageControl.Controls.Add(this.ucCloseMode1);
             this.tabPageControl.Controls.Add(this.ucPumpMode1);
             this.tabPageControl.Controls.Add(this.button_dataStore);
             this.tabPageControl.Controls.Add(this.pictureBox_SendAll);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
+            this.tabPageControl.Controls.Add(this.labelRelayDisconnected);
             this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
             this.tabPageControl.Controls.Add(this.groupBoxNetworkCTRatio);
             this.tabPageControl.Controls.Add(this.groupBoxRelayFlags);
@@ -1482,31 +1476,43 @@
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             // 
-            // ucPumpMode1
+            // groupBox_PC
             // 
-            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Location = new System.Drawing.Point(218, 300);
-            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucPumpMode1.Name = "ucPumpMode1";
-            this.ucPumpMode1.PumpProtectEnabled = false;
-            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
-            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucPumpMode1.Size = new System.Drawing.Size(297, 311);
-            this.ucPumpMode1.TabIndex = 49;
+            this.groupBox_PC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_PC.Location = new System.Drawing.Point(559, 320);
+            this.groupBox_PC.Name = "groupBox_PC";
+            this.groupBox_PC.Size = new System.Drawing.Size(276, 297);
+            this.groupBox_PC.TabIndex = 122;
+            this.groupBox_PC.TabStop = false;
+            this.groupBox_PC.Text = "Permissive Close";
             // 
             // ucCloseMode1
             // 
             this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
             this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
-            this.ucCloseMode1.Location = new System.Drawing.Point(379, 8);
+            this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucCloseMode1.Location = new System.Drawing.Point(248, 350);
             this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
             this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(333, 302);
+            this.ucCloseMode1.Size = new System.Drawing.Size(373, 322);
             this.ucCloseMode1.TabIndex = 26;
+            // 
+            // ucPumpMode1
+            // 
+            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucPumpMode1.Location = new System.Drawing.Point(441, 5);
+            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucPumpMode1.Name = "ucPumpMode1";
+            this.ucPumpMode1.PumpProtectEnabled = false;
+            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
+            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucPumpMode1.Size = new System.Drawing.Size(378, 321);
+            this.ucPumpMode1.TabIndex = 49;
             // 
             // button_dataStore
             // 
@@ -1625,6 +1631,18 @@
             this.buttonSendLowVoltageThres.UseVisualStyleBackColor = true;
             this.buttonSendLowVoltageThres.Click += new System.EventHandler(this.buttonSendLowVoltageThres_Click);
             // 
+            // labelRelayDisconnected
+            // 
+            this.labelRelayDisconnected.AutoSize = true;
+            this.labelRelayDisconnected.BackColor = System.Drawing.Color.Red;
+            this.labelRelayDisconnected.Location = new System.Drawing.Point(842, 571);
+            this.labelRelayDisconnected.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelRelayDisconnected.Name = "labelRelayDisconnected";
+            this.labelRelayDisconnected.Size = new System.Drawing.Size(116, 15);
+            this.labelRelayDisconnected.TabIndex = 49;
+            this.labelRelayDisconnected.Text = "Relay Disconnected";
+            this.labelRelayDisconnected.Visible = false;
+            // 
             // groupBoxPhasingAndType
             // 
             this.groupBoxPhasingAndType.BackColor = System.Drawing.Color.Transparent;
@@ -1641,6 +1659,7 @@
             this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownRelayType);
             this.groupBoxPhasingAndType.Controls.Add(this.buttonTypePhasingRestoreDefaults);
             this.groupBoxPhasingAndType.Controls.Add(this.buttonRelayType);
+            this.groupBoxPhasingAndType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 390);
             this.groupBoxPhasingAndType.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxPhasingAndType.Name = "groupBoxPhasingAndType";
@@ -1658,7 +1677,7 @@
             "CBA : BAC : ACB"});
             this.comboBox_Phasings.Location = new System.Drawing.Point(56, 43);
             this.comboBox_Phasings.Name = "comboBox_Phasings";
-            this.comboBox_Phasings.Size = new System.Drawing.Size(121, 23);
+            this.comboBox_Phasings.Size = new System.Drawing.Size(121, 24);
             this.comboBox_Phasings.TabIndex = 80;
             // 
             // comboBox_RelayType
@@ -1669,7 +1688,7 @@
             "Sequence"});
             this.comboBox_RelayType.Location = new System.Drawing.Point(90, 16);
             this.comboBox_RelayType.Name = "comboBox_RelayType";
-            this.comboBox_RelayType.Size = new System.Drawing.Size(87, 23);
+            this.comboBox_RelayType.Size = new System.Drawing.Size(87, 24);
             this.comboBox_RelayType.TabIndex = 79;
             this.comboBox_RelayType.SelectedIndexChanged += new System.EventHandler(this.comboBox_RelayType_SelectedItemChanged);
             // 
@@ -1679,7 +1698,7 @@
             this.labelDNPVoltage.Location = new System.Drawing.Point(8, 79);
             this.labelDNPVoltage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelDNPVoltage.Name = "labelDNPVoltage";
-            this.labelDNPVoltage.Size = new System.Drawing.Size(103, 15);
+            this.labelDNPVoltage.Size = new System.Drawing.Size(114, 16);
             this.labelDNPVoltage.TabIndex = 78;
             this.labelDNPVoltage.Text = "Protector Voltage:";
             // 
@@ -1692,7 +1711,7 @@
             this.comboBoxDNPVoltage.Location = new System.Drawing.Point(119, 75);
             this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
-            this.comboBoxDNPVoltage.Size = new System.Drawing.Size(75, 23);
+            this.comboBoxDNPVoltage.Size = new System.Drawing.Size(75, 24);
             this.comboBoxDNPVoltage.TabIndex = 77;
             this.comboBoxDNPVoltage.SelectedIndexChanged += new System.EventHandler(this.comboBoxDNPVoltage_SelectedIndexChanged);
             // 
@@ -1702,7 +1721,7 @@
             this.checkBox277DNPOutputs.Location = new System.Drawing.Point(10, 99);
             this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
-            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(179, 19);
+            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(195, 20);
             this.checkBox277DNPOutputs.TabIndex = 76;
             this.checkBox277DNPOutputs.Text = "Convert DNP Output Voltage";
             this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
@@ -1714,7 +1733,7 @@
             this.labelConEdPowerRelay.Location = new System.Drawing.Point(100, 19);
             this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
-            this.labelConEdPowerRelay.Size = new System.Drawing.Size(42, 15);
+            this.labelConEdPowerRelay.Size = new System.Drawing.Size(45, 16);
             this.labelConEdPowerRelay.TabIndex = 51;
             this.labelConEdPowerRelay.Text = "Power";
             // 
@@ -1724,7 +1743,7 @@
             this.label20.Location = new System.Drawing.Point(13, 19);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(70, 15);
+            this.label20.Size = new System.Drawing.Size(81, 16);
             this.label20.TabIndex = 44;
             this.label20.Text = "Relay Type:";
             // 
@@ -1734,7 +1753,7 @@
             this.labelProtectorType.Location = new System.Drawing.Point(13, 125);
             this.labelProtectorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelProtectorType.Name = "labelProtectorType";
-            this.labelProtectorType.Size = new System.Drawing.Size(88, 15);
+            this.labelProtectorType.Size = new System.Drawing.Size(99, 16);
             this.labelProtectorType.TabIndex = 50;
             this.labelProtectorType.Text = "Protector Type:";
             // 
@@ -1746,7 +1765,7 @@
             this.domainUpDownPhasings.Location = new System.Drawing.Point(41, 60);
             this.domainUpDownPhasings.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
-            this.domainUpDownPhasings.Size = new System.Drawing.Size(133, 21);
+            this.domainUpDownPhasings.Size = new System.Drawing.Size(133, 22);
             this.domainUpDownPhasings.TabIndex = 47;
             this.domainUpDownPhasings.Visible = false;
             // 
@@ -1757,7 +1776,7 @@
             this.labelGEWH.Location = new System.Drawing.Point(113, 125);
             this.labelGEWH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelGEWH.Name = "labelGEWH";
-            this.labelGEWH.Size = new System.Drawing.Size(29, 17);
+            this.labelGEWH.Size = new System.Drawing.Size(32, 18);
             this.labelGEWH.TabIndex = 49;
             this.labelGEWH.Text = "WH";
             // 
@@ -1769,7 +1788,7 @@
             this.domainUpDownRelayType.Location = new System.Drawing.Point(8, 60);
             this.domainUpDownRelayType.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownRelayType.Name = "domainUpDownRelayType";
-            this.domainUpDownRelayType.Size = new System.Drawing.Size(27, 21);
+            this.domainUpDownRelayType.Size = new System.Drawing.Size(27, 22);
             this.domainUpDownRelayType.TabIndex = 43;
             this.domainUpDownRelayType.Visible = false;
             // 
@@ -1805,7 +1824,8 @@
             this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
             this.groupBoxNetworkCTRatio.Controls.Add(this.textBoxCTRatio);
             this.groupBoxNetworkCTRatio.Controls.Add(this.domainUpDownCTRatioM);
-            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 304);
+            this.groupBoxNetworkCTRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 300);
             this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
             this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
@@ -1829,7 +1849,7 @@
             "Special"});
             this.comboBox_CTRatio.Location = new System.Drawing.Point(53, 20);
             this.comboBox_CTRatio.Name = "comboBox_CTRatio";
-            this.comboBox_CTRatio.Size = new System.Drawing.Size(62, 23);
+            this.comboBox_CTRatio.Size = new System.Drawing.Size(62, 24);
             this.comboBox_CTRatio.TabIndex = 74;
             this.comboBox_CTRatio.Text = "1600:5";
             this.comboBox_CTRatio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CTRatio_SelectedItemChanged);
@@ -1840,7 +1860,7 @@
             this.labelOver5.Location = new System.Drawing.Point(66, 56);
             this.labelOver5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelOver5.Name = "labelOver5";
-            this.labelOver5.Size = new System.Drawing.Size(17, 15);
+            this.labelOver5.Size = new System.Drawing.Size(18, 16);
             this.labelOver5.TabIndex = 73;
             this.labelOver5.Text = "/5";
             // 
@@ -1850,7 +1870,7 @@
             this.label27.Location = new System.Drawing.Point(7, 23);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(39, 15);
+            this.label27.Size = new System.Drawing.Size(42, 16);
             this.label27.TabIndex = 68;
             this.label27.Text = "Ratio:";
             // 
@@ -1871,7 +1891,7 @@
             this.textBoxCTRatio.Location = new System.Drawing.Point(8, 53);
             this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
-            this.textBoxCTRatio.Size = new System.Drawing.Size(56, 21);
+            this.textBoxCTRatio.Size = new System.Drawing.Size(56, 22);
             this.textBoxCTRatio.TabIndex = 64;
             this.textBoxCTRatio.Text = "320";
             this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_Leave);
@@ -1891,7 +1911,7 @@
             this.domainUpDownCTRatioM.Location = new System.Drawing.Point(131, 20);
             this.domainUpDownCTRatioM.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownCTRatioM.Name = "domainUpDownCTRatioM";
-            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(71, 21);
+            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(71, 22);
             this.domainUpDownCTRatioM.TabIndex = 62;
             this.domainUpDownCTRatioM.Text = "1600:5";
             this.domainUpDownCTRatioM.Visible = false;
@@ -2093,11 +2113,12 @@
             // 
             this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
             this.ucSafeService1.CTRatio = 320;
+            this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucSafeService1.LoadingNewCode = false;
             this.ucSafeService1.Location = new System.Drawing.Point(857, 5);
             this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(270, 289);
+            this.ucSafeService1.Size = new System.Drawing.Size(296, 304);
             this.ucSafeService1.TabIndex = 108;
             // 
             // panelOtherRelayControls
@@ -2109,16 +2130,16 @@
             this.panelOtherRelayControls.Controls.Add(this.buttonResetBothProc);
             this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
             this.panelOtherRelayControls.Controls.Add(this.buttonTripRelay);
-            this.panelOtherRelayControls.Controls.Add(this.labelRelayDisconnected);
-            this.panelOtherRelayControls.Location = new System.Drawing.Point(522, 310);
+            this.panelOtherRelayControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelOtherRelayControls.Location = new System.Drawing.Point(840, 310);
             this.panelOtherRelayControls.Margin = new System.Windows.Forms.Padding(4);
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
-            this.panelOtherRelayControls.Size = new System.Drawing.Size(620, 241);
+            this.panelOtherRelayControls.Size = new System.Drawing.Size(309, 241);
             this.panelOtherRelayControls.TabIndex = 77;
             // 
             // buttonClearCycleCount
             // 
-            this.buttonClearCycleCount.Location = new System.Drawing.Point(305, 151);
+            this.buttonClearCycleCount.Location = new System.Drawing.Point(154, 194);
             this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClearCycleCount.Name = "buttonClearCycleCount";
             this.buttonClearCycleCount.Size = new System.Drawing.Size(141, 26);
@@ -2129,7 +2150,7 @@
             // 
             // buttonBlockAndTrip
             // 
-            this.buttonBlockAndTrip.Location = new System.Drawing.Point(305, 85);
+            this.buttonBlockAndTrip.Location = new System.Drawing.Point(154, 80);
             this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
             this.buttonBlockAndTrip.Size = new System.Drawing.Size(141, 26);
@@ -2141,10 +2162,10 @@
             // buttonRequestRelayParamaters
             // 
             this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(290, 185);
+            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(17, 22);
             this.buttonRequestRelayParamaters.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
-            this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(164, 49);
+            this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(101, 49);
             this.buttonRequestRelayParamaters.TabIndex = 33;
             this.buttonRequestRelayParamaters.Text = "Read";
             this.buttonRequestRelayParamaters.UseVisualStyleBackColor = true;
@@ -2152,7 +2173,7 @@
             // 
             // buttonResetBothProc
             // 
-            this.buttonResetBothProc.Location = new System.Drawing.Point(306, 117);
+            this.buttonResetBothProc.Location = new System.Drawing.Point(154, 140);
             this.buttonResetBothProc.Margin = new System.Windows.Forms.Padding(4);
             this.buttonResetBothProc.Name = "buttonResetBothProc";
             this.buttonResetBothProc.Size = new System.Drawing.Size(141, 26);
@@ -2164,10 +2185,10 @@
             // buttonSendAll
             // 
             this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.buttonSendAll.Location = new System.Drawing.Point(458, 186);
+            this.buttonSendAll.Location = new System.Drawing.Point(17, 140);
             this.buttonSendAll.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendAll.Name = "buttonSendAll";
-            this.buttonSendAll.Size = new System.Drawing.Size(147, 49);
+            this.buttonSendAll.Size = new System.Drawing.Size(101, 49);
             this.buttonSendAll.TabIndex = 70;
             this.buttonSendAll.Text = "Program";
             this.buttonSendAll.UseVisualStyleBackColor = true;
@@ -2175,7 +2196,7 @@
             // 
             // buttonTripRelay
             // 
-            this.buttonTripRelay.Location = new System.Drawing.Point(305, 51);
+            this.buttonTripRelay.Location = new System.Drawing.Point(154, 22);
             this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTripRelay.Name = "buttonTripRelay";
             this.buttonTripRelay.Size = new System.Drawing.Size(141, 26);
@@ -2183,18 +2204,6 @@
             this.buttonTripRelay.Text = "Trip Relay";
             this.buttonTripRelay.UseVisualStyleBackColor = true;
             this.buttonTripRelay.Click += new System.EventHandler(this.buttonTripRelay_Click);
-            // 
-            // labelRelayDisconnected
-            // 
-            this.labelRelayDisconnected.AutoSize = true;
-            this.labelRelayDisconnected.BackColor = System.Drawing.Color.Red;
-            this.labelRelayDisconnected.Location = new System.Drawing.Point(455, 167);
-            this.labelRelayDisconnected.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelRelayDisconnected.Name = "labelRelayDisconnected";
-            this.labelRelayDisconnected.Size = new System.Drawing.Size(116, 15);
-            this.labelRelayDisconnected.TabIndex = 49;
-            this.labelRelayDisconnected.Text = "Relay Disconnected";
-            this.labelRelayDisconnected.Visible = false;
             // 
             // ucCoverFlags1
             // 
@@ -2211,6 +2220,7 @@
             this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
             this.ucTripMode2.CTRatio = 320;
             this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
+            this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucTripMode2.Location = new System.Drawing.Point(0, 0);
             this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4);
             this.ucTripMode2.Name = "ucTripMode2";
@@ -2258,7 +2268,6 @@
             this.tabPage1.Controls.Add(this.labelRelaySNControl);
             this.tabPage1.Controls.Add(this.textBoxRelaySNControl);
             this.tabPage1.Controls.Add(this.groupBoxRelayStatus);
-            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -2586,15 +2595,6 @@
             this.checkBoxFloatFlag.Text = "Float";
             this.checkBoxFloatFlag.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(787, 65);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(249, 286);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Permissive Close";
-            // 
             // tabPageDNP
             // 
             this.tabPageDNP.BackColor = System.Drawing.SystemColors.Control;
@@ -2826,6 +2826,14 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -2885,7 +2893,6 @@
             this.groupBoxRelayFlags.ResumeLayout(false);
             this.groupBoxRelayFlags.PerformLayout();
             this.panelOtherRelayControls.ResumeLayout(false);
-            this.panelOtherRelayControls.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -3103,7 +3110,6 @@
         private System.Windows.Forms.ComboBox comboBox_RelayType;
         private System.Windows.Forms.ComboBox comboBox_Phasings;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBoxRelayStatus;
         private System.Windows.Forms.Label labelNWPStatus;
         private System.Windows.Forms.CheckBox checkBoxTripFlag;
@@ -3130,5 +3136,6 @@
         private System.Windows.Forms.Button buttonDeleteSetting;
         private System.Windows.Forms.TextBox textBoxSaveStateName;
         private System.Windows.Forms.Button buttonSaveSetting;
+        private System.Windows.Forms.GroupBox groupBox_PC;
     }
 }
