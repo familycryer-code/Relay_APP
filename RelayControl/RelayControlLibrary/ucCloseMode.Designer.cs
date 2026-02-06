@@ -465,7 +465,7 @@ namespace RelayControlLibrary
             this.numericUpDown_PermClActTime.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_PermClActTime.TabIndex = 44;
             this.numericUpDown_PermClActTime.Value = new decimal(new int[] {
-            30,
+            15,
             0,
             0,
             0});
@@ -576,7 +576,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.NumericUpDown numericUpDown_PermClActTime;
         private System.Windows.Forms.Label lblPermCloseActiveTime;
         private System.Windows.Forms.Label lblPermCloseVoltage;
-        private System.Windows.Forms.NumericUpDown numericnumericUpDown_PermClVoltage;
+        public System.Windows.Forms.NumericUpDown numericnumericUpDown_PermClVoltage;
         private System.Windows.Forms.Label lblUnitFloatTime;
         private System.Windows.Forms.Label lblUnitPermClAcTime;
         private System.Windows.Forms.Label lblUnitPerClVoltage;

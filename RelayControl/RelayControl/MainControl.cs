@@ -650,6 +650,7 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = true;
                 this.button_dataStore.Enabled = false;
                 this.button_dataStore.Visible = false;
+                this.ucCloseMode1.numericnumericUpDown_PermClVoltage.Enabled = false;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;

@@ -432,7 +432,7 @@ namespace RelayControlLibrary
         public void SendPermissiveData()
         {
             decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
-            byte[] packet = new byte[6]; //permissivePacketSize
+            byte[] packet = new byte[7]; //permissivePacketSize
             /* packet[0] = (byte)'}';
              packet[1] = (byte)numericUpDown_FloatTime.Value;
              packet[2] = (byte)numericUpDown_PermClActTime.Value;
@@ -447,9 +447,10 @@ namespace RelayControlLibrary
                 packet[1] = 0;
             packet[2] = (byte)numericUpDown_FloatTime.Value;
             packet[3] = (byte)numericUpDown_PermClActTime.Value;
-            packet[4] = (byte)((int)tempVoltage & 0x00FF);
-            packet[5] = 0x0D;
-            this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
+            packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
+            packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
+            packet[6] = 0x0D;
+            this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
         }
 
         public decimal GetFixed_12FracBits(decimal value)
@@ -897,7 +898,11 @@ namespace RelayControlLibrary
                 this.numericUpDownPDV.Value = 0.4m;
                 this.chkBox_EnablePermClose.Checked = true;
                 this.numericUpDown_FloatTime.Value = 38;// 20;
+#if CONED
+                this.numericUpDown_PermClActTime.Value = 15;
+#else
                 this.numericUpDown_PermClActTime.Value = 30;
+#endif
                 this.numericnumericUpDown_PermClVoltage.Value = 5;
 #endif
 
@@ -985,30 +990,32 @@ namespace RelayControlLibrary
                 */
                 this.chkBox_EnablePermClose.Checked = true; // Enable Permissive Close
 
-                byte[] packet = new byte[6]; //permissivePacketSize
+                byte[] packet = new byte[7]; //permissivePacketSize
                 packet[0] = (byte)'}';
                 packet[1] = 1;               // Enable Permissive Close
                 packet[2] = 0;               // special - only for Permissive Close
                 packet[3] = (byte)numericUpDown_PermClActTime.Value;
-                packet[4] = (byte)((int)tempVoltage & 0x00FF);
-                packet[5] = 0x0D;
+                packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
+                packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
+                packet[6] = 0x0D;
 
-                this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
+                this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
             }
             else if (button_PC.BackColor == Color.Yellow)
             { 
                 this.button_PC.BackColor = Color.Transparent;
 
                 decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
-                byte[] packet = new byte[6]; //permissivePacketSize
+                byte[] packet = new byte[7]; //permissivePacketSize
                 packet[0] = (byte)'}';
                 packet[1] = (byte)numericUpDown_FloatTime.Value;
                 packet[2] = (byte)numericUpDown_PermClActTime.Value;
                 packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
-                packet[4] = (byte)((int)tempVoltage & 0x00FF);
-                packet[5] = 0x0D;
+                packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
+                packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
+                packet[6] = 0x0D;
 
-                this.OnSend(this, new SendEventArgs(6) { SendPacket = packet });
+                this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
             }
         }
     }
