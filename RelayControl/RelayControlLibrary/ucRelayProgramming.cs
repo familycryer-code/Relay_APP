@@ -1899,7 +1899,14 @@ namespace RelayControlLibrary
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
+           // const int BOOTLOADER_PACKET_SIZE = 1024;
+           // const int BOOTLOADER_PACKET_COUNT = 24;
+           // const int BOOTLOADER_TOTAL_SIZE = BOOTLOADER_PACKET_SIZE * BOOTLOADER_PACKET_COUNT;
+
             this.failCount = 0;
+
+           // while (this.masterCode.CodeBytes.Count < BOOTLOADER_TOTAL_SIZE)
+            //    this.masterCode.CodeBytes.Add(0xFF);
 
             if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
             {
@@ -2803,7 +2810,7 @@ namespace RelayControlLibrary
                                         rPD.CodeBytes.Add((byte)0xFF);
                                 }
                             }
-                            else if (address == 0x87FFC) //added special case for boot code
+                            else if (address == 0x87FFC) //added special case for boot code ( dec 557052 )
                             {
                                 for (int j = 0; j <= 27; j++)
                                     rPD.CodeBytes.Add((byte)0xFF);
