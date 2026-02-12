@@ -3902,8 +3902,8 @@ namespace RelayControl
             {
                 this.uc8CheckBoxFlagsRelayFlags1.SetValues(bytePacket[1]);
                 this.uc8CheckBoxFlagsRelayFlags2.SetValues(bytePacket[0]);
-                this.uc8CheckBoxFlagsRelayStatus1.SetValues(bytePacket[3]);
-                this.uc8CheckBoxFlagsRelayStatus2.SetValues(bytePacket[2]);
+                this.uc8CheckBoxFlagsRelayStatus1.SetValues(bytePacket[3]);//
+                this.uc8CheckBoxFlagsRelayStatus2.SetValues(bytePacket[2]);//
                 this.uc8CheckBoxFlagsCommFlags1.SetValues(bytePacket[5]);
                 this.uc8CheckBoxFlagsCommFlags2.SetValues(bytePacket[4]);
                 this.uc8CheckBoxFlagsGEControl1.SetValues(bytePacket[7]);
@@ -4213,8 +4213,11 @@ namespace RelayControl
                 {
                     ucRemoteCommandBlock1.CommandsBlocked = false;
                 }
+                
+                
+                
 
-                b = bytePacket[5];
+                b = bytePacket[5]; // this byte will probably have the PC bit
 
 
                 if ((b & 32) == 32)
@@ -4225,7 +4228,7 @@ namespace RelayControl
                 {
                     this.ucCloseMode1.RelaxClose = false;
                 }
-
+                
                 b = bytePacket[4];
 
                 if ((b & 32) == 32)
@@ -4236,6 +4239,16 @@ namespace RelayControl
                 {
                     this.ucTransmitterMonitoring1.WaterBugActive = false;
                 }
+
+                if ((b & 16) == 16)
+                {
+                    this.ucCloseMode1.button_PC.BackColor = Color.Yellow;
+                }
+                else
+                {
+                    this.ucCloseMode1.button_PC.BackColor = Color.Transparent;
+                }
+
             }
             catch (Exception ex)
             {
@@ -9495,8 +9508,8 @@ namespace RelayControl
                 packet_MT[7] = 0x0D;
                 this.sendPacket(packet_MT);
                 Thread.Sleep(1000);   // 1 second delay
-                                      //==================================    T0    ==============================================
 
+                //==================================    T0    ==============================================
                 byte[] packet_T0 = new byte[14];
                 StreamReader sr2 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
                 int t0 = 1; // go to the beginning of the data backup file
@@ -10162,7 +10175,7 @@ namespace RelayControl
             if (dataBackupPM.dataBackup_pumpModeDefaults == false) //if not loading calibration constant defaults - and loading old calibration back to the relay
             {
                 //=======================      pump_mode_enabled to timeout_on_breaker_close ( G )      ===================================================
-                byte[] packet_Cal = new byte[10];
+                byte[] packet_Cal = new byte[60];
                 string lineRead;
                 StreamReader srCal = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
                 int Cal = 1; // go to the beginning of the data backup file

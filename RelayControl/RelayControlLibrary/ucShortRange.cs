@@ -471,7 +471,7 @@ namespace RelayControlLibrary
         {
             SendEventArgs sEA = new SendEventArgs(2);
 
-            sEA.SendPacket[0] = (byte)'K';
+            sEA.SendPacket[0] = (byte)'K'; 
             sEA.SendPacket[1] = (byte)0x0D;
 
             this.onSend(sEA);

@@ -581,6 +581,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitPermClAcTime;
         private System.Windows.Forms.Label lblUnitPerClVoltage;
         private System.Windows.Forms.CheckBox chkBox_EnablePermClose;
-        private System.Windows.Forms.Button button_PC;
+        public System.Windows.Forms.Button button_PC;
     }
 }

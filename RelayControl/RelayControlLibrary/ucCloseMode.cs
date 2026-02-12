@@ -1003,6 +1003,7 @@ namespace RelayControlLibrary
             }
             else if (button_PC.BackColor == Color.Yellow)
             { 
+                /*
                 this.button_PC.BackColor = Color.Transparent;
 
                 decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
@@ -1016,6 +1017,7 @@ namespace RelayControlLibrary
                 packet[6] = 0x0D;
 
                 this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
+                */
             }
         }
     }
