@@ -651,6 +651,7 @@ namespace RelayControl
                 this.button_dataStore.Enabled = false;
                 this.button_dataStore.Visible = false;
                 this.ucCloseMode1.numericnumericUpDown_PermClVoltage.Enabled = false;
+                this.numericUpDown_PC_voltage.Enabled = false;
                 this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 600);
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
                 this.ucCloseMode1.Location = new System.Drawing.Point(248, 440);
@@ -659,7 +660,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.7" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.8" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -10356,6 +10357,16 @@ namespace RelayControl
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_RestorePC_defaults_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Restore default values for Permissive Close");
+            
+            this.numericUpDown_PC_floatTime.Value = 38;
+            this.numericUpDown_PC_activeTime.Value = 15;
+            this.numericUpDown_PC_voltage.Value = 5;
+            
         }
     }
 
