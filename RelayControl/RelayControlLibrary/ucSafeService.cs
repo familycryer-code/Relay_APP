@@ -190,7 +190,6 @@ namespace RelayControlLibrary
                 if (this.Send != null)
                 {
                     sEA.SendPacket[0] = 0x0E;
-                    //sEA.SendPacket[1] = 0x55;
                     sEA.SendPacket[1] = 0x0D;
                     sEA.WithAck = false;
                     this.Send(this, sEA);

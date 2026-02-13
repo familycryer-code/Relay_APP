@@ -1,33 +1,34 @@
-﻿using System;
+﻿using GraphicsServer.GSNet.Charting;
+using Microsoft.Win32;
+using MyFileIO;
+using Newtonsoft.Json.Linq;
+using NLog;
+using PhasorDisplayGraph;
+using RelayControlLibrary;
+using RelayDNPSecurity;
+using SavedSettings;
+using SharedResources;
+using SineDisplayGraph;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Drawing.Printing;
+using System.Globalization;
 using System.IO;
-using System.Threading;
-using System.Collections;
-using PhasorDisplayGraph;
-using RelayControlLibrary;
-using SineDisplayGraph;
 using System.IO.Ports;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Globalization;
-using System.Drawing.Printing;
-using System.Drawing.Imaging;
-using Microsoft.Win32;
-using MyFileIO;
-using SavedSettings;
-using SharedResources;
-using System.Diagnostics;
-using System.Reflection;
-using System.Linq;
-using NLog;
-using GraphicsServer.GSNet.Charting;
-using RelayDNPSecurity;
 using System.ServiceModel.Channels;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace RelayControl
 {
@@ -2117,6 +2118,11 @@ namespace RelayControl
                             return true;
                         else
                             return false;
+                    case IncomingCommCommands.PCdata:
+                        if (i == 8)
+                            return true;
+                        else
+                            return false;
                     case IncomingCommCommands.Revision:
                         if (i == 38)
                             return true;
@@ -2352,6 +2358,8 @@ namespace RelayControl
                     return IncomingCommCommands.LiveDataPacket;
                 case (byte)'?':
                     return IncomingCommCommands.LowVoltageThresReceived;
+                case (byte)'~':
+                    return IncomingCommCommands.PCdata;
                 default:
                     return IncomingCommCommands.Invalid;
             }
@@ -2490,6 +2498,9 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.RelayRevision:
                     this.setRelayRevisionLabel(bytePacket);
+                    break;
+                case IncomingCommCommands.PCdata:
+                    this.setPermissiveCloseData(bytePacket);
                     break;
                 case IncomingCommCommands.Revision:
                     this.revisionReceived(bytePacket);
@@ -3598,6 +3609,8 @@ namespace RelayControl
                              MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
                          }
                      }*/
+
+                    this.request_PCdata();
                 }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
@@ -5054,6 +5067,33 @@ namespace RelayControl
             catch (Exception ex)
             {
                 this.messageHandler("Error in Trip/Close Event", ex);
+            }
+        }
+
+        private void setPermissiveCloseData(byte[] bytePacket)
+        {
+            try
+            {
+                if ((bytePacket[1] & 0x01) == 1)
+                {
+                    this.lbl_PermissiveClose_Status.BackColor = Color.Yellow;
+                    this.lbl_PermissiveClose_Status.Text = "ENABLED";
+                }
+                else
+                {
+                    this.lbl_PermissiveClose_Status.BackColor = Color.White;
+                    this.lbl_PermissiveClose_Status.Text = "Disabled";
+                }
+
+                this.numericUpDown_PC_floatTime.Value = bytePacket[3];
+                this.numericUpDown_PC_activeTime.Value = bytePacket[5];
+                this.numericUpDown_PC_voltage.Value = bytePacket[7]+(bytePacket[6] >> 4);
+                
+                
+            }
+            catch (Exception ex)
+            {
+                this.messageHandler("Error in Permissive Close data received from the relay", ex);
             }
         }
 
@@ -10400,9 +10440,24 @@ namespace RelayControl
             packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
             packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
             packet[6] = 0x0D;
-            //this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
+            
             this.sendPacketAck(packet, "Permissice Close packet Send");
+            //Thread.Sleep(1000);
+            //this.request_PCdata();
         }
+
+        private void request_PCdata()
+        {
+            //asks relay to send Permissive Close data to the APP
+            byte[] packet = new byte[3];
+
+            packet[0] = (byte)'~';
+            packet[1] = (byte)'U';
+            packet[2] = 0x0D;
+
+            this.sendPacket(packet);
+        }
+
     }
 
     public partial class MyPort : SerialPort

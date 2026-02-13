@@ -158,6 +158,7 @@ namespace RelayControlLibrary
         DNPMessage4,
         LowVoltageThresReceived,
         NoMemFix,
+        PCdata,
         Invalid,
         StandardPacket
     }
