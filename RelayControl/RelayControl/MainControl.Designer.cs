@@ -136,6 +136,12 @@
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
             this.groupBox_PC = new System.Windows.Forms.GroupBox();
+            this.btn_PC_Send = new System.Windows.Forms.Button();
+            this.lbl_PermissiveClose_Status = new System.Windows.Forms.Label();
+            this.lbl_PC_status = new System.Windows.Forms.Label();
+            this.comboBox_PC = new System.Windows.Forms.ComboBox();
+            this.lbl_PC = new System.Windows.Forms.Label();
+            this.numericUpDown_PC_voltage = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_PC_activeTime = new System.Windows.Forms.NumericUpDown();
             this.lbl_PCvoltage_Unit = new System.Windows.Forms.Label();
             this.lbl_PC_voltage = new System.Windows.Forms.Label();
@@ -255,7 +261,6 @@
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.numericUpDown_PC_voltage = new System.Windows.Forms.NumericUpDown();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -269,6 +274,7 @@
             this.tabPageMonitor.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.groupBox_PC.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_voltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_activeTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_floatTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SendAll)).BeginInit();
@@ -288,7 +294,6 @@
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
             this.tabPageEngineering2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_voltage)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -1500,6 +1505,11 @@
             // 
             // groupBox_PC
             // 
+            this.groupBox_PC.Controls.Add(this.btn_PC_Send);
+            this.groupBox_PC.Controls.Add(this.lbl_PermissiveClose_Status);
+            this.groupBox_PC.Controls.Add(this.lbl_PC_status);
+            this.groupBox_PC.Controls.Add(this.comboBox_PC);
+            this.groupBox_PC.Controls.Add(this.lbl_PC);
             this.groupBox_PC.Controls.Add(this.numericUpDown_PC_voltage);
             this.groupBox_PC.Controls.Add(this.numericUpDown_PC_activeTime);
             this.groupBox_PC.Controls.Add(this.lbl_PCvoltage_Unit);
@@ -1513,14 +1523,87 @@
             this.groupBox_PC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_PC.Location = new System.Drawing.Point(559, 320);
             this.groupBox_PC.Name = "groupBox_PC";
-            this.groupBox_PC.Size = new System.Drawing.Size(276, 297);
+            this.groupBox_PC.Size = new System.Drawing.Size(291, 297);
             this.groupBox_PC.TabIndex = 122;
             this.groupBox_PC.TabStop = false;
             this.groupBox_PC.Text = "Permissive Close";
             // 
+            // btn_PC_Send
+            // 
+            this.btn_PC_Send.Location = new System.Drawing.Point(185, 251);
+            this.btn_PC_Send.Name = "btn_PC_Send";
+            this.btn_PC_Send.Size = new System.Drawing.Size(75, 23);
+            this.btn_PC_Send.TabIndex = 14;
+            this.btn_PC_Send.Text = "Send";
+            this.btn_PC_Send.UseVisualStyleBackColor = true;
+            this.btn_PC_Send.Click += new System.EventHandler(this.btn_PC_Send_Click);
+            // 
+            // lbl_PermissiveClose_Status
+            // 
+            this.lbl_PermissiveClose_Status.AutoSize = true;
+            this.lbl_PermissiveClose_Status.BackColor = System.Drawing.Color.White;
+            this.lbl_PermissiveClose_Status.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(136, 204);
+            this.lbl_PermissiveClose_Status.Name = "lbl_PermissiveClose_Status";
+            this.lbl_PermissiveClose_Status.Size = new System.Drawing.Size(64, 18);
+            this.lbl_PermissiveClose_Status.TabIndex = 13;
+            this.lbl_PermissiveClose_Status.Text = "Disabled";
+            // 
+            // lbl_PC_status
+            // 
+            this.lbl_PC_status.AutoSize = true;
+            this.lbl_PC_status.Location = new System.Drawing.Point(69, 206);
+            this.lbl_PC_status.Name = "lbl_PC_status";
+            this.lbl_PC_status.Size = new System.Drawing.Size(47, 16);
+            this.lbl_PC_status.TabIndex = 12;
+            this.lbl_PC_status.Text = "Status:";
+            // 
+            // comboBox_PC
+            // 
+            this.comboBox_PC.FormattingEnabled = true;
+            this.comboBox_PC.Items.AddRange(new object[] {
+            "Enable",
+            "Disable"});
+            this.comboBox_PC.Location = new System.Drawing.Point(136, 167);
+            this.comboBox_PC.Name = "comboBox_PC";
+            this.comboBox_PC.Size = new System.Drawing.Size(68, 24);
+            this.comboBox_PC.TabIndex = 11;
+            this.comboBox_PC.Text = "Enable";
+            // 
+            // lbl_PC
+            // 
+            this.lbl_PC.AutoSize = true;
+            this.lbl_PC.Location = new System.Drawing.Point(18, 170);
+            this.lbl_PC.Name = "lbl_PC";
+            this.lbl_PC.Size = new System.Drawing.Size(112, 16);
+            this.lbl_PC.TabIndex = 10;
+            this.lbl_PC.Text = "Permissive Close";
+            // 
+            // numericUpDown_PC_voltage
+            // 
+            this.numericUpDown_PC_voltage.Location = new System.Drawing.Point(103, 107);
+            this.numericUpDown_PC_voltage.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown_PC_voltage.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_PC_voltage.Name = "numericUpDown_PC_voltage";
+            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(69, 22);
+            this.numericUpDown_PC_voltage.TabIndex = 9;
+            this.numericUpDown_PC_voltage.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
             // numericUpDown_PC_activeTime
             // 
-            this.numericUpDown_PC_activeTime.Location = new System.Drawing.Point(103, 84);
+            this.numericUpDown_PC_activeTime.Location = new System.Drawing.Point(103, 70);
             this.numericUpDown_PC_activeTime.Maximum = new decimal(new int[] {
             120,
             0,
@@ -1532,7 +1615,7 @@
             0,
             0});
             this.numericUpDown_PC_activeTime.Name = "numericUpDown_PC_activeTime";
-            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(75, 22);
+            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown_PC_activeTime.TabIndex = 8;
             this.numericUpDown_PC_activeTime.Value = new decimal(new int[] {
             15,
@@ -1543,7 +1626,7 @@
             // lbl_PCvoltage_Unit
             // 
             this.lbl_PCvoltage_Unit.AutoSize = true;
-            this.lbl_PCvoltage_Unit.Location = new System.Drawing.Point(190, 145);
+            this.lbl_PCvoltage_Unit.Location = new System.Drawing.Point(196, 113);
             this.lbl_PCvoltage_Unit.Name = "lbl_PCvoltage_Unit";
             this.lbl_PCvoltage_Unit.Size = new System.Drawing.Size(37, 16);
             this.lbl_PCvoltage_Unit.TabIndex = 7;
@@ -1552,7 +1635,7 @@
             // lbl_PC_voltage
             // 
             this.lbl_PC_voltage.AutoSize = true;
-            this.lbl_PC_voltage.Location = new System.Drawing.Point(27, 145);
+            this.lbl_PC_voltage.Location = new System.Drawing.Point(34, 113);
             this.lbl_PC_voltage.Name = "lbl_PC_voltage";
             this.lbl_PC_voltage.Size = new System.Drawing.Size(54, 16);
             this.lbl_PC_voltage.TabIndex = 6;
@@ -1561,7 +1644,7 @@
             // lbl_PCactiveTime_Unit
             // 
             this.lbl_PCactiveTime_Unit.AutoSize = true;
-            this.lbl_PCactiveTime_Unit.Location = new System.Drawing.Point(187, 86);
+            this.lbl_PCactiveTime_Unit.Location = new System.Drawing.Point(190, 70);
             this.lbl_PCactiveTime_Unit.Name = "lbl_PCactiveTime_Unit";
             this.lbl_PCactiveTime_Unit.Size = new System.Drawing.Size(53, 16);
             this.lbl_PCactiveTime_Unit.TabIndex = 5;
@@ -1570,7 +1653,7 @@
             // lbl_PC_activeTime
             // 
             this.lbl_PC_activeTime.AutoSize = true;
-            this.lbl_PC_activeTime.Location = new System.Drawing.Point(18, 86);
+            this.lbl_PC_activeTime.Location = new System.Drawing.Point(10, 70);
             this.lbl_PC_activeTime.Name = "lbl_PC_activeTime";
             this.lbl_PC_activeTime.Size = new System.Drawing.Size(78, 16);
             this.lbl_PC_activeTime.TabIndex = 4;
@@ -1579,7 +1662,7 @@
             // lbl_PCfloatTime_Unit
             // 
             this.lbl_PCfloatTime_Unit.AutoSize = true;
-            this.lbl_PCfloatTime_Unit.Location = new System.Drawing.Point(182, 40);
+            this.lbl_PCfloatTime_Unit.Location = new System.Drawing.Point(190, 35);
             this.lbl_PCfloatTime_Unit.Name = "lbl_PCfloatTime_Unit";
             this.lbl_PCfloatTime_Unit.Size = new System.Drawing.Size(43, 16);
             this.lbl_PCfloatTime_Unit.TabIndex = 3;
@@ -1587,7 +1670,7 @@
             // 
             // numericUpDown_PC_floatTime
             // 
-            this.numericUpDown_PC_floatTime.Location = new System.Drawing.Point(103, 40);
+            this.numericUpDown_PC_floatTime.Location = new System.Drawing.Point(103, 33);
             this.numericUpDown_PC_floatTime.Maximum = new decimal(new int[] {
             144,
             0,
@@ -1610,7 +1693,7 @@
             // lbl_PC_floatTime
             // 
             this.lbl_PC_floatTime.AutoSize = true;
-            this.lbl_PC_floatTime.Location = new System.Drawing.Point(16, 44);
+            this.lbl_PC_floatTime.Location = new System.Drawing.Point(17, 36);
             this.lbl_PC_floatTime.Name = "lbl_PC_floatTime";
             this.lbl_PC_floatTime.Size = new System.Drawing.Size(71, 16);
             this.lbl_PC_floatTime.TabIndex = 1;
@@ -1618,7 +1701,7 @@
             // 
             // btn_RestorePC_defaults
             // 
-            this.btn_RestorePC_defaults.Location = new System.Drawing.Point(19, 248);
+            this.btn_RestorePC_defaults.Location = new System.Drawing.Point(5, 252);
             this.btn_RestorePC_defaults.Name = "btn_RestorePC_defaults";
             this.btn_RestorePC_defaults.Size = new System.Drawing.Size(173, 23);
             this.btn_RestorePC_defaults.TabIndex = 0;
@@ -2271,10 +2354,10 @@
             this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
             this.panelOtherRelayControls.Controls.Add(this.buttonTripRelay);
             this.panelOtherRelayControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelOtherRelayControls.Location = new System.Drawing.Point(840, 310);
+            this.panelOtherRelayControls.Location = new System.Drawing.Point(857, 310);
             this.panelOtherRelayControls.Margin = new System.Windows.Forms.Padding(4);
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
-            this.panelOtherRelayControls.Size = new System.Drawing.Size(309, 241);
+            this.panelOtherRelayControls.Size = new System.Drawing.Size(292, 241);
             this.panelOtherRelayControls.TabIndex = 77;
             // 
             // buttonClearCycleCount
@@ -2361,7 +2444,7 @@
             this.ucTripMode2.CTRatio = 320;
             this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
             this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucTripMode2.Location = new System.Drawing.Point(0, 0);
+            this.ucTripMode2.Location = new System.Drawing.Point(13, 0);
             this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -2971,28 +3054,6 @@
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // numericUpDown_PC_voltage
-            // 
-            this.numericUpDown_PC_voltage.Location = new System.Drawing.Point(103, 139);
-            this.numericUpDown_PC_voltage.Name = "numericUpDown_PC_voltage";
-            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(81, 22);
-            this.numericUpDown_PC_voltage.TabIndex = 9;
-            this.numericUpDown_PC_voltage.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown_PC_voltage.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_PC_voltage.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -3037,6 +3098,7 @@
             this.tabPageControl.PerformLayout();
             this.groupBox_PC.ResumeLayout(false);
             this.groupBox_PC.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_voltage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_activeTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_floatTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SendAll)).EndInit();
@@ -3063,7 +3125,6 @@
             this.tabPageDNPSecureAuth.ResumeLayout(false);
             this.tabPageEngineering2.ResumeLayout(false);
             this.tabPageEngineering2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_voltage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3306,5 +3367,10 @@
         private System.Windows.Forms.Label lbl_PCvoltage_Unit;
         private System.Windows.Forms.NumericUpDown numericUpDown_PC_activeTime;
         private System.Windows.Forms.NumericUpDown numericUpDown_PC_voltage;
+        private System.Windows.Forms.Label lbl_PC;
+        private System.Windows.Forms.ComboBox comboBox_PC;
+        private System.Windows.Forms.Label lbl_PC_status;
+        private System.Windows.Forms.Label lbl_PermissiveClose_Status;
+        private System.Windows.Forms.Button btn_PC_Send;
     }
 }

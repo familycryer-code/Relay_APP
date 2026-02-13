@@ -250,11 +250,11 @@ namespace RelayControl
 
             if (dnpUplinkK.dnpEnabledWithKit == false)
             {
-               // this.removeDNPTabs();
+                // this.removeDNPTabs();
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
             }
-            
+
         }
 
         private bool gERelay = false;
@@ -1050,7 +1050,7 @@ namespace RelayControl
             //this.domainUpDownPhasings.Visible = false;
             this.comboBox_Phasings.Visible = false;
             this.labelConEdPowerRelay.Visible = true;
-           // this.domainUpDownRelayType.Visible = false;
+            // this.domainUpDownRelayType.Visible = false;
             this.comboBox_RelayType.Visible = false;
             this.buttonTypePhasingRestoreDefaults.Visible = false;
             this.buttonRelayType.Visible = false;
@@ -1591,7 +1591,7 @@ namespace RelayControl
                         this.buttonClearEvents.Enabled = true;
                         this.buttonReqLiveData.Enabled = true;
                         //this.domainUpDownCTRatioM_SelectedItemChanged(this.domainUpDownCTRatioM, new EventArgs()); //put this in to properly grey out CT Ratio box when necessary
-                        this.comboBox_CTRatio_SelectedItemChanged(this.comboBox_CTRatio, new EventArgs()); 
+                        this.comboBox_CTRatio_SelectedItemChanged(this.comboBox_CTRatio, new EventArgs());
                     }
 
                     this.allEnabled = b;
@@ -3585,19 +3585,19 @@ namespace RelayControl
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                   /* if (dataB.oldDataBackup == true)
-                    {
-                        if (checkValidDataBackup())
-                        {
-                            this.WriteBackUpData_FileToRelay();
-                            dataB.oldDataBackup = false;
-                            MessageBox.Show("Backup data loaded to the Relay !");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
-                        }
-                    }*/
+                    /* if (dataB.oldDataBackup == true)
+                     {
+                         if (checkValidDataBackup())
+                         {
+                             this.WriteBackUpData_FileToRelay();
+                             dataB.oldDataBackup = false;
+                             MessageBox.Show("Backup data loaded to the Relay !");
+                         }
+                         else
+                         {
+                             MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
+                         }
+                     }*/
                 }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
@@ -3649,26 +3649,26 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-              /*  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                {
-                    // If Master uP revision is less than Rev 10, backup its data to the computer
-                    // And rewrite that data to go with the rev 10 firmware after programming is done
-                    string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
-                    MessageBox.Show(text);
-                    if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
-                    {
-                        File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
-                    }
-                    
-                    dataB.oldDataBackup = true;
-                    if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
-                    {//if relay has old DNP firmware
-                        dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
-                    }
-                    this.BackUpRelayDatatoFile();
-                    Thread.Sleep(16000); // 16 seconds
-                }
-                */
+                /*  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+                  {
+                      // If Master uP revision is less than Rev 10, backup its data to the computer
+                      // And rewrite that data to go with the rev 10 firmware after programming is done
+                      string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
+                      MessageBox.Show(text);
+                      if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
+                      {
+                          File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
+                      }
+
+                      dataB.oldDataBackup = true;
+                      if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
+                      {//if relay has old DNP firmware
+                          dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
+                      }
+                      this.BackUpRelayDatatoFile();
+                      Thread.Sleep(16000); // 16 seconds
+                  }
+                  */
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
@@ -4214,9 +4214,9 @@ namespace RelayControl
                 {
                     ucRemoteCommandBlock1.CommandsBlocked = false;
                 }
-                
-                
-                
+
+
+
 
                 b = bytePacket[5]; // this byte will probably have the PC bit
 
@@ -4229,7 +4229,7 @@ namespace RelayControl
                 {
                     this.ucCloseMode1.RelaxClose = false;
                 }
-                
+
                 b = bytePacket[4];
 
                 if ((b & 32) == 32)
@@ -4617,7 +4617,7 @@ namespace RelayControl
                         //this.setDomainIndex(0, this.domainUpDownPhasings);
                         this.comboBox_Phasings.SelectedIndex = 0;
                         this.conedPhasing = (uint)temp;
-                        
+
 #endif
                     }
                     else
@@ -7721,7 +7721,7 @@ namespace RelayControl
             /*
              DNPSAv5 settings not sent with the PROGRAM button
              */
-           
+
 #if DNP && ATLANTA
             this.ucTransmitter1.DNPCoverFlags = this.ucCoverFlags1.getDNPCoverFlagsByte();
             //this.ucTransmitterMonitoring1.setPolarityFromRelaySettings(); //this.ucTransmitter1.setPolarityFromRelaySettings();
@@ -9464,7 +9464,7 @@ namespace RelayControl
 
                 this.sendPacket(packet_MC);
             }//if not loading close mode defaults - and loading old close mode data back to the relay
-            else 
+            else
             {
                 // since close mode data from old firmware rev was found out to be bad / corrupt / out of range
                 // do not load that data ( which is backed up in the file)
@@ -9758,7 +9758,7 @@ namespace RelayControl
                 }
 
                 packet_s[0] = 115;  // 's'
-                
+
                 for (int cnt = 1; cnt <= 2; cnt++)
                 {
                     lineRead = sr1.ReadLine(); //Read the next line
@@ -10271,7 +10271,7 @@ namespace RelayControl
             }
             if (lineRead == "Calibration Constants:")
                 cnt++;//3
-            
+
             StreamReader srV4 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
             V = 1;
             while (V <= Constants.SkipUntillLine_TransmitterParams)
@@ -10280,8 +10280,8 @@ namespace RelayControl
                 V++;
             }
             if (lineRead == "Transmitter Parameters:")
-                 cnt++;//4
-            
+                cnt++;//4
+
             StreamReader srV5 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
             V = 1;
             while (V <= Constants.SkipUntillLine_DNPdata)
@@ -10291,7 +10291,7 @@ namespace RelayControl
             }
             if (lineRead == "DNP Data:")
                 cnt++;//5
-            
+
             StreamReader srV6 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
             V = 1;
             while (V <= Constants.SkipUntillLine_SafeService)
@@ -10349,7 +10349,7 @@ namespace RelayControl
 
             }
 
-                
+
 
         }
 
@@ -10358,15 +10358,50 @@ namespace RelayControl
         {
 
         }
+        public decimal GetFixed_12FracBits(decimal value)
+        {
+            Int16 temp;
+            temp = (Int16)(value / Constants.TwelveFracBits);
+            return (decimal)temp;
+        }
+
 
         private void btn_RestorePC_defaults_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Restore default values for Permissive Close");
-            
+
             this.numericUpDown_PC_floatTime.Value = 38;
             this.numericUpDown_PC_activeTime.Value = 15;
             this.numericUpDown_PC_voltage.Value = 5;
+            this.comboBox_PC.SelectedIndex = 0;
+        }
+
+        private void btn_PC_Send_Click(object sender, EventArgs e)
+        {
+            if (comboBox_PC.SelectedIndex == 0)
+            {
+                MessageBox.Show("Send PC parameters to the relay");
+                SendPCData();
+            }
+
+        }
+        private void SendPCData()
+        {
+            decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
+            byte[] packet = new byte[7]; //permissivePacketSize
             
+            packet[0] = (byte)'}';
+            if (comboBox_PC.SelectedIndex == 0)
+                packet[1] = 1;
+            else
+                packet[1] = 0;
+            packet[2] = (byte)numericUpDown_PC_floatTime.Value;
+            packet[3] = (byte)numericUpDown_PC_activeTime.Value;
+            packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
+            packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
+            packet[6] = 0x0D;
+            //this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
+            this.sendPacketAck(packet, "Permissice Close packet Send");
         }
     }
 
