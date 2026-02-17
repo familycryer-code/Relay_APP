@@ -211,29 +211,35 @@
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox_FirmwareInfo = new System.Windows.Forms.GroupBox();
+            this.labelRevision = new System.Windows.Forms.Label();
+            this.labelRelayRevision = new System.Windows.Forms.Label();
+            this.labelFPGARevision = new System.Windows.Forms.Label();
+            this.labelBootRevision = new System.Windows.Forms.Label();
+            this.groupBox_RelayInfo = new System.Windows.Forms.GroupBox();
+            this.txtBox_NWPposition = new System.Windows.Forms.TextBox();
+            this.lbl_NWPposition = new System.Windows.Forms.Label();
+            this.textBox_TxID = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelRelaySNControl = new System.Windows.Forms.Label();
+            this.textBoxRelaySNControl = new System.Windows.Forms.TextBox();
+            this.textBoxTemperature = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxTripCount = new System.Windows.Forms.TextBox();
             this.textBoxSaveStateName = new System.Windows.Forms.TextBox();
             this.buttonSaveSetting = new System.Windows.Forms.Button();
             this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
             this.labelRelayStateControlPage = new System.Windows.Forms.Label();
-            this.labelBootRevision = new System.Windows.Forms.Label();
-            this.labelRevision = new System.Windows.Forms.Label();
-            this.labelFPGARevision = new System.Windows.Forms.Label();
-            this.labelRelayRevision = new System.Windows.Forms.Label();
             this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
             this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
-            this.labelRelaySNControl = new System.Windows.Forms.Label();
-            this.textBoxRelaySNControl = new System.Windows.Forms.TextBox();
             this.groupBoxRelayStatus = new System.Windows.Forms.GroupBox();
             this.labelNWPStatus = new System.Windows.Forms.Label();
             this.checkBoxTripFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxPhasingOkayFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxPumping = new System.Windows.Forms.CheckBox();
-            this.textBoxTemperature = new System.Windows.Forms.TextBox();
             this.checkBoxDefaultsUsed = new System.Windows.Forms.CheckBox();
             this.checkBoxBlockedOpenFlag = new System.Windows.Forms.CheckBox();
-            this.textBoxTripCount = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxFloatFlag = new System.Windows.Forms.CheckBox();
@@ -262,6 +268,7 @@
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.serialPort1 = new RelayControl.MyPort(this.components);
+            this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -288,6 +295,8 @@
             this.panelOtherRelayControls.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox_FirmwareInfo.SuspendLayout();
+            this.groupBox_RelayInfo.SuspendLayout();
             this.groupBoxRelayStatus.SuspendLayout();
             this.tabPageDNP.SuspendLayout();
             this.tabPageArcFault.SuspendLayout();
@@ -295,12 +304,14 @@
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
             this.tabPageEngineering2.SuspendLayout();
+            this.grpBox_RelayCommands.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
             // 
             labelTemperature.AutoSize = true;
-            labelTemperature.Location = new System.Drawing.Point(6, 237);
+            labelTemperature.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelTemperature.Location = new System.Drawing.Point(40, 162);
             labelTemperature.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelTemperature.Name = "labelTemperature";
             labelTemperature.Size = new System.Drawing.Size(66, 16);
@@ -1726,7 +1737,7 @@
             this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
             this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
             this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucCloseMode1.Location = new System.Drawing.Point(248, 350);
+            this.ucCloseMode1.Location = new System.Drawing.Point(319, 465);
             this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
             this.ucCloseMode1.Name = "ucCloseMode1";
@@ -2489,19 +2500,15 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.grpBox_RelayCommands);
+            this.tabPage1.Controls.Add(this.groupBox_FirmwareInfo);
+            this.tabPage1.Controls.Add(this.groupBox_RelayInfo);
             this.tabPage1.Controls.Add(this.textBoxSaveStateName);
             this.tabPage1.Controls.Add(this.buttonSaveSetting);
             this.tabPage1.Controls.Add(this.comboBoxSavedStates);
             this.tabPage1.Controls.Add(this.buttonDeleteSetting);
             this.tabPage1.Controls.Add(this.labelRelayStateControlPage);
-            this.tabPage1.Controls.Add(this.labelBootRevision);
-            this.tabPage1.Controls.Add(this.labelRevision);
-            this.tabPage1.Controls.Add(this.labelFPGARevision);
-            this.tabPage1.Controls.Add(this.labelRelayRevision);
             this.tabPage1.Controls.Add(this.ucRemoteCommandBlock1);
-            this.tabPage1.Controls.Add(this.ucBlockControl1);
-            this.tabPage1.Controls.Add(this.labelRelaySNControl);
-            this.tabPage1.Controls.Add(this.textBoxRelaySNControl);
             this.tabPage1.Controls.Add(this.groupBoxRelayStatus);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
@@ -2511,9 +2518,191 @@
             this.tabPage1.Text = "Relay Monitoring";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // groupBox_FirmwareInfo
+            // 
+            this.groupBox_FirmwareInfo.Controls.Add(this.labelRevision);
+            this.groupBox_FirmwareInfo.Controls.Add(this.labelRelayRevision);
+            this.groupBox_FirmwareInfo.Controls.Add(this.labelFPGARevision);
+            this.groupBox_FirmwareInfo.Controls.Add(this.labelBootRevision);
+            this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(27, 400);
+            this.groupBox_FirmwareInfo.Name = "groupBox_FirmwareInfo";
+            this.groupBox_FirmwareInfo.Size = new System.Drawing.Size(344, 400);
+            this.groupBox_FirmwareInfo.TabIndex = 128;
+            this.groupBox_FirmwareInfo.TabStop = false;
+            this.groupBox_FirmwareInfo.Text = "Firmware Revision";
+            // 
+            // labelRevision
+            // 
+            this.labelRevision.AutoSize = true;
+            this.labelRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRevision.Location = new System.Drawing.Point(16, 41);
+            this.labelRevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRevision.Name = "labelRevision";
+            this.labelRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRevision.Size = new System.Drawing.Size(4, 20);
+            this.labelRevision.TabIndex = 118;
+            this.labelRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelRelayRevision
+            // 
+            this.labelRelayRevision.AutoSize = true;
+            this.labelRelayRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelRelayRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelayRevision.Location = new System.Drawing.Point(16, 92);
+            this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRelayRevision.Name = "labelRelayRevision";
+            this.labelRelayRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRelayRevision.Size = new System.Drawing.Size(4, 20);
+            this.labelRelayRevision.TabIndex = 119;
+            this.labelRelayRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelFPGARevision
+            // 
+            this.labelFPGARevision.AutoSize = true;
+            this.labelFPGARevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelFPGARevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFPGARevision.Location = new System.Drawing.Point(16, 138);
+            this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelFPGARevision.Name = "labelFPGARevision";
+            this.labelFPGARevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelFPGARevision.Size = new System.Drawing.Size(4, 20);
+            this.labelFPGARevision.TabIndex = 120;
+            this.labelFPGARevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelBootRevision
+            // 
+            this.labelBootRevision.AutoSize = true;
+            this.labelBootRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelBootRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelBootRevision.Location = new System.Drawing.Point(16, 194);
+            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(4);
+            this.labelBootRevision.Name = "labelBootRevision";
+            this.labelBootRevision.Padding = new System.Windows.Forms.Padding(1);
+            this.labelBootRevision.Size = new System.Drawing.Size(4, 20);
+            this.labelBootRevision.TabIndex = 121;
+            this.labelBootRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBootRevision.Visible = false;
+            // 
+            // groupBox_RelayInfo
+            // 
+            this.groupBox_RelayInfo.Controls.Add(this.txtBox_NWPposition);
+            this.groupBox_RelayInfo.Controls.Add(this.lbl_NWPposition);
+            this.groupBox_RelayInfo.Controls.Add(this.textBox_TxID);
+            this.groupBox_RelayInfo.Controls.Add(this.label2);
+            this.groupBox_RelayInfo.Controls.Add(this.labelRelaySNControl);
+            this.groupBox_RelayInfo.Controls.Add(this.textBoxRelaySNControl);
+            this.groupBox_RelayInfo.Controls.Add(labelTemperature);
+            this.groupBox_RelayInfo.Controls.Add(this.textBoxTemperature);
+            this.groupBox_RelayInfo.Controls.Add(this.label4);
+            this.groupBox_RelayInfo.Controls.Add(this.textBoxTripCount);
+            this.groupBox_RelayInfo.Location = new System.Drawing.Point(27, 25);
+            this.groupBox_RelayInfo.Name = "groupBox_RelayInfo";
+            this.groupBox_RelayInfo.Size = new System.Drawing.Size(344, 340);
+            this.groupBox_RelayInfo.TabIndex = 127;
+            this.groupBox_RelayInfo.TabStop = false;
+            this.groupBox_RelayInfo.Text = "Relay Information";
+            // 
+            // txtBox_NWPposition
+            // 
+            this.txtBox_NWPposition.BackColor = System.Drawing.SystemColors.Control;
+            this.txtBox_NWPposition.Location = new System.Drawing.Point(129, 203);
+            this.txtBox_NWPposition.Name = "txtBox_NWPposition";
+            this.txtBox_NWPposition.Size = new System.Drawing.Size(100, 21);
+            this.txtBox_NWPposition.TabIndex = 119;
+            this.txtBox_NWPposition.Text = "Unknown";
+            this.txtBox_NWPposition.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lbl_NWPposition
+            // 
+            this.lbl_NWPposition.AutoSize = true;
+            this.lbl_NWPposition.Location = new System.Drawing.Point(21, 206);
+            this.lbl_NWPposition.Name = "lbl_NWPposition";
+            this.lbl_NWPposition.Size = new System.Drawing.Size(85, 15);
+            this.lbl_NWPposition.TabIndex = 118;
+            this.lbl_NWPposition.Text = "NWP Position:";
+            // 
+            // textBox_TxID
+            // 
+            this.textBox_TxID.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox_TxID.Location = new System.Drawing.Point(129, 72);
+            this.textBox_TxID.Name = "textBox_TxID";
+            this.textBox_TxID.Size = new System.Drawing.Size(100, 21);
+            this.textBox_TxID.TabIndex = 117;
+            this.textBox_TxID.Text = "1023";
+            this.textBox_TxID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(13, 74);
+            this.label2.Name = "label2";
+            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label2.Size = new System.Drawing.Size(93, 16);
+            this.label2.TabIndex = 116;
+            this.label2.Text = "Transmitter ID:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelRelaySNControl
+            // 
+            this.labelRelaySNControl.AutoSize = true;
+            this.labelRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelaySNControl.Location = new System.Drawing.Point(34, 35);
+            this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelRelaySNControl.Name = "labelRelaySNControl";
+            this.labelRelaySNControl.Size = new System.Drawing.Size(72, 16);
+            this.labelRelaySNControl.TabIndex = 115;
+            this.labelRelaySNControl.Text = "Relay S/N:";
+            // 
+            // textBoxRelaySNControl
+            // 
+            this.textBoxRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxRelaySNControl.Location = new System.Drawing.Point(129, 35);
+            this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxRelaySNControl.MaxLength = 5;
+            this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
+            this.textBoxRelaySNControl.ReadOnly = true;
+            this.textBoxRelaySNControl.Size = new System.Drawing.Size(101, 22);
+            this.textBoxRelaySNControl.TabIndex = 114;
+            this.textBoxRelaySNControl.Tag = "SN";
+            this.textBoxRelaySNControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxTemperature
+            // 
+            this.textBoxTemperature.Location = new System.Drawing.Point(129, 157);
+            this.textBoxTemperature.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTemperature.Name = "textBoxTemperature";
+            this.textBoxTemperature.ReadOnly = true;
+            this.textBoxTemperature.Size = new System.Drawing.Size(101, 21);
+            this.textBoxTemperature.TabIndex = 51;
+            this.textBoxTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(28, 121);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 16);
+            this.label4.TabIndex = 44;
+            this.label4.Text = "Trip Cycles:";
+            // 
+            // textBoxTripCount
+            // 
+            this.textBoxTripCount.Location = new System.Drawing.Point(129, 118);
+            this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTripCount.Name = "textBoxTripCount";
+            this.textBoxTripCount.ReadOnly = true;
+            this.textBoxTripCount.Size = new System.Drawing.Size(101, 21);
+            this.textBoxTripCount.TabIndex = 43;
+            this.textBoxTripCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // textBoxSaveStateName
             // 
-            this.textBoxSaveStateName.Location = new System.Drawing.Point(768, 487);
+            this.textBoxSaveStateName.Location = new System.Drawing.Point(859, 609);
             this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSaveStateName.Name = "textBoxSaveStateName";
             this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 21);
@@ -2521,7 +2710,7 @@
             // 
             // buttonSaveSetting
             // 
-            this.buttonSaveSetting.Location = new System.Drawing.Point(927, 482);
+            this.buttonSaveSetting.Location = new System.Drawing.Point(1007, 604);
             this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSaveSetting.Name = "buttonSaveSetting";
             this.buttonSaveSetting.Size = new System.Drawing.Size(109, 26);
@@ -2532,7 +2721,7 @@
             // comboBoxSavedStates
             // 
             this.comboBoxSavedStates.FormattingEnabled = true;
-            this.comboBoxSavedStates.Location = new System.Drawing.Point(768, 444);
+            this.comboBoxSavedStates.Location = new System.Drawing.Point(859, 573);
             this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxSavedStates.Name = "comboBoxSavedStates";
             this.comboBoxSavedStates.Size = new System.Drawing.Size(140, 23);
@@ -2540,7 +2729,7 @@
             // 
             // buttonDeleteSetting
             // 
-            this.buttonDeleteSetting.Location = new System.Drawing.Point(927, 440);
+            this.buttonDeleteSetting.Location = new System.Drawing.Point(1007, 570);
             this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDeleteSetting.Name = "buttonDeleteSetting";
             this.buttonDeleteSetting.Size = new System.Drawing.Size(109, 26);
@@ -2552,7 +2741,7 @@
             // 
             this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayStateControlPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayStateControlPage.Location = new System.Drawing.Point(573, 40);
+            this.labelRelayStateControlPage.Location = new System.Drawing.Point(1007, 530);
             this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(4);
             this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
             this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
@@ -2561,64 +2750,11 @@
             this.labelRelayStateControlPage.Text = "Unkown";
             this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelBootRevision
-            // 
-            this.labelBootRevision.AutoSize = true;
-            this.labelBootRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelBootRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelBootRevision.Location = new System.Drawing.Point(46, 482);
-            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelBootRevision.Name = "labelBootRevision";
-            this.labelBootRevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelBootRevision.Size = new System.Drawing.Size(4, 20);
-            this.labelBootRevision.TabIndex = 121;
-            this.labelBootRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelBootRevision.Visible = false;
-            // 
-            // labelRevision
-            // 
-            this.labelRevision.AutoSize = true;
-            this.labelRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRevision.Location = new System.Drawing.Point(46, 326);
-            this.labelRevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRevision.Name = "labelRevision";
-            this.labelRevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRevision.Size = new System.Drawing.Size(4, 20);
-            this.labelRevision.TabIndex = 118;
-            this.labelRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelFPGARevision
-            // 
-            this.labelFPGARevision.AutoSize = true;
-            this.labelFPGARevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelFPGARevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFPGARevision.Location = new System.Drawing.Point(46, 433);
-            this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelFPGARevision.Name = "labelFPGARevision";
-            this.labelFPGARevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelFPGARevision.Size = new System.Drawing.Size(4, 20);
-            this.labelFPGARevision.TabIndex = 120;
-            this.labelFPGARevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelRelayRevision
-            // 
-            this.labelRelayRevision.AutoSize = true;
-            this.labelRelayRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRelayRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayRevision.Location = new System.Drawing.Point(46, 380);
-            this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRelayRevision.Name = "labelRelayRevision";
-            this.labelRelayRevision.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayRevision.Size = new System.Drawing.Size(4, 20);
-            this.labelRelayRevision.TabIndex = 119;
-            this.labelRelayRevision.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // ucRemoteCommandBlock1
             // 
             this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ucRemoteCommandBlock1.CommandsBlocked = false;
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(57, 40);
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(845, 441);
             this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4);
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
             this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(154, 86);
@@ -2627,36 +2763,12 @@
             // ucBlockControl1
             // 
             this.ucBlockControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucBlockControl1.Location = new System.Drawing.Point(57, 168);
+            this.ucBlockControl1.Location = new System.Drawing.Point(56, 21);
             this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
             this.ucBlockControl1.Size = new System.Drawing.Size(163, 96);
             this.ucBlockControl1.TabIndex = 116;
-            // 
-            // labelRelaySNControl
-            // 
-            this.labelRelaySNControl.AutoSize = true;
-            this.labelRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelaySNControl.Location = new System.Drawing.Point(318, 40);
-            this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelRelaySNControl.Name = "labelRelaySNControl";
-            this.labelRelaySNControl.Size = new System.Drawing.Size(98, 24);
-            this.labelRelaySNControl.TabIndex = 115;
-            this.labelRelaySNControl.Text = "Relay S/N:";
-            // 
-            // textBoxRelaySNControl
-            // 
-            this.textBoxRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControl.Location = new System.Drawing.Point(424, 40);
-            this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxRelaySNControl.MaxLength = 5;
-            this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
-            this.textBoxRelaySNControl.ReadOnly = true;
-            this.textBoxRelaySNControl.Size = new System.Drawing.Size(101, 29);
-            this.textBoxRelaySNControl.TabIndex = 114;
-            this.textBoxRelaySNControl.Tag = "SN";
-            this.textBoxRelaySNControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBoxRelayStatus
             // 
@@ -2665,21 +2777,17 @@
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxTripFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxPhasingOkayFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxPumping);
-            this.groupBoxRelayStatus.Controls.Add(this.textBoxTemperature);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxDefaultsUsed);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxBlockedOpenFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.textBoxTripCount);
-            this.groupBoxRelayStatus.Controls.Add(labelTemperature);
-            this.groupBoxRelayStatus.Controls.Add(this.label4);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxBFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxTrippingFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxFloatFlag);
             this.groupBoxRelayStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxRelayStatus.Location = new System.Drawing.Point(473, 100);
+            this.groupBoxRelayStatus.Location = new System.Drawing.Point(408, 31);
             this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
             this.groupBoxRelayStatus.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxRelayStatus.Size = new System.Drawing.Size(154, 281);
+            this.groupBoxRelayStatus.Size = new System.Drawing.Size(412, 734);
             this.groupBoxRelayStatus.TabIndex = 113;
             this.groupBoxRelayStatus.TabStop = false;
             this.groupBoxRelayStatus.Text = "Relay Status:";
@@ -2733,15 +2841,6 @@
             this.checkBoxPumping.Text = "Pump Protect";
             this.checkBoxPumping.UseVisualStyleBackColor = true;
             // 
-            // textBoxTemperature
-            // 
-            this.textBoxTemperature.Location = new System.Drawing.Point(85, 234);
-            this.textBoxTemperature.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTemperature.Name = "textBoxTemperature";
-            this.textBoxTemperature.ReadOnly = true;
-            this.textBoxTemperature.Size = new System.Drawing.Size(56, 22);
-            this.textBoxTemperature.TabIndex = 51;
-            // 
             // checkBoxDefaultsUsed
             // 
             this.checkBoxDefaultsUsed.AutoCheck = false;
@@ -2769,26 +2868,6 @@
             this.checkBoxBlockedOpenFlag.TabIndex = 48;
             this.checkBoxBlockedOpenFlag.Text = "Blocked Open";
             this.checkBoxBlockedOpenFlag.UseVisualStyleBackColor = true;
-            // 
-            // textBoxTripCount
-            // 
-            this.textBoxTripCount.Location = new System.Drawing.Point(81, 102);
-            this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTripCount.Name = "textBoxTripCount";
-            this.textBoxTripCount.ReadOnly = true;
-            this.textBoxTripCount.Size = new System.Drawing.Size(54, 22);
-            this.textBoxTripCount.TabIndex = 43;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(7, 105);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 16);
-            this.label4.TabIndex = 44;
-            this.label4.Text = "Trip Cycles";
             // 
             // checkBoxBFlag
             // 
@@ -3066,6 +3145,16 @@
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // grpBox_RelayCommands
+            // 
+            this.grpBox_RelayCommands.Controls.Add(this.ucBlockControl1);
+            this.grpBox_RelayCommands.Location = new System.Drawing.Point(859, 31);
+            this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
+            this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 392);
+            this.grpBox_RelayCommands.TabIndex = 129;
+            this.grpBox_RelayCommands.TabStop = false;
+            this.grpBox_RelayCommands.Text = "Relay Commands";
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -3128,6 +3217,10 @@
             this.tabControlMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox_FirmwareInfo.ResumeLayout(false);
+            this.groupBox_FirmwareInfo.PerformLayout();
+            this.groupBox_RelayInfo.ResumeLayout(false);
+            this.groupBox_RelayInfo.PerformLayout();
             this.groupBoxRelayStatus.ResumeLayout(false);
             this.groupBoxRelayStatus.PerformLayout();
             this.tabPageDNP.ResumeLayout(false);
@@ -3137,6 +3230,7 @@
             this.tabPageDNPSecureAuth.ResumeLayout(false);
             this.tabPageEngineering2.ResumeLayout(false);
             this.tabPageEngineering2.PerformLayout();
+            this.grpBox_RelayCommands.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3385,5 +3479,12 @@
         private System.Windows.Forms.Label lbl_PermissiveClose_Status;
         private System.Windows.Forms.Button btn_PC_Send;
         private System.Windows.Forms.Button btn_PC_active;
+        private System.Windows.Forms.GroupBox groupBox_RelayInfo;
+        private System.Windows.Forms.GroupBox groupBox_FirmwareInfo;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox_TxID;
+        private System.Windows.Forms.Label lbl_NWPposition;
+        private System.Windows.Forms.TextBox txtBox_NWPposition;
+        private System.Windows.Forms.GroupBox grpBox_RelayCommands;
     }
 }

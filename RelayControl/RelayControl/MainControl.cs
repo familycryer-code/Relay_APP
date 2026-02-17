@@ -316,6 +316,7 @@ namespace RelayControl
         {
             try
             {
+
                 initializeDNPVoltageComboBox();
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
@@ -787,6 +788,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+               // this.textBox_TxID.Text = 684.ToString();// this.TXSettings.ID.ToString();
             }
             catch (Exception ex)
             {
@@ -2515,6 +2517,14 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.TransmitterSettings:
                     this.setTransmitterSettings(bytePacket);
+                    {
+                        // To display Transmitter ID on the relay Monitoring Tab :
+                        UInt16 uTemp;
+                        uTemp = bytePacket[1];
+                        uTemp <<= 8;
+                        uTemp += bytePacket[0];
+                        this.textBox_TxID.Text = uTemp.ToString();
+                    }
                     break;
                 case IncomingCommCommands.TransmitterMonitor:
                     this.setTransmitterMonitorData(bytePacket);
