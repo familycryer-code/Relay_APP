@@ -321,7 +321,7 @@ namespace RelayControlLibrary
             // groupBoxCloseMode
             // 
             this.groupBoxCloseMode.Controls.Add(this.checkBox1);
-            this.groupBoxCloseMode.Controls.Add(this.buttonRelaxClose);
+            //this.groupBoxCloseMode.Controls.Add(this.buttonRelaxClose);
             this.groupBoxCloseMode.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxCloseMode.Controls.Add(this.labelTiltAngle);
             this.groupBoxCloseMode.Controls.Add(this.checkBoxCircleClose);

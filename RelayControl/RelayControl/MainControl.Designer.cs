@@ -201,16 +201,17 @@
             this.checkBoxPowerSaveFlag = new System.Windows.Forms.CheckBox();
             this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
-            this.buttonClearCycleCount = new System.Windows.Forms.Button();
             this.buttonRequestRelayParamaters = new System.Windows.Forms.Button();
             this.buttonSendAll = new System.Windows.Forms.Button();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
+            this.buttonClearCycleCount = new System.Windows.Forms.Button();
             this.buttonResetBothProc = new System.Windows.Forms.Button();
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
+            this.btn_RelaxClose = new System.Windows.Forms.Button();
             this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.buttonTripRelay = new System.Windows.Forms.Button();
             this.groupBox_FirmwareInfo = new System.Windows.Forms.GroupBox();
@@ -232,7 +233,6 @@
             this.buttonSaveSetting = new System.Windows.Forms.Button();
             this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
-            this.labelRelayStateControlPage = new System.Windows.Forms.Label();
             this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
             this.groupBoxRelayStatus = new System.Windows.Forms.GroupBox();
             this.labelNWPStatus = new System.Windows.Forms.Label();
@@ -242,6 +242,7 @@
             this.checkBoxDefaultsUsed = new System.Windows.Forms.CheckBox();
             this.checkBoxBlockedOpenFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
+            this.labelRelayStateControlPage = new System.Windows.Forms.Label();
             this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxFloatFlag = new System.Windows.Forms.CheckBox();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
@@ -2370,7 +2371,6 @@
             // panelOtherRelayControls
             // 
             this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
-            this.panelOtherRelayControls.Controls.Add(this.buttonClearCycleCount);
             this.panelOtherRelayControls.Controls.Add(this.buttonRequestRelayParamaters);
             this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
             this.panelOtherRelayControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2379,17 +2379,6 @@
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
             this.panelOtherRelayControls.Size = new System.Drawing.Size(292, 241);
             this.panelOtherRelayControls.TabIndex = 77;
-            // 
-            // buttonClearCycleCount
-            // 
-            this.buttonClearCycleCount.Location = new System.Drawing.Point(154, 194);
-            this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonClearCycleCount.Name = "buttonClearCycleCount";
-            this.buttonClearCycleCount.Size = new System.Drawing.Size(141, 26);
-            this.buttonClearCycleCount.TabIndex = 62;
-            this.buttonClearCycleCount.Text = "Clear Cycle Count";
-            this.buttonClearCycleCount.UseVisualStyleBackColor = true;
-            this.buttonClearCycleCount.Click += new System.EventHandler(this.buttonClearCycleCount_Click);
             // 
             // buttonRequestRelayParamaters
             // 
@@ -2439,6 +2428,17 @@
             this.ucTripMode2.Size = new System.Drawing.Size(4056, 945);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = ((uint)(0u));
+            // 
+            // buttonClearCycleCount
+            // 
+            this.buttonClearCycleCount.Location = new System.Drawing.Point(56, 233);
+            this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonClearCycleCount.Name = "buttonClearCycleCount";
+            this.buttonClearCycleCount.Size = new System.Drawing.Size(141, 26);
+            this.buttonClearCycleCount.TabIndex = 62;
+            this.buttonClearCycleCount.Text = "Clear Cycle Count";
+            this.buttonClearCycleCount.UseVisualStyleBackColor = true;
+            this.buttonClearCycleCount.Click += new System.EventHandler(this.buttonClearCycleCount_Click);
             // 
             // buttonResetBothProc
             // 
@@ -2493,7 +2493,6 @@
             this.tabPage1.Controls.Add(this.buttonSaveSetting);
             this.tabPage1.Controls.Add(this.comboBoxSavedStates);
             this.tabPage1.Controls.Add(this.buttonDeleteSetting);
-            this.tabPage1.Controls.Add(this.labelRelayStateControlPage);
             this.tabPage1.Controls.Add(this.ucRemoteCommandBlock1);
             this.tabPage1.Controls.Add(this.groupBoxRelayStatus);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
@@ -2506,16 +2505,28 @@
             // 
             // grpBox_RelayCommands
             // 
+            this.grpBox_RelayCommands.Controls.Add(this.btn_RelaxClose);
             this.grpBox_RelayCommands.Controls.Add(this.ucBlockControl1);
             this.grpBox_RelayCommands.Controls.Add(this.buttonTripRelay);
             this.grpBox_RelayCommands.Controls.Add(this.buttonBlockAndTrip);
             this.grpBox_RelayCommands.Controls.Add(this.buttonResetBothProc);
+            this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
             this.grpBox_RelayCommands.Location = new System.Drawing.Point(859, 31);
             this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
             this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 392);
             this.grpBox_RelayCommands.TabIndex = 129;
             this.grpBox_RelayCommands.TabStop = false;
             this.grpBox_RelayCommands.Text = "Relay Commands";
+            // 
+            // btn_RelaxClose
+            // 
+            this.btn_RelaxClose.Location = new System.Drawing.Point(56, 266);
+            this.btn_RelaxClose.Name = "btn_RelaxClose";
+            this.btn_RelaxClose.Size = new System.Drawing.Size(141, 27);
+            this.btn_RelaxClose.TabIndex = 117;
+            this.btn_RelaxClose.Text = "Relax Close";
+            this.btn_RelaxClose.UseVisualStyleBackColor = true;
+            this.btn_RelaxClose.Click += new System.EventHandler(this.btn_RelaxClose_Click);
             // 
             // ucBlockControl1
             // 
@@ -2757,19 +2768,6 @@
             this.buttonDeleteSetting.Text = "Delete Setting";
             this.buttonDeleteSetting.UseVisualStyleBackColor = true;
             // 
-            // labelRelayStateControlPage
-            // 
-            this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelRelayStateControlPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayStateControlPage.Location = new System.Drawing.Point(1007, 530);
-            this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(4);
-            this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
-            this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayStateControlPage.Size = new System.Drawing.Size(130, 32);
-            this.labelRelayStateControlPage.TabIndex = 122;
-            this.labelRelayStateControlPage.Text = "Unkown";
-            this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // ucRemoteCommandBlock1
             // 
             this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -2790,6 +2788,7 @@
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxDefaultsUsed);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxBlockedOpenFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxBFlag);
+            this.groupBoxRelayStatus.Controls.Add(this.labelRelayStateControlPage);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxTrippingFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxFloatFlag);
             this.groupBoxRelayStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2892,6 +2891,19 @@
             this.checkBoxBFlag.Text = "Protector Status";
             this.checkBoxBFlag.UseVisualStyleBackColor = true;
             this.checkBoxBFlag.Visible = false;
+            // 
+            // labelRelayStateControlPage
+            // 
+            this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelRelayStateControlPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelayStateControlPage.Location = new System.Drawing.Point(135, 597);
+            this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(4);
+            this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
+            this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
+            this.labelRelayStateControlPage.Size = new System.Drawing.Size(130, 32);
+            this.labelRelayStateControlPage.TabIndex = 122;
+            this.labelRelayStateControlPage.Text = "Unkown";
+            this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // checkBoxTrippingFlag
             // 
@@ -3486,5 +3498,6 @@
         private System.Windows.Forms.TextBox txtBox_NWPposition;
         private System.Windows.Forms.GroupBox grpBox_RelayCommands;
         private System.Windows.Forms.Button buttonTripRelay;
+        private System.Windows.Forms.Button btn_RelaxClose;
     }
 }

@@ -431,7 +431,7 @@ namespace RelayControlLibrary
             return (decimal)temp;
         }
 
-        private void sendRelaxClose()
+        public void sendRelaxClose()
         {
             if (this.checkBoxCircleClose.Checked)
                 this.Mode = CloseModes.CircleAndRelax;

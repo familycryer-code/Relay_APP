@@ -10494,6 +10494,12 @@ namespace RelayControl
                 
             }
         }
+
+        private void btn_RelaxClose_Click(object sender, EventArgs e)
+        {
+            relaxCloseC.RelaxCloseClick = true;
+            this.ucCloseMode1.sendRelaxClose();
+        }
     }
 
     public partial class MyPort : SerialPort
