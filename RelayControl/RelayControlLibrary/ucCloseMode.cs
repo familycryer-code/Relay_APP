@@ -190,29 +190,6 @@ namespace RelayControlLibrary
                 //this.radioButtonNeverOverride.Checked = true;
                 this.CloseCurve = new CloseCurveDefinition();
                 this.checkBox1.Checked = false; 
-
-                // APP without AT and PC feature :
-                this.lblFloattTime.Enabled = true;
-                this.lblFloattTime.Visible = true;
-                this.numericUpDown_FloatTime.Enabled = true;//  false;
-                this.numericUpDown_FloatTime.Visible = true;
-                this.lblUnitFloatTime.Enabled= true;
-                this.lblUnitFloatTime.Visible= true;
-                
-                this.lblPermCloseActiveTime.Enabled= true;
-                this.lblPermCloseActiveTime.Visible= true;
-                this.numericUpDown_PermClActTime.Enabled = true;//false;
-                this.numericUpDown_PermClActTime.Visible= true;
-                this.lblUnitPermClAcTime.Enabled= true;
-                this.lblUnitPermClAcTime.Visible= true;
-
-                this.lblPermCloseVoltage.Enabled= true;
-                this.lblPermCloseVoltage.Visible= true;
-                this.numericnumericUpDown_PermClVoltage.Enabled = true;//false;
-                this.numericnumericUpDown_PermClVoltage.Visible= true;
-                this.lblUnitPerClVoltage.Enabled = true;
-                this.lblUnitPerClVoltage.Visible = true;
-              
             }
             catch (Exception ex)
             {
@@ -418,8 +395,8 @@ namespace RelayControlLibrary
                     sr.Close();
                 }
 
-                if(chkBox_EnablePermClose.Checked == true)
-                this.SendPermissiveData();
+                //if(chkBox_EnablePermClose.Checked == true)
+                //this.SendPermissiveData();
 
                 mySEA.WithAck = true;
                 mySEA.RequestAll = true;
@@ -428,18 +405,12 @@ namespace RelayControlLibrary
             Thread.Sleep(1000);   //1 second delay
            
         }
-
+        /*
         public void SendPermissiveData()
         {
             decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
             byte[] packet = new byte[7]; //permissivePacketSize
-            /* packet[0] = (byte)'}';
-             packet[1] = (byte)numericUpDown_FloatTime.Value;
-             packet[2] = (byte)numericUpDown_PermClActTime.Value;
-             packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
-             packet[4] = (byte)((int)tempVoltage & 0x00FF);
-             packet[5] = 0x0D;
-            */
+            
             packet[0] = (byte)'}';
             if(this.chkBox_EnablePermClose.Checked == true)
                 packet[1] = 1;
@@ -452,7 +423,7 @@ namespace RelayControlLibrary
             packet[6] = 0x0D;
             this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
         }
-
+        */
         public decimal GetFixed_12FracBits(decimal value)
         {
             Int16 temp;
@@ -832,7 +803,6 @@ namespace RelayControlLibrary
                 this.checkBox1.Checked = false;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
-                this.chkBox_EnablePermClose.Checked = true;
             }
             else
             {
@@ -896,14 +866,7 @@ namespace RelayControlLibrary
                 this.CloseModeDef.TimeDelay = 6;
                 this.checkBox1.Checked = false;
                 this.numericUpDownPDV.Value = 0.4m;
-                this.chkBox_EnablePermClose.Checked = true;
-                this.numericUpDown_FloatTime.Value = 38;// 20;
-#if CONED
-                this.numericUpDown_PermClActTime.Value = 15;
-#else
-                this.numericUpDown_PermClActTime.Value = 30;
-#endif
-                this.numericnumericUpDown_PermClVoltage.Value = 5;
+                                
 #endif
 
             }
@@ -973,53 +936,6 @@ namespace RelayControlLibrary
             //    this.CloseModeDef.OverrideBlockedClose = true;
         }
 
-        private void button_PC_Click(object sender, EventArgs e)
-        {
-            if (button_PC.BackColor == Color.Transparent)
-            {
-                this.button_PC.BackColor = Color.Yellow;
-
-                decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
-                /*byte[] packet = new byte[6]; //permissivePacketSize
-                packet[0] = (byte)'}';
-                packet[1] = 0; // special - only used to indicated a click of this(Permissive Close) button
-                packet[2] = (byte)numericUpDown_PermClActTime.Value;
-                packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
-                packet[4] = (byte)((int)tempVoltage & 0x00FF);
-                packet[5] = 0x0D;
-                */
-                this.chkBox_EnablePermClose.Checked = true; // Enable Permissive Close
-
-                byte[] packet = new byte[7]; //permissivePacketSize
-                packet[0] = (byte)'}';
-                packet[1] = 1;               // Enable Permissive Close
-                packet[2] = 0;               // special - only for Permissive Close
-                packet[3] = (byte)numericUpDown_PermClActTime.Value;
-                packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
-                packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
-                packet[6] = 0x0D;
-
-                this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
-            }
-            else if (button_PC.BackColor == Color.Yellow)
-            { 
-                /*
-                this.button_PC.BackColor = Color.Transparent;
-
-                decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
-                byte[] packet = new byte[7]; //permissivePacketSize
-                packet[0] = (byte)'}';
-                packet[1] = (byte)numericUpDown_FloatTime.Value;
-                packet[2] = (byte)numericUpDown_PermClActTime.Value;
-                packet[3] = (byte)(((int)tempVoltage >> 8) & 0x00FF);
-                packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
-                packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
-                packet[6] = 0x0D;
-
-                this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
-                */
-            }
-        }
     }
 
     [Serializable()]

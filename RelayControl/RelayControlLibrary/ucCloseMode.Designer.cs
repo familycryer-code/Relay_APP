@@ -50,26 +50,12 @@ namespace RelayControlLibrary
             this.buttonRelaxClose = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBoxCloseMode = new System.Windows.Forms.GroupBox();
-            this.chkBox_EnablePermClose = new System.Windows.Forms.CheckBox();
-            this.lblUnitPerClVoltage = new System.Windows.Forms.Label();
-            this.lblUnitPermClAcTime = new System.Windows.Forms.Label();
-            this.lblUnitFloatTime = new System.Windows.Forms.Label();
-            this.numericnumericUpDown_PermClVoltage = new System.Windows.Forms.NumericUpDown();
-            this.lblPermCloseVoltage = new System.Windows.Forms.Label();
-            this.numericUpDown_PermClActTime = new System.Windows.Forms.NumericUpDown();
-            this.lblPermCloseActiveTime = new System.Windows.Forms.Label();
-            this.numericUpDown_FloatTime = new System.Windows.Forms.NumericUpDown();
-            this.lblFloattTime = new System.Windows.Forms.Label();
-            this.button_PC = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCloseTiltAngle)).BeginInit();
             this.groupBoxCloseMode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericnumericUpDown_PermClVoltage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PermClActTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FloatTime)).BeginInit();
             this.SuspendLayout();
             // 
             // numericUpDownTimeDelay
@@ -334,17 +320,6 @@ namespace RelayControlLibrary
             // 
             // groupBoxCloseMode
             // 
-            this.groupBoxCloseMode.Controls.Add(this.button_PC);
-            this.groupBoxCloseMode.Controls.Add(this.chkBox_EnablePermClose);
-            this.groupBoxCloseMode.Controls.Add(this.lblUnitPerClVoltage);
-            this.groupBoxCloseMode.Controls.Add(this.lblUnitPermClAcTime);
-            this.groupBoxCloseMode.Controls.Add(this.lblUnitFloatTime);
-            this.groupBoxCloseMode.Controls.Add(this.numericnumericUpDown_PermClVoltage);
-            this.groupBoxCloseMode.Controls.Add(this.lblPermCloseVoltage);
-            this.groupBoxCloseMode.Controls.Add(this.numericUpDown_PermClActTime);
-            this.groupBoxCloseMode.Controls.Add(this.lblPermCloseActiveTime);
-            this.groupBoxCloseMode.Controls.Add(this.numericUpDown_FloatTime);
-            this.groupBoxCloseMode.Controls.Add(this.lblFloattTime);
             this.groupBoxCloseMode.Controls.Add(this.checkBox1);
             this.groupBoxCloseMode.Controls.Add(this.buttonRelaxClose);
             this.groupBoxCloseMode.Controls.Add(this.buttonRestoreDefaults);
@@ -373,157 +348,6 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.TabStop = false;
             this.groupBoxCloseMode.Text = "Close Mode Settings:";
             // 
-            // chkBox_EnablePermClose
-            // 
-            this.chkBox_EnablePermClose.AutoSize = true;
-            this.chkBox_EnablePermClose.Checked = true;
-            this.chkBox_EnablePermClose.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBox_EnablePermClose.Location = new System.Drawing.Point(79, 218);
-            this.chkBox_EnablePermClose.Name = "chkBox_EnablePermClose";
-            this.chkBox_EnablePermClose.Size = new System.Drawing.Size(76, 17);
-            this.chkBox_EnablePermClose.TabIndex = 51;
-            this.chkBox_EnablePermClose.Text = "Enable PC";
-            this.chkBox_EnablePermClose.UseVisualStyleBackColor = true;
-            // 
-            // lblUnitPerClVoltage
-            // 
-            this.lblUnitPerClVoltage.AutoSize = true;
-            this.lblUnitPerClVoltage.Location = new System.Drawing.Point(227, 184);
-            this.lblUnitPerClVoltage.Name = "lblUnitPerClVoltage";
-            this.lblUnitPerClVoltage.Size = new System.Drawing.Size(14, 13);
-            this.lblUnitPerClVoltage.TabIndex = 49;
-            this.lblUnitPerClVoltage.Text = "V";
-            this.lblUnitPerClVoltage.Visible = false;
-            // 
-            // lblUnitPermClAcTime
-            // 
-            this.lblUnitPermClAcTime.AutoSize = true;
-            this.lblUnitPermClAcTime.Location = new System.Drawing.Point(227, 160);
-            this.lblUnitPermClAcTime.Name = "lblUnitPermClAcTime";
-            this.lblUnitPermClAcTime.Size = new System.Drawing.Size(23, 13);
-            this.lblUnitPermClAcTime.TabIndex = 48;
-            this.lblUnitPermClAcTime.Text = "min";
-            this.lblUnitPermClAcTime.Visible = false;
-            // 
-            // lblUnitFloatTime
-            // 
-            this.lblUnitFloatTime.AutoSize = true;
-            this.lblUnitFloatTime.Location = new System.Drawing.Point(229, 135);
-            this.lblUnitFloatTime.Name = "lblUnitFloatTime";
-            this.lblUnitFloatTime.Size = new System.Drawing.Size(35, 13);
-            this.lblUnitFloatTime.TabIndex = 47;
-            this.lblUnitFloatTime.Text = "Hours";
-            this.lblUnitFloatTime.Visible = false;
-            // 
-            // numericnumericUpDown_PermClVoltage
-            // 
-            this.numericnumericUpDown_PermClVoltage.Location = new System.Drawing.Point(157, 180);
-            this.numericnumericUpDown_PermClVoltage.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericnumericUpDown_PermClVoltage.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericnumericUpDown_PermClVoltage.Name = "numericnumericUpDown_PermClVoltage";
-            this.numericnumericUpDown_PermClVoltage.Size = new System.Drawing.Size(64, 20);
-            this.numericnumericUpDown_PermClVoltage.TabIndex = 46;
-            this.numericnumericUpDown_PermClVoltage.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericnumericUpDown_PermClVoltage.Visible = false;
-            // 
-            // lblPermCloseVoltage
-            // 
-            this.lblPermCloseVoltage.AutoSize = true;
-            this.lblPermCloseVoltage.Location = new System.Drawing.Point(22, 182);
-            this.lblPermCloseVoltage.Name = "lblPermCloseVoltage";
-            this.lblPermCloseVoltage.Size = new System.Drawing.Size(128, 13);
-            this.lblPermCloseVoltage.TabIndex = 45;
-            this.lblPermCloseVoltage.Text = "Permissive Close Voltage:";
-            this.lblPermCloseVoltage.Visible = false;
-            // 
-            // numericUpDown_PermClActTime
-            // 
-            this.numericUpDown_PermClActTime.Location = new System.Drawing.Point(157, 157);
-            this.numericUpDown_PermClActTime.Maximum = new decimal(new int[] {
-            120,
-            0,
-            0,
-            0});
-            this.numericUpDown_PermClActTime.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_PermClActTime.Name = "numericUpDown_PermClActTime";
-            this.numericUpDown_PermClActTime.Size = new System.Drawing.Size(64, 20);
-            this.numericUpDown_PermClActTime.TabIndex = 44;
-            this.numericUpDown_PermClActTime.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            this.numericUpDown_PermClActTime.Visible = false;
-            // 
-            // lblPermCloseActiveTime
-            // 
-            this.lblPermCloseActiveTime.AutoSize = true;
-            this.lblPermCloseActiveTime.Location = new System.Drawing.Point(4, 159);
-            this.lblPermCloseActiveTime.Name = "lblPermCloseActiveTime";
-            this.lblPermCloseActiveTime.Size = new System.Drawing.Size(148, 13);
-            this.lblPermCloseActiveTime.TabIndex = 43;
-            this.lblPermCloseActiveTime.Text = "Permissive Close Active Time:";
-            this.lblPermCloseActiveTime.Visible = false;
-            // 
-            // numericUpDown_FloatTime
-            // 
-            this.numericUpDown_FloatTime.Location = new System.Drawing.Point(156, 133);
-            this.numericUpDown_FloatTime.Maximum = new decimal(new int[] {
-            144,
-            0,
-            0,
-            0});
-            this.numericUpDown_FloatTime.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_FloatTime.Name = "numericUpDown_FloatTime";
-            this.numericUpDown_FloatTime.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown_FloatTime.TabIndex = 42;
-            this.numericUpDown_FloatTime.Value = new decimal(new int[] {
-            38,
-            0,
-            0,
-            0});
-            this.numericUpDown_FloatTime.Visible = false;
-            // 
-            // lblFloattTime
-            // 
-            this.lblFloattTime.AutoSize = true;
-            this.lblFloattTime.Location = new System.Drawing.Point(89, 135);
-            this.lblFloattTime.Name = "lblFloattTime";
-            this.lblFloattTime.Size = new System.Drawing.Size(59, 13);
-            this.lblFloattTime.TabIndex = 41;
-            this.lblFloattTime.Text = "Float Time:";
-            this.lblFloattTime.Visible = false;
-            // 
-            // button_PC
-            // 
-            this.button_PC.Location = new System.Drawing.Point(175, 212);
-            this.button_PC.Name = "button_PC";
-            this.button_PC.Size = new System.Drawing.Size(100, 23);
-            this.button_PC.TabIndex = 52;
-            this.button_PC.Text = "Permissive Close";
-            this.button_PC.UseVisualStyleBackColor = true;
-            this.button_PC.Click += new System.EventHandler(this.button_PC_Click);
-            // 
             // ucCloseMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -538,9 +362,6 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCloseTiltAngle)).EndInit();
             this.groupBoxCloseMode.ResumeLayout(false);
             this.groupBoxCloseMode.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericnumericUpDown_PermClVoltage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PermClActTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FloatTime)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -571,16 +392,5 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonRelaxClose;
         private System.Windows.Forms.GroupBox groupBoxCloseMode;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label lblFloattTime;
-        private System.Windows.Forms.NumericUpDown numericUpDown_FloatTime;
-        private System.Windows.Forms.NumericUpDown numericUpDown_PermClActTime;
-        private System.Windows.Forms.Label lblPermCloseActiveTime;
-        private System.Windows.Forms.Label lblPermCloseVoltage;
-        public System.Windows.Forms.NumericUpDown numericnumericUpDown_PermClVoltage;
-        private System.Windows.Forms.Label lblUnitFloatTime;
-        private System.Windows.Forms.Label lblUnitPermClAcTime;
-        private System.Windows.Forms.Label lblUnitPerClVoltage;
-        private System.Windows.Forms.CheckBox chkBox_EnablePermClose;
-        public System.Windows.Forms.Button button_PC;
     }
 }

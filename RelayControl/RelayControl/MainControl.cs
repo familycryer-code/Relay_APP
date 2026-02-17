@@ -651,7 +651,6 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = true;
                 this.button_dataStore.Enabled = false;
                 this.button_dataStore.Visible = false;
-                this.ucCloseMode1.numericnumericUpDown_PermClVoltage.Enabled = false;
                 this.numericUpDown_PC_voltage.Enabled = false;
                 this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 600);
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
@@ -661,7 +660,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.8" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.9" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -4256,13 +4255,12 @@ namespace RelayControl
 
                 if ((b & 16) == 16)
                 {
-                    //this.ucCloseMode1.button_PC.BackColor = Color.Yellow;
                     this.btn_PC_active.BackColor = Color.Yellow;
                 }
                 else
                 {
-                    //this.ucCloseMode1.button_PC.BackColor = Color.Transparent;
                     this.btn_PC_active.BackColor = Color.Transparent;
+                    this.SendPCData(); // once PC comes out of its active time, send the float time in allowed range to the master processor
                 }
 
             }
