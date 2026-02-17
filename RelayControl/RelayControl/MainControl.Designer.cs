@@ -202,15 +202,17 @@
             this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
-            this.buttonBlockAndTrip = new System.Windows.Forms.Button();
             this.buttonRequestRelayParamaters = new System.Windows.Forms.Button();
-            this.buttonResetBothProc = new System.Windows.Forms.Button();
             this.buttonSendAll = new System.Windows.Forms.Button();
-            this.buttonTripRelay = new System.Windows.Forms.Button();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
+            this.buttonResetBothProc = new System.Windows.Forms.Button();
+            this.buttonBlockAndTrip = new System.Windows.Forms.Button();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
+            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
+            this.buttonTripRelay = new System.Windows.Forms.Button();
             this.groupBox_FirmwareInfo = new System.Windows.Forms.GroupBox();
             this.labelRevision = new System.Windows.Forms.Label();
             this.labelRelayRevision = new System.Windows.Forms.Label();
@@ -232,7 +234,6 @@
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
             this.labelRelayStateControlPage = new System.Windows.Forms.Label();
             this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
-            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.groupBoxRelayStatus = new System.Windows.Forms.GroupBox();
             this.labelNWPStatus = new System.Windows.Forms.Label();
             this.checkBoxTripFlag = new System.Windows.Forms.CheckBox();
@@ -268,7 +269,6 @@
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -295,6 +295,7 @@
             this.panelOtherRelayControls.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.grpBox_RelayCommands.SuspendLayout();
             this.groupBox_FirmwareInfo.SuspendLayout();
             this.groupBox_RelayInfo.SuspendLayout();
             this.groupBoxRelayStatus.SuspendLayout();
@@ -304,7 +305,6 @@
             this.tabPageDNPData.SuspendLayout();
             this.tabPageDNPSecureAuth.SuspendLayout();
             this.tabPageEngineering2.SuspendLayout();
-            this.grpBox_RelayCommands.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemperature
@@ -2371,11 +2371,8 @@
             // 
             this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
             this.panelOtherRelayControls.Controls.Add(this.buttonClearCycleCount);
-            this.panelOtherRelayControls.Controls.Add(this.buttonBlockAndTrip);
             this.panelOtherRelayControls.Controls.Add(this.buttonRequestRelayParamaters);
-            this.panelOtherRelayControls.Controls.Add(this.buttonResetBothProc);
             this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
-            this.panelOtherRelayControls.Controls.Add(this.buttonTripRelay);
             this.panelOtherRelayControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelOtherRelayControls.Location = new System.Drawing.Point(857, 310);
             this.panelOtherRelayControls.Margin = new System.Windows.Forms.Padding(4);
@@ -2394,17 +2391,6 @@
             this.buttonClearCycleCount.UseVisualStyleBackColor = true;
             this.buttonClearCycleCount.Click += new System.EventHandler(this.buttonClearCycleCount_Click);
             // 
-            // buttonBlockAndTrip
-            // 
-            this.buttonBlockAndTrip.Location = new System.Drawing.Point(154, 80);
-            this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
-            this.buttonBlockAndTrip.Size = new System.Drawing.Size(141, 26);
-            this.buttonBlockAndTrip.TabIndex = 76;
-            this.buttonBlockAndTrip.Text = "Block and Trip Relay";
-            this.buttonBlockAndTrip.UseVisualStyleBackColor = true;
-            this.buttonBlockAndTrip.Click += new System.EventHandler(this.buttonBlockAndTrip_Click);
-            // 
             // buttonRequestRelayParamaters
             // 
             this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2417,17 +2403,6 @@
             this.buttonRequestRelayParamaters.UseVisualStyleBackColor = true;
             this.buttonRequestRelayParamaters.Click += new System.EventHandler(this.buttonRequestRelayParamaters_Click);
             // 
-            // buttonResetBothProc
-            // 
-            this.buttonResetBothProc.Location = new System.Drawing.Point(154, 140);
-            this.buttonResetBothProc.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonResetBothProc.Name = "buttonResetBothProc";
-            this.buttonResetBothProc.Size = new System.Drawing.Size(141, 26);
-            this.buttonResetBothProc.TabIndex = 71;
-            this.buttonResetBothProc.Text = "Reset Relay";
-            this.buttonResetBothProc.UseVisualStyleBackColor = true;
-            this.buttonResetBothProc.Click += new System.EventHandler(this.buttonResetBothProc_Click);
-            // 
             // buttonSendAll
             // 
             this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -2439,17 +2414,6 @@
             this.buttonSendAll.Text = "Program";
             this.buttonSendAll.UseVisualStyleBackColor = true;
             this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
-            // 
-            // buttonTripRelay
-            // 
-            this.buttonTripRelay.Location = new System.Drawing.Point(154, 22);
-            this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonTripRelay.Name = "buttonTripRelay";
-            this.buttonTripRelay.Size = new System.Drawing.Size(141, 26);
-            this.buttonTripRelay.TabIndex = 65;
-            this.buttonTripRelay.Text = "Trip Relay";
-            this.buttonTripRelay.UseVisualStyleBackColor = true;
-            this.buttonTripRelay.Click += new System.EventHandler(this.buttonTripRelay_Click);
             // 
             // ucCoverFlags1
             // 
@@ -2475,6 +2439,28 @@
             this.ucTripMode2.Size = new System.Drawing.Size(4056, 945);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = ((uint)(0u));
+            // 
+            // buttonResetBothProc
+            // 
+            this.buttonResetBothProc.Location = new System.Drawing.Point(56, 197);
+            this.buttonResetBothProc.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonResetBothProc.Name = "buttonResetBothProc";
+            this.buttonResetBothProc.Size = new System.Drawing.Size(141, 26);
+            this.buttonResetBothProc.TabIndex = 71;
+            this.buttonResetBothProc.Text = "Reset Relay";
+            this.buttonResetBothProc.UseVisualStyleBackColor = true;
+            this.buttonResetBothProc.Click += new System.EventHandler(this.buttonResetBothProc_Click);
+            // 
+            // buttonBlockAndTrip
+            // 
+            this.buttonBlockAndTrip.Location = new System.Drawing.Point(56, 159);
+            this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
+            this.buttonBlockAndTrip.Size = new System.Drawing.Size(141, 26);
+            this.buttonBlockAndTrip.TabIndex = 76;
+            this.buttonBlockAndTrip.Text = "Block and Trip Relay";
+            this.buttonBlockAndTrip.UseVisualStyleBackColor = true;
+            this.buttonBlockAndTrip.Click += new System.EventHandler(this.buttonBlockAndTrip_Click);
             // 
             // tabControlMain
             // 
@@ -2517,6 +2503,40 @@
             this.tabPage1.TabIndex = 14;
             this.tabPage1.Text = "Relay Monitoring";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // grpBox_RelayCommands
+            // 
+            this.grpBox_RelayCommands.Controls.Add(this.ucBlockControl1);
+            this.grpBox_RelayCommands.Controls.Add(this.buttonTripRelay);
+            this.grpBox_RelayCommands.Controls.Add(this.buttonBlockAndTrip);
+            this.grpBox_RelayCommands.Controls.Add(this.buttonResetBothProc);
+            this.grpBox_RelayCommands.Location = new System.Drawing.Point(859, 31);
+            this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
+            this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 392);
+            this.grpBox_RelayCommands.TabIndex = 129;
+            this.grpBox_RelayCommands.TabStop = false;
+            this.grpBox_RelayCommands.Text = "Relay Commands";
+            // 
+            // ucBlockControl1
+            // 
+            this.ucBlockControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucBlockControl1.Location = new System.Drawing.Point(56, 21);
+            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucBlockControl1.Name = "ucBlockControl1";
+            this.ucBlockControl1.RelayBlocked = false;
+            this.ucBlockControl1.Size = new System.Drawing.Size(163, 96);
+            this.ucBlockControl1.TabIndex = 116;
+            // 
+            // buttonTripRelay
+            // 
+            this.buttonTripRelay.Location = new System.Drawing.Point(56, 125);
+            this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTripRelay.Name = "buttonTripRelay";
+            this.buttonTripRelay.Size = new System.Drawing.Size(141, 26);
+            this.buttonTripRelay.TabIndex = 65;
+            this.buttonTripRelay.Text = "Trip Relay";
+            this.buttonTripRelay.UseVisualStyleBackColor = true;
+            this.buttonTripRelay.Click += new System.EventHandler(this.buttonTripRelay_Click);
             // 
             // groupBox_FirmwareInfo
             // 
@@ -2759,16 +2779,6 @@
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
             this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(154, 86);
             this.ucRemoteCommandBlock1.TabIndex = 117;
-            // 
-            // ucBlockControl1
-            // 
-            this.ucBlockControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucBlockControl1.Location = new System.Drawing.Point(56, 21);
-            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucBlockControl1.Name = "ucBlockControl1";
-            this.ucBlockControl1.RelayBlocked = false;
-            this.ucBlockControl1.Size = new System.Drawing.Size(163, 96);
-            this.ucBlockControl1.TabIndex = 116;
             // 
             // groupBoxRelayStatus
             // 
@@ -3145,16 +3155,6 @@
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // grpBox_RelayCommands
-            // 
-            this.grpBox_RelayCommands.Controls.Add(this.ucBlockControl1);
-            this.grpBox_RelayCommands.Location = new System.Drawing.Point(859, 31);
-            this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
-            this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 392);
-            this.grpBox_RelayCommands.TabIndex = 129;
-            this.grpBox_RelayCommands.TabStop = false;
-            this.grpBox_RelayCommands.Text = "Relay Commands";
-            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -3217,6 +3217,7 @@
             this.tabControlMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.grpBox_RelayCommands.ResumeLayout(false);
             this.groupBox_FirmwareInfo.ResumeLayout(false);
             this.groupBox_FirmwareInfo.PerformLayout();
             this.groupBox_RelayInfo.ResumeLayout(false);
@@ -3230,7 +3231,6 @@
             this.tabPageDNPSecureAuth.ResumeLayout(false);
             this.tabPageEngineering2.ResumeLayout(false);
             this.tabPageEngineering2.PerformLayout();
-            this.grpBox_RelayCommands.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3314,7 +3314,6 @@
         private System.Windows.Forms.Button buttonResetBothProc;
         private System.Windows.Forms.Button buttonSendAll;
         private System.Windows.Forms.Label labelRelayDisconnected;
-        private System.Windows.Forms.Button buttonTripRelay;
         private System.Windows.Forms.Button buttonClearCycleCount;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox textBoxCTRatio;
@@ -3486,5 +3485,6 @@
         private System.Windows.Forms.Label lbl_NWPposition;
         private System.Windows.Forms.TextBox txtBox_NWPposition;
         private System.Windows.Forms.GroupBox grpBox_RelayCommands;
+        private System.Windows.Forms.Button buttonTripRelay;
     }
 }
