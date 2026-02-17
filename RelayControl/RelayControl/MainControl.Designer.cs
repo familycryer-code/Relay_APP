@@ -136,6 +136,7 @@
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
             this.groupBox_PC = new System.Windows.Forms.GroupBox();
+            this.btn_PC_active = new System.Windows.Forms.Button();
             this.btn_PC_Send = new System.Windows.Forms.Button();
             this.lbl_PermissiveClose_Status = new System.Windows.Forms.Label();
             this.lbl_PC_status = new System.Windows.Forms.Label();
@@ -1505,6 +1506,7 @@
             // 
             // groupBox_PC
             // 
+            this.groupBox_PC.Controls.Add(this.btn_PC_active);
             this.groupBox_PC.Controls.Add(this.btn_PC_Send);
             this.groupBox_PC.Controls.Add(this.lbl_PermissiveClose_Status);
             this.groupBox_PC.Controls.Add(this.lbl_PC_status);
@@ -1528,6 +1530,16 @@
             this.groupBox_PC.TabStop = false;
             this.groupBox_PC.Text = "Permissive Close";
             // 
+            // btn_PC_active
+            // 
+            this.btn_PC_active.Location = new System.Drawing.Point(52, 219);
+            this.btn_PC_active.Name = "btn_PC_active";
+            this.btn_PC_active.Size = new System.Drawing.Size(140, 23);
+            this.btn_PC_active.TabIndex = 15;
+            this.btn_PC_active.Text = "Permissive Close";
+            this.btn_PC_active.UseVisualStyleBackColor = true;
+            this.btn_PC_active.Click += new System.EventHandler(this.btn_PC_active_Click);
+            // 
             // btn_PC_Send
             // 
             this.btn_PC_Send.Location = new System.Drawing.Point(185, 251);
@@ -1543,7 +1555,7 @@
             this.lbl_PermissiveClose_Status.AutoSize = true;
             this.lbl_PermissiveClose_Status.BackColor = System.Drawing.Color.White;
             this.lbl_PermissiveClose_Status.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(136, 204);
+            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(140, 193);
             this.lbl_PermissiveClose_Status.Name = "lbl_PermissiveClose_Status";
             this.lbl_PermissiveClose_Status.Size = new System.Drawing.Size(64, 18);
             this.lbl_PermissiveClose_Status.TabIndex = 13;
@@ -1552,7 +1564,7 @@
             // lbl_PC_status
             // 
             this.lbl_PC_status.AutoSize = true;
-            this.lbl_PC_status.Location = new System.Drawing.Point(69, 206);
+            this.lbl_PC_status.Location = new System.Drawing.Point(83, 194);
             this.lbl_PC_status.Name = "lbl_PC_status";
             this.lbl_PC_status.Size = new System.Drawing.Size(47, 16);
             this.lbl_PC_status.TabIndex = 12;
@@ -1564,7 +1576,7 @@
             this.comboBox_PC.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBox_PC.Location = new System.Drawing.Point(136, 167);
+            this.comboBox_PC.Location = new System.Drawing.Point(136, 160);
             this.comboBox_PC.Name = "comboBox_PC";
             this.comboBox_PC.Size = new System.Drawing.Size(68, 24);
             this.comboBox_PC.TabIndex = 11;
@@ -1573,7 +1585,7 @@
             // lbl_PC
             // 
             this.lbl_PC.AutoSize = true;
-            this.lbl_PC.Location = new System.Drawing.Point(18, 170);
+            this.lbl_PC.Location = new System.Drawing.Point(18, 163);
             this.lbl_PC.Name = "lbl_PC";
             this.lbl_PC.Size = new System.Drawing.Size(112, 16);
             this.lbl_PC.TabIndex = 10;
@@ -3372,5 +3384,6 @@
         private System.Windows.Forms.Label lbl_PC_status;
         private System.Windows.Forms.Label lbl_PermissiveClose_Status;
         private System.Windows.Forms.Button btn_PC_Send;
+        private System.Windows.Forms.Button btn_PC_active;
     }
 }

@@ -4256,11 +4256,13 @@ namespace RelayControl
 
                 if ((b & 16) == 16)
                 {
-                    this.ucCloseMode1.button_PC.BackColor = Color.Yellow;
+                    //this.ucCloseMode1.button_PC.BackColor = Color.Yellow;
+                    this.btn_PC_active.BackColor = Color.Yellow;
                 }
                 else
                 {
-                    this.ucCloseMode1.button_PC.BackColor = Color.Transparent;
+                    //this.ucCloseMode1.button_PC.BackColor = Color.Transparent;
+                    this.btn_PC_active.BackColor = Color.Transparent;
                 }
 
             }
@@ -10414,6 +10416,7 @@ namespace RelayControl
             this.numericUpDown_PC_activeTime.Value = 15;
             this.numericUpDown_PC_voltage.Value = 5;
             this.comboBox_PC.SelectedIndex = 0;
+            this.btn_PC_active.BackColor = Color.Transparent;
         }
 
         private void btn_PC_Send_Click(object sender, EventArgs e)
@@ -10458,6 +10461,31 @@ namespace RelayControl
             this.sendPacket(packet);
         }
 
+        private void btn_PC_active_Click(object sender, EventArgs e)
+        {
+            if (btn_PC_active.BackColor == Color.Transparent)
+            {
+                this.btn_PC_active.BackColor = Color.Yellow;
+
+                decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
+                this.comboBox_PC.SelectedIndex = 0; // Enable Permissive Close
+
+                byte[] packet = new byte[7]; //permissivePacketSize
+                packet[0] = (byte)'}';
+                packet[1] = 1;               // Enable Permissive Close
+                packet[2] = 0;               // special - only for Permissive Close
+                packet[3] = (byte)numericUpDown_PC_activeTime.Value;
+                packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
+                packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
+                packet[6] = 0x0D;
+
+                this.sendPacket(packet);
+            }
+            else if (btn_PC_active.BackColor == Color.Yellow)
+            {
+                
+            }
+        }
     }
 
     public partial class MyPort : SerialPort
