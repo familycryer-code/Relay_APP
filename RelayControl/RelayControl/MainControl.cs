@@ -656,7 +656,13 @@ namespace RelayControl
                 this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 600);
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
                 this.ucCloseMode1.Location = new System.Drawing.Point(248, 440);
-                this.groupBox_PC.Location = new System.Drawing.Point(700, 503);
+                this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
+                this.groupBox_PC.Size = new System.Drawing.Size(380,297);
+                this.ucCloseMode1.Location = new System.Drawing.Point(440, 5);
+                this.ucPumpMode1.Location = new System.Drawing.Point(270, 470);
+                this.ucSafeService1.Location = new System.Drawing.Point(650, 470); 
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(1050, 470);
+                
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -10499,6 +10505,11 @@ namespace RelayControl
         {
             relaxCloseC.RelaxCloseClick = true;
             this.ucCloseMode1.sendRelaxClose();
+        }
+
+        private void lbl_PC_status_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

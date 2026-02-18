@@ -1535,26 +1535,26 @@
             this.groupBox_PC.Controls.Add(this.lbl_PC_floatTime);
             this.groupBox_PC.Controls.Add(this.btn_RestorePC_defaults);
             this.groupBox_PC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_PC.Location = new System.Drawing.Point(559, 320);
+            this.groupBox_PC.Location = new System.Drawing.Point(810, 16);
             this.groupBox_PC.Name = "groupBox_PC";
-            this.groupBox_PC.Size = new System.Drawing.Size(291, 297);
+            this.groupBox_PC.Size = new System.Drawing.Size(340, 323);
             this.groupBox_PC.TabIndex = 122;
             this.groupBox_PC.TabStop = false;
             this.groupBox_PC.Text = "Permissive Close";
             // 
             // btn_PC_active
             // 
-            this.btn_PC_active.Location = new System.Drawing.Point(52, 219);
+            this.btn_PC_active.Location = new System.Drawing.Point(71, 266);
             this.btn_PC_active.Name = "btn_PC_active";
             this.btn_PC_active.Size = new System.Drawing.Size(140, 23);
-            this.btn_PC_active.TabIndex = 15;
+            this.btn_PC_active.TabIndex = 119;
             this.btn_PC_active.Text = "Permissive Close";
             this.btn_PC_active.UseVisualStyleBackColor = true;
             this.btn_PC_active.Click += new System.EventHandler(this.btn_PC_active_Click);
             // 
             // btn_PC_Send
             // 
-            this.btn_PC_Send.Location = new System.Drawing.Point(185, 251);
+            this.btn_PC_Send.Location = new System.Drawing.Point(216, 222);
             this.btn_PC_Send.Name = "btn_PC_Send";
             this.btn_PC_Send.Size = new System.Drawing.Size(75, 23);
             this.btn_PC_Send.TabIndex = 14;
@@ -1567,7 +1567,7 @@
             this.lbl_PermissiveClose_Status.AutoSize = true;
             this.lbl_PermissiveClose_Status.BackColor = System.Drawing.Color.White;
             this.lbl_PermissiveClose_Status.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(140, 193);
+            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(266, 174);
             this.lbl_PermissiveClose_Status.Name = "lbl_PermissiveClose_Status";
             this.lbl_PermissiveClose_Status.Size = new System.Drawing.Size(64, 18);
             this.lbl_PermissiveClose_Status.TabIndex = 13;
@@ -1576,11 +1576,12 @@
             // lbl_PC_status
             // 
             this.lbl_PC_status.AutoSize = true;
-            this.lbl_PC_status.Location = new System.Drawing.Point(83, 194);
+            this.lbl_PC_status.Location = new System.Drawing.Point(213, 171);
             this.lbl_PC_status.Name = "lbl_PC_status";
             this.lbl_PC_status.Size = new System.Drawing.Size(47, 16);
             this.lbl_PC_status.TabIndex = 12;
             this.lbl_PC_status.Text = "Status:";
+            this.lbl_PC_status.Click += new System.EventHandler(this.lbl_PC_status_Click);
             // 
             // comboBox_PC
             // 
@@ -1588,7 +1589,7 @@
             this.comboBox_PC.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBox_PC.Location = new System.Drawing.Point(136, 160);
+            this.comboBox_PC.Location = new System.Drawing.Point(124, 168);
             this.comboBox_PC.Name = "comboBox_PC";
             this.comboBox_PC.Size = new System.Drawing.Size(68, 24);
             this.comboBox_PC.TabIndex = 11;
@@ -1597,7 +1598,7 @@
             // lbl_PC
             // 
             this.lbl_PC.AutoSize = true;
-            this.lbl_PC.Location = new System.Drawing.Point(18, 163);
+            this.lbl_PC.Location = new System.Drawing.Point(6, 170);
             this.lbl_PC.Name = "lbl_PC";
             this.lbl_PC.Size = new System.Drawing.Size(112, 16);
             this.lbl_PC.TabIndex = 10;
@@ -1725,7 +1726,7 @@
             // 
             // btn_RestorePC_defaults
             // 
-            this.btn_RestorePC_defaults.Location = new System.Drawing.Point(5, 252);
+            this.btn_RestorePC_defaults.Location = new System.Drawing.Point(20, 222);
             this.btn_RestorePC_defaults.Name = "btn_RestorePC_defaults";
             this.btn_RestorePC_defaults.Size = new System.Drawing.Size(173, 23);
             this.btn_RestorePC_defaults.TabIndex = 0;
@@ -1738,13 +1739,13 @@
             this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
             this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
             this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucCloseMode1.Location = new System.Drawing.Point(319, 465);
+            this.ucCloseMode1.Location = new System.Drawing.Point(430, 4);
             this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
             this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(373, 322);
+            this.ucCloseMode1.Size = new System.Drawing.Size(373, 335);
             this.ucCloseMode1.TabIndex = 26;
             // 
             // ucPumpMode1
@@ -1752,7 +1753,7 @@
             this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
             this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucPumpMode1.Location = new System.Drawing.Point(441, 5);
+            this.ucPumpMode1.Location = new System.Drawing.Point(226, 322);
             this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucPumpMode1.Name = "ucPumpMode1";
             this.ucPumpMode1.PumpProtectEnabled = false;
@@ -1790,11 +1791,11 @@
             this.groupBoxLRLockoutMain.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxLRLockoutMain.Controls.Add(this.textBoxLRLockoutStatusMain);
             this.groupBoxLRLockoutMain.Controls.Add(this.labelLRLockoutMain);
-            this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(522, 546);
+            this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(580, 546);
             this.groupBoxLRLockoutMain.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxLRLockoutMain.Name = "groupBoxLRLockoutMain";
             this.groupBoxLRLockoutMain.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxLRLockoutMain.Size = new System.Drawing.Size(297, 56);
+            this.groupBoxLRLockoutMain.Size = new System.Drawing.Size(239, 56);
             this.groupBoxLRLockoutMain.TabIndex = 118;
             this.groupBoxLRLockoutMain.TabStop = false;
             this.groupBoxLRLockoutMain.Text = "Remote Command Lockout";
@@ -2362,10 +2363,10 @@
             this.ucSafeService1.CTRatio = 320;
             this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucSafeService1.LoadingNewCode = false;
-            this.ucSafeService1.Location = new System.Drawing.Point(857, 5);
+            this.ucSafeService1.Location = new System.Drawing.Point(638, 320);
             this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(296, 304);
+            this.ucSafeService1.Size = new System.Drawing.Size(311, 304);
             this.ucSafeService1.TabIndex = 108;
             // 
             // panelOtherRelayControls
@@ -2374,16 +2375,16 @@
             this.panelOtherRelayControls.Controls.Add(this.buttonRequestRelayParamaters);
             this.panelOtherRelayControls.Controls.Add(this.buttonSendAll);
             this.panelOtherRelayControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelOtherRelayControls.Location = new System.Drawing.Point(857, 310);
+            this.panelOtherRelayControls.Location = new System.Drawing.Point(1036, 381);
             this.panelOtherRelayControls.Margin = new System.Windows.Forms.Padding(4);
             this.panelOtherRelayControls.Name = "panelOtherRelayControls";
-            this.panelOtherRelayControls.Size = new System.Drawing.Size(292, 241);
+            this.panelOtherRelayControls.Size = new System.Drawing.Size(113, 150);
             this.panelOtherRelayControls.TabIndex = 77;
             // 
             // buttonRequestRelayParamaters
             // 
             this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(17, 22);
+            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(4, 16);
             this.buttonRequestRelayParamaters.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
             this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(101, 49);
@@ -2395,7 +2396,7 @@
             // buttonSendAll
             // 
             this.buttonSendAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.buttonSendAll.Location = new System.Drawing.Point(17, 140);
+            this.buttonSendAll.Location = new System.Drawing.Point(4, 80);
             this.buttonSendAll.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendAll.Name = "buttonSendAll";
             this.buttonSendAll.Size = new System.Drawing.Size(101, 49);
@@ -2420,7 +2421,7 @@
             this.ucTripMode2.CTRatio = 320;
             this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
             this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucTripMode2.Location = new System.Drawing.Point(13, 0);
+            this.ucTripMode2.Location = new System.Drawing.Point(8, 0);
             this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -2511,6 +2512,7 @@
             this.grpBox_RelayCommands.Controls.Add(this.buttonBlockAndTrip);
             this.grpBox_RelayCommands.Controls.Add(this.buttonResetBothProc);
             this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
+            this.grpBox_RelayCommands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBox_RelayCommands.Location = new System.Drawing.Point(859, 31);
             this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
             this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 392);
@@ -2555,6 +2557,7 @@
             this.groupBox_FirmwareInfo.Controls.Add(this.labelRelayRevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelFPGARevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelBootRevision);
+            this.groupBox_FirmwareInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(27, 400);
             this.groupBox_FirmwareInfo.Name = "groupBox_FirmwareInfo";
             this.groupBox_FirmwareInfo.Size = new System.Drawing.Size(344, 400);
@@ -2627,6 +2630,7 @@
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTemperature);
             this.groupBox_RelayInfo.Controls.Add(this.label4);
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTripCount);
+            this.groupBox_RelayInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_RelayInfo.Location = new System.Drawing.Point(27, 25);
             this.groupBox_RelayInfo.Name = "groupBox_RelayInfo";
             this.groupBox_RelayInfo.Size = new System.Drawing.Size(344, 340);
@@ -2639,7 +2643,7 @@
             this.txtBox_NWPposition.BackColor = System.Drawing.SystemColors.Control;
             this.txtBox_NWPposition.Location = new System.Drawing.Point(129, 203);
             this.txtBox_NWPposition.Name = "txtBox_NWPposition";
-            this.txtBox_NWPposition.Size = new System.Drawing.Size(100, 21);
+            this.txtBox_NWPposition.Size = new System.Drawing.Size(100, 22);
             this.txtBox_NWPposition.TabIndex = 119;
             this.txtBox_NWPposition.Text = "Unknown";
             this.txtBox_NWPposition.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2649,7 +2653,7 @@
             this.lbl_NWPposition.AutoSize = true;
             this.lbl_NWPposition.Location = new System.Drawing.Point(21, 206);
             this.lbl_NWPposition.Name = "lbl_NWPposition";
-            this.lbl_NWPposition.Size = new System.Drawing.Size(85, 15);
+            this.lbl_NWPposition.Size = new System.Drawing.Size(93, 16);
             this.lbl_NWPposition.TabIndex = 118;
             this.lbl_NWPposition.Text = "NWP Position:";
             // 
@@ -2658,7 +2662,7 @@
             this.textBox_TxID.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_TxID.Location = new System.Drawing.Point(129, 72);
             this.textBox_TxID.Name = "textBox_TxID";
-            this.textBox_TxID.Size = new System.Drawing.Size(100, 21);
+            this.textBox_TxID.Size = new System.Drawing.Size(100, 22);
             this.textBox_TxID.TabIndex = 117;
             this.textBox_TxID.Text = "1023";
             this.textBox_TxID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2705,7 +2709,7 @@
             this.textBoxTemperature.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTemperature.Name = "textBoxTemperature";
             this.textBoxTemperature.ReadOnly = true;
-            this.textBoxTemperature.Size = new System.Drawing.Size(101, 21);
+            this.textBoxTemperature.Size = new System.Drawing.Size(101, 22);
             this.textBoxTemperature.TabIndex = 51;
             this.textBoxTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2727,20 +2731,22 @@
             this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTripCount.Name = "textBoxTripCount";
             this.textBoxTripCount.ReadOnly = true;
-            this.textBoxTripCount.Size = new System.Drawing.Size(101, 21);
+            this.textBoxTripCount.Size = new System.Drawing.Size(101, 22);
             this.textBoxTripCount.TabIndex = 43;
             this.textBoxTripCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxSaveStateName
             // 
+            this.textBoxSaveStateName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxSaveStateName.Location = new System.Drawing.Point(859, 609);
             this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSaveStateName.Name = "textBoxSaveStateName";
-            this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 21);
+            this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 22);
             this.textBoxSaveStateName.TabIndex = 126;
             // 
             // buttonSaveSetting
             // 
+            this.buttonSaveSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSaveSetting.Location = new System.Drawing.Point(1007, 604);
             this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSaveSetting.Name = "buttonSaveSetting";
@@ -2751,15 +2757,17 @@
             // 
             // comboBoxSavedStates
             // 
+            this.comboBoxSavedStates.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxSavedStates.FormattingEnabled = true;
             this.comboBoxSavedStates.Location = new System.Drawing.Point(859, 573);
             this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxSavedStates.Name = "comboBoxSavedStates";
-            this.comboBoxSavedStates.Size = new System.Drawing.Size(140, 23);
+            this.comboBoxSavedStates.Size = new System.Drawing.Size(140, 24);
             this.comboBoxSavedStates.TabIndex = 123;
             // 
             // buttonDeleteSetting
             // 
+            this.buttonDeleteSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonDeleteSetting.Location = new System.Drawing.Point(1007, 570);
             this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDeleteSetting.Name = "buttonDeleteSetting";
@@ -2772,8 +2780,9 @@
             // 
             this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ucRemoteCommandBlock1.CommandsBlocked = false;
+            this.ucRemoteCommandBlock1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(845, 441);
-            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
             this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(154, 86);
             this.ucRemoteCommandBlock1.TabIndex = 117;
@@ -3489,7 +3498,6 @@
         private System.Windows.Forms.Label lbl_PC_status;
         private System.Windows.Forms.Label lbl_PermissiveClose_Status;
         private System.Windows.Forms.Button btn_PC_Send;
-        private System.Windows.Forms.Button btn_PC_active;
         private System.Windows.Forms.GroupBox groupBox_RelayInfo;
         private System.Windows.Forms.GroupBox groupBox_FirmwareInfo;
         private System.Windows.Forms.Label label2;
@@ -3499,5 +3507,6 @@
         private System.Windows.Forms.GroupBox grpBox_RelayCommands;
         private System.Windows.Forms.Button buttonTripRelay;
         private System.Windows.Forms.Button btn_RelaxClose;
+        private System.Windows.Forms.Button btn_PC_active;
     }
 }

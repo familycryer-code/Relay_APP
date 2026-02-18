@@ -257,7 +257,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(128, 236);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(186, 209);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
             this.buttonSendCloseData.Size = new System.Drawing.Size(55, 23);
             this.buttonSendCloseData.TabIndex = 28;
@@ -268,7 +268,7 @@ namespace RelayControlLibrary
             // checkBoxCircleClose
             // 
             this.checkBoxCircleClose.AutoSize = true;
-            this.checkBoxCircleClose.Location = new System.Drawing.Point(0, 218);
+            this.checkBoxCircleClose.Location = new System.Drawing.Point(6, 183);
             this.checkBoxCircleClose.Name = "checkBoxCircleClose";
             this.checkBoxCircleClose.Size = new System.Drawing.Size(81, 17);
             this.checkBoxCircleClose.TabIndex = 29;
@@ -279,7 +279,7 @@ namespace RelayControlLibrary
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(0, 236);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(26, 210);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(125, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
@@ -310,7 +310,7 @@ namespace RelayControlLibrary
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 200);
+            this.checkBox1.Location = new System.Drawing.Point(6, 160);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(226, 17);
             this.checkBox1.TabIndex = 40;
@@ -321,7 +321,6 @@ namespace RelayControlLibrary
             // groupBoxCloseMode
             // 
             this.groupBoxCloseMode.Controls.Add(this.checkBox1);
-            //this.groupBoxCloseMode.Controls.Add(this.buttonRelaxClose);
             this.groupBoxCloseMode.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxCloseMode.Controls.Add(this.labelTiltAngle);
             this.groupBoxCloseMode.Controls.Add(this.checkBoxCircleClose);
