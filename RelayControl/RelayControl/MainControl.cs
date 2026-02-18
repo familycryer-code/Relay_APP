@@ -4285,11 +4285,11 @@ namespace RelayControl
 
                 if ((b & 16) == 16)
                 {
-                    this.btn_PC_active.BackColor = Color.Yellow;
+                    this.btn_PermCl_Active.BackColor = Color.Yellow;
                 }
                 else
                 {
-                    this.btn_PC_active.BackColor = Color.Transparent;
+                    this.btn_PermCl_Active.BackColor = Color.Transparent;
                     this.SendPCData(); // once PC comes out of its active time, send the float time in allowed range to the master processor
                 }
 
@@ -10444,7 +10444,7 @@ namespace RelayControl
             this.numericUpDown_PC_activeTime.Value = 15;
             this.numericUpDown_PC_voltage.Value = 5;
             this.comboBox_PC.SelectedIndex = 0;
-            this.btn_PC_active.BackColor = Color.Transparent;
+            this.btn_PermCl_Active.BackColor = Color.Transparent;
         }
 
         private void btn_PC_Send_Click(object sender, EventArgs e)
@@ -10489,11 +10489,11 @@ namespace RelayControl
             this.sendPacket(packet);
         }
 
-        private void btn_PC_active_Click(object sender, EventArgs e)
+        public void send_PC_active()
         {
-            if (btn_PC_active.BackColor == Color.Transparent)
+            if (btn_PermCl_Active.BackColor == Color.Transparent)
             {
-                this.btn_PC_active.BackColor = Color.Yellow;
+                this.btn_PermCl_Active.BackColor = Color.Yellow;
 
                 decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
                 this.comboBox_PC.SelectedIndex = 0; // Enable Permissive Close
@@ -10509,7 +10509,7 @@ namespace RelayControl
 
                 this.sendPacket(packet);
             }
-            else if (btn_PC_active.BackColor == Color.Yellow)
+            else if (btn_PermCl_Active.BackColor == Color.Yellow)
             {
                 
             }
@@ -10529,6 +10529,11 @@ namespace RelayControl
         private void btn_ClearPumpProtect_Click(object sender, EventArgs e)
         {
             this.ucPumpMode1.sendClearPumpProtect();
+        }
+
+        private void btn_PermCl_Active_Click(object sender, EventArgs e)
+        {
+            this.send_PC_active();
         }
     }
 

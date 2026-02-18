@@ -94,6 +94,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -135,7 +136,6 @@
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
             this.groupBox_PC = new System.Windows.Forms.GroupBox();
-            this.btn_PC_active = new System.Windows.Forms.Button();
             this.btn_PC_Send = new System.Windows.Forms.Button();
             this.lbl_PermissiveClose_Status = new System.Windows.Forms.Label();
             this.lbl_PC_status = new System.Windows.Forms.Label();
@@ -209,6 +209,7 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
+            this.btn_PermCl_Active = new System.Windows.Forms.Button();
             this.btn_ClearPumpProtect = new System.Windows.Forms.Button();
             this.btn_RelaxClose = new System.Windows.Forms.Button();
             this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
@@ -234,6 +235,17 @@
             this.buttonDeleteSetting = new System.Windows.Forms.Button();
             this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
             this.groupBoxRelayStatus = new System.Windows.Forms.GroupBox();
+            this.lbl_Relayststatus_XP = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_SL = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_PA = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_RC = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_Ib = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_FC = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_BO = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_backfeed = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_Float = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_FB = new System.Windows.Forms.Label();
+            this.lbl_Relayststatus_Close = new System.Windows.Forms.Label();
             this.lbl_Relayststatus_Open = new System.Windows.Forms.Label();
             this.labelNWPStatus = new System.Windows.Forms.Label();
             this.checkBoxTripFlag = new System.Windows.Forms.CheckBox();
@@ -269,19 +281,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.lbl_Relayststatus_Close = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_Float = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_FB = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_Ib = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_FC = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_BO = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_backfeed = new System.Windows.Forms.Label();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
-            this.lbl_Relayststatus_XP = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_SL = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_PA = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_RC = new System.Windows.Forms.Label();
             labelTemperature = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -970,6 +970,14 @@
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
             // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -1520,7 +1528,6 @@
             // 
             // groupBox_PC
             // 
-            this.groupBox_PC.Controls.Add(this.btn_PC_active);
             this.groupBox_PC.Controls.Add(this.btn_PC_Send);
             this.groupBox_PC.Controls.Add(this.lbl_PermissiveClose_Status);
             this.groupBox_PC.Controls.Add(this.lbl_PC_status);
@@ -1543,16 +1550,6 @@
             this.groupBox_PC.TabIndex = 122;
             this.groupBox_PC.TabStop = false;
             this.groupBox_PC.Text = "Permissive Close";
-            // 
-            // btn_PC_active
-            // 
-            this.btn_PC_active.Location = new System.Drawing.Point(71, 266);
-            this.btn_PC_active.Name = "btn_PC_active";
-            this.btn_PC_active.Size = new System.Drawing.Size(140, 23);
-            this.btn_PC_active.TabIndex = 119;
-            this.btn_PC_active.Text = "Permissive Close";
-            this.btn_PC_active.UseVisualStyleBackColor = true;
-            this.btn_PC_active.Click += new System.EventHandler(this.btn_PC_active_Click);
             // 
             // btn_PC_Send
             // 
@@ -2493,6 +2490,7 @@
             // 
             // grpBox_RelayCommands
             // 
+            this.grpBox_RelayCommands.Controls.Add(this.btn_PermCl_Active);
             this.grpBox_RelayCommands.Controls.Add(this.btn_ClearPumpProtect);
             this.grpBox_RelayCommands.Controls.Add(this.btn_RelaxClose);
             this.grpBox_RelayCommands.Controls.Add(this.ucBlockControl1);
@@ -2507,6 +2505,16 @@
             this.grpBox_RelayCommands.TabIndex = 129;
             this.grpBox_RelayCommands.TabStop = false;
             this.grpBox_RelayCommands.Text = "Relay Commands";
+            // 
+            // btn_PermCl_Active
+            // 
+            this.btn_PermCl_Active.Location = new System.Drawing.Point(56, 332);
+            this.btn_PermCl_Active.Name = "btn_PermCl_Active";
+            this.btn_PermCl_Active.Size = new System.Drawing.Size(141, 27);
+            this.btn_PermCl_Active.TabIndex = 119;
+            this.btn_PermCl_Active.Text = "Permissive Close";
+            this.btn_PermCl_Active.UseVisualStyleBackColor = true;
+            this.btn_PermCl_Active.Click += new System.EventHandler(this.btn_PermCl_Active_Click);
             // 
             // btn_ClearPumpProtect
             // 
@@ -2819,6 +2827,149 @@
             this.groupBoxRelayStatus.TabIndex = 113;
             this.groupBoxRelayStatus.TabStop = false;
             this.groupBoxRelayStatus.Text = "Relay Status:";
+            // 
+            // lbl_Relayststatus_XP
+            // 
+            this.lbl_Relayststatus_XP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_XP.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_XP.Location = new System.Drawing.Point(194, 481);
+            this.lbl_Relayststatus_XP.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_XP.Name = "lbl_Relayststatus_XP";
+            this.lbl_Relayststatus_XP.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_XP.TabIndex = 134;
+            this.lbl_Relayststatus_XP.Text = "UnkownXp";
+            this.lbl_Relayststatus_XP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_SL
+            // 
+            this.lbl_Relayststatus_SL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_SL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_SL.Location = new System.Drawing.Point(30, 481);
+            this.lbl_Relayststatus_SL.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_SL.Name = "lbl_Relayststatus_SL";
+            this.lbl_Relayststatus_SL.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_SL.TabIndex = 133;
+            this.lbl_Relayststatus_SL.Text = "UnkownSl";
+            this.lbl_Relayststatus_SL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_PA
+            // 
+            this.lbl_Relayststatus_PA.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_PA.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_PA.Location = new System.Drawing.Point(194, 415);
+            this.lbl_Relayststatus_PA.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_PA.Name = "lbl_Relayststatus_PA";
+            this.lbl_Relayststatus_PA.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_PA.TabIndex = 132;
+            this.lbl_Relayststatus_PA.Text = "UnkownPa";
+            this.lbl_Relayststatus_PA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_RC
+            // 
+            this.lbl_Relayststatus_RC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_RC.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_RC.Location = new System.Drawing.Point(30, 415);
+            this.lbl_Relayststatus_RC.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_RC.Name = "lbl_Relayststatus_RC";
+            this.lbl_Relayststatus_RC.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_RC.TabIndex = 131;
+            this.lbl_Relayststatus_RC.Text = "UnkownRc";
+            this.lbl_Relayststatus_RC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_Ib
+            // 
+            this.lbl_Relayststatus_Ib.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_Ib.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_Ib.Location = new System.Drawing.Point(194, 356);
+            this.lbl_Relayststatus_Ib.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_Ib.Name = "lbl_Relayststatus_Ib";
+            this.lbl_Relayststatus_Ib.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_Ib.TabIndex = 130;
+            this.lbl_Relayststatus_Ib.Text = "UnkownIb";
+            this.lbl_Relayststatus_Ib.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_FC
+            // 
+            this.lbl_Relayststatus_FC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_FC.Location = new System.Drawing.Point(30, 356);
+            this.lbl_Relayststatus_FC.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_FC.Name = "lbl_Relayststatus_FC";
+            this.lbl_Relayststatus_FC.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_FC.TabIndex = 129;
+            this.lbl_Relayststatus_FC.Text = "UnkownFc";
+            this.lbl_Relayststatus_FC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_BO
+            // 
+            this.lbl_Relayststatus_BO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_BO.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_BO.Location = new System.Drawing.Point(194, 290);
+            this.lbl_Relayststatus_BO.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_BO.Name = "lbl_Relayststatus_BO";
+            this.lbl_Relayststatus_BO.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_BO.TabIndex = 128;
+            this.lbl_Relayststatus_BO.Text = "UnkownBo";
+            this.lbl_Relayststatus_BO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_backfeed
+            // 
+            this.lbl_Relayststatus_backfeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_backfeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_backfeed.Location = new System.Drawing.Point(30, 290);
+            this.lbl_Relayststatus_backfeed.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_backfeed.Name = "lbl_Relayststatus_backfeed";
+            this.lbl_Relayststatus_backfeed.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_backfeed.TabIndex = 127;
+            this.lbl_Relayststatus_backfeed.Text = "UnkownBf";
+            this.lbl_Relayststatus_backfeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_Float
+            // 
+            this.lbl_Relayststatus_Float.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_Float.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_Float.Location = new System.Drawing.Point(194, 223);
+            this.lbl_Relayststatus_Float.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_Float.Name = "lbl_Relayststatus_Float";
+            this.lbl_Relayststatus_Float.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_Float.TabIndex = 126;
+            this.lbl_Relayststatus_Float.Text = "UnkownFl";
+            this.lbl_Relayststatus_Float.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_FB
+            // 
+            this.lbl_Relayststatus_FB.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_FB.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_FB.Location = new System.Drawing.Point(30, 223);
+            this.lbl_Relayststatus_FB.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_FB.Name = "lbl_Relayststatus_FB";
+            this.lbl_Relayststatus_FB.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_FB.TabIndex = 125;
+            this.lbl_Relayststatus_FB.Text = "UnkownFb";
+            this.lbl_Relayststatus_FB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Relayststatus_Close
+            // 
+            this.lbl_Relayststatus_Close.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relayststatus_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_Close.Location = new System.Drawing.Point(194, 157);
+            this.lbl_Relayststatus_Close.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relayststatus_Close.Name = "lbl_Relayststatus_Close";
+            this.lbl_Relayststatus_Close.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_Close.TabIndex = 124;
+            this.lbl_Relayststatus_Close.Text = "UnkownCl";
+            this.lbl_Relayststatus_Close.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_Open
             // 
@@ -3194,161 +3345,10 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
-            // lbl_Relayststatus_Close
-            // 
-            this.lbl_Relayststatus_Close.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Close.Location = new System.Drawing.Point(194, 157);
-            this.lbl_Relayststatus_Close.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_Close.Name = "lbl_Relayststatus_Close";
-            this.lbl_Relayststatus_Close.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_Close.TabIndex = 124;
-            this.lbl_Relayststatus_Close.Text = "UnkownCl";
-            this.lbl_Relayststatus_Close.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_Float
-            // 
-            this.lbl_Relayststatus_Float.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Float.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Float.Location = new System.Drawing.Point(194, 223);
-            this.lbl_Relayststatus_Float.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_Float.Name = "lbl_Relayststatus_Float";
-            this.lbl_Relayststatus_Float.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_Float.TabIndex = 126;
-            this.lbl_Relayststatus_Float.Text = "UnkownFl";
-            this.lbl_Relayststatus_Float.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_FB
-            // 
-            this.lbl_Relayststatus_FB.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_FB.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_FB.Location = new System.Drawing.Point(30, 223);
-            this.lbl_Relayststatus_FB.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_FB.Name = "lbl_Relayststatus_FB";
-            this.lbl_Relayststatus_FB.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_FB.TabIndex = 125;
-            this.lbl_Relayststatus_FB.Text = "UnkownFb";
-            this.lbl_Relayststatus_FB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_Ib
-            // 
-            this.lbl_Relayststatus_Ib.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Ib.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Ib.Location = new System.Drawing.Point(194, 356);
-            this.lbl_Relayststatus_Ib.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_Ib.Name = "lbl_Relayststatus_Ib";
-            this.lbl_Relayststatus_Ib.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_Ib.TabIndex = 130;
-            this.lbl_Relayststatus_Ib.Text = "UnkownIb";
-            this.lbl_Relayststatus_Ib.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_FC
-            // 
-            this.lbl_Relayststatus_FC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_FC.Location = new System.Drawing.Point(30, 356);
-            this.lbl_Relayststatus_FC.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_FC.Name = "lbl_Relayststatus_FC";
-            this.lbl_Relayststatus_FC.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_FC.TabIndex = 129;
-            this.lbl_Relayststatus_FC.Text = "UnkownFc";
-            this.lbl_Relayststatus_FC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_BO
-            // 
-            this.lbl_Relayststatus_BO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_BO.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_BO.Location = new System.Drawing.Point(194, 290);
-            this.lbl_Relayststatus_BO.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_BO.Name = "lbl_Relayststatus_BO";
-            this.lbl_Relayststatus_BO.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_BO.TabIndex = 128;
-            this.lbl_Relayststatus_BO.Text = "UnkownBo";
-            this.lbl_Relayststatus_BO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_backfeed
-            // 
-            this.lbl_Relayststatus_backfeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_backfeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_backfeed.Location = new System.Drawing.Point(30, 290);
-            this.lbl_Relayststatus_backfeed.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_backfeed.Name = "lbl_Relayststatus_backfeed";
-            this.lbl_Relayststatus_backfeed.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_backfeed.TabIndex = 127;
-            this.lbl_Relayststatus_backfeed.Text = "UnkownBf";
-            this.lbl_Relayststatus_backfeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // lbl_Relayststatus_XP
-            // 
-            this.lbl_Relayststatus_XP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_XP.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_XP.Location = new System.Drawing.Point(194, 481);
-            this.lbl_Relayststatus_XP.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_XP.Name = "lbl_Relayststatus_XP";
-            this.lbl_Relayststatus_XP.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_XP.TabIndex = 134;
-            this.lbl_Relayststatus_XP.Text = "UnkownXp";
-            this.lbl_Relayststatus_XP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_SL
-            // 
-            this.lbl_Relayststatus_SL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_SL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_SL.Location = new System.Drawing.Point(30, 481);
-            this.lbl_Relayststatus_SL.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_SL.Name = "lbl_Relayststatus_SL";
-            this.lbl_Relayststatus_SL.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_SL.TabIndex = 133;
-            this.lbl_Relayststatus_SL.Text = "UnkownSl";
-            this.lbl_Relayststatus_SL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_PA
-            // 
-            this.lbl_Relayststatus_PA.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_PA.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_PA.Location = new System.Drawing.Point(194, 415);
-            this.lbl_Relayststatus_PA.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_PA.Name = "lbl_Relayststatus_PA";
-            this.lbl_Relayststatus_PA.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_PA.TabIndex = 132;
-            this.lbl_Relayststatus_PA.Text = "UnkownPa";
-            this.lbl_Relayststatus_PA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Relayststatus_RC
-            // 
-            this.lbl_Relayststatus_RC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_RC.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_RC.Location = new System.Drawing.Point(30, 415);
-            this.lbl_Relayststatus_RC.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_RC.Name = "lbl_Relayststatus_RC";
-            this.lbl_Relayststatus_RC.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_RC.TabIndex = 131;
-            this.lbl_Relayststatus_RC.Text = "UnkownRc";
-            this.lbl_Relayststatus_RC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainControl
             // 
@@ -3679,7 +3679,6 @@
         private System.Windows.Forms.GroupBox grpBox_RelayCommands;
         private System.Windows.Forms.Button buttonTripRelay;
         private System.Windows.Forms.Button btn_RelaxClose;
-        private System.Windows.Forms.Button btn_PC_active;
         private System.Windows.Forms.Button btn_ClearPumpProtect;
         private System.Windows.Forms.Label lbl_Relayststatus_Open;
         private System.Windows.Forms.Label lbl_Relayststatus_Close;
@@ -3693,5 +3692,6 @@
         private System.Windows.Forms.Label lbl_Relayststatus_SL;
         private System.Windows.Forms.Label lbl_Relayststatus_PA;
         private System.Windows.Forms.Label lbl_Relayststatus_RC;
+        private System.Windows.Forms.Button btn_PermCl_Active;
     }
 }
