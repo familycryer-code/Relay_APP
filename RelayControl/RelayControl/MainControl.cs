@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
@@ -29,6 +30,7 @@ using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace RelayControl
 {
@@ -4260,6 +4262,11 @@ namespace RelayControl
                     else
                         this.lbl_Relayststatus_RC.BackColor = Color.Green;
                 }
+
+                if(blockedO.blockedOpen == true)
+                    this.lbl_Relayststatus_BO.BackColor = Color.Green;
+                else if (blockedO.blockedOpen == false)
+                    this.lbl_Relayststatus_BO.BackColor = Color.Transparent;
 
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)

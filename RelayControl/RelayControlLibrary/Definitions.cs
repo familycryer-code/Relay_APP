@@ -2010,6 +2010,11 @@ namespace RelayControlLibrary
         public static bool oldDataBackup;
     }
 
+    public static class blockedO
+    {
+        public static bool blockedOpen;
+    }
+
     public static class statusNew
     {
         public static bool flagFromRelay;

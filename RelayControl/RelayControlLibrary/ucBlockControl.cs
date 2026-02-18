@@ -38,6 +38,7 @@ namespace RelayControlLibrary
                 labelBlockedState.Text = "BLOCKED OPEN";
                 labelBlockedState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 labelBlockedState.BackColor = Color.Yellow;
+                blockedO.blockedOpen = true;
             }
             else
             {
@@ -45,6 +46,7 @@ namespace RelayControlLibrary
                 labelBlockedState.Text = "Unblocked";
                 labelBlockedState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 labelBlockedState.BackColor = System.Drawing.SystemColors.Control;
+                blockedO.blockedOpen = false;
             }
         }
 
