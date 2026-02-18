@@ -246,7 +246,7 @@
             this.lbl_Relayststatus_Float = new System.Windows.Forms.Label();
             this.lbl_Relayststatus_FB = new System.Windows.Forms.Label();
             this.lbl_Relayststatus_Close = new System.Windows.Forms.Label();
-            this.lbl_Relayststatus_Open = new System.Windows.Forms.Label();
+            this.lbl_Relaystatus_Open = new System.Windows.Forms.Label();
             this.labelNWPStatus = new System.Windows.Forms.Label();
             this.checkBoxTripFlag = new System.Windows.Forms.CheckBox();
             this.checkBoxPhasingOkayFlag = new System.Windows.Forms.CheckBox();
@@ -2807,7 +2807,7 @@
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_Float);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_FB);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_Close);
-            this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_Open);
+            this.groupBoxRelayStatus.Controls.Add(this.lbl_Relaystatus_Open);
             this.groupBoxRelayStatus.Controls.Add(this.labelNWPStatus);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxTripFlag);
             this.groupBoxRelayStatus.Controls.Add(this.checkBoxPhasingOkayFlag);
@@ -2971,18 +2971,18 @@
             this.lbl_Relayststatus_Close.Text = "UnkownCl";
             this.lbl_Relayststatus_Close.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbl_Relayststatus_Open
+            // lbl_Relaystatus_Open
             // 
-            this.lbl_Relayststatus_Open.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Open.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Open.Location = new System.Drawing.Point(30, 157);
-            this.lbl_Relayststatus_Open.Margin = new System.Windows.Forms.Padding(4);
-            this.lbl_Relayststatus_Open.Name = "lbl_Relayststatus_Open";
-            this.lbl_Relayststatus_Open.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Open.Size = new System.Drawing.Size(167, 66);
-            this.lbl_Relayststatus_Open.TabIndex = 123;
-            this.lbl_Relayststatus_Open.Text = "UnkownOp";
-            this.lbl_Relayststatus_Open.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Relaystatus_Open.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_Relaystatus_Open.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relaystatus_Open.Location = new System.Drawing.Point(30, 157);
+            this.lbl_Relaystatus_Open.Margin = new System.Windows.Forms.Padding(4);
+            this.lbl_Relaystatus_Open.Name = "lbl_Relaystatus_Open";
+            this.lbl_Relaystatus_Open.Padding = new System.Windows.Forms.Padding(1);
+            this.lbl_Relaystatus_Open.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relaystatus_Open.TabIndex = 123;
+            this.lbl_Relaystatus_Open.Text = "UnkownOp";
+            this.lbl_Relaystatus_Open.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelNWPStatus
             // 
@@ -3680,7 +3680,7 @@
         private System.Windows.Forms.Button buttonTripRelay;
         private System.Windows.Forms.Button btn_RelaxClose;
         private System.Windows.Forms.Button btn_ClearPumpProtect;
-        private System.Windows.Forms.Label lbl_Relayststatus_Open;
+        private System.Windows.Forms.Label lbl_Relaystatus_Open;
         private System.Windows.Forms.Label lbl_Relayststatus_Close;
         private System.Windows.Forms.Label lbl_Relayststatus_Float;
         private System.Windows.Forms.Label lbl_Relayststatus_FB;

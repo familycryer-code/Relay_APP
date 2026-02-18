@@ -662,7 +662,7 @@ namespace RelayControl
                 this.ucPumpMode1.Location = new System.Drawing.Point(270, 470);
                 this.ucSafeService1.Location = new System.Drawing.Point(650, 470); 
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1050, 470);
-                this.lbl_Relayststatus_Open.Text = "OP";
+                this.lbl_Relaystatus_Open.Text = "OP";
                 this.lbl_Relayststatus_Close.Text = "CL";
                 this.lbl_Relayststatus_FB.Text = "FB";
                 this.lbl_Relayststatus_Float.Text = "FL";
@@ -4231,6 +4231,10 @@ namespace RelayControl
                     setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
                     setLabelText("Open", this.labelRelayStateControlPage);
                     setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
+                    this.lbl_Relaystatus_Open.BackColor = Color.Green;
+                    this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_Close.BackColor = Color.Transparent;
                 }
                 else if (this.RelayFlags.FloatCondition)
                 {
@@ -4238,6 +4242,10 @@ namespace RelayControl
                     setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
                     setLabelText("Float", this.labelRelayStateControlPage);
                     setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
+                    this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_Float.BackColor = Color.Green;
+                    this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_Close.BackColor = Color.Transparent;
                 }
                 else
                 {
@@ -4245,6 +4253,12 @@ namespace RelayControl
                     setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
                     setLabelText("Close", this.labelRelayStateControlPage);
                     setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                    this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
+                    if(this.btn_PermCl_Active.BackColor == Color.Yellow)
+                        this.lbl_Relayststatus_Close.BackColor = Color.Green;
+                    else
+                        this.lbl_Relayststatus_RC.BackColor = Color.Green;
                 }
 
                 b = bytePacket[3]; //   2 / 3
