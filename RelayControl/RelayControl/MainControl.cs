@@ -662,7 +662,20 @@ namespace RelayControl
                 this.ucPumpMode1.Location = new System.Drawing.Point(270, 470);
                 this.ucSafeService1.Location = new System.Drawing.Point(650, 470); 
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1050, 470);
-                
+                this.lbl_Relayststatus_Open.Text = "OP";
+                this.lbl_Relayststatus_Close.Text = "CL";
+                this.lbl_Relayststatus_FB.Text = "FB";
+                this.lbl_Relayststatus_Float.Text = "FL";
+                this.lbl_Relayststatus_backfeed.Text = "BF";
+                this.lbl_Relayststatus_BO.Text = "BO";
+                this.lbl_Relayststatus_FC.Text = "FC";
+                this.lbl_Relayststatus_Ib.Text = "IB";
+                this.lbl_Relayststatus_RC.Text = "RC";
+                this.lbl_Relayststatus_PA.Text = "PA";
+                this.lbl_Relayststatus_SL.Text = "SL";
+                this.lbl_Relayststatus_XP.Text = "XP";
+
+
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -897,6 +910,8 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
             this.toolTip.SetToolTip(this.buttonSendAll, "Upload all visible settings to the relay");
             this.toolTip.SetToolTip(this.buttonTripRelay, "Send a Remote Trip to the relay");
+            this.toolTip.SetToolTip(this.btn_ClearPumpProtect, "Clears any active Pump Protect state");
+            this.toolTip.SetToolTip(this.btn_RelaxClose, "Temporarily sets ReClose Voltage to 0.1V");
         }
 
         #region Relay Flags/Status
