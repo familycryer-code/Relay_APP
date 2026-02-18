@@ -1484,7 +1484,6 @@ namespace RelayControl
         private void MainControl_Load(object sender, EventArgs e)
         {
             this.Location = new Point(0, 0);
-            this.pictureBox_SendAll.Image = Properties.Resources.Throbber_SendAll;
         }
 
         private List<string> getPortNames()
@@ -10507,9 +10506,14 @@ namespace RelayControl
             this.ucCloseMode1.sendRelaxClose();
         }
 
-        private void lbl_PC_status_Click(object sender, EventArgs e)
-        {
+        //private void lbl_PC_status_Click(object sender, EventArgs e)
+        //{
 
+        //}
+
+        private void btn_ClearPumpProtect_Click(object sender, EventArgs e)
+        {
+            this.ucPumpMode1.sendClearPumpProtect();
         }
     }
 

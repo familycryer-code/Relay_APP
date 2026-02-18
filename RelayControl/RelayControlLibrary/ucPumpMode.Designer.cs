@@ -37,7 +37,6 @@ namespace RelayControlLibrary
             this.label4 = new System.Windows.Forms.Label();
             this.buttonRestoreDefaults = new System.Windows.Forms.Button();
             this.checkBoxNeverReclose = new System.Windows.Forms.CheckBox();
-            this.buttonClearPumpProtect = new System.Windows.Forms.Button();
             this.groupBoxRelayCycles = new System.Windows.Forms.GroupBox();
             this.checkBoxCycles = new System.Windows.Forms.CheckBox();
             this.groupBoxMotorTimeout = new System.Windows.Forms.GroupBox();
@@ -181,16 +180,6 @@ namespace RelayControlLibrary
             this.checkBoxNeverReclose.Text = "Never Reclose";
             this.checkBoxNeverReclose.UseVisualStyleBackColor = true;
             this.checkBoxNeverReclose.CheckedChanged += new System.EventHandler(this.checkBoxNeverReclose_CheckedChanged);
-            // 
-            // buttonClearPumpProtect
-            // 
-            this.buttonClearPumpProtect.Location = new System.Drawing.Point(138, 189);
-            this.buttonClearPumpProtect.Name = "buttonClearPumpProtect";
-            this.buttonClearPumpProtect.Size = new System.Drawing.Size(109, 23);
-            this.buttonClearPumpProtect.TabIndex = 11;
-            this.buttonClearPumpProtect.Text = "Clear Pump Protect";
-            this.buttonClearPumpProtect.UseVisualStyleBackColor = true;
-            this.buttonClearPumpProtect.Click += new System.EventHandler(this.buttonClearPumpProtect_Click);
             // 
             // groupBoxRelayCycles
             // 
@@ -432,7 +421,6 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode.Controls.Add(this.buttonSend);
             this.groupBoxPumpMode.Controls.Add(this.labelPumpProtect);
             this.groupBoxPumpMode.Controls.Add(this.checkBoxNeverReclose);
-            this.groupBoxPumpMode.Controls.Add(this.buttonClearPumpProtect);
             this.groupBoxPumpMode.Location = new System.Drawing.Point(3, 3);
             this.groupBoxPumpMode.Name = "groupBoxPumpMode";
             this.groupBoxPumpMode.Size = new System.Drawing.Size(250, 260);
@@ -486,7 +474,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonRestoreDefaults;
         private System.Windows.Forms.CheckBox checkBoxNeverReclose;
-        private System.Windows.Forms.Button buttonClearPumpProtect;
         private System.Windows.Forms.Label labelPumpProtect;
         private System.Windows.Forms.Label labelMotorCycles;
         private System.Windows.Forms.Label labelMotorTimeoutUnits;

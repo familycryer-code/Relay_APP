@@ -152,10 +152,7 @@
             this.numericUpDown_PC_floatTime = new System.Windows.Forms.NumericUpDown();
             this.lbl_PC_floatTime = new System.Windows.Forms.Label();
             this.btn_RestorePC_defaults = new System.Windows.Forms.Button();
-            this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
-            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
             this.button_dataStore = new System.Windows.Forms.Button();
-            this.pictureBox_SendAll = new System.Windows.Forms.PictureBox();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
             this.labelLRLockoutMain = new System.Windows.Forms.Label();
@@ -199,10 +196,12 @@
             this.checkBoxACB = new System.Windows.Forms.CheckBox();
             this.checkBoxFlag1 = new System.Windows.Forms.CheckBox();
             this.checkBoxPowerSaveFlag = new System.Windows.Forms.CheckBox();
-            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
             this.buttonRequestRelayParamaters = new System.Windows.Forms.Button();
             this.buttonSendAll = new System.Windows.Forms.Button();
+            this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
+            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
+            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
@@ -211,6 +210,7 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
+            this.btn_ClearPumpProtect = new System.Windows.Forms.Button();
             this.btn_RelaxClose = new System.Windows.Forms.Button();
             this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.buttonTripRelay = new System.Windows.Forms.Button();
@@ -286,7 +286,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_voltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_activeTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_floatTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SendAll)).BeginInit();
             this.groupBoxLRLockoutMain.SuspendLayout();
             this.groupBoxLowVoltThres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).BeginInit();
@@ -1494,18 +1493,17 @@
             // 
             this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
             this.tabPageControl.Controls.Add(this.groupBox_PC);
-            this.tabPageControl.Controls.Add(this.ucCloseMode1);
-            this.tabPageControl.Controls.Add(this.ucPumpMode1);
             this.tabPageControl.Controls.Add(this.button_dataStore);
-            this.tabPageControl.Controls.Add(this.pictureBox_SendAll);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.labelRelayDisconnected);
             this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
             this.tabPageControl.Controls.Add(this.groupBoxNetworkCTRatio);
             this.tabPageControl.Controls.Add(this.groupBoxRelayFlags);
-            this.tabPageControl.Controls.Add(this.ucSafeService1);
             this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
+            this.tabPageControl.Controls.Add(this.ucCloseMode1);
+            this.tabPageControl.Controls.Add(this.ucPumpMode1);
+            this.tabPageControl.Controls.Add(this.ucSafeService1);
             this.tabPageControl.Controls.Add(this.ucCoverFlags1);
             this.tabPageControl.Controls.Add(this.ucTripMode2);
             this.tabPageControl.Location = new System.Drawing.Point(4, 24);
@@ -1567,7 +1565,7 @@
             this.lbl_PermissiveClose_Status.AutoSize = true;
             this.lbl_PermissiveClose_Status.BackColor = System.Drawing.Color.White;
             this.lbl_PermissiveClose_Status.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(266, 174);
+            this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(266, 168);
             this.lbl_PermissiveClose_Status.Name = "lbl_PermissiveClose_Status";
             this.lbl_PermissiveClose_Status.Size = new System.Drawing.Size(64, 18);
             this.lbl_PermissiveClose_Status.TabIndex = 13;
@@ -1581,7 +1579,6 @@
             this.lbl_PC_status.Size = new System.Drawing.Size(47, 16);
             this.lbl_PC_status.TabIndex = 12;
             this.lbl_PC_status.Text = "Status:";
-            this.lbl_PC_status.Click += new System.EventHandler(this.lbl_PC_status_Click);
             // 
             // comboBox_PC
             // 
@@ -1734,34 +1731,6 @@
             this.btn_RestorePC_defaults.UseVisualStyleBackColor = true;
             this.btn_RestorePC_defaults.Click += new System.EventHandler(this.btn_RestorePC_defaults_Click);
             // 
-            // ucCloseMode1
-            // 
-            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
-            this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucCloseMode1.Location = new System.Drawing.Point(430, 4);
-            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
-            this.ucCloseMode1.Name = "ucCloseMode1";
-            this.ucCloseMode1.RelaxClose = false;
-            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(373, 335);
-            this.ucCloseMode1.TabIndex = 26;
-            // 
-            // ucPumpMode1
-            // 
-            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucPumpMode1.Location = new System.Drawing.Point(226, 322);
-            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucPumpMode1.Name = "ucPumpMode1";
-            this.ucPumpMode1.PumpProtectEnabled = false;
-            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
-            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucPumpMode1.Size = new System.Drawing.Size(378, 321);
-            this.ucPumpMode1.TabIndex = 49;
-            // 
             // button_dataStore
             // 
             this.button_dataStore.Location = new System.Drawing.Point(994, 567);
@@ -1771,20 +1740,6 @@
             this.button_dataStore.Text = "Temp_Data_Store";
             this.button_dataStore.UseVisualStyleBackColor = true;
             this.button_dataStore.Click += new System.EventHandler(this.button_dataStore_Click);
-            // 
-            // pictureBox_SendAll
-            // 
-            this.pictureBox_SendAll.Enabled = false;
-            this.pictureBox_SendAll.Image = global::RelayControl.Properties.Resources.Throbber_SendAll;
-            this.pictureBox_SendAll.InitialImage = global::RelayControl.Properties.Resources.Throbber_SendAll1;
-            this.pictureBox_SendAll.Location = new System.Drawing.Point(469, 624);
-            this.pictureBox_SendAll.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox_SendAll.Name = "pictureBox_SendAll";
-            this.pictureBox_SendAll.Size = new System.Drawing.Size(133, 118);
-            this.pictureBox_SendAll.TabIndex = 120;
-            this.pictureBox_SendAll.TabStop = false;
-            this.pictureBox_SendAll.UseWaitCursor = true;
-            this.pictureBox_SendAll.Visible = false;
             // 
             // groupBoxLRLockoutMain
             // 
@@ -2357,18 +2312,6 @@
             this.checkBoxPowerSaveFlag.Text = "Power Save";
             this.checkBoxPowerSaveFlag.UseVisualStyleBackColor = true;
             // 
-            // ucSafeService1
-            // 
-            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
-            this.ucSafeService1.CTRatio = 320;
-            this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucSafeService1.LoadingNewCode = false;
-            this.ucSafeService1.Location = new System.Drawing.Point(638, 320);
-            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(311, 304);
-            this.ucSafeService1.TabIndex = 108;
-            // 
             // panelOtherRelayControls
             // 
             this.panelOtherRelayControls.BackColor = System.Drawing.Color.Transparent;
@@ -2404,6 +2347,46 @@
             this.buttonSendAll.Text = "Program";
             this.buttonSendAll.UseVisualStyleBackColor = true;
             this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
+            // 
+            // ucCloseMode1
+            // 
+            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
+            this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucCloseMode1.Location = new System.Drawing.Point(430, 4);
+            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
+            this.ucCloseMode1.Name = "ucCloseMode1";
+            this.ucCloseMode1.RelaxClose = false;
+            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucCloseMode1.Size = new System.Drawing.Size(373, 335);
+            this.ucCloseMode1.TabIndex = 26;
+            // 
+            // ucPumpMode1
+            // 
+            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucPumpMode1.Location = new System.Drawing.Point(226, 322);
+            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucPumpMode1.Name = "ucPumpMode1";
+            this.ucPumpMode1.PumpProtectEnabled = false;
+            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
+            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucPumpMode1.Size = new System.Drawing.Size(378, 321);
+            this.ucPumpMode1.TabIndex = 49;
+            // 
+            // ucSafeService1
+            // 
+            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
+            this.ucSafeService1.CTRatio = 320;
+            this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucSafeService1.LoadingNewCode = false;
+            this.ucSafeService1.Location = new System.Drawing.Point(638, 320);
+            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucSafeService1.Name = "ucSafeService1";
+            this.ucSafeService1.Size = new System.Drawing.Size(311, 304);
+            this.ucSafeService1.TabIndex = 108;
             // 
             // ucCoverFlags1
             // 
@@ -2506,6 +2489,7 @@
             // 
             // grpBox_RelayCommands
             // 
+            this.grpBox_RelayCommands.Controls.Add(this.btn_ClearPumpProtect);
             this.grpBox_RelayCommands.Controls.Add(this.btn_RelaxClose);
             this.grpBox_RelayCommands.Controls.Add(this.ucBlockControl1);
             this.grpBox_RelayCommands.Controls.Add(this.buttonTripRelay);
@@ -2519,6 +2503,16 @@
             this.grpBox_RelayCommands.TabIndex = 129;
             this.grpBox_RelayCommands.TabStop = false;
             this.grpBox_RelayCommands.Text = "Relay Commands";
+            // 
+            // btn_ClearPumpProtect
+            // 
+            this.btn_ClearPumpProtect.Location = new System.Drawing.Point(56, 299);
+            this.btn_ClearPumpProtect.Name = "btn_ClearPumpProtect";
+            this.btn_ClearPumpProtect.Size = new System.Drawing.Size(141, 27);
+            this.btn_ClearPumpProtect.TabIndex = 118;
+            this.btn_ClearPumpProtect.Text = "Clear Pump Protect";
+            this.btn_ClearPumpProtect.UseVisualStyleBackColor = true;
+            this.btn_ClearPumpProtect.Click += new System.EventHandler(this.btn_ClearPumpProtect_Click);
             // 
             // btn_RelaxClose
             // 
@@ -3223,7 +3217,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_voltage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_activeTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PC_floatTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SendAll)).EndInit();
             this.groupBoxLRLockoutMain.ResumeLayout(false);
             this.groupBoxLRLockoutMain.PerformLayout();
             this.groupBoxLowVoltThres.ResumeLayout(false);
@@ -3449,7 +3442,6 @@
         private RelayControlLibrary.CommTradeConverter commTradeConverter1;
         private System.ComponentModel.IContainer components;
         public RelayControlLibrary.ucTransmitter ucTransmitter1;
-        private System.Windows.Forms.PictureBox pictureBox_SendAll;
         private System.Windows.Forms.Timer timer_SendAll_GIF;
         private System.Windows.Forms.Button button_dataStore;
         private System.Windows.Forms.ComboBox comboBox_CTRatio;
@@ -3508,5 +3500,6 @@
         private System.Windows.Forms.Button buttonTripRelay;
         private System.Windows.Forms.Button btn_RelaxClose;
         private System.Windows.Forms.Button btn_PC_active;
+        private System.Windows.Forms.Button btn_ClearPumpProtect;
     }
 }

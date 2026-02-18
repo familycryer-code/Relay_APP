@@ -45,7 +45,7 @@ namespace RelayControlLibrary
             toolTip.SetToolTip(this.checkBoxMotorCycles, "Enables Motor Cycles Pump Protect Mode");
             toolTip.SetToolTip(this.checkBoxMotorTime, "Enables Motor Timeout Pump Protect Mode");
             toolTip.SetToolTip(this.checkBoxNeverReclose, "Relay will inhibit Automatic Reclose until Pump State is cleared by the user");
-            toolTip.SetToolTip(this.buttonClearPumpProtect, "Clears any active Pump Protect state");
+            //toolTip.SetToolTip(this.buttonClearPumpProtect, "Clears any active Pump Protect state");
             toolTip.SetToolTip(this.labelPumpType, "Shows Pump Protect Reason");
             toolTip.SetToolTip(this.labelPumpTypeDisplay, "Shows Pump Protect Reason");
         }
@@ -68,10 +68,11 @@ namespace RelayControlLibrary
             set
             {
                 this.relayRevisionNumber = value;
-                if (this.relayRevisionNumber > 999999999) //TEST needs to be fixed when actually implemented
-                    this.displayAlarmOnly(true);
-                else
-                    this.displayAlarmOnly(false);
+                //   if (this.relayRevisionNumber > 999999999) //TEST needs to be fixed when actually implemented
+                //       this.displayAlarmOnly(true);
+                         this.checkBoxAlarmOnly.Visible = true;
+                //   else
+                //       this.displayAlarmOnly(false);
 
                 if (this.motorCycleValue != 5 && this.motorCycleValue != 0)
                     this.numericUpDownMotorCycles.Value = this.motorCycleValue;
@@ -546,7 +547,8 @@ namespace RelayControlLibrary
             }
         }
 
-        private void buttonClearPumpProtect_Click(object sender, EventArgs e)
+        //private void buttonClearPumpProtect_Click(object sender, EventArgs e)
+        public void sendClearPumpProtect()
         {
             SendEventArgs clearSEA = new SendEventArgs(10);
             clearSEA.SendPacket[0] = (byte)RelayModeFunctions._PumpModeOpCode;
