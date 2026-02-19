@@ -3979,11 +3979,13 @@ namespace RelayControl
                 {
                     this.setCheckedValue(true, this.checkBoxBFlag);
                     this.labelNWPStatus.Text = "NWP: Open";
+                    this.txtBox_NWPposition.Text = "Open";
                 }
                 else
                 {
                     this.setCheckedValue(false, this.checkBoxBFlag);
                     this.labelNWPStatus.Text = "NWP: Closed";
+                    this.txtBox_NWPposition.Text = "Closed";
                 }
                 if ((b & 16) == 16)
                 {
@@ -4288,6 +4290,17 @@ namespace RelayControl
                 else if (pumpOK.pumpStatus == false)
                     this.lbl_Relayststatus_PA.BackColor = Color.Green;
 
+                if (tripI.tripInsensitive == true)
+                { 
+                    this.lbl_Relayststatus_Ib.BackColor = Color.Green;
+                    this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
+                }
+                else if (tripI.tripInsensitive == false)
+                {
+                    this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_backfeed.BackColor = Color.Green;
+                }
+                    
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)
                 {
@@ -4330,8 +4343,13 @@ namespace RelayControl
                 }
                 else
                 {
-                    this.btn_PermCl_Active.BackColor = Color.Transparent;
-                    this.SendPCData(); // once PC comes out of its active time, send the float time in allowed range to the master processor
+                    if (btn_PermCl_Active.BackColor == Color.Yellow)
+                    {
+                        this.btn_PermCl_Active.BackColor = Color.Transparent;
+                        this.SendPCData(); // once PC comes out of its active time, send the float time in allowed range to the master processor
+                    }
+                    else
+                        this.btn_PermCl_Active.BackColor = Color.Transparent;
                 }
 
             }
@@ -7024,7 +7042,10 @@ namespace RelayControl
             this.enableCheckBox(b, this.checkBoxBFlag);
             this.labelNWPStatus.Enabled = b;
             if (!b)
+            { 
                 this.labelNWPStatus.Text = "NWP: Unknown";
+                this.txtBox_NWPposition.Text = "Unknown";
+            }
             this.enableCheckBox(b, this.checkBoxInInsensRegion);
             this.enableCheckBox(b, this.checkBoxInTripRegion);
             this.enableCheckBox(b, this.checkBoxTripFlag);
@@ -10514,8 +10535,14 @@ namespace RelayControl
             packet[6] = 0x0D;
             
             this.sendPacketAck(packet, "Permissice Close packet Send");
-            //Thread.Sleep(1000);
-            //this.request_PCdata();
+
+           /* Thread.Sleep(100);
+            if (!this.sendAll)
+            {
+                this.requestAllData();
+                this.parametersLoaded = true;
+            }
+           */
         }
 
         private void request_PCdata()

@@ -2020,6 +2020,11 @@ namespace RelayControlLibrary
         public static bool pumpStatus;
     }
 
+    public static class tripI
+    {
+        public static bool tripInsensitive;
+    }
+
     public static class statusNew
     {
         public static bool flagFromRelay;

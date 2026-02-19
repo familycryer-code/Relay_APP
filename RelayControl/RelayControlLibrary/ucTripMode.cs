@@ -1027,20 +1027,25 @@ namespace RelayControlLibrary
                 {
                     case TripModes.Insensitive:
                         this.listBoxTripModes.SelectedIndex = 2;
+                        tripI.tripInsensitive = true;
                         break;
                     case TripModes.TimeDelay:
                         this.listBoxTripModes.SelectedIndex = 1;
+                        tripI.tripInsensitive = false;
                         break;
                     case TripModes.WattVar:
                         this.listBoxTripModes.SelectedIndex = 3;
+                        tripI.tripInsensitive = false;
                         break;
                     case TripModes.Adaptive:
                         this.listBoxTripModes.SelectedIndex = 4;
+                        tripI.tripInsensitive = false;
                         break;
                     case TripModes.Sensitive:
                     case TripModes.RemoteTrip:
                     default:
                         this.listBoxTripModes.SelectedIndex = 0;
+                        tripI.tripInsensitive = false;
                         break;
 
                 }
