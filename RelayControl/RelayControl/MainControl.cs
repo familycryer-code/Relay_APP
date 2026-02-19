@@ -682,7 +682,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.9" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.10" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -4103,11 +4103,13 @@ namespace RelayControl
                 {
                     RelayFlags.PhasingOkay = true;
                     this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has determined phasing of protector and it is OK");
+                    this.lbl_Relayststatus_XP.BackColor = Color.Transparent;
                 }
                 else
                 {
                     RelayFlags.PhasingOkay = false;
                     this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has yet to determine phasing of the protector or it is crossed phased");
+                    this.lbl_Relayststatus_XP.BackColor = Color.Green;
                 }
 
                 this.setCheckedValue(RelayFlags.PhasingOkay, this.checkBoxPhasingOkayFlag);
@@ -4263,10 +4265,28 @@ namespace RelayControl
                         this.lbl_Relayststatus_RC.BackColor = Color.Green;
                 }
 
-                if(blockedO.blockedOpen == true)
-                    this.lbl_Relayststatus_BO.BackColor = Color.Green;
-                else if (blockedO.blockedOpen == false)
+                if ((blockedO.blockedOpen == true) && (lbl_Relayststatus_Float.BackColor == Color.Green))
+                {
+                    this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_BO.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_FB.BackColor = Color.Green;                    
+                }
+                else if ((blockedO.blockedOpen == true) && (lbl_Relayststatus_Float.BackColor != Color.Green))
+                {
+                    this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_BO.BackColor = Color.Green;
+                    this.lbl_Relayststatus_FB.BackColor = Color.Transparent;
+                }
+                else if (blockedO.blockedOpen == false)
+                {
+                    this.lbl_Relayststatus_BO.BackColor = Color.Transparent;
+                    this.lbl_Relayststatus_FB.BackColor = Color.Transparent;
+                }
+
+                if (pumpOK.pumpStatus == true)
+                    this.lbl_Relayststatus_PA.BackColor = Color.Transparent;
+                else if (pumpOK.pumpStatus == false)
+                    this.lbl_Relayststatus_PA.BackColor = Color.Green;
 
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)

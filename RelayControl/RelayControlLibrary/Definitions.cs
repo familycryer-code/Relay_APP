@@ -2015,6 +2015,11 @@ namespace RelayControlLibrary
         public static bool blockedOpen;
     }
 
+    public static class pumpOK
+    {
+        public static bool pumpStatus;
+    }
+
     public static class statusNew
     {
         public static bool flagFromRelay;

@@ -637,18 +637,22 @@ namespace RelayControlLibrary
                 case PumpReasons.NoPump:
                     this.labelPumpTypeDisplay.BackColor = Color.Transparent;
                     this.labelPumpTypeDisplay.Text = "No Pumping Problems";
+                    pumpOK.pumpStatus = true;
                     break;
                 case PumpReasons.MotorPump:
                     this.labelPumpTypeDisplay.BackColor = Color.Orange;
                     this.labelPumpTypeDisplay.Text = "Motor Cycles";
+                    pumpOK.pumpStatus = false;
                     break;
                 case PumpReasons.MotorTimeout:
                     this.labelPumpTypeDisplay.BackColor = Color.Orange;
                     this.labelPumpTypeDisplay.Text = "Motor Timeout";
+                    pumpOK.pumpStatus = false;
                     break;
                 case PumpReasons.RelayCallLimit:
                     this.labelPumpTypeDisplay.BackColor = Color.Orange;
                     this.labelPumpTypeDisplay.Text = "Cycle Limit";
+                    pumpOK.pumpStatus = false;
                     break;
                 default:
                     throw new Exception(value.ToString() + " is not a handled Pump Reason");
