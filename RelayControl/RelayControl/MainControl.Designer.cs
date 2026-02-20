@@ -247,16 +247,16 @@
             this.lbl_Relayststatus_FB = new System.Windows.Forms.Label();
             this.lbl_Relayststatus_Close = new System.Windows.Forms.Label();
             this.lbl_Relaystatus_Open = new System.Windows.Forms.Label();
-            this.labelNWPStatus = new System.Windows.Forms.Label();
-            this.checkBoxTripFlag = new System.Windows.Forms.CheckBox();
-            this.checkBoxPhasingOkayFlag = new System.Windows.Forms.CheckBox();
-            this.checkBoxPumping = new System.Windows.Forms.CheckBox();
-            this.checkBoxDefaultsUsed = new System.Windows.Forms.CheckBox();
-            this.checkBoxBlockedOpenFlag = new System.Windows.Forms.CheckBox();
-            this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
             this.labelRelayStateControlPage = new System.Windows.Forms.Label();
-            this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
+            this.checkBoxDefaultsUsed = new System.Windows.Forms.CheckBox();
             this.checkBoxFloatFlag = new System.Windows.Forms.CheckBox();
+            this.labelNWPStatus = new System.Windows.Forms.Label();
+            this.checkBoxTrippingFlag = new System.Windows.Forms.CheckBox();
+            this.checkBoxTripFlag = new System.Windows.Forms.CheckBox();
+            this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
+            this.checkBoxPhasingOkayFlag = new System.Windows.Forms.CheckBox();
+            this.checkBoxBlockedOpenFlag = new System.Windows.Forms.CheckBox();
+            this.checkBoxPumping = new System.Windows.Forms.CheckBox();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
             this.ucDNP1 = new RelayControlLibrary.ucDNP();
@@ -322,11 +322,11 @@
             // labelTemperature
             // 
             labelTemperature.AutoSize = true;
-            labelTemperature.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            labelTemperature.Location = new System.Drawing.Point(40, 162);
+            labelTemperature.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelTemperature.Location = new System.Drawing.Point(55, 227);
             labelTemperature.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelTemperature.Name = "labelTemperature";
-            labelTemperature.Size = new System.Drawing.Size(66, 16);
+            labelTemperature.Size = new System.Drawing.Size(83, 19);
             labelTemperature.TabIndex = 50;
             labelTemperature.Text = "Temp (C):";
             // 
@@ -2480,6 +2480,16 @@
             this.tabPage1.Controls.Add(this.buttonDeleteSetting);
             this.tabPage1.Controls.Add(this.ucRemoteCommandBlock1);
             this.tabPage1.Controls.Add(this.groupBoxRelayStatus);
+            this.tabPage1.Controls.Add(this.labelRelayStateControlPage);
+            this.tabPage1.Controls.Add(this.checkBoxDefaultsUsed);
+            this.tabPage1.Controls.Add(this.checkBoxFloatFlag);
+            this.tabPage1.Controls.Add(this.labelNWPStatus);
+            this.tabPage1.Controls.Add(this.checkBoxTrippingFlag);
+            this.tabPage1.Controls.Add(this.checkBoxTripFlag);
+            this.tabPage1.Controls.Add(this.checkBoxBFlag);
+            this.tabPage1.Controls.Add(this.checkBoxPhasingOkayFlag);
+            this.tabPage1.Controls.Add(this.checkBoxBlockedOpenFlag);
+            this.tabPage1.Controls.Add(this.checkBoxPumping);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -2498,7 +2508,7 @@
             this.grpBox_RelayCommands.Controls.Add(this.buttonBlockAndTrip);
             this.grpBox_RelayCommands.Controls.Add(this.buttonResetBothProc);
             this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
-            this.grpBox_RelayCommands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_RelayCommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBox_RelayCommands.Location = new System.Drawing.Point(859, 31);
             this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
             this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 392);
@@ -2548,6 +2558,7 @@
             // 
             // buttonTripRelay
             // 
+            this.buttonTripRelay.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonTripRelay.Location = new System.Drawing.Point(56, 125);
             this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTripRelay.Name = "buttonTripRelay";
@@ -2563,10 +2574,10 @@
             this.groupBox_FirmwareInfo.Controls.Add(this.labelRelayRevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelFPGARevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelBootRevision);
-            this.groupBox_FirmwareInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(27, 400);
+            this.groupBox_FirmwareInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(27, 456);
             this.groupBox_FirmwareInfo.Name = "groupBox_FirmwareInfo";
-            this.groupBox_FirmwareInfo.Size = new System.Drawing.Size(344, 400);
+            this.groupBox_FirmwareInfo.Size = new System.Drawing.Size(344, 253);
             this.groupBox_FirmwareInfo.TabIndex = 128;
             this.groupBox_FirmwareInfo.TabStop = false;
             this.groupBox_FirmwareInfo.Text = "Firmware Revision";
@@ -2636,8 +2647,8 @@
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTemperature);
             this.groupBox_RelayInfo.Controls.Add(this.label4);
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTripCount);
-            this.groupBox_RelayInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_RelayInfo.Location = new System.Drawing.Point(27, 25);
+            this.groupBox_RelayInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_RelayInfo.Location = new System.Drawing.Point(27, 42);
             this.groupBox_RelayInfo.Name = "groupBox_RelayInfo";
             this.groupBox_RelayInfo.Size = new System.Drawing.Size(344, 340);
             this.groupBox_RelayInfo.TabIndex = 127;
@@ -2647,9 +2658,10 @@
             // txtBox_NWPposition
             // 
             this.txtBox_NWPposition.BackColor = System.Drawing.SystemColors.Control;
-            this.txtBox_NWPposition.Location = new System.Drawing.Point(129, 203);
+            this.txtBox_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_NWPposition.Location = new System.Drawing.Point(145, 279);
             this.txtBox_NWPposition.Name = "txtBox_NWPposition";
-            this.txtBox_NWPposition.Size = new System.Drawing.Size(100, 22);
+            this.txtBox_NWPposition.Size = new System.Drawing.Size(100, 27);
             this.txtBox_NWPposition.TabIndex = 119;
             this.txtBox_NWPposition.Text = "Unknown";
             this.txtBox_NWPposition.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2657,18 +2669,20 @@
             // lbl_NWPposition
             // 
             this.lbl_NWPposition.AutoSize = true;
-            this.lbl_NWPposition.Location = new System.Drawing.Point(21, 206);
+            this.lbl_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_NWPposition.Location = new System.Drawing.Point(37, 282);
             this.lbl_NWPposition.Name = "lbl_NWPposition";
-            this.lbl_NWPposition.Size = new System.Drawing.Size(93, 16);
+            this.lbl_NWPposition.Size = new System.Drawing.Size(110, 19);
             this.lbl_NWPposition.TabIndex = 118;
             this.lbl_NWPposition.Text = "NWP Position:";
             // 
             // textBox_TxID
             // 
             this.textBox_TxID.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox_TxID.Location = new System.Drawing.Point(129, 72);
+            this.textBox_TxID.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_TxID.Location = new System.Drawing.Point(146, 100);
             this.textBox_TxID.Name = "textBox_TxID";
-            this.textBox_TxID.Size = new System.Drawing.Size(100, 22);
+            this.textBox_TxID.Size = new System.Drawing.Size(100, 27);
             this.textBox_TxID.TabIndex = 117;
             this.textBox_TxID.Text = "1023";
             this.textBox_TxID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2676,11 +2690,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 74);
+            this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(30, 102);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label2.Size = new System.Drawing.Size(93, 16);
+            this.label2.Size = new System.Drawing.Size(119, 19);
             this.label2.TabIndex = 116;
             this.label2.Text = "Transmitter ID:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2688,63 +2702,65 @@
             // labelRelaySNControl
             // 
             this.labelRelaySNControl.AutoSize = true;
-            this.labelRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelaySNControl.Location = new System.Drawing.Point(34, 35);
+            this.labelRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelaySNControl.Location = new System.Drawing.Point(51, 48);
             this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRelaySNControl.Name = "labelRelaySNControl";
-            this.labelRelaySNControl.Size = new System.Drawing.Size(72, 16);
+            this.labelRelaySNControl.Size = new System.Drawing.Size(84, 19);
             this.labelRelaySNControl.TabIndex = 115;
             this.labelRelaySNControl.Text = "Relay S/N:";
             // 
             // textBoxRelaySNControl
             // 
-            this.textBoxRelaySNControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControl.Location = new System.Drawing.Point(129, 35);
+            this.textBoxRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxRelaySNControl.Location = new System.Drawing.Point(146, 48);
             this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControl.MaxLength = 5;
             this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
             this.textBoxRelaySNControl.ReadOnly = true;
-            this.textBoxRelaySNControl.Size = new System.Drawing.Size(101, 22);
+            this.textBoxRelaySNControl.Size = new System.Drawing.Size(101, 27);
             this.textBoxRelaySNControl.TabIndex = 114;
             this.textBoxRelaySNControl.Tag = "SN";
             this.textBoxRelaySNControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxTemperature
             // 
-            this.textBoxTemperature.Location = new System.Drawing.Point(129, 157);
+            this.textBoxTemperature.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxTemperature.Location = new System.Drawing.Point(144, 222);
             this.textBoxTemperature.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTemperature.Name = "textBoxTemperature";
             this.textBoxTemperature.ReadOnly = true;
-            this.textBoxTemperature.Size = new System.Drawing.Size(101, 22);
+            this.textBoxTemperature.Size = new System.Drawing.Size(101, 27);
             this.textBoxTemperature.TabIndex = 51;
             this.textBoxTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(28, 121);
+            this.label4.Location = new System.Drawing.Point(44, 168);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 16);
+            this.label4.Size = new System.Drawing.Size(93, 19);
             this.label4.TabIndex = 44;
             this.label4.Text = "Trip Cycles:";
             // 
             // textBoxTripCount
             // 
-            this.textBoxTripCount.Location = new System.Drawing.Point(129, 118);
+            this.textBoxTripCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxTripCount.Location = new System.Drawing.Point(145, 165);
             this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTripCount.Name = "textBoxTripCount";
             this.textBoxTripCount.ReadOnly = true;
-            this.textBoxTripCount.Size = new System.Drawing.Size(101, 22);
+            this.textBoxTripCount.Size = new System.Drawing.Size(101, 27);
             this.textBoxTripCount.TabIndex = 43;
             this.textBoxTripCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxSaveStateName
             // 
             this.textBoxSaveStateName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSaveStateName.Location = new System.Drawing.Point(859, 609);
+            this.textBoxSaveStateName.Location = new System.Drawing.Point(859, 570);
             this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSaveStateName.Name = "textBoxSaveStateName";
             this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 22);
@@ -2753,7 +2769,7 @@
             // buttonSaveSetting
             // 
             this.buttonSaveSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSaveSetting.Location = new System.Drawing.Point(1007, 604);
+            this.buttonSaveSetting.Location = new System.Drawing.Point(1007, 570);
             this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSaveSetting.Name = "buttonSaveSetting";
             this.buttonSaveSetting.Size = new System.Drawing.Size(109, 26);
@@ -2765,7 +2781,7 @@
             // 
             this.comboBoxSavedStates.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxSavedStates.FormattingEnabled = true;
-            this.comboBoxSavedStates.Location = new System.Drawing.Point(859, 573);
+            this.comboBoxSavedStates.Location = new System.Drawing.Point(859, 538);
             this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxSavedStates.Name = "comboBoxSavedStates";
             this.comboBoxSavedStates.Size = new System.Drawing.Size(140, 24);
@@ -2774,7 +2790,7 @@
             // buttonDeleteSetting
             // 
             this.buttonDeleteSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDeleteSetting.Location = new System.Drawing.Point(1007, 570);
+            this.buttonDeleteSetting.Location = new System.Drawing.Point(1007, 542);
             this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDeleteSetting.Name = "buttonDeleteSetting";
             this.buttonDeleteSetting.Size = new System.Drawing.Size(109, 26);
@@ -2808,17 +2824,7 @@
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_FB);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_Close);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relaystatus_Open);
-            this.groupBoxRelayStatus.Controls.Add(this.labelNWPStatus);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxTripFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxPhasingOkayFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxPumping);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxDefaultsUsed);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxBlockedOpenFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxBFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.labelRelayStateControlPage);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxTrippingFlag);
-            this.groupBoxRelayStatus.Controls.Add(this.checkBoxFloatFlag);
-            this.groupBoxRelayStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxRelayStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxRelayStatus.Location = new System.Drawing.Point(408, 31);
             this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
@@ -2831,255 +2837,164 @@
             // lbl_Relayststatus_XP
             // 
             this.lbl_Relayststatus_XP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_XP.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_XP.Location = new System.Drawing.Point(194, 481);
+            this.lbl_Relayststatus_XP.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_XP.Location = new System.Drawing.Point(0, 620);
             this.lbl_Relayststatus_XP.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_XP.Name = "lbl_Relayststatus_XP";
             this.lbl_Relayststatus_XP.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_XP.TabIndex = 134;
-            this.lbl_Relayststatus_XP.Text = "UnkownXp";
+            this.lbl_Relayststatus_XP.Text = "Cross Phase (XP )";
             this.lbl_Relayststatus_XP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_SL
             // 
             this.lbl_Relayststatus_SL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_SL.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_SL.Location = new System.Drawing.Point(30, 481);
+            this.lbl_Relayststatus_SL.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_SL.Location = new System.Drawing.Point(0, 567);
             this.lbl_Relayststatus_SL.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_SL.Name = "lbl_Relayststatus_SL";
             this.lbl_Relayststatus_SL.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_SL.TabIndex = 133;
-            this.lbl_Relayststatus_SL.Text = "UnkownSl";
+            this.lbl_Relayststatus_SL.Text = "Safe Service Mode Lockout ( SL )";
             this.lbl_Relayststatus_SL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_PA
             // 
             this.lbl_Relayststatus_PA.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_PA.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_PA.Location = new System.Drawing.Point(194, 415);
+            this.lbl_Relayststatus_PA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_PA.Location = new System.Drawing.Point(0, 515);
             this.lbl_Relayststatus_PA.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_PA.Name = "lbl_Relayststatus_PA";
             this.lbl_Relayststatus_PA.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_PA.TabIndex = 132;
-            this.lbl_Relayststatus_PA.Text = "UnkownPa";
+            this.lbl_Relayststatus_PA.Text = "Pump Alarm ( PA )";
             this.lbl_Relayststatus_PA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_RC
             // 
             this.lbl_Relayststatus_RC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_RC.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_RC.Location = new System.Drawing.Point(30, 415);
+            this.lbl_Relayststatus_RC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_RC.Location = new System.Drawing.Point(0, 463);
             this.lbl_Relayststatus_RC.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_RC.Name = "lbl_Relayststatus_RC";
             this.lbl_Relayststatus_RC.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_RC.TabIndex = 131;
-            this.lbl_Relayststatus_RC.Text = "UnkownRc";
+            this.lbl_Relayststatus_RC.Text = "Relax Close ( RC )";
             this.lbl_Relayststatus_RC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_Ib
             // 
             this.lbl_Relayststatus_Ib.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Ib.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Ib.Location = new System.Drawing.Point(194, 356);
+            this.lbl_Relayststatus_Ib.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_Ib.Location = new System.Drawing.Point(0, 413);
             this.lbl_Relayststatus_Ib.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_Ib.Name = "lbl_Relayststatus_Ib";
             this.lbl_Relayststatus_Ib.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_Ib.TabIndex = 130;
-            this.lbl_Relayststatus_Ib.Text = "UnkownIb";
+            this.lbl_Relayststatus_Ib.Text = "Insensitive Backfeed ( IB )";
             this.lbl_Relayststatus_Ib.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_FC
             // 
             this.lbl_Relayststatus_FC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_FC.Location = new System.Drawing.Point(30, 356);
+            this.lbl_Relayststatus_FC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_FC.Location = new System.Drawing.Point(0, 359);
             this.lbl_Relayststatus_FC.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_FC.Name = "lbl_Relayststatus_FC";
             this.lbl_Relayststatus_FC.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_FC.TabIndex = 129;
-            this.lbl_Relayststatus_FC.Text = "UnkownFc";
+            this.lbl_Relayststatus_FC.Text = "Failed to Close ( FC )";
             this.lbl_Relayststatus_FC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_BO
             // 
             this.lbl_Relayststatus_BO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_BO.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_BO.Location = new System.Drawing.Point(194, 290);
+            this.lbl_Relayststatus_BO.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_BO.Location = new System.Drawing.Point(0, 309);
             this.lbl_Relayststatus_BO.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_BO.Name = "lbl_Relayststatus_BO";
             this.lbl_Relayststatus_BO.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_BO.TabIndex = 128;
-            this.lbl_Relayststatus_BO.Text = "UnkownBo";
+            this.lbl_Relayststatus_BO.Text = "Blocked Open ( BO )";
             this.lbl_Relayststatus_BO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_backfeed
             // 
             this.lbl_Relayststatus_backfeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_backfeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_backfeed.Location = new System.Drawing.Point(30, 290);
+            this.lbl_Relayststatus_backfeed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_backfeed.Location = new System.Drawing.Point(0, 260);
             this.lbl_Relayststatus_backfeed.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_backfeed.Name = "lbl_Relayststatus_backfeed";
             this.lbl_Relayststatus_backfeed.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_backfeed.TabIndex = 127;
-            this.lbl_Relayststatus_backfeed.Text = "UnkownBf";
+            this.lbl_Relayststatus_backfeed.Text = "Backfeed ( BF )";
             this.lbl_Relayststatus_backfeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_Float
             // 
             this.lbl_Relayststatus_Float.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Float.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Float.Location = new System.Drawing.Point(194, 223);
+            this.lbl_Relayststatus_Float.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_Float.Location = new System.Drawing.Point(0, 207);
             this.lbl_Relayststatus_Float.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_Float.Name = "lbl_Relayststatus_Float";
             this.lbl_Relayststatus_Float.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_Float.TabIndex = 126;
-            this.lbl_Relayststatus_Float.Text = "UnkownFl";
+            this.lbl_Relayststatus_Float.Text = "Float ( FL )";
             this.lbl_Relayststatus_Float.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_FB
             // 
             this.lbl_Relayststatus_FB.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_FB.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_FB.Location = new System.Drawing.Point(30, 223);
+            this.lbl_Relayststatus_FB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_FB.Location = new System.Drawing.Point(0, 159);
             this.lbl_Relayststatus_FB.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_FB.Name = "lbl_Relayststatus_FB";
             this.lbl_Relayststatus_FB.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_FB.TabIndex = 125;
-            this.lbl_Relayststatus_FB.Text = "UnkownFb";
+            this.lbl_Relayststatus_FB.Text = "Floating & Blocked open ( FB )";
             this.lbl_Relayststatus_FB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relayststatus_Close
             // 
             this.lbl_Relayststatus_Close.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relayststatus_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relayststatus_Close.Location = new System.Drawing.Point(194, 157);
+            this.lbl_Relayststatus_Close.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relayststatus_Close.Location = new System.Drawing.Point(0, 111);
             this.lbl_Relayststatus_Close.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_Close.Name = "lbl_Relayststatus_Close";
             this.lbl_Relayststatus_Close.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relayststatus_Close.TabIndex = 124;
-            this.lbl_Relayststatus_Close.Text = "UnkownCl";
+            this.lbl_Relayststatus_Close.Text = "Close ( CL )";
             this.lbl_Relayststatus_Close.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Relaystatus_Open
             // 
             this.lbl_Relaystatus_Open.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbl_Relaystatus_Open.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Relaystatus_Open.Location = new System.Drawing.Point(30, 157);
+            this.lbl_Relaystatus_Open.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Relaystatus_Open.Location = new System.Drawing.Point(0, 59);
             this.lbl_Relaystatus_Open.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relaystatus_Open.Name = "lbl_Relaystatus_Open";
             this.lbl_Relaystatus_Open.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relaystatus_Open.Size = new System.Drawing.Size(167, 66);
+            this.lbl_Relaystatus_Open.Size = new System.Drawing.Size(412, 52);
             this.lbl_Relaystatus_Open.TabIndex = 123;
-            this.lbl_Relaystatus_Open.Text = "UnkownOp";
+            this.lbl_Relaystatus_Open.Text = "Open (OP)";
             this.lbl_Relaystatus_Open.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelNWPStatus
-            // 
-            this.labelNWPStatus.AutoSize = true;
-            this.labelNWPStatus.Location = new System.Drawing.Point(304, 14);
-            this.labelNWPStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelNWPStatus.Name = "labelNWPStatus";
-            this.labelNWPStatus.Size = new System.Drawing.Size(100, 16);
-            this.labelNWPStatus.TabIndex = 52;
-            this.labelNWPStatus.Text = "NWP: Unknown";
-            // 
-            // checkBoxTripFlag
-            // 
-            this.checkBoxTripFlag.AutoCheck = false;
-            this.checkBoxTripFlag.AutoSize = true;
-            this.checkBoxTripFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxTripFlag.Location = new System.Drawing.Point(10, 22);
-            this.checkBoxTripFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxTripFlag.Name = "checkBoxTripFlag";
-            this.checkBoxTripFlag.Size = new System.Drawing.Size(74, 20);
-            this.checkBoxTripFlag.TabIndex = 0;
-            this.checkBoxTripFlag.Text = "Tripped";
-            this.checkBoxTripFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxPhasingOkayFlag
-            // 
-            this.checkBoxPhasingOkayFlag.AutoCheck = false;
-            this.checkBoxPhasingOkayFlag.AutoSize = true;
-            this.checkBoxPhasingOkayFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxPhasingOkayFlag.Location = new System.Drawing.Point(195, 51);
-            this.checkBoxPhasingOkayFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxPhasingOkayFlag.Name = "checkBoxPhasingOkayFlag";
-            this.checkBoxPhasingOkayFlag.Size = new System.Drawing.Size(110, 20);
-            this.checkBoxPhasingOkayFlag.TabIndex = 50;
-            this.checkBoxPhasingOkayFlag.Text = "Phasing Okay";
-            this.checkBoxPhasingOkayFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxPumping
-            // 
-            this.checkBoxPumping.AutoCheck = false;
-            this.checkBoxPumping.AutoSize = true;
-            this.checkBoxPumping.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxPumping.Location = new System.Drawing.Point(199, 79);
-            this.checkBoxPumping.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxPumping.Name = "checkBoxPumping";
-            this.checkBoxPumping.Size = new System.Drawing.Size(106, 20);
-            this.checkBoxPumping.TabIndex = 35;
-            this.checkBoxPumping.Text = "Pump Protect";
-            this.checkBoxPumping.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDefaultsUsed
-            // 
-            this.checkBoxDefaultsUsed.AutoCheck = false;
-            this.checkBoxDefaultsUsed.AutoSize = true;
-            this.checkBoxDefaultsUsed.Enabled = false;
-            this.checkBoxDefaultsUsed.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxDefaultsUsed.Location = new System.Drawing.Point(196, 107);
-            this.checkBoxDefaultsUsed.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxDefaultsUsed.Name = "checkBoxDefaultsUsed";
-            this.checkBoxDefaultsUsed.Size = new System.Drawing.Size(111, 20);
-            this.checkBoxDefaultsUsed.TabIndex = 38;
-            this.checkBoxDefaultsUsed.Text = "Defaults Used";
-            this.checkBoxDefaultsUsed.UseVisualStyleBackColor = true;
-            this.checkBoxDefaultsUsed.Visible = false;
-            // 
-            // checkBoxBlockedOpenFlag
-            // 
-            this.checkBoxBlockedOpenFlag.AutoCheck = false;
-            this.checkBoxBlockedOpenFlag.AutoSize = true;
-            this.checkBoxBlockedOpenFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxBlockedOpenFlag.Location = new System.Drawing.Point(195, 23);
-            this.checkBoxBlockedOpenFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxBlockedOpenFlag.Name = "checkBoxBlockedOpenFlag";
-            this.checkBoxBlockedOpenFlag.Size = new System.Drawing.Size(112, 20);
-            this.checkBoxBlockedOpenFlag.TabIndex = 48;
-            this.checkBoxBlockedOpenFlag.Text = "Blocked Open";
-            this.checkBoxBlockedOpenFlag.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxBFlag
-            // 
-            this.checkBoxBFlag.AutoCheck = false;
-            this.checkBoxBFlag.AutoSize = true;
-            this.checkBoxBFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxBFlag.Location = new System.Drawing.Point(10, 101);
-            this.checkBoxBFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxBFlag.Name = "checkBoxBFlag";
-            this.checkBoxBFlag.Size = new System.Drawing.Size(120, 20);
-            this.checkBoxBFlag.TabIndex = 46;
-            this.checkBoxBFlag.Text = "Protector Status";
-            this.checkBoxBFlag.UseVisualStyleBackColor = true;
-            this.checkBoxBFlag.Visible = false;
             // 
             // labelRelayStateControlPage
             // 
             this.labelRelayStateControlPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayStateControlPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayStateControlPage.Location = new System.Drawing.Point(135, 687);
+            this.labelRelayStateControlPage.Location = new System.Drawing.Point(1019, 467);
             this.labelRelayStateControlPage.Margin = new System.Windows.Forms.Padding(4);
             this.labelRelayStateControlPage.Name = "labelRelayStateControlPage";
             this.labelRelayStateControlPage.Padding = new System.Windows.Forms.Padding(1);
@@ -3088,31 +3003,122 @@
             this.labelRelayStateControlPage.Text = "Unkown";
             this.labelRelayStateControlPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBoxTrippingFlag
+            // checkBoxDefaultsUsed
             // 
-            this.checkBoxTrippingFlag.AutoCheck = false;
-            this.checkBoxTrippingFlag.AutoSize = true;
-            this.checkBoxTrippingFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxTrippingFlag.Location = new System.Drawing.Point(10, 46);
-            this.checkBoxTrippingFlag.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxTrippingFlag.Name = "checkBoxTrippingFlag";
-            this.checkBoxTrippingFlag.Size = new System.Drawing.Size(76, 20);
-            this.checkBoxTrippingFlag.TabIndex = 46;
-            this.checkBoxTrippingFlag.Text = "Tripping";
-            this.checkBoxTrippingFlag.UseVisualStyleBackColor = true;
+            this.checkBoxDefaultsUsed.AutoCheck = false;
+            this.checkBoxDefaultsUsed.AutoSize = true;
+            this.checkBoxDefaultsUsed.Enabled = false;
+            this.checkBoxDefaultsUsed.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxDefaultsUsed.Location = new System.Drawing.Point(1026, 718);
+            this.checkBoxDefaultsUsed.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxDefaultsUsed.Name = "checkBoxDefaultsUsed";
+            this.checkBoxDefaultsUsed.Size = new System.Drawing.Size(103, 19);
+            this.checkBoxDefaultsUsed.TabIndex = 38;
+            this.checkBoxDefaultsUsed.Text = "Defaults Used";
+            this.checkBoxDefaultsUsed.UseVisualStyleBackColor = true;
+            this.checkBoxDefaultsUsed.Visible = false;
             // 
             // checkBoxFloatFlag
             // 
             this.checkBoxFloatFlag.AutoCheck = false;
             this.checkBoxFloatFlag.AutoSize = true;
             this.checkBoxFloatFlag.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxFloatFlag.Location = new System.Drawing.Point(10, 73);
+            this.checkBoxFloatFlag.Location = new System.Drawing.Point(840, 684);
             this.checkBoxFloatFlag.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxFloatFlag.Name = "checkBoxFloatFlag";
-            this.checkBoxFloatFlag.Size = new System.Drawing.Size(56, 20);
+            this.checkBoxFloatFlag.Size = new System.Drawing.Size(53, 19);
             this.checkBoxFloatFlag.TabIndex = 47;
             this.checkBoxFloatFlag.Text = "Float";
             this.checkBoxFloatFlag.UseVisualStyleBackColor = true;
+            // 
+            // labelNWPStatus
+            // 
+            this.labelNWPStatus.AutoSize = true;
+            this.labelNWPStatus.Location = new System.Drawing.Point(1029, 441);
+            this.labelNWPStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelNWPStatus.Name = "labelNWPStatus";
+            this.labelNWPStatus.Size = new System.Drawing.Size(93, 15);
+            this.labelNWPStatus.TabIndex = 52;
+            this.labelNWPStatus.Text = "NWP: Unknown";
+            // 
+            // checkBoxTrippingFlag
+            // 
+            this.checkBoxTrippingFlag.AutoCheck = false;
+            this.checkBoxTrippingFlag.AutoSize = true;
+            this.checkBoxTrippingFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxTrippingFlag.Location = new System.Drawing.Point(840, 657);
+            this.checkBoxTrippingFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTrippingFlag.Name = "checkBoxTrippingFlag";
+            this.checkBoxTrippingFlag.Size = new System.Drawing.Size(71, 19);
+            this.checkBoxTrippingFlag.TabIndex = 46;
+            this.checkBoxTrippingFlag.Text = "Tripping";
+            this.checkBoxTrippingFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTripFlag
+            // 
+            this.checkBoxTripFlag.AutoCheck = false;
+            this.checkBoxTripFlag.AutoSize = true;
+            this.checkBoxTripFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxTripFlag.Location = new System.Drawing.Point(840, 633);
+            this.checkBoxTripFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTripFlag.Name = "checkBoxTripFlag";
+            this.checkBoxTripFlag.Size = new System.Drawing.Size(68, 19);
+            this.checkBoxTripFlag.TabIndex = 0;
+            this.checkBoxTripFlag.Text = "Tripped";
+            this.checkBoxTripFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBFlag
+            // 
+            this.checkBoxBFlag.AutoCheck = false;
+            this.checkBoxBFlag.AutoSize = true;
+            this.checkBoxBFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxBFlag.Location = new System.Drawing.Point(840, 712);
+            this.checkBoxBFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxBFlag.Name = "checkBoxBFlag";
+            this.checkBoxBFlag.Size = new System.Drawing.Size(112, 19);
+            this.checkBoxBFlag.TabIndex = 46;
+            this.checkBoxBFlag.Text = "Protector Status";
+            this.checkBoxBFlag.UseVisualStyleBackColor = true;
+            this.checkBoxBFlag.Visible = false;
+            // 
+            // checkBoxPhasingOkayFlag
+            // 
+            this.checkBoxPhasingOkayFlag.AutoCheck = false;
+            this.checkBoxPhasingOkayFlag.AutoSize = true;
+            this.checkBoxPhasingOkayFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxPhasingOkayFlag.Location = new System.Drawing.Point(1025, 662);
+            this.checkBoxPhasingOkayFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxPhasingOkayFlag.Name = "checkBoxPhasingOkayFlag";
+            this.checkBoxPhasingOkayFlag.Size = new System.Drawing.Size(101, 19);
+            this.checkBoxPhasingOkayFlag.TabIndex = 50;
+            this.checkBoxPhasingOkayFlag.Text = "Phasing Okay";
+            this.checkBoxPhasingOkayFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBlockedOpenFlag
+            // 
+            this.checkBoxBlockedOpenFlag.AutoCheck = false;
+            this.checkBoxBlockedOpenFlag.AutoSize = true;
+            this.checkBoxBlockedOpenFlag.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxBlockedOpenFlag.Location = new System.Drawing.Point(1025, 634);
+            this.checkBoxBlockedOpenFlag.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxBlockedOpenFlag.Name = "checkBoxBlockedOpenFlag";
+            this.checkBoxBlockedOpenFlag.Size = new System.Drawing.Size(103, 19);
+            this.checkBoxBlockedOpenFlag.TabIndex = 48;
+            this.checkBoxBlockedOpenFlag.Text = "Blocked Open";
+            this.checkBoxBlockedOpenFlag.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPumping
+            // 
+            this.checkBoxPumping.AutoCheck = false;
+            this.checkBoxPumping.AutoSize = true;
+            this.checkBoxPumping.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxPumping.Location = new System.Drawing.Point(1029, 690);
+            this.checkBoxPumping.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxPumping.Name = "checkBoxPumping";
+            this.checkBoxPumping.Size = new System.Drawing.Size(100, 19);
+            this.checkBoxPumping.TabIndex = 35;
+            this.checkBoxPumping.Text = "Pump Protect";
+            this.checkBoxPumping.UseVisualStyleBackColor = true;
             // 
             // tabPageDNP
             // 
@@ -3417,7 +3423,6 @@
             this.groupBox_RelayInfo.ResumeLayout(false);
             this.groupBox_RelayInfo.PerformLayout();
             this.groupBoxRelayStatus.ResumeLayout(false);
-            this.groupBoxRelayStatus.PerformLayout();
             this.tabPageDNP.ResumeLayout(false);
             this.tabPageArcFault.ResumeLayout(false);
             this.tabPageShortRange.ResumeLayout(false);

@@ -659,23 +659,23 @@ namespace RelayControl
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
                 this.ucCloseMode1.Location = new System.Drawing.Point(248, 440);
                 this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
-                this.groupBox_PC.Size = new System.Drawing.Size(380,297);
+                this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
                 this.ucCloseMode1.Location = new System.Drawing.Point(440, 5);
                 this.ucPumpMode1.Location = new System.Drawing.Point(270, 470);
-                this.ucSafeService1.Location = new System.Drawing.Point(650, 470); 
+                this.ucSafeService1.Location = new System.Drawing.Point(650, 470);
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1050, 470);
-                this.lbl_Relaystatus_Open.Text = "OP";
-                this.lbl_Relayststatus_Close.Text = "CL";
-                this.lbl_Relayststatus_FB.Text = "FB";
-                this.lbl_Relayststatus_Float.Text = "FL";
-                this.lbl_Relayststatus_backfeed.Text = "BF";
-                this.lbl_Relayststatus_BO.Text = "BO";
-                this.lbl_Relayststatus_FC.Text = "FC";
-                this.lbl_Relayststatus_Ib.Text = "IB";
-                this.lbl_Relayststatus_RC.Text = "RC";
-                this.lbl_Relayststatus_PA.Text = "PA";
-                this.lbl_Relayststatus_SL.Text = "SL";
-                this.lbl_Relayststatus_XP.Text = "XP";
+                this.lbl_Relaystatus_Open.Text = "Open(OP)";
+                this.lbl_Relayststatus_Close.Text = "Close ( CL )";
+                this.lbl_Relayststatus_FB.Text = "Floating & Blocked Open ( FB )";
+                this.lbl_Relayststatus_Float.Text = "Fload ( FL )";
+                this.lbl_Relayststatus_backfeed.Text = "Backfeed ( BF )";
+                this.lbl_Relayststatus_BO.Text = "Blocked Open ( BO )";
+                this.lbl_Relayststatus_FC.Text = "Failed to Close ( FC )";
+                this.lbl_Relayststatus_Ib.Text = "Insensitive Backfeed ( IB )";
+                this.lbl_Relayststatus_RC.Text = "Relax Close ( RC )";
+                this.lbl_Relayststatus_PA.Text = "Pump Alarm ( PA )";
+                this.lbl_Relayststatus_SL.Text = "Safe Service Mode Lockout ( SL )";
+                this.lbl_Relayststatus_XP.Text = "Cross Phase ( XP )";
 
 
 #if LONDONH
@@ -809,7 +809,31 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-               // this.textBox_TxID.Text = 684.ToString();// this.TXSettings.ID.ToString();
+                // this.textBox_TxID.Text = 684.ToString();// this.TXSettings.ID.ToString();
+
+                groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
+                foreach (Control child in groupBox_RelayInfo.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                groupBoxRelayStatus.Font = new Font(groupBoxRelayStatus.Font, FontStyle.Bold);
+                foreach (Control child in groupBoxRelayStatus.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                grpBox_RelayCommands.Font = new Font(grpBox_RelayCommands.Font, FontStyle.Bold);
+                foreach (Control child in grpBox_RelayCommands.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                groupBox_FirmwareInfo.Font = new Font(groupBox_FirmwareInfo.Font, FontStyle.Bold);
+                foreach (Control child in groupBox_FirmwareInfo.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
             }
             catch (Exception ex)
             {
@@ -4261,7 +4285,7 @@ namespace RelayControl
                     setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
-                    if(this.btn_PermCl_Active.BackColor == Color.Yellow)
+                    if (this.btn_PermCl_Active.BackColor == Color.Yellow)
                         this.lbl_Relayststatus_Close.BackColor = Color.Green;
                     else
                         this.lbl_Relayststatus_RC.BackColor = Color.Green;
@@ -4271,7 +4295,7 @@ namespace RelayControl
                 {
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_BO.BackColor = Color.Transparent;
-                    this.lbl_Relayststatus_FB.BackColor = Color.Green;                    
+                    this.lbl_Relayststatus_FB.BackColor = Color.Green;
                 }
                 else if ((blockedO.blockedOpen == true) && (lbl_Relayststatus_Float.BackColor != Color.Green))
                 {
@@ -4291,7 +4315,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_PA.BackColor = Color.Green;
 
                 if (tripI.tripInsensitive == true)
-                { 
+                {
                     this.lbl_Relayststatus_Ib.BackColor = Color.Green;
                     this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
                 }
@@ -4300,7 +4324,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_backfeed.BackColor = Color.Green;
                 }
-                    
+
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)
                 {
@@ -5176,9 +5200,9 @@ namespace RelayControl
 
                 this.numericUpDown_PC_floatTime.Value = bytePacket[3];
                 this.numericUpDown_PC_activeTime.Value = bytePacket[5];
-                this.numericUpDown_PC_voltage.Value = bytePacket[7]+(bytePacket[6] >> 4);
-                
-                
+                this.numericUpDown_PC_voltage.Value = bytePacket[7] + (bytePacket[6] >> 4);
+
+
             }
             catch (Exception ex)
             {
@@ -7042,7 +7066,7 @@ namespace RelayControl
             this.enableCheckBox(b, this.checkBoxBFlag);
             this.labelNWPStatus.Enabled = b;
             if (!b)
-            { 
+            {
                 this.labelNWPStatus.Text = "NWP: Unknown";
                 this.txtBox_NWPposition.Text = "Unknown";
             }
@@ -10522,7 +10546,7 @@ namespace RelayControl
         {
             decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
             byte[] packet = new byte[7]; //permissivePacketSize
-            
+
             packet[0] = (byte)'}';
             if (comboBox_PC.SelectedIndex == 0)
                 packet[1] = 1;
@@ -10533,16 +10557,16 @@ namespace RelayControl
             packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
             packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
             packet[6] = 0x0D;
-            
+
             this.sendPacketAck(packet, "Permissice Close packet Send");
 
-           /* Thread.Sleep(100);
-            if (!this.sendAll)
-            {
-                this.requestAllData();
-                this.parametersLoaded = true;
-            }
-           */
+            /* Thread.Sleep(100);
+             if (!this.sendAll)
+             {
+                 this.requestAllData();
+                 this.parametersLoaded = true;
+             }
+            */
         }
 
         private void request_PCdata()
@@ -10579,7 +10603,7 @@ namespace RelayControl
             }
             else if (btn_PermCl_Active.BackColor == Color.Yellow)
             {
-                
+
             }
         }
 
