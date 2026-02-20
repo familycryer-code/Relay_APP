@@ -389,7 +389,7 @@ namespace RelayControlLibrary
         //private System.Windows.Forms.RadioButton radioButtonNeverOverride;
         //private System.Windows.Forms.RadioButton radioButtonOverrideBlockedOpen;
         private System.Windows.Forms.Button buttonRelaxClose;
-        private System.Windows.Forms.GroupBox groupBoxCloseMode;
+        public System.Windows.Forms.GroupBox groupBoxCloseMode;
         private System.Windows.Forms.CheckBox checkBox1;
     }
 }

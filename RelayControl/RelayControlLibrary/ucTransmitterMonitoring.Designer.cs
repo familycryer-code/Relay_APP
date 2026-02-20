@@ -2759,7 +2759,7 @@ namespace RelayControlLibrary
 
 #endregion
 
-        private System.Windows.Forms.GroupBox groupBoxVoltageReadings;
+        public System.Windows.Forms.GroupBox groupBoxVoltageReadings;
         private System.Windows.Forms.Label labelVtC;
         private System.Windows.Forms.Label labelVtB;
         private System.Windows.Forms.Label labelVtA;
@@ -2774,7 +2774,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxVnB;
         private System.Windows.Forms.GroupBox groupBoxPowerDirectionalFlow;
         private System.Windows.Forms.TextBox textBoxPowerDirectionalFlow;
-        private System.Windows.Forms.GroupBox groupBoxGeneralSettings;
+        public System.Windows.Forms.GroupBox groupBoxGeneralSettings;
         private System.Windows.Forms.Label label64;
         private System.Windows.Forms.TextBox textBoxTransmitterSN;
         private System.Windows.Forms.CheckBox checkBoxFrequencyYellow;
@@ -2786,7 +2786,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTMonCTMult;
         private System.Windows.Forms.Label labelTMonColorFreq;
         private System.Windows.Forms.Label labelTMonTransmitterID;
-        private System.Windows.Forms.GroupBox groupBoxAnalog2;
+        public System.Windows.Forms.GroupBox groupBoxAnalog2;
         private GraphicsServer.GSNet.Widgets.GSNetWinWidget myThermometerA2;
         private GraphicsServer.GSNet.Widgets.GSNetWinWidget myTempWidgetA2;
         private GraphicsServer.GSNet.Widgets.GSNetWinWidget myPSIWidgetA2;
@@ -2796,7 +2796,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxA2Analog2;
         private GraphicsServer.GSNet.Charting.GSNetWinChart myChartLoads;
         private GraphicsServer.GSNet.Charting.GSNetWinChart myChartVoltages;
-        private System.Windows.Forms.GroupBox groupBoxTimeElapsed;
+        public System.Windows.Forms.GroupBox groupBoxTimeElapsed;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label101;
         private System.Windows.Forms.TextBox textBoxTimeElapsedSeconds;
@@ -2815,10 +2815,10 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxPhaseAngleA;
         private System.Windows.Forms.TextBox textBoxPhaseAngleC;
         private System.Windows.Forms.TextBox textBoxPhaseAngleB;
-        private System.Windows.Forms.GroupBox groupBoxVaultMonitoringCommands;
+        public System.Windows.Forms.GroupBox groupBoxVaultMonitoringCommands;
         private System.Windows.Forms.Button buttonPauseMonitoring;
         private System.Windows.Forms.Button buttonStartMonitoring;
-        private System.Windows.Forms.GroupBox groupBoxAnalog1;
+        public System.Windows.Forms.GroupBox groupBoxAnalog1;
         private GraphicsServer.GSNet.Widgets.GSNetWinWidget myThermometerA1;
         private GraphicsServer.GSNet.Widgets.GSNetWinWidget myPSIWidgetA1;
         private GraphicsServer.GSNet.Widgets.GSNetWinWidget myTempWidgetA1;
@@ -2826,7 +2826,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.ListBox listBoxA1SensorSelect;
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.TextBox textBoxA1Analog1;
-        private System.Windows.Forms.GroupBox groupBoxCurrentReadings;
+        public System.Windows.Forms.GroupBox groupBoxCurrentReadings;
         private System.Windows.Forms.TextBox textBoxTransmitterCTRatio;
         private System.Windows.Forms.Label label80;
         private System.Windows.Forms.Label label68;
@@ -2842,7 +2842,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxX1Percent;
         private System.Windows.Forms.TextBox textBoxX3Percent;
         private System.Windows.Forms.TextBox textBoxX2Percent;
-        private System.Windows.Forms.GroupBox groupBoxAdvancedReadings;
+        public System.Windows.Forms.GroupBox groupBoxAdvancedReadings;
         private System.Windows.Forms.TextBox textBoxTransmitterTemp;
         private System.Windows.Forms.Label lblTEMP;
         private System.Windows.Forms.CheckBox checkBoxVoltageLow;
@@ -2859,7 +2859,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.CheckBox checkBoxFlagStatusB;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusA;
         private System.Windows.Forms.TextBox txtBackfeedC;
-        private System.Windows.Forms.GroupBox groupBoxAnalogFlagValues;
+        public System.Windows.Forms.GroupBox groupBoxAnalogFlagValues;
         private System.Windows.Forms.Label labelQPres;
         private System.Windows.Forms.Label labelHa;
         private System.Windows.Forms.Label labelGa;

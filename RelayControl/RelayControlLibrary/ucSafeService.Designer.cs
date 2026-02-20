@@ -377,7 +377,7 @@ namespace RelayControlLibrary
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBoxSafeService;
+        public System.Windows.Forms.GroupBox groupBoxSafeService;
         private System.Windows.Forms.Button buttonRequest;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.ComboBox comboBoxSSEnable;

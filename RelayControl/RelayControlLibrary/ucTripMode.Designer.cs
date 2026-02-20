@@ -992,7 +992,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTripStyle;
         private System.Windows.Forms.DomainUpDown domainUpDownTripStyle;
         private System.Windows.Forms.CheckBox checkBoxTripOnPowerDown;
-        private System.Windows.Forms.GroupBox groupBoxTripModeSettings;
+        public System.Windows.Forms.GroupBox groupBoxTripModeSettings;
         private System.Windows.Forms.Label lblGreenDelay;
         private System.Windows.Forms.NumericUpDown numericUpDown_GreenDelay;
         private System.Windows.Forms.Label lblGreenMagX;

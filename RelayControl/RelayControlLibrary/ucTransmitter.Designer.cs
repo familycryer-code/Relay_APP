@@ -219,8 +219,8 @@
             this.button_FastMode = new System.Windows.Forms.Button();
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
-            this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
+            this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -867,10 +867,11 @@
             // labelGeneralSettings
             // 
             this.labelGeneralSettings.AutoSize = true;
+            this.labelGeneralSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelGeneralSettings.Location = new System.Drawing.Point(18, 0);
             this.labelGeneralSettings.Name = "labelGeneralSettings";
             this.labelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelGeneralSettings.Size = new System.Drawing.Size(88, 13);
+            this.labelGeneralSettings.Size = new System.Drawing.Size(105, 13);
             this.labelGeneralSettings.TabIndex = 40;
             this.labelGeneralSettings.Text = "General Settings:";
             this.labelGeneralSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -899,7 +900,7 @@
             // panelPowerOut
             // 
             this.panelPowerOut.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelPowerOut.Location = new System.Drawing.Point(7, 255);
+            this.panelPowerOut.Location = new System.Drawing.Point(14, 250);
             this.panelPowerOut.Name = "panelPowerOut";
             this.panelPowerOut.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelPowerOut.Size = new System.Drawing.Size(242, 46);
@@ -908,10 +909,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(16, 195);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.Size = new System.Drawing.Size(90, 13);
             this.label4.TabIndex = 42;
             this.label4.Text = "Serial Number:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -919,10 +921,11 @@
             // pwrLabel
             // 
             this.pwrLabel.AutoSize = true;
+            this.pwrLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pwrLabel.Location = new System.Drawing.Point(16, 250);
             this.pwrLabel.Name = "pwrLabel";
             this.pwrLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.pwrLabel.Size = new System.Drawing.Size(40, 13);
+            this.pwrLabel.Size = new System.Drawing.Size(46, 13);
             this.pwrLabel.TabIndex = 44;
             this.pwrLabel.Text = "Power:";
             this.pwrLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1365,10 +1368,11 @@
             // labelMessageFrequencySettings
             // 
             this.labelMessageFrequencySettings.AutoSize = true;
+            this.labelMessageFrequencySettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMessageFrequencySettings.Location = new System.Drawing.Point(351, 250);
             this.labelMessageFrequencySettings.Name = "labelMessageFrequencySettings";
             this.labelMessageFrequencySettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelMessageFrequencySettings.Size = new System.Drawing.Size(147, 13);
+            this.labelMessageFrequencySettings.Size = new System.Drawing.Size(174, 13);
             this.labelMessageFrequencySettings.TabIndex = 67;
             this.labelMessageFrequencySettings.Text = "Message Frequency Settings:";
             this.labelMessageFrequencySettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1806,7 +1810,7 @@
             this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusB);
             this.panelFlasgStatusWB.Controls.Add(this.label30);
             this.panelFlasgStatusWB.Controls.Add(this.checkBoxFlagStatusA);
-            this.panelFlasgStatusWB.Location = new System.Drawing.Point(10, 256);
+            this.panelFlasgStatusWB.Location = new System.Drawing.Point(21, 312);
             this.panelFlasgStatusWB.Name = "panelFlasgStatusWB";
             this.panelFlasgStatusWB.Size = new System.Drawing.Size(111, 217);
             this.panelFlasgStatusWB.TabIndex = 80;
@@ -2388,10 +2392,11 @@
             // label21
             // 
             this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.Location = new System.Drawing.Point(415, 5);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label21.Size = new System.Drawing.Size(71, 13);
+            this.label21.Size = new System.Drawing.Size(85, 13);
             this.label21.TabIndex = 85;
             this.label21.Text = "Flag Settings:";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2426,6 +2431,18 @@
             this.timer_FireFastConfig.Interval = 180000;
             this.timer_FireFastConfig.Tick += new System.EventHandler(this.timer_FireFastConfig_Tick);
             // 
+            // tabPageDNP
+            // 
+            this.tabPageDNP.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageDNP.Controls.Add(this.ucDNP2);
+            this.tabPageDNP.Location = new System.Drawing.Point(4, 24);
+            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageDNP.Name = "tabPageDNP";
+            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
+            this.tabPageDNP.TabIndex = 9;
+            this.tabPageDNP.Text = "DNP";
+            // 
             // ucTransmitterMonitoring2
             // 
             this.ucTransmitterMonitoring2.CTMult = "";
@@ -2446,20 +2463,8 @@
             this.ucTransmitterMonitoring2.TransmitterSN = "";
             this.ucTransmitterMonitoring2.WaterBugActive = false;
             // 
-            // tabPageDNP
+            // ucDNP2
             // 
-            this.tabPageDNP.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageDNP.Controls.Add(this.ucDNP2);
-            this.tabPageDNP.Location = new System.Drawing.Point(4, 24);
-            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPageDNP.Name = "tabPageDNP";
-            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
-            this.tabPageDNP.TabIndex = 9;
-            this.tabPageDNP.Text = "DNP";
-            //
-            //ucDNP2
-            //
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
             this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucDNP2.DNPLabelStatus = false;
@@ -2493,7 +2498,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pwrLabel);
             this.Controls.Add(this.panelSerialNumber);
-            this.Controls.Add(this.panelPowerOut);
             this.Controls.Add(this.labelGeneralSettings);
             this.Controls.Add(this.panelGeneralSettings);
             this.Controls.Add(this.labelOperatingMode);
@@ -2504,6 +2508,7 @@
             this.Controls.Add(this.labelErrorLabel);
             this.Controls.Add(this.buttonRQ);
             this.Controls.Add(this.buttonTX);
+            this.Controls.Add(this.panelPowerOut);
             this.Name = "ucTransmitter";
             this.Size = new System.Drawing.Size(924, 574);
             this.panelFreqPanel.ResumeLayout(false);

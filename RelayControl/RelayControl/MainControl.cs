@@ -809,8 +809,8 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                // this.textBox_TxID.Text = 684.ToString();// this.TXSettings.ID.ToString();
-
+                
+                // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
                 foreach (Control child in groupBox_RelayInfo.Controls)
                 {
@@ -834,6 +834,103 @@ namespace RelayControl
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
+
+                this.ucTripMode2.groupBoxTripModeSettings.Font = new Font(this.ucTripMode2.groupBoxTripModeSettings.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTripMode2.groupBoxTripModeSettings.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucCloseMode1.groupBoxCloseMode.Font = new Font(this.ucCloseMode1.groupBoxCloseMode.Font, FontStyle.Bold);
+                foreach (Control child in this.ucCloseMode1.groupBoxCloseMode.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                groupBoxNetworkCTRatio.Font = new Font(groupBoxNetworkCTRatio.Font, FontStyle.Bold);
+                foreach (Control child in groupBoxNetworkCTRatio.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                groupBox_PC.Font = new Font(groupBox_PC.Font, FontStyle.Bold);
+                foreach (Control child in groupBox_PC.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                groupBoxPhasingAndType.Font = new Font(groupBoxPhasingAndType.Font, FontStyle.Bold);
+                foreach (Control child in groupBoxPhasingAndType.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucPumpMode1.groupBoxPumpMode.Font = new Font(this.ucPumpMode1.groupBoxPumpMode.Font, FontStyle.Bold);
+                foreach (Control child in this.ucPumpMode1.groupBoxPumpMode.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucSafeService1.groupBoxSafeService.Font = new Font(this.ucSafeService1.groupBoxSafeService.Font, FontStyle.Bold);
+                foreach (Control child in this.ucSafeService1.groupBoxSafeService.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Font = new Font(this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxTimeElapsed.Font = new Font(this.ucTransmitterMonitoring1.groupBoxTimeElapsed.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxTimeElapsed.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxAnalog2.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalog2.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalog2.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxAnalog1.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalog1.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalog1.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
             }
             catch (Exception ex)
             {

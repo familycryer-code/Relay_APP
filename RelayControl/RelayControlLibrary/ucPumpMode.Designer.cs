@@ -493,7 +493,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.GroupBox groupBoxRelayCycles;
         private System.Windows.Forms.GroupBox groupBoxMotorTimeout;
         private System.Windows.Forms.GroupBox groupBoxMotorCycles;
-        private System.Windows.Forms.GroupBox groupBoxPumpMode;
+        public System.Windows.Forms.GroupBox groupBoxPumpMode;
         private System.Windows.Forms.CheckBox checkBoxAlarmOnly;
     }
 }
