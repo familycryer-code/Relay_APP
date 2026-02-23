@@ -10421,7 +10421,7 @@ namespace RelayControl
             if (dataBackupPM.dataBackup_pumpModeDefaults == false) //if not loading calibration constant defaults - and loading old calibration back to the relay
             {
                 //=======================      pump_mode_enabled to timeout_on_breaker_close ( G )      ===================================================
-                byte[] packet_Cal = new byte[60];
+                byte[] packet_Cal = new byte[62];// [60];
                 string lineRead;
                 StreamReader srCal = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
                 int Cal = 1; // go to the beginning of the data backup file
@@ -10451,7 +10451,7 @@ namespace RelayControl
                         packet_Cal[cnt - 1] = Convert.ToByte(lineRead);
                 }
 
-                packet_Cal[59] = 0x0D;
+                packet_Cal[61] = 0x0D;
                 this.sendPacket(packet_Cal);
                 Thread.Sleep(1000);   // 1 second delay
             }//if not loading calibration constant defaults - and loading old calibration constants back to the relay
@@ -10715,6 +10715,11 @@ namespace RelayControl
         private void btn_PermCl_Active_Click(object sender, EventArgs e)
         {
             this.send_PC_active();
+        }
+
+        private void button_push_Click(object sender, EventArgs e)
+        {
+            WriteBackUpData_FileToRelay();
         }
     }
 

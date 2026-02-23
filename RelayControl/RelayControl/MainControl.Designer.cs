@@ -135,6 +135,7 @@
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.button_push = new System.Windows.Forms.Button();
             this.groupBox_PC = new System.Windows.Forms.GroupBox();
             this.btn_PC_Send = new System.Windows.Forms.Button();
             this.lbl_PermissiveClose_Status = new System.Windows.Forms.Label();
@@ -1504,6 +1505,7 @@
             // tabPageControl
             // 
             this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageControl.Controls.Add(this.button_push);
             this.tabPageControl.Controls.Add(this.groupBox_PC);
             this.tabPageControl.Controls.Add(this.button_dataStore);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
@@ -1525,6 +1527,17 @@
             this.tabPageControl.Size = new System.Drawing.Size(1449, 910);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
+            // 
+            // button_push
+            // 
+            this.button_push.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_push.Location = new System.Drawing.Point(1156, 626);
+            this.button_push.Name = "button_push";
+            this.button_push.Size = new System.Drawing.Size(82, 36);
+            this.button_push.TabIndex = 123;
+            this.button_push.Text = "Push";
+            this.button_push.UseVisualStyleBackColor = true;
+            this.button_push.Click += new System.EventHandler(this.button_push_Click);
             // 
             // groupBox_PC
             // 
@@ -1734,11 +1747,12 @@
             // 
             // button_dataStore
             // 
-            this.button_dataStore.Location = new System.Drawing.Point(1014, 667);// (994, 567);
+            this.button_dataStore.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_dataStore.Location = new System.Drawing.Point(1046, 626);
             this.button_dataStore.Name = "button_dataStore";
-            this.button_dataStore.Size = new System.Drawing.Size(133, 23);
+            this.button_dataStore.Size = new System.Drawing.Size(82, 36);
             this.button_dataStore.TabIndex = 121;
-            this.button_dataStore.Text = "Temp_Data_Store";
+            this.button_dataStore.Text = "Pull";
             this.button_dataStore.UseVisualStyleBackColor = true;
             this.button_dataStore.Click += new System.EventHandler(this.button_dataStore_Click);
             // 
@@ -3698,5 +3712,6 @@
         private System.Windows.Forms.Label lbl_Relayststatus_PA;
         private System.Windows.Forms.Label lbl_Relayststatus_RC;
         private System.Windows.Forms.Button btn_PermCl_Active;
+        private System.Windows.Forms.Button button_push;
     }
 }
