@@ -1734,7 +1734,7 @@
             // 
             // button_dataStore
             // 
-            this.button_dataStore.Location = new System.Drawing.Point(994, 567);
+            this.button_dataStore.Location = new System.Drawing.Point(1014, 667);// (994, 567);
             this.button_dataStore.Name = "button_dataStore";
             this.button_dataStore.Size = new System.Drawing.Size(133, 23);
             this.button_dataStore.TabIndex = 121;

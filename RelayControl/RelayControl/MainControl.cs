@@ -652,8 +652,8 @@ namespace RelayControl
                 this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
-                this.button_dataStore.Enabled = false;
-                this.button_dataStore.Visible = false;
+                this.button_dataStore.Enabled = true;
+                this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
                 this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 600);
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
@@ -5314,12 +5314,6 @@ namespace RelayControl
             this.ucShortRange1.SetAll(bytePacket);
             if (dataBackup_fromRelay == true)
             {
-                /*
-                 bytePacket[30] holds the "SR_sig_strength_xmit_level".
-                store that in an array and write it later to the RelayData file.
-                OR
-                write it to the file now as done in the trial write to file in transmitter.cs line 223
-                 */
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                 TextWriter tw = new StreamWriter(path, true);
                 // write Transmitter strength currently residing in the relay to the backup file on computer
@@ -9548,6 +9542,7 @@ namespace RelayControl
 
         private void button_dataStore_Click(object sender, EventArgs e)
         {
+            BackUpRelayDatatoFile();
             /* 
              //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
              dataBackup_fromRelay = true;
@@ -9597,12 +9592,9 @@ namespace RelayControl
             dataBackupR.dataBackup_fromRelay = true;
             try
             {
-                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-
-
-                TextWriter tw = new StreamWriter(path, true);
-                //tw.WriteLine("Data currently residing in the relay :");
-                tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
+                //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+               // TextWriter tw = new StreamWriter(path, true);
+                //tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
 
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestRelayParameters();
@@ -9613,7 +9605,7 @@ namespace RelayControl
                 this.arcFaultEnableMonitoring(true);
                 this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
                 Thread.Sleep(1000);   // delay 1second
-                tw.Close();
+                //tw.Close();
             }
             catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
             {
