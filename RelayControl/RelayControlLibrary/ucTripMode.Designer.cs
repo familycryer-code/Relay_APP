@@ -103,12 +103,20 @@ namespace RelayControlLibrary
             // 
             this.listBoxTripModes.FormattingEnabled = true;
             this.listBoxTripModes.ItemHeight = 16;
+#if CONED
             this.listBoxTripModes.Items.AddRange(new object[] {
             "Sensitive",
             "Time Delay",
             "Insensitive",
             "Watt-Var",
             "Adaptive"});
+#else
+            this.listBoxTripModes.Items.AddRange(new object[] {
+            "Sensitive",
+            "Time Delay",
+            "Insensitive",
+            "Watt-Var"});
+#endif
             this.listBoxTripModes.Location = new System.Drawing.Point(7, 63);
             this.listBoxTripModes.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxTripModes.Name = "listBoxTripModes";
@@ -954,7 +962,7 @@ namespace RelayControlLibrary
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.ListBox listBoxTripModes;
         private System.Windows.Forms.Button buttonSendTripData;

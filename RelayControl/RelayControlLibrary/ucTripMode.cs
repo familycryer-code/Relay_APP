@@ -193,8 +193,7 @@ namespace RelayControlLibrary
             "Sensitive",
             "Time Delay",
             "Insensitive",
-            "Watt-Var",
-            "Adaptive"};
+            "Watt-Var"};
 
         private void makeConEd()
         {

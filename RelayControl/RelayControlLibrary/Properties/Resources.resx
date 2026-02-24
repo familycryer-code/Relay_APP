@@ -192,7 +192,7 @@
     <value>..\Resources\MasterProcessor_ConEd_SEC.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="MasterRevision" xml:space="preserve">
-    <value>260120</value>
+    <value>260121</value>
   </data>
   <data name="RelayProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -213,7 +213,7 @@
     <value>..\Resources\RelayProcessorGESMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="RelayRevision" xml:space="preserve">
-    <value>20260120</value>
+    <value>20260121</value>
   </data>
   <data name="FPGARevisionDisplay" xml:space="preserve">
     <value>121207</value>

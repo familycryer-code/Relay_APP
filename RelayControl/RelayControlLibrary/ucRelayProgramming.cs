@@ -1,17 +1,20 @@
-﻿using System;
+﻿using NLog;
+using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Threading;
-using System.Runtime.Serialization;
-using System.Linq;
-using SharedResources;
 using System.Diagnostics;
-using NLog;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RelayControlLibrary
 {

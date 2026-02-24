@@ -2047,7 +2047,7 @@
             this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
             this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(202, 80);
+            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(222, 80);// (202, 80);
             this.groupBoxNetworkCTRatio.TabIndex = 110;
             this.groupBoxNetworkCTRatio.TabStop = false;
             this.groupBoxNetworkCTRatio.Text = "Network Protector CT Ratio:";

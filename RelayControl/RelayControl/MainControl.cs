@@ -537,8 +537,8 @@ namespace RelayControl
 #endif
 
 #if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
-                    this.loadConfigurationToolStripMenuItem.Visible = false;
-                    this.enableAutoloadToolStripMenuItem.Checked = true;
+                this.loadConfigurationToolStripMenuItem.Visible = false;
+                this.enableAutoloadToolStripMenuItem.Checked = true;
 #endif
             }
             catch (Exception ex)
@@ -698,7 +698,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.0" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.11" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -707,6 +707,10 @@ namespace RelayControl
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
+#if !CONED
+                this.groupBox_PC.Enabled = false;
+                this.groupBox_PC.Visible = false;
+#endif
 #if DNP && !ENMAX
                 // this.TransmitterEnabled = false;
                 this.TransmitterEnabled = true;
@@ -764,10 +768,10 @@ namespace RelayControl
                                     this.tabControlMain.TabPages.Add(this.tabPageShortRange);
 #endif
 #else
-                            this.Customer = Customers.NonConEd;
-                            this.DNPEnabled = false;
-                            this.TransmitterEnabled = true;
-                            this.enableAllToolStripMenuItem.Visible = true;
+                this.Customer = Customers.NonConEd;
+                this.DNPEnabled = false;
+                this.TransmitterEnabled = true;
+                this.enableAllToolStripMenuItem.Visible = true;
 #endif
 #endif
                 this.enableAllToolStripMenuItem.Visible = true;
@@ -809,7 +813,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                
+
                 // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
                 foreach (Control child in groupBox_RelayInfo.Controls)
@@ -3620,7 +3624,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
 #else
-                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
+                this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();
 #endif
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
@@ -3748,7 +3752,7 @@ namespace RelayControl
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                    /* if (dataB.oldDataBackup == true)
+                     if (dataB.oldDataBackup == true)
                      {
                          if (checkValidDataBackup())
                          {
@@ -3760,7 +3764,7 @@ namespace RelayControl
                          {
                              MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
                          }
-                     }*/
+                     }
 
                     this.request_PCdata();
                 }
@@ -3814,7 +3818,7 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                /*  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+                  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
                   {
                       // If Master uP revision is less than Rev 10, backup its data to the computer
                       // And rewrite that data to go with the rev 10 firmware after programming is done
@@ -3833,7 +3837,7 @@ namespace RelayControl
                       this.BackUpRelayDatatoFile();
                       Thread.Sleep(16000); // 16 seconds
                   }
-                  */
+                  
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
@@ -5073,7 +5077,7 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-                this.ucRelayProgramming1.MasterRevisionString = revision;
+                this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
                 if (this.dNPDIGITALGRIDData != null)
@@ -9612,7 +9616,7 @@ namespace RelayControl
                 //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                 //TextWriter tw = new StreamWriter(path, true);
                 //tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
-                
+
 
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestRelayParameters();
@@ -9623,7 +9627,7 @@ namespace RelayControl
                 this.arcFaultEnableMonitoring(true);
                 this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
                 Thread.Sleep(1000);   // delay 1second
-               // tw.Close();
+                                      // tw.Close();
             }
             catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
             {
