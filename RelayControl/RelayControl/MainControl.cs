@@ -10656,6 +10656,9 @@ namespace RelayControl
                  this.parametersLoaded = true;
              }
             */
+
+            Thread.Sleep(100);
+            this.request_PCdata();
         }
 
         private void request_PCdata()
@@ -10663,8 +10666,10 @@ namespace RelayControl
             //asks relay to send Permissive Close data to the APP
             byte[] packet = new byte[3];
 
-            packet[0] = (byte)'~';
-            packet[1] = (byte)'U';
+            //packet[0] = (byte)'~';
+            //packet[1] = (byte)'U';
+            packet[0] = 0x7E;
+            packet[1] = 0x55;
             packet[2] = 0x0D;
 
             this.sendPacket(packet);
