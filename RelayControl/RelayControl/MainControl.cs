@@ -9590,11 +9590,29 @@ namespace RelayControl
             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
             dataBackup_fromRelay = true;
             dataBackupR.dataBackup_fromRelay = true;
+
+            string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                Console.WriteLine("File deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("File does not exist.");
+            }
+
+
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Get current timestamp
+            //File.WriteAllText(filePath, timestamp + Environment.NewLine); // Write timestamp to a new file
+            File.WriteAllText(filePath, "Data residing in the relay as on : " + timestamp + Environment.NewLine); // Write timestamp to a new file
+
             try
             {
                 //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-               // TextWriter tw = new StreamWriter(path, true);
+                //TextWriter tw = new StreamWriter(path, true);
                 //tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
+                
 
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestRelayParameters();
@@ -9605,7 +9623,7 @@ namespace RelayControl
                 this.arcFaultEnableMonitoring(true);
                 this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
                 Thread.Sleep(1000);   // delay 1second
-                //tw.Close();
+               // tw.Close();
             }
             catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
             {
