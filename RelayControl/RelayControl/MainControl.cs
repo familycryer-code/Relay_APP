@@ -702,7 +702,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.12" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.13" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -716,6 +716,8 @@ namespace RelayControl
                 this.groupBox_PC.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
 #if DNP && !ENMAX
                 // this.TransmitterEnabled = false;
@@ -4085,6 +4087,18 @@ namespace RelayControl
                 this.uc8CheckBoxFlagsGEControl1.SetValues(bytePacket[7]);
                 this.uc8CheckBoxFlagsGEControl2.SetValues(bytePacket[6]);
 
+                if ((bytePacket[5] & 16) == 16) // Insensitive Backfeed
+                    this.lbl_Relayststatus_Ib.BackColor = Color.Green;
+
+                if ((bytePacket[2] & 64) == 64) // Phasing OK
+                    this.lbl_Relayststatus_XP.BackColor = Color.Green;
+
+                if ((bytePacket[5] & 2) == 2) // Close
+                    this.lbl_Relayststatus_Close.BackColor = Color.Green;
+
+                if ((bytePacket[6] & 32) == 2) // Relax Close
+                    this.lbl_Relayststatus_RC.BackColor = Color.Green;
+
                 byte b = bytePacket[0];
                 if ((b & 128) == 128)
                 {
@@ -4392,10 +4406,12 @@ namespace RelayControl
                     setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
+/*
                     if (this.btn_PermCl_Active.BackColor == Color.Yellow)
                         this.lbl_Relayststatus_Close.BackColor = Color.Green;
                     else
                         this.lbl_Relayststatus_RC.BackColor = Color.Green;
+*/
                 }
 
                 if ((blockedO.blockedOpen == true) && (lbl_Relayststatus_Float.BackColor == Color.Green))
@@ -4420,7 +4436,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_PA.BackColor = Color.Transparent;
                 else if (pumpOK.pumpStatus == false)
                     this.lbl_Relayststatus_PA.BackColor = Color.Green;
-
+                /*
                 if (tripI.tripInsensitive == true)
                 {
                     this.lbl_Relayststatus_Ib.BackColor = Color.Green;
@@ -4431,7 +4447,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_backfeed.BackColor = Color.Green;
                 }
-
+                */
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)
                 {
@@ -5083,9 +5099,14 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
+#if DOMINION
                 //this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
                 trim_rev = revision.Replace("DNP", "").Trim();
                 this.ucRelayProgramming1.MasterRevisionString = trim_rev;
+#else
+                this.ucRelayProgramming1.MasterRevisionString = revision;
+#endif
+
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
                 if (this.dNPDIGITALGRIDData != null)

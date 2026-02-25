@@ -61,7 +61,7 @@ namespace RelayControlLibrary
                 this.checkBox4.Checked = false;
 
             if ((b & 16) == 16)
-                this.checkBox5.Checked = true;
+                this.checkBox5.Checked = true;            
             else
                 this.checkBox5.Checked = false;
 

@@ -2721,7 +2721,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox checkBoxMUXBOXOff;
-        private System.Windows.Forms.CheckBox checkBoxDNPEnable;
+        public System.Windows.Forms.CheckBox checkBoxDNPEnable;
         private System.Windows.Forms.CheckBox checkBoxTransmitterEnable;
         private System.Windows.Forms.NumericUpDown numericUpDownLEDSpeed;
         private System.Windows.Forms.Label labelLEDSpeed;
