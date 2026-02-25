@@ -676,6 +676,10 @@ namespace RelayControl
                 this.lbl_Relayststatus_PA.Text = "Pump Alarm ( PA )";
                 this.lbl_Relayststatus_SL.Text = "Safe Service Mode Lockout ( SL )";
                 this.lbl_Relayststatus_XP.Text = "Cross Phase ( XP )";
+                this.button_dataStore.Enabled = false;
+                this.button_dataStore.Visible = false;
+                this.button_push.Enabled = false;
+                this.button_push.Visible = false;
 
 
 #if LONDONH
@@ -710,6 +714,8 @@ namespace RelayControl
 #if !CONED
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
+                this.btn_PermCl_Active.Enabled = false;
+                this.btn_PermCl_Active.Visible = false;
 #endif
 #if DNP && !ENMAX
                 // this.TransmitterEnabled = false;
