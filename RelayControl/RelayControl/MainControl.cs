@@ -698,7 +698,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.11" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.12" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -5068,7 +5068,7 @@ namespace RelayControl
         private string receivedMasterRevision;
         private void revisionReceived(byte[] bytePacket)
         {
-            string revision;
+            string revision, trim_rev;
             try
             {
                 revision = "R";
@@ -5077,7 +5077,9 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-                this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
+                //this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
+                trim_rev = revision.Replace("DNP", "").Trim();
+                this.ucRelayProgramming1.MasterRevisionString = trim_rev;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
                 if (this.dNPDIGITALGRIDData != null)
@@ -5138,7 +5140,8 @@ namespace RelayControl
                 this.ucRelayProgramming1.setConEdFiles();
 
                 this.handleNewMasterRevision();
-                this.setLabelText(revision, this.labelRevision);
+                //this.setLabelText(revision, this.labelRevision); 
+                this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
                 this.relayFound = true;
                 ucShortRange1.relayFound_forRNCMonitoring = true;
                 this.relayFound_forDNPdataMonitoring = true;
@@ -8871,7 +8874,9 @@ namespace RelayControl
                 }
 #if !WATERBUG
                 if (this.DNPEnabled)
+#if DNP
                     this.ucDNP1.SetAll(bytePacket);
+#endif
 
                 memphisStage = (byte)(bytePacket[0] & 0xE0);
                 memphisStage >>= 5;
