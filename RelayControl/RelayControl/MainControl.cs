@@ -9612,10 +9612,9 @@ namespace RelayControl
             }
 
 
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Get current timestamp
-            //File.WriteAllText(filePath, timestamp + Environment.NewLine); // Write timestamp to a new file
-            File.WriteAllText(filePath, "Data residing in the relay as on : " + timestamp + Environment.NewLine); // Write timestamp to a new file
-
+            //string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Get current timestamp
+            //File.WriteAllText(filePath, "Data residing in the relay as on : " + timestamp + Environment.NewLine); // Write timestamp to a new file
+            File.WriteAllText(filePath, "Data residing in the relay : " + Environment.NewLine);
             try
             {
                 //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -10521,7 +10520,8 @@ namespace RelayControl
             int V, cnt = 0; // go to the beginning of the data backup file
 
             lineRead = srV1.ReadLine(); //Read line
-            if (lineRead == "Data currently residing in the relay :")
+            //if (lineRead == "Data currently residing in the relay :")  
+            if (lineRead == "Data residing in the relay : ")
                 cnt++;//1
 
             StreamReader srV2 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
