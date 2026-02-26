@@ -318,7 +318,6 @@ namespace RelayControlLibrary
         public void buttonSendTripMode_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.Cancel;
-            decimal temp_AT = 0;
             byte[] adaptiveTrip_package = new byte[12];
 
             if (sending)
@@ -568,6 +567,8 @@ namespace RelayControlLibrary
                 OnSend(mySEA);
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+
+                /*
                 if (dataBackupR.dataBackup_fromRelay == true)
                 {
                     // writes to 6 bytes Mtrip_byte1 to Mtrip_byte6 in master uP
@@ -592,12 +593,10 @@ namespace RelayControlLibrary
                             mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
                     }
                     mySEA.SendPacket[7] = 0x0D;
-
-                    //dataBackupR.dataBackup_fromRelay = false;
                     sr.Close();
 
                 }
-
+                */
                 OnSend(mySEA);
 
                 //New Trip Parameters

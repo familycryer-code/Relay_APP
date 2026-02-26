@@ -702,7 +702,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.13" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.14" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -2748,11 +2748,47 @@ namespace RelayControl
                         dR = MessageBox.Show("Warning Relay is detecting cross phase condition", "Cross Phase Detected!");
                     }
                 }
+                this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_FC.BackColor = Color.Transparent;
+            }
+            else if (bytePacket[0] == 4) // BackFeed condition BF
+            {
+                this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
+                this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
+                this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
+                this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
+                this.lbl_Relayststatus_backfeed.BackColor = Color.Green;
+                this.lbl_Relayststatus_FC.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
+            }
+            else if (bytePacket[0] == 6) // Failed to Close condition FC
+            {
+                this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
+                this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
+                this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
+                this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
+                this.lbl_Relayststatus_FC.BackColor = Color.Green;
+                this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
+            }
+            else if (bytePacket[0] == 11) // Safe Service Lockout condition SL
+            {
+                this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
+                this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
+                this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
+                this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
+                this.lbl_Relayststatus_SL.BackColor = Color.Green;
+                this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_FC.BackColor = Color.Transparent;
             }
             else
             {
                 showCrossPhaseMsgOnce = false;
                 this.toolStripStatusLabelReceiverStatus.Visible = false;
+                this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
+                this.lbl_Relayststatus_FC.BackColor = Color.Transparent;
             }
 #endif
         }
@@ -4089,6 +4125,8 @@ namespace RelayControl
 
                 if ((bytePacket[5] & 16) == 16) // Insensitive Backfeed
                     this.lbl_Relayststatus_Ib.BackColor = Color.Green;
+                else if ((bytePacket[5] & 16) != 16) // Not in Insensitive Backfeed
+                    this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
 
                 if ((bytePacket[2] & 64) == 64) // Phasing OK
                     this.lbl_Relayststatus_XP.BackColor = Color.Green;
@@ -4096,7 +4134,7 @@ namespace RelayControl
                 if ((bytePacket[5] & 2) == 2) // Close
                     this.lbl_Relayststatus_Close.BackColor = Color.Green;
 
-                if ((bytePacket[6] & 32) == 2) // Relax Close
+                if ((bytePacket[5] & 32) == 32) // Relax Close
                     this.lbl_Relayststatus_RC.BackColor = Color.Green;
 
                 byte b = bytePacket[0];
@@ -4436,18 +4474,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_PA.BackColor = Color.Transparent;
                 else if (pumpOK.pumpStatus == false)
                     this.lbl_Relayststatus_PA.BackColor = Color.Green;
-                /*
-                if (tripI.tripInsensitive == true)
-                {
-                    this.lbl_Relayststatus_Ib.BackColor = Color.Green;
-                    this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
-                }
-                else if (tripI.tripInsensitive == false)
-                {
-                    this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
-                    this.lbl_Relayststatus_backfeed.BackColor = Color.Green;
-                }
-                */
+                
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)
                 {

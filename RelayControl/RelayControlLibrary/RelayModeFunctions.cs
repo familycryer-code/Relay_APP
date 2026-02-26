@@ -411,7 +411,7 @@ namespace RelayControlLibrary
             returnArray[11] = tCD.MagnitudeHighByte;
             returnArray[12] = tCD.MagnitudeLowByte;
             returnArray[13] = (byte)DC4;
-
+            /*
             if (dataBackupR.dataBackup_fromRelay == true)
             {
                 // writes to 12 bytes T0_byte1 to T0_byte12 in master uP
@@ -446,7 +446,7 @@ namespace RelayControlLibrary
                 }
 
                 returnArray[0] = (byte)_TripOpCode; // 'T'
-                //returnArray[1] = (byte)index;
+                
                 for (int cnt = 1; cnt <= 12; cnt++)
                 {
                     lineRead = sr.ReadLine(); //Read the next line
@@ -463,7 +463,7 @@ namespace RelayControlLibrary
                 }
                 Thread.Sleep(4000);   // 1 second delay
             }
-
+            */
             return returnArray;
         }
 

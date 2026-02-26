@@ -242,7 +242,8 @@ namespace RelayControlLibrary
                 mySEA.RequestAll = false;
                 CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(CloseModeDef);
-                if (dataBackupR.dataBackup_fromRelay == true)
+                /*
+                 if (dataBackupR.dataBackup_fromRelay == true)
                 {
                     string lineRead;
                     StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
@@ -251,19 +252,15 @@ namespace RelayControlLibrary
                     mySEA.SendPacket[1] = 67;  // 'C'
                     for (int cnt = 2; cnt <= 6; cnt++)
                     {
-                        //for (int x = 0; x <= 4; x++)
-                        //{
-                            lineRead = sr.ReadLine(); //Read the next line
-                            if((cnt%2) == 0)//even numbered
-                                mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
-                            else
-                                mySEA.SendPacket[cnt-2] = Convert.ToByte(lineRead);
-                        //}
+                        lineRead = sr.ReadLine(); //Read the next line
+                        if((cnt%2) == 0)//even numbered
+                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
+                        else
+                            mySEA.SendPacket[cnt-2] = Convert.ToByte(lineRead);
                     }
                     mySEA.SendPacket[7] = 0x0D;
-                    //dataBackupR.dataBackup_fromRelay = false;
-                    //sr.Close();
                 }
+                */
                 OnSend(this, mySEA);
             }
             catch (Exception ex)
@@ -364,6 +361,7 @@ namespace RelayControlLibrary
                 this.setHorizontalLine();
 
                 mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
+                /*
                 if (dataBackupR.dataBackup_fromRelay == true)
                 {
                     // writes to 8 bytes C_byte1 to C_byte8 in master uP
@@ -390,11 +388,9 @@ namespace RelayControlLibrary
 
                     }
                     mySEA.SendPacket[9] = 0x0D;
-
-                    //dataBackupR.dataBackup_fromRelay = false;
                     sr.Close();
                 }
-
+                */
                 //if(chkBox_EnablePermClose.Checked == true)
                 //this.SendPermissiveData();
 
