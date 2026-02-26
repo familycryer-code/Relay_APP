@@ -138,7 +138,7 @@ namespace RelayControlLibrary
                 case Customers.NonConEd:
                 case Customers.Memphis:
                 case Customers.NonConEdGE:
-                case Customers.DIGITALGRIDDNP:
+                //case Customers.DIGITALGRIDDNP:
                 case Customers.DIGITALGRID:
                 case Customers.DNPwithPLC:
                 case Customers.SMUD:
@@ -150,6 +150,7 @@ namespace RelayControlLibrary
                     this.makeNonConEd();
                     break;
                 case Customers.ConEdison:
+                case Customers.DIGITALGRIDDNP:
                     this.makeConEd();
                     break;
                 default:
@@ -187,6 +188,7 @@ namespace RelayControlLibrary
             "Sensitive",
             "Time Delay",
             "Insensitive",
+            "Watt-Var",
             "Adaptive"};
 
         string[] nonConEdTripModes = new string[] {
