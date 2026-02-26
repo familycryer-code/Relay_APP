@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace RelayControlLibrary
 {
     partial class ucTripMode
@@ -666,6 +668,7 @@ namespace RelayControlLibrary
             // 
             // comboBox_TripType
             // 
+           // comboBox_TripType.DropDownStyle = ComboBoxStyle.DropDownList; // No text box, so no blue selection
             this.comboBox_TripType.FormattingEnabled = true;
             this.comboBox_TripType.Items.AddRange(new object[] {
             "Relay",

@@ -702,7 +702,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.14" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.15" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -2723,6 +2723,23 @@ namespace RelayControl
 
         private void setRelayStatusBits(byte[] bytePacket)
         {
+            /*
+             Data coming from master uP with command "A" for bytePacket[0]
+                #define RELAYSTATUS_OP           0x00   Open
+                #define RELAYSTATUS_CL           0x01   Close
+                #define RELAYSTATUS_FB           0x02   Floating and Blocked open
+                #define RELAYSTATUS_FL           0x03   Float
+                #define RELAYSTATUS_BF           0x04   BackFeed
+                #define RELAYSTATUS_BO           0x05   Blocked Open
+                #define RELAYSTATUS_FC           0x06   Failed to Close
+                #define RELAYSTATUS_NR           0x07   Relay Not Responding
+                #define RELAYSTATUS_IB           0x08   Insensitive BackFeed
+                #define RELAYSTATUS_RC           0x09   Relax Close
+                #define RELAYSTATUS_PA           0x0A   Pump Alarm
+                #define RELAYSTATUS_SL           0x0B   Safe Service Lockout
+                #define RELAYSTATUS_XP           0x0C   Cross Phase
+                #define  RELAYSTATUS_PC          0x0D   Permissive Close
+             */
 #if DEBUG
             this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
             this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
@@ -5343,6 +5360,7 @@ namespace RelayControl
 
         private void setPermissiveCloseData(byte[] bytePacket)
         {
+#if CONED
             try
             {
                 if ((bytePacket[1] & 0x01) == 1)
@@ -5366,6 +5384,7 @@ namespace RelayControl
             {
                 this.messageHandler("Error in Permissive Close data received from the relay", ex);
             }
+#endif
         }
 
         private delegate void setTextBoxCallBack(string s, TextBox tB);
