@@ -788,13 +788,13 @@ namespace RelayControlLibrary
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
-            if (this.Customer == Customers.ConEdison)
+            if ((this.Customer == Customers.ConEdison) || (this.Customer == Customers.DIGITALGRIDDNP))
             {
                 this.checkBoxCircleClose.Checked = false;
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDA.Value = -5;
-                this.numericUpDownPDV.Value = 0.4m;
-                this.numericUpDownRecloseVolts.Value = 1.4m;
+                this.numericUpDownPDV.Value = 0.0m;
+                this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownTimeDelay.Value = 6;
                 this.checkBox1.Checked = false;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
@@ -853,7 +853,7 @@ namespace RelayControlLibrary
                 CloseModeDef.CloseMode = CloseModes.Normal;
 #else // SEATTLE, DOMINION, CHICAGO, BGE
                 this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.4m;
+                this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownPDA.Value = -5;
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.checkBoxCircleClose.Checked = false;
