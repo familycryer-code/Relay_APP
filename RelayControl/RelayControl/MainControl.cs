@@ -702,7 +702,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.16 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.17" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.18" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -3887,8 +3887,9 @@ namespace RelayControl
                 initializeAutoLoad = false;
 
                 //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                  if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                  {
+                //if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+                if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
+                {
                       // If Master uP revision is less than Rev 10, backup its data to the computer
                       // And rewrite that data to go with the rev 10 firmware after programming is done
                       string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";

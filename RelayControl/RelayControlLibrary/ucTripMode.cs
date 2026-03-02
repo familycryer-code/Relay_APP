@@ -151,7 +151,7 @@ namespace RelayControlLibrary
                     break;
                 case Customers.ConEdison:
                 case Customers.DIGITALGRIDDNP:
-#if !TORONTO_HYDRO
+#if CONED
                     this.makeConEd();
 #endif
                     break;

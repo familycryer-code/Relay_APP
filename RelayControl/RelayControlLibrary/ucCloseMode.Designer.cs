@@ -62,7 +62,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownTimeDelay.Location = new System.Drawing.Point(157, 37);
             this.numericUpDownTimeDelay.Maximum = new decimal(new int[] {
-            65535,
+            32767,//65535,
             0,
             0,
             0});
