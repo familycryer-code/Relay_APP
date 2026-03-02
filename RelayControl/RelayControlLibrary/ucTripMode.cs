@@ -151,7 +151,9 @@ namespace RelayControlLibrary
                     break;
                 case Customers.ConEdison:
                 case Customers.DIGITALGRIDDNP:
+#if !TORONTO_HYDRO
                     this.makeConEd();
+#endif
                     break;
                 default:
                     this.errorHandler(new Exception("Bad Customer Setting In Trip Mode Control"));

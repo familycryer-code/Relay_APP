@@ -2849,7 +2849,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.CheckBox checkBoxPhaseError;
         // private System.Windows.Forms.TextBox textBoxTransmitterOutputPower;
         // private System.Windows.Forms.Label labelTMonTransOutput;
-        private System.Windows.Forms.GroupBox groupBoxFlagStatus;
+        public System.Windows.Forms.GroupBox groupBoxFlagStatus;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusH;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusG;
         private System.Windows.Forms.CheckBox checkBoxFlagStatusF;
@@ -2876,7 +2876,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxCa;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button newButtonSensMonTX;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox_Input7;
+        public System.Windows.Forms.Label label2;
+        public System.Windows.Forms.TextBox textBox_Input7;
     }
 }

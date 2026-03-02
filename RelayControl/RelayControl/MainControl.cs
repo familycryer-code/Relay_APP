@@ -667,7 +667,7 @@ namespace RelayControl
                 this.lbl_Relaystatus_Open.Text = "Open(OP)";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
                 this.lbl_Relayststatus_FB.Text = "Floating & Blocked Open ( FB )";
-                this.lbl_Relayststatus_Float.Text = "Fload ( FL )";
+                this.lbl_Relayststatus_Float.Text = "Float ( FL )";
                 this.lbl_Relayststatus_backfeed.Text = "Backfeed ( BF )";
                 this.lbl_Relayststatus_BO.Text = "Blocked Open ( BO )";
                 this.lbl_Relayststatus_FC.Text = "Failed to Close ( FC )";
@@ -699,7 +699,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.15 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.16 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.17" + " DOMINION ";
@@ -936,6 +936,14 @@ namespace RelayControl
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
+                this.ucTransmitterMonitoring1.label2.Font = new Font(this.ucTransmitterMonitoring1.label2.Font, FontStyle.Regular);
+                this.ucTransmitterMonitoring1.textBox_Input7.Font = new Font(this.ucTransmitterMonitoring1.textBox_Input7.Font, FontStyle.Regular);
+
+                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Font = new Font(this.ucTransmitterMonitoring1.groupBoxFlagStatus.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxFlagStatus.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }                
 
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
                 foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
@@ -10726,7 +10734,7 @@ namespace RelayControl
         {
             if (comboBox_PC.SelectedIndex == 0)
             {
-                MessageBox.Show("Send PC parameters to the relay");
+                //MessageBox.Show("Send PC parameters to the relay");
                 SendPCData();
             }
 

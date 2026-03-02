@@ -735,8 +735,8 @@ namespace RelayControlLibrary
                 this.labelHa.Visible = true;
 
                 this.groupBoxFlagStatus.Text = "Digital Values:";
-                this.groupBoxFlagStatus.Location = new System.Drawing.Point(420, 250);
-                this.groupBoxFlagStatus.Size = new System.Drawing.Size(100, 150);
+                this.groupBoxFlagStatus.Location = new System.Drawing.Point(390, 250); //(420, 250);
+                this.groupBoxFlagStatus.Size = new System.Drawing.Size(120, 150); //(100, 150);
                 this.checkBoxFlagStatusA.Text = "Input 1";//"Flag B";
                 this.checkBoxFlagStatusB.Text = "Input 2";//"Flag D";
                 this.checkBoxFlagStatusC.Text = "Input 3";//"Flag A";

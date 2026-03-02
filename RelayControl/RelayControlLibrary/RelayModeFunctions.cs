@@ -343,8 +343,8 @@ namespace RelayControlLibrary
         {
             char[] returnArray = new char[8];
 
-            returnArray[0] = _ModeOpCode;
-            returnArray[1] = _TripOpCode;
+            returnArray[0] = _ModeOpCode; // 'M'
+            returnArray[1] = _TripOpCode; // 'T'
             returnArray[2] = CharRepresentationOf(tMD.Mode);
             returnArray[3] = (char)tMD.TimeDelayHighByte;
             returnArray[4] = (char)tMD.TimeDelayLowByte;
