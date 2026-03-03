@@ -292,6 +292,10 @@ namespace RelayControl
         {
             InitializeComponent();
 
+
+            tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControlMain.DrawItem += tabControlMain_DrawItem;
+
             StartPosition = FormStartPosition.Manual;
             Rectangle screen = Screen.FromPoint(Cursor.Position).WorkingArea;
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 2;
@@ -314,6 +318,31 @@ namespace RelayControl
             tCPConnectionToolStripMenuItem.Visible = true;
 #endif
         }
+
+
+        private void tabControlMain_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = tabControlMain.TabPages[e.Index];
+            var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            // Background of the selected tab title 
+            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(135, 206, 250) : SystemColors.Control))
+            {
+                e.Graphics.FillRectangle(backBrush, e.Bounds);
+            }
+
+            // Text color: blue for selected, gray for others (adjust as needed)
+            var textColor = isSelected ? Color.Black : SystemColors.ControlText; // Color.Black is the color of the selected tab title
+            using (var textBrush = new SolidBrush(textColor))
+            using (var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+            {
+                e.Graphics.DrawString(tab.Text, e.Font, textBrush, e.Bounds, format);
+            }
+
+            // Optional focus rectangle
+            e.DrawFocusRectangle();
+        }
+
         public void MainControlInit()
         {
             try
@@ -686,7 +715,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.17" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.18" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -1643,7 +1672,7 @@ namespace RelayControl
         {
             this.Location = new Point(0, 0);
         }
-
+        
         private List<string> getPortNames()
         {
             string[] tempPortNames = System.IO.Ports.SerialPort.GetPortNames();

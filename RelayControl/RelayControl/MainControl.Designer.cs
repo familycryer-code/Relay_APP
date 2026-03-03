@@ -2463,8 +2463,8 @@
             // 
             // tabControlMain
             // 
-            this.tabControlMain.Controls.Add(this.tabPage1);
             this.tabControlMain.Controls.Add(this.tabPageControl);
+            this.tabControlMain.Controls.Add(this.tabPage1);
             this.tabControlMain.Controls.Add(this.tabPageMonitor);
             this.tabControlMain.Controls.Add(this.tabPageFlightRecorder);
             this.tabControlMain.Controls.Add(this.tabPageEvents);
@@ -2485,6 +2485,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage1.Controls.Add(this.grpBox_RelayCommands);
             this.tabPage1.Controls.Add(this.groupBox_FirmwareInfo);
             this.tabPage1.Controls.Add(this.groupBox_RelayInfo);
@@ -2504,13 +2505,13 @@
             this.tabPage1.Controls.Add(this.checkBoxPhasingOkayFlag);
             this.tabPage1.Controls.Add(this.checkBoxBlockedOpenFlag);
             this.tabPage1.Controls.Add(this.checkBoxPumping);
+            this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1449, 910);
             this.tabPage1.TabIndex = 14;
             this.tabPage1.Text = "Relay Monitoring";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // grpBox_RelayCommands
             // 

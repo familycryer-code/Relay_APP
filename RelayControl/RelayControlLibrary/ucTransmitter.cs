@@ -1035,7 +1035,8 @@ namespace RelayControlLibrary
                 this.TXSettings.ID = this.tempID;
 
                 errorMessage = "Bad Serial Number";
-                this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
+                //this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
+                this.tempID = this.TXSettings.SerialNumber;
                 this.TXSettings.SerialNumber = this.tempID;
 
                 this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
