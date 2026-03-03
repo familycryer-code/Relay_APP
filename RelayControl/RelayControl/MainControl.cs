@@ -3690,8 +3690,10 @@ namespace RelayControl
                 /* this.ucTransmitterMonitoring1.TransmitterSN = (900000 + tempI).ToString();
                  this.textBoxRelaySNControl.Text = (900000+tempI).ToString();
                 */
-                this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
-                this.textBoxRelaySNControl.Text = tempI.ToString();
+                //this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
+                //this.textBoxRelaySNControl.Text = tempI.ToString();
+                this.ucTransmitterMonitoring1.TransmitterSN = (900000 + tempI).ToString();
+                this.textBoxRelaySNControl.Text = (900000 + tempI).ToString();
 #else
                 this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
                 this.textBoxRelaySNControl.Text = tempI.ToString();

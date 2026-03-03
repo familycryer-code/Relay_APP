@@ -369,7 +369,7 @@ namespace RelayControlLibrary
             {
                 this.transmitterSN = value;
                 this.textBoxTransmitterSN.Text = value;
-            }
+             }
         }
 
         private string timeElapsedSeconds = "";

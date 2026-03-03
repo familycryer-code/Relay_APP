@@ -157,7 +157,7 @@ namespace RelayControlLibrary
             set
             {
                 this.serialNumber = value;
-                this.textBoxSerialNumber.Text = value.ToString();
+                this.textBoxSerialNumber.Text = value.ToString(); 
             }
         }
 
@@ -247,7 +247,8 @@ namespace RelayControlLibrary
                      this.textBoxSerialNumber.Text = "903076"; // default serial number for CONED
                 */
                 if (uTemp >= 1 || uTemp < 65535)
-                    this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
+                    //this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
+                    this.textBoxSerialNumber.Text = (900000 + this.TXSettings.SerialNumber).ToString();
                 else
                     this.textBoxSerialNumber.Text = "3076"; // default serial number
 #else
