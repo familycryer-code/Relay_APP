@@ -1002,6 +1002,10 @@ namespace RelayControlLibrary
                 {
                     this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
                 }
+#if TORONTO_HYDRO
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
+#endif
+
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
 
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;

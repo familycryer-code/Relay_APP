@@ -59,6 +59,11 @@ namespace RelayControlLibrary
 #if DOMINION || MADISON || BGE
             this.panelFlasgStatusWB.Visible = false;// true;
             this.labelTransFlagStatus.Visible = false;// true;
+#elif !CONED
+            this.button_FastFire.Enabled = false;
+            this.button_FastFire.Visible = false;
+            this.button_FastMode.Enabled = false;
+            this.button_FastMode.Visible = false;
 #elif !DEBUG
             this.panelFlasgStatusWB.Visible = false;
             this.labelTransFlagStatus.Visible = false;
