@@ -60,8 +60,12 @@
             this.timerTimeOutCountdown = new System.Windows.Forms.Timer(this.components);
             this.timerRegisterPolling = new System.Windows.Forms.Timer(this.components);
             this.tabPageTransmitterMonitoring = new System.Windows.Forms.TabPage();
+            this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.labelRelayDisconnected2 = new System.Windows.Forms.Label();
             this.tabPageEngineering = new System.Windows.Forms.TabPage();
+            this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
+            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
+            this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
             this.groupBoxTimeConvert = new System.Windows.Forms.GroupBox();
             this.textBoxTimeOutput = new System.Windows.Forms.TextBox();
             this.textBoxTimeInput = new System.Windows.Forms.TextBox();
@@ -78,6 +82,18 @@
             this.buttonRQRelayProcVersion = new System.Windows.Forms.Button();
             this.buttonForceI = new System.Windows.Forms.Button();
             this.buttonRequestRelayRegisters = new System.Windows.Forms.Button();
+            this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
+            this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.ucCalibration2 = new RelayControlLibrary.ucCalibration();
+            this.uc8CheckBoxFlagsCommFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsCommFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayStatus2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
+            this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -90,11 +106,21 @@
             this.radioButtonEvent2 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent1 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent0 = new System.Windows.Forms.RadioButton();
+            this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
             this.buttonReqLiveData = new System.Windows.Forms.Button();
             this.tabPageFlightRecorder = new System.Windows.Forms.TabPage();
             this.labelLiveDataTriggerTime = new System.Windows.Forms.Label();
+            this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
             this.tabPageTransmitter = new System.Windows.Forms.TabPage();
             this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
+            this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
             this.labelSNPQMonitor = new System.Windows.Forms.Label();
             this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
@@ -104,6 +130,7 @@
             this.labelRelayTrippedOrClose = new System.Windows.Forms.Label();
             this.buttonToggleMonitor = new System.Windows.Forms.Button();
             this.labelCtRatioMonitor = new System.Windows.Forms.Label();
+            this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
@@ -175,6 +202,11 @@
             this.panelOtherRelayControls = new System.Windows.Forms.Panel();
             this.buttonRequestRelayParamaters = new System.Windows.Forms.Button();
             this.buttonSendAll = new System.Windows.Forms.Button();
+            this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
+            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
+            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
+            this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
+            this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
             this.buttonResetBothProc = new System.Windows.Forms.Button();
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
@@ -184,6 +216,8 @@
             this.btn_PermCl_Active = new System.Windows.Forms.Button();
             this.btn_ClearPumpProtect = new System.Windows.Forms.Button();
             this.btn_RelaxClose = new System.Windows.Forms.Button();
+            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
+            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
             this.buttonTripRelay = new System.Windows.Forms.Button();
             this.groupBox_FirmwareInfo = new System.Windows.Forms.GroupBox();
             this.labelRevision = new System.Windows.Forms.Label();
@@ -214,60 +248,26 @@
             this.lbl_Relaystatus_Open = new System.Windows.Forms.Label();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
+            this.ucDNP1 = new RelayControlLibrary.ucDNP();
             this.tabPageArcFault = new System.Windows.Forms.TabPage();
             this.buttonArcFaultStartMonitoring = new System.Windows.Forms.Button();
+            this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
             this.tabPageShortRange = new System.Windows.Forms.TabPage();
+            this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
             this.tabPageDNPData = new System.Windows.Forms.TabPage();
             this.buttonRequestDNPData = new System.Windows.Forms.Button();
             this.tabPageDNPSecureAuth = new System.Windows.Forms.TabPage();
+            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
             this.tabPageEngineering2 = new System.Windows.Forms.TabPage();
+            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
             this.labelKioskReceived = new System.Windows.Forms.Label();
             this.checkBoxSerialCommsDebugging = new System.Windows.Forms.CheckBox();
             this.buttonTest = new System.Windows.Forms.Button();
+            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.timerResponseTimeOut = new System.Windows.Forms.Timer(this.components);
             this.timerScreenCapDelay = new System.Windows.Forms.Timer(this.components);
             this.timerFindRelayTimeout = new System.Windows.Forms.Timer(this.components);
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
-            this.ucCloseMode1 = new RelayControlLibrary.ucCloseMode();
-            this.ucPumpMode1 = new RelayControlLibrary.ucPumpMode();
-            this.ucSafeService1 = new RelayControlLibrary.ucSafeService();
-            this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
-            this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
-            this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
-            this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
-            this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
-            this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
-            this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
-            this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
-            this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
-            this.ucTransmitterMonitoring1 = new RelayControlLibrary.ucTransmitterMonitoring();
-            this.ucDNP1 = new RelayControlLibrary.ucDNP();
-            this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
-            this.ucShortRange1 = new RelayControlLibrary.ucShortRange();
-            this.ucDNPSAv51 = new RelayDNPSecurity.ucDNPSAv5();
-            this.ucCSVConverterCSVFile1 = new RelayControlLibrary.ucCSVConverterCSVFile();
-            this.ucTimeControl1 = new RelayControlLibrary.ucTimeControl();
-            this.ucGeneralCommandHandler1 = new RelayControlLibrary.ucGeneralCommandHandler();
-            this.ucRelayProgramming1 = new RelayControlLibrary.ucRelayProgramming();
-            this.uc8CheckBoxFlagsGEControl2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsGEControl1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucCalibration2 = new RelayControlLibrary.ucCalibration();
-            this.uc8CheckBoxFlagsCommFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsCommFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayStatus2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayStatus1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
-            this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
-            this.commTradeConverter1 = new RelayControlLibrary.CommTradeConverter();
-            this.ucPhasorRequest1 = new RelayControlLibrary.ucPhasorRequest();
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
             this.serialPort1 = new RelayControl.MyPort(this.components);
@@ -576,9 +576,30 @@
             this.tabPageTransmitterMonitoring.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
             this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1332, 886);
             this.tabPageTransmitterMonitoring.TabIndex = 8;
             this.tabPageTransmitterMonitoring.Text = "Sensor Monitoring";
+            // 
+            // ucTransmitterMonitoring1
+            // 
+            this.ucTransmitterMonitoring1.BackColor = System.Drawing.SystemColors.Control;
+            this.ucTransmitterMonitoring1.CTMult = "";
+            this.ucTransmitterMonitoring1.CTRatio = 320;
+            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
+            this.ucTransmitterMonitoring1.GEEnabled = false;
+            this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
+            this.ucTransmitterMonitoring1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
+            this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(1144, 664);
+            this.ucTransmitterMonitoring1.TabIndex = 86;
+            this.ucTransmitterMonitoring1.TimeElapsedHours = "";
+            this.ucTransmitterMonitoring1.TimeElapsedMinutes = "";
+            this.ucTransmitterMonitoring1.TimeElapsedSeconds = "";
+            this.ucTransmitterMonitoring1.TransmitterID = "";
+            this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
+            this.ucTransmitterMonitoring1.TransmitterSN = "";
+            this.ucTransmitterMonitoring1.WaterBugActive = false;
             // 
             // labelRelayDisconnected2
             // 
@@ -628,6 +649,30 @@
             this.tabPageEngineering.TabIndex = 7;
             this.tabPageEngineering.Text = "Engineering";
             this.tabPageEngineering.UseVisualStyleBackColor = true;
+            // 
+            // ucCSVConverterCSVFile1
+            // 
+            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
+            this.ucCSVConverterCSVFile1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
+            this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
+            this.ucCSVConverterCSVFile1.TabIndex = 109;
+            // 
+            // ucTimeControl1
+            // 
+            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
+            this.ucTimeControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucTimeControl1.Name = "ucTimeControl1";
+            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
+            this.ucTimeControl1.TabIndex = 119;
+            // 
+            // ucGeneralCommandHandler1
+            // 
+            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
+            this.ucGeneralCommandHandler1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
+            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
+            this.ucGeneralCommandHandler1.TabIndex = 117;
             // 
             // groupBoxTimeConvert
             // 
@@ -786,6 +831,130 @@
             this.buttonRequestRelayRegisters.UseVisualStyleBackColor = true;
             this.buttonRequestRelayRegisters.Click += new System.EventHandler(this.buttonRequestRelayRegisters_Click);
             // 
+            // ucRelayProgramming1
+            // 
+            this.ucRelayProgramming1.ActiveRelay = false;
+            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
+            this.ucRelayProgramming1.DNPRelay = true;
+            this.ucRelayProgramming1.ForceRelayUpdate = false;
+            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
+            this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.GERelay = false;
+            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
+            this.ucRelayProgramming1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.MasterRevisionString = "";
+            this.ucRelayProgramming1.Name = "ucRelayProgramming1";
+            this.ucRelayProgramming1.NotPollingPort = false;
+            this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
+            this.ucRelayProgramming1.ProgramBootCodeStart = false;
+            this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
+            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
+            this.ucRelayProgramming1.ReprogrammingInProgress = false;
+            this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
+            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
+            this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
+            this.ucRelayProgramming1.TabIndex = 112;
+            this.ucRelayProgramming1.TransmitterEnabled = false;
+            // 
+            // uc8CheckBoxFlagsGEControl2
+            // 
+            this.uc8CheckBoxFlagsGEControl2.Location = new System.Drawing.Point(360, 431);
+            this.uc8CheckBoxFlagsGEControl2.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsGEControl2.Name = "uc8CheckBoxFlagsGEControl2";
+            this.uc8CheckBoxFlagsGEControl2.Names = null;
+            this.uc8CheckBoxFlagsGEControl2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsGEControl2.TabIndex = 111;
+            // 
+            // uc8CheckBoxFlagsGEControl1
+            // 
+            this.uc8CheckBoxFlagsGEControl1.Location = new System.Drawing.Point(360, 249);
+            this.uc8CheckBoxFlagsGEControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsGEControl1.Name = "uc8CheckBoxFlagsGEControl1";
+            this.uc8CheckBoxFlagsGEControl1.Names = null;
+            this.uc8CheckBoxFlagsGEControl1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsGEControl1.TabIndex = 110;
+            // 
+            // ucCalibration2
+            // 
+            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
+            this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
+            this.ucCalibration2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucCalibration2.Name = "ucCalibration2";
+            this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
+            this.ucCalibration2.TabIndex = 108;
+            // 
+            // uc8CheckBoxFlagsCommFlags2
+            // 
+            this.uc8CheckBoxFlagsCommFlags2.Location = new System.Drawing.Point(254, 431);
+            this.uc8CheckBoxFlagsCommFlags2.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsCommFlags2.Name = "uc8CheckBoxFlagsCommFlags2";
+            this.uc8CheckBoxFlagsCommFlags2.Names = null;
+            this.uc8CheckBoxFlagsCommFlags2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsCommFlags2.TabIndex = 106;
+            // 
+            // uc8CheckBoxFlagsCommFlags1
+            // 
+            this.uc8CheckBoxFlagsCommFlags1.Location = new System.Drawing.Point(254, 249);
+            this.uc8CheckBoxFlagsCommFlags1.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsCommFlags1.Name = "uc8CheckBoxFlagsCommFlags1";
+            this.uc8CheckBoxFlagsCommFlags1.Names = null;
+            this.uc8CheckBoxFlagsCommFlags1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsCommFlags1.TabIndex = 105;
+            // 
+            // uc8CheckBoxFlagsRelayStatus2
+            // 
+            this.uc8CheckBoxFlagsRelayStatus2.Location = new System.Drawing.Point(143, 431);
+            this.uc8CheckBoxFlagsRelayStatus2.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsRelayStatus2.Name = "uc8CheckBoxFlagsRelayStatus2";
+            this.uc8CheckBoxFlagsRelayStatus2.Names = null;
+            this.uc8CheckBoxFlagsRelayStatus2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayStatus2.TabIndex = 104;
+            // 
+            // uc8CheckBoxFlagsRelayStatus1
+            // 
+            this.uc8CheckBoxFlagsRelayStatus1.Location = new System.Drawing.Point(143, 249);
+            this.uc8CheckBoxFlagsRelayStatus1.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsRelayStatus1.Name = "uc8CheckBoxFlagsRelayStatus1";
+            this.uc8CheckBoxFlagsRelayStatus1.Names = null;
+            this.uc8CheckBoxFlagsRelayStatus1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayStatus1.TabIndex = 103;
+            // 
+            // uc8CheckBoxFlagsRelayFlags2
+            // 
+            this.uc8CheckBoxFlagsRelayFlags2.Location = new System.Drawing.Point(17, 431);
+            this.uc8CheckBoxFlagsRelayFlags2.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsRelayFlags2.Name = "uc8CheckBoxFlagsRelayFlags2";
+            this.uc8CheckBoxFlagsRelayFlags2.Names = null;
+            this.uc8CheckBoxFlagsRelayFlags2.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayFlags2.TabIndex = 102;
+            // 
+            // uc8CheckBoxFlagsRelayFlags1
+            // 
+            this.uc8CheckBoxFlagsRelayFlags1.Location = new System.Drawing.Point(17, 249);
+            this.uc8CheckBoxFlagsRelayFlags1.Margin = new System.Windows.Forms.Padding(4);
+            this.uc8CheckBoxFlagsRelayFlags1.Name = "uc8CheckBoxFlagsRelayFlags1";
+            this.uc8CheckBoxFlagsRelayFlags1.Names = null;
+            this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
+            this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
+            // 
+            // ucCalibration1
+            // 
+            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
+            this.ucCalibration1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucCalibration1.Name = "ucCalibration1";
+            this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
+            this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -803,7 +972,7 @@
             this.tabPageEvents.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageEvents.Name = "tabPageEvents";
             this.tabPageEvents.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageEvents.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageEvents.Size = new System.Drawing.Size(1332, 886);
             this.tabPageEvents.TabIndex = 6;
             this.tabPageEvents.Text = "Events";
             this.tabPageEvents.UseVisualStyleBackColor = true;
@@ -950,6 +1119,134 @@
             this.radioButtonEvent0.UseVisualStyleBackColor = true;
             this.radioButtonEvent0.CheckedChanged += new System.EventHandler(this.radioButtonEventSelect_CheckedChanged);
             // 
+            // ucEventGraph7
+            // 
+            this.ucEventGraph7.CTRatio = 320;
+            this.ucEventGraph7.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph7.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph7.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph7.EventNumber = ((uint)(0u));
+            this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph7.GEEnabled = false;
+            this.ucEventGraph7.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph7.Name = "ucEventGraph7";
+            this.ucEventGraph7.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph7.TabIndex = 8;
+            this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph6
+            // 
+            this.ucEventGraph6.CTRatio = 320;
+            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph6.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph6.EventNumber = ((uint)(0u));
+            this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph6.GEEnabled = false;
+            this.ucEventGraph6.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph6.Name = "ucEventGraph6";
+            this.ucEventGraph6.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph6.TabIndex = 7;
+            this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph5
+            // 
+            this.ucEventGraph5.CTRatio = 320;
+            this.ucEventGraph5.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph5.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph5.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph5.EventNumber = ((uint)(0u));
+            this.ucEventGraph5.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph5.GEEnabled = false;
+            this.ucEventGraph5.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph5.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph5.Name = "ucEventGraph5";
+            this.ucEventGraph5.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph5.TabIndex = 6;
+            this.ucEventGraph5.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph4
+            // 
+            this.ucEventGraph4.CTRatio = 320;
+            this.ucEventGraph4.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph4.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph4.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph4.EventNumber = ((uint)(0u));
+            this.ucEventGraph4.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph4.GEEnabled = false;
+            this.ucEventGraph4.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph4.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph4.Name = "ucEventGraph4";
+            this.ucEventGraph4.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph4.TabIndex = 5;
+            this.ucEventGraph4.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph3
+            // 
+            this.ucEventGraph3.CTRatio = 320;
+            this.ucEventGraph3.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph3.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph3.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph3.EventNumber = ((uint)(0u));
+            this.ucEventGraph3.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph3.GEEnabled = false;
+            this.ucEventGraph3.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph3.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph3.Name = "ucEventGraph3";
+            this.ucEventGraph3.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph3.TabIndex = 4;
+            this.ucEventGraph3.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph2
+            // 
+            this.ucEventGraph2.CTRatio = 320;
+            this.ucEventGraph2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph2.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph2.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph2.EventNumber = ((uint)(0u));
+            this.ucEventGraph2.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph2.GEEnabled = false;
+            this.ucEventGraph2.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph2.Name = "ucEventGraph2";
+            this.ucEventGraph2.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph2.TabIndex = 3;
+            this.ucEventGraph2.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph1
+            // 
+            this.ucEventGraph1.CTRatio = 320;
+            this.ucEventGraph1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph1.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph1.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph1.EventNumber = ((uint)(0u));
+            this.ucEventGraph1.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph1.GEEnabled = false;
+            this.ucEventGraph1.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph1.Name = "ucEventGraph1";
+            this.ucEventGraph1.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph1.TabIndex = 2;
+            this.ucEventGraph1.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
+            // ucEventGraph0
+            // 
+            this.ucEventGraph0.CTRatio = 320;
+            this.ucEventGraph0.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph0.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph0.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph0.EventNumber = ((uint)(0u));
+            this.ucEventGraph0.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph0.GEEnabled = false;
+            this.ucEventGraph0.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph0.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph0.Name = "ucEventGraph0";
+            this.ucEventGraph0.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph0.TabIndex = 0;
+            this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
             // buttonReqLiveData
             // 
             this.buttonReqLiveData.Location = new System.Drawing.Point(991, 0);
@@ -971,7 +1268,7 @@
             this.tabPageFlightRecorder.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageFlightRecorder.Name = "tabPageFlightRecorder";
             this.tabPageFlightRecorder.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageFlightRecorder.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageFlightRecorder.Size = new System.Drawing.Size(1332, 886);
             this.tabPageFlightRecorder.TabIndex = 5;
             this.tabPageFlightRecorder.Text = "Live Data";
             // 
@@ -986,6 +1283,17 @@
             this.labelLiveDataTriggerTime.TabIndex = 1;
             this.labelLiveDataTriggerTime.Resize += new System.EventHandler(this.labelLiveEventTriggerTime_Resize);
             // 
+            // ucLiveData1
+            // 
+            this.ucLiveData1.CTRatio = 320;
+            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucLiveData1.GEEnabled = false;
+            this.ucLiveData1.Location = new System.Drawing.Point(0, 25);
+            this.ucLiveData1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucLiveData1.Name = "ucLiveData1";
+            this.ucLiveData1.Size = new System.Drawing.Size(1156, 695);
+            this.ucLiveData1.TabIndex = 0;
+            // 
             // tabPageTransmitter
             // 
             this.tabPageTransmitter.BackColor = System.Drawing.SystemColors.Control;
@@ -995,7 +1303,7 @@
             this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitter.Name = "tabPageTransmitter";
             this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitter.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageTransmitter.Size = new System.Drawing.Size(1332, 886);
             this.tabPageTransmitter.TabIndex = 2;
             this.tabPageTransmitter.Text = "Transmitter Settings";
             // 
@@ -1011,6 +1319,25 @@
             this.labelRelayDisconnected3.TabIndex = 70;
             this.labelRelayDisconnected3.Text = "Relay Disconnected";
             this.labelRelayDisconnected3.Visible = false;
+            // 
+            // ucTransmitter1
+            // 
+            this.ucTransmitter1.BackColor = System.Drawing.SystemColors.Control;
+            this.ucTransmitter1.CTRatio = ((uint)(320u));
+            this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
+            this.ucTransmitter1.DNPEnabled = false;
+            this.ucTransmitter1.ForceDNPEnable = false;
+            this.ucTransmitter1.FPGARevisionValid = true;
+            this.ucTransmitter1.GERelay = false;
+            this.ucTransmitter1.Location = new System.Drawing.Point(10, 7);
+            this.ucTransmitter1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucTransmitter1.Name = "ucTransmitter1";
+            this.ucTransmitter1.PacketLength = 30;
+            this.ucTransmitter1.SerialNumber = 0;
+            this.ucTransmitter1.Size = new System.Drawing.Size(1014, 706);
+            this.ucTransmitter1.TabIndex = 0;
+            this.ucTransmitter1.WaterBugNoTransmitter = false;
             // 
             // tabPageMonitor
             // 
@@ -1028,7 +1355,7 @@
             this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMonitor.Name = "tabPageMonitor";
             this.tabPageMonitor.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMonitor.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageMonitor.Size = new System.Drawing.Size(1332, 886);
             this.tabPageMonitor.TabIndex = 1;
             this.tabPageMonitor.Text = "PQ Monitor";
             // 
@@ -1050,7 +1377,7 @@
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
             this.textBoxRelaySNControlPQ.ReadOnly = true;
-            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(43, 21);
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(3, 21);
             this.textBoxRelaySNControlPQ.TabIndex = 75;
             this.textBoxRelaySNControlPQ.Tag = "SN";
             // 
@@ -1061,7 +1388,7 @@
             this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
-            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(29, 21);
+            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(2, 21);
             this.textBoxCTRatioPQMonitor.TabIndex = 65;
             this.textBoxCTRatioPQMonitor.Text = "320";
             // 
@@ -1122,6 +1449,17 @@
             this.labelCtRatioMonitor.TabIndex = 31;
             this.labelCtRatioMonitor.Text = "CT Ratio:";
             // 
+            // ucPhasorGraph1
+            // 
+            this.ucPhasorGraph1.BackColor = System.Drawing.SystemColors.Control;
+            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
+            this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucPhasorGraph1.Name = "ucPhasorGraph1";
+            this.ucPhasorGraph1.RealTimeMonitoring = false;
+            this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
+            this.ucPhasorGraph1.Size = new System.Drawing.Size(1158, 660);
+            this.ucPhasorGraph1.TabIndex = 45;
+            // 
             // textBoxTemperatureMonitoringPage
             // 
             this.textBoxTemperatureMonitoringPage.Location = new System.Drawing.Point(92, 578);
@@ -1166,7 +1504,7 @@
             this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Name = "tabPageControl";
             this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageControl.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageControl.Size = new System.Drawing.Size(1332, 886);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             // 
@@ -1312,7 +1650,7 @@
             0,
             0});
             this.numericUpDown_PC_voltage.Name = "numericUpDown_PC_voltage";
-            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(44, 22);
+            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(7, 22);
             this.numericUpDown_PC_voltage.TabIndex = 9;
             this.numericUpDown_PC_voltage.Value = new decimal(new int[] {
             5,
@@ -1334,7 +1672,7 @@
             0,
             0});
             this.numericUpDown_PC_activeTime.Name = "numericUpDown_PC_activeTime";
-            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(44, 22);
+            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(7, 22);
             this.numericUpDown_PC_activeTime.TabIndex = 8;
             this.numericUpDown_PC_activeTime.Value = new decimal(new int[] {
             15,
@@ -1401,7 +1739,7 @@
             0,
             0});
             this.numericUpDown_PC_floatTime.Name = "numericUpDown_PC_floatTime";
-            this.numericUpDown_PC_floatTime.Size = new System.Drawing.Size(44, 22);
+            this.numericUpDown_PC_floatTime.Size = new System.Drawing.Size(7, 22);
             this.numericUpDown_PC_floatTime.TabIndex = 2;
             this.numericUpDown_PC_floatTime.Value = new decimal(new int[] {
             38,
@@ -1459,7 +1797,7 @@
             this.textBoxLRLockoutStatusMain.Location = new System.Drawing.Point(144, 23);
             this.textBoxLRLockoutStatusMain.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLRLockoutStatusMain.Name = "textBoxLRLockoutStatusMain";
-            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(59, 21);
+            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(4, 21);
             this.textBoxLRLockoutStatusMain.TabIndex = 1;
             // 
             // labelLRLockoutMain
@@ -1513,7 +1851,7 @@
             0,
             0});
             this.numericUpDownLowVoltageThres.Name = "numericUpDownLowVoltageThres";
-            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(90, 21);
+            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(15, 21);
             this.numericUpDownLowVoltageThres.TabIndex = 114;
             this.numericUpDownLowVoltageThres.Value = new decimal(new int[] {
             20,
@@ -1666,7 +2004,7 @@
             this.domainUpDownPhasings.Location = new System.Drawing.Point(41, 60);
             this.domainUpDownPhasings.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownPhasings.Name = "domainUpDownPhasings";
-            this.domainUpDownPhasings.Size = new System.Drawing.Size(85, 22);
+            this.domainUpDownPhasings.Size = new System.Drawing.Size(14, 22);
             this.domainUpDownPhasings.TabIndex = 47;
             this.domainUpDownPhasings.Visible = false;
             // 
@@ -1689,7 +2027,7 @@
             this.domainUpDownRelayType.Location = new System.Drawing.Point(8, 60);
             this.domainUpDownRelayType.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownRelayType.Name = "domainUpDownRelayType";
-            this.domainUpDownRelayType.Size = new System.Drawing.Size(18, 22);
+            this.domainUpDownRelayType.Size = new System.Drawing.Size(3, 22);
             this.domainUpDownRelayType.TabIndex = 43;
             this.domainUpDownRelayType.Visible = false;
             // 
@@ -1792,7 +2130,7 @@
             this.textBoxCTRatio.Location = new System.Drawing.Point(8, 53);
             this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
-            this.textBoxCTRatio.Size = new System.Drawing.Size(29, 22);
+            this.textBoxCTRatio.Size = new System.Drawing.Size(2, 22);
             this.textBoxCTRatio.TabIndex = 64;
             this.textBoxCTRatio.Text = "320";
             this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_Leave);
@@ -1812,7 +2150,7 @@
             this.domainUpDownCTRatioM.Location = new System.Drawing.Point(131, 20);
             this.domainUpDownCTRatioM.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownCTRatioM.Name = "domainUpDownCTRatioM";
-            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(46, 22);
+            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(8, 22);
             this.domainUpDownCTRatioM.TabIndex = 62;
             this.domainUpDownCTRatioM.Text = "1600:5";
             this.domainUpDownCTRatioM.Visible = false;
@@ -2046,6 +2384,71 @@
             this.buttonSendAll.UseVisualStyleBackColor = true;
             this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
             // 
+            // ucCloseMode1
+            // 
+            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
+            this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucCloseMode1.Location = new System.Drawing.Point(430, 4);
+            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
+            this.ucCloseMode1.Name = "ucCloseMode1";
+            this.ucCloseMode1.RelaxClose = false;
+            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucCloseMode1.Size = new System.Drawing.Size(373, 335);
+            this.ucCloseMode1.TabIndex = 26;
+            // 
+            // ucPumpMode1
+            // 
+            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
+            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucPumpMode1.Location = new System.Drawing.Point(226, 322);
+            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucPumpMode1.Name = "ucPumpMode1";
+            this.ucPumpMode1.PumpProtectEnabled = false;
+            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
+            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
+            this.ucPumpMode1.Size = new System.Drawing.Size(378, 321);
+            this.ucPumpMode1.TabIndex = 49;
+            // 
+            // ucSafeService1
+            // 
+            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
+            this.ucSafeService1.CTRatio = 320;
+            this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucSafeService1.LoadingNewCode = false;
+            this.ucSafeService1.Location = new System.Drawing.Point(638, 320);
+            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucSafeService1.Name = "ucSafeService1";
+            this.ucSafeService1.Size = new System.Drawing.Size(311, 304);
+            this.ucSafeService1.TabIndex = 108;
+            // 
+            // ucCoverFlags1
+            // 
+            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
+            this.ucCoverFlags1.Location = new System.Drawing.Point(379, 596);
+            this.ucCoverFlags1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucCoverFlags1.Name = "ucCoverFlags1";
+            this.ucCoverFlags1.Size = new System.Drawing.Size(251, 128);
+            this.ucCoverFlags1.TabIndex = 119;
+            // 
+            // ucTripMode2
+            // 
+            this.ucTripMode2.AutoSize = true;
+            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
+            this.ucTripMode2.CTRatio = 320;
+            this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
+            this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucTripMode2.Location = new System.Drawing.Point(8, 0);
+            this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucTripMode2.Name = "ucTripMode2";
+            this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ucTripMode2.SequenceRelay = false;
+            this.ucTripMode2.Size = new System.Drawing.Size(4056, 945);
+            this.ucTripMode2.TabIndex = 40;
+            this.ucTripMode2.VersionNumber = ((uint)(0u));
+            // 
             // buttonClearCycleCount
             // 
             this.buttonClearCycleCount.Location = new System.Drawing.Point(41, 460);
@@ -2097,7 +2500,7 @@
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(4);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1263, 933);
+            this.tabControlMain.Size = new System.Drawing.Size(1340, 914);
             this.tabControlMain.TabIndex = 36;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
@@ -2112,7 +2515,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1255, 905);
+            this.tabPage1.Size = new System.Drawing.Size(1332, 886);
             this.tabPage1.TabIndex = 14;
             this.tabPage1.Text = "Relay Monitoring";
             // 
@@ -2128,9 +2531,9 @@
             this.grpBox_RelayCommands.Controls.Add(this.buttonResetBothProc);
             this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
             this.grpBox_RelayCommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_RelayCommands.Location = new System.Drawing.Point(934, 31);
+            this.grpBox_RelayCommands.Location = new System.Drawing.Point(806, 30);
             this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
-            this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 672);
+            this.grpBox_RelayCommands.Size = new System.Drawing.Size(278, 723);
             this.grpBox_RelayCommands.TabIndex = 129;
             this.grpBox_RelayCommands.TabStop = false;
             this.grpBox_RelayCommands.Text = "Relay Commands";
@@ -2165,6 +2568,28 @@
             this.btn_RelaxClose.UseVisualStyleBackColor = true;
             this.btn_RelaxClose.Click += new System.EventHandler(this.btn_RelaxClose_Click);
             // 
+            // ucBlockControl1
+            // 
+            this.ucBlockControl1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucBlockControl1.Location = new System.Drawing.Point(56, 60);
+            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucBlockControl1.Name = "ucBlockControl1";
+            this.ucBlockControl1.RelayBlocked = false;
+            this.ucBlockControl1.Size = new System.Drawing.Size(163, 122);
+            this.ucBlockControl1.TabIndex = 116;
+            // 
+            // ucRemoteCommandBlock1
+            // 
+            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucRemoteCommandBlock1.CommandsBlocked = false;
+            this.ucRemoteCommandBlock1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(56, 190);
+            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
+            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(154, 122);
+            this.ucRemoteCommandBlock1.TabIndex = 117;
+            this.ucRemoteCommandBlock1.Load += new System.EventHandler(this.ucRemoteCommandBlock1_Load);
+            // 
             // buttonTripRelay
             // 
             this.buttonTripRelay.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2184,7 +2609,7 @@
             this.groupBox_FirmwareInfo.Controls.Add(this.labelFPGARevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelBootRevision);
             this.groupBox_FirmwareInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(27, 456);
+            this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(27, 444);
             this.groupBox_FirmwareInfo.Name = "groupBox_FirmwareInfo";
             this.groupBox_FirmwareInfo.Size = new System.Drawing.Size(378, 309);
             this.groupBox_FirmwareInfo.TabIndex = 128;
@@ -2255,7 +2680,7 @@
             this.groupBox_RelayInfo.Controls.Add(this.label4);
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTripCount);
             this.groupBox_RelayInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_RelayInfo.Location = new System.Drawing.Point(27, 42);
+            this.groupBox_RelayInfo.Location = new System.Drawing.Point(27, 32);
             this.groupBox_RelayInfo.Name = "groupBox_RelayInfo";
             this.groupBox_RelayInfo.Size = new System.Drawing.Size(378, 358);
             this.groupBox_RelayInfo.TabIndex = 127;
@@ -2266,7 +2691,7 @@
             // 
             this.txtBox_NWPposition.BackColor = System.Drawing.SystemColors.Control;
             this.txtBox_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBox_NWPposition.Location = new System.Drawing.Point(237, 282);
+            this.txtBox_NWPposition.Location = new System.Drawing.Point(197, 273);
             this.txtBox_NWPposition.Name = "txtBox_NWPposition";
             this.txtBox_NWPposition.Size = new System.Drawing.Size(80, 27);
             this.txtBox_NWPposition.TabIndex = 119;
@@ -2277,7 +2702,7 @@
             // 
             this.lbl_NWPposition.AutoSize = true;
             this.lbl_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_NWPposition.Location = new System.Drawing.Point(6, 282);
+            this.lbl_NWPposition.Location = new System.Drawing.Point(20, 282);
             this.lbl_NWPposition.Name = "lbl_NWPposition";
             this.lbl_NWPposition.Size = new System.Drawing.Size(161, 19);
             this.lbl_NWPposition.TabIndex = 118;
@@ -2287,7 +2712,7 @@
             // 
             this.textBox_TxID.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_TxID.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_TxID.Location = new System.Drawing.Point(236, 130);
+            this.textBox_TxID.Location = new System.Drawing.Point(199, 124);
             this.textBox_TxID.Name = "textBox_TxID";
             this.textBox_TxID.Size = new System.Drawing.Size(80, 27);
             this.textBox_TxID.TabIndex = 117;
@@ -2298,7 +2723,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(42, 137);
+            this.label2.Location = new System.Drawing.Point(50, 133);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(131, 19);
@@ -2310,7 +2735,7 @@
             // 
             this.labelRelaySNControl.AutoSize = true;
             this.labelRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelaySNControl.Location = new System.Drawing.Point(56, 56);
+            this.labelRelaySNControl.Location = new System.Drawing.Point(65, 54);
             this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRelaySNControl.Name = "labelRelaySNControl";
             this.labelRelaySNControl.Size = new System.Drawing.Size(116, 19);
@@ -2320,7 +2745,7 @@
             // textBoxRelaySNControl
             // 
             this.textBoxRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControl.Location = new System.Drawing.Point(236, 49);
+            this.textBoxRelaySNControl.Location = new System.Drawing.Point(197, 51);
             this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControl.MaxLength = 5;
             this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
@@ -2335,7 +2760,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(39, 217);
+            this.label4.Location = new System.Drawing.Point(48, 216);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(133, 19);
@@ -2345,7 +2770,7 @@
             // textBoxTripCount
             // 
             this.textBoxTripCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTripCount.Location = new System.Drawing.Point(236, 208);
+            this.textBoxTripCount.Location = new System.Drawing.Point(199, 206);
             this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTripCount.Name = "textBoxTripCount";
             this.textBoxTripCount.ReadOnly = true;
@@ -2369,11 +2794,11 @@
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_Close);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relaystatus_Open);
             this.groupBoxRelayStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxRelayStatus.Location = new System.Drawing.Point(462, 31);
+            this.groupBoxRelayStatus.Location = new System.Drawing.Point(478, 31);
             this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
             this.groupBoxRelayStatus.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxRelayStatus.Size = new System.Drawing.Size(412, 734);
+            this.groupBoxRelayStatus.Size = new System.Drawing.Size(281, 722);
             this.groupBoxRelayStatus.TabIndex = 113;
             this.groupBoxRelayStatus.TabStop = false;
             this.groupBoxRelayStatus.Text = "Relay Status:";
@@ -2386,7 +2811,7 @@
             this.lbl_Relayststatus_XP.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_XP.Name = "lbl_Relayststatus_XP";
             this.lbl_Relayststatus_XP.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_XP.TabIndex = 134;
             this.lbl_Relayststatus_XP.Text = "Cross Phase (XP )";
             this.lbl_Relayststatus_XP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2399,7 +2824,7 @@
             this.lbl_Relayststatus_SL.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_SL.Name = "lbl_Relayststatus_SL";
             this.lbl_Relayststatus_SL.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_SL.TabIndex = 133;
             this.lbl_Relayststatus_SL.Text = "Safe Service Mode Lockout ( SL )";
             this.lbl_Relayststatus_SL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2412,7 +2837,7 @@
             this.lbl_Relayststatus_PA.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_PA.Name = "lbl_Relayststatus_PA";
             this.lbl_Relayststatus_PA.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_PA.TabIndex = 132;
             this.lbl_Relayststatus_PA.Text = "Pump Alarm ( PA )";
             this.lbl_Relayststatus_PA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2425,7 +2850,7 @@
             this.lbl_Relayststatus_RC.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_RC.Name = "lbl_Relayststatus_RC";
             this.lbl_Relayststatus_RC.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_RC.TabIndex = 131;
             this.lbl_Relayststatus_RC.Text = "Relax Close ( RC )";
             this.lbl_Relayststatus_RC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2438,7 +2863,7 @@
             this.lbl_Relayststatus_Ib.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_Ib.Name = "lbl_Relayststatus_Ib";
             this.lbl_Relayststatus_Ib.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_Ib.TabIndex = 130;
             this.lbl_Relayststatus_Ib.Text = "Insensitive Backfeed ( IB )";
             this.lbl_Relayststatus_Ib.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2451,7 +2876,7 @@
             this.lbl_Relayststatus_FC.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_FC.Name = "lbl_Relayststatus_FC";
             this.lbl_Relayststatus_FC.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_FC.TabIndex = 129;
             this.lbl_Relayststatus_FC.Text = "Failed to Close ( FC )";
             this.lbl_Relayststatus_FC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2464,7 +2889,7 @@
             this.lbl_Relayststatus_BO.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_BO.Name = "lbl_Relayststatus_BO";
             this.lbl_Relayststatus_BO.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_BO.TabIndex = 128;
             this.lbl_Relayststatus_BO.Text = "Blocked Open ( BO )";
             this.lbl_Relayststatus_BO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2477,7 +2902,7 @@
             this.lbl_Relayststatus_backfeed.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_backfeed.Name = "lbl_Relayststatus_backfeed";
             this.lbl_Relayststatus_backfeed.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_backfeed.TabIndex = 127;
             this.lbl_Relayststatus_backfeed.Text = "Backfeed ( BF )";
             this.lbl_Relayststatus_backfeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2490,7 +2915,7 @@
             this.lbl_Relayststatus_Float.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_Float.Name = "lbl_Relayststatus_Float";
             this.lbl_Relayststatus_Float.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_Float.TabIndex = 126;
             this.lbl_Relayststatus_Float.Text = "Float ( FL )";
             this.lbl_Relayststatus_Float.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2503,7 +2928,7 @@
             this.lbl_Relayststatus_FB.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_FB.Name = "lbl_Relayststatus_FB";
             this.lbl_Relayststatus_FB.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_FB.TabIndex = 125;
             this.lbl_Relayststatus_FB.Text = "Floating & Blocked open ( FB )";
             this.lbl_Relayststatus_FB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2516,7 +2941,7 @@
             this.lbl_Relayststatus_Close.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relayststatus_Close.Name = "lbl_Relayststatus_Close";
             this.lbl_Relayststatus_Close.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relayststatus_Close.TabIndex = 124;
             this.lbl_Relayststatus_Close.Text = "Close ( CL )";
             this.lbl_Relayststatus_Close.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2529,7 +2954,7 @@
             this.lbl_Relaystatus_Open.Margin = new System.Windows.Forms.Padding(4);
             this.lbl_Relaystatus_Open.Name = "lbl_Relaystatus_Open";
             this.lbl_Relaystatus_Open.Padding = new System.Windows.Forms.Padding(1);
-            this.lbl_Relaystatus_Open.Size = new System.Drawing.Size(412, 52);
+            this.lbl_Relaystatus_Open.Size = new System.Drawing.Size(282, 52);
             this.lbl_Relaystatus_Open.TabIndex = 123;
             this.lbl_Relaystatus_Open.Text = "Open (OP)";
             this.lbl_Relaystatus_Open.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2543,7 +2968,7 @@
             this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNP.Name = "tabPageDNP";
             this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNP.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageDNP.Size = new System.Drawing.Size(1332, 886);
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
@@ -2560,6 +2985,17 @@
             this.buttonResetRelay2.Visible = false;
             this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
             // 
+            // ucDNP1
+            // 
+            this.ucDNP1.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP1.DNPLabelStatus = false;
+            this.ucDNP1.Location = new System.Drawing.Point(10, 4);
+            this.ucDNP1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucDNP1.Name = "ucDNP1";
+            this.ucDNP1.Size = new System.Drawing.Size(1147, 644);
+            this.ucDNP1.TabIndex = 0;
+            // 
             // tabPageArcFault
             // 
             this.tabPageArcFault.BackColor = System.Drawing.SystemColors.Control;
@@ -2569,7 +3005,7 @@
             this.tabPageArcFault.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageArcFault.Name = "tabPageArcFault";
             this.tabPageArcFault.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageArcFault.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageArcFault.Size = new System.Drawing.Size(1332, 886);
             this.tabPageArcFault.TabIndex = 10;
             this.tabPageArcFault.Text = "Arc Fault";
             // 
@@ -2584,16 +3020,33 @@
             this.buttonArcFaultStartMonitoring.UseVisualStyleBackColor = true;
             this.buttonArcFaultStartMonitoring.Click += new System.EventHandler(this.buttonArcFaultStartMonitoring_Click);
             // 
+            // ucArcFault1
+            // 
+            this.ucArcFault1.Location = new System.Drawing.Point(10, 7);
+            this.ucArcFault1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucArcFault1.Name = "ucArcFault1";
+            this.ucArcFault1.Size = new System.Drawing.Size(557, 495);
+            this.ucArcFault1.TabIndex = 3;
+            // 
             // tabPageShortRange
             // 
             this.tabPageShortRange.Controls.Add(this.ucShortRange1);
             this.tabPageShortRange.Location = new System.Drawing.Point(4, 24);
             this.tabPageShortRange.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageShortRange.Name = "tabPageShortRange";
-            this.tabPageShortRange.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageShortRange.Size = new System.Drawing.Size(1332, 886);
             this.tabPageShortRange.TabIndex = 11;
             this.tabPageShortRange.Text = "Sec Mon";
             this.tabPageShortRange.UseVisualStyleBackColor = true;
+            // 
+            // ucShortRange1
+            // 
+            this.ucShortRange1.BackColor = System.Drawing.SystemColors.Control;
+            this.ucShortRange1.Location = new System.Drawing.Point(10, 0);
+            this.ucShortRange1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucShortRange1.Name = "ucShortRange1";
+            this.ucShortRange1.Size = new System.Drawing.Size(1152, 720);
+            this.ucShortRange1.TabIndex = 0;
             // 
             // tabPageDNPData
             // 
@@ -2603,7 +3056,7 @@
             this.tabPageDNPData.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNPData.Name = "tabPageDNPData";
             this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPData.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageDNPData.Size = new System.Drawing.Size(1332, 886);
             this.tabPageDNPData.TabIndex = 12;
             this.tabPageDNPData.Text = "DNP Data";
             // 
@@ -2627,9 +3080,20 @@
             this.tabPageDNPSecureAuth.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
             this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1255, 905);
+            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1332, 886);
             this.tabPageDNPSecureAuth.TabIndex = 13;
             this.tabPageDNPSecureAuth.Text = "DNP SAv5";
+            // 
+            // ucDNPSAv51
+            // 
+            this.ucDNPSAv51.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNPSAv51.Location = new System.Drawing.Point(15, 7);
+            this.ucDNPSAv51.Margin = new System.Windows.Forms.Padding(4);
+            this.ucDNPSAv51.Name = "ucDNPSAv51";
+            this.ucDNPSAv51.SerialNumber = 0;
+            this.ucDNPSAv51.ShowDNPSAV5Error = true;
+            this.ucDNPSAv51.Size = new System.Drawing.Size(1141, 846);
+            this.ucDNPSAv51.TabIndex = 0;
             // 
             // tabPageEngineering2
             // 
@@ -2645,6 +3109,14 @@
             this.tabPageEngineering2.TabIndex = 14;
             this.tabPageEngineering2.Text = "Engineer 2";
             this.tabPageEngineering2.UseVisualStyleBackColor = true;
+            // 
+            // commTradeConverter1
+            // 
+            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
+            this.commTradeConverter1.Margin = new System.Windows.Forms.Padding(4);
+            this.commTradeConverter1.Name = "commTradeConverter1";
+            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
+            this.commTradeConverter1.TabIndex = 4;
             // 
             // labelKioskReceived
             // 
@@ -2678,6 +3150,14 @@
             this.buttonTest.UseVisualStyleBackColor = true;
             this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
             // 
+            // ucPhasorRequest1
+            // 
+            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
+            this.ucPhasorRequest1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
+            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
+            this.ucPhasorRequest1.TabIndex = 0;
+            // 
             // timerResponseTimeOut
             // 
             this.timerResponseTimeOut.Interval = 5000;
@@ -2690,486 +3170,6 @@
             // timerFindRelayTimeout
             // 
             this.timerFindRelayTimeout.Interval = 500;
-            // 
-            // ucCloseMode1
-            // 
-            this.ucCloseMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
-            this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucCloseMode1.Location = new System.Drawing.Point(430, 4);
-            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
-            this.ucCloseMode1.Name = "ucCloseMode1";
-            this.ucCloseMode1.RelaxClose = false;
-            this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(373, 335);
-            this.ucCloseMode1.TabIndex = 26;
-            // 
-            // ucPumpMode1
-            // 
-            this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucPumpMode1.Location = new System.Drawing.Point(226, 322);
-            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucPumpMode1.Name = "ucPumpMode1";
-            this.ucPumpMode1.PumpProtectEnabled = false;
-            this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
-            this.ucPumpMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucPumpMode1.Size = new System.Drawing.Size(378, 321);
-            this.ucPumpMode1.TabIndex = 49;
-            // 
-            // ucSafeService1
-            // 
-            this.ucSafeService1.BackColor = System.Drawing.Color.Transparent;
-            this.ucSafeService1.CTRatio = 320;
-            this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucSafeService1.LoadingNewCode = false;
-            this.ucSafeService1.Location = new System.Drawing.Point(638, 320);
-            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(311, 304);
-            this.ucSafeService1.TabIndex = 108;
-            // 
-            // ucCoverFlags1
-            // 
-            this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCoverFlags1.Location = new System.Drawing.Point(379, 596);
-            this.ucCoverFlags1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucCoverFlags1.Name = "ucCoverFlags1";
-            this.ucCoverFlags1.Size = new System.Drawing.Size(251, 128);
-            this.ucCoverFlags1.TabIndex = 119;
-            // 
-            // ucTripMode2
-            // 
-            this.ucTripMode2.AutoSize = true;
-            this.ucTripMode2.BackColor = System.Drawing.Color.Transparent;
-            this.ucTripMode2.CTRatio = 320;
-            this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
-            this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucTripMode2.Location = new System.Drawing.Point(8, 0);
-            this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucTripMode2.Name = "ucTripMode2";
-            this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(4056, 945);
-            this.ucTripMode2.TabIndex = 40;
-            this.ucTripMode2.VersionNumber = ((uint)(0u));
-            // 
-            // ucBlockControl1
-            // 
-            this.ucBlockControl1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucBlockControl1.Location = new System.Drawing.Point(56, 60);
-            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucBlockControl1.Name = "ucBlockControl1";
-            this.ucBlockControl1.RelayBlocked = false;
-            this.ucBlockControl1.Size = new System.Drawing.Size(163, 122);
-            this.ucBlockControl1.TabIndex = 116;
-            // 
-            // ucRemoteCommandBlock1
-            // 
-            this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ucRemoteCommandBlock1.CommandsBlocked = false;
-            this.ucRemoteCommandBlock1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(56, 190);
-            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
-            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(154, 122);
-            this.ucRemoteCommandBlock1.TabIndex = 117;
-            this.ucRemoteCommandBlock1.Load += new System.EventHandler(this.ucRemoteCommandBlock1_Load);
-            // 
-            // ucPhasorGraph1
-            // 
-            this.ucPhasorGraph1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
-            this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucPhasorGraph1.Name = "ucPhasorGraph1";
-            this.ucPhasorGraph1.RealTimeMonitoring = false;
-            this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
-            this.ucPhasorGraph1.Size = new System.Drawing.Size(1158, 660);
-            this.ucPhasorGraph1.TabIndex = 45;
-            // 
-            // ucLiveData1
-            // 
-            this.ucLiveData1.CTRatio = 320;
-            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucLiveData1.GEEnabled = false;
-            this.ucLiveData1.Location = new System.Drawing.Point(0, 25);
-            this.ucLiveData1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucLiveData1.Name = "ucLiveData1";
-            this.ucLiveData1.Size = new System.Drawing.Size(1156, 695);
-            this.ucLiveData1.TabIndex = 0;
-            // 
-            // ucEventGraph7
-            // 
-            this.ucEventGraph7.CTRatio = 320;
-            this.ucEventGraph7.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph7.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph7.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph7.EventNumber = ((uint)(0u));
-            this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph7.GEEnabled = false;
-            this.ucEventGraph7.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph7.Name = "ucEventGraph7";
-            this.ucEventGraph7.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph7.TabIndex = 8;
-            this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph6
-            // 
-            this.ucEventGraph6.CTRatio = 320;
-            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph6.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph6.EventNumber = ((uint)(0u));
-            this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph6.GEEnabled = false;
-            this.ucEventGraph6.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph6.Name = "ucEventGraph6";
-            this.ucEventGraph6.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph6.TabIndex = 7;
-            this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph5
-            // 
-            this.ucEventGraph5.CTRatio = 320;
-            this.ucEventGraph5.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph5.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph5.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph5.EventNumber = ((uint)(0u));
-            this.ucEventGraph5.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph5.GEEnabled = false;
-            this.ucEventGraph5.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph5.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph5.Name = "ucEventGraph5";
-            this.ucEventGraph5.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph5.TabIndex = 6;
-            this.ucEventGraph5.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph4
-            // 
-            this.ucEventGraph4.CTRatio = 320;
-            this.ucEventGraph4.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph4.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph4.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph4.EventNumber = ((uint)(0u));
-            this.ucEventGraph4.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph4.GEEnabled = false;
-            this.ucEventGraph4.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph4.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph4.Name = "ucEventGraph4";
-            this.ucEventGraph4.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph4.TabIndex = 5;
-            this.ucEventGraph4.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph3
-            // 
-            this.ucEventGraph3.CTRatio = 320;
-            this.ucEventGraph3.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph3.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph3.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph3.EventNumber = ((uint)(0u));
-            this.ucEventGraph3.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph3.GEEnabled = false;
-            this.ucEventGraph3.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph3.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph3.Name = "ucEventGraph3";
-            this.ucEventGraph3.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph3.TabIndex = 4;
-            this.ucEventGraph3.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph2
-            // 
-            this.ucEventGraph2.CTRatio = 320;
-            this.ucEventGraph2.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph2.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph2.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph2.EventNumber = ((uint)(0u));
-            this.ucEventGraph2.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph2.GEEnabled = false;
-            this.ucEventGraph2.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph2.Name = "ucEventGraph2";
-            this.ucEventGraph2.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph2.TabIndex = 3;
-            this.ucEventGraph2.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph1
-            // 
-            this.ucEventGraph1.CTRatio = 320;
-            this.ucEventGraph1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph1.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph1.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph1.EventNumber = ((uint)(0u));
-            this.ucEventGraph1.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph1.GEEnabled = false;
-            this.ucEventGraph1.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph1.Name = "ucEventGraph1";
-            this.ucEventGraph1.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph1.TabIndex = 2;
-            this.ucEventGraph1.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucEventGraph0
-            // 
-            this.ucEventGraph0.CTRatio = 320;
-            this.ucEventGraph0.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph0.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph0.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph0.EventNumber = ((uint)(0u));
-            this.ucEventGraph0.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph0.GEEnabled = false;
-            this.ucEventGraph0.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph0.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph0.Name = "ucEventGraph0";
-            this.ucEventGraph0.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph0.TabIndex = 0;
-            this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
-            // ucTransmitter1
-            // 
-            this.ucTransmitter1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucTransmitter1.CTRatio = ((uint)(320u));
-            this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
-            this.ucTransmitter1.DNPEnabled = false;
-            this.ucTransmitter1.ForceDNPEnable = false;
-            this.ucTransmitter1.FPGARevisionValid = true;
-            this.ucTransmitter1.GERelay = false;
-            this.ucTransmitter1.Location = new System.Drawing.Point(10, 7);
-            this.ucTransmitter1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucTransmitter1.Name = "ucTransmitter1";
-            this.ucTransmitter1.PacketLength = 30;
-            this.ucTransmitter1.SerialNumber = 0;
-            this.ucTransmitter1.Size = new System.Drawing.Size(1014, 706);
-            this.ucTransmitter1.TabIndex = 0;
-            this.ucTransmitter1.WaterBugNoTransmitter = false;
-            // 
-            // ucTransmitterMonitoring1
-            // 
-            this.ucTransmitterMonitoring1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucTransmitterMonitoring1.CTMult = "";
-            this.ucTransmitterMonitoring1.CTRatio = 320;
-            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
-            this.ucTransmitterMonitoring1.GEEnabled = false;
-            this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(4, 0);
-            this.ucTransmitterMonitoring1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
-            this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(1144, 664);
-            this.ucTransmitterMonitoring1.TabIndex = 86;
-            this.ucTransmitterMonitoring1.TimeElapsedHours = "";
-            this.ucTransmitterMonitoring1.TimeElapsedMinutes = "";
-            this.ucTransmitterMonitoring1.TimeElapsedSeconds = "";
-            this.ucTransmitterMonitoring1.TransmitterID = "";
-            this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
-            this.ucTransmitterMonitoring1.TransmitterSN = "";
-            this.ucTransmitterMonitoring1.WaterBugActive = false;
-            // 
-            // ucDNP1
-            // 
-            this.ucDNP1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucDNP1.DNPLabelStatus = false;
-            this.ucDNP1.Location = new System.Drawing.Point(10, 4);
-            this.ucDNP1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucDNP1.Name = "ucDNP1";
-            this.ucDNP1.Size = new System.Drawing.Size(1147, 644);
-            this.ucDNP1.TabIndex = 0;
-            // 
-            // ucArcFault1
-            // 
-            this.ucArcFault1.Location = new System.Drawing.Point(10, 7);
-            this.ucArcFault1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucArcFault1.Name = "ucArcFault1";
-            this.ucArcFault1.Size = new System.Drawing.Size(557, 495);
-            this.ucArcFault1.TabIndex = 3;
-            // 
-            // ucShortRange1
-            // 
-            this.ucShortRange1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucShortRange1.Location = new System.Drawing.Point(10, 0);
-            this.ucShortRange1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucShortRange1.Name = "ucShortRange1";
-            this.ucShortRange1.Size = new System.Drawing.Size(1152, 720);
-            this.ucShortRange1.TabIndex = 0;
-            // 
-            // ucDNPSAv51
-            // 
-            this.ucDNPSAv51.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNPSAv51.Location = new System.Drawing.Point(15, 7);
-            this.ucDNPSAv51.Margin = new System.Windows.Forms.Padding(4);
-            this.ucDNPSAv51.Name = "ucDNPSAv51";
-            this.ucDNPSAv51.SerialNumber = 0;
-            this.ucDNPSAv51.ShowDNPSAV5Error = true;
-            this.ucDNPSAv51.Size = new System.Drawing.Size(1141, 846);
-            this.ucDNPSAv51.TabIndex = 0;
-            // 
-            // ucCSVConverterCSVFile1
-            // 
-            this.ucCSVConverterCSVFile1.Location = new System.Drawing.Point(457, 267);
-            this.ucCSVConverterCSVFile1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucCSVConverterCSVFile1.Name = "ucCSVConverterCSVFile1";
-            this.ucCSVConverterCSVFile1.Size = new System.Drawing.Size(94, 84);
-            this.ucCSVConverterCSVFile1.TabIndex = 109;
-            // 
-            // ucTimeControl1
-            // 
-            this.ucTimeControl1.Location = new System.Drawing.Point(695, 6);
-            this.ucTimeControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucTimeControl1.Name = "ucTimeControl1";
-            this.ucTimeControl1.Size = new System.Drawing.Size(245, 101);
-            this.ucTimeControl1.TabIndex = 119;
-            // 
-            // ucGeneralCommandHandler1
-            // 
-            this.ucGeneralCommandHandler1.Location = new System.Drawing.Point(557, 197);
-            this.ucGeneralCommandHandler1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucGeneralCommandHandler1.Name = "ucGeneralCommandHandler1";
-            this.ucGeneralCommandHandler1.Size = new System.Drawing.Size(426, 221);
-            this.ucGeneralCommandHandler1.TabIndex = 117;
-            // 
-            // ucRelayProgramming1
-            // 
-            this.ucRelayProgramming1.ActiveRelay = false;
-            this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
-            this.ucRelayProgramming1.DNPRelay = true;
-            this.ucRelayProgramming1.ForceRelayUpdate = false;
-            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
-            this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.GERelay = false;
-            this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
-            this.ucRelayProgramming1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucRelayProgramming1.MasterBootRevisionNumberReceived = ((uint)(0u));
-            this.ucRelayProgramming1.MasterRevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.MasterRevisionString = "";
-            this.ucRelayProgramming1.Name = "ucRelayProgramming1";
-            this.ucRelayProgramming1.NotPollingPort = false;
-            this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
-            this.ucRelayProgramming1.ProgramBootCodeStart = false;
-            this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
-            this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
-            this.ucRelayProgramming1.ReprogrammingInProgress = false;
-            this.ucRelayProgramming1.SerialNumber = ((uint)(0u));
-            this.ucRelayProgramming1.Size = new System.Drawing.Size(458, 211);
-            this.ucRelayProgramming1.State = RelayControlLibrary.RelayProgrammingStates.Idle;
-            this.ucRelayProgramming1.TabIndex = 112;
-            this.ucRelayProgramming1.TransmitterEnabled = false;
-            // 
-            // uc8CheckBoxFlagsGEControl2
-            // 
-            this.uc8CheckBoxFlagsGEControl2.Location = new System.Drawing.Point(360, 431);
-            this.uc8CheckBoxFlagsGEControl2.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsGEControl2.Name = "uc8CheckBoxFlagsGEControl2";
-            this.uc8CheckBoxFlagsGEControl2.Names = null;
-            this.uc8CheckBoxFlagsGEControl2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsGEControl2.TabIndex = 111;
-            // 
-            // uc8CheckBoxFlagsGEControl1
-            // 
-            this.uc8CheckBoxFlagsGEControl1.Location = new System.Drawing.Point(360, 249);
-            this.uc8CheckBoxFlagsGEControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsGEControl1.Name = "uc8CheckBoxFlagsGEControl1";
-            this.uc8CheckBoxFlagsGEControl1.Names = null;
-            this.uc8CheckBoxFlagsGEControl1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsGEControl1.TabIndex = 110;
-            // 
-            // ucCalibration2
-            // 
-            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
-            this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
-            this.ucCalibration2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucCalibration2.Name = "ucCalibration2";
-            this.ucCalibration2.Size = new System.Drawing.Size(283, 225);
-            this.ucCalibration2.TabIndex = 108;
-            // 
-            // uc8CheckBoxFlagsCommFlags2
-            // 
-            this.uc8CheckBoxFlagsCommFlags2.Location = new System.Drawing.Point(254, 431);
-            this.uc8CheckBoxFlagsCommFlags2.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsCommFlags2.Name = "uc8CheckBoxFlagsCommFlags2";
-            this.uc8CheckBoxFlagsCommFlags2.Names = null;
-            this.uc8CheckBoxFlagsCommFlags2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsCommFlags2.TabIndex = 106;
-            // 
-            // uc8CheckBoxFlagsCommFlags1
-            // 
-            this.uc8CheckBoxFlagsCommFlags1.Location = new System.Drawing.Point(254, 249);
-            this.uc8CheckBoxFlagsCommFlags1.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsCommFlags1.Name = "uc8CheckBoxFlagsCommFlags1";
-            this.uc8CheckBoxFlagsCommFlags1.Names = null;
-            this.uc8CheckBoxFlagsCommFlags1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsCommFlags1.TabIndex = 105;
-            // 
-            // uc8CheckBoxFlagsRelayStatus2
-            // 
-            this.uc8CheckBoxFlagsRelayStatus2.Location = new System.Drawing.Point(143, 431);
-            this.uc8CheckBoxFlagsRelayStatus2.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsRelayStatus2.Name = "uc8CheckBoxFlagsRelayStatus2";
-            this.uc8CheckBoxFlagsRelayStatus2.Names = null;
-            this.uc8CheckBoxFlagsRelayStatus2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayStatus2.TabIndex = 104;
-            // 
-            // uc8CheckBoxFlagsRelayStatus1
-            // 
-            this.uc8CheckBoxFlagsRelayStatus1.Location = new System.Drawing.Point(143, 249);
-            this.uc8CheckBoxFlagsRelayStatus1.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsRelayStatus1.Name = "uc8CheckBoxFlagsRelayStatus1";
-            this.uc8CheckBoxFlagsRelayStatus1.Names = null;
-            this.uc8CheckBoxFlagsRelayStatus1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayStatus1.TabIndex = 103;
-            // 
-            // uc8CheckBoxFlagsRelayFlags2
-            // 
-            this.uc8CheckBoxFlagsRelayFlags2.Location = new System.Drawing.Point(17, 431);
-            this.uc8CheckBoxFlagsRelayFlags2.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsRelayFlags2.Name = "uc8CheckBoxFlagsRelayFlags2";
-            this.uc8CheckBoxFlagsRelayFlags2.Names = null;
-            this.uc8CheckBoxFlagsRelayFlags2.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayFlags2.TabIndex = 102;
-            // 
-            // uc8CheckBoxFlagsRelayFlags1
-            // 
-            this.uc8CheckBoxFlagsRelayFlags1.Location = new System.Drawing.Point(17, 249);
-            this.uc8CheckBoxFlagsRelayFlags1.Margin = new System.Windows.Forms.Padding(4);
-            this.uc8CheckBoxFlagsRelayFlags1.Name = "uc8CheckBoxFlagsRelayFlags1";
-            this.uc8CheckBoxFlagsRelayFlags1.Names = null;
-            this.uc8CheckBoxFlagsRelayFlags1.Size = new System.Drawing.Size(170, 182);
-            this.uc8CheckBoxFlagsRelayFlags1.TabIndex = 101;
-            // 
-            // ucCalibration1
-            // 
-            this.ucCalibration1.Location = new System.Drawing.Point(471, 104);
-            this.ucCalibration1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucCalibration1.Name = "ucCalibration1";
-            this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
-            this.ucCalibration1.TabIndex = 82;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
-            // commTradeConverter1
-            // 
-            this.commTradeConverter1.Location = new System.Drawing.Point(27, 180);
-            this.commTradeConverter1.Margin = new System.Windows.Forms.Padding(4);
-            this.commTradeConverter1.Name = "commTradeConverter1";
-            this.commTradeConverter1.Size = new System.Drawing.Size(406, 247);
-            this.commTradeConverter1.TabIndex = 4;
-            // 
-            // ucPhasorRequest1
-            // 
-            this.ucPhasorRequest1.Location = new System.Drawing.Point(8, 6);
-            this.ucPhasorRequest1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucPhasorRequest1.Name = "ucPhasorRequest1";
-            this.ucPhasorRequest1.Size = new System.Drawing.Size(279, 168);
-            this.ucPhasorRequest1.TabIndex = 0;
             // 
             // ucDNPSAv5OSName2
             // 
