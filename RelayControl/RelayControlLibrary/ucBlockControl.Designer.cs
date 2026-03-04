@@ -49,12 +49,13 @@
             // 
             this.groupBoxBlockOpen.Controls.Add(this.tsBlockOpen);
             this.groupBoxBlockOpen.Controls.Add(this.labelBlockedState);
+            this.groupBoxBlockOpen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxBlockOpen.Location = new System.Drawing.Point(3, 3);
             this.groupBoxBlockOpen.Name = "groupBoxBlockOpen";
             this.groupBoxBlockOpen.Size = new System.Drawing.Size(99, 65);
             this.groupBoxBlockOpen.TabIndex = 2;
             this.groupBoxBlockOpen.TabStop = false;
-            this.groupBoxBlockOpen.Text = "Block Open";
+            this.groupBoxBlockOpen.Text = "Block Open NWP";
             // 
             // tsBlockOpen
             // 

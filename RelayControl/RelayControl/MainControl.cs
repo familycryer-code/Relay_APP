@@ -709,8 +709,10 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-
-
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(980, 654);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(980, 686);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1122, 654);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(1122, 686);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -4217,14 +4219,14 @@ namespace RelayControl
                 }
                 if ((b & 32) == 32)
                 {
-                    this.setCheckedValue(true, this.checkBoxBFlag);
-                    this.labelNWPStatus.Text = "NWP: Open";
+                   // this.setCheckedValue(true, this.checkBoxBFlag);
+                   // this.labelNWPStatus.Text = "NWP: Open";
                     this.txtBox_NWPposition.Text = "Open";
                 }
                 else
                 {
-                    this.setCheckedValue(false, this.checkBoxBFlag);
-                    this.labelNWPStatus.Text = "NWP: Closed";
+                   // this.setCheckedValue(false, this.checkBoxBFlag);
+                    //this.labelNWPStatus.Text = "NWP: Closed";
                     this.txtBox_NWPposition.Text = "Closed";
                 }
                 if ((b & 16) == 16)
@@ -4286,14 +4288,14 @@ namespace RelayControl
                 if ((b & 8) == 8)
                 {
                     RelayStatus.BadOffset = true;
-                    this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Problem with Relay Flash detected and the Default Parameters are currently being used");
+                 //   this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Problem with Relay Flash detected and the Default Parameters are currently being used");
                 }
                 else
                 {
                     RelayStatus.BadOffset = false;
-                    this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Non Defaults Parameters being used");
+                   // this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Non Defaults Parameters being used");
                 }
-                this.setCheckedValue(RelayStatus.BadOffset, this.checkBoxDefaultsUsed);
+               // this.setCheckedValue(RelayStatus.BadOffset, this.checkBoxDefaultsUsed);
                 if ((b & 4) == 4)
                 {
                     RelayStatus.SafeServiceEnabled = true;
@@ -4319,15 +4321,15 @@ namespace RelayControl
                 {
                     RelayStatus.Pumping = true;
                     this.ucPumpMode1.PumpProtectEnabled = true;
-                    this.toolTip.SetToolTip(this.checkBoxPumping, "Relay in Pump Protect State");
+                  //  this.toolTip.SetToolTip(this.checkBoxPumping, "Relay in Pump Protect State");
                 }
                 else
                 {
                     RelayStatus.Pumping = false;
                     this.ucPumpMode1.PumpProtectEnabled = false;
-                    this.toolTip.SetToolTip(this.checkBoxPumping, "Relay not in Pump Protect State");
+                  //  this.toolTip.SetToolTip(this.checkBoxPumping, "Relay not in Pump Protect State");
                 }
-                this.setCheckedValue(RelayStatus.Pumping, this.checkBoxPumping);
+               // this.setCheckedValue(RelayStatus.Pumping, this.checkBoxPumping);
 
                 b = bytePacket[2];
 
@@ -4344,17 +4346,17 @@ namespace RelayControl
                 if ((b & 64) == 64)
                 {
                     RelayFlags.PhasingOkay = true;
-                    this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has determined phasing of protector and it is OK");
+                   // this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has determined phasing of protector and it is OK");
                     this.lbl_Relayststatus_XP.BackColor = Color.Transparent;
                 }
                 else
                 {
                     RelayFlags.PhasingOkay = false;
-                    this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has yet to determine phasing of the protector or it is crossed phased");
+                   // this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has yet to determine phasing of the protector or it is crossed phased");
                     this.lbl_Relayststatus_XP.BackColor = Color.Green;
                 }
 
-                this.setCheckedValue(RelayFlags.PhasingOkay, this.checkBoxPhasingOkayFlag);
+                //this.setCheckedValue(RelayFlags.PhasingOkay, this.checkBoxPhasingOkayFlag);
 
                 if ((b & 32) == 32)
                 {
@@ -4366,7 +4368,7 @@ namespace RelayControl
                     RelayFlags.BlockedOpen = false;
                     ucBlockControl1.RelayBlocked = false;
                 }
-                this.setCheckedValue(RelayFlags.BlockedOpen, this.checkBoxBlockedOpenFlag);
+              //  this.setCheckedValue(RelayFlags.BlockedOpen, this.checkBoxBlockedOpenFlag);
 
                 if ((b & 16) == 16)
                 {
@@ -4381,25 +4383,25 @@ namespace RelayControl
                 if ((b & 8) == 8)
                 {
                     RelayFlags.FloatCondition = true;
-                    this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay is currently in the Float state");
+                  //  this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay is currently in the Float state");
                 }
                 else
                 {
                     RelayFlags.FloatCondition = false;
-                    this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay not in the Float state");
+                   // this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay not in the Float state");
                 }
-                this.setCheckedValue(RelayFlags.FloatCondition, this.checkBoxFloatFlag);
+              //  this.setCheckedValue(RelayFlags.FloatCondition, this.checkBoxFloatFlag);
 
                 if ((b & 4) == 4)
                 {
                     RelayFlags.Tripping = true;
-                    this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is pulsing Trip Contacts");
+                  //  this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is pulsing Trip Contacts");
                 }
                 else
                 {
                     RelayFlags.Tripping = false;
                 }
-                this.setCheckedValue(RelayFlags.Tripping, this.checkBoxTrippingFlag);
+               // this.setCheckedValue(RelayFlags.Tripping, this.checkBoxTrippingFlag);
 
                 if ((b & 2) == 2)
                 {
@@ -4414,16 +4416,16 @@ namespace RelayControl
                 if ((b & 1) == 1)
                 {
                     RelayFlags.Open = true;
-                    this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is in Trip State");
-                    this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is done with initial pulsing of trip contact");
+                   // this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is in Trip State");
+                   // this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is done with initial pulsing of trip contact");
                 }
                 else
                 {
                     RelayFlags.Open = false;
-                    this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is not in Trip State");
-                    this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is not in Trip State");
+                  //  this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is not in Trip State");
+                  //  this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is not in Trip State");
                 }
-                this.setCheckedValue(RelayFlags.Open, this.checkBoxTripFlag);
+               // this.setCheckedValue(RelayFlags.Open, this.checkBoxTripFlag);
 
                 if (this.relayCodeRevisionNumber >= 20100625)
                 {
@@ -4475,8 +4477,8 @@ namespace RelayControl
                 {
                     setLabelText("Open", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
-                    setLabelText("Open", this.labelRelayStateControlPage);
-                    setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
+                  //  setLabelText("Open", this.labelRelayStateControlPage);
+                 //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Green;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4486,8 +4488,8 @@ namespace RelayControl
                 {
                     setLabelText("Float", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
-                    setLabelText("Float", this.labelRelayStateControlPage);
-                    setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
+                  //  setLabelText("Float", this.labelRelayStateControlPage);
+                  //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Green;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4497,8 +4499,8 @@ namespace RelayControl
                 {
                     setLabelText("Close", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
-                    setLabelText("Close", this.labelRelayStateControlPage);
-                    setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                 //   setLabelText("Close", this.labelRelayStateControlPage);
+                 //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
 /*
@@ -4627,14 +4629,14 @@ namespace RelayControl
                 temperature = (sbyte)bytePacket[1];
                 temperature <<= 8;
                 temperature += bytePacket[0];
-                this.textBoxTemperature.Text = temperature.ToString();
+              //  this.textBoxTemperature.Text = temperature.ToString();
                 this.textBoxTemperatureMonitoringPage.Text = temperature.ToString();
             }
         }
 
         private void clearTemperatureBoxes()
         {
-            this.textBoxTemperature.Text = "";
+            //this.textBoxTemperature.Text = "";
             this.textBoxTemperatureMonitoringPage.Text = "";
         }
 
@@ -5369,26 +5371,26 @@ namespace RelayControl
                     case 'T':
                         setLabelText("Open", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
-                        setLabelText("Open", this.labelRelayStateControlPage);
-                        setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
+                     //   setLabelText("Open", this.labelRelayStateControlPage);
+                     //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
                         break;
                     case 'C':
                         setLabelText("Close", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
-                        setLabelText("Close", this.labelRelayStateControlPage);
-                        setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                     //   setLabelText("Close", this.labelRelayStateControlPage);
+                     //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                         break;
                     case 'F':
                         setLabelText("Float", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
-                        setLabelText("Float", this.labelRelayStateControlPage);
-                        setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
+                      //  setLabelText("Float", this.labelRelayStateControlPage);
+                      //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
                         break;
                     default:
                         setLabelText("Error", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.SaddleBrown, this.labelRelayTrippedOrClose);
-                        setLabelText("Error", this.labelRelayStateControlPage);
-                        setBackgroundColor(Color.SaddleBrown, this.labelRelayStateControlPage);
+                      //  setLabelText("Error", this.labelRelayStateControlPage);
+                      //  setBackgroundColor(Color.SaddleBrown, this.labelRelayStateControlPage);
                         break;
                 }
             }
@@ -7140,8 +7142,8 @@ namespace RelayControl
             {
                 setLabelText("Unknown", this.labelRelayTrippedOrClose);
                 setBackgroundColor(Color.Transparent, this.labelRelayTrippedOrClose);
-                setLabelText("Unknown", this.labelRelayStateControlPage);
-                setBackgroundColor(Color.Transparent, this.labelRelayStateControlPage);
+              //  setLabelText("Unknown", this.labelRelayStateControlPage);
+              //  setBackgroundColor(Color.Transparent, this.labelRelayStateControlPage);
                 //this.clearTemperatureBoxes();
 
                 this.enableFlagsAndStatus(false);
@@ -7259,32 +7261,32 @@ namespace RelayControl
         private void enableFlagsAndStatus(bool b)
         {
             this.enableCheckBox(b, this.checkBoxACB);
-            this.enableCheckBox(b, this.checkBoxDefaultsUsed);
+          //  this.enableCheckBox(b, this.checkBoxDefaultsUsed);
             this.enableCheckBox(b, this.checkBoxBlockedCloseFlag);
-            this.enableCheckBox(b, this.checkBoxBlockedOpenFlag);
+           // this.enableCheckBox(b, this.checkBoxBlockedOpenFlag);
             this.enableCheckBox(b, this.checkBoxCalibrating);
-            this.enableCheckBox(b, this.checkBoxFloatFlag);
+          //  this.enableCheckBox(b, this.checkBoxFloatFlag);
             this.enableCheckBox(b, this.checkBoxMathError);
             this.enableCheckBox(b, this.checkBoxMathOverTime);
             this.enableCheckBox(b, this.checkBoxMonitorPhasors);
             this.enableCheckBox(b, this.checkBoxOffsetOkay);
-            this.enableCheckBox(b, this.checkBoxPhasingOkayFlag);
+           // this.enableCheckBox(b, this.checkBoxPhasingOkayFlag);
             this.enableCheckBox(b, this.checkBoxPowerSaveFlag);
-            this.enableCheckBox(b, this.checkBoxPumping);
+           // this.enableCheckBox(b, this.checkBoxPumping);
             this.enableCheckBox(b, this.checkBoxSequence);
             this.enableCheckBox(b, this.checkBoxFlag1);
             this.enableCheckBox(b, this.checkBoxFlag2);
-            this.enableCheckBox(b, this.checkBoxBFlag);
-            this.labelNWPStatus.Enabled = b;
+          //  this.enableCheckBox(b, this.checkBoxBFlag);
+           // this.labelNWPStatus.Enabled = b;
             if (!b)
             {
-                this.labelNWPStatus.Text = "NWP: Unknown";
+               // this.labelNWPStatus.Text = "NWP: Unknown";
                 this.txtBox_NWPposition.Text = "Unknown";
             }
             this.enableCheckBox(b, this.checkBoxInInsensRegion);
             this.enableCheckBox(b, this.checkBoxInTripRegion);
-            this.enableCheckBox(b, this.checkBoxTripFlag);
-            this.enableCheckBox(b, this.checkBoxTrippingFlag);
+           // this.enableCheckBox(b, this.checkBoxTripFlag);
+          //  this.enableCheckBox(b, this.checkBoxTrippingFlag);
 
             this.showLabel(!b, this.labelRelayDisconnected);
             this.showLabel(!b, this.labelRelayDisconnected2);
@@ -10865,6 +10867,11 @@ namespace RelayControl
         private void button_push_Click(object sender, EventArgs e)
         {
             WriteBackUpData_FileToRelay();
+        }
+
+        private void ucRemoteCommandBlock1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

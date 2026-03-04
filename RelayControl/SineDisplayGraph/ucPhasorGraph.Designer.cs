@@ -271,7 +271,7 @@ namespace SineDisplayGraph
             "Closed"});
             this.listBoxMode.Location = new System.Drawing.Point(406, 3);
             this.listBoxMode.Name = "listBoxMode";
-            this.listBoxMode.Size = new System.Drawing.Size(76, 35);
+            this.listBoxMode.Size = new System.Drawing.Size(76, 30);
             this.listBoxMode.TabIndex = 1;
             this.listBoxMode.SelectedIndexChanged += new System.EventHandler(this.listBoxMode_SelectedIndexChanged);
             // 
@@ -1346,36 +1346,36 @@ namespace SineDisplayGraph
             this.labelPAUnits.AutoSize = true;
             this.labelPAUnits.Location = new System.Drawing.Point(498, 487);
             this.labelPAUnits.Name = "labelPAUnits";
-            this.labelPAUnits.Size = new System.Drawing.Size(24, 13);
+            this.labelPAUnits.Size = new System.Drawing.Size(18, 13);
             this.labelPAUnits.TabIndex = 224;
-            this.labelPAUnits.Text = "kW";
+            this.labelPAUnits.Text = "W";
             // 
             // labelPBUnits
             // 
             this.labelPBUnits.AutoSize = true;
             this.labelPBUnits.Location = new System.Drawing.Point(498, 508);
             this.labelPBUnits.Name = "labelPBUnits";
-            this.labelPBUnits.Size = new System.Drawing.Size(24, 13);
+            this.labelPBUnits.Size = new System.Drawing.Size(18, 13);
             this.labelPBUnits.TabIndex = 225;
-            this.labelPBUnits.Text = "kW";
+            this.labelPBUnits.Text = "W";
             // 
             // labelPCUnits
             // 
             this.labelPCUnits.AutoSize = true;
             this.labelPCUnits.Location = new System.Drawing.Point(498, 529);
             this.labelPCUnits.Name = "labelPCUnits";
-            this.labelPCUnits.Size = new System.Drawing.Size(24, 13);
+            this.labelPCUnits.Size = new System.Drawing.Size(18, 13);
             this.labelPCUnits.TabIndex = 226;
-            this.labelPCUnits.Text = "kW";
+            this.labelPCUnits.Text = "W";
             // 
             // labelPTUnits
             // 
             this.labelPTUnits.AutoSize = true;
             this.labelPTUnits.Location = new System.Drawing.Point(498, 550);
             this.labelPTUnits.Name = "labelPTUnits";
-            this.labelPTUnits.Size = new System.Drawing.Size(24, 13);
+            this.labelPTUnits.Size = new System.Drawing.Size(18, 13);
             this.labelPTUnits.TabIndex = 227;
-            this.labelPTUnits.Text = "kW";
+            this.labelPTUnits.Text = "W";
             // 
             // textBoxVtARMS
             // 

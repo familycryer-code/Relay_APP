@@ -35,16 +35,18 @@ namespace RelayControlLibrary
             if (blocked)
             {
                 toolTip.SetToolTip(tsBlockOpen, "Enable automatic Reclose Function in Relay");
-                labelBlockedState.Text = "BLOCKED OPEN";
-                labelBlockedState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                labelBlockedState.Text = "NWP BLOCKED OPEN";
+                //labelBlockedState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                labelBlockedState.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 labelBlockedState.BackColor = Color.Yellow;
                 blockedO.blockedOpen = true;
             }
             else
             {
                 toolTip.SetToolTip(tsBlockOpen, "Inhibit automatic Reclose Function in Relay");
-                labelBlockedState.Text = "Unblocked";
-                labelBlockedState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                labelBlockedState.Text = "NWP Unblocked";
+                //labelBlockedState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                labelBlockedState.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 labelBlockedState.BackColor = System.Drawing.SystemColors.Control;
                 blockedO.blockedOpen = false;
             }
