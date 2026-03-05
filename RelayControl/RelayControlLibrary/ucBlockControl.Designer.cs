@@ -38,12 +38,13 @@
             // 
             this.labelBlockedState.BackColor = System.Drawing.SystemColors.ControlLight;
             this.labelBlockedState.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelBlockedState.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelBlockedState.Location = new System.Drawing.Point(6, 38);
             this.labelBlockedState.Name = "labelBlockedState";
-            this.labelBlockedState.Size = new System.Drawing.Size(89, 22);
+            this.labelBlockedState.Size = new System.Drawing.Size(186, 22);
             this.labelBlockedState.TabIndex = 1;
             this.labelBlockedState.Text = "Unknown";
-            this.labelBlockedState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBlockedState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBoxBlockOpen
             // 
@@ -52,7 +53,7 @@
             this.groupBoxBlockOpen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxBlockOpen.Location = new System.Drawing.Point(3, 3);
             this.groupBoxBlockOpen.Name = "groupBoxBlockOpen";
-            this.groupBoxBlockOpen.Size = new System.Drawing.Size(99, 65);
+            this.groupBoxBlockOpen.Size = new System.Drawing.Size(207, 65);
             this.groupBoxBlockOpen.TabIndex = 2;
             this.groupBoxBlockOpen.TabStop = false;
             this.groupBoxBlockOpen.Text = "Block Open NWP";
@@ -62,7 +63,7 @@
             this.tsBlockOpen.Location = new System.Drawing.Point(6, 12);
             this.tsBlockOpen.Name = "tsBlockOpen";
             this.tsBlockOpen.Padding = new System.Windows.Forms.Padding(6);
-            this.tsBlockOpen.Size = new System.Drawing.Size(87, 23);
+            this.tsBlockOpen.Size = new System.Drawing.Size(161, 23);
             this.tsBlockOpen.TabIndex = 0;
             this.tsBlockOpen.Text = "tsBlockOpen";
             this.tsBlockOpen.UseVisualStyleBackColor = true;
@@ -74,7 +75,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxBlockOpen);
             this.Name = "ucBlockControl";
-            this.Size = new System.Drawing.Size(104, 71);
+            this.Size = new System.Drawing.Size(213, 71);
             this.groupBoxBlockOpen.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -49,6 +49,7 @@
             this.printScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cTRatioCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetRelayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableAutoloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerSCITimeOut = new System.Windows.Forms.Timer(this.components);
@@ -208,7 +209,6 @@
             this.ucCoverFlags1 = new RelayControlLibrary.ucCoverFlags();
             this.ucTripMode2 = new RelayControlLibrary.ucTripMode();
             this.buttonClearCycleCount = new System.Windows.Forms.Button();
-            this.buttonResetBothProc = new System.Windows.Forms.Button();
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -483,10 +483,11 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cTRatioCalculatorToolStripMenuItem});
+            this.cTRatioCalculatorToolStripMenuItem,
+            this.resetRelayToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
+            this.toolsToolStripMenuItem.Text = "Alternate Actions";
             // 
             // cTRatioCalculatorToolStripMenuItem
             // 
@@ -494,6 +495,13 @@
             this.cTRatioCalculatorToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.cTRatioCalculatorToolStripMenuItem.Text = "CT Ratio Calculator";
             this.cTRatioCalculatorToolStripMenuItem.Click += new System.EventHandler(this.cTRatioCalculatorToolStripMenuItem_Click);
+            // 
+            // resetRelayToolStripMenuItem
+            // 
+            this.resetRelayToolStripMenuItem.Name = "resetRelayToolStripMenuItem";
+            this.resetRelayToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.resetRelayToolStripMenuItem.Text = "Reset Relay";
+            this.resetRelayToolStripMenuItem.Click += new System.EventHandler(this.resetRelayToolStripMenuItem_Click);
             // 
             // loadConfigurationToolStripMenuItem
             // 
@@ -2460,17 +2468,6 @@
             this.buttonClearCycleCount.UseVisualStyleBackColor = true;
             this.buttonClearCycleCount.Click += new System.EventHandler(this.buttonClearCycleCount_Click);
             // 
-            // buttonResetBothProc
-            // 
-            this.buttonResetBothProc.Location = new System.Drawing.Point(41, 410);
-            this.buttonResetBothProc.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonResetBothProc.Name = "buttonResetBothProc";
-            this.buttonResetBothProc.Size = new System.Drawing.Size(192, 35);
-            this.buttonResetBothProc.TabIndex = 71;
-            this.buttonResetBothProc.Text = "Reset Relay";
-            this.buttonResetBothProc.UseVisualStyleBackColor = true;
-            this.buttonResetBothProc.Click += new System.EventHandler(this.buttonResetBothProc_Click);
-            // 
             // buttonBlockAndTrip
             // 
             this.buttonBlockAndTrip.Location = new System.Drawing.Point(41, 356);
@@ -2528,7 +2525,6 @@
             this.grpBox_RelayCommands.Controls.Add(this.ucRemoteCommandBlock1);
             this.grpBox_RelayCommands.Controls.Add(this.buttonTripRelay);
             this.grpBox_RelayCommands.Controls.Add(this.buttonBlockAndTrip);
-            this.grpBox_RelayCommands.Controls.Add(this.buttonResetBothProc);
             this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
             this.grpBox_RelayCommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBox_RelayCommands.Location = new System.Drawing.Point(806, 30);
@@ -2575,7 +2571,7 @@
             this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
-            this.ucBlockControl1.Size = new System.Drawing.Size(163, 122);
+            this.ucBlockControl1.Size = new System.Drawing.Size(177, 122);
             this.ucBlockControl1.TabIndex = 116;
             // 
             // ucRemoteCommandBlock1
@@ -2983,7 +2979,6 @@
             this.buttonResetRelay2.Text = "Reset Relay";
             this.buttonResetRelay2.UseVisualStyleBackColor = true;
             this.buttonResetRelay2.Visible = false;
-            this.buttonResetRelay2.Click += new System.EventHandler(this.buttonResetBothProc_Click);
             // 
             // ucDNP1
             // 
@@ -3348,7 +3343,6 @@
         private System.Windows.Forms.Label labelCtRatioMonitor;
         public SineDisplayGraph.ucPhasorGraph ucPhasorGraph1;
         private System.Windows.Forms.TabPage tabPageControl;
-        private System.Windows.Forms.Button buttonResetBothProc;
         private System.Windows.Forms.Button buttonSendAll;
         private System.Windows.Forms.Label labelRelayDisconnected;
         private System.Windows.Forms.Button buttonClearCycleCount;
@@ -3526,5 +3520,6 @@
         private System.Windows.Forms.Button buttonSaveSetting;
         private System.Windows.Forms.ComboBox comboBoxSavedStates;
         private System.Windows.Forms.Button buttonDeleteSetting;
+        private System.Windows.Forms.ToolStripMenuItem resetRelayToolStripMenuItem;
     }
 }

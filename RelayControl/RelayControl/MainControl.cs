@@ -730,7 +730,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.18 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.19 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.19" + " DOMINION ";
@@ -1079,7 +1079,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
             this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
-            this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
+           // this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonRSTRelay, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
             this.toolTip.SetToolTip(this.buttonSendAll, "Upload all visible settings to the relay");
@@ -7066,7 +7066,7 @@ namespace RelayControl
                 this.sendPacket(bytePacket);
             }
         }
-
+        /*
         private void buttonResetBothProc_Click(object sender, EventArgs e)
         {
             DialogResult dr = this.messageHandler("Reset Relay", "Do you really want to reset the relay?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -7076,7 +7076,7 @@ namespace RelayControl
                 this.resetBothProcs();
             }
         }
-
+        */
         private void resetBothProcs()
         {
             byte[] packet = new byte[3];
@@ -10872,6 +10872,16 @@ namespace RelayControl
         private void ucRemoteCommandBlock1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void resetRelayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = this.messageHandler("Reset Relay", "Do you really want to reset the relay?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+
+            if (dr == DialogResult.Yes)
+            {
+                this.resetBothProcs();
+            }
         }
     }
 
