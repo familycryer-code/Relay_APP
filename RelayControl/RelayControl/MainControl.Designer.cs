@@ -1313,7 +1313,7 @@
             this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitter.Size = new System.Drawing.Size(1332, 886);
             this.tabPageTransmitter.TabIndex = 2;
-            this.tabPageTransmitter.Text = "Transmitter Settings";
+            this.tabPageTransmitter.Text = "Transmission Settings";
             // 
             // labelRelayDisconnected3
             // 
@@ -1343,7 +1343,7 @@
             this.ucTransmitter1.Name = "ucTransmitter1";
             this.ucTransmitter1.PacketLength = 30;
             this.ucTransmitter1.SerialNumber = 0;
-            this.ucTransmitter1.Size = new System.Drawing.Size(1014, 706);
+            this.ucTransmitter1.Size = new System.Drawing.Size(1178, 808);
             this.ucTransmitter1.TabIndex = 0;
             this.ucTransmitter1.WaterBugNoTransmitter = false;
             // 
@@ -1658,7 +1658,7 @@
             0,
             0});
             this.numericUpDown_PC_voltage.Name = "numericUpDown_PC_voltage";
-            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(7, 22);
+            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown_PC_voltage.TabIndex = 9;
             this.numericUpDown_PC_voltage.Value = new decimal(new int[] {
             5,
@@ -1680,7 +1680,7 @@
             0,
             0});
             this.numericUpDown_PC_activeTime.Name = "numericUpDown_PC_activeTime";
-            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(7, 22);
+            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown_PC_activeTime.TabIndex = 8;
             this.numericUpDown_PC_activeTime.Value = new decimal(new int[] {
             15,
@@ -1747,7 +1747,7 @@
             0,
             0});
             this.numericUpDown_PC_floatTime.Name = "numericUpDown_PC_floatTime";
-            this.numericUpDown_PC_floatTime.Size = new System.Drawing.Size(7, 22);
+            this.numericUpDown_PC_floatTime.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown_PC_floatTime.TabIndex = 2;
             this.numericUpDown_PC_floatTime.Value = new decimal(new int[] {
             38,

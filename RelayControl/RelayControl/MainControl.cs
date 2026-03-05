@@ -717,7 +717,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.20" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.21" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -978,6 +978,12 @@ namespace RelayControl
 
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
                 foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
+                this.ucTransmitter1.grpBox_TXcommands.Font = new Font(this.ucTransmitter1.grpBox_TXcommands.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitter1.grpBox_TXcommands.Controls)
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
@@ -4118,7 +4124,7 @@ namespace RelayControl
                     this.ucTransmitter1.DNPEnabled = false;
                     sendProperDNPValue = true;
                 }
-
+                
                 this.ucRelayProgramming1.DNPRelay = false;
                 this.removeDNPTabs();
             }

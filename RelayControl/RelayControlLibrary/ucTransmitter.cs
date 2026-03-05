@@ -20,12 +20,12 @@ namespace RelayControlLibrary
             InitializeComponent();
             this.textBoxTXCTRatio.Text = "120";
 
-            this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
-            this.textBoxTransmitterOutputPower.Enabled = false;
+          //  this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();//"abcd";
+          //  this.textBoxTransmitterOutputPower.Enabled = false;
             this.DNPCoverFlags = ((byte)(0));
 #if DEBUG
             this.textBoxSerialNumber.Enabled = true;
-            this.textBoxTransmitterOutputPower.Enabled = true;
+           // this.textBoxTransmitterOutputPower.Enabled = true;
             this.numericUpDownCurrentThresholdLow.Visible = true;
             this.labelCurrentThresholdLow.Visible = true;
             this.labelOperatingMode.Visible = true;
@@ -83,12 +83,16 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.button_FastFire.Location = new System.Drawing.Point(440,240);
-            this.button_FastMode.Location = new System.Drawing.Point(440, 280);
+            this.button_FastFire.Location = new System.Drawing.Point(780,390);
+            this.button_FastMode.Location = new System.Drawing.Point(780, 470);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(270, 311);
-            
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(780, 580); //(270, 311);
+
+            this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
+            this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(760,10);
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 610);
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private Customers customer;
@@ -224,9 +228,9 @@ namespace RelayControlLibrary
             try
             {
                 UInt16 uTemp;
-                this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
+                //this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
+                
                 //Set ID number
-
                 uTemp = bA[1];
                 uTemp <<= 8;
                 uTemp += bA[0];
@@ -488,14 +492,14 @@ namespace RelayControlLibrary
                 this.panelAlarmSettings.Hide();
                 this.labelAlarmSettings.Hide();
 
-                this.buttonTX.Location = new Point(260, 6);
-                this.buttonRQ.Location = new Point(260, 93);
-                this.buttonForceConfigMessage.Location = new Point(260, 180); //13, 250
-                this.buttonRestoreDefaults.Location = new Point(260, 250);
+                this.buttonTX.Location = new Point(780, 40);// (260, 6);
+                this.buttonRQ.Location = new Point(780, 130); //(260, 93);
+                this.buttonForceConfigMessage.Location = new Point(780, 220); //(260, 180); 
+                this.buttonRestoreDefaults.Location = new Point(780, 310); //(260, 250);
 
-                this.buttonRQ.Size = new Size(110, 74);
-                this.buttonForceConfigMessage.Size = new Size(110, 44);
-                this.buttonRestoreDefaults.Size = new Size(110, 44);
+                this.buttonRQ.Size = new Size(160, 60);
+                this.buttonForceConfigMessage.Size = new Size(160, 60);
+                this.buttonRestoreDefaults.Size = new Size(160, 60);
                 // this.panelFlagSettings.Size = new Size(242, 217);
 #endif
                 this.panelFreqPanel.Show();
@@ -717,7 +721,7 @@ namespace RelayControlLibrary
 
         public void setMonitoringData(byte[] bytePacket)
         {
-            this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
+           // this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
             SetMonitoringData(bytePacket);
         }
 
@@ -1041,7 +1045,13 @@ namespace RelayControlLibrary
 
                 errorMessage = "Bad Serial Number";
                 //this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
-                this.tempID = this.TXSettings.SerialNumber;
+#if CONED
+                //this.tempID = this.TXSettings.SerialNumber;
+                this.tempID = Convert.ToUInt16(this.SerialNumber);
+#else
+                this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
+#endif
+
                 this.TXSettings.SerialNumber = this.tempID;
 
                 this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
@@ -2148,6 +2158,13 @@ namespace RelayControlLibrary
             this.radioButton10S.Checked = true;
             SendTransmitterSettings();
             this.buttonForceConfigMessage_Click(this, new EventArgs());
+        }
+
+        private void btn_CTratioCal_Click(object sender, EventArgs e)
+        {
+          //  CTRatioCaculator CTCalculator = new CTRatioCaculator();
+
+          //  CTCalculator.ShowDialog(this);
         }
     }
 }
