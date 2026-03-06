@@ -93,6 +93,73 @@ namespace RelayControlLibrary
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
             this.grpBox_TXcommands.Location = new System.Drawing.Point(760,10);
             this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 610);
+
+            this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
+            this.panelFlagSettings.Location = new System.Drawing.Point(470, 18);
+
+            this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
+            this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPHClose.Location = new System.Drawing.Point(85, 2);
+            this.label12.Location = new System.Drawing.Point(19, 553);
+
+            this.panelFlagSettingG.Location = new System.Drawing.Point(42, 480);
+            this.panelFlagSettingG.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPGClose.Location = new System.Drawing.Point(85, 2);
+            this.label11.Location = new System.Drawing.Point(19, 483);
+
+            this.panelFlagSettingF.Location = new System.Drawing.Point(42, 410);
+            this.panelFlagSettingF.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPFClose.Location = new System.Drawing.Point(85, 2);
+            this.label10.Location = new System.Drawing.Point(19, 413);
+
+            this.panelFlagSettingE.Location = new System.Drawing.Point(42, 340);
+            this.panelFlagSettingE.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPEClose.Location = new System.Drawing.Point(85, 2);
+            this.label9.Location = new System.Drawing.Point(19, 343);
+
+            this.panelFlagSettingD.Location = new System.Drawing.Point(42, 270);
+            this.panelFlagSettingD.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPDClose.Location = new System.Drawing.Point(85, 2);
+            this.label8.Location = new System.Drawing.Point(19, 273);
+
+            this.panelFlagSettingC.Location = new System.Drawing.Point(42, 200);
+            this.panelFlagSettingC.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPCClose.Location = new System.Drawing.Point(85, 2);
+            this.label6.Location = new System.Drawing.Point(19, 203);
+
+            this.panelFlagSettingB.Location = new System.Drawing.Point(42, 130);
+            this.panelFlagSettingB.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPBClose.Location = new System.Drawing.Point(85, 2);
+            this.label5.Location = new System.Drawing.Point(19, 133);
+
+            this.panelFlagSettingA.Location = new System.Drawing.Point(42, 60);
+            this.panelFlagSettingA.Size = new System.Drawing.Size(178, 30);
+            this.radioButtonFPAClose.Location = new System.Drawing.Point(85, 2);
+            this.labelFlagSettingA.Location = new System.Drawing.Point(19, 63);
+
+            this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600);
+
+            this.panelFreqPanel.Location = new System.Drawing.Point(170, 461);
+            this.panelFreqPanel.Size = new System.Drawing.Size(200, 210);
+            this.label2.Location = new System.Drawing.Point(15, 505);
+            this.checkBoxRed.Size = new System.Drawing.Size(160, 30);
+            this.checkBoxBlue.Size = new System.Drawing.Size(160, 30);
+            this.checkBoxGreen.Size = new System.Drawing.Size(160, 30);
+            this.checkBoxYellow.Size = new System.Drawing.Size(160, 30);
+            this.checkBoxYellow.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxGreen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxBlue.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+            this.labelTXCTRatio.Location = new System.Drawing.Point(49, 330);
+            this.textBoxTXCTRatio.Location = new System.Drawing.Point(170, 330);
+            this.btn_CTratioCal.Location = new System.Drawing.Point(245, 320);
+
+            this.labelTXSN.Location = new System.Drawing.Point(49, 200);
+            this.textBoxSerialNumber.Location = new System.Drawing.Point(170, 200);
+            this.label1.Location = new System.Drawing.Point(33, 80);
+            this.textBoxID.Location = new System.Drawing.Point(170, 78);
+
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private Customers customer;
@@ -2165,6 +2232,11 @@ namespace RelayControlLibrary
           //  CTRatioCaculator CTCalculator = new CTRatioCaculator();
 
           //  CTCalculator.ShowDialog(this);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

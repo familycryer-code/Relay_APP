@@ -1305,8 +1305,8 @@
             // tabPageTransmitter
             // 
             this.tabPageTransmitter.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageTransmitter.Controls.Add(this.labelRelayDisconnected3);
             this.tabPageTransmitter.Controls.Add(this.ucTransmitter1);
+            this.tabPageTransmitter.Controls.Add(this.labelRelayDisconnected3);
             this.tabPageTransmitter.Location = new System.Drawing.Point(4, 24);
             this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitter.Name = "tabPageTransmitter";

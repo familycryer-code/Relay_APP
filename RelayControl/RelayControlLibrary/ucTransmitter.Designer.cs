@@ -181,7 +181,6 @@
             this.panelFlagSettingG = new System.Windows.Forms.Panel();
             this.radioButtonFPGClose = new System.Windows.Forms.RadioButton();
             this.radioButtonFPGOpen = new System.Windows.Forms.RadioButton();
-            this.label21 = new System.Windows.Forms.Label();
             this.panelFlagSettingF = new System.Windows.Forms.Panel();
             this.radioButtonFPFClose = new System.Windows.Forms.RadioButton();
             this.radioButtonFPFOpen = new System.Windows.Forms.RadioButton();
@@ -210,13 +209,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.labelFlagSettingA = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.button_FastFire = new System.Windows.Forms.Button();
             this.button_FastMode = new System.Windows.Forms.Button();
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -288,21 +288,23 @@
             this.textBoxID.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxID.Location = new System.Drawing.Point(170, 15);
             this.textBoxID.Name = "textBoxID";
-            this.textBoxID.Size = new System.Drawing.Size(132, 27);
+            this.textBoxID.Size = new System.Drawing.Size(90, 27);
             this.textBoxID.TabIndex = 3;
+            this.textBoxID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxID.Leave += new System.EventHandler(this.textBoxID_Leave);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(20, 87);
+            this.label2.Location = new System.Drawing.Point(12, 210);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(142, 19);
             this.label2.TabIndex = 4;
             this.label2.Text = "Color (Frequency):";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // panelFreqPanel
             // 
@@ -310,7 +312,7 @@
             this.panelFreqPanel.Controls.Add(this.checkBoxGreen);
             this.panelFreqPanel.Controls.Add(this.checkBoxBlue);
             this.panelFreqPanel.Controls.Add(this.checkBoxRed);
-            this.panelFreqPanel.Location = new System.Drawing.Point(170, 58);
+            this.panelFreqPanel.Location = new System.Drawing.Point(168, 161);
             this.panelFreqPanel.Name = "panelFreqPanel";
             this.panelFreqPanel.Size = new System.Drawing.Size(134, 110);
             this.panelFreqPanel.TabIndex = 5;
@@ -371,7 +373,7 @@
             // 
             this.labelTXCTRatio.AutoSize = true;
             this.labelTXCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTXCTRatio.Location = new System.Drawing.Point(57, 185);
+            this.labelTXCTRatio.Location = new System.Drawing.Point(49, 119);
             this.labelTXCTRatio.Name = "labelTXCTRatio";
             this.labelTXCTRatio.Size = new System.Drawing.Size(105, 19);
             this.labelTXCTRatio.TabIndex = 13;
@@ -380,7 +382,7 @@
             // textBoxTXCTRatio
             // 
             this.textBoxTXCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTXCTRatio.Location = new System.Drawing.Point(170, 185);
+            this.textBoxTXCTRatio.Location = new System.Drawing.Point(170, 114);
             this.textBoxTXCTRatio.Name = "textBoxTXCTRatio";
             this.textBoxTXCTRatio.Size = new System.Drawing.Size(54, 27);
             this.textBoxTXCTRatio.TabIndex = 12;
@@ -410,7 +412,7 @@
             // textBoxSerialNumber
             // 
             this.textBoxSerialNumber.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSerialNumber.Location = new System.Drawing.Point(170, 235);
+            this.textBoxSerialNumber.Location = new System.Drawing.Point(170, 64);
             this.textBoxSerialNumber.Name = "textBoxSerialNumber";
             this.textBoxSerialNumber.Size = new System.Drawing.Size(90, 27);
             this.textBoxSerialNumber.TabIndex = 16;
@@ -420,7 +422,7 @@
             // 
             this.labelTXSN.AutoSize = true;
             this.labelTXSN.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTXSN.Location = new System.Drawing.Point(46, 238);
+            this.labelTXSN.Location = new System.Drawing.Point(46, 64);
             this.labelTXSN.Name = "labelTXSN";
             this.labelTXSN.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelTXSN.Size = new System.Drawing.Size(116, 19);
@@ -857,9 +859,9 @@
             this.panelGeneralSettings.Controls.Add(this.label1);
             this.panelGeneralSettings.Controls.Add(this.textBoxID);
             this.panelGeneralSettings.Controls.Add(this.label2);
-            this.panelGeneralSettings.Controls.Add(this.panelFreqPanel);
             this.panelGeneralSettings.Controls.Add(this.textBoxTXCTRatio);
             this.panelGeneralSettings.Controls.Add(this.labelTXCTRatio);
+            this.panelGeneralSettings.Controls.Add(this.panelFreqPanel);
             this.panelGeneralSettings.Location = new System.Drawing.Point(52, 18);
             this.panelGeneralSettings.Name = "panelGeneralSettings";
             this.panelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -869,12 +871,11 @@
             // btn_CTratioCal
             // 
             this.btn_CTratioCal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_CTratioCal.Location = new System.Drawing.Point(257, 174);
+            this.btn_CTratioCal.Location = new System.Drawing.Point(261, 101);
             this.btn_CTratioCal.Name = "btn_CTratioCal";
             this.btn_CTratioCal.Size = new System.Drawing.Size(92, 52);
             this.btn_CTratioCal.TabIndex = 14;
             this.btn_CTratioCal.Text = "CT Ratio Calculator";
-            this.btn_CTratioCal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_CTratioCal.UseVisualStyleBackColor = true;
             this.btn_CTratioCal.Click += new System.EventHandler(this.btn_CTratioCal_Click);
             // 
@@ -2009,10 +2010,10 @@
             this.radioButtonFPHClose.AutoSize = true;
             this.radioButtonFPHClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPHClose.Name = "radioButtonFPHClose";
-            this.radioButtonFPHClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPHClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPHClose.TabIndex = 54;
             this.radioButtonFPHClose.TabStop = true;
-            this.radioButtonFPHClose.Text = "Close";
+            this.radioButtonFPHClose.Text = "Normal";
             this.radioButtonFPHClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPHOpen
@@ -2020,10 +2021,10 @@
             this.radioButtonFPHOpen.AutoSize = true;
             this.radioButtonFPHOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPHOpen.Name = "radioButtonFPHOpen";
-            this.radioButtonFPHOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPHOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPHOpen.TabIndex = 53;
             this.radioButtonFPHOpen.TabStop = true;
-            this.radioButtonFPHOpen.Text = "Open";
+            this.radioButtonFPHOpen.Text = "Inverted";
             this.radioButtonFPHOpen.UseVisualStyleBackColor = true;
             // 
             // panelFlagSettingG
@@ -2040,10 +2041,10 @@
             this.radioButtonFPGClose.AutoSize = true;
             this.radioButtonFPGClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPGClose.Name = "radioButtonFPGClose";
-            this.radioButtonFPGClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPGClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPGClose.TabIndex = 54;
             this.radioButtonFPGClose.TabStop = true;
-            this.radioButtonFPGClose.Text = "Close";
+            this.radioButtonFPGClose.Text = "Normal";
             this.radioButtonFPGClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPGOpen
@@ -2051,23 +2052,11 @@
             this.radioButtonFPGOpen.AutoSize = true;
             this.radioButtonFPGOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPGOpen.Name = "radioButtonFPGOpen";
-            this.radioButtonFPGOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPGOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPGOpen.TabIndex = 53;
             this.radioButtonFPGOpen.TabStop = true;
-            this.radioButtonFPGOpen.Text = "Open";
+            this.radioButtonFPGOpen.Text = "Inverted";
             this.radioButtonFPGOpen.UseVisualStyleBackColor = true;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(474, 9);
-            this.label21.Name = "label21";
-            this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label21.Size = new System.Drawing.Size(121, 19);
-            this.label21.TabIndex = 85;
-            this.label21.Text = "Flag Settings:";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panelFlagSettingF
             // 
@@ -2083,10 +2072,10 @@
             this.radioButtonFPFClose.AutoSize = true;
             this.radioButtonFPFClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPFClose.Name = "radioButtonFPFClose";
-            this.radioButtonFPFClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPFClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPFClose.TabIndex = 54;
             this.radioButtonFPFClose.TabStop = true;
-            this.radioButtonFPFClose.Text = "Close";
+            this.radioButtonFPFClose.Text = "Normal";
             this.radioButtonFPFClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPFOpen
@@ -2094,10 +2083,10 @@
             this.radioButtonFPFOpen.AutoSize = true;
             this.radioButtonFPFOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPFOpen.Name = "radioButtonFPFOpen";
-            this.radioButtonFPFOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPFOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPFOpen.TabIndex = 53;
             this.radioButtonFPFOpen.TabStop = true;
-            this.radioButtonFPFOpen.Text = "Open";
+            this.radioButtonFPFOpen.Text = "Inverted";
             this.radioButtonFPFOpen.UseVisualStyleBackColor = true;
             // 
             // panelFlagSettingE
@@ -2114,10 +2103,10 @@
             this.radioButtonFPEClose.AutoSize = true;
             this.radioButtonFPEClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPEClose.Name = "radioButtonFPEClose";
-            this.radioButtonFPEClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPEClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPEClose.TabIndex = 54;
             this.radioButtonFPEClose.TabStop = true;
-            this.radioButtonFPEClose.Text = "Close";
+            this.radioButtonFPEClose.Text = "Normal";
             this.radioButtonFPEClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPEOpen
@@ -2125,10 +2114,10 @@
             this.radioButtonFPEOpen.AutoSize = true;
             this.radioButtonFPEOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPEOpen.Name = "radioButtonFPEOpen";
-            this.radioButtonFPEOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPEOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPEOpen.TabIndex = 53;
             this.radioButtonFPEOpen.TabStop = true;
-            this.radioButtonFPEOpen.Text = "Open";
+            this.radioButtonFPEOpen.Text = "Inverted";
             this.radioButtonFPEOpen.UseVisualStyleBackColor = true;
             // 
             // panelFlagSettingD
@@ -2145,10 +2134,10 @@
             this.radioButtonFPDClose.AutoSize = true;
             this.radioButtonFPDClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPDClose.Name = "radioButtonFPDClose";
-            this.radioButtonFPDClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPDClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPDClose.TabIndex = 54;
             this.radioButtonFPDClose.TabStop = true;
-            this.radioButtonFPDClose.Text = "Close";
+            this.radioButtonFPDClose.Text = "Normal";
             this.radioButtonFPDClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPDOpen
@@ -2156,10 +2145,10 @@
             this.radioButtonFPDOpen.AutoSize = true;
             this.radioButtonFPDOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPDOpen.Name = "radioButtonFPDOpen";
-            this.radioButtonFPDOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPDOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPDOpen.TabIndex = 53;
             this.radioButtonFPDOpen.TabStop = true;
-            this.radioButtonFPDOpen.Text = "Open";
+            this.radioButtonFPDOpen.Text = "Inverted";
             this.radioButtonFPDOpen.UseVisualStyleBackColor = true;
             // 
             // panelFlagSettingC
@@ -2176,10 +2165,10 @@
             this.radioButtonFPCClose.AutoSize = true;
             this.radioButtonFPCClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPCClose.Name = "radioButtonFPCClose";
-            this.radioButtonFPCClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPCClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPCClose.TabIndex = 54;
             this.radioButtonFPCClose.TabStop = true;
-            this.radioButtonFPCClose.Text = "Close";
+            this.radioButtonFPCClose.Text = "Normal";
             this.radioButtonFPCClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPCOpen
@@ -2187,10 +2176,10 @@
             this.radioButtonFPCOpen.AutoSize = true;
             this.radioButtonFPCOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPCOpen.Name = "radioButtonFPCOpen";
-            this.radioButtonFPCOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPCOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPCOpen.TabIndex = 53;
             this.radioButtonFPCOpen.TabStop = true;
-            this.radioButtonFPCOpen.Text = "Open";
+            this.radioButtonFPCOpen.Text = "Inverted";
             this.radioButtonFPCOpen.UseVisualStyleBackColor = true;
             // 
             // panelFlagSettingB
@@ -2207,10 +2196,10 @@
             this.radioButtonFPBClose.AutoSize = true;
             this.radioButtonFPBClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPBClose.Name = "radioButtonFPBClose";
-            this.radioButtonFPBClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPBClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPBClose.TabIndex = 54;
             this.radioButtonFPBClose.TabStop = true;
-            this.radioButtonFPBClose.Text = "Close";
+            this.radioButtonFPBClose.Text = "Normal";
             this.radioButtonFPBClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPBOpen
@@ -2218,10 +2207,10 @@
             this.radioButtonFPBOpen.AutoSize = true;
             this.radioButtonFPBOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPBOpen.Name = "radioButtonFPBOpen";
-            this.radioButtonFPBOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPBOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPBOpen.TabIndex = 53;
             this.radioButtonFPBOpen.TabStop = true;
-            this.radioButtonFPBOpen.Text = "Open";
+            this.radioButtonFPBOpen.Text = "Inverted";
             this.radioButtonFPBOpen.UseVisualStyleBackColor = true;
             // 
             // panelFlagSettingA
@@ -2238,10 +2227,10 @@
             this.radioButtonFPAClose.AutoSize = true;
             this.radioButtonFPAClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPAClose.Name = "radioButtonFPAClose";
-            this.radioButtonFPAClose.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPAClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPAClose.TabIndex = 54;
             this.radioButtonFPAClose.TabStop = true;
-            this.radioButtonFPAClose.Text = "Close";
+            this.radioButtonFPAClose.Text = "Normal";
             this.radioButtonFPAClose.UseVisualStyleBackColor = true;
             // 
             // radioButtonFPAOpen
@@ -2249,10 +2238,10 @@
             this.radioButtonFPAOpen.AutoSize = true;
             this.radioButtonFPAOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPAOpen.Name = "radioButtonFPAOpen";
-            this.radioButtonFPAOpen.Size = new System.Drawing.Size(65, 23);
+            this.radioButtonFPAOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPAOpen.TabIndex = 53;
             this.radioButtonFPAOpen.TabStop = true;
-            this.radioButtonFPAOpen.Text = "Open";
+            this.radioButtonFPAOpen.Text = "Inverted";
             this.radioButtonFPAOpen.UseVisualStyleBackColor = true;
             // 
             // labelFlagSettingsFlagPostPosition
@@ -2365,6 +2354,18 @@
             this.labelFlagSettingA.Text = "A:";
             this.labelFlagSettingA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(474, 9);
+            this.label21.Name = "label21";
+            this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label21.Size = new System.Drawing.Size(121, 19);
+            this.label21.TabIndex = 85;
+            this.label21.Text = "Flag Settings:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // button_FastFire
             // 
             this.button_FastFire.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2409,6 +2410,16 @@
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
+            // grpBox_TXcommands
+            // 
+            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
+            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
+            this.grpBox_TXcommands.TabIndex = 88;
+            this.grpBox_TXcommands.TabStop = false;
+            this.grpBox_TXcommands.Text = "Transmission Commands";
+            // 
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
@@ -2419,16 +2430,6 @@
             this.ucDNP2.Name = "ucDNP2";
             this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
             this.ucDNP2.TabIndex = 0;
-            // 
-            // grpBox_TXcommands
-            // 
-            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
-            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
-            this.grpBox_TXcommands.TabIndex = 88;
-            this.grpBox_TXcommands.TabStop = false;
-            this.grpBox_TXcommands.Text = "Transmission Commands";
             // 
             // ucTransmitterMonitoring2
             // 
