@@ -326,7 +326,8 @@ namespace RelayControl
             var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
 
             // Background of the selected tab title 
-            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(135, 206, 250) : SystemColors.Control))
+            //using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(135, 206, 250) : SystemColors.Control)) // selected tab title has a blue background
+            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(255, 215, 0) : SystemColors.Control)) // selected tab title has a gold background
             {
                 e.Graphics.FillRectangle(backBrush, e.Bounds);
             }
