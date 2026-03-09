@@ -2230,17 +2230,16 @@ namespace SineDisplayGraph
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(64, 20);
             this.textBoxCTRatio.TabIndex = 308;
-            this.textBoxCTRatio.Visible = false;
             this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_ValueChanged);
             // 
             // labelCTRatio
             // 
             this.labelCTRatio.AutoSize = true;
-            this.labelCTRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCTRatio.ForeColor = System.Drawing.Color.Blue;
             this.labelCTRatio.Location = new System.Drawing.Point(842, 211);
             this.labelCTRatio.Name = "labelCTRatio";
-            this.labelCTRatio.Size = new System.Drawing.Size(84, 20);
+            this.labelCTRatio.Size = new System.Drawing.Size(86, 19);
             this.labelCTRatio.TabIndex = 309;
             this.labelCTRatio.Text = "CT Ratio:";
             this.labelCTRatio.Visible = false;
@@ -2498,7 +2497,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.labelVtA);
             this.Controls.Add(this.listBoxMode);
             this.Name = "ucPhasorGraph";
-            this.Size = new System.Drawing.Size(949, 569);
+            this.Size = new System.Drawing.Size(1328, 802);
             this.panelTripped.ResumeLayout(false);
             this.panelTripped.PerformLayout();
             this.panelClosed.ResumeLayout(false);

@@ -54,16 +54,20 @@ namespace RelayControlLibrary
             this.panelMessageFreqSettings.Visible = false;
             this.labelLEDSpeed.Visible = false;
             this.numericUpDownLEDSpeed.Visible = false;
+            this.button_FastFire.Enabled = false;
+            this.button_FastFire.Visible = false;
+            this.button_FastMode.Enabled = false;
+            this.button_FastMode.Visible = false;
 #endif
 
 #if DOMINION || MADISON || BGE
             this.panelFlasgStatusWB.Visible = false;// true;
             this.labelTransFlagStatus.Visible = false;// true;
-#elif !CONED
-            this.button_FastFire.Enabled = false;
-            this.button_FastFire.Visible = false;
-            this.button_FastMode.Enabled = false;
-            this.button_FastMode.Visible = false;
+#elif CONED
+            this.button_FastFire.Enabled = true;
+            this.button_FastFire.Visible = true;
+            this.button_FastMode.Enabled = true;
+            this.button_FastMode.Visible = true;
 #elif !DEBUG
             this.panelFlasgStatusWB.Visible = false;
             this.labelTransFlagStatus.Visible = false;
@@ -523,8 +527,9 @@ namespace RelayControlLibrary
             else
             {
                 this.panelGeneralSettings.Show();
-                //this.panelMessageFreqSettings.Show();
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+
+                //#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
                 this.panelSmartExternalCable.Hide();
@@ -532,10 +537,6 @@ namespace RelayControlLibrary
 
                 this.panelFlasgStatusWB.Location = new Point(260, 300);
                 this.labelTransFlagStatus.Location = new Point(267, 294);
-
-                //position size and location for release
-             //   this.panelFlagSettings.Location = new Point(7, 300);
-             //   this.labelFlagPolarity.Location = new Point(13, 294); //13, 250
 
                 this.buttonTX.Location = new Point(260, 6);
                 this.buttonRQ.Location = new Point(260, 93);
@@ -552,7 +553,6 @@ namespace RelayControlLibrary
                 this.labelSmartExternalCable.Location = new Point(16, 243);
                 this.checkBoxSmartExternalCableEnable.Location = new Point(63, 12);
 
-                //this.panelFlagSettings.Size = new Size(242, 217);
 #else
                 //this.panelOtherAlarmSettings.Show();
                 //this.labelOtherAlarmSettings.Show();

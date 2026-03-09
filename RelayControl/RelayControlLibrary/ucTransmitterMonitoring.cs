@@ -30,8 +30,8 @@ namespace RelayControlLibrary
             this.myPSIWidgetA2.Visible = false;
             this.myTempWidgetA1.Visible = false;
             this.myTempWidgetA2.Visible = false;
-            this.myThermometerA1.Visible = false;
-            this.myThermometerA2.Visible = false;
+          //  this.myThermometerA1.Visible = false;
+          //  this.myThermometerA2.Visible = false;
             this.initializeChart(this.myChartLoads.Chart);
             this.initializeChart(this.myChartVoltages.Chart);
             this.graphingValues.Tables.Add();

@@ -63,7 +63,7 @@
             this.tsBlockOpen.Location = new System.Drawing.Point(6, 12);
             this.tsBlockOpen.Name = "tsBlockOpen";
             this.tsBlockOpen.Padding = new System.Windows.Forms.Padding(6);
-            this.tsBlockOpen.Size = new System.Drawing.Size(161, 23);
+            this.tsBlockOpen.Size = new System.Drawing.Size(98, 21);
             this.tsBlockOpen.TabIndex = 0;
             this.tsBlockOpen.Text = "tsBlockOpen";
             this.tsBlockOpen.UseVisualStyleBackColor = true;

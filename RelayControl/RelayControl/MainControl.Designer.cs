@@ -120,17 +120,17 @@
             this.labelLiveDataTriggerTime = new System.Windows.Forms.Label();
             this.ucLiveData1 = new SineDisplayGraph.ucLiveData();
             this.tabPageTransmitter = new System.Windows.Forms.TabPage();
-            this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.ucTransmitter1 = new RelayControlLibrary.ucTransmitter();
+            this.labelRelayDisconnected3 = new System.Windows.Forms.Label();
             this.tabPageMonitor = new System.Windows.Forms.TabPage();
             this.labelSNPQMonitor = new System.Windows.Forms.Label();
+            this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.textBoxRelaySNControlPQ = new System.Windows.Forms.TextBox();
             this.textBoxCTRatioPQMonitor = new System.Windows.Forms.TextBox();
             this.checkBoxInTripRegion = new System.Windows.Forms.CheckBox();
             this.buttonUpdateCTRatio = new System.Windows.Forms.Button();
             this.labelRelayTrippedOrClose = new System.Windows.Forms.Label();
             this.buttonToggleMonitor = new System.Windows.Forms.Button();
-            this.labelCtRatioMonitor = new System.Windows.Forms.Label();
             this.ucPhasorGraph1 = new SineDisplayGraph.ucPhasorGraph();
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
@@ -1315,19 +1315,6 @@
             this.tabPageTransmitter.TabIndex = 2;
             this.tabPageTransmitter.Text = "Transmission Settings";
             // 
-            // labelRelayDisconnected3
-            // 
-            this.labelRelayDisconnected3.AutoSize = true;
-            this.labelRelayDisconnected3.BackColor = System.Drawing.Color.Red;
-            this.labelRelayDisconnected3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayDisconnected3.Location = new System.Drawing.Point(232, 579);
-            this.labelRelayDisconnected3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelRelayDisconnected3.Name = "labelRelayDisconnected3";
-            this.labelRelayDisconnected3.Size = new System.Drawing.Size(151, 20);
-            this.labelRelayDisconnected3.TabIndex = 70;
-            this.labelRelayDisconnected3.Text = "Relay Disconnected";
-            this.labelRelayDisconnected3.Visible = false;
-            // 
             // ucTransmitter1
             // 
             this.ucTransmitter1.BackColor = System.Drawing.SystemColors.Control;
@@ -1347,17 +1334,30 @@
             this.ucTransmitter1.TabIndex = 0;
             this.ucTransmitter1.WaterBugNoTransmitter = false;
             // 
+            // labelRelayDisconnected3
+            // 
+            this.labelRelayDisconnected3.AutoSize = true;
+            this.labelRelayDisconnected3.BackColor = System.Drawing.Color.Red;
+            this.labelRelayDisconnected3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRelayDisconnected3.Location = new System.Drawing.Point(232, 579);
+            this.labelRelayDisconnected3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelRelayDisconnected3.Name = "labelRelayDisconnected3";
+            this.labelRelayDisconnected3.Size = new System.Drawing.Size(151, 20);
+            this.labelRelayDisconnected3.TabIndex = 70;
+            this.labelRelayDisconnected3.Text = "Relay Disconnected";
+            this.labelRelayDisconnected3.Visible = false;
+            // 
             // tabPageMonitor
             // 
             this.tabPageMonitor.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageMonitor.Controls.Add(this.labelSNPQMonitor);
+            this.tabPageMonitor.Controls.Add(this.labelCtRatioMonitor);
             this.tabPageMonitor.Controls.Add(this.textBoxRelaySNControlPQ);
             this.tabPageMonitor.Controls.Add(this.textBoxCTRatioPQMonitor);
             this.tabPageMonitor.Controls.Add(this.checkBoxInTripRegion);
             this.tabPageMonitor.Controls.Add(this.buttonUpdateCTRatio);
             this.tabPageMonitor.Controls.Add(this.labelRelayTrippedOrClose);
             this.tabPageMonitor.Controls.Add(this.buttonToggleMonitor);
-            this.tabPageMonitor.Controls.Add(this.labelCtRatioMonitor);
             this.tabPageMonitor.Controls.Add(this.ucPhasorGraph1);
             this.tabPageMonitor.Location = new System.Drawing.Point(4, 24);
             this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(4);
@@ -1370,13 +1370,24 @@
             // labelSNPQMonitor
             // 
             this.labelSNPQMonitor.AutoSize = true;
-            this.labelSNPQMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(183, 625);
+            this.labelSNPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(76, 627);
             this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSNPQMonitor.Name = "labelSNPQMonitor";
-            this.labelSNPQMonitor.Size = new System.Drawing.Size(60, 13);
+            this.labelSNPQMonitor.Size = new System.Drawing.Size(84, 19);
             this.labelSNPQMonitor.TabIndex = 76;
             this.labelSNPQMonitor.Text = "Relay S/N:";
+            // 
+            // labelCtRatioMonitor
+            // 
+            this.labelCtRatioMonitor.AutoSize = true;
+            this.labelCtRatioMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(287, 626);
+            this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
+            this.labelCtRatioMonitor.Size = new System.Drawing.Size(76, 19);
+            this.labelCtRatioMonitor.TabIndex = 31;
+            this.labelCtRatioMonitor.Text = "CT Ratio:";
             // 
             // textBoxRelaySNControlPQ
             // 
@@ -1447,16 +1458,6 @@
             this.buttonToggleMonitor.UseVisualStyleBackColor = true;
             this.buttonToggleMonitor.Click += new System.EventHandler(this.buttonToggleMonitor_Click);
             // 
-            // labelCtRatioMonitor
-            // 
-            this.labelCtRatioMonitor.AutoSize = true;
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(357, 625);
-            this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
-            this.labelCtRatioMonitor.Size = new System.Drawing.Size(57, 15);
-            this.labelCtRatioMonitor.TabIndex = 31;
-            this.labelCtRatioMonitor.Text = "CT Ratio:";
-            // 
             // ucPhasorGraph1
             // 
             this.ucPhasorGraph1.BackColor = System.Drawing.SystemColors.Control;
@@ -1465,7 +1466,7 @@
             this.ucPhasorGraph1.Name = "ucPhasorGraph1";
             this.ucPhasorGraph1.RealTimeMonitoring = false;
             this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
-            this.ucPhasorGraph1.Size = new System.Drawing.Size(1158, 660);
+            this.ucPhasorGraph1.Size = new System.Drawing.Size(1188, 789);
             this.ucPhasorGraph1.TabIndex = 45;
             // 
             // textBoxTemperatureMonitoringPage
@@ -2138,7 +2139,7 @@
             this.textBoxCTRatio.Location = new System.Drawing.Point(8, 53);
             this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
-            this.textBoxCTRatio.Size = new System.Drawing.Size(2, 22);
+            this.textBoxCTRatio.Size = new System.Drawing.Size(50, 22);
             this.textBoxCTRatio.TabIndex = 64;
             this.textBoxCTRatio.Text = "320";
             this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_Leave);
@@ -2158,7 +2159,7 @@
             this.domainUpDownCTRatioM.Location = new System.Drawing.Point(131, 20);
             this.domainUpDownCTRatioM.Margin = new System.Windows.Forms.Padding(4);
             this.domainUpDownCTRatioM.Name = "domainUpDownCTRatioM";
-            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(8, 22);
+            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(63, 22);
             this.domainUpDownCTRatioM.TabIndex = 62;
             this.domainUpDownCTRatioM.Text = "1600:5";
             this.domainUpDownCTRatioM.Visible = false;
@@ -2435,8 +2436,8 @@
             // ucCoverFlags1
             // 
             this.ucCoverFlags1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCoverFlags1.Location = new System.Drawing.Point(379, 596);
-            this.ucCoverFlags1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucCoverFlags1.Location = new System.Drawing.Point(379, 597);
+            this.ucCoverFlags1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ucCoverFlags1.Name = "ucCoverFlags1";
             this.ucCoverFlags1.Size = new System.Drawing.Size(251, 128);
             this.ucCoverFlags1.TabIndex = 119;
@@ -2567,7 +2568,7 @@
             // ucBlockControl1
             // 
             this.ucBlockControl1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucBlockControl1.Location = new System.Drawing.Point(56, 60);
+            this.ucBlockControl1.Location = new System.Drawing.Point(41, 60);
             this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
@@ -2579,10 +2580,10 @@
             this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ucRemoteCommandBlock1.CommandsBlocked = false;
             this.ucRemoteCommandBlock1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(56, 190);
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(41, 179);
             this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
-            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(154, 122);
+            this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(192, 122);
             this.ucRemoteCommandBlock1.TabIndex = 117;
             this.ucRemoteCommandBlock1.Load += new System.EventHandler(this.ucRemoteCommandBlock1_Load);
             // 

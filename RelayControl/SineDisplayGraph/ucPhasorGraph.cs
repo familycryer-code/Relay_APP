@@ -320,6 +320,7 @@ namespace SineDisplayGraph
             }
             */
             this.listBoxMode.SelectedIndex = 0;
+            this.textBoxCTRatio.Visible = true;
         }
 
         private void makeGE(bool b)

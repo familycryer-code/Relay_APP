@@ -367,6 +367,8 @@ namespace RelayControl
                     Directory.CreateDirectory(SavedDataPath);
                 }
                 //CT Ratio on PQ monitor
+                this.textBoxCTRatioPQMonitor.Visible = true;
+                this.textBoxCTRatioPQMonitor.BringToFront();
                 this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
                 this.buttonUpdateCTRatio.Visible = false;
 
@@ -6897,7 +6899,7 @@ namespace RelayControl
         {
             byte[] packet = new byte[3];
 
-            packet[0] = (byte)'O';
+            packet[0] = (byte)'O'; 
             packet[1] = 0x55;
             packet[2] = 0x0D;
 
@@ -8290,6 +8292,8 @@ namespace RelayControl
             this.setCTRatioTransmitterPage(ratio);
             this.textBoxCTRatio.Text = ratio5.ToString();
             this.comboBox_CTRatio.Text = ratio5.ToString();
+            this.textBoxCTRatioPQMonitor.Visible = true;
+            this.textBoxCTRatioPQMonitor.BringToFront();
             this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
         }
 
