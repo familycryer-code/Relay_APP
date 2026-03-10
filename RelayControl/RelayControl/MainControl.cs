@@ -2054,6 +2054,19 @@ namespace RelayControl
                 this.resetCommunicationInterface();
                 this.RegisterPolling(true);
             }
+
+            if (clickbuttonCT.CTratioButton == true)
+            {
+                clickbuttonCT.CTratioButton = false;
+                //this.cTRatioCalculatorToolStripMenuItem_Click(this, new EventArgs());
+
+                this.Invoke(new Action(() =>
+                {
+                    CTRatioCaculator CTCalculator = new CTRatioCaculator();
+                    CTCalculator.ShowDialog(this);
+                }));
+            }
+            
             //Check to see if the last byte is a confirmation
             try
             {
@@ -5278,7 +5291,7 @@ namespace RelayControl
                 this.relayFound_forDNPdataMonitoring = true;
                 ucRelayProgramming1.ActiveRelay = true;
                 this.saveComPort();
-
+                
                 if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
                 {
                     this.enableAll(true);

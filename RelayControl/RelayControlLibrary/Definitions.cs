@@ -2119,6 +2119,10 @@ namespace RelayControlLibrary
     {
         public static bool tripMode_message;
     }
+    public static class clickbuttonCT
+    {
+        public static bool CTratioButton;
+    }
 
     public static class GeWhF
     {

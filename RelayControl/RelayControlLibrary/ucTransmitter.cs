@@ -2229,9 +2229,9 @@ namespace RelayControlLibrary
 
         private void btn_CTratioCal_Click(object sender, EventArgs e)
         {
-          //  CTRatioCaculator CTCalculator = new CTRatioCaculator();
-
-          //  CTCalculator.ShowDialog(this);
+            //  CTRatioCaculator CTCalculator = new CTRatioCaculator();
+            //   CTCalculator.ShowDialog(this);
+            clickbuttonCT.CTratioButton = true;
         }
 
         private void label2_Click(object sender, EventArgs e)
