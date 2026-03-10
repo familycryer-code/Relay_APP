@@ -186,7 +186,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.sineGraphVnA);
             this.Controls.Add(this.sineGraphVtA);
             this.Name = "ucLiveData";
-            this.Size = new System.Drawing.Size(991, 624);
+            this.Size = new System.Drawing.Size(1158, 624);
             this.Resize += new System.EventHandler(this.ucLiveData_Resize);
             this.ResumeLayout(false);
 

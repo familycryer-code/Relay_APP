@@ -293,6 +293,12 @@ namespace RelayControl
             InitializeComponent();
 
 
+
+            // Scale by font is typical; DPI is also valid:
+            this.AutoScaleMode = AutoScaleMode.Dpi; // or AutoScaleMode.Font
+            this.AutoScaleDimensions = new SizeF(96F, 96F); // baseline at 100%
+
+
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControlMain.DrawItem += tabControlMain_DrawItem;
 
@@ -695,7 +701,7 @@ namespace RelayControl
                 this.ucCloseMode1.Location = new System.Drawing.Point(440, 5);
                 this.ucPumpMode1.Location = new System.Drawing.Point(270, 470);
                 this.ucSafeService1.Location = new System.Drawing.Point(650, 470);
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(1050, 470);
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(1050, 470);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
                 this.lbl_Relayststatus_FB.Text = "Floating & Blocked Open ( FB )";
@@ -712,10 +718,10 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(980, 654);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(980, 686);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1122, 654);
-                this.buttonSaveSetting.Location = new System.Drawing.Point(1122, 686);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(100, 370); //(980, 654);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(250, 370); //(1122, 654);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(500, 370);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(650, 370);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
