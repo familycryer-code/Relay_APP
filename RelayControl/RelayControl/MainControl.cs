@@ -693,14 +693,14 @@ namespace RelayControl
                 this.button_dataStore.Enabled = true;
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
-                this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 600);
+                this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 550); //(13, 600);
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
                 this.ucCloseMode1.Location = new System.Drawing.Point(248, 440);
                 this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
                 this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
                 this.ucCloseMode1.Location = new System.Drawing.Point(440, 5);
-                this.ucPumpMode1.Location = new System.Drawing.Point(270, 470);
-                this.ucSafeService1.Location = new System.Drawing.Point(650, 470);
+                this.ucPumpMode1.Location = new System.Drawing.Point(270, 430); //(270, 470);
+                this.ucSafeService1.Location = new System.Drawing.Point(650, 430); //(650, 470);
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(1050, 470);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
@@ -778,6 +778,9 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+
+                this.buttonRequestRelayParamaters.Text = "Read";
+                this.buttonSendAll.Text = "Program";
 #elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;
