@@ -1346,36 +1346,36 @@ namespace SineDisplayGraph
             this.labelPAUnits.AutoSize = true;
             this.labelPAUnits.Location = new System.Drawing.Point(498, 487);
             this.labelPAUnits.Name = "labelPAUnits";
-            this.labelPAUnits.Size = new System.Drawing.Size(18, 13);
+            this.labelPAUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPAUnits.TabIndex = 224;
-            this.labelPAUnits.Text = "W";
+            this.labelPAUnits.Text = "kW";
             // 
             // labelPBUnits
             // 
             this.labelPBUnits.AutoSize = true;
             this.labelPBUnits.Location = new System.Drawing.Point(498, 508);
             this.labelPBUnits.Name = "labelPBUnits";
-            this.labelPBUnits.Size = new System.Drawing.Size(18, 13);
+            this.labelPBUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPBUnits.TabIndex = 225;
-            this.labelPBUnits.Text = "W";
+            this.labelPBUnits.Text = "kW";
             // 
             // labelPCUnits
             // 
             this.labelPCUnits.AutoSize = true;
             this.labelPCUnits.Location = new System.Drawing.Point(498, 529);
             this.labelPCUnits.Name = "labelPCUnits";
-            this.labelPCUnits.Size = new System.Drawing.Size(18, 13);
+            this.labelPCUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPCUnits.TabIndex = 226;
-            this.labelPCUnits.Text = "W";
+            this.labelPCUnits.Text = "kW";
             // 
             // labelPTUnits
             // 
             this.labelPTUnits.AutoSize = true;
             this.labelPTUnits.Location = new System.Drawing.Point(498, 550);
             this.labelPTUnits.Name = "labelPTUnits";
-            this.labelPTUnits.Size = new System.Drawing.Size(18, 13);
+            this.labelPTUnits.Size = new System.Drawing.Size(24, 13);
             this.labelPTUnits.TabIndex = 227;
-            this.labelPTUnits.Text = "W";
+            this.labelPTUnits.Text = "kW";
             // 
             // textBoxVtARMS
             // 
@@ -2683,7 +2683,7 @@ namespace SineDisplayGraph
         private System.Windows.Forms.TextBox textBoxPAAngle;
         private System.Windows.Forms.TextBox textBoxPARMS;
         private System.Windows.Forms.TextBox textBoxPTAngle;
-        private System.Windows.Forms.TextBox textBoxPTRMS;
+        public System.Windows.Forms.TextBox textBoxPTRMS;
         private System.Windows.Forms.TextBox textBoxPCAngle;
         private System.Windows.Forms.TextBox textBoxPCRMS;
         private System.Windows.Forms.TextBox textBoxVnNAngle;

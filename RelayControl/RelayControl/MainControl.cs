@@ -736,7 +736,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.20 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.21" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.22" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -5554,6 +5554,8 @@ namespace RelayControl
                     if (this.transmitterMonitoring)
                         this.setTransmitterPhasorValues(phasorType, realValue, imaginaryValue, this.CTRatio, rMS);
 
+                    //this.ucPhasorGraph1.textBoxPTRMS.Text = "15";
+                    
                     // only send it to this if monitoring is not going on, so that it doens't get every
                     // phasor that comes in during monitoring.
                     if (!this.pQMonitoringEnabled)

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using RelayControlLibrary;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
-using RelayControlLibrary;
-using System.Collections;
-using System.Drawing.Drawing2D;
 
 namespace SineDisplayGraph
 {
@@ -878,13 +879,14 @@ namespace SineDisplayGraph
                     {
                         workingPD.Enabled = false;
                         this.setText("0.0", workingPD.AngleBox);
-                        this.setText("0.0", workingPD.RMSBox);
+                         this.setText("0.0", workingPD.RMSBox);                        
                     }
                     else
                     {
                         workingPD.Enabled = true;
                         this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
-                        this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
+                       // this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
+                        this.setText(String.Format("{0:0.0}", (workingPD.RMSValue / 1000)), workingPD.RMSBox); // " Divided by 1000 to display the power in kiloWatts"
                     }
 
                     this.scalePowerPhasors();

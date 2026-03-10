@@ -1391,25 +1391,29 @@
             // 
             // textBoxRelaySNControlPQ
             // 
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(260, 623);
+            this.textBoxRelaySNControlPQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(160, 623);
             this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
             this.textBoxRelaySNControlPQ.ReadOnly = true;
-            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(3, 21);
+            this.textBoxRelaySNControlPQ.Size = new System.Drawing.Size(75, 27);
             this.textBoxRelaySNControlPQ.TabIndex = 75;
             this.textBoxRelaySNControlPQ.Tag = "SN";
+            this.textBoxRelaySNControlPQ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxCTRatioPQMonitor
             // 
             this.textBoxCTRatioPQMonitor.Enabled = false;
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(417, 625);
+            this.textBoxCTRatioPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(365, 625);
             this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
-            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(2, 21);
+            this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(75, 27);
             this.textBoxCTRatioPQMonitor.TabIndex = 65;
             this.textBoxCTRatioPQMonitor.Text = "320";
+            this.textBoxCTRatioPQMonitor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // checkBoxInTripRegion
             // 
@@ -1519,11 +1523,11 @@
             // 
             // textBoxSaveStateName
             // 
-            this.textBoxSaveStateName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxSaveStateName.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxSaveStateName.Location = new System.Drawing.Point(407, 686);
             this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSaveStateName.Name = "textBoxSaveStateName";
-            this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 22);
+            this.textBoxSaveStateName.Size = new System.Drawing.Size(140, 27);
             this.textBoxSaveStateName.TabIndex = 130;
             // 
             // buttonSaveSetting
