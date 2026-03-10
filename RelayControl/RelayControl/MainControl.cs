@@ -742,7 +742,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.20 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.22" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.23" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -9311,14 +9311,14 @@ namespace RelayControl
             }
         }
         #endregion
-
+        /*
         private void cTRatioCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CTRatioCaculator CTCalculator = new CTRatioCaculator();
 
             CTCalculator.ShowDialog(this);
         }
-
+        */
         private void buttonTimeConvert_Click(object sender, EventArgs e)
         {
             EventBaseTime eBT = new EventBaseTime();
