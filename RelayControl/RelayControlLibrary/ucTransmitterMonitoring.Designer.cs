@@ -2582,6 +2582,7 @@ namespace RelayControlLibrary
             this.textBox_Input7.Name = "textBox_Input7";
             this.textBox_Input7.Size = new System.Drawing.Size(33, 20);
             this.textBox_Input7.TabIndex = 17;
+            this.textBox_Input7.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // ucTransmitterMonitoring
             // 

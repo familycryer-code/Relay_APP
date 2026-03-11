@@ -736,7 +736,7 @@ namespace RelayControlLibrary
 
                 this.groupBoxFlagStatus.Text = "Digital Values:";
                 this.groupBoxFlagStatus.Location = new System.Drawing.Point(390, 250); //(420, 250);
-                this.groupBoxFlagStatus.Size = new System.Drawing.Size(120, 150); //(100, 150);
+                this.groupBoxFlagStatus.Size = new System.Drawing.Size(150, 150); //(120, 150); 
                 this.checkBoxFlagStatusA.Text = "Input 1";//"Flag B";
                 this.checkBoxFlagStatusB.Text = "Input 2";//"Flag D";
                 this.checkBoxFlagStatusC.Text = "Input 3";//"Flag A";
@@ -752,7 +752,7 @@ namespace RelayControlLibrary
 
                 this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(550, 250); 
                 this.groupBoxAnalogFlagValues.Name = "groupBoxAnalogFlagValues";
-                this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(125, 200);
+                this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(150, 200);
                 this.groupBoxAnalogFlagValues.TabIndex = 84;
                 this.groupBoxAnalogFlagValues.TabStop = false;
                 this.groupBoxAnalogFlagValues.Text = "Analog Values";
@@ -768,10 +768,11 @@ namespace RelayControlLibrary
                 this.label2.Size = new System.Drawing.Size(35, 13);
                 this.label2.TabIndex = 16;
                 this.label2.Text = "Input 7";
-                // 
-                // Input 6
-                // 
-                this.labelHa.AutoSize = true;
+                this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // Input 6
+            // 
+            this.labelHa.AutoSize = true;
                 this.labelHa.Location = new System.Drawing.Point(17, 143);
                 this.labelHa.Name = "labelHa";
                 this.labelHa.Size = new System.Drawing.Size(40, 13);
@@ -819,53 +820,55 @@ namespace RelayControlLibrary
                 this.labelCa.AutoSize = true;
                 this.labelCa.Location = new System.Drawing.Point(17, 21);
                 this.labelCa.Name = "labelCa";
-                this.labelCa.Size = new System.Drawing.Size(40, 13);
+                this.labelCa.Size = new System.Drawing.Size(35, 13);
                 this.labelCa.TabIndex = 8;
                 this.labelCa.Text = "Input 1";
                 // 
                 // textBoxHa
                 // 
-                this.textBoxHa.Location = new System.Drawing.Point(67, 139);
+                this.textBoxHa.Location = new System.Drawing.Point(95, 139);
                 this.textBoxHa.Name = "textBoxHa";
                 this.textBoxHa.Size = new System.Drawing.Size(33, 20);
                 this.textBoxHa.TabIndex = 6;
                 // 
                 // textBoxGa
                 // 
-                this.textBoxGa.Location = new System.Drawing.Point(67, 116);
+                this.textBoxGa.Location = new System.Drawing.Point(95, 116);
                 this.textBoxGa.Name = "textBoxGa";
                 this.textBoxGa.Size = new System.Drawing.Size(33, 20);
                 this.textBoxGa.TabIndex = 5;
                 // 
                 // textBoxFa
                 // 
-                this.textBoxFa.Location = new System.Drawing.Point(67, 91);
+                this.textBoxFa.Location = new System.Drawing.Point(95, 91);
                 this.textBoxFa.Name = "textBoxFa";
                 this.textBoxFa.Size = new System.Drawing.Size(33, 20);
                 this.textBoxFa.TabIndex = 4;
                 // 
                 // textBoxEa
                 // 
-                this.textBoxEa.Location = new System.Drawing.Point(67, 67);
+                this.textBoxEa.Location = new System.Drawing.Point(95, 67);
                 this.textBoxEa.Name = "textBoxEa";
                 this.textBoxEa.Size = new System.Drawing.Size(33, 20);
                 this.textBoxEa.TabIndex = 3;
                 // 
                 // textBoxDa
                 // 
-                this.textBoxDa.Location = new System.Drawing.Point(67, 44);
+                this.textBoxDa.Location = new System.Drawing.Point(95, 44);
                 this.textBoxDa.Name = "textBoxDa";
                 this.textBoxDa.Size = new System.Drawing.Size(33, 20);
                 this.textBoxDa.TabIndex = 2;
                 // 
                 // textBoxCa
                 // 
-                this.textBoxCa.Location = new System.Drawing.Point(67, 18);
+                this.textBoxCa.Location = new System.Drawing.Point(95, 18); //(67, 18);
                 this.textBoxCa.Name = "textBoxCa";
                 this.textBoxCa.Size = new System.Drawing.Size(33, 20);
                 this.textBoxCa.TabIndex = 0;
-
-            
+                // 
+                // textBoxCa
+                // 
+                this.textBox_Input7.Location = new System.Drawing.Point(95, 164); //(67, 18);
         }
 
 
