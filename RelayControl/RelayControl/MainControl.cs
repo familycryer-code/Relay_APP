@@ -759,6 +759,13 @@ namespace RelayControl
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
+#if !TORONTOHYDRO
+                this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(750, 250);
+                this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(750, 500);
+                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(450, 500);
+                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(200, 500);
+                this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
+#endif
 #if DNP && !ENMAX
                 // this.TransmitterEnabled = false;
                 this.TransmitterEnabled = true;
