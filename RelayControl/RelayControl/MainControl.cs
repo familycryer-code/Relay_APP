@@ -742,7 +742,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.20 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.23" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.24" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -765,6 +765,19 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(450, 500);
                 this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(200, 500);
                 this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
+                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(480, 3);
+                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Size = new System.Drawing.Size(240, 175);
+                this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(155, 87);
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(638, 53);
+                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 90);
+                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(25, 50);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(90, 3);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
+                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
+                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 54);
+                this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
+                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 130);
+
 #endif
 #if DNP && !ENMAX
                 // this.TransmitterEnabled = false;

@@ -268,7 +268,7 @@ namespace RelayControlLibrary
         public const UInt16 BackupDataFields = 8;
         public const UInt16 BackupDataFields_NoDNP = 7;
         public const UInt32 MasterRevBlankRelay = 121116;
-        public const UInt32 Rev10Master = 260125;
+        public const UInt32 Rev10Master = 260126;
 
         // used by checkValidDataBackup()
         public const UInt16 SkipUntillLine_RelayParams = 3;
