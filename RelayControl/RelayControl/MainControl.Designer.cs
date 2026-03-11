@@ -2100,7 +2100,7 @@
             // labelOver5
             // 
             this.labelOver5.AutoSize = true;
-            this.labelOver5.Location = new System.Drawing.Point(66, 56);
+            this.labelOver5.Location = new System.Drawing.Point(100, 53);
             this.labelOver5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelOver5.Name = "labelOver5";
             this.labelOver5.Size = new System.Drawing.Size(23, 20);
@@ -2119,7 +2119,7 @@
             // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(98, 51);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(126, 50);
             this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(88, 26);
@@ -2131,10 +2131,10 @@
             // textBoxCTRatio
             // 
             this.textBoxCTRatio.Enabled = false;
-            this.textBoxCTRatio.Location = new System.Drawing.Point(8, 53);
+            this.textBoxCTRatio.Location = new System.Drawing.Point(25, 50);
             this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
-            this.textBoxCTRatio.Size = new System.Drawing.Size(101, 26);
+            this.textBoxCTRatio.Size = new System.Drawing.Size(67, 26);
             this.textBoxCTRatio.TabIndex = 64;
             this.textBoxCTRatio.Text = "320";
             this.textBoxCTRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

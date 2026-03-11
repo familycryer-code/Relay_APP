@@ -2352,6 +2352,7 @@ namespace RelayControlLibrary
                 this.autoLoad = false;
                 this.loadMasterFirst = false;
                 this.firstCheckForUpdate = false;
+                dataB.oldDataBackup = true;
                 restartProgram();
             }
         }

@@ -742,7 +742,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.20 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.24" + " DOMINION ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.25" + " DOMINION ";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -3983,7 +3983,7 @@ namespace RelayControl
                           File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
                       }
 
-                      dataB.oldDataBackup = true;
+                      //dataB.oldDataBackup = true;
                       if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
                       {//if relay has old DNP firmware
                           dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
