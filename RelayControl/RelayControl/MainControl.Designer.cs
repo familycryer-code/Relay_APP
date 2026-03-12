@@ -164,27 +164,22 @@
             this.numericUpDownLowVoltageThres = new System.Windows.Forms.NumericUpDown();
             this.buttonSendLowVoltageThres = new System.Windows.Forms.Button();
             this.labelRelayDisconnected = new System.Windows.Forms.Label();
-            this.groupBoxPhasingAndType = new System.Windows.Forms.GroupBox();
-            this.comboBox_Phasings = new System.Windows.Forms.ComboBox();
-            this.comboBox_RelayType = new System.Windows.Forms.ComboBox();
-            this.labelDNPVoltage = new System.Windows.Forms.Label();
-            this.comboBoxDNPVoltage = new System.Windows.Forms.ComboBox();
-            this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
-            this.labelConEdPowerRelay = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.labelProtectorType = new System.Windows.Forms.Label();
-            this.domainUpDownPhasings = new System.Windows.Forms.DomainUpDown();
-            this.labelGEWH = new System.Windows.Forms.Label();
-            this.domainUpDownRelayType = new System.Windows.Forms.DomainUpDown();
-            this.buttonTypePhasingRestoreDefaults = new System.Windows.Forms.Button();
-            this.buttonRelayType = new System.Windows.Forms.Button();
             this.groupBoxNetworkCTRatio = new System.Windows.Forms.GroupBox();
+            this.buttonTypePhasingRestoreDefaults = new System.Windows.Forms.Button();
+            this.labelGEWH = new System.Windows.Forms.Label();
+            this.labelProtectorType = new System.Windows.Forms.Label();
+            this.checkBox277DNPOutputs = new System.Windows.Forms.CheckBox();
+            this.comboBoxDNPVoltage = new System.Windows.Forms.ComboBox();
+            this.labelDNPVoltage = new System.Windows.Forms.Label();
+            this.comboBox_Phasings = new System.Windows.Forms.ComboBox();
             this.comboBox_CTRatio = new System.Windows.Forms.ComboBox();
+            this.comboBox_RelayType = new System.Windows.Forms.ComboBox();
             this.labelOver5 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
+            this.labelConEdPowerRelay = new System.Windows.Forms.Label();
             this.buttonSendCTRatio = new System.Windows.Forms.Button();
             this.textBoxCTRatio = new System.Windows.Forms.TextBox();
-            this.domainUpDownCTRatioM = new System.Windows.Forms.DomainUpDown();
+            this.label20 = new System.Windows.Forms.Label();
             this.groupBoxRelayFlags = new System.Windows.Forms.GroupBox();
             this.labelQuietMode = new System.Windows.Forms.Label();
             this.checkBoxOffsetOkay = new System.Windows.Forms.CheckBox();
@@ -288,7 +283,6 @@
             this.groupBoxLRLockoutMain.SuspendLayout();
             this.groupBoxLowVoltThres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).BeginInit();
-            this.groupBoxPhasingAndType.SuspendLayout();
             this.groupBoxNetworkCTRatio.SuspendLayout();
             this.groupBoxRelayFlags.SuspendLayout();
             this.panelOtherRelayControls.SuspendLayout();
@@ -1495,7 +1489,6 @@
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
             this.tabPageControl.Controls.Add(this.labelRelayDisconnected);
-            this.tabPageControl.Controls.Add(this.groupBoxPhasingAndType);
             this.tabPageControl.Controls.Add(this.groupBoxNetworkCTRatio);
             this.tabPageControl.Controls.Add(this.groupBoxRelayFlags);
             this.tabPageControl.Controls.Add(this.panelOtherRelayControls);
@@ -1820,18 +1813,18 @@
             this.groupBoxLowVoltThres.Controls.Add(this.buttonRequestLowVotlageThres);
             this.groupBoxLowVoltThres.Controls.Add(this.numericUpDownLowVoltageThres);
             this.groupBoxLowVoltThres.Controls.Add(this.buttonSendLowVoltageThres);
-            this.groupBoxLowVoltThres.Location = new System.Drawing.Point(13, 611);
+            this.groupBoxLowVoltThres.Location = new System.Drawing.Point(20, 669);
             this.groupBoxLowVoltThres.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxLowVoltThres.Name = "groupBoxLowVoltThres";
             this.groupBoxLowVoltThres.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxLowVoltThres.Size = new System.Drawing.Size(386, 101);
+            this.groupBoxLowVoltThres.Size = new System.Drawing.Size(185, 101);
             this.groupBoxLowVoltThres.TabIndex = 117;
             this.groupBoxLowVoltThres.TabStop = false;
             this.groupBoxLowVoltThres.Text = "Low Voltage Threshold";
             // 
             // buttonRequestLowVotlageThres
             // 
-            this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(293, 35);
+            this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(43, 38);
             this.buttonRequestLowVotlageThres.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRequestLowVotlageThres.Name = "buttonRequestLowVotlageThres";
             this.buttonRequestLowVotlageThres.Size = new System.Drawing.Size(88, 26);
@@ -1842,7 +1835,7 @@
             // 
             // numericUpDownLowVoltageThres
             // 
-            this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(17, 38);
+            this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(17, 72);
             this.numericUpDownLowVoltageThres.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownLowVoltageThres.Maximum = new decimal(new int[] {
             90,
@@ -1855,7 +1848,7 @@
             0,
             0});
             this.numericUpDownLowVoltageThres.Name = "numericUpDownLowVoltageThres";
-            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(4, 21);
+            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(49, 21);
             this.numericUpDownLowVoltageThres.TabIndex = 114;
             this.numericUpDownLowVoltageThres.Value = new decimal(new int[] {
             20,
@@ -1865,7 +1858,7 @@
             // 
             // buttonSendLowVoltageThres
             // 
-            this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(186, 35);
+            this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(88, 68);
             this.buttonSendLowVoltageThres.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendLowVoltageThres.Name = "buttonSendLowVoltageThres";
             this.buttonSendLowVoltageThres.Size = new System.Drawing.Size(88, 26);
@@ -1886,159 +1879,38 @@
             this.labelRelayDisconnected.Text = "Relay Disconnected";
             this.labelRelayDisconnected.Visible = false;
             // 
-            // groupBoxPhasingAndType
+            // groupBoxNetworkCTRatio
             // 
-            this.groupBoxPhasingAndType.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxPhasingAndType.Controls.Add(this.comboBox_Phasings);
-            this.groupBoxPhasingAndType.Controls.Add(this.comboBox_RelayType);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelDNPVoltage);
-            this.groupBoxPhasingAndType.Controls.Add(this.comboBoxDNPVoltage);
-            this.groupBoxPhasingAndType.Controls.Add(this.checkBox277DNPOutputs);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelConEdPowerRelay);
-            this.groupBoxPhasingAndType.Controls.Add(this.label20);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelProtectorType);
-            this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownPhasings);
-            this.groupBoxPhasingAndType.Controls.Add(this.labelGEWH);
-            this.groupBoxPhasingAndType.Controls.Add(this.domainUpDownRelayType);
-            this.groupBoxPhasingAndType.Controls.Add(this.buttonTypePhasingRestoreDefaults);
-            this.groupBoxPhasingAndType.Controls.Add(this.buttonRelayType);
-            this.groupBoxPhasingAndType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxPhasingAndType.Location = new System.Drawing.Point(13, 390);
-            this.groupBoxPhasingAndType.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxPhasingAndType.Name = "groupBoxPhasingAndType";
-            this.groupBoxPhasingAndType.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxPhasingAndType.Size = new System.Drawing.Size(202, 184);
-            this.groupBoxPhasingAndType.TabIndex = 111;
-            this.groupBoxPhasingAndType.TabStop = false;
-            this.groupBoxPhasingAndType.Text = "Relay Phasing and Type";
-            // 
-            // comboBox_Phasings
-            // 
-            this.comboBox_Phasings.FormattingEnabled = true;
-            this.comboBox_Phasings.Items.AddRange(new object[] {
-            "ABC : CAB : BCA",
-            "CBA : BAC : ACB"});
-            this.comboBox_Phasings.Location = new System.Drawing.Point(56, 43);
-            this.comboBox_Phasings.Name = "comboBox_Phasings";
-            this.comboBox_Phasings.Size = new System.Drawing.Size(151, 24);
-            this.comboBox_Phasings.TabIndex = 80;
-            // 
-            // comboBox_RelayType
-            // 
-            this.comboBox_RelayType.FormattingEnabled = true;
-            this.comboBox_RelayType.Items.AddRange(new object[] {
-            "Power",
-            "Sequence"});
-            this.comboBox_RelayType.Location = new System.Drawing.Point(90, 16);
-            this.comboBox_RelayType.Name = "comboBox_RelayType";
-            this.comboBox_RelayType.Size = new System.Drawing.Size(109, 24);
-            this.comboBox_RelayType.TabIndex = 79;
-            this.comboBox_RelayType.SelectedIndexChanged += new System.EventHandler(this.comboBox_RelayType_SelectedItemChanged);
-            // 
-            // labelDNPVoltage
-            // 
-            this.labelDNPVoltage.AutoSize = true;
-            this.labelDNPVoltage.Location = new System.Drawing.Point(8, 79);
-            this.labelDNPVoltage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelDNPVoltage.Name = "labelDNPVoltage";
-            this.labelDNPVoltage.Size = new System.Drawing.Size(114, 16);
-            this.labelDNPVoltage.TabIndex = 78;
-            this.labelDNPVoltage.Text = "Protector Voltage:";
-            // 
-            // comboBoxDNPVoltage
-            // 
-            this.comboBoxDNPVoltage.FormattingEnabled = true;
-            this.comboBoxDNPVoltage.Items.AddRange(new object[] {
-            "125",
-            "277"});
-            this.comboBoxDNPVoltage.Location = new System.Drawing.Point(119, 75);
-            this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
-            this.comboBoxDNPVoltage.Size = new System.Drawing.Size(94, 24);
-            this.comboBoxDNPVoltage.TabIndex = 77;
-            this.comboBoxDNPVoltage.SelectedIndexChanged += new System.EventHandler(this.comboBoxDNPVoltage_SelectedIndexChanged);
-            // 
-            // checkBox277DNPOutputs
-            // 
-            this.checkBox277DNPOutputs.AutoSize = true;
-            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(10, 99);
-            this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
-            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(195, 20);
-            this.checkBox277DNPOutputs.TabIndex = 76;
-            this.checkBox277DNPOutputs.Text = "Convert DNP Output Voltage";
-            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
-            // 
-            // labelConEdPowerRelay
-            // 
-            this.labelConEdPowerRelay.AutoSize = true;
-            this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
-            this.labelConEdPowerRelay.Location = new System.Drawing.Point(100, 19);
-            this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
-            this.labelConEdPowerRelay.Size = new System.Drawing.Size(45, 16);
-            this.labelConEdPowerRelay.TabIndex = 51;
-            this.labelConEdPowerRelay.Text = "Power";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 19);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(81, 16);
-            this.label20.TabIndex = 44;
-            this.label20.Text = "Relay Type:";
-            // 
-            // labelProtectorType
-            // 
-            this.labelProtectorType.AutoSize = true;
-            this.labelProtectorType.Location = new System.Drawing.Point(13, 125);
-            this.labelProtectorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelProtectorType.Name = "labelProtectorType";
-            this.labelProtectorType.Size = new System.Drawing.Size(99, 16);
-            this.labelProtectorType.TabIndex = 50;
-            this.labelProtectorType.Text = "Protector Type:";
-            // 
-            // domainUpDownPhasings
-            // 
-            this.domainUpDownPhasings.Enabled = false;
-            this.domainUpDownPhasings.Items.Add("ABC : CAB : BCA");
-            this.domainUpDownPhasings.Items.Add("CBA : BAC : ACB");
-            this.domainUpDownPhasings.Location = new System.Drawing.Point(41, 60);
-            this.domainUpDownPhasings.Margin = new System.Windows.Forms.Padding(4);
-            this.domainUpDownPhasings.Name = "domainUpDownPhasings";
-            this.domainUpDownPhasings.Size = new System.Drawing.Size(4, 22);
-            this.domainUpDownPhasings.TabIndex = 47;
-            this.domainUpDownPhasings.Visible = false;
-            // 
-            // labelGEWH
-            // 
-            this.labelGEWH.AutoSize = true;
-            this.labelGEWH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelGEWH.Location = new System.Drawing.Point(113, 125);
-            this.labelGEWH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelGEWH.Name = "labelGEWH";
-            this.labelGEWH.Size = new System.Drawing.Size(32, 18);
-            this.labelGEWH.TabIndex = 49;
-            this.labelGEWH.Text = "WH";
-            // 
-            // domainUpDownRelayType
-            // 
-            this.domainUpDownRelayType.Enabled = false;
-            this.domainUpDownRelayType.Items.Add("Power");
-            this.domainUpDownRelayType.Items.Add("Sequence");
-            this.domainUpDownRelayType.Location = new System.Drawing.Point(8, 60);
-            this.domainUpDownRelayType.Margin = new System.Windows.Forms.Padding(4);
-            this.domainUpDownRelayType.Name = "domainUpDownRelayType";
-            this.domainUpDownRelayType.Size = new System.Drawing.Size(4, 22);
-            this.domainUpDownRelayType.TabIndex = 43;
-            this.domainUpDownRelayType.Visible = false;
+            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxNetworkCTRatio.Controls.Add(this.buttonTypePhasingRestoreDefaults);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.labelGEWH);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.labelProtectorType);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.checkBox277DNPOutputs);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.comboBoxDNPVoltage);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.labelDNPVoltage);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.comboBox_Phasings);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.comboBox_CTRatio);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.comboBox_RelayType);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.labelOver5);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.label27);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.labelConEdPowerRelay);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.textBoxCTRatio);
+            this.groupBoxNetworkCTRatio.Controls.Add(this.label20);
+            this.groupBoxNetworkCTRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 300);
+            this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
+            this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(222, 361);
+            this.groupBoxNetworkCTRatio.TabIndex = 110;
+            this.groupBoxNetworkCTRatio.TabStop = false;
+            this.groupBoxNetworkCTRatio.Text = "Network Protector CT Ratio";
             // 
             // buttonTypePhasingRestoreDefaults
             // 
             this.buttonTypePhasingRestoreDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(8, 154);
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(50, 227);
             this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
             this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(134, 26);
@@ -2047,35 +1919,71 @@
             this.buttonTypePhasingRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonTypePhasingRestoreDefaults.Click += new System.EventHandler(this.buttonTypePhasingRestoreDefaults_Click);
             // 
-            // buttonRelayType
+            // labelGEWH
             // 
-            this.buttonRelayType.Location = new System.Drawing.Point(142, 154);
-            this.buttonRelayType.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRelayType.Name = "buttonRelayType";
-            this.buttonRelayType.Size = new System.Drawing.Size(52, 26);
-            this.buttonRelayType.TabIndex = 41;
-            this.buttonRelayType.Text = "Send";
-            this.buttonRelayType.UseVisualStyleBackColor = true;
-            this.buttonRelayType.Click += new System.EventHandler(this.buttonRelayType_Click);
+            this.labelGEWH.AutoSize = true;
+            this.labelGEWH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelGEWH.Location = new System.Drawing.Point(128, 24);
+            this.labelGEWH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelGEWH.Name = "labelGEWH";
+            this.labelGEWH.Size = new System.Drawing.Size(32, 18);
+            this.labelGEWH.TabIndex = 49;
+            this.labelGEWH.Text = "WH";
             // 
-            // groupBoxNetworkCTRatio
+            // labelProtectorType
             // 
-            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
-            this.groupBoxNetworkCTRatio.Controls.Add(this.comboBox_CTRatio);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.labelOver5);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.label27);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.buttonSendCTRatio);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.textBoxCTRatio);
-            this.groupBoxNetworkCTRatio.Controls.Add(this.domainUpDownCTRatioM);
-            this.groupBoxNetworkCTRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 300);
-            this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
-            this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(222, 80);
-            this.groupBoxNetworkCTRatio.TabIndex = 110;
-            this.groupBoxNetworkCTRatio.TabStop = false;
-            this.groupBoxNetworkCTRatio.Text = "Network Protector CT Ratio";
+            this.labelProtectorType.AutoSize = true;
+            this.labelProtectorType.Location = new System.Drawing.Point(23, 24);
+            this.labelProtectorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelProtectorType.Name = "labelProtectorType";
+            this.labelProtectorType.Size = new System.Drawing.Size(99, 16);
+            this.labelProtectorType.TabIndex = 50;
+            this.labelProtectorType.Text = "Protector Type:";
+            // 
+            // checkBox277DNPOutputs
+            // 
+            this.checkBox277DNPOutputs.AutoSize = true;
+            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(11, 293);
+            this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
+            this.checkBox277DNPOutputs.Size = new System.Drawing.Size(195, 20);
+            this.checkBox277DNPOutputs.TabIndex = 76;
+            this.checkBox277DNPOutputs.Text = "Convert DNP Output Voltage";
+            this.checkBox277DNPOutputs.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxDNPVoltage
+            // 
+            this.comboBoxDNPVoltage.FormattingEnabled = true;
+            this.comboBoxDNPVoltage.Items.AddRange(new object[] {
+            "125",
+            "277"});
+            this.comboBoxDNPVoltage.Location = new System.Drawing.Point(128, 51);
+            this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
+            this.comboBoxDNPVoltage.Size = new System.Drawing.Size(63, 24);
+            this.comboBoxDNPVoltage.TabIndex = 77;
+            this.comboBoxDNPVoltage.SelectedIndexChanged += new System.EventHandler(this.comboBoxDNPVoltage_SelectedIndexChanged);
+            // 
+            // labelDNPVoltage
+            // 
+            this.labelDNPVoltage.AutoSize = true;
+            this.labelDNPVoltage.Location = new System.Drawing.Point(8, 54);
+            this.labelDNPVoltage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDNPVoltage.Name = "labelDNPVoltage";
+            this.labelDNPVoltage.Size = new System.Drawing.Size(114, 16);
+            this.labelDNPVoltage.TabIndex = 78;
+            this.labelDNPVoltage.Text = "Protector Voltage:";
+            // 
+            // comboBox_Phasings
+            // 
+            this.comboBox_Phasings.FormattingEnabled = true;
+            this.comboBox_Phasings.Items.AddRange(new object[] {
+            "ABC : CAB : BCA",
+            "CBA : BAC : ACB"});
+            this.comboBox_Phasings.Location = new System.Drawing.Point(36, 112);
+            this.comboBox_Phasings.Name = "comboBox_Phasings";
+            this.comboBox_Phasings.Size = new System.Drawing.Size(151, 24);
+            this.comboBox_Phasings.TabIndex = 80;
             // 
             // comboBox_CTRatio
             // 
@@ -2090,17 +1998,29 @@
             "1200:5",
             "800:5",
             "Special"});
-            this.comboBox_CTRatio.Location = new System.Drawing.Point(53, 20);
+            this.comboBox_CTRatio.Location = new System.Drawing.Point(128, 145);
             this.comboBox_CTRatio.Name = "comboBox_CTRatio";
             this.comboBox_CTRatio.Size = new System.Drawing.Size(78, 24);
             this.comboBox_CTRatio.TabIndex = 74;
             this.comboBox_CTRatio.Text = "1600:5";
             this.comboBox_CTRatio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CTRatio_SelectedItemChanged);
             // 
+            // comboBox_RelayType
+            // 
+            this.comboBox_RelayType.FormattingEnabled = true;
+            this.comboBox_RelayType.Items.AddRange(new object[] {
+            "Power",
+            "Sequence"});
+            this.comboBox_RelayType.Location = new System.Drawing.Point(128, 82);
+            this.comboBox_RelayType.Name = "comboBox_RelayType";
+            this.comboBox_RelayType.Size = new System.Drawing.Size(89, 24);
+            this.comboBox_RelayType.TabIndex = 79;
+            this.comboBox_RelayType.SelectedIndexChanged += new System.EventHandler(this.comboBox_RelayType_SelectedItemChanged);
+            // 
             // labelOver5
             // 
             this.labelOver5.AutoSize = true;
-            this.labelOver5.Location = new System.Drawing.Point(100, 53);
+            this.labelOver5.Location = new System.Drawing.Point(149, 179);
             this.labelOver5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelOver5.Name = "labelOver5";
             this.labelOver5.Size = new System.Drawing.Size(18, 16);
@@ -2110,16 +2030,27 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(7, 23);
+            this.label27.Location = new System.Drawing.Point(79, 149);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(42, 16);
             this.label27.TabIndex = 68;
             this.label27.Text = "Ratio:";
             // 
+            // labelConEdPowerRelay
+            // 
+            this.labelConEdPowerRelay.AutoSize = true;
+            this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
+            this.labelConEdPowerRelay.Location = new System.Drawing.Point(167, 338);
+            this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
+            this.labelConEdPowerRelay.Size = new System.Drawing.Size(45, 16);
+            this.labelConEdPowerRelay.TabIndex = 51;
+            this.labelConEdPowerRelay.Text = "Power";
+            // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(126, 50);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(72, 260);
             this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(88, 26);
@@ -2131,7 +2062,7 @@
             // textBoxCTRatio
             // 
             this.textBoxCTRatio.Enabled = false;
-            this.textBoxCTRatio.Location = new System.Drawing.Point(25, 50);
+            this.textBoxCTRatio.Location = new System.Drawing.Point(82, 176);
             this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(67, 22);
@@ -2140,25 +2071,15 @@
             this.textBoxCTRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_Leave);
             // 
-            // domainUpDownCTRatioM
+            // label20
             // 
-            this.domainUpDownCTRatioM.Enabled = false;
-            this.domainUpDownCTRatioM.Items.Add("3750:5");
-            this.domainUpDownCTRatioM.Items.Add("3500:5");
-            this.domainUpDownCTRatioM.Items.Add("3000:5");
-            this.domainUpDownCTRatioM.Items.Add("2500:5");
-            this.domainUpDownCTRatioM.Items.Add("2000:5");
-            this.domainUpDownCTRatioM.Items.Add("1600:5");
-            this.domainUpDownCTRatioM.Items.Add("1200:5");
-            this.domainUpDownCTRatioM.Items.Add("800:5");
-            this.domainUpDownCTRatioM.Items.Add("Special");
-            this.domainUpDownCTRatioM.Location = new System.Drawing.Point(131, 20);
-            this.domainUpDownCTRatioM.Margin = new System.Windows.Forms.Padding(4);
-            this.domainUpDownCTRatioM.Name = "domainUpDownCTRatioM";
-            this.domainUpDownCTRatioM.Size = new System.Drawing.Size(5, 22);
-            this.domainUpDownCTRatioM.TabIndex = 62;
-            this.domainUpDownCTRatioM.Text = "1600:5";
-            this.domainUpDownCTRatioM.Visible = false;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(40, 82);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(81, 16);
+            this.label20.TabIndex = 44;
+            this.label20.Text = "Relay Type:";
             // 
             // groupBoxRelayFlags
             // 
@@ -3239,8 +3160,6 @@
             this.groupBoxLRLockoutMain.PerformLayout();
             this.groupBoxLowVoltThres.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltageThres)).EndInit();
-            this.groupBoxPhasingAndType.ResumeLayout(false);
-            this.groupBoxPhasingAndType.PerformLayout();
             this.groupBoxNetworkCTRatio.ResumeLayout(false);
             this.groupBoxNetworkCTRatio.PerformLayout();
             this.groupBoxRelayFlags.ResumeLayout(false);
@@ -3346,13 +3265,9 @@
         private System.Windows.Forms.Button buttonClearCycleCount;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox textBoxCTRatio;
-        private System.Windows.Forms.DomainUpDown domainUpDownCTRatioM;
         private System.Windows.Forms.Button buttonSendCTRatio;
         private System.Windows.Forms.Button buttonTypePhasingRestoreDefaults;
-        private System.Windows.Forms.Button buttonRelayType;
-        private System.Windows.Forms.DomainUpDown domainUpDownRelayType;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.DomainUpDown domainUpDownPhasings;
         private RelayControlLibrary.ucPumpMode ucPumpMode1;
         private RelayControlLibrary.ucTripMode ucTripMode2;
         private System.Windows.Forms.CheckBox checkBoxCalibrating;
@@ -3417,7 +3332,6 @@
         private RelayControlLibrary.ucSafeService ucSafeService1;
         private System.Windows.Forms.GroupBox groupBoxRelayFlags;
         private System.Windows.Forms.GroupBox groupBoxNetworkCTRatio;
-        private System.Windows.Forms.GroupBox groupBoxPhasingAndType;
         private RelayControlLibrary.uc8CheckBoxFlags uc8CheckBoxFlagsGEControl2;
         private RelayControlLibrary.uc8CheckBoxFlags uc8CheckBoxFlagsGEControl1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelReceiverStatus;

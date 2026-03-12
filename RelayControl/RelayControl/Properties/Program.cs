@@ -19,7 +19,6 @@ namespace RelayControl
 
             bool createdNew;
             m_Mutex = new Mutex(true, "DIGITALGRID, INC. Relay UI", out createdNew);
-
 #if !DEBUG
             if (createdNew)
                 Application.Run(new MainControl());
