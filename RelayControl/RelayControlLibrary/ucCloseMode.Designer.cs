@@ -224,9 +224,9 @@ namespace RelayControlLibrary
             this.labelRecloseUnit.AutoSize = true;
             this.labelRecloseUnit.Location = new System.Drawing.Point(227, 65);
             this.labelRecloseUnit.Name = "labelRecloseUnit";
-            this.labelRecloseUnit.Size = new System.Drawing.Size(15, 16);
+            this.labelRecloseUnit.Size = new System.Drawing.Size(35, 16);
             this.labelRecloseUnit.TabIndex = 24;
-            this.labelRecloseUnit.Text = "V";
+            this.labelRecloseUnit.Text = "Volts";
             // 
             // labelPDAUnit
             // 
@@ -242,9 +242,9 @@ namespace RelayControlLibrary
             this.labelPDVUnit.AutoSize = true;
             this.labelPDVUnit.Location = new System.Drawing.Point(227, 113);
             this.labelPDVUnit.Name = "labelPDVUnit";
-            this.labelPDVUnit.Size = new System.Drawing.Size(15, 16);
+            this.labelPDVUnit.Size = new System.Drawing.Size(35, 16);
             this.labelPDVUnit.TabIndex = 26;
-            this.labelPDVUnit.Text = "V";
+            this.labelPDVUnit.Text = "Volts";
             // 
             // labelTiltAngleUnit
             // 

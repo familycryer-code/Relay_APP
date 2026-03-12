@@ -909,7 +909,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
-#if (ENMAX || CONED)
+#if (ENMAX || CONED || TORONTO_HYDRO)
             this.comboBoxDNPBaudRate.SelectedIndex = 3;
 #else
             this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
