@@ -426,7 +426,7 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode.Size = new System.Drawing.Size(250, 260);
             this.groupBoxPumpMode.TabIndex = 15;
             this.groupBoxPumpMode.TabStop = false;
-            this.groupBoxPumpMode.Text = "Pump Protect Mode:";
+            this.groupBoxPumpMode.Text = "Pump Protect Mode";
             // 
             // checkBoxAlarmOnly
             // 

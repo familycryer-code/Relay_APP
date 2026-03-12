@@ -617,7 +617,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.Size = new System.Drawing.Size(307, 254);
             this.groupBoxTripModeSettings.TabIndex = 47;
             this.groupBoxTripModeSettings.TabStop = false;
-            this.groupBoxTripModeSettings.Text = "Trip Mode Settings:";
+            this.groupBoxTripModeSettings.Text = "Trip Mode Settings";
             // 
             // comboBox_TripType
             // 

@@ -62,7 +62,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownTimeDelay.Location = new System.Drawing.Point(157, 37);
             this.numericUpDownTimeDelay.Maximum = new decimal(new int[] {
-            32767,//65535,
+            32767,
             0,
             0,
             0});
@@ -346,7 +346,7 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.Size = new System.Drawing.Size(277, 260);
             this.groupBoxCloseMode.TabIndex = 33;
             this.groupBoxCloseMode.TabStop = false;
-            this.groupBoxCloseMode.Text = "Close Mode Settings:";
+            this.groupBoxCloseMode.Text = "Close Mode Settings";
             // 
             // ucCloseMode
             // 
