@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.buttonTX = new System.Windows.Forms.Button();
             this.buttonRQ = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -212,11 +211,11 @@
             this.label21 = new System.Windows.Forms.Label();
             this.button_FastFire = new System.Windows.Forms.Button();
             this.button_FastMode = new System.Windows.Forms.Button();
-            this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
-            this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
+            this.timer_FastMode = new System.Windows.Forms.Timer();
+            this.timer_FireFastConfig = new System.Windows.Forms.Timer();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -278,7 +277,7 @@
             this.label1.Location = new System.Drawing.Point(33, 23);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label1.Size = new System.Drawing.Size(161, 24);
+            this.label1.Size = new System.Drawing.Size(131, 19);
             this.label1.TabIndex = 2;
             this.label1.Text = "Transmission ID:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -288,7 +287,7 @@
             this.textBoxID.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxID.Location = new System.Drawing.Point(170, 15);
             this.textBoxID.Name = "textBoxID";
-            this.textBoxID.Size = new System.Drawing.Size(90, 32);
+            this.textBoxID.Size = new System.Drawing.Size(90, 27);
             this.textBoxID.TabIndex = 3;
             this.textBoxID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxID.Leave += new System.EventHandler(this.textBoxID_Leave);
@@ -300,7 +299,7 @@
             this.label2.Location = new System.Drawing.Point(12, 210);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label2.Size = new System.Drawing.Size(176, 24);
+            this.label2.Size = new System.Drawing.Size(142, 19);
             this.label2.TabIndex = 4;
             this.label2.Text = "Color (Frequency):";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -375,7 +374,7 @@
             this.labelTXCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTXCTRatio.Location = new System.Drawing.Point(49, 119);
             this.labelTXCTRatio.Name = "labelTXCTRatio";
-            this.labelTXCTRatio.Size = new System.Drawing.Size(129, 24);
+            this.labelTXCTRatio.Size = new System.Drawing.Size(105, 19);
             this.labelTXCTRatio.TabIndex = 13;
             this.labelTXCTRatio.Text = "CT Multiplier:";
             // 
@@ -384,7 +383,7 @@
             this.textBoxTXCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxTXCTRatio.Location = new System.Drawing.Point(170, 114);
             this.textBoxTXCTRatio.Name = "textBoxTXCTRatio";
-            this.textBoxTXCTRatio.Size = new System.Drawing.Size(54, 32);
+            this.textBoxTXCTRatio.Size = new System.Drawing.Size(54, 27);
             this.textBoxTXCTRatio.TabIndex = 12;
             this.textBoxTXCTRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxTXCTRatio.DoubleClick += new System.EventHandler(this.CTCalc_Click);
@@ -395,7 +394,7 @@
             this.labelErrorLabel.Location = new System.Drawing.Point(237, 510);
             this.labelErrorLabel.Name = "labelErrorLabel";
             this.labelErrorLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelErrorLabel.Size = new System.Drawing.Size(0, 15);
+            this.labelErrorLabel.Size = new System.Drawing.Size(0, 13);
             this.labelErrorLabel.TabIndex = 14;
             // 
             // buttonRestoreDefaults
@@ -415,7 +414,7 @@
             this.textBoxSerialNumber.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxSerialNumber.Location = new System.Drawing.Point(170, 64);
             this.textBoxSerialNumber.Name = "textBoxSerialNumber";
-            this.textBoxSerialNumber.Size = new System.Drawing.Size(90, 32);
+            this.textBoxSerialNumber.Size = new System.Drawing.Size(90, 27);
             this.textBoxSerialNumber.TabIndex = 16;
             this.textBoxSerialNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -426,7 +425,7 @@
             this.labelTXSN.Location = new System.Drawing.Point(46, 64);
             this.labelTXSN.Name = "labelTXSN";
             this.labelTXSN.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelTXSN.Size = new System.Drawing.Size(143, 24);
+            this.labelTXSN.Size = new System.Drawing.Size(116, 19);
             this.labelTXSN.TabIndex = 17;
             this.labelTXSN.Text = "Serial Number:";
             this.labelTXSN.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -477,7 +476,7 @@
             this.labelASEnable.Location = new System.Drawing.Point(42, 13);
             this.labelASEnable.Name = "labelASEnable";
             this.labelASEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASEnable.Size = new System.Drawing.Size(91, 15);
+            this.labelASEnable.Size = new System.Drawing.Size(80, 13);
             this.labelASEnable.TabIndex = 57;
             this.labelASEnable.Text = "Enable/Disable";
             this.labelASEnable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -488,7 +487,7 @@
             this.labelASFlag.Location = new System.Drawing.Point(6, 13);
             this.labelASFlag.Name = "labelASFlag";
             this.labelASFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASFlag.Size = new System.Drawing.Size(34, 15);
+            this.labelASFlag.Size = new System.Drawing.Size(30, 13);
             this.labelASFlag.TabIndex = 56;
             this.labelASFlag.Text = "Flag:";
             this.labelASFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -499,7 +498,7 @@
             this.labelASH.Location = new System.Drawing.Point(18, 193);
             this.labelASH.Name = "labelASH";
             this.labelASH.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASH.Size = new System.Drawing.Size(19, 15);
+            this.labelASH.Size = new System.Drawing.Size(18, 13);
             this.labelASH.TabIndex = 63;
             this.labelASH.Text = "H:";
             this.labelASH.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -509,7 +508,7 @@
             this.checkBoxFAH.AutoSize = true;
             this.checkBoxFAH.Location = new System.Drawing.Point(67, 192);
             this.checkBoxFAH.Name = "checkBoxFAH";
-            this.checkBoxFAH.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAH.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAH.TabIndex = 7;
             this.checkBoxFAH.UseVisualStyleBackColor = true;
             // 
@@ -519,7 +518,7 @@
             this.labelASG.Location = new System.Drawing.Point(18, 170);
             this.labelASG.Name = "labelASG";
             this.labelASG.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASG.Size = new System.Drawing.Size(19, 15);
+            this.labelASG.Size = new System.Drawing.Size(18, 13);
             this.labelASG.TabIndex = 62;
             this.labelASG.Text = "G:";
             this.labelASG.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -529,7 +528,7 @@
             this.checkBoxFAG.AutoSize = true;
             this.checkBoxFAG.Location = new System.Drawing.Point(67, 169);
             this.checkBoxFAG.Name = "checkBoxFAG";
-            this.checkBoxFAG.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAG.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAG.TabIndex = 6;
             this.checkBoxFAG.UseVisualStyleBackColor = true;
             // 
@@ -539,7 +538,7 @@
             this.labelASF.Location = new System.Drawing.Point(18, 147);
             this.labelASF.Name = "labelASF";
             this.labelASF.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASF.Size = new System.Drawing.Size(17, 15);
+            this.labelASF.Size = new System.Drawing.Size(16, 13);
             this.labelASF.TabIndex = 61;
             this.labelASF.Text = "F:";
             this.labelASF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -549,7 +548,7 @@
             this.checkBoxFAF.AutoSize = true;
             this.checkBoxFAF.Location = new System.Drawing.Point(67, 146);
             this.checkBoxFAF.Name = "checkBoxFAF";
-            this.checkBoxFAF.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAF.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAF.TabIndex = 5;
             this.checkBoxFAF.UseVisualStyleBackColor = true;
             // 
@@ -559,7 +558,7 @@
             this.labelASE.Location = new System.Drawing.Point(18, 124);
             this.labelASE.Name = "labelASE";
             this.labelASE.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASE.Size = new System.Drawing.Size(18, 15);
+            this.labelASE.Size = new System.Drawing.Size(17, 13);
             this.labelASE.TabIndex = 60;
             this.labelASE.Text = "E:";
             this.labelASE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -569,7 +568,7 @@
             this.checkBoxFAE.AutoSize = true;
             this.checkBoxFAE.Location = new System.Drawing.Point(67, 123);
             this.checkBoxFAE.Name = "checkBoxFAE";
-            this.checkBoxFAE.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAE.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAE.TabIndex = 4;
             this.checkBoxFAE.UseVisualStyleBackColor = true;
             // 
@@ -579,7 +578,7 @@
             this.labeASD.Location = new System.Drawing.Point(18, 101);
             this.labeASD.Name = "labeASD";
             this.labeASD.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labeASD.Size = new System.Drawing.Size(19, 15);
+            this.labeASD.Size = new System.Drawing.Size(18, 13);
             this.labeASD.TabIndex = 59;
             this.labeASD.Text = "D:";
             this.labeASD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -589,7 +588,7 @@
             this.checkBoxFAD.AutoSize = true;
             this.checkBoxFAD.Location = new System.Drawing.Point(67, 100);
             this.checkBoxFAD.Name = "checkBoxFAD";
-            this.checkBoxFAD.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAD.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAD.TabIndex = 3;
             this.checkBoxFAD.UseVisualStyleBackColor = true;
             // 
@@ -599,7 +598,7 @@
             this.labelASC.Location = new System.Drawing.Point(18, 78);
             this.labelASC.Name = "labelASC";
             this.labelASC.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASC.Size = new System.Drawing.Size(18, 15);
+            this.labelASC.Size = new System.Drawing.Size(17, 13);
             this.labelASC.TabIndex = 58;
             this.labelASC.Text = "C:";
             this.labelASC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -609,7 +608,7 @@
             this.checkBoxFAC.AutoSize = true;
             this.checkBoxFAC.Location = new System.Drawing.Point(67, 77);
             this.checkBoxFAC.Name = "checkBoxFAC";
-            this.checkBoxFAC.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAC.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAC.TabIndex = 2;
             this.checkBoxFAC.UseVisualStyleBackColor = true;
             // 
@@ -619,7 +618,7 @@
             this.labelASB.Location = new System.Drawing.Point(18, 55);
             this.labelASB.Name = "labelASB";
             this.labelASB.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASB.Size = new System.Drawing.Size(18, 15);
+            this.labelASB.Size = new System.Drawing.Size(17, 13);
             this.labelASB.TabIndex = 57;
             this.labelASB.Text = "B:";
             this.labelASB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -629,7 +628,7 @@
             this.checkBoxFAB.AutoSize = true;
             this.checkBoxFAB.Location = new System.Drawing.Point(67, 54);
             this.checkBoxFAB.Name = "checkBoxFAB";
-            this.checkBoxFAB.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAB.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAB.TabIndex = 1;
             this.checkBoxFAB.UseVisualStyleBackColor = true;
             // 
@@ -639,7 +638,7 @@
             this.labelASA.Location = new System.Drawing.Point(18, 32);
             this.labelASA.Name = "labelASA";
             this.labelASA.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelASA.Size = new System.Drawing.Size(17, 15);
+            this.labelASA.Size = new System.Drawing.Size(17, 13);
             this.labelASA.TabIndex = 56;
             this.labelASA.Text = "A:";
             this.labelASA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -649,7 +648,7 @@
             this.checkBoxFAA.AutoSize = true;
             this.checkBoxFAA.Location = new System.Drawing.Point(67, 31);
             this.checkBoxFAA.Name = "checkBoxFAA";
-            this.checkBoxFAA.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFAA.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFAA.TabIndex = 0;
             this.checkBoxFAA.UseVisualStyleBackColor = true;
             // 
@@ -659,7 +658,7 @@
             this.labelCurrentThresholdHigh.Location = new System.Drawing.Point(3, 37);
             this.labelCurrentThresholdHigh.Name = "labelCurrentThresholdHigh";
             this.labelCurrentThresholdHigh.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelCurrentThresholdHigh.Size = new System.Drawing.Size(137, 15);
+            this.labelCurrentThresholdHigh.Size = new System.Drawing.Size(119, 13);
             this.labelCurrentThresholdHigh.TabIndex = 23;
             this.labelCurrentThresholdHigh.Text = "Current Threshold High:";
             this.labelCurrentThresholdHigh.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -670,7 +669,7 @@
             this.labelCurrentThresholdLow.Location = new System.Drawing.Point(595, 483);
             this.labelCurrentThresholdLow.Name = "labelCurrentThresholdLow";
             this.labelCurrentThresholdLow.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelCurrentThresholdLow.Size = new System.Drawing.Size(134, 15);
+            this.labelCurrentThresholdLow.Size = new System.Drawing.Size(117, 13);
             this.labelCurrentThresholdLow.TabIndex = 24;
             this.labelCurrentThresholdLow.Text = "Current Threshold Low:";
             this.labelCurrentThresholdLow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -748,7 +747,7 @@
             this.labelVoltageThresholdLow.Location = new System.Drawing.Point(3, 83);
             this.labelVoltageThresholdLow.Name = "labelVoltageThresholdLow";
             this.labelVoltageThresholdLow.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelVoltageThresholdLow.Size = new System.Drawing.Size(135, 15);
+            this.labelVoltageThresholdLow.Size = new System.Drawing.Size(119, 13);
             this.labelVoltageThresholdLow.TabIndex = 28;
             this.labelVoltageThresholdLow.Text = "Voltage Threshold Low:";
             this.labelVoltageThresholdLow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -759,7 +758,7 @@
             this.labelVoltageThresholdHigh.Location = new System.Drawing.Point(1, 60);
             this.labelVoltageThresholdHigh.Name = "labelVoltageThresholdHigh";
             this.labelVoltageThresholdHigh.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelVoltageThresholdHigh.Size = new System.Drawing.Size(138, 15);
+            this.labelVoltageThresholdHigh.Size = new System.Drawing.Size(121, 13);
             this.labelVoltageThresholdHigh.TabIndex = 27;
             this.labelVoltageThresholdHigh.Text = "Voltage Threshold High:";
             this.labelVoltageThresholdHigh.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -778,7 +777,7 @@
             this.labelOperatingMode.Location = new System.Drawing.Point(626, 508);
             this.labelOperatingMode.Name = "labelOperatingMode";
             this.labelOperatingMode.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelOperatingMode.Size = new System.Drawing.Size(99, 15);
+            this.labelOperatingMode.Size = new System.Drawing.Size(86, 13);
             this.labelOperatingMode.TabIndex = 32;
             this.labelOperatingMode.Text = "Operating Mode:";
             this.labelOperatingMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -812,7 +811,7 @@
             this.labelAnalog2Threshold.Location = new System.Drawing.Point(3, 126);
             this.labelAnalog2Threshold.Name = "labelAnalog2Threshold";
             this.labelAnalog2Threshold.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelAnalog2Threshold.Size = new System.Drawing.Size(58, 15);
+            this.labelAnalog2Threshold.Size = new System.Drawing.Size(52, 13);
             this.labelAnalog2Threshold.TabIndex = 35;
             this.labelAnalog2Threshold.Text = "Analog 2:";
             this.labelAnalog2Threshold.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -846,7 +845,7 @@
             this.labelAnalog1Threshold.Location = new System.Drawing.Point(3, 103);
             this.labelAnalog1Threshold.Name = "labelAnalog1Threshold";
             this.labelAnalog1Threshold.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelAnalog1Threshold.Size = new System.Drawing.Size(58, 15);
+            this.labelAnalog1Threshold.Size = new System.Drawing.Size(52, 13);
             this.labelAnalog1Threshold.TabIndex = 33;
             this.labelAnalog1Threshold.Text = "Analog 1:";
             this.labelAnalog1Threshold.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -887,9 +886,9 @@
             this.labelGeneralSettings.Location = new System.Drawing.Point(56, 9);
             this.labelGeneralSettings.Name = "labelGeneralSettings";
             this.labelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelGeneralSettings.Size = new System.Drawing.Size(185, 24);
+            this.labelGeneralSettings.Size = new System.Drawing.Size(145, 19);
             this.labelGeneralSettings.TabIndex = 40;
-            this.labelGeneralSettings.Text = "General Settings:";
+            this.labelGeneralSettings.Text = "General Settings";
             this.labelGeneralSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panelOtherAlarmSettings
@@ -928,7 +927,7 @@
             this.labelOtherAlarmThreshold.Location = new System.Drawing.Point(139, 18);
             this.labelOtherAlarmThreshold.Name = "labelOtherAlarmThreshold";
             this.labelOtherAlarmThreshold.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelOtherAlarmThreshold.Size = new System.Drawing.Size(62, 15);
+            this.labelOtherAlarmThreshold.Size = new System.Drawing.Size(54, 13);
             this.labelOtherAlarmThreshold.TabIndex = 68;
             this.labelOtherAlarmThreshold.Text = "Threshold";
             this.labelOtherAlarmThreshold.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -942,7 +941,7 @@
             this.comboBoxAnalog2OU.Location = new System.Drawing.Point(61, 124);
             this.comboBoxAnalog2OU.Name = "comboBoxAnalog2OU";
             this.comboBoxAnalog2OU.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.comboBoxAnalog2OU.Size = new System.Drawing.Size(58, 23);
+            this.comboBoxAnalog2OU.Size = new System.Drawing.Size(58, 21);
             this.comboBoxAnalog2OU.TabIndex = 67;
             // 
             // comboBoxAnalog1OU
@@ -954,7 +953,7 @@
             this.comboBoxAnalog1OU.Location = new System.Drawing.Point(61, 100);
             this.comboBoxAnalog1OU.Name = "comboBoxAnalog1OU";
             this.comboBoxAnalog1OU.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.comboBoxAnalog1OU.Size = new System.Drawing.Size(58, 23);
+            this.comboBoxAnalog1OU.Size = new System.Drawing.Size(58, 21);
             this.comboBoxAnalog1OU.TabIndex = 66;
             // 
             // labelPump
@@ -963,7 +962,7 @@
             this.labelPump.Location = new System.Drawing.Point(91, 152);
             this.labelPump.Name = "labelPump";
             this.labelPump.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelPump.Size = new System.Drawing.Size(70, 15);
+            this.labelPump.Size = new System.Drawing.Size(60, 13);
             this.labelPump.TabIndex = 58;
             this.labelPump.Text = "Pump Flag:";
             this.labelPump.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -975,7 +974,7 @@
             this.label13.Location = new System.Drawing.Point(208, 18);
             this.label13.Name = "label13";
             this.label13.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label13.Size = new System.Drawing.Size(46, 15);
+            this.label13.Size = new System.Drawing.Size(40, 13);
             this.label13.TabIndex = 57;
             this.label13.Text = "Enable";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -986,7 +985,7 @@
             this.checkBoxPump.Location = new System.Drawing.Point(218, 149);
             this.checkBoxPump.Name = "checkBoxPump";
             this.checkBoxPump.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxPump.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxPump.Size = new System.Drawing.Size(15, 14);
             this.checkBoxPump.TabIndex = 5;
             this.checkBoxPump.UseVisualStyleBackColor = true;
             this.checkBoxPump.Visible = false;
@@ -997,7 +996,7 @@
             this.checkBoxAnalog2.Location = new System.Drawing.Point(218, 126);
             this.checkBoxAnalog2.Name = "checkBoxAnalog2";
             this.checkBoxAnalog2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxAnalog2.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxAnalog2.Size = new System.Drawing.Size(15, 14);
             this.checkBoxAnalog2.TabIndex = 4;
             this.checkBoxAnalog2.UseVisualStyleBackColor = true;
             // 
@@ -1007,7 +1006,7 @@
             this.checkBoxAnalog1.Location = new System.Drawing.Point(218, 103);
             this.checkBoxAnalog1.Name = "checkBoxAnalog1";
             this.checkBoxAnalog1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxAnalog1.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxAnalog1.Size = new System.Drawing.Size(15, 14);
             this.checkBoxAnalog1.TabIndex = 3;
             this.checkBoxAnalog1.UseVisualStyleBackColor = true;
             // 
@@ -1017,7 +1016,7 @@
             this.checkBoxUnderVolt.Location = new System.Drawing.Point(218, 80);
             this.checkBoxUnderVolt.Name = "checkBoxUnderVolt";
             this.checkBoxUnderVolt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxUnderVolt.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxUnderVolt.Size = new System.Drawing.Size(15, 14);
             this.checkBoxUnderVolt.TabIndex = 2;
             this.checkBoxUnderVolt.UseVisualStyleBackColor = true;
             // 
@@ -1027,7 +1026,7 @@
             this.checkBoxOverVolt.Location = new System.Drawing.Point(218, 57);
             this.checkBoxOverVolt.Name = "checkBoxOverVolt";
             this.checkBoxOverVolt.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxOverVolt.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxOverVolt.Size = new System.Drawing.Size(15, 14);
             this.checkBoxOverVolt.TabIndex = 1;
             this.checkBoxOverVolt.UseVisualStyleBackColor = true;
             // 
@@ -1037,7 +1036,7 @@
             this.checkBoxCurrent.Location = new System.Drawing.Point(218, 34);
             this.checkBoxCurrent.Name = "checkBoxCurrent";
             this.checkBoxCurrent.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxCurrent.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxCurrent.Size = new System.Drawing.Size(15, 14);
             this.checkBoxCurrent.TabIndex = 0;
             this.checkBoxCurrent.UseVisualStyleBackColor = true;
             // 
@@ -1087,7 +1086,7 @@
             this.checkBoxMUXBOXOff.Location = new System.Drawing.Point(189, 154);
             this.checkBoxMUXBOXOff.Name = "checkBoxMUXBOXOff";
             this.checkBoxMUXBOXOff.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxMUXBOXOff.Size = new System.Drawing.Size(44, 19);
+            this.checkBoxMUXBOXOff.Size = new System.Drawing.Size(40, 17);
             this.checkBoxMUXBOXOff.TabIndex = 86;
             this.checkBoxMUXBOXOff.Text = "Off";
             this.checkBoxMUXBOXOff.UseVisualStyleBackColor = true;
@@ -1099,7 +1098,7 @@
             this.labelMuxBoxMinutes.Location = new System.Drawing.Point(154, 154);
             this.labelMuxBoxMinutes.Name = "labelMuxBoxMinutes";
             this.labelMuxBoxMinutes.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelMuxBoxMinutes.Size = new System.Drawing.Size(28, 15);
+            this.labelMuxBoxMinutes.Size = new System.Drawing.Size(24, 13);
             this.labelMuxBoxMinutes.TabIndex = 85;
             this.labelMuxBoxMinutes.Text = "Min";
             this.labelMuxBoxMinutes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1118,7 +1117,7 @@
             this.labelConfigHours.Location = new System.Drawing.Point(154, 119);
             this.labelConfigHours.Name = "labelConfigHours";
             this.labelConfigHours.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelConfigHours.Size = new System.Drawing.Size(38, 15);
+            this.labelConfigHours.Size = new System.Drawing.Size(33, 13);
             this.labelConfigHours.TabIndex = 83;
             this.labelConfigHours.Text = "hours";
             this.labelConfigHours.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1129,7 +1128,7 @@
             this.labelType2Hours.Location = new System.Drawing.Point(154, 85);
             this.labelType2Hours.Name = "labelType2Hours";
             this.labelType2Hours.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelType2Hours.Size = new System.Drawing.Size(38, 15);
+            this.labelType2Hours.Size = new System.Drawing.Size(33, 13);
             this.labelType2Hours.TabIndex = 82;
             this.labelType2Hours.Text = "hours";
             this.labelType2Hours.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1140,7 +1139,7 @@
             this.labelEvery5.Location = new System.Drawing.Point(56, 121);
             this.labelEvery5.Name = "labelEvery5";
             this.labelEvery5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelEvery5.Size = new System.Drawing.Size(47, 15);
+            this.labelEvery5.Size = new System.Drawing.Size(44, 13);
             this.labelEvery5.TabIndex = 74;
             this.labelEvery5.Text = "@every";
             this.labelEvery5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1151,7 +1150,7 @@
             this.labelMusBox.Location = new System.Drawing.Point(3, 154);
             this.labelMusBox.Name = "labelMusBox";
             this.labelMusBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelMusBox.Size = new System.Drawing.Size(63, 15);
+            this.labelMusBox.Size = new System.Drawing.Size(56, 13);
             this.labelMusBox.TabIndex = 81;
             this.labelMusBox.Text = "MUXBOX:";
             this.labelMusBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1180,7 +1179,7 @@
             this.label7.Location = new System.Drawing.Point(56, 154);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label7.Size = new System.Drawing.Size(47, 15);
+            this.label7.Size = new System.Drawing.Size(44, 13);
             this.label7.TabIndex = 78;
             this.label7.Text = "@every";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1191,7 +1190,7 @@
             this.checkBoxConfigOff.Location = new System.Drawing.Point(189, 119);
             this.checkBoxConfigOff.Name = "checkBoxConfigOff";
             this.checkBoxConfigOff.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxConfigOff.Size = new System.Drawing.Size(44, 19);
+            this.checkBoxConfigOff.Size = new System.Drawing.Size(40, 17);
             this.checkBoxConfigOff.TabIndex = 77;
             this.checkBoxConfigOff.Text = "Off";
             this.checkBoxConfigOff.UseVisualStyleBackColor = true;
@@ -1203,7 +1202,7 @@
             this.checkBoxType2Off.Location = new System.Drawing.Point(189, 84);
             this.checkBoxType2Off.Name = "checkBoxType2Off";
             this.checkBoxType2Off.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxType2Off.Size = new System.Drawing.Size(44, 19);
+            this.checkBoxType2Off.Size = new System.Drawing.Size(40, 17);
             this.checkBoxType2Off.TabIndex = 76;
             this.checkBoxType2Off.Text = "Off";
             this.checkBoxType2Off.UseVisualStyleBackColor = true;
@@ -1223,7 +1222,7 @@
             this.labelType2.Location = new System.Drawing.Point(8, 86);
             this.labelType2.Name = "labelType2";
             this.labelType2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelType2.Size = new System.Drawing.Size(46, 15);
+            this.labelType2.Size = new System.Drawing.Size(43, 13);
             this.labelType2.TabIndex = 75;
             this.labelType2.Text = "Type 2:";
             this.labelType2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1234,7 +1233,7 @@
             this.labelEvery4.Location = new System.Drawing.Point(56, 85);
             this.labelEvery4.Name = "labelEvery4";
             this.labelEvery4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelEvery4.Size = new System.Drawing.Size(47, 15);
+            this.labelEvery4.Size = new System.Drawing.Size(44, 13);
             this.labelEvery4.TabIndex = 73;
             this.labelEvery4.Text = "@every";
             this.labelEvery4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1255,7 +1254,7 @@
             this.radioButton180S.AutoSize = true;
             this.radioButton180S.Location = new System.Drawing.Point(3, 41);
             this.radioButton180S.Name = "radioButton180S";
-            this.radioButton180S.Size = new System.Drawing.Size(98, 19);
+            this.radioButton180S.Size = new System.Drawing.Size(86, 17);
             this.radioButton180S.TabIndex = 2;
             this.radioButton180S.TabStop = true;
             this.radioButton180S.Text = "180 seconds";
@@ -1266,7 +1265,7 @@
             this.radioButton60S.AutoSize = true;
             this.radioButton60S.Location = new System.Drawing.Point(3, 22);
             this.radioButton60S.Name = "radioButton60S";
-            this.radioButton60S.Size = new System.Drawing.Size(91, 19);
+            this.radioButton60S.Size = new System.Drawing.Size(80, 17);
             this.radioButton60S.TabIndex = 1;
             this.radioButton60S.TabStop = true;
             this.radioButton60S.Text = "60 seconds";
@@ -1277,7 +1276,7 @@
             this.radioButton10S.AutoSize = true;
             this.radioButton10S.Location = new System.Drawing.Point(3, 4);
             this.radioButton10S.Name = "radioButton10S";
-            this.radioButton10S.Size = new System.Drawing.Size(91, 19);
+            this.radioButton10S.Size = new System.Drawing.Size(80, 17);
             this.radioButton10S.TabIndex = 0;
             this.radioButton10S.TabStop = true;
             this.radioButton10S.Text = "10 seconds";
@@ -1289,7 +1288,7 @@
             this.labelEvery3.Location = new System.Drawing.Point(56, 50);
             this.labelEvery3.Name = "labelEvery3";
             this.labelEvery3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelEvery3.Size = new System.Drawing.Size(47, 15);
+            this.labelEvery3.Size = new System.Drawing.Size(44, 13);
             this.labelEvery3.TabIndex = 71;
             this.labelEvery3.Text = "@every";
             this.labelEvery3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1300,7 +1299,7 @@
             this.labelEvery2.Location = new System.Drawing.Point(56, 31);
             this.labelEvery2.Name = "labelEvery2";
             this.labelEvery2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelEvery2.Size = new System.Drawing.Size(47, 15);
+            this.labelEvery2.Size = new System.Drawing.Size(44, 13);
             this.labelEvery2.TabIndex = 70;
             this.labelEvery2.Text = "@every";
             this.labelEvery2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1311,7 +1310,7 @@
             this.labelEvery1.Location = new System.Drawing.Point(56, 13);
             this.labelEvery1.Name = "labelEvery1";
             this.labelEvery1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelEvery1.Size = new System.Drawing.Size(47, 15);
+            this.labelEvery1.Size = new System.Drawing.Size(44, 13);
             this.labelEvery1.TabIndex = 69;
             this.labelEvery1.Text = "@every";
             this.labelEvery1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1322,7 +1321,7 @@
             this.labelType1.Location = new System.Drawing.Point(8, 13);
             this.labelType1.Name = "labelType1";
             this.labelType1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelType1.Size = new System.Drawing.Size(46, 15);
+            this.labelType1.Size = new System.Drawing.Size(43, 13);
             this.labelType1.TabIndex = 68;
             this.labelType1.Text = "Type 1:";
             this.labelType1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1334,9 +1333,9 @@
             this.labelMessageFrequencySettings.Location = new System.Drawing.Point(376, 306);
             this.labelMessageFrequencySettings.Name = "labelMessageFrequencySettings";
             this.labelMessageFrequencySettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelMessageFrequencySettings.Size = new System.Drawing.Size(222, 17);
+            this.labelMessageFrequencySettings.Size = new System.Drawing.Size(170, 13);
             this.labelMessageFrequencySettings.TabIndex = 67;
-            this.labelMessageFrequencySettings.Text = "Message Frequency Settings:";
+            this.labelMessageFrequencySettings.Text = "Message Frequency Settings";
             this.labelMessageFrequencySettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panelSmartExternalCable
@@ -1354,7 +1353,7 @@
             this.checkBoxSmartExternalCableEnable.AutoSize = true;
             this.checkBoxSmartExternalCableEnable.Location = new System.Drawing.Point(111, 12);
             this.checkBoxSmartExternalCableEnable.Name = "checkBoxSmartExternalCableEnable";
-            this.checkBoxSmartExternalCableEnable.Size = new System.Drawing.Size(145, 19);
+            this.checkBoxSmartExternalCableEnable.Size = new System.Drawing.Size(124, 17);
             this.checkBoxSmartExternalCableEnable.TabIndex = 0;
             this.checkBoxSmartExternalCableEnable.Text = "Smart External Cable";
             this.checkBoxSmartExternalCableEnable.UseVisualStyleBackColor = true;
@@ -1423,7 +1422,7 @@
             this.label17.Location = new System.Drawing.Point(88, 177);
             this.label17.Name = "label17";
             this.label17.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label17.Size = new System.Drawing.Size(24, 15);
+            this.label17.Size = new System.Drawing.Size(22, 13);
             this.label17.TabIndex = 70;
             this.label17.Text = "Ext";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1434,7 +1433,7 @@
             this.label18.Location = new System.Drawing.Point(88, 154);
             this.label18.Name = "label18";
             this.label18.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label18.Size = new System.Drawing.Size(24, 15);
+            this.label18.Size = new System.Drawing.Size(22, 13);
             this.label18.TabIndex = 69;
             this.label18.Text = "Ext";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1446,7 +1445,7 @@
             this.label19.Location = new System.Drawing.Point(88, 132);
             this.label19.Name = "label19";
             this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label19.Size = new System.Drawing.Size(24, 15);
+            this.label19.Size = new System.Drawing.Size(22, 13);
             this.label19.TabIndex = 68;
             this.label19.Text = "Ext";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1458,7 +1457,7 @@
             this.label20.Location = new System.Drawing.Point(88, 109);
             this.label20.Name = "label20";
             this.label20.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label20.Size = new System.Drawing.Size(24, 15);
+            this.label20.Size = new System.Drawing.Size(22, 13);
             this.label20.TabIndex = 67;
             this.label20.Text = "Ext";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1470,7 +1469,7 @@
             this.label15.Location = new System.Drawing.Point(88, 85);
             this.label15.Name = "label15";
             this.label15.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label15.Size = new System.Drawing.Size(24, 15);
+            this.label15.Size = new System.Drawing.Size(22, 13);
             this.label15.TabIndex = 66;
             this.label15.Text = "Ext";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1482,7 +1481,7 @@
             this.label16.Location = new System.Drawing.Point(88, 62);
             this.label16.Name = "label16";
             this.label16.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label16.Size = new System.Drawing.Size(24, 15);
+            this.label16.Size = new System.Drawing.Size(22, 13);
             this.label16.TabIndex = 65;
             this.label16.Text = "Ext";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1494,7 +1493,7 @@
             this.label14.Location = new System.Drawing.Point(88, 40);
             this.label14.Name = "label14";
             this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label14.Size = new System.Drawing.Size(24, 15);
+            this.label14.Size = new System.Drawing.Size(22, 13);
             this.label14.TabIndex = 64;
             this.label14.Text = "Ext";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1506,7 +1505,7 @@
             this.label3.Location = new System.Drawing.Point(88, 17);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label3.Size = new System.Drawing.Size(24, 15);
+            this.label3.Size = new System.Drawing.Size(22, 13);
             this.label3.TabIndex = 56;
             this.label3.Text = "Ext";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1517,7 +1516,7 @@
             this.labelWBAn2.Location = new System.Drawing.Point(10, 177);
             this.labelWBAn2.Name = "labelWBAn2";
             this.labelWBAn2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBAn2.Size = new System.Drawing.Size(31, 15);
+            this.labelWBAn2.Size = new System.Drawing.Size(29, 13);
             this.labelWBAn2.TabIndex = 63;
             this.labelWBAn2.Text = "An2:";
             this.labelWBAn2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1528,7 +1527,7 @@
             this.checkBoxWBAn2.Location = new System.Drawing.Point(70, 177);
             this.checkBoxWBAn2.Name = "checkBoxWBAn2";
             this.checkBoxWBAn2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBAn2.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBAn2.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBAn2.TabIndex = 7;
             this.checkBoxWBAn2.UseVisualStyleBackColor = true;
             // 
@@ -1538,7 +1537,7 @@
             this.labelWBAn1.Location = new System.Drawing.Point(10, 154);
             this.labelWBAn1.Name = "labelWBAn1";
             this.labelWBAn1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBAn1.Size = new System.Drawing.Size(31, 15);
+            this.labelWBAn1.Size = new System.Drawing.Size(29, 13);
             this.labelWBAn1.TabIndex = 62;
             this.labelWBAn1.Text = "An1:";
             this.labelWBAn1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1549,7 +1548,7 @@
             this.checkBoxWBAn1.Location = new System.Drawing.Point(70, 154);
             this.checkBoxWBAn1.Name = "checkBoxWBAn1";
             this.checkBoxWBAn1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBAn1.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBAn1.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBAn1.TabIndex = 6;
             this.checkBoxWBAn1.UseVisualStyleBackColor = true;
             // 
@@ -1560,7 +1559,7 @@
             this.labelWGH.Location = new System.Drawing.Point(21, 132);
             this.labelWGH.Name = "labelWGH";
             this.labelWGH.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWGH.Size = new System.Drawing.Size(19, 15);
+            this.labelWGH.Size = new System.Drawing.Size(18, 13);
             this.labelWGH.TabIndex = 61;
             this.labelWGH.Text = "H:";
             this.labelWGH.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1572,7 +1571,7 @@
             this.checkBoxWBH.Location = new System.Drawing.Point(70, 131);
             this.checkBoxWBH.Name = "checkBoxWBH";
             this.checkBoxWBH.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBH.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBH.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBH.TabIndex = 5;
             this.checkBoxWBH.UseVisualStyleBackColor = true;
             // 
@@ -1583,7 +1582,7 @@
             this.labelWBG.Location = new System.Drawing.Point(21, 109);
             this.labelWBG.Name = "labelWBG";
             this.labelWBG.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBG.Size = new System.Drawing.Size(19, 15);
+            this.labelWBG.Size = new System.Drawing.Size(18, 13);
             this.labelWBG.TabIndex = 60;
             this.labelWBG.Text = "G:";
             this.labelWBG.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1595,7 +1594,7 @@
             this.checkBoxWBG.Location = new System.Drawing.Point(70, 108);
             this.checkBoxWBG.Name = "checkBoxWBG";
             this.checkBoxWBG.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBG.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBG.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBG.TabIndex = 4;
             this.checkBoxWBG.UseVisualStyleBackColor = true;
             // 
@@ -1606,7 +1605,7 @@
             this.labelWBF.Location = new System.Drawing.Point(21, 86);
             this.labelWBF.Name = "labelWBF";
             this.labelWBF.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBF.Size = new System.Drawing.Size(17, 15);
+            this.labelWBF.Size = new System.Drawing.Size(16, 13);
             this.labelWBF.TabIndex = 59;
             this.labelWBF.Text = "F:";
             this.labelWBF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1618,7 +1617,7 @@
             this.checkBoxWBF.Location = new System.Drawing.Point(70, 85);
             this.checkBoxWBF.Name = "checkBoxWBF";
             this.checkBoxWBF.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBF.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBF.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBF.TabIndex = 3;
             this.checkBoxWBF.UseVisualStyleBackColor = true;
             // 
@@ -1629,7 +1628,7 @@
             this.labelWBE.Location = new System.Drawing.Point(21, 63);
             this.labelWBE.Name = "labelWBE";
             this.labelWBE.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBE.Size = new System.Drawing.Size(18, 15);
+            this.labelWBE.Size = new System.Drawing.Size(17, 13);
             this.labelWBE.TabIndex = 58;
             this.labelWBE.Text = "E:";
             this.labelWBE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1641,7 +1640,7 @@
             this.checkBoxWBE.Location = new System.Drawing.Point(70, 62);
             this.checkBoxWBE.Name = "checkBoxWBE";
             this.checkBoxWBE.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBE.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBE.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBE.TabIndex = 2;
             this.checkBoxWBE.UseVisualStyleBackColor = true;
             // 
@@ -1652,7 +1651,7 @@
             this.labelWBD.Location = new System.Drawing.Point(21, 40);
             this.labelWBD.Name = "labelWBD";
             this.labelWBD.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBD.Size = new System.Drawing.Size(19, 15);
+            this.labelWBD.Size = new System.Drawing.Size(18, 13);
             this.labelWBD.TabIndex = 57;
             this.labelWBD.Text = "D:";
             this.labelWBD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1664,7 +1663,7 @@
             this.checkBoxWBD.Location = new System.Drawing.Point(70, 39);
             this.checkBoxWBD.Name = "checkBoxWBD";
             this.checkBoxWBD.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBD.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBD.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBD.TabIndex = 1;
             this.checkBoxWBD.UseVisualStyleBackColor = true;
             // 
@@ -1675,7 +1674,7 @@
             this.labelWBC.Location = new System.Drawing.Point(21, 17);
             this.labelWBC.Name = "labelWBC";
             this.labelWBC.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWBC.Size = new System.Drawing.Size(18, 15);
+            this.labelWBC.Size = new System.Drawing.Size(17, 13);
             this.labelWBC.TabIndex = 56;
             this.labelWBC.Text = "C:";
             this.labelWBC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1687,7 +1686,7 @@
             this.checkBoxWBC.Location = new System.Drawing.Point(70, 16);
             this.checkBoxWBC.Name = "checkBoxWBC";
             this.checkBoxWBC.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxWBC.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxWBC.Size = new System.Drawing.Size(15, 14);
             this.checkBoxWBC.TabIndex = 0;
             this.checkBoxWBC.UseVisualStyleBackColor = true;
             // 
@@ -1698,7 +1697,7 @@
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(655, 434);
             this.checkBoxDNPEnable.Name = "checkBoxDNPEnable";
             this.checkBoxDNPEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxDNPEnable.Size = new System.Drawing.Size(274, 28);
+            this.checkBoxDNPEnable.Size = new System.Drawing.Size(222, 23);
             this.checkBoxDNPEnable.TabIndex = 72;
             this.checkBoxDNPEnable.Text = "DNP Uplink ( Kit Required )";
             this.checkBoxDNPEnable.UseVisualStyleBackColor = true;
@@ -1711,7 +1710,7 @@
             this.checkBoxTransmitterEnable.Location = new System.Drawing.Point(655, 457);
             this.checkBoxTransmitterEnable.Name = "checkBoxTransmitterEnable";
             this.checkBoxTransmitterEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxTransmitterEnable.Size = new System.Drawing.Size(213, 28);
+            this.checkBoxTransmitterEnable.Size = new System.Drawing.Size(171, 23);
             this.checkBoxTransmitterEnable.TabIndex = 73;
             this.checkBoxTransmitterEnable.Text = "Transmitter Enabled";
             this.checkBoxTransmitterEnable.UseVisualStyleBackColor = true;
@@ -1740,7 +1739,7 @@
             this.labelLEDSpeed.Location = new System.Drawing.Point(785, 408);
             this.labelLEDSpeed.Name = "labelLEDSpeed";
             this.labelLEDSpeed.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelLEDSpeed.Size = new System.Drawing.Size(67, 15);
+            this.labelLEDSpeed.Size = new System.Drawing.Size(59, 13);
             this.labelLEDSpeed.TabIndex = 78;
             this.labelLEDSpeed.Text = "LEDSpeed";
             // 
@@ -1786,7 +1785,7 @@
             this.label23.Location = new System.Drawing.Point(14, 190);
             this.label23.Name = "label23";
             this.label23.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label23.Size = new System.Drawing.Size(19, 15);
+            this.label23.Size = new System.Drawing.Size(18, 13);
             this.label23.TabIndex = 81;
             this.label23.Text = "H:";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1796,7 +1795,7 @@
             this.checkBoxFlagStatusH.AutoSize = true;
             this.checkBoxFlagStatusH.Location = new System.Drawing.Point(63, 189);
             this.checkBoxFlagStatusH.Name = "checkBoxFlagStatusH";
-            this.checkBoxFlagStatusH.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusH.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusH.TabIndex = 71;
             this.checkBoxFlagStatusH.UseVisualStyleBackColor = true;
             // 
@@ -1806,7 +1805,7 @@
             this.label24.Location = new System.Drawing.Point(14, 167);
             this.label24.Name = "label24";
             this.label24.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label24.Size = new System.Drawing.Size(19, 15);
+            this.label24.Size = new System.Drawing.Size(18, 13);
             this.label24.TabIndex = 80;
             this.label24.Text = "G:";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1816,7 +1815,7 @@
             this.checkBoxFlagStatusG.AutoSize = true;
             this.checkBoxFlagStatusG.Location = new System.Drawing.Point(63, 166);
             this.checkBoxFlagStatusG.Name = "checkBoxFlagStatusG";
-            this.checkBoxFlagStatusG.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusG.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusG.TabIndex = 70;
             this.checkBoxFlagStatusG.UseVisualStyleBackColor = true;
             // 
@@ -1826,7 +1825,7 @@
             this.label25.Location = new System.Drawing.Point(14, 144);
             this.label25.Name = "label25";
             this.label25.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label25.Size = new System.Drawing.Size(17, 15);
+            this.label25.Size = new System.Drawing.Size(16, 13);
             this.label25.TabIndex = 79;
             this.label25.Text = "F:";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1836,7 +1835,7 @@
             this.checkBoxFlagStatusF.AutoSize = true;
             this.checkBoxFlagStatusF.Location = new System.Drawing.Point(63, 143);
             this.checkBoxFlagStatusF.Name = "checkBoxFlagStatusF";
-            this.checkBoxFlagStatusF.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusF.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusF.TabIndex = 69;
             this.checkBoxFlagStatusF.UseVisualStyleBackColor = true;
             // 
@@ -1846,7 +1845,7 @@
             this.label26.Location = new System.Drawing.Point(14, 121);
             this.label26.Name = "label26";
             this.label26.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label26.Size = new System.Drawing.Size(18, 15);
+            this.label26.Size = new System.Drawing.Size(17, 13);
             this.label26.TabIndex = 78;
             this.label26.Text = "E:";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1856,7 +1855,7 @@
             this.checkBoxFlagStatusE.AutoSize = true;
             this.checkBoxFlagStatusE.Location = new System.Drawing.Point(63, 120);
             this.checkBoxFlagStatusE.Name = "checkBoxFlagStatusE";
-            this.checkBoxFlagStatusE.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusE.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusE.TabIndex = 68;
             this.checkBoxFlagStatusE.UseVisualStyleBackColor = true;
             // 
@@ -1866,7 +1865,7 @@
             this.label27.Location = new System.Drawing.Point(14, 98);
             this.label27.Name = "label27";
             this.label27.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label27.Size = new System.Drawing.Size(19, 15);
+            this.label27.Size = new System.Drawing.Size(18, 13);
             this.label27.TabIndex = 77;
             this.label27.Text = "D:";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1876,7 +1875,7 @@
             this.checkBoxFlagStatusD.AutoSize = true;
             this.checkBoxFlagStatusD.Location = new System.Drawing.Point(63, 97);
             this.checkBoxFlagStatusD.Name = "checkBoxFlagStatusD";
-            this.checkBoxFlagStatusD.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusD.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusD.TabIndex = 67;
             this.checkBoxFlagStatusD.UseVisualStyleBackColor = true;
             // 
@@ -1886,7 +1885,7 @@
             this.label28.Location = new System.Drawing.Point(14, 75);
             this.label28.Name = "label28";
             this.label28.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label28.Size = new System.Drawing.Size(18, 15);
+            this.label28.Size = new System.Drawing.Size(17, 13);
             this.label28.TabIndex = 76;
             this.label28.Text = "C:";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1896,7 +1895,7 @@
             this.checkBoxFlagStatusC.AutoSize = true;
             this.checkBoxFlagStatusC.Location = new System.Drawing.Point(63, 74);
             this.checkBoxFlagStatusC.Name = "checkBoxFlagStatusC";
-            this.checkBoxFlagStatusC.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusC.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusC.TabIndex = 66;
             this.checkBoxFlagStatusC.UseVisualStyleBackColor = true;
             // 
@@ -1906,7 +1905,7 @@
             this.label29.Location = new System.Drawing.Point(14, 52);
             this.label29.Name = "label29";
             this.label29.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label29.Size = new System.Drawing.Size(18, 15);
+            this.label29.Size = new System.Drawing.Size(17, 13);
             this.label29.TabIndex = 74;
             this.label29.Text = "B:";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1916,7 +1915,7 @@
             this.checkBoxFlagStatusB.AutoSize = true;
             this.checkBoxFlagStatusB.Location = new System.Drawing.Point(63, 51);
             this.checkBoxFlagStatusB.Name = "checkBoxFlagStatusB";
-            this.checkBoxFlagStatusB.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusB.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusB.TabIndex = 65;
             this.checkBoxFlagStatusB.UseVisualStyleBackColor = true;
             // 
@@ -1926,7 +1925,7 @@
             this.label30.Location = new System.Drawing.Point(14, 29);
             this.label30.Name = "label30";
             this.label30.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label30.Size = new System.Drawing.Size(17, 15);
+            this.label30.Size = new System.Drawing.Size(17, 13);
             this.label30.TabIndex = 73;
             this.label30.Text = "A:";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1936,7 +1935,7 @@
             this.checkBoxFlagStatusA.AutoSize = true;
             this.checkBoxFlagStatusA.Location = new System.Drawing.Point(63, 28);
             this.checkBoxFlagStatusA.Name = "checkBoxFlagStatusA";
-            this.checkBoxFlagStatusA.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlagStatusA.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFlagStatusA.TabIndex = 64;
             this.checkBoxFlagStatusA.UseVisualStyleBackColor = true;
             // 
@@ -1945,7 +1944,7 @@
             this.labelTransFlagStatus.AutoSize = true;
             this.labelTransFlagStatus.Location = new System.Drawing.Point(699, 408);
             this.labelTransFlagStatus.Name = "labelTransFlagStatus";
-            this.labelTransFlagStatus.Size = new System.Drawing.Size(71, 15);
+            this.labelTransFlagStatus.Size = new System.Drawing.Size(63, 13);
             this.labelTransFlagStatus.TabIndex = 81;
             this.labelTransFlagStatus.Text = "Flag Status:";
             // 
@@ -1954,7 +1953,7 @@
             this.checkBoxExtendedPLCMessage.AutoSize = true;
             this.checkBoxExtendedPLCMessage.Location = new System.Drawing.Point(7, 507);
             this.checkBoxExtendedPLCMessage.Name = "checkBoxExtendedPLCMessage";
-            this.checkBoxExtendedPLCMessage.Size = new System.Drawing.Size(161, 19);
+            this.checkBoxExtendedPLCMessage.Size = new System.Drawing.Size(140, 17);
             this.checkBoxExtendedPLCMessage.TabIndex = 82;
             this.checkBoxExtendedPLCMessage.Text = "Extended PLC Message";
             this.checkBoxExtendedPLCMessage.UseVisualStyleBackColor = true;
@@ -1964,7 +1963,7 @@
             this.labelGEWHDisplay.AutoSize = true;
             this.labelGEWHDisplay.Location = new System.Drawing.Point(652, 408);
             this.labelGEWHDisplay.Name = "labelGEWHDisplay";
-            this.labelGEWHDisplay.Size = new System.Drawing.Size(27, 15);
+            this.labelGEWHDisplay.Size = new System.Drawing.Size(26, 13);
             this.labelGEWHDisplay.TabIndex = 83;
             this.labelGEWHDisplay.Text = "WH";
             this.labelGEWHDisplay.Visible = false;
@@ -2011,7 +2010,7 @@
             this.radioButtonFPHClose.AutoSize = true;
             this.radioButtonFPHClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPHClose.Name = "radioButtonFPHClose";
-            this.radioButtonFPHClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPHClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPHClose.TabIndex = 54;
             this.radioButtonFPHClose.TabStop = true;
             this.radioButtonFPHClose.Text = "Normal";
@@ -2022,7 +2021,7 @@
             this.radioButtonFPHOpen.AutoSize = true;
             this.radioButtonFPHOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPHOpen.Name = "radioButtonFPHOpen";
-            this.radioButtonFPHOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPHOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPHOpen.TabIndex = 53;
             this.radioButtonFPHOpen.TabStop = true;
             this.radioButtonFPHOpen.Text = "Inverted";
@@ -2042,7 +2041,7 @@
             this.radioButtonFPGClose.AutoSize = true;
             this.radioButtonFPGClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPGClose.Name = "radioButtonFPGClose";
-            this.radioButtonFPGClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPGClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPGClose.TabIndex = 54;
             this.radioButtonFPGClose.TabStop = true;
             this.radioButtonFPGClose.Text = "Normal";
@@ -2053,7 +2052,7 @@
             this.radioButtonFPGOpen.AutoSize = true;
             this.radioButtonFPGOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPGOpen.Name = "radioButtonFPGOpen";
-            this.radioButtonFPGOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPGOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPGOpen.TabIndex = 53;
             this.radioButtonFPGOpen.TabStop = true;
             this.radioButtonFPGOpen.Text = "Inverted";
@@ -2073,7 +2072,7 @@
             this.radioButtonFPFClose.AutoSize = true;
             this.radioButtonFPFClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPFClose.Name = "radioButtonFPFClose";
-            this.radioButtonFPFClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPFClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPFClose.TabIndex = 54;
             this.radioButtonFPFClose.TabStop = true;
             this.radioButtonFPFClose.Text = "Normal";
@@ -2084,7 +2083,7 @@
             this.radioButtonFPFOpen.AutoSize = true;
             this.radioButtonFPFOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPFOpen.Name = "radioButtonFPFOpen";
-            this.radioButtonFPFOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPFOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPFOpen.TabIndex = 53;
             this.radioButtonFPFOpen.TabStop = true;
             this.radioButtonFPFOpen.Text = "Inverted";
@@ -2104,7 +2103,7 @@
             this.radioButtonFPEClose.AutoSize = true;
             this.radioButtonFPEClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPEClose.Name = "radioButtonFPEClose";
-            this.radioButtonFPEClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPEClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPEClose.TabIndex = 54;
             this.radioButtonFPEClose.TabStop = true;
             this.radioButtonFPEClose.Text = "Normal";
@@ -2115,7 +2114,7 @@
             this.radioButtonFPEOpen.AutoSize = true;
             this.radioButtonFPEOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPEOpen.Name = "radioButtonFPEOpen";
-            this.radioButtonFPEOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPEOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPEOpen.TabIndex = 53;
             this.radioButtonFPEOpen.TabStop = true;
             this.radioButtonFPEOpen.Text = "Inverted";
@@ -2135,7 +2134,7 @@
             this.radioButtonFPDClose.AutoSize = true;
             this.radioButtonFPDClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPDClose.Name = "radioButtonFPDClose";
-            this.radioButtonFPDClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPDClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPDClose.TabIndex = 54;
             this.radioButtonFPDClose.TabStop = true;
             this.radioButtonFPDClose.Text = "Normal";
@@ -2146,7 +2145,7 @@
             this.radioButtonFPDOpen.AutoSize = true;
             this.radioButtonFPDOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPDOpen.Name = "radioButtonFPDOpen";
-            this.radioButtonFPDOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPDOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPDOpen.TabIndex = 53;
             this.radioButtonFPDOpen.TabStop = true;
             this.radioButtonFPDOpen.Text = "Inverted";
@@ -2166,7 +2165,7 @@
             this.radioButtonFPCClose.AutoSize = true;
             this.radioButtonFPCClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPCClose.Name = "radioButtonFPCClose";
-            this.radioButtonFPCClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPCClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPCClose.TabIndex = 54;
             this.radioButtonFPCClose.TabStop = true;
             this.radioButtonFPCClose.Text = "Normal";
@@ -2177,7 +2176,7 @@
             this.radioButtonFPCOpen.AutoSize = true;
             this.radioButtonFPCOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPCOpen.Name = "radioButtonFPCOpen";
-            this.radioButtonFPCOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPCOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPCOpen.TabIndex = 53;
             this.radioButtonFPCOpen.TabStop = true;
             this.radioButtonFPCOpen.Text = "Inverted";
@@ -2197,7 +2196,7 @@
             this.radioButtonFPBClose.AutoSize = true;
             this.radioButtonFPBClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPBClose.Name = "radioButtonFPBClose";
-            this.radioButtonFPBClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPBClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPBClose.TabIndex = 54;
             this.radioButtonFPBClose.TabStop = true;
             this.radioButtonFPBClose.Text = "Normal";
@@ -2208,7 +2207,7 @@
             this.radioButtonFPBOpen.AutoSize = true;
             this.radioButtonFPBOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPBOpen.Name = "radioButtonFPBOpen";
-            this.radioButtonFPBOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPBOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPBOpen.TabIndex = 53;
             this.radioButtonFPBOpen.TabStop = true;
             this.radioButtonFPBOpen.Text = "Inverted";
@@ -2228,7 +2227,7 @@
             this.radioButtonFPAClose.AutoSize = true;
             this.radioButtonFPAClose.Location = new System.Drawing.Point(60, 2);
             this.radioButtonFPAClose.Name = "radioButtonFPAClose";
-            this.radioButtonFPAClose.Size = new System.Drawing.Size(95, 28);
+            this.radioButtonFPAClose.Size = new System.Drawing.Size(79, 23);
             this.radioButtonFPAClose.TabIndex = 54;
             this.radioButtonFPAClose.TabStop = true;
             this.radioButtonFPAClose.Text = "Normal";
@@ -2239,7 +2238,7 @@
             this.radioButtonFPAOpen.AutoSize = true;
             this.radioButtonFPAOpen.Location = new System.Drawing.Point(3, 2);
             this.radioButtonFPAOpen.Name = "radioButtonFPAOpen";
-            this.radioButtonFPAOpen.Size = new System.Drawing.Size(106, 28);
+            this.radioButtonFPAOpen.Size = new System.Drawing.Size(86, 23);
             this.radioButtonFPAOpen.TabIndex = 53;
             this.radioButtonFPAOpen.TabStop = true;
             this.radioButtonFPAOpen.Text = "Inverted";
@@ -2251,7 +2250,7 @@
             this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(59, 13);
             this.labelFlagSettingsFlagPostPosition.Name = "labelFlagSettingsFlagPostPosition";
             this.labelFlagSettingsFlagPostPosition.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(174, 24);
+            this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(140, 19);
             this.labelFlagSettingsFlagPostPosition.TabIndex = 51;
             this.labelFlagSettingsFlagPostPosition.Text = "Flag Post Position:";
             this.labelFlagSettingsFlagPostPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2262,7 +2261,7 @@
             this.labelFlagSettingsFlag.Location = new System.Drawing.Point(5, 13);
             this.labelFlagSettingsFlag.Name = "labelFlagSettingsFlag";
             this.labelFlagSettingsFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelFlagSettingsFlag.Size = new System.Drawing.Size(54, 24);
+            this.labelFlagSettingsFlag.Size = new System.Drawing.Size(44, 19);
             this.labelFlagSettingsFlag.TabIndex = 43;
             this.labelFlagSettingsFlag.Text = "Flag:";
             this.labelFlagSettingsFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2273,7 +2272,7 @@
             this.label12.Location = new System.Drawing.Point(19, 196);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label12.Size = new System.Drawing.Size(31, 24);
+            this.label12.Size = new System.Drawing.Size(26, 19);
             this.label12.TabIndex = 50;
             this.label12.Text = "H:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2284,7 +2283,7 @@
             this.label11.Location = new System.Drawing.Point(19, 173);
             this.label11.Name = "label11";
             this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label11.Size = new System.Drawing.Size(30, 24);
+            this.label11.Size = new System.Drawing.Size(26, 19);
             this.label11.TabIndex = 49;
             this.label11.Text = "G:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2295,7 +2294,7 @@
             this.label10.Location = new System.Drawing.Point(19, 150);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label10.Size = new System.Drawing.Size(27, 24);
+            this.label10.Size = new System.Drawing.Size(23, 19);
             this.label10.TabIndex = 48;
             this.label10.Text = "F:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2306,7 +2305,7 @@
             this.label9.Location = new System.Drawing.Point(19, 127);
             this.label9.Name = "label9";
             this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label9.Size = new System.Drawing.Size(28, 24);
+            this.label9.Size = new System.Drawing.Size(24, 19);
             this.label9.TabIndex = 47;
             this.label9.Text = "E:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2317,7 +2316,7 @@
             this.label8.Location = new System.Drawing.Point(19, 104);
             this.label8.Name = "label8";
             this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label8.Size = new System.Drawing.Size(31, 24);
+            this.label8.Size = new System.Drawing.Size(26, 19);
             this.label8.TabIndex = 46;
             this.label8.Text = "D:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2328,7 +2327,7 @@
             this.label6.Location = new System.Drawing.Point(19, 81);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label6.Size = new System.Drawing.Size(29, 24);
+            this.label6.Size = new System.Drawing.Size(25, 19);
             this.label6.TabIndex = 45;
             this.label6.Text = "C:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2339,7 +2338,7 @@
             this.label5.Location = new System.Drawing.Point(19, 58);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label5.Size = new System.Drawing.Size(29, 24);
+            this.label5.Size = new System.Drawing.Size(24, 19);
             this.label5.TabIndex = 44;
             this.label5.Text = "B:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2350,7 +2349,7 @@
             this.labelFlagSettingA.Location = new System.Drawing.Point(19, 35);
             this.labelFlagSettingA.Name = "labelFlagSettingA";
             this.labelFlagSettingA.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelFlagSettingA.Size = new System.Drawing.Size(29, 24);
+            this.labelFlagSettingA.Size = new System.Drawing.Size(26, 19);
             this.labelFlagSettingA.TabIndex = 43;
             this.labelFlagSettingA.Text = "A:";
             this.labelFlagSettingA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2362,9 +2361,9 @@
             this.label21.Location = new System.Drawing.Point(474, 9);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label21.Size = new System.Drawing.Size(149, 24);
+            this.label21.Size = new System.Drawing.Size(115, 19);
             this.label21.TabIndex = 85;
-            this.label21.Text = "Flag Settings:";
+            this.label21.Text = "Flag Settings";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // button_FastFire
@@ -2411,6 +2410,16 @@
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
+            // grpBox_TXcommands
+            // 
+            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
+            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
+            this.grpBox_TXcommands.TabIndex = 88;
+            this.grpBox_TXcommands.TabStop = false;
+            this.grpBox_TXcommands.Text = "Transmission Commands";
+            // 
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
@@ -2421,16 +2430,6 @@
             this.ucDNP2.Name = "ucDNP2";
             this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
             this.ucDNP2.TabIndex = 0;
-            // 
-            // grpBox_TXcommands
-            // 
-            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
-            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
-            this.grpBox_TXcommands.TabIndex = 88;
-            this.grpBox_TXcommands.TabStop = false;
-            this.grpBox_TXcommands.Text = "Transmission Commands";
             // 
             // ucTransmitterMonitoring2
             // 
