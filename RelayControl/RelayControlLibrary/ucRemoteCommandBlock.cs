@@ -20,7 +20,7 @@ namespace RelayControlLibrary
         }
 
         private static string _commandsAllowedString = "Control Allowed";
-        private static string _commandsDisallowedString = "Control Inhibited";
+        private static string _commandsDisallowedString = "Control Not Allowed";
         private ToolTip toolTip = new ToolTip();
 
         public bool CommandsBlocked

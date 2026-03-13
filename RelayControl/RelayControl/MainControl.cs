@@ -700,7 +700,7 @@ namespace RelayControl
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); 
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
-                this.lbl_Relayststatus_FB.Text = "Floating & Blocked Open ( FB )";
+                this.lbl_Relayststatus_FB.Text = "Floating and Blocked Open ( FB )";
                 this.lbl_Relayststatus_Float.Text = "Float ( FL )";
                 this.lbl_Relayststatus_backfeed.Text = "Backfeed ( BF )";
                 this.lbl_Relayststatus_BO.Text = "Blocked Open ( BO )";

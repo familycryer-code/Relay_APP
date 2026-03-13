@@ -38,9 +38,9 @@
             // 
             this.labelRemoteCommandState.BackColor = System.Drawing.SystemColors.ControlLight;
             this.labelRemoteCommandState.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelRemoteCommandState.Location = new System.Drawing.Point(15, 43);
+            this.labelRemoteCommandState.Location = new System.Drawing.Point(6, 43);
             this.labelRemoteCommandState.Name = "labelRemoteCommandState";
-            this.labelRemoteCommandState.Size = new System.Drawing.Size(89, 19);
+            this.labelRemoteCommandState.Size = new System.Drawing.Size(107, 19);
             this.labelRemoteCommandState.TabIndex = 1;
             this.labelRemoteCommandState.Text = "Unknown";
             this.labelRemoteCommandState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -65,7 +65,7 @@
             this.groupBoxBlockCommands.Size = new System.Drawing.Size(113, 67);
             this.groupBoxBlockCommands.TabIndex = 3;
             this.groupBoxBlockCommands.TabStop = false;
-            this.groupBoxBlockCommands.Text = "PLC Control";
+            this.groupBoxBlockCommands.Text = "Command Control";
             // 
             // ucRemoteCommandBlock
             // 
