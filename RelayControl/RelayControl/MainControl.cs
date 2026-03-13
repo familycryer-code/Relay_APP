@@ -735,7 +735,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.23 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.24 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.25" + " DOMINION ";
@@ -754,7 +754,7 @@ namespace RelayControl
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;               
 #endif
 #if !TORONTOHYDRO
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(750, 250);
@@ -772,7 +772,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
                 this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 54);
-                this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
+               // this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
                 this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 130);
 
 #endif
