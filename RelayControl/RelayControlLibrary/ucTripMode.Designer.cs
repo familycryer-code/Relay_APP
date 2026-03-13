@@ -635,19 +635,11 @@ namespace RelayControlLibrary
             // comboBox_TripStyle
             // 
             this.comboBox_TripStyle.FormattingEnabled = true;
-#if CONED
             this.comboBox_TripStyle.Items.AddRange(new object[] {
-            "Hold Trip (Troubleshooting Only)", // selected index 0
-            "Continuous Pulse",                 // selected index 1
-            "3 Pulse, then off",                // selected index 2
-            "Short Trip"});                     // selected index 3
-#else
-            this.comboBox_TripStyle.Items.AddRange(new object[] {
-            "Hold Trip",            // selected index 0
-            "Pulse Trip",           // selected index 1
-            "Single Attempt",       // selected index 2
-            "Short Trip"});         // selected index 3
-#endif
+            "Hold Trip",
+            "Pulse Trip",
+            "Single Attempt",
+            "Short Trip"});
             this.comboBox_TripStyle.Location = new System.Drawing.Point(60, 20);
             this.comboBox_TripStyle.Name = "comboBox_TripStyle";
             this.comboBox_TripStyle.Size = new System.Drawing.Size(154, 28);
@@ -885,7 +877,7 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxTripModeSettings);
             this.Name = "ucTripMode";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Size = new System.Drawing.Size(342, 310);
+            this.Size = new System.Drawing.Size(342, 351);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).EndInit();

@@ -93,6 +93,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -263,7 +264,6 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -313,7 +313,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1294, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1294, 28);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -326,7 +326,7 @@
             this.reprogramRelayFileSelectToolStripMenuItem,
             this.tCPConnectionToolStripMenuItem});
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
-            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.OptionsToolStripMenuItem.Text = "Options";
             this.OptionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
@@ -370,7 +370,7 @@
             this.eventActionsToolStripMenuItem,
             this.liveDataActionsToolStripMenuItem});
             this.toolStripMenuItemAction.Name = "toolStripMenuItemAction";
-            this.toolStripMenuItemAction.Size = new System.Drawing.Size(72, 26);
+            this.toolStripMenuItemAction.Size = new System.Drawing.Size(72, 24);
             this.toolStripMenuItemAction.Text = "Actions";
             // 
             // eventActionsToolStripMenuItem
@@ -446,7 +446,7 @@
             // acknowledgeToolStripMenuItem1
             // 
             this.acknowledgeToolStripMenuItem1.Name = "acknowledgeToolStripMenuItem1";
-            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(113, 26);
+            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(113, 24);
             this.acknowledgeToolStripMenuItem1.Text = "Acknowledge";
             this.acknowledgeToolStripMenuItem1.Click += new System.EventHandler(this.acknowledgeToolStripMenuItem1_Click);
             // 
@@ -456,7 +456,7 @@
             this.saveToolStripMenuItem,
             this.printScreenToolStripMenuItem});
             this.sToolStripMenuItem.Name = "sToolStripMenuItem";
-            this.sToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.sToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.sToolStripMenuItem.Text = "Screen Capture";
             // 
             // saveToolStripMenuItem
@@ -478,7 +478,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resetRelayToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
             this.toolsToolStripMenuItem.Text = "Alternate Actions";
             // 
             // resetRelayToolStripMenuItem
@@ -493,7 +493,7 @@
             this.loadConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableAutoloadToolStripMenuItem});
             this.loadConfigurationToolStripMenuItem.Name = "loadConfigurationToolStripMenuItem";
-            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(151, 26);
+            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.loadConfigurationToolStripMenuItem.Text = "Load Configuration";
             // 
             // enableAutoloadToolStripMenuItem
@@ -939,6 +939,14 @@
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -1894,7 +1902,7 @@
             this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
             this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(328, 361);
+            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(328, 351);
             this.groupBoxNetworkCTRatio.TabIndex = 110;
             this.groupBoxNetworkCTRatio.TabStop = false;
             this.groupBoxNetworkCTRatio.Text = "Network Protector CT Ratio";
@@ -2033,7 +2041,7 @@
             // 
             this.labelConEdPowerRelay.AutoSize = true;
             this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
-            this.labelConEdPowerRelay.Location = new System.Drawing.Point(167, 338);
+            this.labelConEdPowerRelay.Location = new System.Drawing.Point(201, 269);
             this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
             this.labelConEdPowerRelay.Size = new System.Drawing.Size(56, 20);
@@ -2313,7 +2321,7 @@
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
             this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(373, 335);
+            this.ucCloseMode1.Size = new System.Drawing.Size(373, 351);
             this.ucCloseMode1.TabIndex = 26;
             // 
             // ucPumpMode1
@@ -2358,7 +2366,7 @@
             this.ucTripMode2.CTRatio = 320;
             this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
             this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucTripMode2.Location = new System.Drawing.Point(372, 4);
+            this.ucTripMode2.Location = new System.Drawing.Point(345, 13);
             this.ucTripMode2.Margin = new System.Windows.Forms.Padding(4);
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -3095,14 +3103,6 @@
             this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 
