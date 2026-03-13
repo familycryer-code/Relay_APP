@@ -34,10 +34,8 @@ namespace RelayControlLibrary
             this.showGullWing(false);
 #endif
 
-            //this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
-            //this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
             this.comboBox_TripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
-            //this.domainUpDownTripStyle.Hide();
+            
             this.comboBox_TripStyle.Hide();
             this.labelTripStyle.Hide();
             this.initializeToolTip();
@@ -612,18 +610,22 @@ namespace RelayControlLibrary
                 //mySEA.SendPacket[2] = 0;
                 //if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
                 //if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
-                if ((string)this.comboBox_TripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
-                    mySEA.SendPacket[2] = 0;
+        //        if ((string)this.comboBox_TripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
+                if (this.comboBox_TripStyle.SelectedIndex == 0) // Hold Trip
+                        mySEA.SendPacket[2] = 0;
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Continuous Pulse")
-                else if ((string)this.comboBox_TripStyle.SelectedItem == "Continuous Pulse")
+        //        else if ((string)this.comboBox_TripStyle.SelectedItem == "Continuous Pulse")
+                else if (this.comboBox_TripStyle.SelectedIndex == 1) // Continous Pulse
                     mySEA.SendPacket[2] = 1;
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "3 Pulse, then off")
-                else if ((string)this.comboBox_TripStyle.SelectedItem == "3 Pulse, then off")
+        //        else if ((string)this.comboBox_TripStyle.SelectedItem == "3 Pulse, then off")
+                else if (this.comboBox_TripStyle.SelectedIndex == 2) // 3 Pulse, then off
                     mySEA.SendPacket[2] = 2;
                 //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
-                else if ((string)this.comboBox_TripStyle.SelectedItem == "Short Trip")
+        //        else if ((string)this.comboBox_TripStyle.SelectedItem == "Short Trip")
+                else if (this.comboBox_TripStyle.SelectedIndex == 3) // Short Trip
                     mySEA.SendPacket[2] = 3;
                 else
                     //throw new Exception(this.domainUpDownTripStyle.SelectedItem.ToString());
@@ -1333,25 +1335,29 @@ namespace RelayControlLibrary
                     {
                         //this.domainUpDownTripStyle.SelectedItem = "Pulse Trip";
                         //this.domainUpDownTripStyle.SelectedItem = "Continuous Pulse";
-                        this.comboBox_TripStyle.SelectedItem = "Continuous Pulse";
+             //        this.comboBox_TripStyle.SelectedItem = "Continuous Pulse";
+                        this.comboBox_TripStyle.SelectedIndex = 1;
                     }
                     else if ((bytePacket[22] & 0x03) == 2)
                     {
                         //this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
                         //this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
-                        this.comboBox_TripStyle.SelectedItem = "3 Pulse, then off";
+            //           this.comboBox_TripStyle.SelectedItem = "3 Pulse, then off";
+                        this.comboBox_TripStyle.SelectedIndex = 2;
                     }
                     else if ((bytePacket[22] & 0x03) == 3)
                     {
                         //  this.domainUpDownTripStyle.SelectedIndex = 3;
                         //this.domainUpDownTripStyle.SelectedItem = "Short Trip";
-                        this.comboBox_TripStyle.SelectedItem = "Short Trip";
+            //            this.comboBox_TripStyle.SelectedItem = "Short Trip";
+                        this.comboBox_TripStyle.SelectedIndex = 3;
                     }
                     else
                     {
                         //this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
                         //this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
-                        this.comboBox_TripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+            //           this.comboBox_TripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+                        this.comboBox_TripStyle.SelectedIndex = 0;
                     }
 
                     //Set Power Down Trip Checkbox - reversed for backwards compatibility
@@ -1903,7 +1909,7 @@ namespace RelayControlLibrary
             this.checkBoxTripOnPowerDown.Checked = true;
             //this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
             //this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
-            this.comboBox_TripStyle.SelectedItem = "3 Pulse, then off";
+            this.comboBox_TripStyle.SelectedIndex = 2;
             this.checkBoxEnableGullWing.Checked = false;
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownTimeDelay.Value = 150;
