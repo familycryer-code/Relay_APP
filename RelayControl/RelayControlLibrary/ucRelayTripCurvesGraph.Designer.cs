@@ -121,7 +121,7 @@ namespace PhasorDisplayGraph
             // ucTripMode1
             // 
             this.ucTripMode1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ucTripMode1.Location = new System.Drawing.Point(180, 4);
+            this.ucTripMode1.Location = new System.Drawing.Point(140, 4);
             this.ucTripMode1.Name = "ucTripMode1";
             this.ucTripMode1.Size = new System.Drawing.Size(237, 146);
             this.ucTripMode1.TabIndex = 1;

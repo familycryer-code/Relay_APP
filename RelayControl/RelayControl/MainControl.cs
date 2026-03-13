@@ -690,14 +690,15 @@ namespace RelayControl
                 this.button_dataStore.Enabled = true;
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
-                this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 450);
-                this.ucCloseMode1.Location = new System.Drawing.Point(248, 440);
+                this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); //(13, 450);
                 this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
                 this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
-                this.ucCloseMode1.Location = new System.Drawing.Point(440, 5);
-                this.ucPumpMode1.Location = new System.Drawing.Point(270, 430); 
-                this.ucSafeService1.Location = new System.Drawing.Point(650, 430); 
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); 
+                this.ucCloseMode1.Location = new System.Drawing.Point(750, 5); //(440, 5);
+                this.ucPumpMode1.Location = new System.Drawing.Point(13, 430); //(270, 430); 
+                this.ucSafeService1.Location = new System.Drawing.Point(400, 430); //(650, 430); 
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(750, 470); //(1000, 470); 
+                this.buttonSendAll.Location = new System.Drawing.Point(150, 3); //(16, 86);
+                this.panelOtherRelayControls.Size = new System.Drawing.Size(290, 174);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
                 this.lbl_Relayststatus_FB.Text = "Floating and Blocked Open ( FB )";
@@ -714,10 +715,10 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(100, 370); //(980, 654);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(250, 370); //(1122, 654);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(500, 370);
-                this.buttonSaveSetting.Location = new System.Drawing.Point(650, 370);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(750, 600); //(100, 370); 
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(900, 600); 
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(750, 650);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(900, 650);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -735,7 +736,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.24 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.25 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.25" + " DOMINION ";
