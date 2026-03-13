@@ -70,7 +70,10 @@ namespace RelayControl
                 return;
 
             this.ucTransmitter1.SendTransmitterSettings();
-            this.ucDNP1.DNPLabelStatus = ucTransmitter1.DNPEnabled;
+#if TORONTO_HYDRO
+            this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+#endif
+            this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
         private formForceUpdateSerialNumber tempForm;

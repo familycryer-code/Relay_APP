@@ -735,7 +735,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.22 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.23 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.25" + " DOMINION ";
@@ -882,7 +882,13 @@ namespace RelayControl
 #if DEBUG || CHICAGO || LONDONH
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
+                
+#if TORONTO_HYDRO
+                this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+#endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+
+
 
                 // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
@@ -1869,7 +1875,10 @@ namespace RelayControl
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
-                        ucDNP1.SendAllDNPSettings();
+                        ucDNP1.SendAllDNPSettings();                   
+#if TORONTO_HYDRO
+                    this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+#endif
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                     break;
                 case RelayProgrammingSendCommands.RawData:
@@ -1952,9 +1961,11 @@ namespace RelayControl
                 this.parametersLoaded = true;
                 this.ucTransmitter1.ForceDNPEnable = true;
                 Thread.Sleep(100);
-                this.ucTransmitter1.SendTransmitterSettings();
+                this.ucTransmitter1.SendTransmitterSettings();               
+#if TORONTO_HYDRO
+                this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+#endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-
             }
         }
 
@@ -2801,20 +2812,20 @@ namespace RelayControl
         {
             /*
              Data coming from master uP with command "A" for bytePacket[0]
-                #define RELAYSTATUS_OP           0x00   Open
-                #define RELAYSTATUS_CL           0x01   Close
-                #define RELAYSTATUS_FB           0x02   Floating and Blocked open
-                #define RELAYSTATUS_FL           0x03   Float
-                #define RELAYSTATUS_BF           0x04   BackFeed
-                #define RELAYSTATUS_BO           0x05   Blocked Open
-                #define RELAYSTATUS_FC           0x06   Failed to Close
-                #define RELAYSTATUS_NR           0x07   Relay Not Responding
-                #define RELAYSTATUS_IB           0x08   Insensitive BackFeed
-                #define RELAYSTATUS_RC           0x09   Relax Close
-                #define RELAYSTATUS_PA           0x0A   Pump Alarm
-                #define RELAYSTATUS_SL           0x0B   Safe Service Lockout
-                #define RELAYSTATUS_XP           0x0C   Cross Phase
-                #define  RELAYSTATUS_PC          0x0D   Permissive Close
+#define RELAYSTATUS_OP           0x00   Open
+#define RELAYSTATUS_CL           0x01   Close
+#define RELAYSTATUS_FB           0x02   Floating and Blocked open
+#define RELAYSTATUS_FL           0x03   Float
+#define RELAYSTATUS_BF           0x04   BackFeed
+#define RELAYSTATUS_BO           0x05   Blocked Open
+#define RELAYSTATUS_FC           0x06   Failed to Close
+#define RELAYSTATUS_NR           0x07   Relay Not Responding
+#define RELAYSTATUS_IB           0x08   Insensitive BackFeed
+#define RELAYSTATUS_RC           0x09   Relax Close
+#define RELAYSTATUS_PA           0x0A   Pump Alarm
+#define RELAYSTATUS_SL           0x0B   Safe Service Lockout
+#define RELAYSTATUS_XP           0x0C   Cross Phase
+#define RELAYSTATUS_PC          0x0D   Permissive Close
              */
 #if DEBUG
             this.relayStatusConverter.IncomingStatusCode = bytePacket[0];
@@ -5987,8 +5998,10 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            this.sendPacket(sendArray);
-
+            this.sendPacket(sendArray);           
+#if TORONTO_HYDRO
+            this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+#endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
@@ -6000,7 +6013,10 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            this.sendPacket(sendArray);
+            this.sendPacket(sendArray);          
+#if TORONTO_HYDRO
+            this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+#endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
