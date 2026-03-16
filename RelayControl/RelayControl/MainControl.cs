@@ -694,8 +694,12 @@ namespace RelayControl
                 this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
                 this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
-                this.ucCloseMode1.Location = new System.Drawing.Point(780, 13); //(440, 5);
+                this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
+                this.ucTripMode2.Location = new System.Drawing.Point(400, 13);
+                this.ucCloseMode1.Location = new System.Drawing.Point(1100, 13); //(440, 5);
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 430); //(270, 430); 
+                this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(35, 295);
+                this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
                 this.ucSafeService1.Location = new System.Drawing.Point(400, 430); //(650, 430); 
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(750, 470); //(1000, 470); 
                 this.buttonSendAll.Location = new System.Drawing.Point(150, 3); //(16, 86);
