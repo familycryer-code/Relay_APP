@@ -564,7 +564,7 @@ namespace RelayControlLibrary
             this.groupBoxAnalog2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxAnalog2.Name = "groupBoxAnalog2";
             this.groupBoxAnalog2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxAnalog2.Size = new System.Drawing.Size(373, 230);
+            this.groupBoxAnalog2.Size = new System.Drawing.Size(400, 230);
             this.groupBoxAnalog2.TabIndex = 81;
             this.groupBoxAnalog2.TabStop = false;
             this.groupBoxAnalog2.Text = "Analog2 Readings";
@@ -578,7 +578,7 @@ namespace RelayControlLibrary
             this.myThermometerA2.LockWidgetObjects = true;
             this.myThermometerA2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myThermometerA2.Name = "myThermometerA2";
-            this.myThermometerA2.Size = new System.Drawing.Size(168, 142);
+            this.myThermometerA2.Size = new System.Drawing.Size(245, 142);
             this.myThermometerA2.TabIndex = 65;
             this.myThermometerA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
             meter1.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
@@ -834,7 +834,7 @@ namespace RelayControlLibrary
             this.listBoxA2SensorSelect.Location = new System.Drawing.Point(12, 52);
             this.listBoxA2SensorSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listBoxA2SensorSelect.Name = "listBoxA2SensorSelect";
-            this.listBoxA2SensorSelect.Size = new System.Drawing.Size(145, 72);
+            this.listBoxA2SensorSelect.Size = new System.Drawing.Size(150, 85); //(145, 72);
             this.listBoxA2SensorSelect.TabIndex = 61;
             this.listBoxA2SensorSelect.TabStop = false;
             this.listBoxA2SensorSelect.SelectedIndexChanged += new System.EventHandler(this.listBoxA2SensorSelect_SelectedIndexChanged);
@@ -1868,7 +1868,7 @@ namespace RelayControlLibrary
             this.groupBoxAnalog1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxAnalog1.Name = "groupBoxAnalog1";
             this.groupBoxAnalog1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxAnalog1.Size = new System.Drawing.Size(373, 230);
+            this.groupBoxAnalog1.Size = new System.Drawing.Size(400, 230);
             this.groupBoxAnalog1.TabIndex = 77;
             this.groupBoxAnalog1.TabStop = false;
             this.groupBoxAnalog1.Text = "Analog1 Readings";
@@ -1882,7 +1882,7 @@ namespace RelayControlLibrary
             this.myThermometerA1.LockWidgetObjects = true;
             this.myThermometerA1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myThermometerA1.Name = "myThermometerA1";
-            this.myThermometerA1.Size = new System.Drawing.Size(168, 142);
+            this.myThermometerA1.Size = new System.Drawing.Size(245, 142);
             this.myThermometerA1.TabIndex = 63;
             this.myThermometerA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
             meter3.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
@@ -2138,7 +2138,7 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect.Location = new System.Drawing.Point(12, 52);
             this.listBoxA1SensorSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listBoxA1SensorSelect.Name = "listBoxA1SensorSelect";
-            this.listBoxA1SensorSelect.Size = new System.Drawing.Size(145, 72);
+            this.listBoxA1SensorSelect.Size = new System.Drawing.Size(150, 85); //(145, 72);
             this.listBoxA1SensorSelect.TabIndex = 56;
             this.listBoxA1SensorSelect.TabStop = false;
             this.listBoxA1SensorSelect.SelectedIndexChanged += new System.EventHandler(this.listBoxA1SensorSelect_SelectedIndexChanged);
