@@ -700,8 +700,8 @@ namespace RelayControl
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 430); //(270, 430); 
                 this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(35, 295);
                 this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
-                this.ucSafeService1.Location = new System.Drawing.Point(400, 430); //(650, 430); 
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(750, 470); //(1000, 470); 
+                this.ucSafeService1.Location = new System.Drawing.Point(500, 430); //(400, 430);  
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(750, 470); 
                 this.buttonSendAll.Location = new System.Drawing.Point(150, 3); //(16, 86);
                 this.panelOtherRelayControls.Size = new System.Drawing.Size(290, 174);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
@@ -720,10 +720,10 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(750, 600); //(100, 370); 
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(900, 600); 
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(750, 650);
-                this.buttonSaveSetting.Location = new System.Drawing.Point(900, 650);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 600); //(750, 600);  
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 600); 
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;

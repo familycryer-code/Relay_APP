@@ -61,7 +61,7 @@ namespace RelayControlLibrary
             // numericUpDownTimeDelay
             // 
             this.numericUpDownTimeDelay.Location = new System.Drawing.Point(209, 46);
-            this.numericUpDownTimeDelay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownTimeDelay.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownTimeDelay.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -95,7 +95,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownRecloseVolts.Location = new System.Drawing.Point(209, 75);
-            this.numericUpDownRecloseVolts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownRecloseVolts.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownRecloseVolts.Maximum = new decimal(new int[] {
             10,
             0,
@@ -113,7 +113,7 @@ namespace RelayControlLibrary
             // numericUpDownPDA
             // 
             this.numericUpDownPDA.Location = new System.Drawing.Point(209, 105);
-            this.numericUpDownPDA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownPDA.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownPDA.Maximum = new decimal(new int[] {
             5,
             0,
@@ -142,7 +142,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownPDV.Location = new System.Drawing.Point(209, 134);
-            this.numericUpDownPDV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownPDV.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownPDV.Maximum = new decimal(new int[] {
             4,
             0,
@@ -160,7 +160,7 @@ namespace RelayControlLibrary
             // numericUpDownCloseTiltAngle
             // 
             this.numericUpDownCloseTiltAngle.Location = new System.Drawing.Point(208, 16);
-            this.numericUpDownCloseTiltAngle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownCloseTiltAngle.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownCloseTiltAngle.Maximum = new decimal(new int[] {
             95,
             0,
@@ -272,10 +272,10 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(240, 257);
-            this.buttonSendCloseData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(197, 225);
+            this.buttonSendCloseData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
-            this.buttonSendCloseData.Size = new System.Drawing.Size(112, 28);
+            this.buttonSendCloseData.Size = new System.Drawing.Size(151, 28);
             this.buttonSendCloseData.TabIndex = 28;
             this.buttonSendCloseData.Text = "Program Close";
             this.buttonSendCloseData.UseVisualStyleBackColor = true;
@@ -285,7 +285,7 @@ namespace RelayControlLibrary
             // 
             this.checkBoxCircleClose.AutoSize = true;
             this.checkBoxCircleClose.Location = new System.Drawing.Point(8, 225);
-            this.checkBoxCircleClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxCircleClose.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxCircleClose.Name = "checkBoxCircleClose";
             this.checkBoxCircleClose.Size = new System.Drawing.Size(135, 28);
             this.checkBoxCircleClose.TabIndex = 29;
@@ -297,7 +297,7 @@ namespace RelayControlLibrary
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRestoreDefaults.Location = new System.Drawing.Point(4, 257);
-            this.buttonRestoreDefaults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(228, 28);
             this.buttonRestoreDefaults.TabIndex = 30;
@@ -330,7 +330,7 @@ namespace RelayControlLibrary
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(8, 197);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(400, 28);
             this.checkBox1.TabIndex = 40;
@@ -362,9 +362,9 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.Controls.Add(this.numericUpDownPDV);
             this.groupBoxCloseMode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxCloseMode.Location = new System.Drawing.Point(4, 4);
-            this.groupBoxCloseMode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxCloseMode.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxCloseMode.Name = "groupBoxCloseMode";
-            this.groupBoxCloseMode.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxCloseMode.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxCloseMode.Size = new System.Drawing.Size(369, 320);
             this.groupBoxCloseMode.TabIndex = 33;
             this.groupBoxCloseMode.TabStop = false;
@@ -375,7 +375,7 @@ namespace RelayControlLibrary
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxCloseMode);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ucCloseMode";
             this.Size = new System.Drawing.Size(377, 308);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).EndInit();

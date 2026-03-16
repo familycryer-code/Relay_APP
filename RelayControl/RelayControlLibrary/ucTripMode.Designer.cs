@@ -122,7 +122,7 @@ namespace RelayControlLibrary
             this.buttonSendTripData.Location = new System.Drawing.Point(260, 278);
             this.buttonSendTripData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendTripData.Name = "buttonSendTripData";
-            this.buttonSendTripData.Size = new System.Drawing.Size(100, 28);
+            this.buttonSendTripData.Size = new System.Drawing.Size(147, 28);
             this.buttonSendTripData.TabIndex = 1;
             this.buttonSendTripData.Text = "Program Trip";
             this.buttonSendTripData.UseVisualStyleBackColor = true;
