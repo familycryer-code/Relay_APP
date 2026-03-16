@@ -93,6 +93,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -263,7 +264,6 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -313,7 +313,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1506, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1506, 28);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -326,7 +326,7 @@
             this.reprogramRelayFileSelectToolStripMenuItem,
             this.tCPConnectionToolStripMenuItem});
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
-            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.OptionsToolStripMenuItem.Text = "Options";
             this.OptionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
@@ -370,7 +370,7 @@
             this.eventActionsToolStripMenuItem,
             this.liveDataActionsToolStripMenuItem});
             this.toolStripMenuItemAction.Name = "toolStripMenuItemAction";
-            this.toolStripMenuItemAction.Size = new System.Drawing.Size(72, 26);
+            this.toolStripMenuItemAction.Size = new System.Drawing.Size(72, 24);
             this.toolStripMenuItemAction.Text = "Actions";
             // 
             // eventActionsToolStripMenuItem
@@ -446,7 +446,7 @@
             // acknowledgeToolStripMenuItem1
             // 
             this.acknowledgeToolStripMenuItem1.Name = "acknowledgeToolStripMenuItem1";
-            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(113, 26);
+            this.acknowledgeToolStripMenuItem1.Size = new System.Drawing.Size(113, 24);
             this.acknowledgeToolStripMenuItem1.Text = "Acknowledge";
             this.acknowledgeToolStripMenuItem1.Click += new System.EventHandler(this.acknowledgeToolStripMenuItem1_Click);
             // 
@@ -456,7 +456,7 @@
             this.saveToolStripMenuItem,
             this.printScreenToolStripMenuItem});
             this.sToolStripMenuItem.Name = "sToolStripMenuItem";
-            this.sToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.sToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.sToolStripMenuItem.Text = "Screen Capture";
             // 
             // saveToolStripMenuItem
@@ -478,7 +478,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resetRelayToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
             this.toolsToolStripMenuItem.Text = "Alternate Actions";
             // 
             // resetRelayToolStripMenuItem
@@ -493,7 +493,7 @@
             this.loadConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableAutoloadToolStripMenuItem});
             this.loadConfigurationToolStripMenuItem.Name = "loadConfigurationToolStripMenuItem";
-            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(151, 26);
+            this.loadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.loadConfigurationToolStripMenuItem.Text = "Load Configuration";
             // 
             // enableAutoloadToolStripMenuItem
@@ -939,6 +939,14 @@
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -1541,7 +1549,7 @@
             // button_push
             // 
             this.button_push.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_push.Location = new System.Drawing.Point(1156, 626);
+            this.button_push.Location = new System.Drawing.Point(774, 740);
             this.button_push.Name = "button_push";
             this.button_push.Size = new System.Drawing.Size(82, 36);
             this.button_push.TabIndex = 123;
@@ -1566,21 +1574,21 @@
             this.groupBox_PC.Controls.Add(this.numericUpDown_PC_floatTime);
             this.groupBox_PC.Controls.Add(this.lbl_PC_floatTime);
             this.groupBox_PC.Controls.Add(this.btn_RestorePC_defaults);
-            this.groupBox_PC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_PC.Location = new System.Drawing.Point(956, 263);
+            this.groupBox_PC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_PC.Location = new System.Drawing.Point(995, 380);
             this.groupBox_PC.Name = "groupBox_PC";
-            this.groupBox_PC.Size = new System.Drawing.Size(340, 323);
+            this.groupBox_PC.Size = new System.Drawing.Size(340, 345);
             this.groupBox_PC.TabIndex = 122;
             this.groupBox_PC.TabStop = false;
             this.groupBox_PC.Text = "Permissive Close";
             // 
             // btn_PC_Send
             // 
-            this.btn_PC_Send.Location = new System.Drawing.Point(216, 222);
+            this.btn_PC_Send.Location = new System.Drawing.Point(14, 273);
             this.btn_PC_Send.Name = "btn_PC_Send";
-            this.btn_PC_Send.Size = new System.Drawing.Size(75, 23);
+            this.btn_PC_Send.Size = new System.Drawing.Size(333, 44);
             this.btn_PC_Send.TabIndex = 14;
-            this.btn_PC_Send.Text = "Send";
+            this.btn_PC_Send.Text = "Program Permissive Close";
             this.btn_PC_Send.UseVisualStyleBackColor = true;
             this.btn_PC_Send.Click += new System.EventHandler(this.btn_PC_Send_Click);
             // 
@@ -1591,7 +1599,7 @@
             this.lbl_PermissiveClose_Status.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_PermissiveClose_Status.Location = new System.Drawing.Point(266, 168);
             this.lbl_PermissiveClose_Status.Name = "lbl_PermissiveClose_Status";
-            this.lbl_PermissiveClose_Status.Size = new System.Drawing.Size(77, 22);
+            this.lbl_PermissiveClose_Status.Size = new System.Drawing.Size(89, 26);
             this.lbl_PermissiveClose_Status.TabIndex = 13;
             this.lbl_PermissiveClose_Status.Text = "Disabled";
             // 
@@ -1600,7 +1608,7 @@
             this.lbl_PC_status.AutoSize = true;
             this.lbl_PC_status.Location = new System.Drawing.Point(213, 171);
             this.lbl_PC_status.Name = "lbl_PC_status";
-            this.lbl_PC_status.Size = new System.Drawing.Size(62, 20);
+            this.lbl_PC_status.Size = new System.Drawing.Size(73, 24);
             this.lbl_PC_status.TabIndex = 12;
             this.lbl_PC_status.Text = "Status:";
             // 
@@ -1612,7 +1620,7 @@
             "Disable"});
             this.comboBox_PC.Location = new System.Drawing.Point(124, 168);
             this.comboBox_PC.Name = "comboBox_PC";
-            this.comboBox_PC.Size = new System.Drawing.Size(85, 28);
+            this.comboBox_PC.Size = new System.Drawing.Size(85, 32);
             this.comboBox_PC.TabIndex = 11;
             this.comboBox_PC.Text = "Enable";
             // 
@@ -1621,7 +1629,7 @@
             this.lbl_PC.AutoSize = true;
             this.lbl_PC.Location = new System.Drawing.Point(6, 170);
             this.lbl_PC.Name = "lbl_PC";
-            this.lbl_PC.Size = new System.Drawing.Size(140, 20);
+            this.lbl_PC.Size = new System.Drawing.Size(159, 24);
             this.lbl_PC.TabIndex = 10;
             this.lbl_PC.Text = "Permissive Close";
             // 
@@ -1639,7 +1647,7 @@
             0,
             0});
             this.numericUpDown_PC_voltage.Name = "numericUpDown_PC_voltage";
-            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(5, 26);
+            this.numericUpDown_PC_voltage.Size = new System.Drawing.Size(108, 32);
             this.numericUpDown_PC_voltage.TabIndex = 9;
             this.numericUpDown_PC_voltage.Value = new decimal(new int[] {
             5,
@@ -1661,7 +1669,7 @@
             0,
             0});
             this.numericUpDown_PC_activeTime.Name = "numericUpDown_PC_activeTime";
-            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(5, 26);
+            this.numericUpDown_PC_activeTime.Size = new System.Drawing.Size(108, 32);
             this.numericUpDown_PC_activeTime.TabIndex = 8;
             this.numericUpDown_PC_activeTime.Value = new decimal(new int[] {
             15,
@@ -1674,7 +1682,7 @@
             this.lbl_PCvoltage_Unit.AutoSize = true;
             this.lbl_PCvoltage_Unit.Location = new System.Drawing.Point(196, 113);
             this.lbl_PCvoltage_Unit.Name = "lbl_PCvoltage_Unit";
-            this.lbl_PCvoltage_Unit.Size = new System.Drawing.Size(47, 20);
+            this.lbl_PCvoltage_Unit.Size = new System.Drawing.Size(54, 24);
             this.lbl_PCvoltage_Unit.TabIndex = 7;
             this.lbl_PCvoltage_Unit.Text = "Volts";
             // 
@@ -1683,7 +1691,7 @@
             this.lbl_PC_voltage.AutoSize = true;
             this.lbl_PC_voltage.Location = new System.Drawing.Point(34, 113);
             this.lbl_PC_voltage.Name = "lbl_PC_voltage";
-            this.lbl_PC_voltage.Size = new System.Drawing.Size(65, 20);
+            this.lbl_PC_voltage.Size = new System.Drawing.Size(78, 24);
             this.lbl_PC_voltage.TabIndex = 6;
             this.lbl_PC_voltage.Text = "Voltage";
             // 
@@ -1692,7 +1700,7 @@
             this.lbl_PCactiveTime_Unit.AutoSize = true;
             this.lbl_PCactiveTime_Unit.Location = new System.Drawing.Point(190, 70);
             this.lbl_PCactiveTime_Unit.Name = "lbl_PCactiveTime_Unit";
-            this.lbl_PCactiveTime_Unit.Size = new System.Drawing.Size(68, 20);
+            this.lbl_PCactiveTime_Unit.Size = new System.Drawing.Size(79, 24);
             this.lbl_PCactiveTime_Unit.TabIndex = 5;
             this.lbl_PCactiveTime_Unit.Text = "Minutes";
             // 
@@ -1701,7 +1709,7 @@
             this.lbl_PC_activeTime.AutoSize = true;
             this.lbl_PC_activeTime.Location = new System.Drawing.Point(10, 70);
             this.lbl_PC_activeTime.Name = "lbl_PC_activeTime";
-            this.lbl_PC_activeTime.Size = new System.Drawing.Size(97, 20);
+            this.lbl_PC_activeTime.Size = new System.Drawing.Size(115, 24);
             this.lbl_PC_activeTime.TabIndex = 4;
             this.lbl_PC_activeTime.Text = "Active Time";
             // 
@@ -1710,7 +1718,7 @@
             this.lbl_PCfloatTime_Unit.AutoSize = true;
             this.lbl_PCfloatTime_Unit.Location = new System.Drawing.Point(190, 35);
             this.lbl_PCfloatTime_Unit.Name = "lbl_PCfloatTime_Unit";
-            this.lbl_PCfloatTime_Unit.Size = new System.Drawing.Size(55, 20);
+            this.lbl_PCfloatTime_Unit.Size = new System.Drawing.Size(62, 24);
             this.lbl_PCfloatTime_Unit.TabIndex = 3;
             this.lbl_PCfloatTime_Unit.Text = "Hours";
             // 
@@ -1728,7 +1736,7 @@
             0,
             0});
             this.numericUpDown_PC_floatTime.Name = "numericUpDown_PC_floatTime";
-            this.numericUpDown_PC_floatTime.Size = new System.Drawing.Size(5, 26);
+            this.numericUpDown_PC_floatTime.Size = new System.Drawing.Size(108, 32);
             this.numericUpDown_PC_floatTime.TabIndex = 2;
             this.numericUpDown_PC_floatTime.Value = new decimal(new int[] {
             38,
@@ -1741,7 +1749,7 @@
             this.lbl_PC_floatTime.AutoSize = true;
             this.lbl_PC_floatTime.Location = new System.Drawing.Point(17, 36);
             this.lbl_PC_floatTime.Name = "lbl_PC_floatTime";
-            this.lbl_PC_floatTime.Size = new System.Drawing.Size(88, 20);
+            this.lbl_PC_floatTime.Size = new System.Drawing.Size(105, 24);
             this.lbl_PC_floatTime.TabIndex = 1;
             this.lbl_PC_floatTime.Text = "Float Time";
             // 
@@ -1749,7 +1757,7 @@
             // 
             this.btn_RestorePC_defaults.Location = new System.Drawing.Point(20, 222);
             this.btn_RestorePC_defaults.Name = "btn_RestorePC_defaults";
-            this.btn_RestorePC_defaults.Size = new System.Drawing.Size(173, 23);
+            this.btn_RestorePC_defaults.Size = new System.Drawing.Size(333, 44);
             this.btn_RestorePC_defaults.TabIndex = 0;
             this.btn_RestorePC_defaults.Text = "Restore Factory Defaults";
             this.btn_RestorePC_defaults.UseVisualStyleBackColor = true;
@@ -1758,7 +1766,7 @@
             // button_dataStore
             // 
             this.button_dataStore.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_dataStore.Location = new System.Drawing.Point(1046, 626);
+            this.button_dataStore.Location = new System.Drawing.Point(774, 703);
             this.button_dataStore.Name = "button_dataStore";
             this.button_dataStore.Size = new System.Drawing.Size(82, 36);
             this.button_dataStore.TabIndex = 121;
@@ -1786,7 +1794,7 @@
             this.textBoxLRLockoutStatusMain.Location = new System.Drawing.Point(144, 23);
             this.textBoxLRLockoutStatusMain.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLRLockoutStatusMain.Name = "textBoxLRLockoutStatusMain";
-            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(2, 24);
+            this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(5, 24);
             this.textBoxLRLockoutStatusMain.TabIndex = 1;
             // 
             // labelLRLockoutMain
@@ -1841,7 +1849,7 @@
             0,
             0});
             this.numericUpDownLowVoltageThres.Name = "numericUpDownLowVoltageThres";
-            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(8, 24);
+            this.numericUpDownLowVoltageThres.Size = new System.Drawing.Size(13, 24);
             this.numericUpDownLowVoltageThres.TabIndex = 114;
             this.numericUpDownLowVoltageThres.Value = new decimal(new int[] {
             20,
@@ -2058,7 +2066,7 @@
             this.textBoxCTRatio.Location = new System.Drawing.Point(194, 190);
             this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
-            this.textBoxCTRatio.Size = new System.Drawing.Size(67, 32);
+            this.textBoxCTRatio.Size = new System.Drawing.Size(131, 32);
             this.textBoxCTRatio.TabIndex = 64;
             this.textBoxCTRatio.Text = "320";
             this.textBoxCTRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -3096,14 +3104,6 @@
             this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 

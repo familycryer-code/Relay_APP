@@ -691,8 +691,8 @@ namespace RelayControl
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); //(13, 450);
-                this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
-                this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
+               // this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
+               // this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
                 this.ucTripMode2.Location = new System.Drawing.Point(400, 13);
@@ -720,10 +720,11 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 600); //(750, 600);  
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 600); 
                 this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 600); 
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
+                this.loadConfigurationToolStripMenuItem.Visible = false;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -802,8 +803,21 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
+                this.ucCloseMode1.Location = new System.Drawing.Point(970, 13);
+                this.groupBox_PC.Location = new System.Drawing.Point(970, 360);
+                this.groupBox_PC.Size = new System.Drawing.Size(380, 330);
+                /*
+                    Reshuffle the placement of the REquest All and Program All button on relay settings tab
+                    only for CONED APP - since its needs extra space for the Permissive close groupBox
+                */
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(1265, 695); //(750, 470); 
                 this.buttonRequestRelayParamaters.Text = "Read";
                 this.buttonSendAll.Text = "Program";
+
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(900, 700);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1050, 700);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(900, 750);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(1050, 750);
 #elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;

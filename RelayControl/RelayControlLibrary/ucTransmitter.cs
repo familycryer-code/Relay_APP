@@ -64,10 +64,13 @@ namespace RelayControlLibrary
             this.panelFlasgStatusWB.Visible = false;// true;
             this.labelTransFlagStatus.Visible = false;// true;
 #elif CONED
+            this.panelFlasgStatusWB.Visible = false;
+            this.labelTransFlagStatus.Visible = false;
             this.button_FastFire.Enabled = true;
             this.button_FastFire.Visible = true;
             this.button_FastMode.Enabled = true;
             this.button_FastMode.Visible = true;
+            this.labelTransFlagStatus.Visible = false;
 #elif !DEBUG
             this.panelFlasgStatusWB.Visible = false;
             this.labelTransFlagStatus.Visible = false;
