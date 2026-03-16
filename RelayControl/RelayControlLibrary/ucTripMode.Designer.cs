@@ -130,7 +130,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownSensitiveTimeDelay
             // 
-            this.numericUpDownSensitiveTimeDelay.Location = new System.Drawing.Point(263, 60);
+            this.numericUpDownSensitiveTimeDelay.Location = new System.Drawing.Point(311, 61);
             this.numericUpDownSensitiveTimeDelay.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownSensitiveTimeDelay.Maximum = new decimal(new int[] {
             255,
@@ -140,6 +140,7 @@ namespace RelayControlLibrary
             this.numericUpDownSensitiveTimeDelay.Name = "numericUpDownSensitiveTimeDelay";
             this.numericUpDownSensitiveTimeDelay.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownSensitiveTimeDelay.TabIndex = 3;
+            this.numericUpDownSensitiveTimeDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSensitiveTimeDelay.Value = new decimal(new int[] {
             6,
             0,
@@ -148,7 +149,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownTimeDelay
             // 
-            this.numericUpDownTimeDelay.Location = new System.Drawing.Point(263, 87);
+            this.numericUpDownTimeDelay.Location = new System.Drawing.Point(311, 90);
             this.numericUpDownTimeDelay.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownTimeDelay.Maximum = new decimal(new int[] {
             9999,
@@ -158,6 +159,7 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Name = "numericUpDownTimeDelay";
             this.numericUpDownTimeDelay.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownTimeDelay.TabIndex = 5;
+            this.numericUpDownTimeDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownTimeDelay.Value = new decimal(new int[] {
             150,
             0,
@@ -167,7 +169,7 @@ namespace RelayControlLibrary
             // labelSTD
             // 
             this.labelSTD.AutoSize = true;
-            this.labelSTD.Location = new System.Drawing.Point(116, 63);
+            this.labelSTD.Location = new System.Drawing.Point(141, 63);
             this.labelSTD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSTD.Name = "labelSTD";
             this.labelSTD.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -178,7 +180,7 @@ namespace RelayControlLibrary
             // labelTD
             // 
             this.labelTD.AutoSize = true;
-            this.labelTD.Location = new System.Drawing.Point(177, 90);
+            this.labelTD.Location = new System.Drawing.Point(207, 92);
             this.labelTD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTD.Name = "labelTD";
             this.labelTD.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -189,7 +191,7 @@ namespace RelayControlLibrary
             // labelETD
             // 
             this.labelETD.AutoSize = true;
-            this.labelETD.Location = new System.Drawing.Point(113, 63);
+            this.labelETD.Location = new System.Drawing.Point(136, 63);
             this.labelETD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelETD.Name = "labelETD";
             this.labelETD.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -199,7 +201,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownExtendedTimeDelay
             // 
-            this.numericUpDownExtendedTimeDelay.Location = new System.Drawing.Point(263, 60);
+            this.numericUpDownExtendedTimeDelay.Location = new System.Drawing.Point(311, 61);
             this.numericUpDownExtendedTimeDelay.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownExtendedTimeDelay.Maximum = new decimal(new int[] {
             255,
@@ -209,11 +211,12 @@ namespace RelayControlLibrary
             this.numericUpDownExtendedTimeDelay.Name = "numericUpDownExtendedTimeDelay";
             this.numericUpDownExtendedTimeDelay.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownExtendedTimeDelay.TabIndex = 4;
+            this.numericUpDownExtendedTimeDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelSTDunit
             // 
             this.labelSTDunit.AutoSize = true;
-            this.labelSTDunit.Location = new System.Drawing.Point(341, 63);
+            this.labelSTDunit.Location = new System.Drawing.Point(391, 63);
             this.labelSTDunit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSTDunit.Name = "labelSTDunit";
             this.labelSTDunit.Size = new System.Drawing.Size(53, 19);
@@ -223,7 +226,7 @@ namespace RelayControlLibrary
             // labelTDunit
             // 
             this.labelTDunit.AutoSize = true;
-            this.labelTDunit.Location = new System.Drawing.Point(353, 90);
+            this.labelTDunit.Location = new System.Drawing.Point(392, 92);
             this.labelTDunit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTDunit.Name = "labelTDunit";
             this.labelTDunit.Size = new System.Drawing.Size(67, 19);
@@ -233,7 +236,7 @@ namespace RelayControlLibrary
             // labelETDunit
             // 
             this.labelETDunit.AutoSize = true;
-            this.labelETDunit.Location = new System.Drawing.Point(353, 63);
+            this.labelETDunit.Location = new System.Drawing.Point(391, 63);
             this.labelETDunit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelETDunit.Name = "labelETDunit";
             this.labelETDunit.Size = new System.Drawing.Size(67, 19);
@@ -242,7 +245,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownAngle
             // 
-            this.numericUpDownAngle.Location = new System.Drawing.Point(263, 143);
+            this.numericUpDownAngle.Location = new System.Drawing.Point(311, 148);
             this.numericUpDownAngle.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownAngle.Maximum = new decimal(new int[] {
             95,
@@ -257,6 +260,7 @@ namespace RelayControlLibrary
             this.numericUpDownAngle.Name = "numericUpDownAngle";
             this.numericUpDownAngle.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownAngle.TabIndex = 7;
+            this.numericUpDownAngle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownAngle.Value = new decimal(new int[] {
             90,
             0,
@@ -271,7 +275,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownSensTrip.Location = new System.Drawing.Point(263, 116);
+            this.numericUpDownSensTrip.Location = new System.Drawing.Point(311, 119);
             this.numericUpDownSensTrip.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownSensTrip.Maximum = new decimal(new int[] {
             5000,
@@ -286,6 +290,7 @@ namespace RelayControlLibrary
             this.numericUpDownSensTrip.Name = "numericUpDownSensTrip";
             this.numericUpDownSensTrip.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownSensTrip.TabIndex = 6;
+            this.numericUpDownSensTrip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSensTrip.Value = new decimal(new int[] {
             75,
             0,
@@ -300,7 +305,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownInsensTrip.Location = new System.Drawing.Point(263, 170);
+            this.numericUpDownInsensTrip.Location = new System.Drawing.Point(311, 177);
             this.numericUpDownInsensTrip.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownInsensTrip.Maximum = new decimal(new int[] {
             15,
@@ -310,6 +315,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Name = "numericUpDownInsensTrip";
             this.numericUpDownInsensTrip.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownInsensTrip.TabIndex = 8;
+            this.numericUpDownInsensTrip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownInsensTrip.Value = new decimal(new int[] {
             25,
             0,
@@ -319,7 +325,7 @@ namespace RelayControlLibrary
             // labelInsensTrip
             // 
             this.labelInsensTrip.AutoSize = true;
-            this.labelInsensTrip.Location = new System.Drawing.Point(128, 174);
+            this.labelInsensTrip.Location = new System.Drawing.Point(143, 183);
             this.labelInsensTrip.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInsensTrip.Name = "labelInsensTrip";
             this.labelInsensTrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -330,7 +336,7 @@ namespace RelayControlLibrary
             // labelAngle
             // 
             this.labelAngle.AutoSize = true;
-            this.labelAngle.Location = new System.Drawing.Point(189, 145);
+            this.labelAngle.Location = new System.Drawing.Point(216, 150);
             this.labelAngle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAngle.Name = "labelAngle";
             this.labelAngle.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -341,7 +347,7 @@ namespace RelayControlLibrary
             // labelSensTrip
             // 
             this.labelSensTrip.AutoSize = true;
-            this.labelSensTrip.Location = new System.Drawing.Point(163, 118);
+            this.labelSensTrip.Location = new System.Drawing.Point(189, 121);
             this.labelSensTrip.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSensTrip.Name = "labelSensTrip";
             this.labelSensTrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -352,7 +358,7 @@ namespace RelayControlLibrary
             // labelInsensTripUnit
             // 
             this.labelInsensTripUnit.AutoSize = true;
-            this.labelInsensTripUnit.Location = new System.Drawing.Point(349, 174);
+            this.labelInsensTripUnit.Location = new System.Drawing.Point(394, 177);
             this.labelInsensTripUnit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInsensTripUnit.Name = "labelInsensTripUnit";
             this.labelInsensTripUnit.Size = new System.Drawing.Size(20, 19);
@@ -362,7 +368,7 @@ namespace RelayControlLibrary
             // labelAngleUnit
             // 
             this.labelAngleUnit.AutoSize = true;
-            this.labelAngleUnit.Location = new System.Drawing.Point(349, 145);
+            this.labelAngleUnit.Location = new System.Drawing.Point(391, 151);
             this.labelAngleUnit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAngleUnit.Name = "labelAngleUnit";
             this.labelAngleUnit.Size = new System.Drawing.Size(66, 19);
@@ -372,7 +378,7 @@ namespace RelayControlLibrary
             // labelSensTripUnit
             // 
             this.labelSensTripUnit.AutoSize = true;
-            this.labelSensTripUnit.Location = new System.Drawing.Point(349, 118);
+            this.labelSensTripUnit.Location = new System.Drawing.Point(391, 121);
             this.labelSensTripUnit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSensTripUnit.Name = "labelSensTripUnit";
             this.labelSensTripUnit.Size = new System.Drawing.Size(34, 19);
@@ -397,7 +403,7 @@ namespace RelayControlLibrary
             // labelWVCurrentUnit
             // 
             this.labelWVCurrentUnit.AutoSize = true;
-            this.labelWVCurrentUnit.Location = new System.Drawing.Point(349, 201);
+            this.labelWVCurrentUnit.Location = new System.Drawing.Point(394, 208);
             this.labelWVCurrentUnit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWVCurrentUnit.Name = "labelWVCurrentUnit";
             this.labelWVCurrentUnit.Size = new System.Drawing.Size(20, 19);
@@ -407,7 +413,7 @@ namespace RelayControlLibrary
             // labelWVCurrent
             // 
             this.labelWVCurrent.AutoSize = true;
-            this.labelWVCurrent.Location = new System.Drawing.Point(175, 201);
+            this.labelWVCurrent.Location = new System.Drawing.Point(203, 208);
             this.labelWVCurrent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWVCurrent.Name = "labelWVCurrent";
             this.labelWVCurrent.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -423,7 +429,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownWVCurrent.Location = new System.Drawing.Point(263, 197);
+            this.numericUpDownWVCurrent.Location = new System.Drawing.Point(311, 206);
             this.numericUpDownWVCurrent.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownWVCurrent.Maximum = new decimal(new int[] {
             15,
@@ -433,6 +439,7 @@ namespace RelayControlLibrary
             this.numericUpDownWVCurrent.Name = "numericUpDownWVCurrent";
             this.numericUpDownWVCurrent.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownWVCurrent.TabIndex = 34;
+            this.numericUpDownWVCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownWVCurrent.Value = new decimal(new int[] {
             25,
             0,
@@ -442,7 +449,7 @@ namespace RelayControlLibrary
             // labelWVAngleUnit
             // 
             this.labelWVAngleUnit.AutoSize = true;
-            this.labelWVAngleUnit.Location = new System.Drawing.Point(349, 225);
+            this.labelWVAngleUnit.Location = new System.Drawing.Point(392, 235);
             this.labelWVAngleUnit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWVAngleUnit.Name = "labelWVAngleUnit";
             this.labelWVAngleUnit.Size = new System.Drawing.Size(66, 19);
@@ -452,7 +459,7 @@ namespace RelayControlLibrary
             // labelWVAngle
             // 
             this.labelWVAngle.AutoSize = true;
-            this.labelWVAngle.Location = new System.Drawing.Point(184, 225);
+            this.labelWVAngle.Location = new System.Drawing.Point(215, 235);
             this.labelWVAngle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWVAngle.Name = "labelWVAngle";
             this.labelWVAngle.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -462,7 +469,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownWVAngle
             // 
-            this.numericUpDownWVAngle.Location = new System.Drawing.Point(263, 223);
+            this.numericUpDownWVAngle.Location = new System.Drawing.Point(311, 235);
             this.numericUpDownWVAngle.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownWVAngle.Maximum = new decimal(new int[] {
             0,
@@ -477,6 +484,7 @@ namespace RelayControlLibrary
             this.numericUpDownWVAngle.Name = "numericUpDownWVAngle";
             this.numericUpDownWVAngle.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownWVAngle.TabIndex = 37;
+            this.numericUpDownWVAngle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownWVAngle.Value = new decimal(new int[] {
             60,
             0,
@@ -486,7 +494,7 @@ namespace RelayControlLibrary
             // labelInstantCurrent
             // 
             this.labelInstantCurrent.AutoSize = true;
-            this.labelInstantCurrent.Location = new System.Drawing.Point(84, 171);
+            this.labelInstantCurrent.Location = new System.Drawing.Point(95, 177);
             this.labelInstantCurrent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInstantCurrent.Name = "labelInstantCurrent";
             this.labelInstantCurrent.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -509,7 +517,7 @@ namespace RelayControlLibrary
             // labelGullWingUnits
             // 
             this.labelGullWingUnits.AutoSize = true;
-            this.labelGullWingUnits.Location = new System.Drawing.Point(349, 252);
+            this.labelGullWingUnits.Location = new System.Drawing.Point(392, 264);
             this.labelGullWingUnits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelGullWingUnits.Name = "labelGullWingUnits";
             this.labelGullWingUnits.Size = new System.Drawing.Size(66, 19);
@@ -519,7 +527,7 @@ namespace RelayControlLibrary
             // labelGullWingAngle
             // 
             this.labelGullWingAngle.AutoSize = true;
-            this.labelGullWingAngle.Location = new System.Drawing.Point(181, 252);
+            this.labelGullWingAngle.Location = new System.Drawing.Point(205, 264);
             this.labelGullWingAngle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelGullWingAngle.Name = "labelGullWingAngle";
             this.labelGullWingAngle.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -529,7 +537,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownGullWingAngle
             // 
-            this.numericUpDownGullWingAngle.Location = new System.Drawing.Point(263, 250);
+            this.numericUpDownGullWingAngle.Location = new System.Drawing.Point(311, 264);
             this.numericUpDownGullWingAngle.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDownGullWingAngle.Maximum = new decimal(new int[] {
             95,
@@ -544,6 +552,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Name = "numericUpDownGullWingAngle";
             this.numericUpDownGullWingAngle.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownGullWingAngle.TabIndex = 42;
+            this.numericUpDownGullWingAngle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownGullWingAngle.Value = new decimal(new int[] {
             90,
             0,
@@ -593,7 +602,7 @@ namespace RelayControlLibrary
             // labelTripStyle
             // 
             this.labelTripStyle.AutoSize = true;
-            this.labelTripStyle.Location = new System.Drawing.Point(8, 28);
+            this.labelTripStyle.Location = new System.Drawing.Point(65, 31);
             this.labelTripStyle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTripStyle.Name = "labelTripStyle";
             this.labelTripStyle.Size = new System.Drawing.Size(83, 19);
@@ -664,7 +673,7 @@ namespace RelayControlLibrary
             "Relay",
             "Percent",
             "Protector"});
-            this.comboBox_TripType.Location = new System.Drawing.Point(293, 25);
+            this.comboBox_TripType.Location = new System.Drawing.Point(297, 28);
             this.comboBox_TripType.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_TripType.Name = "comboBox_TripType";
             this.comboBox_TripType.Size = new System.Drawing.Size(99, 27);
@@ -679,10 +688,10 @@ namespace RelayControlLibrary
             "Pulse Trip",
             "Single Attempt",
             "Short Trip"});
-            this.comboBox_TripStyle.Location = new System.Drawing.Point(80, 25);
+            this.comboBox_TripStyle.Location = new System.Drawing.Point(156, 28);
             this.comboBox_TripStyle.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_TripStyle.Name = "comboBox_TripStyle";
-            this.comboBox_TripStyle.Size = new System.Drawing.Size(204, 27);
+            this.comboBox_TripStyle.Size = new System.Drawing.Size(133, 27);
             this.comboBox_TripStyle.TabIndex = 68;
             this.comboBox_TripStyle.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripStyle_SelectedItemChanged);
             // 
@@ -966,7 +975,7 @@ namespace RelayControlLibrary
 #endregion
 
         private System.Windows.Forms.ListBox listBoxTripModes;
-        private System.Windows.Forms.Button buttonSendTripData;
+        public System.Windows.Forms.Button buttonSendTripData;
         private System.Windows.Forms.NumericUpDown numericUpDownSensitiveTimeDelay;
         private System.Windows.Forms.NumericUpDown numericUpDownTimeDelay;
         private System.Windows.Forms.Label labelSTD;
@@ -993,14 +1002,14 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelWVAngle;
         private System.Windows.Forms.NumericUpDown numericUpDownWVAngle;
         private System.Windows.Forms.Label labelInstantCurrent;
-        private System.Windows.Forms.Button buttonRestoreDefaults;
+        public System.Windows.Forms.Button buttonRestoreDefaults;
         private System.Windows.Forms.Label labelGullWingUnits;
         private System.Windows.Forms.Label labelGullWingAngle;
         private System.Windows.Forms.NumericUpDown numericUpDownGullWingAngle;
-        private System.Windows.Forms.CheckBox checkBoxEnableGullWing;
+        public System.Windows.Forms.CheckBox checkBoxEnableGullWing;
         private System.Windows.Forms.Label labelTripStyle;
         private System.Windows.Forms.DomainUpDown domainUpDownTripStyle;
-        private System.Windows.Forms.CheckBox checkBoxTripOnPowerDown;
+        public System.Windows.Forms.CheckBox checkBoxTripOnPowerDown;
         public System.Windows.Forms.GroupBox groupBoxTripModeSettings;
         private System.Windows.Forms.Label lblGreenDelay;
         private System.Windows.Forms.NumericUpDown numericUpDown_GreenDelay;

@@ -725,6 +725,10 @@ namespace RelayControl
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(33, 310);
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 310);
+                this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
+                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(250, 280);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
