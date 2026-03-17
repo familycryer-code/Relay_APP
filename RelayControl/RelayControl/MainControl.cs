@@ -807,9 +807,9 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
-                this.ucCloseMode1.Location = new System.Drawing.Point(970, 13);
-                this.groupBox_PC.Location = new System.Drawing.Point(970, 360);
-                this.groupBox_PC.Size = new System.Drawing.Size(380, 330);
+                this.ucCloseMode1.Location = new System.Drawing.Point(940, 13); 
+                this.groupBox_PC.Location = new System.Drawing.Point(940, 360); 
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 320); 
                 /*
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab
                     only for CONED APP - since its needs extra space for the Permissive close groupBox
