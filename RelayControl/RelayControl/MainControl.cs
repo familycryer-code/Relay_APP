@@ -691,13 +691,12 @@ namespace RelayControl
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); //(13, 450);
-               // this.groupBox_PC.Location = new System.Drawing.Point(840, 13);
-               // this.groupBox_PC.Size = new System.Drawing.Size(380, 297);
+                this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 368);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
-                this.ucTripMode2.Location = new System.Drawing.Point(400, 13);
-                this.ucCloseMode1.Location = new System.Drawing.Point(1100, 13); //(440, 5);
-                this.ucPumpMode1.Location = new System.Drawing.Point(13, 430); //(270, 430); 
+                this.ucTripMode2.Location = new System.Drawing.Point(450, 13); //(400, 13);
+                this.ucCloseMode1.Location = new System.Drawing.Point(1150, 13); //(1100, 13); 
+                this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);  
                 this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(35, 295);
                 this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
                 this.ucSafeService1.Location = new System.Drawing.Point(500, 430); //(400, 430);  
@@ -725,15 +724,15 @@ namespace RelayControl
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(33, 310);
-                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 310);
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(27, 317); //(33, 310);
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 317); //(290, 310);
                 this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
                 this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(250, 280);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.23" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.24" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -807,7 +806,7 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
-                this.ucCloseMode1.Location = new System.Drawing.Point(940, 13); 
+                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13); //(940, 13); 
                 this.groupBox_PC.Location = new System.Drawing.Point(940, 360); 
                 this.groupBox_PC.Size = new System.Drawing.Size(470, 320); 
                 /*

@@ -122,7 +122,7 @@ namespace RelayControlLibrary
             this.buttonSendTripData.Location = new System.Drawing.Point(260, 278);
             this.buttonSendTripData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendTripData.Name = "buttonSendTripData";
-            this.buttonSendTripData.Size = new System.Drawing.Size(147, 28);
+            this.buttonSendTripData.Size = new System.Drawing.Size(151, 28);
             this.buttonSendTripData.TabIndex = 1;
             this.buttonSendTripData.Text = "Program Trip";
             this.buttonSendTripData.UseVisualStyleBackColor = true;
@@ -505,10 +505,10 @@ namespace RelayControlLibrary
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(3, 277);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(27, 285); //(3, 277);
             this.buttonRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(249, 28);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(228, 28);
             this.buttonRestoreDefaults.TabIndex = 41;
             this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
