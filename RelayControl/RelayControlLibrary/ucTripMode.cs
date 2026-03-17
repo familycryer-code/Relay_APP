@@ -799,44 +799,44 @@ namespace RelayControlLibrary
         {
             this.lblGreenDelay.Visible = true;
             this.numericUpDown_GreenDelay.Visible = true;
-            this.lblGreenDelay.Location = new System.Drawing.Point(140, 74); //(150, 74);
-            this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(311, 61); //(235, 72);
+            this.lblGreenDelay.Location = new System.Drawing.Point(155, 63);  
+            this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(311, 61); 
             this.lblUnitGreenDelay.Visible = true;
-            this.lblUnitGreenDelay.Location = new System.Drawing.Point(391, 63); //(300, 74);
-            this.numericUpDown_GreenDelay.Enabled = true;// false;
+            this.lblUnitGreenDelay.Location = new System.Drawing.Point(391, 63); 
+            this.numericUpDown_GreenDelay.Enabled = true;
 
 
             this.lblGreenMagX.Visible = true;
             this.numericUpDown_GreenMagX.Visible = true;
-            this.lblGreenMagX.Location = new System.Drawing.Point(100, 104); //Point(110, 104);
-            this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(235, 102);
+            this.lblGreenMagX.Location = new System.Drawing.Point(128, 104); 
+            this.numericUpDown_GreenMagX.Location = new System.Drawing.Point(311, 102);
             this.lblUnitGreenMagX.Visible = true; 
-            this.lblUnitGreenMagX.Location = new System.Drawing.Point(300, 104);
-            this.numericUpDown_GreenMagX.Enabled = true;//false;
+            this.lblUnitGreenMagX.Location = new System.Drawing.Point(391, 104); 
+            this.numericUpDown_GreenMagX.Enabled = true;
 
             this.lblGreenMagY.Visible = true;
             this.numericUpDown_GreenMagY.Visible = true;
-            this.lblGreenMagY.Location = new System.Drawing.Point(100, 134); //(110, 134);
-            this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(235, 132);
+            this.lblGreenMagY.Location = new System.Drawing.Point(128, 150); 
+            this.numericUpDown_GreenMagY.Location = new System.Drawing.Point(311, 148); 
             this.lblUnitGreenMagY.Visible = true;
-            this.lblUnitGreenMagY.Location = new System.Drawing.Point(300, 134);
-            this.numericUpDown_GreenMagY.Enabled = true;//false;
+            this.lblUnitGreenMagY.Location = new System.Drawing.Point(391, 149); 
+            this.numericUpDown_GreenMagY.Enabled = true;
 
             this.lbl_InstCurrent_kWdirection.Visible = true;
             this.numericUpDown_InCurrkW.Visible = true;
-            this.lbl_InstCurrent_kWdirection.Location = new System.Drawing.Point(45, 164); //(40, 164);
-            this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(232, 162);
+            this.lbl_InstCurrent_kWdirection.Location = new System.Drawing.Point(28, 194); //(45, 164); 
+            this.numericUpDown_InCurrkW.Location = new System.Drawing.Point(310, 192); 
             this.lblUnitInCur_kWdir.Visible = true;
-            this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(300, 166);
-            this.numericUpDown_InCurrkW.Enabled = true;//false;
+            this.lblUnitInCur_kWdir.Location = new System.Drawing.Point(391, 193); 
+            this.numericUpDown_InCurrkW.Enabled = true;
 
             this.lbl_InstCurrent_kVARdirection.Visible = true;
             this.numericUpDown_InCurrkVAR.Visible = true;
-            this.lbl_InstCurrent_kVARdirection.Location = new System.Drawing.Point(15, 194); //(10, 194);
-            this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(235, 192);
+            this.lbl_InstCurrent_kVARdirection.Location = new System.Drawing.Point(15, 240); 
+            this.numericUpDown_InCurrkVAR.Location = new System.Drawing.Point(313, 238); 
             this.lblUnitInCur_kVARdir.Visible = true;
-            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(300, 196);
-            this.numericUpDown_InCurrkVAR.Enabled = true;//false;
+            this.lblUnitInCur_kVARdir.Location = new System.Drawing.Point(391, 239); 
+            this.numericUpDown_InCurrkVAR.Enabled = true;
         }
 
 
