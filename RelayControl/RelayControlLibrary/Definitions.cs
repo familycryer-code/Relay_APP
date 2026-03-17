@@ -2065,6 +2065,11 @@ namespace RelayControlLibrary
         public static bool dataBackup_fromRelay;
     }
 
+    public static class modeRC
+    {
+        public static bool relaxMode;
+    }
+
     public static class dataBackupD
     {
         public static bool dataBackup_withDNP;

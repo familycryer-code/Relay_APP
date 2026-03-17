@@ -746,7 +746,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.26 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.27 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.26" + " DOMINION ";
@@ -4266,7 +4266,12 @@ namespace RelayControl
                     this.lbl_Relayststatus_Close.BackColor = Color.Green;
 
                 if ((bytePacket[5] & 32) == 32) // Relax Close
-                    this.lbl_Relayststatus_RC.BackColor = Color.Green;
+                { 
+                    this.lbl_Relayststatus_RC.BackColor = Color.Green; 
+                    modeRC.relaxMode = true;
+                }
+                else if ((bytePacket[5] & 32) != 32) // Not in Relax Close Mode
+                    modeRC.relaxMode = false;
 
                 byte b = bytePacket[0];
                 if ((b & 128) == 128)
@@ -4556,7 +4561,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Close.BackColor = Color.Transparent;
                 }
-                else if (this.RelayFlags.FloatCondition)
+                else if ((this.RelayFlags.FloatCondition) && (modeRC.relaxMode == false)) //else if (this.RelayFlags.FloatCondition)
                 {
                     setLabelText("Float", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);

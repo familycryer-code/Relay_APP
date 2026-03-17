@@ -800,9 +800,9 @@ namespace RelayControlLibrary
             this.lblGreenDelay.Visible = true;
             this.numericUpDown_GreenDelay.Visible = true;
             this.lblGreenDelay.Location = new System.Drawing.Point(140, 74); //(150, 74);
-            this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(235, 72);
+            this.numericUpDown_GreenDelay.Location = new System.Drawing.Point(311, 61); //(235, 72);
             this.lblUnitGreenDelay.Visible = true;
-            this.lblUnitGreenDelay.Location = new System.Drawing.Point(300, 74);
+            this.lblUnitGreenDelay.Location = new System.Drawing.Point(391, 63); //(300, 74);
             this.numericUpDown_GreenDelay.Enabled = true;// false;
 
 
