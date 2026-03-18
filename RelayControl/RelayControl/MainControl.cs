@@ -697,7 +697,7 @@ namespace RelayControl
                 this.ucTripMode2.Location = new System.Drawing.Point(450, 13); //(400, 13);
                 this.ucCloseMode1.Location = new System.Drawing.Point(1150, 13); //(1100, 13); 
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);  
-                this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(35, 295);
+               // this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(120, 320);
                 this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
                 this.ucSafeService1.Location = new System.Drawing.Point(500, 430); //(400, 430);  
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(750, 470); 
@@ -807,7 +807,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
                 this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13); //(940, 13); 
-                this.groupBox_PC.Location = new System.Drawing.Point(940, 360); 
+                this.groupBox_PC.Location = new System.Drawing.Point(1004, 360); //(940, 360); 
                 this.groupBox_PC.Size = new System.Drawing.Size(470, 320); 
                 /*
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab

@@ -121,8 +121,8 @@ namespace RelayControlLibrary
                     this.checkBoxNeverReclose.Visible = true;
                     this.labelProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
-                    this.groupBoxMotorCycles.Visible = true;
-                    this.groupBoxMotorTimeout.Visible = true;                    
+                   // this.groupBoxMotorCycles.Visible = true;
+                    //this.groupBoxMotorTimeout.Visible = true;                    
                     this.checkBoxMotorCycles.Checked = false;
                     this.checkBoxMotorTime.Checked = false;
                     this.numericUpDownProtectTime.Visible = true;
@@ -131,8 +131,8 @@ namespace RelayControlLibrary
                     this.checkBoxNeverReclose.Visible = true;
                     this.labelProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
-                    this.groupBoxMotorCycles.Visible = true;
-                    this.groupBoxMotorTimeout.Visible = true;
+                   // this.groupBoxMotorCycles.Visible = true;
+                    //this.groupBoxMotorTimeout.Visible = true;
                     this.checkBoxMotorCycles.Checked = true;
                     this.checkBoxMotorTime.Checked = true;
                     this.numericUpDownProtectTime.Visible = true;
@@ -636,7 +636,7 @@ namespace RelayControlLibrary
             {
                 case PumpReasons.NoPump:
                     this.labelPumpTypeDisplay.BackColor = Color.Transparent;
-                    this.labelPumpTypeDisplay.Text = "No Pumping Problems";
+                    this.labelPumpTypeDisplay.Text = "No Problems"; //"No Pumping Problems";
                     pumpOK.pumpStatus = true;
                     break;
                 case PumpReasons.MotorPump:
