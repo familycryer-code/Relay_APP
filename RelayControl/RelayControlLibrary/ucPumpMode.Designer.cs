@@ -121,6 +121,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Name = "numericUpDownMotorTimeout";
             this.numericUpDownMotorTimeout.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownMotorTimeout.TabIndex = 5;
+            this.numericUpDownMotorTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownMotorTimeout.Value = new decimal(new int[] {
             10,
             0,
@@ -208,6 +209,7 @@ namespace RelayControlLibrary
             this.numericUpDownProtectTime.Name = "numericUpDownProtectTime";
             this.numericUpDownProtectTime.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownProtectTime.TabIndex = 9;
+            this.numericUpDownProtectTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownProtectTime.Value = new decimal(new int[] {
             15,
             0,
@@ -248,6 +250,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorCycles.Name = "numericUpDownMotorCycles";
             this.numericUpDownMotorCycles.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownMotorCycles.TabIndex = 7;
+            this.numericUpDownMotorCycles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownMotorCycles.Value = new decimal(new int[] {
             5,
             0,
@@ -342,6 +345,7 @@ namespace RelayControlLibrary
             this.numericUpDownPumpTime.Name = "numericUpDownPumpTime";
             this.numericUpDownPumpTime.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownPumpTime.TabIndex = 4;
+            this.numericUpDownPumpTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownPumpTime.Value = new decimal(new int[] {
             30,
             0,
@@ -402,6 +406,7 @@ namespace RelayControlLibrary
             this.numericUpDownCycleLimit.Name = "numericUpDownCycleLimit";
             this.numericUpDownCycleLimit.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownCycleLimit.TabIndex = 2;
+            this.numericUpDownCycleLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownCycleLimit.Value = new decimal(new int[] {
             3,
             0,

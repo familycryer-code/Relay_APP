@@ -698,8 +698,8 @@ namespace RelayControl
                 this.ucCloseMode1.Location = new System.Drawing.Point(1150, 13); //(1100, 13); 
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);  
                // this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(120, 320);
-                this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
-                this.ucSafeService1.Location = new System.Drawing.Point(500, 430); //(400, 430);  
+               // this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
+                this.ucSafeService1.Location = new System.Drawing.Point(390, 430);   
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(750, 470); 
                 this.buttonSendAll.Location = new System.Drawing.Point(150, 3); //(16, 86);
                 this.panelOtherRelayControls.Size = new System.Drawing.Size(290, 174);

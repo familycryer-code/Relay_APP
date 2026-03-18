@@ -2348,7 +2348,7 @@
             this.ucSafeService1.Location = new System.Drawing.Point(422, 420);
             this.ucSafeService1.Margin = new System.Windows.Forms.Padding(4);
             this.ucSafeService1.Name = "ucSafeService1";
-            this.ucSafeService1.Size = new System.Drawing.Size(379, 373);
+            this.ucSafeService1.Size = new System.Drawing.Size(378, 400); //(379, 373);
             this.ucSafeService1.TabIndex = 108;
             // 
             // ucCoverFlags1

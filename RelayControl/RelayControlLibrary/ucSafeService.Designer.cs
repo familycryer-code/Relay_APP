@@ -51,6 +51,7 @@ namespace RelayControlLibrary
             this.labelSafeServiceEnable = new System.Windows.Forms.Label();
             this.buttonRequest = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
+            this.lbl_CurrImbalance_unit = new System.Windows.Forms.Label();
             this.groupBoxSafeService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVoltageImbalance)).BeginInit();
@@ -61,6 +62,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxSafeService
             // 
+            this.groupBoxSafeService.Controls.Add(this.lbl_CurrImbalance_unit);
             this.groupBoxSafeService.Controls.Add(this.comboBox_DataViews);
             this.groupBoxSafeService.Controls.Add(this.labelCurrentlyEnabled);
             this.groupBoxSafeService.Controls.Add(this.buttonRestoreDefaults);
@@ -84,11 +86,9 @@ namespace RelayControlLibrary
             this.groupBoxSafeService.Controls.Add(this.buttonRequest);
             this.groupBoxSafeService.Controls.Add(this.buttonSend);
             this.groupBoxSafeService.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxSafeService.Location = new System.Drawing.Point(4, 4);
-            this.groupBoxSafeService.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSafeService.Location = new System.Drawing.Point(3, 3);
             this.groupBoxSafeService.Name = "groupBoxSafeService";
-            this.groupBoxSafeService.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxSafeService.Size = new System.Drawing.Size(331, 338);
+            this.groupBoxSafeService.Size = new System.Drawing.Size(255, 292);
             this.groupBoxSafeService.TabIndex = 0;
             this.groupBoxSafeService.TabStop = false;
             this.groupBoxSafeService.Text = "Safe Service Mode";
@@ -100,10 +100,9 @@ namespace RelayControlLibrary
             "Relay",
             "Protector",
             "Percent"});
-            this.comboBox_DataViews.Location = new System.Drawing.Point(153, 20);
-            this.comboBox_DataViews.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_DataViews.Location = new System.Drawing.Point(115, 16);
             this.comboBox_DataViews.Name = "comboBox_DataViews";
-            this.comboBox_DataViews.Size = new System.Drawing.Size(84, 32);
+            this.comboBox_DataViews.Size = new System.Drawing.Size(64, 27);
             this.comboBox_DataViews.TabIndex = 22;
             this.comboBox_DataViews.SelectedIndexChanged += new System.EventHandler(this.comboBox_DataViews_SelectedItemChanged);
             // 
@@ -112,20 +111,18 @@ namespace RelayControlLibrary
             this.labelCurrentlyEnabled.AutoSize = true;
             this.labelCurrentlyEnabled.BackColor = System.Drawing.Color.White;
             this.labelCurrentlyEnabled.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelCurrentlyEnabled.Location = new System.Drawing.Point(125, 62);
-            this.labelCurrentlyEnabled.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCurrentlyEnabled.Location = new System.Drawing.Point(136, 52);
             this.labelCurrentlyEnabled.Name = "labelCurrentlyEnabled";
-            this.labelCurrentlyEnabled.Size = new System.Drawing.Size(89, 26);
+            this.labelCurrentlyEnabled.Size = new System.Drawing.Size(71, 21);
             this.labelCurrentlyEnabled.TabIndex = 21;
             this.labelCurrentlyEnabled.Text = "Disabled";
             // 
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(11, 265);
-            this.buttonRestoreDefaults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(18, 235);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(255, 28);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(191, 23);
             this.buttonRestoreDefaults.TabIndex = 20;
             this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
@@ -134,10 +131,9 @@ namespace RelayControlLibrary
             // domainUpDownDataViews
             // 
             this.domainUpDownDataViews.Enabled = false;
-            this.domainUpDownDataViews.Location = new System.Drawing.Point(181, 47);
-            this.domainUpDownDataViews.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.domainUpDownDataViews.Location = new System.Drawing.Point(136, 38);
             this.domainUpDownDataViews.Name = "domainUpDownDataViews";
-            this.domainUpDownDataViews.Size = new System.Drawing.Size(104, 32);
+            this.domainUpDownDataViews.Size = new System.Drawing.Size(78, 27);
             this.domainUpDownDataViews.TabIndex = 19;
             this.domainUpDownDataViews.Text = "Relay";
             this.domainUpDownDataViews.Visible = false;
@@ -145,10 +141,9 @@ namespace RelayControlLibrary
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(245, 188);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(194, 153);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 24);
+            this.label1.Size = new System.Drawing.Size(44, 19);
             this.label1.TabIndex = 18;
             this.label1.Text = "Volts";
             // 
@@ -160,8 +155,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownLowVoltage.Location = new System.Drawing.Point(143, 186);
-            this.numericUpDownLowVoltage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownLowVoltage.Location = new System.Drawing.Point(136, 149);
             this.numericUpDownLowVoltage.Maximum = new decimal(new int[] {
             120,
             0,
@@ -173,8 +167,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownLowVoltage.Name = "numericUpDownLowVoltage";
-            this.numericUpDownLowVoltage.Size = new System.Drawing.Size(96, 32);
+            this.numericUpDownLowVoltage.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownLowVoltage.TabIndex = 17;
+            this.numericUpDownLowVoltage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownLowVoltage.Value = new decimal(new int[] {
             120,
             0,
@@ -184,20 +179,18 @@ namespace RelayControlLibrary
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 188);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(59, 153);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(127, 24);
+            this.label2.Size = new System.Drawing.Size(102, 19);
             this.label2.TabIndex = 16;
             this.label2.Text = "Low Voltage:";
             // 
             // labelVoltageImbalanceUnits
             // 
             this.labelVoltageImbalanceUnits.AutoSize = true;
-            this.labelVoltageImbalanceUnits.Location = new System.Drawing.Point(245, 233);
-            this.labelVoltageImbalanceUnits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelVoltageImbalanceUnits.Location = new System.Drawing.Point(194, 189);
             this.labelVoltageImbalanceUnits.Name = "labelVoltageImbalanceUnits";
-            this.labelVoltageImbalanceUnits.Size = new System.Drawing.Size(54, 24);
+            this.labelVoltageImbalanceUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVoltageImbalanceUnits.TabIndex = 15;
             this.labelVoltageImbalanceUnits.Text = "Volts";
             // 
@@ -209,24 +202,23 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownVoltageImbalance.Location = new System.Drawing.Point(143, 224);
-            this.numericUpDownVoltageImbalance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownVoltageImbalance.Location = new System.Drawing.Point(136, 182);
             this.numericUpDownVoltageImbalance.Maximum = new decimal(new int[] {
             50,
             0,
             0,
             0});
             this.numericUpDownVoltageImbalance.Name = "numericUpDownVoltageImbalance";
-            this.numericUpDownVoltageImbalance.Size = new System.Drawing.Size(96, 32);
+            this.numericUpDownVoltageImbalance.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownVoltageImbalance.TabIndex = 14;
+            this.numericUpDownVoltageImbalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelVoltageImbalance
             // 
             this.labelVoltageImbalance.AutoSize = true;
-            this.labelVoltageImbalance.Location = new System.Drawing.Point(4, 226);
-            this.labelVoltageImbalance.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelVoltageImbalance.Location = new System.Drawing.Point(22, 184);
             this.labelVoltageImbalance.Name = "labelVoltageImbalance";
-            this.labelVoltageImbalance.Size = new System.Drawing.Size(184, 24);
+            this.labelVoltageImbalance.Size = new System.Drawing.Size(146, 19);
             this.labelVoltageImbalance.TabIndex = 13;
             this.labelVoltageImbalance.Text = "Voltage Imbalance:";
             // 
@@ -234,10 +226,9 @@ namespace RelayControlLibrary
             // 
             this.labelDelayUnits.AutoSize = true;
             this.labelDelayUnits.Enabled = false;
-            this.labelDelayUnits.Location = new System.Drawing.Point(4, 90);
-            this.labelDelayUnits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDelayUnits.Location = new System.Drawing.Point(3, 73);
             this.labelDelayUnits.Name = "labelDelayUnits";
-            this.labelDelayUnits.Size = new System.Drawing.Size(66, 24);
+            this.labelDelayUnits.Size = new System.Drawing.Size(53, 19);
             this.labelDelayUnits.TabIndex = 12;
             this.labelDelayUnits.Text = "Cycles";
             this.labelDelayUnits.Visible = false;
@@ -245,15 +236,14 @@ namespace RelayControlLibrary
             // numericUpDownDelay
             // 
             this.numericUpDownDelay.Enabled = false;
-            this.numericUpDownDelay.Location = new System.Drawing.Point(8, 62);
-            this.numericUpDownDelay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownDelay.Location = new System.Drawing.Point(6, 50);
             this.numericUpDownDelay.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUpDownDelay.Name = "numericUpDownDelay";
-            this.numericUpDownDelay.Size = new System.Drawing.Size(52, 32);
+            this.numericUpDownDelay.Size = new System.Drawing.Size(39, 27);
             this.numericUpDownDelay.TabIndex = 11;
             this.numericUpDownDelay.Visible = false;
             // 
@@ -261,10 +251,9 @@ namespace RelayControlLibrary
             // 
             this.labelDelay.AutoSize = true;
             this.labelDelay.Enabled = false;
-            this.labelDelay.Location = new System.Drawing.Point(7, 49);
-            this.labelDelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDelay.Location = new System.Drawing.Point(5, 40);
             this.labelDelay.Name = "labelDelay";
-            this.labelDelay.Size = new System.Drawing.Size(68, 24);
+            this.labelDelay.Size = new System.Drawing.Size(54, 19);
             this.labelDelay.TabIndex = 10;
             this.labelDelay.Text = "Delay:";
             this.labelDelay.Visible = false;
@@ -277,34 +266,32 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownCurrentImbalance.Location = new System.Drawing.Point(143, 143);
-            this.numericUpDownCurrentImbalance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownCurrentImbalance.Location = new System.Drawing.Point(136, 117);
             this.numericUpDownCurrentImbalance.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numericUpDownCurrentImbalance.Name = "numericUpDownCurrentImbalance";
-            this.numericUpDownCurrentImbalance.Size = new System.Drawing.Size(96, 32);
+            this.numericUpDownCurrentImbalance.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownCurrentImbalance.TabIndex = 8;
+            this.numericUpDownCurrentImbalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelCurrentImbalance
             // 
             this.labelCurrentImbalance.AutoSize = true;
-            this.labelCurrentImbalance.Location = new System.Drawing.Point(8, 148);
-            this.labelCurrentImbalance.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCurrentImbalance.Location = new System.Drawing.Point(26, 120);
             this.labelCurrentImbalance.Name = "labelCurrentImbalance";
-            this.labelCurrentImbalance.Size = new System.Drawing.Size(182, 24);
+            this.labelCurrentImbalance.Size = new System.Drawing.Size(146, 19);
             this.labelCurrentImbalance.TabIndex = 7;
             this.labelCurrentImbalance.Text = "Current Imbalance:";
             // 
             // labelOverCurrentUnits
             // 
             this.labelOverCurrentUnits.AutoSize = true;
-            this.labelOverCurrentUnits.Location = new System.Drawing.Point(245, 106);
-            this.labelOverCurrentUnits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelOverCurrentUnits.Location = new System.Drawing.Point(194, 86);
             this.labelOverCurrentUnits.Name = "labelOverCurrentUnits";
-            this.labelOverCurrentUnits.Size = new System.Drawing.Size(59, 24);
+            this.labelOverCurrentUnits.Size = new System.Drawing.Size(50, 19);
             this.labelOverCurrentUnits.TabIndex = 6;
             this.labelOverCurrentUnits.Text = "Amps";
             // 
@@ -316,24 +303,23 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownOverCurrent.Location = new System.Drawing.Point(143, 103);
-            this.numericUpDownOverCurrent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDownOverCurrent.Location = new System.Drawing.Point(136, 84);
             this.numericUpDownOverCurrent.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.numericUpDownOverCurrent.Name = "numericUpDownOverCurrent";
-            this.numericUpDownOverCurrent.Size = new System.Drawing.Size(96, 32);
+            this.numericUpDownOverCurrent.Size = new System.Drawing.Size(54, 27);
             this.numericUpDownOverCurrent.TabIndex = 5;
+            this.numericUpDownOverCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelOverCurrent
             // 
             this.labelOverCurrent.AutoSize = true;
-            this.labelOverCurrent.Location = new System.Drawing.Point(33, 106);
-            this.labelOverCurrent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelOverCurrent.Location = new System.Drawing.Point(55, 86);
             this.labelOverCurrent.Name = "labelOverCurrent";
-            this.labelOverCurrent.Size = new System.Drawing.Size(131, 24);
+            this.labelOverCurrent.Size = new System.Drawing.Size(107, 19);
             this.labelOverCurrent.TabIndex = 4;
             this.labelOverCurrent.Text = "Over Current:";
             // 
@@ -343,29 +329,26 @@ namespace RelayControlLibrary
             this.comboBoxSSEnable.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBoxSSEnable.Location = new System.Drawing.Point(37, 20);
-            this.comboBoxSSEnable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxSSEnable.Location = new System.Drawing.Point(28, 16);
             this.comboBoxSSEnable.Name = "comboBoxSSEnable";
-            this.comboBoxSSEnable.Size = new System.Drawing.Size(96, 32);
+            this.comboBoxSSEnable.Size = new System.Drawing.Size(73, 27);
             this.comboBoxSSEnable.TabIndex = 3;
             this.comboBoxSSEnable.Text = "Enable";
             // 
             // labelSafeServiceEnable
             // 
             this.labelSafeServiceEnable.AutoSize = true;
-            this.labelSafeServiceEnable.Location = new System.Drawing.Point(64, 62);
-            this.labelSafeServiceEnable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelSafeServiceEnable.Location = new System.Drawing.Point(90, 51);
             this.labelSafeServiceEnable.Name = "labelSafeServiceEnable";
-            this.labelSafeServiceEnable.Size = new System.Drawing.Size(73, 24);
+            this.labelSafeServiceEnable.Size = new System.Drawing.Size(58, 19);
             this.labelSafeServiceEnable.TabIndex = 2;
             this.labelSafeServiceEnable.Text = "Status:";
             // 
             // buttonRequest
             // 
-            this.buttonRequest.Location = new System.Drawing.Point(224, 0);
-            this.buttonRequest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRequest.Location = new System.Drawing.Point(168, 0);
             this.buttonRequest.Name = "buttonRequest";
-            this.buttonRequest.Size = new System.Drawing.Size(75, 25);
+            this.buttonRequest.Size = new System.Drawing.Size(56, 20);
             this.buttonRequest.TabIndex = 1;
             this.buttonRequest.Text = "Request";
             this.buttonRequest.UseVisualStyleBackColor = true;
@@ -373,23 +356,30 @@ namespace RelayControlLibrary
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(12, 288);
-            this.buttonSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSend.Location = new System.Drawing.Point(37, 260);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(227, 28);
+            this.buttonSend.Size = new System.Drawing.Size(151, 23);
             this.buttonSend.TabIndex = 0;
             this.buttonSend.Text = "Program Safe Service";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
+            // lbl_CurrImbalance_unit
+            // 
+            this.lbl_CurrImbalance_unit.AutoSize = true;
+            this.lbl_CurrImbalance_unit.Location = new System.Drawing.Point(194, 120);
+            this.lbl_CurrImbalance_unit.Name = "lbl_CurrImbalance_unit";
+            this.lbl_CurrImbalance_unit.Size = new System.Drawing.Size(50, 19);
+            this.lbl_CurrImbalance_unit.TabIndex = 23;
+            this.lbl_CurrImbalance_unit.Text = "Amps";
+            // 
             // ucSafeService
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxSafeService);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ucSafeService";
-            this.Size = new System.Drawing.Size(307, 310);
+            this.Size = new System.Drawing.Size(230, 252);
             this.groupBoxSafeService.ResumeLayout(false);
             this.groupBoxSafeService.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).EndInit();
@@ -426,5 +416,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonRestoreDefaults;
         private System.Windows.Forms.Label labelCurrentlyEnabled;
         private System.Windows.Forms.ComboBox comboBox_DataViews;
+        private System.Windows.Forms.Label lbl_CurrImbalance_unit;
     }
 }
