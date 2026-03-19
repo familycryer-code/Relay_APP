@@ -696,12 +696,12 @@ namespace RelayControl
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
                 this.ucTripMode2.Location = new System.Drawing.Point(450, 13); //(400, 13);
                 this.ucCloseMode1.Location = new System.Drawing.Point(1150, 13); //(1100, 13); 
-                this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);  
-               // this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(120, 320);
-               // this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
-                this.ucSafeService1.Location = new System.Drawing.Point(390, 430);   
+                this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);
+                // this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(120, 320);
+                // this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
+                this.ucSafeService1.Location = new System.Drawing.Point(390, 430);
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(750, 470); 
-                this.buttonSendAll.Location = new System.Drawing.Point(150, 3); //(16, 86);
+                this.buttonSendAll.Location = new System.Drawing.Point(140, 3); //(150, 3); 
                 this.panelOtherRelayControls.Size = new System.Drawing.Size(290, 174);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
@@ -719,8 +719,8 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 600); 
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 600); 
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 600);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 600);
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
@@ -782,7 +782,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
                 this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 54);
-               // this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
+                // this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
                 this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 130);
 
 #endif
@@ -808,19 +808,19 @@ namespace RelayControl
 
                 this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13); //(940, 13); 
                 this.groupBox_PC.Location = new System.Drawing.Point(1004, 360); //(940, 360); 
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 320); 
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 320);
                 /*
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab
                     only for CONED APP - since its needs extra space for the Permissive close groupBox
                 */
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(1265, 695); //(750, 470); 
-                this.buttonRequestRelayParamaters.Text = "Read";
-                this.buttonSendAll.Text = "Program";
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(740, 455); //(1265, 695); 
+                this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
+                this.buttonSendAll.Text = "Program all settings to the Relay";
 
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(900, 700);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1050, 700);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(900, 750);
-                this.buttonSaveSetting.Location = new System.Drawing.Point(1050, 750);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600); //(1050, 750);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630); //(900, 750);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 660);// (1050, 700);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 690); //(900, 700);
 #elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;
@@ -905,7 +905,7 @@ namespace RelayControl
 #if DEBUG || CHICAGO || LONDONH
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
-                
+
 #if TORONTO_HYDRO
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
@@ -1028,7 +1028,7 @@ namespace RelayControl
                 foreach (Control child in this.ucTransmitterMonitoring1.groupBoxFlagStatus.Controls)
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
-                }                
+                }
 
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
                 foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
@@ -1137,7 +1137,7 @@ namespace RelayControl
             this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
             this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
             this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
-           // this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
+            // this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonRSTRelay, "Reset the Relay");
             this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
             this.toolTip.SetToolTip(this.buttonSendAll, "Upload all visible settings to the relay");
@@ -1324,7 +1324,7 @@ namespace RelayControl
             this.comboBox_Phasings.Visible = false;
             this.labelConEdPowerRelay.Visible = false;
             this.buttonTypePhasingRestoreDefaults.Visible = true;
-           // this.buttonRelayType.Visible = true;
+            // this.buttonRelayType.Visible = true;
             this.addPumpProtect();
 
             this.checkBoxInTripRegion.Visible = true;
@@ -1728,7 +1728,7 @@ namespace RelayControl
         {
             this.Location = new Point(0, 0);
         }
-        
+
         private List<string> getPortNames()
         {
             string[] tempPortNames = System.IO.Ports.SerialPort.GetPortNames();
@@ -1898,7 +1898,7 @@ namespace RelayControl
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
-                        ucDNP1.SendAllDNPSettings();                   
+                        ucDNP1.SendAllDNPSettings();
 #if TORONTO_HYDRO
                     this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
@@ -1984,7 +1984,7 @@ namespace RelayControl
                 this.parametersLoaded = true;
                 this.ucTransmitter1.ForceDNPEnable = true;
                 Thread.Sleep(100);
-                this.ucTransmitter1.SendTransmitterSettings();               
+                this.ucTransmitter1.SendTransmitterSettings();
 #if TORONTO_HYDRO
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
@@ -2106,7 +2106,7 @@ namespace RelayControl
                     CTCalculator.ShowDialog(this);
                 }));
             }
-            
+
             //Check to see if the last byte is a confirmation
             try
             {
@@ -3925,19 +3925,19 @@ namespace RelayControl
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                     if (dataB.oldDataBackup == true)
-                     {
-                         if (checkValidDataBackup())
-                         {
-                             this.WriteBackUpData_FileToRelay();
-                             dataB.oldDataBackup = false;
-                             MessageBox.Show("Backup data loaded to the Relay !");
-                         }
-                         else
-                         {
-                             MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
-                         }
-                     }
+                    if (dataB.oldDataBackup == true)
+                    {
+                        if (checkValidDataBackup())
+                        {
+                            this.WriteBackUpData_FileToRelay();
+                            dataB.oldDataBackup = false;
+                            MessageBox.Show("Backup data loaded to the Relay !");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
+                        }
+                    }
 
                     this.request_PCdata();
                 }
@@ -3994,24 +3994,24 @@ namespace RelayControl
                 //if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
                 if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
                 {
-                      // If Master uP revision is less than Rev 10, backup its data to the computer
-                      // And rewrite that data to go with the rev 10 firmware after programming is done
-                      string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
-                      MessageBox.Show(text);
-                      if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
-                      {
-                          File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
-                      }
+                    // If Master uP revision is less than Rev 10, backup its data to the computer
+                    // And rewrite that data to go with the rev 10 firmware after programming is done
+                    string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
+                    MessageBox.Show(text);
+                    if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
+                    {
+                        File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
+                    }
 
-                      //dataB.oldDataBackup = true;
-                      if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
-                      {//if relay has old DNP firmware
-                          dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
-                      }
-                      this.BackUpRelayDatatoFile();
-                      Thread.Sleep(16000); // 16 seconds
-                  }
-                  
+                    //dataB.oldDataBackup = true;
+                    if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
+                    {//if relay has old DNP firmware
+                        dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
+                    }
+                    this.BackUpRelayDatatoFile();
+                    Thread.Sleep(16000); // 16 seconds
+                }
+
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
@@ -4189,7 +4189,7 @@ namespace RelayControl
                     this.ucTransmitter1.DNPEnabled = false;
                     sendProperDNPValue = true;
                 }
-                
+
                 this.ucRelayProgramming1.DNPRelay = false;
                 this.removeDNPTabs();
             }
@@ -4265,8 +4265,8 @@ namespace RelayControl
                     this.lbl_Relayststatus_Close.BackColor = Color.Green;
 
                 if ((bytePacket[5] & 32) == 32) // Relax Close
-                { 
-                    this.lbl_Relayststatus_RC.BackColor = Color.Green; 
+                {
+                    this.lbl_Relayststatus_RC.BackColor = Color.Green;
                     modeRC.relaxMode = true;
                 }
                 else if ((bytePacket[5] & 32) != 32) // Not in Relax Close Mode
@@ -4295,13 +4295,13 @@ namespace RelayControl
                 }
                 if ((b & 32) == 32)
                 {
-                   // this.setCheckedValue(true, this.checkBoxBFlag);
-                   // this.labelNWPStatus.Text = "NWP: Open";
+                    // this.setCheckedValue(true, this.checkBoxBFlag);
+                    // this.labelNWPStatus.Text = "NWP: Open";
                     this.txtBox_NWPposition.Text = "Open";
                 }
                 else
                 {
-                   // this.setCheckedValue(false, this.checkBoxBFlag);
+                    // this.setCheckedValue(false, this.checkBoxBFlag);
                     //this.labelNWPStatus.Text = "NWP: Closed";
                     this.txtBox_NWPposition.Text = "Closed";
                 }
@@ -4364,14 +4364,14 @@ namespace RelayControl
                 if ((b & 8) == 8)
                 {
                     RelayStatus.BadOffset = true;
-                 //   this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Problem with Relay Flash detected and the Default Parameters are currently being used");
+                    //   this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Problem with Relay Flash detected and the Default Parameters are currently being used");
                 }
                 else
                 {
                     RelayStatus.BadOffset = false;
-                   // this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Non Defaults Parameters being used");
+                    // this.toolTip.SetToolTip(this.checkBoxDefaultsUsed, "Non Defaults Parameters being used");
                 }
-               // this.setCheckedValue(RelayStatus.BadOffset, this.checkBoxDefaultsUsed);
+                // this.setCheckedValue(RelayStatus.BadOffset, this.checkBoxDefaultsUsed);
                 if ((b & 4) == 4)
                 {
                     RelayStatus.SafeServiceEnabled = true;
@@ -4397,15 +4397,15 @@ namespace RelayControl
                 {
                     RelayStatus.Pumping = true;
                     this.ucPumpMode1.PumpProtectEnabled = true;
-                  //  this.toolTip.SetToolTip(this.checkBoxPumping, "Relay in Pump Protect State");
+                    //  this.toolTip.SetToolTip(this.checkBoxPumping, "Relay in Pump Protect State");
                 }
                 else
                 {
                     RelayStatus.Pumping = false;
                     this.ucPumpMode1.PumpProtectEnabled = false;
-                  //  this.toolTip.SetToolTip(this.checkBoxPumping, "Relay not in Pump Protect State");
+                    //  this.toolTip.SetToolTip(this.checkBoxPumping, "Relay not in Pump Protect State");
                 }
-               // this.setCheckedValue(RelayStatus.Pumping, this.checkBoxPumping);
+                // this.setCheckedValue(RelayStatus.Pumping, this.checkBoxPumping);
 
                 b = bytePacket[2];
 
@@ -4422,13 +4422,13 @@ namespace RelayControl
                 if ((b & 64) == 64)
                 {
                     RelayFlags.PhasingOkay = true;
-                   // this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has determined phasing of protector and it is OK");
+                    // this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has determined phasing of protector and it is OK");
                     this.lbl_Relayststatus_XP.BackColor = Color.Transparent;
                 }
                 else
                 {
                     RelayFlags.PhasingOkay = false;
-                   // this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has yet to determine phasing of the protector or it is crossed phased");
+                    // this.toolTip.SetToolTip(this.checkBoxPhasingOkayFlag, "Relay has yet to determine phasing of the protector or it is crossed phased");
                     this.lbl_Relayststatus_XP.BackColor = Color.Green;
                 }
 
@@ -4444,7 +4444,7 @@ namespace RelayControl
                     RelayFlags.BlockedOpen = false;
                     ucBlockControl1.RelayBlocked = false;
                 }
-              //  this.setCheckedValue(RelayFlags.BlockedOpen, this.checkBoxBlockedOpenFlag);
+                //  this.setCheckedValue(RelayFlags.BlockedOpen, this.checkBoxBlockedOpenFlag);
 
                 if ((b & 16) == 16)
                 {
@@ -4459,25 +4459,25 @@ namespace RelayControl
                 if ((b & 8) == 8)
                 {
                     RelayFlags.FloatCondition = true;
-                  //  this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay is currently in the Float state");
+                    //  this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay is currently in the Float state");
                 }
                 else
                 {
                     RelayFlags.FloatCondition = false;
-                   // this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay not in the Float state");
+                    // this.toolTip.SetToolTip(this.checkBoxFloatFlag, "Relay not in the Float state");
                 }
-              //  this.setCheckedValue(RelayFlags.FloatCondition, this.checkBoxFloatFlag);
+                //  this.setCheckedValue(RelayFlags.FloatCondition, this.checkBoxFloatFlag);
 
                 if ((b & 4) == 4)
                 {
                     RelayFlags.Tripping = true;
-                  //  this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is pulsing Trip Contacts");
+                    //  this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is pulsing Trip Contacts");
                 }
                 else
                 {
                     RelayFlags.Tripping = false;
                 }
-               // this.setCheckedValue(RelayFlags.Tripping, this.checkBoxTrippingFlag);
+                // this.setCheckedValue(RelayFlags.Tripping, this.checkBoxTrippingFlag);
 
                 if ((b & 2) == 2)
                 {
@@ -4492,16 +4492,16 @@ namespace RelayControl
                 if ((b & 1) == 1)
                 {
                     RelayFlags.Open = true;
-                   // this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is in Trip State");
-                   // this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is done with initial pulsing of trip contact");
+                    // this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is in Trip State");
+                    // this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is done with initial pulsing of trip contact");
                 }
                 else
                 {
                     RelayFlags.Open = false;
-                  //  this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is not in Trip State");
-                  //  this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is not in Trip State");
+                    //  this.toolTip.SetToolTip(this.checkBoxTripFlag, "Relay is not in Trip State");
+                    //  this.toolTip.SetToolTip(this.checkBoxTrippingFlag, "Relay is not in Trip State");
                 }
-               // this.setCheckedValue(RelayFlags.Open, this.checkBoxTripFlag);
+                // this.setCheckedValue(RelayFlags.Open, this.checkBoxTripFlag);
 
                 if (this.relayCodeRevisionNumber >= 20100625)
                 {
@@ -4553,8 +4553,8 @@ namespace RelayControl
                 {
                     setLabelText("Open", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
-                  //  setLabelText("Open", this.labelRelayStateControlPage);
-                 //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
+                    //  setLabelText("Open", this.labelRelayStateControlPage);
+                    //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Green;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4564,8 +4564,8 @@ namespace RelayControl
                 {
                     setLabelText("Float", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
-                  //  setLabelText("Float", this.labelRelayStateControlPage);
-                  //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
+                    //  setLabelText("Float", this.labelRelayStateControlPage);
+                    //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Green;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4575,16 +4575,16 @@ namespace RelayControl
                 {
                     setLabelText("Close", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
-                 //   setLabelText("Close", this.labelRelayStateControlPage);
-                 //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                    //   setLabelText("Close", this.labelRelayStateControlPage);
+                    //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
-/*
-                    if (this.btn_PermCl_Active.BackColor == Color.Yellow)
-                        this.lbl_Relayststatus_Close.BackColor = Color.Green;
-                    else
-                        this.lbl_Relayststatus_RC.BackColor = Color.Green;
-*/
+                    /*
+                                        if (this.btn_PermCl_Active.BackColor == Color.Yellow)
+                                            this.lbl_Relayststatus_Close.BackColor = Color.Green;
+                                        else
+                                            this.lbl_Relayststatus_RC.BackColor = Color.Green;
+                    */
                 }
 
                 if ((blockedO.blockedOpen == true) && (lbl_Relayststatus_Float.BackColor == Color.Green))
@@ -4609,7 +4609,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_PA.BackColor = Color.Transparent;
                 else if (pumpOK.pumpStatus == false)
                     this.lbl_Relayststatus_PA.BackColor = Color.Green;
-                
+
                 b = bytePacket[3]; //   2 / 3
                 if ((b & 1) == 1)
                 {
@@ -4705,7 +4705,7 @@ namespace RelayControl
                 temperature = (sbyte)bytePacket[1];
                 temperature <<= 8;
                 temperature += bytePacket[0];
-              //  this.textBoxTemperature.Text = temperature.ToString();
+                //  this.textBoxTemperature.Text = temperature.ToString();
                 this.textBoxTemperatureMonitoringPage.Text = temperature.ToString();
             }
         }
@@ -5335,7 +5335,7 @@ namespace RelayControl
                 this.relayFound_forDNPdataMonitoring = true;
                 ucRelayProgramming1.ActiveRelay = true;
                 this.saveComPort();
-                
+
                 if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
                 {
                     this.enableAll(true);
@@ -5446,26 +5446,26 @@ namespace RelayControl
                     case 'T':
                         setLabelText("Open", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
-                     //   setLabelText("Open", this.labelRelayStateControlPage);
-                     //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
+                        //   setLabelText("Open", this.labelRelayStateControlPage);
+                        //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
                         break;
                     case 'C':
                         setLabelText("Close", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
-                     //   setLabelText("Close", this.labelRelayStateControlPage);
-                     //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                        //   setLabelText("Close", this.labelRelayStateControlPage);
+                        //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
                         break;
                     case 'F':
                         setLabelText("Float", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
-                      //  setLabelText("Float", this.labelRelayStateControlPage);
-                      //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
+                        //  setLabelText("Float", this.labelRelayStateControlPage);
+                        //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
                         break;
                     default:
                         setLabelText("Error", this.labelRelayTrippedOrClose);
                         setBackgroundColor(Color.SaddleBrown, this.labelRelayTrippedOrClose);
-                      //  setLabelText("Error", this.labelRelayStateControlPage);
-                      //  setBackgroundColor(Color.SaddleBrown, this.labelRelayStateControlPage);
+                        //  setLabelText("Error", this.labelRelayStateControlPage);
+                        //  setBackgroundColor(Color.SaddleBrown, this.labelRelayStateControlPage);
                         break;
                 }
             }
@@ -5621,7 +5621,7 @@ namespace RelayControl
                         this.setTransmitterPhasorValues(phasorType, realValue, imaginaryValue, this.CTRatio, rMS);
 
                     //this.ucPhasorGraph1.textBoxPTRMS.Text = "15";
-                    
+
                     // only send it to this if monitoring is not going on, so that it doens't get every
                     // phasor that comes in during monitoring.
                     if (!this.pQMonitoringEnabled)
@@ -6026,7 +6026,7 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            this.sendPacket(sendArray);           
+            this.sendPacket(sendArray);
 #if TORONTO_HYDRO
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
@@ -6041,7 +6041,7 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            this.sendPacket(sendArray);          
+            this.sendPacket(sendArray);
 #if TORONTO_HYDRO
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
@@ -6947,7 +6947,7 @@ namespace RelayControl
         {
             byte[] packet = new byte[3];
 
-            packet[0] = (byte)'O'; 
+            packet[0] = (byte)'O';
             packet[1] = 0x55;
             packet[2] = 0x0D;
 
@@ -7198,8 +7198,8 @@ namespace RelayControl
             {
                 setLabelText("Unknown", this.labelRelayTrippedOrClose);
                 setBackgroundColor(Color.Transparent, this.labelRelayTrippedOrClose);
-              //  setLabelText("Unknown", this.labelRelayStateControlPage);
-              //  setBackgroundColor(Color.Transparent, this.labelRelayStateControlPage);
+                //  setLabelText("Unknown", this.labelRelayStateControlPage);
+                //  setBackgroundColor(Color.Transparent, this.labelRelayStateControlPage);
                 //this.clearTemperatureBoxes();
 
                 this.enableFlagsAndStatus(false);
@@ -7317,32 +7317,32 @@ namespace RelayControl
         private void enableFlagsAndStatus(bool b)
         {
             this.enableCheckBox(b, this.checkBoxACB);
-          //  this.enableCheckBox(b, this.checkBoxDefaultsUsed);
+            //  this.enableCheckBox(b, this.checkBoxDefaultsUsed);
             this.enableCheckBox(b, this.checkBoxBlockedCloseFlag);
-           // this.enableCheckBox(b, this.checkBoxBlockedOpenFlag);
+            // this.enableCheckBox(b, this.checkBoxBlockedOpenFlag);
             this.enableCheckBox(b, this.checkBoxCalibrating);
-          //  this.enableCheckBox(b, this.checkBoxFloatFlag);
+            //  this.enableCheckBox(b, this.checkBoxFloatFlag);
             this.enableCheckBox(b, this.checkBoxMathError);
             this.enableCheckBox(b, this.checkBoxMathOverTime);
             this.enableCheckBox(b, this.checkBoxMonitorPhasors);
             this.enableCheckBox(b, this.checkBoxOffsetOkay);
-           // this.enableCheckBox(b, this.checkBoxPhasingOkayFlag);
+            // this.enableCheckBox(b, this.checkBoxPhasingOkayFlag);
             this.enableCheckBox(b, this.checkBoxPowerSaveFlag);
-           // this.enableCheckBox(b, this.checkBoxPumping);
+            // this.enableCheckBox(b, this.checkBoxPumping);
             this.enableCheckBox(b, this.checkBoxSequence);
             this.enableCheckBox(b, this.checkBoxFlag1);
             this.enableCheckBox(b, this.checkBoxFlag2);
-          //  this.enableCheckBox(b, this.checkBoxBFlag);
-           // this.labelNWPStatus.Enabled = b;
+            //  this.enableCheckBox(b, this.checkBoxBFlag);
+            // this.labelNWPStatus.Enabled = b;
             if (!b)
             {
-               // this.labelNWPStatus.Text = "NWP: Unknown";
+                // this.labelNWPStatus.Text = "NWP: Unknown";
                 this.txtBox_NWPposition.Text = "Unknown";
             }
             this.enableCheckBox(b, this.checkBoxInInsensRegion);
             this.enableCheckBox(b, this.checkBoxInTripRegion);
-           // this.enableCheckBox(b, this.checkBoxTripFlag);
-          //  this.enableCheckBox(b, this.checkBoxTrippingFlag);
+            // this.enableCheckBox(b, this.checkBoxTripFlag);
+            //  this.enableCheckBox(b, this.checkBoxTrippingFlag);
 
             this.showLabel(!b, this.labelRelayDisconnected);
             this.showLabel(!b, this.labelRelayDisconnected2);
@@ -8301,7 +8301,7 @@ namespace RelayControl
                 this.CTRatio = 320;
                 ratio = 320;
                 ratio5 = 1600;
-               this.comboBox_CTRatio.SelectedIndex = 4;
+                this.comboBox_CTRatio.SelectedIndex = 4;
 
             }
             if (ratio5 > 12750)
@@ -9044,7 +9044,7 @@ namespace RelayControl
                     this.ucDNP1.SetAll(bytePacket);
 #endif
 
-                memphisStage = (byte)(bytePacket[0] & 0xE0);
+                    memphisStage = (byte)(bytePacket[0] & 0xE0);
                 memphisStage >>= 5;
 
                 if (this.DNPEnabled && this.customer == Customers.Memphis && this.dNPMemphisData != null)
