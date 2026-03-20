@@ -69,10 +69,10 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1165];//[1196]; //per the new increased data size coming for ConED master firmware : 
         // index goes to 1025 at starting point of analog ouput reads. so, 35*4 bytes more after that
 #else
-        private byte[] dNPData = new byte[1196]; //per the new increased data size coming for ConED master firmware : 
+        private byte[] dNPData = new byte[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
-        private UInt32 relayMasterRevision = 140506;
+        private UInt32 relayMasterRevision = 260127;//140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
 
@@ -255,47 +255,30 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Unused");
 #endif
 #if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
-            this.binaryInputs.Add("Calling for Open"); //0
-            this.binaryInputs.Add("Calling for Close");
-            this.binaryInputs.Add("Float");
-            this.binaryInputs.Add("Blocked from Closing");
-            this.binaryInputs.Add("Relay Phasing OK");
-            this.binaryInputs.Add("Pump Protect Lockout");
+            this.binaryInputs.Add("Defaults Loaded"); //0
+            this.binaryInputs.Add("Network Volts too Low to Close");
+            this.binaryInputs.Add("Not Available");
+            this.binaryInputs.Add("Not Available");
+            this.binaryInputs.Add("WattVar");
+            this.binaryInputs.Add("TimeDelay");
+            this.binaryInputs.Add("Insensitve");
+            this.binaryInputs.Add("Phase Angle Wrong");
+            this.binaryInputs.Add("Differential Volts Too Low to Close"); //9
+            this.binaryInputs.Add("Not Available");
             this.binaryInputs.Add("Network Protector Status / B Flag");
-            this.binaryInputs.Add("Defaults Loaded");
-            this.binaryInputs.Add("Phase ACB");
-            this.binaryInputs.Add("Insensitive Backfeed Detected");
-            this.binaryInputs.Add("A Flag");
-            this.binaryInputs.Add("Digital In 1");
-            this.binaryInputs.Add("Digital In 2"); // 12
-            this.binaryInputs.Add("Command Lockout");
-            this.binaryInputs.Add("Relax Close");
-            this.binaryInputs.Add("Sensitive Trip Enabled");
-            this.binaryInputs.Add("Insensitive");
-            this.binaryInputs.Add("Time Delay");
-            this.binaryInputs.Add("Watt Var");
-            this.binaryInputs.Add("Trip On Power Down");
-            this.binaryInputs.Add("Trim Curve Enabled");
-            this.binaryInputs.Add("Circle Close Enabled");
-            this.binaryInputs.Add("Override Blocked Open");
-            this.binaryInputs.Add("Relay Algorithm");
-            this.binaryInputs.Add("Pump Mode Relay Cycles");
-            this.binaryInputs.Add("Pump Mode Motor Cycles");
-            this.binaryInputs.Add("Pump Mode Motor Timeout");
-            this.binaryInputs.Add("Pump Mode Never Reclose");
-            this.binaryInputs.Add("Safe Service Enabled"); //28
-            this.binaryInputs.Add("Spare");
-            this.binaryInputs.Add("Digital In 3");
-            this.binaryInputs.Add("Digital In 4");
-            this.binaryInputs.Add("Q Bit");
-            this.binaryInputs.Add("DNP277In");
-            this.binaryInputs.Add("DNPOutScaling");
-            this.binaryInputs.Add("DNP347In");
-            this.binaryInputs.Add("Network Volts Too Low To Close");
-            this.binaryInputs.Add("Diff Volts Too Low To Close");
-            this.binaryInputs.Add("GE Type Relay");
+            this.binaryInputs.Add("Not Available");
             this.binaryInputs.Add("Test Relay Ack");
-            this.binaryInputs.Add("Phase Angle Wrong to Close");//40
+            this.binaryInputs.Add("Blocked From Closing");
+            this.binaryInputs.Add("Not Available");
+            this.binaryInputs.Add("GE Type Relay"); //16
+            this.binaryInputs.Add("Calling for Float");
+            this.binaryInputs.Add("Calling for Open");
+            this.binaryInputs.Add("Calling for Close");
+            this.binaryInputs.Add("Not Available");
+            this.binaryInputs.Add("Relax Close Active");
+            this.binaryInputs.Add("A Flag");
+            this.binaryInputs.Add("Digital In 4");//23
+            
 #endif
             pointsToAdd = (uint)binaryInputs.Count;
             pointsToAdd += 12;
@@ -316,7 +299,6 @@ namespace RelayControlLibrary
 #elif TORONTO_HYDRO
                 if (i < 50)
 #endif
-                    //this.addBinaryBox(workingBox, this.tabPageBinaryInputs); 
                     this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
 
                 if (i == pointsToAdd)
@@ -325,7 +307,6 @@ namespace RelayControlLibrary
 
             }
 
-            //   int j = this.tabPageBinaryInputs.Controls.Count;
         }
 
         private void dNPPoint_PointChanged(object o, DNPPointEventArgs dPEA)
@@ -436,7 +417,8 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Unused");
             this.binaryOutputs.Add("Unused");
 #endif
-#if (ONCOR || TORONTO_HYDRO)
+            //#if (ONCOR || TORONTO_HYDRO) 
+#if (TORONTO_HYDRO || DEBUG)
             this.binaryOutputs.Add("Remote Trip");//0
             this.binaryOutputs.Add("Relax Close");
             this.binaryOutputs.Add("Trip and Block Open");
@@ -444,8 +426,8 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Insensitive Trip");
             this.binaryOutputs.Add("Time Delay");
             this.binaryOutputs.Add("Watt Var");
-            this.binaryOutputs.Add("Trip On Power Down");
-            this.binaryOutputs.Add("Trim Curve");
+            this.binaryOutputs.Add("Trip On Power Down");//7
+           /* this.binaryOutputs.Add("Trim Curve");
             this.binaryOutputs.Add("Circle Close");
             this.binaryOutputs.Add("Override Blocked Close on Dead Network");
             this.binaryOutputs.Add("Relay Algorithm");
@@ -460,6 +442,7 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Not Used");
             this.binaryOutputs.Add("Not Used");
             this.binaryOutputs.Add("Command Test");
+           */
 #endif
             uint i = 0;
 
@@ -844,7 +827,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Number of RNC(s) Reporting", false));
             this.analogInputs.Add(new AnalogPointDefinition("See Tab RNC", false));
 #endif
-#if (ONCOR || TORONTO_HYDRO)
+#if (ONCOR || TORONTO_HYDRO || DEBUG)
             this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
             this.analogInputs.Add(new AnalogPointDefinition("Relay Software Version Number", false));
             this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase A", false));
@@ -889,8 +872,8 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));//44
+         /*   this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));//48
@@ -939,6 +922,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Time Delay Setting", false));
             this.analogInputs.Add(new AnalogPointDefinition("Instant Trip Current Setting", false));
             this.analogInputs.Add(new AnalogPointDefinition("Comm Software Version", false));//93
+         */
 #endif
             pointsToAdd = (uint)analogInputs.Count;
             pointsToAdd += 12;
@@ -1164,7 +1148,7 @@ namespace RelayControlLibrary
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
-        #endregion
+#endregion
 
         #region Send Region
 
@@ -1270,8 +1254,8 @@ namespace RelayControlLibrary
             // 4 bytes per binary input point : 44 * 4 = 176
             savedIndex = 176 + 4;// 224;
 #elif TORONTO_HYDRO
-            // starting point for setBinaryOutputs considering 51 bytes of BinaryInputs ( per ver10 TorontoHydro firmware - including the 10 newly added ones )
-            savedIndex = 204;
+            // starting point for setBinaryOutputs considering 24 bytes of BinaryInputs 
+            savedIndex = 96; //(24 * 4)
 #endif
             savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
 #if ONCOR
