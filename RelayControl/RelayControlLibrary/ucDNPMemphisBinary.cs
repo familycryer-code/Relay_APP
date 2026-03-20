@@ -13,8 +13,8 @@ namespace RelayControlLibrary
         public ucDNPMemphisBinary()
         {
             InitializeComponent();
-            this.checkBoxEventEnabled.Visible = false;
-            this.labelEventEnable.Enabled = false;
+            //this.checkBoxEventEnabled.Visible = false;
+            //this.labelEventEnable.Enabled = false;
         }
 
         public uint PointNumber
@@ -49,8 +49,8 @@ namespace RelayControlLibrary
             set
             {
                 this.eventEnableVisible = value;
-                //this.checkBoxEventEnabled.Visible = value;
-                //this.labelEventEnable.Visible = value;
+                this.checkBoxEventEnabled.Visible = value;
+                this.labelEventEnable.Visible = value;
             }
         }
         public bool PointEnabled

@@ -13,8 +13,8 @@ namespace RelayControlLibrary
         public ucDNPDIGITALGRIDAnalogIn()
         {
             InitializeComponent();
-            this.labelEventEnable.Visible = false;
-            this.checkBoxEventEnabled.Visible = false;
+            this.labelEventEnable.Visible = true;// false;
+            this.checkBoxEventEnabled.Visible = true;// false;
         }
 
         public bool PointEnabled

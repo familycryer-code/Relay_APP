@@ -1522,11 +1522,11 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = false;//true;
+                this.buttonSendAnalogEnables.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = false;//true;
+                this.buttonEnableAllAnalogEvents.Visible = true;
                 this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = false;// true;
+                this.buttonDisableAllAnalogEvents.Visible = true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2)
             {
@@ -1543,11 +1543,11 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = false;//true;
+                this.buttonSendAnalogEnables.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = false;//true;
+                this.buttonEnableAllAnalogEvents.Visible = true;
                 this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = false;// true;
+                this.buttonDisableAllAnalogEvents.Visible = true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
             {
@@ -1564,12 +1564,13 @@ namespace RelayControlLibrary
                 this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
                 this.buttonDisableAllBinaryEvents.Visible = true;
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
-                this.buttonDisableAllBinaryEvents.Enabled = false;
+               /* this.buttonDisableAllBinaryEvents.Enabled = false;
                 this.buttonDisableAllBinaryEvents.Visible = false;
                 this.buttonEnableAllBinaryEvents.Enabled = false;
                 this.buttonEnableAllBinaryEvents.Visible = false;
                 this.buttonSendBinaryEventEnables.Enabled = false;
                 this.buttonSendBinaryEventEnables.Visible = false;
+               */
 #endif
             }
         }

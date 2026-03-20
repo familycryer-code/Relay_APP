@@ -290,27 +290,21 @@ namespace RelayControl
 
         public MainControl()
         {
+            
             InitializeComponent();
-
-
-
-            // Scale by font is typical; DPI is also valid:
-            this.AutoScaleMode = AutoScaleMode.Dpi; // or AutoScaleMode.Font
-            this.AutoScaleDimensions = new SizeF(96F, 96F); // baseline at 100%
-
 
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControlMain.DrawItem += tabControlMain_DrawItem;
-
+            /*
             StartPosition = FormStartPosition.Manual;
             Rectangle screen = Screen.FromPoint(Cursor.Position).WorkingArea;
             int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 2;
             int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 2;
             Location = new Point(screen.Left + (screen.Width - w) / 2, screen.Top + (screen.Height - h) / 2);
             Size = new Size(w - 300, h);
+            */
 
-
-            this.AutoSize = false;
+          //  this.AutoSize = false;
             // Get the version number
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -745,7 +739,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.27 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.28 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.26" + " DOMINION ";

@@ -211,12 +211,14 @@ namespace RelayControlLibrary
             this.ResumeLayout(false);
 
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
+           /* 
             this.buttonDisableAllBinaryEvents.Enabled = false;
             this.buttonDisableAllBinaryEvents.Visible = false;
             this.buttonEnableAllBinaryEvents.Enabled = false;
             this.buttonEnableAllBinaryEvents.Visible = false;
             this.buttonSendBinaryEventEnables.Enabled = false;
-            this.buttonSendBinaryEventEnables.Visible = false;
+            this.buttonSendBinaryEventEnables.Visible = false;        
+           */
 #endif
 
         }
