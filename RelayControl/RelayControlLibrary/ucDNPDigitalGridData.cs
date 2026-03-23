@@ -1270,10 +1270,12 @@ namespace RelayControlLibrary
             // 44 * 4(binary input incremented by 4 for each reading) + 4 + 28 * 4(binary output incremented by 4 for each reading) = 292
             savedIndex = 344;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
 #elif TORONTO_HYDRO
-            // starting point for setAnalogInputs considering 51 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
-            // 51 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 256
-           // savedIndex = 308; //128; // starting point for setAnalogInputs considering 41 bytes of BinaryInputs & 23 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
-            //96 + ( 7 * 4 ) = 124 + 4 = 128
+            // starting point for setAnalogInputs considering 24 BinaryInputs & 8 BinaryOutputs ( rev10 firmware for TH )
+            // ( 23 * 4(binary input incremented by 4 for each reading) + 4 ) +
+            // ( 26 * 4(binary output incremented by 4 for each reading) + 4 ) = 128
+            // It is seen that in the dNPData array, the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 530 and 531.
+            // Accordingly, backtrack 29 inputs ( each consisting of 6 bytes ) from 530 - since for TorontoHydro Analog Input for SN is placed at input 29
+            // so, 530 - ( 29 * 6 ) = 356.
             savedIndex = 356;
 #endif
              savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);

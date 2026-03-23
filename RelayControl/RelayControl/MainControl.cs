@@ -832,7 +832,7 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
                 this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(400, 550);
-               // this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(400, 222);
+               
 #elif MEMPHIS
                 this.Customer = Customers.Memphis;
 
