@@ -255,13 +255,14 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Unused");
 #endif
 #if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
-            this.binaryInputs.Add("Defaults Loaded"); //0
+            this.binaryInputs.Add("Not Available");  //0
+            this.binaryInputs.Add("Defaults Loaded"); //1
             this.binaryInputs.Add("Network Volts too Low to Close");
             this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("Not Available");
+            this.binaryInputs.Add("Not Available"); //4
             this.binaryInputs.Add("WattVar");
             this.binaryInputs.Add("TimeDelay");
-            this.binaryInputs.Add("Insensitve");
+            this.binaryInputs.Add("Insensitve"); //7
             this.binaryInputs.Add("Phase Angle Wrong");
             this.binaryInputs.Add("Differential Volts Too Low to Close"); //9
             this.binaryInputs.Add("Not Available");
@@ -420,13 +421,13 @@ namespace RelayControlLibrary
             //#if (ONCOR || TORONTO_HYDRO) 
 #if (TORONTO_HYDRO || DEBUG)
             this.binaryOutputs.Add("Remote Trip");//0
-            this.binaryOutputs.Add("Relax Close");
-            this.binaryOutputs.Add("Trip and Block Open");
-            this.binaryOutputs.Add("Sensitive Trip");
-            this.binaryOutputs.Add("Insensitive Trip");
-            this.binaryOutputs.Add("Time Delay");
-            this.binaryOutputs.Add("Watt Var");
-            this.binaryOutputs.Add("Trip On Power Down");//7
+            this.binaryOutputs.Add("Block Open");
+            this.binaryOutputs.Add("Not Available");
+            this.binaryOutputs.Add("Not Available");
+            this.binaryOutputs.Add("Command Test");
+            this.binaryOutputs.Add("Not Available");
+            this.binaryOutputs.Add("Not Available");
+            this.binaryOutputs.Add("Relax Close");//7
            /* this.binaryOutputs.Add("Trim Curve");
             this.binaryOutputs.Add("Circle Close");
             this.binaryOutputs.Add("Override Blocked Close on Dead Network");
@@ -828,51 +829,51 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("See Tab RNC", false));
 #endif
 #if (ONCOR || TORONTO_HYDRO || DEBUG)
-            this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Software Version Number", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A", false));//5
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase C", false));//10
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage (Vd) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage (Vd) - Phase B", false));//15
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage (Vd) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage (Vd) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage (Vd) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage (Vd) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage", false));//20
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Real Differential Voltage", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));//0
+            this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Angle Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Current Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Time Delay Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Instantaneous Trip Current SettingC", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip Current Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Offset Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Extended Time Delay Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Close Time Delay Setting", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Time Delay Setting", false)); //10
             this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase C", false));//31
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false)); //13
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase A", false)); //20
+            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog In 2 - Transformer Temperature", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Not Available", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog In 3 - Transformer Oil Level", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog In 4 - Transformer Pressure", false));
+            this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
+            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Com Software Version", false));//31
+            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase At", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase C", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));//44
+            this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false)); //43
+            
          /*   this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
@@ -940,11 +941,13 @@ namespace RelayControlLibrary
 
                 // if (i < 50)
                 if (i < 50)
+                {
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                //else
+                   
+                }
                 else if (i <= 99) //if (i <= 63)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                else if (i <= 111) 
+                else if (i <= 111)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
 
                 if (i == pointsToAdd)
@@ -1254,8 +1257,8 @@ namespace RelayControlLibrary
             // 4 bytes per binary input point : 44 * 4 = 176
             savedIndex = 176 + 4;// 224;
 #elif TORONTO_HYDRO
-            // starting point for setBinaryOutputs considering 24 bytes of BinaryInputs 
-            savedIndex = 96; //(24 * 4)
+            // starting point for setBinaryOutputs considering 24 BinaryInputs 
+            savedIndex = 96; //(23 * 4) + 4
 #endif
             savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
 #if ONCOR
@@ -1269,9 +1272,11 @@ namespace RelayControlLibrary
 #elif TORONTO_HYDRO
             // starting point for setAnalogInputs considering 51 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
             // 51 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 256
-            savedIndex = 308; // starting point for setAnalogInputs considering 41 bytes of BinaryInputs & 23 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
+           // savedIndex = 308; //128; // starting point for setAnalogInputs considering 41 bytes of BinaryInputs & 23 bytes of BinaryOutputs( per ver10 TorontoHydro firmware )
+            //96 + ( 7 * 4 ) = 124 + 4 = 128
+            savedIndex = 356;
 #endif
-            savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
+             savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
 #if ONCOR
 // starting point for setAnalogOutputs considering 44 bytes of BinaryInputs & 28 bytes of BinaryOutputs & 111 bytes of AnalogInputs( per ver10 ConEd firmware )
 // 48*4(binary input incremented by 4 for each reading)   + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
@@ -1280,6 +1285,9 @@ namespace RelayControlLibrary
             // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware ) & 112 points of Analog Inputs
             // 44 * 4(binary input incremented by 4 for each reading)  + 4 + 28 * 4(binary output incremented by 4 for each reading) + 4 + 111*6(analog input incremented by 6 for each reading)= 962
             savedIndex = 1025;// 962 + 6;
+#elif TORONTO_HYDRO              
+           // savedIndex = 396;
+            //128 + ( 44 * 6) = 392 + 4 = 396
 #endif
             this.setAnalogOutputs(this.dNPData, savedIndex);
         }

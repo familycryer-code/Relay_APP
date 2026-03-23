@@ -63,9 +63,11 @@ namespace RelayControlLibrary
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
 #endif
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
+#if CONED
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs3);
-//#if !TORONTO_HYDRO
+#endif
+            //#if !TORONTO_HYDRO
 #if !CONED
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogOutputs);
 #endif
