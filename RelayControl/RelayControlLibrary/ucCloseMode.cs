@@ -773,7 +773,11 @@ namespace RelayControlLibrary
 
                 this.labelReclose.Visible = true;
                 this.labelCircleCloseVolts.Visible = false;
-                this.labelReclose.Location = new Point(120, 101); //(79, 73); 
+//#if CONED
+//                this.labelReclose.Location = new Point(120, 101);
+//#else
+                this.labelReclose.Location = new Point(122, 117); //(79, 73); 
+//#endif
             }
         }
 

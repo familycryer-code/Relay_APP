@@ -1256,9 +1256,10 @@ namespace RelayControlLibrary
             // starting point for setBinaryOutputs considering 45 BinaryInputs points ( per ver10 ConEd firmware - including the 10 newly added ones )
             // 4 bytes per binary input point : 44 * 4 = 176
             savedIndex = 176 + 4;// 224;
-#elif TORONTO_HYDRO
+#elif (TORONTO_HYDRO || DEBUG)
             // starting point for setBinaryOutputs considering 24 BinaryInputs 
-            savedIndex = 96; //(23 * 4) + 4
+            // savedIndex = 96; //(23 * 4) + 4
+            savedIndex = 232;
 #endif
             savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
 #if ONCOR
@@ -1269,7 +1270,7 @@ namespace RelayControlLibrary
             // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware )
             // 44 * 4(binary input incremented by 4 for each reading) + 4 + 28 * 4(binary output incremented by 4 for each reading) = 292
             savedIndex = 344;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
-#elif TORONTO_HYDRO
+#elif (TORONTO_HYDRO || DEBUG)
             // starting point for setAnalogInputs considering 24 BinaryInputs & 8 BinaryOutputs ( rev10 firmware for TH )
             // ( 23 * 4(binary input incremented by 4 for each reading) + 4 ) +
             // ( 26 * 4(binary output incremented by 4 for each reading) + 4 ) = 128
@@ -1287,8 +1288,8 @@ namespace RelayControlLibrary
             // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware ) & 112 points of Analog Inputs
             // 44 * 4(binary input incremented by 4 for each reading)  + 4 + 28 * 4(binary output incremented by 4 for each reading) + 4 + 111*6(analog input incremented by 6 for each reading)= 962
             savedIndex = 1025;// 962 + 6;
-#elif TORONTO_HYDRO              
-           // savedIndex = 396;
+#elif (TORONTO_HYDRO || DEBUG)
+            // savedIndex = 396;
             //128 + ( 44 * 6) = 392 + 4 = 396
 #endif
             this.setAnalogOutputs(this.dNPData, savedIndex);

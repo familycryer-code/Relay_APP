@@ -66,11 +66,11 @@ namespace RelayControlLibrary
             // buttonSend
             // 
             this.buttonSend.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSend.Location = new System.Drawing.Point(60, 258);
+            this.buttonSend.Location = new System.Drawing.Point(50, 263);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(113, 23);
+            this.buttonSend.Size = new System.Drawing.Size(145, 23);
             this.buttonSend.TabIndex = 13;
-            this.buttonSend.Text = "Program Pump";
+            this.buttonSend.Text = "Program Pump Protect";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 

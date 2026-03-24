@@ -60,7 +60,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownTimeDelay
             // 
-            this.numericUpDownTimeDelay.Location = new System.Drawing.Point(177, 50);
+            this.numericUpDownTimeDelay.Location = new System.Drawing.Point(177, 56);
             this.numericUpDownTimeDelay.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -79,7 +79,7 @@ namespace RelayControlLibrary
             // labelTD
             // 
             this.labelTD.AutoSize = true;
-            this.labelTD.Location = new System.Drawing.Point(67, 50);
+            this.labelTD.Location = new System.Drawing.Point(68, 58);
             this.labelTD.Name = "labelTD";
             this.labelTD.Size = new System.Drawing.Size(138, 19);
             this.labelTD.TabIndex = 14;
@@ -93,7 +93,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownRecloseVolts.Location = new System.Drawing.Point(177, 80);
+            this.numericUpDownRecloseVolts.Location = new System.Drawing.Point(177, 92);
             this.numericUpDownRecloseVolts.Maximum = new decimal(new int[] {
             10,
             0,
@@ -111,7 +111,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownPDA
             // 
-            this.numericUpDownPDA.Location = new System.Drawing.Point(177, 114);
+            this.numericUpDownPDA.Location = new System.Drawing.Point(177, 132);
             this.numericUpDownPDA.Maximum = new decimal(new int[] {
             5,
             0,
@@ -140,7 +140,7 @@ namespace RelayControlLibrary
             0,
             0,
             65536});
-            this.numericUpDownPDV.Location = new System.Drawing.Point(177, 145);
+            this.numericUpDownPDV.Location = new System.Drawing.Point(177, 168);
             this.numericUpDownPDV.Maximum = new decimal(new int[] {
             4,
             0,
@@ -182,7 +182,7 @@ namespace RelayControlLibrary
             // labelReclose
             // 
             this.labelReclose.AutoSize = true;
-            this.labelReclose.Location = new System.Drawing.Point(89, 80);
+            this.labelReclose.Location = new System.Drawing.Point(83, 94);
             this.labelReclose.Name = "labelReclose";
             this.labelReclose.Size = new System.Drawing.Size(108, 19);
             this.labelReclose.TabIndex = 19;
@@ -191,7 +191,7 @@ namespace RelayControlLibrary
             // labelPDA
             // 
             this.labelPDA.AutoSize = true;
-            this.labelPDA.Location = new System.Drawing.Point(40, 114);
+            this.labelPDA.Location = new System.Drawing.Point(38, 134); //(32, 134);
             this.labelPDA.Name = "labelPDA";
             this.labelPDA.Size = new System.Drawing.Size(173, 19);
             this.labelPDA.TabIndex = 20;
@@ -200,7 +200,7 @@ namespace RelayControlLibrary
             // labelPhaseDetectOffsetVolts
             // 
             this.labelPhaseDetectOffsetVolts.AutoSize = true;
-            this.labelPhaseDetectOffsetVolts.Location = new System.Drawing.Point(40, 147);
+            this.labelPhaseDetectOffsetVolts.Location = new System.Drawing.Point(38, 170);
             this.labelPhaseDetectOffsetVolts.Name = "labelPhaseDetectOffsetVolts";
             this.labelPhaseDetectOffsetVolts.Size = new System.Drawing.Size(174, 19);
             this.labelPhaseDetectOffsetVolts.TabIndex = 21;
@@ -209,7 +209,7 @@ namespace RelayControlLibrary
             // labelTiltAngle
             // 
             this.labelTiltAngle.AutoSize = true;
-            this.labelTiltAngle.Location = new System.Drawing.Point(107, 21);
+            this.labelTiltAngle.Location = new System.Drawing.Point(107, 23);
             this.labelTiltAngle.Name = "labelTiltAngle";
             this.labelTiltAngle.Size = new System.Drawing.Size(84, 19);
             this.labelTiltAngle.TabIndex = 22;
@@ -218,7 +218,7 @@ namespace RelayControlLibrary
             // labelTDUnit
             // 
             this.labelTDUnit.AutoSize = true;
-            this.labelTDUnit.Location = new System.Drawing.Point(247, 52);
+            this.labelTDUnit.Location = new System.Drawing.Point(237, 58);
             this.labelTDUnit.Name = "labelTDUnit";
             this.labelTDUnit.Size = new System.Drawing.Size(53, 19);
             this.labelTDUnit.TabIndex = 23;
@@ -227,7 +227,7 @@ namespace RelayControlLibrary
             // labelRecloseUnit
             // 
             this.labelRecloseUnit.AutoSize = true;
-            this.labelRecloseUnit.Location = new System.Drawing.Point(247, 87);
+            this.labelRecloseUnit.Location = new System.Drawing.Point(237, 94);
             this.labelRecloseUnit.Name = "labelRecloseUnit";
             this.labelRecloseUnit.Size = new System.Drawing.Size(44, 19);
             this.labelRecloseUnit.TabIndex = 24;
@@ -236,7 +236,7 @@ namespace RelayControlLibrary
             // labelPDAUnit
             // 
             this.labelPDAUnit.AutoSize = true;
-            this.labelPDAUnit.Location = new System.Drawing.Point(247, 115);
+            this.labelPDAUnit.Location = new System.Drawing.Point(237, 134);
             this.labelPDAUnit.Name = "labelPDAUnit";
             this.labelPDAUnit.Size = new System.Drawing.Size(66, 19);
             this.labelPDAUnit.TabIndex = 25;
@@ -245,7 +245,7 @@ namespace RelayControlLibrary
             // labelPDVUnit
             // 
             this.labelPDVUnit.AutoSize = true;
-            this.labelPDVUnit.Location = new System.Drawing.Point(247, 152);
+            this.labelPDVUnit.Location = new System.Drawing.Point(237, 170);
             this.labelPDVUnit.Name = "labelPDVUnit";
             this.labelPDVUnit.Size = new System.Drawing.Size(44, 19);
             this.labelPDVUnit.TabIndex = 26;
@@ -254,7 +254,7 @@ namespace RelayControlLibrary
             // labelTiltAngleUnit
             // 
             this.labelTiltAngleUnit.AutoSize = true;
-            this.labelTiltAngleUnit.Location = new System.Drawing.Point(247, 20);
+            this.labelTiltAngleUnit.Location = new System.Drawing.Point(237, 21);
             this.labelTiltAngleUnit.Name = "labelTiltAngleUnit";
             this.labelTiltAngleUnit.Size = new System.Drawing.Size(66, 19);
             this.labelTiltAngleUnit.TabIndex = 27;
@@ -262,7 +262,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(209, 224);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(209, 254);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
             this.buttonSendCloseData.Size = new System.Drawing.Size(113, 23);
             this.buttonSendCloseData.TabIndex = 28;
@@ -273,7 +273,7 @@ namespace RelayControlLibrary
             // checkBoxCircleClose
             // 
             this.checkBoxCircleClose.AutoSize = true;
-            this.checkBoxCircleClose.Location = new System.Drawing.Point(9, 195);
+            this.checkBoxCircleClose.Location = new System.Drawing.Point(9, 215);
             this.checkBoxCircleClose.Name = "checkBoxCircleClose";
             this.checkBoxCircleClose.Size = new System.Drawing.Size(110, 23);
             this.checkBoxCircleClose.TabIndex = 29;
@@ -284,7 +284,7 @@ namespace RelayControlLibrary
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(20, 224);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(20, 254);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(171, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
@@ -295,7 +295,7 @@ namespace RelayControlLibrary
             // labelCircleCloseVolts
             // 
             this.labelCircleCloseVolts.AutoSize = true;
-            this.labelCircleCloseVolts.Location = new System.Drawing.Point(68, 82);
+            this.labelCircleCloseVolts.Location = new System.Drawing.Point(69, 94);
             this.labelCircleCloseVolts.Name = "labelCircleCloseVolts";
             this.labelCircleCloseVolts.Size = new System.Drawing.Size(137, 19);
             this.labelCircleCloseVolts.TabIndex = 31;
@@ -315,7 +315,7 @@ namespace RelayControlLibrary
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(99, 195);
+            this.checkBox1.Location = new System.Drawing.Point(99, 215);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(322, 23);
             this.checkBox1.TabIndex = 40;
@@ -348,7 +348,7 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxCloseMode.Location = new System.Drawing.Point(3, 3);
             this.groupBoxCloseMode.Name = "groupBoxCloseMode";
-            this.groupBoxCloseMode.Size = new System.Drawing.Size(352, 260);
+            this.groupBoxCloseMode.Size = new System.Drawing.Size(352, 294);
             this.groupBoxCloseMode.TabIndex = 33;
             this.groupBoxCloseMode.TabStop = false;
             this.groupBoxCloseMode.Text = "Close Mode";

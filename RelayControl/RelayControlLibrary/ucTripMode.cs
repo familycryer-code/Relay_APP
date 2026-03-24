@@ -1444,9 +1444,9 @@ namespace RelayControlLibrary
         {
             decimal temp, temp2, temp3, temp4;
 
-            this.labelInsensTripUnit.Text = "A";
-            this.labelSensTripUnit.Text = "A";
-            this.labelWVCurrentUnit.Text = "A";
+            this.labelInsensTripUnit.Text = "Amps";
+            this.labelSensTripUnit.Text = "Amps";
+            this.labelWVCurrentUnit.Text = "Amps";
 
             temp = this.numericUpDownSensTrip.Value;
 
@@ -1665,9 +1665,9 @@ namespace RelayControlLibrary
         {
             decimal temp, temp2, temp3, temp4;
 
-            this.labelInsensTripUnit.Text = "A";
+            this.labelInsensTripUnit.Text = "Amps";
             this.labelSensTripUnit.Text = "mA";
-            this.labelWVCurrentUnit.Text = "A";
+            this.labelWVCurrentUnit.Text = "Amps";
 
             temp = this.numericUpDownSensTrip.Value;
 

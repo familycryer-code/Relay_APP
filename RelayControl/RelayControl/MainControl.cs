@@ -689,7 +689,8 @@ namespace RelayControl
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
                 this.ucTripMode2.Location = new System.Drawing.Point(450, 13); //(400, 13);
-                this.ucCloseMode1.Location = new System.Drawing.Point(1150, 13); //(1100, 13); 
+                this.ucCloseMode1.Location = new System.Drawing.Point(970, 13); //(1100, 13); 
+               // this.ucCloseMode1.groupBoxCloseMode.Size = new System.Drawing.Size(352, 280);
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);
                 // this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(120, 320);
                 // this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
@@ -718,10 +719,10 @@ namespace RelayControl
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(27, 317); //(33, 310);
-                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 317); //(290, 310);
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(27, 317); 
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 317); 
                 this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
-                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(250, 280);
+                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250); //(250, 280);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -739,7 +740,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.30 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.31 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.26" + " DOMINION ";
@@ -800,21 +801,21 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
-                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13); //(940, 13); 
-                this.groupBox_PC.Location = new System.Drawing.Point(1004, 360); //(940, 360); 
+                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13);  
+                this.groupBox_PC.Location = new System.Drawing.Point(1004, 390); //(1004, 360);  
                 this.groupBox_PC.Size = new System.Drawing.Size(470, 320);
                 /*
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab
                     only for CONED APP - since its needs extra space for the Permissive close groupBox
                 */
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(740, 455); //(1265, 695); 
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(740, 455);  
                 this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
                 this.buttonSendAll.Text = "Program all settings to the Relay";
 
-                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600); //(1050, 750);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630); //(900, 750);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 660);// (1050, 700);
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 690); //(900, 700);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600); 
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630); 
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 660);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 690); 
 #elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;
