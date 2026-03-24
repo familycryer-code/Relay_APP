@@ -149,7 +149,7 @@ namespace RelayControlLibrary
             // labelPumpTypeDisplay
             // 
             this.labelPumpTypeDisplay.AutoSize = true;
-            this.labelPumpTypeDisplay.Location = new System.Drawing.Point(80, 16);
+            this.labelPumpTypeDisplay.Location = new System.Drawing.Point(75, 23);
             this.labelPumpTypeDisplay.Name = "labelPumpTypeDisplay";
             this.labelPumpTypeDisplay.Size = new System.Drawing.Size(75, 19);
             this.labelPumpTypeDisplay.TabIndex = 29;
@@ -158,7 +158,7 @@ namespace RelayControlLibrary
             // labelPumpType
             // 
             this.labelPumpType.AutoSize = true;
-            this.labelPumpType.Location = new System.Drawing.Point(5, 16);
+            this.labelPumpType.Location = new System.Drawing.Point(0, 23);
             this.labelPumpType.Name = "labelPumpType";
             this.labelPumpType.Size = new System.Drawing.Size(104, 19);
             this.labelPumpType.TabIndex = 28;
@@ -167,7 +167,7 @@ namespace RelayControlLibrary
             // labelEnable
             // 
             this.labelEnable.AutoSize = true;
-            this.labelEnable.Location = new System.Drawing.Point(203, 16);
+            this.labelEnable.Location = new System.Drawing.Point(210, 23);
             this.labelEnable.Name = "labelEnable";
             this.labelEnable.Size = new System.Drawing.Size(56, 19);
             this.labelEnable.TabIndex = 25;
@@ -177,7 +177,7 @@ namespace RelayControlLibrary
             // 
             this.labelPumpProtect.AutoSize = true;
             this.labelPumpProtect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.labelPumpProtect.Location = new System.Drawing.Point(0, 35);
+            this.labelPumpProtect.Location = new System.Drawing.Point(5, 198);
             this.labelPumpProtect.Name = "labelPumpProtect";
             this.labelPumpProtect.Size = new System.Drawing.Size(104, 19);
             this.labelPumpProtect.TabIndex = 18;

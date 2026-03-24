@@ -29,6 +29,7 @@ namespace RelayControlLibrary
         private void InitializeComponent()
         {
             this.groupBoxSafeService = new System.Windows.Forms.GroupBox();
+            this.lbl_CurrImbalance_unit = new System.Windows.Forms.Label();
             this.comboBox_DataViews = new System.Windows.Forms.ComboBox();
             this.labelCurrentlyEnabled = new System.Windows.Forms.Label();
             this.buttonRestoreDefaults = new System.Windows.Forms.Button();
@@ -51,7 +52,6 @@ namespace RelayControlLibrary
             this.labelSafeServiceEnable = new System.Windows.Forms.Label();
             this.buttonRequest = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
-            this.lbl_CurrImbalance_unit = new System.Windows.Forms.Label();
             this.groupBoxSafeService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVoltageImbalance)).BeginInit();
@@ -93,6 +93,15 @@ namespace RelayControlLibrary
             this.groupBoxSafeService.TabStop = false;
             this.groupBoxSafeService.Text = "Safe Service Mode";
             // 
+            // lbl_CurrImbalance_unit
+            // 
+            this.lbl_CurrImbalance_unit.AutoSize = true;
+            this.lbl_CurrImbalance_unit.Location = new System.Drawing.Point(194, 120);
+            this.lbl_CurrImbalance_unit.Name = "lbl_CurrImbalance_unit";
+            this.lbl_CurrImbalance_unit.Size = new System.Drawing.Size(50, 19);
+            this.lbl_CurrImbalance_unit.TabIndex = 23;
+            this.lbl_CurrImbalance_unit.Text = "Amps";
+            // 
             // comboBox_DataViews
             // 
             this.comboBox_DataViews.FormattingEnabled = true;
@@ -100,7 +109,7 @@ namespace RelayControlLibrary
             "Relay",
             "Protector",
             "Percent"});
-            this.comboBox_DataViews.Location = new System.Drawing.Point(115, 16);
+            this.comboBox_DataViews.Location = new System.Drawing.Point(115, 20);
             this.comboBox_DataViews.Name = "comboBox_DataViews";
             this.comboBox_DataViews.Size = new System.Drawing.Size(64, 27);
             this.comboBox_DataViews.TabIndex = 22;
@@ -329,9 +338,9 @@ namespace RelayControlLibrary
             this.comboBoxSSEnable.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBoxSSEnable.Location = new System.Drawing.Point(28, 16);
+            this.comboBoxSSEnable.Location = new System.Drawing.Point(28, 20);
             this.comboBoxSSEnable.Name = "comboBoxSSEnable";
-            this.comboBoxSSEnable.Size = new System.Drawing.Size(73, 27);
+            this.comboBoxSSEnable.Size = new System.Drawing.Size(69, 27);
             this.comboBoxSSEnable.TabIndex = 3;
             this.comboBoxSSEnable.Text = "Enable";
             // 
@@ -363,15 +372,6 @@ namespace RelayControlLibrary
             this.buttonSend.Text = "Program Safe Service";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
-            // 
-            // lbl_CurrImbalance_unit
-            // 
-            this.lbl_CurrImbalance_unit.AutoSize = true;
-            this.lbl_CurrImbalance_unit.Location = new System.Drawing.Point(194, 120);
-            this.lbl_CurrImbalance_unit.Name = "lbl_CurrImbalance_unit";
-            this.lbl_CurrImbalance_unit.Size = new System.Drawing.Size(50, 19);
-            this.lbl_CurrImbalance_unit.TabIndex = 23;
-            this.lbl_CurrImbalance_unit.Text = "Amps";
             // 
             // ucSafeService
             // 

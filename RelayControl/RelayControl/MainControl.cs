@@ -714,10 +714,10 @@ namespace RelayControl
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 600);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 600);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 650);
-                this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 650);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 600);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 600);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(27, 317); 
                 this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 317); 
