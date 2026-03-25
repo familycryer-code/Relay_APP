@@ -90,58 +90,60 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.button_FastFire.Location = new System.Drawing.Point(780,390);
-            this.button_FastMode.Location = new System.Drawing.Point(780, 470);
+            this.button_FastFire.Location = new System.Drawing.Point(1017, 400); //(780,390);
+            this.button_FastFire.Size = new System.Drawing.Size(184, 75);
+            this.button_FastMode.Location = new System.Drawing.Point(1017, 490); //(780, 470);
+            this.button_FastMode.Size = new System.Drawing.Size(184, 75);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(780, 580); //(270, 311);
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(1017, 585); //(780, 580); 
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(760,10);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(1000, 10); //(760,10);
             this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 610);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
-            this.panelFlagSettings.Location = new System.Drawing.Point(470, 18);
+            this.panelFlagSettings.Location = new System.Drawing.Point(600, 18); //(470, 18);
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPHClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPHClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label12.Location = new System.Drawing.Point(19, 553);
 
             this.panelFlagSettingG.Location = new System.Drawing.Point(42, 480);
             this.panelFlagSettingG.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPGClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPGClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label11.Location = new System.Drawing.Point(19, 483);
 
             this.panelFlagSettingF.Location = new System.Drawing.Point(42, 410);
             this.panelFlagSettingF.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPFClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPFClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label10.Location = new System.Drawing.Point(19, 413);
 
             this.panelFlagSettingE.Location = new System.Drawing.Point(42, 340);
             this.panelFlagSettingE.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPEClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPEClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label9.Location = new System.Drawing.Point(19, 343);
 
             this.panelFlagSettingD.Location = new System.Drawing.Point(42, 270);
             this.panelFlagSettingD.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPDClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPDClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label8.Location = new System.Drawing.Point(19, 273);
 
             this.panelFlagSettingC.Location = new System.Drawing.Point(42, 200);
             this.panelFlagSettingC.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPCClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPCClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label6.Location = new System.Drawing.Point(19, 203);
 
             this.panelFlagSettingB.Location = new System.Drawing.Point(42, 130);
             this.panelFlagSettingB.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPBClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPBClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.label5.Location = new System.Drawing.Point(19, 133);
 
             this.panelFlagSettingA.Location = new System.Drawing.Point(42, 60);
             this.panelFlagSettingA.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPAClose.Location = new System.Drawing.Point(85, 2);
+            this.radioButtonFPAClose.Location = new System.Drawing.Point(3, 2); //(85, 2);
             this.labelFlagSettingA.Location = new System.Drawing.Point(19, 63);
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600);
@@ -152,7 +154,9 @@ namespace RelayControlLibrary
             this.checkBoxRed.Size = new System.Drawing.Size(160, 30);
             this.checkBoxBlue.Size = new System.Drawing.Size(160, 30);
             this.checkBoxGreen.Size = new System.Drawing.Size(160, 30);
-            this.checkBoxYellow.Size = new System.Drawing.Size(160, 30);
+            this.checkBoxYellow.Size = new System.Drawing.Size(160, 30); 
+            this.panelGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelFreqPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxYellow.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxGreen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxBlue.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -562,10 +566,10 @@ namespace RelayControlLibrary
                 this.panelAlarmSettings.Hide();
                 this.labelAlarmSettings.Hide();
 
-                this.buttonTX.Location = new Point(780, 40);
-                this.buttonRQ.Location = new Point(780, 130); 
-                this.buttonForceConfigMessage.Location = new Point(780, 220);  
-                this.buttonRestoreDefaults.Location = new Point(780, 310); 
+                this.buttonTX.Location = new Point(1017, 40); //(780, 40);
+                this.buttonRQ.Location = new Point(1017, 130); //(780, 130); 
+                this.buttonForceConfigMessage.Location = new Point(1017, 220); //(780, 220);  
+                this.buttonRestoreDefaults.Location = new Point(1017, 310); //(780, 310); 
 
                 this.buttonRQ.Size = new Size(184, 75);
                 this.buttonForceConfigMessage.Size = new Size(184, 75);
