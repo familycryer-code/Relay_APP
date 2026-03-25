@@ -231,11 +231,9 @@ namespace RelayControlLibrary
             this.groupBoxVoltageReadings.Controls.Add(this.textBoxVnA);
             this.groupBoxVoltageReadings.Controls.Add(this.textBoxVnC);
             this.groupBoxVoltageReadings.Controls.Add(this.textBoxVnB);
-            this.groupBoxVoltageReadings.Location = new System.Drawing.Point(7, 177);
-            this.groupBoxVoltageReadings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxVoltageReadings.Location = new System.Drawing.Point(5, 144);
             this.groupBoxVoltageReadings.Name = "groupBoxVoltageReadings";
-            this.groupBoxVoltageReadings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxVoltageReadings.Size = new System.Drawing.Size(108, 230);
+            this.groupBoxVoltageReadings.Size = new System.Drawing.Size(81, 187);
             this.groupBoxVoltageReadings.TabIndex = 70;
             this.groupBoxVoltageReadings.TabStop = false;
             this.groupBoxVoltageReadings.Text = "Voltage Readings";
@@ -243,40 +241,36 @@ namespace RelayControlLibrary
             // labelVtC
             // 
             this.labelVtC.AutoSize = true;
-            this.labelVtC.Location = new System.Drawing.Point(12, 197);
-            this.labelVtC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelVtC.Location = new System.Drawing.Point(9, 160);
             this.labelVtC.Name = "labelVtC";
-            this.labelVtC.Size = new System.Drawing.Size(37, 16);
+            this.labelVtC.Size = new System.Drawing.Size(31, 13);
             this.labelVtC.TabIndex = 50;
             this.labelVtC.Text = "VTC:";
             // 
             // labelVtB
             // 
             this.labelVtB.AutoSize = true;
-            this.labelVtB.Location = new System.Drawing.Point(12, 166);
-            this.labelVtB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelVtB.Location = new System.Drawing.Point(9, 135);
             this.labelVtB.Name = "labelVtB";
-            this.labelVtB.Size = new System.Drawing.Size(37, 16);
+            this.labelVtB.Size = new System.Drawing.Size(31, 13);
             this.labelVtB.TabIndex = 49;
             this.labelVtB.Text = "VTB:";
             // 
             // labelVtA
             // 
             this.labelVtA.AutoSize = true;
-            this.labelVtA.Location = new System.Drawing.Point(12, 133);
-            this.labelVtA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelVtA.Location = new System.Drawing.Point(9, 108);
             this.labelVtA.Name = "labelVtA";
-            this.labelVtA.Size = new System.Drawing.Size(37, 16);
+            this.labelVtA.Size = new System.Drawing.Size(31, 13);
             this.labelVtA.TabIndex = 48;
             this.labelVtA.Text = "VTA:";
             // 
             // textBoxVtA
             // 
             this.textBoxVtA.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxVtA.Location = new System.Drawing.Point(56, 129);
-            this.textBoxVtA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVtA.Location = new System.Drawing.Point(42, 105);
             this.textBoxVtA.Name = "textBoxVtA";
-            this.textBoxVtA.Size = new System.Drawing.Size(80, 22);
+            this.textBoxVtA.Size = new System.Drawing.Size(61, 20);
             this.textBoxVtA.TabIndex = 47;
             this.textBoxVtA.TabStop = false;
             this.textBoxVtA.Tag = "";
@@ -284,10 +278,9 @@ namespace RelayControlLibrary
             // textBoxVtC
             // 
             this.textBoxVtC.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxVtC.Location = new System.Drawing.Point(56, 193);
-            this.textBoxVtC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVtC.Location = new System.Drawing.Point(42, 157);
             this.textBoxVtC.Name = "textBoxVtC";
-            this.textBoxVtC.Size = new System.Drawing.Size(80, 22);
+            this.textBoxVtC.Size = new System.Drawing.Size(61, 20);
             this.textBoxVtC.TabIndex = 46;
             this.textBoxVtC.TabStop = false;
             this.textBoxVtC.Tag = "";
@@ -295,10 +288,9 @@ namespace RelayControlLibrary
             // textBoxVtB
             // 
             this.textBoxVtB.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxVtB.Location = new System.Drawing.Point(56, 162);
-            this.textBoxVtB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVtB.Location = new System.Drawing.Point(42, 132);
             this.textBoxVtB.Name = "textBoxVtB";
-            this.textBoxVtB.Size = new System.Drawing.Size(80, 22);
+            this.textBoxVtB.Size = new System.Drawing.Size(61, 20);
             this.textBoxVtB.TabIndex = 45;
             this.textBoxVtB.TabStop = false;
             this.textBoxVtB.Tag = "";
@@ -306,40 +298,36 @@ namespace RelayControlLibrary
             // label86
             // 
             this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(11, 102);
-            this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label86.Location = new System.Drawing.Point(8, 83);
             this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(38, 16);
+            this.label86.Size = new System.Drawing.Size(32, 13);
             this.label86.TabIndex = 44;
             this.label86.Text = "VNC:";
             // 
             // label87
             // 
             this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(11, 71);
-            this.label87.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label87.Location = new System.Drawing.Point(8, 58);
             this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(38, 16);
+            this.label87.Size = new System.Drawing.Size(32, 13);
             this.label87.TabIndex = 43;
             this.label87.Text = "VNB:";
             // 
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(11, 39);
-            this.label88.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label88.Location = new System.Drawing.Point(8, 32);
             this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(38, 16);
+            this.label88.Size = new System.Drawing.Size(32, 13);
             this.label88.TabIndex = 42;
             this.label88.Text = "VNA:";
             // 
             // textBoxVnA
             // 
             this.textBoxVnA.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxVnA.Location = new System.Drawing.Point(56, 33);
-            this.textBoxVnA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVnA.Location = new System.Drawing.Point(42, 27);
             this.textBoxVnA.Name = "textBoxVnA";
-            this.textBoxVnA.Size = new System.Drawing.Size(80, 22);
+            this.textBoxVnA.Size = new System.Drawing.Size(61, 20);
             this.textBoxVnA.TabIndex = 41;
             this.textBoxVnA.TabStop = false;
             this.textBoxVnA.Tag = "";
@@ -347,10 +335,9 @@ namespace RelayControlLibrary
             // textBoxVnC
             // 
             this.textBoxVnC.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxVnC.Location = new System.Drawing.Point(56, 97);
-            this.textBoxVnC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVnC.Location = new System.Drawing.Point(42, 79);
             this.textBoxVnC.Name = "textBoxVnC";
-            this.textBoxVnC.Size = new System.Drawing.Size(80, 22);
+            this.textBoxVnC.Size = new System.Drawing.Size(61, 20);
             this.textBoxVnC.TabIndex = 40;
             this.textBoxVnC.TabStop = false;
             this.textBoxVnC.Tag = "";
@@ -358,10 +345,9 @@ namespace RelayControlLibrary
             // textBoxVnB
             // 
             this.textBoxVnB.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxVnB.Location = new System.Drawing.Point(56, 66);
-            this.textBoxVnB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVnB.Location = new System.Drawing.Point(42, 54);
             this.textBoxVnB.Name = "textBoxVnB";
-            this.textBoxVnB.Size = new System.Drawing.Size(80, 22);
+            this.textBoxVnB.Size = new System.Drawing.Size(61, 20);
             this.textBoxVnB.TabIndex = 39;
             this.textBoxVnB.TabStop = false;
             this.textBoxVnB.Tag = "";
@@ -370,11 +356,9 @@ namespace RelayControlLibrary
             // 
             this.groupBoxPowerDirectionalFlow.Controls.Add(this.textBoxPowerDirectionalFlow);
             this.groupBoxPowerDirectionalFlow.Enabled = false;
-            this.groupBoxPowerDirectionalFlow.Location = new System.Drawing.Point(643, 620);
-            this.groupBoxPowerDirectionalFlow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxPowerDirectionalFlow.Location = new System.Drawing.Point(482, 504);
             this.groupBoxPowerDirectionalFlow.Name = "groupBoxPowerDirectionalFlow";
-            this.groupBoxPowerDirectionalFlow.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxPowerDirectionalFlow.Size = new System.Drawing.Size(312, 53);
+            this.groupBoxPowerDirectionalFlow.Size = new System.Drawing.Size(234, 43);
             this.groupBoxPowerDirectionalFlow.TabIndex = 83;
             this.groupBoxPowerDirectionalFlow.TabStop = false;
             this.groupBoxPowerDirectionalFlow.Text = "Power Directional Flow Flag:";
@@ -385,11 +369,10 @@ namespace RelayControlLibrary
             this.textBoxPowerDirectionalFlow.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxPowerDirectionalFlow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxPowerDirectionalFlow.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxPowerDirectionalFlow.Location = new System.Drawing.Point(8, 20);
-            this.textBoxPowerDirectionalFlow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPowerDirectionalFlow.Location = new System.Drawing.Point(6, 16);
             this.textBoxPowerDirectionalFlow.Name = "textBoxPowerDirectionalFlow";
             this.textBoxPowerDirectionalFlow.ReadOnly = true;
-            this.textBoxPowerDirectionalFlow.Size = new System.Drawing.Size(293, 20);
+            this.textBoxPowerDirectionalFlow.Size = new System.Drawing.Size(221, 20);
             this.textBoxPowerDirectionalFlow.TabIndex = 1;
             this.textBoxPowerDirectionalFlow.TabStop = false;
             this.textBoxPowerDirectionalFlow.Tag = "";
@@ -409,11 +392,9 @@ namespace RelayControlLibrary
             this.groupBoxGeneralSettings.Controls.Add(this.labelTMonColorFreq);
             this.groupBoxGeneralSettings.Controls.Add(this.labelTMonTransmitterID);
             this.groupBoxGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxGeneralSettings.Location = new System.Drawing.Point(4, 4);
-            this.groupBoxGeneralSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxGeneralSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
-            this.groupBoxGeneralSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxGeneralSettings.Size = new System.Drawing.Size(276, 166);
+            this.groupBoxGeneralSettings.Size = new System.Drawing.Size(207, 135);
             this.groupBoxGeneralSettings.TabIndex = 82;
             this.groupBoxGeneralSettings.TabStop = false;
             this.groupBoxGeneralSettings.Text = "General Settings";
@@ -422,8 +403,7 @@ namespace RelayControlLibrary
             // 
             this.label64.AutoSize = true;
             this.label64.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label64.Location = new System.Drawing.Point(13, 27);
-            this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label64.Location = new System.Drawing.Point(10, 22);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(159, 19);
             this.label64.TabIndex = 9;
@@ -431,12 +411,11 @@ namespace RelayControlLibrary
             // 
             // textBoxTransmitterSN
             // 
-            this.textBoxTransmitterSN.Location = new System.Drawing.Point(139, 28);
-            this.textBoxTransmitterSN.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTransmitterSN.Location = new System.Drawing.Point(104, 23);
             this.textBoxTransmitterSN.MaxLength = 5;
             this.textBoxTransmitterSN.Name = "textBoxTransmitterSN";
             this.textBoxTransmitterSN.ReadOnly = true;
-            this.textBoxTransmitterSN.Size = new System.Drawing.Size(115, 27);
+            this.textBoxTransmitterSN.Size = new System.Drawing.Size(87, 27);
             this.textBoxTransmitterSN.TabIndex = 8;
             this.textBoxTransmitterSN.Tag = "SN";
             this.textBoxTransmitterSN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -446,8 +425,7 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyYellow.AutoSize = true;
             this.checkBoxFrequencyYellow.BackColor = System.Drawing.Color.Yellow;
             this.checkBoxFrequencyYellow.ForeColor = System.Drawing.Color.Blue;
-            this.checkBoxFrequencyYellow.Location = new System.Drawing.Point(181, 107);
-            this.checkBoxFrequencyYellow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFrequencyYellow.Location = new System.Drawing.Point(136, 87);
             this.checkBoxFrequencyYellow.Name = "checkBoxFrequencyYellow";
             this.checkBoxFrequencyYellow.Size = new System.Drawing.Size(136, 23);
             this.checkBoxFrequencyYellow.TabIndex = 4;
@@ -460,8 +438,7 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyGreen.AutoSize = true;
             this.checkBoxFrequencyGreen.BackColor = System.Drawing.Color.Green;
             this.checkBoxFrequencyGreen.ForeColor = System.Drawing.Color.White;
-            this.checkBoxFrequencyGreen.Location = new System.Drawing.Point(200, 117);
-            this.checkBoxFrequencyGreen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFrequencyGreen.Location = new System.Drawing.Point(150, 95);
             this.checkBoxFrequencyGreen.Name = "checkBoxFrequencyGreen";
             this.checkBoxFrequencyGreen.Size = new System.Drawing.Size(131, 23);
             this.checkBoxFrequencyGreen.TabIndex = 3;
@@ -474,8 +451,7 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyRed.AutoSize = true;
             this.checkBoxFrequencyRed.BackColor = System.Drawing.Color.Red;
             this.checkBoxFrequencyRed.ForeColor = System.Drawing.Color.White;
-            this.checkBoxFrequencyRed.Location = new System.Drawing.Point(181, 105);
-            this.checkBoxFrequencyRed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFrequencyRed.Location = new System.Drawing.Point(136, 85);
             this.checkBoxFrequencyRed.Name = "checkBoxFrequencyRed";
             this.checkBoxFrequencyRed.Size = new System.Drawing.Size(116, 23);
             this.checkBoxFrequencyRed.TabIndex = 1;
@@ -488,8 +464,7 @@ namespace RelayControlLibrary
             this.checkBoxFrequenceBlue.AutoSize = true;
             this.checkBoxFrequenceBlue.BackColor = System.Drawing.Color.Blue;
             this.checkBoxFrequenceBlue.ForeColor = System.Drawing.Color.White;
-            this.checkBoxFrequenceBlue.Location = new System.Drawing.Point(172, 110);
-            this.checkBoxFrequenceBlue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFrequenceBlue.Location = new System.Drawing.Point(129, 89);
             this.checkBoxFrequenceBlue.Name = "checkBoxFrequenceBlue";
             this.checkBoxFrequenceBlue.Size = new System.Drawing.Size(119, 23);
             this.checkBoxFrequenceBlue.TabIndex = 2;
@@ -499,11 +474,10 @@ namespace RelayControlLibrary
             // 
             // textBoxCTMult
             // 
-            this.textBoxCTMult.Location = new System.Drawing.Point(139, 139);
-            this.textBoxCTMult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxCTMult.Location = new System.Drawing.Point(104, 113);
             this.textBoxCTMult.Name = "textBoxCTMult";
             this.textBoxCTMult.ReadOnly = true;
-            this.textBoxCTMult.Size = new System.Drawing.Size(115, 27);
+            this.textBoxCTMult.Size = new System.Drawing.Size(87, 27);
             this.textBoxCTMult.TabIndex = 5;
             this.textBoxCTMult.TabStop = false;
             this.textBoxCTMult.Tag = "CT Multiplier";
@@ -511,11 +485,10 @@ namespace RelayControlLibrary
             // 
             // textBoxTransmitterID
             // 
-            this.textBoxTransmitterID.Location = new System.Drawing.Point(139, 66);
-            this.textBoxTransmitterID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTransmitterID.Location = new System.Drawing.Point(104, 54);
             this.textBoxTransmitterID.Name = "textBoxTransmitterID";
             this.textBoxTransmitterID.ReadOnly = true;
-            this.textBoxTransmitterID.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTransmitterID.Size = new System.Drawing.Size(86, 27);
             this.textBoxTransmitterID.TabIndex = 0;
             this.textBoxTransmitterID.TabStop = false;
             this.textBoxTransmitterID.Tag = "ID";
@@ -524,8 +497,7 @@ namespace RelayControlLibrary
             // labelTMonCTMult
             // 
             this.labelTMonCTMult.AutoSize = true;
-            this.labelTMonCTMult.Location = new System.Drawing.Point(64, 143);
-            this.labelTMonCTMult.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTMonCTMult.Location = new System.Drawing.Point(48, 116);
             this.labelTMonCTMult.Name = "labelTMonCTMult";
             this.labelTMonCTMult.Size = new System.Drawing.Size(105, 19);
             this.labelTMonCTMult.TabIndex = 2;
@@ -534,8 +506,7 @@ namespace RelayControlLibrary
             // labelTMonColorFreq
             // 
             this.labelTMonColorFreq.AutoSize = true;
-            this.labelTMonColorFreq.Location = new System.Drawing.Point(12, 110);
-            this.labelTMonColorFreq.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTMonColorFreq.Location = new System.Drawing.Point(9, 89);
             this.labelTMonColorFreq.Name = "labelTMonColorFreq";
             this.labelTMonColorFreq.Size = new System.Drawing.Size(131, 19);
             this.labelTMonColorFreq.TabIndex = 1;
@@ -544,8 +515,7 @@ namespace RelayControlLibrary
             // labelTMonTransmitterID
             // 
             this.labelTMonTransmitterID.AutoSize = true;
-            this.labelTMonTransmitterID.Location = new System.Drawing.Point(43, 65);
-            this.labelTMonTransmitterID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTMonTransmitterID.Location = new System.Drawing.Point(32, 53);
             this.labelTMonTransmitterID.Name = "labelTMonTransmitterID";
             this.labelTMonTransmitterID.Size = new System.Drawing.Size(131, 19);
             this.labelTMonTransmitterID.TabIndex = 0;
@@ -560,11 +530,9 @@ namespace RelayControlLibrary
             this.groupBoxAnalog2.Controls.Add(this.listBoxA2SensorSelect);
             this.groupBoxAnalog2.Controls.Add(this.label81);
             this.groupBoxAnalog2.Controls.Add(this.textBoxA2Analog2);
-            this.groupBoxAnalog2.Location = new System.Drawing.Point(928, 183);
-            this.groupBoxAnalog2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxAnalog2.Location = new System.Drawing.Point(696, 149);
             this.groupBoxAnalog2.Name = "groupBoxAnalog2";
-            this.groupBoxAnalog2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxAnalog2.Size = new System.Drawing.Size(400, 230);
+            this.groupBoxAnalog2.Size = new System.Drawing.Size(300, 187);
             this.groupBoxAnalog2.TabIndex = 81;
             this.groupBoxAnalog2.TabStop = false;
             this.groupBoxAnalog2.Text = "Analog2 Readings";
@@ -574,11 +542,10 @@ namespace RelayControlLibrary
             this.myThermometerA2.EnableCopyButton = false;
             this.myThermometerA2.EnablePrintButton = false;
             this.myThermometerA2.EnableSaveButton = false;
-            this.myThermometerA2.Location = new System.Drawing.Point(173, 44);
+            this.myThermometerA2.Location = new System.Drawing.Point(130, 36);
             this.myThermometerA2.LockWidgetObjects = true;
-            this.myThermometerA2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myThermometerA2.Name = "myThermometerA2";
-            this.myThermometerA2.Size = new System.Drawing.Size(245, 142);
+            this.myThermometerA2.Size = new System.Drawing.Size(184, 115);
             this.myThermometerA2.TabIndex = 65;
             this.myThermometerA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
             meter1.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
@@ -671,22 +638,21 @@ namespace RelayControlLibrary
             meter1.ScaleLabelProperties.TextRenderingMode = System.Drawing.Text.TextRenderingHint.SystemDefault;
             meter1.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
             meter1.ScaleValueMax = 160D;
-            meter1.Size = new System.Drawing.Size(166, 118);
+            meter1.Size = new System.Drawing.Size(182, 91);
             meter1.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             meter1.TickSize = 15;
             this.myThermometerA2.Widget.DeviceList.Add(meter1);
-            this.myThermometerA2.Widget.Size = new System.Drawing.Size(168, 142);
+            this.myThermometerA2.Widget.Size = new System.Drawing.Size(184, 115);
             // 
             // myTempWidgetA2
             // 
             this.myTempWidgetA2.EnableCopyButton = false;
             this.myTempWidgetA2.EnablePrintButton = false;
             this.myTempWidgetA2.EnableSaveButton = false;
-            this.myTempWidgetA2.Location = new System.Drawing.Point(240, 10);
+            this.myTempWidgetA2.Location = new System.Drawing.Point(180, 8);
             this.myTempWidgetA2.LockWidgetObjects = true;
-            this.myTempWidgetA2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myTempWidgetA2.Name = "myTempWidgetA2";
-            this.myTempWidgetA2.Size = new System.Drawing.Size(69, 214);
+            this.myTempWidgetA2.Size = new System.Drawing.Size(52, 174);
             this.myTempWidgetA2.TabIndex = 64;
             this.myTempWidgetA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
             thermometer1.Background.Color = System.Drawing.SystemColors.Control;
@@ -724,7 +690,7 @@ namespace RelayControlLibrary
             thermometer1.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(106)))), ((int)(((byte)(197)))));
             thermometer1.TooltipText = "Temperature";
             this.myTempWidgetA2.Widget.DeviceList.Add(thermometer1);
-            this.myTempWidgetA2.Widget.Size = new System.Drawing.Size(69, 214);
+            this.myTempWidgetA2.Widget.Size = new System.Drawing.Size(52, 174);
             this.myTempWidgetA2.Widget.TooltipText = "Temperature";
             // 
             // myPSIWidgetA2
@@ -732,11 +698,10 @@ namespace RelayControlLibrary
             this.myPSIWidgetA2.EnableCopyButton = false;
             this.myPSIWidgetA2.EnablePrintButton = false;
             this.myPSIWidgetA2.EnableSaveButton = false;
-            this.myPSIWidgetA2.Location = new System.Drawing.Point(175, 38);
+            this.myPSIWidgetA2.Location = new System.Drawing.Point(131, 31);
             this.myPSIWidgetA2.LockWidgetObjects = true;
-            this.myPSIWidgetA2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myPSIWidgetA2.Name = "myPSIWidgetA2";
-            this.myPSIWidgetA2.Size = new System.Drawing.Size(168, 154);
+            this.myPSIWidgetA2.Size = new System.Drawing.Size(126, 125);
             this.myPSIWidgetA2.TabIndex = 63;
             this.myPSIWidgetA2.Widget.Background.Color = System.Drawing.SystemColors.Control;
             meter2.Background.Color = System.Drawing.SystemColors.Control;
@@ -808,14 +773,13 @@ namespace RelayControlLibrary
             meter2.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(110)))), ((int)(((byte)(165)))));
             meter2.TooltipText = "Tank Pressure";
             this.myPSIWidgetA2.Widget.DeviceList.Add(meter2);
-            this.myPSIWidgetA2.Widget.Size = new System.Drawing.Size(168, 154);
+            this.myPSIWidgetA2.Widget.Size = new System.Drawing.Size(126, 125);
             // 
             // label103
             // 
             this.label103.AutoSize = true;
             this.label103.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label103.Location = new System.Drawing.Point(7, 25);
-            this.label103.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label103.Location = new System.Drawing.Point(5, 20);
             this.label103.Name = "label103";
             this.label103.Size = new System.Drawing.Size(131, 19);
             this.label103.TabIndex = 62;
@@ -831,10 +795,9 @@ namespace RelayControlLibrary
             "Tank Pressure",
             "DGI Temperature",
             "Raw Number"});
-            this.listBoxA2SensorSelect.Location = new System.Drawing.Point(12, 52);
-            this.listBoxA2SensorSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBoxA2SensorSelect.Location = new System.Drawing.Point(9, 42);
             this.listBoxA2SensorSelect.Name = "listBoxA2SensorSelect";
-            this.listBoxA2SensorSelect.Size = new System.Drawing.Size(150, 85); //(145, 72);
+            this.listBoxA2SensorSelect.Size = new System.Drawing.Size(114, 55);
             this.listBoxA2SensorSelect.TabIndex = 61;
             this.listBoxA2SensorSelect.TabStop = false;
             this.listBoxA2SensorSelect.SelectedIndexChanged += new System.EventHandler(this.listBoxA2SensorSelect_SelectedIndexChanged);
@@ -843,8 +806,7 @@ namespace RelayControlLibrary
             // 
             this.label81.AutoSize = true;
             this.label81.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label81.Location = new System.Drawing.Point(8, 199);
-            this.label81.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label81.Location = new System.Drawing.Point(6, 162);
             this.label81.Name = "label81";
             this.label81.Size = new System.Drawing.Size(99, 19);
             this.label81.TabIndex = 60;
@@ -854,10 +816,9 @@ namespace RelayControlLibrary
             // 
             this.textBoxA2Analog2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxA2Analog2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxA2Analog2.Location = new System.Drawing.Point(160, 193);
-            this.textBoxA2Analog2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxA2Analog2.Location = new System.Drawing.Point(120, 157);
             this.textBoxA2Analog2.Name = "textBoxA2Analog2";
-            this.textBoxA2Analog2.Size = new System.Drawing.Size(71, 27);
+            this.textBoxA2Analog2.Size = new System.Drawing.Size(54, 27);
             this.textBoxA2Analog2.TabIndex = 59;
             this.textBoxA2Analog2.TabStop = false;
             this.textBoxA2Analog2.Tag = "";
@@ -869,7 +830,7 @@ namespace RelayControlLibrary
             annotation1.Background.Transparency = 100;
             annotation1.CoupleToEdge = GraphicsServer.GSNet.Charting.CoupleToEdge.Left;
             annotation1.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation1.Location = new System.Drawing.Point(-1, -56);
+            annotation1.Location = new System.Drawing.Point(-1, -79);
             annotation1.Name = "GridLeftTitle";
             annotation1.Size = new System.Drawing.Size(20, 320);
             annotation1.Text = "Load (%)";
@@ -882,7 +843,7 @@ namespace RelayControlLibrary
             annotation1.TextFormat.VerticalAlignment = System.Drawing.StringAlignment.Center;
             annotation2.Background.Transparency = 100;
             annotation2.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation2.Location = new System.Drawing.Point(60, 205);
+            annotation2.Location = new System.Drawing.Point(-21, 159);
             annotation2.Name = "GridBottomTitle";
             annotation2.Size = new System.Drawing.Size(546, 20);
             annotation2.Text = "Sample Number";
@@ -901,7 +862,7 @@ namespace RelayControlLibrary
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartLoads.Chart.ChartTitle.Background.Transparency = 100;
             this.myChartLoads.Chart.ChartTitle.Location = new System.Drawing.Point(30, 20);
-            this.myChartLoads.Chart.ChartTitle.Size = new System.Drawing.Size(588, 40);
+            this.myChartLoads.Chart.ChartTitle.Size = new System.Drawing.Size(426, 40);
             this.myChartLoads.Chart.ChartTitle.Text = "";
             this.myChartLoads.Chart.ChartTitle.TextFormat.FontEmSize = 23.625F;
             this.myChartLoads.Chart.ChartTitle.TextFormat.FontGdiCharSet = ((byte)(1));
@@ -1061,7 +1022,7 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.Grid.MarginAxisLeft = 36;
             this.myChartLoads.Chart.Grid.MarginAxisRight = 15;
             this.myChartLoads.Chart.Grid.MarginAxisTop = 5;
-            this.myChartLoads.Chart.Grid.Size = new System.Drawing.Size(628, 203);
+            this.myChartLoads.Chart.Grid.Size = new System.Drawing.Size(466, 157);
             this.myChartLoads.Chart.Grid.SurfaceChart.SideWallsFill.Color = System.Drawing.Color.PaleGoldenrod;
             this.myChartLoads.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
@@ -1075,8 +1036,8 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.Legend.BoxMode = GraphicsServer.GSNet.Charting.LegendBoxMode.BoxesOn;
             this.myChartLoads.Chart.Legend.BoxSize = new System.Drawing.Size(16, 12);
             this.myChartLoads.Chart.Legend.DisplayHorizontal = true;
-            this.myChartLoads.Chart.Legend.Location = new System.Drawing.Point(103, 227);
-            this.myChartLoads.Chart.Legend.Size = new System.Drawing.Size(485, 20);
+            this.myChartLoads.Chart.Legend.Location = new System.Drawing.Point(103, 181);
+            this.myChartLoads.Chart.Legend.Size = new System.Drawing.Size(323, 20);
             this.myChartLoads.Chart.Legend.TextFormat.FontEmSize = 10F;
             this.myChartLoads.Chart.Legend.TextFormat.FontGdiCharSet = ((byte)(1));
             this.myChartLoads.Chart.Legend.TextFormat.HorizontalAlignment = System.Drawing.StringAlignment.Center;
@@ -1164,15 +1125,14 @@ namespace RelayControlLibrary
             this.myChartLoads.Chart.SeriesDrawingList.Add(seriesDrawing1);
             this.myChartLoads.Chart.SeriesDrawingList.Add(seriesDrawing2);
             this.myChartLoads.Chart.SeriesDrawingList.Add(seriesDrawing3);
-            this.myChartLoads.Chart.Size = new System.Drawing.Size(648, 246);
+            this.myChartLoads.Chart.Size = new System.Drawing.Size(486, 200);
             this.myChartLoads.EnableCopyButton = false;
             this.myChartLoads.EnablePrintButton = false;
             this.myChartLoads.EnableSaveButton = false;
-            this.myChartLoads.Location = new System.Drawing.Point(653, 447);
+            this.myChartLoads.Location = new System.Drawing.Point(490, 363);
             this.myChartLoads.LockChartObjects = true;
-            this.myChartLoads.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myChartLoads.Name = "myChartLoads";
-            this.myChartLoads.Size = new System.Drawing.Size(648, 246);
+            this.myChartLoads.Size = new System.Drawing.Size(486, 200);
             this.myChartLoads.TabIndex = 80;
             this.myChartLoads.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.X, this.myChartLoads.Chart.OleDBConnect.OleDBDataProvider, "@userData");
             this.myChartLoads.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.Y, this.myChartLoads.Chart.OleDBConnect.OleDBDataProvider, "@userData");
@@ -1209,7 +1169,7 @@ namespace RelayControlLibrary
             annotation3.Background.Transparency = 100;
             annotation3.CoupleToEdge = GraphicsServer.GSNet.Charting.CoupleToEdge.Left;
             annotation3.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation3.Location = new System.Drawing.Point(-1, -56);
+            annotation3.Location = new System.Drawing.Point(-1, -79);
             annotation3.Name = "GridLeftTitle";
             annotation3.Size = new System.Drawing.Size(20, 320);
             annotation3.Text = "Voltages (Volts)";
@@ -1222,7 +1182,7 @@ namespace RelayControlLibrary
             annotation3.TextFormat.VerticalAlignment = System.Drawing.StringAlignment.Center;
             annotation4.Background.Transparency = 100;
             annotation4.CoupleToObject = GraphicsServer.GSNet.Charting.CoupleToObject.Grid;
-            annotation4.Location = new System.Drawing.Point(60, 205);
+            annotation4.Location = new System.Drawing.Point(-21, 159);
             annotation4.Name = "GridBottomTitle";
             annotation4.Size = new System.Drawing.Size(546, 20);
             annotation4.Text = "Sample Number";
@@ -1241,7 +1201,7 @@ namespace RelayControlLibrary
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
             this.myChartVoltages.Chart.ChartTitle.Background.Transparency = 100;
             this.myChartVoltages.Chart.ChartTitle.Location = new System.Drawing.Point(30, 20);
-            this.myChartVoltages.Chart.ChartTitle.Size = new System.Drawing.Size(588, 40);
+            this.myChartVoltages.Chart.ChartTitle.Size = new System.Drawing.Size(426, 40);
             this.myChartVoltages.Chart.ChartTitle.Text = "";
             this.myChartVoltages.Chart.ChartTitle.TextFormat.FontEmSize = 23.625F;
             this.myChartVoltages.Chart.ChartTitle.TextFormat.FontGdiCharSet = ((byte)(1));
@@ -1404,7 +1364,7 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.Grid.MarginAxisLeft = 36;
             this.myChartVoltages.Chart.Grid.MarginAxisRight = 15;
             this.myChartVoltages.Chart.Grid.MarginAxisTop = 5;
-            this.myChartVoltages.Chart.Grid.Size = new System.Drawing.Size(628, 203);
+            this.myChartVoltages.Chart.Grid.Size = new System.Drawing.Size(466, 157);
             this.myChartVoltages.Chart.Grid.SurfaceChart.SideWallsFill.Color = System.Drawing.Color.PaleGoldenrod;
             this.myChartVoltages.Chart.Legend.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)(((GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom | GraphicsServer.GSNet.Charting.GSAnchorStyles.Left) 
             | GraphicsServer.GSNet.Charting.GSAnchorStyles.Right)));
@@ -1418,8 +1378,8 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.Legend.BoxMode = GraphicsServer.GSNet.Charting.LegendBoxMode.BoxesOn;
             this.myChartVoltages.Chart.Legend.BoxSize = new System.Drawing.Size(16, 12);
             this.myChartVoltages.Chart.Legend.DisplayHorizontal = true;
-            this.myChartVoltages.Chart.Legend.Location = new System.Drawing.Point(30, 227);
-            this.myChartVoltages.Chart.Legend.Size = new System.Drawing.Size(588, 20);
+            this.myChartVoltages.Chart.Legend.Location = new System.Drawing.Point(30, 181);
+            this.myChartVoltages.Chart.Legend.Size = new System.Drawing.Size(426, 20);
             this.myChartVoltages.Chart.Legend.TextFormat.FontEmSize = 10F;
             this.myChartVoltages.Chart.Legend.TextFormat.FontGdiCharSet = ((byte)(1));
             this.myChartVoltages.Chart.Legend.TextFormat.HorizontalAlignment = System.Drawing.StringAlignment.Center;
@@ -1507,15 +1467,14 @@ namespace RelayControlLibrary
             this.myChartVoltages.Chart.SeriesDrawingList.Add(seriesDrawing4);
             this.myChartVoltages.Chart.SeriesDrawingList.Add(seriesDrawing5);
             this.myChartVoltages.Chart.SeriesDrawingList.Add(seriesDrawing6);
-            this.myChartVoltages.Chart.Size = new System.Drawing.Size(648, 246);
+            this.myChartVoltages.Chart.Size = new System.Drawing.Size(486, 200);
             this.myChartVoltages.EnableCopyButton = false;
             this.myChartVoltages.EnablePrintButton = false;
             this.myChartVoltages.EnableSaveButton = false;
-            this.myChartVoltages.Location = new System.Drawing.Point(7, 447);
+            this.myChartVoltages.Location = new System.Drawing.Point(5, 363);
             this.myChartVoltages.LockChartObjects = true;
-            this.myChartVoltages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myChartVoltages.Name = "myChartVoltages";
-            this.myChartVoltages.Size = new System.Drawing.Size(648, 246);
+            this.myChartVoltages.Size = new System.Drawing.Size(486, 200);
             this.myChartVoltages.TabIndex = 79;
             this.myChartVoltages.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.X, this.myChartVoltages.Chart.OleDBConnect.OleDBDataProvider, "@userData");
             this.myChartVoltages.Chart.SeriesDrawingList.GetSeriesDrawing(0).GetSeries().BindComponent(GraphicsServer.GSNet.SeriesData.SeriesComponent.Y, this.myChartVoltages.Chart.OleDBConnect.OleDBDataProvider, "@userData");
@@ -1555,11 +1514,9 @@ namespace RelayControlLibrary
             this.groupBoxTimeElapsed.Controls.Add(this.textBoxTimeElapsedHours);
             this.groupBoxTimeElapsed.Controls.Add(this.textBoxTimeElapsedMinutes);
             this.groupBoxTimeElapsed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxTimeElapsed.Location = new System.Drawing.Point(884, 100);
-            this.groupBoxTimeElapsed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxTimeElapsed.Location = new System.Drawing.Point(900, 88); //(600, 84);
             this.groupBoxTimeElapsed.Name = "groupBoxTimeElapsed";
-            this.groupBoxTimeElapsed.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxTimeElapsed.Size = new System.Drawing.Size(353, 86);
+            this.groupBoxTimeElapsed.Size = new System.Drawing.Size(265, 70);
             this.groupBoxTimeElapsed.TabIndex = 78;
             this.groupBoxTimeElapsed.TabStop = false;
             this.groupBoxTimeElapsed.Text = "Time Elapsed (HH:MM:SS)";
@@ -1567,10 +1524,9 @@ namespace RelayControlLibrary
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(9, 21);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(7, 25);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(44, 41);
+            this.pictureBox1.Size = new System.Drawing.Size(33, 33);
             this.pictureBox1.TabIndex = 49;
             this.pictureBox1.TabStop = false;
             // 
@@ -1578,8 +1534,7 @@ namespace RelayControlLibrary
             // 
             this.label101.AutoSize = true;
             this.label101.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label101.Location = new System.Drawing.Point(213, 33);
-            this.label101.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label101.Location = new System.Drawing.Point(165, 34);
             this.label101.Name = "label101";
             this.label101.Size = new System.Drawing.Size(11, 13);
             this.label101.TabIndex = 48;
@@ -1588,10 +1543,9 @@ namespace RelayControlLibrary
             // textBoxTimeElapsedSeconds
             // 
             this.textBoxTimeElapsedSeconds.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxTimeElapsedSeconds.Location = new System.Drawing.Point(229, 22);
-            this.textBoxTimeElapsedSeconds.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTimeElapsedSeconds.Location = new System.Drawing.Point(176, 27);
             this.textBoxTimeElapsedSeconds.Name = "textBoxTimeElapsedSeconds";
-            this.textBoxTimeElapsedSeconds.Size = new System.Drawing.Size(73, 27);
+            this.textBoxTimeElapsedSeconds.Size = new System.Drawing.Size(56, 27);
             this.textBoxTimeElapsedSeconds.TabIndex = 47;
             this.textBoxTimeElapsedSeconds.TabStop = false;
             this.textBoxTimeElapsedSeconds.Tag = "";
@@ -1602,8 +1556,7 @@ namespace RelayControlLibrary
             // 
             this.label89.AutoSize = true;
             this.label89.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label89.Location = new System.Drawing.Point(136, 30);
-            this.label89.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label89.Location = new System.Drawing.Point(96, 32);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(11, 13);
             this.label89.TabIndex = 42;
@@ -1612,10 +1565,9 @@ namespace RelayControlLibrary
             // textBoxTimeElapsedHours
             // 
             this.textBoxTimeElapsedHours.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxTimeElapsedHours.Location = new System.Drawing.Point(61, 22);
-            this.textBoxTimeElapsedHours.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTimeElapsedHours.Location = new System.Drawing.Point(43, 27);
             this.textBoxTimeElapsedHours.Name = "textBoxTimeElapsedHours";
-            this.textBoxTimeElapsedHours.Size = new System.Drawing.Size(65, 27);
+            this.textBoxTimeElapsedHours.Size = new System.Drawing.Size(50, 27);
             this.textBoxTimeElapsedHours.TabIndex = 41;
             this.textBoxTimeElapsedHours.TabStop = false;
             this.textBoxTimeElapsedHours.Tag = "";
@@ -1625,10 +1577,9 @@ namespace RelayControlLibrary
             // textBoxTimeElapsedMinutes
             // 
             this.textBoxTimeElapsedMinutes.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxTimeElapsedMinutes.Location = new System.Drawing.Point(147, 22);
-            this.textBoxTimeElapsedMinutes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTimeElapsedMinutes.Location = new System.Drawing.Point(108, 27);
             this.textBoxTimeElapsedMinutes.Name = "textBoxTimeElapsedMinutes";
-            this.textBoxTimeElapsedMinutes.Size = new System.Drawing.Size(73, 27);
+            this.textBoxTimeElapsedMinutes.Size = new System.Drawing.Size(56, 27);
             this.textBoxTimeElapsedMinutes.TabIndex = 39;
             this.textBoxTimeElapsedMinutes.TabStop = false;
             this.textBoxTimeElapsedMinutes.Tag = "";
@@ -1649,11 +1600,9 @@ namespace RelayControlLibrary
             this.groupBox17.Controls.Add(this.textBoxPhaseAngleA);
             this.groupBox17.Controls.Add(this.textBoxPhaseAngleC);
             this.groupBox17.Controls.Add(this.textBoxPhaseAngleB);
-            this.groupBox17.Location = new System.Drawing.Point(279, 183);
-            this.groupBox17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox17.Location = new System.Drawing.Point(209, 149);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox17.Size = new System.Drawing.Size(140, 230);
+            this.groupBox17.Size = new System.Drawing.Size(105, 187);
             this.groupBox17.TabIndex = 76;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Angle Readings:";
@@ -1663,11 +1612,10 @@ namespace RelayControlLibrary
             this.txtBackfeedC.BackColor = System.Drawing.SystemColors.Control;
             this.txtBackfeedC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBackfeedC.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtBackfeedC.Location = new System.Drawing.Point(64, 182);
-            this.txtBackfeedC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBackfeedC.Location = new System.Drawing.Point(48, 148);
             this.txtBackfeedC.Name = "txtBackfeedC";
             this.txtBackfeedC.ReadOnly = true;
-            this.txtBackfeedC.Size = new System.Drawing.Size(47, 20);
+            this.txtBackfeedC.Size = new System.Drawing.Size(36, 20);
             this.txtBackfeedC.TabIndex = 48;
             this.txtBackfeedC.TabStop = false;
             this.txtBackfeedC.Tag = "";
@@ -1677,10 +1625,9 @@ namespace RelayControlLibrary
             // lblBackfeedC
             // 
             this.lblBackfeedC.AutoSize = true;
-            this.lblBackfeedC.Location = new System.Drawing.Point(8, 185);
-            this.lblBackfeedC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBackfeedC.Location = new System.Drawing.Point(6, 150);
             this.lblBackfeedC.Name = "lblBackfeedC";
-            this.lblBackfeedC.Size = new System.Drawing.Size(46, 16);
+            this.lblBackfeedC.Size = new System.Drawing.Size(37, 13);
             this.lblBackfeedC.TabIndex = 47;
             this.lblBackfeedC.Text = "BFlag:";
             this.lblBackfeedC.Visible = false;
@@ -1690,11 +1637,10 @@ namespace RelayControlLibrary
             this.txtBackfeedB.BackColor = System.Drawing.SystemColors.Control;
             this.txtBackfeedB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBackfeedB.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtBackfeedB.Location = new System.Drawing.Point(64, 118);
-            this.txtBackfeedB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBackfeedB.Location = new System.Drawing.Point(48, 96);
             this.txtBackfeedB.Name = "txtBackfeedB";
             this.txtBackfeedB.ReadOnly = true;
-            this.txtBackfeedB.Size = new System.Drawing.Size(47, 20);
+            this.txtBackfeedB.Size = new System.Drawing.Size(36, 20);
             this.txtBackfeedB.TabIndex = 46;
             this.txtBackfeedB.TabStop = false;
             this.txtBackfeedB.Tag = "";
@@ -1704,10 +1650,9 @@ namespace RelayControlLibrary
             // lblBackfeedB
             // 
             this.lblBackfeedB.AutoSize = true;
-            this.lblBackfeedB.Location = new System.Drawing.Point(8, 122);
-            this.lblBackfeedB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBackfeedB.Location = new System.Drawing.Point(6, 99);
             this.lblBackfeedB.Name = "lblBackfeedB";
-            this.lblBackfeedB.Size = new System.Drawing.Size(46, 16);
+            this.lblBackfeedB.Size = new System.Drawing.Size(37, 13);
             this.lblBackfeedB.TabIndex = 45;
             this.lblBackfeedB.Text = "BFlag:";
             this.lblBackfeedB.Visible = false;
@@ -1715,10 +1660,9 @@ namespace RelayControlLibrary
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(7, 161);
-            this.label83.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label83.Location = new System.Drawing.Point(5, 131);
             this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(19, 16);
+            this.label83.Size = new System.Drawing.Size(17, 13);
             this.label83.TabIndex = 44;
             this.label83.Text = "C:";
             // 
@@ -1727,11 +1671,10 @@ namespace RelayControlLibrary
             this.txtBackfeedA.BackColor = System.Drawing.SystemColors.Control;
             this.txtBackfeedA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBackfeedA.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtBackfeedA.Location = new System.Drawing.Point(64, 57);
-            this.txtBackfeedA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBackfeedA.Location = new System.Drawing.Point(48, 46);
             this.txtBackfeedA.Name = "txtBackfeedA";
             this.txtBackfeedA.ReadOnly = true;
-            this.txtBackfeedA.Size = new System.Drawing.Size(47, 20);
+            this.txtBackfeedA.Size = new System.Drawing.Size(36, 20);
             this.txtBackfeedA.TabIndex = 0;
             this.txtBackfeedA.TabStop = false;
             this.txtBackfeedA.Tag = "";
@@ -1741,30 +1684,27 @@ namespace RelayControlLibrary
             // label84
             // 
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(7, 96);
-            this.label84.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label84.Location = new System.Drawing.Point(5, 78);
             this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(19, 16);
+            this.label84.Size = new System.Drawing.Size(17, 13);
             this.label84.TabIndex = 43;
             this.label84.Text = "B:";
             // 
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(7, 37);
-            this.label85.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label85.Location = new System.Drawing.Point(5, 30);
             this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(19, 16);
+            this.label85.Size = new System.Drawing.Size(17, 13);
             this.label85.TabIndex = 42;
             this.label85.Text = "A:";
             // 
             // lblBackfeedA
             // 
             this.lblBackfeedA.AutoSize = true;
-            this.lblBackfeedA.Location = new System.Drawing.Point(7, 59);
-            this.lblBackfeedA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBackfeedA.Location = new System.Drawing.Point(5, 48);
             this.lblBackfeedA.Name = "lblBackfeedA";
-            this.lblBackfeedA.Size = new System.Drawing.Size(46, 16);
+            this.lblBackfeedA.Size = new System.Drawing.Size(37, 13);
             this.lblBackfeedA.TabIndex = 0;
             this.lblBackfeedA.Text = "BFlag:";
             this.lblBackfeedA.Visible = false;
@@ -1772,10 +1712,9 @@ namespace RelayControlLibrary
             // textBoxPhaseAngleA
             // 
             this.textBoxPhaseAngleA.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxPhaseAngleA.Location = new System.Drawing.Point(37, 31);
-            this.textBoxPhaseAngleA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPhaseAngleA.Location = new System.Drawing.Point(28, 25);
             this.textBoxPhaseAngleA.Name = "textBoxPhaseAngleA";
-            this.textBoxPhaseAngleA.Size = new System.Drawing.Size(73, 22);
+            this.textBoxPhaseAngleA.Size = new System.Drawing.Size(56, 20);
             this.textBoxPhaseAngleA.TabIndex = 41;
             this.textBoxPhaseAngleA.TabStop = false;
             this.textBoxPhaseAngleA.Tag = "";
@@ -1784,10 +1723,9 @@ namespace RelayControlLibrary
             // textBoxPhaseAngleC
             // 
             this.textBoxPhaseAngleC.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxPhaseAngleC.Location = new System.Drawing.Point(37, 155);
-            this.textBoxPhaseAngleC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPhaseAngleC.Location = new System.Drawing.Point(28, 126);
             this.textBoxPhaseAngleC.Name = "textBoxPhaseAngleC";
-            this.textBoxPhaseAngleC.Size = new System.Drawing.Size(73, 22);
+            this.textBoxPhaseAngleC.Size = new System.Drawing.Size(56, 20);
             this.textBoxPhaseAngleC.TabIndex = 40;
             this.textBoxPhaseAngleC.TabStop = false;
             this.textBoxPhaseAngleC.Tag = "";
@@ -1796,10 +1734,9 @@ namespace RelayControlLibrary
             // textBoxPhaseAngleB
             // 
             this.textBoxPhaseAngleB.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxPhaseAngleB.Location = new System.Drawing.Point(37, 91);
-            this.textBoxPhaseAngleB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPhaseAngleB.Location = new System.Drawing.Point(28, 74);
             this.textBoxPhaseAngleB.Name = "textBoxPhaseAngleB";
-            this.textBoxPhaseAngleB.Size = new System.Drawing.Size(73, 22);
+            this.textBoxPhaseAngleB.Size = new System.Drawing.Size(56, 20);
             this.textBoxPhaseAngleB.TabIndex = 39;
             this.textBoxPhaseAngleB.TabStop = false;
             this.textBoxPhaseAngleB.Tag = "";
@@ -1810,11 +1747,9 @@ namespace RelayControlLibrary
             this.groupBoxVaultMonitoringCommands.Controls.Add(this.buttonPauseMonitoring);
             this.groupBoxVaultMonitoringCommands.Controls.Add(this.buttonStartMonitoring);
             this.groupBoxVaultMonitoringCommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(884, 4);
-            this.groupBoxVaultMonitoringCommands.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(900, 10);
             this.groupBoxVaultMonitoringCommands.Name = "groupBoxVaultMonitoringCommands";
-            this.groupBoxVaultMonitoringCommands.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxVaultMonitoringCommands.Size = new System.Drawing.Size(353, 95);
+            this.groupBoxVaultMonitoringCommands.Size = new System.Drawing.Size(265, 77);
             this.groupBoxVaultMonitoringCommands.TabIndex = 71;
             this.groupBoxVaultMonitoringCommands.TabStop = false;
             this.groupBoxVaultMonitoringCommands.Text = "Vault Monitor Commands";
@@ -1822,10 +1757,9 @@ namespace RelayControlLibrary
             // buttonPauseMonitoring
             // 
             this.buttonPauseMonitoring.Enabled = false;
-            this.buttonPauseMonitoring.Location = new System.Drawing.Point(164, 41);
-            this.buttonPauseMonitoring.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonPauseMonitoring.Location = new System.Drawing.Point(123, 33);
             this.buttonPauseMonitoring.Name = "buttonPauseMonitoring";
-            this.buttonPauseMonitoring.Size = new System.Drawing.Size(141, 37);
+            this.buttonPauseMonitoring.Size = new System.Drawing.Size(106, 30);
             this.buttonPauseMonitoring.TabIndex = 1;
             this.buttonPauseMonitoring.Text = "Pause Monitoring";
             this.buttonPauseMonitoring.UseVisualStyleBackColor = true;
@@ -1833,10 +1767,9 @@ namespace RelayControlLibrary
             // 
             // buttonStartMonitoring
             // 
-            this.buttonStartMonitoring.Location = new System.Drawing.Point(15, 41);
-            this.buttonStartMonitoring.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonStartMonitoring.Location = new System.Drawing.Point(11, 33);
             this.buttonStartMonitoring.Name = "buttonStartMonitoring";
-            this.buttonStartMonitoring.Size = new System.Drawing.Size(141, 37);
+            this.buttonStartMonitoring.Size = new System.Drawing.Size(106, 30);
             this.buttonStartMonitoring.TabIndex = 0;
             this.buttonStartMonitoring.Text = "Start Monitoring";
             this.buttonStartMonitoring.UseVisualStyleBackColor = true;
@@ -1845,11 +1778,10 @@ namespace RelayControlLibrary
             // newButtonSensMonTX
             // 
             this.newButtonSensMonTX.Enabled = false;
-            this.newButtonSensMonTX.Location = new System.Drawing.Point(63, 449);
-            this.newButtonSensMonTX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.newButtonSensMonTX.Location = new System.Drawing.Point(47, 365);
             this.newButtonSensMonTX.Name = "newButtonSensMonTX";
             this.newButtonSensMonTX.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.newButtonSensMonTX.Size = new System.Drawing.Size(133, 54);
+            this.newButtonSensMonTX.Size = new System.Drawing.Size(100, 44);
             this.newButtonSensMonTX.TabIndex = 0;
             this.newButtonSensMonTX.Text = "Send Settings";
             this.newButtonSensMonTX.UseVisualStyleBackColor = true;
@@ -1864,11 +1796,9 @@ namespace RelayControlLibrary
             this.groupBoxAnalog1.Controls.Add(this.listBoxA1SensorSelect);
             this.groupBoxAnalog1.Controls.Add(this.label82);
             this.groupBoxAnalog1.Controls.Add(this.textBoxA1Analog1);
-            this.groupBoxAnalog1.Location = new System.Drawing.Point(533, 183);
-            this.groupBoxAnalog1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxAnalog1.Location = new System.Drawing.Point(400, 149);
             this.groupBoxAnalog1.Name = "groupBoxAnalog1";
-            this.groupBoxAnalog1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxAnalog1.Size = new System.Drawing.Size(400, 230);
+            this.groupBoxAnalog1.Size = new System.Drawing.Size(300, 187);
             this.groupBoxAnalog1.TabIndex = 77;
             this.groupBoxAnalog1.TabStop = false;
             this.groupBoxAnalog1.Text = "Analog1 Readings";
@@ -1878,11 +1808,10 @@ namespace RelayControlLibrary
             this.myThermometerA1.EnableCopyButton = false;
             this.myThermometerA1.EnablePrintButton = false;
             this.myThermometerA1.EnableSaveButton = false;
-            this.myThermometerA1.Location = new System.Drawing.Point(173, 41);
+            this.myThermometerA1.Location = new System.Drawing.Point(130, 33);
             this.myThermometerA1.LockWidgetObjects = true;
-            this.myThermometerA1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myThermometerA1.Name = "myThermometerA1";
-            this.myThermometerA1.Size = new System.Drawing.Size(245, 142);
+            this.myThermometerA1.Size = new System.Drawing.Size(184, 115);
             this.myThermometerA1.TabIndex = 63;
             this.myThermometerA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
             meter3.Anchor = ((GraphicsServer.GSNet.Charting.GSAnchorStyles)((((GraphicsServer.GSNet.Charting.GSAnchorStyles.Top | GraphicsServer.GSNet.Charting.GSAnchorStyles.Bottom) 
@@ -1975,22 +1904,21 @@ namespace RelayControlLibrary
             meter3.ScaleLabelProperties.TextRenderingMode = System.Drawing.Text.TextRenderingHint.SystemDefault;
             meter3.ScaleLabelProperties.TextTrimmingMode = System.Drawing.StringTrimming.None;
             meter3.ScaleValueMax = 160D;
-            meter3.Size = new System.Drawing.Size(166, 118);
+            meter3.Size = new System.Drawing.Size(182, 91);
             meter3.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             meter3.TickSize = 15;
             this.myThermometerA1.Widget.DeviceList.Add(meter3);
-            this.myThermometerA1.Widget.Size = new System.Drawing.Size(168, 142);
+            this.myThermometerA1.Widget.Size = new System.Drawing.Size(184, 115);
             // 
             // myPSIWidgetA1
             // 
             this.myPSIWidgetA1.EnableCopyButton = false;
             this.myPSIWidgetA1.EnablePrintButton = false;
             this.myPSIWidgetA1.EnableSaveButton = false;
-            this.myPSIWidgetA1.Location = new System.Drawing.Point(173, 38);
+            this.myPSIWidgetA1.Location = new System.Drawing.Point(130, 31);
             this.myPSIWidgetA1.LockWidgetObjects = true;
-            this.myPSIWidgetA1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myPSIWidgetA1.Name = "myPSIWidgetA1";
-            this.myPSIWidgetA1.Size = new System.Drawing.Size(168, 154);
+            this.myPSIWidgetA1.Size = new System.Drawing.Size(126, 125);
             this.myPSIWidgetA1.TabIndex = 61;
             this.myPSIWidgetA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
             meter4.Background.Color = System.Drawing.SystemColors.Control;
@@ -2062,18 +1990,17 @@ namespace RelayControlLibrary
             meter4.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(110)))), ((int)(((byte)(165)))));
             meter4.TooltipText = "Tank Pressure";
             this.myPSIWidgetA1.Widget.DeviceList.Add(meter4);
-            this.myPSIWidgetA1.Widget.Size = new System.Drawing.Size(168, 154);
+            this.myPSIWidgetA1.Widget.Size = new System.Drawing.Size(126, 125);
             // 
             // myTempWidgetA1
             // 
             this.myTempWidgetA1.EnableCopyButton = false;
             this.myTempWidgetA1.EnablePrintButton = false;
             this.myTempWidgetA1.EnableSaveButton = false;
-            this.myTempWidgetA1.Location = new System.Drawing.Point(240, 10);
+            this.myTempWidgetA1.Location = new System.Drawing.Point(180, 8);
             this.myTempWidgetA1.LockWidgetObjects = true;
-            this.myTempWidgetA1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.myTempWidgetA1.Name = "myTempWidgetA1";
-            this.myTempWidgetA1.Size = new System.Drawing.Size(69, 214);
+            this.myTempWidgetA1.Size = new System.Drawing.Size(52, 174);
             this.myTempWidgetA1.TabIndex = 60;
             this.myTempWidgetA1.Widget.Background.Color = System.Drawing.SystemColors.Control;
             thermometer2.Background.Color = System.Drawing.SystemColors.Control;
@@ -2111,15 +2038,14 @@ namespace RelayControlLibrary
             thermometer2.TickLineProperties.Color = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(106)))), ((int)(((byte)(197)))));
             thermometer2.TooltipText = "Temperature";
             this.myTempWidgetA1.Widget.DeviceList.Add(thermometer2);
-            this.myTempWidgetA1.Widget.Size = new System.Drawing.Size(69, 214);
+            this.myTempWidgetA1.Widget.Size = new System.Drawing.Size(52, 174);
             this.myTempWidgetA1.Widget.TooltipText = "Temperature";
             // 
             // label104
             // 
             this.label104.AutoSize = true;
             this.label104.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label104.Location = new System.Drawing.Point(7, 25);
-            this.label104.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label104.Location = new System.Drawing.Point(5, 20);
             this.label104.Name = "label104";
             this.label104.Size = new System.Drawing.Size(131, 19);
             this.label104.TabIndex = 59;
@@ -2135,10 +2061,9 @@ namespace RelayControlLibrary
             "Tank Pressure",
             "DGI Temperature",
             "Raw Number"});
-            this.listBoxA1SensorSelect.Location = new System.Drawing.Point(12, 52);
-            this.listBoxA1SensorSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBoxA1SensorSelect.Location = new System.Drawing.Point(9, 42);
             this.listBoxA1SensorSelect.Name = "listBoxA1SensorSelect";
-            this.listBoxA1SensorSelect.Size = new System.Drawing.Size(150, 85); //(145, 72);
+            this.listBoxA1SensorSelect.Size = new System.Drawing.Size(114, 55);
             this.listBoxA1SensorSelect.TabIndex = 56;
             this.listBoxA1SensorSelect.TabStop = false;
             this.listBoxA1SensorSelect.SelectedIndexChanged += new System.EventHandler(this.listBoxA1SensorSelect_SelectedIndexChanged);
@@ -2147,8 +2072,7 @@ namespace RelayControlLibrary
             // 
             this.label82.AutoSize = true;
             this.label82.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label82.Location = new System.Drawing.Point(8, 199);
-            this.label82.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label82.Location = new System.Drawing.Point(6, 162);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(99, 19);
             this.label82.TabIndex = 42;
@@ -2158,10 +2082,9 @@ namespace RelayControlLibrary
             // 
             this.textBoxA1Analog1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxA1Analog1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxA1Analog1.Location = new System.Drawing.Point(160, 190);
-            this.textBoxA1Analog1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxA1Analog1.Location = new System.Drawing.Point(120, 154);
             this.textBoxA1Analog1.Name = "textBoxA1Analog1";
-            this.textBoxA1Analog1.Size = new System.Drawing.Size(71, 27);
+            this.textBoxA1Analog1.Size = new System.Drawing.Size(54, 27);
             this.textBoxA1Analog1.TabIndex = 41;
             this.textBoxA1Analog1.TabStop = false;
             this.textBoxA1Analog1.Tag = "";
@@ -2184,23 +2107,20 @@ namespace RelayControlLibrary
             this.groupBoxCurrentReadings.Controls.Add(this.textBoxX3Percent);
             this.groupBoxCurrentReadings.Controls.Add(this.textBoxX2Percent);
             this.groupBoxCurrentReadings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxCurrentReadings.Location = new System.Drawing.Point(476, 4);
-            this.groupBoxCurrentReadings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxCurrentReadings.Location = new System.Drawing.Point(357, 3);
             this.groupBoxCurrentReadings.Name = "groupBoxCurrentReadings";
-            this.groupBoxCurrentReadings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxCurrentReadings.Size = new System.Drawing.Size(399, 176);
+            this.groupBoxCurrentReadings.Size = new System.Drawing.Size(299, 143);
             this.groupBoxCurrentReadings.TabIndex = 72;
             this.groupBoxCurrentReadings.TabStop = false;
             this.groupBoxCurrentReadings.Text = "Current Readings";
             // 
             // textBoxTransmitterCTRatio
             // 
-            this.textBoxTransmitterCTRatio.Location = new System.Drawing.Point(17, 89);
-            this.textBoxTransmitterCTRatio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTransmitterCTRatio.Location = new System.Drawing.Point(13, 72);
             this.textBoxTransmitterCTRatio.MaxLength = 5;
             this.textBoxTransmitterCTRatio.Name = "textBoxTransmitterCTRatio";
             this.textBoxTransmitterCTRatio.ReadOnly = true;
-            this.textBoxTransmitterCTRatio.Size = new System.Drawing.Size(144, 27);
+            this.textBoxTransmitterCTRatio.Size = new System.Drawing.Size(109, 27);
             this.textBoxTransmitterCTRatio.TabIndex = 10;
             this.textBoxTransmitterCTRatio.Tag = "SN";
             this.textBoxTransmitterCTRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2208,8 +2128,7 @@ namespace RelayControlLibrary
             // label93
             // 
             this.label93.AutoSize = true;
-            this.label93.Location = new System.Drawing.Point(177, 145);
-            this.label93.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label93.Location = new System.Drawing.Point(133, 118);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(70, 19);
             this.label93.TabIndex = 50;
@@ -2219,8 +2138,7 @@ namespace RelayControlLibrary
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(52, 59);
-            this.label68.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label68.Location = new System.Drawing.Point(39, 48);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(62, 19);
             this.label68.TabIndex = 1;
@@ -2229,8 +2147,7 @@ namespace RelayControlLibrary
             // label94
             // 
             this.label94.AutoSize = true;
-            this.label94.Location = new System.Drawing.Point(177, 119);
-            this.label94.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label94.Location = new System.Drawing.Point(133, 97);
             this.label94.Name = "label94";
             this.label94.Size = new System.Drawing.Size(70, 19);
             this.label94.TabIndex = 49;
@@ -2240,8 +2157,7 @@ namespace RelayControlLibrary
             // label95
             // 
             this.label95.AutoSize = true;
-            this.label95.Location = new System.Drawing.Point(177, 92);
-            this.label95.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label95.Location = new System.Drawing.Point(133, 75);
             this.label95.Name = "label95";
             this.label95.Size = new System.Drawing.Size(70, 19);
             this.label95.TabIndex = 48;
@@ -2251,10 +2167,9 @@ namespace RelayControlLibrary
             // textBoxX1Amp
             // 
             this.textBoxX1Amp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX1Amp.Location = new System.Drawing.Point(284, 96);
-            this.textBoxX1Amp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxX1Amp.Location = new System.Drawing.Point(213, 78);
             this.textBoxX1Amp.Name = "textBoxX1Amp";
-            this.textBoxX1Amp.Size = new System.Drawing.Size(105, 27);
+            this.textBoxX1Amp.Size = new System.Drawing.Size(80, 27);
             this.textBoxX1Amp.TabIndex = 47;
             this.textBoxX1Amp.TabStop = false;
             this.textBoxX1Amp.Tag = "X1 AMP";
@@ -2263,10 +2178,9 @@ namespace RelayControlLibrary
             // textBoxX3Amp
             // 
             this.textBoxX3Amp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX3Amp.Location = new System.Drawing.Point(284, 143);
-            this.textBoxX3Amp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxX3Amp.Location = new System.Drawing.Point(213, 116);
             this.textBoxX3Amp.Name = "textBoxX3Amp";
-            this.textBoxX3Amp.Size = new System.Drawing.Size(105, 27);
+            this.textBoxX3Amp.Size = new System.Drawing.Size(80, 27);
             this.textBoxX3Amp.TabIndex = 46;
             this.textBoxX3Amp.TabStop = false;
             this.textBoxX3Amp.Tag = "X3 AMP";
@@ -2275,10 +2189,9 @@ namespace RelayControlLibrary
             // textBoxX2Amp
             // 
             this.textBoxX2Amp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX2Amp.Location = new System.Drawing.Point(284, 119);
-            this.textBoxX2Amp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxX2Amp.Location = new System.Drawing.Point(213, 97);
             this.textBoxX2Amp.Name = "textBoxX2Amp";
-            this.textBoxX2Amp.Size = new System.Drawing.Size(105, 27);
+            this.textBoxX2Amp.Size = new System.Drawing.Size(80, 27);
             this.textBoxX2Amp.TabIndex = 45;
             this.textBoxX2Amp.TabStop = false;
             this.textBoxX2Amp.Tag = "X2 AMP";
@@ -2287,8 +2200,7 @@ namespace RelayControlLibrary
             // label96
             // 
             this.label96.AutoSize = true;
-            this.label96.Location = new System.Drawing.Point(209, 70);
-            this.label96.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label96.Location = new System.Drawing.Point(157, 57);
             this.label96.Name = "label96";
             this.label96.Size = new System.Drawing.Size(49, 19);
             this.label96.TabIndex = 44;
@@ -2298,8 +2210,7 @@ namespace RelayControlLibrary
             // label97
             // 
             this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(209, 47);
-            this.label97.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label97.Location = new System.Drawing.Point(157, 38);
             this.label97.Name = "label97";
             this.label97.Size = new System.Drawing.Size(49, 19);
             this.label97.TabIndex = 43;
@@ -2309,8 +2220,7 @@ namespace RelayControlLibrary
             // label98
             // 
             this.label98.AutoSize = true;
-            this.label98.Location = new System.Drawing.Point(209, 17);
-            this.label98.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label98.Location = new System.Drawing.Point(157, 14);
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(49, 19);
             this.label98.TabIndex = 42;
@@ -2320,10 +2230,9 @@ namespace RelayControlLibrary
             // textBoxX1Percent
             // 
             this.textBoxX1Percent.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX1Percent.Location = new System.Drawing.Point(284, 14);
-            this.textBoxX1Percent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxX1Percent.Location = new System.Drawing.Point(213, 11);
             this.textBoxX1Percent.Name = "textBoxX1Percent";
-            this.textBoxX1Percent.Size = new System.Drawing.Size(105, 27);
+            this.textBoxX1Percent.Size = new System.Drawing.Size(80, 27);
             this.textBoxX1Percent.TabIndex = 41;
             this.textBoxX1Percent.TabStop = false;
             this.textBoxX1Percent.Tag = "";
@@ -2332,10 +2241,9 @@ namespace RelayControlLibrary
             // textBoxX3Percent
             // 
             this.textBoxX3Percent.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX3Percent.Location = new System.Drawing.Point(284, 66);
-            this.textBoxX3Percent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxX3Percent.Location = new System.Drawing.Point(213, 54);
             this.textBoxX3Percent.Name = "textBoxX3Percent";
-            this.textBoxX3Percent.Size = new System.Drawing.Size(105, 27);
+            this.textBoxX3Percent.Size = new System.Drawing.Size(80, 27);
             this.textBoxX3Percent.TabIndex = 40;
             this.textBoxX3Percent.TabStop = false;
             this.textBoxX3Percent.Tag = "";
@@ -2344,10 +2252,9 @@ namespace RelayControlLibrary
             // textBoxX2Percent
             // 
             this.textBoxX2Percent.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX2Percent.Location = new System.Drawing.Point(284, 41);
-            this.textBoxX2Percent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxX2Percent.Location = new System.Drawing.Point(213, 33);
             this.textBoxX2Percent.Name = "textBoxX2Percent";
-            this.textBoxX2Percent.Size = new System.Drawing.Size(105, 27);
+            this.textBoxX2Percent.Size = new System.Drawing.Size(80, 27);
             this.textBoxX2Percent.TabIndex = 39;
             this.textBoxX2Percent.TabStop = false;
             this.textBoxX2Percent.Tag = "";
@@ -2361,11 +2268,9 @@ namespace RelayControlLibrary
             this.groupBoxAdvancedReadings.Controls.Add(this.checkBoxVoltageLow);
             this.groupBoxAdvancedReadings.Controls.Add(this.checkBoxPhaseError);
             this.groupBoxAdvancedReadings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxAdvancedReadings.Location = new System.Drawing.Point(284, 2);
-            this.groupBoxAdvancedReadings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxAdvancedReadings.Location = new System.Drawing.Point(213, 2);
             this.groupBoxAdvancedReadings.Name = "groupBoxAdvancedReadings";
-            this.groupBoxAdvancedReadings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxAdvancedReadings.Size = new System.Drawing.Size(189, 177);
+            this.groupBoxAdvancedReadings.Size = new System.Drawing.Size(142, 144);
             this.groupBoxAdvancedReadings.TabIndex = 75;
             this.groupBoxAdvancedReadings.TabStop = false;
             this.groupBoxAdvancedReadings.Text = "Advanced Readings";
@@ -2374,8 +2279,7 @@ namespace RelayControlLibrary
             // 
             this.labelQPres.AutoSize = true;
             this.labelQPres.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelQPres.Location = new System.Drawing.Point(12, 25);
-            this.labelQPres.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelQPres.Location = new System.Drawing.Point(9, 20);
             this.labelQPres.Name = "labelQPres";
             this.labelQPres.Size = new System.Drawing.Size(113, 19);
             this.labelQPres.TabIndex = 15;
@@ -2384,10 +2288,9 @@ namespace RelayControlLibrary
             // textBoxTransmitterTemp
             // 
             this.textBoxTransmitterTemp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxTransmitterTemp.Location = new System.Drawing.Point(79, 98);
-            this.textBoxTransmitterTemp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTransmitterTemp.Location = new System.Drawing.Point(59, 80);
             this.textBoxTransmitterTemp.Name = "textBoxTransmitterTemp";
-            this.textBoxTransmitterTemp.Size = new System.Drawing.Size(60, 27);
+            this.textBoxTransmitterTemp.Size = new System.Drawing.Size(46, 27);
             this.textBoxTransmitterTemp.TabIndex = 4;
             this.textBoxTransmitterTemp.TabStop = false;
             this.textBoxTransmitterTemp.Tag = "";
@@ -2396,8 +2299,7 @@ namespace RelayControlLibrary
             // lblTEMP
             // 
             this.lblTEMP.AutoSize = true;
-            this.lblTEMP.Location = new System.Drawing.Point(7, 75);
-            this.lblTEMP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTEMP.Location = new System.Drawing.Point(5, 61);
             this.lblTEMP.Name = "lblTEMP";
             this.lblTEMP.Size = new System.Drawing.Size(149, 19);
             this.lblTEMP.TabIndex = 3;
@@ -2406,8 +2308,7 @@ namespace RelayControlLibrary
             // checkBoxVoltageLow
             // 
             this.checkBoxVoltageLow.AutoSize = true;
-            this.checkBoxVoltageLow.Location = new System.Drawing.Point(73, 128);
-            this.checkBoxVoltageLow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxVoltageLow.Location = new System.Drawing.Point(55, 104);
             this.checkBoxVoltageLow.Name = "checkBoxVoltageLow";
             this.checkBoxVoltageLow.Size = new System.Drawing.Size(115, 23);
             this.checkBoxVoltageLow.TabIndex = 1;
@@ -2418,8 +2319,7 @@ namespace RelayControlLibrary
             // checkBoxPhaseError
             // 
             this.checkBoxPhaseError.AutoSize = true;
-            this.checkBoxPhaseError.Location = new System.Drawing.Point(73, 153);
-            this.checkBoxPhaseError.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxPhaseError.Location = new System.Drawing.Point(55, 124);
             this.checkBoxPhaseError.Name = "checkBoxPhaseError";
             this.checkBoxPhaseError.Size = new System.Drawing.Size(110, 23);
             this.checkBoxPhaseError.TabIndex = 2;
@@ -2438,11 +2338,9 @@ namespace RelayControlLibrary
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusB);
             this.groupBoxFlagStatus.Controls.Add(this.checkBoxFlagStatusA);
             this.groupBoxFlagStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxFlagStatus.Location = new System.Drawing.Point(123, 183);
-            this.groupBoxFlagStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxFlagStatus.Location = new System.Drawing.Point(92, 149);
             this.groupBoxFlagStatus.Name = "groupBoxFlagStatus";
-            this.groupBoxFlagStatus.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxFlagStatus.Size = new System.Drawing.Size(148, 258);
+            this.groupBoxFlagStatus.Size = new System.Drawing.Size(111, 210);
             this.groupBoxFlagStatus.TabIndex = 74;
             this.groupBoxFlagStatus.TabStop = false;
             this.groupBoxFlagStatus.Text = "Flag Status";
@@ -2450,8 +2348,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusH
             // 
             this.checkBoxFlagStatusH.AutoSize = true;
-            this.checkBoxFlagStatusH.Location = new System.Drawing.Point(27, 199);
-            this.checkBoxFlagStatusH.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusH.Location = new System.Drawing.Point(20, 162);
             this.checkBoxFlagStatusH.Name = "checkBoxFlagStatusH";
             this.checkBoxFlagStatusH.Size = new System.Drawing.Size(73, 23);
             this.checkBoxFlagStatusH.TabIndex = 39;
@@ -2462,8 +2359,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusG
             // 
             this.checkBoxFlagStatusG.AutoSize = true;
-            this.checkBoxFlagStatusG.Location = new System.Drawing.Point(27, 175);
-            this.checkBoxFlagStatusG.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusG.Location = new System.Drawing.Point(20, 142);
             this.checkBoxFlagStatusG.Name = "checkBoxFlagStatusG";
             this.checkBoxFlagStatusG.Size = new System.Drawing.Size(73, 23);
             this.checkBoxFlagStatusG.TabIndex = 35;
@@ -2474,8 +2370,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusF
             // 
             this.checkBoxFlagStatusF.AutoSize = true;
-            this.checkBoxFlagStatusF.Location = new System.Drawing.Point(27, 150);
-            this.checkBoxFlagStatusF.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusF.Location = new System.Drawing.Point(20, 122);
             this.checkBoxFlagStatusF.Name = "checkBoxFlagStatusF";
             this.checkBoxFlagStatusF.Size = new System.Drawing.Size(70, 23);
             this.checkBoxFlagStatusF.TabIndex = 31;
@@ -2486,8 +2381,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusE
             // 
             this.checkBoxFlagStatusE.AutoSize = true;
-            this.checkBoxFlagStatusE.Location = new System.Drawing.Point(27, 126);
-            this.checkBoxFlagStatusE.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusE.Location = new System.Drawing.Point(20, 102);
             this.checkBoxFlagStatusE.Name = "checkBoxFlagStatusE";
             this.checkBoxFlagStatusE.Size = new System.Drawing.Size(71, 23);
             this.checkBoxFlagStatusE.TabIndex = 27;
@@ -2498,8 +2392,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusD
             // 
             this.checkBoxFlagStatusD.AutoSize = true;
-            this.checkBoxFlagStatusD.Location = new System.Drawing.Point(27, 101);
-            this.checkBoxFlagStatusD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusD.Location = new System.Drawing.Point(20, 100); //(20, 82);
             this.checkBoxFlagStatusD.Name = "checkBoxFlagStatusD";
             this.checkBoxFlagStatusD.Size = new System.Drawing.Size(73, 23);
             this.checkBoxFlagStatusD.TabIndex = 23;
@@ -2510,8 +2403,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusC
             // 
             this.checkBoxFlagStatusC.AutoSize = true;
-            this.checkBoxFlagStatusC.Location = new System.Drawing.Point(27, 76);
-            this.checkBoxFlagStatusC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusC.Location = new System.Drawing.Point(20, 75); //(20, 62);
             this.checkBoxFlagStatusC.Name = "checkBoxFlagStatusC";
             this.checkBoxFlagStatusC.Size = new System.Drawing.Size(72, 23);
             this.checkBoxFlagStatusC.TabIndex = 19;
@@ -2522,8 +2414,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusB
             // 
             this.checkBoxFlagStatusB.AutoSize = true;
-            this.checkBoxFlagStatusB.Location = new System.Drawing.Point(27, 52);
-            this.checkBoxFlagStatusB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusB.Location = new System.Drawing.Point(20, 49); //(20, 42);
             this.checkBoxFlagStatusB.Name = "checkBoxFlagStatusB";
             this.checkBoxFlagStatusB.Size = new System.Drawing.Size(71, 23);
             this.checkBoxFlagStatusB.TabIndex = 15;
@@ -2534,8 +2425,7 @@ namespace RelayControlLibrary
             // checkBoxFlagStatusA
             // 
             this.checkBoxFlagStatusA.AutoSize = true;
-            this.checkBoxFlagStatusA.Location = new System.Drawing.Point(27, 27);
-            this.checkBoxFlagStatusA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxFlagStatusA.Location = new System.Drawing.Point(20, 22);
             this.checkBoxFlagStatusA.Name = "checkBoxFlagStatusA";
             this.checkBoxFlagStatusA.Size = new System.Drawing.Size(73, 23);
             this.checkBoxFlagStatusA.TabIndex = 11;
@@ -2558,11 +2448,9 @@ namespace RelayControlLibrary
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxDa);
             this.groupBoxAnalogFlagValues.Controls.Add(this.textBoxCa);
             this.groupBoxAnalogFlagValues.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(280, 183);
-            this.groupBoxAnalogFlagValues.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(210, 149);
             this.groupBoxAnalogFlagValues.Name = "groupBoxAnalogFlagValues";
-            this.groupBoxAnalogFlagValues.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(205, 273);
+            this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(154, 222);
             this.groupBoxAnalogFlagValues.TabIndex = 84;
             this.groupBoxAnalogFlagValues.TabStop = false;
             this.groupBoxAnalogFlagValues.Text = "Analog Values";
@@ -2570,114 +2458,102 @@ namespace RelayControlLibrary
             // labelHa
             // 
             this.labelHa.AutoSize = true;
-            this.labelHa.Location = new System.Drawing.Point(23, 214);
-            this.labelHa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelHa.Location = new System.Drawing.Point(17, 174);
             this.labelHa.Name = "labelHa";
-            this.labelHa.Size = new System.Drawing.Size(16, 15);
+            this.labelHa.Size = new System.Drawing.Size(20, 19);
             this.labelHa.TabIndex = 14;
             this.labelHa.Text = "H";
             // 
             // labelGa
             // 
             this.labelGa.AutoSize = true;
-            this.labelGa.Location = new System.Drawing.Point(24, 175);
-            this.labelGa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelGa.Location = new System.Drawing.Point(18, 142);
             this.labelGa.Name = "labelGa";
-            this.labelGa.Size = new System.Drawing.Size(16, 15);
+            this.labelGa.Size = new System.Drawing.Size(20, 19);
             this.labelGa.TabIndex = 13;
             this.labelGa.Text = "G";
             // 
             // labelFa
             // 
             this.labelFa.AutoSize = true;
-            this.labelFa.Location = new System.Drawing.Point(28, 140);
-            this.labelFa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelFa.Location = new System.Drawing.Point(21, 114);
             this.labelFa.Name = "labelFa";
-            this.labelFa.Size = new System.Drawing.Size(14, 15);
+            this.labelFa.Size = new System.Drawing.Size(17, 19);
             this.labelFa.TabIndex = 12;
             this.labelFa.Text = "F";
             // 
             // labelEa
             // 
             this.labelEa.AutoSize = true;
-            this.labelEa.Location = new System.Drawing.Point(27, 106);
-            this.labelEa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelEa.Location = new System.Drawing.Point(20, 86);
             this.labelEa.Name = "labelEa";
-            this.labelEa.Size = new System.Drawing.Size(14, 15);
+            this.labelEa.Size = new System.Drawing.Size(18, 19);
             this.labelEa.TabIndex = 11;
             this.labelEa.Text = "E";
             // 
             // labelDa
             // 
             this.labelDa.AutoSize = true;
-            this.labelDa.Location = new System.Drawing.Point(24, 66);
-            this.labelDa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDa.Location = new System.Drawing.Point(18, 54);
             this.labelDa.Name = "labelDa";
-            this.labelDa.Size = new System.Drawing.Size(16, 15);
+            this.labelDa.Size = new System.Drawing.Size(20, 19);
             this.labelDa.TabIndex = 10;
             this.labelDa.Text = "D";
             // 
             // labelCa
             // 
             this.labelCa.AutoSize = true;
-            this.labelCa.Location = new System.Drawing.Point(23, 26);
-            this.labelCa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCa.Location = new System.Drawing.Point(17, 21);
             this.labelCa.Name = "labelCa";
-            this.labelCa.Size = new System.Drawing.Size(15, 15);
+            this.labelCa.Size = new System.Drawing.Size(19, 19);
             this.labelCa.TabIndex = 8;
             this.labelCa.Text = "C";
             // 
             // textBoxHa
             // 
-            this.textBoxHa.Location = new System.Drawing.Point(95, 199);
-            this.textBoxHa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxHa.Location = new System.Drawing.Point(71, 162);
             this.textBoxHa.Name = "textBoxHa";
-            this.textBoxHa.Size = new System.Drawing.Size(43, 27);
+            this.textBoxHa.Size = new System.Drawing.Size(33, 27);
             this.textBoxHa.TabIndex = 6;
             this.textBoxHa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxGa
             // 
-            this.textBoxGa.Location = new System.Drawing.Point(95, 161);
-            this.textBoxGa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxGa.Location = new System.Drawing.Point(71, 131);
             this.textBoxGa.Name = "textBoxGa";
-            this.textBoxGa.Size = new System.Drawing.Size(43, 27);
+            this.textBoxGa.Size = new System.Drawing.Size(33, 27);
             this.textBoxGa.TabIndex = 5;
             this.textBoxGa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxFa
             // 
-            this.textBoxFa.Location = new System.Drawing.Point(95, 118);
-            this.textBoxFa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxFa.Location = new System.Drawing.Point(71, 96);
             this.textBoxFa.Name = "textBoxFa";
-            this.textBoxFa.Size = new System.Drawing.Size(43, 27);
+            this.textBoxFa.Size = new System.Drawing.Size(33, 27);
             this.textBoxFa.TabIndex = 4;
             this.textBoxFa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxEa
             // 
-            this.textBoxEa.Location = new System.Drawing.Point(95, 81);
-            this.textBoxEa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxEa.Location = new System.Drawing.Point(71, 66);
             this.textBoxEa.Name = "textBoxEa";
-            this.textBoxEa.Size = new System.Drawing.Size(43, 27);
+            this.textBoxEa.Size = new System.Drawing.Size(33, 27);
             this.textBoxEa.TabIndex = 3;
             this.textBoxEa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxDa
             // 
-            this.textBoxDa.Location = new System.Drawing.Point(95, 52);
-            this.textBoxDa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxDa.Location = new System.Drawing.Point(71, 42);
             this.textBoxDa.Name = "textBoxDa";
-            this.textBoxDa.Size = new System.Drawing.Size(43, 27);
+            this.textBoxDa.Size = new System.Drawing.Size(33, 27);
             this.textBoxDa.TabIndex = 2;
             this.textBoxDa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxCa
             // 
-            this.textBoxCa.Location = new System.Drawing.Point(95, 22);
-            this.textBoxCa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxCa.Location = new System.Drawing.Point(71, 18);
             this.textBoxCa.Name = "textBoxCa";
-            this.textBoxCa.Size = new System.Drawing.Size(43, 27);
+            this.textBoxCa.Size = new System.Drawing.Size(33, 27);
             this.textBoxCa.TabIndex = 0;
             this.textBoxCa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2694,10 +2570,9 @@ namespace RelayControlLibrary
             // textBoxQBit
             // 
             this.textBoxQBit.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxQBit.Location = new System.Drawing.Point(365, 49);
-            this.textBoxQBit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxQBit.Location = new System.Drawing.Point(274, 40);
             this.textBoxQBit.Name = "textBoxQBit";
-            this.textBoxQBit.Size = new System.Drawing.Size(57, 27);
+            this.textBoxQBit.Size = new System.Drawing.Size(44, 27);
             this.textBoxQBit.TabIndex = 7;
             this.textBoxQBit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2711,7 +2586,7 @@ namespace RelayControlLibrary
             // 
             // ucTransmitterMonitoring
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxAnalogFlagValues);
             this.Controls.Add(this.groupBoxVoltageReadings);
@@ -2729,9 +2604,8 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxCurrentReadings);
             this.Controls.Add(this.groupBoxAdvancedReadings);
             this.Controls.Add(this.newButtonSensMonTX);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ucTransmitterMonitoring";
-            this.Size = new System.Drawing.Size(1308, 699);
+            this.Size = new System.Drawing.Size(981, 568);
             this.groupBoxVoltageReadings.ResumeLayout(false);
             this.groupBoxVoltageReadings.PerformLayout();
             this.groupBoxPowerDirectionalFlow.ResumeLayout(false);

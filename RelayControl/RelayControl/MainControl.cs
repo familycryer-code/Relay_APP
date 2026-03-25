@@ -767,13 +767,13 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(450, 500);
                 this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(200, 500);
                 this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
-                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(480, 3);
+                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(580, 10); //(480, 3);
                 this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Size = new System.Drawing.Size(240, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(155, 87);
                 this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(638, 53);
                 this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 90);
                 this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(25, 50);
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(90, 3);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(92, 10); //(90, 3);
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
                 this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 54);
@@ -832,7 +832,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
-                this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(400, 550);
+                this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(550, 550); //(400, 550);
                
 #elif MEMPHIS
                 this.Customer = Customers.Memphis;
