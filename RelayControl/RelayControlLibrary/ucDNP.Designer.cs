@@ -161,9 +161,9 @@ namespace RelayControlLibrary
             // labelLinkLayerConfirm
             // 
             this.labelLinkLayerConfirm.AutoSize = true;
-            this.labelLinkLayerConfirm.Location = new System.Drawing.Point(6, 16);
+            this.labelLinkLayerConfirm.Location = new System.Drawing.Point(65, 16);
             this.labelLinkLayerConfirm.Name = "labelLinkLayerConfirm";
-            this.labelLinkLayerConfirm.Size = new System.Drawing.Size(97, 13);
+            this.labelLinkLayerConfirm.Size = new System.Drawing.Size(149, 19);
             this.labelLinkLayerConfirm.TabIndex = 0;
             this.labelLinkLayerConfirm.Text = "Link Layer Confirm:";
             // 
@@ -174,9 +174,9 @@ namespace RelayControlLibrary
             "Never",
             "Sometimes",
             "Always"});
-            this.comboBoxLinkLayerConfirm.Location = new System.Drawing.Point(133, 13);
+            this.comboBoxLinkLayerConfirm.Location = new System.Drawing.Point(197, 16);
             this.comboBoxLinkLayerConfirm.Name = "comboBoxLinkLayerConfirm";
-            this.comboBoxLinkLayerConfirm.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxLinkLayerConfirm.Size = new System.Drawing.Size(72, 27);
             this.comboBoxLinkLayerConfirm.TabIndex = 1;
             this.comboBoxLinkLayerConfirm.Text = "Never";
             // 
@@ -186,18 +186,18 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBoxSelfAddress.Location = new System.Drawing.Point(133, 46);
+            this.comboBoxSelfAddress.Location = new System.Drawing.Point(197, 49);
             this.comboBoxSelfAddress.Name = "comboBoxSelfAddress";
-            this.comboBoxSelfAddress.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxSelfAddress.Size = new System.Drawing.Size(72, 27);
             this.comboBoxSelfAddress.TabIndex = 4;
             this.comboBoxSelfAddress.Text = "Disable";
             // 
             // labelSelfAddress
             // 
             this.labelSelfAddress.AutoSize = true;
-            this.labelSelfAddress.Location = new System.Drawing.Point(6, 49);
+            this.labelSelfAddress.Location = new System.Drawing.Point(105, 49);
             this.labelSelfAddress.Name = "labelSelfAddress";
-            this.labelSelfAddress.Size = new System.Drawing.Size(69, 13);
+            this.labelSelfAddress.Size = new System.Drawing.Size(103, 19);
             this.labelSelfAddress.TabIndex = 3;
             this.labelSelfAddress.Text = "Self Address:";
             // 
@@ -207,27 +207,27 @@ namespace RelayControlLibrary
             this.comboBoxUnsolResponse.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBoxUnsolResponse.Location = new System.Drawing.Point(133, 79);
+            this.comboBoxUnsolResponse.Location = new System.Drawing.Point(197, 79);
             this.comboBoxUnsolResponse.Name = "comboBoxUnsolResponse";
-            this.comboBoxUnsolResponse.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxUnsolResponse.Size = new System.Drawing.Size(72, 27);
             this.comboBoxUnsolResponse.TabIndex = 7;
             this.comboBoxUnsolResponse.Text = "Disable";
             // 
             // labelUnsolResponse
             // 
             this.labelUnsolResponse.AutoSize = true;
-            this.labelUnsolResponse.Location = new System.Drawing.Point(6, 82);
+            this.labelUnsolResponse.Location = new System.Drawing.Point(54, 79);
             this.labelUnsolResponse.Name = "labelUnsolResponse";
-            this.labelUnsolResponse.Size = new System.Drawing.Size(113, 13);
+            this.labelUnsolResponse.Size = new System.Drawing.Size(164, 19);
             this.labelUnsolResponse.TabIndex = 6;
             this.labelUnsolResponse.Text = "Unsolicited Response:";
             // 
             // labelUnsolTimeout
             // 
             this.labelUnsolTimeout.AutoSize = true;
-            this.labelUnsolTimeout.Location = new System.Drawing.Point(6, 113);
+            this.labelUnsolTimeout.Location = new System.Drawing.Point(30, 111); //(0, 111);
             this.labelUnsolTimeout.Name = "labelUnsolTimeout";
-            this.labelUnsolTimeout.Size = new System.Drawing.Size(125, 13);
+            this.labelUnsolTimeout.Size = new System.Drawing.Size(194, 19);
             this.labelUnsolTimeout.TabIndex = 9;
             this.labelUnsolTimeout.Text = "Unsolicited Timeout (ms):";
             // 
@@ -238,7 +238,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            this.numericUpDownUnsolTimeout.Location = new System.Drawing.Point(133, 109);
+            this.numericUpDownUnsolTimeout.Location = new System.Drawing.Point(197, 109);
             this.numericUpDownUnsolTimeout.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -250,8 +250,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownUnsolTimeout.Name = "numericUpDownUnsolTimeout";
-            this.numericUpDownUnsolTimeout.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownUnsolTimeout.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownUnsolTimeout.TabIndex = 10;
+            this.numericUpDownUnsolTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownUnsolTimeout.Value = new decimal(new int[] {
             1000,
             0,
@@ -265,7 +266,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            this.numericUpDownFragmentSize.Location = new System.Drawing.Point(133, 140);
+            this.numericUpDownFragmentSize.Location = new System.Drawing.Point(197, 142);
             this.numericUpDownFragmentSize.Maximum = new decimal(new int[] {
             1024,
             0,
@@ -277,8 +278,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownFragmentSize.Name = "numericUpDownFragmentSize";
-            this.numericUpDownFragmentSize.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownFragmentSize.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownFragmentSize.TabIndex = 13;
+            this.numericUpDownFragmentSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownFragmentSize.Value = new decimal(new int[] {
             1024,
             0,
@@ -288,15 +290,15 @@ namespace RelayControlLibrary
             // labelFragmentSize
             // 
             this.labelFragmentSize.AutoSize = true;
-            this.labelFragmentSize.Location = new System.Drawing.Point(6, 144);
+            this.labelFragmentSize.Location = new System.Drawing.Point(97, 144);
             this.labelFragmentSize.Name = "labelFragmentSize";
-            this.labelFragmentSize.Size = new System.Drawing.Size(74, 13);
+            this.labelFragmentSize.Size = new System.Drawing.Size(115, 19);
             this.labelFragmentSize.TabIndex = 12;
-            this.labelFragmentSize.Text = "Fragment Size";
+            this.labelFragmentSize.Text = "Fragment Size:";
             // 
             // numericUpDownDestinationAddress
             // 
-            this.numericUpDownDestinationAddress.Location = new System.Drawing.Point(133, 200);
+            this.numericUpDownDestinationAddress.Location = new System.Drawing.Point(197, 202);
             this.numericUpDownDestinationAddress.Maximum = new decimal(new int[] {
             65519,
             0,
@@ -308,8 +310,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownDestinationAddress.Name = "numericUpDownDestinationAddress";
-            this.numericUpDownDestinationAddress.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownDestinationAddress.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownDestinationAddress.TabIndex = 19;
+            this.numericUpDownDestinationAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownDestinationAddress.Value = new decimal(new int[] {
             3,
             0,
@@ -319,15 +322,15 @@ namespace RelayControlLibrary
             // labelDestinationAddress
             // 
             this.labelDestinationAddress.AutoSize = true;
-            this.labelDestinationAddress.Location = new System.Drawing.Point(6, 204);
+            this.labelDestinationAddress.Location = new System.Drawing.Point(54, 204);
             this.labelDestinationAddress.Name = "labelDestinationAddress";
-            this.labelDestinationAddress.Size = new System.Drawing.Size(106, 13);
+            this.labelDestinationAddress.Size = new System.Drawing.Size(164, 19);
             this.labelDestinationAddress.TabIndex = 18;
             this.labelDestinationAddress.Text = "Destination  (master):";
             // 
             // numericUpDownSourceAddress
             // 
-            this.numericUpDownSourceAddress.Location = new System.Drawing.Point(133, 169);
+            this.numericUpDownSourceAddress.Location = new System.Drawing.Point(197, 171);
             this.numericUpDownSourceAddress.Maximum = new decimal(new int[] {
             65519,
             0,
@@ -339,8 +342,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownSourceAddress.Name = "numericUpDownSourceAddress";
-            this.numericUpDownSourceAddress.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownSourceAddress.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownSourceAddress.TabIndex = 16;
+            this.numericUpDownSourceAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSourceAddress.Value = new decimal(new int[] {
             4,
             0,
@@ -350,15 +354,15 @@ namespace RelayControlLibrary
             // labelSourceAddress
             // 
             this.labelSourceAddress.AutoSize = true;
-            this.labelSourceAddress.Location = new System.Drawing.Point(6, 173);
+            this.labelSourceAddress.Location = new System.Drawing.Point(44, 173);
             this.labelSourceAddress.Name = "labelSourceAddress";
-            this.labelSourceAddress.Size = new System.Drawing.Size(116, 13);
+            this.labelSourceAddress.Size = new System.Drawing.Size(176, 19);
             this.labelSourceAddress.TabIndex = 15;
             this.labelSourceAddress.Text = "Source Address (relay):";
             // 
             // numericUpDownMaxEvents
             // 
-            this.numericUpDownMaxEvents.Location = new System.Drawing.Point(133, 229);
+            this.numericUpDownMaxEvents.Location = new System.Drawing.Point(197, 231);
             this.numericUpDownMaxEvents.Maximum = new decimal(new int[] {
             125,
             0,
@@ -370,8 +374,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownMaxEvents.Name = "numericUpDownMaxEvents";
-            this.numericUpDownMaxEvents.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownMaxEvents.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownMaxEvents.TabIndex = 22;
+            this.numericUpDownMaxEvents.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownMaxEvents.Value = new decimal(new int[] {
             5,
             0,
@@ -381,23 +386,24 @@ namespace RelayControlLibrary
             // labelMaxEvents
             // 
             this.labelMaxEvents.AutoSize = true;
-            this.labelMaxEvents.Location = new System.Drawing.Point(6, 233);
+            this.labelMaxEvents.Location = new System.Drawing.Point(39, 233); //(8, 233);
             this.labelMaxEvents.Name = "labelMaxEvents";
-            this.labelMaxEvents.Size = new System.Drawing.Size(123, 13);
+            this.labelMaxEvents.Size = new System.Drawing.Size(180, 19);
             this.labelMaxEvents.TabIndex = 21;
             this.labelMaxEvents.Text = "Max Events (all classes):";
             // 
             // numericUpDownUnsolRetries
             // 
-            this.numericUpDownUnsolRetries.Location = new System.Drawing.Point(133, 256);
+            this.numericUpDownUnsolRetries.Location = new System.Drawing.Point(197, 258);
             this.numericUpDownUnsolRetries.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
             this.numericUpDownUnsolRetries.Name = "numericUpDownUnsolRetries";
-            this.numericUpDownUnsolRetries.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownUnsolRetries.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownUnsolRetries.TabIndex = 25;
+            this.numericUpDownUnsolRetries.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownUnsolRetries.Value = new decimal(new int[] {
             5,
             0,
@@ -407,20 +413,20 @@ namespace RelayControlLibrary
             // labelUnsolRetries
             // 
             this.labelUnsolRetries.AutoSize = true;
-            this.labelUnsolRetries.Location = new System.Drawing.Point(6, 260);
+            this.labelUnsolRetries.Location = new System.Drawing.Point(21, 262); //(-12, 260);
             this.labelUnsolRetries.Name = "labelUnsolRetries";
-            this.labelUnsolRetries.Size = new System.Drawing.Size(128, 13);
+            this.labelUnsolRetries.Size = new System.Drawing.Size(200, 19);
             this.labelUnsolRetries.TabIndex = 24;
             this.labelUnsolRetries.Text = "Unsol Retires (0 = infinte):";
             // 
             // labelTerminationResistor
             // 
             this.labelTerminationResistor.AutoSize = true;
-            this.labelTerminationResistor.Location = new System.Drawing.Point(6, 290);
+            this.labelTerminationResistor.Location = new System.Drawing.Point(53, 291);
             this.labelTerminationResistor.Name = "labelTerminationResistor";
-            this.labelTerminationResistor.Size = new System.Drawing.Size(103, 13);
+            this.labelTerminationResistor.Size = new System.Drawing.Size(162, 19);
             this.labelTerminationResistor.TabIndex = 27;
-            this.labelTerminationResistor.Text = "Termination Resistor";
+            this.labelTerminationResistor.Text = "Termination Resistor:";
             // 
             // comboBoxTerminationResistor
             // 
@@ -428,24 +434,24 @@ namespace RelayControlLibrary
             this.comboBoxTerminationResistor.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBoxTerminationResistor.Location = new System.Drawing.Point(133, 286);
+            this.comboBoxTerminationResistor.Location = new System.Drawing.Point(197, 288);
             this.comboBoxTerminationResistor.Name = "comboBoxTerminationResistor";
-            this.comboBoxTerminationResistor.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxTerminationResistor.Size = new System.Drawing.Size(72, 27);
             this.comboBoxTerminationResistor.TabIndex = 30;
             this.comboBoxTerminationResistor.Text = "Disable";
             // 
             // labelMemphisStage
             // 
             this.labelMemphisStage.AutoSize = true;
-            this.labelMemphisStage.Location = new System.Drawing.Point(5, 345);
+            this.labelMemphisStage.Location = new System.Drawing.Point(66, 345);
             this.labelMemphisStage.Name = "labelMemphisStage";
-            this.labelMemphisStage.Size = new System.Drawing.Size(83, 13);
+            this.labelMemphisStage.Size = new System.Drawing.Size(122, 19);
             this.labelMemphisStage.TabIndex = 33;
             this.labelMemphisStage.Text = "Memphis Stage:";
             // 
             // numericUpDownMemphisStage
             // 
-            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(133, 343);
+            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(197, 345);
             this.numericUpDownMemphisStage.Maximum = new decimal(new int[] {
             5,
             0,
@@ -457,8 +463,9 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownMemphisStage.Name = "numericUpDownMemphisStage";
-            this.numericUpDownMemphisStage.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDownMemphisStage.Size = new System.Drawing.Size(72, 27);
             this.numericUpDownMemphisStage.TabIndex = 1;
+            this.numericUpDownMemphisStage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownMemphisStage.Value = new decimal(new int[] {
             1,
             0,
@@ -713,14 +720,14 @@ namespace RelayControlLibrary
             this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTriggerRangeCurrent);
             this.groupBoxMemphisDeadBand.Location = new System.Drawing.Point(398, 112);
             this.groupBoxMemphisDeadBand.Name = "groupBoxMemphisDeadBand";
-            this.groupBoxMemphisDeadBand.Size = new System.Drawing.Size(606, 425);
+            this.groupBoxMemphisDeadBand.Size = new System.Drawing.Size(626, 525);
             this.groupBoxMemphisDeadBand.TabIndex = 60;
             this.groupBoxMemphisDeadBand.TabStop = false;
             this.groupBoxMemphisDeadBand.Text = "Memphis Dead Band (DB) Variables";
             // 
             // buttonSendMemphis
             // 
-            this.buttonSendMemphis.Location = new System.Drawing.Point(407, 321);
+            this.buttonSendMemphis.Location = new System.Drawing.Point(492, 379);
             this.buttonSendMemphis.Name = "buttonSendMemphis";
             this.buttonSendMemphis.Size = new System.Drawing.Size(136, 23);
             this.buttonSendMemphis.TabIndex = 143;
@@ -1247,9 +1254,10 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.Controls.Add(this.labelDestinationAddress);
             this.groupBoxDNPSettings.Controls.Add(this.labelMemphisStage);
             this.groupBoxDNPSettings.Controls.Add(this.numericUpDownMemphisStage);
+            this.groupBoxDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDNPSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxDNPSettings.Name = "groupBoxDNPSettings";
-            this.groupBoxDNPSettings.Size = new System.Drawing.Size(235, 403);
+            this.groupBoxDNPSettings.Size = new System.Drawing.Size(285, 403);
             this.groupBoxDNPSettings.TabIndex = 61;
             this.groupBoxDNPSettings.TabStop = false;
             this.groupBoxDNPSettings.Text = "DNP Settings";
@@ -1266,31 +1274,32 @@ namespace RelayControlLibrary
             "19200",
             "28800",
             "38400"});
-            this.comboBoxDNPBaudRate.Location = new System.Drawing.Point(133, 316);
+            this.comboBoxDNPBaudRate.Location = new System.Drawing.Point(197, 318);
             this.comboBoxDNPBaudRate.Name = "comboBoxDNPBaudRate";
-            this.comboBoxDNPBaudRate.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxDNPBaudRate.Size = new System.Drawing.Size(72, 27);
             this.comboBoxDNPBaudRate.TabIndex = 35;
             this.comboBoxDNPBaudRate.Text = "9600";
             // 
             // labelBaudRate
             // 
             this.labelBaudRate.AutoSize = true;
-            this.labelBaudRate.Location = new System.Drawing.Point(5, 320);
+            this.labelBaudRate.Location = new System.Drawing.Point(117, 321);
             this.labelBaudRate.Name = "labelBaudRate";
-            this.labelBaudRate.Size = new System.Drawing.Size(58, 13);
+            this.labelBaudRate.Size = new System.Drawing.Size(86, 19);
             this.labelBaudRate.TabIndex = 34;
-            this.labelBaudRate.Text = "Baud Rate";
+            this.labelBaudRate.Text = "Baud Rate:";
             // 
             // groupBoxDIGITALGRIDDNPDeadBand
             // 
             this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(this.buttonSendDIGITALGRIDDeadBand);
             this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(this.label29);
-            this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(278, 0);
+            this.groupBoxDIGITALGRIDDNPDeadBand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(294, 0);
             this.groupBoxDIGITALGRIDDNPDeadBand.Name = "groupBoxDIGITALGRIDDNPDeadBand";
-            this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(743, 540);
+            this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(1000, 540);
             this.groupBoxDIGITALGRIDDNPDeadBand.TabIndex = 144;
             this.groupBoxDIGITALGRIDDNPDeadBand.TabStop = false;
-            this.groupBoxDIGITALGRIDDNPDeadBand.Text = "DNP Dead Band (DB) Variables";
+            this.groupBoxDIGITALGRIDDNPDeadBand.Text = "DNP Dead Band (DB) Settings";
             // 
             // buttonSendDIGITALGRIDDeadBand
             // 
@@ -1306,7 +1315,7 @@ namespace RelayControlLibrary
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(6, 563);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(122, 13);
+            this.label29.Size = new System.Drawing.Size(138, 15);
             this.label29.TabIndex = 55;
             this.label29.Text = "*Zero Will Disable Event";
             // 
@@ -1548,7 +1557,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTriggerRangeTemperature;
         private System.Windows.Forms.Button buttonDefaults;
         private System.Windows.Forms.GroupBox groupBoxMemphisDeadBand;
-        private System.Windows.Forms.GroupBox groupBoxDNPSettings;
+        public System.Windows.Forms.GroupBox groupBoxDNPSettings;
         private System.Windows.Forms.Label labelPhaseKWDBUnits;
         private System.Windows.Forms.Label labelOdometer;
         private System.Windows.Forms.NumericUpDown numericUpDownPhaseKWDB;
@@ -1589,7 +1598,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTotalKWDBUnits;
         private System.Windows.Forms.NumericUpDown numericUpDownAnalog2DeadBand;
         private System.Windows.Forms.Button buttonSendMemphis;
-        private System.Windows.Forms.GroupBox groupBoxDIGITALGRIDDNPDeadBand;
+        public System.Windows.Forms.GroupBox groupBoxDIGITALGRIDDNPDeadBand;
         private System.Windows.Forms.Button buttonSendDIGITALGRIDDeadBand;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button buttonSendDeadBand;

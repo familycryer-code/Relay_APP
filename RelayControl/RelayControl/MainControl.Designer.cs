@@ -2900,7 +2900,7 @@
             this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageDNP.Size = new System.Drawing.Size(1388, 800);
             this.tabPageDNP.TabIndex = 9;
-            this.tabPageDNP.Text = "DNP";
+            this.tabPageDNP.Text = "DNP Comm Settings";
             // 
             // buttonResetRelay2
             // 
@@ -2922,7 +2922,7 @@
             this.ucDNP1.Location = new System.Drawing.Point(10, 4);
             this.ucDNP1.Margin = new System.Windows.Forms.Padding(4);
             this.ucDNP1.Name = "ucDNP1";
-            this.ucDNP1.Size = new System.Drawing.Size(1147, 644);
+            this.ucDNP1.Size = new System.Drawing.Size(1247, 900); //(1447, 900); //(1447, 744);
             this.ucDNP1.TabIndex = 0;
             // 
             // tabPageArcFault

@@ -779,7 +779,7 @@ namespace RelayControlLibrary
                 this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Clear();
 
                 this.groupBoxMemphisDeadBand.Visible = false;
-
+                /*
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "V", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1 V", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
@@ -818,7 +818,64 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 3", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 4", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
-
+                */
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "V", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1 V", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Diff Voltage Angle", "Degrees", 0, 180, 1, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Voltage", "1 V", 0, 25.5m, 10, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Diff Angle", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Diff Voltage", "1 V", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Diff Voltage", "1 V", 0, 25.5m, 10, "In 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 2550m, 0.1m, "Applies to all three Phase Currents"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current Angle", "Degrees", 0, 180, "Applies to all three Phase Currents"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current", "Amps", 0m, 2550m, 0.1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current Angle", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current", "Amps", 0m, 2550m, 0.1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current Angle", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current", "Amps", 0m, 2550m, 0.1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current Angle", "Degrees", 0, 180)); //
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power", "kVA", 0m, 255m, "Applies to all three Apparent Powers"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power Angle", "Degrees", 0, 180, "Applies to all three Apparent Powers"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power", "kVA", 0m, 255m));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power Angle", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Power", "kVA", 0m, 255m, "Applies to all three Real Powers"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Power", "kVA", 0m, 255m));//
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("PhaseKVAR", "V", 0m, 25.5m, 10m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKW", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKVAR", "V", 0m, 25.5m, 10m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKVA", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("THD", "V", 0m, 255m, "Applies to both Network and Transformer Sets"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltPositiveSequence", "Degrees", 0, 180m, "Applies to both Network and Transformer Sets"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltPositiveSequenceAngle", "V", 0m, 255m, "Applies to both Network and Transformer Sets"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltNegativeSequence", "Degrees", 0, 180, "Applies to both Network and Transformer Sets"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltNegativeSequenceAngle", "%", 0m, 25.5m, 10m, "Applies to all three Voltage THDs"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltPositiveSequence", "%", 0m, 25.5m, 10m, "Applies to all three Current THDs"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltPositiveSequenceAngle", "Degrees C", 0m, 25.5m, 10m, "Applies to Temperature"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltNegativeSequence", "Cycles", 0m, 255m));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltNegativeSequenceAngle", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltageTHD", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("CurrentTHD", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Temperature", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Odometer", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog3", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog4", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog5", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog6", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog7", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog8", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogC", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogD", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogE", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogF", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogG", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogH", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("QBit", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("LoadPercentage", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 if (this.Customer == Customers.DNPwithPLC)
                 {
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A1 - Oil Temp", "Degrees", 0m, 255m, 1m, "Temperature"));
@@ -838,7 +895,7 @@ namespace RelayControlLibrary
                 location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
 
                 //this.groupBoxDIGITALGRIDDNPDeadBand.Location = location;
-                this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(288, 2);
+                this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(400, 6); //(288, 2);
                 this.groupBoxDIGITALGRIDDNPDeadBand.Height = 0;
 
                 location = new Point(2, 15);//Now make location the starting spot of the first control
@@ -863,11 +920,12 @@ namespace RelayControlLibrary
                     location = new Point(location.X, location.Y - workingDDB.Height);
 
                 //this.groupBoxDIGITALGRIDDNPDeadBand.Size = new Size(location.X + workingDDB.Width + 2, location.Y + workingDDB.Height + 2);
-                this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(840, 550);
+                this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(1200, 900); //(840, 550);
                 this.groupBoxDIGITALGRIDDNPDeadBand.Show();
 
                 //this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
-                this.buttonSendDeadBand.Location = new System.Drawing.Point(620, 570);
+                this.buttonSendDeadBand.Location = new System.Drawing.Point(1120, 370); //(620, 570);
+                this.buttonSendDeadBand.Size = new System.Drawing.Size(100, 80);
             }
             this.buttonDefaults.Text = "Restore Factory Defaults";
         }
@@ -876,7 +934,7 @@ namespace RelayControlLibrary
         {
             this.numericUpDownMemphisStage.Visible = true;
             this.labelMemphisStage.Visible = true;
-
+            
             this.groupBoxMemphisDeadBand.Location = this.groupBoxDIGITALGRIDDNPDeadBand.Location;
             this.groupBoxDIGITALGRIDDNPDeadBand.Hide();
             this.groupBoxMemphisDeadBand.Show();
@@ -1136,14 +1194,14 @@ namespace RelayControlLibrary
         public ucDeadBandSettingsObject(string name, string units, decimal min, decimal max)
         {
             this.Name = name + ":";
-            this.Units = units + "*";
+            this.Units = units;// + "*";
             this.Maximum = max;
             this.Minimum = min;
         }
         public ucDeadBandSettingsObject(string name, string units, decimal min, decimal max, string toolTip)
         {
             this.Name = name + ":";
-            this.Units = units + "*";
+            this.Units = units;// + "*";
             this.Maximum = max;
             this.Minimum = min;
             this.ToolTip = toolTip;
@@ -1151,7 +1209,7 @@ namespace RelayControlLibrary
         public ucDeadBandSettingsObject(string name, string units, decimal min, decimal max, decimal mult, string toolTip)
         {
             this.Name = name + ":";
-            this.Units = units + "*";
+            this.Units = units;// + "*";
             this.Maximum = max;
             this.Minimum = min;
             this.ToolTip = toolTip;
