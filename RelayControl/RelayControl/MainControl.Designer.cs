@@ -2922,7 +2922,7 @@
             this.ucDNP1.Location = new System.Drawing.Point(10, 4);
             this.ucDNP1.Margin = new System.Windows.Forms.Padding(4);
             this.ucDNP1.Name = "ucDNP1";
-            this.ucDNP1.Size = new System.Drawing.Size(1247, 900); //(1447, 900); //(1447, 744);
+            this.ucDNP1.Size = new System.Drawing.Size(1347, 900);
             this.ucDNP1.TabIndex = 0;
             // 
             // tabPageArcFault

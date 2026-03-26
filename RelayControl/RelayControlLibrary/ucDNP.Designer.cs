@@ -225,7 +225,7 @@ namespace RelayControlLibrary
             // labelUnsolTimeout
             // 
             this.labelUnsolTimeout.AutoSize = true;
-            this.labelUnsolTimeout.Location = new System.Drawing.Point(30, 111); //(0, 111);
+            this.labelUnsolTimeout.Location = new System.Drawing.Point(30, 111);
             this.labelUnsolTimeout.Name = "labelUnsolTimeout";
             this.labelUnsolTimeout.Size = new System.Drawing.Size(194, 19);
             this.labelUnsolTimeout.TabIndex = 9;
@@ -386,7 +386,7 @@ namespace RelayControlLibrary
             // labelMaxEvents
             // 
             this.labelMaxEvents.AutoSize = true;
-            this.labelMaxEvents.Location = new System.Drawing.Point(39, 233); //(8, 233);
+            this.labelMaxEvents.Location = new System.Drawing.Point(39, 233);
             this.labelMaxEvents.Name = "labelMaxEvents";
             this.labelMaxEvents.Size = new System.Drawing.Size(180, 19);
             this.labelMaxEvents.TabIndex = 21;
@@ -413,7 +413,7 @@ namespace RelayControlLibrary
             // labelUnsolRetries
             // 
             this.labelUnsolRetries.AutoSize = true;
-            this.labelUnsolRetries.Location = new System.Drawing.Point(21, 262); //(-12, 260);
+            this.labelUnsolRetries.Location = new System.Drawing.Point(21, 262);
             this.labelUnsolRetries.Name = "labelUnsolRetries";
             this.labelUnsolRetries.Size = new System.Drawing.Size(200, 19);
             this.labelUnsolRetries.TabIndex = 24;
@@ -590,6 +590,7 @@ namespace RelayControlLibrary
             // 
             // buttonRQDNPSettings
             // 
+            this.buttonRQDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRQDNPSettings.Location = new System.Drawing.Point(60, 460);
             this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
             this.buttonRQDNPSettings.Size = new System.Drawing.Size(150, 23);
@@ -655,6 +656,7 @@ namespace RelayControlLibrary
             // 
             // buttonDefaults
             // 
+            this.buttonDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonDefaults.Location = new System.Drawing.Point(60, 425);
             this.buttonDefaults.Name = "buttonDefaults";
             this.buttonDefaults.Size = new System.Drawing.Size(150, 23);
@@ -1321,9 +1323,10 @@ namespace RelayControlLibrary
             // 
             // buttonSendDeadBand
             // 
-            this.buttonSendDeadBand.Location = new System.Drawing.Point(100, 553);
+            this.buttonSendDeadBand.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSendDeadBand.Location = new System.Drawing.Point(222, 581);
             this.buttonSendDeadBand.Name = "buttonSendDeadBand";
-            this.buttonSendDeadBand.Size = new System.Drawing.Size(101, 23);
+            this.buttonSendDeadBand.Size = new System.Drawing.Size(101, 55);
             this.buttonSendDeadBand.TabIndex = 144;
             this.buttonSendDeadBand.Text = "Send Dead Band";
             this.buttonSendDeadBand.UseVisualStyleBackColor = true;
@@ -1429,9 +1432,9 @@ namespace RelayControlLibrary
             // labelDNPtext1
             // 
             this.labelDNPtext1.AutoSize = true;
-            this.labelDNPtext1.Location = new System.Drawing.Point(6, 24);
+            this.labelDNPtext1.Location = new System.Drawing.Point(6, 35);
             this.labelDNPtext1.Name = "labelDNPtext1";
-            this.labelDNPtext1.Size = new System.Drawing.Size(37, 13);
+            this.labelDNPtext1.Size = new System.Drawing.Size(52, 19);
             this.labelDNPtext1.TabIndex = 149;
             this.labelDNPtext1.Text = "Status";
             // 
@@ -1439,10 +1442,10 @@ namespace RelayControlLibrary
             // 
             this.labelDNPStatusInidcation.AutoSize = true;
             this.labelDNPStatusInidcation.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.labelDNPStatusInidcation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDNPStatusInidcation.Location = new System.Drawing.Point(47, 21);
+            this.labelDNPStatusInidcation.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDNPStatusInidcation.Location = new System.Drawing.Point(60, 35);
             this.labelDNPStatusInidcation.Name = "labelDNPStatusInidcation";
-            this.labelDNPStatusInidcation.Size = new System.Drawing.Size(62, 16);
+            this.labelDNPStatusInidcation.Size = new System.Drawing.Size(76, 19);
             this.labelDNPStatusInidcation.TabIndex = 150;
             this.labelDNPStatusInidcation.Text = "Unknown";
             // 
@@ -1450,9 +1453,10 @@ namespace RelayControlLibrary
             // 
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPtext1);
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPStatusInidcation);
+            this.groupBoxDNPStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDNPStatus.Location = new System.Drawing.Point(75, 500);
             this.groupBoxDNPStatus.Name = "groupBoxDNPStatus";
-            this.groupBoxDNPStatus.Size = new System.Drawing.Size(116, 52);
+            this.groupBoxDNPStatus.Size = new System.Drawing.Size(147, 75);
             this.groupBoxDNPStatus.TabIndex = 151;
             this.groupBoxDNPStatus.TabStop = false;
             this.groupBoxDNPStatus.Text = "DNP Status";
