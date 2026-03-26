@@ -822,9 +822,9 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Diff Voltage Angle", "Degrees", 0, 180, 1, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Volt Angle", "Degrees", 0, 180, 1, "Applies to all three Differential Voltages in 0.1 Volt steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, ""));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Diff Angle", "Degrees", 0, 180));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Volt Angle", "Degrees", 0, 180));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Diff Voltage", "1Volts", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Diff Voltage", "1Volts", 0, 25.5m, 10, "In 0.1 Volt steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 2550m, 0.1m, "Applies to all three Phase Currents"));
@@ -912,7 +912,9 @@ namespace RelayControlLibrary
                     }
                     else
                     {
-                        location = new Point(location.X, location.Y + workingDDB.Height + 1);
+                        //location = new Point(location.X, location.Y + workingDDB.Height + 1);
+                        // location = new Point(location.X, location.Y + (workingDDB.Height - 1) + 1);
+                        location = new Point(location.X, location.Y + workingDDB.Height);
                     }
                 }
 

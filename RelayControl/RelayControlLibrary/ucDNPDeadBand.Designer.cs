@@ -47,13 +47,14 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownValue.Location = new System.Drawing.Point(147, 0);
             this.numericUpDownValue.Name = "numericUpDownValue";
-            this.numericUpDownValue.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownValue.Size = new System.Drawing.Size(49, 20); //(120, 20);
             this.numericUpDownValue.TabIndex = 2;
+            this.numericUpDownValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelUnits
             // 
             this.labelUnits.AutoSize = true;
-            this.labelUnits.Location = new System.Drawing.Point(271, 3);
+            this.labelUnits.Location = new System.Drawing.Point(200, 3); //(271, 3);
             this.labelUnits.Name = "labelUnits";
             this.labelUnits.Size = new System.Drawing.Size(35, 13);
             this.labelUnits.TabIndex = 3;

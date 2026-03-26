@@ -505,7 +505,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownTriggerRangeTHD.Name = "numericUpDownTriggerRangeTHD";
-            this.numericUpDownTriggerRangeTHD.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTriggerRangeTHD.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownTriggerRangeTHD.TabIndex = 3;
             this.numericUpDownTriggerRangeTHD.Value = new decimal(new int[] {
             10,
@@ -522,7 +522,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownTriggerRangeVoltage.Name = "numericUpDownTriggerRangeVoltage";
-            this.numericUpDownTriggerRangeVoltage.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTriggerRangeVoltage.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownTriggerRangeVoltage.TabIndex = 2;
             this.numericUpDownTriggerRangeVoltage.Value = new decimal(new int[] {
             255,
@@ -544,7 +544,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownTriggerRangeCurrent.Name = "numericUpDownTriggerRangeCurrent";
-            this.numericUpDownTriggerRangeCurrent.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTriggerRangeCurrent.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownTriggerRangeCurrent.TabIndex = 5;
             this.numericUpDownTriggerRangeCurrent.Value = new decimal(new int[] {
             3,
@@ -591,9 +591,9 @@ namespace RelayControlLibrary
             // buttonRQDNPSettings
             // 
             this.buttonRQDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRQDNPSettings.Location = new System.Drawing.Point(60, 460);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(37, 489);
             this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
-            this.buttonRQDNPSettings.Size = new System.Drawing.Size(150, 23);
+            this.buttonRQDNPSettings.Size = new System.Drawing.Size(210, 23);
             this.buttonRQDNPSettings.TabIndex = 31;
             this.buttonRQDNPSettings.Text = "Request DNP Settings";
             this.buttonRQDNPSettings.UseVisualStyleBackColor = true;
@@ -601,9 +601,9 @@ namespace RelayControlLibrary
             // 
             // buttonSendAllDNPSettings
             // 
-            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(64, 369);
+            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(34, 369);
             this.buttonSendAllDNPSettings.Name = "buttonSendAllDNPSettings";
-            this.buttonSendAllDNPSettings.Size = new System.Drawing.Size(130, 23);
+            this.buttonSendAllDNPSettings.Size = new System.Drawing.Size(210, 23);
             this.buttonSendAllDNPSettings.TabIndex = 32;
             this.buttonSendAllDNPSettings.Text = "Send All DNP Settings";
             this.buttonSendAllDNPSettings.UseVisualStyleBackColor = true;
@@ -637,7 +637,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownTriggerRangeTemperature.Name = "numericUpDownTriggerRangeTemperature";
-            this.numericUpDownTriggerRangeTemperature.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTriggerRangeTemperature.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownTriggerRangeTemperature.TabIndex = 6;
             this.numericUpDownTriggerRangeTemperature.Value = new decimal(new int[] {
             3,
@@ -657,9 +657,9 @@ namespace RelayControlLibrary
             // buttonDefaults
             // 
             this.buttonDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDefaults.Location = new System.Drawing.Point(60, 425);
+            this.buttonDefaults.Location = new System.Drawing.Point(37, 448);
             this.buttonDefaults.Name = "buttonDefaults";
-            this.buttonDefaults.Size = new System.Drawing.Size(150, 23);
+            this.buttonDefaults.Size = new System.Drawing.Size(214, 23);
             this.buttonDefaults.TabIndex = 59;
             this.buttonDefaults.Text = "Memphis Defaults";
             this.buttonDefaults.UseVisualStyleBackColor = true;
@@ -756,7 +756,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownAnalog4DeadBand.Name = "numericUpDownAnalog4DeadBand";
-            this.numericUpDownAnalog4DeadBand.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownAnalog4DeadBand.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownAnalog4DeadBand.TabIndex = 19;
             this.numericUpDownAnalog4DeadBand.Value = new decimal(new int[] {
             255,
@@ -801,7 +801,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownAnalog3DeadBand.Name = "numericUpDownAnalog3DeadBand";
-            this.numericUpDownAnalog3DeadBand.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownAnalog3DeadBand.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownAnalog3DeadBand.TabIndex = 18;
             this.numericUpDownAnalog3DeadBand.Value = new decimal(new int[] {
             3,
@@ -850,7 +850,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownTotalKWDB.Name = "numericUpDownTotalKWDB";
-            this.numericUpDownTotalKWDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTotalKWDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownTotalKWDB.TabIndex = 14;
             this.numericUpDownTotalKWDB.Value = new decimal(new int[] {
             255,
@@ -881,7 +881,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownTotalKVAVARDB.Name = "numericUpDownTotalKVAVARDB";
-            this.numericUpDownTotalKVAVARDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTotalKVAVARDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownTotalKVAVARDB.TabIndex = 15;
             this.numericUpDownTotalKVAVARDB.Value = new decimal(new int[] {
             4,
@@ -908,7 +908,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownAnalog1DeadBand.Name = "numericUpDownAnalog1DeadBand";
-            this.numericUpDownAnalog1DeadBand.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownAnalog1DeadBand.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownAnalog1DeadBand.TabIndex = 16;
             this.numericUpDownAnalog1DeadBand.Value = new decimal(new int[] {
             3,
@@ -953,7 +953,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownAnalog2DeadBand.Name = "numericUpDownAnalog2DeadBand";
-            this.numericUpDownAnalog2DeadBand.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownAnalog2DeadBand.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownAnalog2DeadBand.TabIndex = 17;
             this.numericUpDownAnalog2DeadBand.Value = new decimal(new int[] {
             3,
@@ -979,7 +979,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownPhaseKVADB.Name = "numericUpDownPhaseKVADB";
-            this.numericUpDownPhaseKVADB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownPhaseKVADB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownPhaseKVADB.TabIndex = 13;
             this.numericUpDownPhaseKVADB.Value = new decimal(new int[] {
             100,
@@ -1028,7 +1028,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownPhaseKVARDB.Name = "numericUpDownPhaseKVARDB";
-            this.numericUpDownPhaseKVARDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownPhaseKVARDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownPhaseKVARDB.TabIndex = 12;
             this.numericUpDownPhaseKVARDB.Value = new decimal(new int[] {
             100,
@@ -1068,7 +1068,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownPhaseKWDB.Name = "numericUpDownPhaseKWDB";
-            this.numericUpDownPhaseKWDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownPhaseKWDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownPhaseKWDB.TabIndex = 11;
             this.numericUpDownPhaseKWDB.Value = new decimal(new int[] {
             100,
@@ -1112,7 +1112,7 @@ namespace RelayControlLibrary
             0,
             0});
             this.numericUpDownOdometer.Name = "numericUpDownOdometer";
-            this.numericUpDownOdometer.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownOdometer.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownOdometer.TabIndex = 7;
             this.numericUpDownOdometer.Value = new decimal(new int[] {
             255,
@@ -1144,7 +1144,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownDifferentialVoltsDB.Name = "numericUpDownDifferentialVoltsDB";
-            this.numericUpDownDifferentialVoltsDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownDifferentialVoltsDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownDifferentialVoltsDB.TabIndex = 8;
             this.numericUpDownDifferentialVoltsDB.Value = new decimal(new int[] {
             10,
@@ -1176,7 +1176,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownDifferentialVoltsRealDB.Name = "numericUpDownDifferentialVoltsRealDB";
-            this.numericUpDownDifferentialVoltsRealDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownDifferentialVoltsRealDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownDifferentialVoltsRealDB.TabIndex = 9;
             this.numericUpDownDifferentialVoltsRealDB.Value = new decimal(new int[] {
             10,
@@ -1221,7 +1221,7 @@ namespace RelayControlLibrary
             0,
             65536});
             this.numericUpDownCurrentAngleDB.Name = "numericUpDownCurrentAngleDB";
-            this.numericUpDownCurrentAngleDB.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownCurrentAngleDB.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownCurrentAngleDB.TabIndex = 10;
             this.numericUpDownCurrentAngleDB.Value = new decimal(new int[] {
             10,
@@ -1454,7 +1454,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPtext1);
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPStatusInidcation);
             this.groupBoxDNPStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxDNPStatus.Location = new System.Drawing.Point(75, 500);
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(50, 554);
             this.groupBoxDNPStatus.Name = "groupBoxDNPStatus";
             this.groupBoxDNPStatus.Size = new System.Drawing.Size(147, 75);
             this.groupBoxDNPStatus.TabIndex = 151;
