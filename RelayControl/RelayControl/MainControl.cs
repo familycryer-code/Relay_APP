@@ -740,7 +740,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.32 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.33 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.26" + " DOMINION ";
@@ -1036,18 +1036,19 @@ namespace RelayControl
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
-                /*
-                this.ucDNP1.groupBoxDIGITALGRIDDNPDeadBand.Font = new Font(this.ucDNP1.groupBoxDIGITALGRIDDNPDeadBand.Font, FontStyle.Bold);
-                foreach (Control child in this.ucDNP1.groupBoxDIGITALGRIDDNPDeadBand.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
-                */
+                
                 this.ucDNP1.groupBoxDNPSettings.Font = new Font(this.ucDNP1.groupBoxDNPSettings.Font, FontStyle.Bold);
                 foreach (Control child in this.ucDNP1.groupBoxDNPSettings.Controls)
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
+
+                this.ucPhasorGraph1.groupBoxTHD.Font = new Font(this.ucPhasorGraph1.groupBoxTHD.Font, FontStyle.Bold);
+                foreach (Control child in this.ucPhasorGraph1.groupBoxTHD.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
 
             }
             catch (Exception ex)

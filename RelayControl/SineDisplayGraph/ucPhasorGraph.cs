@@ -98,6 +98,33 @@ namespace SineDisplayGraph
             Array temp = Enum.GetValues(typeof(PhasorTypes));
             int count = 0;
 
+            // Relocate the voltage, current, power  labels, text and boxes as per new design for PQ Monitor tab and Tahoma font
+            this.labelRealValue.Location = new System.Drawing.Point(1420, 16);
+
+            this.textBoxIEffReal.Location = new System.Drawing.Point(1400, 583);
+            this.labelIEffRealUnits.Location = new System.Drawing.Point(1470, 586);
+
+            this.textBoxICReal.Location = new System.Drawing.Point(1400, 553);
+            this.labelICRealUnits.Location = new System.Drawing.Point(1470, 556); 
+
+            this.textBoxIBReal.Location = new System.Drawing.Point(1400, 523);
+            this.labelIBRealUnits.Location = new System.Drawing.Point(1470, 526);
+
+            this.textBoxIAReal.Location = new System.Drawing.Point(1400, 493);
+            this.labelIARealUnits.Location = new System.Drawing.Point(1470, 496);
+
+            this.textBoxVdAReal.Location = new System.Drawing.Point(1400, 193);
+            this.labelVdAReal.Location = new System.Drawing.Point(1470, 197);
+
+            this.textBoxVdBReal.Location = new System.Drawing.Point(1400, 223);
+            this.labelVdBReal.Location = new System.Drawing.Point(1470, 227);
+
+            this.textBoxVdCReal.Location = new System.Drawing.Point(1400, 253);
+            this.labelVdCReal.Location = new System.Drawing.Point(1470, 257);
+
+            this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
+            this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
+
             generateRefWav();
             foreach (PhasorTypes pT in temp)
             {
@@ -2360,6 +2387,51 @@ namespace SineDisplayGraph
         private void checkBoxGERelay_CheckedChanged(object sender, EventArgs e)
         {
             this.GEEnabled = ((CheckBox)sender).Checked;
+        }
+
+        private void ucPhasorGraph_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxVdPAngle_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelVdPUnits_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxVdPRMS_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelVdP_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxVnATHD_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelIATHD_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxIATHD_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void getNewCycle(int p)
