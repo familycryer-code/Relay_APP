@@ -913,8 +913,9 @@ namespace RelayControlLibrary
                     else
                     {
                         //location = new Point(location.X, location.Y + workingDDB.Height + 1);
-                        // location = new Point(location.X, location.Y + (workingDDB.Height - 1) + 1);
-                        location = new Point(location.X, location.Y + workingDDB.Height);
+                        // location = new Point(location.X, location.Y + (workingDDB.Height - 5) + 1); // groupBoxDIGITALGRIDDNPDeadBand font Tahoma 9.75
+                        location = new Point(location.X, location.Y + (workingDDB.Height - 10) + 1); // groupBoxDIGITALGRIDDNPDeadBand font Tahoma 11
+                        // location = new Point(location.X, location.Y + workingDDB.Height); // groupBoxDIGITALGRIDDNPDeadBand font MS sans seriff 9
                     }
                 }
 
@@ -926,7 +927,7 @@ namespace RelayControlLibrary
                 this.groupBoxDIGITALGRIDDNPDeadBand.Show();
 
                 //this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
-                this.buttonSendDeadBand.Location = new System.Drawing.Point(1230, 370); //(620, 570);
+                this.buttonSendDeadBand.Location = new System.Drawing.Point(800, 370); //(1230, 370); 
                 this.buttonSendDeadBand.Size = new System.Drawing.Size(100, 80);
             }
             this.buttonDefaults.Text = "Restore Factory Defaults";

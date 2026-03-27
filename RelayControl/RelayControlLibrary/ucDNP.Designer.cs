@@ -1295,7 +1295,7 @@ namespace RelayControlLibrary
             // 
             this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(this.buttonSendDIGITALGRIDDeadBand);
             this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Add(this.label29);
-            this.groupBoxDIGITALGRIDDNPDeadBand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxDIGITALGRIDDNPDeadBand.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(294, 0);
             this.groupBoxDIGITALGRIDDNPDeadBand.Name = "groupBoxDIGITALGRIDDNPDeadBand";
             this.groupBoxDIGITALGRIDDNPDeadBand.Size = new System.Drawing.Size(1000, 540);
@@ -1317,7 +1317,7 @@ namespace RelayControlLibrary
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(6, 563);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(138, 15);
+            this.label29.Size = new System.Drawing.Size(162, 18);
             this.label29.TabIndex = 55;
             this.label29.Text = "*Zero Will Disable Event";
             // 
