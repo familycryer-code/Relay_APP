@@ -1285,7 +1285,7 @@
             this.ucLiveData1.Location = new System.Drawing.Point(0, 25);
             this.ucLiveData1.Margin = new System.Windows.Forms.Padding(4);
             this.ucLiveData1.Name = "ucLiveData1";
-            this.ucLiveData1.Size = new System.Drawing.Size(1188, 695);
+            this.ucLiveData1.Size = new System.Drawing.Size(1520, 695); //(1188, 695);
             this.ucLiveData1.TabIndex = 0;
             // 
             // tabPageTransmitter

@@ -99,7 +99,7 @@ namespace SineDisplayGraph
             int count = 0;
 
             // Relocate the voltage, current, power  labels, text and boxes as per new design for PQ Monitor tab and Tahoma font
-            this.labelRealValue.Location = new System.Drawing.Point(1420, 16);
+            this.labelRealValue.Location = new System.Drawing.Point(1420, -3);
 
             this.textBoxIEffReal.Location = new System.Drawing.Point(1400, 583);
             this.labelIEffRealUnits.Location = new System.Drawing.Point(1470, 586);

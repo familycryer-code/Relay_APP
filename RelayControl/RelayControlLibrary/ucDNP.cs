@@ -58,7 +58,7 @@ namespace RelayControlLibrary
                 byte tempByte = 0;
                 UInt32 tempInt32;
 
-                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
                 //Setting the command bits 0 - 6
@@ -141,12 +141,14 @@ namespace RelayControlLibrary
 
         private void buttonSendDeadBand_Click(object sender, EventArgs e)
         {
+           //this.deadBandVariables.// ucDeadBandSettingsObject.
+           // this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
             try
             {
-                SendEventArgs sEA = new SendEventArgs(_packetLength);
-                uint index = 2;
-
-                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                SendEventArgs sEA = new SendEventArgs(_packetLength); //98
+                //uint index = 2;
+                int index = 2;
+                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
 
                 foreach (Control c in this.groupBoxDIGITALGRIDDNPDeadBand.Controls)
@@ -164,7 +166,8 @@ namespace RelayControlLibrary
 
                     if (!failed)
                     {
-                        sEA.SendPacket[index] = (byte)uDDB.Value;
+                      //  sEA.SendPacket[index] = (byte)uDDB.Value;
+                        sEA.SendPacket[index] = (byte)this.deadBandVariables[index-2].Maximum; // only for testing -3/30/2026- to be removed
                         index++;
                         if (index >= 90)
                             throw new Exception("Too many DeadBand Variables for single packet");
@@ -827,14 +830,18 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Volt Angle", "Degrees", 0, 180));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Diff Voltage", "1Volts", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Diff Voltage", "1Volts", 0, 25.5m, 10, "In 0.1 Volt steps"));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 2550m, 0.1m, "Applies to all three Phase Currents"));
+                //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 2550m, 0.1m, "Applies to all three Phase Currents"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 255m, 0.1m, "Applies to all three Phase Currents"));//only for testing - 3/30/2026
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current Angle", "Degrees", 0, 180, "Applies to all three Phase Currents"));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current", "Amps", 0m, 2550m, 0.1m, ""));
+                //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current", "Amps", 0m, 2550m, 0.1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current", "Amps", 0m, 255m, 0.1m, ""));//only for testing - 3/30/2026
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current Angle", "Degrees", 0, 180));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current", "Amps", 0m, 2550m, 0.1m, ""));
+                //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current", "Amps", 0m, 2550m, 0.1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current", "Amps", 0m, 255m, 0.1m, ""));//only for testing - 3/30/2026
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current Angle", "Degrees", 0, 180));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current", "Amps", 0m, 2550m, 0.1m, ""));
-                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current Angle", "Degrees", 0, 180)); //
+                //this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current", "Amps", 0m, 2550m, 0.1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current", "Amps", 0m, 255m, 0.1m, ""));//only for testing - 3/30/2026
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current Angle", "Degrees", 0, 180)); 
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power", "kVA", 0m, 255m, "Applies to all three Apparent Powers"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power Angle", "Degrees", 0, 180, "Applies to all three Apparent Powers"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power", "kVA", 0m, 255m));

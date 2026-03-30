@@ -1578,7 +1578,7 @@ namespace RelayControlLibrary
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
 
-            sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+            sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
 
             foreach (Control C in this.tabPageBinaryInputs.Controls)
@@ -1647,7 +1647,7 @@ namespace RelayControlLibrary
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
 
-            sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+            sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
             sEA.SendPacket[1] = (byte)'E';        //For set analog events subcode
 
             foreach (Control C in this.tabPageAnalogInputs1.Controls)
