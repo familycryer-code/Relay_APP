@@ -166,8 +166,8 @@ namespace RelayControlLibrary
 
                     if (!failed)
                     {
-                      //  sEA.SendPacket[index] = (byte)uDDB.Value;
-                        sEA.SendPacket[index] = (byte)this.deadBandVariables[index-2].Maximum; // only for testing -3/30/2026- to be removed
+                        sEA.SendPacket[index] = (byte)uDDB.Value;
+                       // sEA.SendPacket[index] = (byte)this.deadBandVariables[index-2].Maximum; // only for testing -3/30/2026- to be removed
                         index++;
                         if (index >= 90)
                             throw new Exception("Too many DeadBand Variables for single packet");
