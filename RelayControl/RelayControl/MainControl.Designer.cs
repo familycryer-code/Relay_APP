@@ -93,7 +93,6 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -265,6 +264,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -941,14 +941,6 @@
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -1125,7 +1117,7 @@
             this.ucEventGraph7.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph7.Name = "ucEventGraph7";
-            this.ucEventGraph7.Size = new System.Drawing.Size(1175, 684);
+            this.ucEventGraph7.Size = new System.Drawing.Size(1520, 695);
             this.ucEventGraph7.TabIndex = 8;
             this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1285,7 +1277,7 @@
             this.ucLiveData1.Location = new System.Drawing.Point(0, 25);
             this.ucLiveData1.Margin = new System.Windows.Forms.Padding(4);
             this.ucLiveData1.Name = "ucLiveData1";
-            this.ucLiveData1.Size = new System.Drawing.Size(1520, 695); //(1188, 695);
+            this.ucLiveData1.Size = new System.Drawing.Size(1520, 695);
             this.ucLiveData1.TabIndex = 0;
             // 
             // tabPageTransmitter
@@ -1357,7 +1349,7 @@
             // 
             this.labelSNPQMonitor.AutoSize = true;
             this.labelSNPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(350,350);
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(350, 350);
             this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSNPQMonitor.Name = "labelSNPQMonitor";
             this.labelSNPQMonitor.Size = new System.Drawing.Size(84, 19);
@@ -1368,7 +1360,7 @@
             // 
             this.labelCtRatioMonitor.AutoSize = true;
             this.labelCtRatioMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(355, 382); //(287, 3);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(355, 382);
             this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(76, 19);
@@ -1378,7 +1370,7 @@
             // textBoxRelaySNControlPQ
             // 
             this.textBoxRelaySNControlPQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(435, 345); //(160, 3);
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(435, 345);
             this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
@@ -1392,7 +1384,7 @@
             // 
             this.textBoxCTRatioPQMonitor.Enabled = false;
             this.textBoxCTRatioPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(435, 382); //(365, 3);
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(435, 382);
             this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
@@ -1407,7 +1399,7 @@
             this.checkBoxInTripRegion.AutoSize = true;
             this.checkBoxInTripRegion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInTripRegion.Location = new System.Drawing.Point(423, 50); //(520, 30);
+            this.checkBoxInTripRegion.Location = new System.Drawing.Point(423, 50);
             this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
             this.checkBoxInTripRegion.Size = new System.Drawing.Size(131, 23);
@@ -1430,7 +1422,7 @@
             // 
             this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayTrippedOrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(521, 382); //(490, 3);
+            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(521, 382);
             this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(4);
             this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
             this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
@@ -1442,7 +1434,7 @@
             // buttonToggleMonitor
             // 
             this.buttonToggleMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonToggleMonitor.Location = new System.Drawing.Point(520, 345); //(520, 50);
+            this.buttonToggleMonitor.Location = new System.Drawing.Point(520, 345);
             this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.buttonToggleMonitor.Name = "buttonToggleMonitor";
             this.buttonToggleMonitor.Size = new System.Drawing.Size(165, 31);
@@ -3121,6 +3113,14 @@
             this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 

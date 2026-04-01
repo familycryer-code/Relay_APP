@@ -822,6 +822,8 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 3", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog 4", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 */
+                /*
+                //57 new rev10 firmware
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
@@ -883,8 +885,123 @@ namespace RelayControlLibrary
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("QBit", "%", 0m, 5.0m, 10m, ""));
                 this.deadBandVariables.Add(new ucDeadBandSettingsObject("LoadPercentage", "%", 0m, 5.0m, 10m, ""));
+               */
+                /*
+                //54 new rev10 firmware
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Volt Angle", "Degrees", 0, 180, 1, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Volt Angle", "Degrees", 0, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Diff Voltage", "1Volts", 0, 25.5m, 1, "Applies to all three Differential Voltages in 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Diff Voltage", "1Volts", 0, 25.5m, 1, "In 0.1 Volt steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 255m, 1, "Applies to all three Phase Currents"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current Angle", "Degrees", 0, 180, 1, "Applies to all three Phase Currents"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current", "Amps", 0m, 255m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current Angle", "Degrees", 0, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current", "Amps", 0m, 255m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current Angle", "Degrees", 0, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current", "Amps", 0m, 255m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current Angle", "Degrees", 0, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power", "kVA", 0m, 255m, 13, "Applies to all three Apparent Powers"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power Angle", "Degrees", 0, 180, 1, "Applies to all three Apparent Powers"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power", "kVA", 0m, 255m, 13, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power Angle", "Degrees", 0, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Power", "kWatts", 0m, 255m, 13, "Applies to all three Real Powers"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Power", "kWatts", 0m, 255m, 13, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("PhaseKVAR", "kVAR", 0m, 25.5m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("PhaseKVAR", "kVAR", 0m, 25.5m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltPositiveSequence", "Volts", 0m, 25.5m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltPositiveSequenceAngle", "Degrees", 0m, 180m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltNegativeSequence", "Volts", 0m, 25.5m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltNegativeSequenceAngle", "Degrees", 0m, 180m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltPositiveSequence", "Volts", 0m, 255m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltPositiveSequenceAngle", "Degrees", 0m, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltNegativeSequence", "Volts", 0m, 255m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltNegativeSequenceAngle", "Degrees", 0m, 180, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltageTHD", "Volts", 0m, 25.5m, 1, "Applies to all three Voltage THDs"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("CurrentTHD", "Volts", 0m, 25.5m, 1, "Applies to all three Current THDs"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Temperature", "Degrees C", 0m, 255m, 13, "Applies to Temperature"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Odometer", "Units", 0m, 1.0m, 1m, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog3", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog4", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog5", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog6", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog7", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog8", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogC", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogD", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogE", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogF", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogG", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogH", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps"));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("LoadPercentage", "%", 0m, 5.0m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKW", "kWatts", 0m, 25.5m, 1, ""));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKVAR", "kVAR", 0m, 25.5m, 1, "Used for both TotalKVAR and TotalKVA"));
+                */
+                //54 new rev10 firmware - now ucDeadBandSettingsObject also takes in a default value parameter
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages",1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, "Applies to all three Differential Voltages in 0.1 Volt steps",1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Diff Volt Angle", "Degrees", 0, 180, 1, "Applies to all three Differential Voltages in 0.1 Volt steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Voltage", "1Volts", 0, 25.5m, 10, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Diff Volt Angle", "Degrees", 0, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Diff Voltage", "1Volts", 0, 25.5m, 1, "Applies to all three Differential Voltages in 0.1 Volt steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Diff Voltage", "1Volts", 0, 25.5m, 1, "In 0.1 Volt steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current", "Amps", 0m, 255m, 1, "Applies to all three Phase Currents", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Current Angle", "Degrees", 0, 180, 1, "Applies to all three Phase Currents", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current", "Amps", 0m, 255m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Effective Current Angle", "Degrees", 0, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current", "Amps", 0m, 255m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Pos Seq Current Angle", "Degrees", 0, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current", "Amps", 0m, 255m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Neg Seq Current Angle", "Degrees", 0, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power", "kVA", 0m, 255m, 13, "Applies to all three Apparent Powers", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Apparent Power Angle", "Degrees", 0, 180, 1, "Applies to all three Apparent Powers", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power", "kVA", 0m, 255m, 13, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Apparent Power Angle", "Degrees", 0, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Real Power", "kWatts", 0m, 255m, 13, "Applies to all three Real Powers", 13));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Avg Real Power", "kWatts", 0m, 255m, 13, "", 13));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("PhaseKVAR", "kVAR", 0m, 25.5m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("PhaseKVAR", "kVAR", 0m, 25.5m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltPositiveSequence", "Volts", 0m, 25.5m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltPositiveSequenceAngle", "Degrees", 0m, 180m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltNegativeSequence", "Volts", 0m, 25.5m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("DiffVoltNegativeSequenceAngle", "Degrees", 0m, 180m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltPositiveSequence", "Volts", 0m, 255m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltPositiveSequenceAngle", "Degrees", 0m, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltNegativeSequence", "Volts", 0m, 255m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltNegativeSequenceAngle", "Degrees", 0m, 180, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("VoltageTHD", "Volts", 0m, 25.5m, 1, "Applies to all three Voltage THDs",1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("CurrentTHD", "Volts", 0m, 25.5m, 1, "Applies to all three Current THDs", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Temperature", "Degrees C", 0m, 255m, 13, "Applies to Temperature", 13));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Odometer", "Units", 0m, 1.0m, 1m, "",0));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps",1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps",1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog3", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog4", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog5", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog6", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog7", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("Analog8", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA1", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogA2", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogC", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogD", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogE", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogF", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogG", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("AnalogH", "Volts", 0m, 5.0m, 10m, "Voltage input from 0-5 volts in 0.1 V steps", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("LoadPercentage", "%", 0m, 5.0m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKW", "kWatts", 0m, 25.5m, 1, "", 1));
+                this.deadBandVariables.Add(new ucDeadBandSettingsObject("TotalKVAR", "kVAR", 0m, 25.5m, 1, "Used for both TotalKVAR and TotalKVA", 1));
                 if (this.Customer == Customers.DNPwithPLC)
-                {
+                {/*
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A1 - Oil Temp", "Degrees", 0m, 255m, 1m, "Temperature"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC A2 - Ambient Temp", "Degrees", 0m, 255m, 1m, "Temperature"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - C Cautions", "Steps", 0m, 255m, 1m, "ADC Steps"));
@@ -894,6 +1011,7 @@ namespace RelayControlLibrary
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - G EDD Trip", "Steps", 0m, 255m, 1m, "ADC Steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("SEC - H Oil Level", "Steps", 0m, 255m, 1m, "ADC Steps"));
                     this.deadBandVariables.Add(new ucDeadBandSettingsObject("Load Percentage", "%", 0m, 100m, "Load Percentage"));
+                    */
                 }
                 Point location = new Point();
                 ucDNPDeadBand workingDDB = new ucDNPDeadBand();
@@ -1216,7 +1334,8 @@ namespace RelayControlLibrary
             this.Minimum = min;
             this.ToolTip = toolTip;
         }
-        public ucDeadBandSettingsObject(string name, string units, decimal min, decimal max, decimal mult, string toolTip)
+        //public ucDeadBandSettingsObject(string name, string units, decimal min, decimal max, decimal mult, string toolTip)
+        public ucDeadBandSettingsObject(string name, string units, decimal min, decimal max, decimal mult, string toolTip, decimal currDefault)
         {
             this.Name = name + ":";
             this.Units = units;// + "*";
@@ -1224,6 +1343,7 @@ namespace RelayControlLibrary
             this.Minimum = min;
             this.ToolTip = toolTip;
             this.Mult = mult;
+            this.defVal = currDefault;
         }
 
         public string ToolTip;
@@ -1232,7 +1352,7 @@ namespace RelayControlLibrary
         public decimal Minimum;
         public decimal Maximum;
         public decimal Mult = 1;
-
+        public decimal defVal;
     }
 
 

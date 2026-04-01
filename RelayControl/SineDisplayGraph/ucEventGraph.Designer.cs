@@ -178,15 +178,14 @@ namespace SineDisplayGraph
             this.labelEventLabel.Name = "labelEventLabel";
             this.labelEventLabel.Size = new System.Drawing.Size(0, 13);
             this.labelEventLabel.TabIndex = 12;
-
             // 
-            // labelEventLabel
+            // labelEventLabel2
             // 
             this.labelEventLabel2.AutoSize = true;
             this.labelEventLabel2.Location = new System.Drawing.Point(421, 34);
             this.labelEventLabel2.Name = "labelEventLabel2";
             this.labelEventLabel2.Size = new System.Drawing.Size(0, 13);
-            //this.labelEventLabel2.TabIndex = 12;
+            this.labelEventLabel2.TabIndex = 13;
             // 
             // ucEventGraph
             // 
@@ -207,7 +206,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.sineGraphVtB);
             this.Controls.Add(this.sineGraphVtA);
             this.Name = "ucEventGraph";
-            this.Size = new System.Drawing.Size(1000, 650);
+            this.Size = new System.Drawing.Size(1158, 650);
             this.SizeChanged += new System.EventHandler(this.ucEventGraph_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();

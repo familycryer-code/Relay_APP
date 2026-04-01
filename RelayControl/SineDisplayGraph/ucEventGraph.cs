@@ -386,9 +386,9 @@ namespace SineDisplayGraph
 
         private void ucEventGraph_SizeChanged(object sender, EventArgs e)
         {
-            int spaceForGraph = ((this.Height - 50) / 6);
+            int spaceForGraph = (this.Size.Height - 50) / 6; //((this.Height - 50) / 6);
             int heightOfGraph = spaceForGraph - 2;
-            int widthOfGraph = (this.Width - 4) / 2;
+            int widthOfGraph = (this.Width - 3) / 2; //(this.Width - 4) / 2;
             int xOfRightGraph = widthOfGraph + 4;
             int xOfLeftGraph = 2;
 
@@ -406,7 +406,7 @@ namespace SineDisplayGraph
             this.frequencyGraphC.Height = heightOfGraph;
 
             this.sineGraphVtA.Location = new Point(xOfLeftGraph, 50);
-            this.sineGraphVnA.Location = new Point(xOfRightGraph, 50);
+            this.sineGraphVnA.Location = new Point(625, 50); //(xOfRightGraph, 50); // 581
             this.sineGraphIA.Location = new Point(xOfLeftGraph, spaceForGraph + 50);
             this.frequencyGraphA.Location = new Point(xOfRightGraph, spaceForGraph + 50);
 

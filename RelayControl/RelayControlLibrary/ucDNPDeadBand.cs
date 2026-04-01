@@ -55,7 +55,8 @@ namespace RelayControlLibrary
             }
             else
             {
-                this.numericUpDownValue.Value = dBD.Minimum;
+               // MessageBox.Show(dBD.defVal + " default value");
+                this.numericUpDownValue.Value = dBD.defVal;//dBD.Minimum;
                 this.numericUpDownValue.Minimum = dBD.Minimum;
                 this.numericUpDownValue.Maximum = dBD.Maximum;
             }
