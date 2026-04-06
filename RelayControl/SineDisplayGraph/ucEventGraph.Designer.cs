@@ -119,11 +119,11 @@ namespace SineDisplayGraph
             // sineGraphVnB
             // 
             this.sineGraphVnB.GraphName = "";
-            this.sineGraphVnB.Location = new System.Drawing.Point(501, 248);
+            this.sineGraphVnB.Location = new System.Drawing.Point(545, 248);
             this.sineGraphVnB.Name = "sineGraphVnB";
             this.sineGraphVnB.PointsToDraw = 0;
             this.sineGraphVnB.ScrollEnabled = false;
-            this.sineGraphVnB.Size = new System.Drawing.Size(495, 98);
+            this.sineGraphVnB.Size = new System.Drawing.Size(595, 98);
             this.sineGraphVnB.TabIndex = 4;
             this.sineGraphVnB.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.sineGraph_DoubleClick);
             // 
