@@ -26,7 +26,8 @@ namespace RelayControlLibrary
             this.customer = customer;
             SetSize();
             this.initializeComponents();
-
+            tabControlMemphisDNP.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControlMemphisDNP.DrawItem += tabControlMemphisDNP_DrawItem;
         }
 
         public delegate void DNPPointChangedHandlder(object o, DNPPointEventArgs eA);
@@ -87,6 +88,29 @@ namespace RelayControlLibrary
             this.initializeAnalogInputs();
             this.initializeAnalogOutputs();
             this.tabControlMemphisDNP_SelectedIndexChanged_1(this, new EventArgs());
+        }
+
+        private void tabControlMemphisDNP_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = tabControlMemphisDNP.TabPages[e.Index];
+            var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            // Background of the selected tab title 
+            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(255, 215, 0) : SystemColors.Control)) // selected tab title has a gold colored background
+            {
+                e.Graphics.FillRectangle(backBrush, e.Bounds);
+            }
+
+            // Text color: blue for selected, gray for others (adjust as needed)
+            var textColor = isSelected ? Color.Black : SystemColors.ControlText; // Color.Black is the color of the selected tab title
+            using (var textBrush = new SolidBrush(textColor))
+            using (var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+            {
+                e.Graphics.DrawString(tab.Text, e.Font, textBrush, e.Bounds, format);
+            }
+
+            // Optional focus rectangle
+            e.DrawFocusRectangle();
         }
 
         private void initializeBinaryInputs()
@@ -1552,20 +1576,23 @@ namespace RelayControlLibrary
                     this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
                     this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
-                this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
+                //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(850, 533);
                 this.buttonSendBinaryEventEnables.Visible = true;
-                this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Visible = true;
-                this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Visible = true;
+                //this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(850, 485);
+                this.buttonEnableAllBinaryEvents.Visible = true; 
+                //this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(850, 437);
+                this.buttonDisableAllBinaryEvents.Visible = true; 
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
-               /* this.buttonDisableAllBinaryEvents.Enabled = false;
-                this.buttonDisableAllBinaryEvents.Visible = false;
-                this.buttonEnableAllBinaryEvents.Enabled = false;
-                this.buttonEnableAllBinaryEvents.Visible = false;
-                this.buttonSendBinaryEventEnables.Enabled = false;
-                this.buttonSendBinaryEventEnables.Visible = false;
-               */
+                /* this.buttonDisableAllBinaryEvents.Enabled = false;
+                 this.buttonDisableAllBinaryEvents.Visible = false;
+                 this.buttonEnableAllBinaryEvents.Enabled = false;
+                 this.buttonEnableAllBinaryEvents.Visible = false;
+                 this.buttonSendBinaryEventEnables.Enabled = false;
+                 this.buttonSendBinaryEventEnables.Visible = false;
+                */
 #endif
             }
         }

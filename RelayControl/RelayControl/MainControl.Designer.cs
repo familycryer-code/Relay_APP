@@ -93,7 +93,6 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -265,6 +264,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -335,13 +335,13 @@
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
             this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.cOMPortToolStripMenuItem.Text = "COM Port";
+            this.cOMPortToolStripMenuItem.Text = "PC COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
             this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.findRelayToolStripMenuItem.Text = "Find Relay";
+            this.findRelayToolStripMenuItem.Text = "Confirm Relay Connection";// "Find Relay";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
@@ -355,14 +355,14 @@
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
             this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Firmware Update";
+            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Update Relay Firmware"; //"Firmware Update";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // tCPConnectionToolStripMenuItem
             // 
             this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
             this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.tCPConnectionToolStripMenuItem.Text = "TCPConnection";
+            this.tCPConnectionToolStripMenuItem.Text = "TCP Connection Settings";
             this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
             // toolStripMenuItemAction
@@ -570,7 +570,7 @@
             this.tabPageTransmitterMonitoring.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
             this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1576, 800);
             this.tabPageTransmitterMonitoring.TabIndex = 8;
             this.tabPageTransmitterMonitoring.Text = "Sensor Monitoring";
             // 
@@ -941,14 +941,6 @@
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -966,13 +958,14 @@
             this.tabPageEvents.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageEvents.Name = "tabPageEvents";
             this.tabPageEvents.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageEvents.Size = new System.Drawing.Size(1500, 800); //(1388, 800);
+            this.tabPageEvents.Size = new System.Drawing.Size(1576, 800);
             this.tabPageEvents.TabIndex = 6;
             this.tabPageEvents.Text = "Events";
             this.tabPageEvents.UseVisualStyleBackColor = true;
             // 
             // buttonClearEvents
             // 
+            this.buttonClearEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonClearEvents.Location = new System.Drawing.Point(836, 4);
             this.buttonClearEvents.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClearEvents.Name = "buttonClearEvents";
@@ -984,6 +977,7 @@
             // 
             // buttonRQEventData
             // 
+            this.buttonRQEventData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRQEventData.Location = new System.Drawing.Point(991, 4);
             this.buttonRQEventData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRQEventData.Name = "buttonRQEventData";
@@ -1003,6 +997,7 @@
             this.panelEventSelect.Controls.Add(this.radioButtonEvent2);
             this.panelEventSelect.Controls.Add(this.radioButtonEvent1);
             this.panelEventSelect.Controls.Add(this.radioButtonEvent0);
+            this.panelEventSelect.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEventSelect.Location = new System.Drawing.Point(4, 0);
             this.panelEventSelect.Margin = new System.Windows.Forms.Padding(4);
             this.panelEventSelect.Name = "panelEventSelect";
@@ -1012,10 +1007,11 @@
             // radioButtonEvent7
             // 
             this.radioButtonEvent7.AutoSize = true;
+            this.radioButtonEvent7.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent7.Location = new System.Drawing.Point(750, 8);
             this.radioButtonEvent7.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent7.Name = "radioButtonEvent7";
-            this.radioButtonEvent7.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent7.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent7.TabIndex = 7;
             this.radioButtonEvent7.TabStop = true;
             this.radioButtonEvent7.Text = "Event 8";
@@ -1025,10 +1021,11 @@
             // radioButtonEvent6
             // 
             this.radioButtonEvent6.AutoSize = true;
+            this.radioButtonEvent6.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent6.Location = new System.Drawing.Point(644, 8);
             this.radioButtonEvent6.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent6.Name = "radioButtonEvent6";
-            this.radioButtonEvent6.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent6.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent6.TabIndex = 6;
             this.radioButtonEvent6.TabStop = true;
             this.radioButtonEvent6.Text = "Event 7";
@@ -1038,10 +1035,11 @@
             // radioButtonEvent5
             // 
             this.radioButtonEvent5.AutoSize = true;
+            this.radioButtonEvent5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent5.Location = new System.Drawing.Point(538, 8);
             this.radioButtonEvent5.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent5.Name = "radioButtonEvent5";
-            this.radioButtonEvent5.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent5.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent5.TabIndex = 5;
             this.radioButtonEvent5.TabStop = true;
             this.radioButtonEvent5.Text = "Event 6";
@@ -1051,10 +1049,11 @@
             // radioButtonEvent4
             // 
             this.radioButtonEvent4.AutoSize = true;
+            this.radioButtonEvent4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent4.Location = new System.Drawing.Point(431, 8);
             this.radioButtonEvent4.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent4.Name = "radioButtonEvent4";
-            this.radioButtonEvent4.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent4.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent4.TabIndex = 4;
             this.radioButtonEvent4.TabStop = true;
             this.radioButtonEvent4.Text = "Event 5";
@@ -1064,10 +1063,11 @@
             // radioButtonEvent3
             // 
             this.radioButtonEvent3.AutoSize = true;
+            this.radioButtonEvent3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent3.Location = new System.Drawing.Point(326, 8);
             this.radioButtonEvent3.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent3.Name = "radioButtonEvent3";
-            this.radioButtonEvent3.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent3.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent3.TabIndex = 3;
             this.radioButtonEvent3.TabStop = true;
             this.radioButtonEvent3.Text = "Event 4";
@@ -1077,10 +1077,11 @@
             // radioButtonEvent2
             // 
             this.radioButtonEvent2.AutoSize = true;
+            this.radioButtonEvent2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent2.Location = new System.Drawing.Point(220, 8);
             this.radioButtonEvent2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent2.Name = "radioButtonEvent2";
-            this.radioButtonEvent2.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent2.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent2.TabIndex = 2;
             this.radioButtonEvent2.TabStop = true;
             this.radioButtonEvent2.Text = "Event 3";
@@ -1090,10 +1091,11 @@
             // radioButtonEvent1
             // 
             this.radioButtonEvent1.AutoSize = true;
+            this.radioButtonEvent1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent1.Location = new System.Drawing.Point(113, 8);
             this.radioButtonEvent1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent1.Name = "radioButtonEvent1";
-            this.radioButtonEvent1.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent1.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent1.TabIndex = 1;
             this.radioButtonEvent1.TabStop = true;
             this.radioButtonEvent1.Text = "Event 2";
@@ -1103,10 +1105,11 @@
             // radioButtonEvent0
             // 
             this.radioButtonEvent0.AutoSize = true;
+            this.radioButtonEvent0.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent0.Location = new System.Drawing.Point(7, 8);
             this.radioButtonEvent0.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonEvent0.Name = "radioButtonEvent0";
-            this.radioButtonEvent0.Size = new System.Drawing.Size(65, 19);
+            this.radioButtonEvent0.Size = new System.Drawing.Size(80, 23);
             this.radioButtonEvent0.TabIndex = 0;
             this.radioButtonEvent0.TabStop = true;
             this.radioButtonEvent0.Text = "Event 1";
@@ -1243,6 +1246,7 @@
             // 
             // buttonReqLiveData
             // 
+            this.buttonReqLiveData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonReqLiveData.Location = new System.Drawing.Point(991, 0);
             this.buttonReqLiveData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonReqLiveData.Name = "buttonReqLiveData";
@@ -1262,15 +1266,15 @@
             this.tabPageFlightRecorder.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageFlightRecorder.Name = "tabPageFlightRecorder";
             this.tabPageFlightRecorder.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageFlightRecorder.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageFlightRecorder.Size = new System.Drawing.Size(1576, 800);
             this.tabPageFlightRecorder.TabIndex = 5;
-            this.tabPageFlightRecorder.Text = "Live Data";
+            this.tabPageFlightRecorder.Text = "Live Event Data";
             // 
             // labelLiveDataTriggerTime
             // 
             this.labelLiveDataTriggerTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLiveDataTriggerTime.AutoSize = true;
-            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-6056, 6);
+            this.labelLiveDataTriggerTime.Location = new System.Drawing.Point(-5962, 6);
             this.labelLiveDataTriggerTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelLiveDataTriggerTime.Name = "labelLiveDataTriggerTime";
             this.labelLiveDataTriggerTime.Size = new System.Drawing.Size(0, 15);
@@ -1297,7 +1301,7 @@
             this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTransmitter.Name = "tabPageTransmitter";
             this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageTransmitter.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageTransmitter.Size = new System.Drawing.Size(1576, 800);
             this.tabPageTransmitter.TabIndex = 2;
             this.tabPageTransmitter.Text = "Transmission Settings";
             // 
@@ -1349,7 +1353,7 @@
             this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMonitor.Name = "tabPageMonitor";
             this.tabPageMonitor.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMonitor.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageMonitor.Size = new System.Drawing.Size(1576, 800);
             this.tabPageMonitor.TabIndex = 1;
             this.tabPageMonitor.Text = "PQ Monitor";
             // 
@@ -1505,7 +1509,7 @@
             this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Name = "tabPageControl";
             this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageControl.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageControl.Size = new System.Drawing.Size(1576, 800);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             // 
@@ -2434,7 +2438,7 @@
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(4);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1396, 828);
+            this.tabControlMain.Size = new System.Drawing.Size(1584, 828);
             this.tabControlMain.TabIndex = 36;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
@@ -2449,7 +2453,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1388, 800);
+            this.tabPage1.Size = new System.Drawing.Size(1576, 800);
             this.tabPage1.TabIndex = 14;
             this.tabPage1.Text = "Relay Monitoring";
             // 
@@ -2901,7 +2905,7 @@
             this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNP.Name = "tabPageDNP";
             this.tabPageDNP.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNP.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageDNP.Size = new System.Drawing.Size(1576, 800);
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP Comm Settings";
             // 
@@ -2937,7 +2941,7 @@
             this.tabPageArcFault.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageArcFault.Name = "tabPageArcFault";
             this.tabPageArcFault.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageArcFault.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageArcFault.Size = new System.Drawing.Size(1576, 800);
             this.tabPageArcFault.TabIndex = 10;
             this.tabPageArcFault.Text = "Arc Fault";
             // 
@@ -2966,7 +2970,7 @@
             this.tabPageShortRange.Location = new System.Drawing.Point(4, 24);
             this.tabPageShortRange.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageShortRange.Name = "tabPageShortRange";
-            this.tabPageShortRange.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageShortRange.Size = new System.Drawing.Size(1576, 800);
             this.tabPageShortRange.TabIndex = 11;
             this.tabPageShortRange.Text = "Sec Mon";
             this.tabPageShortRange.UseVisualStyleBackColor = true;
@@ -2988,7 +2992,7 @@
             this.tabPageDNPData.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNPData.Name = "tabPageDNPData";
             this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPData.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageDNPData.Size = new System.Drawing.Size(1576, 800);
             this.tabPageDNPData.TabIndex = 12;
             this.tabPageDNPData.Text = "DNP Data";
             // 
@@ -3012,7 +3016,7 @@
             this.tabPageDNPSecureAuth.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
             this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1388, 800);
+            this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1576, 800);
             this.tabPageDNPSecureAuth.TabIndex = 13;
             this.tabPageDNPSecureAuth.Text = "DNP SAv5";
             // 
@@ -3121,6 +3125,14 @@
             this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 

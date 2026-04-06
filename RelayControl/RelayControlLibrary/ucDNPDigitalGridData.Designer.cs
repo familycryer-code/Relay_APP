@@ -35,12 +35,12 @@ namespace RelayControlLibrary
             this.buttonEnableAllBinaryEvents = new System.Windows.Forms.Button();
             this.tabPageBinaryOuputs = new System.Windows.Forms.TabPage();
             this.tabPageAnalogInputs1 = new System.Windows.Forms.TabPage();
+            this.buttonDisableAllAnalogEvents = new System.Windows.Forms.Button();
             this.buttonEnableAllAnalogEvents = new System.Windows.Forms.Button();
             this.buttonSendAnalogEnables = new System.Windows.Forms.Button();
+            this.tabPageAnalogOutputs = new System.Windows.Forms.TabPage();
             this.tabPageAnalogInputs2 = new System.Windows.Forms.TabPage();
             this.tabPageAnalogInputs3 = new System.Windows.Forms.TabPage();
-            this.tabPageAnalogOutputs = new System.Windows.Forms.TabPage();
-            this.buttonDisableAllAnalogEvents = new System.Windows.Forms.Button();
             this.tabControlMemphisDNP.SuspendLayout();
             this.tabPageBinaryInputs.SuspendLayout();
             this.tabPageAnalogInputs1.SuspendLayout();
@@ -48,9 +48,10 @@ namespace RelayControlLibrary
             // 
             // buttonSendBinaryEventEnables
             // 
-            this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(821, 515);
+            this.buttonSendBinaryEventEnables.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(743, 509);
             this.buttonSendBinaryEventEnables.Name = "buttonSendBinaryEventEnables";
-            this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(154, 23);
+            this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(204, 30);
             this.buttonSendBinaryEventEnables.TabIndex = 2;
             this.buttonSendBinaryEventEnables.Text = "Send Binary Event Enables";
             this.buttonSendBinaryEventEnables.UseVisualStyleBackColor = true;
@@ -59,18 +60,10 @@ namespace RelayControlLibrary
             // tabControlMemphisDNP
             // 
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs);
-#if !CONED
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
-#endif
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
-#if CONED
-            this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
-            this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs3);
-#endif
-            //#if !TORONTO_HYDRO
-#if !CONED
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogOutputs);
-#endif
+            this.tabControlMemphisDNP.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControlMemphisDNP.Location = new System.Drawing.Point(0, 0);
             this.tabControlMemphisDNP.Name = "tabControlMemphisDNP";
             this.tabControlMemphisDNP.SelectedIndex = 0;
@@ -80,23 +73,23 @@ namespace RelayControlLibrary
             // 
             // tabPageBinaryInputs
             // 
+            this.tabPageBinaryInputs.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
             this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
             this.tabPageBinaryInputs.Controls.Add(this.buttonSendBinaryEventEnables);
-            this.tabPageBinaryInputs.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBinaryInputs.Location = new System.Drawing.Point(4, 25);
             this.tabPageBinaryInputs.Name = "tabPageBinaryInputs";
             this.tabPageBinaryInputs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBinaryInputs.Size = new System.Drawing.Size(981, 544);
+            this.tabPageBinaryInputs.Size = new System.Drawing.Size(981, 541);
             this.tabPageBinaryInputs.TabIndex = 0;
             this.tabPageBinaryInputs.Text = "Binary Inputs";
-            this.tabPageBinaryInputs.UseVisualStyleBackColor = true;
-            this.tabPageBinaryInputs.BackColor = System.Drawing.SystemColors.Control;
             // 
             // buttonDisableAllBinaryEvents
             // 
-            this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(531, 515);
+            this.buttonDisableAllBinaryEvents.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(743, 437);
             this.buttonDisableAllBinaryEvents.Name = "buttonDisableAllBinaryEvents";
-            this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(139, 23);
+            this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(204, 30);
             this.buttonDisableAllBinaryEvents.TabIndex = 4;
             this.buttonDisableAllBinaryEvents.Text = "Disable All Binary Events";
             this.buttonDisableAllBinaryEvents.UseVisualStyleBackColor = true;
@@ -104,9 +97,10 @@ namespace RelayControlLibrary
             // 
             // buttonEnableAllBinaryEvents
             // 
-            this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(676, 515);
+            this.buttonEnableAllBinaryEvents.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(743, 473);
             this.buttonEnableAllBinaryEvents.Name = "buttonEnableAllBinaryEvents";
-            this.buttonEnableAllBinaryEvents.Size = new System.Drawing.Size(139, 23);
+            this.buttonEnableAllBinaryEvents.Size = new System.Drawing.Size(204, 30);
             this.buttonEnableAllBinaryEvents.TabIndex = 3;
             this.buttonEnableAllBinaryEvents.Text = "Enable All Binary Events";
             this.buttonEnableAllBinaryEvents.UseVisualStyleBackColor = true;
@@ -114,17 +108,17 @@ namespace RelayControlLibrary
             // 
             // tabPageBinaryOuputs
             // 
+            this.tabPageBinaryOuputs.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageBinaryOuputs.Location = new System.Drawing.Point(4, 22);
             this.tabPageBinaryOuputs.Name = "tabPageBinaryOuputs";
             this.tabPageBinaryOuputs.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageBinaryOuputs.Size = new System.Drawing.Size(981, 544);
             this.tabPageBinaryOuputs.TabIndex = 1;
             this.tabPageBinaryOuputs.Text = "Binary Outputs";
-            this.tabPageBinaryOuputs.UseVisualStyleBackColor = true;
-            this.tabPageBinaryOuputs.BackColor = System.Drawing.SystemColors.Control;
             // 
             // tabPageAnalogInputs1
             // 
+            this.tabPageAnalogInputs1.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
             this.tabPageAnalogInputs1.Controls.Add(this.buttonEnableAllAnalogEvents);
             this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
@@ -134,8 +128,16 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.Size = new System.Drawing.Size(981, 544);
             this.tabPageAnalogInputs1.TabIndex = 2;
             this.tabPageAnalogInputs1.Text = "Analog Inputs";
-            this.tabPageAnalogInputs1.UseVisualStyleBackColor = true;
-            this.tabPageAnalogInputs1.BackColor = System.Drawing.SystemColors.Control;
+            // 
+            // buttonDisableAllAnalogEvents
+            // 
+            this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(443, 515);
+            this.buttonDisableAllAnalogEvents.Name = "buttonDisableAllAnalogEvents";
+            this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
+            this.buttonDisableAllAnalogEvents.TabIndex = 6;
+            this.buttonDisableAllAnalogEvents.Text = "Disable All Analog Events (this tab)";
+            this.buttonDisableAllAnalogEvents.UseVisualStyleBackColor = true;
+            this.buttonDisableAllAnalogEvents.Click += new System.EventHandler(this.buttonDisableAllAnalogEvents_Click);
             // 
             // buttonEnableAllAnalogEvents
             // 
@@ -157,48 +159,35 @@ namespace RelayControlLibrary
             this.buttonSendAnalogEnables.UseVisualStyleBackColor = true;
             this.buttonSendAnalogEnables.Click += new System.EventHandler(this.buttonSendAnalogEnables_Click);
             // 
-            // tabPageAnalogInputs2
-            // 
-            this.tabPageAnalogInputs2.Location = new System.Drawing.Point(4, 22);
-            this.tabPageAnalogInputs2.Name = "tabPageAnalogInputs2";
-            this.tabPageAnalogInputs2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAnalogInputs2.Size = new System.Drawing.Size(981, 544);
-            this.tabPageAnalogInputs2.TabIndex = 3;
-            this.tabPageAnalogInputs2.Text = "Analog Inputs";
-            this.tabPageAnalogInputs2.UseVisualStyleBackColor = true;
-            this.tabPageAnalogInputs2.BackColor = System.Drawing.SystemColors.Control;
-            // 
-            // tabPageAnalogInputs3
-            // 
-            this.tabPageAnalogInputs3.Location = new System.Drawing.Point(4, 22);
-            this.tabPageAnalogInputs3.Name = "tabPageAnalogInputs2";
-            this.tabPageAnalogInputs3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAnalogInputs3.Size = new System.Drawing.Size(981, 544);
-            this.tabPageAnalogInputs3.TabIndex = 3;
-            this.tabPageAnalogInputs3.Text = "Analog Inputs";
-            this.tabPageAnalogInputs3.UseVisualStyleBackColor = true;
-            this.tabPageAnalogInputs3.BackColor = System.Drawing.SystemColors.Control;
-            // 
             // tabPageAnalogOutputs
             // 
+            this.tabPageAnalogOutputs.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageAnalogOutputs.Location = new System.Drawing.Point(4, 22);
             this.tabPageAnalogOutputs.Name = "tabPageAnalogOutputs";
             this.tabPageAnalogOutputs.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageAnalogOutputs.Size = new System.Drawing.Size(981, 544);
             this.tabPageAnalogOutputs.TabIndex = 4;
             this.tabPageAnalogOutputs.Text = "Analog Outputs";
-            this.tabPageAnalogOutputs.UseVisualStyleBackColor = true;
-            this.tabPageAnalogOutputs.BackColor = System.Drawing.SystemColors.Control;
             // 
-            // buttonDisableAllAnalogEvents
+            // tabPageAnalogInputs2
             // 
-            this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(443, 515);
-            this.buttonDisableAllAnalogEvents.Name = "buttonDisableAllAnalogEvents";
-            this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
-            this.buttonDisableAllAnalogEvents.TabIndex = 6;
-            this.buttonDisableAllAnalogEvents.Text = "Disable All Analog Events (this tab)";
-            this.buttonDisableAllAnalogEvents.UseVisualStyleBackColor = true;
-            this.buttonDisableAllAnalogEvents.Click += new System.EventHandler(this.buttonDisableAllAnalogEvents_Click);
+            this.tabPageAnalogInputs2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageAnalogInputs2.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAnalogInputs2.Name = "tabPageAnalogInputs2";
+            this.tabPageAnalogInputs2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAnalogInputs2.Size = new System.Drawing.Size(981, 544);
+            this.tabPageAnalogInputs2.TabIndex = 3;
+            this.tabPageAnalogInputs2.Text = "Analog Inputs";
+            // 
+            // tabPageAnalogInputs3
+            // 
+            this.tabPageAnalogInputs3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageAnalogInputs3.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAnalogInputs3.Name = "tabPageAnalogInputs3";
+            this.tabPageAnalogInputs3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAnalogInputs3.Size = new System.Drawing.Size(981, 544);
+            this.tabPageAnalogInputs3.TabIndex = 3;
+            this.tabPageAnalogInputs3.Text = "Analog Inputs";
             // 
             // ucDNPDIGITALGRIDData
             // 
@@ -211,17 +200,6 @@ namespace RelayControlLibrary
             this.tabPageBinaryInputs.ResumeLayout(false);
             this.tabPageAnalogInputs1.ResumeLayout(false);
             this.ResumeLayout(false);
-
-#if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
-           /* 
-            this.buttonDisableAllBinaryEvents.Enabled = false;
-            this.buttonDisableAllBinaryEvents.Visible = false;
-            this.buttonEnableAllBinaryEvents.Enabled = false;
-            this.buttonEnableAllBinaryEvents.Visible = false;
-            this.buttonSendBinaryEventEnables.Enabled = false;
-            this.buttonSendBinaryEventEnables.Visible = false;        
-           */
-#endif
 
         }
 
