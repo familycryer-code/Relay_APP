@@ -1137,9 +1137,12 @@ namespace RelayControlLibrary
         //Adds a binary box to the selected page
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
-            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-            int x = box.Width * (tB.Controls.Count / 25) + 1;
+            //int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+           // int x = box.Width * (tB.Controls.Count / 25) + 1;
 
+            //13 Rows of Binary Input Points per column
+            int y = tB.Controls.Count % 13 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 13) + 1;
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
@@ -1576,15 +1579,16 @@ namespace RelayControlLibrary
                     this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
                     this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
-                //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(850, 533);
-                this.buttonSendBinaryEventEnables.Visible = true;
-                //this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(850, 485);
-                this.buttonEnableAllBinaryEvents.Visible = true; 
+                
                 //this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(850, 437);
-                this.buttonDisableAllBinaryEvents.Visible = true; 
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 680); //(1200, 437);
+                this.buttonDisableAllBinaryEvents.Visible = true;
+                //this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 680); //(1200, 485);
+                this.buttonEnableAllBinaryEvents.Visible = true;
+                //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 680); //(1200, 533);
+                this.buttonSendBinaryEventEnables.Visible = true;
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
                 /* this.buttonDisableAllBinaryEvents.Enabled = false;
                  this.buttonDisableAllBinaryEvents.Visible = false;

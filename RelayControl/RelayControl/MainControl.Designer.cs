@@ -2999,10 +2999,11 @@
             // buttonRequestDNPData
             // 
             this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
-            this.buttonRequestDNPData.Location = new System.Drawing.Point(1002, 690);
+            this.buttonRequestDNPData.Location = new System.Drawing.Point(1070, 706); //(1250, 690); //(1002, 690);
             this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRequestDNPData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRequestDNPData.Name = "buttonRequestDNPData";
-            this.buttonRequestDNPData.Size = new System.Drawing.Size(144, 26);
+            this.buttonRequestDNPData.Size = new System.Drawing.Size(214, 34); //(144, 26);
             this.buttonRequestDNPData.TabIndex = 1;
             this.buttonRequestDNPData.Text = "Request DNP Data";
             this.buttonRequestDNPData.UseVisualStyleBackColor = false;
