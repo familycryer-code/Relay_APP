@@ -123,7 +123,7 @@ namespace RelayControlLibrary
 
 
 #if CONED
-            this.binaryInputs.Add("Defaults Loaded");
+            this.binaryInputs.Add("Defaults Loaded");//0
             this.binaryInputs.Add("Network Protect Status/B Flag");
             this.binaryInputs.Add("Not Available");
             this.binaryInputs.Add("Not Available");
@@ -133,7 +133,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Phase Angle Wrong");
             this.binaryInputs.Add("Differential Volts Too Low to Close");
             this.binaryInputs.Add("Digital Input 1");
-            this.binaryInputs.Add("Digital Input 2");
+            this.binaryInputs.Add("Digital Input 2");//10
             this.binaryInputs.Add("Digital Output 1");
             this.binaryInputs.Add("Digital Output 2");
             this.binaryInputs.Add("Blocked From Closing");
@@ -143,7 +143,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Calling For Trip");
             this.binaryInputs.Add("Calling For Close");
             this.binaryInputs.Add("Breaker Status");
-            this.binaryInputs.Add("Relax Close");
+            this.binaryInputs.Add("Relax Close");//20
             this.binaryInputs.Add("Digital Input 3");
             this.binaryInputs.Add("Digital Input 4");
             this.binaryInputs.Add("Failure to Close");
@@ -155,7 +155,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("A-Flag");
             this.binaryInputs.Add("Circle Close");
             this.binaryInputs.Add("Trim curve");
-            this.binaryInputs.Add("Relay Cycles");
+            this.binaryInputs.Add("Relay Cycles");//30
             this.binaryInputs.Add("Trip on Power Down");
             this.binaryInputs.Add("Relay Algorithm");
             this.binaryInputs.Add("Override Blocked Open");
@@ -165,11 +165,11 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Safe Service");
             this.binaryInputs.Add("Relay Failure");
             this.binaryInputs.Add("XP Detected");
-            this.binaryInputs.Add("Phase ACB");
+            this.binaryInputs.Add("Phase ACB");//40
             this.binaryInputs.Add("Relay Phased OK");
             this.binaryInputs.Add("Insensitive Back Feed Detected");
             this.binaryInputs.Add("Command Lockout");
-            this.binaryInputs.Add("Pump Protect Lockout");
+            this.binaryInputs.Add("Pump Protect Lockout");//44
 
 
 #endif
@@ -567,10 +567,10 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settings", false));
             this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
             this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage offset setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
+            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));//64
 
             //Additional points per rev10 ConEd firmware
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));//65
             this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase B ", false));
             this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase C ", false));
             this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase A", false));
@@ -585,7 +585,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence  Differential Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence  Differential Voltage Angle", false));//80
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Setting", false));
@@ -600,7 +600,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("L% B", false));
             this.analogInputs.Add(new AnalogPointDefinition("L% C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));//95
             this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
             this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
@@ -616,7 +616,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
             this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
             this.analogInputs.Add(new AnalogPointDefinition("Analog A1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog A2", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Analog A2", false));//111
 #endif
 #if SCE
             this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));
@@ -963,7 +963,7 @@ namespace RelayControlLibrary
                 workingBox.Signed = aPD.Signed;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-                // if (i < 50)
+#if TORONTO_HYDRO
                 if (i < 50)
                 {
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
@@ -977,6 +977,21 @@ namespace RelayControlLibrary
                 if (i == pointsToAdd)
                     break;
                 i++;
+#elif CONED
+                if (i < 40)
+                {
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+
+                }
+                else if (i <= 80) //if (i <= 63)
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                else if (i <= 111)
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
+
+                if (i == pointsToAdd)
+                    break;
+                i++;
+#endif
             }
         }
 
@@ -1138,11 +1153,16 @@ namespace RelayControlLibrary
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
             //int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-           // int x = box.Width * (tB.Controls.Count / 25) + 1;
-
+            // int x = box.Width * (tB.Controls.Count / 25) + 1;
+#if TORONTO_HYDRO
             //13 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 13 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 13) + 1;
+#elif CONED
+            //22 Rows of Binary Input Points per column
+            int y = tB.Controls.Count % 22 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 22) + 1;
+#endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
@@ -1165,10 +1185,15 @@ namespace RelayControlLibrary
         {
             // int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
             // int x = box.Width * (tB.Controls.Count / 25) + 1;
-            
+#if TORONTO_HYDRO
             //22 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 22 * box.Height + 5; 
             int x = box.Width * (tB.Controls.Count / 22) + 1;
+#elif CONED
+            //20 Rows of Analog Inputs Points per column
+            int y = tB.Controls.Count % 20 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 20) + 1;
+#endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
@@ -1587,13 +1612,13 @@ namespace RelayControlLibrary
                 }
                 
                 //this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 680); //(1200, 437);
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720); //(170, 680); 
                 this.buttonDisableAllBinaryEvents.Visible = true;
                 //this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 680); //(1200, 485);
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //(470, 680); 
                 this.buttonEnableAllBinaryEvents.Visible = true;
                 //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 680); //(1200, 533);
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //(770, 680); 
                 this.buttonSendBinaryEventEnables.Visible = true;
                 
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
