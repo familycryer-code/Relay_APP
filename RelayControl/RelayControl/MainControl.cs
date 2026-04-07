@@ -740,7 +740,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.36 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.37 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.27" + " DOMINION ";
@@ -8088,6 +8088,8 @@ namespace RelayControl
             //  this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
 
 #if DNP
+            // DNPSAv5 Settings NOT sent to the master with this SEND ALL button on Relay Settings Tab
+            /*
             this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
             this.ucDNPSAv5OSName2.newOSname();
             //Thread.Sleep(100);  // 100 milliseconds
@@ -8105,25 +8107,25 @@ namespace RelayControl
             //Thread.Sleep(100);  // 100 milliseconds
             //Thread.Sleep(500);   // .5 seconds
             Thread.Sleep(834);   // 2.5 seconds
-
+            */
 #endif
             this.sendAll = true;
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(834);   // 2.5 seconds
+            Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(834);   // 2.5 seconds
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(834);   // 2.5 seconds
+            Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(834);   // 2.5 seconds
             //this.buttonRelayType_Click(this, new EventArgs());
             this.buttonSendCTRatio_Click(this, new EventArgs());
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(834);   // 2.5 seconds
-            this.buttonSendCTRatio_Click(this, new EventArgs());
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(834);   // 2.5 seconds
+            Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(834);   // 2.5 seconds
+         //   this.buttonSendCTRatio_Click(this, new EventArgs());
+         //   Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(834);   // 2.5 seconds
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
-            //Thread.Sleep(100);  // 100 milliseconds
-            Thread.Sleep(834);   // 2.5 seconds
+            Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(834);   // 2.5 seconds
 
 #if ATLANTA
             this.buttonSendLowVoltageThres_Click(this, new EventArgs());
@@ -8137,19 +8139,19 @@ namespace RelayControl
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 this.ucSafeService1.SendAll();
-                //Thread.Sleep(100);  // 100 milliseconds
-                Thread.Sleep(834);   // 1 seconds
+                Thread.Sleep(100);  // 100 milliseconds
+                //Thread.Sleep(834);   // 1 seconds
             }
 
             this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
-            Thread.Sleep(834);   // 2.5 seconds
+            Thread.Sleep(100);  // 100 milliseconds
+            //Thread.Sleep(834);   // 2.5 seconds
 
+            // DNP Settings NOT sent to the master with this SEND ALL button on Relay Settings Tab
+            /*
             this.ucDNP1.buttonSendAllDNPSettings_Click(this, new EventArgs());
             Thread.Sleep(834);   // 2.5 seconds
-
-            /*
-             DNPSAv5 settings not sent with the PROGRAM button
-             */
+            */
 
 #if DNP && ATLANTA
             this.ucTransmitter1.DNPCoverFlags = this.ucCoverFlags1.getDNPCoverFlagsByte();

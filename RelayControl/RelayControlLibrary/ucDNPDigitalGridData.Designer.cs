@@ -110,6 +110,7 @@ namespace RelayControlLibrary
             // tabPageBinaryOuputs
             // 
             this.tabPageBinaryOuputs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageBinaryOuputs.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPageBinaryOuputs.Location = new System.Drawing.Point(4, 25);
             this.tabPageBinaryOuputs.Name = "tabPageBinaryOuputs";
             this.tabPageBinaryOuputs.Padding = new System.Windows.Forms.Padding(3);
@@ -123,6 +124,7 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
             this.tabPageAnalogInputs1.Controls.Add(this.buttonEnableAllAnalogEvents);
             this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
+            this.tabPageAnalogInputs1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPageAnalogInputs1.Location = new System.Drawing.Point(4, 25);
             this.tabPageAnalogInputs1.Name = "tabPageAnalogInputs1";
             this.tabPageAnalogInputs1.Padding = new System.Windows.Forms.Padding(3);
@@ -134,7 +136,7 @@ namespace RelayControlLibrary
             // 
             this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(443, 515);
             this.buttonDisableAllAnalogEvents.Name = "buttonDisableAllAnalogEvents";
-            this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
+            this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(214, 34); //(183, 23);
             this.buttonDisableAllAnalogEvents.TabIndex = 6;
             this.buttonDisableAllAnalogEvents.Text = "Disable All Analog Events (this tab)";
             this.buttonDisableAllAnalogEvents.UseVisualStyleBackColor = true;
@@ -144,7 +146,7 @@ namespace RelayControlLibrary
             // 
             this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(632, 515);
             this.buttonEnableAllAnalogEvents.Name = "buttonEnableAllAnalogEvents";
-            this.buttonEnableAllAnalogEvents.Size = new System.Drawing.Size(183, 23);
+            this.buttonEnableAllAnalogEvents.Size = new System.Drawing.Size(214, 34); //(183, 23);
             this.buttonEnableAllAnalogEvents.TabIndex = 5;
             this.buttonEnableAllAnalogEvents.Text = "Enable All Analog Events (this tab)";
             this.buttonEnableAllAnalogEvents.UseVisualStyleBackColor = true;
@@ -154,7 +156,7 @@ namespace RelayControlLibrary
             // 
             this.buttonSendAnalogEnables.Location = new System.Drawing.Point(821, 515);
             this.buttonSendAnalogEnables.Name = "buttonSendAnalogEnables";
-            this.buttonSendAnalogEnables.Size = new System.Drawing.Size(154, 23);
+            this.buttonSendAnalogEnables.Size = new System.Drawing.Size(214, 34); //(154, 23);
             this.buttonSendAnalogEnables.TabIndex = 4;
             this.buttonSendAnalogEnables.Text = "Send Analog Event Enables";
             this.buttonSendAnalogEnables.UseVisualStyleBackColor = true;
@@ -163,6 +165,7 @@ namespace RelayControlLibrary
             // tabPageAnalogOutputs
             // 
             this.tabPageAnalogOutputs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageAnalogOutputs.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPageAnalogOutputs.Location = new System.Drawing.Point(4, 25);
             this.tabPageAnalogOutputs.Name = "tabPageAnalogOutputs";
             this.tabPageAnalogOutputs.Padding = new System.Windows.Forms.Padding(3);
