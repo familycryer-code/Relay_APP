@@ -2999,7 +2999,7 @@
             // buttonRequestDNPData
             // 
             this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
-            this.buttonRequestDNPData.Location = new System.Drawing.Point(1070, 746); //(1070, 706); //(1250, 690); //(1002, 690);
+            this.buttonRequestDNPData.Location = new System.Drawing.Point(1070, 746); 
             this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRequestDNPData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRequestDNPData.Name = "buttonRequestDNPData";

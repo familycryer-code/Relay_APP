@@ -978,12 +978,12 @@ namespace RelayControlLibrary
                     break;
                 i++;
 #elif CONED
-                if (i < 40)
+                if (i <= 39) //(i <= 35)
                 {
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
 
                 }
-                else if (i <= 80) //if (i <= 63)
+                else if (i <= 79) //(i <= 72) 
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
                 else if (i <= 111)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
@@ -1152,16 +1152,16 @@ namespace RelayControlLibrary
         //Adds a binary box to the selected page
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
-            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-             int x = box.Width * (tB.Controls.Count / 25) + 1;
+           // int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+           //  int x = box.Width * (tB.Controls.Count / 25) + 1;
 #if TORONTO_HYDRO
             //13 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 13 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 13) + 1;
 #elif CONED
-            //22 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 22 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 22) + 1;
+            //23 Rows of Binary Input Points per column
+            int y = tB.Controls.Count % 23 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 23) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
@@ -1183,8 +1183,8 @@ namespace RelayControlLibrary
         //Adds a analog box to the selected page
         private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
-             int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-             int x = box.Width * (tB.Controls.Count / 25) + 1;
+           //  int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+           //  int x = box.Width * (tB.Controls.Count / 25) + 1;
 #if TORONTO_HYDRO
             //22 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 22 * box.Height + 5; 
@@ -1568,6 +1568,12 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs2.Controls.Remove(this.buttonEnableAllAnalogEvents);
                     this.tabPageAnalogInputs2.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
+                if (this.tabPageAnalogInputs3.Controls.Contains(this.buttonSendAnalogEnables))
+                {
+                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonSendAnalogEnables);
+                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonDisableAllAnalogEvents);
+                }
                 if (!this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
                 {
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
@@ -1589,18 +1595,65 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs1.Controls.Remove(this.buttonEnableAllAnalogEvents);
                     this.tabPageAnalogInputs1.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
+                if (this.tabPageAnalogInputs3.Controls.Contains(this.buttonSendAnalogEnables))
+                {
+                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonSendAnalogEnables);
+                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonDisableAllAnalogEvents);
+                }
                 if (!this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
                 {
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonSendAnalogEnables);
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonEnableAllAnalogEvents);
                     this.tabPageAnalogInputs2.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
+                /*this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs2.Height - this.buttonEnableAllAnalogEvents.Height - 2);
+                this.buttonDisableAllAnalogEvents.Visible = true;
+                this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonEnableAllAnalogEvents.Visible = true;
                 this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Visible = true;
-                this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
-                this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
+                */
+                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
                 this.buttonDisableAllAnalogEvents.Visible = true;
+                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonSendAnalogEnables.Visible = true;
+            }
+            else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs3)
+            {
+                if (this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
+                {
+                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonSendAnalogEnables);
+                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonDisableAllAnalogEvents);
+                }
+                if (this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
+                {
+                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonSendAnalogEnables);
+                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonDisableAllAnalogEvents);
+                }
+                if (!this.tabPageAnalogInputs3.Controls.Contains(this.buttonSendAnalogEnables))
+                {
+                    this.tabPageAnalogInputs3.Controls.Add(this.buttonSendAnalogEnables);
+                    this.tabPageAnalogInputs3.Controls.Add(this.buttonEnableAllAnalogEvents);
+                    this.tabPageAnalogInputs3.Controls.Add(this.buttonDisableAllAnalogEvents);
+                }
+                /*this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs3.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs3.Height - this.buttonEnableAllAnalogEvents.Height - 2);
+                this.buttonDisableAllAnalogEvents.Visible = true;
+                this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs3.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs3.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs3.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs3.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonSendAnalogEnables.Visible = true;
+                */
+                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
+                this.buttonDisableAllAnalogEvents.Visible = true;
+                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonEnableAllAnalogEvents.Visible = true;
+                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
+                this.buttonSendAnalogEnables.Visible = true;
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
             {
@@ -1610,17 +1663,30 @@ namespace RelayControlLibrary
                     this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
                     this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
-                
+#if !CONED
                 //this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720); //(170, 680); 
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);  
                 this.buttonDisableAllBinaryEvents.Visible = true;
                 //this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //(470, 680); 
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720);  
                 this.buttonEnableAllBinaryEvents.Visible = true;
                 //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //(770, 680); 
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); 
                 this.buttonSendBinaryEventEnables.Visible = true;
-                
+#elif CONED
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(670, 723);
+                this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(192, 32);
+                this.buttonDisableAllBinaryEvents.Visible = true;
+
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(870, 723);
+                this.buttonEnableAllBinaryEvents.Size = new System.Drawing.Size(190, 32);
+                this.buttonEnableAllBinaryEvents.Visible = true;
+
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(1285, 722);
+                this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(220, 32);
+                this.buttonSendBinaryEventEnables.Visible = true;
+#endif
+
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
                 /* this.buttonDisableAllBinaryEvents.Enabled = false;
                  this.buttonDisableAllBinaryEvents.Visible = false;
