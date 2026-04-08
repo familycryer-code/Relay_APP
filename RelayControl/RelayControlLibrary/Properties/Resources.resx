@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BootRevision" xml:space="preserve">
-    <value>260113</value>
+    <value>260114</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FPGAdata" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -192,7 +192,7 @@
     <value>..\Resources\MasterProcessor_ConEd_SEC.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="MasterRevision" xml:space="preserve">
-    <value>260131</value>
+    <value>260202</value>
   </data>
   <data name="RelayProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

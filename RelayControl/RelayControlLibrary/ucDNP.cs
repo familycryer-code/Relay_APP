@@ -1087,7 +1087,7 @@ namespace RelayControlLibrary
         {
             this.numericUpDownDestinationAddress.Value = 3;
             this.numericUpDownFragmentSize.Value = 1024;
-            this.numericUpDownMaxEvents.Value = 20;
+            this.numericUpDownMaxEvents.Value = 120;// 20;
             this.numericUpDownSourceAddress.Value = 4;
             this.numericUpDownUnsolRetries.Value = 5;
             this.numericUpDownUnsolTimeout.Value = 1000;// 10000;
@@ -1106,7 +1106,7 @@ namespace RelayControlLibrary
         {
             this.numericUpDownDestinationAddress.Value = 3;
             this.numericUpDownFragmentSize.Value = 1024;
-            this.numericUpDownMaxEvents.Value = 20;
+            this.numericUpDownMaxEvents.Value = 120;// 20;
             this.numericUpDownMemphisStage.Value = 1;
             this.numericUpDownSourceAddress.Value = 4;
             //this.numericUpDownTriggerRangeAnalog.Value = 10;
