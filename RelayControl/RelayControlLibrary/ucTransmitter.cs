@@ -1120,13 +1120,18 @@ namespace RelayControlLibrary
                 errorMessage = "Bad Serial Number";
                 //this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
 #if CONED
-                //this.tempID = this.TXSettings.SerialNumber;
-                this.tempID = Convert.ToUInt16(this.SerialNumber);
+                //this.tempID = Convert.ToUInt16(this.SerialNumber);     //this.tempID = this.TXSettings.SerialNumber;
+           //     int iSN = Convert.ToUInt16(this.textBoxSerialNumber.Text);
+           if((Convert.ToUInt32(this.textBoxSerialNumber.Text) < 65535))
+                    this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
+                else if ((Convert.ToUInt32(this.textBoxSerialNumber.Text) > 900000))
+                            this.tempID = (ushort)(Convert.ToUInt32(this.textBoxSerialNumber.Text) - 900000);
+           
 #else
                 this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
 #endif
 
-                this.TXSettings.SerialNumber = this.tempID;
+                this.TXSettings.SerialNumber = this.tempID;                
 
                 this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
                 this.labelErrorLabel.Text = errorMessage;

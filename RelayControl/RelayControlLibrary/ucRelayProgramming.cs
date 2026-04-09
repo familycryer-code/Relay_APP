@@ -226,7 +226,8 @@ namespace RelayControlLibrary
                 }
 
                 this.currentRelayLog.SerialNumber = this.serialNumber = value;
-                if ((value > 32767 || value == 0) && !this.serialNumberError && this.MasterRevisionNumber != 0)
+                //if ((value > 32767 || value == 0) && !this.serialNumberError && this.MasterRevisionNumber != 0)
+                if ((value > 65535 || value == 0) && !this.serialNumberError && this.MasterRevisionNumber != 0)
                 {
                     this.serialNumberError = true;
                     MessageBox.Show("Serial Number Error", "Error with Serial Number, \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
