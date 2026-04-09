@@ -535,8 +535,8 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
 
-                //#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
-#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+//#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
+#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
                 this.panelSmartExternalCable.Hide();
@@ -545,7 +545,7 @@ namespace RelayControlLibrary
                 this.panelFlasgStatusWB.Location = new Point(260, 300);
                 this.labelTransFlagStatus.Location = new Point(267, 294);
 
-                this.buttonTX.Location = new Point(260, 6);
+                this.buttonTX.Location = new Point(460, 6); //(260, 6);
                 this.buttonRQ.Location = new Point(260, 93);
                 this.buttonForceConfigMessage.Location = new Point(260, 180); //13, 250
                 this.buttonRestoreDefaults.Location = new Point(260, 235);

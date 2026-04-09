@@ -764,8 +764,10 @@ namespace RelayControl
                 this.groupBox_PC.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
-                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;               
+                #if !PSEG
+                                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
+                #endif
 #endif
 #if !TORONTOHYDRO
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(750, 250);
