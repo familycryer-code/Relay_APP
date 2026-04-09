@@ -98,6 +98,7 @@ namespace RelayControlLibrary
         LondonH,
         SCE,
         TorontoHydro,
+        PSEG,
         None
     }
 

@@ -1152,13 +1152,17 @@ namespace RelayControlLibrary
         //Adds a binary box to the selected page
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
-           // int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-           //  int x = box.Width * (tB.Controls.Count / 25) + 1;
+            // int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+            //  int x = box.Width * (tB.Controls.Count / 25) + 1;
 #if TORONTO_HYDRO
             //13 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 13 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 13) + 1;
 #elif CONED
+            //23 Rows of Binary Input Points per column
+            int y = tB.Controls.Count % 23 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 23) + 1;
+#elif PSEG
             //23 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 23 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 23) + 1;
@@ -1183,8 +1187,8 @@ namespace RelayControlLibrary
         //Adds a analog box to the selected page
         private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
-           //  int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-           //  int x = box.Width * (tB.Controls.Count / 25) + 1;
+            //  int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+            //  int x = box.Width * (tB.Controls.Count / 25) + 1;
 #if TORONTO_HYDRO
             //22 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 22 * box.Height + 5; 
@@ -1193,6 +1197,10 @@ namespace RelayControlLibrary
             //20 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 20 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 20) + 1;
+#elif PSEG
+            //22 Rows of Analog Inputs Points per column
+            int y = tB.Controls.Count % 22 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 22) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);

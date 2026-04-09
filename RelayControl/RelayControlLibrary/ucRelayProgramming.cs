@@ -975,9 +975,22 @@ namespace RelayControlLibrary
             }
 #endif
 
-//#if (ENMAX || PSEG || CONED) && DNP
-#if (ENMAX || PSEG || CONED || TORONTO_HYDRO) && DNP
+#if (PSEG && DNP)
+            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
+            this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
+            if (this.GERelay)
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif
+#if (ENMAX || CONED || TORONTO_HYDRO) && DNP
             if (GERelay)
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC_GE;

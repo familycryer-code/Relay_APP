@@ -95,6 +95,8 @@ namespace RelayControl
                     this.ucRelayProgramming1.Customer = Customers.Atlanta;
 #elif ONCOR
                     this.ucRelayProgramming1.Customer = Customers.Oncor;
+#elif PSEG
+                    this.ucRelayProgramming1.Customer = Customers.PSEG;
 #else
                     this.ucRelayProgramming1.Customer = this.customer;
 #endif
@@ -209,19 +211,21 @@ namespace RelayControl
                     this.dNPEnabledSavedVal = value;
                     this.ucRelayProgramming1.DNPRelay = value;
 #endif
-                }
-                else
-                {
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    {
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
                     }
-                    this.dNPEnabledSavedVal = false;
-                    this.ucRelayProgramming1.DNPRelay = false;
-                }
+                    else
+                    {
+#if !PSEG
+                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                            this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        {
+                            this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                            this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                        }
+                        this.dNPEnabledSavedVal = false;
+                        this.ucRelayProgramming1.DNPRelay = false;
+#endif
+                    }
 
             }
 
@@ -229,9 +233,8 @@ namespace RelayControl
 
         private void setDNPTabPoints()
         {
-            //#if (!DIGITALGRID || ONCOR)
-            //#if ((!DIGITALGRID || ONCOR) && !DOMINION)
-#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX)
+            //#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX)
+#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX || PSEG)
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
             this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
@@ -240,6 +243,7 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
             this.dNPDIGITALGRIDData.Show();
 #elif (DIGITALGRID && !ONCOR) || DOMINION
+#if !PSEG
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
@@ -249,6 +253,7 @@ namespace RelayControl
             }
             this.dNPEnabledSavedVal = false;
             this.ucRelayProgramming1.DNPRelay = false;
+#endif
 #endif
 
             if (dnpUplinkK.dnpEnabledWithKit == false)
@@ -406,7 +411,7 @@ namespace RelayControl
                      this.ucShortRange1.Visible = true;
                      this.tabControlMain.TabPages.Add(this.tabPageShortRange);
 #endif
-            */
+                    */
 #if (ONCOR || TORONTO_HYDRO)
                 this.ucShortRange1.Enabled = false;
                 this.ucShortRange1.Visible = false;
@@ -732,7 +737,8 @@ namespace RelayControl
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
 #elif PSEG
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " PSE&G ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " PSE&G ";
+                this.Customer = Customers.PSEG;
 #elif ENMAX
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
 #elif ONCOR
@@ -875,7 +881,7 @@ namespace RelayControl
 
 #endif
                 //#if (!DIGITALGRID || DIGITALGRIDDNP)
-#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX)
+#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX || PSEG)
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     this.tabControlMain.TabPages.Add(this.tabPageDNP);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -887,8 +893,7 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 #endif
-#if (DIGITALGRID && !ONCOR)
-    //#if (DIGITALGRIDDNP)
+#if (DIGITALGRID && !ONCOR && !PSEG)
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
                         this.tabControlMain.TabPages.Add(this.tabPageShortRange);
 #endif
@@ -3756,9 +3761,9 @@ namespace RelayControl
 
                 if (tempI >= 25000 && !GERelay)
                 {
-                    messageHandler("GE Serial Number programmed with WH Firmware", "Is this a GE Relay? If Yes, please manually reload with GE Software. If No, please contact DIGITALGRID");
+                   // messageHandler("GE Serial Number programmed with WH Firmware", "Is this a GE Relay? If Yes, please manually reload with GE Software. If No, please contact DIGITALGRID");
 #if !DEBUG
-                    enableAll(false);
+                   // enableAll(false);
 #endif
                 }
                 else if (tempI < 25000 && GERelay)

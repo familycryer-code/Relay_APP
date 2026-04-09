@@ -833,7 +833,7 @@ namespace RelayControlLibrary
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDV.Value = 0.4m;
                 this.checkBoxCircleClose.Checked = false;
-                this.radioButtonNeverOverride.Checked = true;
+                //this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
 #elif LONDONH

@@ -145,6 +145,7 @@ namespace RelayControlLibrary
                 case Customers.LondonH:
                 case Customers.SCE:
                 case Customers.TorontoHydro:
+                case Customers.PSEG:
                     this.makeNonConEd();
                     break;
                 case Customers.ConEdison:
