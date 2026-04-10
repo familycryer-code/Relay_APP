@@ -165,6 +165,14 @@ namespace RelayControlLibrary
                 }
             }
 
+            //lightningCount_fromMasterProcessor(packet);
+            uint temp;
+            temp = packet[2];
+            temp <<= 8;
+            temp += packet[3];
+
+            lightC.lightningCount = temp;
+
             if (workingCommand != null)
             {
                 this.labelIncomingCommandName.Text = workingCommand.Name;

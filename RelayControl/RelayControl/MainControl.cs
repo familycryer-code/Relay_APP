@@ -737,7 +737,7 @@ namespace RelayControl
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
 #elif PSEG
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " PSE&G ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.3" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
@@ -2695,6 +2695,7 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
+                    this.ucTransmitter1.buttonRQ_Click(this, new EventArgs()); // to update the lightnign count label
                     break;
                 case IncomingCommCommands.ArcFaultData:
                     if (dataBackup_fromRelay == true) // write Arc Fault parameters currently residing in the relay to the backup file on computer
@@ -3705,6 +3706,9 @@ namespace RelayControl
             int tempI = 0;
 
             timerResponseTimeOut.Enabled = false;
+
+            // update lightning count
+            this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
             Thread.Sleep(1000);   // delay 1second
@@ -10950,6 +10954,18 @@ namespace RelayControl
             {
                 this.resetBothProcs();
             }
+        }
+
+        private void btn_getLC_Click(object sender, EventArgs e)
+        {
+            SendEventArgs sEA = new SendEventArgs(82);
+
+            sEA.SendPacket[0] = 0x17;
+            sEA.SendPacket[2] = 0x10;
+            sEA.SendPacket[4] = 0x01;
+            sEA.SendPacket[81] = 0x0D;
+
+            this.sendPacket(sEA.SendPacket);
         }
     }
 

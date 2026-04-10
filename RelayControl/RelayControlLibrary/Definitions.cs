@@ -1982,7 +1982,11 @@ namespace RelayControlLibrary
     {
         public static int pwrPer;
     }
-    
+    public static class lightC
+    {
+        public static uint lightningCount;
+    }
+
     public static class dnpUplinkK
     {
         public static bool dnpEnabledWithKit;

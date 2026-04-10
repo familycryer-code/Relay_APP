@@ -93,6 +93,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -207,6 +208,9 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
+            this.grpBox_LightningCount = new System.Windows.Forms.GroupBox();
+            this.btn_clrLC = new System.Windows.Forms.Button();
+            this.btn_getLC = new System.Windows.Forms.Button();
             this.btn_PermCl_Active = new System.Windows.Forms.Button();
             this.btn_ClearPumpProtect = new System.Windows.Forms.Button();
             this.btn_RelaxClose = new System.Windows.Forms.Button();
@@ -219,8 +223,10 @@
             this.labelFPGARevision = new System.Windows.Forms.Label();
             this.labelBootRevision = new System.Windows.Forms.Label();
             this.groupBox_RelayInfo = new System.Windows.Forms.GroupBox();
+            this.lblLC_Name = new System.Windows.Forms.Label();
             this.txtBox_NWPposition = new System.Windows.Forms.TextBox();
             this.lbl_NWPposition = new System.Windows.Forms.Label();
+            this.lbl_LightningCount = new System.Windows.Forms.Label();
             this.textBox_TxID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.labelRelaySNControl = new System.Windows.Forms.Label();
@@ -264,7 +270,6 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -290,6 +295,7 @@
             this.tabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.grpBox_RelayCommands.SuspendLayout();
+            this.grpBox_LightningCount.SuspendLayout();
             this.groupBox_FirmwareInfo.SuspendLayout();
             this.groupBox_RelayInfo.SuspendLayout();
             this.groupBoxRelayStatus.SuspendLayout();
@@ -334,34 +340,34 @@
             // cOMPortToolStripMenuItem
             // 
             this.cOMPortToolStripMenuItem.Name = "cOMPortToolStripMenuItem";
-            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.cOMPortToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.cOMPortToolStripMenuItem.Text = "PC COM Port";
             // 
             // findRelayToolStripMenuItem
             // 
             this.findRelayToolStripMenuItem.Name = "findRelayToolStripMenuItem";
-            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.findRelayToolStripMenuItem.Text = "Confirm Relay Connection";// "Find Relay";
+            this.findRelayToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.findRelayToolStripMenuItem.Text = "Confirm Relay Connection";
             this.findRelayToolStripMenuItem.Click += new System.EventHandler(this.findRelayToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.enableAllToolStripMenuItem.Text = "Enable All";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // reprogramRelayFileSelectToolStripMenuItem
             // 
             this.reprogramRelayFileSelectToolStripMenuItem.Name = "reprogramRelayFileSelectToolStripMenuItem";
-            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Update Relay Firmware"; //"Firmware Update";
+            this.reprogramRelayFileSelectToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.reprogramRelayFileSelectToolStripMenuItem.Text = "Update Relay Firmware";
             this.reprogramRelayFileSelectToolStripMenuItem.Click += new System.EventHandler(this.reprogramRelayFileSelectToolStripMenuItem_Click);
             // 
             // tCPConnectionToolStripMenuItem
             // 
             this.tCPConnectionToolStripMenuItem.Name = "tCPConnectionToolStripMenuItem";
-            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.tCPConnectionToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.tCPConnectionToolStripMenuItem.Text = "TCP Connection Settings";
             this.tCPConnectionToolStripMenuItem.Click += new System.EventHandler(this.tCPConnectionToolStripMenuItem_Click);
             // 
@@ -940,6 +946,14 @@
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -2399,7 +2413,7 @@
             // 
             // buttonClearCycleCount
             // 
-            this.buttonClearCycleCount.Location = new System.Drawing.Point(41, 300);
+            this.buttonClearCycleCount.Location = new System.Drawing.Point(41, 270);
             this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClearCycleCount.Name = "buttonClearCycleCount";
             this.buttonClearCycleCount.Size = new System.Drawing.Size(192, 35);
@@ -2410,7 +2424,7 @@
             // 
             // buttonBlockAndTrip
             // 
-            this.buttonBlockAndTrip.Location = new System.Drawing.Point(41, 245);
+            this.buttonBlockAndTrip.Location = new System.Drawing.Point(41, 210);
             this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
             this.buttonBlockAndTrip.Size = new System.Drawing.Size(192, 35);
@@ -2459,6 +2473,7 @@
             // 
             // grpBox_RelayCommands
             // 
+            this.grpBox_RelayCommands.Controls.Add(this.grpBox_LightningCount);
             this.grpBox_RelayCommands.Controls.Add(this.btn_PermCl_Active);
             this.grpBox_RelayCommands.Controls.Add(this.btn_ClearPumpProtect);
             this.grpBox_RelayCommands.Controls.Add(this.btn_RelaxClose);
@@ -2475,9 +2490,39 @@
             this.grpBox_RelayCommands.TabStop = false;
             this.grpBox_RelayCommands.Text = "Relay Commands";
             // 
+            // grpBox_LightningCount
+            // 
+            this.grpBox_LightningCount.Controls.Add(this.btn_clrLC);
+            this.grpBox_LightningCount.Controls.Add(this.btn_getLC);
+            this.grpBox_LightningCount.Location = new System.Drawing.Point(25, 499);
+            this.grpBox_LightningCount.Name = "grpBox_LightningCount";
+            this.grpBox_LightningCount.Size = new System.Drawing.Size(226, 79);
+            this.grpBox_LightningCount.TabIndex = 120;
+            this.grpBox_LightningCount.TabStop = false;
+            this.grpBox_LightningCount.Text = "Lightning Count";
+            // 
+            // btn_clrLC
+            // 
+            this.btn_clrLC.Location = new System.Drawing.Point(114, 33);
+            this.btn_clrLC.Name = "btn_clrLC";
+            this.btn_clrLC.Size = new System.Drawing.Size(106, 30);
+            this.btn_clrLC.TabIndex = 2;
+            this.btn_clrLC.Text = "Clear Count";
+            this.btn_clrLC.UseVisualStyleBackColor = true;
+            // 
+            // btn_getLC
+            // 
+            this.btn_getLC.Location = new System.Drawing.Point(9, 33);
+            this.btn_getLC.Name = "btn_getLC";
+            this.btn_getLC.Size = new System.Drawing.Size(95, 30);
+            this.btn_getLC.TabIndex = 1;
+            this.btn_getLC.Text = "Get Count";
+            this.btn_getLC.UseVisualStyleBackColor = true;
+            this.btn_getLC.Click += new System.EventHandler(this.btn_getLC_Click);
+            // 
             // btn_PermCl_Active
             // 
-            this.btn_PermCl_Active.Location = new System.Drawing.Point(41, 481);
+            this.btn_PermCl_Active.Location = new System.Drawing.Point(41, 448);
             this.btn_PermCl_Active.Name = "btn_PermCl_Active";
             this.btn_PermCl_Active.Size = new System.Drawing.Size(192, 35);
             this.btn_PermCl_Active.TabIndex = 119;
@@ -2487,7 +2532,7 @@
             // 
             // btn_ClearPumpProtect
             // 
-            this.btn_ClearPumpProtect.Location = new System.Drawing.Point(41, 421);
+            this.btn_ClearPumpProtect.Location = new System.Drawing.Point(41, 390);
             this.btn_ClearPumpProtect.Name = "btn_ClearPumpProtect";
             this.btn_ClearPumpProtect.Size = new System.Drawing.Size(192, 35);
             this.btn_ClearPumpProtect.TabIndex = 118;
@@ -2497,7 +2542,7 @@
             // 
             // btn_RelaxClose
             // 
-            this.btn_RelaxClose.Location = new System.Drawing.Point(41, 358);
+            this.btn_RelaxClose.Location = new System.Drawing.Point(41, 332);
             this.btn_RelaxClose.Name = "btn_RelaxClose";
             this.btn_RelaxClose.Size = new System.Drawing.Size(192, 35);
             this.btn_RelaxClose.TabIndex = 117;
@@ -2508,7 +2553,7 @@
             // ucBlockControl1
             // 
             this.ucBlockControl1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucBlockControl1.Location = new System.Drawing.Point(41, 60);
+            this.ucBlockControl1.Location = new System.Drawing.Point(41, 31);
             this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
@@ -2520,7 +2565,7 @@
             this.ucRemoteCommandBlock1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ucRemoteCommandBlock1.CommandsBlocked = false;
             this.ucRemoteCommandBlock1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(54, 551);
+            this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(54, 594);
             this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
             this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(179, 122);
@@ -2530,7 +2575,7 @@
             // buttonTripRelay
             // 
             this.buttonTripRelay.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTripRelay.Location = new System.Drawing.Point(41, 186);
+            this.buttonTripRelay.Location = new System.Drawing.Point(41, 152);
             this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTripRelay.Name = "buttonTripRelay";
             this.buttonTripRelay.Size = new System.Drawing.Size(192, 35);
@@ -2608,8 +2653,10 @@
             // 
             // groupBox_RelayInfo
             // 
+            this.groupBox_RelayInfo.Controls.Add(this.lblLC_Name);
             this.groupBox_RelayInfo.Controls.Add(this.txtBox_NWPposition);
             this.groupBox_RelayInfo.Controls.Add(this.lbl_NWPposition);
+            this.groupBox_RelayInfo.Controls.Add(this.lbl_LightningCount);
             this.groupBox_RelayInfo.Controls.Add(this.textBox_TxID);
             this.groupBox_RelayInfo.Controls.Add(this.label2);
             this.groupBox_RelayInfo.Controls.Add(this.labelRelaySNControl);
@@ -2624,11 +2671,20 @@
             this.groupBox_RelayInfo.TabStop = false;
             this.groupBox_RelayInfo.Text = "Relay Information";
             // 
+            // lblLC_Name
+            // 
+            this.lblLC_Name.AutoSize = true;
+            this.lblLC_Name.Location = new System.Drawing.Point(48, 286);
+            this.lblLC_Name.Name = "lblLC_Name";
+            this.lblLC_Name.Size = new System.Drawing.Size(128, 19);
+            this.lblLC_Name.TabIndex = 120;
+            this.lblLC_Name.Text = "Lightning Count:";
+            // 
             // txtBox_NWPposition
             // 
             this.txtBox_NWPposition.BackColor = System.Drawing.SystemColors.Control;
             this.txtBox_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBox_NWPposition.Location = new System.Drawing.Point(197, 273);
+            this.txtBox_NWPposition.Location = new System.Drawing.Point(199, 223);
             this.txtBox_NWPposition.Name = "txtBox_NWPposition";
             this.txtBox_NWPposition.Size = new System.Drawing.Size(80, 27);
             this.txtBox_NWPposition.TabIndex = 119;
@@ -2639,17 +2695,27 @@
             // 
             this.lbl_NWPposition.AutoSize = true;
             this.lbl_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_NWPposition.Location = new System.Drawing.Point(20, 282);
+            this.lbl_NWPposition.Location = new System.Drawing.Point(22, 232);
             this.lbl_NWPposition.Name = "lbl_NWPposition";
             this.lbl_NWPposition.Size = new System.Drawing.Size(161, 19);
             this.lbl_NWPposition.TabIndex = 118;
             this.lbl_NWPposition.Text = "NWP Switch Position:";
             // 
+            // lbl_LightningCount
+            // 
+            this.lbl_LightningCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbl_LightningCount.Location = new System.Drawing.Point(199, 286);
+            this.lbl_LightningCount.Name = "lbl_LightningCount";
+            this.lbl_LightningCount.Size = new System.Drawing.Size(78, 25);
+            this.lbl_LightningCount.TabIndex = 0;
+            this.lbl_LightningCount.Text = "1000";
+            this.lbl_LightningCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // textBox_TxID
             // 
             this.textBox_TxID.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_TxID.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_TxID.Location = new System.Drawing.Point(199, 124);
+            this.textBox_TxID.Location = new System.Drawing.Point(200, 100);
             this.textBox_TxID.Name = "textBox_TxID";
             this.textBox_TxID.Size = new System.Drawing.Size(80, 27);
             this.textBox_TxID.TabIndex = 117;
@@ -2660,7 +2726,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(50, 133);
+            this.label2.Location = new System.Drawing.Point(51, 109);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(131, 19);
@@ -2672,7 +2738,7 @@
             // 
             this.labelRelaySNControl.AutoSize = true;
             this.labelRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelaySNControl.Location = new System.Drawing.Point(65, 54);
+            this.labelRelaySNControl.Location = new System.Drawing.Point(67, 47);
             this.labelRelaySNControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRelaySNControl.Name = "labelRelaySNControl";
             this.labelRelaySNControl.Size = new System.Drawing.Size(116, 19);
@@ -2682,7 +2748,7 @@
             // textBoxRelaySNControl
             // 
             this.textBoxRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControl.Location = new System.Drawing.Point(197, 51);
+            this.textBoxRelaySNControl.Location = new System.Drawing.Point(199, 44);
             this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControl.MaxLength = 5;
             this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
@@ -2697,7 +2763,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(48, 216);
+            this.label4.Location = new System.Drawing.Point(49, 168);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(133, 19);
@@ -2707,7 +2773,7 @@
             // textBoxTripCount
             // 
             this.textBoxTripCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTripCount.Location = new System.Drawing.Point(199, 206);
+            this.textBoxTripCount.Location = new System.Drawing.Point(200, 158);
             this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTripCount.Name = "textBoxTripCount";
             this.textBoxTripCount.ReadOnly = true;
@@ -2999,11 +3065,11 @@
             // buttonRequestDNPData
             // 
             this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
-            this.buttonRequestDNPData.Location = new System.Drawing.Point(1070, 746); 
-            this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRequestDNPData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRequestDNPData.Location = new System.Drawing.Point(1070, 746);
+            this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRequestDNPData.Name = "buttonRequestDNPData";
-            this.buttonRequestDNPData.Size = new System.Drawing.Size(214, 34); //(144, 26);
+            this.buttonRequestDNPData.Size = new System.Drawing.Size(214, 34);
             this.buttonRequestDNPData.TabIndex = 1;
             this.buttonRequestDNPData.Text = "Request DNP Data";
             this.buttonRequestDNPData.UseVisualStyleBackColor = false;
@@ -3127,14 +3193,6 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -3198,6 +3256,7 @@
             this.tabControlMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.grpBox_RelayCommands.ResumeLayout(false);
+            this.grpBox_LightningCount.ResumeLayout(false);
             this.groupBox_FirmwareInfo.ResumeLayout(false);
             this.groupBox_FirmwareInfo.PerformLayout();
             this.groupBox_RelayInfo.ResumeLayout(false);
@@ -3463,5 +3522,10 @@
         private System.Windows.Forms.Button buttonDeleteSetting;
         private System.Windows.Forms.ToolStripMenuItem resetRelayToolStripMenuItem;
         private System.Windows.Forms.Label lbl_Phasing;
+        private System.Windows.Forms.GroupBox grpBox_LightningCount;
+        private System.Windows.Forms.Label lbl_LightningCount;
+        private System.Windows.Forms.Button btn_getLC;
+        private System.Windows.Forms.Button btn_clrLC;
+        private System.Windows.Forms.Label lblLC_Name;
     }
 }

@@ -1050,7 +1050,7 @@ namespace RelayControlLibrary
                 Send(sEA);
         }
 
-        private void buttonRQ_Click(object sender, EventArgs e)
+        public void buttonRQ_Click(object sender, EventArgs e)
         {
             byte[] packet = new byte[3];
 
