@@ -73,7 +73,7 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
-        private UInt32 relayMasterRevision = 260127;//140506;
+        private UInt32 relayMasterRevision = 260202;//140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
 
@@ -991,6 +991,20 @@ namespace RelayControlLibrary
                 if (i == pointsToAdd)
                     break;
                 i++;
+#elif PSEG
+                // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addBinaryBoxIn() "
+                // For PSE&G  since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
+                // So we can have a max of 30 such Analog points ( 15 per column ) that can be displayed on one tab
+                if (i <= 29)            // So 30 Analog Input points 0 to 29 will be displayed on the first AnalogInputs tab
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                else if (i <= 59)       // So 30 Analog Input points 30 to 59 will be displayed on the first AnalogInputs tab
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                else if (i <= 79)       // So 19 Analog Input points 60 to 79 will be displayed on the first AnalogInputs tab
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
+
+                if (i == pointsToAdd)
+                    break;
+                i++;
 #endif
             }
         }
@@ -1163,9 +1177,9 @@ namespace RelayControlLibrary
             int y = tB.Controls.Count % 23 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 23) + 1;
 #elif PSEG
-            //23 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 23 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 23) + 1;
+            //19 Rows of Binary Input Points per column
+            int y = tB.Controls.Count % 19 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 19) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
@@ -1198,9 +1212,9 @@ namespace RelayControlLibrary
             int y = tB.Controls.Count % 20 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 20) + 1;
 #elif PSEG
-            //22 Rows of Analog Inputs Points per column
-            int y = tB.Controls.Count % 22 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 22) + 1;
+            //15 Rows of Analog Inputs Points per column
+            int y = tB.Controls.Count % 15 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 15) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
@@ -1671,7 +1685,7 @@ namespace RelayControlLibrary
                     this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
                     this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
-#if !CONED
+#if TORONTO_HYDRO//!CONED
                 //this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
                 this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);  
                 this.buttonDisableAllBinaryEvents.Visible = true;
@@ -1681,7 +1695,7 @@ namespace RelayControlLibrary
                 //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); 
                 this.buttonSendBinaryEventEnables.Visible = true;
-#elif CONED
+#elif CONED || PSEG
                 this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(670, 723);
                 this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(192, 32);
                 this.buttonDisableAllBinaryEvents.Visible = true;
