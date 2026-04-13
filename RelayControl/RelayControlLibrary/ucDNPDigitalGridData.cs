@@ -73,7 +73,7 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
-        private UInt32 relayMasterRevision = 260202;//140506;
+        private UInt32 relayMasterRevision = 260204;//140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
 
@@ -969,11 +969,11 @@ namespace RelayControlLibrary
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
                    
                 }
-                else if (i <= 99) //if (i <= 63)
+           /*     else if (i <= 99) 
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
                 else if (i <= 111)
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-
+           */
                 if (i == pointsToAdd)
                     break;
                 i++;
@@ -1166,9 +1166,10 @@ namespace RelayControlLibrary
         //Adds a binary box to the selected page
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
-            // int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-            // int x = box.Width * (tB.Controls.Count / 25) + 1;
-#if TORONTO_HYDRO
+#if DEBUG
+            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+             int x = box.Width * (tB.Controls.Count / 25) + 1;
+#elif TORONTO_HYDRO
             //13 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 13 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 13) + 1;
@@ -1198,12 +1199,13 @@ namespace RelayControlLibrary
             tB.Controls.Add(box);
         }
 
-        //Adds a analog box to the selected page
+        //Adds an analog box to the selected page
         private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
-           //   int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-           //   int x = box.Width * (tB.Controls.Count / 25) + 1;
-#if TORONTO_HYDRO
+#if DEBUG
+            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
+            int x = box.Width * (tB.Controls.Count / 25) + 1;
+#elif TORONTO_HYDRO
             //22 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 22 * box.Height + 5; 
             int x = box.Width * (tB.Controls.Count / 22) + 1;
@@ -1460,6 +1462,7 @@ namespace RelayControlLibrary
                     index += 6;
                 }
             }
+#if !TORONTO_HYDRO
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {
                 ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
@@ -1518,6 +1521,7 @@ namespace RelayControlLibrary
                     index += 6;
                 }
             }
+#endif
             return index;
         }
 
@@ -1821,12 +1825,15 @@ namespace RelayControlLibrary
                         tempByte = 0; //First value of byte, so clear tempByte
                         if (uDDGA.EventEnabled)
                             tempByte = 1;
+
                     }
                     else if (i % 8 == 7) //last value of group
                     {
+                        //MessageBox.Show(tempByte + " TEMPBYTE : ");// Only for testing - to be removed
                         if (uDDGA.EventEnabled)
                             tempByte += (byte)0x80;
 
+                        //MessageBox.Show(tempByte + " tempByte at : " + packetByteNumber + " packetByteNumber and " + i + " i");// Only for testing - to be removed
                         sEA.SendPacket[packetByteNumber] = tempByte;
 
                         packetByteNumber++; //next byte goes into next byte of packet
@@ -1843,12 +1850,43 @@ namespace RelayControlLibrary
                             }
 
                             tempByte += value;
+                            //MessageBox.Show(tempByte + " : tempByte with value : " + value + " i j and i%8 : " + i + j + i % 8);// Only for testing - to be removed
                         }
                     }
 
                     i++;
                 }
+#if TORONTO_HYDRO
+                if (i == 43)
+                {  
+                       // MessageBox.Show(tempByte + " TEMPBYTE @ 43 : ");// Only for testing - to be removed
+                    if (uDDGA.EventEnabled)
+                        tempByte += (byte)0x80;
+
+                    //MessageBox.Show(tempByte + " tempByte at : " + packetByteNumber + " packetByteNumber and " + i + " i");// Only for testing - to be removed
+                    sEA.SendPacket[packetByteNumber] = tempByte;
+                    
+                    if (uDDGA.EventEnabled)
+                    {
+                        byte j = 0;
+                        byte value = 1;
+                        for (j = 0; j < i % 8; ++j)
+                        {
+                            value <<= 1;
+                        }
+
+                        tempByte += value;
+                     //   MessageBox.Show(tempByte + " : tempByte with value : " + value + " i j and i%8 : " + i + j + i % 8);// Only for testing - to be removed
+                    }
+
+                   // MessageBox.Show(tempByte + " tempByte at : " + packetByteNumber + " packetByteNumber and " + i + " i");// Only for testing - to be removed
+                    sEA.SendPacket[packetByteNumber] = tempByte;
+
+                    packetByteNumber++; //next byte goes into next byte of packet
+                }
+#endif
             }
+#if CONED
             foreach (Control C in this.tabPageAnalogInputs2.Controls)
             {
                 ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
@@ -1953,8 +1991,12 @@ namespace RelayControlLibrary
                     sEA.SendPacket[packetByteNumber] = tempByte;
                 }
             }
-
+#endif
             sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
+
+           // for (int tempX = 0; tempX <= 97; tempX++)
+            //    MessageBox.Show(sEA.SendPacket[tempX].ToString() + " : sEA.SendPacket[] at " + tempX);// Only for testing - to be removed
+
             if (this.Send != null)
                 this.Send(this, sEA);
         }
