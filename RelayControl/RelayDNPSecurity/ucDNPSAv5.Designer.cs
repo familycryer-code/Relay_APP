@@ -40,7 +40,7 @@
             // 
             // buttonLoadDefaultUser
             // 
-            this.buttonLoadDefaultUser.Location = new System.Drawing.Point(756, 133);
+            this.buttonLoadDefaultUser.Location = new System.Drawing.Point(620, 236);
             this.buttonLoadDefaultUser.Name = "buttonLoadDefaultUser";
             this.buttonLoadDefaultUser.Size = new System.Drawing.Size(112, 23);
             this.buttonLoadDefaultUser.TabIndex = 7;
@@ -50,7 +50,7 @@
             // 
             // buttonGetLoadedUsers
             // 
-            this.buttonGetLoadedUsers.Location = new System.Drawing.Point(18, 133);
+            this.buttonGetLoadedUsers.Location = new System.Drawing.Point(620, 265);
             this.buttonGetLoadedUsers.Name = "buttonGetLoadedUsers";
             this.buttonGetLoadedUsers.Size = new System.Drawing.Size(112, 23);
             this.buttonGetLoadedUsers.TabIndex = 6;
@@ -61,7 +61,7 @@
             // labelCurrentlyLoadedUsers
             // 
             this.labelCurrentlyLoadedUsers.AutoSize = true;
-            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(275, 138);
+            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(760, 299);
             this.labelCurrentlyLoadedUsers.Name = "labelCurrentlyLoadedUsers";
             this.labelCurrentlyLoadedUsers.Size = new System.Drawing.Size(0, 13);
             this.labelCurrentlyLoadedUsers.TabIndex = 5;
@@ -69,7 +69,7 @@
             // labelLoadedUsersNumbersLabel
             // 
             this.labelLoadedUsersNumbersLabel.AutoSize = true;
-            this.labelLoadedUsersNumbersLabel.Location = new System.Drawing.Point(149, 138);
+            this.labelLoadedUsersNumbersLabel.Location = new System.Drawing.Point(620, 299);
             this.labelLoadedUsersNumbersLabel.Name = "labelLoadedUsersNumbersLabel";
             this.labelLoadedUsersNumbersLabel.Size = new System.Drawing.Size(120, 13);
             this.labelLoadedUsersNumbersLabel.TabIndex = 4;
@@ -79,7 +79,7 @@
             // 
             this.ucDNPSAv5Settings1.AuthenticationEnabled = false;
             this.ucDNPSAv5Settings1.Location = new System.Drawing.Point(8, 316);
-            this.ucDNPSAv5Settings1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucDNPSAv5Settings1.Margin = new System.Windows.Forms.Padding(4);
             this.ucDNPSAv5Settings1.Name = "ucDNPSAv5Settings1";
             this.ucDNPSAv5Settings1.Size = new System.Drawing.Size(960, 380);
             this.ucDNPSAv5Settings1.TabIndex = 10;
@@ -87,7 +87,7 @@
             // ucDNPSAv5OSName1
             // 
             this.ucDNPSAv5OSName1.Location = new System.Drawing.Point(8, 239);
-            this.ucDNPSAv5OSName1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucDNPSAv5OSName1.Margin = new System.Windows.Forms.Padding(4);
             this.ucDNPSAv5OSName1.Name = "ucDNPSAv5OSName1";
             this.ucDNPSAv5OSName1.OSName = "DIGITALGRID, INC. DNP Relay Serial Number: DIGITALGRID, INC. DNP Relay";
             this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
@@ -97,17 +97,18 @@
             // ucDNPSAv5AuthoritySym1
             // 
             this.ucDNPSAv5AuthoritySym1.Location = new System.Drawing.Point(6, 162);
-            this.ucDNPSAv5AuthoritySym1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ucDNPSAv5AuthoritySym1.Margin = new System.Windows.Forms.Padding(4);
             this.ucDNPSAv5AuthoritySym1.Name = "ucDNPSAv5AuthoritySym1";
             this.ucDNPSAv5AuthoritySym1.Size = new System.Drawing.Size(862, 82);
             this.ucDNPSAv5AuthoritySym1.TabIndex = 8;
             // 
             // ucDNPSAv5User1
             // 
+            this.ucDNPSAv5User1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucDNPSAv5User1.Location = new System.Drawing.Point(8, 3);
             this.ucDNPSAv5User1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ucDNPSAv5User1.Name = "ucDNPSAv5User1";
-            this.ucDNPSAv5User1.Size = new System.Drawing.Size(876, 132);
+            this.ucDNPSAv5User1.Size = new System.Drawing.Size(1083, 167);
             this.ucDNPSAv5User1.TabIndex = 2;
             // 
             // buttonLoadDefaultAuthorityKey

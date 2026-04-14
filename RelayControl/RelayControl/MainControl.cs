@@ -10967,6 +10967,22 @@ namespace RelayControl
 
             this.sendPacket(sEA.SendPacket);
         }
+
+        private void btn_clrLC_Click(object sender, EventArgs e)
+        {
+            var response = MessageBox.Show("Are you sure you want to clear the count?","Clear Lightning Count?", MessageBoxButtons.YesNo);
+
+            if (response == DialogResult.Yes)
+            {
+                SendEventArgs sEA = new SendEventArgs(82);
+
+                sEA.SendPacket[0] = 0x17;
+                sEA.SendPacket[2] = 0x10;
+                sEA.SendPacket[81] = 0x0D;
+
+                this.sendPacket(sEA.SendPacket);
+            }
+        }
     }
 
     public partial class MyPort : SerialPort

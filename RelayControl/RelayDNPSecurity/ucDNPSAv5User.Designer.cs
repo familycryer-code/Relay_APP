@@ -74,9 +74,9 @@
             // 
             // buttonAddUser
             // 
-            this.buttonAddUser.Location = new System.Drawing.Point(763, 16);
+            this.buttonAddUser.Location = new System.Drawing.Point(745, 16);
             this.buttonAddUser.Name = "buttonAddUser";
-            this.buttonAddUser.Size = new System.Drawing.Size(96, 41);
+            this.buttonAddUser.Size = new System.Drawing.Size(85, 35);
             this.buttonAddUser.TabIndex = 6;
             this.buttonAddUser.Text = "Add/Overwrite User #";
             this.buttonAddUser.UseVisualStyleBackColor = true;
@@ -101,9 +101,9 @@
             // 
             // buttonDeleteUser
             // 
-            this.buttonDeleteUser.Location = new System.Drawing.Point(763, 67);
+            this.buttonDeleteUser.Location = new System.Drawing.Point(745, 63);
             this.buttonDeleteUser.Name = "buttonDeleteUser";
-            this.buttonDeleteUser.Size = new System.Drawing.Size(96, 33);
+            this.buttonDeleteUser.Size = new System.Drawing.Size(85, 35);
             this.buttonDeleteUser.TabIndex = 9;
             this.buttonDeleteUser.Text = "Delete User #";
             this.buttonDeleteUser.UseVisualStyleBackColor = true;
@@ -137,7 +137,7 @@
             this.groupBoxUserControl.Controls.Add(this.label1);
             this.groupBoxUserControl.Location = new System.Drawing.Point(3, 3);
             this.groupBoxUserControl.Name = "groupBoxUserControl";
-            this.groupBoxUserControl.Size = new System.Drawing.Size(865, 120);
+            this.groupBoxUserControl.Size = new System.Drawing.Size(869, 120);
             this.groupBoxUserControl.TabIndex = 11;
             this.groupBoxUserControl.TabStop = false;
             this.groupBoxUserControl.Text = "User Control";

@@ -32,7 +32,8 @@ namespace RelayDNPSecurity
 
             Point tempPoint = new Point(this.textBoxUserNumber.Location.X, this.textBoxUserNumber.Location.Y);
 
-            tempPoint.X += 5 + this.textBoxUserNumber.Width;
+           // tempPoint.X += 5 + this.textBoxUserNumber.Width;
+            tempPoint.X = 115;
             tempPoint.Y -= 5;
 
             this.keyBox.Location = tempPoint;
