@@ -1018,6 +1018,8 @@ namespace RelayControlLibrary
                 }
 #if TORONTO_HYDRO
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
+#elif ENMAX
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
 #endif
 
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";

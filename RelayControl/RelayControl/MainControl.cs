@@ -732,7 +732,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.27" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.28" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -740,7 +740,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.3" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " ENMAX ";
+                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " ENMAX ";
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
