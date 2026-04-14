@@ -39,6 +39,14 @@ namespace RelayDNPSecurity
             this.keyBox.Location = tempPoint;
 
             this.groupBoxUserControl.Controls.Add(this.keyBox);
+
+            this.label1.Location = new System.Drawing.Point(170, 117); //(29, 96);
+            this.textBoxUserName.Location = new System.Drawing.Point(250, 115); //(98, 93);
+
+            this.labelUserNumber.Location = new System.Drawing.Point(9, 32); //(9, 22);
+            this.textBoxUserNumber.Location = new System.Drawing.Point(67, 30); //(67, 19);
+            this.labelUserRole.Location = new System.Drawing.Point(9, 72); //(9, 50);
+            this.comboBoxUserRole.Location = new System.Drawing.Point(67, 70); //(67, 45);
         }
 
         #endregion

@@ -33,9 +33,10 @@
             // 
             // buttonSendKey
             // 
-            this.buttonSendKey.Location = new System.Drawing.Point(710, 3);
+            this.buttonSendKey.Location = new System.Drawing.Point(1065, 4);
+            this.buttonSendKey.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonSendKey.Name = "buttonSendKey";
-            this.buttonSendKey.Size = new System.Drawing.Size(108, 23);
+            this.buttonSendKey.Size = new System.Drawing.Size(162, 34);
             this.buttonSendKey.TabIndex = 0;
             this.buttonSendKey.Text = "Send Authority Key";
             this.buttonSendKey.UseVisualStyleBackColor = true;
@@ -43,11 +44,13 @@
             // 
             // ucDNPSAv5AuthoritySym
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonSendKey);
+            this.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ucDNPSAv5AuthoritySym";
-            this.Size = new System.Drawing.Size(821, 90);
+            this.Size = new System.Drawing.Size(1232, 132);
             this.ResumeLayout(false);
 
         }

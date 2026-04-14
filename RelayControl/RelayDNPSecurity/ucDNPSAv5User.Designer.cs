@@ -45,7 +45,7 @@
             // labelUserNumber
             // 
             this.labelUserNumber.AutoSize = true;
-            this.labelUserNumber.Location = new System.Drawing.Point(29, 16);
+            this.labelUserNumber.Location = new System.Drawing.Point(9, 22);
             this.labelUserNumber.Name = "labelUserNumber";
             this.labelUserNumber.Size = new System.Drawing.Size(52, 13);
             this.labelUserNumber.TabIndex = 0;
@@ -53,7 +53,7 @@
             // 
             // textBoxUserNumber
             // 
-            this.textBoxUserNumber.Location = new System.Drawing.Point(87, 13);
+            this.textBoxUserNumber.Location = new System.Drawing.Point(67, 19);
             this.textBoxUserNumber.Name = "textBoxUserNumber";
             this.textBoxUserNumber.Size = new System.Drawing.Size(80, 20);
             this.textBoxUserNumber.TabIndex = 1;
@@ -61,7 +61,7 @@
             // labelUserRole
             // 
             this.labelUserRole.AutoSize = true;
-            this.labelUserRole.Location = new System.Drawing.Point(29, 44);
+            this.labelUserRole.Location = new System.Drawing.Point(9, 50);
             this.labelUserRole.Name = "labelUserRole";
             this.labelUserRole.Size = new System.Drawing.Size(57, 13);
             this.labelUserRole.TabIndex = 2;
@@ -120,7 +120,7 @@
             "SECADM",
             "SECAUD",
             "RBACMNT"});
-            this.comboBoxUserRole.Location = new System.Drawing.Point(87, 39);
+            this.comboBoxUserRole.Location = new System.Drawing.Point(67, 45);
             this.comboBoxUserRole.Name = "comboBoxUserRole";
             this.comboBoxUserRole.Size = new System.Drawing.Size(80, 21);
             this.comboBoxUserRole.TabIndex = 10;
@@ -135,9 +135,9 @@
             this.groupBoxUserControl.Controls.Add(this.buttonAddUser);
             this.groupBoxUserControl.Controls.Add(this.textBoxUserName);
             this.groupBoxUserControl.Controls.Add(this.label1);
-            this.groupBoxUserControl.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxUserControl.Location = new System.Drawing.Point(10, 3);
             this.groupBoxUserControl.Name = "groupBoxUserControl";
-            this.groupBoxUserControl.Size = new System.Drawing.Size(869, 120);
+            this.groupBoxUserControl.Size = new System.Drawing.Size(869, 158);
             this.groupBoxUserControl.TabIndex = 11;
             this.groupBoxUserControl.TabStop = false;
             this.groupBoxUserControl.Text = "User Control";

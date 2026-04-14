@@ -33,7 +33,7 @@ namespace RelayDNPSecurity
             this.keyBox.Location = tempPoint;
 
             this.Controls.Add(this.keyBox);
-            this.buttonSendKey.Location = new Point(this.keyBox.Location.X + this.keyBox.Width + 5, this.keyBox.Location.Y + 10);
+            this.buttonSendKey.Location = new System.Drawing.Point(900, 40); //new Point(this.keyBox.Location.X + this.keyBox.Width + 5, this.keyBox.Location.Y + 10);
         }
 
         #endregion
