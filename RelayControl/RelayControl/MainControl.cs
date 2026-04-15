@@ -908,7 +908,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
 
-#if TORONTO_HYDRO
+#if TORONTO_HYDRO || ENMAX
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -1914,10 +1914,11 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
                         ucDNP1.SendAllDNPSettings();
-#if TORONTO_HYDRO
+#if TORONTO_HYDRO || ENMAX
                     this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+
                     break;
                 case RelayProgrammingSendCommands.RawData:
                     this.ucSafeService1.LoadingNewCode = true;
@@ -2000,10 +2001,11 @@ namespace RelayControl
                 this.ucTransmitter1.ForceDNPEnable = true;
                 Thread.Sleep(100);
                 this.ucTransmitter1.SendTransmitterSettings();
-#if TORONTO_HYDRO
+#if TORONTO_HYDRO || ENMAX
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+
             }
         }
 
@@ -6046,10 +6048,11 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if TORONTO_HYDRO
+#if TORONTO_HYDRO || ENMAX
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+
         }
 
         private void requestTransmitterSettings()
@@ -6061,10 +6064,11 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if TORONTO_HYDRO
+#if TORONTO_HYDRO || ENMAX
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+
         }
 
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)

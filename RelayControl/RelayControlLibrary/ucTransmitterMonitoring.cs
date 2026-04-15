@@ -63,7 +63,8 @@ namespace RelayControlLibrary
             textBoxFa.Visible = false;
             labelHa.Visible = false;
             textBoxHa.Visible = false;
-#elif ENMAX && !DEBUG
+
+//#elif ENMAX && !DEBUG
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 2;
             this.textBoxCa.Visible = false;
@@ -76,8 +77,7 @@ namespace RelayControlLibrary
             this.labelGa.Visible = false;
             this.labelQPres.Visible = false;
             this.textBoxQBit.Visible = false;
-//#elif (ONCOR || TORONTO_HYDRO)
-#elif (ONCOR || TORONTO_HYDRO || CONED) 
+#elif (ONCOR || TORONTO_HYDRO || CONED || ENMAX)
             this.textBoxCa.Visible = true;
             this.textBoxDa.Visible = true;
             this.textBoxEa.Visible = true;
@@ -90,13 +90,13 @@ namespace RelayControlLibrary
             this.labelHa.Visible = true;
 
 #if ENMAX
-            this.labelHa.Text = "Oil Level";
+           /* this.labelHa.Text = "Oil Level";
             this.labelHa.Location = new Point(4, 142);
             this.checkBoxFlagStatusH.Visible = false;
             this.labelQPres.Visible = true;
             this.textBoxQBit.Visible = true;
-//#elif (!ONCOR && !TORONTO_HYDRO)
-#elif (!ONCOR && !TORONTO_HYDRO && !CONED)
+           */
+#elif (!ONCOR && !TORONTO_HYDRO && !CONED && !ENMAX)
             this.labelHa.Visible = false;
             this.textBoxHa.Visible = false;
 #endif

@@ -64,7 +64,7 @@ namespace RelayControlLibrary
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
-#if CONED
+#if CONED || ENMAX
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs3);
 #endif

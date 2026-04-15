@@ -823,7 +823,7 @@ namespace RelayControlLibrary
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDV.Value = 0.0m;
                 this.checkBoxCircleClose.Checked = true;
-                this.radioButtonNeverOverride.Checked = true;
+                //this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.CircleClose;
                 this.CloseModeDef.TimeDelay = 6;
 #elif PSEG

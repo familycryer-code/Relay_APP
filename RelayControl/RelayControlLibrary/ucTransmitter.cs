@@ -535,8 +535,8 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
 
-//#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
-#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
+                //#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
+#if (CHICAGO || SEATTLE || BOSTON || NU || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
                 this.panelSmartExternalCable.Hide();
