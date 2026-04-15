@@ -257,7 +257,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Time Delay");
             this.binaryInputs.Add("Watt Var");
             this.binaryInputs.Add("Trip On Power Down");
-            this.binaryInputs.Add("Trim Curve Enabled");
+            this.binaryInputs.Add("Trim Curve Enabled"); // 20
             this.binaryInputs.Add("Cirlce Close Enabled");
             this.binaryInputs.Add("Override Blocked Open");
             this.binaryInputs.Add("Relay Algorithm");
@@ -276,7 +276,25 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Q Bit");
             this.binaryInputs.Add("Unused");
             this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused"); // 39
+            this.binaryInputs.Add("Unused40");
             this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused");
+            this.binaryInputs.Add("Unused57"); // 57
 #endif
 #if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
             this.binaryInputs.Add("Not Available");  //0
@@ -319,16 +337,33 @@ namespace RelayControlLibrary
                 workingBox.EventEnableVisible = true;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-#if !TORONTO_HYDRO
+#if !ENMAX
                 if (i < 50)
-#elif TORONTO_HYDRO
-                if (i < 50)
-#endif
-                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
+
+                this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
 
                 if (i == pointsToAdd)
                     break;
                 i++;
+
+#elif ENMAX      
+                // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addBinaryBoxIn() "
+                // For ENMAX  since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
+                // So we can have a max of 30 such Analog points ( 20 per column ) that can be displayed on one tab
+
+                if (i <= 29)            // So 30 Analog Input points 0 to 29 will be displayed on the first BinaryInputs tab
+                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
+                else if (i <= 57)       // So 28 Analog Input points 30 to 57 will be displayed on the second BinaryInputs tab
+                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs2);
+
+
+                if (i == pointsToAdd)
+                    break;
+                i++;
+
+#endif
+
+
 
             }
 
@@ -1318,9 +1353,9 @@ namespace RelayControlLibrary
             int y = tB.Controls.Count % 19 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 19) + 1;
 #elif ENMAX
-            //19 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 19 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 19) + 1;
+            //15 Rows of Binary Input Points per column
+            int y = tB.Controls.Count % 15 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 15) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);

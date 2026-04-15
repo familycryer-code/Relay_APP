@@ -30,9 +30,10 @@ namespace RelayControlLibrary
         {
             this.buttonSendBinaryEventEnables = new System.Windows.Forms.Button();
             this.tabControlMemphisDNP = new System.Windows.Forms.TabControl();
-            this.tabPageBinaryInputs = new System.Windows.Forms.TabPage();
             this.buttonDisableAllBinaryEvents = new System.Windows.Forms.Button();
             this.buttonEnableAllBinaryEvents = new System.Windows.Forms.Button();
+            this.tabPageBinaryInputs = new System.Windows.Forms.TabPage();
+            this.tabPageBinaryInputs2 = new System.Windows.Forms.TabPage();
             this.tabPageBinaryOuputs = new System.Windows.Forms.TabPage();
             this.tabPageAnalogInputs1 = new System.Windows.Forms.TabPage();
             this.tabPageAnalogInputs2 = new System.Windows.Forms.TabPage();
@@ -43,6 +44,7 @@ namespace RelayControlLibrary
             this.tabPageAnalogOutputs = new System.Windows.Forms.TabPage();
             this.tabControlMemphisDNP.SuspendLayout();
             this.tabPageBinaryInputs.SuspendLayout();
+            this.tabPageBinaryInputs2.SuspendLayout();
             this.tabPageAnalogInputs1.SuspendLayout();
             this.tabPageAnalogInputs2.SuspendLayout();
             this.tabPageAnalogInputs3.SuspendLayout();
@@ -62,9 +64,12 @@ namespace RelayControlLibrary
             // tabControlMemphisDNP
             // 
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs);
+#if ENMAX
+            this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs2);
+#endif
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
-#if CONED || ENMAX
+#if CONED || ENMAX          
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs3);
 #endif
@@ -90,6 +95,20 @@ namespace RelayControlLibrary
             this.tabPageBinaryInputs.Size = new System.Drawing.Size(981, 541);
             this.tabPageBinaryInputs.TabIndex = 0;
             this.tabPageBinaryInputs.Text = "Binary Inputs";
+            // 
+            // tabPageBinaryInputs2
+            // 
+            this.tabPageBinaryInputs2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageBinaryInputs2.Controls.Add(this.buttonDisableAllBinaryEvents);
+            this.tabPageBinaryInputs2.Controls.Add(this.buttonEnableAllBinaryEvents);
+            this.tabPageBinaryInputs2.Controls.Add(this.buttonSendBinaryEventEnables);
+            this.tabPageBinaryInputs2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabPageBinaryInputs2.Location = new System.Drawing.Point(4, 25);
+            this.tabPageBinaryInputs2.Name = "tabPageBinaryInputs2";
+            this.tabPageBinaryInputs2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageBinaryInputs2.Size = new System.Drawing.Size(981, 541);
+            this.tabPageBinaryInputs2.TabIndex = 1;
+            this.tabPageBinaryInputs2.Text = "Binary Inputs";
             // 
             // buttonDisableAllBinaryEvents
             // 
@@ -236,6 +255,7 @@ namespace RelayControlLibrary
             this.Size = new System.Drawing.Size(1310, 682);
             this.tabControlMemphisDNP.ResumeLayout(false);
             this.tabPageBinaryInputs.ResumeLayout(false);
+            this.tabPageBinaryInputs2.ResumeLayout(false);
             this.tabPageAnalogInputs1.ResumeLayout(false);
             this.tabPageAnalogInputs2.ResumeLayout(false);
             this.tabPageAnalogInputs3.ResumeLayout(false);
@@ -248,6 +268,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonSendBinaryEventEnables;
         private System.Windows.Forms.TabControl tabControlMemphisDNP;
         public System.Windows.Forms.TabPage tabPageBinaryInputs;
+        private System.Windows.Forms.TabPage tabPageBinaryInputs2;
         private System.Windows.Forms.TabPage tabPageBinaryOuputs;
         private System.Windows.Forms.TabPage tabPageAnalogInputs1;
         private System.Windows.Forms.TabPage tabPageAnalogInputs2;
