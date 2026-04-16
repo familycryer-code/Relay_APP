@@ -23,6 +23,9 @@ namespace RelayDNPSecurity
             this.buttonLoadDefaultAuthorityKey.Visible = false;
             this.buttonLoadDefaultUser.Visible = false;
 #endif
+            
+            //tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
+            //tabControlMain.DrawItem += tabControlMain_DrawItem;
         }
 
         public int SerialNumber
@@ -62,6 +65,30 @@ namespace RelayDNPSecurity
             {
                 this.showDNPSAV5Error = value;
             }
+        }
+
+        private void tab_subTabsDNPSAv5_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = tab_subTabsDNPSAv5.TabPages[e.Index];
+            var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            // Background of the selected tab title 
+            //using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(135, 206, 250) : SystemColors.Control)) // selected tab title has a blue background
+            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(255, 215, 0) : SystemColors.Control)) // selected tab title has a gold colored background
+            {
+                e.Graphics.FillRectangle(backBrush, e.Bounds);
+            }
+
+            // Text color: blue for selected, gray for others (adjust as needed)
+            var textColor = isSelected ? Color.Black : SystemColors.ControlText; // Color.Black is the color of the selected tab title
+            using (var textBrush = new SolidBrush(textColor))
+            using (var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+            {
+                e.Graphics.DrawString(tab.Text, e.Font, textBrush, e.Bounds, format);
+            }
+
+            // Optional focus rectangle
+            e.DrawFocusRectangle();
         }
 
         public void RequestAllData()

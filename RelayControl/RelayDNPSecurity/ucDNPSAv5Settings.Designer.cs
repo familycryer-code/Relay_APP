@@ -78,6 +78,7 @@ namespace RelayDNPSecurity
             this.groupBoxMain.Controls.Add(this.buttonRequestSettings);
             this.groupBoxMain.Controls.Add(this.buttonSendSettings);
             this.groupBoxMain.Controls.Add(this.checkBoxAggressiveMode);
+            this.groupBoxMain.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxMain.Location = new System.Drawing.Point(3, 3);
             this.groupBoxMain.Name = "groupBoxMain";
             this.groupBoxMain.Size = new System.Drawing.Size(973, 800);
@@ -96,7 +97,7 @@ namespace RelayDNPSecurity
             "AESGMAC 12 OCTET"});
             this.comboBoxMACAlogrithm.Location = new System.Drawing.Point(160, 204);
             this.comboBoxMACAlogrithm.Name = "comboBoxMACAlogrithm";
-            this.comboBoxMACAlogrithm.Size = new System.Drawing.Size(149, 21);
+            this.comboBoxMACAlogrithm.Size = new System.Drawing.Size(149, 27);
             this.comboBoxMACAlogrithm.TabIndex = 16;
             // 
             // labelMACAlgorithm
@@ -104,7 +105,7 @@ namespace RelayDNPSecurity
             this.labelMACAlgorithm.AutoSize = true;
             this.labelMACAlgorithm.Location = new System.Drawing.Point(19, 207);
             this.labelMACAlgorithm.Name = "labelMACAlgorithm";
-            this.labelMACAlgorithm.Size = new System.Drawing.Size(79, 13);
+            this.labelMACAlgorithm.Size = new System.Drawing.Size(124, 19);
             this.labelMACAlgorithm.TabIndex = 17;
             this.labelMACAlgorithm.Text = "MAC Algorithm:";
             // 
@@ -118,7 +119,7 @@ namespace RelayDNPSecurity
             "REMOTE UPDATE DISABLE"});
             this.comboBoxKeyChangeAlogrithm.Location = new System.Drawing.Point(160, 175);
             this.comboBoxKeyChangeAlogrithm.Name = "comboBoxKeyChangeAlogrithm";
-            this.comboBoxKeyChangeAlogrithm.Size = new System.Drawing.Size(149, 21);
+            this.comboBoxKeyChangeAlogrithm.Size = new System.Drawing.Size(149, 27);
             this.comboBoxKeyChangeAlogrithm.TabIndex = 7;
             // 
             // labelKeyChangeAlgorithm
@@ -126,7 +127,7 @@ namespace RelayDNPSecurity
             this.labelKeyChangeAlgorithm.AutoSize = true;
             this.labelKeyChangeAlgorithm.Location = new System.Drawing.Point(19, 178);
             this.labelKeyChangeAlgorithm.Name = "labelKeyChangeAlgorithm";
-            this.labelKeyChangeAlgorithm.Size = new System.Drawing.Size(114, 13);
+            this.labelKeyChangeAlgorithm.Size = new System.Drawing.Size(174, 19);
             this.labelKeyChangeAlgorithm.TabIndex = 15;
             this.labelKeyChangeAlgorithm.Text = "Key Change Algorithm:";
             // 
@@ -135,7 +136,7 @@ namespace RelayDNPSecurity
             this.checkBoxAuthenticationEnabled.AutoSize = true;
             this.checkBoxAuthenticationEnabled.Location = new System.Drawing.Point(19, 58);
             this.checkBoxAuthenticationEnabled.Name = "checkBoxAuthenticationEnabled";
-            this.checkBoxAuthenticationEnabled.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxAuthenticationEnabled.Size = new System.Drawing.Size(191, 23);
             this.checkBoxAuthenticationEnabled.TabIndex = 2;
             this.checkBoxAuthenticationEnabled.Text = "Authentication Enabled";
             this.checkBoxAuthenticationEnabled.UseVisualStyleBackColor = true;
@@ -154,7 +155,7 @@ namespace RelayDNPSecurity
             0,
             0});
             this.numericUpDownMaxSessionKeyCount.Name = "numericUpDownMaxSessionKeyCount";
-            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(51, 20);
+            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(51, 27);
             this.numericUpDownMaxSessionKeyCount.TabIndex = 6;
             this.numericUpDownMaxSessionKeyCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownMaxSessionKeyCount.Value = new decimal(new int[] {
@@ -168,7 +169,7 @@ namespace RelayDNPSecurity
             this.labelMaxSessionKeyCount.AutoSize = true;
             this.labelMaxSessionKeyCount.Location = new System.Drawing.Point(18, 153);
             this.labelMaxSessionKeyCount.Name = "labelMaxSessionKeyCount";
-            this.labelMaxSessionKeyCount.Size = new System.Drawing.Size(122, 13);
+            this.labelMaxSessionKeyCount.Size = new System.Drawing.Size(178, 19);
             this.labelMaxSessionKeyCount.TabIndex = 12;
             this.labelMaxSessionKeyCount.Text = "Max Session Key Count:";
             // 
@@ -181,7 +182,7 @@ namespace RelayDNPSecurity
             0,
             0});
             this.numericUpDownSessionKeyChangeCount.Name = "numericUpDownSessionKeyChangeCount";
-            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(51, 20);
+            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(51, 27);
             this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
             this.numericUpDownSessionKeyChangeCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
@@ -195,7 +196,7 @@ namespace RelayDNPSecurity
             this.labelSessionKeyChangeCount.AutoSize = true;
             this.labelSessionKeyChangeCount.Location = new System.Drawing.Point(18, 130);
             this.labelSessionKeyChangeCount.Name = "labelSessionKeyChangeCount";
-            this.labelSessionKeyChangeCount.Size = new System.Drawing.Size(139, 13);
+            this.labelSessionKeyChangeCount.Size = new System.Drawing.Size(203, 19);
             this.labelSessionKeyChangeCount.TabIndex = 10;
             this.labelSessionKeyChangeCount.Text = "Session Key Change Count:";
             // 
@@ -208,7 +209,7 @@ namespace RelayDNPSecurity
             0,
             0});
             this.numericUpDownSessionKeyInterval.Name = "numericUpDownSessionKeyInterval";
-            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(51, 20);
+            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(51, 27);
             this.numericUpDownSessionKeyInterval.TabIndex = 4;
             this.numericUpDownSessionKeyInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
@@ -222,12 +223,13 @@ namespace RelayDNPSecurity
             this.labelSessionKeyInterval.AutoSize = true;
             this.labelSessionKeyInterval.Location = new System.Drawing.Point(18, 107);
             this.labelSessionKeyInterval.Name = "labelSessionKeyInterval";
-            this.labelSessionKeyInterval.Size = new System.Drawing.Size(123, 13);
+            this.labelSessionKeyInterval.Size = new System.Drawing.Size(186, 19);
             this.labelSessionKeyInterval.TabIndex = 8;
             this.labelSessionKeyInterval.Text = "Session Key Interval (s) :";
             // 
             // groupBoxSecurityStats
             // 
+            this.groupBoxSecurityStats.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxSecurityStats.Location = new System.Drawing.Point(343, 19);
             this.groupBoxSecurityStats.Name = "groupBoxSecurityStats";
             this.groupBoxSecurityStats.Size = new System.Drawing.Size(595, 800);
@@ -255,7 +257,7 @@ namespace RelayDNPSecurity
             0,
             65536});
             this.numericUpDownReplyTimeout.Name = "numericUpDownReplyTimeout";
-            this.numericUpDownReplyTimeout.Size = new System.Drawing.Size(51, 20);
+            this.numericUpDownReplyTimeout.Size = new System.Drawing.Size(51, 27);
             this.numericUpDownReplyTimeout.TabIndex = 3;
             this.numericUpDownReplyTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownReplyTimeout.Value = new decimal(new int[] {
@@ -269,7 +271,7 @@ namespace RelayDNPSecurity
             this.labelReplyTimeout.AutoSize = true;
             this.labelReplyTimeout.Location = new System.Drawing.Point(18, 84);
             this.labelReplyTimeout.Name = "labelReplyTimeout";
-            this.labelReplyTimeout.Size = new System.Drawing.Size(95, 13);
+            this.labelReplyTimeout.Size = new System.Drawing.Size(147, 19);
             this.labelReplyTimeout.TabIndex = 5;
             this.labelReplyTimeout.Text = "Reply Timeout (s) :";
             // 
@@ -278,7 +280,7 @@ namespace RelayDNPSecurity
             this.checkBoxSHA1.AutoSize = true;
             this.checkBoxSHA1.Location = new System.Drawing.Point(19, 38);
             this.checkBoxSHA1.Name = "checkBoxSHA1";
-            this.checkBoxSHA1.Size = new System.Drawing.Size(99, 17);
+            this.checkBoxSHA1.Size = new System.Drawing.Size(135, 23);
             this.checkBoxSHA1.TabIndex = 1;
             this.checkBoxSHA1.Text = "SHA-1 Enabled";
             this.checkBoxSHA1.UseVisualStyleBackColor = true;
@@ -322,7 +324,7 @@ namespace RelayDNPSecurity
             this.checkBoxAggressiveMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAggressiveMode.Location = new System.Drawing.Point(19, 19);
             this.checkBoxAggressiveMode.Name = "checkBoxAggressiveMode";
-            this.checkBoxAggressiveMode.Size = new System.Drawing.Size(150, 17);
+            this.checkBoxAggressiveMode.Size = new System.Drawing.Size(209, 23);
             this.checkBoxAggressiveMode.TabIndex = 0;
             this.checkBoxAggressiveMode.Text = "Aggressive Mode Enabled";
             this.checkBoxAggressiveMode.UseVisualStyleBackColor = true;

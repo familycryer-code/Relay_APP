@@ -47,7 +47,7 @@
             this.labelUserNumber.AutoSize = true;
             this.labelUserNumber.Location = new System.Drawing.Point(9, 22);
             this.labelUserNumber.Name = "labelUserNumber";
-            this.labelUserNumber.Size = new System.Drawing.Size(52, 13);
+            this.labelUserNumber.Size = new System.Drawing.Size(77, 19);
             this.labelUserNumber.TabIndex = 0;
             this.labelUserNumber.Text = "User No.:";
             // 
@@ -55,7 +55,7 @@
             // 
             this.textBoxUserNumber.Location = new System.Drawing.Point(67, 19);
             this.textBoxUserNumber.Name = "textBoxUserNumber";
-            this.textBoxUserNumber.Size = new System.Drawing.Size(80, 20);
+            this.textBoxUserNumber.Size = new System.Drawing.Size(80, 27);
             this.textBoxUserNumber.TabIndex = 1;
             // 
             // labelUserRole
@@ -63,7 +63,7 @@
             this.labelUserRole.AutoSize = true;
             this.labelUserRole.Location = new System.Drawing.Point(9, 50);
             this.labelUserRole.Name = "labelUserRole";
-            this.labelUserRole.Size = new System.Drawing.Size(57, 13);
+            this.labelUserRole.Size = new System.Drawing.Size(83, 19);
             this.labelUserRole.TabIndex = 2;
             this.labelUserRole.Text = "User Role:";
             // 
@@ -86,7 +86,7 @@
             // 
             this.textBoxUserName.Location = new System.Drawing.Point(98, 93);
             this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(371, 20);
+            this.textBoxUserName.Size = new System.Drawing.Size(371, 27);
             this.textBoxUserName.TabIndex = 8;
             this.textBoxUserName.TextChanged += new System.EventHandler(this.textBoxUserName_TextChanged);
             // 
@@ -95,7 +95,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(29, 96);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.Size = new System.Drawing.Size(93, 19);
             this.label1.TabIndex = 7;
             this.label1.Text = "User Name:";
             // 
@@ -122,7 +122,7 @@
             "RBACMNT"});
             this.comboBoxUserRole.Location = new System.Drawing.Point(67, 45);
             this.comboBoxUserRole.Name = "comboBoxUserRole";
-            this.comboBoxUserRole.Size = new System.Drawing.Size(80, 21);
+            this.comboBoxUserRole.Size = new System.Drawing.Size(80, 27);
             this.comboBoxUserRole.TabIndex = 10;
             // 
             // groupBoxUserControl
@@ -135,6 +135,7 @@
             this.groupBoxUserControl.Controls.Add(this.buttonAddUser);
             this.groupBoxUserControl.Controls.Add(this.textBoxUserName);
             this.groupBoxUserControl.Controls.Add(this.label1);
+            this.groupBoxUserControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxUserControl.Location = new System.Drawing.Point(10, 3);
             this.groupBoxUserControl.Name = "groupBoxUserControl";
             this.groupBoxUserControl.Size = new System.Drawing.Size(869, 158);

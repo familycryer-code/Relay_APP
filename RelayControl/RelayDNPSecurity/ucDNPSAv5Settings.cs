@@ -79,6 +79,17 @@ namespace RelayDNPSecurity
             this.checkBoxSHA1.Location = new System.Drawing.Point(19, 65);
             this.checkBoxAggressiveMode.Location = new System.Drawing.Point(19, 20);
 
+            // Set Font of only the groupBoxSecurityStats Title in bold. keep rest of items in side in regular ( non bold ) font
+            /*groupBoxSecurityStats.Font = new Font(groupBoxSecurityStats.Font, FontStyle.Bold);
+            foreach (Control ctrl in groupBoxSecurityStats.Controls)
+            {
+                ctrl.Font = new Font(
+                    groupBoxSecurityStats.Font.FontFamily,
+                    groupBoxSecurityStats.Font.Size,
+                    FontStyle.Regular
+                );
+            }*/
+
         }
 
         public bool AuthenticationEnabled

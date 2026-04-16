@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SharedResources;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace RelayDNPSecurity
 {
@@ -47,6 +48,18 @@ namespace RelayDNPSecurity
             this.textBoxUserNumber.Location = new System.Drawing.Point(67, 30); //(67, 19);
             this.labelUserRole.Location = new System.Drawing.Point(9, 72); //(9, 50);
             this.comboBoxUserRole.Location = new System.Drawing.Point(67, 70); //(67, 45);
+
+            // Set Font of only the groupBoxUserControl Title in bold. keep rest of items in side in regular ( non bold ) font
+            groupBoxUserControl.Font = new Font(groupBoxUserControl.Font, FontStyle.Bold);
+            foreach (Control ctrl in groupBoxUserControl.Controls)
+            {
+                ctrl.Font = new Font(
+                    groupBoxUserControl.Font.FontFamily,
+                    groupBoxUserControl.Font.Size,
+                    FontStyle.Regular
+                );
+            }
+
         }
 
         #endregion

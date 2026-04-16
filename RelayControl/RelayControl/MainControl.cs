@@ -297,7 +297,7 @@ namespace RelayControl
         {
             
             InitializeComponent();
-
+            
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControlMain.DrawItem += tabControlMain_DrawItem;
             /*

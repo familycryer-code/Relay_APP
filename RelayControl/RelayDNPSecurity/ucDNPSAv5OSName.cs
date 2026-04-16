@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SharedResources;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace RelayDNPSecurity
 {
@@ -15,6 +16,17 @@ namespace RelayDNPSecurity
         public ucDNPSAv5OSName()
         {
             InitializeComponent();
+
+            // Set Font of only the groupBoxMain Title in bold. keep rest of items in side in regular ( non bold ) font
+            groupBoxMain.Font = new Font(groupBoxMain.Font, FontStyle.Bold);
+            foreach (Control ctrl in groupBoxMain.Controls)
+            {
+                ctrl.Font = new Font(
+                    groupBoxMain.Font.FontFamily,
+                    groupBoxMain.Font.Size,
+                    FontStyle.Regular
+                );
+            }
         }
         public event ExceptionHandler DNPOSNameException;
         public int SerialNumber = 0;

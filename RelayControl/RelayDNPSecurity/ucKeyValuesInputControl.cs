@@ -59,9 +59,22 @@ namespace RelayDNPSecurity
         {
             this.groupBox = new GroupBox();
             this.groupBox.Text = groupBoxName;
+            this.groupBox.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox.Height = ((numberOfValues / 16) + 1) * (_boxHeight + _spacingY) - _spacingY;
             this.groupBox.Width = 16 * (_spacingX + _boxWidth) + _locationOffsetX;
             this.groupBox.Location = new Point(0, 0);
+
+
+            // Set Font of only the groupBox Title in bold. keep rest of items in side in regular ( non bold ) font
+            groupBox.Font = new Font(groupBox.Font, FontStyle.Bold);
+            foreach (Control ctrl in groupBox.Controls)
+            {
+                ctrl.Font = new Font(
+                    groupBox.Font.FontFamily,
+                    groupBox.Font.Size,
+                    FontStyle.Regular
+                );
+            }
         }
 
         #endregion
