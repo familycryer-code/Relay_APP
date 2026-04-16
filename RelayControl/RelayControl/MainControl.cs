@@ -764,9 +764,10 @@ namespace RelayControl
                 this.groupBox_PC.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
-                #if !PSEG
+                #if (!PSEG && ! ENMAX)
                                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
+
                 #endif
 #endif
 #if !TORONTOHYDRO
@@ -908,7 +909,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
 
-#if TORONTO_HYDRO || ENMAX
+#if TORONTO_HYDRO 
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -1914,7 +1915,7 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
                         ucDNP1.SendAllDNPSettings();
-#if TORONTO_HYDRO || ENMAX
+#if TORONTO_HYDRO 
                     this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -2001,7 +2002,7 @@ namespace RelayControl
                 this.ucTransmitter1.ForceDNPEnable = true;
                 Thread.Sleep(100);
                 this.ucTransmitter1.SendTransmitterSettings();
-#if TORONTO_HYDRO || ENMAX
+#if TORONTO_HYDRO 
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -6048,7 +6049,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if TORONTO_HYDRO || ENMAX
+#if TORONTO_HYDRO 
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -6064,7 +6065,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if TORONTO_HYDRO || ENMAX
+#if TORONTO_HYDRO 
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;

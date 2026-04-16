@@ -70,7 +70,13 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1165];//[1196]; //per the new increased data size coming for ConED master firmware : 
         // index goes to 1025 at starting point of analog ouput reads. so, 35*4 bytes more after that
 #elif ENMAX
-        private byte[] dNPData = new byte[1196]; 
+        // It is seen that in the incoming dNPData array ( from master uP ), the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 712 and 713.
+        // Accordingly, since for EnMax has Serial Number at its DNP Analog Input 1 itself,
+        // we take 712 as the starting point to read Analog Inputs
+        // Enmax has 118 Analog Inputs and 38 analog Outputs
+        // so ( 118 * 6 ) points ( since each analog input = 6 bytes ) + ( 38 * 4 ) ( since each analog output = 4 bytes ) 
+        // = 712 + 708 + 152 = 1572
+        private byte[] dNPData = new byte[1572]; 
 #else
         private byte[] dNPData = new byte[1196];//[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
@@ -238,7 +244,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("SEC Digital H");
             this.binaryInputs.Add("Q Bit");//36
 #endif
-#if ENMAX
+#if ENMAX || DEBUG
             this.binaryInputs.Add("Calling for Trip"); //0
             this.binaryInputs.Add("Calling for Close");
             this.binaryInputs.Add("Float");
@@ -298,7 +304,8 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Network Volts ToLowToClose");
             this.binaryInputs.Add("XPDetected"); // 57
 #endif
-#if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
+//#if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
+#if (ONCOR || TORONTO_HYDRO) && !ENMAX
             this.binaryInputs.Add("Not Available");  //0
             this.binaryInputs.Add("Defaults Loaded"); //1
             this.binaryInputs.Add("Network Volts too Low to Close");
@@ -348,7 +355,7 @@ namespace RelayControlLibrary
                     break;
                 i++;
 
-#elif ENMAX      
+#elif ENMAX
                 // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addBinaryBoxIn() "
                 // For ENMAX  since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
                 // So we can have a max of 30 such Analog points ( 20 per column ) that can be displayed on one tab
@@ -1231,7 +1238,7 @@ namespace RelayControlLibrary
             this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
 #endif
 
-#if ENMAX 
+#if ENMAX
             this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
             this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
             this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
@@ -1371,8 +1378,8 @@ namespace RelayControlLibrary
 
         private void addAnalogBoxOut(ucDNPMemphisAnalog box, TabPage tB)
         {
-            // int y = tB.Controls.Count % 25 * 20 + 5; //22 is the height of the control - %20 because 20 per row
-            // int x = 347 * (tB.Controls.Count / 25) + 1;
+           //  int y = tB.Controls.Count % 25 * 20 + 5; //22 is the height of the control - %20 because 20 per row
+          //   int x = 347 * (tB.Controls.Count / 25) + 1;
 #if DEBUG
             //13 Rows of Analog Output Points per column
             int y = tB.Controls.Count % 13 * 20 + 5;
@@ -1516,8 +1523,13 @@ namespace RelayControlLibrary
             // Accordingly, backtrack 29 inputs ( each consisting of 6 bytes ) from 530 - since for TorontoHydro Analog Input for SN is placed at input 29
             // so, 530 - ( 29 * 6 ) = 356.
             savedIndex = 356;
+#elif ENMAX
+            // It is seen that in the dNPData array, the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 712 and 713.
+            // Accordingly, since for EnMax has Serial Number at its DNP Analog Input 1 itself,
+            // we take 712 as the starting point to read Analog Inputs
+            savedIndex = 712;
 #endif
-             savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
+            savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
 #if ONCOR
 // starting point for setAnalogOutputs considering 44 bytes of BinaryInputs & 28 bytes of BinaryOutputs & 111 bytes of AnalogInputs( per ver10 ConEd firmware )
 // 48*4(binary input incremented by 4 for each reading)   + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
@@ -1561,7 +1573,10 @@ namespace RelayControlLibrary
                     if ((bytePacket[index + 2] & 0x01) == 0x01)
                         uDMB.PointEnabled = true;
                     else
+                    { 
                         uDMB.PointEnabled = false;
+                        //MessageBox.Show("Incorrect Binary Input data coming from Master uP");
+                    }
 
 
                     index += 4;
