@@ -44,7 +44,7 @@
             // 
             // numericUpDownValue
             // 
-            this.numericUpDownValue.Location = new System.Drawing.Point(187, 4);
+            this.numericUpDownValue.Location = new System.Drawing.Point(154, 3);
             this.numericUpDownValue.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -56,8 +56,9 @@
             0,
             0});
             this.numericUpDownValue.Name = "numericUpDownValue";
-            this.numericUpDownValue.Size = new System.Drawing.Size(81, 20);
+            this.numericUpDownValue.Size = new System.Drawing.Size(51, 20);
             this.numericUpDownValue.TabIndex = 1;
+            this.numericUpDownValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownValue.Value = new decimal(new int[] {
             1,
             0,
@@ -71,7 +72,7 @@
             this.Controls.Add(this.numericUpDownValue);
             this.Controls.Add(this.labelName);
             this.Name = "ucDNPSAv5SecurityStatisticThreshold";
-            this.Size = new System.Drawing.Size(273, 26);
+            this.Size = new System.Drawing.Size(210, 26);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownValue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

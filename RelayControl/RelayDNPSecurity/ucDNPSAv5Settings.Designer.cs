@@ -80,7 +80,7 @@ namespace RelayDNPSecurity
             this.groupBoxMain.Controls.Add(this.checkBoxAggressiveMode);
             this.groupBoxMain.Location = new System.Drawing.Point(3, 3);
             this.groupBoxMain.Name = "groupBoxMain";
-            this.groupBoxMain.Size = new System.Drawing.Size(973, 380);
+            this.groupBoxMain.Size = new System.Drawing.Size(973, 800);
             this.groupBoxMain.TabIndex = 0;
             this.groupBoxMain.TabStop = false;
             this.groupBoxMain.Text = "SAv5 Settings";
@@ -154,8 +154,9 @@ namespace RelayDNPSecurity
             0,
             0});
             this.numericUpDownMaxSessionKeyCount.Name = "numericUpDownMaxSessionKeyCount";
-            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownMaxSessionKeyCount.Size = new System.Drawing.Size(51, 20);
             this.numericUpDownMaxSessionKeyCount.TabIndex = 6;
+            this.numericUpDownMaxSessionKeyCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownMaxSessionKeyCount.Value = new decimal(new int[] {
             5,
             0,
@@ -180,8 +181,9 @@ namespace RelayDNPSecurity
             0,
             0});
             this.numericUpDownSessionKeyChangeCount.Name = "numericUpDownSessionKeyChangeCount";
-            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownSessionKeyChangeCount.Size = new System.Drawing.Size(51, 20);
             this.numericUpDownSessionKeyChangeCount.TabIndex = 5;
+            this.numericUpDownSessionKeyChangeCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSessionKeyChangeCount.Value = new decimal(new int[] {
             4025,
             0,
@@ -206,8 +208,9 @@ namespace RelayDNPSecurity
             0,
             0});
             this.numericUpDownSessionKeyInterval.Name = "numericUpDownSessionKeyInterval";
-            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownSessionKeyInterval.Size = new System.Drawing.Size(51, 20);
             this.numericUpDownSessionKeyInterval.TabIndex = 4;
+            this.numericUpDownSessionKeyInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownSessionKeyInterval.Value = new decimal(new int[] {
             1800,
             0,
@@ -227,7 +230,7 @@ namespace RelayDNPSecurity
             // 
             this.groupBoxSecurityStats.Location = new System.Drawing.Point(343, 19);
             this.groupBoxSecurityStats.Name = "groupBoxSecurityStats";
-            this.groupBoxSecurityStats.Size = new System.Drawing.Size(595, 380);
+            this.groupBoxSecurityStats.Size = new System.Drawing.Size(595, 800);
             this.groupBoxSecurityStats.TabIndex = 7;
             this.groupBoxSecurityStats.TabStop = false;
             this.groupBoxSecurityStats.Text = "Security Statistics Thresholds";
@@ -252,8 +255,9 @@ namespace RelayDNPSecurity
             0,
             65536});
             this.numericUpDownReplyTimeout.Name = "numericUpDownReplyTimeout";
-            this.numericUpDownReplyTimeout.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownReplyTimeout.Size = new System.Drawing.Size(51, 20);
             this.numericUpDownReplyTimeout.TabIndex = 3;
+            this.numericUpDownReplyTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownReplyTimeout.Value = new decimal(new int[] {
             2,
             0,
@@ -281,10 +285,10 @@ namespace RelayDNPSecurity
             // 
             // buttonDefault
             // 
-            this.buttonDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDefault.Location = new System.Drawing.Point(85, 278);
+            this.buttonDefault.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDefault.Location = new System.Drawing.Point(85, 249);
             this.buttonDefault.Name = "buttonDefault";
-            this.buttonDefault.Size = new System.Drawing.Size(125, 23);
+            this.buttonDefault.Size = new System.Drawing.Size(141, 23);
             this.buttonDefault.TabIndex = 3;
             this.buttonDefault.Text = "Restore Factory Defaults";
             this.buttonDefault.UseMnemonic = false;
@@ -293,7 +297,7 @@ namespace RelayDNPSecurity
             // 
             // buttonRequestSettings
             // 
-            this.buttonRequestSettings.Location = new System.Drawing.Point(85, 249);
+            this.buttonRequestSettings.Location = new System.Drawing.Point(85, 307);
             this.buttonRequestSettings.Name = "buttonRequestSettings";
             this.buttonRequestSettings.Size = new System.Drawing.Size(107, 23);
             this.buttonRequestSettings.TabIndex = 2;
@@ -303,11 +307,11 @@ namespace RelayDNPSecurity
             // 
             // buttonSendSettings
             // 
-            this.buttonSendSettings.Location = new System.Drawing.Point(85, 307);
+            this.buttonSendSettings.Location = new System.Drawing.Point(85, 278);
             this.buttonSendSettings.Name = "buttonSendSettings";
             this.buttonSendSettings.Size = new System.Drawing.Size(103, 23);
             this.buttonSendSettings.TabIndex = 1;
-            this.buttonSendSettings.Text = "Send Settings";
+            this.buttonSendSettings.Text = "Program Settings";
             this.buttonSendSettings.UseVisualStyleBackColor = true;
             this.buttonSendSettings.Click += new System.EventHandler(this.buttonSendSettings_Click);
             // 
