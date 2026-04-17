@@ -18,6 +18,28 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
             this.initializeSecurityStatistics();
+                      
+            // Set Font of only the groupBoxMain Title in bold. keep rest of items in side in regular ( non bold ) font
+            groupBoxMain.Font = new Font(groupBoxMain.Font, FontStyle.Bold);
+            foreach (Control ctrl in groupBoxMain.Controls)
+            {
+                ctrl.Font = new Font(
+                    groupBoxMain.Font.FontFamily,
+                    groupBoxMain.Font.Size,
+                    FontStyle.Regular
+                );
+            }
+
+            // Set Font of only the groupBoxSecurityStats Title in bold. keep rest of items in side in regular ( non bold ) font
+            groupBoxSecurityStats.Font = new Font(groupBoxSecurityStats.Font, FontStyle.Bold);
+            foreach (Control ctrl in groupBoxSecurityStats.Controls)
+            {
+                ctrl.Font = new Font(
+                    groupBoxSecurityStats.Font.FontFamily,
+                    groupBoxSecurityStats.Font.Size,
+                    FontStyle.Regular
+                );
+            }
         }
 
         public List<DNPSAv5SecurityStatisticItem> statisticPoints = new List<DNPSAv5SecurityStatisticItem>();
