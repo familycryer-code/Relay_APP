@@ -14,7 +14,7 @@ namespace RelayDNPSecurity
         public ucDNPSAv5SecurityStatisticThreshold()
         {
             InitializeComponent();
-           // this.numericUpDownValue.Location = new System.Drawing.Point(133, 3);
+            this.numericUpDownValue.Location = new System.Drawing.Point(150, 4);
         }
 
         public ucDNPSAv5SecurityStatisticThreshold(string name, decimal defaultValue)

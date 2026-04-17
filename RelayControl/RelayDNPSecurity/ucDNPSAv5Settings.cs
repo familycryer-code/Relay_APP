@@ -45,7 +45,7 @@ namespace RelayDNPSecurity
             //this.statisticPoints.Add(new DNPSAv5SecurityStatisticItem("Special Statistic", 
 
             Point workingPoint = new Point(5, 15);
-
+            
             foreach (DNPSAv5SecurityStatisticItem sI in this.statisticPoints)
             {
                 ucDNPSAv5SecurityStatisticThreshold workingStatistic = new ucDNPSAv5SecurityStatisticThreshold(sI.StatisticsName, sI.DefaultValue);
@@ -54,7 +54,7 @@ namespace RelayDNPSecurity
 
                 workingPoint = new Point(workingPoint.X, workingPoint.Y + workingStatistic.Height);
                 //if (workingPoint.Y > this.groupBoxSecurityStats.Height - workingStatistic.Height)
-                if (workingPoint.Y > 320 - workingStatistic.Height)
+                if (workingPoint.Y > 360 - workingStatistic.Height) //if (workingPoint.Y > 320 - workingStatistic.Height)
                     workingPoint = new Point(workingPoint.X + workingStatistic.Width, 15);
             }
 
