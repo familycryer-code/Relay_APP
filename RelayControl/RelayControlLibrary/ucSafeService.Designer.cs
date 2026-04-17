@@ -415,7 +415,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.DomainUpDown domainUpDownDataViews;
         private System.Windows.Forms.Button buttonRestoreDefaults;
         private System.Windows.Forms.Label labelCurrentlyEnabled;
-        private System.Windows.Forms.ComboBox comboBox_DataViews;
+        public System.Windows.Forms.ComboBox comboBox_DataViews;
         private System.Windows.Forms.Label lbl_CurrImbalance_unit;
     }
 }

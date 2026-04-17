@@ -403,6 +403,7 @@ namespace RelayControlLibrary
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0); // To be saved in master uP as T0_byte
                 Thread.Sleep(1000);   // 1 second delay
+                
                 OnSend(mySEA);
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);

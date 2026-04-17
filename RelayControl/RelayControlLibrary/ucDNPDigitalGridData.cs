@@ -1378,8 +1378,7 @@ namespace RelayControlLibrary
 
         private void addAnalogBoxOut(ucDNPMemphisAnalog box, TabPage tB)
         {
-           //  int y = tB.Controls.Count % 25 * 20 + 5; //22 is the height of the control - %20 because 20 per row
-          //   int x = 347 * (tB.Controls.Count / 25) + 1;
+
 #if DEBUG
             //13 Rows of Analog Output Points per column
             int y = tB.Controls.Count % 13 * 20 + 5;
@@ -1389,6 +1388,9 @@ namespace RelayControlLibrary
             //20 Rows of Analog Outputs Points per column ( 40 points per tab )
             int y = tB.Controls.Count % 20 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 20) + 1;
+#else
+            int y = tB.Controls.Count % 25 * 20 + 5; //22 is the height of the control - %20 because 20 per row
+            int x = 347 * (tB.Controls.Count / 25) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);

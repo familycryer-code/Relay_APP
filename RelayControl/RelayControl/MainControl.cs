@@ -1058,6 +1058,12 @@ namespace RelayControl
                 }
 
 
+                // to remove the default blue highlight on comboboxes and numeric dropdown buttons : 
+                comboBoxDNPVoltage.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox_RelayType.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox_Phasings.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox_PC.DropDownStyle = ComboBoxStyle.DropDownList;
+                this.ucSafeService1.comboBox_DataViews.DropDownStyle = ComboBoxStyle.DropDownList;
             }
             catch (Exception ex)
             {
@@ -10832,8 +10838,7 @@ namespace RelayControl
 
         private void btn_RestorePC_defaults_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Restore default values for Permissive Close");
-
+           // MessageBox.Show("Restore default values for Permissive Close");
             this.numericUpDown_PC_floatTime.Value = 38;
             this.numericUpDown_PC_activeTime.Value = 15;
             this.numericUpDown_PC_voltage.Value = 5;
