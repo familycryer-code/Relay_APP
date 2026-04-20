@@ -1867,7 +1867,7 @@ namespace SineDisplayGraph
 
         public void UpdateValuesFromWaves(CompleteCycleEventArgs sEA)
         {
-            this.enableEventNavigation(true);
+            this.enableEventNavigation(false); //this.enableEventNavigation(true);
             this.RealTimeMonitoring = false;
             this.textBoxViewedCycleNumber.Text = sEA.CycleNumber.ToString();
             this.cycleNumber = sEA.CycleNumber;

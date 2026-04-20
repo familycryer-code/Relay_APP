@@ -812,7 +812,9 @@ namespace RelayControl
 
                 this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13);  
                 this.groupBox_PC.Location = new System.Drawing.Point(1004, 390); //(1004, 360);  
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 320);
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 370); //(470, 320);
+                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(127, 282);
+                this.btn_PC_Send.Location = new System.Drawing.Point(120, 326);
                 /*
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab
                     only for CONED APP - since its needs extra space for the Permissive close groupBox

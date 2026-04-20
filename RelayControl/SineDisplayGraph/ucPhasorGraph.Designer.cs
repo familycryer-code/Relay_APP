@@ -294,7 +294,7 @@ namespace SineDisplayGraph
             this.panelTripped.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelTripped.Location = new System.Drawing.Point(419, 206);
             this.panelTripped.Name = "panelTripped";
-            this.panelTripped.Size = new System.Drawing.Size(47, 81);
+            this.panelTripped.Size = new System.Drawing.Size(57, 81); //(47, 81);
             this.panelTripped.TabIndex = 4;
             // 
             // labelVtAClosed
@@ -484,6 +484,7 @@ namespace SineDisplayGraph
             this.panelPower.Location = new System.Drawing.Point(443, 564);
             this.panelPower.Name = "panelPower";
             this.panelPower.Size = new System.Drawing.Size(43, 96);
+            this.panelPower.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelPower.TabIndex = 4;
             // 
             // label16
@@ -651,6 +652,7 @@ namespace SineDisplayGraph
             this.panelDifferentialVoltage.Location = new System.Drawing.Point(443, 564);
             this.panelDifferentialVoltage.Name = "panelDifferentialVoltage";
             this.panelDifferentialVoltage.Size = new System.Drawing.Size(54, 97);
+            this.panelDifferentialVoltage.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelDifferentialVoltage.TabIndex = 5;
             // 
             // label18
@@ -1063,6 +1065,8 @@ namespace SineDisplayGraph
             this.label51.Size = new System.Drawing.Size(34, 13);
             this.label51.TabIndex = 187;
             this.label51.Text = "Angle";
+            this.label51.Enabled = false;
+            this.label51.Visible = false;
             // 
             // labelVnN
             // 

@@ -1608,7 +1608,7 @@
             // 
             this.btn_PC_Send.Location = new System.Drawing.Point(279, 276);
             this.btn_PC_Send.Name = "btn_PC_Send";
-            this.btn_PC_Send.Size = new System.Drawing.Size(151, 28);
+            this.btn_PC_Send.Size = new System.Drawing.Size(244, 28); //(151, 28);
             this.btn_PC_Send.TabIndex = 14;
             this.btn_PC_Send.Text = "Program Permissive Close";
             this.btn_PC_Send.UseVisualStyleBackColor = true;

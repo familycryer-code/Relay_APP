@@ -797,7 +797,7 @@ namespace RelayControlLibrary
                 this.checkBoxCircleClose.Checked = false;
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDA.Value = -5;
-                this.numericUpDownPDV.Value = 0.0m;
+                this.numericUpDownPDV.Value = 0.4m;
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownTimeDelay.Value = 6;
                 this.checkBox1.Checked = false;
