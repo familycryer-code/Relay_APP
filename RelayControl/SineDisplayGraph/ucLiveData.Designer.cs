@@ -45,9 +45,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphIC
             // 
-            this.sineGraphIC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphIC.GraphName = "";
-            this.sineGraphIC.Location = new System.Drawing.Point(42, 520);
+            this.sineGraphIC.Location = new System.Drawing.Point(3, 523);
             this.sineGraphIC.Name = "sineGraphIC";
             this.sineGraphIC.PointsToDraw = 0;
             this.sineGraphIC.ScrollEnabled = true;
@@ -57,9 +56,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphVnC
             // 
-            this.sineGraphVnC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphVnC.GraphName = "";
-            this.sineGraphVnC.Location = new System.Drawing.Point(618, 419);
+            this.sineGraphVnC.Location = new System.Drawing.Point(497, 419);
             this.sineGraphVnC.Name = "sineGraphVnC";
             this.sineGraphVnC.PointsToDraw = 0;
             this.sineGraphVnC.ScrollEnabled = true;
@@ -69,9 +67,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphVtC
             // 
-            this.sineGraphVtC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphVtC.GraphName = "";
-            this.sineGraphVtC.Location = new System.Drawing.Point(42, 421);
+            this.sineGraphVtC.Location = new System.Drawing.Point(3, 419);
             this.sineGraphVtC.Name = "sineGraphVtC";
             this.sineGraphVtC.PointsToDraw = 0;
             this.sineGraphVtC.ScrollEnabled = true;
@@ -81,9 +78,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphIB
             // 
-            this.sineGraphIB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphIB.GraphName = "";
-            this.sineGraphIB.Location = new System.Drawing.Point(42, 314);
+            this.sineGraphIB.Location = new System.Drawing.Point(3, 314);
             this.sineGraphIB.Name = "sineGraphIB";
             this.sineGraphIB.PointsToDraw = 0;
             this.sineGraphIB.ScrollEnabled = true;
@@ -93,9 +89,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphVnB
             // 
-            this.sineGraphVnB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphVnB.GraphName = "";
-            this.sineGraphVnB.Location = new System.Drawing.Point(618, 207);
+            this.sineGraphVnB.Location = new System.Drawing.Point(497, 210);
             this.sineGraphVnB.Name = "sineGraphVnB";
             this.sineGraphVnB.PointsToDraw = 0;
             this.sineGraphVnB.ScrollEnabled = true;
@@ -105,9 +100,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphVtB
             // 
-            this.sineGraphVtB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphVtB.GraphName = "";
-            this.sineGraphVtB.Location = new System.Drawing.Point(42, 213);
+            this.sineGraphVtB.Location = new System.Drawing.Point(3, 210);
             this.sineGraphVtB.Name = "sineGraphVtB";
             this.sineGraphVtB.PointsToDraw = 0;
             this.sineGraphVtB.ScrollEnabled = true;
@@ -117,9 +111,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphIA
             // 
-            this.sineGraphIA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphIA.GraphName = "";
-            this.sineGraphIA.Location = new System.Drawing.Point(42, 106);
+            this.sineGraphIA.Location = new System.Drawing.Point(3, 106);
             this.sineGraphIA.Name = "sineGraphIA";
             this.sineGraphIA.PointsToDraw = 0;
             this.sineGraphIA.ScrollEnabled = true;
@@ -129,9 +122,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphVnA
             // 
-            this.sineGraphVnA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphVnA.GraphName = "";
-            this.sineGraphVnA.Location = new System.Drawing.Point(618, 3);
+            this.sineGraphVnA.Location = new System.Drawing.Point(497, 3);
             this.sineGraphVnA.Name = "sineGraphVnA";
             this.sineGraphVnA.PointsToDraw = 0;
             this.sineGraphVnA.ScrollEnabled = true;
@@ -141,9 +133,8 @@ namespace SineDisplayGraph
             // 
             // sineGraphVtA
             // 
-            this.sineGraphVtA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sineGraphVtA.GraphName = "";
-            this.sineGraphVtA.Location = new System.Drawing.Point(42, 3);
+            this.sineGraphVtA.Location = new System.Drawing.Point(3, 3);
             this.sineGraphVtA.Name = "sineGraphVtA";
             this.sineGraphVtA.PointsToDraw = 0;
             this.sineGraphVtA.ScrollEnabled = true;
@@ -154,8 +145,7 @@ namespace SineDisplayGraph
             // frequencyGraphB
             // 
             this.frequencyGraphB.BackColor = System.Drawing.Color.White;
-            this.frequencyGraphB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.frequencyGraphB.Location = new System.Drawing.Point(618, 314);
+            this.frequencyGraphB.Location = new System.Drawing.Point(497, 314);
             this.frequencyGraphB.Name = "frequencyGraphB";
             this.frequencyGraphB.NumberOfHarmonics = 32;
             this.frequencyGraphB.Size = new System.Drawing.Size(491, 101);
@@ -164,8 +154,7 @@ namespace SineDisplayGraph
             // frequencyGraphA
             // 
             this.frequencyGraphA.BackColor = System.Drawing.Color.White;
-            this.frequencyGraphA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.frequencyGraphA.Location = new System.Drawing.Point(618, 106);
+            this.frequencyGraphA.Location = new System.Drawing.Point(497, 106);
             this.frequencyGraphA.Name = "frequencyGraphA";
             this.frequencyGraphA.NumberOfHarmonics = 32;
             this.frequencyGraphA.Size = new System.Drawing.Size(491, 101);
@@ -174,8 +163,7 @@ namespace SineDisplayGraph
             // frequencyGraphC
             // 
             this.frequencyGraphC.BackColor = System.Drawing.Color.White;
-            this.frequencyGraphC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.frequencyGraphC.Location = new System.Drawing.Point(618, 523);
+            this.frequencyGraphC.Location = new System.Drawing.Point(497, 523);
             this.frequencyGraphC.Name = "frequencyGraphC";
             this.frequencyGraphC.NumberOfHarmonics = 32;
             this.frequencyGraphC.Size = new System.Drawing.Size(491, 101);
@@ -198,7 +186,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.sineGraphVnA);
             this.Controls.Add(this.sineGraphVtA);
             this.Name = "ucLiveData";
-            this.Size = new System.Drawing.Size(1158, 624);
+            this.Size = new System.Drawing.Size(991, 624);
             this.Resize += new System.EventHandler(this.ucLiveData_Resize);
             this.ResumeLayout(false);
 

@@ -228,7 +228,6 @@ namespace SineDisplayGraph
             this.sineGraphVnB.ScrollEvent += new SineGraph.ScrollEventHandler(sineGraph_ScrollEvent);
             this.sineGraphVnB.GraphLeftClicked += new SineGraph.GraphLeftClickedHandler(graphLeftClicked);
             this.sineGraphVnB.GraphRightClicked += new SineGraph.GraphRightClickedHandler(graphRightClicked);
-            this.sineGraphVnB.Location = new Point(625, 250);
 
             this.sineGraphVnC.BackColor = Color.White;
             this.sineGraphVnC.ScrollEnabled = true;
@@ -387,11 +386,9 @@ namespace SineDisplayGraph
 
         private void ucEventGraph_SizeChanged(object sender, EventArgs e)
         {
-            /*
-            // this.Size = Size of ucEventGraph ( 1158, 650 )
-            int spaceForGraph = (this.Size.Height - 50) / 6; //((this.Height - 50) / 6);
+            int spaceForGraph = ((this.Height - 50) / 6);
             int heightOfGraph = spaceForGraph - 2;
-            int widthOfGraph = (this.Width - 3) / 2; //(this.Width - 4) / 2;
+            int widthOfGraph = (this.Width - 4) / 2;
             int xOfRightGraph = widthOfGraph + 4;
             int xOfLeftGraph = 2;
 
@@ -409,7 +406,7 @@ namespace SineDisplayGraph
             this.frequencyGraphC.Height = heightOfGraph;
 
             this.sineGraphVtA.Location = new Point(xOfLeftGraph, 50);
-            this.sineGraphVnA.Location = new Point(xOfRightGraph, 50); // 581
+            this.sineGraphVnA.Location = new Point(xOfRightGraph, 50);
             this.sineGraphIA.Location = new Point(xOfLeftGraph, spaceForGraph + 50);
             this.frequencyGraphA.Location = new Point(xOfRightGraph, spaceForGraph + 50);
 
@@ -435,40 +432,6 @@ namespace SineDisplayGraph
             this.frequencyGraphA.Width = widthOfGraph;
             this.frequencyGraphB.Width = widthOfGraph;
             this.frequencyGraphC.Width = widthOfGraph;
-            */
-            int componentWidth = (this.Size.Width - 3) / 2; 
-            int componentHeight = (this.Size.Height - 15) / 6;
-            int verticalSpacing = componentHeight + 2;
-            int horizontalSpacing = componentWidth + 2; // 579
-            Size componentSize = new Size(componentWidth, componentHeight);
-
-            this.sineGraphVtA.Size = componentSize;
-            this.sineGraphVtB.Size = componentSize;
-            this.sineGraphVtC.Size = componentSize;
-            this.sineGraphVnA.Size = componentSize;
-            this.sineGraphVnB.Size = componentSize;
-            this.sineGraphVnC.Size = componentSize;
-            this.sineGraphIA.Size = componentSize;
-            this.sineGraphIB.Size = componentSize;
-            this.sineGraphIC.Size = componentSize;
-            this.frequencyGraphA.Size = componentSize;
-            this.frequencyGraphB.Size = componentSize;
-            this.frequencyGraphC.Size = componentSize;
-
-            this.sineGraphVtA.Location = new Point(0, 0);
-            this.sineGraphVnA.Location = new Point(horizontalSpacing + 2, 0); // (579,0)
-            this.sineGraphIA.Location = new Point(0, verticalSpacing);
-            this.frequencyGraphA.Location = new Point(horizontalSpacing + 2, verticalSpacing);
-
-            this.sineGraphVtB.Location = new Point(0, verticalSpacing * 2);
-            this.sineGraphVnB.Location = new Point(horizontalSpacing + 2, verticalSpacing * 2);
-            this.sineGraphIB.Location = new Point(0, verticalSpacing * 3);
-            this.frequencyGraphB.Location = new Point(horizontalSpacing + 2, verticalSpacing * 3);
-
-            this.sineGraphVtC.Location = new Point(0, verticalSpacing * 4);
-            this.sineGraphVnC.Location = new Point(horizontalSpacing + 2, verticalSpacing * 4);
-            this.sineGraphIC.Location = new Point(0, verticalSpacing * 5);
-            this.frequencyGraphC.Location = new Point(horizontalSpacing + 2, verticalSpacing * 5);
         }
 
         #endregion
