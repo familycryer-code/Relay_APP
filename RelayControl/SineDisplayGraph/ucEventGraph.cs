@@ -272,6 +272,7 @@ namespace SineDisplayGraph
             this.frequencyGraphA.NumberOfHarmonics = 32;
             this.frequencyGraphB.NumberOfHarmonics = 32;
             this.frequencyGraphC.NumberOfHarmonics = 32;
+
         }
 
         void sineGraph_MouseWheeledEvent(object sender, MouseEventArgs e)
@@ -331,7 +332,7 @@ namespace SineDisplayGraph
             if (this.EventVisible)
             {
                 this.labelEventLabel.Text = "Relay ID: " + this.RelayID.ToString() + " - " + this.Type.ToString() + " " + this.eventTime.ToString();
-                this.centerLabel(this.labelEventLabel);
+               // this.centerLabel(this.labelEventLabel);
 
                 if (this.RelayRevisionNumber >= 20111123 && this.type == EventTypes.Trip && this.Customer != Customers.Memphis) //for when the trip delay times were put in
                 {
@@ -358,8 +359,8 @@ namespace SineDisplayGraph
                     }
 
                     this.labelEventLabel2.Text = outputText;
-                    this.centerLabel(this.labelEventLabel);
-                    this.centerLabel(this.labelEventLabel2);
+                   // this.centerLabel(this.labelEventLabel);
+                   // this.centerLabel(this.labelEventLabel2);
                 }
                 else
                     this.labelEventLabel2.Text = "";
@@ -368,7 +369,7 @@ namespace SineDisplayGraph
             {
                 this.labelEventLabel.Text = "No Event";
                 this.labelEventLabel2.Text = "";
-                this.centerLabel(this.labelEventLabel);
+              //  this.centerLabel(this.labelEventLabel);
             }
         }
 

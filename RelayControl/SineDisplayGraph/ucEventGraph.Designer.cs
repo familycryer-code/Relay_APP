@@ -174,8 +174,9 @@ namespace SineDisplayGraph
             // labelEventLabel
             // 
             this.labelEventLabel.AutoSize = true;
-            this.labelEventLabel.Location = new System.Drawing.Point(421, 14);
+            this.labelEventLabel.Location = new System.Drawing.Point(121, 14); //(421, 14);
             this.labelEventLabel.Name = "labelEventLabel";
+            this.labelEventLabel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEventLabel.Size = new System.Drawing.Size(0, 13);
             this.labelEventLabel.TabIndex = 12;
 
@@ -183,8 +184,9 @@ namespace SineDisplayGraph
             // labelEventLabel
             // 
             this.labelEventLabel2.AutoSize = true;
-            this.labelEventLabel2.Location = new System.Drawing.Point(421, 34);
+            this.labelEventLabel2.Location = new System.Drawing.Point(421, 14); //(421, 34);
             this.labelEventLabel2.Name = "labelEventLabel2";
+            this.labelEventLabel2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEventLabel2.Size = new System.Drawing.Size(0, 13);
             //this.labelEventLabel2.TabIndex = 12;
             // 
