@@ -960,7 +960,7 @@
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
             this.tabPageEvents.Controls.Add(this.buttonRQEventData);
             this.tabPageEvents.Controls.Add(this.panelEventSelect);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph7);
+            //this.tabPageEvents.Controls.Add(this.ucEventGraph7);
             this.tabPageEvents.Controls.Add(this.ucEventGraph6);
             this.tabPageEvents.Controls.Add(this.ucEventGraph5);
             this.tabPageEvents.Controls.Add(this.ucEventGraph4);
