@@ -1134,7 +1134,7 @@
             this.ucEventGraph5.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph5.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph5.Name = "ucEventGraph5";
-            this.ucEventGraph5.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph5.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph5.TabIndex = 6;
             this.ucEventGraph5.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1150,7 +1150,7 @@
             this.ucEventGraph4.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph4.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph4.Name = "ucEventGraph4";
-            this.ucEventGraph4.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph4.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph4.TabIndex = 5;
             this.ucEventGraph4.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1166,7 +1166,7 @@
             this.ucEventGraph3.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph3.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph3.Name = "ucEventGraph3";
-            this.ucEventGraph3.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph3.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph3.TabIndex = 4;
             this.ucEventGraph3.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1182,7 +1182,7 @@
             this.ucEventGraph2.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph2.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph2.Name = "ucEventGraph2";
-            this.ucEventGraph2.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph2.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph2.TabIndex = 3;
             this.ucEventGraph2.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1198,7 +1198,7 @@
             this.ucEventGraph1.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph1.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph1.Name = "ucEventGraph1";
-            this.ucEventGraph1.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph1.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph1.TabIndex = 2;
             this.ucEventGraph1.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1214,7 +1214,7 @@
             this.ucEventGraph0.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph0.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph0.Name = "ucEventGraph0";
-            this.ucEventGraph0.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph0.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph0.TabIndex = 0;
             this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1230,7 +1230,7 @@
             this.ucEventGraph6.Location = new System.Drawing.Point(0, 38);
             this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(4);
             this.ucEventGraph6.Name = "ucEventGraph6";
-            this.ucEventGraph6.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph6.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph6.TabIndex = 7;
             this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
             // 
@@ -1246,7 +1246,7 @@
             this.ucEventGraph7.Location = new System.Drawing.Point(0, 38); //(0, 48);
             this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph7.Name = "ucEventGraph7";
-            this.ucEventGraph7.Size = new System.Drawing.Size(1152, 684); //(900, 869);
+            this.ucEventGraph7.Size = new System.Drawing.Size(1515, 684); //(1152, 684);
             this.ucEventGraph7.TabIndex = 8;
             this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
             // 
