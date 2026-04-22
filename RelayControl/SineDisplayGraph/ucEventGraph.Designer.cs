@@ -134,7 +134,7 @@ namespace SineDisplayGraph
             this.sineGraphVnA.Name = "sineGraphVnA";
             this.sineGraphVnA.PointsToDraw = 0;
             this.sineGraphVnA.ScrollEnabled = false;
-            this.sineGraphVnA.Size = new System.Drawing.Size(495, 98);
+            this.sineGraphVnA.Size = new System.Drawing.Size(695, 98); //(495, 98);
             this.sineGraphVnA.TabIndex = 3;
             this.sineGraphVnA.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.sineGraph_DoubleClick);
             // 
@@ -174,21 +174,20 @@ namespace SineDisplayGraph
             // labelEventLabel
             // 
             this.labelEventLabel.AutoSize = true;
-            this.labelEventLabel.Location = new System.Drawing.Point(121, 14); //(421, 14);
-            this.labelEventLabel.Name = "labelEventLabel";
             this.labelEventLabel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEventLabel.Size = new System.Drawing.Size(0, 13);
+            this.labelEventLabel.Location = new System.Drawing.Point(121, 14);
+            this.labelEventLabel.Name = "labelEventLabel";
+            this.labelEventLabel.Size = new System.Drawing.Size(0, 19);
             this.labelEventLabel.TabIndex = 12;
-
             // 
-            // labelEventLabel
+            // labelEventLabel2
             // 
             this.labelEventLabel2.AutoSize = true;
-            this.labelEventLabel2.Location = new System.Drawing.Point(421, 14); //(421, 34);
-            this.labelEventLabel2.Name = "labelEventLabel2";
             this.labelEventLabel2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEventLabel2.Size = new System.Drawing.Size(0, 13);
-            //this.labelEventLabel2.TabIndex = 12;
+            this.labelEventLabel2.Location = new System.Drawing.Point(421, 14);
+            this.labelEventLabel2.Name = "labelEventLabel2";
+            this.labelEventLabel2.Size = new System.Drawing.Size(0, 19);
+            this.labelEventLabel2.TabIndex = 13;
             // 
             // ucEventGraph
             // 
@@ -209,7 +208,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.sineGraphVtB);
             this.Controls.Add(this.sineGraphVtA);
             this.Name = "ucEventGraph";
-            this.Size = new System.Drawing.Size(1000, 650);
+            this.Size = new System.Drawing.Size(1300, 650);
             this.SizeChanged += new System.EventHandler(this.ucEventGraph_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();

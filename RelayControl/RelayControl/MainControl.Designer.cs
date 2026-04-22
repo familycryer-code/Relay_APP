@@ -105,13 +105,13 @@
             this.radioButtonEvent2 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent1 = new System.Windows.Forms.RadioButton();
             this.radioButtonEvent0 = new System.Windows.Forms.RadioButton();
-            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph5 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph4 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph3 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph2 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph1 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph0 = new SineDisplayGraph.ucEventGraph();
+            this.ucEventGraph6 = new SineDisplayGraph.ucEventGraph();
             this.ucEventGraph7 = new SineDisplayGraph.ucEventGraph();
             this.buttonReqLiveData = new System.Windows.Forms.Button();
             this.tabPageFlightRecorder = new System.Windows.Forms.TabPage();
@@ -952,13 +952,14 @@
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
             this.tabPageEvents.Controls.Add(this.buttonRQEventData);
             this.tabPageEvents.Controls.Add(this.panelEventSelect);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph6);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph5);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph4);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph3);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph2);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph1);
-            this.tabPageEvents.Controls.Add(this.ucEventGraph0);
+            this.tabPageEvents.Controls.Add(this.ucEventGraph7); // location (0,48)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph6); // location (0,38)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph5); // location (0,38)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph4); // location (0,38)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph3); // location (0,38)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph2); // location (0,38)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph1); // location (0,38)
+            this.tabPageEvents.Controls.Add(this.ucEventGraph0); // location (0,38)
             this.tabPageEvents.Location = new System.Drawing.Point(4, 24);
             this.tabPageEvents.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageEvents.Name = "tabPageEvents";
@@ -1121,22 +1122,6 @@
             this.radioButtonEvent0.UseVisualStyleBackColor = true;
             this.radioButtonEvent0.CheckedChanged += new System.EventHandler(this.radioButtonEventSelect_CheckedChanged);
             // 
-            // ucEventGraph6
-            // 
-            this.ucEventGraph6.CTRatio = 320;
-            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
-            this.ucEventGraph6.DelayToFloat = ((uint)(0u));
-            this.ucEventGraph6.EventNumber = ((uint)(0u));
-            this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
-            this.ucEventGraph6.GEEnabled = false;
-            this.ucEventGraph6.Location = new System.Drawing.Point(0, 38);
-            this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(4);
-            this.ucEventGraph6.Name = "ucEventGraph6";
-            this.ucEventGraph6.Size = new System.Drawing.Size(1152, 684);
-            this.ucEventGraph6.TabIndex = 7;
-            this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
-            // 
             // ucEventGraph5
             // 
             this.ucEventGraph5.CTRatio = 320;
@@ -1233,6 +1218,22 @@
             this.ucEventGraph0.TabIndex = 0;
             this.ucEventGraph0.Type = RelayControlLibrary.EventTypes.Trip;
             // 
+            // ucEventGraph6
+            // 
+            this.ucEventGraph6.CTRatio = 320;
+            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
+            this.ucEventGraph6.DelayToFloat = ((uint)(0u));
+            this.ucEventGraph6.EventNumber = ((uint)(0u));
+            this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
+            this.ucEventGraph6.GEEnabled = false;
+            this.ucEventGraph6.Location = new System.Drawing.Point(0, 38);
+            this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(4);
+            this.ucEventGraph6.Name = "ucEventGraph6";
+            this.ucEventGraph6.Size = new System.Drawing.Size(1152, 684);
+            this.ucEventGraph6.TabIndex = 7;
+            this.ucEventGraph6.Type = RelayControlLibrary.EventTypes.Trip;
+            // 
             // ucEventGraph7
             // 
             this.ucEventGraph7.CTRatio = 320;
@@ -1242,10 +1243,10 @@
             this.ucEventGraph7.EventNumber = ((uint)(0u));
             this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph7.GEEnabled = false;
-            this.ucEventGraph7.Location = new System.Drawing.Point(0, 48);
+            this.ucEventGraph7.Location = new System.Drawing.Point(0, 38); //(0, 48);
             this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph7.Name = "ucEventGraph7";
-            this.ucEventGraph7.Size = new System.Drawing.Size(900, 869);
+            this.ucEventGraph7.Size = new System.Drawing.Size(1152, 684); //(900, 869);
             this.ucEventGraph7.TabIndex = 8;
             this.ucEventGraph7.Type = RelayControlLibrary.EventTypes.Trip;
             // 
