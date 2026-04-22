@@ -779,9 +779,9 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(580, 10); //(480, 3);
                 this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Size = new System.Drawing.Size(240, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(155, 87);
-                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(638, 53);
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(735, 55); //(638, 53);
                 this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 90);
-                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(25, 50);
+                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 50);
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(92, 10); //(90, 3);
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
@@ -5059,11 +5059,8 @@ namespace RelayControl
                     }
                     else
                     {
-                        //   throw new Exception(temp.ToString() + " is not a valid value for Phasing");
-                        //  this.messageHandler("Invalid value for phasing received from relay", "Setting default values for phasing");
-                        this.messageHandler("Setting default values for phasing", "temp.ToString()" + " " + "Invalid value for phasing received from relay");
+                        //this.messageHandler("Setting default values for phasing", "temp.ToString()" + " " + "Invalid value for phasing received from relay");
                         this.restoreDefaultsTypeAndPhasing();
-                        //this.buttonRelayType_Click(this, new EventArgs());
                         this.buttonSendCTRatio_Click(this, new EventArgs());
                     }
                 }
@@ -5074,7 +5071,6 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Phase Issue", ex);
                 this.restoreDefaultsTypeAndPhasing();
-                //this.buttonRelayType_Click(this, new EventArgs());
                 this.buttonSendCTRatio_Click(this, new EventArgs());
             }
 
@@ -5130,11 +5126,8 @@ namespace RelayControl
                 }
                 else
                 {
-
-                    //throw new Exception("'" + Convert.ToChar(temp).ToString() + "' is not a valid Relay Type character.");
-                    this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
+                   // this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
                     this.restoreDefaultsTypeAndPhasing();
-                    //this.buttonRelayType_Click(this, new EventArgs());
                     this.buttonSendCTRatio_Click(this, new EventArgs());
                 }
             }
@@ -5145,7 +5138,6 @@ namespace RelayControl
                 this.messageHandler("Error in Relay Type Data", ex);
                 this.comboBox_RelayType.SelectedIndex = 0;
                 this.restoreDefaultsTypeAndPhasing();
-                //this.buttonRelayType_Click(this, new EventArgs());
                 this.buttonSendCTRatio_Click(this, new EventArgs());
             }
             try
