@@ -1884,6 +1884,9 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 90;
             //this.domainUpDownTripStyle.SelectedIndex = 3;
             this.comboBox_TripStyle.SelectedIndex = 3;
+#if ENMAX
+            this.comboBox_TripStyle.SelectedIndex = 0;
+#endif
 #if ONCOR
             //this.domainUpDownTripStyle.SelectedIndex = 0; // Hold Trip (Troubleshooting Only)
             this.comboBox_TripStyle.SelectedIndex = 0;

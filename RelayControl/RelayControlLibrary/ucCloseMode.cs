@@ -1,16 +1,17 @@
-﻿using System;
+﻿using GraphicsServer.GSNet.Charting;
+using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using System.Runtime.Serialization;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using SharedResources;
-using System.Threading;
+using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
@@ -792,12 +793,17 @@ namespace RelayControlLibrary
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
-            if ((this.Customer == Customers.ConEdison) || (this.Customer == Customers.DIGITALGRIDDNP))
+            if ((this.Customer == Customers.ConEdison) || (this.Customer == Customers.DIGITALGRIDDNP)) 
             {
                 this.checkBoxCircleClose.Checked = false;
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDA.Value = -5;
+#if ENMAX
+                this.checkBoxCircleClose.Checked = true;
+                this.numericUpDownPDV.Value = 0.0m;
+#else
                 this.numericUpDownPDV.Value = 0.4m;
+#endif
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownTimeDelay.Value = 6;
                 this.checkBox1.Checked = false;

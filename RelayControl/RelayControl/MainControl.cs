@@ -740,7 +740,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " ENMAX ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " ENMAX ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -6235,7 +6235,7 @@ namespace RelayControl
             this.comboBox_RelayType.SelectedIndex = 1;
 #elif ENMAX || (PSEG && !DNP) || TAUNTON
             this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_RelayType.SelectedIndex = 0; 
             labelConEdPowerRelay.Visible = false;
 #elif PSEG && DNP
             this.comboBox_Phasings.SelectedIndex = 0;
