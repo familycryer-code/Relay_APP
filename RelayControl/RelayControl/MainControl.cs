@@ -724,10 +724,14 @@ namespace RelayControl
                 this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
                 this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(27, 317); 
-                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(290, 317); 
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(90, 317); //(27, 317); 
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(270, 317); //(290, 317); 
                 this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
                 this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250); //(250, 280);
+                this.ucPumpMode1.labelPumpType.Enabled = false;
+                this.ucPumpMode1.labelPumpType.Visible = false;
+                this.ucPumpMode1.labelPumpTypeDisplay.Enabled = false;
+                this.ucPumpMode1.labelPumpTypeDisplay.Visible = false;
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -8159,7 +8163,7 @@ namespace RelayControl
                 //Thread.Sleep(834);   // 1 seconds
             }
 
-            this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
+        //    this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
             //Thread.Sleep(834);   // 2.5 seconds
 

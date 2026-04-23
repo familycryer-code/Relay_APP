@@ -1931,10 +1931,10 @@
             // buttonTypePhasingRestoreDefaults
             // 
             this.buttonTypePhasingRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(8, 320);
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(56, 325);
             this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
-            this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(228, 28);
+            this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(135, 28);
             this.buttonTypePhasingRestoreDefaults.TabIndex = 48;
             this.buttonTypePhasingRestoreDefaults.Text = "Restore Defaults";
             this.buttonTypePhasingRestoreDefaults.UseVisualStyleBackColor = true;
@@ -2071,10 +2071,10 @@
             // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(240, 320);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(228, 325);
             this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
-            this.buttonSendCTRatio.Size = new System.Drawing.Size(151, 28);
+            this.buttonSendCTRatio.Size = new System.Drawing.Size(70, 28);
             this.buttonSendCTRatio.TabIndex = 61;
             this.buttonSendCTRatio.Text = "Apply";
             this.buttonSendCTRatio.UseVisualStyleBackColor = true;
@@ -2324,7 +2324,7 @@
             this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
             this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(101, 86);
             this.buttonRequestRelayParamaters.TabIndex = 33;
-            this.buttonRequestRelayParamaters.Text = "Request Settings from Relay";
+            this.buttonRequestRelayParamaters.Text = "Request All";
             this.buttonRequestRelayParamaters.UseVisualStyleBackColor = true;
             this.buttonRequestRelayParamaters.Click += new System.EventHandler(this.buttonRequestRelayParamaters_Click);
             // 
@@ -2336,7 +2336,7 @@
             this.buttonSendAll.Name = "buttonSendAll";
             this.buttonSendAll.Size = new System.Drawing.Size(101, 84);
             this.buttonSendAll.TabIndex = 70;
-            this.buttonSendAll.Text = "Send Settings to Relay";
+            this.buttonSendAll.Text = "Apply All";
             this.buttonSendAll.UseVisualStyleBackColor = true;
             this.buttonSendAll.Click += new System.EventHandler(this.buttonSendAll_Click);
             // 

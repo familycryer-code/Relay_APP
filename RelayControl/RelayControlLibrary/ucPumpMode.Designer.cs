@@ -66,9 +66,9 @@ namespace RelayControlLibrary
             // buttonSend
             // 
             this.buttonSend.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSend.Location = new System.Drawing.Point(50, 263);
+            this.buttonSend.Location = new System.Drawing.Point(145, 255);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(145, 23);
+            this.buttonSend.Size = new System.Drawing.Size(70, 23);
             this.buttonSend.TabIndex = 13;
             this.buttonSend.Text = "Apply";
             this.buttonSend.UseVisualStyleBackColor = true;
@@ -77,9 +77,9 @@ namespace RelayControlLibrary
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(40, 238);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(30, 255);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(170, 23);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
             this.buttonRestoreDefaults.TabIndex = 1;
             this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
@@ -448,8 +448,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.CheckBox checkBoxMotorTime;
         private System.Windows.Forms.Label labelEnable;
         private System.Windows.Forms.CheckBox checkBoxMotorCycles;
-        private System.Windows.Forms.Label labelPumpType;
-        private System.Windows.Forms.Label labelPumpTypeDisplay;
+        public System.Windows.Forms.Label labelPumpType;
+        public System.Windows.Forms.Label labelPumpTypeDisplay;
         public System.Windows.Forms.GroupBox groupBoxPumpMode;
         private System.Windows.Forms.CheckBox checkBoxAlarmOnly;
         private System.Windows.Forms.Label label1;
