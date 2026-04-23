@@ -269,6 +269,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.panel_NWsettings = new System.Windows.Forms.Panel();
             this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
@@ -1513,6 +1514,7 @@
             this.tabPageControl.Controls.Add(this.ucSafeService1);
             this.tabPageControl.Controls.Add(this.ucCoverFlags1);
             this.tabPageControl.Controls.Add(this.ucTripMode2);
+            this.tabPageControl.Controls.Add(this.panel_NWsettings);
             this.tabPageControl.Location = new System.Drawing.Point(4, 24);
             this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Name = "tabPageControl";
@@ -3188,6 +3190,14 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
+            // panel_NWsettings
+            // 
+            this.panel_NWsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_NWsettings.Location = new System.Drawing.Point(5, 5);
+            this.panel_NWsettings.Name = "panel_NWsettings";
+            this.panel_NWsettings.Size = new System.Drawing.Size(425, 386);
+            this.panel_NWsettings.TabIndex = 131;
+            // 
             // ucForceCustomerSwitch1
             // 
             this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
@@ -3530,5 +3540,6 @@
         private System.Windows.Forms.Button btn_getLC;
         private System.Windows.Forms.Button btn_clrLC;
         private System.Windows.Forms.Label lblLC_Name;
+        private System.Windows.Forms.Panel panel_NWsettings;
     }
 }
