@@ -266,7 +266,7 @@ namespace RelayControlLibrary
             this.buttonSendCloseData.Name = "buttonSendCloseData";
             this.buttonSendCloseData.Size = new System.Drawing.Size(113, 23);
             this.buttonSendCloseData.TabIndex = 28;
-            this.buttonSendCloseData.Text = "Program Close";
+            this.buttonSendCloseData.Text = "Apply";
             this.buttonSendCloseData.UseVisualStyleBackColor = true;
             this.buttonSendCloseData.Click += new System.EventHandler(this.buttonSendCloseData_Click);
             // 
@@ -288,7 +288,7 @@ namespace RelayControlLibrary
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(171, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
-            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 

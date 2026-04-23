@@ -93,7 +93,6 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -270,6 +269,7 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -947,14 +947,6 @@
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -1612,7 +1604,7 @@
             this.btn_PC_Send.Name = "btn_PC_Send";
             this.btn_PC_Send.Size = new System.Drawing.Size(244, 28);
             this.btn_PC_Send.TabIndex = 14;
-            this.btn_PC_Send.Text = "Program Permissive Close";
+            this.btn_PC_Send.Text = "Apply";
             this.btn_PC_Send.UseVisualStyleBackColor = true;
             this.btn_PC_Send.Click += new System.EventHandler(this.btn_PC_Send_Click);
             // 
@@ -1786,7 +1778,7 @@
             this.btn_RestorePC_defaults.Name = "btn_RestorePC_defaults";
             this.btn_RestorePC_defaults.Size = new System.Drawing.Size(228, 28);
             this.btn_RestorePC_defaults.TabIndex = 0;
-            this.btn_RestorePC_defaults.Text = "Restore Factory Defaults";
+            this.btn_RestorePC_defaults.Text = "Restore Defaults";
             this.btn_RestorePC_defaults.UseVisualStyleBackColor = true;
             this.btn_RestorePC_defaults.Click += new System.EventHandler(this.btn_RestorePC_defaults_Click);
             // 
@@ -1944,7 +1936,7 @@
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
             this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(228, 28);
             this.buttonTypePhasingRestoreDefaults.TabIndex = 48;
-            this.buttonTypePhasingRestoreDefaults.Text = "Restore Factory Defaults";
+            this.buttonTypePhasingRestoreDefaults.Text = "Restore Defaults";
             this.buttonTypePhasingRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonTypePhasingRestoreDefaults.Click += new System.EventHandler(this.buttonTypePhasingRestoreDefaults_Click);
             // 
@@ -2084,7 +2076,7 @@
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(151, 28);
             this.buttonSendCTRatio.TabIndex = 61;
-            this.buttonSendCTRatio.Text = "Program Relay";
+            this.buttonSendCTRatio.Text = "Apply";
             this.buttonSendCTRatio.UseVisualStyleBackColor = true;
             this.buttonSendCTRatio.Click += new System.EventHandler(this.buttonSendCTRatio_Click);
             // 
@@ -3195,6 +3187,14 @@
             this.ucDNPSAv5Settings2.Name = "ucDNPSAv5Settings2";
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // serialPort1
             // 

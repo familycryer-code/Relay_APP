@@ -112,7 +112,7 @@ namespace RelayControlLibrary
             "Watt-Var"});
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
-            this.listBoxTripModes.Size = new System.Drawing.Size(80, 90); //(75, 80);
+            this.listBoxTripModes.Size = new System.Drawing.Size(80, 80);
             this.listBoxTripModes.TabIndex = 2;
             this.listBoxTripModes.SelectedIndexChanged += new System.EventHandler(this.listBoxTripModes_SelectedIndexChanged);
             // 
@@ -122,7 +122,7 @@ namespace RelayControlLibrary
             this.buttonSendTripData.Name = "buttonSendTripData";
             this.buttonSendTripData.Size = new System.Drawing.Size(113, 23);
             this.buttonSendTripData.TabIndex = 1;
-            this.buttonSendTripData.Text = "Program Trip";
+            this.buttonSendTripData.Text = "Apply";
             this.buttonSendTripData.UseVisualStyleBackColor = true;
             this.buttonSendTripData.Click += new System.EventHandler(this.buttonSendTripMode_Click);
             // 
@@ -481,7 +481,7 @@ namespace RelayControlLibrary
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(171, 23);
             this.buttonRestoreDefaults.TabIndex = 41;
-            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 

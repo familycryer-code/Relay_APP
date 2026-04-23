@@ -133,7 +133,7 @@ namespace RelayControlLibrary
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(191, 23);
             this.buttonRestoreDefaults.TabIndex = 20;
-            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 
@@ -369,7 +369,7 @@ namespace RelayControlLibrary
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(151, 23);
             this.buttonSend.TabIndex = 0;
-            this.buttonSend.Text = "Program Safe Service";
+            this.buttonSend.Text = "Apply";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 

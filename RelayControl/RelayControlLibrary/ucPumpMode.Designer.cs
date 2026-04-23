@@ -70,7 +70,7 @@ namespace RelayControlLibrary
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(145, 23);
             this.buttonSend.TabIndex = 13;
-            this.buttonSend.Text = "Program Pump Protect";
+            this.buttonSend.Text = "Apply";
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
@@ -81,7 +81,7 @@ namespace RelayControlLibrary
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(170, 23);
             this.buttonRestoreDefaults.TabIndex = 1;
-            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 
