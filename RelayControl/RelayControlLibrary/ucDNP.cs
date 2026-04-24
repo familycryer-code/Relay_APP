@@ -1068,7 +1068,7 @@ namespace RelayControlLibrary
                 this.buttonSendDeadBand.Location = new System.Drawing.Point(800, 370); //(1230, 370); 
                 this.buttonSendDeadBand.Size = new System.Drawing.Size(100, 80);
             }
-            this.buttonDefaults.Text = "Restore Factory Defaults";
+            this.buttonDefaults.Text = "Restore Defaults";
         }
 
         private void makeMemphis()

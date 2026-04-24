@@ -605,7 +605,7 @@ namespace RelayControlLibrary
             this.buttonSendAllDNPSettings.Name = "buttonSendAllDNPSettings";
             this.buttonSendAllDNPSettings.Size = new System.Drawing.Size(210, 23);
             this.buttonSendAllDNPSettings.TabIndex = 32;
-            this.buttonSendAllDNPSettings.Text = "Send All DNP Settings";
+            this.buttonSendAllDNPSettings.Text = "Apply";
             this.buttonSendAllDNPSettings.UseVisualStyleBackColor = true;
             this.buttonSendAllDNPSettings.Click += new System.EventHandler(this.buttonSendAllDNPSettings_Click);
             // 
@@ -661,7 +661,7 @@ namespace RelayControlLibrary
             this.buttonDefaults.Name = "buttonDefaults";
             this.buttonDefaults.Size = new System.Drawing.Size(214, 23);
             this.buttonDefaults.TabIndex = 59;
-            this.buttonDefaults.Text = "Memphis Defaults";
+            this.buttonDefaults.Text = "Restore Defaults";
             this.buttonDefaults.UseVisualStyleBackColor = true;
             this.buttonDefaults.Click += new System.EventHandler(this.buttonDefaults_Click);
             // 

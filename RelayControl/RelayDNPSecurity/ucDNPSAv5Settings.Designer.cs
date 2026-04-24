@@ -292,7 +292,7 @@ namespace RelayDNPSecurity
             this.buttonDefault.Name = "buttonDefault";
             this.buttonDefault.Size = new System.Drawing.Size(141, 23);
             this.buttonDefault.TabIndex = 3;
-            this.buttonDefault.Text = "Restore Factory Defaults";
+            this.buttonDefault.Text = "Restore Defaults";
             this.buttonDefault.UseMnemonic = false;
             this.buttonDefault.UseVisualStyleBackColor = true;
             this.buttonDefault.Click += new System.EventHandler(this.buttonDefault_Click);
@@ -313,7 +313,7 @@ namespace RelayDNPSecurity
             this.buttonSendSettings.Name = "buttonSendSettings";
             this.buttonSendSettings.Size = new System.Drawing.Size(103, 23);
             this.buttonSendSettings.TabIndex = 1;
-            this.buttonSendSettings.Text = "Program Settings";
+            this.buttonSendSettings.Text = "Apply";
             this.buttonSendSettings.UseVisualStyleBackColor = true;
             this.buttonSendSettings.Click += new System.EventHandler(this.buttonSendSettings_Click);
             // 

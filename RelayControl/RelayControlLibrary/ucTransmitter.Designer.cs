@@ -255,7 +255,7 @@
             this.buttonTX.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.buttonTX.Size = new System.Drawing.Size(184, 75);
             this.buttonTX.TabIndex = 0;
-            this.buttonTX.Text = "Send Settings";
+            this.buttonTX.Text = "Apply";
             this.buttonTX.UseVisualStyleBackColor = true;
             this.buttonTX.Click += new System.EventHandler(this.buttonTX_Click);
             // 

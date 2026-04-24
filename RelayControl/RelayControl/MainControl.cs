@@ -689,19 +689,16 @@ namespace RelayControl
                 this.button_dataStore.Enabled = true;
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
-                this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); //(13, 450);
+                this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); 
                 this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 368);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
-                this.ucTripMode2.Location = new System.Drawing.Point(450, 13); //(400, 13);
-                this.ucCloseMode1.Location = new System.Drawing.Point(970, 13); //(1100, 13); 
-               // this.ucCloseMode1.groupBoxCloseMode.Size = new System.Drawing.Size(352, 280);
-                this.ucPumpMode1.Location = new System.Drawing.Point(13, 430);
-                // this.ucPumpMode1.buttonSend.Location = new System.Drawing.Point(120, 320);
-                // this.ucSafeService1.buttonSend.Location = new System.Drawing.Point(12, 298);
-                this.ucSafeService1.Location = new System.Drawing.Point(390, 430);
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470); //(750, 470); 
-                this.buttonSendAll.Location = new System.Drawing.Point(140, 3); //(150, 3); 
+                this.ucTripMode2.Location = new System.Drawing.Point(450, 13); 
+                this.ucCloseMode1.Location = new System.Drawing.Point(970, 13); 
+                this.ucPumpMode1.Location = new System.Drawing.Point(13, 406); 
+                this.ucSafeService1.Location = new System.Drawing.Point(390, 406); 
+                this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
+                this.buttonSendAll.Location = new System.Drawing.Point(140, 3);  
                 this.panelOtherRelayControls.Size = new System.Drawing.Size(290, 174);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
@@ -732,6 +729,8 @@ namespace RelayControl
                 this.ucPumpMode1.labelPumpType.Visible = false;
                 this.ucPumpMode1.labelPumpTypeDisplay.Enabled = false;
                 this.ucPumpMode1.labelPumpTypeDisplay.Visible = false;
+                this.checkBox277DNPOutputs.Visible = false;
+               // this.ucPumpMode1.Location = new System.Drawing.Point(9, 395);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -750,7 +749,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.45 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.46 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.28" + " DOMINION ";
@@ -6189,8 +6188,9 @@ namespace RelayControl
 
                     try
                     {
-                        if (checkBox277DNPOutputs.Checked)
-                            packet[2] |= 0x10;
+                        // made invisible. But will send it as being checked to the master uP
+                        //  if (checkBox277DNPOutputs.Checked)
+                        packet[2] |= 0x10;
                     }
                     catch (Exception ex)
                     {

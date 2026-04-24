@@ -341,7 +341,7 @@ namespace RelayControlLibrary
             // labelInsensTripUnit
             // 
             this.labelInsensTripUnit.AutoSize = true;
-            this.labelInsensTripUnit.Location = new System.Drawing.Point(296, 144);
+            this.labelInsensTripUnit.Location = new System.Drawing.Point(294, 144);
             this.labelInsensTripUnit.Name = "labelInsensTripUnit";
             this.labelInsensTripUnit.Size = new System.Drawing.Size(50, 19);
             this.labelInsensTripUnit.TabIndex = 30;
@@ -350,7 +350,7 @@ namespace RelayControlLibrary
             // labelAngleUnit
             // 
             this.labelAngleUnit.AutoSize = true;
-            this.labelAngleUnit.Location = new System.Drawing.Point(293, 123);
+            this.labelAngleUnit.Location = new System.Drawing.Point(294, 123);
             this.labelAngleUnit.Name = "labelAngleUnit";
             this.labelAngleUnit.Size = new System.Drawing.Size(66, 19);
             this.labelAngleUnit.TabIndex = 29;
@@ -359,7 +359,7 @@ namespace RelayControlLibrary
             // labelSensTripUnit
             // 
             this.labelSensTripUnit.AutoSize = true;
-            this.labelSensTripUnit.Location = new System.Drawing.Point(293, 98);
+            this.labelSensTripUnit.Location = new System.Drawing.Point(294, 98);
             this.labelSensTripUnit.Name = "labelSensTripUnit";
             this.labelSensTripUnit.Size = new System.Drawing.Size(34, 19);
             this.labelSensTripUnit.TabIndex = 28;
@@ -382,7 +382,7 @@ namespace RelayControlLibrary
             // labelWVCurrentUnit
             // 
             this.labelWVCurrentUnit.AutoSize = true;
-            this.labelWVCurrentUnit.Location = new System.Drawing.Point(296, 169);
+            this.labelWVCurrentUnit.Location = new System.Drawing.Point(294, 169);
             this.labelWVCurrentUnit.Name = "labelWVCurrentUnit";
             this.labelWVCurrentUnit.Size = new System.Drawing.Size(50, 19);
             this.labelWVCurrentUnit.TabIndex = 36;
@@ -394,9 +394,9 @@ namespace RelayControlLibrary
             this.labelWVCurrent.Location = new System.Drawing.Point(125, 169);
             this.labelWVCurrent.Name = "labelWVCurrent";
             this.labelWVCurrent.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWVCurrent.Size = new System.Drawing.Size(134, 19);
+            this.labelWVCurrent.Size = new System.Drawing.Size(135, 19);
             this.labelWVCurrent.TabIndex = 35;
-            this.labelWVCurrent.Text = "Watt Var Current:";
+            this.labelWVCurrent.Text = "Watt-Var Current:";
             // 
             // numericUpDownWVCurrent
             // 
@@ -437,9 +437,9 @@ namespace RelayControlLibrary
             this.labelWVAngle.Location = new System.Drawing.Point(134, 195);
             this.labelWVAngle.Name = "labelWVAngle";
             this.labelWVAngle.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWVAngle.Size = new System.Drawing.Size(122, 19);
+            this.labelWVAngle.Size = new System.Drawing.Size(123, 19);
             this.labelWVAngle.TabIndex = 38;
-            this.labelWVAngle.Text = "Watt Var Angle:";
+            this.labelWVAngle.Text = "Watt-Var Angle:";
             // 
             // numericUpDownWVAngle
             // 
