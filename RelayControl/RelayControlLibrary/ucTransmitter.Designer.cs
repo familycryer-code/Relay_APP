@@ -215,8 +215,8 @@
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
+            this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -406,7 +406,7 @@
             this.buttonRestoreDefaults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.buttonRestoreDefaults.Size = new System.Drawing.Size(218, 55);
             this.buttonRestoreDefaults.TabIndex = 15;
-            this.buttonRestoreDefaults.Text = "Restore Factory Defaults";
+            this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
             this.buttonRestoreDefaults.Click += new System.EventHandler(this.buttonRestoreDefaults_Click);
             // 
@@ -2412,16 +2412,6 @@
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
-            // grpBox_TXcommands
-            // 
-            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
-            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
-            this.grpBox_TXcommands.TabIndex = 88;
-            this.grpBox_TXcommands.TabStop = false;
-            this.grpBox_TXcommands.Text = "Transmission Commands";
-            // 
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
@@ -2432,6 +2422,16 @@
             this.ucDNP2.Name = "ucDNP2";
             this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
             this.ucDNP2.TabIndex = 0;
+            // 
+            // grpBox_TXcommands
+            // 
+            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
+            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
+            this.grpBox_TXcommands.TabIndex = 88;
+            this.grpBox_TXcommands.TabStop = false;
+            this.grpBox_TXcommands.Text = "Transmission Commands";
             // 
             // ucTransmitterMonitoring2
             // 

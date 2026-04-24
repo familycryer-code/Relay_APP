@@ -1156,11 +1156,7 @@ namespace RelayControlLibrary
                 errorMessage = "Error Setting Flag Polarities";
                 
                 this.TXSettings.FlagPolarity.A = radioButtonFPAClose.Checked;
-#if TORONTO_HYDRO
-                this.TXSettings.FlagPolarity.B = !radioButtonFPBClose.Checked;
-#else
                 this.TXSettings.FlagPolarity.B = radioButtonFPBClose.Checked;
-#endif
                 this.TXSettings.FlagPolarity.C = radioButtonFPCClose.Checked;
                 this.TXSettings.FlagPolarity.D = radioButtonFPDClose.Checked;
                 this.TXSettings.FlagPolarity.E = radioButtonFPEClose.Checked;
@@ -1881,7 +1877,12 @@ namespace RelayControlLibrary
             this.checkBoxYellow.Checked = false;
 
             this.radioButtonFPAClose.Checked = true;
+#if TORONTO_HYDRO
+            this.radioButtonFPBClose.Checked = false;
+            this.radioButtonFPBOpen.Checked = true;
+#else
             this.radioButtonFPBClose.Checked = true;
+#endif
             this.radioButtonFPCClose.Checked = true;
             this.radioButtonFPDClose.Checked = true;
             this.radioButtonFPEClose.Checked = true;

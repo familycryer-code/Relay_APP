@@ -71,12 +71,20 @@ namespace RelayControlLibrary
         // index goes to 1025 at starting point of analog ouput reads. so, 35*4 bytes more after that
 #elif ENMAX
         // It is seen that in the incoming dNPData array ( from master uP ), the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 712 and 713.
-        // Accordingly, since for EnMax has Serial Number at its DNP Analog Input 1 itself,
+        // Accordingly, since EnMax DNP Map has Serial Number at its DNP Analog Input 1 itself,
         // we take 712 as the starting point to read Analog Inputs
         // Enmax has 118 Analog Inputs and 38 analog Outputs
         // so ( 118 * 6 ) points ( since each analog input = 6 bytes ) + ( 38 * 4 ) ( since each analog output = 4 bytes ) 
         // = 712 + 708 + 152 = 1572
         private byte[] dNPData = new byte[1572]; 
+#elif TORONTO_HYDRO
+        // It is seen that in the incoming dNPData array ( from master uP ), the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 8886 and 887.
+        // TorontoHydro DNP Map has Serial Number at its DNP Analog Input 29,
+        // So, to get to the starting point of analog inputs : 886 - (29*6) ( since each analog input = 6 bytes ) = 712
+        // TorontoHydro has 44 Analog Inputs and 28 Analog Outputs
+        // so ( 44 * 6 ) points ( since each analog input = 6 bytes ) + ( 28 * 4 ) ( since each analog output = 4 bytes ) 
+        // = 712 + 264 + 112 = 1088
+        private byte[] dNPData = new byte[1088]; 
 #else
         private byte[] dNPData = new byte[1196];//[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
@@ -1502,8 +1510,8 @@ namespace RelayControlLibrary
             savedIndex = 176 + 4;// 224;
 #elif (TORONTO_HYDRO || DEBUG)
             // starting point for setBinaryOutputs considering 24 BinaryInputs 
-            // savedIndex = 96; //(23 * 4) + 4
-            savedIndex = 232;
+             savedIndex = 96; //(24 * 4) 
+            //savedIndex = 232;
 #elif (ENMAX)
             // starting point for setBinaryOutputs considering 58 BinaryInputs 
             savedIndex = 228; // 58 Inputs * 4 ( 4 Bytes per binary input )
@@ -1518,13 +1526,10 @@ namespace RelayControlLibrary
             // 44 * 4(binary input incremented by 4 for each reading) + 4 + 28 * 4(binary output incremented by 4 for each reading) = 292
             savedIndex = 344;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
 #elif (TORONTO_HYDRO || DEBUG)
-            // starting point for setAnalogInputs considering 24 BinaryInputs & 8 BinaryOutputs ( rev10 firmware for TH )
-            // ( 23 * 4(binary input incremented by 4 for each reading) + 4 ) +
-            // ( 26 * 4(binary output incremented by 4 for each reading) + 4 ) = 128
-            // It is seen that in the dNPData array, the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 530 and 531.
-            // Accordingly, backtrack 29 inputs ( each consisting of 6 bytes ) from 530 - since for TorontoHydro Analog Input for SN is placed at input 29
-            // so, 530 - ( 29 * 6 ) = 356.
-            savedIndex = 356;
+            // It is seen that in the incoming dNPData array ( from master uP ), the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 8886 and 887.
+            // TorontoHydro DNP Map has Serial Number at its DNP Analog Input 29,
+            // So, to get to the starting point of analog inputs : 886 - (29*6) ( since each analog input = 6 bytes ) = 712
+            savedIndex = 712;
 #elif ENMAX
             // It is seen that in the dNPData array, the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 712 and 713.
             // Accordingly, since for EnMax has Serial Number at its DNP Analog Input 1 itself,
