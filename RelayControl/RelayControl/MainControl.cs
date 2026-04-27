@@ -749,7 +749,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.46 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.47 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.28" + " DOMINION ";
@@ -3954,10 +3954,11 @@ namespace RelayControl
                 if (!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
-                    //   this.SendAll_Message_PopUp1.Visible = false;
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
+                    /*
+                    // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
                         if (checkValidDataBackup())
@@ -3971,7 +3972,7 @@ namespace RelayControl
                             MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
                         }
                     }
-
+                    */
                     this.request_PCdata();
                 }
 
@@ -4022,9 +4023,8 @@ namespace RelayControl
             if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
             {
                 initializeAutoLoad = false;
-
-                //if (!this.ucRelayProgramming1.IsMasterRev10orMore() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
-                //if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && this.ucRelayProgramming1.remoteMasterRevisionNumber != Constants.MasterRevBlankRelay)
+                /*
+               // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
                 if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
                 {
                     // If Master uP revision is less than Rev 10, backup its data to the computer
@@ -4036,7 +4036,6 @@ namespace RelayControl
                         File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
                     }
 
-                    //dataB.oldDataBackup = true;
                     if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
                     {//if relay has old DNP firmware
                         dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
@@ -4044,7 +4043,7 @@ namespace RelayControl
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
                 }
-
+                */
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
