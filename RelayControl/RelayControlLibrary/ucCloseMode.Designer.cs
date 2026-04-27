@@ -50,6 +50,7 @@ namespace RelayControlLibrary
             this.buttonRelaxClose = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBoxCloseMode = new System.Windows.Forms.GroupBox();
+            this.panel_CMsettings = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDA)).BeginInit();
@@ -191,7 +192,7 @@ namespace RelayControlLibrary
             // labelPDA
             // 
             this.labelPDA.AutoSize = true;
-            this.labelPDA.Location = new System.Drawing.Point(38, 134); //(32, 134);
+            this.labelPDA.Location = new System.Drawing.Point(38, 134);
             this.labelPDA.Name = "labelPDA";
             this.labelPDA.Size = new System.Drawing.Size(173, 19);
             this.labelPDA.TabIndex = 20;
@@ -264,7 +265,7 @@ namespace RelayControlLibrary
             // 
             this.buttonSendCloseData.Location = new System.Drawing.Point(209, 254);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
-            this.buttonSendCloseData.Size = new System.Drawing.Size(70, 23); //(113, 23);
+            this.buttonSendCloseData.Size = new System.Drawing.Size(70, 23);
             this.buttonSendCloseData.TabIndex = 28;
             this.buttonSendCloseData.Text = "Apply";
             this.buttonSendCloseData.UseVisualStyleBackColor = true;
@@ -284,9 +285,9 @@ namespace RelayControlLibrary
             // buttonRestoreDefaults
             // 
             this.buttonRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRestoreDefaults.Location = new System.Drawing.Point(70, 254); //(20, 254);
+            this.buttonRestoreDefaults.Location = new System.Drawing.Point(70, 254);
             this.buttonRestoreDefaults.Name = "buttonRestoreDefaults";
-            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23); //(171, 23);
+            this.buttonRestoreDefaults.Size = new System.Drawing.Size(100, 23);
             this.buttonRestoreDefaults.TabIndex = 30;
             this.buttonRestoreDefaults.Text = "Restore Defaults";
             this.buttonRestoreDefaults.UseVisualStyleBackColor = true;
@@ -345,6 +346,7 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.Controls.Add(this.labelPDVUnit);
             this.groupBoxCloseMode.Controls.Add(this.labelTiltAngleUnit);
             this.groupBoxCloseMode.Controls.Add(this.numericUpDownPDV);
+            this.groupBoxCloseMode.Controls.Add(this.panel_CMsettings);
             this.groupBoxCloseMode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxCloseMode.Location = new System.Drawing.Point(3, 3);
             this.groupBoxCloseMode.Name = "groupBoxCloseMode";
@@ -352,6 +354,14 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.TabIndex = 33;
             this.groupBoxCloseMode.TabStop = false;
             this.groupBoxCloseMode.Text = "Close Mode";
+            // 
+            // panel_CMsettings
+            // 
+            this.panel_CMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_CMsettings.Location = new System.Drawing.Point(0, 0);
+            this.panel_CMsettings.Name = "panel_CMsettings";
+            this.panel_CMsettings.Size = new System.Drawing.Size(352, 293);
+            this.panel_CMsettings.TabIndex = 41;
             // 
             // ucCloseMode
             // 
@@ -397,5 +407,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button buttonRelaxClose;
         public System.Windows.Forms.GroupBox groupBoxCloseMode;
         private System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.Panel panel_CMsettings;
     }
 }

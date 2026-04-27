@@ -84,6 +84,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kVARdirection = new System.Windows.Forms.Label();
             this.numericUpDown_InCurrkVAR = new System.Windows.Forms.NumericUpDown();
+            this.panel_TMsettings = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).BeginInit();
@@ -620,6 +621,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.Controls.Add(this.labelETD);
             this.groupBoxTripModeSettings.Controls.Add(this.labelSTDunit);
             this.groupBoxTripModeSettings.Controls.Add(this.labelWVAngle);
+            this.groupBoxTripModeSettings.Controls.Add(this.panel_TMsettings);
             this.groupBoxTripModeSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxTripModeSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxTripModeSettings.Name = "groupBoxTripModeSettings";
@@ -878,6 +880,14 @@ namespace RelayControlLibrary
             0,
             0});
             // 
+            // panel_TMsettings
+            // 
+            this.panel_TMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_TMsettings.Location = new System.Drawing.Point(0, 0);
+            this.panel_TMsettings.Name = "panel_TMsettings";
+            this.panel_TMsettings.Size = new System.Drawing.Size(356, 293); //(415, 305);
+            this.panel_TMsettings.TabIndex = 70;
+            // 
             // ucTripMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -972,5 +982,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitInCur_kVARdir;
         public System.Windows.Forms.ComboBox comboBox_TripStyle;
         public System.Windows.Forms.ComboBox comboBox_TripType;
+        private Panel panel_TMsettings;
     }
 }

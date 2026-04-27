@@ -1661,7 +1661,7 @@ namespace RelayControlLibrary
 
                 if (!failed)
                 {
-                    uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
+                   uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
                     if ((bytePacket[index + 4] & 0x01) == 0x01)
                         uDDGA.PointEnabled = true;
                     else
