@@ -1454,11 +1454,11 @@ namespace RelayControlLibrary
         {
             if (b)
             {
-                cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Bold);
+                //cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Bold);
             }
             else
             {
-                cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Strikeout);
+               // cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Strikeout);
                 cB.Checked = false;
             }
         }

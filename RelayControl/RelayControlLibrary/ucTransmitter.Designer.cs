@@ -215,8 +215,8 @@
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -319,9 +319,9 @@
             // 
             // checkBoxYellow
             // 
-            this.checkBoxYellow.BackColor = System.Drawing.Color.Yellow;
+            this.checkBoxYellow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.checkBoxYellow.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxYellow.ForeColor = System.Drawing.Color.Blue;
+            this.checkBoxYellow.ForeColor = System.Drawing.Color.Black;
             this.checkBoxYellow.Location = new System.Drawing.Point(4, 80);
             this.checkBoxYellow.Name = "checkBoxYellow";
             this.checkBoxYellow.Size = new System.Drawing.Size(151, 25);
@@ -332,9 +332,9 @@
             // 
             // checkBoxGreen
             // 
-            this.checkBoxGreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.checkBoxGreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.checkBoxGreen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxGreen.ForeColor = System.Drawing.Color.White;
+            this.checkBoxGreen.ForeColor = System.Drawing.Color.Black;
             this.checkBoxGreen.Location = new System.Drawing.Point(4, 54);
             this.checkBoxGreen.Name = "checkBoxGreen";
             this.checkBoxGreen.Size = new System.Drawing.Size(151, 25);
@@ -345,9 +345,9 @@
             // 
             // checkBoxBlue
             // 
-            this.checkBoxBlue.BackColor = System.Drawing.Color.Blue;
+            this.checkBoxBlue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.checkBoxBlue.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxBlue.ForeColor = System.Drawing.Color.White;
+            this.checkBoxBlue.ForeColor = System.Drawing.Color.Black;
             this.checkBoxBlue.Location = new System.Drawing.Point(4, 29);
             this.checkBoxBlue.Name = "checkBoxBlue";
             this.checkBoxBlue.Size = new System.Drawing.Size(151, 25);
@@ -358,9 +358,9 @@
             // 
             // checkBoxRed
             // 
-            this.checkBoxRed.BackColor = System.Drawing.Color.Red;
+            this.checkBoxRed.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.checkBoxRed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRed.ForeColor = System.Drawing.Color.White;
+            this.checkBoxRed.ForeColor = System.Drawing.Color.Black;
             this.checkBoxRed.Location = new System.Drawing.Point(4, 4);
             this.checkBoxRed.Name = "checkBoxRed";
             this.checkBoxRed.Size = new System.Drawing.Size(151, 25);
@@ -2412,6 +2412,16 @@
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
+            // grpBox_TXcommands
+            // 
+            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
+            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
+            this.grpBox_TXcommands.TabIndex = 88;
+            this.grpBox_TXcommands.TabStop = false;
+            this.grpBox_TXcommands.Text = "Transmission Commands";
+            // 
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
@@ -2422,16 +2432,6 @@
             this.ucDNP2.Name = "ucDNP2";
             this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
             this.ucDNP2.TabIndex = 0;
-            // 
-            // grpBox_TXcommands
-            // 
-            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
-            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
-            this.grpBox_TXcommands.TabIndex = 88;
-            this.grpBox_TXcommands.TabStop = false;
-            this.grpBox_TXcommands.Text = "Transmission Commands";
             // 
             // ucTransmitterMonitoring2
             // 
