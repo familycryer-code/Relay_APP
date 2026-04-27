@@ -1069,6 +1069,9 @@ namespace RelayControl
                 comboBox_Phasings.DropDownStyle = ComboBoxStyle.DropDownList;
                 comboBox_PC.DropDownStyle = ComboBoxStyle.DropDownList;
                 this.ucSafeService1.comboBox_DataViews.DropDownStyle = ComboBoxStyle.DropDownList;
+                this.ucTripMode2.comboBox_TripStyle.DropDownStyle = ComboBoxStyle.DropDownList;
+                this.ucTripMode2.comboBox_TripType.DropDownStyle = ComboBoxStyle.DropDownList;
+
             }
             catch (Exception ex)
             {

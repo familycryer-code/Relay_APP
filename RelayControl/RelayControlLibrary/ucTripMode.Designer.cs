@@ -970,7 +970,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label lblUnitGreenMagY;
         private System.Windows.Forms.Label lblUnitInCur_kWdir;
         private System.Windows.Forms.Label lblUnitInCur_kVARdir;
-        private System.Windows.Forms.ComboBox comboBox_TripStyle;
-        private System.Windows.Forms.ComboBox comboBox_TripType;
+        public System.Windows.Forms.ComboBox comboBox_TripStyle;
+        public System.Windows.Forms.ComboBox comboBox_TripType;
     }
 }
