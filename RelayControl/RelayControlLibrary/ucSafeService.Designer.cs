@@ -52,6 +52,7 @@ namespace RelayControlLibrary
             this.labelSafeServiceEnable = new System.Windows.Forms.Label();
             this.buttonRequest = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
+            this.panel_SMsettings = new System.Windows.Forms.Panel();
             this.groupBoxSafeService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLowVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVoltageImbalance)).BeginInit();
@@ -373,11 +374,20 @@ namespace RelayControlLibrary
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
+            // panel_SMsettings
+            // 
+            this.panel_SMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_SMsettings.Location = new System.Drawing.Point(1, 0);
+            this.panel_SMsettings.Name = "panel_SMsettings";
+            this.panel_SMsettings.Size = new System.Drawing.Size(260, 296); //(227, 249);
+            this.panel_SMsettings.TabIndex = 25;
+            // 
             // ucSafeService
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxSafeService);
+            this.Controls.Add(this.panel_SMsettings);
             this.Name = "ucSafeService";
             this.Size = new System.Drawing.Size(230, 252);
             this.groupBoxSafeService.ResumeLayout(false);
@@ -417,5 +427,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelCurrentlyEnabled;
         public System.Windows.Forms.ComboBox comboBox_DataViews;
         private System.Windows.Forms.Label lbl_CurrImbalance_unit;
+        private System.Windows.Forms.Panel panel_SMsettings;
     }
 }

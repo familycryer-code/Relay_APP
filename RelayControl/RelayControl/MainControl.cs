@@ -721,14 +721,15 @@ namespace RelayControl
                 this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
                 this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(90, 317); //(27, 317); 
-                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(270, 317); //(290, 317); 
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(90, 317); 
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(270, 317);  
                 this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
-                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250); //(250, 280);
+                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250); 
                 this.ucPumpMode1.labelPumpType.Enabled = false;
                 this.ucPumpMode1.labelPumpType.Visible = false;
                 this.ucPumpMode1.labelPumpTypeDisplay.Enabled = false;
-                this.ucPumpMode1.labelPumpTypeDisplay.Visible = false;
+                this.ucPumpMode1.labelPumpTypeDisplay.Visible = false; 
+                this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10); 
                 this.checkBox277DNPOutputs.Visible = false;
                // this.ucPumpMode1.Location = new System.Drawing.Point(9, 395);
 #if LONDONH
