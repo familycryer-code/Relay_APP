@@ -76,6 +76,7 @@ namespace RelayControlLibrary
             this.lblUnitGreenDelay = new System.Windows.Forms.Label();
             this.numericUpDown_InCurrkW = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kWdirection = new System.Windows.Forms.Label();
+            this.panel_TMsettings = new System.Windows.Forms.Panel();
             this.lblGreenDelay = new System.Windows.Forms.Label();
             this.numericUpDown_GreenDelay = new System.Windows.Forms.NumericUpDown();
             this.lblGreenMagX = new System.Windows.Forms.Label();
@@ -84,7 +85,6 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagY = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kVARdirection = new System.Windows.Forms.Label();
             this.numericUpDown_InCurrkVAR = new System.Windows.Forms.NumericUpDown();
-            this.panel_TMsettings = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSensitiveTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownExtendedTimeDelay)).BeginInit();
@@ -218,7 +218,7 @@ namespace RelayControlLibrary
             // labelTDunit
             // 
             this.labelTDunit.AutoSize = true;
-            this.labelTDunit.Location = new System.Drawing.Point(294, 75);
+            this.labelTDunit.Location = new System.Drawing.Point(293, 75);
             this.labelTDunit.Name = "labelTDunit";
             this.labelTDunit.Size = new System.Drawing.Size(67, 19);
             this.labelTDunit.TabIndex = 20;
@@ -342,7 +342,7 @@ namespace RelayControlLibrary
             // labelInsensTripUnit
             // 
             this.labelInsensTripUnit.AutoSize = true;
-            this.labelInsensTripUnit.Location = new System.Drawing.Point(294, 144);
+            this.labelInsensTripUnit.Location = new System.Drawing.Point(293, 144);
             this.labelInsensTripUnit.Name = "labelInsensTripUnit";
             this.labelInsensTripUnit.Size = new System.Drawing.Size(50, 19);
             this.labelInsensTripUnit.TabIndex = 30;
@@ -351,7 +351,7 @@ namespace RelayControlLibrary
             // labelAngleUnit
             // 
             this.labelAngleUnit.AutoSize = true;
-            this.labelAngleUnit.Location = new System.Drawing.Point(294, 123);
+            this.labelAngleUnit.Location = new System.Drawing.Point(293, 123);
             this.labelAngleUnit.Name = "labelAngleUnit";
             this.labelAngleUnit.Size = new System.Drawing.Size(66, 19);
             this.labelAngleUnit.TabIndex = 29;
@@ -360,7 +360,7 @@ namespace RelayControlLibrary
             // labelSensTripUnit
             // 
             this.labelSensTripUnit.AutoSize = true;
-            this.labelSensTripUnit.Location = new System.Drawing.Point(294, 98);
+            this.labelSensTripUnit.Location = new System.Drawing.Point(293, 98);
             this.labelSensTripUnit.Name = "labelSensTripUnit";
             this.labelSensTripUnit.Size = new System.Drawing.Size(34, 19);
             this.labelSensTripUnit.TabIndex = 28;
@@ -383,7 +383,7 @@ namespace RelayControlLibrary
             // labelWVCurrentUnit
             // 
             this.labelWVCurrentUnit.AutoSize = true;
-            this.labelWVCurrentUnit.Location = new System.Drawing.Point(294, 169);
+            this.labelWVCurrentUnit.Location = new System.Drawing.Point(293, 169);
             this.labelWVCurrentUnit.Name = "labelWVCurrentUnit";
             this.labelWVCurrentUnit.Size = new System.Drawing.Size(50, 19);
             this.labelWVCurrentUnit.TabIndex = 36;
@@ -426,7 +426,7 @@ namespace RelayControlLibrary
             // labelWVAngleUnit
             // 
             this.labelWVAngleUnit.AutoSize = true;
-            this.labelWVAngleUnit.Location = new System.Drawing.Point(294, 191);
+            this.labelWVAngleUnit.Location = new System.Drawing.Point(293, 191);
             this.labelWVAngleUnit.Name = "labelWVAngleUnit";
             this.labelWVAngleUnit.Size = new System.Drawing.Size(66, 19);
             this.labelWVAngleUnit.TabIndex = 39;
@@ -489,7 +489,7 @@ namespace RelayControlLibrary
             // labelGullWingUnits
             // 
             this.labelGullWingUnits.AutoSize = true;
-            this.labelGullWingUnits.Location = new System.Drawing.Point(294, 218);
+            this.labelGullWingUnits.Location = new System.Drawing.Point(293, 218);
             this.labelGullWingUnits.Name = "labelGullWingUnits";
             this.labelGullWingUnits.Size = new System.Drawing.Size(66, 19);
             this.labelGullWingUnits.TabIndex = 44;
@@ -738,6 +738,14 @@ namespace RelayControlLibrary
             this.lbl_InstCurrent_kWdirection.TabIndex = 61;
             this.lbl_InstCurrent_kWdirection.Text = "Instantaneous Current kW Direction:";
             // 
+            // panel_TMsettings
+            // 
+            this.panel_TMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_TMsettings.Location = new System.Drawing.Point(0, 0);
+            this.panel_TMsettings.Name = "panel_TMsettings";
+            this.panel_TMsettings.Size = new System.Drawing.Size(356, 293);
+            this.panel_TMsettings.TabIndex = 70;
+            // 
             // lblGreenDelay
             // 
             this.lblGreenDelay.AutoSize = true;
@@ -879,14 +887,6 @@ namespace RelayControlLibrary
             0,
             0,
             0});
-            // 
-            // panel_TMsettings
-            // 
-            this.panel_TMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_TMsettings.Location = new System.Drawing.Point(0, 0);
-            this.panel_TMsettings.Name = "panel_TMsettings";
-            this.panel_TMsettings.Size = new System.Drawing.Size(356, 293); //(415, 305);
-            this.panel_TMsettings.TabIndex = 70;
             // 
             // ucTripMode
             // 

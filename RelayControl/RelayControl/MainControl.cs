@@ -690,11 +690,11 @@ namespace RelayControl
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
                 this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); 
-                this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 368);
+                this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 356); //(410, 368);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
-                this.ucTripMode2.Location = new System.Drawing.Point(450, 13); 
-                this.ucCloseMode1.Location = new System.Drawing.Point(970, 13);
+                this.ucTripMode2.Location = new System.Drawing.Point(458, 7); //(450, 13); 
+                this.ucCloseMode1.Location = new System.Drawing.Point(970, 7); //(970, 13);
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 406); 
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406); 
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  

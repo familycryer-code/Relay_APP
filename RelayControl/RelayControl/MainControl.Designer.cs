@@ -1925,7 +1925,7 @@
             this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
             this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(375, 368);
+            this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(375, 355);
             this.groupBoxNetworkCTRatio.TabIndex = 110;
             this.groupBoxNetworkCTRatio.TabStop = false;
             this.groupBoxNetworkCTRatio.Text = "Network Protector Settings";
@@ -1933,7 +1933,7 @@
             // buttonTypePhasingRestoreDefaults
             // 
             this.buttonTypePhasingRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(56, 325);
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(52, 302);
             this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
             this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(135, 28);
@@ -1966,7 +1966,7 @@
             // checkBox277DNPOutputs
             // 
             this.checkBox277DNPOutputs.AutoSize = true;
-            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(8, 291);
+            this.checkBox277DNPOutputs.Location = new System.Drawing.Point(-9, 18);
             this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
             this.checkBox277DNPOutputs.Size = new System.Drawing.Size(231, 23);
@@ -2064,7 +2064,7 @@
             // 
             this.labelConEdPowerRelay.AutoSize = true;
             this.labelConEdPowerRelay.BackColor = System.Drawing.Color.Transparent;
-            this.labelConEdPowerRelay.Location = new System.Drawing.Point(308, 337);
+            this.labelConEdPowerRelay.Location = new System.Drawing.Point(314, 19);
             this.labelConEdPowerRelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelConEdPowerRelay.Name = "labelConEdPowerRelay";
             this.labelConEdPowerRelay.Size = new System.Drawing.Size(53, 19);
@@ -2073,7 +2073,7 @@
             // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(228, 325);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(212, 302);
             this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(70, 28);
@@ -2412,7 +2412,7 @@
             this.panel_NWsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_NWsettings.Location = new System.Drawing.Point(11, 10);
             this.panel_NWsettings.Name = "panel_NWsettings";
-            this.panel_NWsettings.Size = new System.Drawing.Size(414, 372);
+            this.panel_NWsettings.Size = new System.Drawing.Size(414, 360);
             this.panel_NWsettings.TabIndex = 131;
             // 
             // buttonClearCycleCount
