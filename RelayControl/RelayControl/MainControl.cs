@@ -750,7 +750,7 @@ namespace RelayControl
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.48 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.49 " + "TORONTOHYDRO ";
                 this.Customer = Customers.TorontoHydro;
 #elif DOMINION
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.28" + " DOMINION ";
@@ -779,7 +779,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(750, 500);
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(450, 500);
                 this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(200, 500);
-                this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
+               // this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
                 this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(580, 10); //(480, 3);
                 this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Size = new System.Drawing.Size(240, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(155, 87);
@@ -847,7 +847,7 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
-                this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(550, 550); //(400, 550);
+              //  this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(550, 550); //(400, 550);
                
 #elif MEMPHIS
                 this.Customer = Customers.Memphis;

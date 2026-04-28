@@ -1273,7 +1273,7 @@ namespace RelayControlLibrary
         {
             int displayValue = ratio * 5;
 
-            this.textBoxTransmitterCTRatio.Text = displayValue.ToString() + "/5";
+           // this.textBoxTransmitterCTRatio.Text = displayValue.ToString() + "/5";
         }
 
         private void setFrequency(Frequencies freq)

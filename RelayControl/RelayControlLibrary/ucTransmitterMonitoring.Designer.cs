@@ -148,21 +148,6 @@ namespace RelayControlLibrary
             this.listBoxA1SensorSelect = new System.Windows.Forms.ListBox();
             this.label82 = new System.Windows.Forms.Label();
             this.textBoxA1Analog1 = new System.Windows.Forms.TextBox();
-            this.groupBoxCurrentReadings = new System.Windows.Forms.GroupBox();
-            this.textBoxTransmitterCTRatio = new System.Windows.Forms.TextBox();
-            this.label93 = new System.Windows.Forms.Label();
-            this.label68 = new System.Windows.Forms.Label();
-            this.label94 = new System.Windows.Forms.Label();
-            this.label95 = new System.Windows.Forms.Label();
-            this.textBoxX1Amp = new System.Windows.Forms.TextBox();
-            this.textBoxX3Amp = new System.Windows.Forms.TextBox();
-            this.textBoxX2Amp = new System.Windows.Forms.TextBox();
-            this.label96 = new System.Windows.Forms.Label();
-            this.label97 = new System.Windows.Forms.Label();
-            this.label98 = new System.Windows.Forms.Label();
-            this.textBoxX1Percent = new System.Windows.Forms.TextBox();
-            this.textBoxX3Percent = new System.Windows.Forms.TextBox();
-            this.textBoxX2Percent = new System.Windows.Forms.TextBox();
             this.groupBoxAdvancedReadings = new System.Windows.Forms.GroupBox();
             this.labelQPres = new System.Windows.Forms.Label();
             this.textBoxTransmitterTemp = new System.Windows.Forms.TextBox();
@@ -194,6 +179,19 @@ namespace RelayControlLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxQBit = new System.Windows.Forms.TextBox();
             this.textBox_Input7 = new System.Windows.Forms.TextBox();
+            this.groupBoxCurrentReadings = new System.Windows.Forms.GroupBox();
+            this.label93 = new System.Windows.Forms.Label();
+            this.label94 = new System.Windows.Forms.Label();
+            this.label95 = new System.Windows.Forms.Label();
+            this.textBoxX1Amp = new System.Windows.Forms.TextBox();
+            this.textBoxX3Amp = new System.Windows.Forms.TextBox();
+            this.textBoxX2Amp = new System.Windows.Forms.TextBox();
+            this.label96 = new System.Windows.Forms.Label();
+            this.label97 = new System.Windows.Forms.Label();
+            this.label98 = new System.Windows.Forms.Label();
+            this.textBoxX1Percent = new System.Windows.Forms.TextBox();
+            this.textBoxX3Percent = new System.Windows.Forms.TextBox();
+            this.textBoxX2Percent = new System.Windows.Forms.TextBox();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -211,10 +209,10 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.myThermometerA1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myPSIWidgetA1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myTempWidgetA1)).BeginInit();
-            this.groupBoxCurrentReadings.SuspendLayout();
             this.groupBoxAdvancedReadings.SuspendLayout();
             this.groupBoxFlagStatus.SuspendLayout();
             this.groupBoxAnalogFlagValues.SuspendLayout();
+            this.groupBoxCurrentReadings.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxVoltageReadings
@@ -2090,176 +2088,6 @@ namespace RelayControlLibrary
             this.textBoxA1Analog1.Tag = "";
             this.textBoxA1Analog1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // groupBoxCurrentReadings
-            // 
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxTransmitterCTRatio);
-            this.groupBoxCurrentReadings.Controls.Add(this.label93);
-            this.groupBoxCurrentReadings.Controls.Add(this.label68);
-            this.groupBoxCurrentReadings.Controls.Add(this.label94);
-            this.groupBoxCurrentReadings.Controls.Add(this.label95);
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX1Amp);
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX3Amp);
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX2Amp);
-            this.groupBoxCurrentReadings.Controls.Add(this.label96);
-            this.groupBoxCurrentReadings.Controls.Add(this.label97);
-            this.groupBoxCurrentReadings.Controls.Add(this.label98);
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX1Percent);
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX3Percent);
-            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX2Percent);
-            this.groupBoxCurrentReadings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxCurrentReadings.Location = new System.Drawing.Point(357, 3);
-            this.groupBoxCurrentReadings.Name = "groupBoxCurrentReadings";
-            this.groupBoxCurrentReadings.Size = new System.Drawing.Size(299, 143);
-            this.groupBoxCurrentReadings.TabIndex = 72;
-            this.groupBoxCurrentReadings.TabStop = false;
-            this.groupBoxCurrentReadings.Text = "Current Readings";
-            // 
-            // textBoxTransmitterCTRatio
-            // 
-            this.textBoxTransmitterCTRatio.Location = new System.Drawing.Point(13, 72);
-            this.textBoxTransmitterCTRatio.MaxLength = 5;
-            this.textBoxTransmitterCTRatio.Name = "textBoxTransmitterCTRatio";
-            this.textBoxTransmitterCTRatio.ReadOnly = true;
-            this.textBoxTransmitterCTRatio.Size = new System.Drawing.Size(109, 27);
-            this.textBoxTransmitterCTRatio.TabIndex = 10;
-            this.textBoxTransmitterCTRatio.Tag = "SN";
-            this.textBoxTransmitterCTRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label93
-            // 
-            this.label93.AutoSize = true;
-            this.label93.Location = new System.Drawing.Point(133, 118);
-            this.label93.Name = "label93";
-            this.label93.Size = new System.Drawing.Size(70, 19);
-            this.label93.TabIndex = 50;
-            this.label93.Text = "X3 AMP:";
-            this.label93.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label68
-            // 
-            this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(39, 48);
-            this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(62, 19);
-            this.label68.TabIndex = 1;
-            this.label68.Text = "CT Size";
-            // 
-            // label94
-            // 
-            this.label94.AutoSize = true;
-            this.label94.Location = new System.Drawing.Point(133, 97);
-            this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(70, 19);
-            this.label94.TabIndex = 49;
-            this.label94.Text = "X2 AMP:";
-            this.label94.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label95
-            // 
-            this.label95.AutoSize = true;
-            this.label95.Location = new System.Drawing.Point(133, 75);
-            this.label95.Name = "label95";
-            this.label95.Size = new System.Drawing.Size(70, 19);
-            this.label95.TabIndex = 48;
-            this.label95.Text = "X1 AMP:";
-            this.label95.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxX1Amp
-            // 
-            this.textBoxX1Amp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX1Amp.Location = new System.Drawing.Point(213, 78);
-            this.textBoxX1Amp.Name = "textBoxX1Amp";
-            this.textBoxX1Amp.Size = new System.Drawing.Size(80, 27);
-            this.textBoxX1Amp.TabIndex = 47;
-            this.textBoxX1Amp.TabStop = false;
-            this.textBoxX1Amp.Tag = "X1 AMP";
-            this.textBoxX1Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxX3Amp
-            // 
-            this.textBoxX3Amp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX3Amp.Location = new System.Drawing.Point(213, 116);
-            this.textBoxX3Amp.Name = "textBoxX3Amp";
-            this.textBoxX3Amp.Size = new System.Drawing.Size(80, 27);
-            this.textBoxX3Amp.TabIndex = 46;
-            this.textBoxX3Amp.TabStop = false;
-            this.textBoxX3Amp.Tag = "X3 AMP";
-            this.textBoxX3Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxX2Amp
-            // 
-            this.textBoxX2Amp.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX2Amp.Location = new System.Drawing.Point(213, 97);
-            this.textBoxX2Amp.Name = "textBoxX2Amp";
-            this.textBoxX2Amp.Size = new System.Drawing.Size(80, 27);
-            this.textBoxX2Amp.TabIndex = 45;
-            this.textBoxX2Amp.TabStop = false;
-            this.textBoxX2Amp.Tag = "X2 AMP";
-            this.textBoxX2Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label96
-            // 
-            this.label96.AutoSize = true;
-            this.label96.Location = new System.Drawing.Point(157, 57);
-            this.label96.Name = "label96";
-            this.label96.Size = new System.Drawing.Size(49, 19);
-            this.label96.TabIndex = 44;
-            this.label96.Text = "X3%:";
-            this.label96.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label97
-            // 
-            this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(157, 38);
-            this.label97.Name = "label97";
-            this.label97.Size = new System.Drawing.Size(49, 19);
-            this.label97.TabIndex = 43;
-            this.label97.Text = "X2%:";
-            this.label97.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label98
-            // 
-            this.label98.AutoSize = true;
-            this.label98.Location = new System.Drawing.Point(157, 14);
-            this.label98.Name = "label98";
-            this.label98.Size = new System.Drawing.Size(49, 19);
-            this.label98.TabIndex = 42;
-            this.label98.Text = "X1%:";
-            this.label98.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxX1Percent
-            // 
-            this.textBoxX1Percent.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX1Percent.Location = new System.Drawing.Point(213, 11);
-            this.textBoxX1Percent.Name = "textBoxX1Percent";
-            this.textBoxX1Percent.Size = new System.Drawing.Size(80, 27);
-            this.textBoxX1Percent.TabIndex = 41;
-            this.textBoxX1Percent.TabStop = false;
-            this.textBoxX1Percent.Tag = "";
-            this.textBoxX1Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxX3Percent
-            // 
-            this.textBoxX3Percent.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX3Percent.Location = new System.Drawing.Point(213, 54);
-            this.textBoxX3Percent.Name = "textBoxX3Percent";
-            this.textBoxX3Percent.Size = new System.Drawing.Size(80, 27);
-            this.textBoxX3Percent.TabIndex = 40;
-            this.textBoxX3Percent.TabStop = false;
-            this.textBoxX3Percent.Tag = "";
-            this.textBoxX3Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxX2Percent
-            // 
-            this.textBoxX2Percent.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxX2Percent.Location = new System.Drawing.Point(213, 33);
-            this.textBoxX2Percent.Name = "textBoxX2Percent";
-            this.textBoxX2Percent.Size = new System.Drawing.Size(80, 27);
-            this.textBoxX2Percent.TabIndex = 39;
-            this.textBoxX2Percent.TabStop = false;
-            this.textBoxX2Percent.Tag = "";
-            this.textBoxX2Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // groupBoxAdvancedReadings
             // 
             this.groupBoxAdvancedReadings.Controls.Add(this.labelQPres);
@@ -2584,10 +2412,159 @@ namespace RelayControlLibrary
             this.textBox_Input7.Size = new System.Drawing.Size(33, 27);
             this.textBox_Input7.TabIndex = 17;
             // 
+            // groupBoxCurrentReadings
+            // 
+            this.groupBoxCurrentReadings.Controls.Add(this.label93);
+            this.groupBoxCurrentReadings.Controls.Add(this.label94);
+            this.groupBoxCurrentReadings.Controls.Add(this.label95);
+            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX1Amp);
+            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX3Amp);
+            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX2Amp);
+            this.groupBoxCurrentReadings.Controls.Add(this.label96);
+            this.groupBoxCurrentReadings.Controls.Add(this.label97);
+            this.groupBoxCurrentReadings.Controls.Add(this.label98);
+            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX1Percent);
+            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX3Percent);
+            this.groupBoxCurrentReadings.Controls.Add(this.textBoxX2Percent);
+            this.groupBoxCurrentReadings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxCurrentReadings.Location = new System.Drawing.Point(462, 5);
+            this.groupBoxCurrentReadings.Name = "groupBoxCurrentReadings";
+            this.groupBoxCurrentReadings.Size = new System.Drawing.Size(181, 205);
+            this.groupBoxCurrentReadings.TabIndex = 320;
+            this.groupBoxCurrentReadings.TabStop = false;
+            this.groupBoxCurrentReadings.Text = "Current Readings";
+            // 
+            // label93
+            // 
+            this.label93.AutoSize = true;
+            this.label93.Location = new System.Drawing.Point(7, 149);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(70, 19);
+            this.label93.TabIndex = 50;
+            this.label93.Text = "X3 AMP:";
+            this.label93.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label94
+            // 
+            this.label94.AutoSize = true;
+            this.label94.Location = new System.Drawing.Point(7, 128);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(70, 19);
+            this.label94.TabIndex = 49;
+            this.label94.Text = "X2 AMP:";
+            this.label94.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Location = new System.Drawing.Point(7, 106);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(70, 19);
+            this.label95.TabIndex = 48;
+            this.label95.Text = "X1 AMP:";
+            this.label95.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxX1Amp
+            // 
+            this.textBoxX1Amp.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxX1Amp.Location = new System.Drawing.Point(87, 109);
+            this.textBoxX1Amp.Name = "textBoxX1Amp";
+            this.textBoxX1Amp.Size = new System.Drawing.Size(80, 27);
+            this.textBoxX1Amp.TabIndex = 47;
+            this.textBoxX1Amp.TabStop = false;
+            this.textBoxX1Amp.Tag = "X1 AMP";
+            this.textBoxX1Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxX3Amp
+            // 
+            this.textBoxX3Amp.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxX3Amp.Location = new System.Drawing.Point(87, 147);
+            this.textBoxX3Amp.Name = "textBoxX3Amp";
+            this.textBoxX3Amp.Size = new System.Drawing.Size(80, 27);
+            this.textBoxX3Amp.TabIndex = 46;
+            this.textBoxX3Amp.TabStop = false;
+            this.textBoxX3Amp.Tag = "X3 AMP";
+            this.textBoxX3Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxX2Amp
+            // 
+            this.textBoxX2Amp.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxX2Amp.Location = new System.Drawing.Point(87, 128);
+            this.textBoxX2Amp.Name = "textBoxX2Amp";
+            this.textBoxX2Amp.Size = new System.Drawing.Size(80, 27);
+            this.textBoxX2Amp.TabIndex = 45;
+            this.textBoxX2Amp.TabStop = false;
+            this.textBoxX2Amp.Tag = "X2 AMP";
+            this.textBoxX2Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label96
+            // 
+            this.label96.AutoSize = true;
+            this.label96.Location = new System.Drawing.Point(31, 88);
+            this.label96.Name = "label96";
+            this.label96.Size = new System.Drawing.Size(49, 19);
+            this.label96.TabIndex = 44;
+            this.label96.Text = "X3%:";
+            this.label96.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label97
+            // 
+            this.label97.AutoSize = true;
+            this.label97.Location = new System.Drawing.Point(31, 69);
+            this.label97.Name = "label97";
+            this.label97.Size = new System.Drawing.Size(49, 19);
+            this.label97.TabIndex = 43;
+            this.label97.Text = "X2%:";
+            this.label97.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label98
+            // 
+            this.label98.AutoSize = true;
+            this.label98.Location = new System.Drawing.Point(31, 45);
+            this.label98.Name = "label98";
+            this.label98.Size = new System.Drawing.Size(49, 19);
+            this.label98.TabIndex = 42;
+            this.label98.Text = "X1%:";
+            this.label98.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxX1Percent
+            // 
+            this.textBoxX1Percent.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxX1Percent.Location = new System.Drawing.Point(87, 42);
+            this.textBoxX1Percent.Name = "textBoxX1Percent";
+            this.textBoxX1Percent.Size = new System.Drawing.Size(80, 27);
+            this.textBoxX1Percent.TabIndex = 41;
+            this.textBoxX1Percent.TabStop = false;
+            this.textBoxX1Percent.Tag = "";
+            this.textBoxX1Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxX3Percent
+            // 
+            this.textBoxX3Percent.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxX3Percent.Location = new System.Drawing.Point(87, 85);
+            this.textBoxX3Percent.Name = "textBoxX3Percent";
+            this.textBoxX3Percent.Size = new System.Drawing.Size(80, 27);
+            this.textBoxX3Percent.TabIndex = 40;
+            this.textBoxX3Percent.TabStop = false;
+            this.textBoxX3Percent.Tag = "";
+            this.textBoxX3Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxX2Percent
+            // 
+            this.textBoxX2Percent.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxX2Percent.Location = new System.Drawing.Point(87, 64);
+            this.textBoxX2Percent.Name = "textBoxX2Percent";
+            this.textBoxX2Percent.Size = new System.Drawing.Size(80, 27);
+            this.textBoxX2Percent.TabIndex = 39;
+            this.textBoxX2Percent.TabStop = false;
+            this.textBoxX2Percent.Tag = "";
+            this.textBoxX2Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // ucTransmitterMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxCurrentReadings);
             this.Controls.Add(this.groupBoxAnalogFlagValues);
             this.Controls.Add(this.groupBoxVoltageReadings);
             this.Controls.Add(this.groupBoxPowerDirectionalFlow);
@@ -2601,7 +2578,6 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxAnalog1);
             this.Controls.Add(this.groupBoxFlagStatus);
             this.Controls.Add(this.groupBoxAnalog2);
-            this.Controls.Add(this.groupBoxCurrentReadings);
             this.Controls.Add(this.groupBoxAdvancedReadings);
             this.Controls.Add(this.newButtonSensMonTX);
             this.Name = "ucTransmitterMonitoring";
@@ -2630,14 +2606,14 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.myThermometerA1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myPSIWidgetA1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myTempWidgetA1)).EndInit();
-            this.groupBoxCurrentReadings.ResumeLayout(false);
-            this.groupBoxCurrentReadings.PerformLayout();
             this.groupBoxAdvancedReadings.ResumeLayout(false);
             this.groupBoxAdvancedReadings.PerformLayout();
             this.groupBoxFlagStatus.ResumeLayout(false);
             this.groupBoxFlagStatus.PerformLayout();
             this.groupBoxAnalogFlagValues.ResumeLayout(false);
             this.groupBoxAnalogFlagValues.PerformLayout();
+            this.groupBoxCurrentReadings.ResumeLayout(false);
+            this.groupBoxCurrentReadings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2712,21 +2688,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.ListBox listBoxA1SensorSelect;
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.TextBox textBoxA1Analog1;
-        public System.Windows.Forms.GroupBox groupBoxCurrentReadings;
-        private System.Windows.Forms.TextBox textBoxTransmitterCTRatio;
-        private System.Windows.Forms.Label label68;
-        private System.Windows.Forms.Label label93;
-        private System.Windows.Forms.Label label94;
-        private System.Windows.Forms.Label label95;
-        private System.Windows.Forms.TextBox textBoxX1Amp;
-        private System.Windows.Forms.TextBox textBoxX3Amp;
-        private System.Windows.Forms.TextBox textBoxX2Amp;
-        private System.Windows.Forms.Label label96;
-        private System.Windows.Forms.Label label97;
-        public System.Windows.Forms.Label label98;
-        private System.Windows.Forms.TextBox textBoxX1Percent;
-        private System.Windows.Forms.TextBox textBoxX3Percent;
-        private System.Windows.Forms.TextBox textBoxX2Percent;
         public System.Windows.Forms.GroupBox groupBoxAdvancedReadings;
         public System.Windows.Forms.TextBox textBoxTransmitterTemp;
         public System.Windows.Forms.Label lblTEMP;
@@ -2763,5 +2724,18 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Button newButtonSensMonTX;
         public System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox_Input7;
+        public System.Windows.Forms.GroupBox groupBoxCurrentReadings;
+        private System.Windows.Forms.Label label93;
+        private System.Windows.Forms.Label label94;
+        private System.Windows.Forms.Label label95;
+        private System.Windows.Forms.TextBox textBoxX1Amp;
+        private System.Windows.Forms.TextBox textBoxX3Amp;
+        private System.Windows.Forms.TextBox textBoxX2Amp;
+        private System.Windows.Forms.Label label96;
+        private System.Windows.Forms.Label label97;
+        public System.Windows.Forms.Label label98;
+        private System.Windows.Forms.TextBox textBoxX1Percent;
+        private System.Windows.Forms.TextBox textBoxX3Percent;
+        private System.Windows.Forms.TextBox textBoxX2Percent;
     }
 }
