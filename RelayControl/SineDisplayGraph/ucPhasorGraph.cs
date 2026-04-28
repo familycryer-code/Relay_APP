@@ -99,32 +99,33 @@ namespace SineDisplayGraph
             int count = 0;
 
             // Relocate the voltage, current, power  labels, text and boxes as per new design for PQ Monitor tab and Tahoma font
-            this.labelRealValue.Location = new System.Drawing.Point(1420, -3);
+            /*
+                this.labelRealValue.Location = new System.Drawing.Point(1420, -3);
 
-            this.textBoxIEffReal.Location = new System.Drawing.Point(1400, 583);
-            this.labelIEffRealUnits.Location = new System.Drawing.Point(1470, 586);
+                this.textBoxIEffReal.Location = new System.Drawing.Point(1400, 583);
+                this.labelIEffRealUnits.Location = new System.Drawing.Point(1470, 586);
 
-            this.textBoxICReal.Location = new System.Drawing.Point(1400, 553);
-            this.labelICRealUnits.Location = new System.Drawing.Point(1470, 556); 
+                this.textBoxICReal.Location = new System.Drawing.Point(1400, 553);
+                this.labelICRealUnits.Location = new System.Drawing.Point(1470, 556); 
 
-            this.textBoxIBReal.Location = new System.Drawing.Point(1400, 523);
-            this.labelIBRealUnits.Location = new System.Drawing.Point(1470, 526);
+                this.textBoxIBReal.Location = new System.Drawing.Point(1400, 523);
+                this.labelIBRealUnits.Location = new System.Drawing.Point(1470, 526);
 
-            this.textBoxIAReal.Location = new System.Drawing.Point(1400, 493);
-            this.labelIARealUnits.Location = new System.Drawing.Point(1470, 496);
+                this.textBoxIAReal.Location = new System.Drawing.Point(1400, 493);
+                this.labelIARealUnits.Location = new System.Drawing.Point(1470, 496);
 
-            this.textBoxVdAReal.Location = new System.Drawing.Point(1400, 193);
-            this.labelVdAReal.Location = new System.Drawing.Point(1470, 197);
+                this.textBoxVdAReal.Location = new System.Drawing.Point(1400, 193);
+                this.labelVdAReal.Location = new System.Drawing.Point(1470, 197);
 
-            this.textBoxVdBReal.Location = new System.Drawing.Point(1400, 223);
-            this.labelVdBReal.Location = new System.Drawing.Point(1470, 227);
+                this.textBoxVdBReal.Location = new System.Drawing.Point(1400, 223);
+                this.labelVdBReal.Location = new System.Drawing.Point(1470, 227);
 
-            this.textBoxVdCReal.Location = new System.Drawing.Point(1400, 253);
-            this.labelVdCReal.Location = new System.Drawing.Point(1470, 257);
+                this.textBoxVdCReal.Location = new System.Drawing.Point(1400, 253);
+                this.labelVdCReal.Location = new System.Drawing.Point(1470, 257);
 
-            this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
-            this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
-
+                this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
+                this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
+           */
             generateRefWav();
             foreach (PhasorTypes pT in temp)
             {

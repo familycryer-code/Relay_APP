@@ -246,6 +246,9 @@ namespace SineDisplayGraph
             this.checkBoxABC = new System.Windows.Forms.CheckBox();
             this.checkBoxBFlag = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
             this.panelTripped.SuspendLayout();
@@ -266,7 +269,7 @@ namespace SineDisplayGraph
             this.listBoxMode.Items.AddRange(new object[] {
             "Tripped",
             "Closed"});
-            this.listBoxMode.Location = new System.Drawing.Point(423, 85);
+            this.listBoxMode.Location = new System.Drawing.Point(393, 63);
             this.listBoxMode.Name = "listBoxMode";
             this.listBoxMode.Size = new System.Drawing.Size(76, 42);
             this.listBoxMode.TabIndex = 1;
@@ -277,7 +280,7 @@ namespace SineDisplayGraph
             this.listBoxSequencePower.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxSequencePower.FormattingEnabled = true;
             this.listBoxSequencePower.ItemHeight = 19;
-            this.listBoxSequencePower.Location = new System.Drawing.Point(409, 446);
+            this.listBoxSequencePower.Location = new System.Drawing.Point(897, 45);
             this.listBoxSequencePower.Name = "listBoxSequencePower";
             this.listBoxSequencePower.Size = new System.Drawing.Size(179, 99);
             this.listBoxSequencePower.TabIndex = 3;
@@ -292,7 +295,7 @@ namespace SineDisplayGraph
             this.panelTripped.Controls.Add(this.labelVtBClosed);
             this.panelTripped.Controls.Add(this.labelVtCClosed);
             this.panelTripped.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelTripped.Location = new System.Drawing.Point(419, 206);
+            this.panelTripped.Location = new System.Drawing.Point(393, 184);
             this.panelTripped.Name = "panelTripped";
             this.panelTripped.Size = new System.Drawing.Size(57, 81);
             this.panelTripped.TabIndex = 4;
@@ -352,7 +355,7 @@ namespace SineDisplayGraph
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(439, 182);
+            this.label4.Location = new System.Drawing.Point(413, 160);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 19);
             this.label4.TabIndex = 16;
@@ -362,7 +365,7 @@ namespace SineDisplayGraph
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(439, 156);
+            this.label5.Location = new System.Drawing.Point(413, 134);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 19);
             this.label5.TabIndex = 15;
@@ -372,7 +375,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnAColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelVnAColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnAColor.Location = new System.Drawing.Point(426, 132);
+            this.labelVnAColor.Location = new System.Drawing.Point(400, 110);
             this.labelVnAColor.Name = "labelVnAColor";
             this.labelVnAColor.Size = new System.Drawing.Size(10, 10);
             this.labelVnAColor.TabIndex = 11;
@@ -381,7 +384,7 @@ namespace SineDisplayGraph
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(439, 130);
+            this.label6.Location = new System.Drawing.Point(413, 108);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(39, 19);
             this.label6.TabIndex = 14;
@@ -391,7 +394,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnCColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelVnCColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnCColor.Location = new System.Drawing.Point(426, 184);
+            this.labelVnCColor.Location = new System.Drawing.Point(400, 162);
             this.labelVnCColor.Name = "labelVnCColor";
             this.labelVnCColor.Size = new System.Drawing.Size(10, 10);
             this.labelVnCColor.TabIndex = 9;
@@ -400,7 +403,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnBColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelVnBColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnBColor.Location = new System.Drawing.Point(426, 158);
+            this.labelVnBColor.Location = new System.Drawing.Point(400, 136);
             this.labelVnBColor.Name = "labelVnBColor";
             this.labelVnBColor.Size = new System.Drawing.Size(10, 10);
             this.labelVnBColor.TabIndex = 8;
@@ -414,7 +417,7 @@ namespace SineDisplayGraph
             this.panelClosed.Controls.Add(this.labelIAColor);
             this.panelClosed.Controls.Add(this.label10);
             this.panelClosed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelClosed.Location = new System.Drawing.Point(422, 206);
+            this.panelClosed.Location = new System.Drawing.Point(396, 184);
             this.panelClosed.Name = "panelClosed";
             this.panelClosed.Size = new System.Drawing.Size(47, 69);
             this.panelClosed.TabIndex = 5;
@@ -423,7 +426,7 @@ namespace SineDisplayGraph
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(17, 53);
+            this.label7.Location = new System.Drawing.Point(16, 50);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(25, 19);
             this.label7.TabIndex = 22;
@@ -482,7 +485,7 @@ namespace SineDisplayGraph
             this.panelPower.Controls.Add(this.labelPBColor);
             this.panelPower.Controls.Add(this.labelPAColor);
             this.panelPower.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelPower.Location = new System.Drawing.Point(443, 564);
+            this.panelPower.Location = new System.Drawing.Point(955, 156);
             this.panelPower.Name = "panelPower";
             this.panelPower.Size = new System.Drawing.Size(43, 96);
             this.panelPower.TabIndex = 4;
@@ -566,7 +569,7 @@ namespace SineDisplayGraph
             this.panelClosedSequence.Controls.Add(this.labelVnPColor);
             this.panelClosedSequence.Controls.Add(this.labelVnNColor);
             this.panelClosedSequence.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelClosedSequence.Location = new System.Drawing.Point(443, 564);
+            this.panelClosedSequence.Location = new System.Drawing.Point(953, 156);
             this.panelClosedSequence.Name = "panelClosedSequence";
             this.panelClosedSequence.Size = new System.Drawing.Size(53, 103);
             this.panelClosedSequence.TabIndex = 1;
@@ -600,7 +603,7 @@ namespace SineDisplayGraph
             // labelVnPStupid
             // 
             this.labelVnPStupid.AutoSize = true;
-            this.labelVnPStupid.Location = new System.Drawing.Point(16, 25);
+            this.labelVnPStupid.Location = new System.Drawing.Point(17, 25);
             this.labelVnPStupid.Name = "labelVnPStupid";
             this.labelVnPStupid.Size = new System.Drawing.Size(37, 19);
             this.labelVnPStupid.TabIndex = 26;
@@ -650,7 +653,7 @@ namespace SineDisplayGraph
             this.panelDifferentialVoltage.Controls.Add(this.labelVdBColor);
             this.panelDifferentialVoltage.Controls.Add(this.labelVdAColor);
             this.panelDifferentialVoltage.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelDifferentialVoltage.Location = new System.Drawing.Point(443, 564);
+            this.panelDifferentialVoltage.Location = new System.Drawing.Point(955, 156);
             this.panelDifferentialVoltage.Name = "panelDifferentialVoltage";
             this.panelDifferentialVoltage.Size = new System.Drawing.Size(54, 97);
             this.panelDifferentialVoltage.TabIndex = 5;
@@ -728,7 +731,7 @@ namespace SineDisplayGraph
             this.panelIeff.Controls.Add(this.labelIeff);
             this.panelIeff.Controls.Add(this.labelIeffColor);
             this.panelIeff.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelIeff.Location = new System.Drawing.Point(443, 564);
+            this.panelIeff.Location = new System.Drawing.Point(953, 156);
             this.panelIeff.Name = "panelIeff";
             this.panelIeff.Size = new System.Drawing.Size(72, 25);
             this.panelIeff.TabIndex = 3;
@@ -757,7 +760,7 @@ namespace SineDisplayGraph
             this.panelDifferentialSquence.Controls.Add(this.labelVdPColor);
             this.panelDifferentialSquence.Controls.Add(this.labelVdNColor);
             this.panelDifferentialSquence.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelDifferentialSquence.Location = new System.Drawing.Point(443, 564);
+            this.panelDifferentialSquence.Location = new System.Drawing.Point(953, 156);
             this.panelDifferentialSquence.Name = "panelDifferentialSquence";
             this.panelDifferentialSquence.Size = new System.Drawing.Size(60, 54);
             this.panelDifferentialSquence.TabIndex = 2;
@@ -800,7 +803,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtNStupid.AutoSize = true;
             this.labelVtNStupid.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtNStupid.Location = new System.Drawing.Point(708, 403);
+            this.labelVtNStupid.Location = new System.Drawing.Point(604, 702);
             this.labelVtNStupid.Name = "labelVtNStupid";
             this.labelVtNStupid.Size = new System.Drawing.Size(241, 19);
             this.labelVtNStupid.TabIndex = 179;
@@ -810,7 +813,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtP.AutoSize = true;
             this.labelVtP.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtP.Location = new System.Drawing.Point(715, 376);
+            this.labelVtP.Location = new System.Drawing.Point(611, 675);
             this.labelVtP.Name = "labelVtP";
             this.labelVtP.Size = new System.Drawing.Size(234, 19);
             this.labelVtP.TabIndex = 176;
@@ -820,7 +823,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdP.AutoSize = true;
             this.labelVdP.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdP.Location = new System.Drawing.Point(728, 313);
+            this.labelVdP.Location = new System.Drawing.Point(624, 612);
             this.labelVdP.Name = "labelVdP";
             this.labelVdP.Size = new System.Drawing.Size(223, 19);
             this.labelVdP.TabIndex = 173;
@@ -831,7 +834,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdN.AutoSize = true;
             this.labelVdN.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdN.Location = new System.Drawing.Point(719, 343);
+            this.labelVdN.Location = new System.Drawing.Point(615, 642);
             this.labelVdN.Name = "labelVdN";
             this.labelVdN.Size = new System.Drawing.Size(230, 19);
             this.labelVdN.TabIndex = 170;
@@ -841,7 +844,7 @@ namespace SineDisplayGraph
             // 
             this.labelPT.AutoSize = true;
             this.labelPT.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPT.Location = new System.Drawing.Point(827, 768);
+            this.labelPT.Location = new System.Drawing.Point(723, 580);
             this.labelPT.Name = "labelPT";
             this.labelPT.Size = new System.Drawing.Size(122, 19);
             this.labelPT.TabIndex = 167;
@@ -851,7 +854,7 @@ namespace SineDisplayGraph
             // 
             this.labelPC.AutoSize = true;
             this.labelPC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPC.Location = new System.Drawing.Point(829, 741);
+            this.labelPC.Location = new System.Drawing.Point(726, 550);
             this.labelPC.Name = "labelPC";
             this.labelPC.Size = new System.Drawing.Size(120, 19);
             this.labelPC.TabIndex = 164;
@@ -861,7 +864,7 @@ namespace SineDisplayGraph
             // 
             this.labelPB.AutoSize = true;
             this.labelPB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPB.Location = new System.Drawing.Point(832, 711);
+            this.labelPB.Location = new System.Drawing.Point(726, 518);
             this.labelPB.Name = "labelPB";
             this.labelPB.Size = new System.Drawing.Size(119, 19);
             this.labelPB.TabIndex = 161;
@@ -871,7 +874,7 @@ namespace SineDisplayGraph
             // 
             this.labelPA.AutoSize = true;
             this.labelPA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPA.Location = new System.Drawing.Point(828, 676);
+            this.labelPA.Location = new System.Drawing.Point(726, 488);
             this.labelPA.Name = "labelPA";
             this.labelPA.Size = new System.Drawing.Size(121, 19);
             this.labelPA.TabIndex = 158;
@@ -881,7 +884,7 @@ namespace SineDisplayGraph
             // 
             this.labelIP.AutoSize = true;
             this.labelIP.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIP.Location = new System.Drawing.Point(821, 646);
+            this.labelIP.Location = new System.Drawing.Point(718, 458);
             this.labelIP.Name = "labelIP";
             this.labelIP.Size = new System.Drawing.Size(129, 19);
             this.labelIP.TabIndex = 155;
@@ -891,7 +894,7 @@ namespace SineDisplayGraph
             // 
             this.labelIN.AutoSize = true;
             this.labelIN.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIN.Location = new System.Drawing.Point(819, 619);
+            this.labelIN.Location = new System.Drawing.Point(715, 428);
             this.labelIN.Name = "labelIN";
             this.labelIN.Size = new System.Drawing.Size(132, 19);
             this.labelIN.TabIndex = 152;
@@ -901,7 +904,7 @@ namespace SineDisplayGraph
             // 
             this.labelIEffStupid.AutoSize = true;
             this.labelIEffStupid.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIEffStupid.Location = new System.Drawing.Point(819, 589);
+            this.labelIEffStupid.Location = new System.Drawing.Point(715, 398);
             this.labelIEffStupid.Name = "labelIEffStupid";
             this.labelIEffStupid.Size = new System.Drawing.Size(132, 19);
             this.labelIEffStupid.TabIndex = 149;
@@ -911,7 +914,7 @@ namespace SineDisplayGraph
             // 
             this.labelIC.AutoSize = true;
             this.labelIC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIC.Location = new System.Drawing.Point(821, 556);
+            this.labelIC.Location = new System.Drawing.Point(104, 768);
             this.labelIC.Name = "labelIC";
             this.labelIC.Size = new System.Drawing.Size(129, 19);
             this.labelIC.TabIndex = 146;
@@ -921,7 +924,7 @@ namespace SineDisplayGraph
             // 
             this.labelIB.AutoSize = true;
             this.labelIB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIB.Location = new System.Drawing.Point(821, 526);
+            this.labelIB.Location = new System.Drawing.Point(104, 738);
             this.labelIB.Name = "labelIB";
             this.labelIB.Size = new System.Drawing.Size(128, 19);
             this.labelIB.TabIndex = 143;
@@ -931,7 +934,7 @@ namespace SineDisplayGraph
             // 
             this.labelIA.AutoSize = true;
             this.labelIA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIA.Location = new System.Drawing.Point(819, 496);
+            this.labelIA.Location = new System.Drawing.Point(104, 707);
             this.labelIA.Name = "labelIA";
             this.labelIA.Size = new System.Drawing.Size(130, 19);
             this.labelIA.TabIndex = 140;
@@ -941,7 +944,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdT.AutoSize = true;
             this.labelVdT.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdT.Location = new System.Drawing.Point(739, 283);
+            this.labelVdT.Location = new System.Drawing.Point(21, 672);
             this.labelVdT.Name = "labelVdT";
             this.labelVdT.Size = new System.Drawing.Size(213, 19);
             this.labelVdT.TabIndex = 137;
@@ -951,7 +954,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdC.AutoSize = true;
             this.labelVdC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdC.Location = new System.Drawing.Point(742, 256);
+            this.labelVdC.Location = new System.Drawing.Point(25, 643);
             this.labelVdC.Name = "labelVdC";
             this.labelVdC.Size = new System.Drawing.Size(211, 19);
             this.labelVdC.TabIndex = 134;
@@ -961,7 +964,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdB.AutoSize = true;
             this.labelVdB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdB.Location = new System.Drawing.Point(743, 226);
+            this.labelVdB.Location = new System.Drawing.Point(26, 613);
             this.labelVdB.Name = "labelVdB";
             this.labelVdB.Size = new System.Drawing.Size(210, 19);
             this.labelVdB.TabIndex = 131;
@@ -971,7 +974,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdA.AutoSize = true;
             this.labelVdA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdA.Location = new System.Drawing.Point(742, 196);
+            this.labelVdA.Location = new System.Drawing.Point(25, 583);
             this.labelVdA.Name = "labelVdA";
             this.labelVdA.Size = new System.Drawing.Size(212, 19);
             this.labelVdA.TabIndex = 128;
@@ -981,7 +984,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnC.AutoSize = true;
             this.labelVnC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnC.Location = new System.Drawing.Point(761, 163);
+            this.labelVnC.Location = new System.Drawing.Point(44, 550);
             this.labelVnC.Name = "labelVnC";
             this.labelVnC.Size = new System.Drawing.Size(193, 19);
             this.labelVnC.TabIndex = 125;
@@ -991,7 +994,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnB.AutoSize = true;
             this.labelVnB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnB.Location = new System.Drawing.Point(761, 136);
+            this.labelVnB.Location = new System.Drawing.Point(44, 521);
             this.labelVnB.Name = "labelVnB";
             this.labelVnB.Size = new System.Drawing.Size(192, 19);
             this.labelVnB.TabIndex = 122;
@@ -1001,7 +1004,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnA.AutoSize = true;
             this.labelVnA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnA.Location = new System.Drawing.Point(761, 108);
+            this.labelVnA.Location = new System.Drawing.Point(44, 493);
             this.labelVnA.Name = "labelVnA";
             this.labelVnA.Size = new System.Drawing.Size(194, 19);
             this.labelVnA.TabIndex = 119;
@@ -1011,7 +1014,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtC.AutoSize = true;
             this.labelVtC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtC.Location = new System.Drawing.Point(732, 76);
+            this.labelVtC.Location = new System.Drawing.Point(15, 461);
             this.labelVtC.Name = "labelVtC";
             this.labelVtC.Size = new System.Drawing.Size(222, 19);
             this.labelVtC.TabIndex = 116;
@@ -1021,7 +1024,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtB.AutoSize = true;
             this.labelVtB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtB.Location = new System.Drawing.Point(732, 43);
+            this.labelVtB.Location = new System.Drawing.Point(15, 428);
             this.labelVtB.Name = "labelVtB";
             this.labelVtB.Size = new System.Drawing.Size(221, 19);
             this.labelVtB.TabIndex = 113;
@@ -1031,7 +1034,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtA.AutoSize = true;
             this.labelVtA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtA.Location = new System.Drawing.Point(731, 16);
+            this.labelVtA.Location = new System.Drawing.Point(14, 401);
             this.labelVtA.Name = "labelVtA";
             this.labelVtA.Size = new System.Drawing.Size(223, 19);
             this.labelVtA.TabIndex = 110;
@@ -1041,7 +1044,7 @@ namespace SineDisplayGraph
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(991, -3);
+            this.label33.Location = new System.Drawing.Point(250, 379);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(43, 16);
             this.label33.TabIndex = 182;
@@ -1051,7 +1054,7 @@ namespace SineDisplayGraph
             // 
             this.label48.AutoSize = true;
             this.label48.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label48.Location = new System.Drawing.Point(1174, -3);
+            this.label48.Location = new System.Drawing.Point(375, 379);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(44, 16);
             this.label48.TabIndex = 183;
@@ -1061,7 +1064,7 @@ namespace SineDisplayGraph
             // 
             this.label51.AutoSize = true;
             this.label51.Enabled = false;
-            this.label51.Location = new System.Drawing.Point(305, 746);
+            this.label51.Location = new System.Drawing.Point(6, 132);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(34, 13);
             this.label51.TabIndex = 187;
@@ -1072,7 +1075,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnN.AutoSize = true;
             this.labelVnN.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnN.Location = new System.Drawing.Point(739, 463);
+            this.labelVnN.Location = new System.Drawing.Point(635, 762);
             this.labelVnN.Name = "labelVnN";
             this.labelVnN.Size = new System.Drawing.Size(212, 19);
             this.labelVnN.TabIndex = 191;
@@ -1082,7 +1085,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnP.AutoSize = true;
             this.labelVnP.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnP.Location = new System.Drawing.Point(744, 433);
+            this.labelVnP.Location = new System.Drawing.Point(640, 732);
             this.labelVnP.Name = "labelVnP";
             this.labelVnP.Size = new System.Drawing.Size(205, 19);
             this.labelVnP.TabIndex = 188;
@@ -1091,7 +1094,7 @@ namespace SineDisplayGraph
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(419, 212);
+            this.label53.Location = new System.Drawing.Point(393, 190);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(13, 13);
             this.label53.TabIndex = 194;
@@ -1101,7 +1104,7 @@ namespace SineDisplayGraph
             // 
             this.label54.AutoSize = true;
             this.label54.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label54.Location = new System.Drawing.Point(387, 564);
+            this.label54.Location = new System.Drawing.Point(863, 183);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(18, 19);
             this.label54.TabIndex = 195;
@@ -1141,7 +1144,7 @@ namespace SineDisplayGraph
             // 
             this.label60.AutoSize = true;
             this.label60.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label60.Location = new System.Drawing.Point(202, 731);
+            this.label60.Location = new System.Drawing.Point(678, 350);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(36, 19);
             this.label60.TabIndex = 199;
@@ -1151,7 +1154,7 @@ namespace SineDisplayGraph
             // 
             this.label61.AutoSize = true;
             this.label61.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label61.Location = new System.Drawing.Point(10, 570);
+            this.label61.Location = new System.Drawing.Point(486, 189);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(36, 19);
             this.label61.TabIndex = 200;
@@ -1161,7 +1164,7 @@ namespace SineDisplayGraph
             // 
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label62.Location = new System.Drawing.Point(211, 397);
+            this.label62.Location = new System.Drawing.Point(687, 16);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(27, 19);
             this.label62.TabIndex = 201;
@@ -1171,7 +1174,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtAUnits.AutoSize = true;
             this.labelVtAUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtAUnits.Location = new System.Drawing.Point(1050, 16);
+            this.labelVtAUnits.Location = new System.Drawing.Point(305, 401);
             this.labelVtAUnits.Name = "labelVtAUnits";
             this.labelVtAUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVtAUnits.TabIndex = 202;
@@ -1181,7 +1184,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtBUnits.AutoSize = true;
             this.labelVtBUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtBUnits.Location = new System.Drawing.Point(1050, 46);
+            this.labelVtBUnits.Location = new System.Drawing.Point(305, 428);
             this.labelVtBUnits.Name = "labelVtBUnits";
             this.labelVtBUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVtBUnits.TabIndex = 203;
@@ -1191,7 +1194,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtCUnits.AutoSize = true;
             this.labelVtCUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtCUnits.Location = new System.Drawing.Point(1049, 76);
+            this.labelVtCUnits.Location = new System.Drawing.Point(305, 458);
             this.labelVtCUnits.Name = "labelVtCUnits";
             this.labelVtCUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVtCUnits.TabIndex = 204;
@@ -1201,7 +1204,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnAUnits.AutoSize = true;
             this.labelVnAUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnAUnits.Location = new System.Drawing.Point(1048, 108);
+            this.labelVnAUnits.Location = new System.Drawing.Point(305, 488);
             this.labelVnAUnits.Name = "labelVnAUnits";
             this.labelVnAUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVnAUnits.TabIndex = 205;
@@ -1211,7 +1214,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnBUnits.AutoSize = true;
             this.labelVnBUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnBUnits.Location = new System.Drawing.Point(1048, 136);
+            this.labelVnBUnits.Location = new System.Drawing.Point(305, 518);
             this.labelVnBUnits.Name = "labelVnBUnits";
             this.labelVnBUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVnBUnits.TabIndex = 206;
@@ -1221,7 +1224,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnCUnits.AutoSize = true;
             this.labelVnCUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnCUnits.Location = new System.Drawing.Point(1050, 166);
+            this.labelVnCUnits.Location = new System.Drawing.Point(305, 550);
             this.labelVnCUnits.Name = "labelVnCUnits";
             this.labelVnCUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVnCUnits.TabIndex = 207;
@@ -1231,7 +1234,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdAUnits.AutoSize = true;
             this.labelVdAUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdAUnits.Location = new System.Drawing.Point(1050, 196);
+            this.labelVdAUnits.Location = new System.Drawing.Point(305, 580);
             this.labelVdAUnits.Name = "labelVdAUnits";
             this.labelVdAUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVdAUnits.TabIndex = 208;
@@ -1241,7 +1244,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdBUnits.AutoSize = true;
             this.labelVdBUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdBUnits.Location = new System.Drawing.Point(1050, 230);
+            this.labelVdBUnits.Location = new System.Drawing.Point(305, 610);
             this.labelVdBUnits.Name = "labelVdBUnits";
             this.labelVdBUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVdBUnits.TabIndex = 209;
@@ -1251,7 +1254,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdCUnits.AutoSize = true;
             this.labelVdCUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdCUnits.Location = new System.Drawing.Point(1049, 259);
+            this.labelVdCUnits.Location = new System.Drawing.Point(305, 640);
             this.labelVdCUnits.Name = "labelVdCUnits";
             this.labelVdCUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVdCUnits.TabIndex = 210;
@@ -1261,7 +1264,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdTUnits.AutoSize = true;
             this.labelVdTUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdTUnits.Location = new System.Drawing.Point(1050, 286);
+            this.labelVdTUnits.Location = new System.Drawing.Point(305, 672);
             this.labelVdTUnits.Name = "labelVdTUnits";
             this.labelVdTUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVdTUnits.TabIndex = 211;
@@ -1271,7 +1274,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdNUnits.AutoSize = true;
             this.labelVdNUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdNUnits.Location = new System.Drawing.Point(1048, 351);
+            this.labelVdNUnits.Location = new System.Drawing.Point(927, 651);
             this.labelVdNUnits.Name = "labelVdNUnits";
             this.labelVdNUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVdNUnits.TabIndex = 212;
@@ -1281,7 +1284,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdPUnits.AutoSize = true;
             this.labelVdPUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdPUnits.Location = new System.Drawing.Point(1048, 316);
+            this.labelVdPUnits.Location = new System.Drawing.Point(927, 616);
             this.labelVdPUnits.Name = "labelVdPUnits";
             this.labelVdPUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVdPUnits.TabIndex = 213;
@@ -1292,7 +1295,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtPUnits.AutoSize = true;
             this.labelVtPUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtPUnits.Location = new System.Drawing.Point(1048, 381);
+            this.labelVtPUnits.Location = new System.Drawing.Point(927, 681);
             this.labelVtPUnits.Name = "labelVtPUnits";
             this.labelVtPUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVtPUnits.TabIndex = 214;
@@ -1302,7 +1305,7 @@ namespace SineDisplayGraph
             // 
             this.labelVtNUnits.AutoSize = true;
             this.labelVtNUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVtNUnits.Location = new System.Drawing.Point(1050, 411);
+            this.labelVtNUnits.Location = new System.Drawing.Point(929, 711);
             this.labelVtNUnits.Name = "labelVtNUnits";
             this.labelVtNUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVtNUnits.TabIndex = 215;
@@ -1312,7 +1315,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnPUnits.AutoSize = true;
             this.labelVnPUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnPUnits.Location = new System.Drawing.Point(1050, 441);
+            this.labelVnPUnits.Location = new System.Drawing.Point(929, 741);
             this.labelVnPUnits.Name = "labelVnPUnits";
             this.labelVnPUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVnPUnits.TabIndex = 216;
@@ -1322,7 +1325,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnNUnits.AutoSize = true;
             this.labelVnNUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnNUnits.Location = new System.Drawing.Point(1050, 466);
+            this.labelVnNUnits.Location = new System.Drawing.Point(929, 766);
             this.labelVnNUnits.Name = "labelVnNUnits";
             this.labelVnNUnits.Size = new System.Drawing.Size(44, 19);
             this.labelVnNUnits.TabIndex = 217;
@@ -1332,7 +1335,7 @@ namespace SineDisplayGraph
             // 
             this.labelIAUnits.AutoSize = true;
             this.labelIAUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIAUnits.Location = new System.Drawing.Point(1049, 496);
+            this.labelIAUnits.Location = new System.Drawing.Point(305, 704);
             this.labelIAUnits.Name = "labelIAUnits";
             this.labelIAUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIAUnits.TabIndex = 218;
@@ -1342,7 +1345,7 @@ namespace SineDisplayGraph
             // 
             this.labelIBUnits.AutoSize = true;
             this.labelIBUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIBUnits.Location = new System.Drawing.Point(1049, 526);
+            this.labelIBUnits.Location = new System.Drawing.Point(305, 735);
             this.labelIBUnits.Name = "labelIBUnits";
             this.labelIBUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIBUnits.TabIndex = 219;
@@ -1352,7 +1355,7 @@ namespace SineDisplayGraph
             // 
             this.labelICUnits.AutoSize = true;
             this.labelICUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelICUnits.Location = new System.Drawing.Point(1050, 559);
+            this.labelICUnits.Location = new System.Drawing.Point(305, 765);
             this.labelICUnits.Name = "labelICUnits";
             this.labelICUnits.Size = new System.Drawing.Size(50, 19);
             this.labelICUnits.TabIndex = 220;
@@ -1362,7 +1365,7 @@ namespace SineDisplayGraph
             // 
             this.labelIEffUnits.AutoSize = true;
             this.labelIEffUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIEffUnits.Location = new System.Drawing.Point(1050, 587);
+            this.labelIEffUnits.Location = new System.Drawing.Point(928, 398);
             this.labelIEffUnits.Name = "labelIEffUnits";
             this.labelIEffUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIEffUnits.TabIndex = 221;
@@ -1372,7 +1375,7 @@ namespace SineDisplayGraph
             // 
             this.labelINUnits.AutoSize = true;
             this.labelINUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelINUnits.Location = new System.Drawing.Point(1050, 619);
+            this.labelINUnits.Location = new System.Drawing.Point(928, 428);
             this.labelINUnits.Name = "labelINUnits";
             this.labelINUnits.Size = new System.Drawing.Size(50, 19);
             this.labelINUnits.TabIndex = 222;
@@ -1382,7 +1385,7 @@ namespace SineDisplayGraph
             // 
             this.labelIPUnits.AutoSize = true;
             this.labelIPUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIPUnits.Location = new System.Drawing.Point(1048, 648);
+            this.labelIPUnits.Location = new System.Drawing.Point(926, 458);
             this.labelIPUnits.Name = "labelIPUnits";
             this.labelIPUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIPUnits.TabIndex = 223;
@@ -1392,7 +1395,7 @@ namespace SineDisplayGraph
             // 
             this.labelPAUnits.AutoSize = true;
             this.labelPAUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPAUnits.Location = new System.Drawing.Point(1049, 675);
+            this.labelPAUnits.Location = new System.Drawing.Point(931, 488);
             this.labelPAUnits.Name = "labelPAUnits";
             this.labelPAUnits.Size = new System.Drawing.Size(31, 19);
             this.labelPAUnits.TabIndex = 224;
@@ -1402,7 +1405,7 @@ namespace SineDisplayGraph
             // 
             this.labelPBUnits.AutoSize = true;
             this.labelPBUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPBUnits.Location = new System.Drawing.Point(1049, 707);
+            this.labelPBUnits.Location = new System.Drawing.Point(931, 518);
             this.labelPBUnits.Name = "labelPBUnits";
             this.labelPBUnits.Size = new System.Drawing.Size(31, 19);
             this.labelPBUnits.TabIndex = 225;
@@ -1412,7 +1415,7 @@ namespace SineDisplayGraph
             // 
             this.labelPCUnits.AutoSize = true;
             this.labelPCUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPCUnits.Location = new System.Drawing.Point(1049, 736);
+            this.labelPCUnits.Location = new System.Drawing.Point(926, 550);
             this.labelPCUnits.Name = "labelPCUnits";
             this.labelPCUnits.Size = new System.Drawing.Size(31, 19);
             this.labelPCUnits.TabIndex = 226;
@@ -1422,7 +1425,7 @@ namespace SineDisplayGraph
             // 
             this.labelPTUnits.AutoSize = true;
             this.labelPTUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPTUnits.Location = new System.Drawing.Point(1049, 766);
+            this.labelPTUnits.Location = new System.Drawing.Point(926, 580);
             this.labelPTUnits.Name = "labelPTUnits";
             this.labelPTUnits.Size = new System.Drawing.Size(31, 19);
             this.labelPTUnits.TabIndex = 227;
@@ -1431,7 +1434,7 @@ namespace SineDisplayGraph
             // textBoxVtARMS
             // 
             this.textBoxVtARMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtARMS.Location = new System.Drawing.Point(982, 13);
+            this.textBoxVtARMS.Location = new System.Drawing.Point(241, 398);
             this.textBoxVtARMS.Name = "textBoxVtARMS";
             this.textBoxVtARMS.ReadOnly = true;
             this.textBoxVtARMS.Size = new System.Drawing.Size(60, 27);
@@ -1441,7 +1444,7 @@ namespace SineDisplayGraph
             // textBoxVtAAngle
             // 
             this.textBoxVtAAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtAAngle.Location = new System.Drawing.Point(1166, 13);
+            this.textBoxVtAAngle.Location = new System.Drawing.Point(360, 398);
             this.textBoxVtAAngle.Name = "textBoxVtAAngle";
             this.textBoxVtAAngle.ReadOnly = true;
             this.textBoxVtAAngle.Size = new System.Drawing.Size(60, 27);
@@ -1451,7 +1454,7 @@ namespace SineDisplayGraph
             // textBoxVtBAngle
             // 
             this.textBoxVtBAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtBAngle.Location = new System.Drawing.Point(1166, 43);
+            this.textBoxVtBAngle.Location = new System.Drawing.Point(360, 428);
             this.textBoxVtBAngle.Name = "textBoxVtBAngle";
             this.textBoxVtBAngle.ReadOnly = true;
             this.textBoxVtBAngle.Size = new System.Drawing.Size(60, 27);
@@ -1461,7 +1464,7 @@ namespace SineDisplayGraph
             // textBoxVtBRMS
             // 
             this.textBoxVtBRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtBRMS.Location = new System.Drawing.Point(982, 43);
+            this.textBoxVtBRMS.Location = new System.Drawing.Point(241, 428);
             this.textBoxVtBRMS.Name = "textBoxVtBRMS";
             this.textBoxVtBRMS.ReadOnly = true;
             this.textBoxVtBRMS.Size = new System.Drawing.Size(60, 27);
@@ -1471,7 +1474,7 @@ namespace SineDisplayGraph
             // textBoxVnAAngle
             // 
             this.textBoxVnAAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnAAngle.Location = new System.Drawing.Point(1166, 103);
+            this.textBoxVnAAngle.Location = new System.Drawing.Point(360, 488);
             this.textBoxVnAAngle.Name = "textBoxVnAAngle";
             this.textBoxVnAAngle.ReadOnly = true;
             this.textBoxVnAAngle.Size = new System.Drawing.Size(60, 27);
@@ -1481,7 +1484,7 @@ namespace SineDisplayGraph
             // textBoxVnARMS
             // 
             this.textBoxVnARMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnARMS.Location = new System.Drawing.Point(982, 103);
+            this.textBoxVnARMS.Location = new System.Drawing.Point(241, 488);
             this.textBoxVnARMS.Name = "textBoxVnARMS";
             this.textBoxVnARMS.ReadOnly = true;
             this.textBoxVnARMS.Size = new System.Drawing.Size(60, 27);
@@ -1491,7 +1494,7 @@ namespace SineDisplayGraph
             // textBoxVtCAngle
             // 
             this.textBoxVtCAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtCAngle.Location = new System.Drawing.Point(1166, 73);
+            this.textBoxVtCAngle.Location = new System.Drawing.Point(360, 458);
             this.textBoxVtCAngle.Name = "textBoxVtCAngle";
             this.textBoxVtCAngle.ReadOnly = true;
             this.textBoxVtCAngle.Size = new System.Drawing.Size(60, 27);
@@ -1501,7 +1504,7 @@ namespace SineDisplayGraph
             // textBoxVtCRMS
             // 
             this.textBoxVtCRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtCRMS.Location = new System.Drawing.Point(983, 73);
+            this.textBoxVtCRMS.Location = new System.Drawing.Point(242, 458);
             this.textBoxVtCRMS.Name = "textBoxVtCRMS";
             this.textBoxVtCRMS.ReadOnly = true;
             this.textBoxVtCRMS.Size = new System.Drawing.Size(60, 27);
@@ -1511,7 +1514,7 @@ namespace SineDisplayGraph
             // textBoxVnCAngle
             // 
             this.textBoxVnCAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnCAngle.Location = new System.Drawing.Point(1166, 163);
+            this.textBoxVnCAngle.Location = new System.Drawing.Point(360, 550);
             this.textBoxVnCAngle.Name = "textBoxVnCAngle";
             this.textBoxVnCAngle.ReadOnly = true;
             this.textBoxVnCAngle.Size = new System.Drawing.Size(60, 27);
@@ -1521,7 +1524,7 @@ namespace SineDisplayGraph
             // textBoxVnCRMS
             // 
             this.textBoxVnCRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnCRMS.Location = new System.Drawing.Point(982, 163);
+            this.textBoxVnCRMS.Location = new System.Drawing.Point(241, 550);
             this.textBoxVnCRMS.Name = "textBoxVnCRMS";
             this.textBoxVnCRMS.ReadOnly = true;
             this.textBoxVnCRMS.Size = new System.Drawing.Size(60, 27);
@@ -1531,7 +1534,7 @@ namespace SineDisplayGraph
             // textBoxVnBAngle
             // 
             this.textBoxVnBAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnBAngle.Location = new System.Drawing.Point(1166, 133);
+            this.textBoxVnBAngle.Location = new System.Drawing.Point(360, 518);
             this.textBoxVnBAngle.Name = "textBoxVnBAngle";
             this.textBoxVnBAngle.ReadOnly = true;
             this.textBoxVnBAngle.Size = new System.Drawing.Size(60, 27);
@@ -1541,7 +1544,7 @@ namespace SineDisplayGraph
             // textBoxVnBRMS
             // 
             this.textBoxVnBRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnBRMS.Location = new System.Drawing.Point(982, 133);
+            this.textBoxVnBRMS.Location = new System.Drawing.Point(241, 518);
             this.textBoxVnBRMS.Name = "textBoxVnBRMS";
             this.textBoxVnBRMS.ReadOnly = true;
             this.textBoxVnBRMS.Size = new System.Drawing.Size(60, 27);
@@ -1551,7 +1554,7 @@ namespace SineDisplayGraph
             // textBoxVdBAngle
             // 
             this.textBoxVdBAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdBAngle.Location = new System.Drawing.Point(1166, 223);
+            this.textBoxVdBAngle.Location = new System.Drawing.Point(360, 610);
             this.textBoxVdBAngle.Name = "textBoxVdBAngle";
             this.textBoxVdBAngle.ReadOnly = true;
             this.textBoxVdBAngle.Size = new System.Drawing.Size(60, 27);
@@ -1561,7 +1564,7 @@ namespace SineDisplayGraph
             // textBoxVdBRMS
             // 
             this.textBoxVdBRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdBRMS.Location = new System.Drawing.Point(982, 223);
+            this.textBoxVdBRMS.Location = new System.Drawing.Point(241, 610);
             this.textBoxVdBRMS.Name = "textBoxVdBRMS";
             this.textBoxVdBRMS.ReadOnly = true;
             this.textBoxVdBRMS.Size = new System.Drawing.Size(60, 27);
@@ -1571,7 +1574,7 @@ namespace SineDisplayGraph
             // textBoxVdAAngle
             // 
             this.textBoxVdAAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdAAngle.Location = new System.Drawing.Point(1166, 193);
+            this.textBoxVdAAngle.Location = new System.Drawing.Point(360, 580);
             this.textBoxVdAAngle.Name = "textBoxVdAAngle";
             this.textBoxVdAAngle.ReadOnly = true;
             this.textBoxVdAAngle.Size = new System.Drawing.Size(60, 27);
@@ -1581,7 +1584,7 @@ namespace SineDisplayGraph
             // textBoxVdARMS
             // 
             this.textBoxVdARMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdARMS.Location = new System.Drawing.Point(982, 193);
+            this.textBoxVdARMS.Location = new System.Drawing.Point(241, 580);
             this.textBoxVdARMS.Name = "textBoxVdARMS";
             this.textBoxVdARMS.ReadOnly = true;
             this.textBoxVdARMS.Size = new System.Drawing.Size(60, 27);
@@ -1591,7 +1594,7 @@ namespace SineDisplayGraph
             // textBoxVdTAngle
             // 
             this.textBoxVdTAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdTAngle.Location = new System.Drawing.Point(1166, 283);
+            this.textBoxVdTAngle.Location = new System.Drawing.Point(360, 672);
             this.textBoxVdTAngle.Name = "textBoxVdTAngle";
             this.textBoxVdTAngle.ReadOnly = true;
             this.textBoxVdTAngle.Size = new System.Drawing.Size(60, 27);
@@ -1601,7 +1604,7 @@ namespace SineDisplayGraph
             // textBoxVdTRMS
             // 
             this.textBoxVdTRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdTRMS.Location = new System.Drawing.Point(982, 283);
+            this.textBoxVdTRMS.Location = new System.Drawing.Point(240, 672);
             this.textBoxVdTRMS.Name = "textBoxVdTRMS";
             this.textBoxVdTRMS.ReadOnly = true;
             this.textBoxVdTRMS.Size = new System.Drawing.Size(60, 27);
@@ -1611,7 +1614,7 @@ namespace SineDisplayGraph
             // textBoxVdCAngle
             // 
             this.textBoxVdCAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdCAngle.Location = new System.Drawing.Point(1166, 253);
+            this.textBoxVdCAngle.Location = new System.Drawing.Point(360, 640);
             this.textBoxVdCAngle.Name = "textBoxVdCAngle";
             this.textBoxVdCAngle.ReadOnly = true;
             this.textBoxVdCAngle.Size = new System.Drawing.Size(60, 27);
@@ -1621,7 +1624,7 @@ namespace SineDisplayGraph
             // textBoxVdCRMS
             // 
             this.textBoxVdCRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdCRMS.Location = new System.Drawing.Point(982, 253);
+            this.textBoxVdCRMS.Location = new System.Drawing.Point(241, 640);
             this.textBoxVdCRMS.Name = "textBoxVdCRMS";
             this.textBoxVdCRMS.ReadOnly = true;
             this.textBoxVdCRMS.Size = new System.Drawing.Size(60, 27);
@@ -1631,7 +1634,7 @@ namespace SineDisplayGraph
             // textBoxIBAngle
             // 
             this.textBoxIBAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIBAngle.Location = new System.Drawing.Point(1166, 523);
+            this.textBoxIBAngle.Location = new System.Drawing.Point(359, 735);
             this.textBoxIBAngle.Name = "textBoxIBAngle";
             this.textBoxIBAngle.ReadOnly = true;
             this.textBoxIBAngle.Size = new System.Drawing.Size(60, 27);
@@ -1641,7 +1644,7 @@ namespace SineDisplayGraph
             // textBoxIBRMS
             // 
             this.textBoxIBRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIBRMS.Location = new System.Drawing.Point(982, 523);
+            this.textBoxIBRMS.Location = new System.Drawing.Point(240, 735);
             this.textBoxIBRMS.Name = "textBoxIBRMS";
             this.textBoxIBRMS.ReadOnly = true;
             this.textBoxIBRMS.Size = new System.Drawing.Size(60, 27);
@@ -1651,7 +1654,7 @@ namespace SineDisplayGraph
             // textBoxIAAngle
             // 
             this.textBoxIAAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIAAngle.Location = new System.Drawing.Point(1166, 493);
+            this.textBoxIAAngle.Location = new System.Drawing.Point(359, 704);
             this.textBoxIAAngle.Name = "textBoxIAAngle";
             this.textBoxIAAngle.ReadOnly = true;
             this.textBoxIAAngle.Size = new System.Drawing.Size(60, 27);
@@ -1661,7 +1664,7 @@ namespace SineDisplayGraph
             // textBoxIARMS
             // 
             this.textBoxIARMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIARMS.Location = new System.Drawing.Point(982, 493);
+            this.textBoxIARMS.Location = new System.Drawing.Point(240, 704);
             this.textBoxIARMS.Name = "textBoxIARMS";
             this.textBoxIARMS.ReadOnly = true;
             this.textBoxIARMS.Size = new System.Drawing.Size(60, 27);
@@ -1671,7 +1674,7 @@ namespace SineDisplayGraph
             // textBoxIEffAngle
             // 
             this.textBoxIEffAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIEffAngle.Location = new System.Drawing.Point(1166, 583);
+            this.textBoxIEffAngle.Location = new System.Drawing.Point(984, 398);
             this.textBoxIEffAngle.Name = "textBoxIEffAngle";
             this.textBoxIEffAngle.ReadOnly = true;
             this.textBoxIEffAngle.Size = new System.Drawing.Size(60, 27);
@@ -1681,7 +1684,7 @@ namespace SineDisplayGraph
             // textBoxIEffRMS
             // 
             this.textBoxIEffRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIEffRMS.Location = new System.Drawing.Point(982, 583);
+            this.textBoxIEffRMS.Location = new System.Drawing.Point(860, 398);
             this.textBoxIEffRMS.Name = "textBoxIEffRMS";
             this.textBoxIEffRMS.ReadOnly = true;
             this.textBoxIEffRMS.Size = new System.Drawing.Size(60, 27);
@@ -1691,7 +1694,7 @@ namespace SineDisplayGraph
             // textBoxICAngle
             // 
             this.textBoxICAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxICAngle.Location = new System.Drawing.Point(1166, 553);
+            this.textBoxICAngle.Location = new System.Drawing.Point(358, 765);
             this.textBoxICAngle.Name = "textBoxICAngle";
             this.textBoxICAngle.ReadOnly = true;
             this.textBoxICAngle.Size = new System.Drawing.Size(60, 27);
@@ -1701,7 +1704,7 @@ namespace SineDisplayGraph
             // textBoxICRMS
             // 
             this.textBoxICRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxICRMS.Location = new System.Drawing.Point(982, 553);
+            this.textBoxICRMS.Location = new System.Drawing.Point(241, 765);
             this.textBoxICRMS.Name = "textBoxICRMS";
             this.textBoxICRMS.ReadOnly = true;
             this.textBoxICRMS.Size = new System.Drawing.Size(60, 27);
@@ -1711,7 +1714,7 @@ namespace SineDisplayGraph
             // textBoxIPAngle
             // 
             this.textBoxIPAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIPAngle.Location = new System.Drawing.Point(1166, 643);
+            this.textBoxIPAngle.Location = new System.Drawing.Point(984, 458);
             this.textBoxIPAngle.Name = "textBoxIPAngle";
             this.textBoxIPAngle.ReadOnly = true;
             this.textBoxIPAngle.Size = new System.Drawing.Size(60, 27);
@@ -1721,7 +1724,7 @@ namespace SineDisplayGraph
             // textBoxIPRMS
             // 
             this.textBoxIPRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIPRMS.Location = new System.Drawing.Point(982, 643);
+            this.textBoxIPRMS.Location = new System.Drawing.Point(860, 458);
             this.textBoxIPRMS.Name = "textBoxIPRMS";
             this.textBoxIPRMS.ReadOnly = true;
             this.textBoxIPRMS.Size = new System.Drawing.Size(60, 27);
@@ -1731,7 +1734,7 @@ namespace SineDisplayGraph
             // textBoxINAngle
             // 
             this.textBoxINAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxINAngle.Location = new System.Drawing.Point(1166, 613);
+            this.textBoxINAngle.Location = new System.Drawing.Point(984, 428);
             this.textBoxINAngle.Name = "textBoxINAngle";
             this.textBoxINAngle.ReadOnly = true;
             this.textBoxINAngle.Size = new System.Drawing.Size(60, 27);
@@ -1741,7 +1744,7 @@ namespace SineDisplayGraph
             // textBoxINRMS
             // 
             this.textBoxINRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxINRMS.Location = new System.Drawing.Point(982, 613);
+            this.textBoxINRMS.Location = new System.Drawing.Point(860, 428);
             this.textBoxINRMS.Name = "textBoxINRMS";
             this.textBoxINRMS.ReadOnly = true;
             this.textBoxINRMS.Size = new System.Drawing.Size(60, 27);
@@ -1751,7 +1754,7 @@ namespace SineDisplayGraph
             // textBoxPBAngle
             // 
             this.textBoxPBAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPBAngle.Location = new System.Drawing.Point(1166, 703);
+            this.textBoxPBAngle.Location = new System.Drawing.Point(984, 518);
             this.textBoxPBAngle.Name = "textBoxPBAngle";
             this.textBoxPBAngle.ReadOnly = true;
             this.textBoxPBAngle.Size = new System.Drawing.Size(60, 27);
@@ -1762,7 +1765,7 @@ namespace SineDisplayGraph
             // textBoxPBRMS
             // 
             this.textBoxPBRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPBRMS.Location = new System.Drawing.Point(982, 703);
+            this.textBoxPBRMS.Location = new System.Drawing.Point(859, 518);
             this.textBoxPBRMS.Name = "textBoxPBRMS";
             this.textBoxPBRMS.ReadOnly = true;
             this.textBoxPBRMS.Size = new System.Drawing.Size(60, 27);
@@ -1772,7 +1775,7 @@ namespace SineDisplayGraph
             // textBoxPAAngle
             // 
             this.textBoxPAAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPAAngle.Location = new System.Drawing.Point(1166, 673);
+            this.textBoxPAAngle.Location = new System.Drawing.Point(984, 488);
             this.textBoxPAAngle.Name = "textBoxPAAngle";
             this.textBoxPAAngle.ReadOnly = true;
             this.textBoxPAAngle.Size = new System.Drawing.Size(60, 27);
@@ -1783,7 +1786,7 @@ namespace SineDisplayGraph
             // textBoxPARMS
             // 
             this.textBoxPARMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPARMS.Location = new System.Drawing.Point(982, 673);
+            this.textBoxPARMS.Location = new System.Drawing.Point(860, 488);
             this.textBoxPARMS.Name = "textBoxPARMS";
             this.textBoxPARMS.ReadOnly = true;
             this.textBoxPARMS.Size = new System.Drawing.Size(60, 27);
@@ -1793,7 +1796,7 @@ namespace SineDisplayGraph
             // textBoxPTAngle
             // 
             this.textBoxPTAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPTAngle.Location = new System.Drawing.Point(1166, 763);
+            this.textBoxPTAngle.Location = new System.Drawing.Point(984, 580);
             this.textBoxPTAngle.Name = "textBoxPTAngle";
             this.textBoxPTAngle.ReadOnly = true;
             this.textBoxPTAngle.Size = new System.Drawing.Size(60, 27);
@@ -1804,7 +1807,7 @@ namespace SineDisplayGraph
             // textBoxPTRMS
             // 
             this.textBoxPTRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPTRMS.Location = new System.Drawing.Point(982, 763);
+            this.textBoxPTRMS.Location = new System.Drawing.Point(859, 580);
             this.textBoxPTRMS.Name = "textBoxPTRMS";
             this.textBoxPTRMS.ReadOnly = true;
             this.textBoxPTRMS.Size = new System.Drawing.Size(60, 27);
@@ -1814,7 +1817,7 @@ namespace SineDisplayGraph
             // textBoxPCAngle
             // 
             this.textBoxPCAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPCAngle.Location = new System.Drawing.Point(1166, 733);
+            this.textBoxPCAngle.Location = new System.Drawing.Point(984, 550);
             this.textBoxPCAngle.Name = "textBoxPCAngle";
             this.textBoxPCAngle.ReadOnly = true;
             this.textBoxPCAngle.Size = new System.Drawing.Size(60, 27);
@@ -1825,7 +1828,7 @@ namespace SineDisplayGraph
             // textBoxPCRMS
             // 
             this.textBoxPCRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPCRMS.Location = new System.Drawing.Point(982, 733);
+            this.textBoxPCRMS.Location = new System.Drawing.Point(859, 550);
             this.textBoxPCRMS.Name = "textBoxPCRMS";
             this.textBoxPCRMS.ReadOnly = true;
             this.textBoxPCRMS.Size = new System.Drawing.Size(60, 27);
@@ -1835,7 +1838,7 @@ namespace SineDisplayGraph
             // textBoxVnNAngle
             // 
             this.textBoxVnNAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnNAngle.Location = new System.Drawing.Point(1166, 463);
+            this.textBoxVnNAngle.Location = new System.Drawing.Point(984, 763);
             this.textBoxVnNAngle.Name = "textBoxVnNAngle";
             this.textBoxVnNAngle.ReadOnly = true;
             this.textBoxVnNAngle.Size = new System.Drawing.Size(60, 27);
@@ -1845,7 +1848,7 @@ namespace SineDisplayGraph
             // textBoxVnNRMS
             // 
             this.textBoxVnNRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnNRMS.Location = new System.Drawing.Point(982, 463);
+            this.textBoxVnNRMS.Location = new System.Drawing.Point(861, 763);
             this.textBoxVnNRMS.Name = "textBoxVnNRMS";
             this.textBoxVnNRMS.ReadOnly = true;
             this.textBoxVnNRMS.Size = new System.Drawing.Size(60, 27);
@@ -1855,7 +1858,7 @@ namespace SineDisplayGraph
             // textBoxVnPAngle
             // 
             this.textBoxVnPAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnPAngle.Location = new System.Drawing.Point(1166, 433);
+            this.textBoxVnPAngle.Location = new System.Drawing.Point(984, 733);
             this.textBoxVnPAngle.Name = "textBoxVnPAngle";
             this.textBoxVnPAngle.ReadOnly = true;
             this.textBoxVnPAngle.Size = new System.Drawing.Size(60, 27);
@@ -1865,7 +1868,7 @@ namespace SineDisplayGraph
             // textBoxVnPRMS
             // 
             this.textBoxVnPRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVnPRMS.Location = new System.Drawing.Point(982, 433);
+            this.textBoxVnPRMS.Location = new System.Drawing.Point(861, 733);
             this.textBoxVnPRMS.Name = "textBoxVnPRMS";
             this.textBoxVnPRMS.ReadOnly = true;
             this.textBoxVnPRMS.Size = new System.Drawing.Size(60, 27);
@@ -1875,7 +1878,7 @@ namespace SineDisplayGraph
             // textBoxVtNAngle
             // 
             this.textBoxVtNAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtNAngle.Location = new System.Drawing.Point(1166, 403);
+            this.textBoxVtNAngle.Location = new System.Drawing.Point(984, 703);
             this.textBoxVtNAngle.Name = "textBoxVtNAngle";
             this.textBoxVtNAngle.ReadOnly = true;
             this.textBoxVtNAngle.Size = new System.Drawing.Size(60, 27);
@@ -1885,7 +1888,7 @@ namespace SineDisplayGraph
             // textBoxVtNRMS
             // 
             this.textBoxVtNRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtNRMS.Location = new System.Drawing.Point(982, 403);
+            this.textBoxVtNRMS.Location = new System.Drawing.Point(861, 703);
             this.textBoxVtNRMS.Name = "textBoxVtNRMS";
             this.textBoxVtNRMS.ReadOnly = true;
             this.textBoxVtNRMS.Size = new System.Drawing.Size(60, 27);
@@ -1895,7 +1898,7 @@ namespace SineDisplayGraph
             // textBoxVtPAngle
             // 
             this.textBoxVtPAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtPAngle.Location = new System.Drawing.Point(1166, 373);
+            this.textBoxVtPAngle.Location = new System.Drawing.Point(984, 673);
             this.textBoxVtPAngle.Name = "textBoxVtPAngle";
             this.textBoxVtPAngle.ReadOnly = true;
             this.textBoxVtPAngle.Size = new System.Drawing.Size(60, 27);
@@ -1905,7 +1908,7 @@ namespace SineDisplayGraph
             // textBoxVtPRMS
             // 
             this.textBoxVtPRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVtPRMS.Location = new System.Drawing.Point(982, 373);
+            this.textBoxVtPRMS.Location = new System.Drawing.Point(861, 673);
             this.textBoxVtPRMS.Name = "textBoxVtPRMS";
             this.textBoxVtPRMS.ReadOnly = true;
             this.textBoxVtPRMS.Size = new System.Drawing.Size(60, 27);
@@ -1915,7 +1918,7 @@ namespace SineDisplayGraph
             // textBoxVdPAngle
             // 
             this.textBoxVdPAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdPAngle.Location = new System.Drawing.Point(1166, 313);
+            this.textBoxVdPAngle.Location = new System.Drawing.Point(984, 613);
             this.textBoxVdPAngle.Name = "textBoxVdPAngle";
             this.textBoxVdPAngle.ReadOnly = true;
             this.textBoxVdPAngle.Size = new System.Drawing.Size(60, 27);
@@ -1926,7 +1929,7 @@ namespace SineDisplayGraph
             // textBoxVdPRMS
             // 
             this.textBoxVdPRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdPRMS.Location = new System.Drawing.Point(982, 313);
+            this.textBoxVdPRMS.Location = new System.Drawing.Point(861, 613);
             this.textBoxVdPRMS.Name = "textBoxVdPRMS";
             this.textBoxVdPRMS.ReadOnly = true;
             this.textBoxVdPRMS.Size = new System.Drawing.Size(60, 27);
@@ -1937,7 +1940,7 @@ namespace SineDisplayGraph
             // textBoxVdNAngle
             // 
             this.textBoxVdNAngle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdNAngle.Location = new System.Drawing.Point(1166, 343);
+            this.textBoxVdNAngle.Location = new System.Drawing.Point(984, 643);
             this.textBoxVdNAngle.Name = "textBoxVdNAngle";
             this.textBoxVdNAngle.ReadOnly = true;
             this.textBoxVdNAngle.Size = new System.Drawing.Size(60, 27);
@@ -1947,7 +1950,7 @@ namespace SineDisplayGraph
             // textBoxVdNRMS
             // 
             this.textBoxVdNRMS.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdNRMS.Location = new System.Drawing.Point(982, 343);
+            this.textBoxVdNRMS.Location = new System.Drawing.Point(861, 643);
             this.textBoxVdNRMS.Name = "textBoxVdNRMS";
             this.textBoxVdNRMS.ReadOnly = true;
             this.textBoxVdNRMS.Size = new System.Drawing.Size(60, 27);
@@ -1958,7 +1961,7 @@ namespace SineDisplayGraph
             // 
             this.labelPF.AutoSize = true;
             this.labelPF.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPF.Location = new System.Drawing.Point(1315, 638);
+            this.labelPF.Location = new System.Drawing.Point(1074, 466);
             this.labelPF.Name = "labelPF";
             this.labelPF.Size = new System.Drawing.Size(29, 19);
             this.labelPF.TabIndex = 280;
@@ -1967,7 +1970,7 @@ namespace SineDisplayGraph
             // textBoxPFT
             // 
             this.textBoxPFT.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPFT.Location = new System.Drawing.Point(1302, 763);
+            this.textBoxPFT.Location = new System.Drawing.Point(1063, 580);
             this.textBoxPFT.Name = "textBoxPFT";
             this.textBoxPFT.ReadOnly = true;
             this.textBoxPFT.Size = new System.Drawing.Size(60, 27);
@@ -1977,7 +1980,7 @@ namespace SineDisplayGraph
             // textBoxPFC
             // 
             this.textBoxPFC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPFC.Location = new System.Drawing.Point(1302, 733);
+            this.textBoxPFC.Location = new System.Drawing.Point(1063, 550);
             this.textBoxPFC.Name = "textBoxPFC";
             this.textBoxPFC.ReadOnly = true;
             this.textBoxPFC.Size = new System.Drawing.Size(60, 27);
@@ -1987,7 +1990,7 @@ namespace SineDisplayGraph
             // textBoxPFB
             // 
             this.textBoxPFB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPFB.Location = new System.Drawing.Point(1302, 703);
+            this.textBoxPFB.Location = new System.Drawing.Point(1063, 518);
             this.textBoxPFB.Name = "textBoxPFB";
             this.textBoxPFB.ReadOnly = true;
             this.textBoxPFB.Size = new System.Drawing.Size(60, 27);
@@ -1997,7 +2000,7 @@ namespace SineDisplayGraph
             // textBoxPFA
             // 
             this.textBoxPFA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPFA.Location = new System.Drawing.Point(1302, 673);
+            this.textBoxPFA.Location = new System.Drawing.Point(1063, 488);
             this.textBoxPFA.Name = "textBoxPFA";
             this.textBoxPFA.ReadOnly = true;
             this.textBoxPFA.Size = new System.Drawing.Size(60, 27);
@@ -2007,7 +2010,7 @@ namespace SineDisplayGraph
             // textBoxVdTReal
             // 
             this.textBoxVdTReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdTReal.Location = new System.Drawing.Point(1247, 278);
+            this.textBoxVdTReal.Location = new System.Drawing.Point(441, 672);
             this.textBoxVdTReal.Name = "textBoxVdTReal";
             this.textBoxVdTReal.ReadOnly = true;
             this.textBoxVdTReal.Size = new System.Drawing.Size(60, 27);
@@ -2017,7 +2020,7 @@ namespace SineDisplayGraph
             // textBoxVdCReal
             // 
             this.textBoxVdCReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdCReal.Location = new System.Drawing.Point(1245, 249);
+            this.textBoxVdCReal.Location = new System.Drawing.Point(441, 640);
             this.textBoxVdCReal.Name = "textBoxVdCReal";
             this.textBoxVdCReal.ReadOnly = true;
             this.textBoxVdCReal.Size = new System.Drawing.Size(60, 27);
@@ -2027,7 +2030,7 @@ namespace SineDisplayGraph
             // textBoxVdBReal
             // 
             this.textBoxVdBReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdBReal.Location = new System.Drawing.Point(1247, 221);
+            this.textBoxVdBReal.Location = new System.Drawing.Point(441, 610);
             this.textBoxVdBReal.Name = "textBoxVdBReal";
             this.textBoxVdBReal.ReadOnly = true;
             this.textBoxVdBReal.Size = new System.Drawing.Size(60, 27);
@@ -2037,7 +2040,7 @@ namespace SineDisplayGraph
             // textBoxVdAReal
             // 
             this.textBoxVdAReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdAReal.Location = new System.Drawing.Point(1247, 192);
+            this.textBoxVdAReal.Location = new System.Drawing.Point(441, 580);
             this.textBoxVdAReal.Name = "textBoxVdAReal";
             this.textBoxVdAReal.ReadOnly = true;
             this.textBoxVdAReal.Size = new System.Drawing.Size(60, 27);
@@ -2048,7 +2051,7 @@ namespace SineDisplayGraph
             // 
             this.labelRealValue.AutoSize = true;
             this.labelRealValue.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRealValue.Location = new System.Drawing.Point(1243, -3);
+            this.labelRealValue.Location = new System.Drawing.Point(444, 379);
             this.labelRealValue.Name = "labelRealValue";
             this.labelRealValue.Size = new System.Drawing.Size(75, 16);
             this.labelRealValue.TabIndex = 285;
@@ -2058,7 +2061,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdTReal.AutoSize = true;
             this.labelVdTReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdTReal.Location = new System.Drawing.Point(1311, 282);
+            this.labelVdTReal.Location = new System.Drawing.Point(505, 672);
             this.labelVdTReal.Name = "labelVdTReal";
             this.labelVdTReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdTReal.TabIndex = 293;
@@ -2068,7 +2071,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdCReal.AutoSize = true;
             this.labelVdCReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdCReal.Location = new System.Drawing.Point(1309, 253);
+            this.labelVdCReal.Location = new System.Drawing.Point(503, 640);
             this.labelVdCReal.Name = "labelVdCReal";
             this.labelVdCReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdCReal.TabIndex = 292;
@@ -2078,7 +2081,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdBReal.AutoSize = true;
             this.labelVdBReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdBReal.Location = new System.Drawing.Point(1311, 225);
+            this.labelVdBReal.Location = new System.Drawing.Point(505, 610);
             this.labelVdBReal.Name = "labelVdBReal";
             this.labelVdBReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdBReal.TabIndex = 291;
@@ -2088,7 +2091,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdAReal.AutoSize = true;
             this.labelVdAReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdAReal.Location = new System.Drawing.Point(1311, 196);
+            this.labelVdAReal.Location = new System.Drawing.Point(505, 580);
             this.labelVdAReal.Name = "labelVdAReal";
             this.labelVdAReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdAReal.TabIndex = 290;
@@ -2109,7 +2112,7 @@ namespace SineDisplayGraph
             this.groupBoxTHD.Controls.Add(this.textBoxVnBTHD);
             this.groupBoxTHD.Controls.Add(this.textBoxVnATHD);
             this.groupBoxTHD.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxTHD.Location = new System.Drawing.Point(391, 676);
+            this.groupBoxTHD.Location = new System.Drawing.Point(1078, 669);
             this.groupBoxTHD.Name = "groupBoxTHD";
             this.groupBoxTHD.Size = new System.Drawing.Size(305, 123);
             this.groupBoxTHD.TabIndex = 294;
@@ -2231,7 +2234,7 @@ namespace SineDisplayGraph
             // textBoxICReal
             // 
             this.textBoxICReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxICReal.Location = new System.Drawing.Point(1247, 544);
+            this.textBoxICReal.Location = new System.Drawing.Point(440, 765);
             this.textBoxICReal.Name = "textBoxICReal";
             this.textBoxICReal.ReadOnly = true;
             this.textBoxICReal.Size = new System.Drawing.Size(60, 27);
@@ -2241,7 +2244,7 @@ namespace SineDisplayGraph
             // textBoxIBReal
             // 
             this.textBoxIBReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIBReal.Location = new System.Drawing.Point(1247, 523);
+            this.textBoxIBReal.Location = new System.Drawing.Point(441, 735);
             this.textBoxIBReal.Name = "textBoxIBReal";
             this.textBoxIBReal.ReadOnly = true;
             this.textBoxIBReal.Size = new System.Drawing.Size(60, 27);
@@ -2251,7 +2254,7 @@ namespace SineDisplayGraph
             // textBoxIAReal
             // 
             this.textBoxIAReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIAReal.Location = new System.Drawing.Point(1247, 502);
+            this.textBoxIAReal.Location = new System.Drawing.Point(441, 704);
             this.textBoxIAReal.Name = "textBoxIAReal";
             this.textBoxIAReal.ReadOnly = true;
             this.textBoxIAReal.Size = new System.Drawing.Size(60, 27);
@@ -2262,7 +2265,7 @@ namespace SineDisplayGraph
             // 
             this.labelICRealUnits.AutoSize = true;
             this.labelICRealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelICRealUnits.Location = new System.Drawing.Point(1310, 547);
+            this.labelICRealUnits.Location = new System.Drawing.Point(507, 765);
             this.labelICRealUnits.Name = "labelICRealUnits";
             this.labelICRealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelICRealUnits.TabIndex = 301;
@@ -2272,7 +2275,7 @@ namespace SineDisplayGraph
             // 
             this.labelIBRealUnits.AutoSize = true;
             this.labelIBRealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIBRealUnits.Location = new System.Drawing.Point(1310, 526);
+            this.labelIBRealUnits.Location = new System.Drawing.Point(507, 735);
             this.labelIBRealUnits.Name = "labelIBRealUnits";
             this.labelIBRealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIBRealUnits.TabIndex = 300;
@@ -2282,7 +2285,7 @@ namespace SineDisplayGraph
             // 
             this.labelIARealUnits.AutoSize = true;
             this.labelIARealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIARealUnits.Location = new System.Drawing.Point(1310, 505);
+            this.labelIARealUnits.Location = new System.Drawing.Point(505, 704);
             this.labelIARealUnits.Name = "labelIARealUnits";
             this.labelIARealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIARealUnits.TabIndex = 299;
@@ -2292,7 +2295,7 @@ namespace SineDisplayGraph
             // 
             this.labelIEffRealUnits.AutoSize = true;
             this.labelIEffRealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIEffRealUnits.Location = new System.Drawing.Point(1310, 568);
+            this.labelIEffRealUnits.Location = new System.Drawing.Point(1129, 398);
             this.labelIEffRealUnits.Name = "labelIEffRealUnits";
             this.labelIEffRealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIEffRealUnits.TabIndex = 303;
@@ -2301,7 +2304,7 @@ namespace SineDisplayGraph
             // textBoxIEffReal
             // 
             this.textBoxIEffReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIEffReal.Location = new System.Drawing.Point(1247, 565);
+            this.textBoxIEffReal.Location = new System.Drawing.Point(1063, 398);
             this.textBoxIEffReal.Name = "textBoxIEffReal";
             this.textBoxIEffReal.ReadOnly = true;
             this.textBoxIEffReal.Size = new System.Drawing.Size(60, 27);
@@ -2313,7 +2316,7 @@ namespace SineDisplayGraph
             this.labelViewedCycleNumber.AutoSize = true;
             this.labelViewedCycleNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelViewedCycleNumber.ForeColor = System.Drawing.Color.Blue;
-            this.labelViewedCycleNumber.Location = new System.Drawing.Point(286, 344);
+            this.labelViewedCycleNumber.Location = new System.Drawing.Point(5, 17);
             this.labelViewedCycleNumber.Name = "labelViewedCycleNumber";
             this.labelViewedCycleNumber.Size = new System.Drawing.Size(187, 20);
             this.labelViewedCycleNumber.TabIndex = 304;
@@ -2324,7 +2327,7 @@ namespace SineDisplayGraph
             // 
             this.textBoxViewedCycleNumber.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxViewedCycleNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(368, 367);
+            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(87, 40);
             this.textBoxViewedCycleNumber.Name = "textBoxViewedCycleNumber";
             this.textBoxViewedCycleNumber.ReadOnly = true;
             this.textBoxViewedCycleNumber.Size = new System.Drawing.Size(65, 26);
@@ -2333,7 +2336,7 @@ namespace SineDisplayGraph
             // 
             // buttonUpCycle
             // 
-            this.buttonUpCycle.Location = new System.Drawing.Point(436, 396);
+            this.buttonUpCycle.Location = new System.Drawing.Point(155, 69);
             this.buttonUpCycle.Name = "buttonUpCycle";
             this.buttonUpCycle.Size = new System.Drawing.Size(25, 23);
             this.buttonUpCycle.TabIndex = 306;
@@ -2344,7 +2347,7 @@ namespace SineDisplayGraph
             // 
             // buttonDownCycle
             // 
-            this.buttonDownCycle.Location = new System.Drawing.Point(408, 396);
+            this.buttonDownCycle.Location = new System.Drawing.Point(127, 69);
             this.buttonDownCycle.Name = "buttonDownCycle";
             this.buttonDownCycle.Size = new System.Drawing.Size(25, 23);
             this.buttonDownCycle.TabIndex = 307;
@@ -2355,7 +2358,7 @@ namespace SineDisplayGraph
             // 
             // textBoxCTRatio
             // 
-            this.textBoxCTRatio.Location = new System.Drawing.Point(14, 770);
+            this.textBoxCTRatio.Location = new System.Drawing.Point(790, 46);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(64, 20);
             this.textBoxCTRatio.TabIndex = 308;
@@ -2366,7 +2369,7 @@ namespace SineDisplayGraph
             this.labelCTRatio.AutoSize = true;
             this.labelCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCTRatio.ForeColor = System.Drawing.Color.Blue;
-            this.labelCTRatio.Location = new System.Drawing.Point(10, 740);
+            this.labelCTRatio.Location = new System.Drawing.Point(786, 16);
             this.labelCTRatio.Name = "labelCTRatio";
             this.labelCTRatio.Size = new System.Drawing.Size(86, 19);
             this.labelCTRatio.TabIndex = 309;
@@ -2376,7 +2379,7 @@ namespace SineDisplayGraph
             // labelCTRatioOver5
             // 
             this.labelCTRatioOver5.AutoSize = true;
-            this.labelCTRatioOver5.Location = new System.Drawing.Point(84, 773);
+            this.labelCTRatioOver5.Location = new System.Drawing.Point(860, 49);
             this.labelCTRatioOver5.Name = "labelCTRatioOver5";
             this.labelCTRatioOver5.Size = new System.Drawing.Size(18, 13);
             this.labelCTRatioOver5.TabIndex = 310;
@@ -2386,7 +2389,7 @@ namespace SineDisplayGraph
             // checkBoxGERelay
             // 
             this.checkBoxGERelay.AutoSize = true;
-            this.checkBoxGERelay.Location = new System.Drawing.Point(298, 374);
+            this.checkBoxGERelay.Location = new System.Drawing.Point(17, 47);
             this.checkBoxGERelay.Name = "checkBoxGERelay";
             this.checkBoxGERelay.Size = new System.Drawing.Size(41, 17);
             this.checkBoxGERelay.TabIndex = 311;
@@ -2398,7 +2401,7 @@ namespace SineDisplayGraph
             // checkBoxABC
             // 
             this.checkBoxABC.AutoSize = true;
-            this.checkBoxABC.Location = new System.Drawing.Point(298, 390);
+            this.checkBoxABC.Location = new System.Drawing.Point(17, 63);
             this.checkBoxABC.Name = "checkBoxABC";
             this.checkBoxABC.Size = new System.Drawing.Size(47, 17);
             this.checkBoxABC.TabIndex = 312;
@@ -2409,7 +2412,7 @@ namespace SineDisplayGraph
             // checkBoxBFlag
             // 
             this.checkBoxBFlag.AutoSize = true;
-            this.checkBoxBFlag.Location = new System.Drawing.Point(298, 407);
+            this.checkBoxBFlag.Location = new System.Drawing.Point(17, 80);
             this.checkBoxBFlag.Name = "checkBoxBFlag";
             this.checkBoxBFlag.Size = new System.Drawing.Size(102, 17);
             this.checkBoxBFlag.TabIndex = 313;
@@ -2427,11 +2430,41 @@ namespace SineDisplayGraph
             this.label1.TabIndex = 315;
             this.label1.Text = "0";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(861, 379);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(43, 16);
+            this.label11.TabIndex = 316;
+            this.label11.Text = "Value";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(1060, 379);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(75, 16);
+            this.label12.TabIndex = 318;
+            this.label12.Text = "Real Value";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(991, 379);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(44, 16);
+            this.label20.TabIndex = 317;
+            this.label20.Text = "Angle";
+            // 
             // phasorGraph2
             // 
             this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
             this.phasorGraph2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phasorGraph2.Location = new System.Drawing.Point(63, 421);
+            this.phasorGraph2.Location = new System.Drawing.Point(529, 39);
             this.phasorGraph2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.phasorGraph2.Name = "phasorGraph2";
             this.phasorGraph2.Size = new System.Drawing.Size(318, 307);
@@ -2450,6 +2483,9 @@ namespace SineDisplayGraph
             // ucPhasorGraph
             // 
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBoxBFlag);
             this.Controls.Add(this.checkBoxABC);
@@ -2862,5 +2898,8 @@ namespace SineDisplayGraph
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label20;
     }
 }
