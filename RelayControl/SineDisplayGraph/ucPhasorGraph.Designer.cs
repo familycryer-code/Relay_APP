@@ -265,6 +265,7 @@ namespace SineDisplayGraph
             this.lbl_x1P = new System.Windows.Forms.Label();
             this.lbl_loadReading = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.panel_PQmon = new System.Windows.Forms.Panel();
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
             this.panelTripped.SuspendLayout();
@@ -2129,7 +2130,7 @@ namespace SineDisplayGraph
             this.groupBoxTHD.Controls.Add(this.textBoxVnBTHD);
             this.groupBoxTHD.Controls.Add(this.textBoxVnATHD);
             this.groupBoxTHD.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxTHD.Location = new System.Drawing.Point(1078, 669);
+            this.groupBoxTHD.Location = new System.Drawing.Point(1050, 667);
             this.groupBoxTHD.Name = "groupBoxTHD";
             this.groupBoxTHD.Size = new System.Drawing.Size(305, 123);
             this.groupBoxTHD.TabIndex = 294;
@@ -2375,7 +2376,7 @@ namespace SineDisplayGraph
             // 
             // textBoxCTRatio
             // 
-            this.textBoxCTRatio.Location = new System.Drawing.Point(790, 46);
+            this.textBoxCTRatio.Location = new System.Drawing.Point(490, 34);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(64, 20);
             this.textBoxCTRatio.TabIndex = 308;
@@ -2386,7 +2387,7 @@ namespace SineDisplayGraph
             this.labelCTRatio.AutoSize = true;
             this.labelCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCTRatio.ForeColor = System.Drawing.Color.Blue;
-            this.labelCTRatio.Location = new System.Drawing.Point(786, 16);
+            this.labelCTRatio.Location = new System.Drawing.Point(486, 4);
             this.labelCTRatio.Name = "labelCTRatio";
             this.labelCTRatio.Size = new System.Drawing.Size(86, 19);
             this.labelCTRatio.TabIndex = 309;
@@ -2396,7 +2397,7 @@ namespace SineDisplayGraph
             // labelCTRatioOver5
             // 
             this.labelCTRatioOver5.AutoSize = true;
-            this.labelCTRatioOver5.Location = new System.Drawing.Point(860, 49);
+            this.labelCTRatioOver5.Location = new System.Drawing.Point(560, 37);
             this.labelCTRatioOver5.Name = "labelCTRatioOver5";
             this.labelCTRatioOver5.Size = new System.Drawing.Size(18, 13);
             this.labelCTRatioOver5.TabIndex = 310;
@@ -2627,6 +2628,15 @@ namespace SineDisplayGraph
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // panel_PQmon
+            // 
+            this.panel_PQmon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_PQmon.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel_PQmon.Location = new System.Drawing.Point(1082, 4);
+            this.panel_PQmon.Name = "panel_PQmon";
+            this.panel_PQmon.Size = new System.Drawing.Size(230, 365);
+            this.panel_PQmon.TabIndex = 321;
+            // 
             // phasorGraph2
             // 
             this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
@@ -2821,6 +2831,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.labelVtB);
             this.Controls.Add(this.labelVtA);
             this.Controls.Add(this.listBoxMode);
+            this.Controls.Add(this.panel_PQmon);
             this.Name = "ucPhasorGraph";
             this.Size = new System.Drawing.Size(1328, 802);
             this.Load += new System.EventHandler(this.ucPhasorGraph_Load);
@@ -3087,5 +3098,6 @@ namespace SineDisplayGraph
         private System.Windows.Forms.TextBox txtBox_x1Amp;
         private System.Windows.Forms.TextBox txtBox_x3P;
         private System.Windows.Forms.TextBox txtBox_x2P;
+        private System.Windows.Forms.Panel panel_PQmon;
     }
 }

@@ -1370,7 +1370,7 @@
             // 
             this.labelSNPQMonitor.AutoSize = true;
             this.labelSNPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(2, 2); //(280, 350);
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(1220, 462); //(280, 350);
             this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSNPQMonitor.Name = "labelSNPQMonitor";
             this.labelSNPQMonitor.Size = new System.Drawing.Size(159, 19);
@@ -1381,7 +1381,7 @@
             // 
             this.labelCtRatioMonitor.AutoSize = true;
             this.labelCtRatioMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(2, 19); //(355, 382);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1300, 522); //(355, 382);
             this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(76, 19);
@@ -1391,7 +1391,7 @@
             // textBoxRelaySNControlPQ
             // 
             this.textBoxRelaySNControlPQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(180, 4); //(435, 345);
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1400, 460); //(180, 4); 
             this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
@@ -1405,7 +1405,7 @@
             // 
             this.textBoxCTRatioPQMonitor.Enabled = false;
             this.textBoxCTRatioPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(2, 50); //(435, 382);
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1400, 522); //(2, 50); 
             this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
@@ -1420,7 +1420,7 @@
             this.checkBoxInTripRegion.AutoSize = true;
             this.checkBoxInTripRegion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInTripRegion.Location = new System.Drawing.Point(423, 50);
+            this.checkBoxInTripRegion.Location = new System.Drawing.Point(435, 20); //(423, 50);
             this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
             this.checkBoxInTripRegion.Size = new System.Drawing.Size(131, 23);
@@ -1443,11 +1443,11 @@
             // 
             this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayTrippedOrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(521, 382);
+            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1280, 350); //(521, 382);
             this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(4);
             this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
             this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(116, 30);
+            this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(165, 31); //(116, 30);
             this.labelRelayTrippedOrClose.TabIndex = 36;
             this.labelRelayTrippedOrClose.Text = "Unkown";
             this.labelRelayTrippedOrClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1455,7 +1455,7 @@
             // buttonToggleMonitor
             // 
             this.buttonToggleMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonToggleMonitor.Location = new System.Drawing.Point(520, 345);
+            this.buttonToggleMonitor.Location = new System.Drawing.Point(1280, 400); //(520, 345);
             this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.buttonToggleMonitor.Name = "buttonToggleMonitor";
             this.buttonToggleMonitor.Size = new System.Drawing.Size(165, 31);
