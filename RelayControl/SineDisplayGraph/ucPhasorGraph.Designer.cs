@@ -28,6 +28,7 @@ namespace SineDisplayGraph
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listBoxMode = new System.Windows.Forms.ListBox();
             this.listBoxSequencePower = new System.Windows.Forms.ListBox();
             this.panelTripped = new System.Windows.Forms.Panel();
@@ -249,6 +250,21 @@ namespace SineDisplayGraph
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.panel_load = new System.Windows.Forms.Panel();
+            this.txtBox_x3Amp = new System.Windows.Forms.TextBox();
+            this.txtBox_x2Amp = new System.Windows.Forms.TextBox();
+            this.txtBox_x1Amp = new System.Windows.Forms.TextBox();
+            this.txtBox_x3P = new System.Windows.Forms.TextBox();
+            this.txtBox_x2P = new System.Windows.Forms.TextBox();
+            this.txtBox_x1P = new System.Windows.Forms.TextBox();
+            this.lbl_x3A = new System.Windows.Forms.Label();
+            this.lbl_x2A = new System.Windows.Forms.Label();
+            this.lbl_x1A = new System.Windows.Forms.Label();
+            this.lbl_x3P = new System.Windows.Forms.Label();
+            this.lbl_x2P = new System.Windows.Forms.Label();
+            this.lbl_x1P = new System.Windows.Forms.Label();
+            this.lbl_loadReading = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
             this.panelTripped.SuspendLayout();
@@ -259,6 +275,7 @@ namespace SineDisplayGraph
             this.panelIeff.SuspendLayout();
             this.panelDifferentialSquence.SuspendLayout();
             this.groupBoxTHD.SuspendLayout();
+            this.panel_load.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBoxMode
@@ -2460,6 +2477,156 @@ namespace SineDisplayGraph
             this.label20.TabIndex = 317;
             this.label20.Text = "Angle";
             // 
+            // panel_load
+            // 
+            this.panel_load.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_load.Controls.Add(this.txtBox_x3Amp);
+            this.panel_load.Controls.Add(this.txtBox_x2Amp);
+            this.panel_load.Controls.Add(this.txtBox_x1Amp);
+            this.panel_load.Controls.Add(this.txtBox_x3P);
+            this.panel_load.Controls.Add(this.txtBox_x2P);
+            this.panel_load.Controls.Add(this.txtBox_x1P);
+            this.panel_load.Controls.Add(this.lbl_x3A);
+            this.panel_load.Controls.Add(this.lbl_x2A);
+            this.panel_load.Controls.Add(this.lbl_x1A);
+            this.panel_load.Controls.Add(this.lbl_x3P);
+            this.panel_load.Controls.Add(this.lbl_x2P);
+            this.panel_load.Controls.Add(this.lbl_x1P);
+            this.panel_load.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel_load.Location = new System.Drawing.Point(1097, 27);
+            this.panel_load.Name = "panel_load";
+            this.panel_load.Size = new System.Drawing.Size(200, 293);
+            this.panel_load.TabIndex = 319;
+            // 
+            // txtBox_x3Amp
+            // 
+            this.txtBox_x3Amp.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_x3Amp.Location = new System.Drawing.Point(114, 242);
+            this.txtBox_x3Amp.Name = "txtBox_x3Amp";
+            this.txtBox_x3Amp.Size = new System.Drawing.Size(100, 27);
+            this.txtBox_x3Amp.TabIndex = 11;
+            this.txtBox_x3Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBox_x2Amp
+            // 
+            this.txtBox_x2Amp.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_x2Amp.Location = new System.Drawing.Point(114, 200);
+            this.txtBox_x2Amp.Name = "txtBox_x2Amp";
+            this.txtBox_x2Amp.Size = new System.Drawing.Size(100, 27);
+            this.txtBox_x2Amp.TabIndex = 10;
+            this.txtBox_x2Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBox_x1Amp
+            // 
+            this.txtBox_x1Amp.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_x1Amp.Location = new System.Drawing.Point(114, 152);
+            this.txtBox_x1Amp.Name = "txtBox_x1Amp";
+            this.txtBox_x1Amp.Size = new System.Drawing.Size(100, 27);
+            this.txtBox_x1Amp.TabIndex = 9;
+            this.txtBox_x1Amp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBox_x3P
+            // 
+            this.txtBox_x3P.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_x3P.Location = new System.Drawing.Point(113, 106);
+            this.txtBox_x3P.Name = "txtBox_x3P";
+            this.txtBox_x3P.Size = new System.Drawing.Size(100, 27);
+            this.txtBox_x3P.TabIndex = 8;
+            this.txtBox_x3P.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBox_x2P
+            // 
+            this.txtBox_x2P.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_x2P.Location = new System.Drawing.Point(114, 62);
+            this.txtBox_x2P.Name = "txtBox_x2P";
+            this.txtBox_x2P.Size = new System.Drawing.Size(100, 27);
+            this.txtBox_x2P.TabIndex = 7;
+            this.txtBox_x2P.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBox_x1P
+            // 
+            this.txtBox_x1P.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBox_x1P.Location = new System.Drawing.Point(114, 22);
+            this.txtBox_x1P.Name = "txtBox_x1P";
+            this.txtBox_x1P.Size = new System.Drawing.Size(100, 27);
+            this.txtBox_x1P.TabIndex = 6;
+            this.txtBox_x1P.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lbl_x3A
+            // 
+            this.lbl_x3A.AutoSize = true;
+            this.lbl_x3A.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_x3A.Location = new System.Drawing.Point(30, 245);
+            this.lbl_x3A.Name = "lbl_x3A";
+            this.lbl_x3A.Size = new System.Drawing.Size(72, 19);
+            this.lbl_x3A.TabIndex = 5;
+            this.lbl_x3A.Text = "X3 Amp:";
+            // 
+            // lbl_x2A
+            // 
+            this.lbl_x2A.AutoSize = true;
+            this.lbl_x2A.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_x2A.Location = new System.Drawing.Point(30, 201);
+            this.lbl_x2A.Name = "lbl_x2A";
+            this.lbl_x2A.Size = new System.Drawing.Size(72, 19);
+            this.lbl_x2A.TabIndex = 4;
+            this.lbl_x2A.Text = "X2 Amp:";
+            // 
+            // lbl_x1A
+            // 
+            this.lbl_x1A.AutoSize = true;
+            this.lbl_x1A.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_x1A.Location = new System.Drawing.Point(30, 157);
+            this.lbl_x1A.Name = "lbl_x1A";
+            this.lbl_x1A.Size = new System.Drawing.Size(72, 19);
+            this.lbl_x1A.TabIndex = 3;
+            this.lbl_x1A.Text = "X1 Amp:";
+            // 
+            // lbl_x3P
+            // 
+            this.lbl_x3P.AutoSize = true;
+            this.lbl_x3P.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_x3P.Location = new System.Drawing.Point(45, 113);
+            this.lbl_x3P.Name = "lbl_x3P";
+            this.lbl_x3P.Size = new System.Drawing.Size(54, 19);
+            this.lbl_x3P.TabIndex = 2;
+            this.lbl_x3P.Text = "X3 %:";
+            // 
+            // lbl_x2P
+            // 
+            this.lbl_x2P.AutoSize = true;
+            this.lbl_x2P.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_x2P.Location = new System.Drawing.Point(45, 69);
+            this.lbl_x2P.Name = "lbl_x2P";
+            this.lbl_x2P.Size = new System.Drawing.Size(54, 19);
+            this.lbl_x2P.TabIndex = 1;
+            this.lbl_x2P.Text = "X2 %:";
+            // 
+            // lbl_x1P
+            // 
+            this.lbl_x1P.AutoSize = true;
+            this.lbl_x1P.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_x1P.Location = new System.Drawing.Point(45, 25);
+            this.lbl_x1P.Name = "lbl_x1P";
+            this.lbl_x1P.Size = new System.Drawing.Size(54, 19);
+            this.lbl_x1P.TabIndex = 0;
+            this.lbl_x1P.Text = "X1 %:";
+            // 
+            // lbl_loadReading
+            // 
+            this.lbl_loadReading.AutoSize = true;
+            this.lbl_loadReading.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_loadReading.Location = new System.Drawing.Point(1104, 17);
+            this.lbl_loadReading.Name = "lbl_loadReading";
+            this.lbl_loadReading.Size = new System.Drawing.Size(151, 19);
+            this.lbl_loadReading.TabIndex = 320;
+            this.lbl_loadReading.Text = "Current Readings";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // phasorGraph2
             // 
             this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
@@ -2483,6 +2650,8 @@ namespace SineDisplayGraph
             // ucPhasorGraph
             // 
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.lbl_loadReading);
+            this.Controls.Add(this.panel_load);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label11);
@@ -2671,6 +2840,8 @@ namespace SineDisplayGraph
             this.panelDifferentialSquence.PerformLayout();
             this.groupBoxTHD.ResumeLayout(false);
             this.groupBoxTHD.PerformLayout();
+            this.panel_load.ResumeLayout(false);
+            this.panel_load.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2901,5 +3072,20 @@ namespace SineDisplayGraph
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Panel panel_load;
+        private System.Windows.Forms.Label lbl_loadReading;
+        private System.Windows.Forms.Label lbl_x3A;
+        private System.Windows.Forms.Label lbl_x2A;
+        private System.Windows.Forms.Label lbl_x1A;
+        private System.Windows.Forms.Label lbl_x3P;
+        private System.Windows.Forms.Label lbl_x2P;
+        private System.Windows.Forms.Label lbl_x1P;
+        public System.Windows.Forms.TextBox txtBox_x1P;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.TextBox txtBox_x3Amp;
+        private System.Windows.Forms.TextBox txtBox_x2Amp;
+        private System.Windows.Forms.TextBox txtBox_x1Amp;
+        private System.Windows.Forms.TextBox txtBox_x3P;
+        private System.Windows.Forms.TextBox txtBox_x2P;
     }
 }

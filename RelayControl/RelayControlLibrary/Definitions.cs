@@ -2104,6 +2104,10 @@ namespace RelayControlLibrary
     {
         public static bool dataBackup_pumpModeDefaults;
     }
+    public static class ctM
+    {
+        public static string ctMultiplier;
+    }
 
     public static class dataBackupSSM
     {

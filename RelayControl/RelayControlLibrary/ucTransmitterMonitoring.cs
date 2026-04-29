@@ -314,6 +314,7 @@ namespace RelayControlLibrary
             get { return this.cTMult; }
             set
             {
+                ctM.ctMultiplier = value;
                 this.cTMult = value;
                 this.textBoxCTMult.Text = value;
                 //this.setCTRatio(value);

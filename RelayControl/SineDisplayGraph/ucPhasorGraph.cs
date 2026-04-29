@@ -126,7 +126,12 @@ namespace SineDisplayGraph
                 this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
                 this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
            */
+            this.panel_load.Location = new System.Drawing.Point(1180, 27);
+            this.panel_load.Size = new System.Drawing.Size(250, 293);
+            this.lbl_loadReading.Location = new System.Drawing.Point(1206, 17);
+            
             generateRefWav();
+
             foreach (PhasorTypes pT in temp)
             {
                 ++count;
@@ -140,7 +145,7 @@ namespace SineDisplayGraph
                 allPhasors[count] = new PhasorDefinition(pT);
                 switch (allPhasors[count].Type)
                 {
-                    //
+                    
                     case PhasorTypes.VtA:
                         trippedPhasors[0] = allPhasors[count];
                         this.labelVtAColor.BackColor = allPhasors[count].phasorPen.Color;
@@ -343,11 +348,7 @@ namespace SineDisplayGraph
 
             trippedPhasors[0].EndPoint = new PointF(1, 2);
             string[] str = Enum.GetNames(typeof(RawPhasorGroups));
-           /* foreach (string s in str)
-            {
-                this.listBoxMode.Items.Add(s);
-            }
-            */
+           
             this.listBoxMode.SelectedIndex = 0;
             this.textBoxCTRatio.Visible = true;
         }
@@ -495,7 +496,7 @@ namespace SineDisplayGraph
             this.labelVnNUnits.Visible = true;
 
             this.groupBoxTHD.Visible = true;
-
+            
             this.listBoxSequencePower.Items.Clear();
             this.listBoxSequencePower.Items.Add("Power Phasors");
             this.listBoxSequencePower.Items.Add("Sequence Phasors");
@@ -505,11 +506,13 @@ namespace SineDisplayGraph
             this.listBoxSequencePower.SelectedIndex = 0;
         }
 
-
+        private bool firstDataSeen = false;
         private double vnAAngle, vnBAngle, vnCAngle;
 
         public void ValuesForUpdate(PhasorTypes phasorType, long realValue, long imaginaryValue, int cTRatio, long rMS)
         {
+            float percentageTemp;
+            float rMSTemp = this.convertRMSI(rMS) * this.CTRatio;
             PointF point;
             PhasorDefinition workingPD;
             double angle;
@@ -907,13 +910,13 @@ namespace SineDisplayGraph
                     {
                         workingPD.Enabled = false;
                         this.setText("0.0", workingPD.AngleBox);
-                         this.setText("0.0", workingPD.RMSBox);                        
+                        this.setText("0.0", workingPD.RMSBox);
                     }
                     else
                     {
                         workingPD.Enabled = true;
                         this.setText(String.Format("{0:0.0}", angle), workingPD.AngleBox);
-                       // this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
+                        // this.setText(String.Format("{0:0.0}", workingPD.RMSValue), workingPD.RMSBox);
                         this.setText(String.Format("{0:0.0}", (workingPD.RMSValue / 1000)), workingPD.RMSBox); // " Divided by 1000 to display the power in kiloWatts"
                     }
 
@@ -924,8 +927,48 @@ namespace SineDisplayGraph
                     point = new PointF(0, 0);
                     break;
             }
-        }
 
+            // =====================To display Load conditions on PQ monitor tab :========================================
+            percentageTemp = this.convertRMSI(rMS) / .05f;
+            if (percentageTemp < .342f)
+            {
+                percentageTemp = 0.0f;
+                rMSTemp = 0.0f;
+            }
+
+            percentageTemp = percentageTemp * (float.Parse(ctM.ctMultiplier) * (float)0.01); //   CT / (mult * 1/100)
+            switch (phasorType)
+            {
+                case PhasorTypes.VtA:
+                    this.firstDataSeen = true;
+                    break;
+
+                case PhasorTypes.IA:
+                    if (!this.firstDataSeen)
+                        break;
+                    this.txtBox_x1P.Text = percentageTemp.ToString("0.00");
+                    this.txtBox_x1Amp.Text = rMSTemp.ToString("0.00");
+                   //  this.workingRow["IA"] = percentageTemp;
+                    break;
+
+                case PhasorTypes.IB:
+                    if (!this.firstDataSeen)
+                        break;
+                    this.txtBox_x2P.Text = percentageTemp.ToString("0.00");
+                    this.txtBox_x2Amp.Text = rMSTemp.ToString("0.00");
+                    //this.workingRow["IB"] = percentageTemp;
+                    break;
+
+                case PhasorTypes.IC:
+                    if (!this.firstDataSeen)
+                        break;
+                    this.txtBox_x3P.Text = percentageTemp.ToString("0.00");
+                    this.txtBox_x3Amp.Text = rMSTemp.ToString("0.00");
+                   // this.workingRow["IC"] = percentageTemp;
+                    break;
+            }
+            // =====================To display Load conditions on PQ monitor tab :========================================
+        }
         private float getInPhaseValue(PhasorDefinition workingPD, PhasorDefinition voltagePD)
         {
             try
@@ -2615,6 +2658,131 @@ namespace SineDisplayGraph
             this.Imaginary *= (float)cTRatio;
         }
 
+        private float convertRMSI(long rMS)
+        {
+            float returnFloat;
+
+            returnFloat = (float)rMS;                     //convert to a float
+            returnFloat = returnFloat * (float)Constants.SixteenFracBits;
+
+            return returnFloat;
+        }
+
+        private float convertRMSV(long rMS)
+        {
+            float returnFloat;
+
+            returnFloat = (float)rMS;                     //convert to a float
+            returnFloat = returnFloat * (float)Constants.TwelveFracBits;
+
+            return returnFloat;
+        }
+        public TransmitterSettings TXSettings = new TransmitterSettings();
+       
+        /*
+        public void SetTransmitterPhasorValues(PhasorTypes phasorType, long realValue, long imaginaryValue, int p, long rMS)
+        {
+            float rMSTemp = this.convertRMSI(rMS) * this.TXSettings.TXCTRatio;
+            float percentageTemp;
+            float angleTemp;
+            float voltageRMSTemp = (float)Math.Sqrt(convertRMSV(realValue) * convertRMSV(realValue) + convertRMSV(imaginaryValue) * convertRMSV(imaginaryValue));
+
+            if (voltageRMSTemp < 5f)
+            {
+                voltageRMSTemp = 0.0f;
+            }
+            angleTemp = (float)RelayControlLibrary.RelayModeFunctions.RadiansToDegrees(Math.Atan((double)(this.convertRMSV(imaginaryValue) / this.convertRMSV(realValue))));
+
+            // Multiply it by the protector scaling
+            voltageRMSTemp *= (float)protectorVoltage.Scaling;
+
+            if (realValue == 0)
+            {
+                if (imaginaryValue < 0)
+                    angleTemp = -90;
+                else
+                    angleTemp = 90;
+            }
+            else if (realValue < 0)
+            {
+                if (imaginaryValue > 0)
+                {
+                    angleTemp = 180 + angleTemp;
+                }
+                else
+                {
+                    angleTemp = angleTemp - 180;
+                }
+            }
+
+            if (angleTemp < 0)
+            {
+                angleTemp = 360 + angleTemp;
+            }
+
+            percentageTemp = this.convertRMSI(rMS) / .05f;
+            if (percentageTemp < .342f)
+            {
+                percentageTemp = 0.0f;
+                rMSTemp = 0.0f;
+            }
+
+            percentageTemp = percentageTemp * (float.Parse(cTMult) * (float)0.01); //   CT / (mult * 1/100)
+            
+            switch (phasorType)
+            {
+                case PhasorTypes.IA:
+                    if (!this.firstDataSeen)
+                        break;
+                    this.txtBox_x1P.Text = percentageTemp.ToString("0.00");
+                    this.textBoxX1Amp.Text = rMSTemp.ToString("0.00");
+                    this.workingRow["IA"] = percentageTemp;
+                    break;
+                case PhasorTypes.IB:
+                    if (!this.firstDataSeen)
+                        break;
+                    this.txtBox_x2P.Text = percentageTemp.ToString("0.00");
+                    this.textBoxX2Amp.Text = rMSTemp.ToString("0.00");
+                    this.workingRow["IB"] = percentageTemp;
+                    break;
+                case PhasorTypes.IC:
+                    if (!this.firstDataSeen)
+                        break;
+                    this.txtBox_x3P.Text = percentageTemp.ToString("0.00");
+                    this.textBoxX3Amp.Text = rMSTemp.ToString("0.00");
+                    this.workingRow["IC"] = percentageTemp;
+                    this.updateAllSeries();
+                    break;
+                case PhasorTypes.PA:
+                    if (!this.firstDataSeen)
+                        break;
+                    if (Convert.ToDouble(this.txtBox_x1P.Text) == 0)
+                        this.textBoxPhaseAngleA.Text = "No Read";
+                    else
+                        this.textBoxPhaseAngleA.Text = angleTemp.ToString("0");
+                    break;
+                case PhasorTypes.PB:
+                    if (!this.firstDataSeen)
+                        break;
+                    if (Convert.ToDouble(this.txtBox_x2P.Text) == 0)
+                        this.textBoxPhaseAngleB.Text = "No Read";
+                    else
+                        this.textBoxPhaseAngleB.Text = angleTemp.ToString("0");
+                    break;
+                case PhasorTypes.PC:
+                    if (!this.firstDataSeen)
+                        break;
+                    if (Convert.ToDouble(this.txtBox_x3P.Text) == 0)
+                        this.textBoxPhaseAngleC.Text = "No Read";
+                    else
+                        this.textBoxPhaseAngleC.Text = angleTemp.ToString("0");
+                    this.firstDataSeen = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+        */
         public object Clone()
         {
             return new Phasors() { PD = PD, Real = Real, Imaginary = Imaginary };
