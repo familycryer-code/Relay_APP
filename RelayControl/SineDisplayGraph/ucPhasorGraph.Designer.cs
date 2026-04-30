@@ -287,7 +287,7 @@ namespace SineDisplayGraph
             this.listBoxMode.Items.AddRange(new object[] {
             "Tripped",
             "Closed"});
-            this.listBoxMode.Location = new System.Drawing.Point(393, 63);
+            this.listBoxMode.Location = new System.Drawing.Point(443, 55);
             this.listBoxMode.Name = "listBoxMode";
             this.listBoxMode.Size = new System.Drawing.Size(76, 42);
             this.listBoxMode.TabIndex = 1;
@@ -298,7 +298,7 @@ namespace SineDisplayGraph
             this.listBoxSequencePower.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxSequencePower.FormattingEnabled = true;
             this.listBoxSequencePower.ItemHeight = 19;
-            this.listBoxSequencePower.Location = new System.Drawing.Point(897, 45);
+            this.listBoxSequencePower.Location = new System.Drawing.Point(960, 45);
             this.listBoxSequencePower.Name = "listBoxSequencePower";
             this.listBoxSequencePower.Size = new System.Drawing.Size(179, 99);
             this.listBoxSequencePower.TabIndex = 3;
@@ -313,7 +313,7 @@ namespace SineDisplayGraph
             this.panelTripped.Controls.Add(this.labelVtBClosed);
             this.panelTripped.Controls.Add(this.labelVtCClosed);
             this.panelTripped.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelTripped.Location = new System.Drawing.Point(393, 184);
+            this.panelTripped.Location = new System.Drawing.Point(443, 176);
             this.panelTripped.Name = "panelTripped";
             this.panelTripped.Size = new System.Drawing.Size(57, 81);
             this.panelTripped.TabIndex = 4;
@@ -373,7 +373,7 @@ namespace SineDisplayGraph
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(413, 160);
+            this.label4.Location = new System.Drawing.Point(463, 152);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 19);
             this.label4.TabIndex = 16;
@@ -383,7 +383,7 @@ namespace SineDisplayGraph
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(413, 134);
+            this.label5.Location = new System.Drawing.Point(463, 126);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 19);
             this.label5.TabIndex = 15;
@@ -393,7 +393,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnAColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelVnAColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnAColor.Location = new System.Drawing.Point(400, 110);
+            this.labelVnAColor.Location = new System.Drawing.Point(450, 102);
             this.labelVnAColor.Name = "labelVnAColor";
             this.labelVnAColor.Size = new System.Drawing.Size(10, 10);
             this.labelVnAColor.TabIndex = 11;
@@ -402,7 +402,7 @@ namespace SineDisplayGraph
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(413, 108);
+            this.label6.Location = new System.Drawing.Point(463, 100);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(39, 19);
             this.label6.TabIndex = 14;
@@ -412,7 +412,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnCColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelVnCColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnCColor.Location = new System.Drawing.Point(400, 162);
+            this.labelVnCColor.Location = new System.Drawing.Point(450, 154);
             this.labelVnCColor.Name = "labelVnCColor";
             this.labelVnCColor.Size = new System.Drawing.Size(10, 10);
             this.labelVnCColor.TabIndex = 9;
@@ -421,7 +421,7 @@ namespace SineDisplayGraph
             // 
             this.labelVnBColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelVnBColor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVnBColor.Location = new System.Drawing.Point(400, 136);
+            this.labelVnBColor.Location = new System.Drawing.Point(450, 128);
             this.labelVnBColor.Name = "labelVnBColor";
             this.labelVnBColor.Size = new System.Drawing.Size(10, 10);
             this.labelVnBColor.TabIndex = 8;
@@ -435,7 +435,7 @@ namespace SineDisplayGraph
             this.panelClosed.Controls.Add(this.labelIAColor);
             this.panelClosed.Controls.Add(this.label10);
             this.panelClosed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelClosed.Location = new System.Drawing.Point(396, 184);
+            this.panelClosed.Location = new System.Drawing.Point(446, 176);
             this.panelClosed.Name = "panelClosed";
             this.panelClosed.Size = new System.Drawing.Size(47, 69);
             this.panelClosed.TabIndex = 5;
@@ -444,7 +444,7 @@ namespace SineDisplayGraph
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(16, 50);
+            this.label7.Location = new System.Drawing.Point(17, 47);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(25, 19);
             this.label7.TabIndex = 22;
@@ -503,7 +503,7 @@ namespace SineDisplayGraph
             this.panelPower.Controls.Add(this.labelPBColor);
             this.panelPower.Controls.Add(this.labelPAColor);
             this.panelPower.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelPower.Location = new System.Drawing.Point(955, 156);
+            this.panelPower.Location = new System.Drawing.Point(1010, 156);
             this.panelPower.Name = "panelPower";
             this.panelPower.Size = new System.Drawing.Size(43, 96);
             this.panelPower.TabIndex = 4;
@@ -587,7 +587,7 @@ namespace SineDisplayGraph
             this.panelClosedSequence.Controls.Add(this.labelVnPColor);
             this.panelClosedSequence.Controls.Add(this.labelVnNColor);
             this.panelClosedSequence.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelClosedSequence.Location = new System.Drawing.Point(953, 156);
+            this.panelClosedSequence.Location = new System.Drawing.Point(1010, 156);
             this.panelClosedSequence.Name = "panelClosedSequence";
             this.panelClosedSequence.Size = new System.Drawing.Size(53, 103);
             this.panelClosedSequence.TabIndex = 1;
@@ -671,7 +671,7 @@ namespace SineDisplayGraph
             this.panelDifferentialVoltage.Controls.Add(this.labelVdBColor);
             this.panelDifferentialVoltage.Controls.Add(this.labelVdAColor);
             this.panelDifferentialVoltage.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelDifferentialVoltage.Location = new System.Drawing.Point(955, 156);
+            this.panelDifferentialVoltage.Location = new System.Drawing.Point(1010, 156);
             this.panelDifferentialVoltage.Name = "panelDifferentialVoltage";
             this.panelDifferentialVoltage.Size = new System.Drawing.Size(54, 97);
             this.panelDifferentialVoltage.TabIndex = 5;
@@ -749,7 +749,7 @@ namespace SineDisplayGraph
             this.panelIeff.Controls.Add(this.labelIeff);
             this.panelIeff.Controls.Add(this.labelIeffColor);
             this.panelIeff.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelIeff.Location = new System.Drawing.Point(953, 156);
+            this.panelIeff.Location = new System.Drawing.Point(1010, 156);
             this.panelIeff.Name = "panelIeff";
             this.panelIeff.Size = new System.Drawing.Size(72, 25);
             this.panelIeff.TabIndex = 3;
@@ -778,7 +778,7 @@ namespace SineDisplayGraph
             this.panelDifferentialSquence.Controls.Add(this.labelVdPColor);
             this.panelDifferentialSquence.Controls.Add(this.labelVdNColor);
             this.panelDifferentialSquence.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelDifferentialSquence.Location = new System.Drawing.Point(953, 156);
+            this.panelDifferentialSquence.Location = new System.Drawing.Point(1010, 156);
             this.panelDifferentialSquence.Name = "panelDifferentialSquence";
             this.panelDifferentialSquence.Size = new System.Drawing.Size(60, 54);
             this.panelDifferentialSquence.TabIndex = 2;
@@ -1112,7 +1112,7 @@ namespace SineDisplayGraph
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(393, 190);
+            this.label53.Location = new System.Drawing.Point(443, 182);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(13, 13);
             this.label53.TabIndex = 194;
@@ -1122,7 +1122,7 @@ namespace SineDisplayGraph
             // 
             this.label54.AutoSize = true;
             this.label54.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label54.Location = new System.Drawing.Point(863, 183);
+            this.label54.Location = new System.Drawing.Point(953, 178);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(18, 19);
             this.label54.TabIndex = 195;
@@ -1132,7 +1132,7 @@ namespace SineDisplayGraph
             // 
             this.label56.AutoSize = true;
             this.label56.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label56.Location = new System.Drawing.Point(199, 21);
+            this.label56.Location = new System.Drawing.Point(222, 10);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(27, 19);
             this.label56.TabIndex = 196;
@@ -1142,7 +1142,7 @@ namespace SineDisplayGraph
             // 
             this.label57.AutoSize = true;
             this.label57.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label57.Location = new System.Drawing.Point(10, 192);
+            this.label57.Location = new System.Drawing.Point(33, 181);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(36, 19);
             this.label57.TabIndex = 197;
@@ -1152,7 +1152,7 @@ namespace SineDisplayGraph
             // 
             this.label59.AutoSize = true;
             this.label59.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label59.Location = new System.Drawing.Point(190, 359);
+            this.label59.Location = new System.Drawing.Point(213, 348);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(36, 19);
             this.label59.TabIndex = 198;
@@ -1162,7 +1162,7 @@ namespace SineDisplayGraph
             // 
             this.label60.AutoSize = true;
             this.label60.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label60.Location = new System.Drawing.Point(678, 350);
+            this.label60.Location = new System.Drawing.Point(768, 345);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(36, 19);
             this.label60.TabIndex = 199;
@@ -1172,7 +1172,7 @@ namespace SineDisplayGraph
             // 
             this.label61.AutoSize = true;
             this.label61.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label61.Location = new System.Drawing.Point(486, 189);
+            this.label61.Location = new System.Drawing.Point(576, 184);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(36, 19);
             this.label61.TabIndex = 200;
@@ -1182,7 +1182,7 @@ namespace SineDisplayGraph
             // 
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label62.Location = new System.Drawing.Point(687, 16);
+            this.label62.Location = new System.Drawing.Point(777, 11);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(27, 19);
             this.label62.TabIndex = 201;
@@ -2334,7 +2334,7 @@ namespace SineDisplayGraph
             this.labelViewedCycleNumber.AutoSize = true;
             this.labelViewedCycleNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelViewedCycleNumber.ForeColor = System.Drawing.Color.Blue;
-            this.labelViewedCycleNumber.Location = new System.Drawing.Point(5, 17);
+            this.labelViewedCycleNumber.Location = new System.Drawing.Point(439, 271);
             this.labelViewedCycleNumber.Name = "labelViewedCycleNumber";
             this.labelViewedCycleNumber.Size = new System.Drawing.Size(187, 20);
             this.labelViewedCycleNumber.TabIndex = 304;
@@ -2345,7 +2345,7 @@ namespace SineDisplayGraph
             // 
             this.textBoxViewedCycleNumber.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxViewedCycleNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(87, 40);
+            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(521, 294);
             this.textBoxViewedCycleNumber.Name = "textBoxViewedCycleNumber";
             this.textBoxViewedCycleNumber.ReadOnly = true;
             this.textBoxViewedCycleNumber.Size = new System.Drawing.Size(65, 26);
@@ -2354,7 +2354,7 @@ namespace SineDisplayGraph
             // 
             // buttonUpCycle
             // 
-            this.buttonUpCycle.Location = new System.Drawing.Point(155, 69);
+            this.buttonUpCycle.Location = new System.Drawing.Point(589, 323);
             this.buttonUpCycle.Name = "buttonUpCycle";
             this.buttonUpCycle.Size = new System.Drawing.Size(25, 23);
             this.buttonUpCycle.TabIndex = 306;
@@ -2365,7 +2365,7 @@ namespace SineDisplayGraph
             // 
             // buttonDownCycle
             // 
-            this.buttonDownCycle.Location = new System.Drawing.Point(127, 69);
+            this.buttonDownCycle.Location = new System.Drawing.Point(561, 323);
             this.buttonDownCycle.Name = "buttonDownCycle";
             this.buttonDownCycle.Size = new System.Drawing.Size(25, 23);
             this.buttonDownCycle.TabIndex = 307;
@@ -2376,7 +2376,7 @@ namespace SineDisplayGraph
             // 
             // textBoxCTRatio
             // 
-            this.textBoxCTRatio.Location = new System.Drawing.Point(490, 34);
+            this.textBoxCTRatio.Location = new System.Drawing.Point(608, 34);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(64, 20);
             this.textBoxCTRatio.TabIndex = 308;
@@ -2387,7 +2387,7 @@ namespace SineDisplayGraph
             this.labelCTRatio.AutoSize = true;
             this.labelCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCTRatio.ForeColor = System.Drawing.Color.Blue;
-            this.labelCTRatio.Location = new System.Drawing.Point(486, 4);
+            this.labelCTRatio.Location = new System.Drawing.Point(604, 4);
             this.labelCTRatio.Name = "labelCTRatio";
             this.labelCTRatio.Size = new System.Drawing.Size(86, 19);
             this.labelCTRatio.TabIndex = 309;
@@ -2397,7 +2397,7 @@ namespace SineDisplayGraph
             // labelCTRatioOver5
             // 
             this.labelCTRatioOver5.AutoSize = true;
-            this.labelCTRatioOver5.Location = new System.Drawing.Point(560, 37);
+            this.labelCTRatioOver5.Location = new System.Drawing.Point(678, 37);
             this.labelCTRatioOver5.Name = "labelCTRatioOver5";
             this.labelCTRatioOver5.Size = new System.Drawing.Size(18, 13);
             this.labelCTRatioOver5.TabIndex = 310;
@@ -2407,7 +2407,7 @@ namespace SineDisplayGraph
             // checkBoxGERelay
             // 
             this.checkBoxGERelay.AutoSize = true;
-            this.checkBoxGERelay.Location = new System.Drawing.Point(17, 47);
+            this.checkBoxGERelay.Location = new System.Drawing.Point(451, 301);
             this.checkBoxGERelay.Name = "checkBoxGERelay";
             this.checkBoxGERelay.Size = new System.Drawing.Size(41, 17);
             this.checkBoxGERelay.TabIndex = 311;
@@ -2419,7 +2419,7 @@ namespace SineDisplayGraph
             // checkBoxABC
             // 
             this.checkBoxABC.AutoSize = true;
-            this.checkBoxABC.Location = new System.Drawing.Point(17, 63);
+            this.checkBoxABC.Location = new System.Drawing.Point(451, 317);
             this.checkBoxABC.Name = "checkBoxABC";
             this.checkBoxABC.Size = new System.Drawing.Size(47, 17);
             this.checkBoxABC.TabIndex = 312;
@@ -2430,7 +2430,7 @@ namespace SineDisplayGraph
             // checkBoxBFlag
             // 
             this.checkBoxBFlag.AutoSize = true;
-            this.checkBoxBFlag.Location = new System.Drawing.Point(17, 80);
+            this.checkBoxBFlag.Location = new System.Drawing.Point(451, 334);
             this.checkBoxBFlag.Name = "checkBoxBFlag";
             this.checkBoxBFlag.Size = new System.Drawing.Size(102, 17);
             this.checkBoxBFlag.TabIndex = 313;
@@ -2442,7 +2442,7 @@ namespace SineDisplayGraph
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(376, 186);
+            this.label1.Location = new System.Drawing.Point(399, 175);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(18, 19);
             this.label1.TabIndex = 315;
@@ -2641,7 +2641,7 @@ namespace SineDisplayGraph
             // 
             this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
             this.phasorGraph2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phasorGraph2.Location = new System.Drawing.Point(529, 39);
+            this.phasorGraph2.Location = new System.Drawing.Point(619, 34);
             this.phasorGraph2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.phasorGraph2.Name = "phasorGraph2";
             this.phasorGraph2.Size = new System.Drawing.Size(318, 307);
@@ -2651,7 +2651,7 @@ namespace SineDisplayGraph
             // 
             this.phasorGraph1.BackColor = System.Drawing.Color.Transparent;
             this.phasorGraph1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phasorGraph1.Location = new System.Drawing.Point(52, 45);
+            this.phasorGraph1.Location = new System.Drawing.Point(75, 34);
             this.phasorGraph1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.phasorGraph1.Name = "phasorGraph1";
             this.phasorGraph1.Size = new System.Drawing.Size(318, 307);

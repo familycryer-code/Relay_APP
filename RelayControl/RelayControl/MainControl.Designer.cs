@@ -1420,7 +1420,7 @@
             this.checkBoxInTripRegion.AutoSize = true;
             this.checkBoxInTripRegion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInTripRegion.Location = new System.Drawing.Point(435, 20); //(423, 50);
+            this.checkBoxInTripRegion.Location = new System.Drawing.Point(445, 20); //(435, 20); 
             this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
             this.checkBoxInTripRegion.Size = new System.Drawing.Size(131, 23);
