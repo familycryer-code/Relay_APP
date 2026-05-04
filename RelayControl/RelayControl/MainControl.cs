@@ -736,7 +736,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.30" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.31" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -766,13 +766,15 @@ namespace RelayControl
 #if !CONED
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
+                this.panel_PCsettings.Enabled = false;
+                this.panel_PCsettings.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
-                #if (!PSEG && ! ENMAX)
+#if (!PSEG && !ENMAX)
                                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
 
-                #endif
+#endif
 #endif
 #if !TORONTOHYDRO
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(750, 250);
@@ -780,13 +782,13 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(450, 500);
                 this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(200, 500);
                // this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
-                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(580, 10); //(480, 3);
+                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(465, 10); //(420, 10);  
                 this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Size = new System.Drawing.Size(240, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(155, 87);
-                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(735, 55); //(638, 53);
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(575, 55); //(735, 55); 
                 this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 90);
                 this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 50);
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(92, 10); //(90, 3);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(92, 10); 
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
                 this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
                 this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 54);
@@ -815,10 +817,13 @@ namespace RelayControl
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
                 this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13);  
-                this.groupBox_PC.Location = new System.Drawing.Point(1004, 390); //(1004, 360);  
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 370); //(470, 320);
-                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(127, 282);
-                this.btn_PC_Send.Location = new System.Drawing.Point(120, 326);
+                this.groupBox_PC.Location = new System.Drawing.Point(1004, 390);   
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 370); 
+              //  this.panel_PCsettings.Location = new System.Drawing.Point(1002, 390);
+              //  this.panel_PCsettings.Size = new System.Drawing.Size(470, 374);
+               // this.panel_PCsettings.SendToBack();
+                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
+                this.btn_PC_Send.Location = new System.Drawing.Point(280, 295); //(120, 326);
                 /*
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab
                     only for CONED APP - since its needs extra space for the Permissive close groupBox

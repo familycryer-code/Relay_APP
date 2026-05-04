@@ -1036,7 +1036,7 @@ namespace RelayControlLibrary
 
                 location.Y = this.groupBoxDNPSettings.Location.Y;
                 location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
-
+                
                 //this.groupBoxDIGITALGRIDDNPDeadBand.Location = location;
                 this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(400, 6); //(288, 2);
                 this.groupBoxDIGITALGRIDDNPDeadBand.Height = 0;

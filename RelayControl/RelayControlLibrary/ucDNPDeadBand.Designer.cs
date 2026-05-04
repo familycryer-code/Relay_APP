@@ -42,10 +42,11 @@ namespace RelayControlLibrary
             this.labelName.Size = new System.Drawing.Size(35, 13);
             this.labelName.TabIndex = 1;
             this.labelName.Text = "label1";
+            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // numericUpDownValue
             // 
-            this.numericUpDownValue.Location = new System.Drawing.Point(147, 0);
+            this.numericUpDownValue.Location = new System.Drawing.Point(163, 0); //(147, 0);
             this.numericUpDownValue.Name = "numericUpDownValue";
             this.numericUpDownValue.Size = new System.Drawing.Size(49, 20); //(120, 20);
             this.numericUpDownValue.TabIndex = 2;
@@ -54,7 +55,7 @@ namespace RelayControlLibrary
             // labelUnits
             // 
             this.labelUnits.AutoSize = true;
-            this.labelUnits.Location = new System.Drawing.Point(200, 3); //(271, 3);
+            this.labelUnits.Location = new System.Drawing.Point(215, 3); //(200, 3); 
             this.labelUnits.Name = "labelUnits";
             this.labelUnits.Size = new System.Drawing.Size(35, 13);
             this.labelUnits.TabIndex = 3;

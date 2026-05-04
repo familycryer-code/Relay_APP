@@ -93,6 +93,7 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -133,11 +134,6 @@
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
-            this.textBoxSaveStateName = new System.Windows.Forms.TextBox();
-            this.buttonSaveSetting = new System.Windows.Forms.Button();
-            this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
-            this.buttonDeleteSetting = new System.Windows.Forms.Button();
-            this.button_push = new System.Windows.Forms.Button();
             this.groupBox_PC = new System.Windows.Forms.GroupBox();
             this.btn_PC_Send = new System.Windows.Forms.Button();
             this.lbl_PermissiveClose_Status = new System.Windows.Forms.Label();
@@ -154,6 +150,12 @@
             this.numericUpDown_PC_floatTime = new System.Windows.Forms.NumericUpDown();
             this.lbl_PC_floatTime = new System.Windows.Forms.Label();
             this.btn_RestorePC_defaults = new System.Windows.Forms.Button();
+            this.panel_PCsettings = new System.Windows.Forms.Panel();
+            this.textBoxSaveStateName = new System.Windows.Forms.TextBox();
+            this.buttonSaveSetting = new System.Windows.Forms.Button();
+            this.comboBoxSavedStates = new System.Windows.Forms.ComboBox();
+            this.buttonDeleteSetting = new System.Windows.Forms.Button();
+            this.button_push = new System.Windows.Forms.Button();
             this.button_dataStore = new System.Windows.Forms.Button();
             this.groupBoxLRLockoutMain = new System.Windows.Forms.GroupBox();
             this.textBoxLRLockoutStatusMain = new System.Windows.Forms.TextBox();
@@ -270,7 +272,6 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -948,6 +949,14 @@
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
             // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // tabPageEvents
             // 
             this.tabPageEvents.Controls.Add(this.buttonClearEvents);
@@ -1370,7 +1379,7 @@
             // 
             this.labelSNPQMonitor.AutoSize = true;
             this.labelSNPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(1220, 462); //(280, 350);
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(1220, 462);
             this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSNPQMonitor.Name = "labelSNPQMonitor";
             this.labelSNPQMonitor.Size = new System.Drawing.Size(159, 19);
@@ -1381,7 +1390,7 @@
             // 
             this.labelCtRatioMonitor.AutoSize = true;
             this.labelCtRatioMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1300, 522); //(355, 382);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1300, 522);
             this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(76, 19);
@@ -1391,7 +1400,7 @@
             // textBoxRelaySNControlPQ
             // 
             this.textBoxRelaySNControlPQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1400, 460); //(180, 4); 
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1400, 460);
             this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
@@ -1405,7 +1414,7 @@
             // 
             this.textBoxCTRatioPQMonitor.Enabled = false;
             this.textBoxCTRatioPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1400, 522); //(2, 50); 
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1400, 522);
             this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
@@ -1420,7 +1429,7 @@
             this.checkBoxInTripRegion.AutoSize = true;
             this.checkBoxInTripRegion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInTripRegion.Location = new System.Drawing.Point(445, 20); //(435, 20); 
+            this.checkBoxInTripRegion.Location = new System.Drawing.Point(445, 20);
             this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
             this.checkBoxInTripRegion.Size = new System.Drawing.Size(131, 23);
@@ -1443,11 +1452,11 @@
             // 
             this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayTrippedOrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1280, 350); //(521, 382);
+            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1280, 350);
             this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(4);
             this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
             this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
-            this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(165, 31); //(116, 30);
+            this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(165, 31);
             this.labelRelayTrippedOrClose.TabIndex = 36;
             this.labelRelayTrippedOrClose.Text = "Unkown";
             this.labelRelayTrippedOrClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1455,7 +1464,7 @@
             // buttonToggleMonitor
             // 
             this.buttonToggleMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonToggleMonitor.Location = new System.Drawing.Point(1280, 400); //(520, 345);
+            this.buttonToggleMonitor.Location = new System.Drawing.Point(1280, 400);
             this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.buttonToggleMonitor.Name = "buttonToggleMonitor";
             this.buttonToggleMonitor.Size = new System.Drawing.Size(165, 31);
@@ -1496,12 +1505,12 @@
             // tabPageControl
             // 
             this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageControl.Controls.Add(this.groupBox_PC);
             this.tabPageControl.Controls.Add(this.textBoxSaveStateName);
             this.tabPageControl.Controls.Add(this.buttonSaveSetting);
             this.tabPageControl.Controls.Add(this.comboBoxSavedStates);
             this.tabPageControl.Controls.Add(this.buttonDeleteSetting);
             this.tabPageControl.Controls.Add(this.button_push);
-            this.tabPageControl.Controls.Add(this.groupBox_PC);
             this.tabPageControl.Controls.Add(this.button_dataStore);
             this.tabPageControl.Controls.Add(this.groupBoxLRLockoutMain);
             this.tabPageControl.Controls.Add(this.groupBoxLowVoltThres);
@@ -1523,58 +1532,6 @@
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             // 
-            // textBoxSaveStateName
-            // 
-            this.textBoxSaveStateName.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSaveStateName.Location = new System.Drawing.Point(863, 747);
-            this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxSaveStateName.Name = "textBoxSaveStateName";
-            this.textBoxSaveStateName.Size = new System.Drawing.Size(169, 27);
-            this.textBoxSaveStateName.TabIndex = 130;
-            // 
-            // buttonSaveSetting
-            // 
-            this.buttonSaveSetting.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSaveSetting.Location = new System.Drawing.Point(1008, 747);
-            this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonSaveSetting.Name = "buttonSaveSetting";
-            this.buttonSaveSetting.Size = new System.Drawing.Size(169, 28);
-            this.buttonSaveSetting.TabIndex = 129;
-            this.buttonSaveSetting.Text = "Save Profile";
-            this.buttonSaveSetting.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxSavedStates
-            // 
-            this.comboBoxSavedStates.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxSavedStates.FormattingEnabled = true;
-            this.comboBoxSavedStates.Location = new System.Drawing.Point(863, 715);
-            this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBoxSavedStates.Name = "comboBoxSavedStates";
-            this.comboBoxSavedStates.Size = new System.Drawing.Size(169, 27);
-            this.comboBoxSavedStates.TabIndex = 127;
-            // 
-            // buttonDeleteSetting
-            // 
-            this.buttonDeleteSetting.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDeleteSetting.Location = new System.Drawing.Point(1008, 713);
-            this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonDeleteSetting.Name = "buttonDeleteSetting";
-            this.buttonDeleteSetting.Size = new System.Drawing.Size(169, 28);
-            this.buttonDeleteSetting.TabIndex = 128;
-            this.buttonDeleteSetting.Text = "Delete Profile";
-            this.buttonDeleteSetting.UseVisualStyleBackColor = true;
-            // 
-            // button_push
-            // 
-            this.button_push.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_push.Location = new System.Drawing.Point(774, 740);
-            this.button_push.Name = "button_push";
-            this.button_push.Size = new System.Drawing.Size(82, 36);
-            this.button_push.TabIndex = 123;
-            this.button_push.Text = "Push";
-            this.button_push.UseVisualStyleBackColor = true;
-            this.button_push.Click += new System.EventHandler(this.button_push_Click);
-            // 
             // groupBox_PC
             // 
             this.groupBox_PC.Controls.Add(this.btn_PC_Send);
@@ -1592,6 +1549,7 @@
             this.groupBox_PC.Controls.Add(this.numericUpDown_PC_floatTime);
             this.groupBox_PC.Controls.Add(this.lbl_PC_floatTime);
             this.groupBox_PC.Controls.Add(this.btn_RestorePC_defaults);
+            this.groupBox_PC.Controls.Add(this.panel_PCsettings);
             this.groupBox_PC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_PC.Location = new System.Drawing.Point(995, 380);
             this.groupBox_PC.Name = "groupBox_PC";
@@ -1604,7 +1562,7 @@
             // 
             this.btn_PC_Send.Location = new System.Drawing.Point(279, 276);
             this.btn_PC_Send.Name = "btn_PC_Send";
-            this.btn_PC_Send.Size = new System.Drawing.Size(244, 28);
+            this.btn_PC_Send.Size = new System.Drawing.Size(80, 27);
             this.btn_PC_Send.TabIndex = 14;
             this.btn_PC_Send.Text = "Apply";
             this.btn_PC_Send.UseVisualStyleBackColor = true;
@@ -1778,11 +1736,71 @@
             // 
             this.btn_RestorePC_defaults.Location = new System.Drawing.Point(27, 276);
             this.btn_RestorePC_defaults.Name = "btn_RestorePC_defaults";
-            this.btn_RestorePC_defaults.Size = new System.Drawing.Size(228, 28);
+            this.btn_RestorePC_defaults.Size = new System.Drawing.Size(135, 28);
             this.btn_RestorePC_defaults.TabIndex = 0;
             this.btn_RestorePC_defaults.Text = "Restore Defaults";
             this.btn_RestorePC_defaults.UseVisualStyleBackColor = true;
             this.btn_RestorePC_defaults.Click += new System.EventHandler(this.btn_RestorePC_defaults_Click);
+            // 
+            // panel_PCsettings
+            // 
+            this.panel_PCsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_PCsettings.Location = new System.Drawing.Point(0, 2);
+            this.panel_PCsettings.Name = "panel_PCsettings";
+            this.panel_PCsettings.Size = new System.Drawing.Size(470, 375);
+            this.panel_PCsettings.TabIndex = 15;
+            // 
+            // textBoxSaveStateName
+            // 
+            this.textBoxSaveStateName.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxSaveStateName.Location = new System.Drawing.Point(863, 747);
+            this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSaveStateName.Name = "textBoxSaveStateName";
+            this.textBoxSaveStateName.Size = new System.Drawing.Size(169, 27);
+            this.textBoxSaveStateName.TabIndex = 130;
+            // 
+            // buttonSaveSetting
+            // 
+            this.buttonSaveSetting.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSaveSetting.Location = new System.Drawing.Point(1008, 747);
+            this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSaveSetting.Name = "buttonSaveSetting";
+            this.buttonSaveSetting.Size = new System.Drawing.Size(169, 28);
+            this.buttonSaveSetting.TabIndex = 129;
+            this.buttonSaveSetting.Text = "Save Profile";
+            this.buttonSaveSetting.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxSavedStates
+            // 
+            this.comboBoxSavedStates.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxSavedStates.FormattingEnabled = true;
+            this.comboBoxSavedStates.Location = new System.Drawing.Point(863, 715);
+            this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxSavedStates.Name = "comboBoxSavedStates";
+            this.comboBoxSavedStates.Size = new System.Drawing.Size(169, 27);
+            this.comboBoxSavedStates.TabIndex = 127;
+            // 
+            // buttonDeleteSetting
+            // 
+            this.buttonDeleteSetting.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDeleteSetting.Location = new System.Drawing.Point(1008, 713);
+            this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDeleteSetting.Name = "buttonDeleteSetting";
+            this.buttonDeleteSetting.Size = new System.Drawing.Size(169, 28);
+            this.buttonDeleteSetting.TabIndex = 128;
+            this.buttonDeleteSetting.Text = "Delete Profile";
+            this.buttonDeleteSetting.UseVisualStyleBackColor = true;
+            // 
+            // button_push
+            // 
+            this.button_push.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_push.Location = new System.Drawing.Point(774, 740);
+            this.button_push.Name = "button_push";
+            this.button_push.Size = new System.Drawing.Size(82, 36);
+            this.button_push.TabIndex = 123;
+            this.button_push.Text = "Push";
+            this.button_push.UseVisualStyleBackColor = true;
+            this.button_push.Click += new System.EventHandler(this.button_push_Click);
             // 
             // button_dataStore
             // 
@@ -2076,7 +2094,7 @@
             this.buttonSendCTRatio.Location = new System.Drawing.Point(212, 302);
             this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
-            this.buttonSendCTRatio.Size = new System.Drawing.Size(70, 28);
+            this.buttonSendCTRatio.Size = new System.Drawing.Size(80, 27);
             this.buttonSendCTRatio.TabIndex = 61;
             this.buttonSendCTRatio.Text = "Apply";
             this.buttonSendCTRatio.UseVisualStyleBackColor = true;
@@ -3198,14 +3216,6 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -3541,5 +3551,6 @@
         private System.Windows.Forms.Button btn_clrLC;
         private System.Windows.Forms.Label lblLC_Name;
         private System.Windows.Forms.Panel panel_NWsettings;
+        private System.Windows.Forms.Panel panel_PCsettings;
     }
 }

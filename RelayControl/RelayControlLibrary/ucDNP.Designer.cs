@@ -489,6 +489,7 @@ namespace RelayControlLibrary
             this.labelVoltageTriggerRange.Size = new System.Drawing.Size(64, 13);
             this.labelVoltageTriggerRange.TabIndex = 35;
             this.labelVoltageTriggerRange.Text = "Voltage DB:";
+            this.labelVoltageTriggerRange.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // numericUpDownTriggerRangeTHD
             // 

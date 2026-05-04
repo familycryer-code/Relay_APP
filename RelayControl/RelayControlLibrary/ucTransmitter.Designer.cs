@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.buttonTX = new System.Windows.Forms.Button();
             this.buttonRQ = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -212,11 +211,11 @@
             this.label21 = new System.Windows.Forms.Label();
             this.button_FastFire = new System.Windows.Forms.Button();
             this.button_FastMode = new System.Windows.Forms.Button();
-            this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
-            this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
+            this.timer_FastMode = new System.Windows.Forms.Timer();
+            this.timer_FireFastConfig = new System.Windows.Forms.Timer();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
+            this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -877,7 +876,7 @@
             this.btn_CTratioCal.Name = "btn_CTratioCal";
             this.btn_CTratioCal.Size = new System.Drawing.Size(92, 52);
             this.btn_CTratioCal.TabIndex = 14;
-            this.btn_CTratioCal.Text = "CT Ratio Calculator";
+            this.btn_CTratioCal.Text = "Calculate CT Ratio";
             this.btn_CTratioCal.UseVisualStyleBackColor = true;
             this.btn_CTratioCal.Click += new System.EventHandler(this.btn_CTratioCal_Click);
             // 
@@ -2412,16 +2411,6 @@
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
-            // grpBox_TXcommands
-            // 
-            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
-            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
-            this.grpBox_TXcommands.TabIndex = 88;
-            this.grpBox_TXcommands.TabStop = false;
-            this.grpBox_TXcommands.Text = "Transmission Commands";
-            // 
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
@@ -2432,6 +2421,16 @@
             this.ucDNP2.Name = "ucDNP2";
             this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
             this.ucDNP2.TabIndex = 0;
+            // 
+            // grpBox_TXcommands
+            // 
+            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
+            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
+            this.grpBox_TXcommands.TabIndex = 88;
+            this.grpBox_TXcommands.TabStop = false;
+            this.grpBox_TXcommands.Text = "Transmission Commands";
             // 
             // ucTransmitterMonitoring2
             // 

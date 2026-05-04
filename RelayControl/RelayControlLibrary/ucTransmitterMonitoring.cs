@@ -45,6 +45,9 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("IB", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("IC", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
+            this.groupBoxCurrentReadings.Visible = false;
+            this.groupBoxTimeElapsed.Location = new System.Drawing.Point(950, 10);
+            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(650, 10);
 #if CONED
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 0;
@@ -736,7 +739,7 @@ namespace RelayControlLibrary
                 this.labelHa.Visible = true;
 
                 this.groupBoxFlagStatus.Text = "Digital Values";
-                this.groupBoxFlagStatus.Location = new System.Drawing.Point(500, 250); //(390, 250); 
+                this.groupBoxFlagStatus.Location = new System.Drawing.Point(500, 250);  
                 this.groupBoxFlagStatus.Size = new System.Drawing.Size(150, 150);  
                 this.checkBoxFlagStatusA.Text = "Input 1";//"Flag B";
                 this.checkBoxFlagStatusB.Text = "Input 2";//"Flag D";
