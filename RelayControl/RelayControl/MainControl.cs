@@ -924,9 +924,7 @@ namespace RelayControl
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-
-
-
+                                
                 // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
                 foreach (Control child in groupBox_RelayInfo.Controls)
@@ -8868,6 +8866,11 @@ namespace RelayControl
             else if (this.tabControlMain.SelectedTab == this.tabPageControl)
             {
                 this.transmitterMonitoring = false;
+            }
+            else if (this.tabControlMain.SelectedTab == this.tabPage1)  // Relay Monitoring tab
+            {
+                // read lightning count by default at start up
+                this.btn_getLC_Click(this, new EventArgs());
             }
             else
             {

@@ -1051,7 +1051,11 @@ namespace RelayControlLibrary
 
                     if (this.deadBandVariables.IndexOf(dBD) >= (this.deadBandVariables.Count / 2) - 1 && location.X == 2) //the 2 is for the first column so we only do this once.
                     {
-                        location = new Point(location.X + workingDDB.Width, 15);
+                        // location = new Point(location.X + workingDDB.Width, 15);
+                        // Control comes here at the starting of second half (2nd column) of the dead bands
+                        // X location of the second column : 2(location.X) + 444(workingDDB.Width) - 100
+                        // Y location of the second column : 15
+                        location = new Point(location.X + workingDDB.Width - 100, 15);
                     }
                     else
                     {
@@ -1070,7 +1074,7 @@ namespace RelayControlLibrary
                 this.groupBoxDIGITALGRIDDNPDeadBand.Show();
 
                 //this.buttonSendDeadBand.Location = new Point(this.groupBoxDIGITALGRIDDNPDeadBand.Location.X, this.groupBoxDIGITALGRIDDNPDeadBand.Location.Y + this.groupBoxDIGITALGRIDDNPDeadBand.Height + 5);
-                this.buttonSendDeadBand.Location = new System.Drawing.Point(800, 370); //(1230, 370); 
+                this.buttonSendDeadBand.Location = new System.Drawing.Point(1235, 670); //(800, 370); //(1230, 370); 
                 this.buttonSendDeadBand.Size = new System.Drawing.Size(100, 80);
             }
             this.buttonDefaults.Text = "Restore Defaults";

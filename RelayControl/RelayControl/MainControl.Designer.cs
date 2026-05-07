@@ -3083,7 +3083,7 @@
             this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageDNPData.Size = new System.Drawing.Size(1576, 800);
             this.tabPageDNPData.TabIndex = 12;
-            this.tabPageDNPData.Text = "DNP Data";
+            this.tabPageDNPData.Text = "DNP Live Data";
             // 
             // buttonRequestDNPData
             // 

@@ -592,11 +592,11 @@ namespace RelayControlLibrary
             // buttonRQDNPSettings
             // 
             this.buttonRQDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRQDNPSettings.Location = new System.Drawing.Point(37, 489);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(36, 410);
             this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
             this.buttonRQDNPSettings.Size = new System.Drawing.Size(210, 23);
             this.buttonRQDNPSettings.TabIndex = 31;
-            this.buttonRQDNPSettings.Text = "Request DNP Settings";
+            this.buttonRQDNPSettings.Text = "Read DNP Settings";
             this.buttonRQDNPSettings.UseVisualStyleBackColor = true;
             this.buttonRQDNPSettings.Click += new System.EventHandler(this.buttonRQDNPSettings_Click);
             // 
@@ -1329,7 +1329,7 @@ namespace RelayControlLibrary
             this.buttonSendDeadBand.Name = "buttonSendDeadBand";
             this.buttonSendDeadBand.Size = new System.Drawing.Size(101, 55);
             this.buttonSendDeadBand.TabIndex = 144;
-            this.buttonSendDeadBand.Text = "Send Dead Band";
+            this.buttonSendDeadBand.Text = "Apply";
             this.buttonSendDeadBand.UseVisualStyleBackColor = true;
             this.buttonSendDeadBand.Click += new System.EventHandler(this.buttonSendDeadBand_Click);
             // 
