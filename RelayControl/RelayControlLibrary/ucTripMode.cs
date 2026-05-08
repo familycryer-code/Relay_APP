@@ -1,19 +1,20 @@
-﻿using System;
+﻿using GraphicsServer.GSNet.Charting;
+using SharedResources;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
-using System.Windows.Forms;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Collections;
-using System.IO;
-using SharedResources;
+using System.Text;
 using System.Threading;
-using System.Reflection;
-using GraphicsServer.GSNet.Charting;
-using System.Linq;
+using System.Windows.Documents;
+using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
@@ -1458,7 +1459,8 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDownSensTrip.Value = Math.Round(temp * this.CTRatio, 3);
+                //this.numericUpDownSensTrip.Value = Math.Round(temp * this.CTRatio, 3);
+                this.numericUpDownSensTrip.Value = (temp * this.CTRatio)/1000;
             }
             else if (this.displayType == eDisplayType.Percent)
             {
@@ -1511,17 +1513,23 @@ namespace RelayControlLibrary
             this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "A";
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDown_GreenMagX.Value = Math.Round(temp * this.CTRatio, 3);
-                this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * this.CTRatio, 3);
-                this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * this.CTRatio, 1);
-                this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * this.CTRatio, 1);
+                //this.numericUpDown_GreenMagX.Value = Math.Round(temp * this.CTRatio, 3);
+                this.numericUpDown_GreenMagX.Value = (temp * this.CTRatio) / 1000;
+                //this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * this.CTRatio, 3);
+                this.numericUpDown_GreenMagY.Value = (temp2 * this.CTRatio) / 1000;
+                //this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * this.CTRatio, 1);
+                this.numericUpDown_InCurrkW.Value = (temp3 * this.CTRatio) / 10;
+                //this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * this.CTRatio, 1);
+                this.numericUpDown_InCurrkVAR.Value = (temp4 * this.CTRatio) / 10;
             }
             else if (this.displayType == eDisplayType.Percent)
             {
                 this.numericUpDown_GreenMagX.Value = Math.Round(temp * .05m * CTRatio, 3);
                 this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * .05m * CTRatio, 3);
-                this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * .05m * CTRatio, 1);
-                this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * .05m * CTRatio, 1);
+                //this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * .05m * CTRatio, 1);
+                this.numericUpDown_InCurrkW.Value = (temp3 * .05m * CTRatio) / 10;
+                //this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * .05m * CTRatio, 1);
+                this.numericUpDown_InCurrkVAR.Value = (temp4 * .05m * CTRatio) / 10;
             }
 
             displayType = eDisplayType.Protector;
@@ -1639,7 +1647,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum =
                 this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = 1;
             this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum =
-                this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 100;
+                this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 2600;// 100;
             this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text =
                 this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "%";
             this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = .002m;
@@ -1648,7 +1656,7 @@ namespace RelayControlLibrary
             if (this.displayType == eDisplayType.Relay)
             {
                 this.numericUpDown_GreenMagX.Value = Math.Round(temp / 50m, 3);
-                this.numericUpDown_GreenMagY.Value = Math.Round(temp2 / 50m, 3); ;
+                this.numericUpDown_GreenMagY.Value = Math.Round(temp2 / 50m, 3); 
                 this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * 1000m / 50m, 3);
                 this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * 1000m / 50m, 3);
             }
@@ -1731,7 +1739,8 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = 16;// 10;
             this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "A";// "mA";
 
-            this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = 16;// 0.5m;
+            //this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = 0.5m;// 16;// 0.5m;
+            this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkVAR.Minimum = 0;// 16;// 0.5m;
             this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 2880;// 10;
             this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = 16;// 0.1m;
             this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "A";
@@ -1739,15 +1748,18 @@ namespace RelayControlLibrary
             {
                 this.numericUpDown_GreenMagX.Value = Math.Round(temp * 50m, 1);
                 this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * 50m, 1);
-                this.numericUpDown_InCurrkW.Value = Math.Round(temp3 / 1000m * 50m, 2);
-                this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 / 1000m * 50m, 2);
+                //this.numericUpDown_InCurrkW.Value = Math.Round(temp3 / 1000m * 50m, 2);
+                this.numericUpDown_InCurrkW.Value = (temp3 / 1000m * 50m) / 100;
+                //this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 / 1000m * 50m, 2);
+                this.numericUpDown_InCurrkVAR.Value =(temp4 / 1000m * 50m) / 100;
             }
             else if (this.displayType == eDisplayType.Protector)
             {
                 this.numericUpDown_GreenMagX.Value = Math.Round(temp * 1000m / CTRatio, 1);
                 this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * 1000m / CTRatio, 1);
                 this.numericUpDown_InCurrkW.Value = Math.Round(temp3 / CTRatio, 2);
-                this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 / CTRatio, 2);
+                //this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 / CTRatio, 2);
+                this.numericUpDown_InCurrkVAR.Value = (temp4 / CTRatio) / 100;
             }
             displayType = eDisplayType.Relay;
         }

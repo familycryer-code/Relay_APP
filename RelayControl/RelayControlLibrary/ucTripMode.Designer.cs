@@ -96,6 +96,7 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGullWingAngle)).BeginInit();
             this.groupBoxTripModeSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_InCurrkW)).BeginInit();
+            this.panel_TMsettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenMagX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenMagY)).BeginInit();
@@ -372,7 +373,7 @@ namespace RelayControlLibrary
             this.domainUpDownType.Items.Add("Relay");
             this.domainUpDownType.Items.Add("Percent");
             this.domainUpDownType.Items.Add("Protector");
-            this.domainUpDownType.Location = new System.Drawing.Point(52, 152);
+            this.domainUpDownType.Location = new System.Drawing.Point(25, 3);
             this.domainUpDownType.Name = "domainUpDownType";
             this.domainUpDownType.ReadOnly = true;
             this.domainUpDownType.Size = new System.Drawing.Size(78, 27);
@@ -598,7 +599,6 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.Controls.Add(this.listBoxTripModes);
             this.groupBoxTripModeSettings.Controls.Add(this.labelAngle);
             this.groupBoxTripModeSettings.Controls.Add(this.labelGullWingUnits);
-            this.groupBoxTripModeSettings.Controls.Add(this.domainUpDownType);
             this.groupBoxTripModeSettings.Controls.Add(this.numericUpDownSensitiveTimeDelay);
             this.groupBoxTripModeSettings.Controls.Add(this.labelSensTrip);
             this.groupBoxTripModeSettings.Controls.Add(this.labelGullWingAngle);
@@ -741,6 +741,7 @@ namespace RelayControlLibrary
             // panel_TMsettings
             // 
             this.panel_TMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_TMsettings.Controls.Add(this.domainUpDownType);
             this.panel_TMsettings.Location = new System.Drawing.Point(0, 0);
             this.panel_TMsettings.Name = "panel_TMsettings";
             this.panel_TMsettings.Size = new System.Drawing.Size(356, 293);
@@ -917,6 +918,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.ResumeLayout(false);
             this.groupBoxTripModeSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_InCurrkW)).EndInit();
+            this.panel_TMsettings.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenMagX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenMagY)).EndInit();
