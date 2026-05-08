@@ -67,7 +67,6 @@ namespace RelayControlLibrary
             this.domainUpDownTripStyle = new System.Windows.Forms.DomainUpDown();
             this.labelTripStyle = new System.Windows.Forms.Label();
             this.groupBoxTripModeSettings = new System.Windows.Forms.GroupBox();
-            this.comboBox_TripType = new System.Windows.Forms.ComboBox();
             this.comboBox_TripStyle = new System.Windows.Forms.ComboBox();
             this.lblUnitInCur_kVARdir = new System.Windows.Forms.Label();
             this.lblUnitInCur_kWdir = new System.Windows.Forms.Label();
@@ -77,6 +76,7 @@ namespace RelayControlLibrary
             this.numericUpDown_InCurrkW = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kWdirection = new System.Windows.Forms.Label();
             this.panel_TMsettings = new System.Windows.Forms.Panel();
+            this.comboBox_TripType = new System.Windows.Forms.ComboBox();
             this.lblGreenDelay = new System.Windows.Forms.Label();
             this.numericUpDown_GreenDelay = new System.Windows.Forms.NumericUpDown();
             this.lblGreenMagX = new System.Windows.Forms.Label();
@@ -369,17 +369,18 @@ namespace RelayControlLibrary
             // 
             // domainUpDownType
             // 
-            this.domainUpDownType.Enabled = false;
+            this.domainUpDownType.BackColor = System.Drawing.SystemColors.Window;
             this.domainUpDownType.Items.Add("Relay");
             this.domainUpDownType.Items.Add("Percent");
             this.domainUpDownType.Items.Add("Protector");
-            this.domainUpDownType.Location = new System.Drawing.Point(25, 3);
+            this.domainUpDownType.Location = new System.Drawing.Point(233, 21);
             this.domainUpDownType.Name = "domainUpDownType";
             this.domainUpDownType.ReadOnly = true;
             this.domainUpDownType.Size = new System.Drawing.Size(78, 27);
             this.domainUpDownType.TabIndex = 31;
             this.domainUpDownType.Text = "Relay";
-            this.domainUpDownType.Visible = false;
+            this.domainUpDownType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.domainUpDownType.SelectedItemChanged += new System.EventHandler(this.domainUpDownType_SelectedItemChanged);
             // 
             // labelWVCurrentUnit
             // 
@@ -577,7 +578,6 @@ namespace RelayControlLibrary
             // 
             // groupBoxTripModeSettings
             // 
-            this.groupBoxTripModeSettings.Controls.Add(this.comboBox_TripType);
             this.groupBoxTripModeSettings.Controls.Add(this.comboBox_TripStyle);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kVARdir);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kWdir);
@@ -629,19 +629,6 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.TabIndex = 47;
             this.groupBoxTripModeSettings.TabStop = false;
             this.groupBoxTripModeSettings.Text = "Trip Mode";
-            // 
-            // comboBox_TripType
-            // 
-            this.comboBox_TripType.FormattingEnabled = true;
-            this.comboBox_TripType.Items.AddRange(new object[] {
-            "Relay",
-            "Percent",
-            "Protector"});
-            this.comboBox_TripType.Location = new System.Drawing.Point(223, 23);
-            this.comboBox_TripType.Name = "comboBox_TripType";
-            this.comboBox_TripType.Size = new System.Drawing.Size(75, 27);
-            this.comboBox_TripType.TabIndex = 69;
-            this.comboBox_TripType.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripType_SelectedItemChanged);
             // 
             // comboBox_TripStyle
             // 
@@ -741,11 +728,27 @@ namespace RelayControlLibrary
             // panel_TMsettings
             // 
             this.panel_TMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_TMsettings.Controls.Add(this.comboBox_TripType);
             this.panel_TMsettings.Controls.Add(this.domainUpDownType);
             this.panel_TMsettings.Location = new System.Drawing.Point(0, 0);
             this.panel_TMsettings.Name = "panel_TMsettings";
             this.panel_TMsettings.Size = new System.Drawing.Size(356, 293);
             this.panel_TMsettings.TabIndex = 70;
+            // 
+            // comboBox_TripType
+            // 
+            this.comboBox_TripType.Enabled = false;
+            this.comboBox_TripType.FormattingEnabled = true;
+            this.comboBox_TripType.Items.AddRange(new object[] {
+            "Relay",
+            "Percent",
+            "Protector"});
+            this.comboBox_TripType.Location = new System.Drawing.Point(5, -1);
+            this.comboBox_TripType.Name = "comboBox_TripType";
+            this.comboBox_TripType.Size = new System.Drawing.Size(75, 27);
+            this.comboBox_TripType.TabIndex = 69;
+            this.comboBox_TripType.Visible = false;
+            //this.comboBox_TripType.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripType_SelectedItemChanged);
             // 
             // lblGreenDelay
             // 
