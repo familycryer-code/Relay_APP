@@ -93,7 +93,6 @@
             this.uc8CheckBoxFlagsRelayFlags2 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.uc8CheckBoxFlagsRelayFlags1 = new RelayControlLibrary.uc8CheckBoxFlags();
             this.ucCalibration1 = new RelayControlLibrary.ucManualCalibration();
-            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonClearEvents = new System.Windows.Forms.Button();
             this.buttonRQEventData = new System.Windows.Forms.Button();
@@ -272,6 +271,11 @@
             this.timer_SendAll_GIF = new System.Windows.Forms.Timer(this.components);
             this.ucDNPSAv5OSName2 = new RelayDNPSecurity.ucDNPSAv5OSName();
             this.ucDNPSAv5Settings2 = new RelayDNPSecurity.ucDNPSAv5Settings();
+            this.panel_RelayInfo = new System.Windows.Forms.Panel();
+            this.panel_firmwareRev = new System.Windows.Forms.Panel();
+            this.panel_RelaySt = new System.Windows.Forms.Panel();
+            this.panel_RelayCo = new System.Windows.Forms.Panel();
+            this.ucForceCustomerSwitch1 = new RelayControl.ucForceCustomerSwitch();
             this.serialPort1 = new RelayControl.MyPort(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
@@ -948,14 +952,6 @@
             this.ucCalibration1.Name = "ucCalibration1";
             this.ucCalibration1.Size = new System.Drawing.Size(302, 87);
             this.ucCalibration1.TabIndex = 82;
-            // 
-            // ucForceCustomerSwitch1
-            // 
-            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
-            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
-            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
-            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
-            this.ucForceCustomerSwitch1.TabIndex = 100;
             // 
             // tabPageEvents
             // 
@@ -2485,6 +2481,10 @@
             this.tabPage1.Controls.Add(this.groupBox_FirmwareInfo);
             this.tabPage1.Controls.Add(this.groupBox_RelayInfo);
             this.tabPage1.Controls.Add(this.groupBoxRelayStatus);
+            this.tabPage1.Controls.Add(this.panel_RelayInfo);
+            this.tabPage1.Controls.Add(this.panel_firmwareRev);
+            this.tabPage1.Controls.Add(this.panel_RelaySt);
+            this.tabPage1.Controls.Add(this.panel_RelayCo);
             this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
@@ -3216,6 +3216,46 @@
             this.ucDNPSAv5Settings2.Size = new System.Drawing.Size(979, 298);
             this.ucDNPSAv5Settings2.TabIndex = 0;
             // 
+            // panel_RelayInfo
+            // 
+            this.panel_RelayInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_RelayInfo.Location = new System.Drawing.Point(85, 31);
+            this.panel_RelayInfo.Name = "panel_RelayInfo";
+            this.panel_RelayInfo.Size = new System.Drawing.Size(387, 361);
+            this.panel_RelayInfo.TabIndex = 130;
+            // 
+            // panel_firmwareRev
+            // 
+            this.panel_firmwareRev.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_firmwareRev.Location = new System.Drawing.Point(85, 442);
+            this.panel_firmwareRev.Name = "panel_firmwareRev";
+            this.panel_firmwareRev.Size = new System.Drawing.Size(387, 314);
+            this.panel_firmwareRev.TabIndex = 131;
+            // 
+            // panel_RelaySt
+            // 
+            this.panel_RelaySt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_RelaySt.Location = new System.Drawing.Point(615, 27);
+            this.panel_RelaySt.Name = "panel_RelaySt";
+            this.panel_RelaySt.Size = new System.Drawing.Size(293, 730);
+            this.panel_RelaySt.TabIndex = 132;
+            // 
+            // panel_RelayCo
+            // 
+            this.panel_RelayCo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_RelayCo.Location = new System.Drawing.Point(1096, 27);
+            this.panel_RelayCo.Name = "panel_RelayCo";
+            this.panel_RelayCo.Size = new System.Drawing.Size(285, 730);
+            this.panel_RelayCo.TabIndex = 133;
+            // 
+            // ucForceCustomerSwitch1
+            // 
+            this.ucForceCustomerSwitch1.Location = new System.Drawing.Point(467, 11);
+            this.ucForceCustomerSwitch1.Margin = new System.Windows.Forms.Padding(4);
+            this.ucForceCustomerSwitch1.Name = "ucForceCustomerSwitch1";
+            this.ucForceCustomerSwitch1.Size = new System.Drawing.Size(222, 52);
+            this.ucForceCustomerSwitch1.TabIndex = 100;
+            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
@@ -3552,5 +3592,9 @@
         private System.Windows.Forms.Label lblLC_Name;
         private System.Windows.Forms.Panel panel_NWsettings;
         private System.Windows.Forms.Panel panel_PCsettings;
+        private System.Windows.Forms.Panel panel_RelayInfo;
+        private System.Windows.Forms.Panel panel_firmwareRev;
+        private System.Windows.Forms.Panel panel_RelaySt;
+        private System.Windows.Forms.Panel panel_RelayCo;
     }
 }

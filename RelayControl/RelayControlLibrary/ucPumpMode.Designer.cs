@@ -144,7 +144,7 @@ namespace RelayControlLibrary
             // checkBoxMotorTime
             // 
             this.checkBoxMotorTime.AutoSize = true;
-            this.checkBoxMotorTime.Location = new System.Drawing.Point(239, 115);
+            this.checkBoxMotorTime.Location = new System.Drawing.Point(235, 115);
             this.checkBoxMotorTime.Name = "checkBoxMotorTime";
             this.checkBoxMotorTime.Size = new System.Drawing.Size(15, 14);
             this.checkBoxMotorTime.TabIndex = 6;
@@ -276,7 +276,7 @@ namespace RelayControlLibrary
             // checkBoxMotorCycles
             // 
             this.checkBoxMotorCycles.AutoSize = true;
-            this.checkBoxMotorCycles.Location = new System.Drawing.Point(239, 154);
+            this.checkBoxMotorCycles.Location = new System.Drawing.Point(235, 154);
             this.checkBoxMotorCycles.Name = "checkBoxMotorCycles";
             this.checkBoxMotorCycles.Size = new System.Drawing.Size(15, 14);
             this.checkBoxMotorCycles.TabIndex = 8;
@@ -303,7 +303,7 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxPumpMode.Location = new System.Drawing.Point(2, 2);
             this.groupBoxPumpMode.Name = "groupBoxPumpMode";
-            this.groupBoxPumpMode.Size = new System.Drawing.Size(253, 292);
+            this.groupBoxPumpMode.Size = new System.Drawing.Size(255, 292);
             this.groupBoxPumpMode.TabIndex = 15;
             this.groupBoxPumpMode.TabStop = false;
             this.groupBoxPumpMode.Text = "Pump Protect Mode";
@@ -331,7 +331,7 @@ namespace RelayControlLibrary
             // checkBoxCycles
             // 
             this.checkBoxCycles.AutoSize = true;
-            this.checkBoxCycles.Location = new System.Drawing.Point(238, 53);
+            this.checkBoxCycles.Location = new System.Drawing.Point(235, 53);
             this.checkBoxCycles.Name = "checkBoxCycles";
             this.checkBoxCycles.Size = new System.Drawing.Size(15, 14);
             this.checkBoxCycles.TabIndex = 26;
@@ -430,7 +430,7 @@ namespace RelayControlLibrary
             this.panel_PMsettings.Controls.Add(this.groupBoxPumpMode);
             this.panel_PMsettings.Location = new System.Drawing.Point(0, 0);
             this.panel_PMsettings.Name = "panel_PMsettings";
-            this.panel_PMsettings.Size = new System.Drawing.Size(257, 296);
+            this.panel_PMsettings.Size = new System.Drawing.Size(260, 296);
             this.panel_PMsettings.TabIndex = 34;
             // 
             // ucPumpMode
