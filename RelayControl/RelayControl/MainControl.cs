@@ -699,7 +699,7 @@ namespace RelayControl
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406); 
                 this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
                 this.buttonSendAll.Location = new System.Drawing.Point(140, 3);  
-                this.panelOtherRelayControls.Size = new System.Drawing.Size(290, 174);
+                this.panelOtherRelayControls.Size = new System.Drawing.Size(285, 174); //(290, 174);
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
                 this.lbl_Relayststatus_FB.Text = "Floating and Blocked Open ( FB )";
@@ -766,8 +766,8 @@ namespace RelayControl
 #if !CONED
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
-                this.panel_PCsettings.Enabled = false;
-                this.panel_PCsettings.Visible = false;
+            //    this.panel_PCsettings.Enabled = false;
+            //    this.panel_PCsettings.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
 #if (!PSEG && !ENMAX)
@@ -818,10 +818,13 @@ namespace RelayControl
 
                 this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13);  
                 this.groupBox_PC.Location = new System.Drawing.Point(1004, 390);   
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 370); 
-              //  this.panel_PCsettings.Location = new System.Drawing.Point(1002, 390);
-              //  this.panel_PCsettings.Size = new System.Drawing.Size(470, 374);
-               // this.panel_PCsettings.SendToBack();
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 370);
+                //    this.panel_PCsettings.Location = new System.Drawing.Point(1002, 387);
+                //    this.panel_PCsettings.Size = new System.Drawing.Size(475, 374);
+                //    this.panel_PCsettings.SendToBack();
+                    this.panelPCsettings.Location = new System.Drawing.Point(1000, 360);
+                    this.panelPCsettings.Size = new System.Drawing.Size(477, 403);
+
                 this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
                 this.btn_PC_Send.Location = new System.Drawing.Point(280, 295); //(120, 326);
                 /*
