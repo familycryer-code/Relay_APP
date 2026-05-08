@@ -222,7 +222,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Visible = false;
             this.checkBoxTripOnPowerDown.Visible = false;
 
-            this.domainUpDownType.Visible = false;
+            this.domainUpDownType.Visible = true;// false;
             //this.comboBox_TripType.Visible = false;
         }
 
@@ -1505,7 +1505,7 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = .0001m * this.CTRatio;
             this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = 15m * this.CTRatio;
             this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = .0001m * this.CTRatio;
-            this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "A";
+            this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "Amps";
 
             //this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = .1m * this.CTRatio;
             this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkVAR.Minimum = .1m * this.CTRatio;
@@ -1517,7 +1517,7 @@ namespace RelayControlLibrary
             temp3 = this.numericUpDown_InCurrkW.Value;
             temp4 = this.numericUpDown_InCurrkVAR.Value;
 
-            this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "A";
+            this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "Amps";
             if (this.displayType == eDisplayType.Relay)
             {
                 //this.numericUpDown_GreenMagX.Value = Math.Round(temp * this.CTRatio, 3);
@@ -1749,13 +1749,13 @@ namespace RelayControlLibrary
             this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = 0;// 1;
             this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = 160;// 1000;
             this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = 16;// 10;
-            this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "A";// "mA";
+            this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "Amps";// "mA";
 
             //this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = 0.5m;// 16;// 0.5m;
             this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkVAR.Minimum = 0;// 16;// 0.5m;
             this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 2880;// 10;
             this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = 16;// 0.1m;
-            this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "A";
+            this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "Amps";
             if (this.displayType == eDisplayType.Percent)
             {
                 this.numericUpDown_GreenMagX.Value = Math.Round(temp * 50m, 1);
