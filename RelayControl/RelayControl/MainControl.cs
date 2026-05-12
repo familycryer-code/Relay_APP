@@ -547,7 +547,7 @@ namespace RelayControl
                     this.ucTripMode2.Visible = false;
                     this.ucCloseMode1.Visible = false;
                     this.groupBoxNetworkCTRatio.Visible = false;
-                    this.panelOtherRelayControls.Visible = false;
+                    //this.panelOtherRelayControls.Visible = false;
                     this.ucPumpMode1.Visible = false;
                     this.groupBoxLowVoltThres.Visible = false;
                     this.checkBox277Protector.Visible = false;
@@ -696,10 +696,14 @@ namespace RelayControl
                 this.ucTripMode2.Location = new System.Drawing.Point(458, 7); //(450, 13); 
                 this.ucCloseMode1.Location = new System.Drawing.Point(970, 7); //(970, 13);
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 406); 
-                this.ucSafeService1.Location = new System.Drawing.Point(390, 406); 
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
-                this.buttonSendAll.Location = new System.Drawing.Point(140, 3);  
-                this.panelOtherRelayControls.Size = new System.Drawing.Size(285, 174); //(290, 174);
+                this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
+                //this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
+                //this.panelOtherRelayControls.Size = new System.Drawing.Size(285, 174); 
+#if CONED
+                this.buttonSendAll.Location = new System.Drawing.Point(870, 470); //(140, 3);
+#else
+                this.buttonSendAll.Location = new System.Drawing.Point(1170, 470); 
+#endif
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
                 this.lbl_Relayststatus_FB.Text = "Floating and Blocked Open ( FB )";
@@ -744,7 +748,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.7" + " ENMAX ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -831,7 +835,7 @@ namespace RelayControl
                     Reshuffle the placement of the REquest All and Program All button on relay settings tab
                     only for CONED APP - since its needs extra space for the Permissive close groupBox
                 */
-                this.panelOtherRelayControls.Location = new System.Drawing.Point(740, 455);  
+               // this.panelOtherRelayControls.Location = new System.Drawing.Point(740, 455);  
                 this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
                 this.buttonSendAll.Text = "Program all settings to the Relay";
 
@@ -1402,9 +1406,9 @@ namespace RelayControl
             if (this.ucPumpMode1.Visible || !this.ucPumpMode1.Enabled)
             {
                 this.ucPumpMode1.Visible = false;
-                Point tempPoint = this.panelOtherRelayControls.Location;
-                tempPoint.X -= this.ucPumpMode1.Width;
-                this.panelOtherRelayControls.Location = tempPoint;
+               // Point tempPoint = this.panelOtherRelayControls.Location;
+               // tempPoint.X -= this.ucPumpMode1.Width;
+               // this.panelOtherRelayControls.Location = tempPoint;
                 this.otherPanelMovedForConEd = true;
             }
         }
@@ -1414,9 +1418,9 @@ namespace RelayControl
             if (!this.ucPumpMode1.Visible && this.otherPanelMovedForConEd)
             {
                 this.otherPanelMovedForConEd = false;
-                Point tempPoint = this.panelOtherRelayControls.Location;
-                tempPoint.X += this.ucPumpMode1.Width;
-                this.panelOtherRelayControls.Location = tempPoint;
+               // Point tempPoint = this.panelOtherRelayControls.Location;
+               // tempPoint.X += this.ucPumpMode1.Width;
+               // this.panelOtherRelayControls.Location = tempPoint;
                 this.ucPumpMode1.Visible = true;
             }
         }
