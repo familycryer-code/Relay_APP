@@ -1381,7 +1381,7 @@
             // 
             this.labelSNPQMonitor.AutoSize = true;
             this.labelSNPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(1525, 578);
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(1545, 578); //(1525, 578);
             this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelSNPQMonitor.Name = "labelSNPQMonitor";
             this.labelSNPQMonitor.Size = new System.Drawing.Size(198, 24);
@@ -1392,7 +1392,7 @@
             // 
             this.labelCtRatioMonitor.AutoSize = true;
             this.labelCtRatioMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1625, 652);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1635, 652); //(1625, 652);
             this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(93, 24);
@@ -1402,7 +1402,7 @@
             // textBoxRelaySNControlPQ
             // 
             this.textBoxRelaySNControlPQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1750, 575);
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1745, 575); //(1750, 575);
             this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
@@ -1416,7 +1416,7 @@
             // 
             this.textBoxCTRatioPQMonitor.Enabled = false;
             this.textBoxCTRatioPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1750, 652);
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1745, 652); //(1750, 652);
             this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
@@ -1454,7 +1454,7 @@
             // 
             this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayTrippedOrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1600, 438);
+            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1590, 370); //(1600, 438);
             this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
             this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
@@ -1466,7 +1466,7 @@
             // buttonToggleMonitor
             // 
             this.buttonToggleMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonToggleMonitor.Location = new System.Drawing.Point(1600, 500);
+            this.buttonToggleMonitor.Location = new System.Drawing.Point(1590, 450); //(1600, 500);
             this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.buttonToggleMonitor.Name = "buttonToggleMonitor";
             this.buttonToggleMonitor.Size = new System.Drawing.Size(206, 39);

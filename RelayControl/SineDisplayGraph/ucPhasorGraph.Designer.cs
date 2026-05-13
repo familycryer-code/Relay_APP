@@ -2140,7 +2140,7 @@ namespace SineDisplayGraph
             // labelICTHD
             // 
             this.labelICTHD.AutoSize = true;
-            this.labelICTHD.Location = new System.Drawing.Point(166, 92);
+            this.labelICTHD.Location = new System.Drawing.Point(164, 92);
             this.labelICTHD.Name = "labelICTHD";
             this.labelICTHD.Size = new System.Drawing.Size(68, 19);
             this.labelICTHD.TabIndex = 11;
@@ -2149,7 +2149,7 @@ namespace SineDisplayGraph
             // labelIBTHD
             // 
             this.labelIBTHD.AutoSize = true;
-            this.labelIBTHD.Location = new System.Drawing.Point(165, 57);
+            this.labelIBTHD.Location = new System.Drawing.Point(164, 57);
             this.labelIBTHD.Name = "labelIBTHD";
             this.labelIBTHD.Size = new System.Drawing.Size(67, 19);
             this.labelIBTHD.TabIndex = 10;
@@ -2158,7 +2158,7 @@ namespace SineDisplayGraph
             // labelIATHD
             // 
             this.labelIATHD.AutoSize = true;
-            this.labelIATHD.Location = new System.Drawing.Point(165, 24);
+            this.labelIATHD.Location = new System.Drawing.Point(164, 24);
             this.labelIATHD.Name = "labelIATHD";
             this.labelIATHD.Size = new System.Drawing.Size(69, 19);
             this.labelIATHD.TabIndex = 9;
@@ -2168,7 +2168,7 @@ namespace SineDisplayGraph
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(16, 90);
+            this.label9.Location = new System.Drawing.Point(2, 90);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(81, 19);
             this.label9.TabIndex = 8;
@@ -2177,7 +2177,7 @@ namespace SineDisplayGraph
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 57);
+            this.label3.Location = new System.Drawing.Point(2, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 19);
             this.label3.TabIndex = 7;
@@ -2186,7 +2186,7 @@ namespace SineDisplayGraph
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 23);
+            this.label2.Location = new System.Drawing.Point(2, 23);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 19);
             this.label2.TabIndex = 6;
@@ -2195,28 +2195,28 @@ namespace SineDisplayGraph
             // 
             // textBoxICTHD
             // 
-            this.textBoxICTHD.Location = new System.Drawing.Point(239, 87);
+            this.textBoxICTHD.Location = new System.Drawing.Point(240, 87);
             this.textBoxICTHD.Name = "textBoxICTHD";
             this.textBoxICTHD.ReadOnly = true;
-            this.textBoxICTHD.Size = new System.Drawing.Size(54, 27);
+            this.textBoxICTHD.Size = new System.Drawing.Size(60, 27);
             this.textBoxICTHD.TabIndex = 5;
             this.textBoxICTHD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxIBTHD
             // 
-            this.textBoxIBTHD.Location = new System.Drawing.Point(239, 54);
+            this.textBoxIBTHD.Location = new System.Drawing.Point(240, 54);
             this.textBoxIBTHD.Name = "textBoxIBTHD";
             this.textBoxIBTHD.ReadOnly = true;
-            this.textBoxIBTHD.Size = new System.Drawing.Size(54, 27);
+            this.textBoxIBTHD.Size = new System.Drawing.Size(60, 27);
             this.textBoxIBTHD.TabIndex = 4;
             this.textBoxIBTHD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxIATHD
             // 
-            this.textBoxIATHD.Location = new System.Drawing.Point(239, 21);
+            this.textBoxIATHD.Location = new System.Drawing.Point(240, 21);
             this.textBoxIATHD.Name = "textBoxIATHD";
             this.textBoxIATHD.ReadOnly = true;
-            this.textBoxIATHD.Size = new System.Drawing.Size(54, 27);
+            this.textBoxIATHD.Size = new System.Drawing.Size(60, 27);
             this.textBoxIATHD.TabIndex = 3;
             this.textBoxIATHD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxIATHD.TextChanged += new System.EventHandler(this.textBoxIATHD_TextChanged);
@@ -2226,7 +2226,7 @@ namespace SineDisplayGraph
             this.textBoxVnCTHD.Location = new System.Drawing.Point(103, 87);
             this.textBoxVnCTHD.Name = "textBoxVnCTHD";
             this.textBoxVnCTHD.ReadOnly = true;
-            this.textBoxVnCTHD.Size = new System.Drawing.Size(54, 27);
+            this.textBoxVnCTHD.Size = new System.Drawing.Size(60, 27);
             this.textBoxVnCTHD.TabIndex = 2;
             this.textBoxVnCTHD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2235,7 +2235,7 @@ namespace SineDisplayGraph
             this.textBoxVnBTHD.Location = new System.Drawing.Point(103, 54);
             this.textBoxVnBTHD.Name = "textBoxVnBTHD";
             this.textBoxVnBTHD.ReadOnly = true;
-            this.textBoxVnBTHD.Size = new System.Drawing.Size(54, 27);
+            this.textBoxVnBTHD.Size = new System.Drawing.Size(60, 27);
             this.textBoxVnBTHD.TabIndex = 1;
             this.textBoxVnBTHD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2244,7 +2244,7 @@ namespace SineDisplayGraph
             this.textBoxVnATHD.Location = new System.Drawing.Point(103, 21);
             this.textBoxVnATHD.Name = "textBoxVnATHD";
             this.textBoxVnATHD.ReadOnly = true;
-            this.textBoxVnATHD.Size = new System.Drawing.Size(54, 27);
+            this.textBoxVnATHD.Size = new System.Drawing.Size(60, 27);
             this.textBoxVnATHD.TabIndex = 0;
             this.textBoxVnATHD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxVnATHD.TextChanged += new System.EventHandler(this.textBoxVnATHD_TextChanged);

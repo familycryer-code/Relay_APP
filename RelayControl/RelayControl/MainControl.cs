@@ -699,6 +699,16 @@ namespace RelayControl
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
                 //this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
                 //this.panelOtherRelayControls.Size = new System.Drawing.Size(285, 174); 
+#if !PSEG
+                //DisplayNameAttribute Lightning Count part ONLY for PSE&G
+                this.grpBox_LightningCount.Enabled = false;
+                this.grpBox_LightningCount.Visible = false;
+                this.lblLC_Name.Enabled = false;
+                this.lblLC_Name.Visible = false;
+                this.lbl_LightningCount.Enabled = false;
+                this.lbl_LightningCount.Visible = false;
+#endif
+
 #if CONED
                 this.buttonSendAll.Location = new System.Drawing.Point(870, 470); //(140, 3);
 #else

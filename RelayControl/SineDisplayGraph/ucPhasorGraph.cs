@@ -126,12 +126,12 @@ namespace SineDisplayGraph
                 this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
                 this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
            */
-            this.panel_load.Location = new System.Drawing.Point(1225, 27);
-            this.panel_load.Size = new System.Drawing.Size(250, 293);
-            this.lbl_loadReading.Location = new System.Drawing.Point(1256, 17);
-            this.groupBoxTHD.Location = new System.Drawing.Point(1197, 600);
-            this.panel_PQmon.Location = new System.Drawing.Point(1190, 4);
-            this.panel_PQmon.Size = new System.Drawing.Size(320, 780);
+            this.panel_load.Location = new System.Drawing.Point(1565, 27); //(1225, 27);
+            this.panel_load.Size = new System.Drawing.Size(250, 293); 
+            this.lbl_loadReading.Location = new System.Drawing.Point(1570, 17); //(1256, 17);
+            this.groupBoxTHD.Location = new System.Drawing.Point(1537, 780); //(1197, 600);
+            this.panel_PQmon.Location = new System.Drawing.Point(1530, 4); //(1190, 4);
+            this.panel_PQmon.Size = new System.Drawing.Size(320, 950); //(320, 780);
 
             generateRefWav();
 
