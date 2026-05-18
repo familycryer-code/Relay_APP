@@ -212,6 +212,37 @@ namespace SineDisplayGraph
             this.labelVnP.Location = new System.Drawing.Point(787, 733);
             this.labelVnN.Location = new System.Drawing.Point(780, 763);
 
+            this.labelRealValue.Location = new System.Drawing.Point(510, 379);  //Real value column header ( left set )
+            this.labelVdAReal.Location = new System.Drawing.Point(650, 580);
+            this.labelVdBReal.Location = new System.Drawing.Point(650, 610);
+            this.labelVdCReal.Location = new System.Drawing.Point(650, 640);
+            this.labelVdTReal.Location = new System.Drawing.Point(650, 672);
+            this.labelIARealUnits.Location = new System.Drawing.Point(650, 704);
+            this.labelIBRealUnits.Location = new System.Drawing.Point(650, 735);
+            this.labelICRealUnits.Location = new System.Drawing.Point(650, 765);
+
+            this.textBoxVdAReal.Location = new System.Drawing.Point(530, 580);
+            this.textBoxVdBReal.Location = new System.Drawing.Point(530, 610);
+            this.textBoxVdCReal.Location = new System.Drawing.Point(530, 640);
+            this.textBoxVdTReal.Location = new System.Drawing.Point(530, 672);
+            this.textBoxIAReal.Location = new System.Drawing.Point(530, 704);
+            this.textBoxIBReal.Location = new System.Drawing.Point(530, 735);
+            this.textBoxICReal.Location = new System.Drawing.Point(530, 765);
+
+            this.label48.Location = new System.Drawing.Point(425, 379);         //Angle column header ( left set )
+            this.textBoxVtAAngle.Location = new System.Drawing.Point(424, 398);
+            this.textBoxVtBAngle.Location = new System.Drawing.Point(424, 428);
+            this.textBoxVtCAngle.Location = new System.Drawing.Point(424, 458);
+            this.textBoxVnAAngle.Location = new System.Drawing.Point(424, 488);
+            this.textBoxVnBAngle.Location = new System.Drawing.Point(424, 518);
+            this.textBoxVnCAngle.Location = new System.Drawing.Point(424, 550);
+            this.textBoxVdAAngle.Location = new System.Drawing.Point(424, 580);
+            this.textBoxVdBAngle.Location = new System.Drawing.Point(424, 610);
+            this.textBoxVdCAngle.Location = new System.Drawing.Point(424, 640);
+            this.textBoxVdTAngle.Location = new System.Drawing.Point(424, 672);
+            this.textBoxIAAngle.Location = new System.Drawing.Point(424, 704);
+            this.textBoxIBAngle.Location = new System.Drawing.Point(424, 735);
+            this.textBoxICAngle.Location = new System.Drawing.Point(424, 765);
 
             generateRefWav();
 
