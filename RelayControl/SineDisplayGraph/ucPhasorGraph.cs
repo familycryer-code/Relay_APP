@@ -133,6 +133,16 @@ namespace SineDisplayGraph
             this.panel_PQmon.Location = new System.Drawing.Point(1530, 4); //(1190, 4);
             this.panel_PQmon.Size = new System.Drawing.Size(320, 950); //(320, 780);
 
+            //Positioning of phasorGraph2 and its 4 quarter degree
+            this.phasorGraph2.Location = new System.Drawing.Point(900, 35); //(757, 17);
+            this.label54.Location = new System.Drawing.Point(1223, 174); //(1049, 161); right
+            this.label62.Location = new System.Drawing.Point(1042, 5); //(873, -6); top
+            this.label61.Location = new System.Drawing.Point(852, 174); //(672, 167); left
+            this.label60.Location = new System.Drawing.Point(1040, 352); //(864, 328); bottom
+
+            //Positioning of phasorGraph1 and its 4 quarter degree
+            this.listBoxMode.Location = new System.Drawing.Point(543, 25); //(443, 55);
+
             generateRefWav();
 
             foreach (PhasorTypes pT in temp)
