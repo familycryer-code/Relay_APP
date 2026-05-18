@@ -24,16 +24,12 @@ namespace RelayControlLibrary
 
         private void myInitialize()
         {
-            this.myChartLoads.Visible = false;
-            this.myChartVoltages.Visible = false;
             this.myPSIWidgetA1.Visible = false;
             this.myPSIWidgetA2.Visible = false;
             this.myTempWidgetA1.Visible = false;
             this.myTempWidgetA2.Visible = false;
           //  this.myThermometerA1.Visible = false;
           //  this.myThermometerA2.Visible = false;
-            this.initializeChart(this.myChartLoads.Chart);
-            this.initializeChart(this.myChartVoltages.Chart);
             this.graphingValues.Tables.Add();
             this.graphingValues.Tables[0].Columns.Add("VnA", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("VnB", typeof(float));
@@ -46,16 +42,24 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("IC", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
             this.groupBoxCurrentReadings.Visible = false;
-            this.groupBoxTimeElapsed.Location = new System.Drawing.Point(950, 10);
-            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(650, 10);
+            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(1020, 27);
+
+            this.textBoxTimeElapsedSeconds.Location = new System.Drawing.Point(242, 585); 
+            this.label101.Location = new System.Drawing.Point(215, 590); 
+            this.textBoxTimeElapsedMinutes.Location = new System.Drawing.Point(140, 585); 
+            this.label89.Location = new System.Drawing.Point(115, 590); 
+            this.textBoxTimeElapsedHours.Location = new System.Drawing.Point(40, 585);
+            this.lbl_timeElapsed.Location = new System.Drawing.Point(73, 550);
+            this.pictureBox1.Location = new System.Drawing.Point(155, 495);
+            this.labelTMonCTMult.Location = new System.Drawing.Point(32, 290);
+            this.labelTMonColorFreq.Location = new System.Drawing.Point(8, 210);
+            this.labelTMonTransmitterID.Location = new System.Drawing.Point(10, 132);
 #if CONED
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 0;
 #endif
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
-            this.newButtonSensMonTX.Visible = false;
-            this.newButtonSensMonTX.Enabled = false;
             this.textBoxTransmitterTemp.Enabled = false;
             this.textBoxQBit.Enabled = false;
 #if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
@@ -1071,44 +1075,12 @@ namespace RelayControlLibrary
             this.seriesX2.BindComponent(SeriesComponent.Y, graphingDVP, "IB");
             this.seriesX3.BindComponent(SeriesComponent.Y, graphingDVP, "IC");
 
-            this.myChartVoltages.Chart.RemoveAllSeries();
-            this.myChartVoltages.Chart.AddSeries(this.seriesVnA);
-            this.myChartVoltages.Chart.AddSeries(this.seriesVnB);
-            this.myChartVoltages.Chart.AddSeries(this.seriesVnC);
-            this.myChartVoltages.Chart.AddSeries(this.seriesVtA);
-            this.myChartVoltages.Chart.AddSeries(this.seriesVtB);
-            this.myChartVoltages.Chart.AddSeries(this.seriesVtC);
-            this.myChartVoltages.Chart.AddSeries(this.seriesSampleNumber);
-            this.myChartVoltages.Chart.Grid.AxisX.LabelSeries = this.seriesSampleNumber;
-
-            this.myChartLoads.Chart.RemoveAllSeries();
-            this.myChartLoads.Chart.AddSeries(this.seriesX1);
-            this.myChartLoads.Chart.AddSeries(this.seriesX2);
-            this.myChartLoads.Chart.AddSeries(this.seriesX3);
-            this.myChartLoads.Chart.AddSeries(this.seriesSampleNumber);
-            this.myChartLoads.Chart.Grid.AxisX.LabelSeries = this.seriesSampleNumber;
-
-            this.myChartLoads.Chart.RecalcLayout();
-            this.myChartVoltages.Chart.RecalcLayout();
+            
         }
 
         private void updateChart(ProtectorVoltage protectorVoltage)
         {
-            if (protectorVoltage.Value == ProtectorVoltageEnum.V277)
-            {
-                this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 300;
-                this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 220;
-            }
-            else if (protectorVoltage.Value == ProtectorVoltageEnum.V346)
-            {
-                this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 650;
-                this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 477;
-            }
-            else
-            {
-                this.myChartVoltages.Chart.Grid.AxisY.MaxAxisValueUser = 140;
-                this.myChartVoltages.Chart.Grid.AxisY.MinAxisValueUser = 100;
-            }
+            
         }
 
         #endregion
@@ -1325,6 +1297,7 @@ namespace RelayControlLibrary
             return returnFloat;
         }
 
+       
         private void buttonStartMonitoring_Click(object sender, EventArgs e)
         {
             this.startTransmitterMonitoring();

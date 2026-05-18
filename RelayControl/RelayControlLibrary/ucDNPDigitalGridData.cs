@@ -89,7 +89,7 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1196];//[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
-        private UInt32 relayMasterRevision = 260207;//140506;
+        private UInt32 relayMasterRevision = 260210;//140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
 

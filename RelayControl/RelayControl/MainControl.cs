@@ -791,23 +791,22 @@ namespace RelayControl
 #endif
 #endif
 #if !TORONTOHYDRO
-                this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(750, 250);
-                this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(750, 500);
-                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(450, 500);
-                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(200, 500);
+                this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250); 
+                this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500); 
+                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(650, 400); //(450, 500);
+                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(650, 80); //(200, 500);
                // this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
-                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Location = new System.Drawing.Point(465, 10); //(420, 10);  
-                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Size = new System.Drawing.Size(240, 175);
-                this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(155, 87);
-                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(575, 55); //(735, 55); 
-                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 90);
-                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 50);
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(92, 10); 
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(320, 175);
-                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 23);
-                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 54);
+               this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(170, 497); //(155, 87);
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(170, 420); //(575, 55);  
+                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 500); //(5, 90);
+                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 420); //(38, 50);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(42, 30); //(92, 10); 
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(420, 725); //(320, 175);
+                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 56); //(170, 23);
+                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 150); //(170, 54);
+
                 // this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
-                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 130);
+                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 330);
 
 #endif
 #if DNP && !ENMAX
@@ -1009,12 +1008,6 @@ namespace RelayControl
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
 
-                this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAdvancedReadings.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
-
                 this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Font, FontStyle.Bold);
                 foreach (Control child in this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Controls)
                 {
@@ -1023,12 +1016,6 @@ namespace RelayControl
 
                 this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Font = new Font(this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Font, FontStyle.Bold);
                 foreach (Control child in this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
-
-                this.ucTransmitterMonitoring1.groupBoxTimeElapsed.Font = new Font(this.ucTransmitterMonitoring1.groupBoxTimeElapsed.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxTimeElapsed.Controls)
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
