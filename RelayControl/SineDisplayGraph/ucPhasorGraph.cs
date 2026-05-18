@@ -244,6 +244,49 @@ namespace SineDisplayGraph
             this.textBoxIBAngle.Location = new System.Drawing.Point(424, 735);
             this.textBoxICAngle.Location = new System.Drawing.Point(424, 765);
 
+            this.labelVtAUnits.Location = new System.Drawing.Point(355, 398);
+            this.labelVtBUnits.Location = new System.Drawing.Point(355, 428);
+            this.labelVtCUnits.Location = new System.Drawing.Point(355, 458); 
+            this.labelVnAUnits.Location = new System.Drawing.Point(355, 488);
+            this.labelVnBUnits.Location = new System.Drawing.Point(355, 518);
+            this.labelVnCUnits.Location = new System.Drawing.Point(355, 550);
+            this.labelVdAUnits.Location = new System.Drawing.Point(355, 580);
+            this.labelVdBUnits.Location = new System.Drawing.Point(355, 610);
+            this.labelVdCUnits.Location = new System.Drawing.Point(355, 640);
+            this.labelVdTUnits.Location = new System.Drawing.Point(355, 672);
+            this.labelIAUnits.Location = new System.Drawing.Point(355, 704);
+            this.labelIBUnits.Location = new System.Drawing.Point(355, 735);
+            this.labelICUnits.Location = new System.Drawing.Point(355, 765);
+
+            this.label33.Location = new System.Drawing.Point(284, 379);           //Value column header ( left set )
+            this.textBoxVtARMS.Location = new System.Drawing.Point(284, 398);
+            this.textBoxVtBRMS.Location = new System.Drawing.Point(284, 428);
+            this.textBoxVtCRMS.Location = new System.Drawing.Point(284, 458);
+            this.textBoxVnARMS.Location = new System.Drawing.Point(284, 488);
+            this.textBoxVnBRMS.Location = new System.Drawing.Point(284, 518);
+            this.textBoxVnCRMS.Location = new System.Drawing.Point(284, 550);
+            this.textBoxVdARMS.Location = new System.Drawing.Point(284, 580);
+            this.textBoxVdBRMS.Location = new System.Drawing.Point(284, 610);
+            this.textBoxVdCRMS.Location = new System.Drawing.Point(284, 640);
+            this.textBoxVdTRMS.Location = new System.Drawing.Point(284, 672);
+            this.textBoxIARMS.Location = new System.Drawing.Point(284, 704);
+            this.textBoxIBRMS.Location = new System.Drawing.Point(284, 735);
+            this.textBoxICRMS.Location = new System.Drawing.Point(284, 765);
+
+            this.labelVtA.Location = new System.Drawing.Point(8, 398);
+            this.labelVtB.Location = new System.Drawing.Point(8, 428);
+            this.labelVtC.Location = new System.Drawing.Point(8, 458);
+            this.labelVnA.Location = new System.Drawing.Point(44, 488);
+            this.labelVnB.Location = new System.Drawing.Point(44, 518);
+            this.labelVnC.Location = new System.Drawing.Point(44, 550);
+            this.labelVdA.Location = new System.Drawing.Point(21, 580);
+            this.labelVdB.Location = new System.Drawing.Point(21, 610);
+            this.labelVdC.Location = new System.Drawing.Point(21, 640);
+            this.labelVdT.Location = new System.Drawing.Point(18, 672);
+            this.labelIA.Location = new System.Drawing.Point(124, 704);
+            this.labelIB.Location = new System.Drawing.Point(124, 735);
+            this.labelIC.Location = new System.Drawing.Point(124, 765);
+
             generateRefWav();
 
             foreach (PhasorTypes pT in temp)
