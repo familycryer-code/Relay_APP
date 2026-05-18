@@ -1061,20 +1061,20 @@ namespace SineDisplayGraph
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.Location = new System.Drawing.Point(250, 379);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(43, 16);
+            this.label33.Size = new System.Drawing.Size(55, 19);
             this.label33.TabIndex = 182;
             this.label33.Text = "Value";
             // 
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label48.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(375, 379);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(44, 16);
+            this.label48.Size = new System.Drawing.Size(56, 19);
             this.label48.TabIndex = 183;
             this.label48.Text = "Angle";
             // 
@@ -1991,7 +1991,7 @@ namespace SineDisplayGraph
             this.textBoxPFT.Location = new System.Drawing.Point(1063, 580);
             this.textBoxPFT.Name = "textBoxPFT";
             this.textBoxPFT.ReadOnly = true;
-            this.textBoxPFT.Size = new System.Drawing.Size(60, 27);
+            this.textBoxPFT.Size = new System.Drawing.Size(69, 27);
             this.textBoxPFT.TabIndex = 284;
             this.textBoxPFT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2001,7 +2001,7 @@ namespace SineDisplayGraph
             this.textBoxPFC.Location = new System.Drawing.Point(1063, 550);
             this.textBoxPFC.Name = "textBoxPFC";
             this.textBoxPFC.ReadOnly = true;
-            this.textBoxPFC.Size = new System.Drawing.Size(60, 27);
+            this.textBoxPFC.Size = new System.Drawing.Size(69, 27);
             this.textBoxPFC.TabIndex = 283;
             this.textBoxPFC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2011,7 +2011,7 @@ namespace SineDisplayGraph
             this.textBoxPFB.Location = new System.Drawing.Point(1063, 518);
             this.textBoxPFB.Name = "textBoxPFB";
             this.textBoxPFB.ReadOnly = true;
-            this.textBoxPFB.Size = new System.Drawing.Size(60, 27);
+            this.textBoxPFB.Size = new System.Drawing.Size(69, 27);
             this.textBoxPFB.TabIndex = 282;
             this.textBoxPFB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2021,7 +2021,7 @@ namespace SineDisplayGraph
             this.textBoxPFA.Location = new System.Drawing.Point(1063, 488);
             this.textBoxPFA.Name = "textBoxPFA";
             this.textBoxPFA.ReadOnly = true;
-            this.textBoxPFA.Size = new System.Drawing.Size(60, 27);
+            this.textBoxPFA.Size = new System.Drawing.Size(69, 27);
             this.textBoxPFA.TabIndex = 281;
             this.textBoxPFA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2068,10 +2068,10 @@ namespace SineDisplayGraph
             // labelRealValue
             // 
             this.labelRealValue.AutoSize = true;
-            this.labelRealValue.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRealValue.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRealValue.Location = new System.Drawing.Point(444, 379);
             this.labelRealValue.Name = "labelRealValue";
-            this.labelRealValue.Size = new System.Drawing.Size(75, 16);
+            this.labelRealValue.Size = new System.Drawing.Size(97, 19);
             this.labelRealValue.TabIndex = 285;
             this.labelRealValue.Text = "Real Value";
             // 
@@ -2325,7 +2325,7 @@ namespace SineDisplayGraph
             this.textBoxIEffReal.Location = new System.Drawing.Point(1063, 398);
             this.textBoxIEffReal.Name = "textBoxIEffReal";
             this.textBoxIEffReal.ReadOnly = true;
-            this.textBoxIEffReal.Size = new System.Drawing.Size(60, 27);
+            this.textBoxIEffReal.Size = new System.Drawing.Size(69, 27);
             this.textBoxIEffReal.TabIndex = 302;
             this.textBoxIEffReal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2451,30 +2451,30 @@ namespace SineDisplayGraph
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(861, 379);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(43, 16);
+            this.label11.Size = new System.Drawing.Size(55, 19);
             this.label11.TabIndex = 316;
             this.label11.Text = "Value";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(1060, 379);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 16);
+            this.label12.Size = new System.Drawing.Size(97, 19);
             this.label12.TabIndex = 318;
             this.label12.Text = "Real Value";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.Location = new System.Drawing.Point(991, 379);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(44, 16);
+            this.label20.Size = new System.Drawing.Size(56, 19);
             this.label20.TabIndex = 317;
             this.label20.Text = "Angle";
             // 

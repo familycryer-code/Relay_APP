@@ -143,6 +143,62 @@ namespace SineDisplayGraph
             //Positioning of phasorGraph1 and its 4 quarter degree
             this.listBoxMode.Location = new System.Drawing.Point(543, 25); //(443, 55);
 
+            // ==================
+            this.label12.Location = new System.Drawing.Point(1315, 379);            //real value column header
+            this.textBoxIEffReal.Location = new System.Drawing.Point(1340, 398);    //txtbox
+            this.labelIEffRealUnits.Location = new System.Drawing.Point(1450, 401); //unit label
+
+            this.labelPF.Location = new System.Drawing.Point(1365, 466);            //PF column header
+            this.textBoxPFA.Location = new System.Drawing.Point(1340, 488);         //txtbox
+            this.textBoxPFB.Location = new System.Drawing.Point(1340, 518);         //txtbox
+            this.textBoxPFC.Location = new System.Drawing.Point(1340, 550);         //txtbox
+            this.textBoxPFT.Location = new System.Drawing.Point(1340, 580);         //txtbox
+
+            this.label20.Location = new System.Drawing.Point(1230, 379);            //Angle column header
+            this.textBoxIEffAngle.Location = new System.Drawing.Point(1235, 398);   //txtbox effective current
+            this.textBoxINAngle.Location = new System.Drawing.Point(1235, 428);     //txtbox current neg seq
+            this.textBoxIPAngle.Location = new System.Drawing.Point(1235, 458);     //txtbox current pos seq
+            this.textBoxPAAngle.Location = new System.Drawing.Point(1235, 488);     //txtbox phaseA power
+            this.textBoxPBAngle.Location = new System.Drawing.Point(1235, 518);     //txtbox phaseB power
+            this.textBoxPCAngle.Location = new System.Drawing.Point(1235, 548);     //txtbox phaseC power 
+            this.textBoxPTAngle.Location = new System.Drawing.Point(1235, 580);     //txtbox avg power
+            this.textBoxVdPAngle.Location = new System.Drawing.Point(1235, 613);    //txtbox diff pos seq
+            this.textBoxVdNAngle.Location = new System.Drawing.Point(1235, 643);    //txtbox diff neg seq
+            this.textBoxVtPAngle.Location = new System.Drawing.Point(1235, 673);    //txtbox transformer pos seq
+            this.textBoxVtNAngle.Location = new System.Drawing.Point(1235, 703);    //txtbox transformer neg seq
+            this.textBoxVnPAngle.Location = new System.Drawing.Point(1235, 733);    //txtbox nw pos seq 
+            this.textBoxVnNAngle.Location = new System.Drawing.Point(1235, 763);    //txtbox nw neg seq
+
+            this.labelIEffUnits.Location = new System.Drawing.Point(1135, 398);     //unit lbl eff curr val
+            this.labelINUnits.Location = new System.Drawing.Point(1135, 428);       //unit lbl curr neg seq val
+            this.labelIPUnits.Location = new System.Drawing.Point(1135, 458);       //unit lbl curr pos seq val
+            this.labelPAUnits.Location = new System.Drawing.Point(1135, 488);       //unit lbl phaseA power val
+            this.labelPBUnits.Location = new System.Drawing.Point(1135, 518);       //unit lbl phaseB power val
+            this.labelPCUnits.Location = new System.Drawing.Point(1135, 548);       //unit lbl phaseC power val
+            this.labelPTUnits.Location = new System.Drawing.Point(1135, 580);       //unit lbl avg power val
+            this.labelVdPUnits.Location = new System.Drawing.Point(1135, 613);      //unit lbl diff pos seq val
+            this.labelVdNUnits.Location = new System.Drawing.Point(1135, 643);      //unit lbl diff neg seq val
+            this.labelVtPUnits.Location = new System.Drawing.Point(1135, 673);      //unit transformer pos seq val
+            this.labelVtNUnits.Location = new System.Drawing.Point(1135, 703);      //unit transformer neg seq val
+            this.labelVnPUnits.Location = new System.Drawing.Point(1135, 733);      //unit lbl nw pos seq val
+            this.labelVnNUnits.Location = new System.Drawing.Point(1135, 763);      //unit lbl nw neg seq val
+
+            this.label11.Location = new System.Drawing.Point(1055, 379);            //Value column header
+            this.textBoxIEffRMS.Location = new System.Drawing.Point(1055, 398);     //txtbox eff curr
+            this.textBoxINRMS.Location = new System.Drawing.Point(1055, 428);       //txtbox curr neg seq
+            this.textBoxIPRMS.Location = new System.Drawing.Point(1055, 458);       //txtbox curr pos seq
+            this.textBoxPARMS.Location = new System.Drawing.Point(1055, 488);       //txtbox phaseA power
+            this.textBoxPBRMS.Location = new System.Drawing.Point(1055, 518);       //txtbox phaseB power
+            this.textBoxPCRMS.Location = new System.Drawing.Point(1055, 548);       //txtbox phaseC power
+            this.textBoxPTRMS.Location = new System.Drawing.Point(1055, 580);       //txtbox avg power
+            this.textBoxVdPRMS.Location = new System.Drawing.Point(1055, 613);      //txtbox diff pos seq
+            this.textBoxVdNRMS.Location = new System.Drawing.Point(1055, 643);      //txtbox diff neg seq
+            this.textBoxVtPRMS.Location = new System.Drawing.Point(1055, 673);      //txtbox transformer pos seq
+            this.textBoxVtNRMS.Location = new System.Drawing.Point(1055, 703);      //txtbox transformer neg seq
+            this.textBoxVnPRMS.Location = new System.Drawing.Point(1055, 733);      //txtbox nw pos seq
+            this.textBoxVnNRMS.Location = new System.Drawing.Point(1055, 763);      //txtbox nw neg seq
+
+
             generateRefWav();
 
             foreach (PhasorTypes pT in temp)
