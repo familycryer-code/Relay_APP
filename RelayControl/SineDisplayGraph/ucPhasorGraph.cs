@@ -198,6 +198,20 @@ namespace SineDisplayGraph
             this.textBoxVnPRMS.Location = new System.Drawing.Point(1055, 733);      //txtbox nw pos seq
             this.textBoxVnNRMS.Location = new System.Drawing.Point(1055, 763);      //txtbox nw neg seq
 
+            this.labelIEffStupid.Location = new System.Drawing.Point(880, 398);
+            this.labelIN.Location = new System.Drawing.Point(880, 428);
+            this.labelIP.Location = new System.Drawing.Point(884, 458);
+            this.labelPA.Location = new System.Drawing.Point(894, 488);
+            this.labelPB.Location = new System.Drawing.Point(895, 518);
+            this.labelPC.Location = new System.Drawing.Point(894, 548);
+            this.labelPT.Location = new System.Drawing.Point(893, 580);
+            this.labelVdP.Location = new System.Drawing.Point(767, 613);
+            this.labelVdN.Location = new System.Drawing.Point(757, 643);
+            this.labelVtP.Location = new System.Drawing.Point(752, 673);
+            this.labelVtNStupid.Location = new System.Drawing.Point(742, 703);
+            this.labelVnP.Location = new System.Drawing.Point(787, 733);
+            this.labelVnN.Location = new System.Drawing.Point(780, 763);
+
 
             generateRefWav();
 
