@@ -1078,6 +1078,20 @@ namespace RelayControlLibrary
                 this.buttonSendDeadBand.Size = new System.Drawing.Size(100, 80);
             }
             this.buttonDefaults.Text = "Restore Defaults";
+
+#if !TORONTOHYDRO
+            // If not Toronto Hydro : Do not display the deab band box. And move the DNP settings box to the center
+            this.groupBoxDIGITALGRIDDNPDeadBand.Enabled = false;
+            this.groupBoxDIGITALGRIDDNPDeadBand.Visible = false;
+            this.buttonSendDeadBand.Enabled = false;
+            this.buttonSendDeadBand.Visible = false;
+            this.groupBoxDNPSettings.Location = new System.Drawing.Point(530, 40);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(570, 530);
+            this.buttonDefaults.Location = new System.Drawing.Point(570, 580);
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(620, 630);
+            this.panel_DNPsettings.Location = new System.Drawing.Point(527, 35);
+            this.panel_DNPsettings.Size = new System.Drawing.Size(339, 473);
+#endif
         }
 
         private void makeMemphis()

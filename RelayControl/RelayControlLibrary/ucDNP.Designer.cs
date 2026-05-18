@@ -127,6 +127,7 @@ namespace RelayControlLibrary
             this.labelDNPtext1 = new System.Windows.Forms.Label();
             this.labelDNPStatusInidcation = new System.Windows.Forms.Label();
             this.groupBoxDNPStatus = new System.Windows.Forms.GroupBox();
+            this.panel_DNPsettings = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFragmentSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).BeginInit();
@@ -1462,6 +1463,14 @@ namespace RelayControlLibrary
             this.groupBoxDNPStatus.TabStop = false;
             this.groupBoxDNPStatus.Text = "DNP Status";
             // 
+            // panel_DNPsettings
+            // 
+            this.panel_DNPsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_DNPsettings.Location = new System.Drawing.Point(28, 505);
+            this.panel_DNPsettings.Name = "panel_DNPsettings";
+            this.panel_DNPsettings.Size = new System.Drawing.Size(50, 35);
+            this.panel_DNPsettings.TabIndex = 152;
+            // 
             // ucDNP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1481,6 +1490,7 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxDNPSettings);
             this.Controls.Add(this.buttonDefaults);
             this.Controls.Add(this.buttonRQDNPSettings);
+            this.Controls.Add(this.panel_DNPsettings);
             this.Name = "ucDNP";
             this.Size = new System.Drawing.Size(1048, 700);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolTimeout)).EndInit();
@@ -1620,5 +1630,6 @@ namespace RelayControlLibrary
         public System.Windows.Forms.Label labelDNPtext1;
         public System.Windows.Forms.Label labelDNPStatusInidcation;
         public System.Windows.Forms.GroupBox groupBoxDNPStatus;
+        private System.Windows.Forms.Panel panel_DNPsettings;
     }
 }
