@@ -351,7 +351,9 @@ namespace RelayControlLibrary
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
+#if TORONTOHYDRO
                 workingBox.EventEnableVisible = true;
+#endif
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
 #if !ENMAX
@@ -1818,11 +1820,13 @@ namespace RelayControlLibrary
                     this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
                 this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
+#if !TORONTOHYDRO
+                this.buttonDisableAllAnalogEvents.Visible = false;
+                this.buttonEnableAllAnalogEvents.Visible = false;
+                this.buttonSendAnalogEnables.Visible = false;
+#endif
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2)
             {
@@ -1852,11 +1856,13 @@ namespace RelayControlLibrary
                 this.buttonSendAnalogEnables.Visible = true;
                 */
                 this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
+#if !TORONTOHYDRO
+                this.buttonDisableAllAnalogEvents.Visible = false;
+                this.buttonEnableAllAnalogEvents.Visible = false;
+                this.buttonSendAnalogEnables.Visible = false;
+#endif
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs3)
             {
@@ -1886,11 +1892,13 @@ namespace RelayControlLibrary
                 this.buttonSendAnalogEnables.Visible = true;
                 */
                 this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
+#if !TORONTOHYDRO
+                this.buttonDisableAllAnalogEvents.Visible = false;
+                this.buttonEnableAllAnalogEvents.Visible = false;
+                this.buttonSendAnalogEnables.Visible = false;
+#endif
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
             {
@@ -1936,11 +1944,13 @@ namespace RelayControlLibrary
                     this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
                 this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Visible = true;
                 this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Visible = true;
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Visible = true;
+                //DNP Event Enable buttons not displayed for Enmax
+                this.buttonDisableAllBinaryEvents.Visible = false;
+                this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonSendBinaryEventEnables.Visible = false;
+
 #endif
 
 #if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
@@ -1969,11 +1979,12 @@ namespace RelayControlLibrary
                     this.tabPageBinaryInputs2.Controls.Add(this.buttonDisableAllBinaryEvents);
                 }
                 this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Visible = true;
                 this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Visible = true;
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Visible = true;
+                //DNP Event Enable buttons not displayed for Enmax
+                this.buttonDisableAllBinaryEvents.Visible = false;
+                this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonSendBinaryEventEnables.Visible = false;
 #endif
             }
 

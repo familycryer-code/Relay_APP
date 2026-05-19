@@ -125,8 +125,9 @@ namespace RelayControlLibrary
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
+#if TORONTOHYDRO
                 workingBox.EventEnableVisible = true;
-
+#endif
                 this.addBinaryBox(workingBox, this.tabPageBinaryInputs);
 
                 if (i == pointsToAdd)
@@ -422,7 +423,7 @@ namespace RelayControlLibrary
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
-        #endregion
+#endregion
 
         #region Input Data
 

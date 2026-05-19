@@ -42,8 +42,10 @@
             this.labelEventEnable.Size = new System.Drawing.Size(74, 13);
             this.labelEventEnable.TabIndex = 9;
             this.labelEventEnable.Text = "Enable Event:";
+#if TORONTOHYDRO
             this.labelEventEnable.Enabled = true;// false;
             this.labelEventEnable.Visible = true;// false;
+#endif
             // 
             // checkBoxEventEnabled
             // 
@@ -84,6 +86,6 @@
         protected System.Windows.Forms.CheckBox checkBoxEventEnabled;
         protected System.Windows.Forms.Label labelPointNumber;
 
-        #endregion
+#endregion
     }
 }

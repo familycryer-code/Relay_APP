@@ -13,8 +13,10 @@ namespace RelayControlLibrary
         public ucDNPDIGITALGRIDAnalogIn()
         {
             InitializeComponent();
+#if TORONTOHYDRO
             this.labelEventEnable.Visible = true;// false;
             this.checkBoxEventEnabled.Visible = true;// false;
+#endif
         }
 
         public bool PointEnabled
