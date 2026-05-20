@@ -1111,14 +1111,14 @@ namespace RelayControlLibrary
                 i++;
 #elif ENMAX
                 // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addAnalogBoxIn() "
-                // For ENMAX  since it is set to 20 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
-                // So we can have a max of 40 such Analog points ( 20 per column ) that can be displayed on one tab
+                // For ENMAX  since it is set to 21 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
+                // So we can have a max of 42 such Analog points ( 21 per column ) that can be displayed on one tab
 
-                if (i <= 39)            // So 40 Analog Input points 0 to 39 will be displayed on the first AnalogInputs tab
+                if (i <= 41)            // So 42 Analog Input points 0 to 41 will be displayed on the first AnalogInputs tab
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                else if (i <= 79)       // So 40 Analog Input points 40 to 79 will be displayed on the second AnalogInputs tab
+                else if (i <= 83)       // So 42 Analog Input points 42 to 83 will be displayed on the second AnalogInputs tab
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                else if (i <= 117)      // So 38 Analog Input points 80 to 118 will be displayed on the third AnalogInputs tab
+                else if (i <= 122)      // So 39 Analog Input points 84 to 122 will be displayed on the third AnalogInputs tab
                     this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
 
                 if (i == pointsToAdd)
@@ -1383,9 +1383,9 @@ namespace RelayControlLibrary
             int y = tB.Controls.Count % 15 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 15) + 1;
 #elif ENMAX
-            //20 Rows of Analog Inputs Points per column ( 40 points per tab )
-            int y = tB.Controls.Count % 20 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 20) + 1;
+            //21 Rows of Analog Inputs Points per column ( 42 points per tab )
+            int y = tB.Controls.Count % 21 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 21) + 1;
 #endif
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
@@ -1608,7 +1608,7 @@ namespace RelayControlLibrary
 
         }
 
-        public int setAnalogInputs(byte[] bytePacket, int index)
+        public int setAnalogInputs(byte[] bytePacket)
         {
             int j = 0;
             foreach (Control C in this.tabPageAnalogInputs1.Controls)
@@ -1627,20 +1627,35 @@ namespace RelayControlLibrary
 
                 if (!failed)
                 {
-                 //   uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
-                 //   if ((bytePacket[index + 4] & 0x01) == 0x01)
-                  //      uDDGA.PointEnabled = true;
-                 //  else
-                  //      uDDGA.PointEnabled = false;
-
-
-                    //uDDGA.PointValue = -100;// this.convertDataBytesToAnalog(bytePacket, index);
                     uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
                     j += 4;
                 }
             }
 
-            return index;
+            j = 168; // 4 * 42 = 168
+            foreach (Control C in this.tabPageAnalogInputs2.Controls)
+            {
+                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                bool failed = false;
+
+                try
+                {
+                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                }
+                catch
+                {
+                    failed = true;
+                }
+
+                if (!failed)
+                {
+                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
+                    j += 4;
+                }
+            }
+
+
+            return 0;
 
         }
 

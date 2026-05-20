@@ -157,6 +157,7 @@ namespace RelayControlLibrary
         DNPMessage2,
         DNPMessage3,
         DNPMessage4,
+        DNPMessage5,
         LowVoltageThresReceived,
         NoMemFix,
         PCdata,

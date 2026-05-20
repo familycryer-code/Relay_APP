@@ -2601,14 +2601,14 @@ namespace RelayControl
                 case 0x0E:
                     return IncomingCommCommands.SafeService;
                 case 0x11:
-                    return IncomingCommCommands.DNPMessage1;
+                    return IncomingCommCommands.DNPMessage1; // Bianry Inputs
                 case 0x12:
-                    return IncomingCommCommands.DNPMessage2;
+                    return IncomingCommCommands.DNPMessage2; // Binary Outputs
                 case 0x13:
-                    return IncomingCommCommands.DNPMessage3;
+                    return IncomingCommCommands.DNPMessage3; // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data
                 case 0x14:
-                    return IncomingCommCommands.DNPMessage4;
-                case 0x17:
+                    return IncomingCommCommands.DNPMessage4; // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data
+               case 0x17:
                     return IncomingCommCommands.GeneralCommand;
                 case (byte)'A':
                     return IncomingCommCommands.RelayStatusBits;
@@ -2706,17 +2706,20 @@ namespace RelayControl
         {
             switch (command)
             {
-                case IncomingCommCommands.DNPMessage1:
+                case IncomingCommCommands.DNPMessage1://BI
                     this.dNPDataMessage(bytePacket, 1);
                     break;
-                case IncomingCommCommands.DNPMessage2:
+                case IncomingCommCommands.DNPMessage2://BO
                     this.dNPDataMessage(bytePacket, 2);
                     break;
-                case IncomingCommCommands.DNPMessage3:
+                case IncomingCommCommands.DNPMessage3://AI
                     this.dNPDataMessage(bytePacket, 3);
                     break;
-                case IncomingCommCommands.DNPMessage4:
+                case IncomingCommCommands.DNPMessage4://AI
                     this.dNPDataMessage(bytePacket, 4);
+                    break;
+                case IncomingCommCommands.DNPMessage5: //AO
+                    this.dNPDataMessage(bytePacket, 5);
                     break;
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
@@ -2980,7 +2983,7 @@ namespace RelayControl
                     this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket);
                     break;
                 case 3:
-                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, 122);
+                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket);
                     break;
                 case 4:
                     this.dNPDIGITALGRIDData.setAnalogOutputs(bytePacket, aoCount);
