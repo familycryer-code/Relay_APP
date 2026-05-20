@@ -758,7 +758,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.8" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.9" + " ENMAX ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -2970,8 +2970,6 @@ namespace RelayControl
                  this.dNPDIGITALGRIDData.SetAll(bytePacket, p);
             */
                                     
-            int aiCount = 122;
-            int boCount = 31;
             int aoCount = 38;
             switch (p)
             {
@@ -2982,7 +2980,7 @@ namespace RelayControl
                     this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket);
                     break;
                 case 3:
-                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, aiCount);
+                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, 122);
                     break;
                 case 4:
                     this.dNPDIGITALGRIDData.setAnalogOutputs(bytePacket, aoCount);

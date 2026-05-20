@@ -90,7 +90,7 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1196];//[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
-        private UInt32 relayMasterRevision = 260210;//140506;
+        private UInt32 relayMasterRevision = 260212;//140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
 
@@ -1547,7 +1547,7 @@ namespace RelayControlLibrary
             // we take 504 as the starting point to read Analog Inputs
             savedIndex = 504;
 #endif
-            savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
+          //  savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
 #if ONCOR
 // starting point for setAnalogOutputs considering 44 bytes of BinaryInputs & 28 bytes of BinaryOutputs & 111 bytes of AnalogInputs( per ver10 ConEd firmware )
 // 48*4(binary input incremented by 4 for each reading)   + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
@@ -1610,6 +1610,7 @@ namespace RelayControlLibrary
 
         public int setAnalogInputs(byte[] bytePacket, int index)
         {
+            int j = 0;
             foreach (Control C in this.tabPageAnalogInputs1.Controls)
             {
                 ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
@@ -1626,79 +1627,21 @@ namespace RelayControlLibrary
 
                 if (!failed)
                 {
-                   uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
-                    if ((bytePacket[index + 4] & 0x01) == 0x01)
-                        uDDGA.PointEnabled = true;
-                    else
-                        uDDGA.PointEnabled = false;
+                 //   uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
+                 //   if ((bytePacket[index + 4] & 0x01) == 0x01)
+                  //      uDDGA.PointEnabled = true;
+                 //  else
+                  //      uDDGA.PointEnabled = false;
 
 
                     //uDDGA.PointValue = -100;// this.convertDataBytesToAnalog(bytePacket, index);
-                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index);
-                    index += 6;
+                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
+                    j += 4;
                 }
             }
-#if !TORONTO_HYDRO
-            foreach (Control C in this.tabPageAnalogInputs2.Controls)
-            {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
 
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
-                    if ((bytePacket[index + 4] & 0x01) == 0x01)
-                        uDDGA.PointEnabled = true;
-                    else
-                        uDDGA.PointEnabled = false;
-
-                    /*if (index == 758)
-                    {
-                       uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index); 
-                    }
-                    else
-                        uDDGA.PointValue = -150;*/
-                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index);
-                    index += 6;
-                }
-            }
-            foreach (Control C in this.tabPageAnalogInputs3.Controls)
-            {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
-
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = this.convertAnalogControlByteToBool(bytePacket[index + 4]);
-                    if ((bytePacket[index + 4] & 0x01) == 0x01)
-                        uDDGA.PointEnabled = true;
-                    else
-                        uDDGA.PointEnabled = false;
-                    //uDDGA.PointValue = -100;// this.convertDataBytesToAnalog(bytePacket, index);
-                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, index);
-                    index += 6;
-                }
-            }
-#endif
             return index;
+
         }
 
         public void setAnalogOutputs(byte[] bytePacket, int index)
@@ -1723,11 +1666,6 @@ namespace RelayControlLibrary
             temp = bytePacket[i + 1];
             temp <<= 8;
             temp += bytePacket[i];
-
-            //int twosComplement = ~temp + 1;
-
-           // temp = temp--;
-           // int twosComplement = ~temp;
 
             return temp;
         }
