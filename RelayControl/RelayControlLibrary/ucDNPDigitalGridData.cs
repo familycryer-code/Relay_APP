@@ -1591,21 +1591,20 @@ namespace RelayControlLibrary
             return 0;
         }
 
-        public int setBinaryOutputs(byte[] bytePacket, int index)
+        public int setBinaryOutputs(byte[] bytePacket)
         {
-            foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryOuputs.Controls)
+            int j = 0;
+            foreach (Control C in this.tabPageBinaryOuputs.Controls)
             {
-                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
+                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
 
-                if ((bytePacket[index + 2] & 0x01) == 0x01)
-                    uDMB.PointEnabled = true;
-                else
-                    uDMB.PointEnabled = false;
+                uDMB = (ucDNPMemphisBinary)C;
+                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[j]);
+                j += 1;
 
-                index += 4;
             }
 
-            return index;
+            return 0;
 
         }
 

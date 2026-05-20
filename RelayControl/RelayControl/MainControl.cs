@@ -2979,7 +2979,7 @@ namespace RelayControl
                     this.dNPDIGITALGRIDData.setBinaryInputs(bytePacket);
                     break;
                 case 2:
-                    this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket, boCount);
+                    this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket);
                     break;
                 case 3:
                     this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, aiCount);
