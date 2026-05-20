@@ -1,11 +1,12 @@
+using SharedResources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using SharedResources;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RelayControlLibrary
@@ -1506,7 +1507,7 @@ namespace RelayControlLibrary
         {
             int savedIndex = 0;
 
-            savedIndex = this.setBinaryInputs(this.dNPData, savedIndex);
+           // savedIndex = this.setBinaryInputs(this.dNPData, savedIndex);
 #if ONCOR
 // starting point for setBinaryOutputs considering 48 bytes of BinaryInputs ( per ver10 Oncor firmware )
            savedIndex = 192; 
@@ -1522,7 +1523,7 @@ namespace RelayControlLibrary
             // starting point for setBinaryOutputs considering 58 BinaryInputs 
             savedIndex = 228; // 58 Inputs * 4 ( 4 Bytes per binary input )
 #endif
-            savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
+            //savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
 #if ONCOR
 // starting point for setAnalogInputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 Oncor firmware )
 // 48 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 296
@@ -1562,81 +1563,35 @@ namespace RelayControlLibrary
             this.setAnalogOutputs(this.dNPData, savedIndex);
         }
 
-        private int setBinaryInputs(byte[] bytePacket, int index)
+        
+        public int setBinaryInputs(byte[] bytePacket)
         {
-            int i = this.tabPageBinaryInputs.Controls.Count;
+            //int i = this.tabPageBinaryInputs.Controls.Count;
+            int j = 0;
             foreach (Control C in this.tabPageBinaryInputs.Controls)
             {
                 ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
-                    if ((bytePacket[index + 2] & 0x02) == 0x02)
-                        uDMB.EventEnabled = true;
-                    else
-                        uDMB.EventEnabled = false;
-
-                    if ((bytePacket[index + 2] & 0x01) == 0x01)
-                        uDMB.PointEnabled = true;
-                    else
-                    { 
-                        uDMB.PointEnabled = false;
-                        //MessageBox.Show("Incorrect Binary Input data coming from Master uP");
-                    }
-
-
-                    index += 4;
-                }
+             
+                uDMB = (ucDNPMemphisBinary)C;
+                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[j]);
+                j += 1;
+              
             }
 #if ENMAX
+            j = 30;
             foreach (Control C in this.tabPageBinaryInputs2.Controls)
             {
                 ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
 
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
-                    if ((bytePacket[index + 2] & 0x02) == 0x02)
-                        uDMB.EventEnabled = true;
-                    else
-                        uDMB.EventEnabled = false;
-
-                    if ((bytePacket[index + 2] & 0x01) == 0x01)
-                        uDMB.PointEnabled = true;
-                    else
-                        uDMB.PointEnabled = false;
-
-
-                    index += 4;
-                }
+                uDMB = (ucDNPMemphisBinary)C;
+                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[j]);
+                j += 1;
             }
 #endif
-
-            return index;
+            return 0;
         }
 
-        private int setBinaryOutputs(byte[] bytePacket, int index)
+        public int setBinaryOutputs(byte[] bytePacket, int index)
         {
             foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryOuputs.Controls)
             {
@@ -1651,9 +1606,10 @@ namespace RelayControlLibrary
             }
 
             return index;
+
         }
 
-        private int setAnalogInputs(byte[] bytePacket, int index)
+        public int setAnalogInputs(byte[] bytePacket, int index)
         {
             foreach (Control C in this.tabPageAnalogInputs1.Controls)
             {
@@ -1746,7 +1702,7 @@ namespace RelayControlLibrary
             return index;
         }
 
-        private void setAnalogOutputs(byte[] bytePacket, int index)
+        public void setAnalogOutputs(byte[] bytePacket, int index)
         {
             foreach (ucDNPMemphisAnalog uDMA in this.tabPageAnalogOutputs.Controls)
             {

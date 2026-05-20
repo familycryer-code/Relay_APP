@@ -2963,10 +2963,32 @@ namespace RelayControl
 
         private void dNPDataMessage(byte[] bytePacket, int p)
         {
-            if (this.dNPMemphisData != null)
-                this.dNPMemphisData.SetAll(bytePacket, p);
-            if (this.dNPDIGITALGRIDData != null)
-                this.dNPDIGITALGRIDData.SetAll(bytePacket, p);
+            /* 
+             * if (this.dNPMemphisData != null)
+                 this.dNPMemphisData.SetAll(bytePacket, p);
+             if (this.dNPDIGITALGRIDData != null)
+                 this.dNPDIGITALGRIDData.SetAll(bytePacket, p);
+            */
+                                    
+            int aiCount = 122;
+            int boCount = 31;
+            int aoCount = 38;
+            switch (p)
+            {
+                case 1:
+                    this.dNPDIGITALGRIDData.setBinaryInputs(bytePacket);
+                    break;
+                case 2:
+                    this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket, boCount);
+                    break;
+                case 3:
+                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, aiCount);
+                    break;
+                case 4:
+                    this.dNPDIGITALGRIDData.setAnalogOutputs(bytePacket, aoCount);
+                    break;
+
+            }
         }
 
         //Also for THD Values
