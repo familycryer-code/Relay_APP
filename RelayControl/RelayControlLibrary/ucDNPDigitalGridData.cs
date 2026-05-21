@@ -1542,7 +1542,7 @@ namespace RelayControlLibrary
         {
             int j = 0;
 
-            int maxTab2Command13 = 22; 
+            int maxTab2Command13 = 21; 
             int current = 0;
             int maxTab3Command14 = 37;
             int curr = 0;
@@ -1580,7 +1580,7 @@ namespace RelayControlLibrary
                 {
 
                     if(current >= maxTab2Command13)
-                    break;
+                        break;
 
                     ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
                     bool failed = false;

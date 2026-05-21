@@ -2201,8 +2201,8 @@ namespace RelayControl
                         //check to see if we have found a command or we have reached the end of the data
                         command = this.getCommand(this.receiveArray[tempRXReadPtr]);
 
-                       //if(command == IncomingCommCommands.DNPMessage3)
-                       //     MessageBox.Show("dnpMessage3 - 0x13 - to be processed upto AIs 42");
+                      // if(command == IncomingCommCommands.DNPMessage3)
+                      //      MessageBox.Show("dnpMessage3 - 0x13 - to be processed upto AIs 42");
 
                         
                         while (command == IncomingCommCommands.Invalid)
@@ -2342,11 +2342,11 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                if( (command != IncomingCommCommands.DNPMessage1) && (command != IncomingCommCommands.DNPMessage3))
-                {
+                //if( (command != IncomingCommCommands.DNPMessage1) && (command != IncomingCommCommands.DNPMessage3))
+                //{
                     this.messageHandler("Error Checking Raw Communication Data", ex);
                     this.RegisterPolling(true);
-                }
+                //}
             }
         }
 
