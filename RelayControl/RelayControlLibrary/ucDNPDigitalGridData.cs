@@ -264,19 +264,19 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Network Protector Status / B Flag");
             this.binaryInputs.Add("Defaults Loaded");
             this.binaryInputs.Add("Phase ACB");
-            this.binaryInputs.Add("Insensetive Backfeed Detected");
+            this.binaryInputs.Add("Insensitive Backfeed Detected");
             this.binaryInputs.Add("A Flag");
             this.binaryInputs.Add("Digital In 1");
             this.binaryInputs.Add("Digital In 2");
             this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Relax CLose Active");
+            this.binaryInputs.Add("Relax Close Active");
             this.binaryInputs.Add("Sensitive Trip Mode");
-            this.binaryInputs.Add("InSensitive Trip Mode");
+            this.binaryInputs.Add("Insensitive Trip Mode");
             this.binaryInputs.Add("Time Delay Trip Mode");
             this.binaryInputs.Add("Watt-Var Trip Mode");
             this.binaryInputs.Add("Trip On Power Down");
             this.binaryInputs.Add("Trim Curve Enabled"); // 20
-            this.binaryInputs.Add("Cirlce Close Enabled");
+            this.binaryInputs.Add("Circle Close Enabled");
             this.binaryInputs.Add("Override Blocked Open");
             this.binaryInputs.Add("Relay Algorithm");
             this.binaryInputs.Add("Pump Mode - Relay Cycles");
@@ -288,9 +288,9 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("SEC Digital C");
             this.binaryInputs.Add("SEC Digital D");
             this.binaryInputs.Add("SEC Digital E");
-            this.binaryInputs.Add("SEC Digital F - Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
             this.binaryInputs.Add("SEC Digital G");
-            this.binaryInputs.Add("SEC Digital H - Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
             this.binaryInputs.Add("Q Bit"); //36
             this.binaryInputs.Add("Not Applicable");
             this.binaryInputs.Add("Not Applicable");
@@ -504,7 +504,7 @@ namespace RelayControlLibrary
             this.binaryOutputs.Add("Command Test");
             this.binaryOutputs.Add("Clear Change");
             this.binaryOutputs.Add("Disable Relax Close");
-            this.binaryOutputs.Add("Unblock Open");
+            this.binaryOutputs.Add("Unblock Open");//30
 #endif
             //#if (ONCOR || TORONTO_HYDRO) 
 #if (TORONTO_HYDRO || DEBUG)
@@ -851,9 +851,9 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase B", false));//15
             this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage", false));   //20
             this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase A", false));
@@ -883,10 +883,10 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));//48
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Sequence Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false)); //49
+            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage ", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false)); //53
             this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
@@ -894,20 +894,20 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase C", false));//62
+            this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase C", false));//62
             this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
             this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count", false));
             this.analogInputs.Add(new AnalogPointDefinition("Aux Input 1", false));//65
             this.analogInputs.Add(new AnalogPointDefinition("Aux Input 2", false));
             this.analogInputs.Add(new AnalogPointDefinition("Aux Input 3", false));
             this.analogInputs.Add(new AnalogPointDefinition("Aux Input 4", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog C - Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog D - Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog E - Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog F - Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog G - Not Applicable", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
             this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
             this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false)); //75
             this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
@@ -955,7 +955,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
             this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
             this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //120
-            this.analogInputs.Add(new AnalogPointDefinition("Number of RNC(s) Reporting", false)); // 121    
+            this.analogInputs.Add(new AnalogPointDefinition("Number of RNCs Reporting", false)); // 121    
 #endif
 #if (ONCOR || TORONTO_HYDRO )
             this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));//0
