@@ -1614,8 +1614,10 @@ namespace RelayControlLibrary
         {
             int j = 0;
 
-            int maxTab2Command13 = 22;
+            int maxTab2Command13 = 22; 
             int current = 0;
+            int maxTab3Command14 = 37;
+            int curr = 0;
 
             if (aiCommand == 13) // upto analog input number 41
             {
@@ -1701,6 +1703,40 @@ namespace RelayControlLibrary
                     }
                 }
 
+            }
+            if (aiCommand == 14) // upto analog input number 121
+            {
+                // AI number 84 is starting point for analog input tab#3 with dnp message command 0x14 
+                // incomming string message considering 4 bytes data per point
+                // 4 * 21 = 84
+                j = 84;
+                foreach (Control C in this.tabPageAnalogInputs3.Controls)
+                {
+
+                    if (curr >= maxTab3Command14)
+                        break;
+
+                    ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                    bool failed = false;
+
+                    try
+                    {
+                        uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                    }
+                    catch
+                    {
+                        failed = true;
+                    }
+
+                    if (!failed)
+                    {
+                        uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
+                        j += 4;
+                    }
+
+                    current++;
+                }
+                
             }
             return 0;
 
