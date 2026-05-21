@@ -1501,11 +1501,11 @@ namespace RelayControlLibrary
             foreach (Control C in this.tabPageBinaryInputs.Controls)
             {
                 ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-             
+                
                 uDMB = (ucDNPMemphisBinary)C;
                 uDMB.CheckValue = this.convertDataByteToBool(bytePacket[j]);
                 j += 1;
-              
+                
             }
 #if ENMAX
             j = 30;
