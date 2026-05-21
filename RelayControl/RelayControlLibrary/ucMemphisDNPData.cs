@@ -432,8 +432,8 @@ namespace RelayControlLibrary
             switch (p)
             {
                 case 1:
-                    this.setBinaryInputs(bytePacket, 4); //first data is dummy, so start with 4?
-                    this.setBinaryOutputs(bytePacket, 148); //145 is where binary outputs starts, each BINARY point has 4 points
+                   // this.setBinaryInputs(bytePacket, 4); //first data is dummy, so start with 4?
+                   // this.setBinaryOutputs(bytePacket, 148); //145 is where binary outputs starts, each BINARY point has 4 points
                     this.setAnalogInputs(bytePacket, 1, 190); // is where it starts, but skip one due to "dummy"
                     break;
                 case 2:
@@ -450,30 +450,30 @@ namespace RelayControlLibrary
                     throw new Exception("Bad Packet Number for DNP Data");
             }
         }
+        /*
+       private void setBinaryInputs(byte[] bytePacket, int index)
+       {
 
-        private void setBinaryInputs(byte[] bytePacket, int index)
-        {
+           foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryInputs.Controls)
+           {
+               uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
+               if ((bytePacket[index + 2] & 0x02) == 0x02)
+                   uDMB.EventEnabled = true;
+               else
+                   uDMB.EventEnabled = false;
+               index += 4;
+           }
+       }
 
-            foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryInputs.Controls)
-            {
-                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
-                if ((bytePacket[index + 2] & 0x02) == 0x02)
-                    uDMB.EventEnabled = true;
-                else
-                    uDMB.EventEnabled = false;
-                index += 4;
-            }
-        }
-
-        private void setBinaryOutputs(byte[] bytePacket, int index)
-        {
-            foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryOuputs.Controls)
-            {
-                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
-                index += 4;
-            }
-        }
-
+       private void setBinaryOutputs(byte[] bytePacket, int index)
+       {
+           foreach (ucDNPMemphisBinary uDMB in this.tabPageBinaryOuputs.Controls)
+           {
+               uDMB.CheckValue = this.convertDataByteToBool(bytePacket[index]);
+               index += 4;
+           }
+       }
+       */
         private bool convertDataByteToBool(byte b)
         {
             if (b == 1)

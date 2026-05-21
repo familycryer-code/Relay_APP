@@ -758,7 +758,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.10" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.11" + " ENMAX ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -2192,7 +2192,7 @@ namespace RelayControl
                 while (this.rXReadPtr != this.rXWritePtr)
                 {
                     command = IncomingCommCommands.Invalid;
-
+                     
                     while (true)
                     {
                         if (screenD.screenDisable == true)
@@ -2200,6 +2200,11 @@ namespace RelayControl
                         initialRXPtr = tempRXReadPtr = this.rXReadPtr;
                         //check to see if we have found a command or we have reached the end of the data
                         command = this.getCommand(this.receiveArray[tempRXReadPtr]);
+
+                       //if(command == IncomingCommCommands.DNPMessage3)
+                       //     MessageBox.Show("dnpMessage3 - 0x13 - to be processed upto AIs 42");
+
+                        
                         while (command == IncomingCommCommands.Invalid)
                         {
                             tempRXReadPtr = this.nextRXArrayAddress(tempRXReadPtr);
@@ -2337,8 +2342,11 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                this.messageHandler("Error Checking Raw Communication Data", ex);
-                this.RegisterPolling(true);
+                if( (command != IncomingCommCommands.DNPMessage1) && (command != IncomingCommCommands.DNPMessage3))
+                {
+                    this.messageHandler("Error Checking Raw Communication Data", ex);
+                    this.RegisterPolling(true);
+                }
             }
         }
 
@@ -2969,14 +2977,6 @@ namespace RelayControl
 
         private void dNPDataMessage(byte[] bytePacket, int p)
         {
-            /* 
-             * if (this.dNPMemphisData != null)
-                 this.dNPMemphisData.SetAll(bytePacket, p);
-             if (this.dNPDIGITALGRIDData != null)
-                 this.dNPDIGITALGRIDData.SetAll(bytePacket, p);
-            */
-                                    
-            int aoCount = 38;
             switch (p)
             {
                 case 1:

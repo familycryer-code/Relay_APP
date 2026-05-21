@@ -91,7 +91,7 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1196];//[1008];  //252 packet size * 4
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
-        private UInt32 relayMasterRevision = 260212;//140506;
+        private UInt32 relayMasterRevision = 260213;//140506;
         private Customers customer = Customers.DIGITALGRIDDNP;
 
 
@@ -1493,79 +1493,7 @@ namespace RelayControlLibrary
         #endregion
 
         #region Incoming Data Handling
-
-        public void SetAll(byte[] bytePacket, int p)
-        {
-            for (int packetIndex = 0, dataIndex = 252 * (p - 1); packetIndex < 252; packetIndex++, dataIndex++)
-            {
-                this.dNPData[dataIndex] = bytePacket[packetIndex];
-            }
-
-            if (p == 4)
-                this.setAllDNPData();
-        }
-
-        private void setAllDNPData()
-        {
-            int savedIndex = 0;
-
-           // savedIndex = this.setBinaryInputs(this.dNPData, savedIndex);
-#if ONCOR
-// starting point for setBinaryOutputs considering 48 bytes of BinaryInputs ( per ver10 Oncor firmware )
-           savedIndex = 192; 
-#elif CONED
-            // starting point for setBinaryOutputs considering 45 BinaryInputs points ( per ver10 ConEd firmware - including the 10 newly added ones )
-            // 4 bytes per binary input point : 44 * 4 = 176
-            savedIndex = 176 + 4;// 224;
-#elif (TORONTO_HYDRO || DEBUG)
-            // starting point for setBinaryOutputs considering 24 BinaryInputs 
-             savedIndex = 96; //(24 * 4) 
-            //savedIndex = 232;
-#elif (ENMAX)
-            // starting point for setBinaryOutputs considering 58 BinaryInputs 
-            savedIndex = 228; // 58 Inputs * 4 ( 4 Bytes per binary input )
-#endif
-            //savedIndex = this.setBinaryOutputs(this.dNPData, savedIndex);
-#if ONCOR
-// starting point for setAnalogInputs considering 48 bytes of BinaryInputs & 26 bytes of BinaryOutputs( per ver10 Oncor firmware )
-// 48 * 4(binary input incremented by 4 for each reading)  + 26 * 4(binary output incremented by 4 for each reading) = 296
-            savedIndex = 296; 
-#elif CONED
-            // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware )
-            // 44 * 4(binary input incremented by 4 for each reading) + 4 + 28 * 4(binary output incremented by 4 for each reading) = 292
-            savedIndex = 344;// 292 + 4; // starting point for setAnalogInputs considering 45 bytes of BinaryInputs & 29 bytes of BinaryOutputs( per ver10 ConEd firmware )
-#elif (TORONTO_HYDRO || DEBUG)
-            // It is seen that in the incoming dNPData array ( from master uP ), the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 8886 and 887.
-            // TorontoHydro DNP Map has Serial Number at its DNP Analog Input 29,
-            // So, to get to the starting point of analog inputs : 886 - (29*6) ( since each analog input = 6 bytes ) = 712
-            savedIndex = 712;
-#elif ENMAX
-            // It is seen that in the dNPData array, the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 712 and 713.
-            // Accordingly, since for EnMax has Serial Number at its DNP Analog Input 1 itself,
-            // we take 712 as the starting point to read Analog Inputs
-            savedIndex = 712;
-            // It is seen that in the dNPData array, the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 504 and 505.
-            // Accordingly, since for EnMax has Serial Number at its DNP Analog Input 1 itself,
-            // we take 504 as the starting point to read Analog Inputs
-            savedIndex = 504;
-#endif
-          //  savedIndex = this.setAnalogInputs(this.dNPData, savedIndex);
-#if ONCOR
-// starting point for setAnalogOutputs considering 44 bytes of BinaryInputs & 28 bytes of BinaryOutputs & 111 bytes of AnalogInputs( per ver10 ConEd firmware )
-// 48*4(binary input incremented by 4 for each reading)   + 26*4(binary output incremented by 4 for each reading) + 105*6(analog input incremented by 6 for each reading)= 926         
-            savedIndex = 926; 
-#elif CONED
-            // starting point for setAnalogInputs considering 45 points of BinaryInputs & 29 points of BinaryOutputs( per ver10 ConEd firmware ) & 112 points of Analog Inputs
-            // 44 * 4(binary input incremented by 4 for each reading)  + 4 + 28 * 4(binary output incremented by 4 for each reading) + 4 + 111*6(analog input incremented by 6 for each reading)= 962
-            savedIndex = 1025;// 962 + 6;
-#elif (TORONTO_HYDRO || DEBUG)
-            // savedIndex = 396;
-            //128 + ( 44 * 6) = 392 + 4 = 396
-#endif
-           // this.setAnalogOutputs(this.dNPData, savedIndex);
-        }
-
-        
+           
         public int setBinaryInputs(byte[] bytePacket)
         {
             //int i = this.tabPageBinaryInputs.Controls.Count;
@@ -1821,8 +1749,11 @@ namespace RelayControlLibrary
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
 #if !TORONTOHYDRO
+                this.buttonDisableAllAnalogEvents.Enabled = false;
                 this.buttonDisableAllAnalogEvents.Visible = false;
+                this.buttonEnableAllAnalogEvents.Enabled = false;
                 this.buttonEnableAllAnalogEvents.Visible = false;
+                this.buttonSendAnalogEnables.Enabled = false;
                 this.buttonSendAnalogEnables.Visible = false;
 #endif
             }
@@ -1857,8 +1788,11 @@ namespace RelayControlLibrary
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
 #if !TORONTOHYDRO
+                this.buttonDisableAllAnalogEvents.Enabled = false;
                 this.buttonDisableAllAnalogEvents.Visible = false;
+                this.buttonEnableAllAnalogEvents.Enabled = false;
                 this.buttonEnableAllAnalogEvents.Visible = false;
+                this.buttonSendAnalogEnables.Enabled = false;
                 this.buttonSendAnalogEnables.Visible = false;
 #endif
             }
@@ -1893,9 +1827,12 @@ namespace RelayControlLibrary
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
 #if !TORONTOHYDRO
+                this.buttonDisableAllAnalogEvents.Enabled = false;
                 this.buttonDisableAllAnalogEvents.Visible = false;
+                this.buttonEnableAllAnalogEvents.Enabled = false;
                 this.buttonEnableAllAnalogEvents.Visible = false;
-                this.buttonSendAnalogEnables.Visible = false;
+                this.buttonSendAnalogEnables.Enabled = false;
+                this.buttonSendAnalogEnables.Visible = false;                              
 #endif
             }
             else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
@@ -1945,8 +1882,11 @@ namespace RelayControlLibrary
                 this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 //DNP Event Enable buttons not displayed for Enmax
+                this.buttonDisableAllBinaryEvents.Enabled = false;
                 this.buttonDisableAllBinaryEvents.Visible = false;
+                this.buttonEnableAllBinaryEvents.Enabled = false;
                 this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonSendBinaryEventEnables.Enabled = false;
                 this.buttonSendBinaryEventEnables.Visible = false;
 
 #endif
@@ -1980,8 +1920,11 @@ namespace RelayControlLibrary
                 this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 //DNP Event Enable buttons not displayed for Enmax
+                this.buttonDisableAllBinaryEvents.Enabled = false;
                 this.buttonDisableAllBinaryEvents.Visible = false;
+                this.buttonEnableAllBinaryEvents.Enabled = false;
                 this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonSendBinaryEventEnables.Enabled = false;
                 this.buttonSendBinaryEventEnables.Visible = false;
 #endif
             }
