@@ -153,11 +153,11 @@ namespace RelayControlLibrary
         SafeService,
         ShortRangeStrength,
         ShortRangeTransmit,
-        DNPMessage1,
-        DNPMessage2,
-        DNPMessage3,
-        DNPMessage4,
-        DNPMessage5,
+        DNPMessage1,  // Bianry Inputs
+        DNPMessage2,  // Bianry Outputs
+        DNPMessage3,  // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data - first 63 AIs
+        DNPMessage4,  // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data - next 63 AIs
+        DNPMessage5,  // Analog Outputs 
         LowVoltageThresReceived,
         NoMemFix,
         PCdata,

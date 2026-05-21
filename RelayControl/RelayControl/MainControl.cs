@@ -2353,6 +2353,7 @@ namespace RelayControl
                     case IncomingCommCommands.DNPMessage2:
                     case IncomingCommCommands.DNPMessage3:
                     case IncomingCommCommands.DNPMessage4:
+                    case IncomingCommCommands.DNPMessage5:
                         if (i == 252)
                             return true;
                         else
@@ -2605,10 +2606,12 @@ namespace RelayControl
                 case 0x12:
                     return IncomingCommCommands.DNPMessage2; // Binary Outputs
                 case 0x13:
-                    return IncomingCommCommands.DNPMessage3; // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data
+                    return IncomingCommCommands.DNPMessage3; // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data - first 63 AIs
                 case 0x14:
-                    return IncomingCommCommands.DNPMessage4; // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data
-               case 0x17:
+                    return IncomingCommCommands.DNPMessage4; // Analog Inputs ( 255 /4 = 63 ) 4 bytes per point data - next 63 AIs
+                case 0x20:
+                    return IncomingCommCommands.DNPMessage5; // Analog Outputs 
+                case 0x17:
                     return IncomingCommCommands.GeneralCommand;
                 case (byte)'A':
                     return IncomingCommCommands.RelayStatusBits;
@@ -2983,9 +2986,12 @@ namespace RelayControl
                     this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket);
                     break;
                 case 3:
-                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket);
+                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket,13);
                     break;
                 case 4:
+                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, 14);
+                    break;
+                case 5:
                     this.dNPDIGITALGRIDData.setAnalogOutputs(bytePacket, aoCount);
                     break;
 

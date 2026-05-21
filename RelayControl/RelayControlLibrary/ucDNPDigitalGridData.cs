@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Linq;
 
 namespace RelayControlLibrary
 {
@@ -831,8 +832,8 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Load (L) % C", false));//79
 #endif
 
-#if ENMAX
-            // 123 Analog Input Points for DNP
+#if (ENMAX || DEBUG)
+            // 122 Analog Input Points for DNP
             this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
             this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
             this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase A", false));
@@ -956,7 +957,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //120
             this.analogInputs.Add(new AnalogPointDefinition("Number of RNC(s) Reporting", false)); // 121    
 #endif
-#if (ONCOR || TORONTO_HYDRO || DEBUG)
+#if (ONCOR || TORONTO_HYDRO )
             this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));//0
             this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Angle Setting", false));
             this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Current Setting", false));
@@ -1109,7 +1110,7 @@ namespace RelayControlLibrary
                 if (i == pointsToAdd)
                     break;
                 i++;
-#elif ENMAX
+#elif (ENMAX || DEBUG)
                 // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addAnalogBoxIn() "
                 // For ENMAX  since it is set to 21 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
                 // So we can have a max of 42 such Analog points ( 21 per column ) that can be displayed on one tab
@@ -1368,8 +1369,9 @@ namespace RelayControlLibrary
         private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
 #if DEBUG
-            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-            int x = box.Width * (tB.Controls.Count / 25) + 1;
+            //21 Rows of Analog Inputs Points per column ( 42 points per tab )
+            int y = tB.Controls.Count % 21 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 21) + 1;
 #elif TORONTO_HYDRO
             //22 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 22 * box.Height + 5; 
@@ -1608,53 +1610,98 @@ namespace RelayControlLibrary
 
         }
 
-        public int setAnalogInputs(byte[] bytePacket)
+        public int setAnalogInputs(byte[] bytePacket, int aiCommand)
         {
             int j = 0;
-            foreach (Control C in this.tabPageAnalogInputs1.Controls)
+
+            int maxTab2Command13 = 22;
+            int current = 0;
+
+            if (aiCommand == 13) // upto analog input number 41
             {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
+                foreach (Control C in this.tabPageAnalogInputs1.Controls)
+                {
+                    ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                    bool failed = false;
 
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
+                    try
+                    {
+                        uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                    }
+                    catch
+                    {
+                        failed = true;
+                    }
 
-                if (!failed)
-                {
-                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
-                    j += 4;
+                    if (!failed)
+                    {
+                        uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
+                        j += 4;
+                    }
                 }
             }
-
-            j = 168; // 4 * 42 = 168
-            foreach (Control C in this.tabPageAnalogInputs2.Controls)
+            if (aiCommand == 13) // upto analog input number 62
             {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
+                // AI number 43 is starting point for analog input tab 2. so, to start reading from corresponding point in the 
+                // incomming string message considering 4 bytes data per point
+                // 4 * 42 = 168
+                j = 168; 
+                foreach (Control C in this.tabPageAnalogInputs2.Controls)
+                {
 
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
+                    if(current >= maxTab2Command13)
+                    break;
+
+                    ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                    bool failed = false;
+
+                    try
+                    {
+                        uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                    }
+                    catch
+                    {
+                        failed = true;
+                    }
+
+                    if (!failed)
+                    {
+                        uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
+                        j += 4;
+                    }
+
+                    current++;
                 }
 
-                if (!failed)
-                {
-                    uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
-                    j += 4;
-                }
             }
+            if (aiCommand == 14) // upto analog input number 83
+            {
+                // AI number 63 is starting point for dnp message command 0x14 
+                // this is control number 22 on tab 2
+                j = 0;
+                //foreach (Control C in this.tabPageAnalogInputs2.Controls)
+                foreach (Control C in this.tabPageAnalogInputs2.Controls.Cast<Control>().Skip(21))
+                {
+                    ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
+                    bool failed = false;
 
+                    try
+                    {
+                        uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                    }
+                    catch
+                    {
+                        failed = true;
+                    }
 
+                    if (!failed)
+                    {
+                        uDDGA.PointValue = this.convertDataBytesToAnalogIn(bytePacket, j);
+                        j += 4;
+                    }
+                }
+
+            }
             return 0;
 
         }
