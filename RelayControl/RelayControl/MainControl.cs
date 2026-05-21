@@ -2992,7 +2992,7 @@ namespace RelayControl
                     this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, 14);
                     break;
                 case 5:
-                    this.dNPDIGITALGRIDData.setAnalogOutputs(bytePacket, aoCount);
+                    this.dNPDIGITALGRIDData.setAnalogOutputs(bytePacket);
                     break;
 
             }

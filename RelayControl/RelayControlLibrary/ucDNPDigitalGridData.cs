@@ -1562,7 +1562,7 @@ namespace RelayControlLibrary
             // savedIndex = 396;
             //128 + ( 44 * 6) = 392 + 4 = 396
 #endif
-            this.setAnalogOutputs(this.dNPData, savedIndex);
+           // this.setAnalogOutputs(this.dNPData, savedIndex);
         }
 
         
@@ -1742,20 +1742,19 @@ namespace RelayControlLibrary
 
         }
 
-        public void setAnalogOutputs(byte[] bytePacket, int index)
+        public int setAnalogOutputs(byte[] bytePacket)
         {
+            int j = 0;
             foreach (ucDNPMemphisAnalog uDMA in this.tabPageAnalogOutputs.Controls)
             {
-                try
-                {
-                    uDMA.PointValue = this.convertDataBytesToAnalog(bytePacket, index);
-                    index += 4;
-                }
-                catch
-                {
-                }
+                uDMA.PointValue = this.convertDataBytesToAnalog(bytePacket, j);
+                j += 4;
+
             }
-        }
+
+            return 0;
+
+        }       
 
         //private uint convertDataBytesToAnalog(byte[] bytePacket, int i)
         private int convertDataBytesToAnalogIn(byte[] bytePacket, int i)
