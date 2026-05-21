@@ -793,19 +793,25 @@ namespace RelayControl
 #if !TORONTOHYDRO
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250); 
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500); 
-                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(650, 400); //(450, 500);
-                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(650, 80); //(200, 500);
+                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400); //(650, 400); 
+                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(710, 80); //(650, 80); 
                // this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
-               this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(170, 497); //(155, 87);
-                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(170, 420); //(575, 55);  
-                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 500); //(5, 90);
-                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 420); //(38, 50);
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(42, 30); //(92, 10); 
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(420, 725); //(320, 175);
-                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 56); //(170, 23);
-                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 150); //(170, 54);
+               this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(170, 497); 
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(170, 420); 
+                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 500); 
+                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 420); 
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(42, 30);  
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(420, 725); 
+                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 56); 
+                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 150); 
 
-                // this.ucTransmitterMonitoring1.checkBoxFrequencyYellow.Location = new System.Drawing.Point(400, 88);
+                this.ucTransmitterMonitoring1.panel_GenSet_sensorMon.Location = new System.Drawing.Point(40, 28);
+                this.ucTransmitterMonitoring1.panel_GenSet_sensorMon.Size = new System.Drawing.Size(425, 730);
+                this.ucTransmitterMonitoring1.panel_command_senorMon.Location = new System.Drawing.Point(1140, 27);
+                this.ucTransmitterMonitoring1.panel_command_senorMon.Size = new System.Drawing.Size(365, 730);
+                this.ucTransmitterMonitoring1.panel_read_sensorMon.Location = new System.Drawing.Point(660, 27);
+                this.ucTransmitterMonitoring1.panel_read_sensorMon.Size = new System.Drawing.Size(300, 730);
+
                 this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 330);
 
 #endif
@@ -3997,7 +4003,7 @@ namespace RelayControl
                     this.messageHandler("Data Recieved", "All Parameters Received");
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                    /*
+                    
                     // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
@@ -4012,7 +4018,7 @@ namespace RelayControl
                             MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
                         }
                     }
-                    */
+                    
                     this.request_PCdata();
                 }
 
@@ -4063,7 +4069,7 @@ namespace RelayControl
             if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
             {
                 initializeAutoLoad = false;
-                /*
+                
                // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
                 if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
                 {
@@ -4083,7 +4089,7 @@ namespace RelayControl
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
                 }
-                */
+                
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
@@ -8903,7 +8909,7 @@ namespace RelayControl
             else if (this.tabControlMain.SelectedTab == this.tabPage1)  // Relay Monitoring tab
             {
                 // read lightning count by default at start up
-                this.btn_getLC_Click(this, new EventArgs());
+                //this.btn_getLC_Click(this, new EventArgs());
             }
             else
             {

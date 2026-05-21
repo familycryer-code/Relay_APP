@@ -170,6 +170,9 @@ namespace RelayControlLibrary
             this.textBoxX1Percent = new System.Windows.Forms.TextBox();
             this.textBoxX3Percent = new System.Windows.Forms.TextBox();
             this.textBoxX2Percent = new System.Windows.Forms.TextBox();
+            this.panel_GenSet_sensorMon = new System.Windows.Forms.Panel();
+            this.panel_command_senorMon = new System.Windows.Forms.Panel();
+            this.panel_read_sensorMon = new System.Windows.Forms.Panel();
             this.groupBoxVoltageReadings.SuspendLayout();
             this.groupBoxPowerDirectionalFlow.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -1833,6 +1836,30 @@ namespace RelayControlLibrary
             this.textBoxX2Percent.Tag = "";
             this.textBoxX2Percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // panel_GenSet_sensorMon
+            // 
+            this.panel_GenSet_sensorMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_GenSet_sensorMon.Location = new System.Drawing.Point(231, 24);
+            this.panel_GenSet_sensorMon.Name = "panel_GenSet_sensorMon";
+            this.panel_GenSet_sensorMon.Size = new System.Drawing.Size(26, 24);
+            this.panel_GenSet_sensorMon.TabIndex = 323;
+            // 
+            // panel_command_senorMon
+            // 
+            this.panel_command_senorMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_command_senorMon.Location = new System.Drawing.Point(263, 24);
+            this.panel_command_senorMon.Name = "panel_command_senorMon";
+            this.panel_command_senorMon.Size = new System.Drawing.Size(23, 23);
+            this.panel_command_senorMon.TabIndex = 324;
+            // 
+            // panel_read_sensorMon
+            // 
+            this.panel_read_sensorMon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_read_sensorMon.Location = new System.Drawing.Point(292, 24);
+            this.panel_read_sensorMon.Name = "panel_read_sensorMon";
+            this.panel_read_sensorMon.Size = new System.Drawing.Size(25, 25);
+            this.panel_read_sensorMon.TabIndex = 325;
+            // 
             // ucTransmitterMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1849,6 +1876,9 @@ namespace RelayControlLibrary
             this.Controls.Add(this.groupBoxAnalog1);
             this.Controls.Add(this.groupBoxFlagStatus);
             this.Controls.Add(this.groupBoxAnalog2);
+            this.Controls.Add(this.panel_GenSet_sensorMon);
+            this.Controls.Add(this.panel_command_senorMon);
+            this.Controls.Add(this.panel_read_sensorMon);
             this.Name = "ucTransmitterMonitoring";
             this.Size = new System.Drawing.Size(981, 568);
             this.groupBoxVoltageReadings.ResumeLayout(false);
@@ -1996,5 +2026,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxX3Percent;
         private System.Windows.Forms.TextBox textBoxX2Percent;
         private System.Windows.Forms.Label lbl_timeElapsed;
+        public System.Windows.Forms.Panel panel_GenSet_sensorMon;
+        public System.Windows.Forms.Panel panel_command_senorMon;
+        public System.Windows.Forms.Panel panel_read_sensorMon;
     }
 }

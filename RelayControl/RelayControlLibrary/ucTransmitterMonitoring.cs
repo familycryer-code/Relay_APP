@@ -54,6 +54,8 @@ namespace RelayControlLibrary
             this.labelTMonCTMult.Location = new System.Drawing.Point(32, 290);
             this.labelTMonColorFreq.Location = new System.Drawing.Point(8, 210);
             this.labelTMonTransmitterID.Location = new System.Drawing.Point(10, 132);
+            this.checkBoxFrequenceBlue.Location = this.checkBoxFrequencyYellow.Location =
+            this.checkBoxFrequencyGreen.Location = this.checkBoxFrequencyRed.Location = new System.Drawing.Point(149, 210);
 #if CONED
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 0;
