@@ -183,7 +183,7 @@ namespace RelayControlLibrary
             // labelReclose
             // 
             this.labelReclose.AutoSize = true;
-            this.labelReclose.Location = new System.Drawing.Point(83, 94);
+            this.labelReclose.Location = new System.Drawing.Point(90, 94); //(83, 94);
             this.labelReclose.Name = "labelReclose";
             this.labelReclose.Size = new System.Drawing.Size(108, 19);
             this.labelReclose.TabIndex = 19;
@@ -192,7 +192,7 @@ namespace RelayControlLibrary
             // labelPDA
             // 
             this.labelPDA.AutoSize = true;
-            this.labelPDA.Location = new System.Drawing.Point(38, 134);
+            this.labelPDA.Location = new System.Drawing.Point(41, 134);
             this.labelPDA.Name = "labelPDA";
             this.labelPDA.Size = new System.Drawing.Size(173, 19);
             this.labelPDA.TabIndex = 20;
@@ -201,7 +201,7 @@ namespace RelayControlLibrary
             // labelPhaseDetectOffsetVolts
             // 
             this.labelPhaseDetectOffsetVolts.AutoSize = true;
-            this.labelPhaseDetectOffsetVolts.Location = new System.Drawing.Point(38, 170);
+            this.labelPhaseDetectOffsetVolts.Location = new System.Drawing.Point(41, 170);
             this.labelPhaseDetectOffsetVolts.Name = "labelPhaseDetectOffsetVolts";
             this.labelPhaseDetectOffsetVolts.Size = new System.Drawing.Size(174, 19);
             this.labelPhaseDetectOffsetVolts.TabIndex = 21;
@@ -263,7 +263,7 @@ namespace RelayControlLibrary
             // 
             // buttonSendCloseData
             // 
-            this.buttonSendCloseData.Location = new System.Drawing.Point(209, 254);
+            this.buttonSendCloseData.Location = new System.Drawing.Point(185, 254);
             this.buttonSendCloseData.Name = "buttonSendCloseData";
             this.buttonSendCloseData.Size = new System.Drawing.Size(70, 23);
             this.buttonSendCloseData.TabIndex = 28;

@@ -735,8 +735,8 @@ namespace RelayControl
                 this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
                 this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(90, 317); 
-                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(270, 317);  
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(100, 317); 
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(253, 317);  
                 this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
                 this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250); 
                 this.ucPumpMode1.labelPumpType.Enabled = false;

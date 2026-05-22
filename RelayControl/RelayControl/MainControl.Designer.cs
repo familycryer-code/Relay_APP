@@ -1965,7 +1965,7 @@
             // buttonTypePhasingRestoreDefaults
             // 
             this.buttonTypePhasingRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(65, 378);
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(85, 390); //(75, 378);
             this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
             this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(169, 35);
@@ -2108,7 +2108,7 @@
             // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(265, 378);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(278, 390); //(265, 378);
             this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(100, 34);

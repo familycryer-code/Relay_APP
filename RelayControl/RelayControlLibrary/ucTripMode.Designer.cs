@@ -323,7 +323,7 @@ namespace RelayControlLibrary
             // labelAngle
             // 
             this.labelAngle.AutoSize = true;
-            this.labelAngle.Location = new System.Drawing.Point(162, 122);
+            this.labelAngle.Location = new System.Drawing.Point(163, 122);
             this.labelAngle.Name = "labelAngle";
             this.labelAngle.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelAngle.Size = new System.Drawing.Size(84, 19);
@@ -333,7 +333,7 @@ namespace RelayControlLibrary
             // labelSensTrip
             // 
             this.labelSensTrip.AutoSize = true;
-            this.labelSensTrip.Location = new System.Drawing.Point(142, 98);
+            this.labelSensTrip.Location = new System.Drawing.Point(143, 98);
             this.labelSensTrip.Name = "labelSensTrip";
             this.labelSensTrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelSensTrip.Size = new System.Drawing.Size(111, 19);
@@ -470,7 +470,7 @@ namespace RelayControlLibrary
             // labelInstantCurrent
             // 
             this.labelInstantCurrent.AutoSize = true;
-            this.labelInstantCurrent.Location = new System.Drawing.Point(71, 144);
+            this.labelInstantCurrent.Location = new System.Drawing.Point(72, 144);
             this.labelInstantCurrent.Name = "labelInstantCurrent";
             this.labelInstantCurrent.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelInstantCurrent.Size = new System.Drawing.Size(205, 19);

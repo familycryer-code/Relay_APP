@@ -777,7 +777,7 @@ namespace RelayControlLibrary
 //#if CONED
 //                this.labelReclose.Location = new Point(120, 101);
 //#else
-                this.labelReclose.Location = new Point(122, 117); //(79, 73); 
+                this.labelReclose.Location = new Point(120, 117);  
 //#endif
             }
         }

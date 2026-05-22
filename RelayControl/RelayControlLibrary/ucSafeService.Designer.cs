@@ -189,7 +189,7 @@ namespace RelayControlLibrary
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 153);
+            this.label2.Location = new System.Drawing.Point(54, 153);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(102, 19);
             this.label2.TabIndex = 16;
@@ -290,7 +290,7 @@ namespace RelayControlLibrary
             // labelCurrentImbalance
             // 
             this.labelCurrentImbalance.AutoSize = true;
-            this.labelCurrentImbalance.Location = new System.Drawing.Point(26, 120);
+            this.labelCurrentImbalance.Location = new System.Drawing.Point(21, 120);
             this.labelCurrentImbalance.Name = "labelCurrentImbalance";
             this.labelCurrentImbalance.Size = new System.Drawing.Size(146, 19);
             this.labelCurrentImbalance.TabIndex = 7;
@@ -327,7 +327,7 @@ namespace RelayControlLibrary
             // labelOverCurrent
             // 
             this.labelOverCurrent.AutoSize = true;
-            this.labelOverCurrent.Location = new System.Drawing.Point(55, 86);
+            this.labelOverCurrent.Location = new System.Drawing.Point(50, 86);
             this.labelOverCurrent.Name = "labelOverCurrent";
             this.labelOverCurrent.Size = new System.Drawing.Size(107, 19);
             this.labelOverCurrent.TabIndex = 4;
@@ -348,7 +348,7 @@ namespace RelayControlLibrary
             // labelSafeServiceEnable
             // 
             this.labelSafeServiceEnable.AutoSize = true;
-            this.labelSafeServiceEnable.Location = new System.Drawing.Point(90, 51);
+            this.labelSafeServiceEnable.Location = new System.Drawing.Point(86, 51);
             this.labelSafeServiceEnable.Name = "labelSafeServiceEnable";
             this.labelSafeServiceEnable.Size = new System.Drawing.Size(58, 19);
             this.labelSafeServiceEnable.TabIndex = 2;
