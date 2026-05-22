@@ -1090,7 +1090,8 @@ namespace RelayControlLibrary
             this.buttonDefaults.Location = new System.Drawing.Point(570, 580);
             this.groupBoxDNPStatus.Location = new System.Drawing.Point(620, 630);
             this.panel_DNPsettings.Location = new System.Drawing.Point(527, 35);
-            this.panel_DNPsettings.Size = new System.Drawing.Size(339, 473);
+            this.panel_DNPsettings.Size = new System.Drawing.Size(339, 690);
+            //this.groupBoxDNPSettings.Size = new System.Drawing.Size(285, 503); //(285, 403);
 #endif
         }
 

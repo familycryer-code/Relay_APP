@@ -1261,7 +1261,7 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDNPSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxDNPSettings.Name = "groupBoxDNPSettings";
-            this.groupBoxDNPSettings.Size = new System.Drawing.Size(285, 403);
+            this.groupBoxDNPSettings.Size = new System.Drawing.Size(285, 401);
             this.groupBoxDNPSettings.TabIndex = 61;
             this.groupBoxDNPSettings.TabStop = false;
             this.groupBoxDNPSettings.Text = "DNP Settings";
@@ -1337,7 +1337,7 @@ namespace RelayControlLibrary
             // labelSAv5AggressiveMode
             // 
             this.labelSAv5AggressiveMode.AutoSize = true;
-            this.labelSAv5AggressiveMode.Location = new System.Drawing.Point(9, 409);
+            this.labelSAv5AggressiveMode.Location = new System.Drawing.Point(263, 657);
             this.labelSAv5AggressiveMode.Name = "labelSAv5AggressiveMode";
             this.labelSAv5AggressiveMode.Size = new System.Drawing.Size(92, 13);
             this.labelSAv5AggressiveMode.TabIndex = 34;
@@ -1350,7 +1350,7 @@ namespace RelayControlLibrary
             this.comboBoxSAv5AggressiveMode.Items.AddRange(new object[] {
             "Enable",
             "Disable"});
-            this.comboBoxSAv5AggressiveMode.Location = new System.Drawing.Point(126, 406);
+            this.comboBoxSAv5AggressiveMode.Location = new System.Drawing.Point(361, 654);
             this.comboBoxSAv5AggressiveMode.Name = "comboBoxSAv5AggressiveMode";
             this.comboBoxSAv5AggressiveMode.Size = new System.Drawing.Size(121, 21);
             this.comboBoxSAv5AggressiveMode.TabIndex = 35;
@@ -1382,7 +1382,7 @@ namespace RelayControlLibrary
             // 
             // numericUpDownSAv5UserNumber
             // 
-            this.numericUpDownSAv5UserNumber.Location = new System.Drawing.Point(127, 429);
+            this.numericUpDownSAv5UserNumber.Location = new System.Drawing.Point(571, 654);
             this.numericUpDownSAv5UserNumber.Maximum = new decimal(new int[] {
             20,
             0,
@@ -1406,7 +1406,7 @@ namespace RelayControlLibrary
             // labelSAv5UserNumber
             // 
             this.labelSAv5UserNumber.AutoSize = true;
-            this.labelSAv5UserNumber.Location = new System.Drawing.Point(9, 433);
+            this.labelSAv5UserNumber.Location = new System.Drawing.Point(493, 657);
             this.labelSAv5UserNumber.Name = "labelSAv5UserNumber";
             this.labelSAv5UserNumber.Size = new System.Drawing.Size(72, 13);
             this.labelSAv5UserNumber.TabIndex = 34;
@@ -1416,7 +1416,7 @@ namespace RelayControlLibrary
             // labelSAv5UserKey
             // 
             this.labelSAv5UserKey.AutoSize = true;
-            this.labelSAv5UserKey.Location = new System.Drawing.Point(11, 458);
+            this.labelSAv5UserKey.Location = new System.Drawing.Point(725, 662);
             this.labelSAv5UserKey.Name = "labelSAv5UserKey";
             this.labelSAv5UserKey.Size = new System.Drawing.Size(91, 13);
             this.labelSAv5UserKey.TabIndex = 147;
@@ -1425,7 +1425,7 @@ namespace RelayControlLibrary
             // 
             // textBoxSAv5UserUpdateKey
             // 
-            this.textBoxSAv5UserUpdateKey.Location = new System.Drawing.Point(126, 478);
+            this.textBoxSAv5UserUpdateKey.Location = new System.Drawing.Point(822, 662);
             this.textBoxSAv5UserUpdateKey.Name = "textBoxSAv5UserUpdateKey";
             this.textBoxSAv5UserUpdateKey.Size = new System.Drawing.Size(121, 20);
             this.textBoxSAv5UserUpdateKey.TabIndex = 148;
@@ -1466,7 +1466,7 @@ namespace RelayControlLibrary
             // panel_DNPsettings
             // 
             this.panel_DNPsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_DNPsettings.Location = new System.Drawing.Point(28, 505);
+            this.panel_DNPsettings.Location = new System.Drawing.Point(974, 654);
             this.panel_DNPsettings.Name = "panel_DNPsettings";
             this.panel_DNPsettings.Size = new System.Drawing.Size(50, 35);
             this.panel_DNPsettings.TabIndex = 152;
@@ -1475,6 +1475,9 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxDNPSettings);
+            this.Controls.Add(this.buttonDefaults);
+            this.Controls.Add(this.buttonRQDNPSettings);
             this.Controls.Add(this.groupBoxMemphisDeadBand);
             this.Controls.Add(this.groupBoxDNPStatus);
             this.Controls.Add(this.textBoxSAv5UserUpdateKey);
@@ -1487,9 +1490,6 @@ namespace RelayControlLibrary
             this.Controls.Add(this.comboBoxSAv5AggressiveMode);
             this.Controls.Add(this.buttonSendDeadBand);
             this.Controls.Add(this.groupBoxDIGITALGRIDDNPDeadBand);
-            this.Controls.Add(this.groupBoxDNPSettings);
-            this.Controls.Add(this.buttonDefaults);
-            this.Controls.Add(this.buttonRQDNPSettings);
             this.Controls.Add(this.panel_DNPsettings);
             this.Name = "ucDNP";
             this.Size = new System.Drawing.Size(1048, 700);
