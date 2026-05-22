@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SineDisplayGraph
@@ -505,9 +506,10 @@ namespace SineDisplayGraph
 
             trippedPhasors[0].EndPoint = new PointF(1, 2);
             string[] str = Enum.GetNames(typeof(RawPhasorGroups));
-           
+
             this.listBoxMode.SelectedIndex = 0;
             this.textBoxCTRatio.Visible = true;
+
         }
 
         private void makeGE(bool b)
@@ -683,6 +685,12 @@ namespace SineDisplayGraph
                     workingPD = pD;
                     break;
                 }
+            }
+
+            if (phasorAxis.axisSet == false)
+            {
+                this.switchToTripped(); //this.switchToClosed();
+                phasorAxis.axisSet = true;
             }
 
             switch (phasorType)

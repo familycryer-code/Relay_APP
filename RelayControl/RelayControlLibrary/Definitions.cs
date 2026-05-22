@@ -2041,6 +2041,10 @@ namespace RelayControlLibrary
     {
         public static bool relayWithHBD;
     }
+    public static class phasorAxis
+    {
+        public static bool axisSet;
+    }
 
     public static class AutoReProgramR
     {
