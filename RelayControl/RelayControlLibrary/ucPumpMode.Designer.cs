@@ -49,11 +49,11 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxAlarmOnly = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.checkBoxCycles = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDownPumpTime = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
             this.numericUpDownCycleLimit = new System.Windows.Forms.NumericUpDown();
             this.panel_PMsettings = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMotorTimeout)).BeginInit();
@@ -144,7 +144,7 @@ namespace RelayControlLibrary
             // checkBoxMotorTime
             // 
             this.checkBoxMotorTime.AutoSize = true;
-            this.checkBoxMotorTime.Location = new System.Drawing.Point(235, 115);
+            this.checkBoxMotorTime.Location = new System.Drawing.Point(235, 94);
             this.checkBoxMotorTime.Name = "checkBoxMotorTime";
             this.checkBoxMotorTime.Size = new System.Drawing.Size(15, 14);
             this.checkBoxMotorTime.TabIndex = 6;
@@ -276,7 +276,7 @@ namespace RelayControlLibrary
             // checkBoxMotorCycles
             // 
             this.checkBoxMotorCycles.AutoSize = true;
-            this.checkBoxMotorCycles.Location = new System.Drawing.Point(235, 154);
+            this.checkBoxMotorCycles.Location = new System.Drawing.Point(235, 124);
             this.checkBoxMotorCycles.Name = "checkBoxMotorCycles";
             this.checkBoxMotorCycles.Size = new System.Drawing.Size(15, 14);
             this.checkBoxMotorCycles.TabIndex = 8;
@@ -290,6 +290,7 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode.Controls.Add(this.labelMotorTimeoutUnits);
             this.groupBoxPumpMode.Controls.Add(this.label3);
             this.groupBoxPumpMode.Controls.Add(this.checkBoxAlarmOnly);
+            this.groupBoxPumpMode.Controls.Add(this.label4);
             this.groupBoxPumpMode.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxPumpMode.Controls.Add(this.checkBoxCycles);
             this.groupBoxPumpMode.Controls.Add(this.label2);
@@ -328,10 +329,20 @@ namespace RelayControlLibrary
             this.checkBoxAlarmOnly.UseVisualStyleBackColor = true;
             this.checkBoxAlarmOnly.Visible = false;
             // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(14, 56);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(97, 18);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Pump Time:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // checkBoxCycles
             // 
             this.checkBoxCycles.AutoSize = true;
-            this.checkBoxCycles.Location = new System.Drawing.Point(235, 53);
+            this.checkBoxCycles.Location = new System.Drawing.Point(235, 31);
             this.checkBoxCycles.Name = "checkBoxCycles";
             this.checkBoxCycles.Size = new System.Drawing.Size(15, 14);
             this.checkBoxCycles.TabIndex = 26;
@@ -380,16 +391,6 @@ namespace RelayControlLibrary
             0,
             0});
             // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(43, 57);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 18);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Pump Time:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // numericUpDownCycleLimit
             // 
             this.numericUpDownCycleLimit.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -423,7 +424,6 @@ namespace RelayControlLibrary
             this.panel_PMsettings.Controls.Add(this.labelMotorTimeout);
             this.panel_PMsettings.Controls.Add(this.label1);
             this.panel_PMsettings.Controls.Add(this.numericUpDownPumpTime);
-            this.panel_PMsettings.Controls.Add(this.label4);
             this.panel_PMsettings.Controls.Add(this.numericUpDownCycleLimit);
             this.panel_PMsettings.Controls.Add(this.labelProtectTime);
             this.panel_PMsettings.Controls.Add(this.labelPumpTypeDisplay);
