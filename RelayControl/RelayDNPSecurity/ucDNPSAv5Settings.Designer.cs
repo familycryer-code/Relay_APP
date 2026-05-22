@@ -225,7 +225,7 @@ namespace RelayDNPSecurity
             this.labelSessionKeyInterval.Name = "labelSessionKeyInterval";
             this.labelSessionKeyInterval.Size = new System.Drawing.Size(186, 19);
             this.labelSessionKeyInterval.TabIndex = 8;
-            this.labelSessionKeyInterval.Text = "Session Key Interval (s) :";
+            this.labelSessionKeyInterval.Text = "Session Key Interval (s):";
             // 
             // groupBoxSecurityStats
             // 
@@ -273,7 +273,7 @@ namespace RelayDNPSecurity
             this.labelReplyTimeout.Name = "labelReplyTimeout";
             this.labelReplyTimeout.Size = new System.Drawing.Size(147, 19);
             this.labelReplyTimeout.TabIndex = 5;
-            this.labelReplyTimeout.Text = "Reply Timeout (s) :";
+            this.labelReplyTimeout.Text = "Reply Timeout (s):";
             // 
             // checkBoxSHA1
             // 

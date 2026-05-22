@@ -85,17 +85,17 @@ namespace RelayDNPSecurity
             this.buttonRequestSettings.Location = new System.Drawing.Point(125, 470);
 
             this.comboBoxMACAlogrithm.Location = new System.Drawing.Point(160, 380);
-            this.labelMACAlgorithm.Location = new System.Drawing.Point(19, 380);
+            this.labelMACAlgorithm.Location = new System.Drawing.Point(65, 382);
             this.comboBoxKeyChangeAlogrithm.Location = new System.Drawing.Point(160, 335);
-            this.labelKeyChangeAlgorithm.Location = new System.Drawing.Point(19, 335);
+            this.labelKeyChangeAlgorithm.Location = new System.Drawing.Point(31, 337);
             this.numericUpDownMaxSessionKeyCount.Location = new System.Drawing.Point(160, 290);
-            this.labelMaxSessionKeyCount.Location = new System.Drawing.Point(18, 290);
+            this.labelMaxSessionKeyCount.Location = new System.Drawing.Point(28, 292);
             this.numericUpDownSessionKeyChangeCount.Location = new System.Drawing.Point(160, 245);
-            this.labelSessionKeyChangeCount.Location = new System.Drawing.Point(18, 245);
+            this.labelSessionKeyChangeCount.Location = new System.Drawing.Point(12, 246);
             this.numericUpDownSessionKeyInterval.Location = new System.Drawing.Point(160, 200);
-            this.labelSessionKeyInterval.Location = new System.Drawing.Point(18, 200);
+            this.labelSessionKeyInterval.Location = new System.Drawing.Point(27, 202);
             this.numericUpDownReplyTimeout.Location = new System.Drawing.Point(160, 155);
-            this.labelReplyTimeout.Location = new System.Drawing.Point(18, 155);
+            this.labelReplyTimeout.Location = new System.Drawing.Point(53, 157);
 
             this.checkBoxAuthenticationEnabled.Location = new System.Drawing.Point(19, 110);
             this.checkBoxSHA1.Location = new System.Drawing.Point(19, 65);
