@@ -1086,12 +1086,13 @@ namespace RelayControlLibrary
             this.buttonSendDeadBand.Enabled = false;
             this.buttonSendDeadBand.Visible = false;
             this.groupBoxDNPSettings.Location = new System.Drawing.Point(530, 40);
-            this.buttonRQDNPSettings.Location = new System.Drawing.Point(570, 530);
-            this.buttonDefaults.Location = new System.Drawing.Point(570, 580);
-            this.groupBoxDNPStatus.Location = new System.Drawing.Point(620, 630);
+            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(40, 425);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(570, 565); //(570, 515);
+            this.buttonDefaults.Location = new System.Drawing.Point(570, 515); //(570, 565);
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(605, 620);
             this.panel_DNPsettings.Location = new System.Drawing.Point(527, 35);
             this.panel_DNPsettings.Size = new System.Drawing.Size(339, 690);
-            //this.groupBoxDNPSettings.Size = new System.Drawing.Size(285, 503); //(285, 403);
+           // this.groupBoxDNPSettings.Size = new System.Drawing.Size(380, 690);
 #endif
         }
 
