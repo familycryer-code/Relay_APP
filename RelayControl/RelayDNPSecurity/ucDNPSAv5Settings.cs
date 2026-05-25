@@ -112,6 +112,9 @@ namespace RelayDNPSecurity
                 );
             }*/
 
+            this.panel_DNPSAv5set.Location = new System.Drawing.Point(337, 18);
+            this.panel_DNPSAv5set.Size = new System.Drawing.Size(605, 492);
+
         }
 
         public bool AuthenticationEnabled
