@@ -27,6 +27,9 @@ namespace RelayDNPSecurity
                     FontStyle.Regular
                 );
             }
+
+            this.panel_DNPoutstationName.Location = new System.Drawing.Point(0, 2);
+            this.panel_DNPoutstationName.Size = new System.Drawing.Size(598, 72);
         }
         public event ExceptionHandler DNPOSNameException;
         public int SerialNumber = 0;
