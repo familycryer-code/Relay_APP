@@ -7090,56 +7090,57 @@ namespace RelayControl
             switch (this.comboBox_CTRatio.SelectedIndex)
             {
                 case 7:
-                    ratio = 160;
+                    this.CTRatio = ratio = 160;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 6:
-                    ratio = 240;
+                    this.CTRatio = ratio = 240;
                     ratio5 = ratio * 5;
+                    //this.CTRatio = ratio;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 5:
-                    ratio = 320;
+                    this.CTRatio = ratio = 320;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 4:
-                    ratio = 400;
+                    this.CTRatio = ratio = 400;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 3:
-                    ratio = 500;
+                    this.CTRatio = ratio = 500;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 2:
-                    ratio = 600;
+                    this.CTRatio = ratio = 600;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 1:
-                    ratio = 700;
+                    this.CTRatio = ratio = 700;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     this.comboBox_CTRatio.Text = ratio5.ToString();
                     break;
                 case 0: //3750 : 5
-                    ratio = 750;
+                    this.CTRatio = ratio = 750;
                     ratio5 = ratio * 5;
                     this.textBoxCTRatio.Enabled = false;
                     this.textBoxCTRatio.Text = ratio5.ToString();
@@ -7157,7 +7158,7 @@ namespace RelayControl
                     this.textBoxCTRatio.Enabled = true;
                     break;
                 default:
-                    ratio = 160;
+                    this.CTRatio = ratio = 160;
                     ratio5 = 160 * 5;
                     this.textBoxCTRatio.Text = ratio5.ToString();
                     break;
@@ -8410,6 +8411,7 @@ namespace RelayControl
             this.textBoxCTRatioPQMonitor.Visible = true;
             this.textBoxCTRatioPQMonitor.BringToFront();
             this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
+
         }
 
         private bool downloadingLiveData = true;
