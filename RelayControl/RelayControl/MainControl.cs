@@ -4007,6 +4007,10 @@ namespace RelayControl
                     // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
+                        this.enableAll(false);
+                        Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                        System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+
                         if (checkValidDataBackup())
                         {
                             this.WriteBackUpData_FileToRelay();
@@ -4017,6 +4021,10 @@ namespace RelayControl
                         {
                             MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
                         }
+
+                        Application.UseWaitCursor = false;
+                        System.Windows.Forms.Cursor.Current = Cursors.Default;
+                        this.enableAll(true);
                     }
                     
                     this.request_PCdata();
@@ -4086,8 +4094,17 @@ namespace RelayControl
                     {//if relay has old DNP firmware
                         dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
                     }
+
+                    this.enableAll(false);
+                    Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+
                     this.BackUpRelayDatatoFile();
                     Thread.Sleep(16000); // 16 seconds
+
+                    Application.UseWaitCursor = false;
+                    System.Windows.Forms.Cursor.Current = Cursors.Default;
+                    this.enableAll(true);
                 }
                 
                 ucRelayProgramming1.InitializeAutoload();
@@ -8129,15 +8146,12 @@ namespace RelayControl
                 this.enableAll(false);
                 Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
                 System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-                // this.pictureBox_SendAll.Enabled = true;
-                //this.pictureBox_SendAll.Visible = true;
-                //this.downloadingDialogCountDown("Please have patience. The relay is updating its critical parameters", "", 3);
+                
                 this.sendAllParameters();
+               
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
-                //this.pictureBox_SendAll.Enabled = false;
-                // this.pictureBox_SendAll.Visible = false;
             }
         }
 
