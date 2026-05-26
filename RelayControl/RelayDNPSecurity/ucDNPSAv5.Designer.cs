@@ -69,6 +69,7 @@ namespace RelayDNPSecurity
             // labelCurrentlyLoadedUsers
             // 
             this.labelCurrentlyLoadedUsers.AutoSize = true;
+            this.labelCurrentlyLoadedUsers.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCurrentlyLoadedUsers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(12, 592);
             this.labelCurrentlyLoadedUsers.Name = "labelCurrentlyLoadedUsers";

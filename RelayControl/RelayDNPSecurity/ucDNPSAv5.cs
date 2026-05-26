@@ -23,9 +23,9 @@ namespace RelayDNPSecurity
             this.buttonLoadDefaultAuthorityKey.Visible = false;
             this.buttonLoadDefaultUser.Visible = false;
 #endif
-            
-            //tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
-            //tabControlMain.DrawItem += tabControlMain_DrawItem;
+
+            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619); //(616, 592);
+            this.labelCurrentlyLoadedUsers.BringToFront();
         }
 
         public int SerialNumber
