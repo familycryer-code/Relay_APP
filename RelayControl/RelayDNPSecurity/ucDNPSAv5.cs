@@ -1,13 +1,14 @@
-﻿using System;
+﻿using RelayControlLibrary;
+using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SharedResources;
-using System.IO;
 
 namespace RelayDNPSecurity
 {
@@ -24,8 +25,9 @@ namespace RelayDNPSecurity
             this.buttonLoadDefaultUser.Visible = false;
 #endif
 
-            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619); //(616, 592);
+            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619); 
             this.labelCurrentlyLoadedUsers.BringToFront();
+
         }
 
         public int SerialNumber
@@ -89,6 +91,11 @@ namespace RelayDNPSecurity
 
             // Optional focus rectangle
             e.DrawFocusRectangle();
+
+            if (this.tab_subTabsDNPSAv5.SelectedTab == this.tabPage2)
+                this.labelCurrentlyLoadedUsers.Visible = true;
+            if (this.tab_subTabsDNPSAv5.SelectedTab == this.tabPage1)
+                this.labelCurrentlyLoadedUsers.Visible = false;
         }
 
         public void RequestAllData()
@@ -155,6 +162,7 @@ namespace RelayDNPSecurity
 #endif
                     break;
             }
+
         }
 
         //private void setOSName(byte[] bytePacket, int p)

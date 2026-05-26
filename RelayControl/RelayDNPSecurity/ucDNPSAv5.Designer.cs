@@ -161,6 +161,7 @@ namespace RelayDNPSecurity
             this.tabPage2.Controls.Add(this.ucDNPSAv5User1);
             this.tabPage2.Controls.Add(this.buttonGetLoadedUsers);
             this.tabPage2.Controls.Add(this.labelLoadedUsersNumbersLabel);
+            this.tabPage2.Controls.Add(this.labelCurrentlyLoadedUsers);
             this.tabPage2.Controls.Add(this.buttonLoadDefaultUser);
             this.tabPage2.Controls.Add(this.buttonLoadDefaultAuthorityKey);
             this.tabPage2.Controls.Add(this.ucDNPSAv5AuthoritySym1);

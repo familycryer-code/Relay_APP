@@ -18,7 +18,7 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
             this.initializeSecurityStatistics();
-                      
+            
             // Set Font of only the groupBoxMain Title in bold. keep rest of items in side in regular ( non bold ) font
             groupBoxMain.Font = new Font(groupBoxMain.Font, FontStyle.Bold);
             foreach (Control ctrl in groupBoxMain.Controls)
@@ -40,6 +40,7 @@ namespace RelayDNPSecurity
                     FontStyle.Regular
                 );
             }
+
         }
 
         public List<DNPSAv5SecurityStatisticItem> statisticPoints = new List<DNPSAv5SecurityStatisticItem>();
