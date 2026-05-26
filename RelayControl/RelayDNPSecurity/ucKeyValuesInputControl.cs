@@ -23,6 +23,7 @@ namespace RelayDNPSecurity
             this.Size = this.groupBox.Size;
             this.Controls.Add(this.groupBox);
             this.keyLength = numberOfValues;
+            
         }
 
         private static int _boxWidth = 30;

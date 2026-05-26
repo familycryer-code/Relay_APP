@@ -15,6 +15,8 @@ namespace RelayDNPSecurity
         public ucDNPSAv5AuthoritySym()
         {
             InitializeComponent();
+            this.panel_dnpAuthKey.Location = new System.Drawing.Point(7, 6);
+            this.panel_dnpAuthKey.Size = new System.Drawing.Size(852, 105);
             this.initializeKeyValueControl();
         }
 
@@ -34,6 +36,7 @@ namespace RelayDNPSecurity
 
             this.Controls.Add(this.keyBox);
             this.buttonSendKey.Location = new System.Drawing.Point(900, 40); //new Point(this.keyBox.Location.X + this.keyBox.Width + 5, this.keyBox.Location.Y + 10);
+            this.keyBox.BringToFront();
         }
 
         #endregion

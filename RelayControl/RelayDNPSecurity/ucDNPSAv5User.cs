@@ -16,6 +16,8 @@ namespace RelayDNPSecurity
         public ucDNPSAv5User()
         {
             InitializeComponent();
+            this.panel_DNPuserName.Location = new System.Drawing.Point(0, 2);
+            this.panel_DNPuserName.Size = new System.Drawing.Size(871, 155); //(869, 155);
             this.initializeKeyValueControl();
 
         }
@@ -30,7 +32,7 @@ namespace RelayDNPSecurity
         void initializeKeyValueControl()
         {
             this.keyBox = new ucKeyValuesInputControl(32, _keyName);
-
+            
             Point tempPoint = new Point(this.textBoxUserNumber.Location.X, this.textBoxUserNumber.Location.Y);
 
            // tempPoint.X += 5 + this.textBoxUserNumber.Width;
@@ -40,9 +42,13 @@ namespace RelayDNPSecurity
             this.keyBox.Location = tempPoint;
 
             this.groupBoxUserControl.Controls.Add(this.keyBox);
-
+            this.keyBox.BringToFront();
+            this.buttonAddUser.BringToFront(); 
+            this.buttonDeleteUser.BringToFront();
             this.label1.Location = new System.Drawing.Point(170, 117); 
-            this.textBoxUserName.Location = new System.Drawing.Point(250, 115); 
+            this.textBoxUserName.Location = new System.Drawing.Point(250, 115);
+            this.label1.BringToFront();
+            this.textBoxUserName.BringToFront();
 
             this.labelUserNumber.Location = new System.Drawing.Point(9, 32); 
             this.textBoxUserNumber.Location = new System.Drawing.Point(67, 30);
@@ -59,7 +65,7 @@ namespace RelayDNPSecurity
                     FontStyle.Regular
                 );
             }
-
+            
         }
 
         #endregion
