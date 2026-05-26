@@ -1910,6 +1910,7 @@ namespace RelayControlLibrary
             this.comboBox_TripStyle.SelectedIndex = 3;
 #if ENMAX
             this.comboBox_TripStyle.SelectedIndex = 0;
+            this.checkBoxTripOnPowerDown.Checked = true;
 #endif
 #if ONCOR
             //this.domainUpDownTripStyle.SelectedIndex = 0; // Hold Trip (Troubleshooting Only)
