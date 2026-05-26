@@ -807,7 +807,8 @@ namespace RelayControlLibrary
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownTimeDelay.Value = 6;
                 this.checkBox1.Checked = false;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
+                this.checkBoxCircleClose.Checked = true;
+                this.CloseModeDef.CloseMode = CloseModes.CircleClose;
                 this.CloseModeDef.TimeDelay = 6;
             }
             else
