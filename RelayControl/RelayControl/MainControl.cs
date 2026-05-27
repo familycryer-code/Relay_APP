@@ -2946,7 +2946,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
                 this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
                 this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
-                this.lbl_Relayststatus_backfeed.BackColor = Color.DarkGreen; //Color.Green;
+                this.lbl_Relayststatus_backfeed.BackColor = Color.FromArgb(0, 190, 0); // rgb for dark green color 
                 this.lbl_Relayststatus_FC.BackColor = Color.Transparent;
                 this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
             }
@@ -2956,7 +2956,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
                 this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
                 this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
-                this.lbl_Relayststatus_FC.BackColor = Color.DarkRed; //Color.Green;
+                this.lbl_Relayststatus_FC.BackColor = Color.Orange; 
                 this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
                 this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
             }
@@ -4349,19 +4349,19 @@ namespace RelayControl
                 this.uc8CheckBoxFlagsGEControl2.SetValues(bytePacket[6]);
 
                 if ((bytePacket[5] & 16) == 16) // Insensitive Backfeed
-                    this.lbl_Relayststatus_Ib.BackColor = Color.LightGreen; //Color.Green;
+                    this.lbl_Relayststatus_Ib.BackColor = Color.LightGreen; 
                 else if ((bytePacket[5] & 16) != 16) // Not in Insensitive Backfeed
                     this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
 
                 if ((bytePacket[2] & 64) == 64) // Phasing OK
-                    this.lbl_Relayststatus_XP.BackColor = Color.FromArgb(64, 64, 64); // rgb for dark grey color //Color.Green;
+                    this.lbl_Relayststatus_XP.BackColor = Color.FromArgb(64, 64, 64); // rgb for dark grey color 
 
                 if ((bytePacket[5] & 2) == 2) // Close
-                    this.lbl_Relayststatus_Close.BackColor = Color.Red; //Color.Green;
+                    this.lbl_Relayststatus_Close.BackColor = Color.Red; 
 
                 if ((bytePacket[5] & 32) == 32) // Relax Close
                 {
-                    this.lbl_Relayststatus_RC.BackColor = Color.Pink; //Color.Green;
+                    this.lbl_Relayststatus_RC.BackColor = Color.FromArgb(255, 204, 204); // rgb for light red color 
                     modeRC.relaxMode = true;
                 }
                 else if ((bytePacket[5] & 32) != 32) // Not in Relax Close Mode
@@ -4648,9 +4648,8 @@ namespace RelayControl
                 {
                     setLabelText("Open", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
-                    //  setLabelText("Open", this.labelRelayStateControlPage);
-                    //   setBackgroundColor(Color.Green, this.labelRelayStateControlPage);
-                    this.lbl_Relaystatus_Open.BackColor = Color.Green;
+                    
+                    this.lbl_Relaystatus_Open.BackColor = Color.FromArgb(0, 255, 0); // rgb for green color
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Close.BackColor = Color.Transparent;
@@ -4659,8 +4658,7 @@ namespace RelayControl
                 {
                     setLabelText("Float", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
-                    //  setLabelText("Float", this.labelRelayStateControlPage);
-                    //  setBackgroundColor(Color.Yellow, this.labelRelayStateControlPage);
+                    
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Yellow; //Color.Green;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4670,8 +4668,7 @@ namespace RelayControl
                 {
                     setLabelText("Close", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
-                    //   setLabelText("Close", this.labelRelayStateControlPage);
-                    //   setBackgroundColor(Color.Red, this.labelRelayStateControlPage);
+                   
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     /*
@@ -4691,7 +4688,7 @@ namespace RelayControl
                 else if ((blockedO.blockedOpen == true) && (lbl_Relayststatus_Float.BackColor != Color.Green))
                 {
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
-                    this.lbl_Relayststatus_BO.BackColor = Color.Green;
+                    this.lbl_Relayststatus_BO.BackColor = Color.LightBlue; //Color.Green;
                     this.lbl_Relayststatus_FB.BackColor = Color.Transparent;
                 }
                 else if (blockedO.blockedOpen == false)
