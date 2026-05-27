@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.buttonTX = new System.Windows.Forms.Button();
             this.buttonRQ = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -212,8 +211,8 @@
             this.label21 = new System.Windows.Forms.Label();
             this.button_FastFire = new System.Windows.Forms.Button();
             this.button_FastMode = new System.Windows.Forms.Button();
-            this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
-            this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
+            this.timer_FastMode = new System.Windows.Forms.Timer();
+            this.timer_FireFastConfig = new System.Windows.Forms.Timer();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
@@ -2250,7 +2249,7 @@
             // labelFlagSettingsFlagPostPosition
             // 
             this.labelFlagSettingsFlagPostPosition.AutoSize = true;
-            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(59, 13);
+            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(64, 13);
             this.labelFlagSettingsFlagPostPosition.Name = "labelFlagSettingsFlagPostPosition";
             this.labelFlagSettingsFlagPostPosition.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(140, 19);
@@ -2261,7 +2260,7 @@
             // labelFlagSettingsFlag
             // 
             this.labelFlagSettingsFlag.AutoSize = true;
-            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(5, 13);
+            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(20, 13);
             this.labelFlagSettingsFlag.Name = "labelFlagSettingsFlag";
             this.labelFlagSettingsFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFlagSettingsFlag.Size = new System.Drawing.Size(44, 19);

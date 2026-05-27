@@ -859,7 +859,7 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Relay Differential Voltage", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Average Real Differential Voltage", false));
             this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false));
@@ -875,9 +875,9 @@ namespace RelayControlLibrary
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase A", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase B", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase C", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle - Phase C", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase A", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase B", false));
+            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase C", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
             this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
             this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
