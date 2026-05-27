@@ -28,6 +28,7 @@ namespace SineDisplayGraph
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listBoxMode = new System.Windows.Forms.ListBox();
             this.listBoxSequencePower = new System.Windows.Forms.ListBox();
             this.panelTripped = new System.Windows.Forms.Panel();
@@ -263,7 +264,7 @@ namespace SineDisplayGraph
             this.lbl_x2P = new System.Windows.Forms.Label();
             this.lbl_x1P = new System.Windows.Forms.Label();
             this.lbl_loadReading = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel_PQmon = new System.Windows.Forms.Panel();
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
@@ -2139,7 +2140,7 @@ namespace SineDisplayGraph
             // labelICTHD
             // 
             this.labelICTHD.AutoSize = true;
-            this.labelICTHD.Location = new System.Drawing.Point(164, 128);
+            this.labelICTHD.Location = new System.Drawing.Point(166, 135);
             this.labelICTHD.Name = "labelICTHD";
             this.labelICTHD.Size = new System.Drawing.Size(31, 19);
             this.labelICTHD.TabIndex = 11;
@@ -2148,7 +2149,7 @@ namespace SineDisplayGraph
             // labelIBTHD
             // 
             this.labelIBTHD.AutoSize = true;
-            this.labelIBTHD.Location = new System.Drawing.Point(164, 77);
+            this.labelIBTHD.Location = new System.Drawing.Point(166, 84);
             this.labelIBTHD.Name = "labelIBTHD";
             this.labelIBTHD.Size = new System.Drawing.Size(30, 19);
             this.labelIBTHD.TabIndex = 10;
@@ -2157,7 +2158,7 @@ namespace SineDisplayGraph
             // labelIATHD
             // 
             this.labelIATHD.AutoSize = true;
-            this.labelIATHD.Location = new System.Drawing.Point(164, 25);
+            this.labelIATHD.Location = new System.Drawing.Point(166, 32);
             this.labelIATHD.Name = "labelIATHD";
             this.labelIATHD.Size = new System.Drawing.Size(32, 19);
             this.labelIATHD.TabIndex = 9;
@@ -2167,7 +2168,7 @@ namespace SineDisplayGraph
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 128);
+            this.label9.Location = new System.Drawing.Point(27, 135);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(44, 19);
             this.label9.TabIndex = 8;
@@ -2176,7 +2177,7 @@ namespace SineDisplayGraph
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 77);
+            this.label3.Location = new System.Drawing.Point(27, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 19);
             this.label3.TabIndex = 7;
@@ -2185,7 +2186,7 @@ namespace SineDisplayGraph
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 27);
+            this.label2.Location = new System.Drawing.Point(27, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 19);
             this.label2.TabIndex = 6;
@@ -2194,7 +2195,7 @@ namespace SineDisplayGraph
             // 
             // textBoxICTHD
             // 
-            this.textBoxICTHD.Location = new System.Drawing.Point(210, 123);
+            this.textBoxICTHD.Location = new System.Drawing.Point(212, 130);
             this.textBoxICTHD.Name = "textBoxICTHD";
             this.textBoxICTHD.ReadOnly = true;
             this.textBoxICTHD.Size = new System.Drawing.Size(60, 27);
@@ -2203,7 +2204,7 @@ namespace SineDisplayGraph
             // 
             // textBoxIBTHD
             // 
-            this.textBoxIBTHD.Location = new System.Drawing.Point(210, 74);
+            this.textBoxIBTHD.Location = new System.Drawing.Point(212, 81);
             this.textBoxIBTHD.Name = "textBoxIBTHD";
             this.textBoxIBTHD.ReadOnly = true;
             this.textBoxIBTHD.Size = new System.Drawing.Size(60, 27);
@@ -2212,7 +2213,7 @@ namespace SineDisplayGraph
             // 
             // textBoxIATHD
             // 
-            this.textBoxIATHD.Location = new System.Drawing.Point(210, 25);
+            this.textBoxIATHD.Location = new System.Drawing.Point(212, 32);
             this.textBoxIATHD.Name = "textBoxIATHD";
             this.textBoxIATHD.ReadOnly = true;
             this.textBoxIATHD.Size = new System.Drawing.Size(60, 27);
@@ -2222,7 +2223,7 @@ namespace SineDisplayGraph
             // 
             // textBoxVnCTHD
             // 
-            this.textBoxVnCTHD.Location = new System.Drawing.Point(85, 123);
+            this.textBoxVnCTHD.Location = new System.Drawing.Point(87, 130);
             this.textBoxVnCTHD.Name = "textBoxVnCTHD";
             this.textBoxVnCTHD.ReadOnly = true;
             this.textBoxVnCTHD.Size = new System.Drawing.Size(60, 27);
@@ -2231,7 +2232,7 @@ namespace SineDisplayGraph
             // 
             // textBoxVnBTHD
             // 
-            this.textBoxVnBTHD.Location = new System.Drawing.Point(85, 74);
+            this.textBoxVnBTHD.Location = new System.Drawing.Point(87, 81);
             this.textBoxVnBTHD.Name = "textBoxVnBTHD";
             this.textBoxVnBTHD.ReadOnly = true;
             this.textBoxVnBTHD.Size = new System.Drawing.Size(60, 27);
@@ -2240,7 +2241,7 @@ namespace SineDisplayGraph
             // 
             // textBoxVnATHD
             // 
-            this.textBoxVnATHD.Location = new System.Drawing.Point(85, 25);
+            this.textBoxVnATHD.Location = new System.Drawing.Point(87, 32);
             this.textBoxVnATHD.Name = "textBoxVnATHD";
             this.textBoxVnATHD.ReadOnly = true;
             this.textBoxVnATHD.Size = new System.Drawing.Size(60, 27);
@@ -2556,7 +2557,7 @@ namespace SineDisplayGraph
             // 
             this.lbl_x3A.AutoSize = true;
             this.lbl_x3A.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_x3A.Location = new System.Drawing.Point(30, 245);
+            this.lbl_x3A.Location = new System.Drawing.Point(23, 245);
             this.lbl_x3A.Name = "lbl_x3A";
             this.lbl_x3A.Size = new System.Drawing.Size(72, 19);
             this.lbl_x3A.TabIndex = 5;
@@ -2566,7 +2567,7 @@ namespace SineDisplayGraph
             // 
             this.lbl_x2A.AutoSize = true;
             this.lbl_x2A.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_x2A.Location = new System.Drawing.Point(30, 201);
+            this.lbl_x2A.Location = new System.Drawing.Point(23, 201);
             this.lbl_x2A.Name = "lbl_x2A";
             this.lbl_x2A.Size = new System.Drawing.Size(72, 19);
             this.lbl_x2A.TabIndex = 4;
@@ -2576,7 +2577,7 @@ namespace SineDisplayGraph
             // 
             this.lbl_x1A.AutoSize = true;
             this.lbl_x1A.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_x1A.Location = new System.Drawing.Point(30, 157);
+            this.lbl_x1A.Location = new System.Drawing.Point(23, 157);
             this.lbl_x1A.Name = "lbl_x1A";
             this.lbl_x1A.Size = new System.Drawing.Size(72, 19);
             this.lbl_x1A.TabIndex = 3;

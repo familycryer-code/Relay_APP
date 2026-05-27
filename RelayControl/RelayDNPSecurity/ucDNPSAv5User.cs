@@ -17,7 +17,7 @@ namespace RelayDNPSecurity
         {
             InitializeComponent();
             this.panel_DNPuserName.Location = new System.Drawing.Point(0, 2);
-            this.panel_DNPuserName.Size = new System.Drawing.Size(871, 155); //(869, 155);
+            this.panel_DNPuserName.Size = new System.Drawing.Size(839, 155); //(869, 155);
             this.initializeKeyValueControl();
 
         }
@@ -35,10 +35,10 @@ namespace RelayDNPSecurity
             
             Point tempPoint = new Point(this.textBoxUserNumber.Location.X, this.textBoxUserNumber.Location.Y);
 
-           // tempPoint.X += 5 + this.textBoxUserNumber.Width;
             tempPoint.X = 115;
             tempPoint.Y -= 5;
-
+            
+            
             this.keyBox.Location = tempPoint;
 
             this.groupBoxUserControl.Controls.Add(this.keyBox);
