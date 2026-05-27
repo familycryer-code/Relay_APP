@@ -51,11 +51,12 @@ namespace RelayControlLibrary
             this.textBoxTimeElapsedHours.Location = new System.Drawing.Point(40, 585);
             this.lbl_timeElapsed.Location = new System.Drawing.Point(73, 550);
             this.pictureBox1.Location = new System.Drawing.Point(155, 495);
-            this.labelTMonCTMult.Location = new System.Drawing.Point(32, 290);
-            this.labelTMonColorFreq.Location = new System.Drawing.Point(8, 210);
-            this.labelTMonTransmitterID.Location = new System.Drawing.Point(10, 132);
+            this.labelTMonCTMult.Location = new System.Drawing.Point(110, 290); //(32, 290);
+            this.labelTMonColorFreq.Location = new System.Drawing.Point(88, 210); //(8, 210);
+            this.labelTMonTransmitterID.Location = new System.Drawing.Point(88, 132); //(10, 132);
             this.checkBoxFrequenceBlue.Location = this.checkBoxFrequencyYellow.Location =
-            this.checkBoxFrequencyGreen.Location = this.checkBoxFrequencyRed.Location = new System.Drawing.Point(149, 210);
+            this.checkBoxFrequencyGreen.Location = this.checkBoxFrequencyRed.Location = new System.Drawing.Point(217, 210); //(149, 210);
+            this.label64.Location = new System.Drawing.Point(65, 53); //(5, 53);
 #if CONED
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 0;

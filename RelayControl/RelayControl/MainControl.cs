@@ -758,7 +758,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.13" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.14" + " ENMAX ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -796,14 +796,14 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400); //(650, 400); 
                 this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(710, 80); //(650, 80); 
                // this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
-               this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(170, 497); 
-                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(170, 420); 
-                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(5, 500); 
-                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(38, 420); 
+               this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(250, 497); //(170, 497); 
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(250, 420); //(170, 420); 
+                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(85, 500); //(5, 500); 
+                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(118, 422); //(38, 420); 
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(42, 30);  
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(420, 725); 
-                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(170, 56); 
-                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(170, 150); 
+                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(250, 56); //(170, 56); 
+                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(250, 150); //(170, 150); 
 
                 this.ucTransmitterMonitoring1.panel_GenSet_sensorMon.Location = new System.Drawing.Point(40, 28);
                 this.ucTransmitterMonitoring1.panel_GenSet_sensorMon.Size = new System.Drawing.Size(425, 730);
@@ -812,7 +812,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Location = new System.Drawing.Point(660, 27);
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Size = new System.Drawing.Size(300, 730);
 
-                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(170, 330);
+                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(250, 330); //(170, 330);
 
 #endif
 #if DNP && !ENMAX
