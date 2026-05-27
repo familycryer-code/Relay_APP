@@ -1781,6 +1781,7 @@
             this.buttonSaveSetting.TabIndex = 129;
             this.buttonSaveSetting.Text = "Save Profile";
             this.buttonSaveSetting.UseVisualStyleBackColor = true;
+            this.buttonSaveSetting.Click += new System.EventHandler(this.buttonSaveSetting_Click);
             // 
             // comboBoxSavedStates
             // 
@@ -1802,6 +1803,7 @@
             this.buttonDeleteSetting.TabIndex = 128;
             this.buttonDeleteSetting.Text = "Delete Profile";
             this.buttonDeleteSetting.UseVisualStyleBackColor = true;
+            this.buttonDeleteSetting.Click += new System.EventHandler(this.buttonDeleteSetting_Click);
             // 
             // button_push
             // 
