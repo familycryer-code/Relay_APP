@@ -127,19 +127,19 @@ namespace SineDisplayGraph
                 this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
                 this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
            */
-            this.panel_load.Location = new System.Drawing.Point(1565, 27); //(1225, 27);
+            this.panel_load.Location = new System.Drawing.Point(1565, 27); 
             this.panel_load.Size = new System.Drawing.Size(250, 293); 
-            this.lbl_loadReading.Location = new System.Drawing.Point(1570, 17); //(1256, 17);
-            this.groupBoxTHD.Location = new System.Drawing.Point(1537, 780); //(1197, 600);
-            this.panel_PQmon.Location = new System.Drawing.Point(1530, 4); //(1190, 4);
-            this.panel_PQmon.Size = new System.Drawing.Size(320, 950); //(320, 780);
+            this.lbl_loadReading.Location = new System.Drawing.Point(1570, 17); 
+            this.groupBoxTHD.Location = new System.Drawing.Point(1537, 750); //(1537, 780); 
+            this.panel_PQmon.Location = new System.Drawing.Point(1530, 4); 
+            this.panel_PQmon.Size = new System.Drawing.Size(320, 950); 
 
             //Positioning of phasorGraph2 and its 4 quarter degree
-            this.phasorGraph2.Location = new System.Drawing.Point(900, 35); //(757, 17);
-            this.label54.Location = new System.Drawing.Point(1223, 174); //(1049, 161); right
-            this.label62.Location = new System.Drawing.Point(1042, 5); //(873, -6); top
-            this.label61.Location = new System.Drawing.Point(852, 174); //(672, 167); left
-            this.label60.Location = new System.Drawing.Point(1040, 352); //(864, 328); bottom
+            this.phasorGraph2.Location = new System.Drawing.Point(900, 35); 
+            this.label54.Location = new System.Drawing.Point(1223, 174); // right
+            this.label62.Location = new System.Drawing.Point(1042, 5); // top
+            this.label61.Location = new System.Drawing.Point(852, 174); // left
+            this.label60.Location = new System.Drawing.Point(1040, 352); // bottom
 
             //Positioning of phasorGraph1 and its 4 quarter degree
             this.listBoxMode.Location = new System.Drawing.Point(543, 25); //(443, 55);
@@ -200,8 +200,8 @@ namespace SineDisplayGraph
             this.textBoxVnNRMS.Location = new System.Drawing.Point(1055, 946);      //txtbox nw neg seq
 
             this.labelIEffStupid.Location = new System.Drawing.Point(880, 406);
-            this.labelIN.Location = new System.Drawing.Point(880, 451);
-            this.labelIP.Location = new System.Drawing.Point(884, 496);
+            this.labelIN.Location = new System.Drawing.Point(788, 451);  //"Current Negetive Sequence:"
+            this.labelIP.Location = new System.Drawing.Point(795, 496);  //"Current Positive Sequence:"
             this.labelPA.Location = new System.Drawing.Point(894, 541);
             this.labelPB.Location = new System.Drawing.Point(895, 586);
             this.labelPC.Location = new System.Drawing.Point(894, 631);
