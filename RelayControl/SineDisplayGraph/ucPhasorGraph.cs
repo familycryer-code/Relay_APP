@@ -690,6 +690,7 @@ namespace SineDisplayGraph
             if (phasorAxis.axisSet == false)
             {
                 this.switchToTripped(); //this.switchToClosed();
+                this.switchToPower();
                 phasorAxis.axisSet = true;
             }
 
