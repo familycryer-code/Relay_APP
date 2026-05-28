@@ -71,6 +71,12 @@ namespace RelayDNPSecurity
         //   private void buttonSendName_Click(object sender, EventArgs e)
         public void buttonSendName_Click(object sender, EventArgs e)
         {
+            //=====================Display a throbber and disbale everything on the screen=====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             sendOSName();
         }
 
