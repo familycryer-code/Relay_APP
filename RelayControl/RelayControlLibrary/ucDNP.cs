@@ -48,6 +48,12 @@ namespace RelayControlLibrary
         //private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             SendAllDNPSettings();
         }
         public void SendAllDNPSettings()
@@ -301,6 +307,12 @@ namespace RelayControlLibrary
 
         private void buttonRQDNPSettings_Click(object sender, EventArgs e)
         {
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             try
             {
                 SendEventArgs sEA = new SendEventArgs(3);
@@ -731,6 +743,13 @@ namespace RelayControlLibrary
                         }
                     }
                 }
+
+                //=====================Remove throbber and enable everything disaplayed on the screen=====================
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                //this.enableAll(true);
+                //========================================================================================================
+
             }
             catch
             {
@@ -739,6 +758,7 @@ namespace RelayControlLibrary
 
                 //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex));
             }
+
         }
         #endregion
 
