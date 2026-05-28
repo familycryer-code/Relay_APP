@@ -139,6 +139,12 @@ namespace RelayDNPSecurity
         //private void buttonSendSettings_Click(object sender, EventArgs e)
         public void buttonSendSettings_Click(object sender, EventArgs e)
         {
+            //=====================Display a throbber and disbale everything on the screen=====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             this.sendSettings();
         }
 
@@ -224,6 +230,12 @@ namespace RelayDNPSecurity
         //private void buttonRequestSettings_Click(object sender, EventArgs e)
         public void buttonRequestSettings_Click(object sender, EventArgs e)
         {
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             this.RequestSettings();
         }
 
@@ -393,6 +405,12 @@ namespace RelayDNPSecurity
                 dataBackupSAV5.dataBackup_sav5Defaults = true;
                 this.onError(new Exception("DNP SAv5 Error Setting Security Thresholds: " + ex.ToString()), "Error Setting SAv5 Security Thresholds");
             }
+
+            //=====================Remove throbber and enable everything disaplayed on the screen=====================
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            //this.enableAll(true);
+            //========================================================================================================
 
         }
     }
