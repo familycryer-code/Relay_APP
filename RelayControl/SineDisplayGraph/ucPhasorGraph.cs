@@ -147,8 +147,8 @@ namespace SineDisplayGraph
             //Position of the Cycle number label and its related boxes
             this.labelViewedCycleNumber.Location = new System.Drawing.Point(580, 124);
             this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(650, 158);
-            this.buttonUpCycle.Location = new System.Drawing.Point(681, 192);
-            this.buttonDownCycle.Location = new System.Drawing.Point(652, 192);
+            this.buttonDownCycle.Location = new System.Drawing.Point(650, 192); //(652, 192);
+            this.buttonUpCycle.Location = new System.Drawing.Point(683, 192); //(681, 192);
             this.panel_eventCycleNo.Location = new System.Drawing.Point(574, 120);
             this.panel_eventCycleNo.Size = new System.Drawing.Size(248, 120);
 
