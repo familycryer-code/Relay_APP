@@ -218,7 +218,7 @@ namespace RelayControlLibrary
 #if PSEG
             this.binaryInputs.Add("Calling for Open"); //0
             this.binaryInputs.Add("Calling for Close");
-            this.binaryInputs.Add("Float");
+            this.binaryInputs.Add("Calling for Float");
             this.binaryInputs.Add("Blocked from Closing");
             this.binaryInputs.Add("Relay Phasing OK");
             this.binaryInputs.Add("Pump Protect Lockout");
@@ -230,29 +230,50 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Digital In 1");
             this.binaryInputs.Add("Digital In 2");
             this.binaryInputs.Add("SEC Physical Lockout");
-            this.binaryInputs.Add("Relax CLose");
+            this.binaryInputs.Add("Relax CLose Active");
             this.binaryInputs.Add("Sensitive Trip");
             this.binaryInputs.Add("Insensitive Trip");//16
             this.binaryInputs.Add("Time Delay Trip");
             this.binaryInputs.Add("Watt Var Trip");
             this.binaryInputs.Add("Trip On Power Down");
-            this.binaryInputs.Add("Trim Curve Enabled");
-            this.binaryInputs.Add("Circle Close Enabled");//21
+            this.binaryInputs.Add("Trim Curve");
+            this.binaryInputs.Add("Circle Close");//21
             this.binaryInputs.Add("Override Blocked Open");
             this.binaryInputs.Add("Relay Algorithm");
-            this.binaryInputs.Add("Pump Mode Relay Cycles");
-            this.binaryInputs.Add("Pump Mode Motor Cycles");
-            this.binaryInputs.Add("Pump Mode Motor Timeout");
+            this.binaryInputs.Add("Pump Mode - Relay Cycles");
+            this.binaryInputs.Add("Pump Mode - Motor Cycles");
+            this.binaryInputs.Add("Pump Mode - Motor Timeout");
             this.binaryInputs.Add("Pump Mode Never Reclose");
-            this.binaryInputs.Add("Safe Service Enabled");
+            this.binaryInputs.Add("Safe Service Mode");
             this.binaryInputs.Add("PLC Lockout");
-            this.binaryInputs.Add("SEC Digital C");
-            this.binaryInputs.Add("SEC Digital D");
-            this.binaryInputs.Add("SEC Digital E");
-            this.binaryInputs.Add("SEC Digital F");
-            this.binaryInputs.Add("SEC Digital G");
-            this.binaryInputs.Add("SEC Digital H");
+            this.binaryInputs.Add("SEC Digital 1 (C)");
+            this.binaryInputs.Add("SEC Digital 2 (D)");
+            this.binaryInputs.Add("SEC Digital 3 (E)");
+            this.binaryInputs.Add("SEC Digital 4 (F)");
+            this.binaryInputs.Add("SEC Digital 5 (G)");
+            this.binaryInputs.Add("SEC Digital 6 (H)");
             this.binaryInputs.Add("Q Bit");//36
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable"); // 39
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable");
+            this.binaryInputs.Add("Not Applicable"); // 57
 #endif
 #if ENMAX || DEBUG
             this.binaryInputs.Add("Calling for Open"); //0
@@ -314,7 +335,7 @@ namespace RelayControlLibrary
             this.binaryInputs.Add("Not Applicable");
             this.binaryInputs.Add("Not Applicable"); // 57
 #endif
-//#if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
+            //#if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
 #if (ONCOR || TORONTO_HYDRO) && !ENMAX
             this.binaryInputs.Add("Not Available");  //0
             this.binaryInputs.Add("Defaults Loaded"); //1
@@ -358,7 +379,7 @@ namespace RelayControlLibrary
 #endif
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-#if !ENMAX
+#if (!ENMAX && !PSEG)
                 if (i < 50)
 
                 this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
@@ -367,10 +388,10 @@ namespace RelayControlLibrary
                     break;
                 i++;
 
-#elif ENMAX
+#elif (ENMAX || PSEG)
                 // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addBinaryBoxIn() "
-                // For ENMAX  since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
-                // So we can have a max of 30 such Analog points ( 20 per column ) that can be displayed on one tab
+                // For ENMAX & PSEG since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
+                // So we can have a max of 30 such Binary points ( 20 per column ) that can be displayed on one tab
 
                 if (i <= 29)            // So 30 Analog Input points 0 to 29 will be displayed on the first BinaryInputs tab
                     this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);

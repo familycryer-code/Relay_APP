@@ -268,6 +268,7 @@ namespace SineDisplayGraph
             this.panel_PQmon = new System.Windows.Forms.Panel();
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
+            this.panel_eventCycleNo = new System.Windows.Forms.Panel();
             this.panelTripped.SuspendLayout();
             this.panelClosed.SuspendLayout();
             this.panelPower.SuspendLayout();
@@ -2332,11 +2333,11 @@ namespace SineDisplayGraph
             // labelViewedCycleNumber
             // 
             this.labelViewedCycleNumber.AutoSize = true;
-            this.labelViewedCycleNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelViewedCycleNumber.ForeColor = System.Drawing.Color.Blue;
-            this.labelViewedCycleNumber.Location = new System.Drawing.Point(439, 271);
+            this.labelViewedCycleNumber.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelViewedCycleNumber.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.labelViewedCycleNumber.Location = new System.Drawing.Point(509, 124);
             this.labelViewedCycleNumber.Name = "labelViewedCycleNumber";
-            this.labelViewedCycleNumber.Size = new System.Drawing.Size(187, 20);
+            this.labelViewedCycleNumber.Size = new System.Drawing.Size(192, 19);
             this.labelViewedCycleNumber.TabIndex = 304;
             this.labelViewedCycleNumber.Text = "Viewed Cycle Number:";
             this.labelViewedCycleNumber.Visible = false;
@@ -2345,18 +2346,20 @@ namespace SineDisplayGraph
             // 
             this.textBoxViewedCycleNumber.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxViewedCycleNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(521, 294);
+            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(561, 158);
             this.textBoxViewedCycleNumber.Name = "textBoxViewedCycleNumber";
             this.textBoxViewedCycleNumber.ReadOnly = true;
             this.textBoxViewedCycleNumber.Size = new System.Drawing.Size(65, 26);
             this.textBoxViewedCycleNumber.TabIndex = 305;
+            this.textBoxViewedCycleNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxViewedCycleNumber.Visible = false;
             // 
             // buttonUpCycle
             // 
-            this.buttonUpCycle.Location = new System.Drawing.Point(589, 323);
+            this.buttonUpCycle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonUpCycle.Location = new System.Drawing.Point(592, 192);
             this.buttonUpCycle.Name = "buttonUpCycle";
-            this.buttonUpCycle.Size = new System.Drawing.Size(25, 23);
+            this.buttonUpCycle.Size = new System.Drawing.Size(35, 35);
             this.buttonUpCycle.TabIndex = 306;
             this.buttonUpCycle.Text = ">";
             this.buttonUpCycle.UseVisualStyleBackColor = true;
@@ -2365,9 +2368,10 @@ namespace SineDisplayGraph
             // 
             // buttonDownCycle
             // 
-            this.buttonDownCycle.Location = new System.Drawing.Point(561, 323);
+            this.buttonDownCycle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDownCycle.Location = new System.Drawing.Point(561, 192);
             this.buttonDownCycle.Name = "buttonDownCycle";
-            this.buttonDownCycle.Size = new System.Drawing.Size(25, 23);
+            this.buttonDownCycle.Size = new System.Drawing.Size(35, 35);
             this.buttonDownCycle.TabIndex = 307;
             this.buttonDownCycle.Text = "<";
             this.buttonDownCycle.UseVisualStyleBackColor = true;
@@ -2380,6 +2384,7 @@ namespace SineDisplayGraph
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(64, 20);
             this.textBoxCTRatio.TabIndex = 308;
+            this.textBoxCTRatio.Visible = false;
             this.textBoxCTRatio.Leave += new System.EventHandler(this.textBoxCTRatio_ValueChanged);
             // 
             // labelCTRatio
@@ -2657,6 +2662,15 @@ namespace SineDisplayGraph
             this.phasorGraph1.Size = new System.Drawing.Size(318, 307);
             this.phasorGraph1.TabIndex = 0;
             // 
+            // panel_eventCycleNo
+            // 
+            this.panel_eventCycleNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_eventCycleNo.Location = new System.Drawing.Point(574, 236);
+            this.panel_eventCycleNo.Name = "panel_eventCycleNo";
+            this.panel_eventCycleNo.Size = new System.Drawing.Size(43, 40);
+            this.panel_eventCycleNo.TabIndex = 322;
+            this.panel_eventCycleNo.Visible = false;
+            // 
             // ucPhasorGraph
             // 
             this.BackColor = System.Drawing.Color.White;
@@ -2832,6 +2846,7 @@ namespace SineDisplayGraph
             this.Controls.Add(this.labelVtA);
             this.Controls.Add(this.listBoxMode);
             this.Controls.Add(this.panel_PQmon);
+            this.Controls.Add(this.panel_eventCycleNo);
             this.Name = "ucPhasorGraph";
             this.Size = new System.Drawing.Size(1328, 802);
             this.Load += new System.EventHandler(this.ucPhasorGraph_Load);
@@ -3099,5 +3114,6 @@ namespace SineDisplayGraph
         private System.Windows.Forms.TextBox txtBox_x3P;
         private System.Windows.Forms.TextBox txtBox_x2P;
         private System.Windows.Forms.Panel panel_PQmon;
+        private System.Windows.Forms.Panel panel_eventCycleNo;
     }
 }

@@ -144,6 +144,14 @@ namespace SineDisplayGraph
             //Positioning of phasorGraph1 and its 4 quarter degree
             this.listBoxMode.Location = new System.Drawing.Point(543, 25); //(443, 55);
 
+            //Position of the Cycle number label and its related boxes
+            this.labelViewedCycleNumber.Location = new System.Drawing.Point(580, 124);
+            this.textBoxViewedCycleNumber.Location = new System.Drawing.Point(650, 158);
+            this.buttonUpCycle.Location = new System.Drawing.Point(681, 192);
+            this.buttonDownCycle.Location = new System.Drawing.Point(652, 192);
+            this.panel_eventCycleNo.Location = new System.Drawing.Point(574, 120);
+            this.panel_eventCycleNo.Size = new System.Drawing.Size(248, 120);
+
             // ==================
             this.label12.Location = new System.Drawing.Point(1315, 379);            //real value column header
             this.textBoxIEffReal.Location = new System.Drawing.Point(1340, 406);    //txtbox
@@ -508,7 +516,7 @@ namespace SineDisplayGraph
             string[] str = Enum.GetNames(typeof(RawPhasorGroups));
 
             this.listBoxMode.SelectedIndex = 0;
-            this.textBoxCTRatio.Visible = true;
+           // this.textBoxCTRatio.Visible = true;
 
         }
 
@@ -2048,12 +2056,18 @@ namespace SineDisplayGraph
             this.labelViewedCycleNumber.Visible = b;
             this.buttonDownCycle.Visible = b;
             this.buttonUpCycle.Visible = b;
-            this.textBoxCTRatio.Visible = b;
-            this.labelCTRatio.Visible = b;
-            this.labelCTRatioOver5.Visible = b;
+            //this.textBoxCTRatio.Visible = b;
+            //this.labelCTRatio.Visible = b;
+            //this.labelCTRatioOver5.Visible = b;
             this.checkBoxGERelay.Visible = b;
             this.checkBoxABC.Visible = b;
             this.checkBoxBFlag.Visible = b;
+            this.panel_eventCycleNo.Visible = b;
+
+            //align both phasor graph axis to the center
+            this.switchToTripped(); 
+            this.switchToPower();
+            phasorAxis.axisSet = true;
         }
 
         private float[] referenceWave;
@@ -2077,7 +2091,7 @@ namespace SineDisplayGraph
 
         public void UpdateValuesFromWaves(CompleteCycleEventArgs sEA)
         {
-            this.enableEventNavigation(false); //this.enableEventNavigation(true);
+            this.enableEventNavigation(true);// this.enableEventNavigation(false);
             this.RealTimeMonitoring = false;
             this.textBoxViewedCycleNumber.Text = sEA.CycleNumber.ToString();
             this.cycleNumber = sEA.CycleNumber;

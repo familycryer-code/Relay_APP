@@ -755,7 +755,7 @@ namespace RelayControl
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
 #elif PSEG
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " PSE&G ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.5" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.14" + " ENMAX ";                
@@ -2956,7 +2956,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
                 this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
                 this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
-                this.lbl_Relayststatus_FC.BackColor = Color.Orange; 
+                this.lbl_Relayststatus_FC.BackColor = Color.DarkRed; 
                 this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
                 this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
             }
