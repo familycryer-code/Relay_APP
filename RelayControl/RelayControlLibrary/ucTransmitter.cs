@@ -1053,6 +1053,12 @@ namespace RelayControlLibrary
 
         public void buttonRQ_Click(object sender, EventArgs e)
         {
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'X';
@@ -1066,6 +1072,12 @@ namespace RelayControlLibrary
 
         private void buttonForceConfigMessage_Click(object sender, EventArgs e)
         {
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
             byte[] packet = new byte[3];
 
             packet[0] = 0x66;
@@ -1106,6 +1118,11 @@ namespace RelayControlLibrary
         //private void buttonTX_Click(object sender, EventArgs e)
         public void buttonTX_Click(object sender, EventArgs e)
         {
+            //=====================Display throbber while parameters get sent to the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
             this.SendTransmitterSettings();
         }
 

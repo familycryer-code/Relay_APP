@@ -3980,6 +3980,12 @@ namespace RelayControl
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                //=====================Remove throbber and enable everything disaplayed on the screen=====================
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+                //========================================================================================================
+                this.enableAll(true);
                 sendAllF.SendAllFlag = false;
                 screenD.screenDisable = false;
                 Application.UseWaitCursor = false;
@@ -4001,6 +4007,11 @@ namespace RelayControl
                 {
                     paramsReceivedLock = true;
                     this.messageHandler("Data Recieved", "All Parameters Received");
+                    //=====================Remove throbber and enable everything disaplayed on the screen=====================
+                    Application.UseWaitCursor = false;
+                    System.Windows.Forms.Cursor.Current = Cursors.Default;
+                    this.enableAll(true);
+                    //========================================================================================================
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
                     
@@ -6086,7 +6097,15 @@ namespace RelayControl
         private bool requestedAllParameters = false;
         private void buttonRequestRelayParamaters_Click(object sender, EventArgs e)
         {
+            this.enableAll(false);
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+
             this.requestAllData();
+
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            this.enableAll(true);
         }
 
         private void requestRelayParameters()
@@ -8354,6 +8373,12 @@ namespace RelayControl
             this.monitoring(true);
             this.RegisterPolling(true);
             downloadEventsClicked = false;
+
+            //=====================Remove throbber and enable everything disaplayed on the screen=====================
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            this.enableAll(true);
+            //========================================================================================================
         }
 
         private void sendCancelCommand()
