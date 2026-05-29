@@ -1369,8 +1369,13 @@ namespace RelayControlLibrary
             int y = tB.Controls.Count % 15 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 15) + 1;
 #endif
+
+#if !BOSTON
+// since eversource do not use DNP
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
+#endif
+
         }
 
         private void addBinaryBox(ucDNPMemphisBinary box, TabPage tB)
@@ -1410,8 +1415,12 @@ namespace RelayControlLibrary
             int y = tB.Controls.Count % 21 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 21) + 1;
 #endif
+
+#if !BOSTON
+// since eversource do not use DNP
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
+#endif
         }
 
         private void addAnalogBoxOut(ucDNPMemphisAnalog box, TabPage tB)

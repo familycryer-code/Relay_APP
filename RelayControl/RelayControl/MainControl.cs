@@ -745,7 +745,7 @@ namespace RelayControl
                 this.ucPumpMode1.labelPumpTypeDisplay.Visible = false; 
                 this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10); 
                 this.checkBox277DNPOutputs.Visible = false;
-               // this.ucPumpMode1.Location = new System.Drawing.Point(9, 395);
+                // this.ucPumpMode1.Location = new System.Drawing.Point(9, 395);
 #if LONDONH
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
@@ -759,6 +759,8 @@ namespace RelayControl
                 this.Customer = Customers.PSEG;
 #elif ENMAX
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.15" + " ENMAX ";                
+#elif BOSTON
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.0" + " EVERSOURCE ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
