@@ -266,9 +266,9 @@ namespace SineDisplayGraph
             this.lbl_loadReading = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel_PQmon = new System.Windows.Forms.Panel();
+            this.panel_eventCycleNo = new System.Windows.Forms.Panel();
             this.phasorGraph2 = new SineDisplayGraph.PhasorGraph();
             this.phasorGraph1 = new SineDisplayGraph.PhasorGraph();
-            this.panel_eventCycleNo = new System.Windows.Forms.Panel();
             this.panelTripped.SuspendLayout();
             this.panelClosed.SuspendLayout();
             this.panelPower.SuspendLayout();
@@ -2412,9 +2412,10 @@ namespace SineDisplayGraph
             // checkBoxGERelay
             // 
             this.checkBoxGERelay.AutoSize = true;
-            this.checkBoxGERelay.Location = new System.Drawing.Point(451, 301);
+            this.checkBoxGERelay.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxGERelay.Location = new System.Drawing.Point(555, 240);
             this.checkBoxGERelay.Name = "checkBoxGERelay";
-            this.checkBoxGERelay.Size = new System.Drawing.Size(41, 17);
+            this.checkBoxGERelay.Size = new System.Drawing.Size(48, 23);
             this.checkBoxGERelay.TabIndex = 311;
             this.checkBoxGERelay.Text = "GE";
             this.checkBoxGERelay.UseVisualStyleBackColor = true;
@@ -2424,9 +2425,10 @@ namespace SineDisplayGraph
             // checkBoxABC
             // 
             this.checkBoxABC.AutoSize = true;
-            this.checkBoxABC.Location = new System.Drawing.Point(451, 317);
+            this.checkBoxABC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxABC.Location = new System.Drawing.Point(619, 240);
             this.checkBoxABC.Name = "checkBoxABC";
-            this.checkBoxABC.Size = new System.Drawing.Size(47, 17);
+            this.checkBoxABC.Size = new System.Drawing.Size(58, 23);
             this.checkBoxABC.TabIndex = 312;
             this.checkBoxABC.Text = "ABC";
             this.checkBoxABC.UseVisualStyleBackColor = true;
@@ -2435,9 +2437,10 @@ namespace SineDisplayGraph
             // checkBoxBFlag
             // 
             this.checkBoxBFlag.AutoSize = true;
-            this.checkBoxBFlag.Location = new System.Drawing.Point(451, 334);
+            this.checkBoxBFlag.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxBFlag.Location = new System.Drawing.Point(555, 262);
             this.checkBoxBFlag.Name = "checkBoxBFlag";
-            this.checkBoxBFlag.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxBFlag.Size = new System.Drawing.Size(140, 23);
             this.checkBoxBFlag.TabIndex = 313;
             this.checkBoxBFlag.Text = "Protector Status";
             this.checkBoxBFlag.UseVisualStyleBackColor = true;
@@ -2642,6 +2645,15 @@ namespace SineDisplayGraph
             this.panel_PQmon.Size = new System.Drawing.Size(230, 365);
             this.panel_PQmon.TabIndex = 321;
             // 
+            // panel_eventCycleNo
+            // 
+            this.panel_eventCycleNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_eventCycleNo.Location = new System.Drawing.Point(459, 280);
+            this.panel_eventCycleNo.Name = "panel_eventCycleNo";
+            this.panel_eventCycleNo.Size = new System.Drawing.Size(43, 40);
+            this.panel_eventCycleNo.TabIndex = 322;
+            this.panel_eventCycleNo.Visible = false;
+            // 
             // phasorGraph2
             // 
             this.phasorGraph2.BackColor = System.Drawing.Color.Transparent;
@@ -2661,15 +2673,6 @@ namespace SineDisplayGraph
             this.phasorGraph1.Name = "phasorGraph1";
             this.phasorGraph1.Size = new System.Drawing.Size(318, 307);
             this.phasorGraph1.TabIndex = 0;
-            // 
-            // panel_eventCycleNo
-            // 
-            this.panel_eventCycleNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_eventCycleNo.Location = new System.Drawing.Point(574, 236);
-            this.panel_eventCycleNo.Name = "panel_eventCycleNo";
-            this.panel_eventCycleNo.Size = new System.Drawing.Size(43, 40);
-            this.panel_eventCycleNo.TabIndex = 322;
-            this.panel_eventCycleNo.Visible = false;
             // 
             // ucPhasorGraph
             // 

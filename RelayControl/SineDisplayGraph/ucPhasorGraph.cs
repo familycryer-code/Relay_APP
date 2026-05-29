@@ -151,6 +151,9 @@ namespace SineDisplayGraph
             this.buttonUpCycle.Location = new System.Drawing.Point(683, 192); //(681, 192);
             this.panel_eventCycleNo.Location = new System.Drawing.Point(574, 120);
             this.panel_eventCycleNo.Size = new System.Drawing.Size(248, 120);
+            this.checkBoxGERelay.Location = new System.Drawing.Point(620, 250);
+            this.checkBoxABC.Location = new System.Drawing.Point(690, 250);
+            this.checkBoxBFlag.Location = new System.Drawing.Point(610, 280);
 
             // ==================
             this.label12.Location = new System.Drawing.Point(1315, 379);            //real value column header
