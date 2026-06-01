@@ -5357,7 +5357,7 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-#if DOMINION
+#if DOMINION || BOSTON
                 //this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
                 trim_rev = revision.Replace("DNP", "").Trim();
                 this.ucRelayProgramming1.MasterRevisionString = trim_rev;
