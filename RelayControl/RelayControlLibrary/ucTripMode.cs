@@ -1906,8 +1906,16 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
+#if BOSTON
+            this.numericUpDownGullWingAngle.Value = 85;// Trim Angle
+            this.numericUpDownAngle.Value = 95; // Tilt Angle
+#endif
             //this.domainUpDownTripStyle.SelectedIndex = 3;
             this.comboBox_TripStyle.SelectedIndex = 3;
+#if BOSTON
+            this.comboBox_TripStyle.SelectedIndex = 0; // hold trip
+            this.checkBoxEnableGullWing.Checked = true;
+#endif
 #if ENMAX
             this.comboBox_TripStyle.SelectedIndex = 0;
             this.checkBoxTripOnPowerDown.Checked = true;

@@ -451,9 +451,9 @@ namespace RelayControlLibrary
         {
 #if PSEG || NU || BOSTON || LONDONH
             this.checkBoxNeverReclose.Checked = false;
-            this.checkBoxCycles.Checked = false;
-            this.checkBoxMotorCycles.Checked = false;
-            this.checkBoxMotorTime.Checked = false;
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
 
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;

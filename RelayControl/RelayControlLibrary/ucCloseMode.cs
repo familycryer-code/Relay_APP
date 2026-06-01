@@ -362,36 +362,7 @@ namespace RelayControlLibrary
                 this.setHorizontalLine();
 
                 mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
-                /*
-                if (dataBackupR.dataBackup_fromRelay == true)
-                {
-                    // writes to 8 bytes C_byte1 to C_byte8 in master uP
-                    // these 8 bytes correspond to the byte packet refering to APP contents as seen on line 501-510 in RelayModeFunctions.cs
-
-                    string lineRead;
-                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                    int c = 1;
-                    while (c <= 6)
-                    {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        c++;
-                    }
-
-                    mySEA.SendPacket[0] = 67;  // 'C'
-                    for (int cnt = 1; cnt <= 8; cnt++)
-                    {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        if ((cnt % 2) != 0)//odd 
-                            mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
-                        else
-                            mySEA.SendPacket[cnt - 1] = Convert.ToByte(lineRead);
-
-
-                    }
-                    mySEA.SendPacket[9] = 0x0D;
-                    sr.Close();
-                }
-                */
+                
                 //if(chkBox_EnablePermClose.Checked == true)
                 //this.SendPermissiveData();
 
@@ -758,7 +729,9 @@ namespace RelayControlLibrary
             if (this.checkBoxCircleClose.Checked)
             {
                 if (this.Mode == CloseModes.Normal || this.Mode == CloseModes.CircleClose)
+                {
                     this.Mode = CloseModes.CircleClose;
+                }
                 else
                     this.Mode = CloseModes.CircleAndRelax;
 
@@ -801,14 +774,20 @@ namespace RelayControlLibrary
 #if ENMAX
                 this.checkBoxCircleClose.Checked = true;
                 this.numericUpDownPDV.Value = 0.0m;
+#elif BOSTON
+                this.checkBoxCircleClose.Checked = false;
+                this.CloseModeDef.CloseMode = CloseModes.Normal;
+                this.numericUpDownPDV.Value = 0.0m;
 #else
                 this.numericUpDownPDV.Value = 0.4m;
 #endif
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownTimeDelay.Value = 6;
                 this.checkBox1.Checked = false;
+#if !BOSTON
                 this.checkBoxCircleClose.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#endif
                 this.CloseModeDef.TimeDelay = 6;
             }
             else
@@ -873,7 +852,7 @@ namespace RelayControlLibrary
                 this.CloseModeDef.TimeDelay = 6;
                 this.checkBox1.Checked = false;
                 this.numericUpDownPDV.Value = 0.4m;
-                                
+
 #endif
 
             }

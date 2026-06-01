@@ -384,6 +384,7 @@ namespace RelayControlLibrary
             try
             {
                 temp = (byte)(bytePacket[0] & 3);
+                MessageBox.Show("bytePacket[0] in DNP packet : " + bytePacket[0]); // Only for testing - to be removed
                 switch (temp)
                 {
                     case 0:
@@ -405,7 +406,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
                 //#else
 #elif !DIGITALGRID
-              //  MessageBox.Show("Comes here for verify DNP setting error 1");
+                MessageBox.Show("Comes here for verify DNP setting error 1");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -429,7 +430,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Self Address", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 2");
+                MessageBox.Show("Comes here for verify DNP setting error 2");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -453,7 +454,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
                 //#else
 #elif !DIGITALGRID
-              //  MessageBox.Show("Comes here for verify DNP setting error 3");
+                MessageBox.Show("Comes here for verify DNP setting error 3");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -477,7 +478,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 4");
+                MessageBox.Show("Comes here for verify DNP setting error 4");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -501,7 +502,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
                 //#else
 #elif !DIGITALGRID
-              //  MessageBox.Show("Comes here for verify DNP setting error 5");
+                MessageBox.Show("Comes here for verify DNP setting error 5");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -523,7 +524,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 6");
+                MessageBox.Show("Comes here for verify DNP setting error 6");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -553,7 +554,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
                 //#else
 #elif !DIGITALGRID
-              //  MessageBox.Show("Comes here for verify DNP setting error 7");
+                MessageBox.Show("Comes here for verify DNP setting error 7");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -577,7 +578,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Fragment Size", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 8");
+                MessageBox.Show("Comes here for verify DNP setting error 8");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -601,7 +602,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Destination Address", ex));
                 //#else
 #elif !DIGITALGRID
-              //  MessageBox.Show("Comes here for verify DNP setting error 9");
+                MessageBox.Show("Comes here for verify DNP setting error 9");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -624,7 +625,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Source Address", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 10");
+                MessageBox.Show("Comes here for verify DNP setting error 10");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -647,7 +648,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 11");
+                MessageBox.Show("Comes here for verify DNP setting error 11");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -669,7 +670,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Max Events", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 12");
+                MessageBox.Show("Comes here for verify DNP setting error 12");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -689,7 +690,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Baud Rate", ex));
                 //#else
 #elif !DIGITALGRID
-               // MessageBox.Show("Comes here for verify DNP setting error 13");
+                MessageBox.Show("Comes here for verify DNP setting error 13");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;

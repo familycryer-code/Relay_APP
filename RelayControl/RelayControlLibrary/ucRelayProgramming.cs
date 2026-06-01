@@ -357,10 +357,18 @@ namespace RelayControlLibrary
                     else
                         this.reprogramMaster = false;
 #else
-                    if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
-                        this.reprogramMaster = true;
-                    else
-                        this.reprogramMaster = false;
+    #if !BOSTON
+                        if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
+                            this.reprogramMaster = true;
+                        else
+                            this.reprogramMaster = false;
+    #elif BOSTON
+                        if(this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) 
+                            this.reprogramMaster = true;
+                        else
+                            this.reprogramMaster = false;
+    #endif
+
 #endif
                 }
 
@@ -574,15 +582,23 @@ namespace RelayControlLibrary
         {
             logger.Trace("InitializeAutoLoad");
             this.reprogramBootCodeAuto = true;
-
+#if !BOSTON
             if ((askToUgradeShown == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
             {
-
                 if (!askToUgradeShown)
                 {
                     this.showAutoLoadDialog();
                 }
             }
+#elif BOSTON
+            if(askToUgradeShown == false && CompareMasterRevisionToGUI()) 
+            {
+                if (!askToUgradeShown)
+                {
+                    this.showAutoLoadDialog();
+                }
+            }
+#endif
 
             if (upgradeAutoDR == DialogResult.Yes)
             {
@@ -635,6 +651,7 @@ namespace RelayControlLibrary
         private void showAutoLoadDialog()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            // MessageBox.Show("wrongRelayTypeAutoLoad : " + wrongRelayTypeAutoLoad); // Only for testing - to be removed
             if (!this.wrongRelayTypeAutoLoad)
                 this.setWrongRelayTypeAutoLoad();
 
@@ -642,8 +659,8 @@ namespace RelayControlLibrary
             this.checkSafeServiceMaster();
 #endif
             if (ManualUpdate.usingManualMode == false)
-            { 
-                this.upgradeAutoDR = showAutoLoadUpdateMessage(); 
+            {
+                this.upgradeAutoDR = showAutoLoadUpdateMessage();
             }
 #if !DEBUG
             if (upgradeAutoDR == DialogResult.Yes && notPollingPort)
@@ -738,6 +755,7 @@ namespace RelayControlLibrary
         private bool setWrongRelayTypeAutoLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            // MessageBox.Show("masterRevisionString : " + masterRevisionString); // Only for testing - to be removed
             if (masterRevisionString != "")
             {
                 if (masterRevisionString.Contains("DNP"))
@@ -960,6 +978,7 @@ namespace RelayControlLibrary
             checkDNP();
 
 #if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG || BGE) && !DNP
+            //  MessageBox.Show("Comes here. Take MasterProcessor.S as the firmware build"); // Only for testing - to be removed
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
             this.textBoxMasterFileName.Text = "Master Relay From Resource";
 
@@ -1355,14 +1374,27 @@ namespace RelayControlLibrary
         public bool CompareMasterRevisionToGUI()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+#if !BOSTON
 #if DNP
             if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #else
             if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #endif
+            {
                 return true;
+            }
             else
                 return false;
+#elif BOSTON
+
+            if (remoteMasterRevisionNumber < _masterCodeRevisionNumber) 
+            {
+                return true;
+            }
+            else
+                return false;
+#endif
+
         }
 
         private void forceRelayToUpdate()
@@ -1922,13 +1954,13 @@ namespace RelayControlLibrary
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
-           // const int BOOTLOADER_PACKET_SIZE = 1024;
-           // const int BOOTLOADER_PACKET_COUNT = 24;
-           // const int BOOTLOADER_TOTAL_SIZE = BOOTLOADER_PACKET_SIZE * BOOTLOADER_PACKET_COUNT;
+            // const int BOOTLOADER_PACKET_SIZE = 1024;
+            // const int BOOTLOADER_PACKET_COUNT = 24;
+            // const int BOOTLOADER_TOTAL_SIZE = BOOTLOADER_PACKET_SIZE * BOOTLOADER_PACKET_COUNT;
 
             this.failCount = 0;
 
-           // while (this.masterCode.CodeBytes.Count < BOOTLOADER_TOTAL_SIZE)
+            // while (this.masterCode.CodeBytes.Count < BOOTLOADER_TOTAL_SIZE)
             //    this.masterCode.CodeBytes.Add(0xFF);
 
             if (this.State == RelayProgrammingStates.LoadingMasterBootLoader)
@@ -3617,46 +3649,46 @@ namespace RelayControlLibrary
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            
+
             //if (ManualUpdate.usingManualMode == false)
             //{
-                this.labelState.Text = "Time Out";
-                this.programmingForm.CurrentTask = "Timed Out - Restarting";
-                logger.Trace("Timed Out in State " + this.state);
-                this.timerTimeout.Stop();
-                this.timerTimeout.Interval = 10000;
-                this.timerTimeout.Start();
+            this.labelState.Text = "Time Out";
+            this.programmingForm.CurrentTask = "Timed Out - Restarting";
+            logger.Trace("Timed Out in State " + this.state);
+            this.timerTimeout.Stop();
+            this.timerTimeout.Interval = 10000;
+            this.timerTimeout.Start();
 
-            
-                switch (this.State)
-                {
-                    case RelayProgrammingStates.LoadingMasterData:
-                    case RelayProgrammingStates.LoadingMasterCode:
-                    case RelayProgrammingStates.WaitingForBootMaster:
-                        this.State = RelayProgrammingStates.WaitingForBootMaster;
-                        this.PrepForBoot();
-                        break;
-                    case RelayProgrammingStates.LoadingRelayCode:
-                    case RelayProgrammingStates.LoadingRelayData:
-                    case RelayProgrammingStates.WaitingForBootRelay:
-                        this.State = RelayProgrammingStates.WaitingForBootRelay;
-                        this.PrepForBoot();
-                        break;
-                    case RelayProgrammingStates.LoadingFPGACode:
-                    case RelayProgrammingStates.WaitingForBootFPGA:
-                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                        this.PrepForBoot();
-                        break;
-                    case RelayProgrammingStates.ReprogramSuccess:
-                        this.timerTimeout.Stop();
-                        this.manualReload = false;
-                        this.programmingForm.Hide();
-                        break;
 
-                    case RelayProgrammingStates.LoadingMasterBootLoader:
-                        this.state = RelayProgrammingStates.ReloadMasterBoot;
-                        break;
-                }
+            switch (this.State)
+            {
+                case RelayProgrammingStates.LoadingMasterData:
+                case RelayProgrammingStates.LoadingMasterCode:
+                case RelayProgrammingStates.WaitingForBootMaster:
+                    this.State = RelayProgrammingStates.WaitingForBootMaster;
+                    this.PrepForBoot();
+                    break;
+                case RelayProgrammingStates.LoadingRelayCode:
+                case RelayProgrammingStates.LoadingRelayData:
+                case RelayProgrammingStates.WaitingForBootRelay:
+                    this.State = RelayProgrammingStates.WaitingForBootRelay;
+                    this.PrepForBoot();
+                    break;
+                case RelayProgrammingStates.LoadingFPGACode:
+                case RelayProgrammingStates.WaitingForBootFPGA:
+                    this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                    this.PrepForBoot();
+                    break;
+                case RelayProgrammingStates.ReprogramSuccess:
+                    this.timerTimeout.Stop();
+                    this.manualReload = false;
+                    this.programmingForm.Hide();
+                    break;
+
+                case RelayProgrammingStates.LoadingMasterBootLoader:
+                    this.state = RelayProgrammingStates.ReloadMasterBoot;
+                    break;
+            }
 
             //}
         }
