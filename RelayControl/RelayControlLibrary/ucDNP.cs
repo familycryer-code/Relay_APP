@@ -406,7 +406,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
                 //#else
 #elif !DIGITALGRID
-              //  MessageBox.Show("WRONG DNP Settings coming from the master relay for Link Layer Confirm");
+                MessageBox.Show("WRONG DNP Setting from the master relay for Link Layer Confirm. Restoring to its Default");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
@@ -554,7 +554,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
                 //#else
 #elif !DIGITALGRID
-                MessageBox.Show("Comes here for verify DNP setting error 7");
+                MessageBox.Show("WRONG DNP Setting from the master relay for Unsolicited TimeOut. Restoring to its Default");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;

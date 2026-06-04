@@ -924,10 +924,10 @@ namespace RelayControl
 #if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX || PSEG)
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNPData);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+               // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+               //     this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+               // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+               //     this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
@@ -8891,7 +8891,7 @@ namespace RelayControl
             if (this.tabControlMain.SelectedTab == this.tabPageDNPSecureAuth)
             {
                 //ucDNPSAv51.ShowDNPSAV5Error = true;
-                this.ucDNPSAv51.RequestAllData();
+                //this.ucDNPSAv51.RequestAllData();
             }
             if (this.tabControlMain.SelectedTab != this.tabPageArcFault)
             {
