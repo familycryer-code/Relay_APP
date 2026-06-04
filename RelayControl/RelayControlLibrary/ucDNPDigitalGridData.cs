@@ -1456,7 +1456,7 @@ namespace RelayControlLibrary
             byte tempByte = 0;
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
-
+       //     MessageBox.Show("4 sending command D to master"); // Only for testing - to be removed
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
 
@@ -1968,7 +1968,7 @@ namespace RelayControlLibrary
             byte tempByte = 0;
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
-
+     //       MessageBox.Show("5 sending command D to master"); // Only for testing - to be removed
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
             sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
 
@@ -2092,7 +2092,7 @@ namespace RelayControlLibrary
             byte tempByte = 0;
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
-
+       //     MessageBox.Show("6 sending command D to master"); // Only for testing - to be removed
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
             sEA.SendPacket[1] = (byte)'E';        //For set analog events subcode
 

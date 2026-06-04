@@ -158,6 +158,7 @@ namespace RelayDNPSecurity
 
             try
             {
+         //       MessageBox.Show("12 sending command D to master"); // Only for testing - to be removed
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'S'; // For Settings
                 sSEA.SendPacket[2] = 0; //Spaced
@@ -244,6 +245,7 @@ namespace RelayDNPSecurity
             SendEventArgs sSEA = new SendEventArgs(_packetLength);
             try
             {
+         //       MessageBox.Show("13 sending command D to master"); // Only for testing - to be removed
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'s'; // For requesting settings
 

@@ -68,6 +68,7 @@ namespace RelayDNPSecurity
             sSEA.WithAck = true;
             try
             {
+          //      MessageBox.Show("9 sending command D to master"); // Only for testing - to be removed
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'A'; // For Authority Key
                 try

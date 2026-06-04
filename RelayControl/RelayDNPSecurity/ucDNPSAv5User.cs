@@ -123,6 +123,7 @@ namespace RelayDNPSecurity
             byte[] returnArray = new byte[98];
             try
             {
+        //        MessageBox.Show("14 sending command D to master"); // Only for testing - to be removed
                 returnArray[0] = ProjectConstants._DNPControlOpCode;
                 returnArray[1] = (byte)'N'; //For Name
                 returnArray[2] = this.getUserNumer();
@@ -185,6 +186,7 @@ namespace RelayDNPSecurity
             byte[] tempArray = null;
             try
             {
+    //            MessageBox.Show("15 sending command D to master"); // Only for testing - to be removed
                 returnArray[0] = ProjectConstants._DNPControlOpCode;
                 returnArray[1] = (byte)'K'; //For Name
                 returnArray[2] = this.getUserNumer();

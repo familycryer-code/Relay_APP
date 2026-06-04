@@ -443,6 +443,7 @@ namespace RelayControlLibrary
                     this.enableWaterbury(false);
                     this.checkBoxSmartExternalCableEnable.Checked = false;
                 }
+               // MessageBox.Show("type1message length bA[28] coming from relay : " + bA[28]); // Only for testing - to be removed
                 if ((bA[28] & 0x04) == 0x04)
                 {
                     this.DNPEnabled = true;

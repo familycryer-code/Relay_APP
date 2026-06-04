@@ -181,11 +181,10 @@ namespace RelayControl
                             this.tabPageDNPData.Controls.Remove(this.dNPMemphisData);
                             this.dNPMemphisData.Dispose();
                         }
-                        // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                        // if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.Oncor) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+
                         if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor || this.Customer == Customers.TorontoHydro) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
                         {
-                            setDNPTabPoints();
+                           setDNPTabPoints();
                         }
 
 #if ENMAX && !DNP
@@ -195,10 +194,12 @@ namespace RelayControl
                         }
 #endif
                         //if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                       // MessageBox.Show("dnpUplinkK.dnpEnabledWithKit : " + dnpUplinkK.dnpEnabledWithKit + " & DNP Enabled : " + DNPEnabled); // Only for testing - to be removed
                         if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth)) && (dnpUplinkK.dnpEnabledWithKit != false))
                         {
                             //#if !LONDONH && !DIGITALGRID
 #if !LONDONH && !DIGITALGRID && !DOMINION
+                            MessageBox.Show("add DNPSAv5 tabs"); // Only for testing - to be removed
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
                         }
@@ -759,7 +760,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.5" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.15" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.16" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " EVERSOURCE ";                
 #elif ONCOR
@@ -2864,7 +2865,7 @@ namespace RelayControl
                 case IncomingCommCommands.DNPData:
                     if (!ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
-                        Thread.Sleep(1000);  // 2.5 seconds
+                        Thread.Sleep(1000);  // 1 seconds
                         this.setDNPSettings(bytePacket);
                     }
                     break;
@@ -2986,6 +2987,7 @@ namespace RelayControl
 
         private void dNPDataMessage(byte[] bytePacket, int p)
         {
+            //MessageBox.Show("DNP Live Data packet received from master firmware for : " + p); // Only for testing - to be removed
             switch (p)
             {
                 case 1:
@@ -5425,8 +5427,7 @@ namespace RelayControl
                 this.ucRelayProgramming1.setConEdFiles();
 
                 this.handleNewMasterRevision();
-               // MessageBox.Show(" master rev coming from firmware : " + this.ucRelayProgramming1.MasterRevisionString);// Only for testing - to be removed
-                this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
+               this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
                 this.relayFound = true;
                 ucShortRange1.relayFound_forRNCMonitoring = true;
                 this.relayFound_forDNPdataMonitoring = true;
@@ -8889,7 +8890,7 @@ namespace RelayControl
 
             if (this.tabControlMain.SelectedTab == this.tabPageDNPSecureAuth)
             {
-                ucDNPSAv51.ShowDNPSAV5Error = true;
+                //ucDNPSAv51.ShowDNPSAV5Error = true;
                 this.ucDNPSAv51.RequestAllData();
             }
             if (this.tabControlMain.SelectedTab != this.tabPageArcFault)
@@ -9160,10 +9161,11 @@ namespace RelayControl
                 }
 #if !WATERBUG
                 if (this.DNPEnabled)
-#if DNP
+                {
+#if DNP || DEBUG
                     this.ucDNP1.SetAll(bytePacket);
 #endif
-
+                }
                     memphisStage = (byte)(bytePacket[0] & 0xE0);
                 memphisStage >>= 5;
 
@@ -9498,6 +9500,7 @@ namespace RelayControl
 
         private void enableDNPMonitoring(bool val)
         {
+            //MessageBox.Show("DNP Live Data to be requested from master processor : " + val); // Only for testing - to be removed
             if (val)
             {
                 this.buttonRequestDNPData.Text = "Stop Requesting Data";
@@ -9521,6 +9524,7 @@ namespace RelayControl
 
         private void requestDNPData()
         {
+          //  MessageBox.Show("sending commad to get DNP libe data from master processor"); // Only for testing - to be removed
             byte[] sendPacket = new byte[3];
 
             sendPacket[0] = 0x05;

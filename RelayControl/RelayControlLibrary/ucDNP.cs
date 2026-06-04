@@ -63,7 +63,7 @@ namespace RelayControlLibrary
                 SendEventArgs sEA = new SendEventArgs(_packetLength);
                 byte tempByte = 0;
                 UInt32 tempInt32;
-
+             //   MessageBox.Show("1 sending command D to master"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
@@ -152,8 +152,8 @@ namespace RelayControlLibrary
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_packetLength); //98
-                //uint index = 2;
                 int index = 2;
+            //    MessageBox.Show("2 sending command D to master"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
 
@@ -195,7 +195,7 @@ namespace RelayControlLibrary
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_packetLength);
-
+            //    MessageBox.Show("3 sending command D to master"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
                 sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
 
@@ -384,7 +384,7 @@ namespace RelayControlLibrary
             try
             {
                 temp = (byte)(bytePacket[0] & 3);
-                MessageBox.Show("bytePacket[0] in DNP packet : " + bytePacket[0]); // Only for testing - to be removed
+         //       MessageBox.Show("bytePacket[0] in DNP packet : " + bytePacket[0]); // Only for testing - to be removed
                 switch (temp)
                 {
                     case 0:
@@ -406,7 +406,7 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
                 //#else
 #elif !DIGITALGRID
-                MessageBox.Show("Comes here for verify DNP setting error 1");
+              //  MessageBox.Show("WRONG DNP Settings coming from the master relay for Link Layer Confirm");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
