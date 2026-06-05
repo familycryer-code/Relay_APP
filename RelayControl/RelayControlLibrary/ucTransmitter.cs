@@ -2282,5 +2282,30 @@ namespace RelayControlLibrary
         {
 
         }
+
+        private void btn_DNPsettings_defaults_Click(object sender, EventArgs e)
+        {
+            this.setDefaultDNPsettings();
+        }
+
+        private void setDefaultDNPsettings()
+        {
+            MessageBox.Show("setting default values for dnp settings"); // Only for testing - to be removed
+            this.numericUpDownDestinationAddress.Value = 3;
+            this.numericUpDownFragmentSize.Value = 1024;
+            this.numericUpDownMaxEvents.Value = 120;
+            this.numericUpDownSourceAddress.Value = 4;
+            this.numericUpDownUnsolRetries.Value = 5;
+            this.numericUpDownUnsolTimeout.Value = 1000;
+            this.comboBoxLinkLayerConfirm.SelectedIndex = 0;
+            this.comboBoxSelfAddress.SelectedIndex = 1;
+            this.comboBoxTerminationResistor.SelectedIndex = 1;
+            this.comboBoxUnsolResponse.SelectedIndex = 1;
+#if (ENMAX || CONED || TORONTO_HYDRO)
+            this.comboBoxDNPBaudRate.SelectedIndex = 3;
+#else
+            this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
+#endif
+        }
     }
 }

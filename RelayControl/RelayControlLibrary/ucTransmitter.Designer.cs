@@ -218,7 +218,7 @@
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
             this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
-            this.buttonDefaults = new System.Windows.Forms.Button();
+            this.btn_DNPsettings_defaults = new System.Windows.Forms.Button();
             this.buttonSendAllDNPSettings = new System.Windows.Forms.Button();
             this.comboBoxDNPBaudRate = new System.Windows.Forms.ComboBox();
             this.labelBaudRate = new System.Windows.Forms.Label();
@@ -2476,7 +2476,7 @@
             // 
             this.grpBx_DNPSettings.Controls.Add(this.groupBoxDNPStatus);
             this.grpBx_DNPSettings.Controls.Add(this.buttonRQDNPSettings);
-            this.grpBx_DNPSettings.Controls.Add(this.buttonDefaults);
+            this.grpBx_DNPSettings.Controls.Add(this.btn_DNPsettings_defaults);
             this.grpBx_DNPSettings.Controls.Add(this.buttonSendAllDNPSettings);
             this.grpBx_DNPSettings.Controls.Add(this.comboBoxDNPBaudRate);
             this.grpBx_DNPSettings.Controls.Add(this.labelBaudRate);
@@ -2510,15 +2510,16 @@
             this.grpBx_DNPSettings.TabStop = false;
             this.grpBx_DNPSettings.Text = "DNP Settings";
             // 
-            // buttonDefaults
+            // btn_DNPsettings_defaults
             // 
-            this.buttonDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDefaults.Location = new System.Drawing.Point(41, 388);
-            this.buttonDefaults.Name = "buttonDefaults";
-            this.buttonDefaults.Size = new System.Drawing.Size(210, 27);
-            this.buttonDefaults.TabIndex = 60;
-            this.buttonDefaults.Text = "Restore Defaults";
-            this.buttonDefaults.UseVisualStyleBackColor = true;
+            this.btn_DNPsettings_defaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DNPsettings_defaults.Location = new System.Drawing.Point(41, 388);
+            this.btn_DNPsettings_defaults.Name = "btn_DNPsettings_defaults";
+            this.btn_DNPsettings_defaults.Size = new System.Drawing.Size(210, 27);
+            this.btn_DNPsettings_defaults.TabIndex = 60;
+            this.btn_DNPsettings_defaults.Text = "Restore Defaults";
+            this.btn_DNPsettings_defaults.UseVisualStyleBackColor = true;
+            this.btn_DNPsettings_defaults.Click += new System.EventHandler(this.btn_DNPsettings_defaults_Click);
             // 
             // buttonSendAllDNPSettings
             // 
@@ -3300,7 +3301,7 @@
         private System.Windows.Forms.Label labelDestinationAddress;
         private System.Windows.Forms.Label labelMemphisStage;
         private System.Windows.Forms.NumericUpDown numericUpDownMemphisStage;
-        private System.Windows.Forms.Button buttonDefaults;
+        private System.Windows.Forms.Button btn_DNPsettings_defaults;
         public System.Windows.Forms.Button buttonRQDNPSettings;
         public System.Windows.Forms.GroupBox groupBoxDNPStatus;
         public System.Windows.Forms.Label labelDNPtext1;
