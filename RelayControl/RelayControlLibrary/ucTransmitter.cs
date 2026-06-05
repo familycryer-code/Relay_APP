@@ -1,4 +1,5 @@
 ﻿using NLog;
+using RelayControlLibrary;
 using SharedResources;
 using System;
 using System.Collections.Generic;
@@ -2290,7 +2291,7 @@ namespace RelayControlLibrary
 
         private void setDefaultDNPsettings()
         {
-            MessageBox.Show("setting default values for dnp settings"); // Only for testing - to be removed
+           // MessageBox.Show("setting default values for dnp settings"); // Only for testing - to be removed
             this.numericUpDownDestinationAddress.Value = 3;
             this.numericUpDownFragmentSize.Value = 1024;
             this.numericUpDownMaxEvents.Value = 120;
@@ -2327,7 +2328,7 @@ namespace RelayControlLibrary
                 SendEventArgs sEA = new SendEventArgs(_DNPpacketLength);
                 byte tempByte = 0;
                 UInt32 tempInt32;
-                   MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
+               //    MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
@@ -2411,7 +2412,7 @@ namespace RelayControlLibrary
 
         private void buttonRQDNPSettings_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
+           // MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
@@ -2433,5 +2434,346 @@ namespace RelayControlLibrary
                 this.errorHandler(ex);
             }
         }
+
+        private delegate void setAllCB(byte[] bytePacket);
+
+        public void SetAll(byte[] bytePacket)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    setAllCB sACB = new setAllCB(this.setDNPsettings);
+                    this.Invoke(sACB, bytePacket);
+                }
+                else
+                {
+                    this.setDNPsettings(bytePacket);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(ex);
+            }
+        }
+
+        private string dNPErrorMsg = "Please Verify all DNP Settings";
+
+        private void setDNPsettings(byte[] bytePacket)
+        {
+          //  MessageBox.Show("now settings all dnp settings as they r in the master processor"); // Only for testing - to be removed
+            byte temp;
+            //LSByte comes first
+            //bytes 0 and 1 for control word
+            //bits 0 and 1 are for link layer
+            try
+            {
+                temp = (byte) (bytePacket[0] & 3);
+                switch (temp)
+                {
+                    case 0:
+                        this.comboBoxLinkLayerConfirm.SelectedItem = "Never";
+                        break;
+                    case 1:
+                        this.comboBoxLinkLayerConfirm.SelectedItem = "Sometimes";
+                        break;
+                    case 2:
+                        this.comboBoxLinkLayerConfirm.SelectedItem = "Always";
+                        break;
+                    default:
+                        throw new Exception("Bad Value For Link Layer");
+    }
+}
+            catch (Exception ex)
+            {
+#if DEBUG
+                this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
+                //#else
+#elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+                #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            try
+            {
+                //Self Address
+                temp = (byte)(bytePacket[0] & 4);
+                if (temp == 4)
+                    this.comboBoxSelfAddress.SelectedItem = "Enable";
+                else
+                    this.comboBoxSelfAddress.SelectedItem = "Disable";
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Self Address", ex));
+                            //#else
+            #elif !DIGITALGRID
+               this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            try
+            {
+                //Unsolallowed
+                temp = (byte)(bytePacket[0] & 8);
+                if (temp == 8)
+                    this.comboBoxUnsolResponse.SelectedItem = "Enable";
+                else
+                    this.comboBoxUnsolResponse.SelectedItem = "Disable";
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
+                            //#else
+            #elif !DIGITALGRID
+               this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            try
+            {
+                //Termination Resistor
+                temp = (byte)(bytePacket[0] & 16);
+                if (temp == 16)
+                    this.comboBoxTerminationResistor.SelectedItem = "Enable";
+                else
+                    this.comboBoxTerminationResistor.SelectedItem = "Disable";
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            try
+            {
+                if (this.Customer == Customers.Memphis)
+                {
+                    temp = (byte)(bytePacket[0] & 0xE0);
+                    temp >>= 5;
+                    this.numericUpDownMemphisStage.Value = temp;
+                }
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            try
+            {
+            #if MEMPHIS
+                            temp = (byte)(bytePacket[1] & 0x07);
+                            this.comboBoxDNPBaudRate.SelectedIndex = temp;
+            #endif
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Baud Rate", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+//bytes 2 & 3???
+
+            try
+            {
+                //4&5&6&7 7 = MSB unsoltimeout
+                UInt32 tempInt = bytePacket[7];
+                tempInt <<= 8;
+                tempInt += bytePacket[6];
+                tempInt <<= 8;
+                tempInt += bytePacket[5];
+                tempInt <<= 8;
+                tempInt += bytePacket[4];
+
+                this.numericUpDownUnsolTimeout.Value = tempInt;
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            //8 9 = Fragment Size
+            try
+            {
+                UInt16 tempInt = bytePacket[9];
+                tempInt <<= 8;
+                tempInt += bytePacket[8];
+
+                this.numericUpDownFragmentSize.Value = tempInt;
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Fragment Size", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            //10 11 Destinaton addy
+            try
+            {
+                UInt16 tempInt = bytePacket[11];
+                tempInt <<= 8;
+                tempInt += bytePacket[10];
+
+                this.numericUpDownDestinationAddress.Value = tempInt;
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Destination Address", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+            //12 13 Source Addy
+            try
+            {
+                UInt16 tempInt = bytePacket[13];
+                tempInt <<= 8;
+                tempInt += bytePacket[12];
+
+                this.numericUpDownSourceAddress.Value = tempInt;
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Source Address", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+            //14 15 unsol max retries
+            try
+            {
+                UInt16 tempInt = bytePacket[15];
+                tempInt <<= 8;
+                tempInt += bytePacket[14];
+
+                this.numericUpDownUnsolRetries.Value = tempInt;
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+            try
+            {
+                //byte 16 is Retries
+                UInt16 tempInt2 = bytePacket[16];
+
+                this.numericUpDownMaxEvents.Value = tempInt2;
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Max Events", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+
+#if !MEMPHIS
+            try
+            {
+                this.comboBoxDNPBaudRate.SelectedIndex = bytePacket[17];
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                            this.errorHandler(new Exception("Error Setting Baud Rate", ex));
+                            //#else
+            #elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            #endif
+                dataBackupDNP.dataBackup_dnpDefaults = true;
+                this.setDefaultDNPsettings();
+                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
+            }
+#endif
+
+        }
+
+
+
     }
 }

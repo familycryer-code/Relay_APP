@@ -199,7 +199,7 @@ namespace RelayControl
                         {
                             //#if !LONDONH && !DIGITALGRID
 #if !LONDONH && !DIGITALGRID && !DOMINION
-                            MessageBox.Show("add DNPSAv5 tabs"); // Only for testing - to be removed
+                            //MessageBox.Show("add DNPSAv5 tabs"); // Only for testing - to be removed
                             this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
                         }
@@ -760,7 +760,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.5" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.16" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.17" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " EVERSOURCE ";                
 #elif ONCOR
@@ -9170,6 +9170,7 @@ namespace RelayControl
                 {
 #if DNP || DEBUG
                     this.ucDNP1.SetAll(bytePacket);
+                    this.ucTransmitter1.SetAll(bytePacket);
 #endif
                 }
                     memphisStage = (byte)(bytePacket[0] & 0xE0);
