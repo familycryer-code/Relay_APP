@@ -95,17 +95,17 @@ namespace RelayControlLibrary
             this.button_FastMode.Size = new System.Drawing.Size(184, 75);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(1017, 585); 
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(667, 550);  
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(650, 10); //(1000, 10); 
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 610);
-            this.panel_TXco.Location = new System.Drawing.Point(648, 9); //(998, 9);
-            this.panel_TXco.Size = new System.Drawing.Size(226, 615);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(650, 10); 
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 603); //(220, 610);
+            this.panel_TXco.Location = new System.Drawing.Point(648, 9); 
+            this.panel_TXco.Size = new System.Drawing.Size(226, 608); //(226, 615);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
-            this.panelFlagSettings.Location = new System.Drawing.Point(400, 18); //(600, 18); 
+            this.panelFlagSettings.Location = new System.Drawing.Point(400, 18); 
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
@@ -569,10 +569,10 @@ namespace RelayControlLibrary
                 this.panelAlarmSettings.Hide();
                 this.labelAlarmSettings.Hide();
 
-                this.buttonTX.Location = new Point(1019, 40); //(1190, 40); //(780, 40);
-                this.buttonRQ.Location = new Point(1019, 130); //(1200, 130); //(780, 130); 
-                this.buttonForceConfigMessage.Location = new Point(1019, 220); //(1200, 220); //(780, 220);  
-                this.buttonRestoreDefaults.Location = new Point(1019, 310); //(1200, 310); //(780, 310); 
+                this.buttonTX.Location = new Point(667, 55); //(1019, 40); 
+                this.buttonRQ.Location = new Point(667, 175); //(1019, 130); 
+                this.buttonForceConfigMessage.Location = new Point(667, 295); //(1019, 220);   
+                this.buttonRestoreDefaults.Location = new Point(667, 415); //(1019, 310);  
 
                 this.buttonRQ.Size = new Size(184, 75);
                 this.buttonForceConfigMessage.Size = new Size(184, 75);
