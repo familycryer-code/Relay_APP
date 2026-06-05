@@ -1067,7 +1067,13 @@ namespace RelayControl
                 {
                     child.Font = new Font(child.Font, FontStyle.Regular);
                 }
-                
+
+                this.ucTransmitter1.grpBx_DNPSettings.Font = new Font(this.ucTransmitter1.grpBx_DNPSettings.Font, FontStyle.Bold);
+                foreach (Control child in this.ucTransmitter1.grpBx_DNPSettings.Controls)
+                {
+                    child.Font = new Font(child.Font, FontStyle.Regular);
+                }
+
                 this.ucDNP1.groupBoxDNPSettings.Font = new Font(this.ucDNP1.groupBoxDNPSettings.Font, FontStyle.Bold);
                 foreach (Control child in this.ucDNP1.groupBoxDNPSettings.Controls)
                 {

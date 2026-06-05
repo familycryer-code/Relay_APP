@@ -175,6 +175,8 @@ namespace RelayControlLibrary
             // DNP Comm settings groupBox ==============================================
             this.grpBx_DNPSettings.Location = new System.Drawing.Point(987, 19);
             this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 594);
+            this.panel_dnpComSet.Location = new System.Drawing.Point(985, 17);
+            this.panel_dnpComSet.Size = new System.Drawing.Size(289, 599);
             // DNP Comm settings groupBox ==============================================
 
         }

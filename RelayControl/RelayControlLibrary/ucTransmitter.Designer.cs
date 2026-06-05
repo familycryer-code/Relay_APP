@@ -218,6 +218,7 @@
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
             this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
+            this.buttonDefaults = new System.Windows.Forms.Button();
             this.buttonSendAllDNPSettings = new System.Windows.Forms.Button();
             this.comboBoxDNPBaudRate = new System.Windows.Forms.ComboBox();
             this.labelBaudRate = new System.Windows.Forms.Label();
@@ -243,6 +244,11 @@
             this.labelDestinationAddress = new System.Windows.Forms.Label();
             this.labelMemphisStage = new System.Windows.Forms.Label();
             this.numericUpDownMemphisStage = new System.Windows.Forms.NumericUpDown();
+            this.buttonRQDNPSettings = new System.Windows.Forms.Button();
+            this.groupBoxDNPStatus = new System.Windows.Forms.GroupBox();
+            this.labelDNPtext1 = new System.Windows.Forms.Label();
+            this.labelDNPStatusInidcation = new System.Windows.Forms.Label();
+            this.panel_dnpComSet = new System.Windows.Forms.Panel();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
@@ -279,6 +285,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).BeginInit();
+            this.groupBoxDNPStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonTX
@@ -702,7 +709,7 @@
             // labelCurrentThresholdLow
             // 
             this.labelCurrentThresholdLow.AutoSize = true;
-            this.labelCurrentThresholdLow.Location = new System.Drawing.Point(645, 568);
+            this.labelCurrentThresholdLow.Location = new System.Drawing.Point(461, 598);
             this.labelCurrentThresholdLow.Name = "labelCurrentThresholdLow";
             this.labelCurrentThresholdLow.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelCurrentThresholdLow.Size = new System.Drawing.Size(117, 13);
@@ -730,7 +737,7 @@
             // 
             // numericUpDownCurrentThresholdLow
             // 
-            this.numericUpDownCurrentThresholdLow.Location = new System.Drawing.Point(768, 565);
+            this.numericUpDownCurrentThresholdLow.Location = new System.Drawing.Point(573, 599);
             this.numericUpDownCurrentThresholdLow.Name = "numericUpDownCurrentThresholdLow";
             this.numericUpDownCurrentThresholdLow.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.numericUpDownCurrentThresholdLow.Size = new System.Drawing.Size(84, 20);
@@ -801,7 +808,7 @@
             // 
             // textBoxOperatingMode
             // 
-            this.textBoxOperatingMode.Location = new System.Drawing.Point(768, 592);
+            this.textBoxOperatingMode.Location = new System.Drawing.Point(844, 595);
             this.textBoxOperatingMode.Name = "textBoxOperatingMode";
             this.textBoxOperatingMode.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.textBoxOperatingMode.Size = new System.Drawing.Size(84, 20);
@@ -810,7 +817,7 @@
             // labelOperatingMode
             // 
             this.labelOperatingMode.AutoSize = true;
-            this.labelOperatingMode.Location = new System.Drawing.Point(676, 593);
+            this.labelOperatingMode.Location = new System.Drawing.Point(740, 599);
             this.labelOperatingMode.Name = "labelOperatingMode";
             this.labelOperatingMode.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelOperatingMode.Size = new System.Drawing.Size(86, 13);
@@ -1731,7 +1738,7 @@
             // 
             this.checkBoxDNPEnable.AutoSize = true;
             this.checkBoxDNPEnable.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(705, 519);
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(25, 595);
             this.checkBoxDNPEnable.Name = "checkBoxDNPEnable";
             this.checkBoxDNPEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.checkBoxDNPEnable.Size = new System.Drawing.Size(222, 23);
@@ -1744,7 +1751,7 @@
             // 
             this.checkBoxTransmitterEnable.AutoSize = true;
             this.checkBoxTransmitterEnable.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxTransmitterEnable.Location = new System.Drawing.Point(705, 542);
+            this.checkBoxTransmitterEnable.Location = new System.Drawing.Point(279, 592);
             this.checkBoxTransmitterEnable.Name = "checkBoxTransmitterEnable";
             this.checkBoxTransmitterEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.checkBoxTransmitterEnable.Size = new System.Drawing.Size(171, 23);
@@ -1754,7 +1761,7 @@
             // 
             // numericUpDownLEDSpeed
             // 
-            this.numericUpDownLEDSpeed.Location = new System.Drawing.Point(361, 592);
+            this.numericUpDownLEDSpeed.Location = new System.Drawing.Point(398, 265);
             this.numericUpDownLEDSpeed.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2467,6 +2474,9 @@
             // 
             // grpBx_DNPSettings
             // 
+            this.grpBx_DNPSettings.Controls.Add(this.groupBoxDNPStatus);
+            this.grpBx_DNPSettings.Controls.Add(this.buttonRQDNPSettings);
+            this.grpBx_DNPSettings.Controls.Add(this.buttonDefaults);
             this.grpBx_DNPSettings.Controls.Add(this.buttonSendAllDNPSettings);
             this.grpBx_DNPSettings.Controls.Add(this.comboBoxDNPBaudRate);
             this.grpBx_DNPSettings.Controls.Add(this.labelBaudRate);
@@ -2495,14 +2505,24 @@
             this.grpBx_DNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBx_DNPSettings.Location = new System.Drawing.Point(647, 9);
             this.grpBx_DNPSettings.Name = "grpBx_DNPSettings";
-            this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 504);
+            this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 580);
             this.grpBx_DNPSettings.TabIndex = 90;
             this.grpBx_DNPSettings.TabStop = false;
             this.grpBx_DNPSettings.Text = "DNP Settings";
             // 
+            // buttonDefaults
+            // 
+            this.buttonDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDefaults.Location = new System.Drawing.Point(41, 388);
+            this.buttonDefaults.Name = "buttonDefaults";
+            this.buttonDefaults.Size = new System.Drawing.Size(210, 27);
+            this.buttonDefaults.TabIndex = 60;
+            this.buttonDefaults.Text = "Restore Defaults";
+            this.buttonDefaults.UseVisualStyleBackColor = true;
+            // 
             // buttonSendAllDNPSettings
             // 
-            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(42, 401);
+            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(41, 425);
             this.buttonSendAllDNPSettings.Name = "buttonSendAllDNPSettings";
             this.buttonSendAllDNPSettings.Size = new System.Drawing.Size(210, 27);
             this.buttonSendAllDNPSettings.TabIndex = 32;
@@ -2850,6 +2870,56 @@
             0,
             0});
             // 
+            // buttonRQDNPSettings
+            // 
+            this.buttonRQDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(45, 462);
+            this.buttonRQDNPSettings.Name = "buttonRQDNPSettings";
+            this.buttonRQDNPSettings.Size = new System.Drawing.Size(210, 27);
+            this.buttonRQDNPSettings.TabIndex = 61;
+            this.buttonRQDNPSettings.Text = "Read DNP Settings";
+            this.buttonRQDNPSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxDNPStatus
+            // 
+            this.groupBoxDNPStatus.Controls.Add(this.labelDNPtext1);
+            this.groupBoxDNPStatus.Controls.Add(this.labelDNPStatusInidcation);
+            this.groupBoxDNPStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(84, 495);
+            this.groupBoxDNPStatus.Name = "groupBoxDNPStatus";
+            this.groupBoxDNPStatus.Size = new System.Drawing.Size(147, 75);
+            this.groupBoxDNPStatus.TabIndex = 152;
+            this.groupBoxDNPStatus.TabStop = false;
+            this.groupBoxDNPStatus.Text = "DNP Status";
+            // 
+            // labelDNPtext1
+            // 
+            this.labelDNPtext1.AutoSize = true;
+            this.labelDNPtext1.Location = new System.Drawing.Point(6, 35);
+            this.labelDNPtext1.Name = "labelDNPtext1";
+            this.labelDNPtext1.Size = new System.Drawing.Size(52, 19);
+            this.labelDNPtext1.TabIndex = 149;
+            this.labelDNPtext1.Text = "Status";
+            // 
+            // labelDNPStatusInidcation
+            // 
+            this.labelDNPStatusInidcation.AutoSize = true;
+            this.labelDNPStatusInidcation.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.labelDNPStatusInidcation.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDNPStatusInidcation.Location = new System.Drawing.Point(60, 35);
+            this.labelDNPStatusInidcation.Name = "labelDNPStatusInidcation";
+            this.labelDNPStatusInidcation.Size = new System.Drawing.Size(76, 19);
+            this.labelDNPStatusInidcation.TabIndex = 150;
+            this.labelDNPStatusInidcation.Text = "Unknown";
+            // 
+            // panel_dnpComSet
+            // 
+            this.panel_dnpComSet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_dnpComSet.Location = new System.Drawing.Point(402, 104);
+            this.panel_dnpComSet.Name = "panel_dnpComSet";
+            this.panel_dnpComSet.Size = new System.Drawing.Size(42, 39);
+            this.panel_dnpComSet.TabIndex = 91;
+            // 
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
@@ -2885,6 +2955,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.grpBx_DNPSettings);
             this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.button_FastFire);
             this.Controls.Add(this.button_FastMode);
@@ -2892,7 +2963,6 @@
             this.Controls.Add(this.buttonForceConfigMessage);
             this.Controls.Add(this.buttonRQ);
             this.Controls.Add(this.buttonTX);
-            this.Controls.Add(this.grpBx_DNPSettings);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.panelFlagSettings);
             this.Controls.Add(this.grpBox_TXcommands);
@@ -2913,6 +2983,7 @@
             this.Controls.Add(this.labelCurrentThresholdLow);
             this.Controls.Add(this.labelErrorLabel);
             this.Controls.Add(this.panel_TXco);
+            this.Controls.Add(this.panel_dnpComSet);
             this.Name = "ucTransmitter";
             this.Size = new System.Drawing.Size(939, 621);
             this.panelFreqPanel.ResumeLayout(false);
@@ -2967,6 +3038,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).EndInit();
+            this.groupBoxDNPStatus.ResumeLayout(false);
+            this.groupBoxDNPStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3227,5 +3300,11 @@
         private System.Windows.Forms.Label labelDestinationAddress;
         private System.Windows.Forms.Label labelMemphisStage;
         private System.Windows.Forms.NumericUpDown numericUpDownMemphisStage;
+        private System.Windows.Forms.Button buttonDefaults;
+        public System.Windows.Forms.Button buttonRQDNPSettings;
+        public System.Windows.Forms.GroupBox groupBoxDNPStatus;
+        public System.Windows.Forms.Label labelDNPtext1;
+        public System.Windows.Forms.Label labelDNPStatusInidcation;
+        private System.Windows.Forms.Panel panel_dnpComSet;
     }
 }
