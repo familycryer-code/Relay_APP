@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonTX = new System.Windows.Forms.Button();
             this.buttonRQ = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -211,11 +212,37 @@
             this.label21 = new System.Windows.Forms.Label();
             this.button_FastFire = new System.Windows.Forms.Button();
             this.button_FastMode = new System.Windows.Forms.Button();
-            this.timer_FastMode = new System.Windows.Forms.Timer();
-            this.timer_FireFastConfig = new System.Windows.Forms.Timer();
+            this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
+            this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
+            this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
+            this.buttonSendAllDNPSettings = new System.Windows.Forms.Button();
+            this.comboBoxDNPBaudRate = new System.Windows.Forms.ComboBox();
+            this.labelBaudRate = new System.Windows.Forms.Label();
+            this.labelLinkLayerConfirm = new System.Windows.Forms.Label();
+            this.comboBoxLinkLayerConfirm = new System.Windows.Forms.ComboBox();
+            this.labelSelfAddress = new System.Windows.Forms.Label();
+            this.comboBoxSelfAddress = new System.Windows.Forms.ComboBox();
+            this.labelUnsolResponse = new System.Windows.Forms.Label();
+            this.comboBoxUnsolResponse = new System.Windows.Forms.ComboBox();
+            this.comboBoxTerminationResistor = new System.Windows.Forms.ComboBox();
+            this.labelUnsolTimeout = new System.Windows.Forms.Label();
+            this.labelTerminationResistor = new System.Windows.Forms.Label();
+            this.numericUpDownUnsolTimeout = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownUnsolRetries = new System.Windows.Forms.NumericUpDown();
+            this.labelFragmentSize = new System.Windows.Forms.Label();
+            this.labelUnsolRetries = new System.Windows.Forms.Label();
+            this.numericUpDownFragmentSize = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownMaxEvents = new System.Windows.Forms.NumericUpDown();
+            this.labelSourceAddress = new System.Windows.Forms.Label();
+            this.labelMaxEvents = new System.Windows.Forms.Label();
+            this.numericUpDownSourceAddress = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownDestinationAddress = new System.Windows.Forms.NumericUpDown();
+            this.labelDestinationAddress = new System.Windows.Forms.Label();
+            this.labelMemphisStage = new System.Windows.Forms.Label();
+            this.numericUpDownMemphisStage = new System.Windows.Forms.NumericUpDown();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
@@ -244,13 +271,21 @@
             this.panelFlagSettingB.SuspendLayout();
             this.panelFlagSettingA.SuspendLayout();
             this.tabPageDNP.SuspendLayout();
+            this.grpBx_DNPSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolRetries)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFragmentSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonTX
             // 
             this.buttonTX.Enabled = false;
             this.buttonTX.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTX.Location = new System.Drawing.Point(802, 316);
+            this.buttonTX.Location = new System.Drawing.Point(153, 441);
             this.buttonTX.Name = "buttonTX";
             this.buttonTX.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.buttonTX.Size = new System.Drawing.Size(184, 75);
@@ -667,7 +702,7 @@
             // labelCurrentThresholdLow
             // 
             this.labelCurrentThresholdLow.AutoSize = true;
-            this.labelCurrentThresholdLow.Location = new System.Drawing.Point(595, 483);
+            this.labelCurrentThresholdLow.Location = new System.Drawing.Point(645, 568);
             this.labelCurrentThresholdLow.Name = "labelCurrentThresholdLow";
             this.labelCurrentThresholdLow.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelCurrentThresholdLow.Size = new System.Drawing.Size(117, 13);
@@ -695,7 +730,7 @@
             // 
             // numericUpDownCurrentThresholdLow
             // 
-            this.numericUpDownCurrentThresholdLow.Location = new System.Drawing.Point(718, 480);
+            this.numericUpDownCurrentThresholdLow.Location = new System.Drawing.Point(768, 565);
             this.numericUpDownCurrentThresholdLow.Name = "numericUpDownCurrentThresholdLow";
             this.numericUpDownCurrentThresholdLow.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.numericUpDownCurrentThresholdLow.Size = new System.Drawing.Size(84, 20);
@@ -766,7 +801,7 @@
             // 
             // textBoxOperatingMode
             // 
-            this.textBoxOperatingMode.Location = new System.Drawing.Point(718, 507);
+            this.textBoxOperatingMode.Location = new System.Drawing.Point(768, 592);
             this.textBoxOperatingMode.Name = "textBoxOperatingMode";
             this.textBoxOperatingMode.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.textBoxOperatingMode.Size = new System.Drawing.Size(84, 20);
@@ -775,7 +810,7 @@
             // labelOperatingMode
             // 
             this.labelOperatingMode.AutoSize = true;
-            this.labelOperatingMode.Location = new System.Drawing.Point(626, 508);
+            this.labelOperatingMode.Location = new System.Drawing.Point(676, 593);
             this.labelOperatingMode.Name = "labelOperatingMode";
             this.labelOperatingMode.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelOperatingMode.Size = new System.Drawing.Size(86, 13);
@@ -864,7 +899,7 @@
             this.panelGeneralSettings.Controls.Add(this.labelTXCTRatio);
             this.panelGeneralSettings.Controls.Add(this.panelFreqPanel);
             this.panelGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelGeneralSettings.Location = new System.Drawing.Point(22, 18); //(52, 18);
+            this.panelGeneralSettings.Location = new System.Drawing.Point(22, 18);
             this.panelGeneralSettings.Name = "panelGeneralSettings";
             this.panelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 276);
@@ -1696,7 +1731,7 @@
             // 
             this.checkBoxDNPEnable.AutoSize = true;
             this.checkBoxDNPEnable.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(655, 434);
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(705, 519);
             this.checkBoxDNPEnable.Name = "checkBoxDNPEnable";
             this.checkBoxDNPEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.checkBoxDNPEnable.Size = new System.Drawing.Size(222, 23);
@@ -1709,7 +1744,7 @@
             // 
             this.checkBoxTransmitterEnable.AutoSize = true;
             this.checkBoxTransmitterEnable.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxTransmitterEnable.Location = new System.Drawing.Point(655, 457);
+            this.checkBoxTransmitterEnable.Location = new System.Drawing.Point(705, 542);
             this.checkBoxTransmitterEnable.Name = "checkBoxTransmitterEnable";
             this.checkBoxTransmitterEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.checkBoxTransmitterEnable.Size = new System.Drawing.Size(171, 23);
@@ -1719,7 +1754,7 @@
             // 
             // numericUpDownLEDSpeed
             // 
-            this.numericUpDownLEDSpeed.Location = new System.Drawing.Point(617, 366);
+            this.numericUpDownLEDSpeed.Location = new System.Drawing.Point(361, 592);
             this.numericUpDownLEDSpeed.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2360,7 +2395,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(404, 9); //(604, 9);
+            this.label21.Location = new System.Drawing.Point(404, 9);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(115, 19);
@@ -2371,7 +2406,7 @@
             // button_FastFire
             // 
             this.button_FastFire.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_FastFire.Location = new System.Drawing.Point(605, 299);
+            this.button_FastFire.Location = new System.Drawing.Point(169, 376);
             this.button_FastFire.Name = "button_FastFire";
             this.button_FastFire.Size = new System.Drawing.Size(160, 60);
             this.button_FastFire.TabIndex = 86;
@@ -2382,7 +2417,7 @@
             // button_FastMode
             // 
             this.button_FastMode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_FastMode.Location = new System.Drawing.Point(605, 325);
+            this.button_FastMode.Location = new System.Drawing.Point(177, 342);
             this.button_FastMode.Name = "button_FastMode";
             this.button_FastMode.Size = new System.Drawing.Size(160, 60);
             this.button_FastMode.TabIndex = 87;
@@ -2415,9 +2450,9 @@
             // grpBox_TXcommands
             // 
             this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(754, 25);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(210, 306);
             this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 285);
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 63);
             this.grpBox_TXcommands.TabIndex = 88;
             this.grpBox_TXcommands.TabStop = false;
             this.grpBox_TXcommands.Text = "Transmission Commands";
@@ -2425,10 +2460,395 @@
             // panel_TXco
             // 
             this.panel_TXco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_TXco.Location = new System.Drawing.Point(697, 68);
+            this.panel_TXco.Location = new System.Drawing.Point(148, 316);
             this.panel_TXco.Name = "panel_TXco";
-            this.panel_TXco.Size = new System.Drawing.Size(53, 42);
+            this.panel_TXco.Size = new System.Drawing.Size(37, 32);
             this.panel_TXco.TabIndex = 89;
+            // 
+            // grpBx_DNPSettings
+            // 
+            this.grpBx_DNPSettings.Controls.Add(this.buttonSendAllDNPSettings);
+            this.grpBx_DNPSettings.Controls.Add(this.comboBoxDNPBaudRate);
+            this.grpBx_DNPSettings.Controls.Add(this.labelBaudRate);
+            this.grpBx_DNPSettings.Controls.Add(this.labelLinkLayerConfirm);
+            this.grpBx_DNPSettings.Controls.Add(this.comboBoxLinkLayerConfirm);
+            this.grpBx_DNPSettings.Controls.Add(this.labelSelfAddress);
+            this.grpBx_DNPSettings.Controls.Add(this.comboBoxSelfAddress);
+            this.grpBx_DNPSettings.Controls.Add(this.labelUnsolResponse);
+            this.grpBx_DNPSettings.Controls.Add(this.comboBoxUnsolResponse);
+            this.grpBx_DNPSettings.Controls.Add(this.comboBoxTerminationResistor);
+            this.grpBx_DNPSettings.Controls.Add(this.labelUnsolTimeout);
+            this.grpBx_DNPSettings.Controls.Add(this.labelTerminationResistor);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownUnsolTimeout);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownUnsolRetries);
+            this.grpBx_DNPSettings.Controls.Add(this.labelFragmentSize);
+            this.grpBx_DNPSettings.Controls.Add(this.labelUnsolRetries);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownFragmentSize);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownMaxEvents);
+            this.grpBx_DNPSettings.Controls.Add(this.labelSourceAddress);
+            this.grpBx_DNPSettings.Controls.Add(this.labelMaxEvents);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownSourceAddress);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownDestinationAddress);
+            this.grpBx_DNPSettings.Controls.Add(this.labelDestinationAddress);
+            this.grpBx_DNPSettings.Controls.Add(this.labelMemphisStage);
+            this.grpBx_DNPSettings.Controls.Add(this.numericUpDownMemphisStage);
+            this.grpBx_DNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBx_DNPSettings.Location = new System.Drawing.Point(647, 9);
+            this.grpBx_DNPSettings.Name = "grpBx_DNPSettings";
+            this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 504);
+            this.grpBx_DNPSettings.TabIndex = 90;
+            this.grpBx_DNPSettings.TabStop = false;
+            this.grpBx_DNPSettings.Text = "DNP Settings";
+            // 
+            // buttonSendAllDNPSettings
+            // 
+            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(42, 401);
+            this.buttonSendAllDNPSettings.Name = "buttonSendAllDNPSettings";
+            this.buttonSendAllDNPSettings.Size = new System.Drawing.Size(210, 27);
+            this.buttonSendAllDNPSettings.TabIndex = 32;
+            this.buttonSendAllDNPSettings.Text = "Apply";
+            this.buttonSendAllDNPSettings.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxDNPBaudRate
+            // 
+            this.comboBoxDNPBaudRate.FormattingEnabled = true;
+            this.comboBoxDNPBaudRate.Items.AddRange(new object[] {
+            "1200",
+            "2400",
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400"});
+            this.comboBoxDNPBaudRate.Location = new System.Drawing.Point(197, 318);
+            this.comboBoxDNPBaudRate.Name = "comboBoxDNPBaudRate";
+            this.comboBoxDNPBaudRate.Size = new System.Drawing.Size(72, 27);
+            this.comboBoxDNPBaudRate.TabIndex = 35;
+            this.comboBoxDNPBaudRate.Text = "9600";
+            // 
+            // labelBaudRate
+            // 
+            this.labelBaudRate.AutoSize = true;
+            this.labelBaudRate.Location = new System.Drawing.Point(118, 321);
+            this.labelBaudRate.Name = "labelBaudRate";
+            this.labelBaudRate.Size = new System.Drawing.Size(86, 19);
+            this.labelBaudRate.TabIndex = 34;
+            this.labelBaudRate.Text = "Baud Rate:";
+            // 
+            // labelLinkLayerConfirm
+            // 
+            this.labelLinkLayerConfirm.AutoSize = true;
+            this.labelLinkLayerConfirm.Location = new System.Drawing.Point(64, 16);
+            this.labelLinkLayerConfirm.Name = "labelLinkLayerConfirm";
+            this.labelLinkLayerConfirm.Size = new System.Drawing.Size(149, 19);
+            this.labelLinkLayerConfirm.TabIndex = 0;
+            this.labelLinkLayerConfirm.Text = "Link Layer Confirm:";
+            // 
+            // comboBoxLinkLayerConfirm
+            // 
+            this.comboBoxLinkLayerConfirm.FormattingEnabled = true;
+            this.comboBoxLinkLayerConfirm.Items.AddRange(new object[] {
+            "Never",
+            "Sometimes",
+            "Always"});
+            this.comboBoxLinkLayerConfirm.Location = new System.Drawing.Point(197, 16);
+            this.comboBoxLinkLayerConfirm.Name = "comboBoxLinkLayerConfirm";
+            this.comboBoxLinkLayerConfirm.Size = new System.Drawing.Size(72, 27);
+            this.comboBoxLinkLayerConfirm.TabIndex = 1;
+            this.comboBoxLinkLayerConfirm.Text = "Never";
+            // 
+            // labelSelfAddress
+            // 
+            this.labelSelfAddress.AutoSize = true;
+            this.labelSelfAddress.Location = new System.Drawing.Point(104, 49);
+            this.labelSelfAddress.Name = "labelSelfAddress";
+            this.labelSelfAddress.Size = new System.Drawing.Size(103, 19);
+            this.labelSelfAddress.TabIndex = 3;
+            this.labelSelfAddress.Text = "Self Address:";
+            // 
+            // comboBoxSelfAddress
+            // 
+            this.comboBoxSelfAddress.FormattingEnabled = true;
+            this.comboBoxSelfAddress.Items.AddRange(new object[] {
+            "Enable",
+            "Disable"});
+            this.comboBoxSelfAddress.Location = new System.Drawing.Point(197, 49);
+            this.comboBoxSelfAddress.Name = "comboBoxSelfAddress";
+            this.comboBoxSelfAddress.Size = new System.Drawing.Size(72, 27);
+            this.comboBoxSelfAddress.TabIndex = 4;
+            this.comboBoxSelfAddress.Text = "Disable";
+            // 
+            // labelUnsolResponse
+            // 
+            this.labelUnsolResponse.AutoSize = true;
+            this.labelUnsolResponse.Location = new System.Drawing.Point(51, 79);
+            this.labelUnsolResponse.Name = "labelUnsolResponse";
+            this.labelUnsolResponse.Size = new System.Drawing.Size(164, 19);
+            this.labelUnsolResponse.TabIndex = 6;
+            this.labelUnsolResponse.Text = "Unsolicited Response:";
+            // 
+            // comboBoxUnsolResponse
+            // 
+            this.comboBoxUnsolResponse.FormattingEnabled = true;
+            this.comboBoxUnsolResponse.Items.AddRange(new object[] {
+            "Enable",
+            "Disable"});
+            this.comboBoxUnsolResponse.Location = new System.Drawing.Point(197, 79);
+            this.comboBoxUnsolResponse.Name = "comboBoxUnsolResponse";
+            this.comboBoxUnsolResponse.Size = new System.Drawing.Size(72, 27);
+            this.comboBoxUnsolResponse.TabIndex = 7;
+            this.comboBoxUnsolResponse.Text = "Disable";
+            // 
+            // comboBoxTerminationResistor
+            // 
+            this.comboBoxTerminationResistor.FormattingEnabled = true;
+            this.comboBoxTerminationResistor.Items.AddRange(new object[] {
+            "Enable",
+            "Disable"});
+            this.comboBoxTerminationResistor.Location = new System.Drawing.Point(197, 288);
+            this.comboBoxTerminationResistor.Name = "comboBoxTerminationResistor";
+            this.comboBoxTerminationResistor.Size = new System.Drawing.Size(72, 27);
+            this.comboBoxTerminationResistor.TabIndex = 30;
+            this.comboBoxTerminationResistor.Text = "Disable";
+            // 
+            // labelUnsolTimeout
+            // 
+            this.labelUnsolTimeout.AutoSize = true;
+            this.labelUnsolTimeout.Location = new System.Drawing.Point(25, 111);
+            this.labelUnsolTimeout.Name = "labelUnsolTimeout";
+            this.labelUnsolTimeout.Size = new System.Drawing.Size(194, 19);
+            this.labelUnsolTimeout.TabIndex = 9;
+            this.labelUnsolTimeout.Text = "Unsolicited Timeout (ms):";
+            // 
+            // labelTerminationResistor
+            // 
+            this.labelTerminationResistor.AutoSize = true;
+            this.labelTerminationResistor.Location = new System.Drawing.Point(52, 291);
+            this.labelTerminationResistor.Name = "labelTerminationResistor";
+            this.labelTerminationResistor.Size = new System.Drawing.Size(162, 19);
+            this.labelTerminationResistor.TabIndex = 27;
+            this.labelTerminationResistor.Text = "Termination Resistor:";
+            // 
+            // numericUpDownUnsolTimeout
+            // 
+            this.numericUpDownUnsolTimeout.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownUnsolTimeout.Location = new System.Drawing.Point(197, 109);
+            this.numericUpDownUnsolTimeout.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numericUpDownUnsolTimeout.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownUnsolTimeout.Name = "numericUpDownUnsolTimeout";
+            this.numericUpDownUnsolTimeout.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownUnsolTimeout.TabIndex = 10;
+            this.numericUpDownUnsolTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownUnsolTimeout.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownUnsolRetries
+            // 
+            this.numericUpDownUnsolRetries.Location = new System.Drawing.Point(197, 258);
+            this.numericUpDownUnsolRetries.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numericUpDownUnsolRetries.Name = "numericUpDownUnsolRetries";
+            this.numericUpDownUnsolRetries.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownUnsolRetries.TabIndex = 25;
+            this.numericUpDownUnsolRetries.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownUnsolRetries.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // labelFragmentSize
+            // 
+            this.labelFragmentSize.AutoSize = true;
+            this.labelFragmentSize.Location = new System.Drawing.Point(92, 144);
+            this.labelFragmentSize.Name = "labelFragmentSize";
+            this.labelFragmentSize.Size = new System.Drawing.Size(115, 19);
+            this.labelFragmentSize.TabIndex = 12;
+            this.labelFragmentSize.Text = "Fragment Size:";
+            // 
+            // labelUnsolRetries
+            // 
+            this.labelUnsolRetries.AutoSize = true;
+            this.labelUnsolRetries.Location = new System.Drawing.Point(20, 262);
+            this.labelUnsolRetries.Name = "labelUnsolRetries";
+            this.labelUnsolRetries.Size = new System.Drawing.Size(200, 19);
+            this.labelUnsolRetries.TabIndex = 24;
+            this.labelUnsolRetries.Text = "Unsol Retires (0 = infinte):";
+            // 
+            // numericUpDownFragmentSize
+            // 
+            this.numericUpDownFragmentSize.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownFragmentSize.Location = new System.Drawing.Point(197, 142);
+            this.numericUpDownFragmentSize.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            this.numericUpDownFragmentSize.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownFragmentSize.Name = "numericUpDownFragmentSize";
+            this.numericUpDownFragmentSize.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownFragmentSize.TabIndex = 13;
+            this.numericUpDownFragmentSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownFragmentSize.Value = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownMaxEvents
+            // 
+            this.numericUpDownMaxEvents.Location = new System.Drawing.Point(197, 231);
+            this.numericUpDownMaxEvents.Maximum = new decimal(new int[] {
+            125,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxEvents.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxEvents.Name = "numericUpDownMaxEvents";
+            this.numericUpDownMaxEvents.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownMaxEvents.TabIndex = 22;
+            this.numericUpDownMaxEvents.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownMaxEvents.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // labelSourceAddress
+            // 
+            this.labelSourceAddress.AutoSize = true;
+            this.labelSourceAddress.Location = new System.Drawing.Point(41, 173);
+            this.labelSourceAddress.Name = "labelSourceAddress";
+            this.labelSourceAddress.Size = new System.Drawing.Size(176, 19);
+            this.labelSourceAddress.TabIndex = 15;
+            this.labelSourceAddress.Text = "Source Address (relay):";
+            // 
+            // labelMaxEvents
+            // 
+            this.labelMaxEvents.AutoSize = true;
+            this.labelMaxEvents.Location = new System.Drawing.Point(37, 233);
+            this.labelMaxEvents.Name = "labelMaxEvents";
+            this.labelMaxEvents.Size = new System.Drawing.Size(180, 19);
+            this.labelMaxEvents.TabIndex = 21;
+            this.labelMaxEvents.Text = "Max Events (all classes):";
+            // 
+            // numericUpDownSourceAddress
+            // 
+            this.numericUpDownSourceAddress.Location = new System.Drawing.Point(197, 171);
+            this.numericUpDownSourceAddress.Maximum = new decimal(new int[] {
+            65519,
+            0,
+            0,
+            0});
+            this.numericUpDownSourceAddress.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownSourceAddress.Name = "numericUpDownSourceAddress";
+            this.numericUpDownSourceAddress.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownSourceAddress.TabIndex = 16;
+            this.numericUpDownSourceAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownSourceAddress.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownDestinationAddress
+            // 
+            this.numericUpDownDestinationAddress.Location = new System.Drawing.Point(197, 202);
+            this.numericUpDownDestinationAddress.Maximum = new decimal(new int[] {
+            65519,
+            0,
+            0,
+            0});
+            this.numericUpDownDestinationAddress.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownDestinationAddress.Name = "numericUpDownDestinationAddress";
+            this.numericUpDownDestinationAddress.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownDestinationAddress.TabIndex = 19;
+            this.numericUpDownDestinationAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownDestinationAddress.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // labelDestinationAddress
+            // 
+            this.labelDestinationAddress.AutoSize = true;
+            this.labelDestinationAddress.Location = new System.Drawing.Point(51, 204);
+            this.labelDestinationAddress.Name = "labelDestinationAddress";
+            this.labelDestinationAddress.Size = new System.Drawing.Size(164, 19);
+            this.labelDestinationAddress.TabIndex = 18;
+            this.labelDestinationAddress.Text = "Destination  (master):";
+            // 
+            // labelMemphisStage
+            // 
+            this.labelMemphisStage.AutoSize = true;
+            this.labelMemphisStage.Location = new System.Drawing.Point(66, 345);
+            this.labelMemphisStage.Name = "labelMemphisStage";
+            this.labelMemphisStage.Size = new System.Drawing.Size(122, 19);
+            this.labelMemphisStage.TabIndex = 33;
+            this.labelMemphisStage.Text = "Memphis Stage:";
+            // 
+            // numericUpDownMemphisStage
+            // 
+            this.numericUpDownMemphisStage.Location = new System.Drawing.Point(197, 345);
+            this.numericUpDownMemphisStage.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownMemphisStage.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMemphisStage.Name = "numericUpDownMemphisStage";
+            this.numericUpDownMemphisStage.Size = new System.Drawing.Size(72, 27);
+            this.numericUpDownMemphisStage.TabIndex = 1;
+            this.numericUpDownMemphisStage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownMemphisStage.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // ucDNP2
             // 
@@ -2465,19 +2885,24 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button_FastMode);
+            this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.button_FastFire);
+            this.Controls.Add(this.button_FastMode);
+            this.Controls.Add(this.buttonRestoreDefaults);
+            this.Controls.Add(this.buttonForceConfigMessage);
+            this.Controls.Add(this.buttonRQ);
+            this.Controls.Add(this.buttonTX);
+            this.Controls.Add(this.grpBx_DNPSettings);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.panelFlagSettings);
+            this.Controls.Add(this.grpBox_TXcommands);
             this.Controls.Add(this.labelGEWHDisplay);
             this.Controls.Add(this.checkBoxExtendedPLCMessage);
             this.Controls.Add(this.labelTransFlagStatus);
             this.Controls.Add(this.panelFlasgStatusWB);
-            this.Controls.Add(this.buttonForceConfigMessage);
             this.Controls.Add(this.labelLEDSpeed);
             this.Controls.Add(this.numericUpDownLEDSpeed);
             this.Controls.Add(this.checkBoxTransmitterEnable);
-            this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.labelMessageFrequencySettings);
             this.Controls.Add(this.panelMessageFreqSettings);
             this.Controls.Add(this.labelGeneralSettings);
@@ -2486,11 +2911,7 @@
             this.Controls.Add(this.textBoxOperatingMode);
             this.Controls.Add(this.numericUpDownCurrentThresholdLow);
             this.Controls.Add(this.labelCurrentThresholdLow);
-            this.Controls.Add(this.buttonRestoreDefaults);
             this.Controls.Add(this.labelErrorLabel);
-            this.Controls.Add(this.buttonRQ);
-            this.Controls.Add(this.buttonTX);
-            this.Controls.Add(this.grpBox_TXcommands);
             this.Controls.Add(this.panel_TXco);
             this.Name = "ucTransmitter";
             this.Size = new System.Drawing.Size(939, 621);
@@ -2537,6 +2958,15 @@
             this.panelFlagSettingA.ResumeLayout(false);
             this.panelFlagSettingA.PerformLayout();
             this.tabPageDNP.ResumeLayout(false);
+            this.grpBx_DNPSettings.ResumeLayout(false);
+            this.grpBx_DNPSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolRetries)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFragmentSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2771,5 +3201,31 @@
         private System.Windows.Forms.Button btn_CTratioCal;
         public System.Windows.Forms.GroupBox grpBox_TXcommands;
         private System.Windows.Forms.Panel panel_TXco;
+        public System.Windows.Forms.GroupBox grpBx_DNPSettings;
+        public System.Windows.Forms.Button buttonSendAllDNPSettings;
+        private System.Windows.Forms.ComboBox comboBoxDNPBaudRate;
+        private System.Windows.Forms.Label labelBaudRate;
+        private System.Windows.Forms.Label labelLinkLayerConfirm;
+        private System.Windows.Forms.ComboBox comboBoxLinkLayerConfirm;
+        private System.Windows.Forms.Label labelSelfAddress;
+        private System.Windows.Forms.ComboBox comboBoxSelfAddress;
+        private System.Windows.Forms.Label labelUnsolResponse;
+        private System.Windows.Forms.ComboBox comboBoxUnsolResponse;
+        private System.Windows.Forms.ComboBox comboBoxTerminationResistor;
+        private System.Windows.Forms.Label labelUnsolTimeout;
+        private System.Windows.Forms.Label labelTerminationResistor;
+        private System.Windows.Forms.NumericUpDown numericUpDownUnsolTimeout;
+        private System.Windows.Forms.NumericUpDown numericUpDownUnsolRetries;
+        private System.Windows.Forms.Label labelFragmentSize;
+        private System.Windows.Forms.Label labelUnsolRetries;
+        private System.Windows.Forms.NumericUpDown numericUpDownFragmentSize;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxEvents;
+        private System.Windows.Forms.Label labelSourceAddress;
+        private System.Windows.Forms.Label labelMaxEvents;
+        private System.Windows.Forms.NumericUpDown numericUpDownSourceAddress;
+        private System.Windows.Forms.NumericUpDown numericUpDownDestinationAddress;
+        private System.Windows.Forms.Label labelDestinationAddress;
+        private System.Windows.Forms.Label labelMemphisStage;
+        private System.Windows.Forms.NumericUpDown numericUpDownMemphisStage;
     }
 }

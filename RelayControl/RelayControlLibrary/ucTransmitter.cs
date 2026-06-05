@@ -99,10 +99,10 @@ namespace RelayControlLibrary
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(650, 10); 
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 603); //(220, 610);
-            this.panel_TXco.Location = new System.Drawing.Point(648, 9); 
-            this.panel_TXco.Size = new System.Drawing.Size(226, 608); //(226, 615);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(650, 19); //(650, 10); 
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594); //(220, 603); 
+            this.panel_TXco.Location = new System.Drawing.Point(648, 18); //(648, 9); 
+            this.panel_TXco.Size = new System.Drawing.Size(226, 599); //(226, 615);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
             this.panelFlagSettings.Location = new System.Drawing.Point(400, 18); 
@@ -171,6 +171,11 @@ namespace RelayControlLibrary
             this.textBoxSerialNumber.Location = new System.Drawing.Point(170, 200);
             this.label1.Location = new System.Drawing.Point(33, 80);
             this.textBoxID.Location = new System.Drawing.Point(170, 78);
+
+            // DNP Comm settings groupBox ==============================================
+            this.grpBx_DNPSettings.Location = new System.Drawing.Point(987, 19);
+            this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 594);
+            // DNP Comm settings groupBox ==============================================
 
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
