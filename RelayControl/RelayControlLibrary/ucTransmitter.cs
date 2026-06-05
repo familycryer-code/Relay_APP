@@ -99,13 +99,13 @@ namespace RelayControlLibrary
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(1000, 10); 
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(650, 10); //(1000, 10); 
             this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 610);
-            this.panel_TXco.Location = new System.Drawing.Point(998, 9);
+            this.panel_TXco.Location = new System.Drawing.Point(648, 9); //(998, 9);
             this.panel_TXco.Size = new System.Drawing.Size(226, 615);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
-            this.panelFlagSettings.Location = new System.Drawing.Point(600, 18); 
+            this.panelFlagSettings.Location = new System.Drawing.Point(400, 18); //(600, 18); 
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);

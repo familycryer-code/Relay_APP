@@ -864,7 +864,7 @@
             this.panelGeneralSettings.Controls.Add(this.labelTXCTRatio);
             this.panelGeneralSettings.Controls.Add(this.panelFreqPanel);
             this.panelGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelGeneralSettings.Location = new System.Drawing.Point(52, 18);
+            this.panelGeneralSettings.Location = new System.Drawing.Point(22, 18); //(52, 18);
             this.panelGeneralSettings.Name = "panelGeneralSettings";
             this.panelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 276);
@@ -2360,7 +2360,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(604, 9);
+            this.label21.Location = new System.Drawing.Point(404, 9); //(604, 9);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(115, 19);
