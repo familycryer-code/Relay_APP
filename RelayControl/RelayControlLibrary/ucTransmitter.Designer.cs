@@ -2529,6 +2529,7 @@
             this.buttonSendAllDNPSettings.TabIndex = 32;
             this.buttonSendAllDNPSettings.Text = "Apply";
             this.buttonSendAllDNPSettings.UseVisualStyleBackColor = true;
+            this.buttonSendAllDNPSettings.Click += new System.EventHandler(this.buttonSendAllDNPSettings_Click);
             // 
             // comboBoxDNPBaudRate
             // 

@@ -2307,5 +2307,109 @@ namespace RelayControlLibrary
             this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
 #endif
         }
+
+        private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
+        {
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
+
+            this.SendAllDNPSettings();
+        }
+        private static int _DNPpacketLength = 98;
+        private void SendAllDNPSettings()
+        {
+           // MessageBox.Show("send dnp settings to master processor"); // Only for testing - to be removed
+            try
+            {
+                SendEventArgs sEA = new SendEventArgs(_DNPpacketLength);
+                byte tempByte = 0;
+                UInt32 tempInt32;
+                   MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
+                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
+                sEA.SendPacket[1] = (byte)'a';        //For set all
+
+                //Setting the command bits 0 - 6
+                if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
+                    tempByte = 2;
+                else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Sometimes")
+                    tempByte = 1;
+                else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Never")
+                    tempByte = 0;
+                else
+                    throw new Exception("Error Getting Value For Link Layer: " + this.comboBoxLinkLayerConfirm.SelectedItem.ToString());
+
+                if ((string)this.comboBoxSelfAddress.SelectedItem == "Enable")
+                    tempByte |= 4;
+                else if ((string)this.comboBoxSelfAddress.SelectedItem != "Disable")
+                    throw new Exception("Error Getting Value For Self Address: " + this.comboBoxSelfAddress.SelectedItem.ToString());
+
+                if ((string)this.comboBoxUnsolResponse.SelectedItem == "Enable")
+                    tempByte |= 8;
+                else if ((string)this.comboBoxUnsolResponse.SelectedItem != "Disable")
+                    throw new Exception("Error Getting Value For Unsolicited Response: " + this.comboBoxUnsolResponse.SelectedItem.ToString());
+
+                if ((string)this.comboBoxTerminationResistor.SelectedItem == "Enable")
+                    tempByte |= 16;
+                else if ((string)this.comboBoxTerminationResistor.SelectedItem != "Disable")
+                    throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem.ToString());
+
+                if (this.Customer == Customers.Memphis)
+                {
+                    tempByte &= 0x1F; //Clear the Memphis Stage Bits
+                    tempByte |= (byte)((int)this.numericUpDownMemphisStage.Value << 5); //Set them
+                }
+
+                sEA.SendPacket[3] = tempByte;
+
+                //Unsolicited Timeout
+                tempInt32 = (UInt32)this.numericUpDownUnsolTimeout.Value;
+
+                sEA.SendPacket[7] = (byte)tempInt32;
+                sEA.SendPacket[8] = (byte)(tempInt32 >> 8);
+                sEA.SendPacket[5] = (byte)(tempInt32 >> 16);
+                sEA.SendPacket[6] = (byte)(tempInt32 >> 24);
+
+                //Fragment Size
+                tempInt32 = (UInt32)this.numericUpDownFragmentSize.Value;
+                sEA.SendPacket[9] = (byte)tempInt32;
+                sEA.SendPacket[10] = (byte)(tempInt32 >> 8);
+
+                //Destination Address
+                tempInt32 = (UInt32)this.numericUpDownDestinationAddress.Value;
+                sEA.SendPacket[11] = (byte)tempInt32;
+                sEA.SendPacket[12] = (byte)(tempInt32 >> 8);
+
+                //Source Address
+                tempInt32 = (UInt32)this.numericUpDownSourceAddress.Value;
+                sEA.SendPacket[13] = (byte)tempInt32;
+                sEA.SendPacket[14] = (byte)(tempInt32 >> 8);
+
+                //Unsolicited Max Retries
+                tempInt32 = (UInt32)this.numericUpDownUnsolRetries.Value;
+                sEA.SendPacket[15] = (byte)tempInt32;
+                sEA.SendPacket[16] = (byte)(tempInt32 >> 8);
+
+                //Max Events
+                tempByte = (byte)this.numericUpDownMaxEvents.Value;
+                sEA.SendPacket[17] = tempByte;
+
+                // Baude Rate
+                sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudRate.SelectedIndex;
+
+                sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
+
+                this.Send(sEA);
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(ex);
+            }
+        }
+
+
+
     }
 }
