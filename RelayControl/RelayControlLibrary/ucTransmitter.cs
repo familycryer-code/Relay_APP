@@ -2409,7 +2409,29 @@ namespace RelayControlLibrary
             }
         }
 
+        private void buttonRQDNPSettings_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
+            //=====================Display throbber while parameters get requested from the master relay  =====================
+            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            //this.enableAll(false);
+            //========================================================================================================
 
+            try
+            {
+                SendEventArgs sEA = new SendEventArgs(3);
 
+                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPDataRequestOpCode;
+                sEA.SendPacket[1] = (byte)'U';
+                sEA.SendPacket[2] = 0x0D;
+
+                this.Send(sEA);
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(ex);
+            }
+        }
     }
 }

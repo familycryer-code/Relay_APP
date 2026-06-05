@@ -2881,6 +2881,7 @@
             this.buttonRQDNPSettings.TabIndex = 61;
             this.buttonRQDNPSettings.Text = "Read DNP Settings";
             this.buttonRQDNPSettings.UseVisualStyleBackColor = true;
+            this.buttonRQDNPSettings.Click += new System.EventHandler(this.buttonRQDNPSettings_Click);
             // 
             // groupBoxDNPStatus
             // 
