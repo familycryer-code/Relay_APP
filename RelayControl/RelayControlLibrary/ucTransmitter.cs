@@ -96,17 +96,17 @@ namespace RelayControlLibrary
             this.button_FastMode.Size = new System.Drawing.Size(184, 75);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(667, 550);  
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550); //(667, 550);  
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(650, 19); //(650, 10); 
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594); //(220, 603); 
-            this.panel_TXco.Location = new System.Drawing.Point(648, 18); //(648, 9); 
-            this.panel_TXco.Size = new System.Drawing.Size(226, 599); //(226, 615);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(715, 19); //(650, 19); 
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594); 
+            this.panel_TXco.Location = new System.Drawing.Point(713, 18); //(648, 18);  
+            this.panel_TXco.Size = new System.Drawing.Size(226, 599); 
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
-            this.panelFlagSettings.Location = new System.Drawing.Point(400, 18); 
+            this.panelFlagSettings.Location = new System.Drawing.Point(440, 18); //(400, 18); 
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
@@ -577,10 +577,10 @@ namespace RelayControlLibrary
                 this.panelAlarmSettings.Hide();
                 this.labelAlarmSettings.Hide();
 
-                this.buttonTX.Location = new Point(667, 55); //(1019, 40); 
-                this.buttonRQ.Location = new Point(667, 175); //(1019, 130); 
-                this.buttonForceConfigMessage.Location = new Point(667, 295); //(1019, 220);   
-                this.buttonRestoreDefaults.Location = new Point(667, 415); //(1019, 310);  
+                this.buttonTX.Location = new Point(732, 55); //(667, 55);  
+                this.buttonRQ.Location = new Point(732, 175); //(667, 175);  
+                this.buttonForceConfigMessage.Location = new Point(732, 295); //(667, 295);    
+                this.buttonRestoreDefaults.Location = new Point(732, 415); //(667, 415);   
 
                 this.buttonRQ.Size = new Size(184, 75);
                 this.buttonForceConfigMessage.Size = new Size(184, 75);
@@ -2360,7 +2360,7 @@ namespace RelayControlLibrary
                 if (this.Customer == Customers.Memphis)
                 {
                     tempByte &= 0x1F; //Clear the Memphis Stage Bits
-                    tempByte |= (byte)((int)this.numericUpDownMemphisStage.Value << 5); //Set them
+                    tempByte |= (byte)((int)this.numericUpDown_MemphisStage.Value << 5); //Set them
                 }
 
                 sEA.SendPacket[3] = tempByte;
@@ -2573,7 +2573,7 @@ namespace RelayControlLibrary
                 {
                     temp = (byte)(bytePacket[0] & 0xE0);
                     temp >>= 5;
-                    this.numericUpDownMemphisStage.Value = temp;
+                    this.numericUpDown_MemphisStage.Value = temp;
                 }
             }
             catch (Exception ex)
