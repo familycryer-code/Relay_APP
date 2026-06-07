@@ -215,12 +215,13 @@
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
             this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
             this.groupBoxDNPStatus = new System.Windows.Forms.GroupBox();
             this.labelDNPtext1 = new System.Windows.Forms.Label();
-            this.labelDNPStatusInidcation = new System.Windows.Forms.Label();
+            this.lbl_DNPCommStatus = new System.Windows.Forms.Label();
             this.buttonRQDNPSettings = new System.Windows.Forms.Button();
             this.btn_DNPsettings_defaults = new System.Windows.Forms.Button();
             this.buttonSendAllDNPSettings = new System.Windows.Forms.Button();
@@ -246,10 +247,9 @@
             this.numericUpDownSourceAddress = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownDestinationAddress = new System.Windows.Forms.NumericUpDown();
             this.labelDestinationAddress = new System.Windows.Forms.Label();
-            this.panel_dnpComSet = new System.Windows.Forms.Panel();
-            this.numericUpDown_MemphisStage = new System.Windows.Forms.NumericUpDown();
             this.label_MemphisStage = new System.Windows.Forms.Label();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
+            this.numericUpDown_MemphisStage = new System.Windows.Forms.NumericUpDown();
+            this.panel_dnpComSet = new System.Windows.Forms.Panel();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -985,7 +985,7 @@
             this.comboBoxAnalog2OU.Location = new System.Drawing.Point(61, 124);
             this.comboBoxAnalog2OU.Name = "comboBoxAnalog2OU";
             this.comboBoxAnalog2OU.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.comboBoxAnalog2OU.Size = new System.Drawing.Size(58, 21);
+            this.comboBoxAnalog2OU.Size = new System.Drawing.Size(58, 23);
             this.comboBoxAnalog2OU.TabIndex = 67;
             // 
             // comboBoxAnalog1OU
@@ -997,7 +997,7 @@
             this.comboBoxAnalog1OU.Location = new System.Drawing.Point(61, 100);
             this.comboBoxAnalog1OU.Name = "comboBoxAnalog1OU";
             this.comboBoxAnalog1OU.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.comboBoxAnalog1OU.Size = new System.Drawing.Size(58, 21);
+            this.comboBoxAnalog1OU.Size = new System.Drawing.Size(58, 23);
             this.comboBoxAnalog1OU.TabIndex = 66;
             // 
             // labelPump
@@ -2402,7 +2402,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(404, 9);
+            this.label21.Location = new System.Drawing.Point(454, 9); //(404, 9);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(142, 24);
@@ -2453,6 +2453,17 @@
             this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
+            // 
+            // ucDNP2
+            // 
+            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP2.DNPLabelStatus = false;
+            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
+            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucDNP2.Name = "ucDNP2";
+            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
+            this.ucDNP2.TabIndex = 0;
             // 
             // grpBox_TXcommands
             // 
@@ -2513,7 +2524,7 @@
             // groupBoxDNPStatus
             // 
             this.groupBoxDNPStatus.Controls.Add(this.labelDNPtext1);
-            this.groupBoxDNPStatus.Controls.Add(this.labelDNPStatusInidcation);
+            this.groupBoxDNPStatus.Controls.Add(this.lbl_DNPCommStatus);
             this.groupBoxDNPStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDNPStatus.Location = new System.Drawing.Point(84, 495);
             this.groupBoxDNPStatus.Name = "groupBoxDNPStatus";
@@ -2531,16 +2542,16 @@
             this.labelDNPtext1.TabIndex = 149;
             this.labelDNPtext1.Text = "Status";
             // 
-            // labelDNPStatusInidcation
+            // lbl_DNPCommStatus
             // 
-            this.labelDNPStatusInidcation.AutoSize = true;
-            this.labelDNPStatusInidcation.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.labelDNPStatusInidcation.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDNPStatusInidcation.Location = new System.Drawing.Point(60, 35);
-            this.labelDNPStatusInidcation.Name = "labelDNPStatusInidcation";
-            this.labelDNPStatusInidcation.Size = new System.Drawing.Size(92, 24);
-            this.labelDNPStatusInidcation.TabIndex = 150;
-            this.labelDNPStatusInidcation.Text = "Unknown";
+            this.lbl_DNPCommStatus.AutoSize = true;
+            this.lbl_DNPCommStatus.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.lbl_DNPCommStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_DNPCommStatus.Location = new System.Drawing.Point(60, 35);
+            this.lbl_DNPCommStatus.Name = "lbl_DNPCommStatus";
+            this.lbl_DNPCommStatus.Size = new System.Drawing.Size(92, 24);
+            this.lbl_DNPCommStatus.TabIndex = 150;
+            this.lbl_DNPCommStatus.Text = "Unknown";
             // 
             // buttonRQDNPSettings
             // 
@@ -2883,13 +2894,15 @@
             this.labelDestinationAddress.TabIndex = 18;
             this.labelDestinationAddress.Text = "Destination  (master):";
             // 
-            // panel_dnpComSet
+            // label_MemphisStage
             // 
-            this.panel_dnpComSet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_dnpComSet.Location = new System.Drawing.Point(402, 104);
-            this.panel_dnpComSet.Name = "panel_dnpComSet";
-            this.panel_dnpComSet.Size = new System.Drawing.Size(42, 39);
-            this.panel_dnpComSet.TabIndex = 91;
+            this.label_MemphisStage.AutoSize = true;
+            this.label_MemphisStage.Location = new System.Drawing.Point(66, 345);
+            this.label_MemphisStage.Name = "label_MemphisStage";
+            this.label_MemphisStage.Size = new System.Drawing.Size(153, 24);
+            this.label_MemphisStage.TabIndex = 33;
+            this.label_MemphisStage.Text = "Memphis Stage:";
+            this.label_MemphisStage.Visible = false;
             // 
             // numericUpDown_MemphisStage
             // 
@@ -2915,26 +2928,13 @@
             0});
             this.numericUpDown_MemphisStage.Visible = false;
             // 
-            // label_MemphisStage
+            // panel_dnpComSet
             // 
-            this.label_MemphisStage.AutoSize = true;
-            this.label_MemphisStage.Location = new System.Drawing.Point(66, 345);
-            this.label_MemphisStage.Name = "label_MemphisStage";
-            this.label_MemphisStage.Size = new System.Drawing.Size(153, 24);
-            this.label_MemphisStage.TabIndex = 33;
-            this.label_MemphisStage.Text = "Memphis Stage:";
-            this.label_MemphisStage.Visible = false;
-            // 
-            // ucDNP2
-            // 
-            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucDNP2.DNPLabelStatus = false;
-            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
-            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucDNP2.Name = "ucDNP2";
-            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
-            this.ucDNP2.TabIndex = 0;
+            this.panel_dnpComSet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_dnpComSet.Location = new System.Drawing.Point(402, 104);
+            this.panel_dnpComSet.Name = "panel_dnpComSet";
+            this.panel_dnpComSet.Size = new System.Drawing.Size(42, 39);
+            this.panel_dnpComSet.TabIndex = 91;
             // 
             // ucTransmitterMonitoring2
             // 
@@ -3307,7 +3307,7 @@
         public System.Windows.Forms.Button buttonRQDNPSettings;
         public System.Windows.Forms.GroupBox groupBoxDNPStatus;
         public System.Windows.Forms.Label labelDNPtext1;
-        public System.Windows.Forms.Label labelDNPStatusInidcation;
+        public System.Windows.Forms.Label lbl_DNPCommStatus;
         private System.Windows.Forms.Panel panel_dnpComSet;
         private System.Windows.Forms.Label label_MemphisStage;
         private System.Windows.Forms.NumericUpDown numericUpDown_MemphisStage;

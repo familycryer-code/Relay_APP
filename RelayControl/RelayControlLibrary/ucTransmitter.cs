@@ -2457,6 +2457,31 @@ namespace RelayControlLibrary
             }
         }
 
+        private bool dNPCommStatus = false;
+        public bool DNPCommLabelStatus
+        {
+            get { return this.dNPCommStatus; }
+            set
+            {
+                this.dNPCommStatus = value;
+                this.setDNPCommunicationStatus();
+            }
+        }
+
+        void setDNPCommunicationStatus()
+        {
+            if (dNPCommStatus == true)
+            {
+                this.lbl_DNPCommStatus.Text = "Enabled";
+                this.lbl_DNPCommStatus.BackColor = Color.SkyBlue;
+            }
+            else
+            {
+                this.lbl_DNPCommStatus.Text = "Disabled";
+                this.lbl_DNPCommStatus.BackColor = Color.LightSalmon;
+            }
+        }
+
         private string dNPErrorMsg = "Please Verify all DNP Settings";
 
         private void setDNPsettings(byte[] bytePacket)

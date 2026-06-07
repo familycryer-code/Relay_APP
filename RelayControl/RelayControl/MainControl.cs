@@ -922,8 +922,8 @@ namespace RelayControl
 #endif
                 //#if (!DIGITALGRID || DIGITALGRIDDNP)
 #if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX || PSEG)
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Add(this.tabPageDNP);
+              //  if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+              //      this.tabControlMain.TabPages.Add(this.tabPageDNP);
                // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
                //     this.tabControlMain.TabPages.Add(this.tabPageDNPData);
                // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
@@ -950,7 +950,8 @@ namespace RelayControl
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                                
+                this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+
                 // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
                 foreach (Control child in groupBox_RelayInfo.Controls)
@@ -1957,6 +1958,7 @@ namespace RelayControl
                     this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+                    this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
 
                     break;
                 case RelayProgrammingSendCommands.RawData:
@@ -2044,7 +2046,7 @@ namespace RelayControl
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-
+                this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
             }
         }
 
@@ -6143,7 +6145,7 @@ namespace RelayControl
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-
+            this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
         private void requestTransmitterSettings()
@@ -6159,7 +6161,7 @@ namespace RelayControl
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-
+            this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
         }
 
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)
