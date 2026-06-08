@@ -577,15 +577,15 @@ namespace RelayControlLibrary
                 this.panelAlarmSettings.Hide();
                 this.labelAlarmSettings.Hide();
 
-                this.buttonTX.Location = new Point(732, 55); //(667, 55);  
-                this.buttonRQ.Location = new Point(732, 175); //(667, 175);  
-                this.buttonForceConfigMessage.Location = new Point(732, 295); //(667, 295);    
-                this.buttonRestoreDefaults.Location = new Point(732, 415); //(667, 415);   
+                this.buttonTX.Location = new Point(732, 175); //(732, 55);   
+                this.buttonRQ.Location = new Point(732, 295); //(732, 175);   
+                this.buttonForceConfigMessage.Location = new Point(732, 415); //(732, 295);     
+                this.buttonRestoreDefaults.Location = new Point(732, 55); //(732, 415);  
 
                 this.buttonRQ.Size = new Size(184, 75);
                 this.buttonForceConfigMessage.Size = new Size(184, 75);
                 this.buttonRestoreDefaults.Size = new Size(184, 75);
-                // this.panelFlagSettings.Size = new Size(242, 217);
+                
 #endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();

@@ -760,7 +760,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.5" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.17" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.18" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " EVERSOURCE ";                
 #elif ONCOR
@@ -9171,7 +9171,7 @@ namespace RelayControl
                 if (this.DNPEnabled)
                 {
 #if DNP || DEBUG
-                    this.ucDNP1.SetAll(bytePacket);
+                   // this.ucDNP1.SetAll(bytePacket);
                     this.ucTransmitter1.SetAll(bytePacket);
 #endif
                 }
