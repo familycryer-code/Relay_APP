@@ -519,7 +519,7 @@
             // 
             // timerSCITimeOut
             // 
-            this.timerSCITimeOut.Interval = 1000;
+            this.timerSCITimeOut.Interval = 10000;// 1000;
             this.timerSCITimeOut.Tick += new System.EventHandler(this.timerSCITimeOut_Tick);
             // 
             // timerCheckPortTime
