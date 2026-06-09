@@ -170,8 +170,8 @@ namespace RelayControl
                     {
                         //#if !LONDONH
 #if !LONDONH && !DIGITALGRID && !DOMINION
-                        this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                        this.tabControlMain.TabPages.Add(this.tabPageDNPData);
+                       // this.tabControlMain.TabPages.Add(this.tabPageDNP);
+                       // this.tabControlMain.TabPages.Add(this.tabPageDNPData);
 #endif
                     }
                     if (this.customer != Customers.Memphis)
@@ -200,7 +200,7 @@ namespace RelayControl
                             //#if !LONDONH && !DIGITALGRID
 #if !LONDONH && !DIGITALGRID && !DOMINION
                             //MessageBox.Show("add DNPSAv5 tabs"); // Only for testing - to be removed
-                            this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
+                            //this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
                         }
                     }
@@ -237,7 +237,7 @@ namespace RelayControl
             //#if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX)
 #if (((!DIGITALGRID || ONCOR) && !DOMINION) || ENMAX || PSEG)
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
-            this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
+          //  this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
             this.dNPDIGITALGRIDData.Location = new Point(0, 0);
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
