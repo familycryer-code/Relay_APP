@@ -519,7 +519,7 @@
             // 
             // timerSCITimeOut
             // 
-            this.timerSCITimeOut.Interval = 10000;// 1000;
+            this.timerSCITimeOut.Interval = 10000;
             this.timerSCITimeOut.Tick += new System.EventHandler(this.timerSCITimeOut_Tick);
             // 
             // timerCheckPortTime
@@ -577,9 +577,9 @@
             this.tabPageTransmitterMonitoring.Controls.Add(this.ucTransmitterMonitoring1);
             this.tabPageTransmitterMonitoring.Controls.Add(this.labelRelayDisconnected2);
             this.tabPageTransmitterMonitoring.Location = new System.Drawing.Point(4, 27);
-            this.tabPageTransmitterMonitoring.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageTransmitterMonitoring.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageTransmitterMonitoring.Name = "tabPageTransmitterMonitoring";
-            this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageTransmitterMonitoring.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageTransmitterMonitoring.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageTransmitterMonitoring.TabIndex = 8;
             this.tabPageTransmitterMonitoring.Text = "Sensor Monitoring";
@@ -593,7 +593,7 @@
             this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
             this.ucTransmitterMonitoring1.GEEnabled = false;
             this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(5, 0);
-            this.ucTransmitterMonitoring1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucTransmitterMonitoring1.Margin = new System.Windows.Forms.Padding(5);
             this.ucTransmitterMonitoring1.Name = "ucTransmitterMonitoring1";
             this.ucTransmitterMonitoring1.Size = new System.Drawing.Size(1892, 1025);
             this.ucTransmitterMonitoring1.TabIndex = 86;
@@ -973,9 +973,9 @@
             this.tabPageEvents.Controls.Add(this.ucEventGraph1);
             this.tabPageEvents.Controls.Add(this.ucEventGraph0);
             this.tabPageEvents.Location = new System.Drawing.Point(4, 27);
-            this.tabPageEvents.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageEvents.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageEvents.Name = "tabPageEvents";
-            this.tabPageEvents.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageEvents.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageEvents.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageEvents.TabIndex = 6;
             this.tabPageEvents.Text = "Events";
@@ -985,7 +985,7 @@
             // 
             this.buttonClearEvents.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonClearEvents.Location = new System.Drawing.Point(1360, 6);
-            this.buttonClearEvents.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonClearEvents.Margin = new System.Windows.Forms.Padding(5);
             this.buttonClearEvents.Name = "buttonClearEvents";
             this.buttonClearEvents.Size = new System.Drawing.Size(194, 39);
             this.buttonClearEvents.TabIndex = 10;
@@ -997,7 +997,7 @@
             // 
             this.buttonRQEventData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRQEventData.Location = new System.Drawing.Point(1595, 6);
-            this.buttonRQEventData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonRQEventData.Margin = new System.Windows.Forms.Padding(5);
             this.buttonRQEventData.Name = "buttonRQEventData";
             this.buttonRQEventData.Size = new System.Drawing.Size(194, 39);
             this.buttonRQEventData.TabIndex = 9;
@@ -1017,7 +1017,7 @@
             this.panelEventSelect.Controls.Add(this.radioButtonEvent0);
             this.panelEventSelect.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEventSelect.Location = new System.Drawing.Point(5, 0);
-            this.panelEventSelect.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.panelEventSelect.Margin = new System.Windows.Forms.Padding(5);
             this.panelEventSelect.Name = "panelEventSelect";
             this.panelEventSelect.Size = new System.Drawing.Size(1032, 48);
             this.panelEventSelect.TabIndex = 1;
@@ -1027,7 +1027,7 @@
             this.radioButtonEvent7.AutoSize = true;
             this.radioButtonEvent7.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent7.Location = new System.Drawing.Point(938, 10);
-            this.radioButtonEvent7.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent7.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent7.Name = "radioButtonEvent7";
             this.radioButtonEvent7.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent7.TabIndex = 7;
@@ -1041,7 +1041,7 @@
             this.radioButtonEvent6.AutoSize = true;
             this.radioButtonEvent6.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent6.Location = new System.Drawing.Point(805, 10);
-            this.radioButtonEvent6.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent6.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent6.Name = "radioButtonEvent6";
             this.radioButtonEvent6.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent6.TabIndex = 6;
@@ -1055,7 +1055,7 @@
             this.radioButtonEvent5.AutoSize = true;
             this.radioButtonEvent5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent5.Location = new System.Drawing.Point(672, 10);
-            this.radioButtonEvent5.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent5.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent5.Name = "radioButtonEvent5";
             this.radioButtonEvent5.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent5.TabIndex = 5;
@@ -1069,7 +1069,7 @@
             this.radioButtonEvent4.AutoSize = true;
             this.radioButtonEvent4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent4.Location = new System.Drawing.Point(539, 10);
-            this.radioButtonEvent4.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent4.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent4.Name = "radioButtonEvent4";
             this.radioButtonEvent4.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent4.TabIndex = 4;
@@ -1083,7 +1083,7 @@
             this.radioButtonEvent3.AutoSize = true;
             this.radioButtonEvent3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent3.Location = new System.Drawing.Point(408, 10);
-            this.radioButtonEvent3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent3.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent3.Name = "radioButtonEvent3";
             this.radioButtonEvent3.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent3.TabIndex = 3;
@@ -1097,7 +1097,7 @@
             this.radioButtonEvent2.AutoSize = true;
             this.radioButtonEvent2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent2.Location = new System.Drawing.Point(275, 10);
-            this.radioButtonEvent2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent2.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent2.Name = "radioButtonEvent2";
             this.radioButtonEvent2.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent2.TabIndex = 2;
@@ -1111,7 +1111,7 @@
             this.radioButtonEvent1.AutoSize = true;
             this.radioButtonEvent1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent1.Location = new System.Drawing.Point(141, 10);
-            this.radioButtonEvent1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent1.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent1.Name = "radioButtonEvent1";
             this.radioButtonEvent1.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent1.TabIndex = 1;
@@ -1125,7 +1125,7 @@
             this.radioButtonEvent0.AutoSize = true;
             this.radioButtonEvent0.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonEvent0.Location = new System.Drawing.Point(9, 10);
-            this.radioButtonEvent0.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radioButtonEvent0.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonEvent0.Name = "radioButtonEvent0";
             this.radioButtonEvent0.Size = new System.Drawing.Size(98, 28);
             this.radioButtonEvent0.TabIndex = 0;
@@ -1144,7 +1144,7 @@
             this.ucEventGraph7.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph7.GEEnabled = false;
             this.ucEventGraph7.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.ucEventGraph7.Margin = new System.Windows.Forms.Padding(6);
             this.ucEventGraph7.Name = "ucEventGraph7";
             this.ucEventGraph7.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph7.TabIndex = 8;
@@ -1160,7 +1160,7 @@
             this.ucEventGraph6.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph6.GEEnabled = false;
             this.ucEventGraph6.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph6.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph6.Name = "ucEventGraph6";
             this.ucEventGraph6.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph6.TabIndex = 7;
@@ -1176,7 +1176,7 @@
             this.ucEventGraph5.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph5.GEEnabled = false;
             this.ucEventGraph5.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph5.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph5.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph5.Name = "ucEventGraph5";
             this.ucEventGraph5.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph5.TabIndex = 6;
@@ -1192,7 +1192,7 @@
             this.ucEventGraph4.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph4.GEEnabled = false;
             this.ucEventGraph4.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph4.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph4.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph4.Name = "ucEventGraph4";
             this.ucEventGraph4.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph4.TabIndex = 5;
@@ -1208,7 +1208,7 @@
             this.ucEventGraph3.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph3.GEEnabled = false;
             this.ucEventGraph3.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph3.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph3.Name = "ucEventGraph3";
             this.ucEventGraph3.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph3.TabIndex = 4;
@@ -1224,7 +1224,7 @@
             this.ucEventGraph2.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph2.GEEnabled = false;
             this.ucEventGraph2.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph2.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph2.Name = "ucEventGraph2";
             this.ucEventGraph2.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph2.TabIndex = 3;
@@ -1240,7 +1240,7 @@
             this.ucEventGraph1.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph1.GEEnabled = false;
             this.ucEventGraph1.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph1.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph1.Name = "ucEventGraph1";
             this.ucEventGraph1.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph1.TabIndex = 2;
@@ -1256,7 +1256,7 @@
             this.ucEventGraph0.EventTime = new System.DateTime(((long)(0)));
             this.ucEventGraph0.GEEnabled = false;
             this.ucEventGraph0.Location = new System.Drawing.Point(0, 48);
-            this.ucEventGraph0.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucEventGraph0.Margin = new System.Windows.Forms.Padding(5);
             this.ucEventGraph0.Name = "ucEventGraph0";
             this.ucEventGraph0.Size = new System.Drawing.Size(1894, 855);
             this.ucEventGraph0.TabIndex = 0;
@@ -1266,7 +1266,7 @@
             // 
             this.buttonReqLiveData.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonReqLiveData.Location = new System.Drawing.Point(1239, 0);
-            this.buttonReqLiveData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonReqLiveData.Margin = new System.Windows.Forms.Padding(5);
             this.buttonReqLiveData.Name = "buttonReqLiveData";
             this.buttonReqLiveData.Size = new System.Drawing.Size(194, 30);
             this.buttonReqLiveData.TabIndex = 0;
@@ -1282,9 +1282,9 @@
             this.tabPageFlightRecorder.Controls.Add(this.labelLiveDataTriggerTime);
             this.tabPageFlightRecorder.Controls.Add(this.ucLiveData1);
             this.tabPageFlightRecorder.Location = new System.Drawing.Point(4, 27);
-            this.tabPageFlightRecorder.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageFlightRecorder.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageFlightRecorder.Name = "tabPageFlightRecorder";
-            this.tabPageFlightRecorder.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageFlightRecorder.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageFlightRecorder.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageFlightRecorder.TabIndex = 5;
             this.tabPageFlightRecorder.Text = "Live Event Data";
@@ -1307,7 +1307,7 @@
             this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucLiveData1.GEEnabled = false;
             this.ucLiveData1.Location = new System.Drawing.Point(0, 31);
-            this.ucLiveData1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucLiveData1.Margin = new System.Windows.Forms.Padding(5);
             this.ucLiveData1.Name = "ucLiveData1";
             this.ucLiveData1.Size = new System.Drawing.Size(1900, 869);
             this.ucLiveData1.TabIndex = 0;
@@ -1318,25 +1318,26 @@
             this.tabPageTransmitter.Controls.Add(this.ucTransmitter1);
             this.tabPageTransmitter.Controls.Add(this.labelRelayDisconnected3);
             this.tabPageTransmitter.Location = new System.Drawing.Point(4, 27);
-            this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageTransmitter.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageTransmitter.Name = "tabPageTransmitter";
-            this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageTransmitter.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageTransmitter.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageTransmitter.TabIndex = 2;
-            this.tabPageTransmitter.Text = "Transmission Settings";
+            this.tabPageTransmitter.Text = "Communication Settings";
             // 
             // ucTransmitter1
             // 
             this.ucTransmitter1.BackColor = System.Drawing.SystemColors.Control;
             this.ucTransmitter1.CTRatio = ((uint)(320u));
             this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitter1.DNPCommLabelStatus = false;
             this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
             this.ucTransmitter1.DNPEnabled = false;
             this.ucTransmitter1.ForceDNPEnable = false;
             this.ucTransmitter1.FPGARevisionValid = true;
             this.ucTransmitter1.GERelay = false;
             this.ucTransmitter1.Location = new System.Drawing.Point(11, -5);
-            this.ucTransmitter1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucTransmitter1.Margin = new System.Windows.Forms.Padding(5);
             this.ucTransmitter1.Name = "ucTransmitter1";
             this.ucTransmitter1.PacketLength = 30;
             this.ucTransmitter1.SerialNumber = 0;
@@ -1370,9 +1371,9 @@
             this.tabPageMonitor.Controls.Add(this.buttonToggleMonitor);
             this.tabPageMonitor.Controls.Add(this.ucPhasorGraph1);
             this.tabPageMonitor.Location = new System.Drawing.Point(4, 27);
-            this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageMonitor.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageMonitor.Name = "tabPageMonitor";
-            this.tabPageMonitor.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageMonitor.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageMonitor.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageMonitor.TabIndex = 1;
             this.tabPageMonitor.Text = "PQ Monitor";
@@ -1381,7 +1382,7 @@
             // 
             this.labelSNPQMonitor.AutoSize = true;
             this.labelSNPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSNPQMonitor.Location = new System.Drawing.Point(1545, 578); //(1525, 578);
+            this.labelSNPQMonitor.Location = new System.Drawing.Point(1545, 578);
             this.labelSNPQMonitor.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelSNPQMonitor.Name = "labelSNPQMonitor";
             this.labelSNPQMonitor.Size = new System.Drawing.Size(198, 24);
@@ -1392,7 +1393,7 @@
             // 
             this.labelCtRatioMonitor.AutoSize = true;
             this.labelCtRatioMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1635, 652); //(1625, 652);
+            this.labelCtRatioMonitor.Location = new System.Drawing.Point(1635, 652);
             this.labelCtRatioMonitor.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelCtRatioMonitor.Name = "labelCtRatioMonitor";
             this.labelCtRatioMonitor.Size = new System.Drawing.Size(93, 24);
@@ -1402,8 +1403,8 @@
             // textBoxRelaySNControlPQ
             // 
             this.textBoxRelaySNControlPQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1745, 575); //(1750, 575);
-            this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxRelaySNControlPQ.Location = new System.Drawing.Point(1745, 575);
+            this.textBoxRelaySNControlPQ.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxRelaySNControlPQ.MaxLength = 5;
             this.textBoxRelaySNControlPQ.Name = "textBoxRelaySNControlPQ";
             this.textBoxRelaySNControlPQ.ReadOnly = true;
@@ -1416,8 +1417,8 @@
             // 
             this.textBoxCTRatioPQMonitor.Enabled = false;
             this.textBoxCTRatioPQMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1745, 652); //(1750, 652);
-            this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxCTRatioPQMonitor.Location = new System.Drawing.Point(1745, 652);
+            this.textBoxCTRatioPQMonitor.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxCTRatioPQMonitor.Name = "textBoxCTRatioPQMonitor";
             this.textBoxCTRatioPQMonitor.ReadOnly = true;
             this.textBoxCTRatioPQMonitor.Size = new System.Drawing.Size(93, 32);
@@ -1431,8 +1432,8 @@
             this.checkBoxInTripRegion.AutoSize = true;
             this.checkBoxInTripRegion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxInTripRegion.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxInTripRegion.Location = new System.Drawing.Point(700, 25); //(556, 25);
-            this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxInTripRegion.Location = new System.Drawing.Point(700, 25);
+            this.checkBoxInTripRegion.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxInTripRegion.Name = "checkBoxInTripRegion";
             this.checkBoxInTripRegion.Size = new System.Drawing.Size(158, 28);
             this.checkBoxInTripRegion.TabIndex = 49;
@@ -1442,7 +1443,7 @@
             // buttonUpdateCTRatio
             // 
             this.buttonUpdateCTRatio.Location = new System.Drawing.Point(992, 861);
-            this.buttonUpdateCTRatio.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonUpdateCTRatio.Margin = new System.Windows.Forms.Padding(5);
             this.buttonUpdateCTRatio.Name = "buttonUpdateCTRatio";
             this.buttonUpdateCTRatio.Size = new System.Drawing.Size(145, 32);
             this.buttonUpdateCTRatio.TabIndex = 44;
@@ -1454,8 +1455,8 @@
             // 
             this.labelRelayTrippedOrClose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelRelayTrippedOrClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1590, 370); //(1600, 438);
-            this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.labelRelayTrippedOrClose.Location = new System.Drawing.Point(1590, 370);
+            this.labelRelayTrippedOrClose.Margin = new System.Windows.Forms.Padding(5);
             this.labelRelayTrippedOrClose.Name = "labelRelayTrippedOrClose";
             this.labelRelayTrippedOrClose.Padding = new System.Windows.Forms.Padding(1);
             this.labelRelayTrippedOrClose.Size = new System.Drawing.Size(206, 39);
@@ -1466,8 +1467,8 @@
             // buttonToggleMonitor
             // 
             this.buttonToggleMonitor.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonToggleMonitor.Location = new System.Drawing.Point(1590, 450); //(1600, 500);
-            this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonToggleMonitor.Location = new System.Drawing.Point(1590, 450);
+            this.buttonToggleMonitor.Margin = new System.Windows.Forms.Padding(5);
             this.buttonToggleMonitor.Name = "buttonToggleMonitor";
             this.buttonToggleMonitor.Size = new System.Drawing.Size(206, 39);
             this.buttonToggleMonitor.TabIndex = 35;
@@ -1479,7 +1480,7 @@
             // 
             this.ucPhasorGraph1.BackColor = System.Drawing.SystemColors.Control;
             this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
-            this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(5);
             this.ucPhasorGraph1.Name = "ucPhasorGraph1";
             this.ucPhasorGraph1.RealTimeMonitoring = false;
             this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
@@ -1529,9 +1530,9 @@
             this.tabPageControl.Controls.Add(this.panel_NWsettings);
             this.tabPageControl.Controls.Add(this.panelPCsettings);
             this.tabPageControl.Location = new System.Drawing.Point(4, 27);
-            this.tabPageControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageControl.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageControl.Name = "tabPageControl";
-            this.tabPageControl.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageControl.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageControl.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
@@ -1555,9 +1556,9 @@
             this.groupBox_PC.Controls.Add(this.btn_RestorePC_defaults);
             this.groupBox_PC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_PC.Location = new System.Drawing.Point(1244, 475);
-            this.groupBox_PC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_PC.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_PC.Name = "groupBox_PC";
-            this.groupBox_PC.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_PC.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox_PC.Size = new System.Drawing.Size(425, 431);
             this.groupBox_PC.TabIndex = 122;
             this.groupBox_PC.TabStop = false;
@@ -1566,7 +1567,7 @@
             // btn_PC_Send
             // 
             this.btn_PC_Send.Location = new System.Drawing.Point(349, 345);
-            this.btn_PC_Send.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PC_Send.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PC_Send.Name = "btn_PC_Send";
             this.btn_PC_Send.Size = new System.Drawing.Size(100, 34);
             this.btn_PC_Send.TabIndex = 14;
@@ -1603,7 +1604,7 @@
             "Enable",
             "Disable"});
             this.comboBox_PC.Location = new System.Drawing.Point(204, 281);
-            this.comboBox_PC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_PC.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_PC.Name = "comboBox_PC";
             this.comboBox_PC.Size = new System.Drawing.Size(95, 32);
             this.comboBox_PC.TabIndex = 11;
@@ -1622,7 +1623,7 @@
             // numericUpDown_PC_voltage
             // 
             this.numericUpDown_PC_voltage.Location = new System.Drawing.Point(222, 195);
-            this.numericUpDown_PC_voltage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown_PC_voltage.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_PC_voltage.Maximum = new decimal(new int[] {
             10,
             0,
@@ -1646,7 +1647,7 @@
             // numericUpDown_PC_activeTime
             // 
             this.numericUpDown_PC_activeTime.Location = new System.Drawing.Point(222, 131);
-            this.numericUpDown_PC_activeTime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown_PC_activeTime.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_PC_activeTime.Maximum = new decimal(new int[] {
             120,
             0,
@@ -1720,7 +1721,7 @@
             // numericUpDown_PC_floatTime
             // 
             this.numericUpDown_PC_floatTime.Location = new System.Drawing.Point(222, 62);
-            this.numericUpDown_PC_floatTime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown_PC_floatTime.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_PC_floatTime.Maximum = new decimal(new int[] {
             144,
             0,
@@ -1754,7 +1755,7 @@
             // btn_RestorePC_defaults
             // 
             this.btn_RestorePC_defaults.Location = new System.Drawing.Point(34, 345);
-            this.btn_RestorePC_defaults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_RestorePC_defaults.Margin = new System.Windows.Forms.Padding(4);
             this.btn_RestorePC_defaults.Name = "btn_RestorePC_defaults";
             this.btn_RestorePC_defaults.Size = new System.Drawing.Size(169, 35);
             this.btn_RestorePC_defaults.TabIndex = 0;
@@ -1766,7 +1767,7 @@
             // 
             this.textBoxSaveStateName.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxSaveStateName.Location = new System.Drawing.Point(1079, 934);
-            this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxSaveStateName.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxSaveStateName.Name = "textBoxSaveStateName";
             this.textBoxSaveStateName.Size = new System.Drawing.Size(210, 32);
             this.textBoxSaveStateName.TabIndex = 130;
@@ -1775,7 +1776,7 @@
             // 
             this.buttonSaveSetting.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSaveSetting.Location = new System.Drawing.Point(1260, 934);
-            this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonSaveSetting.Margin = new System.Windows.Forms.Padding(5);
             this.buttonSaveSetting.Name = "buttonSaveSetting";
             this.buttonSaveSetting.Size = new System.Drawing.Size(211, 35);
             this.buttonSaveSetting.TabIndex = 129;
@@ -1788,16 +1789,19 @@
             this.comboBoxSavedStates.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxSavedStates.FormattingEnabled = true;
             this.comboBoxSavedStates.Location = new System.Drawing.Point(1079, 894);
-            this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.comboBoxSavedStates.Margin = new System.Windows.Forms.Padding(5);
             this.comboBoxSavedStates.Name = "comboBoxSavedStates";
             this.comboBoxSavedStates.Size = new System.Drawing.Size(210, 32);
             this.comboBoxSavedStates.TabIndex = 127;
+            this.comboBoxSavedStates.DropDown += new System.EventHandler(this.comboBoxSavedStates_DropDown);
+            this.comboBoxSavedStates.SelectedIndexChanged += new System.EventHandler(this.comboBoxSavedStates_SelectedIndexChanged);
+            this.comboBoxSavedStates.DropDownClosed += new System.EventHandler(this.comboBoxSavedStates_DropDownClosed);
             // 
             // buttonDeleteSetting
             // 
             this.buttonDeleteSetting.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonDeleteSetting.Location = new System.Drawing.Point(1260, 891);
-            this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonDeleteSetting.Margin = new System.Windows.Forms.Padding(5);
             this.buttonDeleteSetting.Name = "buttonDeleteSetting";
             this.buttonDeleteSetting.Size = new System.Drawing.Size(211, 35);
             this.buttonDeleteSetting.TabIndex = 128;
@@ -1809,7 +1813,7 @@
             // 
             this.button_push.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_push.Location = new System.Drawing.Point(968, 925);
-            this.button_push.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_push.Margin = new System.Windows.Forms.Padding(4);
             this.button_push.Name = "button_push";
             this.button_push.Size = new System.Drawing.Size(102, 45);
             this.button_push.TabIndex = 123;
@@ -1821,7 +1825,7 @@
             // 
             this.button_dataStore.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_dataStore.Location = new System.Drawing.Point(968, 879);
-            this.button_dataStore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_dataStore.Margin = new System.Windows.Forms.Padding(4);
             this.button_dataStore.Name = "button_dataStore";
             this.button_dataStore.Size = new System.Drawing.Size(102, 45);
             this.button_dataStore.TabIndex = 121;
@@ -1835,9 +1839,9 @@
             this.groupBoxLRLockoutMain.Controls.Add(this.textBoxLRLockoutStatusMain);
             this.groupBoxLRLockoutMain.Controls.Add(this.labelLRLockoutMain);
             this.groupBoxLRLockoutMain.Location = new System.Drawing.Point(725, 682);
-            this.groupBoxLRLockoutMain.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxLRLockoutMain.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxLRLockoutMain.Name = "groupBoxLRLockoutMain";
-            this.groupBoxLRLockoutMain.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxLRLockoutMain.Padding = new System.Windows.Forms.Padding(5);
             this.groupBoxLRLockoutMain.Size = new System.Drawing.Size(299, 70);
             this.groupBoxLRLockoutMain.TabIndex = 118;
             this.groupBoxLRLockoutMain.TabStop = false;
@@ -1847,7 +1851,7 @@
             // textBoxLRLockoutStatusMain
             // 
             this.textBoxLRLockoutStatusMain.Location = new System.Drawing.Point(180, 29);
-            this.textBoxLRLockoutStatusMain.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxLRLockoutStatusMain.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxLRLockoutStatusMain.Name = "textBoxLRLockoutStatusMain";
             this.textBoxLRLockoutStatusMain.Size = new System.Drawing.Size(149, 24);
             this.textBoxLRLockoutStatusMain.TabIndex = 1;
@@ -1869,9 +1873,9 @@
             this.groupBoxLowVoltThres.Controls.Add(this.numericUpDownLowVoltageThres);
             this.groupBoxLowVoltThres.Controls.Add(this.buttonSendLowVoltageThres);
             this.groupBoxLowVoltThres.Location = new System.Drawing.Point(1481, 840);
-            this.groupBoxLowVoltThres.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxLowVoltThres.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxLowVoltThres.Name = "groupBoxLowVoltThres";
-            this.groupBoxLowVoltThres.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxLowVoltThres.Padding = new System.Windows.Forms.Padding(5);
             this.groupBoxLowVoltThres.Size = new System.Drawing.Size(231, 126);
             this.groupBoxLowVoltThres.TabIndex = 117;
             this.groupBoxLowVoltThres.TabStop = false;
@@ -1881,7 +1885,7 @@
             // 
             this.buttonRequestLowVotlageThres.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRequestLowVotlageThres.Location = new System.Drawing.Point(10, 48);
-            this.buttonRequestLowVotlageThres.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonRequestLowVotlageThres.Margin = new System.Windows.Forms.Padding(5);
             this.buttonRequestLowVotlageThres.Name = "buttonRequestLowVotlageThres";
             this.buttonRequestLowVotlageThres.Size = new System.Drawing.Size(210, 32);
             this.buttonRequestLowVotlageThres.TabIndex = 116;
@@ -1892,7 +1896,7 @@
             // numericUpDownLowVoltageThres
             // 
             this.numericUpDownLowVoltageThres.Location = new System.Drawing.Point(21, 90);
-            this.numericUpDownLowVoltageThres.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.numericUpDownLowVoltageThres.Margin = new System.Windows.Forms.Padding(5);
             this.numericUpDownLowVoltageThres.Maximum = new decimal(new int[] {
             90,
             0,
@@ -1915,7 +1919,7 @@
             // buttonSendLowVoltageThres
             // 
             this.buttonSendLowVoltageThres.Location = new System.Drawing.Point(110, 85);
-            this.buttonSendLowVoltageThres.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonSendLowVoltageThres.Margin = new System.Windows.Forms.Padding(5);
             this.buttonSendLowVoltageThres.Name = "buttonSendLowVoltageThres";
             this.buttonSendLowVoltageThres.Size = new System.Drawing.Size(110, 32);
             this.buttonSendLowVoltageThres.TabIndex = 113;
@@ -1956,9 +1960,9 @@
             this.groupBoxNetworkCTRatio.Controls.Add(this.lbl_Phasing);
             this.groupBoxNetworkCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(25, 16);
-            this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
-            this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxNetworkCTRatio.Padding = new System.Windows.Forms.Padding(5);
             this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(469, 444);
             this.groupBoxNetworkCTRatio.TabIndex = 110;
             this.groupBoxNetworkCTRatio.TabStop = false;
@@ -1967,8 +1971,8 @@
             // buttonTypePhasingRestoreDefaults
             // 
             this.buttonTypePhasingRestoreDefaults.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(85, 390); //(75, 378);
-            this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonTypePhasingRestoreDefaults.Location = new System.Drawing.Point(85, 390);
+            this.buttonTypePhasingRestoreDefaults.Margin = new System.Windows.Forms.Padding(5);
             this.buttonTypePhasingRestoreDefaults.Name = "buttonTypePhasingRestoreDefaults";
             this.buttonTypePhasingRestoreDefaults.Size = new System.Drawing.Size(169, 35);
             this.buttonTypePhasingRestoreDefaults.TabIndex = 48;
@@ -2001,7 +2005,7 @@
             // 
             this.checkBox277DNPOutputs.AutoSize = true;
             this.checkBox277DNPOutputs.Location = new System.Drawing.Point(-11, 22);
-            this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBox277DNPOutputs.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox277DNPOutputs.Name = "checkBox277DNPOutputs";
             this.checkBox277DNPOutputs.Size = new System.Drawing.Size(286, 28);
             this.checkBox277DNPOutputs.TabIndex = 76;
@@ -2015,7 +2019,7 @@
             "125",
             "277"});
             this.comboBoxDNPVoltage.Location = new System.Drawing.Point(285, 109);
-            this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.comboBoxDNPVoltage.Margin = new System.Windows.Forms.Padding(5);
             this.comboBoxDNPVoltage.Name = "comboBoxDNPVoltage";
             this.comboBoxDNPVoltage.Size = new System.Drawing.Size(100, 32);
             this.comboBoxDNPVoltage.TabIndex = 77;
@@ -2038,7 +2042,7 @@
             "ABC : CAB : BCA",
             "CBA : BAC : ACB"});
             this.comboBox_Phasings.Location = new System.Drawing.Point(285, 245);
-            this.comboBox_Phasings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_Phasings.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_Phasings.Name = "comboBox_Phasings";
             this.comboBox_Phasings.Size = new System.Drawing.Size(200, 32);
             this.comboBox_Phasings.TabIndex = 80;
@@ -2057,7 +2061,7 @@
             "800:5",
             "Special"});
             this.comboBox_CTRatio.Location = new System.Drawing.Point(184, 302);
-            this.comboBox_CTRatio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_CTRatio.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_CTRatio.Name = "comboBox_CTRatio";
             this.comboBox_CTRatio.Size = new System.Drawing.Size(112, 32);
             this.comboBox_CTRatio.TabIndex = 74;
@@ -2071,7 +2075,7 @@
             "Power",
             "Sequence"});
             this.comboBox_RelayType.Location = new System.Drawing.Point(285, 175);
-            this.comboBox_RelayType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_RelayType.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_RelayType.Name = "comboBox_RelayType";
             this.comboBox_RelayType.Size = new System.Drawing.Size(112, 32);
             this.comboBox_RelayType.TabIndex = 79;
@@ -2110,8 +2114,8 @@
             // 
             // buttonSendCTRatio
             // 
-            this.buttonSendCTRatio.Location = new System.Drawing.Point(278, 390); //(265, 378);
-            this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonSendCTRatio.Location = new System.Drawing.Point(278, 390);
+            this.buttonSendCTRatio.Margin = new System.Windows.Forms.Padding(5);
             this.buttonSendCTRatio.Name = "buttonSendCTRatio";
             this.buttonSendCTRatio.Size = new System.Drawing.Size(100, 34);
             this.buttonSendCTRatio.TabIndex = 61;
@@ -2123,7 +2127,7 @@
             // 
             this.textBoxCTRatio.Enabled = false;
             this.textBoxCTRatio.Location = new System.Drawing.Point(322, 302);
-            this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxCTRatio.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxCTRatio.Name = "textBoxCTRatio";
             this.textBoxCTRatio.Size = new System.Drawing.Size(74, 32);
             this.textBoxCTRatio.TabIndex = 64;
@@ -2168,9 +2172,9 @@
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxFlag1);
             this.groupBoxRelayFlags.Controls.Add(this.checkBoxPowerSaveFlag);
             this.groupBoxRelayFlags.Location = new System.Drawing.Point(828, 752);
-            this.groupBoxRelayFlags.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxRelayFlags.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxRelayFlags.Name = "groupBoxRelayFlags";
-            this.groupBoxRelayFlags.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxRelayFlags.Padding = new System.Windows.Forms.Padding(5);
             this.groupBoxRelayFlags.Size = new System.Drawing.Size(614, 140);
             this.groupBoxRelayFlags.TabIndex = 109;
             this.groupBoxRelayFlags.TabStop = false;
@@ -2194,7 +2198,7 @@
             this.checkBoxOffsetOkay.AutoSize = true;
             this.checkBoxOffsetOkay.ForeColor = System.Drawing.Color.Black;
             this.checkBoxOffsetOkay.Location = new System.Drawing.Point(9, 28);
-            this.checkBoxOffsetOkay.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxOffsetOkay.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxOffsetOkay.Name = "checkBoxOffsetOkay";
             this.checkBoxOffsetOkay.Size = new System.Drawing.Size(109, 22);
             this.checkBoxOffsetOkay.TabIndex = 37;
@@ -2207,7 +2211,7 @@
             this.checkBoxCalibrating.AutoSize = true;
             this.checkBoxCalibrating.ForeColor = System.Drawing.Color.Black;
             this.checkBoxCalibrating.Location = new System.Drawing.Point(154, 86);
-            this.checkBoxCalibrating.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxCalibrating.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxCalibrating.Name = "checkBoxCalibrating";
             this.checkBoxCalibrating.Size = new System.Drawing.Size(99, 22);
             this.checkBoxCalibrating.TabIndex = 51;
@@ -2220,7 +2224,7 @@
             this.checkBoxMathOverTime.AutoSize = true;
             this.checkBoxMathOverTime.ForeColor = System.Drawing.Color.Black;
             this.checkBoxMathOverTime.Location = new System.Drawing.Point(415, 84);
-            this.checkBoxMathOverTime.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxMathOverTime.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxMathOverTime.Name = "checkBoxMathOverTime";
             this.checkBoxMathOverTime.Size = new System.Drawing.Size(136, 22);
             this.checkBoxMathOverTime.TabIndex = 36;
@@ -2233,7 +2237,7 @@
             this.checkBoxBlockedCloseFlag.AutoSize = true;
             this.checkBoxBlockedCloseFlag.ForeColor = System.Drawing.Color.Black;
             this.checkBoxBlockedCloseFlag.Location = new System.Drawing.Point(270, 55);
-            this.checkBoxBlockedCloseFlag.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxBlockedCloseFlag.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxBlockedCloseFlag.Name = "checkBoxBlockedCloseFlag";
             this.checkBoxBlockedCloseFlag.Size = new System.Drawing.Size(127, 22);
             this.checkBoxBlockedCloseFlag.TabIndex = 49;
@@ -2246,7 +2250,7 @@
             this.checkBoxMathError.AutoSize = true;
             this.checkBoxMathError.ForeColor = System.Drawing.Color.Black;
             this.checkBoxMathError.Location = new System.Drawing.Point(415, 55);
-            this.checkBoxMathError.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxMathError.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxMathError.Name = "checkBoxMathError";
             this.checkBoxMathError.Size = new System.Drawing.Size(101, 22);
             this.checkBoxMathError.TabIndex = 39;
@@ -2259,7 +2263,7 @@
             this.checkBoxInInsensRegion.AutoSize = true;
             this.checkBoxInInsensRegion.ForeColor = System.Drawing.Color.Black;
             this.checkBoxInInsensRegion.Location = new System.Drawing.Point(384, 28);
-            this.checkBoxInInsensRegion.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxInInsensRegion.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxInInsensRegion.Name = "checkBoxInInsensRegion";
             this.checkBoxInInsensRegion.Size = new System.Drawing.Size(164, 22);
             this.checkBoxInInsensRegion.TabIndex = 47;
@@ -2272,7 +2276,7 @@
             this.checkBoxMonitorPhasors.AutoSize = true;
             this.checkBoxMonitorPhasors.ForeColor = System.Drawing.Color.Black;
             this.checkBoxMonitorPhasors.Location = new System.Drawing.Point(9, 56);
-            this.checkBoxMonitorPhasors.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxMonitorPhasors.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxMonitorPhasors.Name = "checkBoxMonitorPhasors";
             this.checkBoxMonitorPhasors.Size = new System.Drawing.Size(141, 22);
             this.checkBoxMonitorPhasors.TabIndex = 40;
@@ -2285,7 +2289,7 @@
             this.checkBoxFlag2.AutoSize = true;
             this.checkBoxFlag2.ForeColor = System.Drawing.Color.Black;
             this.checkBoxFlag2.Location = new System.Drawing.Point(154, 54);
-            this.checkBoxFlag2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxFlag2.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxFlag2.Name = "checkBoxFlag2";
             this.checkBoxFlag2.Size = new System.Drawing.Size(66, 22);
             this.checkBoxFlag2.TabIndex = 45;
@@ -2298,7 +2302,7 @@
             this.checkBoxSequence.AutoSize = true;
             this.checkBoxSequence.ForeColor = System.Drawing.Color.Black;
             this.checkBoxSequence.Location = new System.Drawing.Point(9, 85);
-            this.checkBoxSequence.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxSequence.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxSequence.Name = "checkBoxSequence";
             this.checkBoxSequence.Size = new System.Drawing.Size(96, 22);
             this.checkBoxSequence.TabIndex = 42;
@@ -2311,7 +2315,7 @@
             this.checkBoxACB.AutoSize = true;
             this.checkBoxACB.ForeColor = System.Drawing.Color.Black;
             this.checkBoxACB.Location = new System.Drawing.Point(270, 28);
-            this.checkBoxACB.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxACB.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxACB.Name = "checkBoxACB";
             this.checkBoxACB.Size = new System.Drawing.Size(60, 22);
             this.checkBoxACB.TabIndex = 43;
@@ -2324,7 +2328,7 @@
             this.checkBoxFlag1.AutoSize = true;
             this.checkBoxFlag1.ForeColor = System.Drawing.Color.Black;
             this.checkBoxFlag1.Location = new System.Drawing.Point(154, 25);
-            this.checkBoxFlag1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxFlag1.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxFlag1.Name = "checkBoxFlag1";
             this.checkBoxFlag1.Size = new System.Drawing.Size(66, 22);
             this.checkBoxFlag1.TabIndex = 44;
@@ -2337,7 +2341,7 @@
             this.checkBoxPowerSaveFlag.AutoSize = true;
             this.checkBoxPowerSaveFlag.ForeColor = System.Drawing.Color.Black;
             this.checkBoxPowerSaveFlag.Location = new System.Drawing.Point(270, 85);
-            this.checkBoxPowerSaveFlag.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBoxPowerSaveFlag.Margin = new System.Windows.Forms.Padding(5);
             this.checkBoxPowerSaveFlag.Name = "checkBoxPowerSaveFlag";
             this.checkBoxPowerSaveFlag.Size = new System.Drawing.Size(110, 22);
             this.checkBoxPowerSaveFlag.TabIndex = 45;
@@ -2347,12 +2351,8 @@
             // buttonRequestRelayParamaters
             // 
             this.buttonRequestRelayParamaters.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-#if CONED
-            this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(956, 588);
-#else
             this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(1260, 588);
-#endif
-            this.buttonRequestRelayParamaters.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonRequestRelayParamaters.Margin = new System.Windows.Forms.Padding(5);
             this.buttonRequestRelayParamaters.Name = "buttonRequestRelayParamaters";
             this.buttonRequestRelayParamaters.Size = new System.Drawing.Size(126, 108);
             this.buttonRequestRelayParamaters.TabIndex = 33;
@@ -2364,7 +2364,7 @@
             // 
             this.buttonSendAll.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSendAll.Location = new System.Drawing.Point(20, 108);
-            this.buttonSendAll.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonSendAll.Margin = new System.Windows.Forms.Padding(5);
             this.buttonSendAll.Name = "buttonSendAll";
             this.buttonSendAll.Size = new System.Drawing.Size(126, 105);
             this.buttonSendAll.TabIndex = 70;
@@ -2378,7 +2378,7 @@
             this.ucCloseMode1.Customer = RelayControlLibrary.Customers.None;
             this.ucCloseMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucCloseMode1.Location = new System.Drawing.Point(1072, 11);
-            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucCloseMode1.Margin = new System.Windows.Forms.Padding(5);
             this.ucCloseMode1.Mode = RelayControlLibrary.CloseModes.None;
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
@@ -2392,7 +2392,7 @@
             this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucPumpMode1.Location = new System.Drawing.Point(11, 478);
-            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(5);
             this.ucPumpMode1.Name = "ucPumpMode1";
             this.ucPumpMode1.PumpProtectEnabled = false;
             this.ucPumpMode1.PumpReason = RelayControlLibrary.PumpReasons.NoPump;
@@ -2407,7 +2407,7 @@
             this.ucSafeService1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucSafeService1.LoadingNewCode = false;
             this.ucSafeService1.Location = new System.Drawing.Point(528, 525);
-            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucSafeService1.Margin = new System.Windows.Forms.Padding(5);
             this.ucSafeService1.Name = "ucSafeService1";
             this.ucSafeService1.Size = new System.Drawing.Size(472, 500);
             this.ucSafeService1.TabIndex = 108;
@@ -2429,7 +2429,7 @@
             this.ucTripMode2.Customer = RelayControlLibrary.Customers.None;
             this.ucTripMode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucTripMode2.Location = new System.Drawing.Point(431, 11);
-            this.ucTripMode2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucTripMode2.Margin = new System.Windows.Forms.Padding(5);
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ucTripMode2.SequenceRelay = false;
@@ -2441,7 +2441,7 @@
             // 
             this.panel_NWsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_NWsettings.Location = new System.Drawing.Point(14, 12);
-            this.panel_NWsettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_NWsettings.Margin = new System.Windows.Forms.Padding(4);
             this.panel_NWsettings.Name = "panel_NWsettings";
             this.panel_NWsettings.Size = new System.Drawing.Size(517, 450);
             this.panel_NWsettings.TabIndex = 131;
@@ -2450,7 +2450,7 @@
             // 
             this.panelPCsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelPCsettings.Location = new System.Drawing.Point(1174, 520);
-            this.panelPCsettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelPCsettings.Margin = new System.Windows.Forms.Padding(4);
             this.panelPCsettings.Name = "panelPCsettings";
             this.panelPCsettings.Size = new System.Drawing.Size(67, 43);
             this.panelPCsettings.TabIndex = 132;
@@ -2458,7 +2458,7 @@
             // buttonClearCycleCount
             // 
             this.buttonClearCycleCount.Location = new System.Drawing.Point(51, 338);
-            this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonClearCycleCount.Margin = new System.Windows.Forms.Padding(5);
             this.buttonClearCycleCount.Name = "buttonClearCycleCount";
             this.buttonClearCycleCount.Size = new System.Drawing.Size(240, 44);
             this.buttonClearCycleCount.TabIndex = 62;
@@ -2469,7 +2469,7 @@
             // buttonBlockAndTrip
             // 
             this.buttonBlockAndTrip.Location = new System.Drawing.Point(51, 262);
-            this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonBlockAndTrip.Margin = new System.Windows.Forms.Padding(5);
             this.buttonBlockAndTrip.Name = "buttonBlockAndTrip";
             this.buttonBlockAndTrip.Size = new System.Drawing.Size(240, 44);
             this.buttonBlockAndTrip.TabIndex = 76;
@@ -2493,7 +2493,7 @@
             this.tabControlMain.Controls.Add(this.tabPageDNPSecureAuth);
             this.tabControlMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControlMain.Location = new System.Drawing.Point(0, 60);
-            this.tabControlMain.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabControlMain.Margin = new System.Windows.Forms.Padding(5);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(1980, 1035);
@@ -2513,9 +2513,9 @@
             this.tabPage1.Controls.Add(this.panel_RelayCo);
             this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(1972, 1004);
             this.tabPage1.TabIndex = 14;
             this.tabPage1.Text = "Relay Monitoring";
@@ -2533,9 +2533,9 @@
             this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
             this.grpBox_RelayCommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBox_RelayCommands.Location = new System.Drawing.Point(1375, 38);
-            this.grpBox_RelayCommands.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpBox_RelayCommands.Margin = new System.Windows.Forms.Padding(4);
             this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
-            this.grpBox_RelayCommands.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpBox_RelayCommands.Padding = new System.Windows.Forms.Padding(4);
             this.grpBox_RelayCommands.Size = new System.Drawing.Size(348, 904);
             this.grpBox_RelayCommands.TabIndex = 129;
             this.grpBox_RelayCommands.TabStop = false;
@@ -2546,9 +2546,9 @@
             this.grpBox_LightningCount.Controls.Add(this.btn_clrLC);
             this.grpBox_LightningCount.Controls.Add(this.btn_getLC);
             this.grpBox_LightningCount.Location = new System.Drawing.Point(31, 624);
-            this.grpBox_LightningCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpBox_LightningCount.Margin = new System.Windows.Forms.Padding(4);
             this.grpBox_LightningCount.Name = "grpBox_LightningCount";
-            this.grpBox_LightningCount.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpBox_LightningCount.Padding = new System.Windows.Forms.Padding(4);
             this.grpBox_LightningCount.Size = new System.Drawing.Size(282, 99);
             this.grpBox_LightningCount.TabIndex = 120;
             this.grpBox_LightningCount.TabStop = false;
@@ -2557,7 +2557,7 @@
             // btn_clrLC
             // 
             this.btn_clrLC.Location = new System.Drawing.Point(142, 41);
-            this.btn_clrLC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_clrLC.Margin = new System.Windows.Forms.Padding(4);
             this.btn_clrLC.Name = "btn_clrLC";
             this.btn_clrLC.Size = new System.Drawing.Size(132, 38);
             this.btn_clrLC.TabIndex = 2;
@@ -2568,7 +2568,7 @@
             // btn_getLC
             // 
             this.btn_getLC.Location = new System.Drawing.Point(11, 41);
-            this.btn_getLC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_getLC.Margin = new System.Windows.Forms.Padding(4);
             this.btn_getLC.Name = "btn_getLC";
             this.btn_getLC.Size = new System.Drawing.Size(119, 38);
             this.btn_getLC.TabIndex = 1;
@@ -2579,7 +2579,7 @@
             // btn_PermCl_Active
             // 
             this.btn_PermCl_Active.Location = new System.Drawing.Point(51, 560);
-            this.btn_PermCl_Active.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_PermCl_Active.Margin = new System.Windows.Forms.Padding(4);
             this.btn_PermCl_Active.Name = "btn_PermCl_Active";
             this.btn_PermCl_Active.Size = new System.Drawing.Size(240, 44);
             this.btn_PermCl_Active.TabIndex = 119;
@@ -2590,7 +2590,7 @@
             // btn_ClearPumpProtect
             // 
             this.btn_ClearPumpProtect.Location = new System.Drawing.Point(51, 488);
-            this.btn_ClearPumpProtect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ClearPumpProtect.Margin = new System.Windows.Forms.Padding(4);
             this.btn_ClearPumpProtect.Name = "btn_ClearPumpProtect";
             this.btn_ClearPumpProtect.Size = new System.Drawing.Size(240, 44);
             this.btn_ClearPumpProtect.TabIndex = 118;
@@ -2601,7 +2601,7 @@
             // btn_RelaxClose
             // 
             this.btn_RelaxClose.Location = new System.Drawing.Point(51, 415);
-            this.btn_RelaxClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_RelaxClose.Margin = new System.Windows.Forms.Padding(4);
             this.btn_RelaxClose.Name = "btn_RelaxClose";
             this.btn_RelaxClose.Size = new System.Drawing.Size(240, 44);
             this.btn_RelaxClose.TabIndex = 117;
@@ -2613,7 +2613,7 @@
             // 
             this.ucBlockControl1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucBlockControl1.Location = new System.Drawing.Point(51, 39);
-            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucBlockControl1.Margin = new System.Windows.Forms.Padding(5);
             this.ucBlockControl1.Name = "ucBlockControl1";
             this.ucBlockControl1.RelayBlocked = false;
             this.ucBlockControl1.Size = new System.Drawing.Size(224, 152);
@@ -2625,7 +2625,7 @@
             this.ucRemoteCommandBlock1.CommandsBlocked = false;
             this.ucRemoteCommandBlock1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucRemoteCommandBlock1.Location = new System.Drawing.Point(68, 742);
-            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucRemoteCommandBlock1.Margin = new System.Windows.Forms.Padding(5);
             this.ucRemoteCommandBlock1.Name = "ucRemoteCommandBlock1";
             this.ucRemoteCommandBlock1.Size = new System.Drawing.Size(224, 152);
             this.ucRemoteCommandBlock1.TabIndex = 117;
@@ -2635,7 +2635,7 @@
             // 
             this.buttonTripRelay.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonTripRelay.Location = new System.Drawing.Point(51, 190);
-            this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonTripRelay.Margin = new System.Windows.Forms.Padding(5);
             this.buttonTripRelay.Name = "buttonTripRelay";
             this.buttonTripRelay.Size = new System.Drawing.Size(240, 44);
             this.buttonTripRelay.TabIndex = 65;
@@ -2651,9 +2651,9 @@
             this.groupBox_FirmwareInfo.Controls.Add(this.labelBootRevision);
             this.groupBox_FirmwareInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(112, 555);
-            this.groupBox_FirmwareInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_FirmwareInfo.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_FirmwareInfo.Name = "groupBox_FirmwareInfo";
-            this.groupBox_FirmwareInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_FirmwareInfo.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox_FirmwareInfo.Size = new System.Drawing.Size(472, 386);
             this.groupBox_FirmwareInfo.TabIndex = 128;
             this.groupBox_FirmwareInfo.TabStop = false;
@@ -2665,7 +2665,7 @@
             this.labelRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelRevision.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRevision.Location = new System.Drawing.Point(20, 51);
-            this.labelRevision.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.labelRevision.Margin = new System.Windows.Forms.Padding(5);
             this.labelRevision.Name = "labelRevision";
             this.labelRevision.Padding = new System.Windows.Forms.Padding(1);
             this.labelRevision.Size = new System.Drawing.Size(4, 28);
@@ -2678,7 +2678,7 @@
             this.labelRelayRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelRelayRevision.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRelayRevision.Location = new System.Drawing.Point(20, 144);
-            this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.labelRelayRevision.Margin = new System.Windows.Forms.Padding(5);
             this.labelRelayRevision.Name = "labelRelayRevision";
             this.labelRelayRevision.Padding = new System.Windows.Forms.Padding(1);
             this.labelRelayRevision.Size = new System.Drawing.Size(4, 28);
@@ -2691,7 +2691,7 @@
             this.labelFPGARevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelFPGARevision.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelFPGARevision.Location = new System.Drawing.Point(20, 234);
-            this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.labelFPGARevision.Margin = new System.Windows.Forms.Padding(5);
             this.labelFPGARevision.Name = "labelFPGARevision";
             this.labelFPGARevision.Padding = new System.Windows.Forms.Padding(1);
             this.labelFPGARevision.Size = new System.Drawing.Size(4, 28);
@@ -2704,7 +2704,7 @@
             this.labelBootRevision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelBootRevision.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelBootRevision.Location = new System.Drawing.Point(20, 316);
-            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.labelBootRevision.Margin = new System.Windows.Forms.Padding(5);
             this.labelBootRevision.Name = "labelBootRevision";
             this.labelBootRevision.Padding = new System.Windows.Forms.Padding(1);
             this.labelBootRevision.Size = new System.Drawing.Size(4, 28);
@@ -2726,9 +2726,9 @@
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTripCount);
             this.groupBox_RelayInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_RelayInfo.Location = new System.Drawing.Point(112, 40);
-            this.groupBox_RelayInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_RelayInfo.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_RelayInfo.Name = "groupBox_RelayInfo";
-            this.groupBox_RelayInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_RelayInfo.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox_RelayInfo.Size = new System.Drawing.Size(472, 448);
             this.groupBox_RelayInfo.TabIndex = 127;
             this.groupBox_RelayInfo.TabStop = false;
@@ -2749,7 +2749,7 @@
             this.txtBox_NWPposition.BackColor = System.Drawing.SystemColors.Control;
             this.txtBox_NWPposition.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBox_NWPposition.Location = new System.Drawing.Point(249, 279);
-            this.txtBox_NWPposition.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBox_NWPposition.Margin = new System.Windows.Forms.Padding(4);
             this.txtBox_NWPposition.Name = "txtBox_NWPposition";
             this.txtBox_NWPposition.Size = new System.Drawing.Size(99, 32);
             this.txtBox_NWPposition.TabIndex = 119;
@@ -2783,7 +2783,7 @@
             this.textBox_TxID.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_TxID.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_TxID.Location = new System.Drawing.Point(250, 125);
-            this.textBox_TxID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_TxID.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_TxID.Name = "textBox_TxID";
             this.textBox_TxID.Size = new System.Drawing.Size(99, 32);
             this.textBox_TxID.TabIndex = 117;
@@ -2818,7 +2818,7 @@
             // 
             this.textBoxRelaySNControl.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxRelaySNControl.Location = new System.Drawing.Point(249, 55);
-            this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxRelaySNControl.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxRelaySNControl.MaxLength = 5;
             this.textBoxRelaySNControl.Name = "textBoxRelaySNControl";
             this.textBoxRelaySNControl.ReadOnly = true;
@@ -2843,7 +2843,7 @@
             // 
             this.textBoxTripCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxTripCount.Location = new System.Drawing.Point(250, 198);
-            this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBoxTripCount.Margin = new System.Windows.Forms.Padding(5);
             this.textBoxTripCount.Name = "textBoxTripCount";
             this.textBoxTripCount.ReadOnly = true;
             this.textBoxTripCount.Size = new System.Drawing.Size(100, 32);
@@ -2867,9 +2867,9 @@
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relaystatus_Open);
             this.groupBoxRelayStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxRelayStatus.Location = new System.Drawing.Point(775, 39);
-            this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
-            this.groupBoxRelayStatus.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBoxRelayStatus.Padding = new System.Windows.Forms.Padding(5);
             this.groupBoxRelayStatus.Size = new System.Drawing.Size(355, 902);
             this.groupBoxRelayStatus.TabIndex = 113;
             this.groupBoxRelayStatus.TabStop = false;
@@ -2880,7 +2880,7 @@
             this.lbl_Relayststatus_XP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_XP.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_XP.Location = new System.Drawing.Point(0, 775);
-            this.lbl_Relayststatus_XP.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_XP.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_XP.Name = "lbl_Relayststatus_XP";
             this.lbl_Relayststatus_XP.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_XP.Size = new System.Drawing.Size(352, 65);
@@ -2893,7 +2893,7 @@
             this.lbl_Relayststatus_SL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_SL.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_SL.Location = new System.Drawing.Point(0, 709);
-            this.lbl_Relayststatus_SL.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_SL.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_SL.Name = "lbl_Relayststatus_SL";
             this.lbl_Relayststatus_SL.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_SL.Size = new System.Drawing.Size(352, 65);
@@ -2906,7 +2906,7 @@
             this.lbl_Relayststatus_PA.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_PA.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_PA.Location = new System.Drawing.Point(0, 644);
-            this.lbl_Relayststatus_PA.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_PA.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_PA.Name = "lbl_Relayststatus_PA";
             this.lbl_Relayststatus_PA.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_PA.Size = new System.Drawing.Size(352, 65);
@@ -2919,7 +2919,7 @@
             this.lbl_Relayststatus_RC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_RC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_RC.Location = new System.Drawing.Point(0, 579);
-            this.lbl_Relayststatus_RC.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_RC.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_RC.Name = "lbl_Relayststatus_RC";
             this.lbl_Relayststatus_RC.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_RC.Size = new System.Drawing.Size(352, 65);
@@ -2932,7 +2932,7 @@
             this.lbl_Relayststatus_Ib.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_Ib.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_Ib.Location = new System.Drawing.Point(0, 516);
-            this.lbl_Relayststatus_Ib.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_Ib.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_Ib.Name = "lbl_Relayststatus_Ib";
             this.lbl_Relayststatus_Ib.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_Ib.Size = new System.Drawing.Size(352, 65);
@@ -2945,7 +2945,7 @@
             this.lbl_Relayststatus_FC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_FC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_FC.Location = new System.Drawing.Point(0, 449);
-            this.lbl_Relayststatus_FC.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_FC.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_FC.Name = "lbl_Relayststatus_FC";
             this.lbl_Relayststatus_FC.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_FC.Size = new System.Drawing.Size(352, 65);
@@ -2958,7 +2958,7 @@
             this.lbl_Relayststatus_BO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_BO.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_BO.Location = new System.Drawing.Point(0, 386);
-            this.lbl_Relayststatus_BO.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_BO.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_BO.Name = "lbl_Relayststatus_BO";
             this.lbl_Relayststatus_BO.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_BO.Size = new System.Drawing.Size(352, 65);
@@ -2971,7 +2971,7 @@
             this.lbl_Relayststatus_backfeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_backfeed.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_backfeed.Location = new System.Drawing.Point(0, 325);
-            this.lbl_Relayststatus_backfeed.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_backfeed.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_backfeed.Name = "lbl_Relayststatus_backfeed";
             this.lbl_Relayststatus_backfeed.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_backfeed.Size = new System.Drawing.Size(352, 65);
@@ -2984,7 +2984,7 @@
             this.lbl_Relayststatus_Float.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_Float.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_Float.Location = new System.Drawing.Point(0, 259);
-            this.lbl_Relayststatus_Float.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_Float.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_Float.Name = "lbl_Relayststatus_Float";
             this.lbl_Relayststatus_Float.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_Float.Size = new System.Drawing.Size(352, 65);
@@ -2997,7 +2997,7 @@
             this.lbl_Relayststatus_FB.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_FB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_FB.Location = new System.Drawing.Point(0, 199);
-            this.lbl_Relayststatus_FB.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_FB.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_FB.Name = "lbl_Relayststatus_FB";
             this.lbl_Relayststatus_FB.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_FB.Size = new System.Drawing.Size(352, 65);
@@ -3010,7 +3010,7 @@
             this.lbl_Relayststatus_Close.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relayststatus_Close.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relayststatus_Close.Location = new System.Drawing.Point(0, 139);
-            this.lbl_Relayststatus_Close.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relayststatus_Close.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relayststatus_Close.Name = "lbl_Relayststatus_Close";
             this.lbl_Relayststatus_Close.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relayststatus_Close.Size = new System.Drawing.Size(352, 65);
@@ -3023,7 +3023,7 @@
             this.lbl_Relaystatus_Open.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbl_Relaystatus_Open.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Relaystatus_Open.Location = new System.Drawing.Point(0, 74);
-            this.lbl_Relaystatus_Open.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.lbl_Relaystatus_Open.Margin = new System.Windows.Forms.Padding(5);
             this.lbl_Relaystatus_Open.Name = "lbl_Relaystatus_Open";
             this.lbl_Relaystatus_Open.Padding = new System.Windows.Forms.Padding(1);
             this.lbl_Relaystatus_Open.Size = new System.Drawing.Size(352, 65);
@@ -3035,7 +3035,7 @@
             // 
             this.panel_RelayInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_RelayInfo.Location = new System.Drawing.Point(106, 39);
-            this.panel_RelayInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_RelayInfo.Margin = new System.Windows.Forms.Padding(4);
             this.panel_RelayInfo.Name = "panel_RelayInfo";
             this.panel_RelayInfo.Size = new System.Drawing.Size(483, 451);
             this.panel_RelayInfo.TabIndex = 130;
@@ -3044,7 +3044,7 @@
             // 
             this.panel_firmwareRev.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_firmwareRev.Location = new System.Drawing.Point(106, 552);
-            this.panel_firmwareRev.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_firmwareRev.Margin = new System.Windows.Forms.Padding(4);
             this.panel_firmwareRev.Name = "panel_firmwareRev";
             this.panel_firmwareRev.Size = new System.Drawing.Size(483, 392);
             this.panel_firmwareRev.TabIndex = 131;
@@ -3053,7 +3053,7 @@
             // 
             this.panel_RelaySt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_RelaySt.Location = new System.Drawing.Point(769, 34);
-            this.panel_RelaySt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_RelaySt.Margin = new System.Windows.Forms.Padding(4);
             this.panel_RelaySt.Name = "panel_RelaySt";
             this.panel_RelaySt.Size = new System.Drawing.Size(366, 912);
             this.panel_RelaySt.TabIndex = 132;
@@ -3062,7 +3062,7 @@
             // 
             this.panel_RelayCo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_RelayCo.Location = new System.Drawing.Point(1370, 34);
-            this.panel_RelayCo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_RelayCo.Margin = new System.Windows.Forms.Padding(4);
             this.panel_RelayCo.Name = "panel_RelayCo";
             this.panel_RelayCo.Size = new System.Drawing.Size(356, 912);
             this.panel_RelayCo.TabIndex = 133;
@@ -3073,9 +3073,9 @@
             this.tabPageDNP.Controls.Add(this.buttonResetRelay2);
             this.tabPageDNP.Controls.Add(this.ucDNP1);
             this.tabPageDNP.Location = new System.Drawing.Point(4, 27);
-            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageDNP.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageDNP.Name = "tabPageDNP";
-            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageDNP.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageDNP.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP Comm Settings";
@@ -3084,7 +3084,7 @@
             // 
             this.buttonResetRelay2.Enabled = false;
             this.buttonResetRelay2.Location = new System.Drawing.Point(88, 599);
-            this.buttonResetRelay2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonResetRelay2.Margin = new System.Windows.Forms.Padding(5);
             this.buttonResetRelay2.Name = "buttonResetRelay2";
             this.buttonResetRelay2.Size = new System.Drawing.Size(110, 32);
             this.buttonResetRelay2.TabIndex = 1;
@@ -3098,7 +3098,7 @@
             this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
             this.ucDNP1.DNPLabelStatus = false;
             this.ucDNP1.Location = new System.Drawing.Point(12, 5);
-            this.ucDNP1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucDNP1.Margin = new System.Windows.Forms.Padding(5);
             this.ucDNP1.Name = "ucDNP1";
             this.ucDNP1.Size = new System.Drawing.Size(1684, 1125);
             this.ucDNP1.TabIndex = 0;
@@ -3109,9 +3109,9 @@
             this.tabPageArcFault.Controls.Add(this.buttonArcFaultStartMonitoring);
             this.tabPageArcFault.Controls.Add(this.ucArcFault1);
             this.tabPageArcFault.Location = new System.Drawing.Point(4, 27);
-            this.tabPageArcFault.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageArcFault.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageArcFault.Name = "tabPageArcFault";
-            this.tabPageArcFault.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageArcFault.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageArcFault.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageArcFault.TabIndex = 10;
             this.tabPageArcFault.Text = "Arc Fault";
@@ -3119,7 +3119,7 @@
             // buttonArcFaultStartMonitoring
             // 
             this.buttonArcFaultStartMonitoring.Location = new System.Drawing.Point(524, 569);
-            this.buttonArcFaultStartMonitoring.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonArcFaultStartMonitoring.Margin = new System.Windows.Forms.Padding(5);
             this.buttonArcFaultStartMonitoring.Name = "buttonArcFaultStartMonitoring";
             this.buttonArcFaultStartMonitoring.Size = new System.Drawing.Size(171, 32);
             this.buttonArcFaultStartMonitoring.TabIndex = 4;
@@ -3130,7 +3130,7 @@
             // ucArcFault1
             // 
             this.ucArcFault1.Location = new System.Drawing.Point(12, 9);
-            this.ucArcFault1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucArcFault1.Margin = new System.Windows.Forms.Padding(5);
             this.ucArcFault1.Name = "ucArcFault1";
             this.ucArcFault1.Size = new System.Drawing.Size(696, 619);
             this.ucArcFault1.TabIndex = 3;
@@ -3139,7 +3139,7 @@
             // 
             this.tabPageShortRange.Controls.Add(this.ucShortRange1);
             this.tabPageShortRange.Location = new System.Drawing.Point(4, 27);
-            this.tabPageShortRange.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageShortRange.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageShortRange.Name = "tabPageShortRange";
             this.tabPageShortRange.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageShortRange.TabIndex = 11;
@@ -3150,7 +3150,7 @@
             // 
             this.ucShortRange1.BackColor = System.Drawing.SystemColors.Control;
             this.ucShortRange1.Location = new System.Drawing.Point(12, 0);
-            this.ucShortRange1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucShortRange1.Margin = new System.Windows.Forms.Padding(5);
             this.ucShortRange1.Name = "ucShortRange1";
             this.ucShortRange1.Size = new System.Drawing.Size(1440, 900);
             this.ucShortRange1.TabIndex = 0;
@@ -3160,9 +3160,9 @@
             this.tabPageDNPData.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageDNPData.Controls.Add(this.buttonRequestDNPData);
             this.tabPageDNPData.Location = new System.Drawing.Point(4, 27);
-            this.tabPageDNPData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageDNPData.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageDNPData.Name = "tabPageDNPData";
-            this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageDNPData.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageDNPData.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageDNPData.TabIndex = 12;
             this.tabPageDNPData.Text = "DNP Live Data";
@@ -3171,8 +3171,8 @@
             // 
             this.buttonRequestDNPData.BackColor = System.Drawing.Color.Red;
             this.buttonRequestDNPData.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRequestDNPData.Location = new System.Drawing.Point(1575, 932); //(1338, 932);
-            this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.buttonRequestDNPData.Location = new System.Drawing.Point(1575, 932);
+            this.buttonRequestDNPData.Margin = new System.Windows.Forms.Padding(5);
             this.buttonRequestDNPData.Name = "buttonRequestDNPData";
             this.buttonRequestDNPData.Size = new System.Drawing.Size(268, 42);
             this.buttonRequestDNPData.TabIndex = 1;
@@ -3185,9 +3185,9 @@
             this.tabPageDNPSecureAuth.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageDNPSecureAuth.Controls.Add(this.ucDNPSAv51);
             this.tabPageDNPSecureAuth.Location = new System.Drawing.Point(4, 27);
-            this.tabPageDNPSecureAuth.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageDNPSecureAuth.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageDNPSecureAuth.Name = "tabPageDNPSecureAuth";
-            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabPageDNPSecureAuth.Padding = new System.Windows.Forms.Padding(5);
             this.tabPageDNPSecureAuth.Size = new System.Drawing.Size(1972, 1004);
             this.tabPageDNPSecureAuth.TabIndex = 13;
             this.tabPageDNPSecureAuth.Text = "DNP SAv5";
@@ -3196,7 +3196,7 @@
             // 
             this.ucDNPSAv51.BackColor = System.Drawing.SystemColors.Control;
             this.ucDNPSAv51.Location = new System.Drawing.Point(19, 9);
-            this.ucDNPSAv51.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucDNPSAv51.Margin = new System.Windows.Forms.Padding(5);
             this.ucDNPSAv51.Name = "ucDNPSAv51";
             this.ucDNPSAv51.SerialNumber = 0;
             this.ucDNPSAv51.ShowDNPSAV5Error = true;
@@ -3318,7 +3318,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainControl";
             this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring - BETA - 2009-07-24";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainControl_FormClosed);

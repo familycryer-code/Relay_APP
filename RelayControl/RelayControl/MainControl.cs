@@ -760,7 +760,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.5" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.19" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.20" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " EVERSOURCE ";                
 #elif ONCOR
@@ -8058,7 +8058,9 @@ namespace RelayControl
                     for (i = 0; i < this.saveObject.Settings.Count; ++i)
                     {
                         if (this.saveObject.Settings[i].Name != null && this.saveObject.Settings[i].Name != "")
+                        {
                             this.comboBoxSavedStates.Items.Add(this.saveObject.Settings[i].Name);
+                        }
                     }
                     this.comboBoxSavedStates.Text = "";
                 }
@@ -8096,6 +8098,31 @@ namespace RelayControl
 
         }
 
+        private void comboBox_LoadProfile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SavedSettingV4 sS = new SavedSettingV4();
+
+            if (this.comboBoxSavedStates.SelectedItem == null)
+                return;
+           
+            try
+            {
+                foreach (SavedSettingV4 s in this.saveObject.Settings)
+                {
+                    if (s.Name.Equals(this.comboBoxSavedStates.SelectedItem))
+                    {
+                        sS = s;
+                        break;
+                    }
+                }
+                this.setAllValues(sS);
+            }
+            catch (Exception ex)
+            {
+                this.messageHandler("Error Selecting Saved Setting", ex);
+            }
+        }
+                
         private void comboBoxSavedStates_SelectedIndexChanged(object sender, EventArgs e)
         {
             SavedSettingV4 sS = new SavedSettingV4();
