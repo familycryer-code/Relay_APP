@@ -762,7 +762,7 @@ namespace RelayControl
 #elif ENMAX
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.20" + " ENMAX ";                
 #elif BOSTON
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.2" + " EVERSOURCE ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.3" + " EVERSOURCE ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -788,10 +788,9 @@ namespace RelayControl
             //    this.panel_PCsettings.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
-#if (!PSEG && !ENMAX)
+#if (!PSEG && !ENMAX && !BOSTON)
                                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
-
 #endif
 #endif
 #if !TORONTOHYDRO
@@ -946,7 +945,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Visible = true;
 #endif
 
-#if TORONTO_HYDRO || ENMAX
+#if (TORONTO_HYDRO || ENMAX || BOSTON)
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -1954,7 +1953,7 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
                         ucDNP1.SendAllDNPSettings();
-#if TORONTO_HYDRO || ENMAX
+#if (TORONTO_HYDRO || ENMAX || BOSTON)
                     this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                     this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -2042,7 +2041,7 @@ namespace RelayControl
                 this.ucTransmitter1.ForceDNPEnable = true;
                 Thread.Sleep(100);
                 this.ucTransmitter1.SendTransmitterSettings();
-#if TORONTO_HYDRO || ENMAX
+#if (TORONTO_HYDRO || ENMAX || BOSTON)
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
                 this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -6141,7 +6140,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if TORONTO_HYDRO || ENMAX
+#if (TORONTO_HYDRO || ENMAX || BOSTON)
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -6157,7 +6156,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if TORONTO_HYDRO || ENMAX
+#if (TORONTO_HYDRO || ENMAX || BOSTON)
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
