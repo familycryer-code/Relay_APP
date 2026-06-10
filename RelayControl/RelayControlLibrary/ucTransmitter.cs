@@ -1106,8 +1106,8 @@ namespace RelayControlLibrary
 
             if (this.checkBoxDNPEnable.Checked == true)
             {
-                dR = new YesNoMessageBoxResized("DNP Uplink", "Have you installed the 'DNP Uplink Kit'?", "Yes", "No").ShowDialog();
-
+                //dR = new YesNoMessageBoxResized("DNP Uplink", "Have you installed the 'DNP Uplink Kit'?", "Yes", "No").ShowDialog();
+                dR = new YesNoMessageBoxResized("Enable", "DNP Uplink Feature ( A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                 {
                     dnpUplinkK.dnpEnabledWithKit = true;
@@ -1115,7 +1115,7 @@ namespace RelayControlLibrary
                 }
                 else
                 {
-                    MessageBox.Show("Please ensure the 'DNP Uplink Kit' is installed before activating the 'DNP Uplink' feature. Activating this feature without the required kit will disable communication with the Relay Control and monitoring Application", "Kit Required");
+                    MessageBox.Show("Please ensure the 'DNP Uplink Kit' is installed before activating the 'DNP Uplink' feature. Activating this feature without the required kit will disable communication with the Relay Control and Monitoring Application", "Kit Required");
                     dnpUplinkK.dnpEnabledWithKit = false;
                 }
             }

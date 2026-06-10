@@ -243,7 +243,7 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
             this.dNPDIGITALGRIDData.Show();
-#elif (DIGITALGRID && !ONCOR) || DOMINION
+//#elif (DIGITALGRID && !ONCOR) || DOMINION
 #if !PSEG
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
@@ -713,6 +713,7 @@ namespace RelayControl
 
 #if CONED
                 this.buttonSendAll.Location = new System.Drawing.Point(870, 470); //(140, 3);
+                this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(760, 470);
 #else
                 this.buttonSendAll.Location = new System.Drawing.Point(1170, 470); 
 #endif
@@ -752,7 +753,7 @@ namespace RelayControl
                                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
                                 this.Customer = Customers.LondonH;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.32" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.33" + " CONED ";
 #elif SCE
                          this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                          this.Customer = Customers.SCE;
@@ -920,7 +921,7 @@ namespace RelayControl
 
 #endif
                 //#if (!DIGITALGRID || DIGITALGRIDDNP)
-#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX || PSEG)
+#if (!DIGITALGRID || DIGITALGRIDDNP || ONCOR || TORONTO_HYDRO || ENMAX || PSEG || CONED)
               //  if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
               //      this.tabControlMain.TabPages.Add(this.tabPageDNP);
                // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
@@ -937,7 +938,7 @@ namespace RelayControl
                         this.tabControlMain.TabPages.Add(this.tabPageShortRange);
 #endif
 
-#else
+#else         
                 checkBox277DNPOutputs.Visible = false;
 #endif
 
@@ -4026,7 +4027,7 @@ namespace RelayControl
                     //========================================================================================================
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-                    
+#if !CONED
                     // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
@@ -4049,7 +4050,11 @@ namespace RelayControl
                         System.Windows.Forms.Cursor.Current = Cursors.Default;
                         this.enableAll(true);
                     }
-                    
+#endif
+                    Application.UseWaitCursor = false;
+                    System.Windows.Forms.Cursor.Current = Cursors.Default;
+                    this.enableAll(true);
+
                     this.request_PCdata();
                 }
 
@@ -4099,8 +4104,9 @@ namespace RelayControl
             //MessageBox.Show("stripMenuItme : " + this.enableAutoloadToolStripMenuItem.Checked + " AND initializeAutoLoad : " + initializeAutoLoad); // Only for testing - to be removed
             if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
             {
-                initializeAutoLoad = false;                 
-               // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
+                initializeAutoLoad = false;
+#if !CONED
+                // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
                 if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
                 {
                     // If Master uP revision is less than Rev 10, backup its data to the computer
@@ -4128,7 +4134,10 @@ namespace RelayControl
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
                 }
-                
+#endif
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
                 ucRelayProgramming1.InitializeAutoload();
             }
         }
