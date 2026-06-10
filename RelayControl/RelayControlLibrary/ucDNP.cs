@@ -1155,7 +1155,7 @@ namespace RelayControlLibrary
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
 #if (ENMAX || CONED || TORONTO_HYDRO)
-            this.comboBoxDNPBaudRate.SelectedIndex = 3;
+            this.comboBoxDNPBaudRate.SelectedIndex = 2;// 3;
 #else
             this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
 #endif
@@ -1179,7 +1179,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
-            this.comboBoxDNPBaudRate.SelectedIndex = 3;
+            this.comboBoxDNPBaudRate.SelectedIndex = 2;// 3;
 
             this.numericUpDownAnalog1DeadBand.Value = 0.0m;
             this.numericUpDownAnalog2DeadBand.Value = 0.0m;
