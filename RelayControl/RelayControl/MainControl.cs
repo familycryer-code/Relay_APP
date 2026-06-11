@@ -761,7 +761,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.20" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.21" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
@@ -4038,7 +4038,9 @@ namespace RelayControl
                             this.WriteBackUpData_FileToRelay();
                             dataB.oldDataBackup = false;
                             MessageBox.Show("Backup data loaded to the Relay !");
+#if !ENMAX
                             this.buttonRequestRelayParamaters_Click(this, new EventArgs());
+#endif
                             MessageBox.Show("Relay is now upto date with the latest firmware !");
                         }
                         else
@@ -4051,7 +4053,7 @@ namespace RelayControl
                         this.enableAll(true);
                     }
 #endif
-                    Application.UseWaitCursor = false;
+                            Application.UseWaitCursor = false;
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
 
