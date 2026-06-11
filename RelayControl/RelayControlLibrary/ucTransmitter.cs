@@ -2482,7 +2482,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private string dNPErrorMsg = "Please Verify all DNP Settings";
+        private string dNPErrorMsg = "DNP Settings - Please Verify and Resend";//"Please Verify all DNP Settings";
 
         private void setDNPsettings(byte[] bytePacket)
         {

@@ -763,7 +763,7 @@ namespace RelayControl
 #elif ENMAX
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.20" + " ENMAX ";                
 #elif BOSTON
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.3" + " EVERSOURCE ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
 #elif DIGITALGRID
@@ -3988,7 +3988,6 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("parameters finished loading");
-
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
@@ -4015,7 +4014,6 @@ namespace RelayControl
             {
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
-
                 if (!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
@@ -4040,6 +4038,8 @@ namespace RelayControl
                             this.WriteBackUpData_FileToRelay();
                             dataB.oldDataBackup = false;
                             MessageBox.Show("Backup data loaded to the Relay !");
+                            this.buttonRequestRelayParamaters_Click(this, new EventArgs());
+                            MessageBox.Show("Relay is now upto date with the latest firmware !");
                         }
                         else
                         {
@@ -4055,7 +4055,7 @@ namespace RelayControl
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
 
-                    this.request_PCdata();
+                    this.request_PCdata(); // Permissive close data
                 }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
@@ -6119,7 +6119,6 @@ namespace RelayControl
             this.enableAll(false);
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-
             this.requestAllData();
 
             Application.UseWaitCursor = false;
@@ -9041,7 +9040,10 @@ namespace RelayControl
             if (this.requestedAllParameters && !this.loadingNewCode)
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
-                //   this.SendAll_Message_PopUp1.Visible = false;
+
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
             }
         }
 
