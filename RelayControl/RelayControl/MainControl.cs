@@ -9205,10 +9205,10 @@ namespace RelayControl
 #if !WATERBUG
                 if (this.DNPEnabled)
                 {
-#if DNP || DEBUG
+//#if DNP || DEBUG
                    // this.ucDNP1.SetAll(bytePacket);
                     this.ucTransmitter1.SetAll(bytePacket);
-#endif
+//#endif
                 }
                     memphisStage = (byte)(bytePacket[0] & 0xE0);
                 memphisStage >>= 5;

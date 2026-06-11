@@ -2303,9 +2303,9 @@ namespace RelayControlLibrary
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
 #if (ENMAX || CONED || TORONTO_HYDRO)
-            this.comboBoxDNPBaudRate.SelectedIndex = 3;
+            this.comboBox_DNPBaudRate.SelectedIndex = 3;
 #else
-            this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
+            this.comboBox_DNPBaudRate.SelectedIndex = 5; //19200
 #endif
         }
 
@@ -2398,7 +2398,7 @@ namespace RelayControlLibrary
                 sEA.SendPacket[17] = tempByte;
 
                 // Baude Rate
-                sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudRate.SelectedIndex;
+                sEA.SendPacket[18] = (byte)this.comboBox_DNPBaudRate.SelectedIndex;
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
@@ -2617,10 +2617,10 @@ namespace RelayControlLibrary
 
             try
             {
-            #if MEMPHIS
+#if MEMPHIS
                             temp = (byte)(bytePacket[1] & 0x07);
-                            this.comboBoxDNPBaudRate.SelectedIndex = temp;
-            #endif
+                            this.comboBox_DNPBaudRate.SelectedIndex = temp;
+#endif
             }
             catch (Exception ex)
             {
@@ -2779,7 +2779,7 @@ namespace RelayControlLibrary
 #if !MEMPHIS
             try
             {
-                this.comboBoxDNPBaudRate.SelectedIndex = bytePacket[17];
+                this.comboBox_DNPBaudRate.SelectedIndex = bytePacket[17];
             }
             catch (Exception ex)
             {
