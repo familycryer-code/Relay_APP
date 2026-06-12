@@ -699,6 +699,8 @@ namespace RelayControl
                 this.ucTripMode2.Location = new System.Drawing.Point(472, 7);
 #else
                 this.ucTripMode2.Location = new System.Drawing.Point(458, 7);
+                this.panelPCsettings.Enabled = false;
+                this.panelPCsettings.Visible = false;
 #endif
                 this.ucCloseMode1.Location = new System.Drawing.Point(970, 7); 
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 406); 
@@ -765,7 +767,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.21" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.22" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
