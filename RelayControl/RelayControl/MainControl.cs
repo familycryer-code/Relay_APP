@@ -695,8 +695,12 @@ namespace RelayControl
                 this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 356); //(410, 368);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
-                this.ucTripMode2.Location = new System.Drawing.Point(458, 7); //(450, 13); 
-                this.ucCloseMode1.Location = new System.Drawing.Point(970, 7); //(970, 13);
+#if CONED
+                this.ucTripMode2.Location = new System.Drawing.Point(472, 7);
+#else
+                this.ucTripMode2.Location = new System.Drawing.Point(458, 7);
+#endif
+                this.ucCloseMode1.Location = new System.Drawing.Point(970, 7); 
                 this.ucPumpMode1.Location = new System.Drawing.Point(13, 406); 
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
                 //this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
@@ -839,14 +843,14 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 
-                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 13);  
-                this.groupBox_PC.Location = new System.Drawing.Point(1004, 390);   
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 370);
+                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7); //(1000, 13);  
+                this.groupBox_PC.Location = new System.Drawing.Point(1004, 406); //(1004, 390);   
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 360); //(470, 370);
                 //    this.panel_PCsettings.Location = new System.Drawing.Point(1002, 387);
                 //    this.panel_PCsettings.Size = new System.Drawing.Size(475, 374);
                 //    this.panel_PCsettings.SendToBack();
-                    this.panelPCsettings.Location = new System.Drawing.Point(1000, 360);
-                    this.panelPCsettings.Size = new System.Drawing.Size(477, 403);
+                    this.panelPCsettings.Location = new System.Drawing.Point(1000, 402); //(1000, 360);
+                    this.panelPCsettings.Size = new System.Drawing.Size(477, 366); //(477, 403);
 
                 this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
                 this.btn_PC_Send.Location = new System.Drawing.Point(280, 295); //(120, 326);

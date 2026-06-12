@@ -2383,7 +2383,7 @@
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
             this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(625, 500);
+            this.ucCloseMode1.Size = new System.Drawing.Size(625, 481); //(625, 500);
             this.ucCloseMode1.TabIndex = 26;
             // 
             // ucPumpMode1
@@ -2433,7 +2433,7 @@
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(678, 578);
+            this.ucTripMode2.Size = new System.Drawing.Size(658, 578); //(678, 578);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = ((uint)(0u));
             // 
