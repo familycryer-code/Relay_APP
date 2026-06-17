@@ -1993,6 +1993,16 @@ namespace RelayControlLibrary
         public static bool dnpEnabledWithKit;
     }
 
+    public static class applyTX
+    {
+        public static bool applyTxSettings;
+    }
+
+    public static class applyDNP
+    {
+        public static bool applyDNPSettings;
+    }
+
     public static class manualP
     {
         public static bool manualProgramming;

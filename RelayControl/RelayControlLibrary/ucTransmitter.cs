@@ -20,9 +20,9 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             this.textBoxTXCTRatio.Text = "120";
-                      
+
             this.DNPCoverFlags = ((byte)(0));
-            
+
 #if DEBUG
             this.textBoxSerialNumber.Enabled = true;
            // this.textBoxTransmitterOutputPower.Enabled = true;
@@ -58,6 +58,7 @@ namespace RelayControlLibrary
             this.button_FastFire.Visible = false;
             this.button_FastMode.Enabled = false;
             this.button_FastMode.Visible = false;
+            //this.lbl_EnableDNPUplink.Location = new System.Drawing.Point(720, 496);
 #endif
 
 #if DOMINION || MADISON || BGE
@@ -90,47 +91,47 @@ namespace RelayControlLibrary
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
 
-            this.button_FastFire.Location = new System.Drawing.Point(1017, 400); 
+            this.button_FastFire.Location = new System.Drawing.Point(1017, 400);
             this.button_FastFire.Size = new System.Drawing.Size(184, 75);
-            this.button_FastMode.Location = new System.Drawing.Point(1017, 490); 
+            this.button_FastMode.Location = new System.Drawing.Point(1017, 490);
             this.button_FastMode.Size = new System.Drawing.Size(184, 75);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550); //(667, 550);  
 
-            this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600); 
+            this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600);
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
             this.grpBox_TXcommands.Location = new System.Drawing.Point(715, 19); //(650, 19); 
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594); 
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594);
             this.panel_TXco.Location = new System.Drawing.Point(713, 18); //(648, 18);  
-            this.panel_TXco.Size = new System.Drawing.Size(226, 599); 
+            this.panel_TXco.Size = new System.Drawing.Size(226, 599);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
             this.panelFlagSettings.Location = new System.Drawing.Point(440, 18); //(400, 18); 
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPHClose.Location = new System.Drawing.Point(3, 2); 
+            this.radioButtonFPHClose.Location = new System.Drawing.Point(3, 2);
             this.label12.Location = new System.Drawing.Point(19, 553);
 
             this.panelFlagSettingG.Location = new System.Drawing.Point(42, 480);
             this.panelFlagSettingG.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPGClose.Location = new System.Drawing.Point(3, 2); 
+            this.radioButtonFPGClose.Location = new System.Drawing.Point(3, 2);
             this.label11.Location = new System.Drawing.Point(19, 483);
 
             this.panelFlagSettingF.Location = new System.Drawing.Point(42, 410);
             this.panelFlagSettingF.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPFClose.Location = new System.Drawing.Point(3, 2); 
+            this.radioButtonFPFClose.Location = new System.Drawing.Point(3, 2);
             this.label10.Location = new System.Drawing.Point(19, 413);
 
             this.panelFlagSettingE.Location = new System.Drawing.Point(42, 340);
             this.panelFlagSettingE.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPEClose.Location = new System.Drawing.Point(3, 2); 
+            this.radioButtonFPEClose.Location = new System.Drawing.Point(3, 2);
             this.label9.Location = new System.Drawing.Point(19, 343);
 
             this.panelFlagSettingD.Location = new System.Drawing.Point(42, 270);
             this.panelFlagSettingD.Size = new System.Drawing.Size(178, 30);
-            this.radioButtonFPDClose.Location = new System.Drawing.Point(3, 2); 
+            this.radioButtonFPDClose.Location = new System.Drawing.Point(3, 2);
             this.label8.Location = new System.Drawing.Point(19, 273);
 
             this.panelFlagSettingC.Location = new System.Drawing.Point(42, 200);
@@ -156,7 +157,7 @@ namespace RelayControlLibrary
             this.checkBoxRed.Size = new System.Drawing.Size(160, 30);
             this.checkBoxBlue.Size = new System.Drawing.Size(160, 30);
             this.checkBoxGreen.Size = new System.Drawing.Size(160, 30);
-            this.checkBoxYellow.Size = new System.Drawing.Size(160, 30); 
+            this.checkBoxYellow.Size = new System.Drawing.Size(160, 30);
             this.panelGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelFreqPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxYellow.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -223,9 +224,11 @@ namespace RelayControlLibrary
             get { return this.dNPEnabled; }
             set
             {
+                //MessageBox.Show("DNP Uplink chkBox asked to be set to : " + value); // Only for testing - to be removed
                 if (!this.forceDNPEnable)
                 {
                     this.dNPEnabled = value;
+                    // MessageBox.Show("DNP Uplink chkBox checked 1"); // Only for testing - to be removed 6/15/2026
                     this.checkBoxDNPEnable.Checked = value;
                 }
             }
@@ -258,7 +261,7 @@ namespace RelayControlLibrary
             set
             {
                 this.serialNumber = value;
-                this.textBoxSerialNumber.Text = value.ToString(); 
+                this.textBoxSerialNumber.Text = value.ToString();
             }
         }
 
@@ -321,7 +324,7 @@ namespace RelayControlLibrary
             {
                 UInt16 uTemp;
                 //this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
-                
+
                 //Set ID number
                 uTemp = bA[1];
                 uTemp <<= 8;
@@ -362,7 +365,7 @@ namespace RelayControlLibrary
                 uTemp = bA[7];
                 uTemp <<= 8;
                 uTemp += bA[6];
-                
+
                 //set TX Ratio
                 uTemp = bA[5];
                 uTemp <<= 8;
@@ -456,14 +459,21 @@ namespace RelayControlLibrary
                     this.enableWaterbury(false);
                     this.checkBoxSmartExternalCableEnable.Checked = false;
                 }
-               // MessageBox.Show("type1message length bA[28] coming from relay : " + bA[28]); // Only for testing - to be removed
+                //MessageBox.Show("type1message length bA[28] coming from relay : " + bA[28]); // Only for testing - to be removed
                 if ((bA[28] & 0x04) == 0x04)
                 {
-                    this.DNPEnabled = true;
+                    if (dnpUplinkK.dnpEnabledWithKit == false)
+                    {
+                        this.DNPEnabled = true;
+                        this.DNPCommLabelStatus = true;
+                        applyTX.applyTxSettings = applyDNP.applyDNPSettings = true;
+                    }
                 }
                 else
                 {
                     this.DNPEnabled = false;
+                    this.DNPCommLabelStatus = false;
+                    applyTX.applyTxSettings = applyDNP.applyDNPSettings = false;
                 }
                 if ((bA[28] & 0x08) == 0x08)
                 {
@@ -590,7 +600,7 @@ namespace RelayControlLibrary
                 this.buttonRQ.Size = new Size(184, 75);
                 this.buttonForceConfigMessage.Size = new Size(184, 75);
                 this.buttonRestoreDefaults.Size = new Size(184, 75);
-                
+
 #endif
                 this.panelFreqPanel.Show();
                 this.panel2.Show();
@@ -811,7 +821,7 @@ namespace RelayControlLibrary
 
         public void setMonitoringData(byte[] bytePacket)
         {
-           // this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
+            // this.textBoxTransmitterOutputPower.Text = powerP.pwrPer.ToString();
             SetMonitoringData(bytePacket);
         }
 
@@ -1111,12 +1121,12 @@ namespace RelayControlLibrary
 
             if (this.checkBoxDNPEnable.Checked == true)
             {
-                //dR = new YesNoMessageBoxResized("Enable", "DNP Uplink Feature ( A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations", "Yes", "No").ShowDialog();
+                //dR = new YesNoMessageBoxResized("DNP Uplink", "Have you installed the 'DNP Uplink Kit'?", "Yes", "No").ShowDialog();
                 dR = new YesNoMessageBoxResized("Enable", " Enable DNP Uplink Feature ? ", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                 {
                     dnpUplinkK.dnpEnabledWithKit = true;
-                    //this.ucDNP2.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                    MessageBox.Show("Please click on Apply button in Transmission Commands followed by apply button in DNP settings to actually Enable the DNP status");
                 }
                 else
                 {
@@ -1134,6 +1144,10 @@ namespace RelayControlLibrary
         //private void buttonTX_Click(object sender, EventArgs e)
         public void buttonTX_Click(object sender, EventArgs e)
         {
+            if (dnpUplinkK.dnpEnabledWithKit == true)
+            {
+                applyTX.applyTxSettings = true;
+            }
             //=====================Display throbber while parameters get sent to the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
@@ -1165,7 +1179,7 @@ namespace RelayControlLibrary
                 this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
 #endif
 
-                this.TXSettings.SerialNumber = this.tempID;                
+                this.TXSettings.SerialNumber = this.tempID;
 
                 this.textBoxSerialNumber.Text = this.TXSettings.SerialNumber.ToString();
                 this.labelErrorLabel.Text = errorMessage;
@@ -1188,7 +1202,7 @@ namespace RelayControlLibrary
                 //Flag Polarity
 
                 errorMessage = "Error Setting Flag Polarities";
-                
+
                 this.TXSettings.FlagPolarity.A = radioButtonFPAClose.Checked;
                 this.TXSettings.FlagPolarity.B = radioButtonFPBClose.Checked;
                 this.TXSettings.FlagPolarity.C = radioButtonFPCClose.Checked;
@@ -1350,9 +1364,18 @@ namespace RelayControlLibrary
 
                 //if (this.checkBoxDNPEnable.Checked)
                 if (dnpUplinkK.dnpEnabledWithKit == true) // check box checked AND DNP Uplink kit is also present
+                {
+                    applyDNP.applyDNPSettings = false; //uplinkC.uplinkCount += 1;
+                    this.DNPCommLabelStatus = false;
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
+                }
                 else
+                {
+                    applyTX.applyTxSettings = false; //uplinkC.uplinkCount = 0;
+                    applyDNP.applyDNPSettings = false;
+                    this.DNPCommLabelStatus = false;
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xFB);
+                }
 
                 if (this.checkBoxTransmitterEnable.Checked)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x08);
@@ -1492,7 +1515,7 @@ namespace RelayControlLibrary
             }
             else
             {
-               // cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Strikeout);
+                // cB.Font = new Font(FontFamily.GenericSansSerif, 8.25f, FontStyle.Strikeout);
                 cB.Checked = false;
             }
         }
@@ -1643,7 +1666,7 @@ namespace RelayControlLibrary
                 tB.Enabled = b;
             }
         }
-                
+
         private void domainUpDownTXCTRatio_SelectedItemChanged(object sender, EventArgs e)
         {
             DomainUpDown dUD = (DomainUpDown)sender;
@@ -2211,6 +2234,7 @@ namespace RelayControlLibrary
                 this.forceDNPEnable = value;
                 if (value)
                 {
+                    // MessageBox.Show("DNP Uplink chkBox checked 8"); // Only for testing - to be removed 6/15/2026
                     this.DNPEnabled = this.checkBoxDNPEnable.Checked = true;
                 }
             }
@@ -2224,7 +2248,7 @@ namespace RelayControlLibrary
         private void button_FastMode_Click(object sender, EventArgs e)
         {
             if (button_FastMode.Text == "Fast Mode Enabled")
-            { 
+            {
                 button_FastMode.Text = "Fast Mode Disabled";
                 button_FastMode.BackColor = Color.Transparent;
             }
@@ -2297,7 +2321,7 @@ namespace RelayControlLibrary
 
         private void setDefaultDNPsettings()
         {
-           // MessageBox.Show("setting default values for dnp settings"); // Only for testing - to be removed
+            // MessageBox.Show("setting default values for dnp settings"); // Only for testing - to be removed
             this.numericUpDownDestinationAddress.Value = 3;
             this.numericUpDownFragmentSize.Value = 1024;
             this.numericUpDownMaxEvents.Value = 120;
@@ -2317,6 +2341,16 @@ namespace RelayControlLibrary
 
         private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+            if (applyTX.applyTxSettings == true)
+            {
+                applyDNP.applyDNPSettings = true;
+            }
+            else
+            {
+                MessageBox.Show("Please ensure the 'DNP Uplink Kit' is installed before activating the 'DNP Uplink' feature. Activating this feature without the required kit will disable communication with the Relay Control and Monitoring Application", "Kit Required");
+                applyDNP.applyDNPSettings = false;
+            }
+
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
@@ -2328,13 +2362,13 @@ namespace RelayControlLibrary
         private static int _DNPpacketLength = 98;
         private void SendAllDNPSettings()
         {
-           // MessageBox.Show("send dnp settings to master processor"); // Only for testing - to be removed
+            // MessageBox.Show("send dnp settings to master processor"); // Only for testing - to be removed
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_DNPpacketLength);
                 byte tempByte = 0;
                 UInt32 tempInt32;
-               //    MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
+                //    MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
@@ -2408,6 +2442,8 @@ namespace RelayControlLibrary
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
+                //uplinkC.uplinkCount += 1;
+
                 this.Send(sEA);
             }
             catch (Exception ex)
@@ -2418,7 +2454,7 @@ namespace RelayControlLibrary
 
         private void buttonRQDNPSettings_Click(object sender, EventArgs e)
         {
-           // MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
+            // MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
@@ -2480,6 +2516,8 @@ namespace RelayControlLibrary
             {
                 this.lbl_DNPCommStatus.Text = "Enabled";
                 this.lbl_DNPCommStatus.BackColor = Color.SkyBlue;
+                //if (uplinkC.uplinkCount == 2)
+                //    uplinkC.uplinkCount = 0;
             }
             else
             {
@@ -2492,14 +2530,14 @@ namespace RelayControlLibrary
 
         private void setDNPsettings(byte[] bytePacket)
         {
-          //  MessageBox.Show("now settings all dnp settings as they r in the master processor"); // Only for testing - to be removed
+            //  MessageBox.Show("now settings all dnp settings as they r in the master processor"); // Only for testing - to be removed
             byte temp;
             //LSByte comes first
             //bytes 0 and 1 for control word
             //bits 0 and 1 are for link layer
             try
             {
-                temp = (byte) (bytePacket[0] & 3);
+                temp = (byte)(bytePacket[0] & 3);
                 switch (temp)
                 {
                     case 0:
@@ -2513,8 +2551,8 @@ namespace RelayControlLibrary
                         break;
                     default:
                         throw new Exception("Bad Value For Link Layer");
-    }
-}
+                }
+            }
             catch (Exception ex)
             {
 #if DEBUG
@@ -2522,7 +2560,7 @@ namespace RelayControlLibrary
                 //#else
 #elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-                #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2540,12 +2578,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Self Address", ex));
                             //#else
-            #elif !DIGITALGRID
-               this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2563,12 +2601,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
                             //#else
-            #elif !DIGITALGRID
-               this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#elif !DIGITALGRID
+                this.errorHandler(new Exception(dNPErrorMsg, ex));
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2586,12 +2624,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2609,12 +2647,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2630,19 +2668,19 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Baud Rate", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
-//bytes 2 & 3???
+            //bytes 2 & 3???
 
             try
             {
@@ -2659,12 +2697,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2682,12 +2720,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Fragment Size", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2705,12 +2743,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Destination Address", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2727,12 +2765,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Source Address", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2749,12 +2787,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2770,12 +2808,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Max Events", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());
@@ -2789,12 +2827,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-            #if DEBUG
+#if DEBUG
                             this.errorHandler(new Exception("Error Setting Baud Rate", ex));
                             //#else
-            #elif !DIGITALGRID
+#elif !DIGITALGRID
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-            #endif
+#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.setDefaultDNPsettings();
                 this.buttonSendAllDNPSettings_Click(this, new EventArgs());

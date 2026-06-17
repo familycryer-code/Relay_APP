@@ -756,7 +756,7 @@ namespace RelayControl
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 600);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 600);
                 this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 650);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 700); //(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(100, 317); 
                 this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(253, 317);  
@@ -781,7 +781,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.26" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.27" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
@@ -969,8 +969,12 @@ namespace RelayControl
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
-                this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+                // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                    this.ucTransmitter1.DNPCommLabelStatus = true;
+                else
+                    this.ucTransmitter1.DNPCommLabelStatus = false;
 
                 // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
@@ -1977,8 +1981,12 @@ namespace RelayControl
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
                     this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
-                    this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                    this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                    // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+                    // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                    if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                        this.ucTransmitter1.DNPCommLabelStatus = true;
+                    else
+                        this.ucTransmitter1.DNPCommLabelStatus = false;
 
                     break;
                 case RelayProgrammingSendCommands.RawData:
@@ -2065,8 +2073,13 @@ namespace RelayControl
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
-                this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+                // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                    this.ucTransmitter1.DNPCommLabelStatus = true;
+                else
+                    this.ucTransmitter1.DNPCommLabelStatus = false;
+
             }
         }
 
@@ -6173,8 +6186,13 @@ namespace RelayControl
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
             //this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
-            this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-            this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+            // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+            //  this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+            if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                this.ucTransmitter1.DNPCommLabelStatus = true;
+            else
+                this.ucTransmitter1.DNPCommLabelStatus = false;
+
         }
 
         private void requestTransmitterSettings()
@@ -6189,8 +6207,13 @@ namespace RelayControl
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
             //this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
-            this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-            this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+            //  this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
+            //  this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+            if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                this.ucTransmitter1.DNPCommLabelStatus = true;
+            else
+                this.ucTransmitter1.DNPCommLabelStatus = false;
+
         }
 
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)
