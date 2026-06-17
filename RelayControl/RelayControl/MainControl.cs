@@ -781,7 +781,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.27" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.28" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
@@ -8114,7 +8114,7 @@ namespace RelayControl
                             this.comboBoxSavedStates.Items.Add(this.saveObject.Settings[i].Name);
                         }
                     }
-                    this.comboBoxSavedStates.Text = "Select Profile"; //"";
+                    this.comboBoxSavedStates.Text = "Load Profile"; //"";
                 }
                 catch (Exception ex)
                 {
@@ -8126,7 +8126,7 @@ namespace RelayControl
         private void buttonDeleteSetting_Click(object sender, EventArgs e)
         {
             //if (this.comboBoxSavedStates.Text != "" && this.comboBoxSavedStates.Text != null)
-            if (this.comboBoxSavedStates.Text != "Select Profile" && this.comboBoxSavedStates.Text != "" && this.comboBoxSavedStates.Text != null)
+            if (this.comboBoxSavedStates.Text != "Load Profile" && this.comboBoxSavedStates.Text != "" && this.comboBoxSavedStates.Text != null)
                 this.saveObject.DeleteState(this.comboBoxSavedStates.Text);
 
             this.writeSaveObjectToFile();
