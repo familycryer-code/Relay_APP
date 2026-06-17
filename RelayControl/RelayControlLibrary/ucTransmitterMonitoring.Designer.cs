@@ -1576,7 +1576,7 @@ namespace RelayControlLibrary
             // labelHa
             // 
             this.labelHa.AutoSize = true;
-            this.labelHa.Location = new System.Drawing.Point(18, 184);
+            this.labelHa.Location = new System.Drawing.Point(45, 184); //(18, 184);
             this.labelHa.Name = "labelHa";
             this.labelHa.Size = new System.Drawing.Size(20, 19);
             this.labelHa.TabIndex = 14;
@@ -1585,7 +1585,7 @@ namespace RelayControlLibrary
             // labelGa
             // 
             this.labelGa.AutoSize = true;
-            this.labelGa.Location = new System.Drawing.Point(17, 152);
+            this.labelGa.Location = new System.Drawing.Point(45, 152); //(17, 152);
             this.labelGa.Name = "labelGa";
             this.labelGa.Size = new System.Drawing.Size(20, 19);
             this.labelGa.TabIndex = 13;
@@ -1594,7 +1594,7 @@ namespace RelayControlLibrary
             // labelFa
             // 
             this.labelFa.AutoSize = true;
-            this.labelFa.Location = new System.Drawing.Point(21, 122);
+            this.labelFa.Location = new System.Drawing.Point(45, 122); //(21, 122);
             this.labelFa.Name = "labelFa";
             this.labelFa.Size = new System.Drawing.Size(17, 19);
             this.labelFa.TabIndex = 12;
@@ -1603,7 +1603,7 @@ namespace RelayControlLibrary
             // labelEa
             // 
             this.labelEa.AutoSize = true;
-            this.labelEa.Location = new System.Drawing.Point(20, 86);
+            this.labelEa.Location = new System.Drawing.Point(45, 86); //(20, 86);
             this.labelEa.Name = "labelEa";
             this.labelEa.Size = new System.Drawing.Size(18, 19);
             this.labelEa.TabIndex = 11;
@@ -1612,7 +1612,7 @@ namespace RelayControlLibrary
             // labelDa
             // 
             this.labelDa.AutoSize = true;
-            this.labelDa.Location = new System.Drawing.Point(18, 54);
+            this.labelDa.Location = new System.Drawing.Point(45, 54); //(18, 54);
             this.labelDa.Name = "labelDa";
             this.labelDa.Size = new System.Drawing.Size(20, 19);
             this.labelDa.TabIndex = 10;
@@ -1621,7 +1621,7 @@ namespace RelayControlLibrary
             // labelCa
             // 
             this.labelCa.AutoSize = true;
-            this.labelCa.Location = new System.Drawing.Point(17, 21);
+            this.labelCa.Location = new System.Drawing.Point(45, 21); //(17, 21);
             this.labelCa.Name = "labelCa";
             this.labelCa.Size = new System.Drawing.Size(19, 19);
             this.labelCa.TabIndex = 8;

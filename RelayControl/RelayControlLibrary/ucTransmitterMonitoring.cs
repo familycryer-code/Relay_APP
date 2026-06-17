@@ -42,7 +42,7 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("IC", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
             this.groupBoxCurrentReadings.Visible = false;
-            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(1020, 27);
+            this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(1028, 27); //(1020, 27)
 
             this.textBoxTimeElapsedSeconds.Location = new System.Drawing.Point(242, 585); 
             this.label101.Location = new System.Drawing.Point(215, 590); 

@@ -930,7 +930,7 @@ namespace RelayControlLibrary
             // 
             this.labelGeneralSettings.AutoSize = true;
             this.labelGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGeneralSettings.Location = new System.Drawing.Point(56, 9);
+            this.labelGeneralSettings.Location = new System.Drawing.Point(25, 19); //(56, 9);
             this.labelGeneralSettings.Name = "labelGeneralSettings";
             this.labelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelGeneralSettings.Size = new System.Drawing.Size(145, 19);
@@ -2293,7 +2293,7 @@ namespace RelayControlLibrary
             // labelFlagSettingsFlagPostPosition
             // 
             this.labelFlagSettingsFlagPostPosition.AutoSize = true;
-            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(64, 13);
+            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(64, 27); //(64, 13);
             this.labelFlagSettingsFlagPostPosition.Name = "labelFlagSettingsFlagPostPosition";
             this.labelFlagSettingsFlagPostPosition.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(140, 19);
@@ -2304,7 +2304,7 @@ namespace RelayControlLibrary
             // labelFlagSettingsFlag
             // 
             this.labelFlagSettingsFlag.AutoSize = true;
-            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(20, 13);
+            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(20, 25); //(20, 13);
             this.labelFlagSettingsFlag.Name = "labelFlagSettingsFlag";
             this.labelFlagSettingsFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFlagSettingsFlag.Size = new System.Drawing.Size(44, 19);
@@ -2404,7 +2404,7 @@ namespace RelayControlLibrary
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(454, 9);
+            this.label21.Location = new System.Drawing.Point(446, 19); //(454, 9);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(115, 19);
