@@ -173,6 +173,11 @@ namespace RelayControlLibrary
             this.label1.Location = new System.Drawing.Point(33, 80);
             this.textBoxID.Location = new System.Drawing.Point(170, 78);
 
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(750, 515);
+            this.checkBoxDNPEnable.Size = new System.Drawing.Size(175, 100);
+            this.checkBoxDNPEnable.Text = "DNP Uplink Feature.       (A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations)";
+            this.lbl_UplinkEn.Location = new System.Drawing.Point(738, 500);
+
             // DNP Comm settings groupBox ==============================================
             this.grpBx_DNPSettings.Location = new System.Drawing.Point(987, 19);
             this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 594);
@@ -1106,8 +1111,8 @@ namespace RelayControlLibrary
 
             if (this.checkBoxDNPEnable.Checked == true)
             {
-                //dR = new YesNoMessageBoxResized("DNP Uplink", "Have you installed the 'DNP Uplink Kit'?", "Yes", "No").ShowDialog();
-                dR = new YesNoMessageBoxResized("Enable", "DNP Uplink Feature ( A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations", "Yes", "No").ShowDialog();
+                //dR = new YesNoMessageBoxResized("Enable", "DNP Uplink Feature ( A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations", "Yes", "No").ShowDialog();
+                dR = new YesNoMessageBoxResized("Enable", " Enable DNP Uplink Feature ? ", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                 {
                     dnpUplinkK.dnpEnabledWithKit = true;
@@ -1117,6 +1122,7 @@ namespace RelayControlLibrary
                 {
                     MessageBox.Show("Please ensure the 'DNP Uplink Kit' is installed before activating the 'DNP Uplink' feature. Activating this feature without the required kit will disable communication with the Relay Control and Monitoring Application", "Kit Required");
                     dnpUplinkK.dnpEnabledWithKit = false;
+                    checkBoxDNPEnable.Checked = false;
                 }
             }
             else

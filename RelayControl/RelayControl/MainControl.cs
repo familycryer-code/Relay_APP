@@ -6171,7 +6171,7 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
-            this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+            //this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
             this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
@@ -6187,7 +6187,7 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
 #if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
-            this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+            //this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
             this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;

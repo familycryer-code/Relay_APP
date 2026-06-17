@@ -217,12 +217,10 @@ namespace RelayControlLibrary
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
-            //this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
-            this.grpBox_TXcommands = new BorderlessGroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
-            //this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
-            this.grpBx_DNPSettings = new BorderlessGroupBox();
+            this.panel_dnpComSet = new System.Windows.Forms.Panel();
+            this.lbl_UplinkEn = new System.Windows.Forms.Label();
+            this.grpBx_DNPSettings = new RelayControlLibrary.BorderlessGroupBox();
             this.groupBoxDNPStatus = new System.Windows.Forms.GroupBox();
             this.labelDNPtext1 = new System.Windows.Forms.Label();
             this.lbl_DNPCommStatus = new System.Windows.Forms.Label();
@@ -253,7 +251,8 @@ namespace RelayControlLibrary
             this.labelDestinationAddress = new System.Windows.Forms.Label();
             this.label_MemphisStage = new System.Windows.Forms.Label();
             this.numericUpDown_MemphisStage = new System.Windows.Forms.NumericUpDown();
-            this.panel_dnpComSet = new System.Windows.Forms.Panel();
+            this.grpBox_TXcommands = new RelayControlLibrary.BorderlessGroupBox();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -1740,7 +1739,6 @@ namespace RelayControlLibrary
             // 
             // checkBoxDNPEnable
             // 
-            this.checkBoxDNPEnable.AutoSize = true;
             this.checkBoxDNPEnable.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxDNPEnable.Location = new System.Drawing.Point(25, 595);
             this.checkBoxDNPEnable.Name = "checkBoxDNPEnable";
@@ -2458,29 +2456,6 @@ namespace RelayControlLibrary
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
             // 
-            // ucDNP2
-            // 
-            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
-            this.ucDNP2.DNPLabelStatus = false;
-            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
-            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucDNP2.Name = "ucDNP2";
-            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
-            this.ucDNP2.TabIndex = 0;
-            // 
-            // grpBox_TXcommands
-            // 
-            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(210, 306);
-            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
-            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 63);
-            this.grpBox_TXcommands.TabIndex = 88;
-            this.grpBox_TXcommands.TabStop = false;
-            this.grpBox_TXcommands.Text = "Transmission Commands";
-            this.grpBox_TXcommands.BackColor = SystemColors.Control; // default light gray
-            this.grpBox_TXcommands.ForeColor = SystemColors.ControlText;
-            // 
             // panel_TXco
             // 
             this.panel_TXco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -2489,8 +2464,27 @@ namespace RelayControlLibrary
             this.panel_TXco.Size = new System.Drawing.Size(37, 32);
             this.panel_TXco.TabIndex = 89;
             // 
+            // panel_dnpComSet
+            // 
+            this.panel_dnpComSet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_dnpComSet.Location = new System.Drawing.Point(402, 104);
+            this.panel_dnpComSet.Name = "panel_dnpComSet";
+            this.panel_dnpComSet.Size = new System.Drawing.Size(42, 39);
+            this.panel_dnpComSet.TabIndex = 91;
+            // 
+            // lbl_UplinkEn
+            // 
+            this.lbl_UplinkEn.AutoSize = true;
+            this.lbl_UplinkEn.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_UplinkEn.Location = new System.Drawing.Point(673, 598);
+            this.lbl_UplinkEn.Name = "lbl_UplinkEn";
+            this.lbl_UplinkEn.Size = new System.Drawing.Size(56, 19);
+            this.lbl_UplinkEn.TabIndex = 92;
+            this.lbl_UplinkEn.Text = "Enable";
+            // 
             // grpBx_DNPSettings
             // 
+            this.grpBx_DNPSettings.BackColor = System.Drawing.SystemColors.Control;
             this.grpBx_DNPSettings.Controls.Add(this.groupBoxDNPStatus);
             this.grpBx_DNPSettings.Controls.Add(this.buttonRQDNPSettings);
             this.grpBx_DNPSettings.Controls.Add(this.btn_DNPsettings_defaults);
@@ -2520,14 +2514,13 @@ namespace RelayControlLibrary
             this.grpBx_DNPSettings.Controls.Add(this.label_MemphisStage);
             this.grpBx_DNPSettings.Controls.Add(this.numericUpDown_MemphisStage);
             this.grpBx_DNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBx_DNPSettings.ForeColor = System.Drawing.SystemColors.ControlText;
             this.grpBx_DNPSettings.Location = new System.Drawing.Point(647, 9);
             this.grpBx_DNPSettings.Name = "grpBx_DNPSettings";
             this.grpBx_DNPSettings.Size = new System.Drawing.Size(285, 580);
             this.grpBx_DNPSettings.TabIndex = 90;
             this.grpBx_DNPSettings.TabStop = false;
             this.grpBx_DNPSettings.Text = "DNP Settings";
-            this.grpBx_DNPSettings.BackColor = SystemColors.Control; // default light gray
-            this.grpBx_DNPSettings.ForeColor = SystemColors.ControlText;
             // 
             // groupBoxDNPStatus
             // 
@@ -2936,13 +2929,28 @@ namespace RelayControlLibrary
             0});
             this.numericUpDown_MemphisStage.Visible = false;
             // 
-            // panel_dnpComSet
+            // grpBox_TXcommands
             // 
-            this.panel_dnpComSet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_dnpComSet.Location = new System.Drawing.Point(402, 104);
-            this.panel_dnpComSet.Name = "panel_dnpComSet";
-            this.panel_dnpComSet.Size = new System.Drawing.Size(42, 39);
-            this.panel_dnpComSet.TabIndex = 91;
+            this.grpBox_TXcommands.BackColor = System.Drawing.SystemColors.Control;
+            this.grpBox_TXcommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_TXcommands.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(210, 306);
+            this.grpBox_TXcommands.Name = "grpBox_TXcommands";
+            this.grpBox_TXcommands.Size = new System.Drawing.Size(123, 63);
+            this.grpBox_TXcommands.TabIndex = 88;
+            this.grpBox_TXcommands.TabStop = false;
+            this.grpBox_TXcommands.Text = "Transmission Commands";
+            // 
+            // ucDNP2
+            // 
+            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP2.DNPLabelStatus = false;
+            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
+            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucDNP2.Name = "ucDNP2";
+            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
+            this.ucDNP2.TabIndex = 0;
             // 
             // ucTransmitterMonitoring2
             // 
@@ -2968,6 +2976,7 @@ namespace RelayControlLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_UplinkEn);
             this.Controls.Add(this.grpBx_DNPSettings);
             this.Controls.Add(this.checkBoxDNPEnable);
             this.Controls.Add(this.button_FastFire);
@@ -3285,9 +3294,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Timer timer_FastMode;
         private System.Windows.Forms.Timer timer_FireFastConfig;
         private System.Windows.Forms.Button btn_CTratioCal;
-        public System.Windows.Forms.GroupBox grpBox_TXcommands;
         private System.Windows.Forms.Panel panel_TXco;
-        public System.Windows.Forms.GroupBox grpBx_DNPSettings;
         public System.Windows.Forms.Button buttonSendAllDNPSettings;
         private System.Windows.Forms.ComboBox comboBox_DNPBaudRate;
         private System.Windows.Forms.Label labelBaudRate;
@@ -3319,5 +3326,8 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Panel panel_dnpComSet;
         private System.Windows.Forms.Label label_MemphisStage;
         private System.Windows.Forms.NumericUpDown numericUpDown_MemphisStage;
+        private System.Windows.Forms.Label lbl_UplinkEn;
+        public BorderlessGroupBox grpBox_TXcommands;
+        public BorderlessGroupBox grpBx_DNPSettings;
     }
 }
