@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace RelayControlLibrary
 {
     partial class ucSafeService
@@ -28,7 +30,8 @@ namespace RelayControlLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBoxSafeService = new System.Windows.Forms.GroupBox();
+            //this.groupBoxSafeService = new System.Windows.Forms.GroupBox();
+            this.groupBoxSafeService = new BorderlessGroupBox();
             this.lbl_CurrImbalance_unit = new System.Windows.Forms.Label();
             this.comboBox_DataViews = new System.Windows.Forms.ComboBox();
             this.labelCurrentlyEnabled = new System.Windows.Forms.Label();
@@ -93,6 +96,8 @@ namespace RelayControlLibrary
             this.groupBoxSafeService.TabIndex = 0;
             this.groupBoxSafeService.TabStop = false;
             this.groupBoxSafeService.Text = "Safe Service Mode";
+            this.groupBoxSafeService.BackColor = SystemColors.Control; // default light gray
+            this.groupBoxSafeService.ForeColor = SystemColors.ControlText;
             // 
             // lbl_CurrImbalance_unit
             // 

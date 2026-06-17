@@ -349,6 +349,20 @@ namespace RelayControl
             // Optional focus rectangle
             e.DrawFocusRectangle();
         }
+        public class BorderlessGroupBox : GroupBox
+        {
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                // Do nothing → prevents default border drawing										
+                e.Graphics.Clear(this.BackColor);
+
+                if (!string.IsNullOrEmpty(this.Text))
+                {
+                    SizeF textSize = e.Graphics.MeasureString(this.Text, this.Font);
+                    e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 0, 0);
+                }
+            }
+        }
 
         public void MainControlInit()
         {
@@ -767,7 +781,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.22" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.26" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR

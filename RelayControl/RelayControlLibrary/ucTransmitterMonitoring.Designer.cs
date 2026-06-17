@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace RelayControlLibrary
 {
     partial class ucTransmitterMonitoring
@@ -76,7 +78,8 @@ namespace RelayControlLibrary
             this.textBoxVnB = new System.Windows.Forms.TextBox();
             this.groupBoxPowerDirectionalFlow = new System.Windows.Forms.GroupBox();
             this.textBoxPowerDirectionalFlow = new System.Windows.Forms.TextBox();
-            this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
+            // this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
+            this.groupBoxGeneralSettings = new BorderlessGroupBox();
             this.lbl_timeElapsed = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBoxTransmitterTemp = new System.Windows.Forms.TextBox();
@@ -384,6 +387,8 @@ namespace RelayControlLibrary
             this.groupBoxGeneralSettings.TabIndex = 82;
             this.groupBoxGeneralSettings.TabStop = false;
             this.groupBoxGeneralSettings.Text = "General Settings";
+            this.groupBoxGeneralSettings.BackColor = SystemColors.Control; // default light gray
+            this.groupBoxGeneralSettings.ForeColor = SystemColors.ControlText;
             // 
             // lbl_timeElapsed
             // 

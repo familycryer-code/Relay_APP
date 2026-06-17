@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace RelayControlLibrary
 {
     partial class ucPumpMode
@@ -46,7 +48,8 @@ namespace RelayControlLibrary
             this.numericUpDownMotorCycles = new System.Windows.Forms.NumericUpDown();
             this.labelCyclesUnits = new System.Windows.Forms.Label();
             this.checkBoxMotorCycles = new System.Windows.Forms.CheckBox();
-            this.groupBoxPumpMode = new System.Windows.Forms.GroupBox();
+            //this.groupBoxPumpMode = new System.Windows.Forms.GroupBox();
+            this.groupBoxPumpMode = new BorderlessGroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxAlarmOnly = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -308,6 +311,8 @@ namespace RelayControlLibrary
             this.groupBoxPumpMode.TabIndex = 15;
             this.groupBoxPumpMode.TabStop = false;
             this.groupBoxPumpMode.Text = "Pump Protect Mode";
+            this.groupBoxPumpMode.BackColor = SystemColors.Control; // default light gray
+            this.groupBoxPumpMode.ForeColor = SystemColors.ControlText;
             // 
             // label3
             // 

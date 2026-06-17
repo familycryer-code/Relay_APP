@@ -26,7 +26,7 @@ namespace RelayControlLibrary
             InitializeComponent();
             this.listBoxTripModes.SelectedIndex = 0;
             this.domainUpDownType.SelectedIndex = 0;
-            //this.comboBox_TripType.SelectedIndex = 0;
+            this.lbl_TripMode_Title.Location = new System.Drawing.Point(2, 2);
 #if NU
             this.checkBoxEnableGullWing.Checked = true;
             this.showGullWing(true);
@@ -2168,6 +2168,22 @@ namespace RelayControlLibrary
         #endregion
 
     }
+
+    public class BorderlessGroupBox : GroupBox
+    {
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            // Do nothing → prevents default border drawing				
+            e.Graphics.Clear(this.BackColor);
+
+            if (!string.IsNullOrEmpty(this.Text))
+            {
+                SizeF textSize = e.Graphics.MeasureString(this.Text, this.Font);
+                e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 0, 0);
+            }
+        }
+    }
+
 
     [Serializable()]
 

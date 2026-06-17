@@ -23,6 +23,7 @@ namespace RelayControlLibrary
             {
                 InitializeComponent();
                 this.myInitialize();
+                this.lbl_CLoseMode_Title.Location = new System.Drawing.Point(2, 2);
             }
             catch (Exception ex)
             {

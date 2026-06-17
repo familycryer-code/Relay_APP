@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace RelayControlLibrary
 {
@@ -66,7 +67,7 @@ namespace RelayControlLibrary
             this.checkBoxTripOnPowerDown = new System.Windows.Forms.CheckBox();
             this.domainUpDownTripStyle = new System.Windows.Forms.DomainUpDown();
             this.labelTripStyle = new System.Windows.Forms.Label();
-            this.groupBoxTripModeSettings = new System.Windows.Forms.GroupBox();
+            this.groupBoxTripModeSettings = new RelayControlLibrary.BorderlessGroupBox();
             this.comboBox_TripStyle = new System.Windows.Forms.ComboBox();
             this.lblUnitInCur_kVARdir = new System.Windows.Forms.Label();
             this.lblUnitInCur_kWdir = new System.Windows.Forms.Label();
@@ -76,6 +77,7 @@ namespace RelayControlLibrary
             this.numericUpDown_InCurrkW = new System.Windows.Forms.NumericUpDown();
             this.lbl_InstCurrent_kWdirection = new System.Windows.Forms.Label();
             this.panel_TMsettings = new System.Windows.Forms.Panel();
+            this.lbl_TripMode_Title = new System.Windows.Forms.Label();
             this.comboBox_TripType = new System.Windows.Forms.ComboBox();
             this.lblGreenDelay = new System.Windows.Forms.Label();
             this.numericUpDown_GreenDelay = new System.Windows.Forms.NumericUpDown();
@@ -114,7 +116,7 @@ namespace RelayControlLibrary
             "Watt-Var"});
             this.listBoxTripModes.Location = new System.Drawing.Point(5, 51);
             this.listBoxTripModes.Name = "listBoxTripModes";
-            this.listBoxTripModes.Size = new System.Drawing.Size(80, 90);
+            this.listBoxTripModes.Size = new System.Drawing.Size(80, 80);
             this.listBoxTripModes.TabIndex = 2;
             this.listBoxTripModes.SelectedIndexChanged += new System.EventHandler(this.listBoxTripModes_SelectedIndexChanged);
             // 
@@ -578,6 +580,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxTripModeSettings
             // 
+            this.groupBoxTripModeSettings.BackColor = System.Drawing.SystemColors.Control;
             this.groupBoxTripModeSettings.Controls.Add(this.comboBox_TripStyle);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kVARdir);
             this.groupBoxTripModeSettings.Controls.Add(this.lblUnitInCur_kWdir);
@@ -623,6 +626,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.Controls.Add(this.labelWVAngle);
             this.groupBoxTripModeSettings.Controls.Add(this.panel_TMsettings);
             this.groupBoxTripModeSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxTripModeSettings.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBoxTripModeSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxTripModeSettings.Name = "groupBoxTripModeSettings";
             this.groupBoxTripModeSettings.Size = new System.Drawing.Size(356, 294);
@@ -728,12 +732,23 @@ namespace RelayControlLibrary
             // panel_TMsettings
             // 
             this.panel_TMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_TMsettings.Controls.Add(this.lbl_TripMode_Title);
             this.panel_TMsettings.Controls.Add(this.comboBox_TripType);
             this.panel_TMsettings.Controls.Add(this.domainUpDownType);
             this.panel_TMsettings.Location = new System.Drawing.Point(0, 0);
             this.panel_TMsettings.Name = "panel_TMsettings";
             this.panel_TMsettings.Size = new System.Drawing.Size(356, 293);
             this.panel_TMsettings.TabIndex = 70;
+            // 
+            // lbl_TripMode_Title
+            // 
+            this.lbl_TripMode_Title.AutoSize = true;
+            this.lbl_TripMode_Title.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TripMode_Title.Location = new System.Drawing.Point(77, 80);
+            this.lbl_TripMode_Title.Name = "lbl_TripMode_Title";
+            this.lbl_TripMode_Title.Size = new System.Drawing.Size(91, 19);
+            this.lbl_TripMode_Title.TabIndex = 70;
+            this.lbl_TripMode_Title.Text = "Trip Mode";
             // 
             // comboBox_TripType
             // 
@@ -748,7 +763,6 @@ namespace RelayControlLibrary
             this.comboBox_TripType.Size = new System.Drawing.Size(75, 27);
             this.comboBox_TripType.TabIndex = 69;
             this.comboBox_TripType.Visible = false;
-            //this.comboBox_TripType.SelectedIndexChanged += new System.EventHandler(this.comboBox_TripType_SelectedItemChanged);
             // 
             // lblGreenDelay
             // 
@@ -922,6 +936,7 @@ namespace RelayControlLibrary
             this.groupBoxTripModeSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_InCurrkW)).EndInit();
             this.panel_TMsettings.ResumeLayout(false);
+            this.panel_TMsettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenMagX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_GreenMagY)).EndInit();
@@ -969,7 +984,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTripStyle;
         private System.Windows.Forms.DomainUpDown domainUpDownTripStyle;
         public System.Windows.Forms.CheckBox checkBoxTripOnPowerDown;
-        public System.Windows.Forms.GroupBox groupBoxTripModeSettings;
         private System.Windows.Forms.Label lblGreenDelay;
         private System.Windows.Forms.NumericUpDown numericUpDown_GreenDelay;
         private System.Windows.Forms.Label lblGreenMagX;
@@ -988,5 +1002,7 @@ namespace RelayControlLibrary
         public System.Windows.Forms.ComboBox comboBox_TripStyle;
         public System.Windows.Forms.ComboBox comboBox_TripType;
         private Panel panel_TMsettings;
+        private Label lbl_TripMode_Title;
+        public BorderlessGroupBox groupBoxTripModeSettings;
     }
 }

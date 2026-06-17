@@ -1,4 +1,6 @@
-﻿namespace RelayControlLibrary
+﻿using System.Drawing;
+
+namespace RelayControlLibrary
 {
     partial class ucTransmitter
     {
@@ -216,9 +218,11 @@
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
-            this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
+            //this.grpBox_TXcommands = new System.Windows.Forms.GroupBox();
+            this.grpBox_TXcommands = new BorderlessGroupBox();
             this.panel_TXco = new System.Windows.Forms.Panel();
-            this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
+            //this.grpBx_DNPSettings = new System.Windows.Forms.GroupBox();
+            this.grpBx_DNPSettings = new BorderlessGroupBox();
             this.groupBoxDNPStatus = new System.Windows.Forms.GroupBox();
             this.labelDNPtext1 = new System.Windows.Forms.Label();
             this.lbl_DNPCommStatus = new System.Windows.Forms.Label();
@@ -2474,6 +2478,8 @@
             this.grpBox_TXcommands.TabIndex = 88;
             this.grpBox_TXcommands.TabStop = false;
             this.grpBox_TXcommands.Text = "Transmission Commands";
+            this.grpBox_TXcommands.BackColor = SystemColors.Control; // default light gray
+            this.grpBox_TXcommands.ForeColor = SystemColors.ControlText;
             // 
             // panel_TXco
             // 
@@ -2520,6 +2526,8 @@
             this.grpBx_DNPSettings.TabIndex = 90;
             this.grpBx_DNPSettings.TabStop = false;
             this.grpBx_DNPSettings.Text = "DNP Settings";
+            this.grpBx_DNPSettings.BackColor = SystemColors.Control; // default light gray
+            this.grpBx_DNPSettings.ForeColor = SystemColors.ControlText;
             // 
             // groupBoxDNPStatus
             // 

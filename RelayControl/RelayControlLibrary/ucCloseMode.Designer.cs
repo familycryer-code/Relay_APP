@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace RelayControlLibrary
 {
     partial class ucCloseMode
@@ -49,14 +51,16 @@ namespace RelayControlLibrary
             this.labelCircleCloseVolts = new System.Windows.Forms.Label();
             this.buttonRelaxClose = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.groupBoxCloseMode = new System.Windows.Forms.GroupBox();
+            this.groupBoxCloseMode = new RelayControlLibrary.BorderlessGroupBox();
             this.panel_CMsettings = new System.Windows.Forms.Panel();
+            this.lbl_CLoseMode_Title = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecloseVolts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPDV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCloseTiltAngle)).BeginInit();
             this.groupBoxCloseMode.SuspendLayout();
+            this.panel_CMsettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // numericUpDownTimeDelay
@@ -183,7 +187,7 @@ namespace RelayControlLibrary
             // labelReclose
             // 
             this.labelReclose.AutoSize = true;
-            this.labelReclose.Location = new System.Drawing.Point(90, 94); //(83, 94);
+            this.labelReclose.Location = new System.Drawing.Point(90, 94);
             this.labelReclose.Name = "labelReclose";
             this.labelReclose.Size = new System.Drawing.Size(108, 19);
             this.labelReclose.TabIndex = 19;
@@ -326,6 +330,7 @@ namespace RelayControlLibrary
             // 
             // groupBoxCloseMode
             // 
+            this.groupBoxCloseMode.BackColor = System.Drawing.SystemColors.Control;
             this.groupBoxCloseMode.Controls.Add(this.checkBox1);
             this.groupBoxCloseMode.Controls.Add(this.buttonRestoreDefaults);
             this.groupBoxCloseMode.Controls.Add(this.labelTiltAngle);
@@ -348,6 +353,7 @@ namespace RelayControlLibrary
             this.groupBoxCloseMode.Controls.Add(this.numericUpDownPDV);
             this.groupBoxCloseMode.Controls.Add(this.panel_CMsettings);
             this.groupBoxCloseMode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxCloseMode.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBoxCloseMode.Location = new System.Drawing.Point(3, 3);
             this.groupBoxCloseMode.Name = "groupBoxCloseMode";
             this.groupBoxCloseMode.Size = new System.Drawing.Size(352, 294);
@@ -358,10 +364,21 @@ namespace RelayControlLibrary
             // panel_CMsettings
             // 
             this.panel_CMsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_CMsettings.Controls.Add(this.lbl_CLoseMode_Title);
             this.panel_CMsettings.Location = new System.Drawing.Point(0, 0);
             this.panel_CMsettings.Name = "panel_CMsettings";
             this.panel_CMsettings.Size = new System.Drawing.Size(352, 293);
             this.panel_CMsettings.TabIndex = 41;
+            // 
+            // lbl_CLoseMode_Title
+            // 
+            this.lbl_CLoseMode_Title.AutoSize = true;
+            this.lbl_CLoseMode_Title.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_CLoseMode_Title.Location = new System.Drawing.Point(8, 4);
+            this.lbl_CLoseMode_Title.Name = "lbl_CLoseMode_Title";
+            this.lbl_CLoseMode_Title.Size = new System.Drawing.Size(102, 19);
+            this.lbl_CLoseMode_Title.TabIndex = 0;
+            this.lbl_CLoseMode_Title.Text = "Close Mode";
             // 
             // ucCloseMode
             // 
@@ -377,6 +394,8 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCloseTiltAngle)).EndInit();
             this.groupBoxCloseMode.ResumeLayout(false);
             this.groupBoxCloseMode.PerformLayout();
+            this.panel_CMsettings.ResumeLayout(false);
+            this.panel_CMsettings.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -405,8 +424,9 @@ namespace RelayControlLibrary
         //private System.Windows.Forms.RadioButton radioButtonNeverOverride;
         //private System.Windows.Forms.RadioButton radioButtonOverrideBlockedOpen;
         private System.Windows.Forms.Button buttonRelaxClose;
-        public System.Windows.Forms.GroupBox groupBoxCloseMode;
         private System.Windows.Forms.CheckBox checkBox1;
         public System.Windows.Forms.Panel panel_CMsettings;
+        private System.Windows.Forms.Label lbl_CLoseMode_Title;
+        public BorderlessGroupBox groupBoxCloseMode;
     }
 }
