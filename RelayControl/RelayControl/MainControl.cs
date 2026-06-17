@@ -756,7 +756,7 @@ namespace RelayControl
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 600);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 600);
                 this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 700); //(1150, 650);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 650);
                 this.loadConfigurationToolStripMenuItem.Visible = false;
                 this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(100, 317); 
                 this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(253, 317);  
@@ -8114,7 +8114,7 @@ namespace RelayControl
                             this.comboBoxSavedStates.Items.Add(this.saveObject.Settings[i].Name);
                         }
                     }
-                    this.comboBoxSavedStates.Text = "";
+                    this.comboBoxSavedStates.Text = "Select Profile"; //"";
                 }
                 catch (Exception ex)
                 {
@@ -8125,7 +8125,8 @@ namespace RelayControl
 
         private void buttonDeleteSetting_Click(object sender, EventArgs e)
         {
-            if (this.comboBoxSavedStates.Text != "" && this.comboBoxSavedStates.Text != null)
+            //if (this.comboBoxSavedStates.Text != "" && this.comboBoxSavedStates.Text != null)
+            if (this.comboBoxSavedStates.Text != "Select Profile" && this.comboBoxSavedStates.Text != "" && this.comboBoxSavedStates.Text != null)
                 this.saveObject.DeleteState(this.comboBoxSavedStates.Text);
 
             this.writeSaveObjectToFile();
