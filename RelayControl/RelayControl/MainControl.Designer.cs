@@ -136,8 +136,8 @@ namespace RelayControl
             this.textBoxTemperatureMonitoringPage = new System.Windows.Forms.TextBox();
             this.labelTemperatureMonitoringPage = new System.Windows.Forms.Label();
             this.tabPageControl = new System.Windows.Forms.TabPage();
-            //this.groupBox_PC = new System.Windows.Forms.GroupBox();
-            this.groupBox_PC = new BorderlessGroupBox();
+            this.btn_LoadProfile = new System.Windows.Forms.Button();
+            this.groupBox_PC = new RelayControl.MainControl.BorderlessGroupBox();
             this.btn_PC_Send = new System.Windows.Forms.Button();
             this.lbl_PermissiveClose_Status = new System.Windows.Forms.Label();
             this.lbl_PC_status = new System.Windows.Forms.Label();
@@ -167,8 +167,7 @@ namespace RelayControl
             this.numericUpDownLowVoltageThres = new System.Windows.Forms.NumericUpDown();
             this.buttonSendLowVoltageThres = new System.Windows.Forms.Button();
             this.labelRelayDisconnected = new System.Windows.Forms.Label();
-            //this.groupBoxNetworkCTRatio = new System.Windows.Forms.GroupBox();
-            this.groupBoxNetworkCTRatio = new BorderlessGroupBox();
+            this.groupBoxNetworkCTRatio = new RelayControl.MainControl.BorderlessGroupBox();
             this.buttonTypePhasingRestoreDefaults = new System.Windows.Forms.Button();
             this.labelGEWH = new System.Windows.Forms.Label();
             this.labelProtectorType = new System.Windows.Forms.Label();
@@ -212,8 +211,7 @@ namespace RelayControl
             this.buttonBlockAndTrip = new System.Windows.Forms.Button();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            //this.grpBox_RelayCommands = new System.Windows.Forms.GroupBox();
-            this.grpBox_RelayCommands = new BorderlessGroupBox();
+            this.grpBox_RelayCommands = new RelayControl.MainControl.BorderlessGroupBox();
             this.grpBox_LightningCount = new System.Windows.Forms.GroupBox();
             this.btn_clrLC = new System.Windows.Forms.Button();
             this.btn_getLC = new System.Windows.Forms.Button();
@@ -223,14 +221,12 @@ namespace RelayControl
             this.ucBlockControl1 = new RelayControlLibrary.ucBlockControl();
             this.ucRemoteCommandBlock1 = new RelayControlLibrary.ucRemoteCommandBlock();
             this.buttonTripRelay = new System.Windows.Forms.Button();
-            //this.groupBox_FirmwareInfo = new System.Windows.Forms.GroupBox();
-            this.groupBox_FirmwareInfo = new BorderlessGroupBox();
+            this.groupBox_FirmwareInfo = new RelayControl.MainControl.BorderlessGroupBox();
             this.labelRevision = new System.Windows.Forms.Label();
             this.labelRelayRevision = new System.Windows.Forms.Label();
             this.labelFPGARevision = new System.Windows.Forms.Label();
             this.labelBootRevision = new System.Windows.Forms.Label();
-            //this.groupBox_RelayInfo = new System.Windows.Forms.GroupBox();
-            this.groupBox_RelayInfo = new BorderlessGroupBox();
+            this.groupBox_RelayInfo = new RelayControl.MainControl.BorderlessGroupBox();
             this.lblLC_Name = new System.Windows.Forms.Label();
             this.txtBox_NWPposition = new System.Windows.Forms.TextBox();
             this.lbl_NWPposition = new System.Windows.Forms.Label();
@@ -241,8 +237,7 @@ namespace RelayControl
             this.textBoxRelaySNControl = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxTripCount = new System.Windows.Forms.TextBox();
-            //this.groupBoxRelayStatus = new System.Windows.Forms.GroupBox();
-            this.groupBoxRelayStatus = new BorderlessGroupBox();
+            this.groupBoxRelayStatus = new RelayControl.MainControl.BorderlessGroupBox();
             this.lbl_Relayststatus_XP = new System.Windows.Forms.Label();
             this.lbl_Relayststatus_SL = new System.Windows.Forms.Label();
             this.lbl_Relayststatus_PA = new System.Windows.Forms.Label();
@@ -1516,6 +1511,7 @@ namespace RelayControl
             // tabPageControl
             // 
             this.tabPageControl.BackColor = System.Drawing.Color.Transparent;
+            this.tabPageControl.Controls.Add(this.btn_LoadProfile);
             this.tabPageControl.Controls.Add(this.groupBox_PC);
             this.tabPageControl.Controls.Add(this.textBoxSaveStateName);
             this.tabPageControl.Controls.Add(this.buttonSaveSetting);
@@ -1545,8 +1541,20 @@ namespace RelayControl
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Relay Settings";
             // 
+            // btn_LoadProfile
+            // 
+            this.btn_LoadProfile.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_LoadProfile.Location = new System.Drawing.Point(968, 609);
+            this.btn_LoadProfile.Name = "btn_LoadProfile";
+            this.btn_LoadProfile.Size = new System.Drawing.Size(211, 35);
+            this.btn_LoadProfile.TabIndex = 133;
+            this.btn_LoadProfile.Text = "Load Profile";
+            this.btn_LoadProfile.UseVisualStyleBackColor = true;
+            this.btn_LoadProfile.Click += new System.EventHandler(this.btn_LoadProfile_Click);
+            // 
             // groupBox_PC
             // 
+            this.groupBox_PC.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_PC.Controls.Add(this.btn_PC_Send);
             this.groupBox_PC.Controls.Add(this.lbl_PermissiveClose_Status);
             this.groupBox_PC.Controls.Add(this.lbl_PC_status);
@@ -1563,6 +1571,7 @@ namespace RelayControl
             this.groupBox_PC.Controls.Add(this.lbl_PC_floatTime);
             this.groupBox_PC.Controls.Add(this.btn_RestorePC_defaults);
             this.groupBox_PC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_PC.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox_PC.Location = new System.Drawing.Point(1244, 475);
             this.groupBox_PC.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_PC.Name = "groupBox_PC";
@@ -1571,8 +1580,6 @@ namespace RelayControl
             this.groupBox_PC.TabIndex = 122;
             this.groupBox_PC.TabStop = false;
             this.groupBox_PC.Text = "Permissive Close";
-            this.groupBox_PC.BackColor = SystemColors.Control; // default light gray
-            this.groupBox_PC.ForeColor = SystemColors.ControlText;
             // 
             // btn_PC_Send
             // 
@@ -1951,7 +1958,7 @@ namespace RelayControl
             // 
             // groupBoxNetworkCTRatio
             // 
-            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxNetworkCTRatio.BackColor = System.Drawing.SystemColors.Control;
             this.groupBoxNetworkCTRatio.Controls.Add(this.buttonTypePhasingRestoreDefaults);
             this.groupBoxNetworkCTRatio.Controls.Add(this.labelGEWH);
             this.groupBoxNetworkCTRatio.Controls.Add(this.labelProtectorType);
@@ -1969,6 +1976,7 @@ namespace RelayControl
             this.groupBoxNetworkCTRatio.Controls.Add(this.label20);
             this.groupBoxNetworkCTRatio.Controls.Add(this.lbl_Phasing);
             this.groupBoxNetworkCTRatio.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxNetworkCTRatio.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(25, 16);
             this.groupBoxNetworkCTRatio.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxNetworkCTRatio.Name = "groupBoxNetworkCTRatio";
@@ -1977,8 +1985,6 @@ namespace RelayControl
             this.groupBoxNetworkCTRatio.TabIndex = 110;
             this.groupBoxNetworkCTRatio.TabStop = false;
             this.groupBoxNetworkCTRatio.Text = "Network Protector Settings";
-            this.groupBoxNetworkCTRatio.BackColor = SystemColors.Control; // default light gray									
-            this.groupBoxNetworkCTRatio.ForeColor = SystemColors.ControlText;
             // 
             // buttonTypePhasingRestoreDefaults
             // 
@@ -2395,7 +2401,7 @@ namespace RelayControl
             this.ucCloseMode1.Name = "ucCloseMode1";
             this.ucCloseMode1.RelaxClose = false;
             this.ucCloseMode1.RelayRevisionNumber = ((uint)(0u));
-            this.ucCloseMode1.Size = new System.Drawing.Size(625, 481); //(625, 500);
+            this.ucCloseMode1.Size = new System.Drawing.Size(625, 481);
             this.ucCloseMode1.TabIndex = 26;
             // 
             // ucPumpMode1
@@ -2445,7 +2451,7 @@ namespace RelayControl
             this.ucTripMode2.Name = "ucTripMode2";
             this.ucTripMode2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ucTripMode2.SequenceRelay = false;
-            this.ucTripMode2.Size = new System.Drawing.Size(658, 578); //(678, 578);
+            this.ucTripMode2.Size = new System.Drawing.Size(658, 578);
             this.ucTripMode2.TabIndex = 40;
             this.ucTripMode2.VersionNumber = ((uint)(0u));
             // 
@@ -2534,6 +2540,7 @@ namespace RelayControl
             // 
             // grpBox_RelayCommands
             // 
+            this.grpBox_RelayCommands.BackColor = System.Drawing.SystemColors.Control;
             this.grpBox_RelayCommands.Controls.Add(this.grpBox_LightningCount);
             this.grpBox_RelayCommands.Controls.Add(this.btn_PermCl_Active);
             this.grpBox_RelayCommands.Controls.Add(this.btn_ClearPumpProtect);
@@ -2544,6 +2551,7 @@ namespace RelayControl
             this.grpBox_RelayCommands.Controls.Add(this.buttonBlockAndTrip);
             this.grpBox_RelayCommands.Controls.Add(this.buttonClearCycleCount);
             this.grpBox_RelayCommands.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBox_RelayCommands.ForeColor = System.Drawing.SystemColors.ControlText;
             this.grpBox_RelayCommands.Location = new System.Drawing.Point(1375, 38);
             this.grpBox_RelayCommands.Margin = new System.Windows.Forms.Padding(4);
             this.grpBox_RelayCommands.Name = "grpBox_RelayCommands";
@@ -2552,8 +2560,6 @@ namespace RelayControl
             this.grpBox_RelayCommands.TabIndex = 129;
             this.grpBox_RelayCommands.TabStop = false;
             this.grpBox_RelayCommands.Text = "Relay Commands";
-            this.grpBox_RelayCommands.BackColor = SystemColors.Control; // default light gray
-            this.grpBox_RelayCommands.ForeColor = SystemColors.ControlText;
             // 
             // grpBox_LightningCount
             // 
@@ -2659,11 +2665,13 @@ namespace RelayControl
             // 
             // groupBox_FirmwareInfo
             // 
+            this.groupBox_FirmwareInfo.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_FirmwareInfo.Controls.Add(this.labelRevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelRelayRevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelFPGARevision);
             this.groupBox_FirmwareInfo.Controls.Add(this.labelBootRevision);
             this.groupBox_FirmwareInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_FirmwareInfo.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox_FirmwareInfo.Location = new System.Drawing.Point(112, 555);
             this.groupBox_FirmwareInfo.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_FirmwareInfo.Name = "groupBox_FirmwareInfo";
@@ -2672,8 +2680,6 @@ namespace RelayControl
             this.groupBox_FirmwareInfo.TabIndex = 128;
             this.groupBox_FirmwareInfo.TabStop = false;
             this.groupBox_FirmwareInfo.Text = "Firmware Revision";
-            this.groupBox_FirmwareInfo.BackColor = SystemColors.Control; // default light gray
-            this.groupBox_FirmwareInfo.ForeColor = SystemColors.ControlText;
             // 
             // labelRevision
             // 
@@ -2730,6 +2736,7 @@ namespace RelayControl
             // 
             // groupBox_RelayInfo
             // 
+            this.groupBox_RelayInfo.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_RelayInfo.Controls.Add(this.lblLC_Name);
             this.groupBox_RelayInfo.Controls.Add(this.txtBox_NWPposition);
             this.groupBox_RelayInfo.Controls.Add(this.lbl_NWPposition);
@@ -2741,6 +2748,7 @@ namespace RelayControl
             this.groupBox_RelayInfo.Controls.Add(this.label4);
             this.groupBox_RelayInfo.Controls.Add(this.textBoxTripCount);
             this.groupBox_RelayInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox_RelayInfo.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox_RelayInfo.Location = new System.Drawing.Point(112, 40);
             this.groupBox_RelayInfo.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_RelayInfo.Name = "groupBox_RelayInfo";
@@ -2749,8 +2757,6 @@ namespace RelayControl
             this.groupBox_RelayInfo.TabIndex = 127;
             this.groupBox_RelayInfo.TabStop = false;
             this.groupBox_RelayInfo.Text = "Relay Information";
-            this.groupBox_RelayInfo.BackColor = SystemColors.Control; // default light gray
-            this.groupBox_RelayInfo.ForeColor = SystemColors.ControlText;
             // 
             // lblLC_Name
             // 
@@ -2870,7 +2876,7 @@ namespace RelayControl
             // 
             // groupBoxRelayStatus
             // 
-            this.groupBoxRelayStatus.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxRelayStatus.BackColor = System.Drawing.SystemColors.Control;
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_XP);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_SL);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_PA);
@@ -2884,6 +2890,7 @@ namespace RelayControl
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relayststatus_Close);
             this.groupBoxRelayStatus.Controls.Add(this.lbl_Relaystatus_Open);
             this.groupBoxRelayStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxRelayStatus.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBoxRelayStatus.Location = new System.Drawing.Point(775, 39);
             this.groupBoxRelayStatus.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxRelayStatus.Name = "groupBoxRelayStatus";
@@ -2892,8 +2899,6 @@ namespace RelayControl
             this.groupBoxRelayStatus.TabIndex = 113;
             this.groupBoxRelayStatus.TabStop = false;
             this.groupBoxRelayStatus.Text = "Relay Status";
-            this.groupBoxRelayStatus.BackColor = SystemColors.Control; // default light gray
-            this.groupBoxRelayStatus.ForeColor = SystemColors.ControlText;
             // 
             // lbl_Relayststatus_XP
             // 
@@ -3544,7 +3549,6 @@ namespace RelayControl
         private RelayControlLibrary.ucCSVConverterCSVFile ucCSVConverterCSVFile1;
         private RelayControlLibrary.ucSafeService ucSafeService1;
         private System.Windows.Forms.GroupBox groupBoxRelayFlags;
-        private System.Windows.Forms.GroupBox groupBoxNetworkCTRatio;
         private RelayControlLibrary.uc8CheckBoxFlags uc8CheckBoxFlagsGEControl2;
         private RelayControlLibrary.uc8CheckBoxFlags uc8CheckBoxFlagsGEControl1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelReceiverStatus;
@@ -3589,7 +3593,6 @@ namespace RelayControl
         private System.Windows.Forms.ComboBox comboBox_RelayType;
         private System.Windows.Forms.ComboBox comboBox_Phasings;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.GroupBox groupBoxRelayStatus;
         private System.Windows.Forms.TextBox textBoxTripCount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelRelaySNControl;
@@ -3600,7 +3603,6 @@ namespace RelayControl
         private System.Windows.Forms.Label labelRevision;
         private System.Windows.Forms.Label labelFPGARevision;
         private System.Windows.Forms.Label labelRelayRevision;
-        private System.Windows.Forms.GroupBox groupBox_PC;
         private System.Windows.Forms.Button btn_RestorePC_defaults;
         private System.Windows.Forms.Label lbl_PC_floatTime;
         private System.Windows.Forms.NumericUpDown numericUpDown_PC_floatTime;
@@ -3616,13 +3618,10 @@ namespace RelayControl
         private System.Windows.Forms.Label lbl_PC_status;
         private System.Windows.Forms.Label lbl_PermissiveClose_Status;
         private System.Windows.Forms.Button btn_PC_Send;
-        private System.Windows.Forms.GroupBox groupBox_RelayInfo;
-        private System.Windows.Forms.GroupBox groupBox_FirmwareInfo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox_TxID;
         private System.Windows.Forms.Label lbl_NWPposition;
         private System.Windows.Forms.TextBox txtBox_NWPposition;
-        private System.Windows.Forms.GroupBox grpBox_RelayCommands;
         private System.Windows.Forms.Button buttonTripRelay;
         private System.Windows.Forms.Button btn_RelaxClose;
         private System.Windows.Forms.Button btn_ClearPumpProtect;
@@ -3658,5 +3657,12 @@ namespace RelayControl
         private System.Windows.Forms.Panel panel_RelaySt;
         private System.Windows.Forms.Panel panel_RelayCo;
         private System.Windows.Forms.Panel panelPCsettings;
+        private System.Windows.Forms.Button btn_LoadProfile;
+        private BorderlessGroupBox groupBoxNetworkCTRatio;
+        private BorderlessGroupBox groupBoxRelayStatus;
+        private BorderlessGroupBox groupBox_PC;
+        private BorderlessGroupBox groupBox_RelayInfo;
+        private BorderlessGroupBox groupBox_FirmwareInfo;
+        private BorderlessGroupBox grpBox_RelayCommands;
     }
 }
