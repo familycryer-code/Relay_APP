@@ -787,7 +787,8 @@ namespace RelayControl
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
+                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
 #elif DIGITALGRID
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.1" + " DigtalGrid Production Engineering ";
 #elif TORONTO_HYDRO
