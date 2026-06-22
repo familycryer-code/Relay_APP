@@ -727,7 +727,14 @@ namespace RelayControlLibrary
         private DialogResult showAutoLoadUpdateMessage()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            DialogResult dR;
+            DialogResult dR,dR1;
+
+            dR1 = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+            if (dR1 == DialogResult.Yes)
+                internalGESetter = true;
+            else
+                internalGESetter = false;
+
             dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
             return dR;
         }
