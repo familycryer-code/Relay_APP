@@ -224,12 +224,11 @@ namespace RelayControlLibrary
             get { return this.dNPEnabled; }
             set
             {
-                //MessageBox.Show("DNP Uplink chkBox asked to be set to : " + value); // Only for testing - to be removed
                 if (!this.forceDNPEnable)
                 {
                     this.dNPEnabled = value;
-                    // MessageBox.Show("DNP Uplink chkBox checked 1"); // Only for testing - to be removed 6/15/2026
-                    this.checkBoxDNPEnable.Checked = value;
+                    //this.checkBoxDNPEnable.Checked = value; 
+                    dnpUplinkK.dnpEnabledWithKit = this.checkBoxDNPEnable.Checked = value;
                 }
             }
         }
@@ -2339,7 +2338,7 @@ namespace RelayControlLibrary
 #endif
         }
 
-        private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
+        public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
             if (applyTX.applyTxSettings == true)
             {

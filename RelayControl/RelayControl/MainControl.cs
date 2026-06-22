@@ -782,7 +782,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.29" + " ENMAX ";                
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.30" + " ENMAX ";                
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
 #elif ONCOR
@@ -4075,7 +4075,7 @@ namespace RelayControl
 #if !ENMAX
                             this.buttonRequestRelayParamaters_Click(this, new EventArgs());
 #endif
-                            MessageBox.Show("Relay is now upto date with the latest firmware !");
+                            MessageBox.Show("Relay is now up to date with the latest firmware !");
                         }
                         else
                         {
@@ -10027,17 +10027,19 @@ namespace RelayControl
             // Push data backed up in the "RelayData_Backup.txt" from a relay with firmware rev 9 or older
             // to relay master uP  (for programming a firmware with rev 10 or more) 
             // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
+            //MessageBox.Show("Now writing rev 9 data from backup File to the realy with rev10 firmware");
 
             this.writeCloseModeDataBackUp_ToMaster();
             this.writeTripModeDataBackUp_ToMaster();
             this.writeNWProtectorDataBackUp_ToMaster();
             this.writePumpModeDataBackUp_ToMaster();
             this.writeSafeServiceDataBackUp_ToMaster();
-            this.writeTransmitterDataBackUp_ToMaster();
+            this.writeTransmitterDataBackUp_ToMaster(); 
             this.writeDNPDataBackUp_ToMaster();
             this.writeDNPSAv5SettingsDataBackUp_ToMaster();
             this.writeArcFaultDataBackUp_ToMaster();
-            this.writeCalibrationDataBackUp_ToMaster();
+           
+            //this.writeCalibrationDataBackUp_ToMaster();
         }
 
 
