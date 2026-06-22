@@ -650,6 +650,7 @@ namespace RelayControlLibrary
 
         private void showAutoLoadDialog()
         {
+            DialogResult dR;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             // MessageBox.Show("wrongRelayTypeAutoLoad : " + wrongRelayTypeAutoLoad); // Only for testing - to be removed
             if (!this.wrongRelayTypeAutoLoad)
@@ -662,6 +663,13 @@ namespace RelayControlLibrary
             {
                 this.upgradeAutoDR = showAutoLoadUpdateMessage();
             }
+           
+            dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+            if (dR == DialogResult.Yes)
+                internalGESetter = true;
+            else
+                internalGESetter = false;
+            
 #if !DEBUG
             if (upgradeAutoDR == DialogResult.Yes && notPollingPort)
                 this.upgradeAutoDR = checkDNPPLCMessage(upgradeAutoDR);
@@ -727,14 +735,14 @@ namespace RelayControlLibrary
         private DialogResult showAutoLoadUpdateMessage()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            DialogResult dR,dR1;
+            DialogResult dR;
 
-            dR1 = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+            /*dR1 = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
             if (dR1 == DialogResult.Yes)
                 internalGESetter = true;
             else
                 internalGESetter = false;
-
+            */
             dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
             return dR;
         }

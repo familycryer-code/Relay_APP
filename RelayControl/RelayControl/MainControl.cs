@@ -782,7 +782,7 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.32" + " ENMAX ";
+                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.33" + " ENMAX ";
                 //this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
 #elif BOSTON
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
