@@ -310,7 +310,7 @@ namespace RelayControl
             Size = new Size(w - 300, h);
             */
 
-          //  this.AutoSize = false;
+           // this.AutoSize = false;
             // Get the version number
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);

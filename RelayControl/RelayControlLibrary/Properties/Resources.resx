@@ -128,68 +128,11 @@
     <value>121207</value>
     <comment>For date comparison, to determine whether or not to reload</comment>
   </data>
-  <data name="MasterProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorChicago" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessorChicago.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorEnmaxPLC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessorEnmaxPLC.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorLondonH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessorLondonH.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorMadison" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessorMadison.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorMemphis" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessorMemphis.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorSMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_DNPSAv5_SMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorSMUDGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_DNPSAv5_GE_SMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessorTaunton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessorTaunton.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_Atlanta_DNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_Atlanta_DNP.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_Atlanta_DNP_GE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_Atlanta_DNP_GE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_Oncor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_Oncor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_Oncor_GE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_Oncor_GE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_with_DNP.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP_GE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_with_DNP_GE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP_GE_SMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\masterprocessor_with_dnp_ge_smud.s;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="MasterProcessor_with_DNP_PLC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasterProcessor_with_DNP_PLC.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="MasterProcessor_with_DNP_PLC_GE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasterProcessor_with_DNP_PLC_GE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_with_DNP_SMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\masterprocessor_with_dnp_smud.s;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_ConEd_HBD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_ConEd_HBD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor_ConEd_SEC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor_ConEd_SEC.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="MasterRevision" xml:space="preserve">
     <value>260214</value>
@@ -197,20 +140,8 @@
   <data name="RelayProcessor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessor.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="RelayProcessorAtlanta" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RelayProcessorAtlanta.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="RelayProcessorAtlantaGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RelayProcessorAtlantaGE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="RelayProcessorGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessorGE.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="RelayProcessorSMUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RelayProcessorSMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="RelayProcessorSMUDGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RelayProcessorGESMUD.S;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="RelayRevision" xml:space="preserve">
     <value>20260126</value>

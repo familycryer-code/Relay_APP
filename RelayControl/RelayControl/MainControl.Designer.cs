@@ -1481,13 +1481,15 @@ namespace RelayControl
             // 
             // ucPhasorGraph1
             // 
+            this.ucPhasorGraph1.AutoSize = true;
             this.ucPhasorGraph1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucPhasorGraph1.Location = new System.Drawing.Point(0, 0);
+            this.ucPhasorGraph1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ucPhasorGraph1.Location = new System.Drawing.Point(5, 5);
             this.ucPhasorGraph1.Margin = new System.Windows.Forms.Padding(5);
             this.ucPhasorGraph1.Name = "ucPhasorGraph1";
             this.ucPhasorGraph1.RealTimeMonitoring = false;
             this.ucPhasorGraph1.RevisionNumber = ((uint)(0u));
-            this.ucPhasorGraph1.Size = new System.Drawing.Size(1985, 986);
+            this.ucPhasorGraph1.Size = new System.Drawing.Size(1853, 994);
             this.ucPhasorGraph1.TabIndex = 45;
             // 
             // textBoxTemperatureMonitoringPage
