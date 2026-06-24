@@ -494,7 +494,7 @@ namespace RelayControlLibrary
             {
                 CustomerLoadFiles regular = new CustomerLoadFiles(Customers.DIGITALGRID);
                 regular.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
-                regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
+                regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_GE_260214;
                 regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
                 regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
@@ -1221,18 +1221,18 @@ namespace RelayControlLibrary
 #if ONCOR && DNP
             if (GERelay)
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Oncor_GE;
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_GE_260214;
                 this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
 
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
                 this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
             }
             else
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Oncor;
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_260214;
                 this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
 
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
                 this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
             }
 
@@ -1293,7 +1293,7 @@ namespace RelayControlLibrary
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
                 this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
 
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
             }
             else
@@ -1301,7 +1301,7 @@ namespace RelayControlLibrary
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
                 this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
 
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
 #endif

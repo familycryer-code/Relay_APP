@@ -167,12 +167,20 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2FB7E54E2540254E2540254E2540254E2540254E2540254E2BF8354E25402EB
         ///S325000000A054E2AC7F54E2540254E2B27C54E2540254E2540254E2540254E2087D54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor_Oncor {
+       /* internal static string MasterProcessor_Oncor {
             get {
                 return ResourceManager.GetString("MasterProcessor_Oncor", resourceCulture);
             }
         }
-        
+       */
+        internal static string MasterProcessor__ONCOR_SEC_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_260214", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10A0054E25A0154E2560154E25E0154E2620154E2560154E25601EC
@@ -182,12 +190,20 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E25B6454E2560154E2560154E2560154E2560154E2560154E21A6954E256015E
         ///S325000000A054E20C6554E2560154E2126254E2560154E2560154E2560154E2686254E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor_Oncor_GE {
+       /* internal static string MasterProcessor_Oncor_GE {
             get {
                 return ResourceManager.GetString("MasterProcessor_Oncor_GE", resourceCulture);
             }
         }
-        
+       */
+        internal static string MasterProcessor__ONCOR_SEC_GE_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_GE_260214", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10E0054E2580254E2540254E25C0254E2600254E2540254E25402EE
