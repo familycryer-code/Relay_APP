@@ -785,7 +785,8 @@ namespace RelayControl
                 //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.33" + " ENMAX ";
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
 #elif BOSTON
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";                
+                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
 #elif ONCOR
                 //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";

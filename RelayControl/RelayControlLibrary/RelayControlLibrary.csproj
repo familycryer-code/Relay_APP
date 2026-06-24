@@ -895,6 +895,8 @@
     <Content Include="Resources\MasterProcessor_with_DNP_PLC.S" />
     <None Include="Resources\MasterProcessor__ENMAX_SEC_260214.S" />
     <None Include="Resources\MasterProcessor__ENMAX_SEC_GE_260214.S" />
+    <None Include="Resources\MasterProcessor__EVERSOURCE_SEC_260214.S" />
+    <None Include="Resources\MasterProcessor__EVERSOURCE_SEC_GE_260214.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />

@@ -150,4 +150,10 @@
   <data name="RelayProcessor_GE_20260126" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessor_GE_20260126.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="MasterProcessor__EVERSOURCE_SEC_260214" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MasterProcessor__EVERSOURCE_SEC_260214.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="MasterProcessor__EVERSOURCE_SEC_GE_260214" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MasterProcessor__EVERSOURCE_SEC_GE_260214.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

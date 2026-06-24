@@ -106,12 +106,28 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2AB8B54E24C0254E24C0254E24C0254E24C0254E24C0254E2EE9054E24C0222
         ///S325000000A054E26D8C54E24C0254E2F28654E24C0254E24C0254E24C0254E2928954E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor {
+       /* internal static string MasterProcessor {
             get {
                 return ResourceManager.GetString("MasterProcessor", resourceCulture);
             }
         }
-        
+       */
+        internal static string MasterProcessor__EVERSOURCE_SEC_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__EVERSOURCE_SEC_260214", resourceCulture);
+            }
+        }
+
+        internal static string MasterProcessor__EVERSOURCE_SEC_GE_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__EVERSOURCE_SEC_GE_260214", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10A0054E25C0154E2580154E2600154E2640154E2580154E25801E0

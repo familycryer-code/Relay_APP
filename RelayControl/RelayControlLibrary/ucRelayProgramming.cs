@@ -494,9 +494,9 @@ namespace RelayControlLibrary
             {
                 CustomerLoadFiles regular = new CustomerLoadFiles(Customers.DIGITALGRID);
                 regular.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
-                regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor;
+                regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
                 regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor;
+                regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
                 regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
                 regular.MasterFileAtlantaDNPGE = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
                 regular.MasterFileAtlantaDNPWH = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP;
@@ -994,17 +994,20 @@ namespace RelayControlLibrary
 
 #if (DOMINION || DEBUG || NU || BOSTON || SEATTLE || PSEG || BGE) && !DNP
             //  MessageBox.Show("Comes here. Take MasterProcessor.S as the firmware build"); // Only for testing - to be removed
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor;
-            this.textBoxMasterFileName.Text = "Master Relay From Resource";
+            
 
             if (this.GERelay)
             {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_GE_260214;
+                this.textBoxMasterFileName.Text = "GE Master Relay From Resource";
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
             }
             else
             {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
+                this.textBoxMasterFileName.Text = "WH Master Relay From Resource";
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
             }
 #endif
