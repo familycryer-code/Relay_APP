@@ -408,7 +408,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCE|AnyCPU'">
     <OutputPath>bin\Release SCE\</OutputPath>
-    <DefineConstants>TRACE;SCE</DefineConstants>
+    <DefineConstants>TRACE;SCE, DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

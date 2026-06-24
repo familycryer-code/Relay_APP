@@ -131,9 +131,10 @@ namespace RelayControl
                 else
                 {
                     //#if ((!PLC && DNP) && !ONCOR)
-#if ((!PLC && DNP) && !ONCOR && !TORONTO_HYDRO)
+#if ((!PLC && DNP) && !ONCOR && !TORONTO_HYDRO && !SCE)
                     if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
                     {
+                        MessageBox.Show("removing TX and TX Mon tabs for SCE"); // Only for testing - to be removed
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
                     }
@@ -776,8 +777,9 @@ namespace RelayControl
 #elif CONED
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.34" + " CONED ";
 #elif SCE
-                         this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
-                         this.Customer = Customers.SCE;
+                        // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
+                this.Customer = Customers.SCE;
 #elif PSEG
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
                 this.Customer = Customers.PSEG;
@@ -813,9 +815,9 @@ namespace RelayControl
             //    this.panel_PCsettings.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
-#if (!PSEG && !ENMAX && !BOSTON)
-                                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-                                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
+#if (!PSEG && !ENMAX && !BOSTON && !ONCOR && !SCE)
+                    this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                    this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
 #endif
 #endif
 #if !TORONTOHYDRO
@@ -4145,6 +4147,7 @@ namespace RelayControl
             {
                 initializeAutoLoad = false;
 #if !CONED
+                //MessageBox.Show("ucRelayProgramming1.remoteMasterRevisionNumber : " + this.ucRelayProgramming1.remoteMasterRevisionNumber + " AND Constants.Rev10Master : " + Constants.Rev10Master); // Only for testing - to be removed
                 // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
                 if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
                 {

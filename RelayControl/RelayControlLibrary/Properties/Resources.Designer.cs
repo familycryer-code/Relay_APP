@@ -181,6 +181,14 @@ namespace RelayControlLibrary.Properties {
             }
         }
 
+        internal static string MasterProcessor__SCE_SEC_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__SCE_SEC_260214", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10A0054E25A0154E2560154E25E0154E2620154E2560154E25601EC
@@ -201,6 +209,14 @@ namespace RelayControlLibrary.Properties {
             get
             {
                 return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_GE_260214", resourceCulture);
+            }
+        }
+
+        internal static string MasterProcessor__SCE_SEC_GE_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__SCE_SEC_GE_260214", resourceCulture);
             }
         }
 

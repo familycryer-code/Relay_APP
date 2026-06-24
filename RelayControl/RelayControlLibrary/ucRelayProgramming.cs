@@ -1249,6 +1249,37 @@ namespace RelayControlLibrary
             return;
 #endif
 
+#if SCE
+            if (GERelay)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_GE_260214;
+                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
+                this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_260214;
+                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
+
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
+                this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
+            }
+
+            if (this.transmitterEnabled)
+            {
+                this.parseFPGAFile(this.fPGACode);
+                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
+            }
+
+            this.parseSFile(this.masterCode);
+            this.parseSFile(this.relayCode);
+
+            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            return;
+#endif
+
 #if MEMPHIS
             if (GERelay)
             {
@@ -1396,6 +1427,7 @@ namespace RelayControlLibrary
 #if DNP
             if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #else
+            //MessageBox.Show("remoteMasterRevisionNumber : " + remoteMasterRevisionNumber + " AND _masterCodeRevisionNumber : " + _masterCodeRevisionNumber + " wrongRelayTypeAutoLoad : " + wrongRelayTypeAutoLoad); // Only for testing - to be removed
             if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #endif
             {

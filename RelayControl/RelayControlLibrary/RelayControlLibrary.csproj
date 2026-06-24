@@ -359,7 +359,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCE|AnyCPU'">
     <OutputPath>bin\Release SCE\</OutputPath>
-    <DefineConstants>TRACE;SCE</DefineConstants>
+    <DefineConstants>TRACE;SCE, DNP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -899,6 +899,8 @@
     <None Include="Resources\MasterProcessor__EVERSOURCE_SEC_GE_260214.S" />
     <None Include="Resources\MasterProcessor__ONCOR_SEC_260214.S" />
     <None Include="Resources\MasterProcessor__ONCOR_SEC_GE_260214.S" />
+    <None Include="Resources\MasterProcessor__SCE_SEC_260214.S" />
+    <None Include="Resources\MasterProcessor__SCE_SEC_GE_260214.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />

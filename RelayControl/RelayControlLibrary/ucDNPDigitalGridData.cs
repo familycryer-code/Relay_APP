@@ -1364,7 +1364,7 @@ namespace RelayControlLibrary
             //19 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 19 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 19) + 1;
-#elif ENMAX || ONCOR
+#elif ENMAX || ONCOR || SCE
             //15 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 15 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 15) + 1;
@@ -1410,7 +1410,7 @@ namespace RelayControlLibrary
             //15 Rows of Analog Inputs Points per column
             int y = tB.Controls.Count % 15 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 15) + 1;
-#elif ENMAX || ONCOR
+#elif ENMAX || ONCOR || SCE
             //21 Rows of Analog Inputs Points per column ( 42 points per tab )
             int y = tB.Controls.Count % 21 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 21) + 1;
