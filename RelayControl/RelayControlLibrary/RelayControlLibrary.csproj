@@ -878,6 +878,8 @@
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
     <Content Include="Resources\MasterProcessorChicago.S" />
+    <None Include="Resources\RelayProcessor_GE_20260126.S" />
+    <None Include="Resources\RelayProcessor_20260126.S" />
     <None Include="packages.config" />
     <None Include="Resources\MasterProcessorMemphis.S" />
     <None Include="Resources\MasterProcessorEnmaxPLC.S" />
@@ -891,6 +893,8 @@
     <None Include="Resources\MasterProcessor_Oncor_GE.S" />
     <None Include="Resources\MasterProcessor_with_DNP_PLC_GE.S" />
     <Content Include="Resources\MasterProcessor_with_DNP_PLC.S" />
+    <None Include="Resources\MasterProcessor__ENMAX_SEC_260214.S" />
+    <None Include="Resources\MasterProcessor__ENMAX_SEC_GE_260214.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />

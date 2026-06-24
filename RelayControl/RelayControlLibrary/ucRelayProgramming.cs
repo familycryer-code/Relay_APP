@@ -500,9 +500,9 @@ namespace RelayControlLibrary
                 regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
                 regular.MasterFileAtlantaDNPGE = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
                 regular.MasterFileAtlantaDNPWH = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP;
-                regular.MasterFileDNPPLC = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
-                regular.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                regular.MasterFileDNPPLC = RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_260214;//MasterProcessor_with_DNP_PLC;
+                regular.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
+                regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
                 regular.RelayFileAtlantaWH = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
                 regular.RelayFileAtlantaGE = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
 
@@ -1027,10 +1027,10 @@ namespace RelayControlLibrary
 #if (ENMAX || CONED || TORONTO_HYDRO) && DNP
             if (GERelay)
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC_GE;
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_GE_260214;
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC GE Resource";
 
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
                 this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
             }
             else
@@ -1053,12 +1053,12 @@ namespace RelayControlLibrary
 #if TORONTO_HYDRO
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
 #elif ENMAX
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_260214;
 #endif
 
                 this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
 
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
 
             }

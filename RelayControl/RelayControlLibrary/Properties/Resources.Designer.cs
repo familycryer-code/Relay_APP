@@ -256,12 +256,18 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2ED7954E2540254E2540254E2540254E2540254E2540254E2B17E54E2540211
         ///S325000000A054E29E7A54E2540254E2A47754E2540254E2540254E2540254E2FA7754E2540238 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor_with_DNP_PLC {
+       /* internal static string MasterProcessor_with_DNP_PLC {
             get {
                 return ResourceManager.GetString("MasterProcessor_with_DNP_PLC", resourceCulture);
             }
+        }*/
+        internal static string MasterProcessor__ENMAX_SEC_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__ENMAX_SEC_260214", resourceCulture);
+            }
         }
-        
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10E0054E2580254E2540254E25C0254E2600254E2540254E25402EE
@@ -271,12 +277,19 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2ED7954E2540254E2540254E2540254E2540254E2540254E2B17E54E2540211
         ///S325000000A054E29E7A54E2540254E2A47754E2540254E2540254E2540254E2FA7754E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor_with_DNP_PLC_GE {
+        /*internal static string MasterProcessor_with_DNP_PLC_GE {
             get {
                 return ResourceManager.GetString("MasterProcessor_with_DNP_PLC_GE", resourceCulture);
             }
         }
-        
+        */
+        internal static string MasterProcessor__ENMAX_SEC_GE_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__ENMAX_SEC_GE_260214", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10A0054E2560154E2520154E25A0154E25E0154E2520154E2520104
@@ -430,12 +443,18 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2C07F54E2040154E2040154E2040154E2040154E2040154E2040154E2040148
         ///S325000000A054E2977D54E2040154E2040154E2040154E2040154E2040154E2040154E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string RelayProcessor {
+        /*internal static string RelayProcessor {
             get {
                 return ResourceManager.GetString("RelayProcessor", resourceCulture);
             }
+        }*/
+        internal static string RelayProcessor_20260126
+        {
+            get
+            {
+                return ResourceManager.GetString("RelayProcessor_20260126", resourceCulture);
+            }
         }
-        
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S3250000000054E25A0154E25A0154E2080154E2040154E20C0154E2100154E2040154E204013E
@@ -475,12 +494,20 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2118A54E2120154E2120154E2120154E2120154E2120154E2120154E212018A
         ///S325000000A054E2E88754E2120154E2120154E2120154E2120154E2120154E2120154E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string RelayProcessorGE {
+        /*internal static string RelayProcessorGE {
             get {
                 return ResourceManager.GetString("RelayProcessorGE", resourceCulture);
             }
         }
-        
+        */
+        internal static string RelayProcessor_GE_20260126
+        {
+            get
+            {
+                return ResourceManager.GetString("RelayProcessor_GE_20260126", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S3250000000054E25A0154E25A0154E2080154E2040154E20C0154E2100154E2040154E204013E
