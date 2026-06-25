@@ -1368,13 +1368,17 @@ namespace RelayControlLibrary
             //15 Rows of Binary Input Points per column
             int y = tB.Controls.Count % 15 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 15) + 1;
+#else
+            // default layout for configs not explicitly listed
+            int y = tB.Controls.Count % 25 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 25) + 1;
 #endif
 
-#if !BOSTON
-// since eversource do not use DNP
+
+            // since eversource do not use DNP
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
-#endif
+
 
         }
 
@@ -1414,13 +1418,16 @@ namespace RelayControlLibrary
             //21 Rows of Analog Inputs Points per column ( 42 points per tab )
             int y = tB.Controls.Count % 21 * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / 21) + 1;
+#else
+            // default layout for configs not explicitly listed (e.g., EVERSOURCE)
+            int y = tB.Controls.Count % 25 * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / 25) + 1;
 #endif
 
-#if !BOSTON
-// since eversource do not use DNP
+            // since eversource do not use DNP
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
-#endif
+
         }
 
         private void addAnalogBoxOut(ucDNPMemphisAnalog box, TabPage tB)

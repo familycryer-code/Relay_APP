@@ -823,7 +823,7 @@ namespace RelayControlLibrary
                 //this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
-#elif LONDONH
+#elif LONDON_HYDRO
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.2m;
                 this.numericUpDownPDA.Value = -5;

@@ -1107,7 +1107,7 @@ namespace RelayControlLibrary
             }
 #endif
 
-#if CHICAGO
+#if COMED
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorChicago;
             this.textBoxMasterFileName.Text = "Master Relay Chicago";
 
@@ -1135,7 +1135,7 @@ namespace RelayControlLibrary
             return;
 #endif
 
-#if LONDONH
+#if LONDON_HYDRO
             this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorLondonH;
             this.textBoxMasterFileName.Text = "Master Relay LondonH";
 

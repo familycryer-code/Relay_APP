@@ -40,7 +40,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;DNP;PLC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -50,94 +50,25 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE</DefineConstants>
+    <DefineConstants>DNP;PLC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTest|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release ConED|AnyCPU' ">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\WaterbugTest\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WaterbugTester|AnyCPU' ">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\WaterbugTester\</OutputPath>
-    <DefineConstants>#define WATERBUG</DefineConstants>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release ConEd|AnyCPU' ">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release ConEd\</OutputPath>
-    <DefineConstants>TRACE;CONED</DefineConstants>
+    <OutputPath>bin\Release ConED\</OutputPath>
+    <DefineConstants>CONED;DNP;PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Memphis|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCL|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release Memphis\</OutputPath>
-    <DefineConstants>MEMPHIS, DNP</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNP|AnyCPU' ">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release DIGITALGRIDDNP\</OutputPath>
-    <DefineConstants>DNP, DIGITALGRID</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Atlanta|AnyCPU'">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release Atlanta\</OutputPath>
-    <DefineConstants>DNP, DIGITALGRID, ATLANTA</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SMUD|AnyCPU'">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release SMUD\</OutputPath>
-    <DefineConstants>DNP, SMUD</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug SMUD|AnyCPU'">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug SMUD\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SMUD, DNP</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Seattle|AnyCPU'">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release Seattle\</OutputPath>
-    <DefineConstants>BASICRELEASE, SEATTLE</DefineConstants>
+    <OutputPath>bin\Release SCL\</OutputPath>
+    <DefineConstants>SCL;PLC</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -145,21 +76,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release NUEngineering|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Engineering|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release NUEngineering\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, NU</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release NUCrew|AnyCPU'">
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release NUCrew\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, NU, NUCREW</DefineConstants>
+    <OutputPath>bin\Release Engineering\</OutputPath>
+    <DefineConstants>ENGINEERING;DNP;PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -170,7 +90,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Dominion|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release Dominion\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, DOMINION</DefineConstants>
+    <DefineConstants>DOMINION;PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -178,18 +98,18 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Chicago|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release COMED|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <OutputPath>bin\Release Chicago\</OutputPath>
-    <DefineConstants>BASICRELEASE, CHICAGO</DefineConstants>
+    <OutputPath>bin\Release COMED\</OutputPath>
+    <DefineConstants>COMED;PLC</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNPwPLC|AnyCPU'">
-    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
-    <OutputPath>bin\Release DIGITALGRIDDNPwPLC\</OutputPath>
-    <DefineConstants>DIGITALGRID,PLC</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release ENMAX|AnyCPU'">
+    <OutputPath>bin\Release ENMAX\</OutputPath>
+    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
+    <DefineConstants>ENMAX;DNP;PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -197,81 +117,23 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Enmax DNP PLC|AnyCPU'">
-    <OutputPath>bin\Debug Enmax DNP PLC\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DNP, DIGITALGRID, ENMAX, PLC</DefineConstants>
-    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax PLC Only|AnyCPU'">
-    <OutputPath>bin\Release Enmax PLC Only\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Eversource|AnyCPU'">
+    <OutputPath>bin\Release Eversource\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;ENMAX, PLC</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Chicago|AnyCPU'">
-    <OutputPath>bin\Debug Chicago\</OutputPath>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;DEBUG;CHICAGO</DefineConstants>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Boston Eversource|AnyCPU'">
-    <OutputPath>bin\Release Boston Eversource\</OutputPath>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>BASICRELEASE,BOSTON</DefineConstants>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
-    <OutputPath>bin\Release Madison\</OutputPath>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <WarningLevel>3</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
-    <OutputPath>bin\Debug Madison\</OutputPath>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;DEBUG;MADISON</DefineConstants>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
-    <OutputPath>bin\Debug Atlanta\</OutputPath>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>EVERSOURCE;DNP;PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>ONCOR,DNP</DefineConstants>
+    <DefineConstants>ONCOR;DNP;PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Oncor|AnyCPU'">
-    <OutputPath>bin\Debug Oncor\</OutputPath>
-    <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG|AnyCPU'">
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
     <OutputPath>bin\Release PSEG\</OutputPath>
     <Optimize>true</Optimize>
-    <DefineConstants>PSEG, DNP, DIGITALGRID, PLC</DefineConstants>
+    <DefineConstants>PSEG;DNP;PLC</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -281,113 +143,29 @@
   <PropertyGroup>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG|AnyCPU'">
-    <OutputPath>bin\Debug PSEG\</OutputPath>
-    <DefineConstants>DEBUG;PSEG, DNP</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Enmax DNP with PLC|AnyCPU'">
-    <OutputPath>bin\Release Enmax DNP with PLC\</OutputPath>
-    <ApplicationIcon>relay gui desktop plcdnp.ico</ApplicationIcon>
-    <DefineConstants>DNP, ENMAX, PLC</DefineConstants>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug PSEG PLC|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release LONDON_HYDRO|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug PSEG PLC\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DIGITALGRID, PLC, PSEG</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG PLC|AnyCPU'">
-    <OutputPath>bin\Release PSEG PLC\</OutputPath>
-    <DefineConstants>PSEG, BASICRELEASE</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG NU|AnyCPU'">
-    <OutputPath>bin\DEBUG NU\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;BASICRELEASE, NU</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release LondoH|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Release LondoH\</OutputPath>
-    <DefineConstants>BASICRELEASE, LONDONH</DefineConstants>
+    <OutputPath>bin\Release LONDON_HYDRO\</OutputPath>
+    <DefineConstants>LONDON_HYDRO;PLC</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Optimize>true</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug LondonH|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug LondonH\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;BASICRELEASE, LONDONH</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Seattle|AnyCPU'">
-    <OutputPath>bin\Debug Seattle\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;BASICRELEASE, SEATTLE</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TAUNTON|AnyCPU'">
+    <OutputPath>bin\Release TAUNTON\</OutputPath>
+    <DefineConstants>TAUNTON;PLC</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Taunton|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug Taunton\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;BASICRELEASE, TAUNTON</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Taunton|AnyCPU'">
-    <OutputPath>bin\Release Taunton\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, TAUNTON</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Dominion|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug Dominion\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DOMINION</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release BGE|AnyCPU'">
     <OutputPath>bin\Release BGE\</OutputPath>
-    <DefineConstants>TRACE;BASICRELEASE, BGE</DefineConstants>
+    <DefineConstants>BGE;PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -396,19 +174,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug BGE|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug BGE\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;BGE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCE|AnyCPU'">
     <OutputPath>bin\Release SCE\</OutputPath>
-    <DefineConstants>TRACE;SCE, DNP</DefineConstants>
+    <DefineConstants>SCE;DNP;PLC</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -417,15 +185,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TorontoHydro|AnyCPU'">
     <OutputPath>bin\Release TorontoHydro\</OutputPath>
-    <DefineConstants>TORONTO_HYDRO,DNP</DefineConstants>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TorontoHydro|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug TorontoHydro\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;TORONTO_HYDRO,DNP</DefineConstants>
-    <DebugType>full</DebugType>
+    <DefineConstants>TORONTO_HYDRO;DNP;PLC</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
