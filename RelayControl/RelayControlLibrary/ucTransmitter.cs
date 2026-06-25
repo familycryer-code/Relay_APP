@@ -97,17 +97,17 @@ namespace RelayControlLibrary
             this.button_FastMode.Size = new System.Drawing.Size(184, 75);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550); //(667, 550);  
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550);  
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600);
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(715, 19); //(650, 19); 
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(715, 19); 
             this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594);
-            this.panel_TXco.Location = new System.Drawing.Point(713, 18); //(648, 18);  
+            this.panel_TXco.Location = new System.Drawing.Point(713, 18); 
             this.panel_TXco.Size = new System.Drawing.Size(226, 599);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
-            this.panelFlagSettings.Location = new System.Drawing.Point(440, 18); //(400, 18); 
+            this.panelFlagSettings.Location = new System.Drawing.Point(440, 18);  
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
@@ -185,6 +185,19 @@ namespace RelayControlLibrary
             this.panel_dnpComSet.Location = new System.Drawing.Point(985, 17);
             this.panel_dnpComSet.Size = new System.Drawing.Size(289, 599);
             // DNP Comm settings groupBox ==============================================
+#if !DNP
+            this.grpBx_DNPSettings.Enabled = false;
+            this.grpBx_DNPSettings.Visible = false;
+            this.panel_dnpComSet.Enabled = false;
+            this.panel_dnpComSet.Visible = false;
+            this.lbl_UplinkEn.Enabled = false;
+            this.lbl_UplinkEn.Visible = false;
+
+            this.panel_TXco.Location = new System.Drawing.Point(1013, 18);
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(1015, 19);
+            this.panelFlagSettings.Location = new System.Drawing.Point(580, 18);
+            this.label21.Location = new System.Drawing.Point(583, 19);
+#endif
 
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -590,11 +603,18 @@ namespace RelayControlLibrary
                 //this.labelOtherAlarmSettings.Show();
                 this.panelAlarmSettings.Hide();
                 this.labelAlarmSettings.Hide();
-
-                this.buttonTX.Location = new Point(732, 175); //(732, 55);   
-                this.buttonRQ.Location = new Point(732, 295); //(732, 175);   
-                this.buttonForceConfigMessage.Location = new Point(732, 415); //(732, 295);     
-                this.buttonRestoreDefaults.Location = new Point(732, 55); //(732, 415);  
+                #if DNP
+                                this.buttonTX.Location = new Point(732, 175);    
+                                this.buttonRQ.Location = new Point(732, 295);    
+                                this.buttonForceConfigMessage.Location = new Point(732, 415);      
+                                this.buttonRestoreDefaults.Location = new Point(732, 55);  
+                #else
+                                
+                                this.buttonRestoreDefaults.Location = new Point(1032, 55);
+                                this.buttonTX.Location = new Point(1032, 200);
+                                this.buttonRQ.Location = new Point(1032, 345);
+                                this.buttonForceConfigMessage.Location = new Point(1032, 495);
+                #endif
 
                 this.buttonRQ.Size = new Size(184, 75);
                 this.buttonForceConfigMessage.Size = new Size(184, 75);

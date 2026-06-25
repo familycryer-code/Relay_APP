@@ -2404,7 +2404,7 @@ namespace RelayControlLibrary
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(446, 19); //(454, 9);
+            this.label21.Location = new System.Drawing.Point(446, 19); 
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(115, 19);
