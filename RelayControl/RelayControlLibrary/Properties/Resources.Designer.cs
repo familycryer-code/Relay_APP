@@ -142,6 +142,22 @@ namespace RelayControlLibrary.Properties {
                 return ResourceManager.GetString("MasterProcessor__DOMINION_SEC_GE_260214", resourceCulture);
             }
         }
+
+        internal static string MasterProcessor__BGE_SEC_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__BGE_SEC_260214", resourceCulture);
+            }
+        }
+
+        internal static string MasterProcessor__BGE_SEC_GE_260214
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterProcessor__BGE_SEC_GE_260214", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to S0110000000050524F4752414D264441544196
         ///S325000000005CE104005CE10A0054E25C0154E2580154E2600154E2640154E2580154E25801E0

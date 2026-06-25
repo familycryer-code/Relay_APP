@@ -903,6 +903,8 @@
     <None Include="Resources\MasterProcessor__SCE_SEC_GE_260214.S" />
     <None Include="Resources\MasterProcessor__DOMINION_SEC_260214.S" />
     <None Include="Resources\MasterProcessor__DOMINION_SEC_GE_260214.S" />
+    <None Include="Resources\MasterProcessor__BGE_SEC_260214.S" />
+    <None Include="Resources\MasterProcessor__BGE_SEC_GE_260214.S" />
     <Content Include="Resources\RelayProcessorAtlanta.S" />
     <Content Include="Resources\RelayProcessorAtlantaGE.S" />
     <None Include="Resources\MasterProcessorMadison.S" />

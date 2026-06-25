@@ -357,12 +357,12 @@ namespace RelayControlLibrary
                     else
                         this.reprogramMaster = false;
 #else
-    #if !BOSTON
+    #if !BOSTON 
                         if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
                         else
                             this.reprogramMaster = false;
-    #elif BOSTON
+    #elif BOSTON 
                         if(this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) 
                             this.reprogramMaster = true;
                         else
@@ -992,7 +992,7 @@ namespace RelayControlLibrary
 
             checkDNP();
 
-#if (DEBUG || NU || BOSTON || SEATTLE || PSEG || BGE) && !DNP
+#if (DEBUG || NU || BOSTON || SEATTLE || PSEG) && !DNP
             //  MessageBox.Show("Comes here. Take MasterProcessor.S as the firmware build"); // Only for testing - to be removed
             
 
@@ -1023,6 +1023,23 @@ namespace RelayControlLibrary
             else
             {
                 this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_260214;
+                this.textBoxMasterFileName.Text = "WH Master Relay From Resource";
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+            }
+#endif
+
+#if (BGE && !DNP)
+            if (this.GERelay)
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_GE_260214;
+                this.textBoxMasterFileName.Text = "GE Master Relay From Resource";
+                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+            }
+            else
+            {
+                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_260214;
                 this.textBoxMasterFileName.Text = "WH Master Relay From Resource";
                 this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
                 this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();

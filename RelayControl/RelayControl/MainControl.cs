@@ -800,6 +800,8 @@ namespace RelayControl
 #elif DOMINION
                 //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.28" + " DOMINION ";
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - DOMINION";
+#elif BGE         
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - BGE";
 #else
                 this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
 #endif
@@ -5418,7 +5420,7 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-#if DOMINION || BOSTON
+#if DOMINION || BOSTON || BGE
                 //this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
                 trim_rev = revision.Replace("DNP", "").Trim();
                 this.ucRelayProgramming1.MasterRevisionString = trim_rev;

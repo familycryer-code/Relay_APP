@@ -572,9 +572,8 @@ namespace RelayControlLibrary
             {
                 this.panelGeneralSettings.Show();
 
-                //#if (CHICAGO || ENMAX || SEATTLE || BOSTON || NU || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
-                //#if (CHICAGO || SEATTLE || BOSTON || NU || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
-#if (CHICAGO || SEATTLE || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
+//#if (CHICAGO || SEATTLE || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
+#if (CHICAGO || SEATTLE || MADISON || LONDONH || TAUNTON) && !DEBUG
                 this.panelOtherAlarmSettings.Hide();
                 this.labelOtherAlarmSettings.Hide();
                 this.panelSmartExternalCable.Hide();
@@ -2360,6 +2359,7 @@ namespace RelayControlLibrary
 
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+#if DNP
             if (applyTX.applyTxSettings == true)
             {
                 applyDNP.applyDNPSettings = true;
@@ -2377,6 +2377,7 @@ namespace RelayControlLibrary
             //========================================================================================================
 
             this.SendAllDNPSettings();
+#endif
         }
         private static int _DNPpacketLength = 98;
         private void SendAllDNPSettings()
@@ -2549,6 +2550,7 @@ namespace RelayControlLibrary
 
         private void setDNPsettings(byte[] bytePacket)
         {
+#if !DOMINION && !BGE
             //  MessageBox.Show("now settings all dnp settings as they r in the master processor"); // Only for testing - to be removed
             byte temp;
             //LSByte comes first
@@ -2858,7 +2860,7 @@ namespace RelayControlLibrary
                 return;
             }
 #endif
-
+#endif // IF !DOMINION && !BGE ( do this only for DNP customers )
         }
 
 
