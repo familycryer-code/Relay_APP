@@ -2014,7 +2014,9 @@ namespace RelayControlLibrary
         private System.Windows.Forms.TextBox textBoxEa;
         private System.Windows.Forms.TextBox textBoxDa;
         private System.Windows.Forms.TextBox textBoxCa;
+        #pragma warning disable CS0169 // field is never used
         private System.Windows.Forms.Label label4;
+        #pragma warning restore CS0169
         public System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox_Input7;
         public System.Windows.Forms.GroupBox groupBoxCurrentReadings;

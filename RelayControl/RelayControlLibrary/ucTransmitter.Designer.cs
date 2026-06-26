@@ -3289,8 +3289,6 @@ namespace RelayControlLibrary
         public System.Windows.Forms.Label labelDNPtext1;
         public System.Windows.Forms.Label lbl_DNPCommStatus;
         private System.Windows.Forms.Panel panel_dnpComSet;
-        private System.Windows.Forms.Label label_MemphisStage;
-        private System.Windows.Forms.NumericUpDown numericUpDown_MemphisStage;
         private System.Windows.Forms.Label lbl_UplinkEn;
         public BorderlessGroupBox grpBox_TXcommands;
         public BorderlessGroupBox grpBx_DNPSettings;

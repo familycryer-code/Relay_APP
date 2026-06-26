@@ -40,7 +40,9 @@ namespace RelayControlLibrary
 
         private static int _packetLength = 98;
 
+        #pragma warning disable CS0414 // field assigned but never used in Debug 
         private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
+        #pragma warning restore CS0414 // field assigned but never used
 
         private bool customerChanged = false;
         #region Send Functions

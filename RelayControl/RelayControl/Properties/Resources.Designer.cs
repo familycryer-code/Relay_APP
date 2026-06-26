@@ -61,7 +61,7 @@ namespace RelayControl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2025-04-30.
+        ///   Looks up a localized string similar to 2026-02-14.
         /// </summary>
         internal static string _RevisionDate {
             get {
@@ -70,7 +70,7 @@ namespace RelayControl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 250401.
+        ///   Looks up a localized string similar to 260116.
         /// </summary>
         internal static string BootRevision {
             get {

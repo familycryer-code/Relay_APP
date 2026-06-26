@@ -20,7 +20,7 @@ namespace RelayControlLibrary
             SetSize();
             this.initializeComponents();
         }
-        static readonly int _600V_ADDED = 190611;
+        //static readonly int _600V_ADDED = 190611;
 
         public ucDNPDIGITALGRIDData(Customers customer)
         {

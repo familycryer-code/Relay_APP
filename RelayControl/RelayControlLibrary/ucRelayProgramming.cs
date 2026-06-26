@@ -2059,8 +2059,8 @@ namespace RelayControlLibrary
                     else
                         this.allReprogramingDone();
                 }
-                else
-                    this.allReprogramingDone();
+                //else
+                    //this.allReprogramingDone();
             }
         }
 
@@ -3493,10 +3493,10 @@ namespace RelayControlLibrary
         private void enableButtons(bool b)
         {
             return;
-            this.buttonProgramMaster.Enabled = b;
-            this.buttonProgramRelay.Enabled = b;
-            this.buttonSelectMasterSFile.Enabled = b;
-            this.buttonSelectRelaySFile.Enabled = b;
+            //this.buttonProgramMaster.Enabled = b;
+            //this.buttonProgramRelay.Enabled = b;
+            //this.buttonSelectMasterSFile.Enabled = b;
+            //this.buttonSelectRelaySFile.Enabled = b;
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -2540,7 +2540,9 @@ namespace RelayControlLibrary
             }
         }
 
-        private string dNPErrorMsg = "DNP Settings - Please Verify and Resend";//"Please Verify all DNP Settings";
+#pragma warning disable CS0414 // field assigned but never used
+        private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
+#pragma warning restore CS0414
 
         private void setDNPsettings(byte[] bytePacket)
         {

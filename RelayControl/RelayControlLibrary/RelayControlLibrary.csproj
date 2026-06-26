@@ -173,7 +173,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.7.3\lib\net40-client\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.3\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -181,6 +181,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
@@ -669,9 +670,9 @@
     <Content Include="Resources\MasterProcessor__TAUNTON_SEC_GE_260214.S" />
     <Content Include="Resources\RelayProcessor_conEdison_20260126.S" />
     <Content Include="Resources\RelayProcessor_GE_conEdison_20260126.S" />
+    <None Include="packages.config" />
     <None Include="Resources\RelayProcessor_GE_20260126.S" />
     <None Include="Resources\RelayProcessor_20260126.S" />
-    <None Include="packages.config" />
     <None Include="Resources\MasterProcessor__ENMAX_SEC_260214.S" />
     <None Include="Resources\MasterProcessor__ENMAX_SEC_GE_260214.S" />
     <None Include="Resources\MasterProcessor__EVERSOURCE_SEC_260214.S" />
