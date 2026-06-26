@@ -748,11 +748,9 @@ namespace RelayControlLibrary
 
                 this.labelReclose.Visible = true;
                 this.labelCircleCloseVolts.Visible = false;
-//#if CONED
-//                this.labelReclose.Location = new Point(120, 101);
-//#else
+
                 this.labelReclose.Location = new Point(120, 117);  
-//#endif
+
             }
         }
 
@@ -775,7 +773,7 @@ namespace RelayControlLibrary
 #if ENMAX
                 this.checkBoxCircleClose.Checked = true;
                 this.numericUpDownPDV.Value = 0.0m;
-#elif BOSTON
+#elif EVERSOURCE
                 this.checkBoxCircleClose.Checked = false;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.numericUpDownPDV.Value = 0.0m;
@@ -785,7 +783,7 @@ namespace RelayControlLibrary
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownTimeDelay.Value = 6;
                 this.checkBox1.Checked = false;
-#if !BOSTON
+#if !EVERSOURCE
                 this.checkBoxCircleClose.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #endif
@@ -793,17 +791,8 @@ namespace RelayControlLibrary
             }
             else
             {
-#if NU
-                this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.5m;
-                this.numericUpDownPDA.Value = -5;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDV.Value = 0.0m;
-                this.checkBoxCircleClose.Checked = false;
-                this.radioButtonNeverOverride.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
-                this.CloseModeDef.TimeDelay = 6;
-#elif ENMAX
+
+#if ENMAX
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.5m;
                 this.numericUpDownPDA.Value = -5;
@@ -830,18 +819,18 @@ namespace RelayControlLibrary
                 this.numericUpDownCloseTiltAngle.Value = 95;
                 this.numericUpDownPDV.Value = 0.0m;
                 this.checkBoxCircleClose.Checked = false;
-                this.radioButtonNeverOverride.Checked = true;
+                //this.radioButtonNeverOverride.Checked = true;
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 this.CloseModeDef.TimeDelay = 6;
 #elif TAUNTON
-                numericUpDownTimeDelay.Value = CloseModeDef.TimeDelay = 5;
-                numericUpDownRecloseVolts.Value = 1.4m;
-                numericUpDownPDA.Value = -6;
-                numericUpDownCloseTiltAngle.Value = 95;
-                numericUpDownPDV.Value = 0.3m;
-                checkBoxCircleClose.Checked = false;
-                radioButtonNeverOverride.Checked = true;
-                CloseModeDef.CloseMode = CloseModes.Normal;
+                this.numericUpDownTimeDelay.Value = CloseModeDef.TimeDelay = 5;
+                this.numericUpDownRecloseVolts.Value = 1.4m;
+                this.numericUpDownPDA.Value = -6;
+                this.numericUpDownCloseTiltAngle.Value = 95;
+                this.numericUpDownPDV.Value = 0.3m;
+                this.checkBoxCircleClose.Checked = false;
+                //this.radioButtonNeverOverride.Checked = true;
+                this.CloseModeDef.CloseMode = CloseModes.Normal;
 #else // SEATTLE, DOMINION, CHICAGO, BGE
                 this.numericUpDownTimeDelay.Value = 6;
                 this.numericUpDownRecloseVolts.Value = 1.5m;

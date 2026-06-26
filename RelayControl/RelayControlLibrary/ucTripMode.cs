@@ -52,7 +52,7 @@ namespace RelayControlLibrary
 #endif
 
 #if CONED && !Debug
-            this.Customer = Customers.ConEdison;
+            this.Customer = Customers.CONED;
 #else
             this.Customer = Customers.ENMAX;
 #endif

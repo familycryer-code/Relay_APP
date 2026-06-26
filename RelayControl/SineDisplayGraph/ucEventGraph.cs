@@ -15,7 +15,7 @@ namespace SineDisplayGraph
 {
     public partial class ucEventGraph : UserControl
     {
-        private Customers customer = Customers.ENMAX;
+        private Customers customer = Customers.None;
         public Customers Customer
         {
             get { return this.customer; }
