@@ -663,39 +663,50 @@ namespace RelayControl
                 this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10); 
                 this.checkBox277DNPOutputs.Visible = false;
                 // this.ucPumpMode1.Location = new System.Drawing.Point(9, 395);
-#if LONDON_HYDRO
-                                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.52.4" + " LONDON HYDRO ";
-                                this.Customer = Customers.LONDON_HYDRO;
+#if BGE
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
+                this.Customer = Customers.BGE;
+#elif COMED
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
+                this.Customer = Customers.COMED;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.34" + " CONED ";
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Consolidated Edison";
+                this.Customer = Customers.CONED;
+#elif DOMINION
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
+                this.Customer = Customers.DOMINION;
+#elif ENMAX
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
+                this.Customer = Customers.ENMAX;
+#elif EVERSOURCE
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
+                this.Customer = Customers.EVERSOURCE;
+#elif LONDON_HYDRO
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
+                this.Customer = Customers.LONDON_HYDRO;
+#elif ONCOR
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
+                this.Customer = Customers.ONCOR;
+#elif PSEG
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
+                this.Customer = Customers.PSEG;
 #elif SCE
-                        // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.53.0" + " Southern California Edison ";
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
                 this.Customer = Customers.SCE;
-#elif PSEG
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.6" + " PSE&G ";
-                this.Customer = Customers.PSEG;
-#elif ENMAX
-                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.33" + " ENMAX ";
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
-#elif EVERSOURCE
-                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.0.4" + " EVERSOURCE ";
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
-#elif ONCOR
-                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.0" + " ONCOR ";
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
+#elif SCL
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
+                this.Customer = Customers.SCL;
+#elif TAUNTON
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
+                this.Customer = Customers.TAUNTON;
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring" + " - Version: " + "3.4.1.52 " + "TORONTOHYDRO ";
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
                 this.Customer = Customers.TORONTO_HYDRO;
-#elif DOMINION
-                //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.4.1.28" + " DOMINION ";
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - DOMINION";
-#elif BGE         
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - BGE";
 #else
-                this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.1.2" + " ONCOR ";
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0";
+                this.Customer = Customers.None;
 #endif
-                // this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + this.Customer;
+                
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
@@ -841,9 +852,13 @@ namespace RelayControl
                 if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                     this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
 #endif
-#if (!ONCOR && !PSEG)
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange)) // Secondary Monitoring tab
-                        this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+
+#if ENGINEERING
+            if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
+            this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+#else
+                if (this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
+                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
 #endif
 
 #else         

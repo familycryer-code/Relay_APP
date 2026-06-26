@@ -249,8 +249,6 @@ namespace RelayControlLibrary
             this.numericUpDownSourceAddress = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownDestinationAddress = new System.Windows.Forms.NumericUpDown();
             this.labelDestinationAddress = new System.Windows.Forms.Label();
-            this.label_MemphisStage = new System.Windows.Forms.Label();
-            this.numericUpDown_MemphisStage = new System.Windows.Forms.NumericUpDown();
             this.grpBox_TXcommands = new RelayControlLibrary.BorderlessGroupBox();
             this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
@@ -288,7 +286,6 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MemphisStage)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonTX
@@ -2511,8 +2508,6 @@ namespace RelayControlLibrary
             this.grpBx_DNPSettings.Controls.Add(this.numericUpDownSourceAddress);
             this.grpBx_DNPSettings.Controls.Add(this.numericUpDownDestinationAddress);
             this.grpBx_DNPSettings.Controls.Add(this.labelDestinationAddress);
-            this.grpBx_DNPSettings.Controls.Add(this.label_MemphisStage);
-            this.grpBx_DNPSettings.Controls.Add(this.numericUpDown_MemphisStage);
             this.grpBx_DNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBx_DNPSettings.ForeColor = System.Drawing.SystemColors.ControlText;
             this.grpBx_DNPSettings.Location = new System.Drawing.Point(647, 9);
@@ -3031,7 +3026,7 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MemphisStage)).EndInit();
+          
             this.ResumeLayout(false);
             this.PerformLayout();
 
