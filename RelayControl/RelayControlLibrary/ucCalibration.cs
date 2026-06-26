@@ -18,7 +18,7 @@ namespace RelayControlLibrary
         }
 
         public CalibrationConstant[] CalibrationConstants = new CalibrationConstant[15];
-        private Customers customer = Customers.DIGITALGRIDDNP;
+        private Customers customer = Customers.ENMAX;
         //private bool gEVersion = false;
 
         public Customers Customer

@@ -667,77 +667,7 @@ namespace RelayControlLibrary
             this.buttonDefaults.UseVisualStyleBackColor = true;
             this.buttonDefaults.Click += new System.EventHandler(this.buttonDefaults_Click);
             // 
-            // groupBoxMemphisDeadBand
-            // 
-            this.groupBoxMemphisDeadBand.Controls.Add(this.buttonSendMemphis);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog4DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownAnalog4DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog4DeadBandUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog3DeadBandUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTotalKWDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownAnalog3DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTotalKVAVARDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog3DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog1DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTotalKWDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog2DeadBandUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTotalKVAVARDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog1DeadBandUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownAnalog1DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTotalKVAVARDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelAnalog2DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTotalKWDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownAnalog2DeadBand);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelPhaseKVADBUNits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownPhaseKVADB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelPhaseKVADB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelPhaseKVARDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelPhaseKVARDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownPhaseKVARDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelPhaseKWDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelOdometer);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownPhaseKWDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelDifferentialVoltsDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelPhaseKWDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelDifferentialVoltsRealDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownOdometer);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelCurrentAngleDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownDifferentialVoltsDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelDifferentialVoltsRealDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownDifferentialVoltsRealDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelDifferentialVoltsDBUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelCurrentAngleDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelOdomoterUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownCurrentAngleDB);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTriggerRangeTemperatureUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelZeroDisables);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelVoltageTriggerRange);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTriggerRangeTemperature);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTHDTriggerRange);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTriggerRangeTemperature);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTriggerRangeVoltage);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTriggerRangeCurrentUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTriggerRangeTHD);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTriggerRangeTHDUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTriggerRangeCurrent);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.labelTriggerRangeVoltageUnits);
-            this.groupBoxMemphisDeadBand.Controls.Add(this.numericUpDownTriggerRangeCurrent);
-            this.groupBoxMemphisDeadBand.Location = new System.Drawing.Point(398, 112);
-            this.groupBoxMemphisDeadBand.Name = "groupBoxMemphisDeadBand";
-            this.groupBoxMemphisDeadBand.Size = new System.Drawing.Size(626, 525);
-            this.groupBoxMemphisDeadBand.TabIndex = 60;
-            this.groupBoxMemphisDeadBand.TabStop = false;
-            this.groupBoxMemphisDeadBand.Text = "Memphis Dead Band (DB) Variables";
-            // 
-            // buttonSendMemphis
-            // 
-            this.buttonSendMemphis.Location = new System.Drawing.Point(492, 379);
-            this.buttonSendMemphis.Name = "buttonSendMemphis";
-            this.buttonSendMemphis.Size = new System.Drawing.Size(136, 23);
-            this.buttonSendMemphis.TabIndex = 143;
-            this.buttonSendMemphis.Text = "Send Memphis Variables";
-            this.buttonSendMemphis.UseVisualStyleBackColor = true;
-            this.buttonSendMemphis.Click += new System.EventHandler(this.buttonSendMemphis_Click);
+           
             // 
             // labelAnalog4DeadBand
             // 

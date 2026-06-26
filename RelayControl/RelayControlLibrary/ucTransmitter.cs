@@ -1755,12 +1755,11 @@ namespace RelayControlLibrary
 
             if (dr == DialogResult.Yes)
             {
-                if (this.Customer == Customers.Memphis)
-                    this.setMemphisDefaults();
-                else if (this.GERelay)
+                if (this.GERelay)
                     this.setGEDefaults();
                 else
                     this.SetDefaults();
+
                 this.buttonTX.Enabled = true;
             }
         }
@@ -2417,11 +2416,6 @@ namespace RelayControlLibrary
                 else if ((string)this.comboBoxTerminationResistor.SelectedItem != "Disable")
                     throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem.ToString());
 
-                if (this.Customer == Customers.Memphis)
-                {
-                    tempByte &= 0x1F; //Clear the Memphis Stage Bits
-                    tempByte |= (byte)((int)this.numericUpDown_MemphisStage.Value << 5); //Set them
-                }
 
                 sEA.SendPacket[3] = tempByte;
 
@@ -2659,19 +2653,14 @@ namespace RelayControlLibrary
 
             try
             {
-                if (this.Customer == Customers.Memphis)
-                {
-                    temp = (byte)(bytePacket[0] & 0xE0);
-                    temp >>= 5;
-                    this.numericUpDown_MemphisStage.Value = temp;
-                }
+                
             }
             catch (Exception ex)
             {
 #if DEBUG
                             this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
-                            //#else
-#elif !DIGITALGRID
+                //#else
+#else
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
 #endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;

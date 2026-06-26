@@ -2895,39 +2895,9 @@ namespace RelayControlLibrary
             this.labelDestinationAddress.TabIndex = 18;
             this.labelDestinationAddress.Text = "Destination  (master):";
             // 
-            // label_MemphisStage
+        
             // 
-            this.label_MemphisStage.AutoSize = true;
-            this.label_MemphisStage.Location = new System.Drawing.Point(66, 345);
-            this.label_MemphisStage.Name = "label_MemphisStage";
-            this.label_MemphisStage.Size = new System.Drawing.Size(122, 19);
-            this.label_MemphisStage.TabIndex = 33;
-            this.label_MemphisStage.Text = "Memphis Stage:";
-            this.label_MemphisStage.Visible = false;
-            // 
-            // numericUpDown_MemphisStage
-            // 
-            this.numericUpDown_MemphisStage.Location = new System.Drawing.Point(197, 345);
-            this.numericUpDown_MemphisStage.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericUpDown_MemphisStage.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_MemphisStage.Name = "numericUpDown_MemphisStage";
-            this.numericUpDown_MemphisStage.Size = new System.Drawing.Size(72, 27);
-            this.numericUpDown_MemphisStage.TabIndex = 1;
-            this.numericUpDown_MemphisStage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown_MemphisStage.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_MemphisStage.Visible = false;
+            
             // 
             // grpBox_TXcommands
             // 
@@ -2944,7 +2914,7 @@ namespace RelayControlLibrary
             // ucDNP2
             // 
             this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP2.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucDNP2.DNPLabelStatus = false;
             this.ucDNP2.Location = new System.Drawing.Point(10, 4);
             this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
@@ -2956,7 +2926,7 @@ namespace RelayControlLibrary
             // 
             this.ucTransmitterMonitoring2.CTMult = "";
             this.ucTransmitterMonitoring2.CTRatio = 320;
-            this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring2.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucTransmitterMonitoring2.Frequency = RelayControlLibrary.Frequencies.Red;
             this.ucTransmitterMonitoring2.GEEnabled = false;
             this.ucTransmitterMonitoring2.Location = new System.Drawing.Point(4, 0);

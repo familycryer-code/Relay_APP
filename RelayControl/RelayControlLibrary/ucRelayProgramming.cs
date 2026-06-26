@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Resources;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -45,7 +46,7 @@ namespace RelayControlLibrary
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public bool ActiveRelay { get; set; }
         // These need to be updated when new files are used
-#if DEBUG && !DG288_TESTFIXTURE_GUI
+#if DEBUG
         private static UInt32 _masterCodeRevisionNumber = 999999;
         private static UInt32 _relayCodeRevisionNumber = 99999999;
         private static UInt32 _fPGACodeRevisionNumber = 1212071;
@@ -277,7 +278,7 @@ namespace RelayControlLibrary
             get { return this.dNPRelay; }
             set
             {
-#if ATLANTA || ONCOR
+#if ONCOR
                 this.dNPRelay = true;
 #else
                 this.dNPRelay = value;
@@ -357,12 +358,12 @@ namespace RelayControlLibrary
                     else
                         this.reprogramMaster = false;
 #else
-    #if !BOSTON 
+    #if !EVERSOURCE 
                         if ((this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
                             this.reprogramMaster = true;
                         else
                             this.reprogramMaster = false;
-    #elif BOSTON 
+    #elif EVERSOURCE 
                         if(this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) 
                             this.reprogramMaster = true;
                         else
@@ -471,6 +472,67 @@ namespace RelayControlLibrary
             }
         }
 
+        private string GetRequiredResource(string key)
+        {
+            string value = RelayControlLibrary.Properties.Resources.ResourceManager.GetString(key);
+            if (string.IsNullOrEmpty(value))
+                throw new MissingManifestResourceException(
+                    $"Missing resource key '{key}' in Resources.resx.");
+            return value;
+        }
+        private string GetFirstExistingResource(params string[] keys)
+        {
+            foreach (var key in keys)
+            {
+                var v = RelayControlLibrary.Properties.Resources.ResourceManager.GetString(key);
+                if (!string.IsNullOrEmpty(v)) return v;
+            }
+            throw new MissingManifestResourceException("Missing all resource keys: " + string.Join(", ", keys));
+        }
+
+        private string GetRelayProcessorResource(string customer, bool isGE)
+        {
+            customer = (customer ?? "").Trim().ToUpperInvariant();
+
+            if (customer == "CONED" || customer == "CONEDISON")
+            {
+                return isGE
+                    ? GetFirstExistingResource(
+                        "RelayProcessor_GE_conEdison",
+                        "RelayProcessorGE_conEdison",
+                        "RelayProcessor_GE_ConEdison")
+                    : GetFirstExistingResource(
+                        "RelayProcessor_conEdison",
+                        "RelayProcessorConEdison");
+            }
+
+            return isGE
+                ? GetFirstExistingResource(
+                    "RelayProcessorGE",
+                    "RelayProcessor_GE_20260126",
+                    "RelayProcessor_GE")
+                : GetFirstExistingResource(
+                    "RelayProcessor",
+                    "RelayProcessor_20260126");
+        }
+
+        private string GetMasterProcessorResource(string customer, bool isGE)
+        {
+            customer = (customer ?? "").Trim().ToUpperInvariant();
+
+            // Preferred stable keys first, then known legacy keys
+            if (isGE)
+            {
+                return GetFirstExistingResource(
+                    $"MasterProcessor_{customer}_SEC_GE",
+                    $"MasterProcessor__{customer}_SEC_GE_260214");
+            }
+
+            return GetFirstExistingResource(
+                $"MasterProcessor_{customer}_SEC",
+                $"MasterProcessor__{customer}_SEC_260214");
+        }
+
         /// <summary>
         /// Creates the list of 
         /// </summary>
@@ -492,64 +554,108 @@ namespace RelayControlLibrary
 
             try
             {
-                CustomerLoadFiles regular = new CustomerLoadFiles(Customers.DIGITALGRID);
-                regular.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
-                regular.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_GE_260214;
-                regular.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                regular.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
-                regular.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
-                regular.MasterFileAtlantaDNPGE = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
-                regular.MasterFileAtlantaDNPWH = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP;
-                regular.MasterFileDNPPLC = RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_260214;//MasterProcessor_with_DNP_PLC;
-                regular.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                regular.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                regular.RelayFileAtlantaWH = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
-                regular.RelayFileAtlantaGE = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
-
-                if (relayHBD.relayWithHBD == true)
+                Action<Customers, string, string, bool> setFiles = (customer, wh, ge, useConEdRelay) =>
                 {
-                    regular.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
-                }
-                else if (relayHBD.relayWithHBD == false) // SEC
+                    var lf = this.customersFiles.Find(x => x.Customer.Equals(customer));
+                    if (lf == null) return;
+
+                    lf.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
+
+                    // Primary firmware
+                    lf.MasterFileWH = wh;
+                    lf.MasterFileGE = ge;
+
+                    // Backward-compatible properties (same firmware, app toggles DNP behavior)
+                    lf.MasterFileWHDNP = wh;
+                    lf.MasterFileGEDNP = ge;
+                    lf.MasterFileDNPPLC = wh;
+
+                    // Relay firmware
+                    lf.RelayFileWH = useConEdRelay
+                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260126
+                        : RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
+
+                    lf.RelayFileGE = useConEdRelay
+                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260126
+                        : RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
+                };
+
+                setFiles(Customers.BGE,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.COMED,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__COMED_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__COMED_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.CONED,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260214,
+                    true);
+
+                setFiles(Customers.DOMINION,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.ENMAX,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.EVERSOURCE,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.LONDON_HYDRO,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__LONDON_HYDRO_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__LONDON_HYDRO_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.ONCOR,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.PSEG,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__PSEG_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__PSEG_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.SCE,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.SCL,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCL_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCL_SEC_GE_260214,
+                    false);
+
+                setFiles(Customers.TAUNTON,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__TAUNTON_SEC_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__TAUNTON_SEC_GE_260214,
+                    false);
+
+                // TORONTO_HYDRO is HBD-only (still using available CONED HBD-compatible asset)
+                var toronto = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
+                if (toronto != null)
                 {
-                    regular.MasterFileConEdSEC = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
+                    toronto.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
+                    toronto.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260214;
+
+                    // Safe non-null defaults
+                    toronto.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260214;
+                    toronto.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260214;
+                    toronto.MasterFileWHDNP = toronto.MasterFileWH;
+                    toronto.MasterFileGEDNP = toronto.MasterFileGE;
+                    toronto.MasterFileDNPPLC = toronto.MasterFileWH;
+                    toronto.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260126;
+                    toronto.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260126;
                 }
-
-                CustomerLoadFiles workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRID));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Dominion));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Memphis));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.NonConEd));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.None));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.PEPCO));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.Atlanta));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.SMUD));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DIGITALGRIDDNP));
-                this.copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile = this.customersFiles.Find(x => x.Customer.Equals(Customers.DNPwithPLC));
-                copyCustomerLoadFiles(workingLoadFile, regular);
-
-                workingLoadFile.MasterFileWHDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_SMUD;
-                workingLoadFile.MasterFileGEDNP = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE_SMUD;
             }
             catch (Exception ex)
             {
@@ -564,25 +670,29 @@ namespace RelayControlLibrary
 
         private void copyCustomerLoadFiles(CustomerLoadFiles destination, CustomerLoadFiles source)
         {
+            if (destination == null || source == null) return;
+
             destination.FPGAFile = source.FPGAFile;
-            destination.MasterFileGE = source.MasterFileGE;
-            destination.MasterFileGEDNP = source.MasterFileGEDNP;
-            destination.MasterFileAtlantaDNPGE = source.MasterFileAtlantaDNPGE;
-            destination.MasterFileAtlantaDNPWH = source.MasterFileAtlantaDNPWH;
-            destination.MasterFileDNPPLC = source.MasterFileDNPPLC;
+
             destination.MasterFileWH = source.MasterFileWH;
+            destination.MasterFileGE = source.MasterFileGE;
+
             destination.MasterFileWHDNP = source.MasterFileWHDNP;
-            destination.RelayFileGE = source.RelayFileGE;
+            destination.MasterFileGEDNP = source.MasterFileGEDNP;
+            destination.MasterFileDNPPLC = source.MasterFileDNPPLC;
+
+            destination.MasterFileConEdHBD = source.MasterFileConEdHBD;
+            destination.MasterFileConEdSEC = source.MasterFileConEdSEC;
+
             destination.RelayFileWH = source.RelayFileWH;
-            destination.RelayFileAtlantaGE = source.RelayFileAtlantaGE;
-            destination.RelayFileAtlantaWH = source.RelayFileAtlantaWH;
+            destination.RelayFileGE = source.RelayFileGE;
         }
 
         public void InitializeAutoload()
         {
             logger.Trace("InitializeAutoLoad");
             this.reprogramBootCodeAuto = true;
-#if !BOSTON
+#if !EVERSOURCE
             if ((askToUgradeShown == false && CompareMasterRevisionToGUI()) || setWrongRelayTypeAutoLoad())
             {
                 if (!askToUgradeShown)
@@ -590,7 +700,7 @@ namespace RelayControlLibrary
                     this.showAutoLoadDialog();
                 }
             }
-#elif BOSTON
+#elif EVERSOURCE
             if(askToUgradeShown == false && CompareMasterRevisionToGUI()) 
             {
                 if (!askToUgradeShown)
@@ -813,10 +923,6 @@ namespace RelayControlLibrary
 
             switch (this.customer)
             {
-                case Customers.Memphis:
-
-                    internalGESetter = false;
-                    break;
                 default:
                     dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
                     if (dR == DialogResult.Yes)
@@ -962,9 +1068,6 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             switch (this.customer)
             {
-                case Customers.Memphis:
-                    this.TransmitterEnabled = false;
-                    break;
                 default:
                     dR = new CustomYesNoDialog("Select Communication Type", "Does this use PLC?", "Yes", "No").ShowDialog();
 
@@ -988,415 +1091,90 @@ namespace RelayControlLibrary
             if (this.dontReloadFromResource || RelayProgrammingStates.Idle != this.state)
                 return;
 
-            CustomerLoadFiles cLF = this.customersFiles.Find(x => x.Customer.Equals(this.customer));
-
+            // Keep for now during stabilization
             checkDNP();
 
-#if (DEBUG || NU || BOSTON || SEATTLE || PSEG) && !DNP
-            //  MessageBox.Show("Comes here. Take MasterProcessor.S as the firmware build"); // Only for testing - to be removed
-            
+            CustomerLoadFiles cLF = null;
 
+        #if (DEBUG || ENMAX || RELEASE || ENGINEERING)
+                    // Base all resource selection on ENMAX for these builds
+                    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
+        #endif
+        #if BGE
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.BGE));
+        #endif
+        #if COMED
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.COMED));
+        #endif
+        #if CONED
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.CONED));
+        #endif
+        #if DOMINION
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.DOMINION));
+        #endif
+        #if EVERSOURCE
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.EVERSOURCE));
+        #endif
+        #if LONDON_HYDRO
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.LONDON_HYDRO));
+        #endif
+        #if ONCOR
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ONCOR));
+        #endif
+        #if PSEG
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.PSEG));
+        #endif
+        #if SCE
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCE));
+        #endif
+        #if SCL
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCL));
+        #endif
+        #if TAUNTON
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TAUNTON));
+        #endif
+        #if TORONTO_HYDRO
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
+        #endif
+
+            if (cLF == null)
+                throw new Exception("Customer load files not initialized for active build symbol.");
+
+        #if CONED
             if (this.GERelay)
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_GE_260214;
-                this.textBoxMasterFileName.Text = "GE Master Relay From Resource";
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+                this.masterCode.FileString = cLF.MasterFileConEdHBD;
+                this.textBoxMasterFileName.Text = "GE Master Relay From Resource CONED (HBD)";
+
+                this.relayCode.FileString = cLF.RelayFileGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource CONED";
             }
             else
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214;
-                this.textBoxMasterFileName.Text = "WH Master Relay From Resource";
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
+                this.masterCode.FileString = cLF.MasterFileConEdSEC;
+                this.textBoxMasterFileName.Text = "WH Master Relay From Resource CONED (SEC)";
 
-#if (DOMINION && !DNP)
+                this.relayCode.FileString = cLF.RelayFileWH;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource CONED";
+            }
+        #else
             if (this.GERelay)
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_GE_260214;
-                this.textBoxMasterFileName.Text = "GE Master Relay From Resource";
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
+                this.masterCode.FileString = cLF.MasterFileGE;
+                this.textBoxMasterFileName.Text = "GE Master Relay From Resource " + cLF.Customer.ToString();
+
+                this.relayCode.FileString = cLF.RelayFileGE;
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + cLF.Customer.ToString();
             }
             else
             {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_260214;
-                this.textBoxMasterFileName.Text = "WH Master Relay From Resource";
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
+                this.masterCode.FileString = cLF.MasterFileWH;
+                this.textBoxMasterFileName.Text = "WH Master Relay From Resource " + cLF.Customer.ToString();
+
+                this.relayCode.FileString = cLF.RelayFileWH;
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + cLF.Customer.ToString();
             }
-#endif
-
-#if (BGE && !DNP)
-            if (this.GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_GE_260214;
-                this.textBoxMasterFileName.Text = "GE Master Relay From Resource";
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_260214;
-                this.textBoxMasterFileName.Text = "WH Master Relay From Resource";
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
-
-#if (PSEG && DNP)
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
-            this.textBoxMasterFileName.Text = "Master Relay From Resource";
-
-            if (this.GERelay)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
-#if (ENMAX || CONED || TORONTO_HYDRO) && DNP
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_GE_260214;
-                this.textBoxMasterFileName.Text = "Master Relay DNP with PLC GE Resource";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                /*    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_PLC;
-                   this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
-
-                   this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                   this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-               */
-
-                if (relayHBD.relayWithHBD == true)
-                {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
-                }
-                else if (relayHBD.relayWithHBD == false) // SEC
-                {
-                    this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_SEC;
-                }
-#if TORONTO_HYDRO
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_ConEd_HBD;
-#elif ENMAX
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_260214;
-#endif
-
-                this.textBoxMasterFileName.Text = "Master Relay DNP with PLC Resource";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-#endif
-
-#if COMED
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorChicago;
-            this.textBoxMasterFileName.Text = "Master Relay Chicago";
-
-            if (GERelay)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if LONDON_HYDRO
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorLondonH;
-            this.textBoxMasterFileName.Text = "Master Relay LondonH";
-
-            if (GERelay)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if TAUNTON
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorTaunton;
-            this.textBoxMasterFileName.Text = "Master Relay Taunton";
-
-            if (GERelay)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if MADISON
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMadison;
-            this.textBoxMasterFileName.Text = "Master Relay Madison";
-
-            if (GERelay)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if ATLANTA && DNP
-            
-
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP_GE;
-                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorAtlantaGE;
-                this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_Atlanta_DNP;
-                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorAtlanta;
-                this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if ONCOR && DNP
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_GE_260214;
-                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_260214;
-                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if SCE
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_GE_260214;
-                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP GE";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Atlanta Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_260214;
-                this.textBoxMasterFileName.Text = "Master Atlanta Relay DNP";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Atlanta Relay From Resource " + this.customer.ToString();
-            }
-
-            if (this.transmitterEnabled)
-            {
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-            }
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
-
-#if MEMPHIS
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorMemphis;
-                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
-
-#if SMUD
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorSMUDGE;
-                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorSMUDGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorSMUD;
-                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorSMUD;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
-
-#if (DNP && (!ENMAX && !PSEG) && !CONED && !TORONTO_HYDRO)
-            if (GERelay)
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP_GE;
-                this.textBoxMasterFileName.Text = "Master Relay GE with DNP From Resource ";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource" + this.customer.ToString();
-            }
-            else
-            {
-                this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessor_with_DNP;
-                this.textBoxMasterFileName.Text = "Master Relay WH with DNP From Resource";
-
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-#endif
-
-#if ENMAX && !DNP
-            this.masterCode.FileString = RelayControlLibrary.Properties.Resources.MasterProcessorEnmaxPLC;
-            this.textBoxMasterFileName.Text = "Master Relay LondonH";
-
-            if (GERelay)
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessorGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + this.customer.ToString();
-            }
-            else
-            {
-                this.relayCode.FileString = RelayControlLibrary.Properties.Resources.RelayProcessor;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + this.customer.ToString();
-            }
-
-
-            this.parseFPGAFile(this.fPGACode);
-            this.textBoxFPGAFile.Text = "FPGA Code From Resource";
-
-
-            this.parseSFile(this.masterCode);
-            this.parseSFile(this.relayCode);
-
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
-            return;
-#endif
+        #endif
 
             if (this.transmitterEnabled)
             {
@@ -1457,7 +1235,7 @@ namespace RelayControlLibrary
         public bool CompareMasterRevisionToGUI()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-#if !BOSTON
+#if !EVERSOURCE
 #if DNP
             if ((remoteMasterRevisionNumber < _masterCodeRevisionNumber) || wrongRelayTypeAutoLoad)
 #else
@@ -1469,7 +1247,7 @@ namespace RelayControlLibrary
             }
             else
                 return false;
-#elif BOSTON
+#elif EVERSOURCE
 
             if (remoteMasterRevisionNumber < _masterCodeRevisionNumber) 
             {
@@ -2869,7 +2647,6 @@ namespace RelayControlLibrary
             }
         }
 
-
         private void parseBootLoaderSFile(RelayProgrammingData rPD)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -3993,7 +3770,7 @@ namespace RelayControlLibrary
         {
             this.customer = (Customers)this.comboBoxCustomer.SelectedItem;
 
-            if (this.customer == Customers.None || this.customer == Customers.ConEdison)
+            if (this.customer == Customers.None || this.customer == Customers.CONED)
             {
                 MessageBox.Show("Please Select a Different Customer");
                 this.customer = Customers.None;
@@ -4219,35 +3996,34 @@ namespace RelayControlLibrary
         {
             this.Customer = cLF.Customer;
             this.FPGAFile = cLF.FPGAFile;
+
             this.MasterFileGE = cLF.MasterFileGE;
-            this.MasterFileGEDNP = cLF.MasterFileGEDNP;
             this.MasterFileWH = cLF.MasterFileWH;
-            this.MasterFileWHDNP = cLF.MasterFileWHDNP;
-            this.MasterFileAtlantaDNPGE = cLF.MasterFileAtlantaDNPGE;
-            this.MasterFileAtlantaDNPWH = cLF.MasterFileAtlantaDNPWH;
+
+            this.MasterFileConEdHBD = cLF.MasterFileConEdHBD;
+            this.MasterFileConEdSEC = cLF.MasterFileConEdSEC;
+
             this.RelayFileGE = cLF.RelayFileGE;
             this.RelayFileWH = cLF.RelayFileWH;
-            this.RelayFileAtlantaWH = cLF.RelayFileAtlantaWH;
-            this.RelayFileAtlantaGE = cLF.RelayFileAtlantaGE;
         }
 
         public Customers Customer = Customers.None;
         public UInt32 RelayRevision;
         public UInt32 MasterRevision;
         public UInt32 MasterDNPRevision;
+
         public string MasterFileGE;
         public string MasterFileWH;
         public string MasterFileGEDNP;
         public string MasterFileWHDNP;
-        public string RelayFileWH;
-        public string RelayFileGE;
-        public string RelayFileAtlantaWH;
-        public string RelayFileAtlantaGE;
         public string MasterFileDNPPLC;
-        public string MasterFileAtlantaDNPGE;
-        public string MasterFileAtlantaDNPWH;
+
         public string MasterFileConEdHBD;
         public string MasterFileConEdSEC;
+
+        public string RelayFileWH;
+        public string RelayFileGE;
+
         public FPGAProgrammingData FPGAFile = new FPGAProgrammingData();
     }
 

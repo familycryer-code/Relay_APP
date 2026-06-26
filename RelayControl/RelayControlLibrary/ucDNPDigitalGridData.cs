@@ -53,7 +53,7 @@ namespace RelayControlLibrary
                 if (value != this.customer)
                 {
                     this.customer = value;
-                    if (this.customer == Customers.NonConEd)
+                    if (this.customer == Customers.ENMAX)
                         return;
                     SetSize();
                     this.initializeComponents();
@@ -92,7 +92,7 @@ namespace RelayControlLibrary
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
         private UInt32 relayMasterRevision = 260214;//140506;
-        private Customers customer = Customers.DIGITALGRIDDNP;
+        private Customers customer = Customers.ENMAX;
 
 
         private static int _packetLength = 98;
@@ -423,7 +423,7 @@ namespace RelayControlLibrary
         {
             uint pointsToAdd;
 
-            if ((this.relayMasterRevision < 140107) || (this.customer != Customers.Atlanta && this.customer != Customers.Oncor))
+            if ((this.relayMasterRevision < 140107) || (this.customer != Customers.ONCOR))
                 pointsToAdd = 20;
             else
                 pointsToAdd = 22;

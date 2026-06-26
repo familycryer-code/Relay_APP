@@ -110,34 +110,13 @@ namespace RelayControlLibrary
             switch (this.customer)
             {
                 default:
-                case Customers.NonConEd:
+                case Customers.ENMAX:
                     this.numericUpDownProtectTime.Visible = true;
                     this.labelProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
                     this.checkBoxNeverReclose.Visible = true;
                     break;
-                case Customers.Memphis:
-                case Customers.DIGITALGRIDDNP:
-                    this.checkBoxNeverReclose.Visible = true;
-                    this.labelProtectTime.Visible = true;
-                    this.labelProtectTimeUnits.Visible = true;
-                   // this.groupBoxMotorCycles.Visible = true;
-                    //this.groupBoxMotorTimeout.Visible = true;                    
-                    this.checkBoxMotorCycles.Checked = false;
-                    this.checkBoxMotorTime.Checked = false;
-                    this.numericUpDownProtectTime.Visible = true;
-                    break;
-                case Customers.DNPwithPLC:
-                    this.checkBoxNeverReclose.Visible = true;
-                    this.labelProtectTime.Visible = true;
-                    this.labelProtectTimeUnits.Visible = true;
-                   // this.groupBoxMotorCycles.Visible = true;
-                    //this.groupBoxMotorTimeout.Visible = true;
-                    this.checkBoxMotorCycles.Checked = true;
-                    this.checkBoxMotorTime.Checked = true;
-                    this.numericUpDownProtectTime.Visible = true;
-                    break;
-                case Customers.ConEdison:
+                case Customers.CONED:
                     this.numericUpDownProtectTime.Visible = true;
                     this.labelProtectTimeUnits.Visible = true;
                     this.labelProtectTime.Visible = true;

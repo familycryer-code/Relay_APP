@@ -91,9 +91,8 @@ namespace RelayControl
                     this.ucTransmitterMonitoring1.Customer = this.customer;
                     this.ucCalibration2.Customer = this.customer;
 
-#if ATLANTA
-                    this.ucRelayProgramming1.Customer = Customers.Atlanta;
-#elif ONCOR
+
+#if ONCOR
                     this.ucRelayProgramming1.Customer = Customers.Oncor;
 #elif PSEG
                     this.ucRelayProgramming1.Customer = Customers.PSEG;
@@ -103,11 +102,6 @@ namespace RelayControl
 
                     if (this.dNPDIGITALGRIDData != null)
                         this.dNPDIGITALGRIDData.Customer = this.customer;
-
-                    if (this.customer == Customers.ConEdison) { }
-                    //this.makeConEdisonGUI();
-                    else if (this.customer == Customers.Memphis)
-                        this.makeMemphisGUI();
                 }
             }
         }
@@ -163,32 +157,27 @@ namespace RelayControl
                 if (value == true && this.masterRevision > REV0_MASTER_REVISION)
                 {
 #if !WATERBUG
-                    if (this.Customer == Customers.SMUD)
-                        this.TransmitterEnabled = false;
+                    
 
                     //if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
                     if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNP)) && (dnpUplinkK.dnpEnabledWithKit != false))
                     {
                         //#if !LONDONH
-#if !LONDONH && !DIGITALGRID && !DOMINION
+#if !LONDON_HYDRO && !DIGITALGRID && !DOMINION
                        // this.tabControlMain.TabPages.Add(this.tabPageDNP);
                        // this.tabControlMain.TabPages.Add(this.tabPageDNPData);
 #endif
                     }
-                    if (this.customer != Customers.Memphis)
+                    if (this.customer != Customers.TORONTO_HYDRO)
                     {
-                        if (this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
-                        {
-                            this.tabPageDNPData.Controls.Remove(this.dNPMemphisData);
-                            this.dNPMemphisData.Dispose();
-                        }
+  
 
-                        if ((this.customer == Customers.DIGITALGRIDDNP || this.customer == Customers.DNPwithPLC || this.Customer == Customers.DIGITALGRID || this.Customer == Customers.Atlanta || this.Customer == Customers.ConEdison || this.Customer == Customers.SCE || this.Customer == Customers.Oncor || this.Customer == Customers.TorontoHydro) && !this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                        if (this.Customer == Customers.CONED || this.Customer == Customers.SCE || this.Customer == Customers.ONCOR)
                         {
                            setDNPTabPoints();
                         }
 
-#if ENMAX && !DNP
+#if ENMAX
                         if(this.receivedMasterRevision.Contains("DNP"))
                         {
                             setDNPTabPoints();
@@ -199,7 +188,7 @@ namespace RelayControl
                         if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth)) && (dnpUplinkK.dnpEnabledWithKit != false))
                         {
                             //#if !LONDONH && !DIGITALGRID
-#if !LONDONH && !DIGITALGRID && !DOMINION
+#if !LONDON_HYDRO && !DOMINION
                             //MessageBox.Show("add DNPSAv5 tabs"); // Only for testing - to be removed
                             //this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
 #endif
@@ -646,14 +635,11 @@ namespace RelayControl
                     this.enableAll(true);
                     this.tabPageFlightRecorder.Show();
                     this.tabPageEvents.Show();
-#if !DG288_TESTFIXTURE_GUI
-                                    //this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName + " - Version: " + Assembly.GetEntryAssembly().GetName().Version + " Debug";
-                                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
-#elif DG288_TESTFIXTURE_GUI
-                                    this.Text = "DIGITALGRID, INC. - Transmitter Monitoring " + Properties.Resources._RevisionDate + " - " + customerRevisionName;
-#endif
+                                   
+                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
+
                     this.ArcFaultEnabled = true;
-                    this.Customer = Customers.DIGITALGRID;
+                    this.Customer = Customers.ENMAX;
 
 #elif WATERBUG
                     this.noMonitoringVersion = false;
@@ -1421,31 +1407,6 @@ namespace RelayControl
         }
         private ucMemphisDNPData dNPMemphisData;
         private ucDNPDIGITALGRIDData dNPDIGITALGRIDData;
-
-        private void makeMemphisGUI()
-        {
-            this.Customer = Customers.Memphis;
-
-            if (this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-            {
-                this.tabPageDNPData.Controls.Remove(this.dNPDIGITALGRIDData);
-                this.dNPDIGITALGRIDData.Dispose();
-            }
-            if (!this.tabPageDNPData.Controls.Contains(this.dNPMemphisData))
-            {
-                this.dNPMemphisData = new ucMemphisDNPData();
-
-                this.tabPageDNPData.Controls.Add(this.dNPMemphisData);
-                this.dNPMemphisData.Send += standardizedSendData;
-                this.dNPMemphisData.Location = new Point(0, 0);
-                this.dNPMemphisData.Show();
-            }
-            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-            this.makeNonConEdGUI();
-            if (!this.Text.Contains("Memphis"))
-                this.Text += " - Memphis";
-        }
 
         private bool otherPanelMovedForConEd = false;
         private void removePumpProtect()
@@ -5169,7 +5130,7 @@ namespace RelayControl
                 // ABC or ACB
                 // The bottom three bits of the packet
                 temp = 0x07 & bytePacket[80];
-                if (this.customer != Customers.ConEdison)
+                if (this.customer != Customers.CONED)
                 {
                     this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
                     /* if (temp == 2)
@@ -5420,7 +5381,7 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-#if DOMINION || BOSTON || BGE
+#if DOMINION || EVERSOURCE || BGE
                 //this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
                 trim_rev = revision.Replace("DNP", "").Trim();
                 this.ucRelayProgramming1.MasterRevisionString = trim_rev;
@@ -5437,12 +5398,6 @@ namespace RelayControl
 
                 switch (this.customer)
                 {
-                    case Customers.Memphis:
-                        this.DNPEnabled = true;
-                        this.blockDNPEnableFromTransmitterSettings = true;
-                        this.makeMemphisGUI();
-                        this.TransmitterEnabled = false;
-                        break;
                     default:
                         // A DNP Relay
                         if (revision.Contains("DNP"))
@@ -5453,26 +5408,24 @@ namespace RelayControl
                             // With PLC
                             if (revision.Contains("PLC"))
                             {
-                                this.Customer = Customers.DNPwithPLC;
+                                this.Customer = Customers.DOMINION;
                             }
-                            else if (revision.Contains("ATLANTA"))
+                            else if (revision.Contains("BGE"))
                             {
-                                this.Customer = Customers.Atlanta;
+                                this.Customer = Customers.BGE;
                             }
-                            else if (revision.Contains("ONCOR"))
+                            else if (revision.Contains("SCL"))
                             {
-                                this.Customer = Customers.Oncor;
+                                this.Customer = Customers.SCL;
                             }
-                            else if (revision.Contains("SMUD"))
+                            else if (revision.Contains("TAUNTON"))
                             {
-                                this.Customer = Customers.SMUD;
+                                this.Customer = Customers.TAUNTON;
                             }
                             else
                             {
-                                this.Customer = Customers.DIGITALGRIDDNP;
+                                this.Customer = Customers.COMED;
                             }
-                            if (revision.Contains("MEMPHIS") && this.Customer != Customers.Memphis)
-                                this.makeMemphisGUI();
                         }
                         break;
                 }
@@ -5483,7 +5436,7 @@ namespace RelayControl
                 }
 
                 if (this.Customer == Customers.None)
-                    this.Customer = Customers.DIGITALGRID;
+                    this.Customer = Customers.ENMAX;
 
                 this.ucRelayProgramming1.setConEdFiles();
 
@@ -5564,8 +5517,7 @@ namespace RelayControl
                 {
                     this.ucTransmitter1.FPGARevisionValid = true;
                     this.fPGARevisionValid = true;
-                    if (this.customer != Customers.SMUD)
-                        this.labelFPGARevision.Show();
+                    this.labelFPGARevision.Show();
 
                     try
                     {
@@ -6306,7 +6258,7 @@ namespace RelayControl
                     }
                     try
                     {
-                        if (this.Customer != Customers.ConEdison)
+                        if (this.Customer != Customers.CONED)
                         {
                             if (this.comboBox_Phasings.SelectedItem.ToString() == "ABC : CAB : BCA")
                                 packet[2] = 0x00;
@@ -7142,7 +7094,7 @@ namespace RelayControl
                 try
                 {
                     cTRatio5 = Convert.ToInt16(this.textBoxCTRatio.Text);
-                    if (this.Customer == Customers.ConEdison)
+                    if (this.Customer == Customers.CONED)
                     {
                         if (cTRatio5 < 0)
                             cTRatio5 = -cTRatio5;
@@ -8403,7 +8355,7 @@ namespace RelayControl
         {
             this.enableAll(false);
 
-            if (this.Customer == Customers.ConEdison) //baud rate half speed
+            if (this.Customer == Customers.CONED) //baud rate half speed
                 halfSecondCounts <<= 1;
 
             this.downloadProgress = new ProgressBarForm(title, label, halfSecondCounts, dialog);
@@ -8420,7 +8372,7 @@ namespace RelayControl
         {
             this.enableAll(false);
 
-            if (this.Customer == Customers.ConEdison) //baud rate half speed
+            if (this.Customer == Customers.CONED) //baud rate half speed
                 halfSecondCounts <<= 1;
             this.downloadProgress = new ProgressBarForm(formText, title, halfSecondCounts);
             this.downloadProgress.Done += new ProgressBarForm.ProgressBarEvent(downloadProgress_Done);
@@ -9260,20 +9212,13 @@ namespace RelayControl
                 {
                     this.parametersFinishedLoading();
                 }
-#if !WATERBUG
                 if (this.DNPEnabled)
                 {
-//#if DNP || DEBUG
-                   // this.ucDNP1.SetAll(bytePacket);
-                    this.ucTransmitter1.SetAll(bytePacket);
-//#endif
-                }
-                    memphisStage = (byte)(bytePacket[0] & 0xE0);
-                memphisStage >>= 5;
 
-                if (this.DNPEnabled && this.customer == Customers.Memphis && this.dNPMemphisData != null)
-                    this.dNPMemphisData.MemphisStage = (uint)memphisStage;
-#endif
+                    this.ucTransmitter1.SetAll(bytePacket);
+
+                }
+                
             }
             catch (Exception ex)
             {

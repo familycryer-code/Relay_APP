@@ -15,7 +15,7 @@ namespace SineDisplayGraph
 {
     public partial class ucEventGraph : UserControl
     {
-        private Customers customer = Customers.NonConEd;
+        private Customers customer = Customers.ENMAX;
         public Customers Customer
         {
             get { return this.customer; }
@@ -334,7 +334,7 @@ namespace SineDisplayGraph
                 this.labelEventLabel.Text = "Relay ID: " + this.RelayID.ToString() + " - " + this.Type.ToString() + " " + this.eventTime.ToString();
                // this.centerLabel(this.labelEventLabel);
 
-                if (this.RelayRevisionNumber >= 20111123 && this.type == EventTypes.Trip && this.Customer != Customers.Memphis) //for when the trip delay times were put in
+                if (this.RelayRevisionNumber >= 20111123 && this.type == EventTypes.Trip) //for when the trip delay times were put in
                 {
                     outputText = "Cycles To Protector Open Flag: ";
 

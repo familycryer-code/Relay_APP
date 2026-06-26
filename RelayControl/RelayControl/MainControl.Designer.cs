@@ -592,7 +592,7 @@ namespace RelayControl
             this.ucTransmitterMonitoring1.BackColor = System.Drawing.SystemColors.Control;
             this.ucTransmitterMonitoring1.CTMult = "";
             this.ucTransmitterMonitoring1.CTRatio = 320;
-            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitterMonitoring1.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucTransmitterMonitoring1.Frequency = RelayControlLibrary.Frequencies.Red;
             this.ucTransmitterMonitoring1.GEEnabled = false;
             this.ucTransmitterMonitoring1.Location = new System.Drawing.Point(5, 0);
@@ -885,7 +885,7 @@ namespace RelayControl
             // 
             // ucCalibration2
             // 
-            this.ucCalibration2.Customer = RelayControlLibrary.Customers.DIGITALGRIDDNP;
+            this.ucCalibration2.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucCalibration2.Location = new System.Drawing.Point(185, 6);
             this.ucCalibration2.Margin = new System.Windows.Forms.Padding(4);
             this.ucCalibration2.Name = "ucCalibration2";
@@ -1140,7 +1140,7 @@ namespace RelayControl
             // ucEventGraph7
             // 
             this.ucEventGraph7.CTRatio = 320;
-            this.ucEventGraph7.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph7.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph7.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph7.DelayToFloat = ((uint)(0u));
             this.ucEventGraph7.EventNumber = ((uint)(0u));
@@ -1156,7 +1156,7 @@ namespace RelayControl
             // ucEventGraph6
             // 
             this.ucEventGraph6.CTRatio = 320;
-            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph6.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph6.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph6.DelayToFloat = ((uint)(0u));
             this.ucEventGraph6.EventNumber = ((uint)(0u));
@@ -1172,7 +1172,7 @@ namespace RelayControl
             // ucEventGraph5
             // 
             this.ucEventGraph5.CTRatio = 320;
-            this.ucEventGraph5.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph5.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph5.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph5.DelayToFloat = ((uint)(0u));
             this.ucEventGraph5.EventNumber = ((uint)(0u));
@@ -1188,7 +1188,7 @@ namespace RelayControl
             // ucEventGraph4
             // 
             this.ucEventGraph4.CTRatio = 320;
-            this.ucEventGraph4.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph4.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph4.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph4.DelayToFloat = ((uint)(0u));
             this.ucEventGraph4.EventNumber = ((uint)(0u));
@@ -1204,7 +1204,7 @@ namespace RelayControl
             // ucEventGraph3
             // 
             this.ucEventGraph3.CTRatio = 320;
-            this.ucEventGraph3.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph3.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph3.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph3.DelayToFloat = ((uint)(0u));
             this.ucEventGraph3.EventNumber = ((uint)(0u));
@@ -1220,7 +1220,7 @@ namespace RelayControl
             // ucEventGraph2
             // 
             this.ucEventGraph2.CTRatio = 320;
-            this.ucEventGraph2.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph2.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph2.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph2.DelayToFloat = ((uint)(0u));
             this.ucEventGraph2.EventNumber = ((uint)(0u));
@@ -1236,7 +1236,7 @@ namespace RelayControl
             // ucEventGraph1
             // 
             this.ucEventGraph1.CTRatio = 320;
-            this.ucEventGraph1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph1.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph1.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph1.DelayToFloat = ((uint)(0u));
             this.ucEventGraph1.EventNumber = ((uint)(0u));
@@ -1252,7 +1252,7 @@ namespace RelayControl
             // ucEventGraph0
             // 
             this.ucEventGraph0.CTRatio = 320;
-            this.ucEventGraph0.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucEventGraph0.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucEventGraph0.DelayToBFlag = ((uint)(0u));
             this.ucEventGraph0.DelayToFloat = ((uint)(0u));
             this.ucEventGraph0.EventNumber = ((uint)(0u));
@@ -1307,7 +1307,7 @@ namespace RelayControl
             // ucLiveData1
             // 
             this.ucLiveData1.CTRatio = 320;
-            this.ucLiveData1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucLiveData1.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucLiveData1.GEEnabled = false;
             this.ucLiveData1.Location = new System.Drawing.Point(0, 31);
             this.ucLiveData1.Margin = new System.Windows.Forms.Padding(5);
@@ -1332,7 +1332,7 @@ namespace RelayControl
             // 
             this.ucTransmitter1.BackColor = System.Drawing.SystemColors.Control;
             this.ucTransmitter1.CTRatio = ((uint)(320u));
-            this.ucTransmitter1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucTransmitter1.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucTransmitter1.DNPCommLabelStatus = false;
             this.ucTransmitter1.DNPCoverFlags = ((byte)(0));
             this.ucTransmitter1.DNPEnabled = false;
@@ -2409,7 +2409,7 @@ namespace RelayControl
             // ucPumpMode1
             // 
             this.ucPumpMode1.BackColor = System.Drawing.Color.Transparent;
-            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucPumpMode1.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucPumpMode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucPumpMode1.Location = new System.Drawing.Point(11, 478);
             this.ucPumpMode1.Margin = new System.Windows.Forms.Padding(5);
@@ -3122,7 +3122,7 @@ namespace RelayControl
             // ucDNP1
             // 
             this.ucDNP1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP1.Customer = RelayControlLibrary.Customers.NonConEd;
+            this.ucDNP1.Customer = RelayControlLibrary.Customers.ENMAX;
             this.ucDNP1.DNPLabelStatus = false;
             this.ucDNP1.Location = new System.Drawing.Point(12, 5);
             this.ucDNP1.Margin = new System.Windows.Forms.Padding(5);

@@ -36,10 +36,10 @@ namespace RelayControlLibrary
             //this.labelTDUnit.Visible = false;
             //this.labelRelaxClose.Visible = false;
 #endif
-#if CONED && !Debug
-            this.Customer = Customers.ConEdison;
+#if CONED
+            this.Customer = Customers.CONED;
 #else
-            this.Customer = Customers.NonConEd;
+            this.Customer = Customers.ENMAX;
 #endif
         }
 
@@ -205,10 +205,10 @@ namespace RelayControlLibrary
             switch (this.customer)
             {
                 default:
-                case Customers.NonConEd:
+                case Customers.ENMAX:
                     this.setNonConEd();
                     break;
-                case Customers.ConEdison:
+                case Customers.CONED:
                     this.setConEd();
                     break;
             }
@@ -767,7 +767,7 @@ namespace RelayControlLibrary
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
-            if ((this.Customer == Customers.ConEdison) || (this.Customer == Customers.DIGITALGRIDDNP)) 
+            if ((this.Customer == Customers.CONED) || (this.Customer == Customers.ENMAX)) 
             {
                 this.checkBoxCircleClose.Checked = false;
                 this.numericUpDownCloseTiltAngle.Value = 95;

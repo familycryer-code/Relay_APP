@@ -454,16 +454,16 @@
             this.groupBoxRelayFlagPolarityCover.Controls.Add(this.labelFlagSettingsFlagPostPositionRelay);
             this.groupBoxRelayFlagPolarityCover.Location = new System.Drawing.Point(33, 12);
             this.groupBoxRelayFlagPolarityCover.Name = "groupBoxRelayFlagPolarityCover";
-            this.groupBoxRelayFlagPolarityCover.Size = new System.Drawing.Size(200, 237);
+            this.groupBoxRelayFlagPolarityCover.Size = new System.Drawing.Size(200,237);
             this.groupBoxRelayFlagPolarityCover.TabIndex = 121;
             this.groupBoxRelayFlagPolarityCover.TabStop = false;
-            this.groupBoxRelayFlagPolarityCover.Text = "Relay Flag polarity";
+            this.groupBoxRelayFlagPolarityCover.Text = "Relay Flag Polarity";
             // 
             // ucCoverFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284,261);
             this.Controls.Add(this.groupBoxRelayFlagPolarityCover);
             this.Name = "ucCoverFlags";
             this.panelFlagSettingARelay.ResumeLayout(false);

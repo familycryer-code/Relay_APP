@@ -54,7 +54,7 @@ namespace RelayControlLibrary
 #if CONED && !Debug
             this.Customer = Customers.ConEdison;
 #else
-            this.Customer = Customers.NonConEd;
+            this.Customer = Customers.ENMAX;
 #endif
 
         }
@@ -134,26 +134,22 @@ namespace RelayControlLibrary
             switch (this.customer)
             {
                 case Customers.None:
-                case Customers.NonConEd:
-                case Customers.Memphis:
-                case Customers.NonConEdGE:
-                //case Customers.DIGITALGRIDDNP:
-                case Customers.DIGITALGRID:
-                case Customers.DNPwithPLC:
-                case Customers.SMUD:
-                case Customers.Atlanta:
-                case Customers.Oncor:
-                case Customers.LondonH:
-                case Customers.SCE:
-                case Customers.TorontoHydro:
+                case Customers.BGE:
+                case Customers.COMED:
+                case Customers.DOMINION:
+                case Customers.ENMAX:
+                case Customers.EVERSOURCE:
+                case Customers.LONDON_HYDRO:
+                case Customers.ONCOR:
                 case Customers.PSEG:
+                case Customers.SCE:
+                case Customers.SCL:
+                case Customers.TAUNTON:
+                case Customers.TORONTO_HYDRO:
                     this.makeNonConEd();
                     break;
-                case Customers.ConEdison:
-                case Customers.DIGITALGRIDDNP:
-#if CONED
+                case Customers.CONED:
                     this.makeConEd();
-#endif
                     break;
                 default:
                     this.errorHandler(new Exception("Bad Customer Setting In Trip Mode Control"));
@@ -288,7 +284,7 @@ namespace RelayControlLibrary
             {
                 this.versionNumber = value;
 
-                if (this.versionNumber >= 110609 && this.Customer != Customers.ConEdison)
+                if (this.versionNumber >= 110609 && this.Customer != Customers.CONED)
                 {
                     this.labelTripStyle.Visible = true;
                     // this.domainUpDownTripStyle.Visible = true;
@@ -2058,7 +2054,7 @@ namespace RelayControlLibrary
 
         private void showGullWing(bool p)
         {
-            if (this.Customer != Customers.ConEdison)
+            if (this.Customer != Customers.CONED)
             {
                 this.gullWingEnabled = p;
                 this.labelGullWingAngle.Visible = p;

@@ -20,7 +20,7 @@ namespace SineDisplayGraph
             this.initializeComponents();
         }
 
-        private Customers customer = Customers.NonConEd;
+        private Customers customer = Customers.ENMAX;
         public Customers Customer
         {
             get { return this.customer; }

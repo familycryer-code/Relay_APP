@@ -83,22 +83,19 @@ namespace RelayControlLibrary
 
     public enum Customers
     {
-        NonConEd,
-        NonConEdGE,
-        ConEdison,
-        Memphis,
-        DIGITALGRID,
-        DIGITALGRIDDNP,
-        DNPwithPLC,
-        SMUD,
-        PEPCO,
-        Dominion,
-        Atlanta,
-        Oncor,
-        LondonH,
-        SCE,
-        TorontoHydro,
+        BGE,
+        COMED,
+        CONED,
+        DOMINION,
+        ENMAX,
+        EVERSOURCE,
+        LONDON_HYDRO,
+        ONCOR,
         PSEG,
+        SCE,
+        SCL,
+        TAUNTON,
+        TORONTO_HYDRO,
         None
     }
 
