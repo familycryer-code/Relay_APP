@@ -3469,7 +3469,7 @@ namespace RelayControl
         private SineDisplayGraph.ucLiveData ucLiveData1;
         private System.Windows.Forms.TabPage tabPageTransmitter;
        // private RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
-        private RelayControlLibrary.ucTransmitter ucTransmitter2;
+        //private RelayControlLibrary.ucTransmitter ucTransmitter2;
         private System.Windows.Forms.TabPage tabPageMonitor;
         private System.Windows.Forms.CheckBox checkBoxInTripRegion;
         private System.Windows.Forms.TextBox textBoxTemperatureMonitoringPage;

@@ -40,7 +40,9 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        private string customerRevisionName = "";
+        #pragma warning disable CS0414 // field assigned but value never used
+        private string customerRevisionName = string.Empty;
+        #pragma warning restore CS0414
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -49,7 +51,9 @@ namespace RelayControl
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
-        private bool showCrossPhaseMsgOnce = false;
+        #pragma warning disable CS0169 // field assigned but value never used
+        private bool showCrossPhaseMsgOnce;
+        #pragma warning restore CS0169
         private bool initializeAutoLoad = true;
         private bool showMemFixMsg = true;
 
@@ -1296,8 +1300,10 @@ namespace RelayControl
 
 
         }
-        private ucMemphisDNPData dNPMemphisData;
+
+        #pragma warning disable CS0649 // never assigned; remains null in some build configs
         private ucDNPDIGITALGRIDData dNPDIGITALGRIDData;
+        #pragma warning restore CS0649
 
         private bool otherPanelMovedForConEd = false;
         private void removePumpProtect()
@@ -1741,9 +1747,7 @@ namespace RelayControl
                 }
                 else
                 {
-#if SCL
-                    return;
-#endif
+
                     if (!b)
                     {
                         EnableTab(this.tabPageControl, false);
@@ -5237,7 +5241,12 @@ namespace RelayControl
         private string receivedMasterRevision;
         private void revisionReceived(byte[] bytePacket)
         {
-            string revision, trim_rev;
+            string revision;
+
+            #pragma warning disable CS0168 // variable declared but never used
+            string trim_rev;
+            #pragma warning restore CS0168
+
             try
             {
                 revision = "R";
@@ -9017,7 +9026,7 @@ namespace RelayControl
 
         private void setDNPSettings(byte[] bytePacket)
         {
-            byte memphisStage = 0;
+         
 
             if (dataBackup_fromRelay == true) // write DNP Data currently residing in the relay to the backup file on computer
             {

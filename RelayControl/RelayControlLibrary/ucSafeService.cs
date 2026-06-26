@@ -310,18 +310,22 @@ namespace RelayControlLibrary
                 numericUpDownLowVoltage_Temp = this.numericUpDownLowVoltage.Value;
                 numericUpDownVoltageImbalance_Temp = this.numericUpDownVoltageImbalance.Value;
             }
+            #if DEBUG
             catch (Exception ex)
+            #else
+            catch (Exception)
+            #endif
             {
-#if DEBUG
+            #if DEBUG
                 if (this.LoadingNewCode)
                     this.restoreDefaults();
                 else
                 {
-                    this.errorHandler("Error in setAll", ex);
-                    this.restoreDefaults();
-                    this.buttonSend_Click(this, new EventArgs());
+                this.errorHandler("Error in setAll", ex);
+                this.restoreDefaults();
+                this.buttonSend_Click(this, new EventArgs());
                 }
-#else
+            #else
                 dataBackupSSM.dataBackup_safeServiceDefaults = true;
                 this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;
                 this.numericUpDownOverCurrent.Value = numericUpDownOverCurrent_Temp;
@@ -333,7 +337,7 @@ namespace RelayControlLibrary
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
 
                 SendAll();
-#endif
+            #endif
 
                 return;
             }

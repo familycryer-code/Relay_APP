@@ -145,7 +145,7 @@ namespace RelayDNPSecurity
                 case 'U': // Users
                     this.ShowLoadedUserNumbers(bytePacket);
                     break;
-                case 'O': // OS Name FIrst Packet
+                case 'O': // OS Name First Packet
                     this.setOSName(bytePacket, 1);
                     break;
                 case 'o': // OS Name Second Packet
@@ -156,12 +156,16 @@ namespace RelayDNPSecurity
                     break;
                 default:
 #if DEBUG
-                    this.onError(new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"), "Error in SAv5 Message");
+        this.onError(
+            new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"),
+            "Error in SAv5 Message");
 #else
                     this.showSAV5ErrorMessage();
                     return;
 #endif
-                    break;
+#if DEBUG
+        break;
+#endif
             }
 
         }
@@ -208,10 +212,16 @@ namespace RelayDNPSecurity
                 else
                     throw new Exception(p.ToString() + " is a bad number for setOSName()");
             }
-            catch (Exception ex)
+#if DEBUG
+catch (Exception ex)
+#else
+            catch (Exception)
+#endif
             {
 #if DEBUG
-                this.onError(new Exception("Error Setting OS/Relay Name: " + ex.ToString()), "Error in SAv5 Setting OS");
+    this.onError(
+        new Exception("Error Setting OS/Relay Name: " + ex.ToString()),
+        "Error in SAv5 Setting OS");
 #else
                 this.showSAV5ErrorMessage();
                 return;
@@ -288,10 +298,16 @@ namespace RelayDNPSecurity
 
                 this.displayUserNumbers(this.userNumbers);
             }
-            catch (Exception ex)
+#if DEBUG
+catch (Exception ex)
+#else
+            catch (Exception)
+#endif
             {
 #if DEBUG
-                this.onError(new Exception("Error Populating User Numbers List: " + ex.Message, ex), "Error in SAv5 Showing user Numbers");
+    this.onError(
+        new Exception("Error Populating User Numbers List: " + ex.Message, ex),
+        "Error in SAv5 Showing user Numbers");
 #else
                 this.showSAV5ErrorMessage();
                 return;
@@ -320,10 +336,16 @@ namespace RelayDNPSecurity
                     this.labelCurrentlyLoadedUsers.Text = this.labelCurrentlyLoadedUsers.Text.Substring(0, this.labelCurrentlyLoadedUsers.Text.Length - 2);
                 }
             }
-            catch (Exception ex)
+#if DEBUG
+catch (Exception ex)
+#else
+            catch (Exception)
+#endif
             {
 #if DEBUG
-                this.onError(new Exception("Error populating User Numbers: " + ex.Message, ex), "Error in SAv5 Dsiplaying User Numbers");
+    this.onError(
+        new Exception("Error populating User Numbers: " + ex.Message, ex),
+        "Error in SAv5 Dsiplaying User Numbers");
 #else
                 this.showSAV5ErrorMessage();
                 return;
@@ -349,10 +371,16 @@ namespace RelayDNPSecurity
 
                 this.onSend(sSEA);
             }
-            catch (Exception ex)
+#if DEBUG
+catch (Exception ex)
+#else
+            catch (Exception)
+#endif
             {
 #if DEBUG
-                this.onError(new Exception("Error Loading Loaded Users", ex),"Error in SAv5 Requesting User");
+    this.onError(
+        new Exception("Error Loading Loaded Users", ex),
+        "Error in SAv5 Requesting User");
 #else
                 this.showSAV5ErrorMessage();
                 return;
