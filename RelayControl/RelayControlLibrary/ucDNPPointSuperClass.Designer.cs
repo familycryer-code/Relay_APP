@@ -42,7 +42,7 @@
             this.labelEventEnable.Size = new System.Drawing.Size(74, 13);
             this.labelEventEnable.TabIndex = 9;
             this.labelEventEnable.Text = "Enable Event:";
-#if TORONTOHYDRO
+#if TORONTO_HYDRO
             this.labelEventEnable.Enabled = true;// false;
             this.labelEventEnable.Visible = true;// false;
 #endif

@@ -363,12 +363,6 @@ namespace RelayControlLibrary
             this.buttonPauseMonitoring.Enabled = true;
             this.transmitterMonitoring = true;
             this.enableMonitoring();
-
-#if !WATERBUG
-            //  this.myChartVoltages.Visible = true;
-            //  this.myChartLoads.Visible = true;
-#endif
-            this.enableMonitoring();
         }
 
         #endregion
@@ -1324,7 +1318,7 @@ namespace RelayControlLibrary
         {
 #if ENMAX //consider adding for chicago as well
             double oil_temp = .0393701 * bAN1 * 32; // 0.0393701 = 5V / 127 counts
-#elif NU || LONDONH
+#elif LONDON_HYDRO
             double oil_temp = (double)bAN1 * 160d / 127d; // 127 Counts = 5V. 160 degrees / 5 v 
 #else
             double oil_temp = 1.5993 * bAN1 - 5.0982; //coned gauge only 

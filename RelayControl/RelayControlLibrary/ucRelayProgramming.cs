@@ -1096,7 +1096,7 @@ namespace RelayControlLibrary
 
             CustomerLoadFiles cLF = null;
 
-        #if (DEBUG || ENMAX || RELEASE || ENGINEERING)
+        #if (DEBUG || ENMAX || ENGINEERING)
                     // Base all resource selection on ENMAX for these builds
                     cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
         #endif

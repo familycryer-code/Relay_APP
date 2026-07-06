@@ -428,7 +428,7 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if PSEG || NU || BOSTON || LONDONH
+#if PSEG || EVERSOURCE || LONDON_HYDRO
             this.checkBoxNeverReclose.Checked = false;
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorCycles.Checked = true;
@@ -439,7 +439,7 @@ namespace RelayControlLibrary
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
-#elif CHICAGO || SEATTLE || ENMAX
+#elif COMED || SCL || ENMAX
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
             this.checkBoxMotorCycles.Checked = true;

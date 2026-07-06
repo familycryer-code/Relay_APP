@@ -70,7 +70,7 @@ namespace RelayControl
                 return;
 
             this.ucTransmitter1.SendTransmitterSettings();
-#if (TORONTO_HYDRO || ENMAX || BOSTON || PSEG)
+#if (TORONTO_HYDRO || ENMAX || PSEG)
             this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
             //this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;

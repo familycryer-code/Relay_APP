@@ -3347,7 +3347,7 @@ namespace RelayControl
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainControl";
-            this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring - BETA - 2009-07-24";
+            this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainControl_FormClosed);
             this.Load += new System.EventHandler(this.MainControl_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form_KeyDown);

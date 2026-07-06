@@ -81,9 +81,9 @@ namespace RelayControlLibrary
         private byte[] dNPData = new byte[1572]; 
 #elif TORONTO_HYDRO
         // It is seen that in the incoming dNPData array ( from master uP ), the bytes corresponding to serial number ( 4 & 12 for SN3076 ) are placed at index 8886 and 887.
-        // TorontoHydro DNP Map has Serial Number at its DNP Analog Input 29,
+        // Toronto_Hydro DNP Map has Serial Number at its DNP Analog Input 29,
         // So, to get to the starting point of analog inputs : 886 - (29*6) ( since each analog input = 6 bytes ) = 712
-        // TorontoHydro has 44 Analog Inputs and 28 Analog Outputs
+        // Toronto_Hydro has 44 Analog Inputs and 28 Analog Outputs
         // so ( 44 * 6 ) points ( since each analog input = 6 bytes ) + ( 28 * 4 ) ( since each analog output = 4 bytes ) 
         // = 712 + 264 + 112 = 1088
         private byte[] dNPData = new byte[1088]; 
@@ -374,7 +374,7 @@ namespace RelayControlLibrary
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
-#if TORONTOHYDRO
+#if TORONTO_HYDRO
                 workingBox.EventEnableVisible = true;
 #endif
                 workingBox.PointChanged += dNPPoint_PointChanged;
@@ -1785,7 +1785,7 @@ namespace RelayControlLibrary
                 this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-#if !TORONTOHYDRO
+#if !TORONTO_HYDRO
                 this.buttonDisableAllAnalogEvents.Enabled = false;
                 this.buttonDisableAllAnalogEvents.Visible = false;
                 this.buttonEnableAllAnalogEvents.Enabled = false;
@@ -1824,7 +1824,7 @@ namespace RelayControlLibrary
                 this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-#if !TORONTOHYDRO
+#if !TORONTO_HYDRO
                 this.buttonDisableAllAnalogEvents.Enabled = false;
                 this.buttonDisableAllAnalogEvents.Visible = false;
                 this.buttonEnableAllAnalogEvents.Enabled = false;
@@ -1863,7 +1863,7 @@ namespace RelayControlLibrary
                 this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
                 this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
                 this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-#if !TORONTOHYDRO
+#if !TORONTO_HYDRO
                 this.buttonDisableAllAnalogEvents.Enabled = false;
                 this.buttonDisableAllAnalogEvents.Visible = false;
                 this.buttonEnableAllAnalogEvents.Enabled = false;
@@ -1928,7 +1928,7 @@ namespace RelayControlLibrary
 
 #endif
 
-#if (DIGITALGRID && (ONCOR || CONED || TORONTO_HYDRO))
+#if (DIGITALGRIDINC && (ONCOR || CONED || TORONTO_HYDRO))
                 /* this.buttonDisableAllBinaryEvents.Enabled = false;
                  this.buttonDisableAllBinaryEvents.Visible = false;
                  this.buttonEnableAllBinaryEvents.Enabled = false;

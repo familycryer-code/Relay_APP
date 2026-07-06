@@ -27,7 +27,7 @@ namespace RelayControlLibrary
             this.listBoxTripModes.SelectedIndex = 0;
             this.domainUpDownType.SelectedIndex = 0;
             this.lbl_TripMode_Title.Location = new System.Drawing.Point(2, 2);
-#if NU
+#if EVERSOURCE
             this.checkBoxEnableGullWing.Checked = true;
             this.showGullWing(true);
 #else
@@ -43,15 +43,7 @@ namespace RelayControlLibrary
 
             this.restoreDefaults();
 
-#if NUCREW
-            this.numericUpDownAngle.Enabled = false;
-            this.numericUpDownGullWingAngle.Enabled = false;
-            this.numericUpDownSensTrip.Enabled = true;
-            this.numericUpDownTimeDelay.Enabled = false;
-            this.checkBoxEnableGullWing.Enabled = false;
-#endif
-
-#if CONED && !Debug
+#if CONED && !DEBUG
             this.Customer = Customers.CONED;
 #else
             this.Customer = Customers.ENMAX;
@@ -1804,7 +1796,7 @@ namespace RelayControlLibrary
 
             // Trip Style 
             // 0 - Hold, 1 - Pulse, 2 - Single
-#if NU || BOSTON
+#if EVERSOURCE
             this.checkBoxEnableGullWing.Checked = true;
             this.gullWingEnabled = true;
             this.numericUpDownTimeDelay.Value = 0;
@@ -1822,7 +1814,7 @@ namespace RelayControlLibrary
             this.numericUpDownGullWingAngle.Value = 90;
             //this.domainUpDownTripStyle.SelectedIndex = 3;
             this.comboBox_TripStyle.SelectedIndex = 3;
-#elif CHICAGO || MADISON || LONDONH
+#elif COMED || LONDON_HYDRO
             this.checkBoxEnableGullWing.Checked = false;
             this.gullWingEnabled = false;
             this.numericUpDownTimeDelay.Value = 0;
@@ -1840,7 +1832,7 @@ namespace RelayControlLibrary
             numericUpDownGullWingAngle.Value = 90;
             //domainUpDownTripStyle.SelectedIndex = 0;
             this.comboBox_TripStyle.SelectedIndex = 0;
-#elif SEATTLE
+#elif SCL
             this.checkBoxEnableGullWing.Checked = false;
             checkBoxTripOnPowerDown.Checked = true;
             this.gullWingEnabled = false;
@@ -1860,14 +1852,14 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {
-#if NU || DOMINION || CHICAGO || ENMAX || BOSTON || ONCOR || TORONTO_HYDRO
+#if DOMINION || COMED || ENMAX || EVERSOURCE || ONCOR || TORONTO_HYDRO
             insensitiveCurrent = 2.5m;
             instantaneousCurrent = 2.5m;
             this.listBoxTripModes.SelectedIndex = 0;    // Sensitive
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 10.0m;
-#if (TORONTO_HYDRO || ONCOR)//H Board and DNP customers
+#if (TORONTO_HYDRO || ONCOR)
             this.numericUpDownSensTrip.Value = 7.5m;// 10.0m;
 #endif
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1881,13 +1873,13 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 0;
             this.numericUpDownAngle.Value = 90;
             this.numericUpDownGullWingAngle.Value = 90;
-#if BOSTON
+#if EVERSOURCE
             this.numericUpDownGullWingAngle.Value = 85;// Trim Angle
             this.numericUpDownAngle.Value = 95; // Tilt Angle
 #endif
             //this.domainUpDownTripStyle.SelectedIndex = 3;
             this.comboBox_TripStyle.SelectedIndex = 3;
-#if BOSTON
+#if EVERSOURCE
             this.comboBox_TripStyle.SelectedIndex = 0; // hold trip
             this.checkBoxEnableGullWing.Checked = true;
 #endif
@@ -1906,7 +1898,7 @@ namespace RelayControlLibrary
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownWVAngle.Value = -60;
-#elif SEATTLE || ATLANTA || CONED || PSEG //|| ONCOR
+#elif SCL || CONED || PSEG
             this.numericUpDownSensitiveTimeDelay.Value = 6;
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
@@ -1928,7 +1920,7 @@ namespace RelayControlLibrary
             this.numericUpDownTimeDelay.Value = 150;
             this.numericUpDownWVAngle.Value = -60;
 
-#elif LONDONH
+#elif LONDON_HYDRO
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 9.3m;
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1936,7 +1928,7 @@ namespace RelayControlLibrary
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
-#elif DIGITALGRID
+#elif DIGITALGRIDINC
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1952,19 +1944,16 @@ namespace RelayControlLibrary
 
         private void setPercentageTypeDefaults()
         {
-#if NU
-            this.numericUpDownInsensTrip.Value = 50m;
-            this.numericUpDownSensTrip.Value = .2m;
-            this.numericUpDownWVCurrent.Value = 50m;
-#elif SEATTLE || DOMINION || CHICAGO || ENMAX || PSEG || TAUNTON || BGE
+
+#if SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .15m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif LONDONH
+#elif LONDON_HYDRO
             this.numericUpDownInsensTrip.Value = 50m;
             this.numericUpDownSensTrip.Value = .186m;
             this.numericUpDownWVCurrent.Value = 50m;
-#elif DIGITALGRID
+#elif DIGITALGRIDINC
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;
@@ -1975,19 +1964,16 @@ namespace RelayControlLibrary
 
         private void setProtectorTypeDefaults()
         {
-#if NU
-            this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
-            this.numericUpDownSensTrip.Value = .0100m * (decimal)this.CTRatio;
-            this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif SEATTLE || DOMINION || CHICAGO || ENMAX || PSEG || TAUNTON || BGE
+
+#if SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif LONDONH
+#elif LONDON_HYDRO
             this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
             this.numericUpDownSensTrip.Value = .0093m * (decimal)this.CTRatio;
             this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
-#elif DIGITALGRID
+#elif DIGITALGRIDINC
             this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownWVCurrent.Value = 2.5m;

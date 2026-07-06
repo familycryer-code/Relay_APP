@@ -125,7 +125,7 @@ namespace RelayControlLibrary
 
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
-#if TORONTOHYDRO
+#if TORONTO_HYDRO
                 workingBox.EventEnableVisible = true;
 #endif
                 this.addBinaryBox(workingBox, this.tabPageBinaryInputs);

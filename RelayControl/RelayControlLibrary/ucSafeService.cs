@@ -651,7 +651,7 @@ namespace RelayControlLibrary
 #endif
         private void restoreDefaults()
         {
-#if NU || SEATTLE || DOMINION || BGE
+#if EVERSOURCE || SCL || DOMINION || BGE
             this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
             this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownDelay.Value = 0;

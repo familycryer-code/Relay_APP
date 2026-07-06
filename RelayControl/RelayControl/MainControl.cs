@@ -966,7 +966,7 @@ namespace RelayControl
                 this.commFlags2.Add("Arc Flash Detected");
                 this.commFlags2.Add("Arc Fault Detected");
                 this.commFlags2.Add("Arc Fault Detected");
-                this.commFlags2.Add("Waterbug Active");
+                this.commFlags2.Add("SEC Active");
                 this.commFlags2.Add("Bad Close Curve");
                 this.commFlags2.Add("Bad Trip Curve");
                 this.uc8CheckBoxFlagsCommFlags2.Names = this.commFlags2;
@@ -5999,7 +5999,7 @@ namespace RelayControl
              * 7    800
              * 8   "Special"
              */
-#if SCL || DOMINION || COMED || ENMAX//|| LONDONH
+#if SCL || DOMINION || COMED || ENMAX
             this.comboBox_CTRatio.SelectedIndex = 2;
 #elif CONED || LONDON_HYDRO || ONCOR
             this.comboBox_CTRatio.SelectedIndex = 5;
@@ -10097,7 +10097,7 @@ namespace RelayControl
                  packet_Y[27] = 5;       // other_msg_spacing
                  packet_Y[28] = 1;       // ZeroCrossing_phase
                  packet_Y[29] = 12;      // type1msglength
-                 packet_Y[30] = 255;     // data_from_waterbug
+                 packet_Y[30] = 255;     // data_from_SEC
                  packet_Y[31] = 20;      // display_update_interval
                  packet_Y[32] = 0;       // SRlinktest
                 */

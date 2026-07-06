@@ -1350,7 +1350,7 @@ namespace RelayControlLibrary
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xF7);
 
                 //External Data/ Data from Waterbury
-                errorMessage = "Waterbug Error";
+                errorMessage = "SEC Error";
                 tempByte = 0;
 
                 if (this.checkBoxWBC.Checked)

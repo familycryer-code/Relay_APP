@@ -14,30 +14,8 @@ namespace RelayControlLibrary
         public ucCoverFlags()
         {
             InitializeComponent();
-#if ATLANTA
-            this.groupBoxRelayFlagPolarityCover.Visible = true;
-            this.panelFlagSettingARelay.Visible = true;
-            this.panelFlagSettingBRelay.Visible = true;
-            this.panelFlagSettingCRelay.Visible = false;
-            this.panelFlagSettingDRelay.Visible = false;
-            this.panelFlagSettingERelay.Visible = false;
-            this.panelFlagSettingFRelay.Visible = false;
-            this.panelFlagSettingGRelay.Visible = false;
-            this.panelFlagSettingHRelay.Visible = false;
-
-            this.labelFlagSettingARelay.Visible = true;
-            this.labelFlagSettingBRelay.Visible = true;
-            this.labelFlagSettingCRelay.Visible = false;
-            this.labelFlagSettingDRelay.Visible = false;
-            this.labelFlagSettingERelay.Visible = false;
-            this.labelFlagSettingFRelay.Visible = false;
-            this.labelFlagSettingGRelay.Visible = false;
-            this.labelFlagSettingHRelay.Visible = false;
-
-            this.groupBoxRelayFlagPolarityCover.Size = new Size(180, 88);
-#else
             this.groupBoxRelayFlagPolarityCover.Visible = false;
-#endif
+
         }
 
         public void setDNPCoverFlags(byte[] bytePacket)

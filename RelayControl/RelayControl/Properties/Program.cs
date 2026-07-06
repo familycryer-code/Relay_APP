@@ -24,10 +24,8 @@ namespace RelayControl
                 Application.Run(new MainControl());
             else
             {
-#if !MOBILE
                 MessageBox.Show("The application is already running.", Application.ProductName,
                   MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-#endif
             }
 #else
             Application.Run(new MainControl());
