@@ -523,12 +523,12 @@ namespace RelayControl
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
 
 #if (PSEG || CONED)
-        this.grpBox_LightningCount.Enabled = true;
-        this.grpBox_LightningCount.Visible = true;
-        this.lblLC_Name.Enabled = true;
-        this.lblLC_Name.Visible = true;
-        this.lbl_LightningCount.Enabled = true;
-        this.lbl_LightningCount.Visible = true;
+                this.grpBox_LightningCount.Enabled = true;
+                this.grpBox_LightningCount.Visible = true;
+                this.lblLC_Name.Enabled = true;
+                this.lblLC_Name.Visible = true;
+                this.lbl_LightningCount.Enabled = true;
+                this.lbl_LightningCount.Visible = true;
 #else
                 this.grpBox_LightningCount.Enabled = false;
                 this.grpBox_LightningCount.Visible = false;
@@ -707,11 +707,10 @@ namespace RelayControl
                 this.DNPEnabled = false;
 #endif
 
-#if EVERSOURCE
-        checkBox277DNPOutputs.Visible = false;
-#else
-                checkBox277DNPOutputs.Visible = true;
-#endif
+                checkBox277DNPOutputs.Visible = false;
+                checkBox277DNPOutputs.Enabled = false;
+                checkBox277DNPOutputs.TabStop = false;
+                checkBox277DNPOutputs.Checked = true;
 
                 this.enableAllToolStripMenuItem.Visible = true;
 #endif // DEBUG || ENGINEERING
@@ -4837,8 +4836,8 @@ namespace RelayControl
 
             try
             {
-                // Check the 277V Output bit
-                checkBox277DNPOutputs.Checked = (0x10 & bytePacket[80]) == 0x10 ? true : false;
+                // Force on for all customers (UI hidden)
+                checkBox277DNPOutputs.Checked = true;
             }
             catch (Exception ex)
             {
@@ -5955,7 +5954,7 @@ namespace RelayControl
             // 1 = Sequence, 0 - Power
             // 0 - ABC, 1 - ACB, 2 - AutoDetect
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
-            checkBox277DNPOutputs.Checked = false;
+            checkBox277DNPOutputs.Checked = true;
 
 #if DOMINION
             this.comboBox_RelayType.SelectedIndex = 1;
@@ -7712,7 +7711,7 @@ namespace RelayControl
             sS.RelayType = this.comboBox_RelayType.SelectedIndex;
             sS.V277Protector = protectorVoltage.SetBit.HasFlag(ProtectorVoltageBits.V277);
             sS.V600Protector = protectorVoltage.SetBit.HasFlag(ProtectorVoltageBits.V600);
-            sS.ProtectorVoltageOutputs = checkBox277DNPOutputs.Checked;
+            sS.ProtectorVoltageOutputs = true;
 
         }
 
@@ -11168,7 +11167,7 @@ namespace RelayControl
 
                 try
                 {
-                    ProtectorVoltageOutputs = (bool)info.GetValue("V277Outputs", typeof(bool));
+                    ProtectorVoltageOutputs = true;
                 }
                 catch
                 {
