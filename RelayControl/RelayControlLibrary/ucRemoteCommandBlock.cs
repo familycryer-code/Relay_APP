@@ -17,6 +17,10 @@ namespace RelayControlLibrary
             InitializeComponent();
             tsCommandBlock.CheckedColor = Color.Red;
             toolTip.SetToolTip(tsCommandBlock, "Enables or disables PLC Communications");
+
+            // Default ON for all customers (allowed), but still user-toggleable
+            // blocked = false => "Control Allowed"
+            setBlockedState(false);
         }
 
         private static string _commandsAllowedString = "Control Allowed";

@@ -638,8 +638,8 @@ namespace RelayControl
         this.btn_PermCl_Active.Visible = true;
 
         // Keep ConEd layout specifics
-        ucRemoteCommandBlock1.Visible = false;
-        this.ucRemoteCommandBlock1.Visible = false;
+        ucRemoteCommandBlock1.Visible = true;
+        this.ucRemoteCommandBlock1.Visible = true;
         this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
         this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
         this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
