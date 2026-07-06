@@ -183,8 +183,8 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Release TorontoHydro\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Release TORONTO_HYDRO\</OutputPath>
     <DefineConstants>TORONTO_HYDRO;DNP;PLC</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>

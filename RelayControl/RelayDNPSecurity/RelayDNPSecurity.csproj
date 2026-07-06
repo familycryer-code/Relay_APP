@@ -105,7 +105,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Chicago|AnyCPU'">
     <OutputPath>bin\Release Chicago\</OutputPath>
-    <DefineConstants>BASICRELEASE, CHICAGO</DefineConstants>
+    <DefineConstants>BASICRELEASE; CHICAGO</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release DIGITALGRIDDNPwPLC|AnyCPU'">
@@ -146,7 +146,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Madison|AnyCPU'">
     <OutputPath>bin\Release Madison\</OutputPath>
-    <DefineConstants>BASICRELEASE, MADISON</DefineConstants>
+    <DefineConstants>BASICRELEASE; MADISON</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Madison|AnyCPU'">
@@ -155,17 +155,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Atlanta|AnyCPU'">
     <OutputPath>bin\Debug Atlanta\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ATLANTA,DNP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ATLANTA;DNP</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>
-    <DefineConstants>ONCOR, DNP</DefineConstants>
+    <DefineConstants>ONCOR; DNP</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Oncor|AnyCPU'">
     <OutputPath>bin\Debug Oncor\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ONCOR;DNP</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG|AnyCPU'">
@@ -225,14 +225,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release LondoH|AnyCPU'">
     <OutputPath>bin\Release LondoH\</OutputPath>
-    <DefineConstants>BASICRELEASE, LONDONH</DefineConstants>
+    <DefineConstants>BASICRELEASE; LONDON_HYDRO</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug LondonH|AnyCPU'">
     <OutputPath>bin\Debug LondonH\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;BASICRELEASE, LONDONH</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;BASICRELEASE; LONDON_HYDRO</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -300,19 +300,19 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCE|AnyCPU'">
     <OutputPath>bin\Release SCE\</OutputPath>
-    <DefineConstants>SCE, DNP</DefineConstants>
+    <DefineConstants>SCE; DNP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Release TorontoHydro\</OutputPath>
-    <DefineConstants>ONCOR, DNP</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Release TORONTO_HYDRO\</OutputPath>
+    <DefineConstants>ONCOR; DNP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Debug TorontoHydro\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Debug TORONTO_HYDRO\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ONCOR;DNP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>

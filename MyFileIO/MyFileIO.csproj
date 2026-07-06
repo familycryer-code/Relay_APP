@@ -354,13 +354,13 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Release TorontoHydro\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Release TORONTO_HYDRO\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Debug TorontoHydro\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Debug TORONTO_HYDRO\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>

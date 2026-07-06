@@ -152,12 +152,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">
     <OutputPath>bin\Release Oncor\</OutputPath>
-    <DefineConstants>ONCOR, DNP</DefineConstants>
+    <DefineConstants>ONCOR; DNP</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Oncor|AnyCPU'">
     <OutputPath>bin\Debug Oncor\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ONCOR;DNP</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release PSEG|AnyCPU'">
@@ -290,19 +290,19 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release SCE|AnyCPU'">
     <OutputPath>bin\Release SCE\</OutputPath>
-    <DefineConstants>SCE, DNP</DefineConstants>
+    <DefineConstants>SCE; DNP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Release TorontoHydro\</OutputPath>
-    <DefineConstants>ONCOR, DNP</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Release TORONTO_HYDRO\</OutputPath>
+    <DefineConstants>ONCOR; DNP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TorontoHydro|AnyCPU'">
-    <OutputPath>bin\Debug TorontoHydro\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ONCOR,DNP</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug TORONTO_HYDRO|AnyCPU'">
+    <OutputPath>bin\Debug TORONTO_HYDRO\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ONCOR;DNP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
