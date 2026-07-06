@@ -155,12 +155,6 @@ namespace RelayControlLibrary
             set
             {
                 this.relayRevisionNumber = value;
-               /* if (value < 20110907)
-                    this.panelBlockedOpenOverride.Visible = false;
-                else
-                    if (this.customer != Customers.ConEdison)
-                    this.panelBlockedOpenOverride.Visible = true;
-               */
             }
         }
         public delegate void SendHandler(object sender, SendEventArgs sEA);

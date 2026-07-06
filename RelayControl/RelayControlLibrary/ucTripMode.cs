@@ -124,6 +124,7 @@ namespace RelayControlLibrary
             get { return this.customer; }
             set
             {
+                if (this.customer == value) return;
                 this.customer = value;
                 this.setCustomer();
             }
@@ -155,32 +156,8 @@ namespace RelayControlLibrary
                     this.errorHandler(new Exception("Bad Customer Setting In Trip Mode Control"));
                     break;
             }
+            System.Diagnostics.Trace.WriteLine("...");
         }
-        /*
-        string[] conEdTripModes = new string[] {
-            "Sensitive",
-            "Insensitive",
-            "Time Delay",
-            "Adaptive"};
-
-        string[] nonConEdTripModes = new string[] {
-            "Sensitive",
-            "Insensitive",
-            "Time Delay",
-            "Watt-Var",
-            "Adaptive"};
-       */
-        /* string[] conEdTripModes = new string[] {
-             "Sensitive",
-             "Insensitive",
-             "Time Delay"};
-
-         string[] nonConEdTripModes = new string[] {
-             "Sensitive",
-             "Insensitive",
-             "Time Delay",
-             "Watt-Var"};
-        */
 
         string[] conEdTripModes = new string[] {
             "Sensitive",
@@ -219,7 +196,7 @@ namespace RelayControlLibrary
             this.checkBoxTripOnPowerDown.Visible = false;
 
             this.domainUpDownType.Visible = true;// false;
-            //this.comboBox_TripType.Visible = false;
+            System.Diagnostics.Trace.WriteLine("...");
         }
 
         private void makeNonConEd()
@@ -241,8 +218,9 @@ namespace RelayControlLibrary
             this.checkBoxEnableGullWing.Visible = true;
             this.checkBoxTripOnPowerDown.Visible = true;
             this.domainUpDownType.Visible = true;
-            //this.comboBox_TripType.Visible = true;
+            System.Diagnostics.Trace.WriteLine("...");
         }
+     
 
         private void hideSensitiveTimeDelay()
         {

@@ -494,7 +494,7 @@ namespace RelayControlLibrary
         {
             customer = (customer ?? "").Trim().ToUpperInvariant();
 
-            if (customer == "CONED" || customer == "CONEDISON")
+            if (customer == "CONED")
             {
                 return isGE
                     ? GetFirstExistingResource(

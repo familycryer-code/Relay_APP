@@ -73,40 +73,30 @@ namespace RelayControl
             get { return this.customer; }
             set
             {
-                if (this.customer != value)
-                {
+                if (this.customer == value) return;
+                System.Diagnostics.Trace.WriteLine($"[Customer] {this.customer} -> {value}");
+                this.customer = value;
+                this.ucPumpMode1.Customer = this.customer;
+                this.ucTripMode2.Customer = this.customer;
+                this.ucCloseMode1.Customer = this.customer;
+                this.ucTransmitter1.Customer = this.customer;
+                this.ucDNP1.Customer = this.customer;
+                this.ucForceCustomerSwitch1.Customer = this.customer;
+                this.ucEventGraph0.Customer = this.customer;
+                this.ucEventGraph1.Customer = this.customer;
+                this.ucEventGraph2.Customer = this.customer;
+                this.ucEventGraph3.Customer = this.customer;
+                this.ucEventGraph4.Customer = this.customer;
+                this.ucEventGraph5.Customer = this.customer;
+                this.ucEventGraph6.Customer = this.customer;
+                this.ucEventGraph7.Customer = this.customer;
+                this.ucLiveData1.Customer = this.customer;
+                this.ucTransmitterMonitoring1.Customer = this.customer;
+                this.ucCalibration2.Customer = this.customer;
+                this.ucRelayProgramming1.Customer = this.customer;
 
-                    this.customer = value;
-                    this.ucPumpMode1.Customer = this.customer;
-                    this.ucTripMode2.Customer = this.customer;
-                    this.ucCloseMode1.Customer = this.customer;
-                    this.ucTransmitter1.Customer = this.customer;
-                    this.ucDNP1.Customer = this.customer;
-                    this.ucForceCustomerSwitch1.Customer = this.customer;
-                    this.ucEventGraph0.Customer = this.customer;
-                    this.ucEventGraph1.Customer = this.customer;
-                    this.ucEventGraph2.Customer = this.customer;
-                    this.ucEventGraph3.Customer = this.customer;
-                    this.ucEventGraph4.Customer = this.customer;
-                    this.ucEventGraph5.Customer = this.customer;
-                    this.ucEventGraph6.Customer = this.customer;
-                    this.ucEventGraph7.Customer = this.customer;
-                    this.ucLiveData1.Customer = this.customer;
-                    this.ucTransmitterMonitoring1.Customer = this.customer;
-                    this.ucCalibration2.Customer = this.customer;
-
-
-#if ONCOR
-                    this.ucRelayProgramming1.Customer = Customers.ONCOR;
-#elif PSEG
-                    this.ucRelayProgramming1.Customer = Customers.PSEG;
-#else
-                    this.ucRelayProgramming1.Customer = this.customer;
-#endif
-
-                    if (this.dNPDIGITALGRIDData != null)
-                        this.dNPDIGITALGRIDData.Customer = this.customer;
-                }
+                if (this.dNPDIGITALGRIDData != null)
+                    this.dNPDIGITALGRIDData.Customer = this.customer;
             }
         }
 
@@ -158,103 +148,80 @@ namespace RelayControl
             get { return this.dNPEnabledSavedVal; }
             set
             {
-                if (value == true && this.masterRevision > REV0_MASTER_REVISION)
+                bool isDnpCustomer =
+                    this.Customer == Customers.CONED ||
+                    this.Customer == Customers.ENMAX ||
+                    this.Customer == Customers.ONCOR ||
+                    this.Customer == Customers.PSEG ||
+                    this.Customer == Customers.SCE ||
+                    this.Customer == Customers.TORONTO_HYDRO;
+
+                bool dnpKitEnabled = (dnpUplinkK.dnpEnabledWithKit != false);
+
+                // Enable path
+                if (value && this.masterRevision > REV0_MASTER_REVISION && isDnpCustomer && dnpKitEnabled)
                 {
-#if !WATERBUG
-                    
+                    // Keep existing DNP point wiring behavior
+                    setDNPTabPoints();
 
-                    //if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNP)) && (dnpUplinkK.dnpEnabledWithKit != false))
-                    {
-                        //#if !LONDONH
-#if !LONDON_HYDRO && !DIGITALGRID && !DOMINION
-                       // this.tabControlMain.TabPages.Add(this.tabPageDNP);
-                       // this.tabControlMain.TabPages.Add(this.tabPageDNPData);
-#endif
-                    }
-                    if (this.customer != Customers.TORONTO_HYDRO)
-                    {
-  
+                    // DNPSAv5/SecureAuth intentionally disabled for all customers for now.
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
-                        if (this.Customer == Customers.CONED || this.Customer == Customers.SCE || this.Customer == Customers.ONCOR)
-                        {
-                           setDNPTabPoints();
-                        }
+                    this.dNPEnabledSavedVal = true;
+                    this.ucRelayProgramming1.DNPRelay = true;
+                    return;
+                }
 
-#if ENMAX
-                        if(this.receivedMasterRevision.Contains("DNP"))
-                        {
-                            setDNPTabPoints();
-                        }
-#endif
-                        //if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                       // MessageBox.Show("dnpUplinkK.dnpEnabledWithKit : " + dnpUplinkK.dnpEnabledWithKit + " & DNP Enabled : " + DNPEnabled); // Only for testing - to be removed
-                        if ((!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth)) && (dnpUplinkK.dnpEnabledWithKit != false))
-                        {
-                            //#if !LONDONH && !DIGITALGRID
-#if !LONDON_HYDRO && !DOMINION
-                            //MessageBox.Show("add DNPSAv5 tabs"); // Only for testing - to be removed
-                            //this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-#endif
-                        }
-                    }
-                    else // Memphis style or London Hydro
-                    {
-                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                            this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                    }
-                    this.dNPEnabledSavedVal = value;
-                    this.ucRelayProgramming1.DNPRelay = value;
-#endif
-                    }
-                    else
-                    {
-                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                            this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                        {
-                            this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                            this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-                        }
-                        this.dNPEnabledSavedVal = false;
-                        this.ucRelayProgramming1.DNPRelay = false;
+                // Disable path (or unsupported customer / old revision / kit disabled)
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
-                    }
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
 
+                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+
+                this.dNPEnabledSavedVal = false;
+                this.ucRelayProgramming1.DNPRelay = false;
             }
-
         }
 
         private void setDNPTabPoints()
         {
-#if (((ONCOR) && !DOMINION) || ENMAX || PSEG)
-            this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.customer);
-          //  this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
+            // Current DNP customers (EVERSOURCE excluded for now)
+            bool isDnpCustomer =
+                this.Customer == Customers.CONED ||
+                this.Customer == Customers.ENMAX ||
+                this.Customer == Customers.ONCOR ||
+                this.Customer == Customers.PSEG ||
+                this.Customer == Customers.SCE ||
+                this.Customer == Customers.TORONTO_HYDRO;
+
+            if (!isDnpCustomer)
+                return;
+
+            // Respect kit gating
+            if (dnpUplinkK.dnpEnabledWithKit == false)
+            {
+                this.dNPEnabledSavedVal = false;
+                this.ucRelayProgramming1.DNPRelay = false;
+                return;
+            }
+
+            // Use DigitalGridData for all DNP customers per new rule
+            this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.Customer);
+            // this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
             this.dNPDIGITALGRIDData.Location = new Point(0, 0);
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
             this.dNPDIGITALGRIDData.Show();
-#if !PSEG
+
+            // DNPSAv5/SecureAuth intentionally disabled for all DNP customers for now
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-            if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-            {
-                this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-            }
-            this.dNPEnabledSavedVal = false;
-            this.ucRelayProgramming1.DNPRelay = false;
-#endif
-#endif
-
-            if (dnpUplinkK.dnpEnabledWithKit == false)
-            {
-                // this.removeDNPTabs();
-                this.dNPEnabledSavedVal = false;
-                this.ucRelayProgramming1.DNPRelay = false;
-            }
-
         }
 
         private bool gERelay = false;
@@ -5270,38 +5237,12 @@ namespace RelayControl
 
                 receivedMasterRevision = revision;
 
-                switch (this.customer)
+                // Keep build/customer assignment stable during runtime.
+                // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
+                if (revision.Contains("DNP"))
                 {
-                    default:
-                        // A DNP Relay
-                        if (revision.Contains("DNP"))
-                        {
-                            this.DNPEnabled = true;
-                            this.blockDNPEnableFromTransmitterSettings = true;
-
-                            // With PLC
-                            if (revision.Contains("PLC"))
-                            {
-                                this.Customer = Customers.DOMINION;
-                            }
-                            else if (revision.Contains("BGE"))
-                            {
-                                this.Customer = Customers.BGE;
-                            }
-                            else if (revision.Contains("SCL"))
-                            {
-                                this.Customer = Customers.SCL;
-                            }
-                            else if (revision.Contains("TAUNTON"))
-                            {
-                                this.Customer = Customers.TAUNTON;
-                            }
-                            else
-                            {
-                                this.Customer = Customers.COMED;
-                            }
-                        }
-                        break;
+                    this.DNPEnabled = true;
+                    this.blockDNPEnableFromTransmitterSettings = true;
                 }
 
                 if (revision.Contains("HBD"))
@@ -5310,7 +5251,13 @@ namespace RelayControl
                 }
 
                 if (this.Customer == Customers.None)
-                    this.Customer = Customers.ENMAX;
+                {
+#if CONED
+                    this.Customer = Customers.CONED;
+#else
+    this.Customer = Customers.ENMAX;
+#endif
+                }
 
                 this.ucRelayProgramming1.setConEdFiles();
 
