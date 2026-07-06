@@ -702,7 +702,7 @@ namespace RelayControl
                 this.ArcFaultEnabled = false;
 
 #if DNP
-        this.DNPEnabled = true;
+                this.DNPEnabled = true;
 #else
                 this.DNPEnabled = false;
 #endif
@@ -716,7 +716,7 @@ namespace RelayControl
 #endif // DEBUG || ENGINEERING
 
 #if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-        this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+                this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
 
                 if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
@@ -9029,9 +9029,7 @@ namespace RelayControl
                 {
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageArcFault))
                     {
-#if !DG288_TESTFIXTURE_GUI
                         this.tabControlMain.TabPages.Add(this.tabPageArcFault);
-#endif
                     }
                 }
                 else
