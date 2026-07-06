@@ -28,8 +28,9 @@ namespace RelayControlLibrary
             this.myPSIWidgetA2.Visible = false;
             this.myTempWidgetA1.Visible = false;
             this.myTempWidgetA2.Visible = false;
-          //  this.myThermometerA1.Visible = false;
-          //  this.myThermometerA2.Visible = false;
+            //  this.myThermometerA1.Visible = false;
+            //  this.myThermometerA2.Visible = false;
+
             this.graphingValues.Tables.Add();
             this.graphingValues.Tables[0].Columns.Add("VnA", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("VnB", typeof(float));
@@ -41,13 +42,14 @@ namespace RelayControlLibrary
             this.graphingValues.Tables[0].Columns.Add("IB", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("IC", typeof(float));
             this.graphingValues.Tables[0].Columns.Add("SampleNumber", typeof(UInt64));
+
             this.groupBoxCurrentReadings.Visible = false;
             this.groupBoxVaultMonitoringCommands.Location = new System.Drawing.Point(1028, 27); //(1020, 27)
 
-            this.textBoxTimeElapsedSeconds.Location = new System.Drawing.Point(242, 585); 
-            this.label101.Location = new System.Drawing.Point(215, 590); 
-            this.textBoxTimeElapsedMinutes.Location = new System.Drawing.Point(140, 585); 
-            this.label89.Location = new System.Drawing.Point(115, 590); 
+            this.textBoxTimeElapsedSeconds.Location = new System.Drawing.Point(242, 585);
+            this.label101.Location = new System.Drawing.Point(215, 590);
+            this.textBoxTimeElapsedMinutes.Location = new System.Drawing.Point(140, 585);
+            this.label89.Location = new System.Drawing.Point(115, 590);
             this.textBoxTimeElapsedHours.Location = new System.Drawing.Point(40, 585);
             this.lbl_timeElapsed.Location = new System.Drawing.Point(73, 550);
             this.pictureBox1.Location = new System.Drawing.Point(155, 495);
@@ -57,77 +59,57 @@ namespace RelayControlLibrary
             this.checkBoxFrequenceBlue.Location = this.checkBoxFrequencyYellow.Location =
             this.checkBoxFrequencyGreen.Location = this.checkBoxFrequencyRed.Location = new System.Drawing.Point(217, 210); //(149, 210);
             this.label64.Location = new System.Drawing.Point(65, 53); //(5, 53);
+
 #if CONED
             this.listBoxA1SensorSelect.SelectedIndex = 0;
             this.listBoxA2SensorSelect.SelectedIndex = 0;
+#else
+            this.listBoxA1SensorSelect.SelectedIndex = 0;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
 #endif
+
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
             this.textBoxTransmitterTemp.Enabled = false;
             this.textBoxQBit.Enabled = false;
-#if (CHICAGO || MADISON || DEBUG || LONDONH) && !ENMAX
-            this.listBoxA2SensorSelect.SelectedIndex = 0;
-            groupBoxAnalogFlagValues.Visible = true;
-#elif SEATTLE
-            labelFa.Visible = false;
-            textBoxFa.Visible = false;
-            labelHa.Visible = false;
-            textBoxHa.Visible = false;
 
-//#elif ENMAX && !DEBUG
-            this.listBoxA1SensorSelect.SelectedIndex = 0;
-            this.listBoxA2SensorSelect.SelectedIndex = 2;
-            this.textBoxCa.Visible = false;
-            this.textBoxDa.Visible = false;
-            this.textBoxEa.Visible = false;
-            this.textBoxGa.Visible = false;
-            this.labelCa.Visible = false;
-            this.labelDa.Visible = false;
-            this.labelEa.Visible = false;
-            this.labelGa.Visible = false;
-            this.labelQPres.Visible = false;
-            this.textBoxQBit.Visible = false;
-#elif (ONCOR || TORONTO_HYDRO || CONED || ENMAX)
+            // Defaults: same for all customers
+            groupBoxAnalogFlagValues.Visible = true;
+
             this.textBoxCa.Visible = true;
             this.textBoxDa.Visible = true;
             this.textBoxEa.Visible = true;
+            this.textBoxFa.Visible = true;
             this.textBoxGa.Visible = true;
             this.textBoxHa.Visible = true;
+
             this.labelCa.Visible = true;
             this.labelDa.Visible = true;
             this.labelEa.Visible = true;
+            this.labelFa.Visible = true;
             this.labelGa.Visible = true;
             this.labelHa.Visible = true;
 
-#if ENMAX
-           /* this.labelHa.Text = "Oil Level";
-            this.labelHa.Location = new Point(4, 142);
-            this.checkBoxFlagStatusH.Visible = false;
-            this.labelQPres.Visible = true;
-            this.textBoxQBit.Visible = true;
-           */
-#elif (!ONCOR && !TORONTO_HYDRO && !CONED && !ENMAX)
-            this.labelHa.Visible = false;
-            this.textBoxHa.Visible = false;
-#endif
-#elif DEBUG && ENMAX
-            this.listBoxA1SensorSelect.SelectedIndex = 0;
-            this.listBoxA2SensorSelect.SelectedIndex = 2;
-#else
-            //  groupBoxAnalogFlagValues.Visible = false;
-            groupBoxAnalogFlagValues.Visible = true;
-#endif
+            this.checkBoxFlagStatusA.Visible = true;
+            this.checkBoxFlagStatusB.Visible = true;
+            this.checkBoxFlagStatusC.Visible = true;
+            this.checkBoxFlagStatusD.Visible = true;
+            this.checkBoxFlagStatusE.Visible = true;
+            this.checkBoxFlagStatusF.Visible = true;
+            this.checkBoxFlagStatusG.Visible = true;
+            this.checkBoxFlagStatusH.Visible = true;
 
-#if DG288_TESTFIXTURE_GUI
-            groupBoxCurrentReadings.Visible = false;
-            groupBox17.Visible = false;
-            groupBoxVoltageReadings.Visible = false;
-            this.listBoxA1SensorSelect.SelectedIndex = 3;
-            this.listBoxA2SensorSelect.SelectedIndex = 3;
-#endif
-
-#if NU
-            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#if TORONTO_HYDRO
+            // Keep only true Toronto Hydro differences here (if required)
+            // Example (uncomment if needed by TH spec):
+            // this.checkBoxFlagStatusC.Visible = false;
+            // this.checkBoxFlagStatusD.Visible = false;
+            // this.checkBoxFlagStatusE.Visible = false;
+            // this.checkBoxFlagStatusF.Visible = false;
+            // this.checkBoxFlagStatusG.Visible = false;
+            // this.checkBoxFlagStatusH.Visible = false;
+            // this.textBoxHa.Visible = false;
+            // this.labelHa.Visible = false;
 #endif
             this.checkBoxFrequenceBlue.Visible = false;
             this.checkBoxFrequencyGreen.Visible = false;
@@ -143,82 +125,16 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyGreen.Checked = true;
             this.checkBoxFrequencyRed.Checked = true;
             this.checkBoxFrequencyYellow.Checked = true;
-
-#if CHICAGO && !DG288_TESTFIXTURE_GUI
-            this.textBoxHa.Visible = false;
-
-            this.checkBoxFlagStatusC.Visible = false;
-            this.checkBoxFlagStatusD.Visible = false;
-            this.checkBoxFlagStatusE.Visible = false;
-            this.checkBoxFlagStatusF.Visible = false;
-            this.checkBoxFlagStatusG.Visible = false;
-
-            this.labelHa.Visible = false;
-#elif LONDONH 
-            this.textBoxHa.Visible = true;
-
-            this.checkBoxFlagStatusC.Visible = true;
-            this.checkBoxFlagStatusD.Visible = true;
-            this.checkBoxFlagStatusE.Visible = true;
-            this.checkBoxFlagStatusF.Visible = true;
-            this.checkBoxFlagStatusG.Visible = true;
-
-            this.labelHa.Visible = true;
-/*#elif TAUNTON
-            textBoxCa.Visible = false;
-            labelCa.Visible = false;
-            textBoxDa.Visible = false;
-            labelDa.Visible = false;
-            textBoxEa.Visible = false;
-            labelEa.Visible = false;
-            textBoxFa.Visible = false;
-            labelFa.Visible = false;
-            textBoxGa.Visible = false;
-            labelGa.Visible = false;
-            textBoxHa.Visible = false;
-            labelHa.Visible = false;
-
-            checkBoxFlagStatusC.Visible = false;
-            checkBoxFlagStatusD.Visible = false;
-            checkBoxFlagStatusE.Visible = false;
-            checkBoxFlagStatusF.Visible = false;
-            checkBoxFlagStatusG.Visible = false;
-            checkBoxFlagStatusH.Visible = false;
-*/
-#elif MADISON && !DEBUG
-            this.textBoxCa.Visible = false;
-            this.textBoxDa.Visible = false;
-            this.textBoxEa.Visible = false;
-            this.textBoxFa.Visible = false;
-            this.textBoxGa.Visible = false;
-            this.textBoxHa.Visible = false;
-
-            this.labelCa.Visible = false;
-            this.labelDa.Visible = false;
-            this.labelEa.Visible = false;
-            this.labelFa.Visible = false;
-            this.labelGa.Visible = false;
-            this.labelHa.Visible = false;
-#elif BGE
-            groupBoxAnalogFlagValues.Visible = true;
-            textBoxHa.Visible = false;
-            labelHa.Visible = false;
-            checkBoxFlagStatusC.Visible = false;
-            checkBoxFlagStatusD.Visible = false;
-            checkBoxFlagStatusE.Visible = false;
-            checkBoxFlagStatusF.Visible = false;
-            checkBoxFlagStatusG.Visible = false;
-#endif
 #if PSEG
             this.listBoxA2SensorSelect.SelectedItem = "Oil Temperature";
             groupBoxAnalogFlagValues.Visible = true;
-            textBoxHa.Visible = true;//= false;
-            labelHa.Visible = true;//false;
-            checkBoxFlagStatusC.Visible = true;//false;
-            checkBoxFlagStatusD.Visible = true;//false;
-            checkBoxFlagStatusE.Visible = true;//false;
-            checkBoxFlagStatusF.Visible = true;//false;
-            checkBoxFlagStatusG.Visible = true;//false;
+            textBoxHa.Visible = true;
+            labelHa.Visible = true;
+            checkBoxFlagStatusC.Visible = true;
+            checkBoxFlagStatusD.Visible = true;
+            checkBoxFlagStatusE.Visible = true;
+            checkBoxFlagStatusF.Visible = true;
+            checkBoxFlagStatusG.Visible = true;
 #endif
         }
 
