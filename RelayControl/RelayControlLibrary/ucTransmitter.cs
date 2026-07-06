@@ -61,13 +61,6 @@ namespace RelayControlLibrary
 
 #endif
 
-#if CONED
-            this.button_FastFire.Enabled = true;
-            this.button_FastFire.Visible = true;
-            this.button_FastMode.Enabled = true;
-            this.button_FastMode.Visible = true;
-#endif
-
             this.panelFlasgStatusWB.Visible = false;
             this.labelTransFlagStatus.Visible = false;
 
@@ -85,14 +78,6 @@ namespace RelayControlLibrary
             this.checkBoxWBF.Checked = true;
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
-
-            this.button_FastFire.Location = new System.Drawing.Point(1017, 400);
-            this.button_FastFire.Size = new System.Drawing.Size(184, 75);
-            this.button_FastMode.Location = new System.Drawing.Point(1017, 490);
-            this.button_FastMode.Size = new System.Drawing.Size(184, 75);
-            this.button_FastMode.Text = "Fast Mode Disabled";
-
-            //this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550);
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600);
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
@@ -194,6 +179,43 @@ namespace RelayControlLibrary
 
             NormalizeTxCommandButtonsLayout();
             NormalizeDnpUplinkPlacement();
+
+            // Default caption/state
+            this.button_FastMode.Text = "Fast Mode Disabled";
+            this.button_FastMode.BackColor = Color.Transparent;
+            this.button_FastFire.Text = "Fast Fire";
+
+            if (this.Customer == Customers.CONED)
+            {
+                this.button_FastFire.Visible = true;
+                this.button_FastFire.Enabled = true;
+                this.button_FastFire.Size = new Size(184, 75);
+                this.button_FastFire.Location = new Point(18, 385);
+
+                this.button_FastMode.Visible = true;
+                this.button_FastMode.Enabled = true;
+                this.button_FastMode.Size = new Size(184, 75);
+                this.button_FastMode.Location = new Point(18, 510);
+
+                this.buttonForceConfigMessage.Visible = false;
+                this.buttonForceConfigMessage.Enabled = false;
+
+                this.button_FastFire.BringToFront();
+                this.button_FastMode.BringToFront();
+            }
+            else
+            {
+                this.button_FastFire.Location = new Point(1017, 400);
+                this.button_FastFire.Size = new Size(184, 75);
+
+                this.button_FastMode.Location = new Point(1017, 490);
+                this.button_FastMode.Size = new Size(184, 75);
+
+                this.buttonForceConfigMessage.Visible = true;
+                this.buttonForceConfigMessage.Enabled = true;
+                this.buttonForceConfigMessage.Text = "Send Configuration Message";
+            }
+
             this.Load += ucTransmitter_Load;
 
         }
@@ -2490,6 +2512,60 @@ namespace RelayControlLibrary
 
             if (this.buttonForceConfigMessage.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.buttonForceConfigMessage);
+
+            // ConEd override: hide config-message button, show fast controls
+            if (this.Customer == Customers.CONED)
+            {
+                // Ensure fast buttons are in TX commands group
+                if (this.button_FastFire.Parent != this.grpBox_TXcommands)
+                    this.grpBox_TXcommands.Controls.Add(this.button_FastFire);
+
+                if (this.button_FastMode.Parent != this.grpBox_TXcommands)
+                    this.grpBox_TXcommands.Controls.Add(this.button_FastMode);
+
+                this.grpBox_TXcommands.Size = new Size(220, 594);
+
+                int x = 18, w = 184, h = 62, gap = 16, y = 25;
+
+                this.buttonRestoreDefaults.Location = new Point(x, y);
+                this.buttonRestoreDefaults.Size = new Size(w, h); y += h + gap;
+
+                this.buttonTX.Location = new Point(x, y);
+                this.buttonTX.Size = new Size(w, h); y += h + gap;
+
+                this.buttonRQ.Location = new Point(x, y);
+                this.buttonRQ.Size = new Size(w, h); y += h + gap;
+
+                this.button_FastFire.Location = new Point(x, y);
+                this.button_FastFire.Size = new Size(w, h);
+                this.button_FastFire.Visible = true;
+                this.button_FastFire.Enabled = true;
+                this.button_FastFire.Text = "Fast Fire";
+                y += h + gap;
+
+                this.button_FastMode.Location = new Point(x, y);
+                this.button_FastMode.Size = new Size(w, h);
+                this.button_FastMode.Visible = true;
+                this.button_FastMode.Enabled = true;
+                this.button_FastMode.Text = "Fast Mode Disabled";
+                this.button_FastMode.BackColor = Color.Transparent;
+                y += h + gap;
+
+                this.buttonForceConfigMessage.Visible = false;
+                this.buttonForceConfigMessage.Enabled = false;
+
+                // Uplink block starts below buttons
+                this.lbl_UplinkEn.Location = new Point(x, y + 4);
+                this.checkBoxDNPEnable.Location = new Point(x, y + 56);
+
+                this.buttonRestoreDefaults.BringToFront();
+                this.buttonTX.BringToFront();
+                this.buttonRQ.BringToFront();
+                this.button_FastFire.BringToFront();
+                this.button_FastMode.BringToFront();
+
+                return;
+            }
 
 #if DNP
             // Widen group so uplink text fits on one line
