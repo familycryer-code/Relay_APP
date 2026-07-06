@@ -120,7 +120,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Eversource|AnyCPU'">
     <OutputPath>bin\Release Eversource\</OutputPath>
     <ApplicationIcon>relay gui desktop.ico</ApplicationIcon>
-    <DefineConstants>EVERSOURCE;DNP;PLC</DefineConstants>
+    <DefineConstants>EVERSOURCE;PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">

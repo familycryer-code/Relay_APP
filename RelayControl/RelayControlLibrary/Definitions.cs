@@ -87,6 +87,7 @@ namespace RelayControlLibrary
         COMED,
         CONED,
         DOMINION,
+        DIGITALGRIDINC,
         ENMAX,
         EVERSOURCE,
         LONDON_HYDRO,

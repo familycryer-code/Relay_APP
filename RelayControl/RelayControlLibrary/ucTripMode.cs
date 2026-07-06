@@ -132,6 +132,7 @@ namespace RelayControlLibrary
 
         private void setCustomer()
         {
+            
             switch (this.customer)
             {
                 case Customers.None:

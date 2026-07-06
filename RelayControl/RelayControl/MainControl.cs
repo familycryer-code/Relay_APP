@@ -759,10 +759,22 @@ namespace RelayControl
                 this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
                 this.buttonSendAll.Text = "Program all settings to the Relay";
 
-                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600); 
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630); 
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 660);
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 690); 
+                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
+
+                // Select Profile directly under name box
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
+
+                // Load Profile where Delete used to be
+                this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
+
+                // Delete Profile under Load Profile
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
+
+                this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
+                this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
+                this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
+
 #elif SCE
                 this.Customer = Customers.SCE;
                 ucRemoteCommandBlock1.Visible = false;
@@ -9669,42 +9681,6 @@ namespace RelayControl
         private void button_dataStore_Click(object sender, EventArgs e)
         {
             BackUpRelayDatatoFile();
-            /* 
-             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
-             dataBackup_fromRelay = true;
-             dataBackupR.dataBackup_fromRelay = true;
-             string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-
-             TextWriter tw = new StreamWriter(path, true);
-             tw.WriteLine("Data currently residing in the relay :");
-
-           this.ucShortRange1.buttonRequest_Click(sender, e);
-           this.requestRelayParameters();
-           this.requestCalibrationConstants();
-           this.requestTransmitterSettings();
-           this.requestDNPSettings();
-           this.requestSafeServiceSettings();
-           this.arcFaultEnableMonitoring(true);
-           this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 'S' )
-           Thread.Sleep(1000);   // delay 1second
-             tw.Close();
-            */
-
-            //WRITE TO MASTER PROCESSOR
-            //dataBackup_fromRelay = true;
-            //dataBackupR.dataBackup_fromRelay = true;
-
-            /*
-            this.writeCloseModeDataBackUp_ToMaster();
-            this.writeTripModeDataBackUp_ToMaster();
-            this.writeNWProtectorDataBackUp_ToMaster();
-            this.writePumpModeDataBackUp_ToMaster();
-            this.writeSafeServiceDataBackUp_ToMaster();
-            this.writeTransmitterDataBackUp_ToMaster();
-            this.writeDNPDataBackUp_ToMaster();
-            this.writeDNPSAv5SettingsDataBackUp_ToMaster();
-            this.writeArcFaultDataBackUp_ToMaster();
-            */
         }
 
         private void BackUpRelayDatatoFile()
