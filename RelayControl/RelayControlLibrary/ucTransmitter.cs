@@ -23,7 +23,7 @@ namespace RelayControlLibrary
 
             this.DNPCoverFlags = ((byte)(0));
 
-#if DEBUG
+#if DEBUG || ENGINEERING
             this.textBoxSerialNumber.Enabled = true;
            // this.textBoxTransmitterOutputPower.Enabled = true;
             this.numericUpDownCurrentThresholdLow.Visible = true;
@@ -58,26 +58,21 @@ namespace RelayControlLibrary
             this.button_FastFire.Visible = false;
             this.button_FastMode.Enabled = false;
             this.button_FastMode.Visible = false;
-            //this.lbl_EnableDNPUplink.Location = new System.Drawing.Point(720, 496);
+
 #endif
 
-#if DOMINION || MADISON || BGE
-            this.panelFlasgStatusWB.Visible = false;// true;
-            this.labelTransFlagStatus.Visible = false;// true;
-#elif CONED
-            this.panelFlasgStatusWB.Visible = false;
-            this.labelTransFlagStatus.Visible = false;
+#if CONED
             this.button_FastFire.Enabled = true;
             this.button_FastFire.Visible = true;
             this.button_FastMode.Enabled = true;
             this.button_FastMode.Visible = true;
-            this.labelTransFlagStatus.Visible = false;
-#elif !DEBUG
-            this.panelFlasgStatusWB.Visible = false;
-            this.labelTransFlagStatus.Visible = false;
 #endif
 
-#if !DEBUG
+            this.panelFlasgStatusWB.Visible = false;
+            this.labelTransFlagStatus.Visible = false;
+
+
+#if !(DEBUG || ENGINEERING)
             checkBoxExtendedPLCMessage.Visible = false;
 #endif
 
@@ -97,17 +92,17 @@ namespace RelayControlLibrary
             this.button_FastMode.Size = new System.Drawing.Size(184, 75);
             this.button_FastMode.Text = "Fast Mode Disabled";
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550);  
+            //this.checkBoxDNPEnable.Location = new System.Drawing.Point(732, 550);
 
             this.panelGeneralSettings.Size = new System.Drawing.Size(370, 600);
             this.panelFlagSettings.Size = new System.Drawing.Size(250, 600);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(715, 19); 
+            this.grpBox_TXcommands.Location = new System.Drawing.Point(715, 19);
             this.grpBox_TXcommands.Size = new System.Drawing.Size(220, 594);
-            this.panel_TXco.Location = new System.Drawing.Point(713, 18); 
+            this.panel_TXco.Location = new System.Drawing.Point(713, 18);
             this.panel_TXco.Size = new System.Drawing.Size(226, 599);
 
             this.panelFlagSettings.Size = new System.Drawing.Size(221, 600);
-            this.panelFlagSettings.Location = new System.Drawing.Point(440, 18);  
+            this.panelFlagSettings.Location = new System.Drawing.Point(440, 18);
 
             this.panelFlagSettingH.Location = new System.Drawing.Point(42, 550);
             this.panelFlagSettingH.Size = new System.Drawing.Size(178, 30);
@@ -174,10 +169,10 @@ namespace RelayControlLibrary
             this.label1.Location = new System.Drawing.Point(33, 80);
             this.textBoxID.Location = new System.Drawing.Point(170, 78);
 
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(750, 515);
-            this.checkBoxDNPEnable.Size = new System.Drawing.Size(175, 100);
-            this.checkBoxDNPEnable.Text = "DNP Uplink Feature.       (A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations)";
-            this.lbl_UplinkEn.Location = new System.Drawing.Point(738, 500);
+            //this.checkBoxDNPEnable.Location = new System.Drawing.Point(750, 515);
+            //this.checkBoxDNPEnable.Size = new System.Drawing.Size(175, 100);
+            //this.checkBoxDNPEnable.Text = "DNP Uplink Feature.       (A DIGITALGRID DNP Uplink kit is required for wireless/fiber locations)";
+           // this.lbl_UplinkEn.Location = new System.Drawing.Point(738, 500);
 
             // DNP Comm settings groupBox ==============================================
             this.grpBx_DNPSettings.Location = new System.Drawing.Point(987, 19);
@@ -185,6 +180,7 @@ namespace RelayControlLibrary
             this.panel_dnpComSet.Location = new System.Drawing.Point(985, 17);
             this.panel_dnpComSet.Size = new System.Drawing.Size(289, 599);
             // DNP Comm settings groupBox ==============================================
+
 #if !DNP
             this.grpBx_DNPSettings.Enabled = false;
             this.grpBx_DNPSettings.Visible = false;
@@ -192,12 +188,13 @@ namespace RelayControlLibrary
             this.panel_dnpComSet.Visible = false;
             this.lbl_UplinkEn.Enabled = false;
             this.lbl_UplinkEn.Visible = false;
-
-            this.panel_TXco.Location = new System.Drawing.Point(1013, 18);
-            this.grpBox_TXcommands.Location = new System.Drawing.Point(1015, 19);
-            this.panelFlagSettings.Location = new System.Drawing.Point(580, 18);
-            this.label21.Location = new System.Drawing.Point(583, 19);
+            this.checkBoxDNPEnable.Enabled = false;
+            this.checkBoxDNPEnable.Visible = false;
 #endif
+
+            NormalizeTxCommandButtonsLayout();
+            NormalizeDnpUplinkPlacement();
+            this.Load += ucTransmitter_Load;
 
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -248,6 +245,7 @@ namespace RelayControlLibrary
         public delegate void CTChangedHandler(object sender, EventArgs e);
         public event CTChangedHandler CTChanged;
 
+
         public delegate void SendEventHandler(SendEventArgs sEA);
         public event SendEventHandler Send;
         public TransmitterSettings TXSettings = new TransmitterSettings();
@@ -266,6 +264,7 @@ namespace RelayControlLibrary
         private SendEventArgs RQSEA = new SendEventArgs(3);
         private SendEventArgs TXSEA = new SendEventArgs(31);
         private int packetLength = 30;
+        private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
 
         public int SerialNumber
         {
@@ -528,7 +527,7 @@ namespace RelayControlLibrary
                     this.numericUpDownLEDSpeed.Visible = false;
                     return;
                 }
-#if DEBUG
+#if DEBUG || ENGINEERING
                 this.labelLEDSpeed.Visible = true;
                 this.numericUpDownLEDSpeed.Visible = true;
 #endif
@@ -556,79 +555,7 @@ namespace RelayControlLibrary
 
         private void showWaterbugNoTransmitter(bool value)
         {
-#if !DEBUG
-            if (value)
-            {
-                this.panelGeneralSettings.Hide();
-                this.panelMessageFreqSettings.Hide();
-                this.panelOtherAlarmSettings.Hide();
-                this.panelFreqPanel.Hide();
-                this.panel2.Hide();
-                this.labelGeneralSettings.Hide();
-                this.labelOtherAlarmSettings.Hide();
-                this.buttonRestoreDefaults.Hide();
-            }
-            else
-            {
-                this.panelGeneralSettings.Show();
-
-//#if (CHICAGO || SEATTLE || MADISON || LONDONH || TAUNTON || BGE) && !DEBUG
-#if (CHICAGO || SEATTLE || MADISON || LONDONH || TAUNTON) && !DEBUG
-                this.panelOtherAlarmSettings.Hide();
-                this.labelOtherAlarmSettings.Hide();
-                this.panelSmartExternalCable.Hide();
-                labelSmartExternalCable.Hide();
-
-                this.panelFlasgStatusWB.Location = new Point(260, 300);
-                this.labelTransFlagStatus.Location = new Point(267, 294);
-
-                this.buttonTX.Location = new Point(460, 6); //(260, 6);
-                this.buttonRQ.Location = new Point(260, 93);
-                this.buttonForceConfigMessage.Location = new Point(260, 180); //13, 250
-                this.buttonRestoreDefaults.Location = new Point(260, 235);
-
-                this.buttonRQ.Size = new Size(110, 74);
-                this.buttonForceConfigMessage.Size = new Size(110, 44);
-                this.buttonRestoreDefaults.Size = new Size(110, 44);
-
-                this.panelSmartExternalCable.Location = new Point(7, 250);
-                this.panelSmartExternalCable.Size = new Size(242, 39);
-
-                this.labelSmartExternalCable.Location = new Point(16, 243);
-                this.checkBoxSmartExternalCableEnable.Location = new Point(63, 12);
-
-#else
-                //this.panelOtherAlarmSettings.Show();
-                //this.labelOtherAlarmSettings.Show();
-                this.panelAlarmSettings.Hide();
-                this.labelAlarmSettings.Hide();
-                #if DNP
-                                this.buttonTX.Location = new Point(732, 175);    
-                                this.buttonRQ.Location = new Point(732, 295);    
-                                this.buttonForceConfigMessage.Location = new Point(732, 415);      
-                                this.buttonRestoreDefaults.Location = new Point(732, 55);  
-                #else
-                                
-                                this.buttonRestoreDefaults.Location = new Point(1032, 55);
-                                this.buttonTX.Location = new Point(1032, 200);
-                                this.buttonRQ.Location = new Point(1032, 345);
-                                this.buttonForceConfigMessage.Location = new Point(1032, 495);
-                #endif
-
-                this.buttonRQ.Size = new Size(184, 75);
-                this.buttonForceConfigMessage.Size = new Size(184, 75);
-                this.buttonRestoreDefaults.Size = new Size(184, 75);
-
-#endif
-                this.panelFreqPanel.Show();
-                this.panel2.Show();
-                this.labelGeneralSettings.Show();
-                this.labelGeneralSettings.BringToFront();
-                this.labelOtherAlarmSettings.BringToFront();
-                this.buttonRestoreDefaults.Show();
-            }
-
-#endif
+            // Deprecated: no-op (legacy layout overrides removed)
         }
 
         private void version2Settings()
@@ -1426,7 +1353,8 @@ namespace RelayControlLibrary
                 {
                     this.TXSettings.LEDSpeed = (byte)this.numericUpDownLEDSpeed.Value;
                 }
-#if DEBUG
+#if (DEBUG || ENGINEERING)
+
                 TXSettings.ExtendedPLCMessage = checkBoxExtendedPLCMessage.Checked;
 #else
                 TXSettings.ExtendedPLCMessage = true;
@@ -1510,7 +1438,7 @@ namespace RelayControlLibrary
             this.TXSettings.FlagPolarity.D = Convert.ToBoolean(dNPCoverFlags & 8);
             this.TXSettings.FlagPolarity.E = Convert.ToBoolean(dNPCoverFlags & 16);
             this.TXSettings.FlagPolarity.F = Convert.ToBoolean(dNPCoverFlags & 32);
-            this.TXSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 62);
+            this.TXSettings.FlagPolarity.G = Convert.ToBoolean(dNPCoverFlags & 64);
             this.TXSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
             this.TXSettings.SetFlagPolartityByte();
 
@@ -1845,86 +1773,6 @@ namespace RelayControlLibrary
             this.numericUpDownLEDSpeed.Value = 20;
         }
 
-        private void setMemphisDefaults()
-        {
-            this.textBoxID.Text = "1023";
-            this.textBoxTXCTRatio.Text = "120";
-
-            this.checkBoxBlue.Checked = true;
-            this.checkBoxGreen.Checked = false;
-            this.checkBoxRed.Checked = false;
-            this.checkBoxYellow.Checked = false;
-
-            this.radioButtonFPAClose.Checked = true;
-            this.radioButtonFPBClose.Checked = true;
-            this.radioButtonFPCClose.Checked = true;
-            this.radioButtonFPDClose.Checked = true;
-            this.radioButtonFPEClose.Checked = true;
-            this.radioButtonFPFClose.Checked = true;
-            this.radioButtonFPGClose.Checked = true;
-            this.radioButtonFPHClose.Checked = true;
-
-            this.checkBoxFAA.Checked = false;
-            this.checkBoxFAB.Checked = false;
-            this.checkBoxFAC.Checked = false;
-            this.checkBoxFAD.Checked = false;
-            this.checkBoxFAE.Checked = false;
-            this.checkBoxFAF.Checked = false;
-            this.checkBoxFAG.Checked = false;
-            this.checkBoxFAH.Checked = false;
-
-            this.checkBoxCurrent.Checked = false;
-            this.checkBoxAnalog1.Checked = false;
-            this.checkBoxAnalog2.Checked = false;
-            this.checkBoxOverVolt.Checked = false;
-            this.checkBoxPump.Checked = false;
-            this.checkBoxType2Off.Checked = true;
-            this.checkBoxUnderVolt.Checked = false;
-
-            this.checkBoxSmartExternalCableEnable.Checked = false;
-            this.checkBoxWBAn1.Checked = false;
-            this.checkBoxWBAn2.Checked = false;
-            this.checkBoxWBC.Checked = false;
-            this.checkBoxWBD.Checked = false;
-            this.checkBoxWBE.Checked = false;
-            this.checkBoxWBF.Checked = false;
-            this.checkBoxWBG.Checked = false;
-            this.checkBoxWBH.Checked = false;
-
-            this.enableWaterbury(false);
-
-            this.numericUpDownAnalog1Threshold.Value = 100;
-            this.numericUpDownAnalog2Threshold.Value = 100;
-            this.numericUpDownCurrentThresholdHigh.Value = 100;
-            this.numericUpDownCurrentThresholdLow.Value = 75;
-            this.numericUpDownVoltageThresholdHigh.Value = 135;
-            this.numericUpDownVoltageThresholdLow.Value = 110;
-            this.radioButton60S.Checked = true;
-
-            this.textBoxMuxBoxMessageTime.Text = "15";
-            this.textBoxType2MessageTime.Text = "23";
-            this.textBoxConfigMessageTime.Text = "23";
-
-            this.TXSettings.AlarmBurstCount = 4;
-            this.TXSettings.AlarmSpacing = 20;
-            this.TXSettings.OtherMessageBurstCount = 4;
-            this.TXSettings.OtherMessageBurstInterval = 30;
-            this.TXSettings.TemperatureCalibration = 100;
-
-            this.checkBoxSmartExternalCableEnable.Checked = false;
-            this.TXSettings.Type1MessageLength = 0x82;
-
-            this.TXSettings.DataFromWaterBug = 00;
-
-            this.buttonTX.Enabled = true;
-
-            this.DNPEnabled = this.checkBoxDNPEnable.Checked;
-
-            this.checkBoxMUXBOXOff.Checked = true;
-
-            this.numericUpDownLEDSpeed.Value = 20;
-        }
-
         public void EnableTransmitter()
         {
             checkBoxTransmitterEnable.Checked = true;
@@ -1939,7 +1787,7 @@ namespace RelayControlLibrary
         {
             this.textBoxID.Text = "1023";
             this.textBoxTXCTRatio.Text = "120";
-#if PSEG || NU || CONED
+#if PSEG || CONED
             this.CTRatio = 320;
 #else
             this.CTRatio = 600;
@@ -1949,14 +1797,15 @@ namespace RelayControlLibrary
             this.checkBoxGreen.Checked = false;
             this.checkBoxRed.Checked = false;
             this.checkBoxYellow.Checked = false;
-
             this.radioButtonFPAClose.Checked = true;
+
 #if TORONTO_HYDRO
             this.radioButtonFPBClose.Checked = false;
             this.radioButtonFPBOpen.Checked = true;
 #else
             this.radioButtonFPBClose.Checked = true;
 #endif
+
             this.radioButtonFPCClose.Checked = true;
             this.radioButtonFPDClose.Checked = true;
             this.radioButtonFPEClose.Checked = true;
@@ -1990,8 +1839,6 @@ namespace RelayControlLibrary
             this.checkBoxWBF.Checked = true;
             this.checkBoxWBG.Checked = true;
             this.checkBoxWBH.Checked = true;
-
-            //this.enableWaterbury(true);
 
             this.numericUpDownAnalog1Threshold.Value = 100;
             this.numericUpDownAnalog2Threshold.Value = 100;
@@ -2110,22 +1957,17 @@ namespace RelayControlLibrary
             this.pF.Close();
         }
 
-        private void enableWaterbury(bool p) // SEC
+        private void enableWaterbury(bool p)
         {
-            //#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE) && !DEBUG
-#if (CHICAGO || ENMAX || DOMINION || SEATTLE || BOSTON || NU || MADISON || PSEG || LONDONH || TAUNTON || BGE || ONCOR) && !DEBUG
-            this.panelWaterburyMain.Visible = false;
-            this.labelSmartExternalCableMain.Visible = false;
-            this.panelAlarmSettings.Visible = false;
-            this.labelAlarmSettings.Visible = false;
-#else
+            // Keep UI stable: no customer-specific compile-time layout overrides
             this.panelWaterburyMain.Visible = p;
             this.labelSmartExternalCableMain.Visible = p;
             this.panelAlarmSettings.Visible = true;
             this.labelAlarmSettings.Visible = true;
-#endif
+
             this.labelSmartExternalCableMain.BringToFront();
 
+            // Keep original positioning behavior tied only to p
             if (p)
             {
                 this.panelAlarmSettings.Location = new Point(342, this.panelAlarmSettings.Location.Y);
@@ -2349,6 +2191,7 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
+
 #if (ENMAX || CONED || TORONTO_HYDRO)
             this.comboBox_DNPBaudRate.SelectedIndex = 3;
 #else
@@ -2524,14 +2367,12 @@ namespace RelayControlLibrary
             }
         }
 
-        void setDNPCommunicationStatus()
+        private void setDNPCommunicationStatus()
         {
-            if (dNPCommStatus == true)
+            if (dNPCommStatus)
             {
                 this.lbl_DNPCommStatus.Text = "Enabled";
                 this.lbl_DNPCommStatus.BackColor = Color.SkyBlue;
-                //if (uplinkC.uplinkCount == 2)
-                //    uplinkC.uplinkCount = 0;
             }
             else
             {
@@ -2540,321 +2381,206 @@ namespace RelayControlLibrary
             }
         }
 
-#pragma warning disable CS0414 // field assigned but never used
-        private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
-#pragma warning restore CS0414
-
         private void setDNPsettings(byte[] bytePacket)
         {
-#if !DOMINION && !BGE
-            //  MessageBox.Show("now settings all dnp settings as they r in the master processor"); // Only for testing - to be removed
+#if DNP
             byte temp;
-            //LSByte comes first
-            //bytes 0 and 1 for control word
-            //bits 0 and 1 are for link layer
+
             try
             {
-                temp = (byte)(bytePacket[0] & 3);
+                temp = (byte)(bytePacket[0] & 0x03);
                 switch (temp)
                 {
-                    case 0:
-                        this.comboBoxLinkLayerConfirm.SelectedItem = "Never";
-                        break;
-                    case 1:
-                        this.comboBoxLinkLayerConfirm.SelectedItem = "Sometimes";
-                        break;
-                    case 2:
-                        this.comboBoxLinkLayerConfirm.SelectedItem = "Always";
-                        break;
-                    default:
-                        throw new Exception("Bad Value For Link Layer");
+                    case 0: this.comboBoxLinkLayerConfirm.SelectedItem = "Never"; break;
+                    case 1: this.comboBoxLinkLayerConfirm.SelectedItem = "Sometimes"; break;
+                    case 2: this.comboBoxLinkLayerConfirm.SelectedItem = "Always"; break;
+                    default: throw new Exception("Bad Value For Link Layer");
                 }
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
-                //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Link Layer Confirm", ex); return; }
 
             try
             {
-                //Self Address
-                temp = (byte)(bytePacket[0] & 4);
-                if (temp == 4)
-                    this.comboBoxSelfAddress.SelectedItem = "Enable";
-                else
-                    this.comboBoxSelfAddress.SelectedItem = "Disable";
+                temp = (byte)(bytePacket[0] & 0x04);
+                this.comboBoxSelfAddress.SelectedItem = (temp == 0x04) ? "Enable" : "Disable";
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Self Address", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Self Address", ex); return; }
 
             try
             {
-                //Unsolallowed
-                temp = (byte)(bytePacket[0] & 8);
-                if (temp == 8)
-                    this.comboBoxUnsolResponse.SelectedItem = "Enable";
-                else
-                    this.comboBoxUnsolResponse.SelectedItem = "Disable";
+                temp = (byte)(bytePacket[0] & 0x08);
+                this.comboBoxUnsolResponse.SelectedItem = (temp == 0x08) ? "Enable" : "Disable";
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Unsolicited Allowed", ex); return; }
 
             try
             {
-                //Termination Resistor
-                temp = (byte)(bytePacket[0] & 16);
-                if (temp == 16)
-                    this.comboBoxTerminationResistor.SelectedItem = "Enable";
-                else
-                    this.comboBoxTerminationResistor.SelectedItem = "Disable";
+                temp = (byte)(bytePacket[0] & 0x10);
+                this.comboBoxTerminationResistor.SelectedItem = (temp == 0x10) ? "Enable" : "Disable";
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Resistor Termination", ex); return; }
 
             try
             {
-                
-            }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
-                //#else
-#else
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
-
-            try
-            {
-#if MEMPHIS
-                            temp = (byte)(bytePacket[1] & 0x07);
-                            this.comboBox_DNPBaudRate.SelectedIndex = temp;
-#endif
-            }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Baud Rate", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
-
-            //bytes 2 & 3???
-
-            try
-            {
-                //4&5&6&7 7 = MSB unsoltimeout
                 UInt32 tempInt = bytePacket[7];
-                tempInt <<= 8;
-                tempInt += bytePacket[6];
-                tempInt <<= 8;
-                tempInt += bytePacket[5];
-                tempInt <<= 8;
-                tempInt += bytePacket[4];
-
+                tempInt <<= 8; tempInt += bytePacket[6];
+                tempInt <<= 8; tempInt += bytePacket[5];
+                tempInt <<= 8; tempInt += bytePacket[4];
                 this.numericUpDownUnsolTimeout.Value = tempInt;
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting MSB unsoltimeout", ex); return; }
 
-            //8 9 = Fragment Size
             try
             {
                 UInt16 tempInt = bytePacket[9];
-                tempInt <<= 8;
-                tempInt += bytePacket[8];
-
+                tempInt <<= 8; tempInt += bytePacket[8];
                 this.numericUpDownFragmentSize.Value = tempInt;
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Fragment Size", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Fragment Size", ex); return; }
 
-            //10 11 Destinaton addy
             try
             {
                 UInt16 tempInt = bytePacket[11];
-                tempInt <<= 8;
-                tempInt += bytePacket[10];
-
+                tempInt <<= 8; tempInt += bytePacket[10];
                 this.numericUpDownDestinationAddress.Value = tempInt;
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Destination Address", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
-            //12 13 Source Addy
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Destination Address", ex); return; }
+
             try
             {
                 UInt16 tempInt = bytePacket[13];
-                tempInt <<= 8;
-                tempInt += bytePacket[12];
-
+                tempInt <<= 8; tempInt += bytePacket[12];
                 this.numericUpDownSourceAddress.Value = tempInt;
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Source Address", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
-            //14 15 unsol max retries
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Source Address", ex); return; }
+
             try
             {
                 UInt16 tempInt = bytePacket[15];
-                tempInt <<= 8;
-                tempInt += bytePacket[14];
-
+                tempInt <<= 8; tempInt += bytePacket[14];
                 this.numericUpDownUnsolRetries.Value = tempInt;
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Unsolicited Max Retries", ex); return; }
 
             try
             {
-                //byte 16 is Retries
-                UInt16 tempInt2 = bytePacket[16];
-
-                this.numericUpDownMaxEvents.Value = tempInt2;
+                this.numericUpDownMaxEvents.Value = bytePacket[16];
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Max Events", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Max Events", ex); return; }
 
-#if !MEMPHIS
             try
             {
                 this.comboBox_DNPBaudRate.SelectedIndex = bytePacket[17];
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                            this.errorHandler(new Exception("Error Setting Baud Rate", ex));
-                            //#else
-#elif !DIGITALGRID
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
+            catch (Exception ex) { HandleDnpParseFailure("Error Setting Baud Rate", ex); return; }
 #endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.setDefaultDNPsettings();
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
-#endif
-#endif // IF !DOMINION && !BGE ( do this only for DNP customers )
         }
 
+        private void NormalizeTxCommandButtonsLayout()
+        {
+            // Ensure TX command buttons are inside the TX commands group
+            if (this.buttonRestoreDefaults.Parent != this.grpBox_TXcommands)
+                this.grpBox_TXcommands.Controls.Add(this.buttonRestoreDefaults);
 
+            if (this.buttonTX.Parent != this.grpBox_TXcommands)
+                this.grpBox_TXcommands.Controls.Add(this.buttonTX);
 
+            if (this.buttonRQ.Parent != this.grpBox_TXcommands)
+                this.grpBox_TXcommands.Controls.Add(this.buttonRQ);
+
+            if (this.buttonForceConfigMessage.Parent != this.grpBox_TXcommands)
+                this.grpBox_TXcommands.Controls.Add(this.buttonForceConfigMessage);
+
+#if DNP
+            // Widen group so uplink text fits on one line
+            this.grpBox_TXcommands.Size = new Size(220, 594);
+
+            // Uniform button sizes
+            this.buttonRestoreDefaults.Size = new Size(184, 75);
+            this.buttonTX.Size = new Size(184, 75);
+            this.buttonRQ.Size = new Size(184, 75);
+            this.buttonForceConfigMessage.Size = new Size(184, 75);
+
+            // Center buttons within wider group and slide up for uplink controls
+            this.buttonRestoreDefaults.Location = new Point(18, 25);
+            this.buttonTX.Location = new Point(18, 145);
+            this.buttonRQ.Location = new Point(18, 265);
+            this.buttonForceConfigMessage.Location = new Point(18, 385);
+#else
+    // Original/non-DNP sizing
+    this.grpBox_TXcommands.Size = new Size(220, 594);
+
+    this.buttonRestoreDefaults.Size = new Size(184, 75);
+    this.buttonTX.Size = new Size(184, 75);
+    this.buttonRQ.Size = new Size(184, 75);
+    this.buttonForceConfigMessage.Size = new Size(184, 75);
+
+    this.buttonRestoreDefaults.Location = new Point(18, 60);
+    this.buttonTX.Location = new Point(18, 210);
+    this.buttonRQ.Location = new Point(18, 360);
+    this.buttonForceConfigMessage.Location = new Point(18, 510);
+#endif
+
+            this.buttonRestoreDefaults.BringToFront();
+            this.buttonTX.BringToFront();
+            this.buttonRQ.BringToFront();
+            this.buttonForceConfigMessage.BringToFront();
+        }
+        private void NormalizeDnpUplinkPlacement()
+        {
+#if DNP
+            if (this.lbl_UplinkEn.Parent != this.grpBox_TXcommands)
+                this.grpBox_TXcommands.Controls.Add(this.lbl_UplinkEn);
+
+            if (this.checkBoxDNPEnable.Parent != this.grpBox_TXcommands)
+                this.grpBox_TXcommands.Controls.Add(this.checkBoxDNPEnable);
+
+            // "Enable" label
+            this.lbl_UplinkEn.AutoSize = true;
+            this.lbl_UplinkEn.Location = new Point(18, 498);
+            this.lbl_UplinkEn.Text = "Enable";
+
+            // Multi-line checkbox text to match legacy layout
+            this.checkBoxDNPEnable.AutoSize = false;
+            this.checkBoxDNPEnable.Location = new Point(18, 516);
+            this.checkBoxDNPEnable.MaximumSize = new Size(198, 0);
+            this.checkBoxDNPEnable.MinimumSize = new Size(198, 96);
+            this.checkBoxDNPEnable.Size = new Size(198, 96);
+            this.checkBoxDNPEnable.Text =
+                "DNP Uplink Feature.\r\n" +
+                "(DIGITALGRID DNP\r\n" +
+                "Uplink kit required for\r\n" +
+                "wireless/fiber locations)";
+            this.checkBoxDNPEnable.TextAlign = ContentAlignment.TopLeft;
+            this.checkBoxDNPEnable.UseCompatibleTextRendering = true;
+            this.checkBoxDNPEnable.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
+            this.checkBoxDNPEnable.AutoEllipsis = false;
+            this.checkBoxDNPEnable.Visible = true;
+
+            this.lbl_UplinkEn.BringToFront();
+            this.checkBoxDNPEnable.BringToFront();
+
+            // force redraw/layout now
+            this.checkBoxDNPEnable.Invalidate();
+            this.checkBoxDNPEnable.Update();
+            this.grpBox_TXcommands.PerformLayout();
+            this.grpBox_TXcommands.Refresh();
+#endif
+        }
+        private void ucTransmitter_Load(object sender, EventArgs e)
+        {
+            // Run again after all parent/container layout passes
+            NormalizeTxCommandButtonsLayout();
+            NormalizeDnpUplinkPlacement();
+        }
+        private void HandleDnpParseFailure(string context, Exception ex)
+        {
+            MessageBox.Show(
+                context + Environment.NewLine + ex.Message,
+                "DNP Parse Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
     }
+
 }

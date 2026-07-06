@@ -107,32 +107,28 @@ namespace RelayControl
             get { return this.transmitterEnabled; }
             set
             {
-#if !DEBUG
-                if (value && !this.DNPEnabled && this.Customer != Customers.CONED)
+                if (value)
                 {
                     if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    {
                         this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                         this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-                    }
                 }
                 else
                 {
-                    //#if ((!PLC && DNP) && !ONCOR)
-#if ((!PLC && DNP) && !ONCOR && !TORONTO_HYDRO && !SCE)
                     if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    {
-                        MessageBox.Show("removing TX and TX Mon tabs for SCE"); // Only for testing - to be removed
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
+
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
                         this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
-                    }
-#endif
                 }
-#endif
+
                 this.transmitterEnabled = value;
                 this.ucRelayProgramming1.TransmitterEnabled = value;
             }
         }
+
         private bool blockDNPEnableFromTransmitterSavedVal = false;
         private bool blockDNPEnableFromTransmitterSettings
         {
@@ -259,16 +255,7 @@ namespace RelayControl
             
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControlMain.DrawItem += tabControlMain_DrawItem;
-            /*
-            StartPosition = FormStartPosition.Manual;
-            Rectangle screen = Screen.FromPoint(Cursor.Position).WorkingArea;
-            int w = Width >= screen.Width ? screen.Width : (screen.Width + Width) / 2;
-            int h = Height >= screen.Height ? screen.Height : (screen.Height + Height) / 2;
-            Location = new Point(screen.Left + (screen.Width - w) / 2, screen.Top + (screen.Height - h) / 2);
-            Size = new Size(w - 300, h);
-            */
 
-           // this.AutoSize = false;
             // Get the version number
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -276,11 +263,9 @@ namespace RelayControl
             logger.Info("Version number: {0}", version);
             // Officially start everything
             this.MainControlInit();
-            //#if !DEBUG
-            //            tCPConnectionToolStripMenuItem.Visible = false;
-#if DNP
+           
             tCPConnectionToolStripMenuItem.Visible = true;
-#endif
+
         }
 
 
@@ -326,74 +311,56 @@ namespace RelayControl
         {
             try
             {
-
                 initializeDNPVoltageComboBox();
                 this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
+
 #if DEBUG
-                    this.initializeFromConfigFileDebug();
-                    labelConEdPowerRelay.Visible = false;
+        this.initializeFromConfigFileDebug();
 #endif
+
                 this.initializeStatusFlags();
                 SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
                 this.labelQuietMode.Visible = false;
                 this.initializeEventPage();
-                if (!Directory.Exists(SavedDataPath))  //Create the Save Data path if it does not already exist
+
+                if (!Directory.Exists(SavedDataPath)) // Create the Save Data path if it does not already exist
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
-                //CT Ratio on PQ monitor
+
+                // CT Ratio on PQ monitor
                 this.textBoxCTRatioPQMonitor.Visible = true;
                 this.textBoxCTRatioPQMonitor.BringToFront();
                 this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
                 this.buttonUpdateCTRatio.Visible = false;
 
                 this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
-#if !SCL
-                this.initializeExternalFileRevisionNumber(); //Get the saved data version
-                this.initializeSaveObject();            //Check the save data to see
-#endif
+                this.initializeExternalFileRevisionNumber(); // Get the saved data version
+                this.initializeSaveObject();                 // Check the save data to see
 
-#if PSEG
-                    tCPConnectionToolStripMenuItem.Visible = true;
-#if DNP
-#if !DEBUG
-                            comboBox_RelayType.Visible = false;
-                            labelConEdPowerRelay.Visible = true;
-#else
-                            labelConEdPowerRelay.Visible = false;
-                            comboBox_RelayType.Visible = true;
-#endif
-#endif
-#endif
-
-
+                tCPConnectionToolStripMenuItem.Visible = true;
+                comboBox_RelayType.Visible = true;
                 this.groupBoxLowVoltThres.Visible = false;
 
-
+#if !(DEBUG || ENGINEERING)
                 this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+#endif
 
-               
-#if (ONCOR || TORONTO_HYDRO)
-                this.ucShortRange1.Enabled = false;
-                this.ucShortRange1.Visible = false;
-                this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                // Pre-delivery / locked startup policy currently global
+                this.enableAutoloadToolStripMenuItem.Checked = false;
+
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.enableAutoloadToolStripMenuItem.Checked = true;
-#endif
-#if PSEG
-                
-                    this.ucShortRange1.Enabled = false;
-                    this.ucShortRange1.Visible = false;
-                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-#endif
+
                 statusNew.flagFromRelay = false;
-                relayHBD.relayWithHBD = false; // considereing non H Board relay until revision is received from master
+                relayHBD.relayWithHBD = false; // considering non H Board relay until revision is received from master
+
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
+
                 this.ucCloseMode1.Send += standardizedSendData;
                 this.ucTripMode2.Send += standardizedSendData;
                 this.ucCalibration1.Send += standardizedSendData;
@@ -435,6 +402,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.MonitoringStateChange += new ucTransmitterMonitoring.MonitoringControlHandler(ucTransmitterMonitoring1_MonitoringStateChange);
 
                 ucRelayProgramming1.RelayTypeChanged += UcRelayProgramming1_RelayTypeChanged;
+
                 this.ucEventGraph0.EventNumber = 0;
                 this.ucEventGraph1.EventNumber = 1;
                 this.ucEventGraph2.EventNumber = 2;
@@ -443,6 +411,7 @@ namespace RelayControl
                 this.ucEventGraph5.EventNumber = 5;
                 this.ucEventGraph6.EventNumber = 6;
                 this.ucEventGraph7.EventNumber = 7;
+
                 this.ucEventGraph0.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucEventGraph1.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucEventGraph2.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
@@ -451,6 +420,7 @@ namespace RelayControl
                 this.ucEventGraph5.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucEventGraph6.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
                 this.ucEventGraph7.PacketHandled += new ucEventGraph.PacketHandledHandler(liveEvent_PacketHandled);
+
                 this.ucEventGraph0.EventGraphException += this.standardExceptionMessage;
                 this.ucEventGraph1.EventGraphException += this.standardExceptionMessage;
                 this.ucEventGraph2.EventGraphException += this.standardExceptionMessage;
@@ -459,6 +429,7 @@ namespace RelayControl
                 this.ucEventGraph5.EventGraphException += this.standardExceptionMessage;
                 this.ucEventGraph6.EventGraphException += this.standardExceptionMessage;
                 this.ucEventGraph7.EventGraphException += this.standardExceptionMessage;
+
                 this.ucEventGraph0.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucEventGraph1.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucEventGraph2.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
@@ -467,6 +438,7 @@ namespace RelayControl
                 this.ucEventGraph5.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucEventGraph6.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucEventGraph7.DownloadComplete += new ucEventGraph.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
+
                 this.ucEventGraph0.PopulatePhasorGraph += new ucEventGraph.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucEventGraph1.PopulatePhasorGraph += new ucEventGraph.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucEventGraph2.PopulatePhasorGraph += new ucEventGraph.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
@@ -475,19 +447,13 @@ namespace RelayControl
                 this.ucEventGraph5.PopulatePhasorGraph += new ucEventGraph.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucEventGraph6.PopulatePhasorGraph += new ucEventGraph.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucEventGraph7.PopulatePhasorGraph += new ucEventGraph.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
+
                 this.ucLiveData1.DownloadComplete += new ucLiveData.DownloadCompleteHandler(ucEventGraph_DownloadComplete);
                 this.ucLiveData1.PopulatePhasorGraph += new ucLiveData.ValuesForPhasorGraph(ucEventGraph_PopulatePhasorGraph);
                 this.ucPhasorGraph1.RequestNewCycle += new ucPhasorGraph.RequestNewCycleHandler(ucPhasorGraph1_RequestNewCycle);
 
                 this.radioButtonEvent0.Checked = true;
                 this.initializeToolTip();
-
-
-                //#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG)
-#if (DOMINION && !DEBUG) || (ENMAX && !DEBUG) || (BGE && !DEBUG) || (EVERSOURCE && !DEBUG)
-                this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.enableAutoloadToolStripMenuItem.Checked = true;
-#endif
             }
             catch (Exception ex)
             {
@@ -502,58 +468,29 @@ namespace RelayControl
             {
                 this.messageHandler("Error Setting Port Menu ", ex);
             }
+
             try
             {
                 this.timerCheckPortTime.Interval = 500;
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
 
-
-#if SCL
-                    this.noMonitoringVersion = true;
-                    this.tabControlMain.TabPages.Remove(this.tabPageArcFault);
-                    this.tabControlMain.TabPages.Remove(this.tabPageControl);
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                    this.tabControlMain.TabPages.Remove(this.tabPageEngineering);
-                    //this.tabControlMain.TabPages.Remove(this.tabPageEvents);
-                    this.tabControlMain.TabPages.Remove(this.tabPageFlightRecorder);
-                    this.tabControlMain.TabPages.Remove(this.tabPageMonitor);
-                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
-                    this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
-                    this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
-                    this.eventActionsToolStripMenuItem.Enabled = true;
-                    this.sToolStripMenuItem.Enabled = false;
-                    this.OptionsToolStripMenuItem.Enabled = false;
-                    this.acknowledgeToolStripMenuItem1.Visible = false;
-                    this.buttonRQEventData.Enabled = false;
-                    this.buttonClearEvents.Enabled = false;
-                    this.downloadEventFromRelayToolStripMenuItem.Visible = false;
-                    this.clearEventsToolStripMenuItem.Visible = false;
-                    this.saveEventsToolStripMenuItem.Visible = false;
-                    this.Text = "DIGITALGRID, INC. - Relay Control Seattle Test Program" + Properties.Resources._RevisionDate;// 2011-10-28";
-                    this.toolStripStatusLabelMain.Text = "";
-                    //this.searchForRelay = false;
-#elif DEBUG
-                    this.setCustomersRevisionName();
-
-                    this.noMonitoringVersion = false;
-                    this.buttonForceI.Visible = true;
-                    this.ucCalibration1.Visible = true;
-                    this.buttonUpdateDisplay.Visible = true;
-                    this.enableAll(true);
-                    this.tabPageFlightRecorder.Show();
-                    this.tabPageEvents.Show();
-                                   
-                    this.Text = "DIGITALGRID, INC. - Relay Control and Monitoring " + " - Version: " + "3.3.0.1" + "Debug";
-
-                    this.ArcFaultEnabled = true;
-                    this.Customer = Customers.ENMAX;
-
+#if DEBUG || ENGINEERING
+        this.setCustomersRevisionName();
+        this.noMonitoringVersion = false;
+        this.buttonForceI.Visible = true;
+        this.ucCalibration1.Visible = true;
+        this.buttonUpdateDisplay.Visible = true;
+        this.enableAll(true);
+        this.tabPageFlightRecorder.Show();
+        this.tabPageEvents.Show();
+        this.ArcFaultEnabled = true;
+        this.Customer = Customers.ENMAX;
 #else
                 this.setCustomersRevisionName();
                 this.noMonitoringVersion = false;
                 this.pauseMonitoring = false;
-                this.ucCalibration1.Visible = true;// false;
+                this.ucCalibration1.Visible = true;
                 this.buttonUpdateDisplay.Visible = false;
                 this.enableAll(false);
                 this.tabControlMain.TabPages.Remove(this.tabPageEngineering2);
@@ -563,30 +500,36 @@ namespace RelayControl
                 this.buttonRequestRelayRegisters.Visible = false;
                 this.buttonResetMaster.Visible = false;
                 this.buttonRQRelayProcVersion.Visible = false;
-                this.buttonUpdateDisplay.Visible = false;
                 this.groupBoxRelayFlags.Visible = false;
                 this.enableAllToolStripMenuItem.Visible = true;
                 this.button_dataStore.Enabled = true;
                 this.button_dataStore.Visible = true;
                 this.numericUpDown_PC_voltage.Enabled = false;
-                this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13); 
-                this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 356); //(410, 368);
+                this.groupBoxNetworkCTRatio.Location = new System.Drawing.Point(13, 13);
+                this.groupBoxNetworkCTRatio.Size = new System.Drawing.Size(410, 356);
                 this.tabControlMain.Size = new System.Drawing.Size(1535, 828);
                 this.tabPageControl.Size = new System.Drawing.Size(1488, 797);
+
 #if CONED
-                this.ucTripMode2.Location = new System.Drawing.Point(472, 7);
+        this.ucTripMode2.Location = new System.Drawing.Point(472, 7);
 #else
                 this.ucTripMode2.Location = new System.Drawing.Point(458, 7);
                 this.panelPCsettings.Enabled = false;
                 this.panelPCsettings.Visible = false;
 #endif
-                this.ucCloseMode1.Location = new System.Drawing.Point(970, 7); 
-                this.ucPumpMode1.Location = new System.Drawing.Point(13, 406); 
+
+                this.ucCloseMode1.Location = new System.Drawing.Point(970, 7);
+                this.ucPumpMode1.Location = new System.Drawing.Point(13, 406);
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
-                //this.panelOtherRelayControls.Location = new System.Drawing.Point(1000, 470);  
-                //this.panelOtherRelayControls.Size = new System.Drawing.Size(285, 174); 
-#if !PSEG
-                //DisplayNameAttribute Lightning Count part ONLY for PSE&G
+
+#if (PSEG || CONED)
+        this.grpBox_LightningCount.Enabled = true;
+        this.grpBox_LightningCount.Visible = true;
+        this.lblLC_Name.Enabled = true;
+        this.lblLC_Name.Visible = true;
+        this.lbl_LightningCount.Enabled = true;
+        this.lbl_LightningCount.Visible = true;
+#else
                 this.grpBox_LightningCount.Enabled = false;
                 this.grpBox_LightningCount.Visible = false;
                 this.lblLC_Name.Enabled = false;
@@ -596,11 +539,12 @@ namespace RelayControl
 #endif
 
 #if CONED
-                this.buttonSendAll.Location = new System.Drawing.Point(870, 470); //(140, 3);
-                this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(760, 470);
+        this.buttonSendAll.Location = new System.Drawing.Point(870, 470);
+        this.buttonRequestRelayParamaters.Location = new System.Drawing.Point(760, 470);
 #else
-                this.buttonSendAll.Location = new System.Drawing.Point(1170, 470); 
+                this.buttonSendAll.Location = new System.Drawing.Point(1170, 470);
 #endif
+
                 this.lbl_Relaystatus_Open.Text = "Open ( OP )";
                 this.lbl_Relayststatus_Close.Text = "Close ( CL )";
                 this.lbl_Relayststatus_FB.Text = "Floating and Blocked Open ( FB )";
@@ -613,392 +557,242 @@ namespace RelayControl
                 this.lbl_Relayststatus_PA.Text = "Pump Alarm ( PA )";
                 this.lbl_Relayststatus_SL.Text = "Safe Service Mode Lockout ( SL )";
                 this.lbl_Relayststatus_XP.Text = "Cross Phase ( XP )";
+
                 this.button_dataStore.Enabled = false;
                 this.button_dataStore.Visible = false;
                 this.button_push.Enabled = false;
                 this.button_push.Visible = false;
+
                 this.textBoxSaveStateName.Location = new System.Drawing.Point(970, 600);
                 this.buttonSaveSetting.Location = new System.Drawing.Point(1150, 600);
                 this.comboBoxSavedStates.Location = new System.Drawing.Point(970, 650);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 700); //(1150, 650);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(1150, 700);
                 this.btn_LoadProfile.Location = new System.Drawing.Point(1150, 650);
+
                 this.loadConfigurationToolStripMenuItem.Visible = false;
-                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(100, 317); 
-                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(253, 317);  
+                this.ucTripMode2.buttonRestoreDefaults.Location = new System.Drawing.Point(100, 317);
+                this.ucTripMode2.buttonSendTripData.Location = new System.Drawing.Point(253, 317);
                 this.ucTripMode2.checkBoxTripOnPowerDown.Location = new System.Drawing.Point(15, 280);
-                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250); 
+                this.ucTripMode2.checkBoxEnableGullWing.Location = new System.Drawing.Point(15, 250);
+
                 this.ucPumpMode1.labelPumpType.Enabled = false;
                 this.ucPumpMode1.labelPumpType.Visible = false;
                 this.ucPumpMode1.labelPumpTypeDisplay.Enabled = false;
-                this.ucPumpMode1.labelPumpTypeDisplay.Visible = false; 
-                this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10); 
-                this.checkBox277DNPOutputs.Visible = false;
-                // this.ucPumpMode1.Location = new System.Drawing.Point(9, 395);
+                this.ucPumpMode1.labelPumpTypeDisplay.Visible = false;
+                this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10);
+
 #if BGE
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
                 this.Customer = Customers.BGE;
 #elif COMED
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
-                this.Customer = Customers.COMED;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
+        this.Customer = Customers.COMED;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Consolidated Edison";
-                this.Customer = Customers.CONED;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Consolidated Edison";
+        this.Customer = Customers.CONED;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
-                this.Customer = Customers.DOMINION;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
+        this.Customer = Customers.DOMINION;
 #elif ENMAX
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
-                this.Customer = Customers.ENMAX;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
+        this.Customer = Customers.ENMAX;
 #elif EVERSOURCE
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
-                this.Customer = Customers.EVERSOURCE;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
+        this.Customer = Customers.EVERSOURCE;
 #elif LONDON_HYDRO
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
-                this.Customer = Customers.LONDON_HYDRO;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
+        this.Customer = Customers.LONDON_HYDRO;
 #elif ONCOR
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
-                this.Customer = Customers.ONCOR;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
+        this.Customer = Customers.ONCOR;
 #elif PSEG
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
-                this.Customer = Customers.PSEG;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
+        this.Customer = Customers.PSEG;
 #elif SCE
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
-                this.Customer = Customers.SCE;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
+        this.Customer = Customers.SCE;
 #elif SCL
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
-                this.Customer = Customers.SCL;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
+        this.Customer = Customers.SCL;
 #elif TAUNTON
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
-                this.Customer = Customers.TAUNTON;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
+        this.Customer = Customers.TAUNTON;
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
-                this.Customer = Customers.TORONTO_HYDRO;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
+        this.Customer = Customers.TORONTO_HYDRO;
 #else
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0";
-                this.Customer = Customers.None;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0";
+        this.Customer = Customers.None;
 #endif
-                
+
                 this.acknowledgeToolStripMenuItem1.Visible = false;
                 this.checkBoxBlockedCloseFlag.Visible = false;
                 this.checkBoxCalibrating.Visible = false;
                 this.checkBoxInInsensRegion.Visible = false;
                 this.labelConEdPowerRelay.Visible = false;
-#if !CONED
+
+#if CONED
+        this.groupBox_PC.Enabled = true;
+        this.groupBox_PC.Visible = true;
+        this.btn_PermCl_Active.Enabled = true;
+        this.btn_PermCl_Active.Visible = true;
+
+        // Keep ConEd layout specifics
+        ucRemoteCommandBlock1.Visible = false;
+        this.ucRemoteCommandBlock1.Visible = false;
+        this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
+        this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
+        this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
+        this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
+        this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
+
+        this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
+        this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
+
+        this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
+        this.buttonSendAll.Text = "Program all settings to the Relay";
+
+        this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
+        this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
+        this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
+        this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
+        this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
+
+        this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
+        this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
+        this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
+#else
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
-            //    this.panel_PCsettings.Enabled = false;
-            //    this.panel_PCsettings.Visible = false;
                 this.btn_PermCl_Active.Enabled = false;
                 this.btn_PermCl_Active.Visible = false;
-#if (!PSEG && !ENMAX && !EVERSOURCE && !ONCOR && !SCE)
-                    this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-                    this.ucTransmitter1.checkBoxDNPEnable.Visible = false;      
 #endif
-#endif
-#if !TORONTO_HYDRO
-                this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250); 
-                this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500); 
-                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400); //(650, 400); 
-                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(710, 80); //(650, 80); 
-               // this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(200, 250);
-               this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(250, 497); //(170, 497); 
-                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(250, 420); //(170, 420); 
-                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(85, 500); //(5, 500); 
-                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(118, 422); //(38, 420); 
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(42, 30);  
-                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(420, 725); 
-                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(250, 56); //(170, 56); 
-                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(250, 150); //(170, 150); 
 
+#if (CONED || PSEG || ENMAX || ONCOR || SCE)
+        this.ucTransmitter1.checkBoxDNPEnable.Enabled = true;
+        this.ucTransmitter1.checkBoxDNPEnable.Visible = true;
+#else
+                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+#endif
+
+#if !TORONTO_HYDRO
+                this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250);
+                this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500);
+                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400);
+                this.ucTransmitterMonitoring1.groupBoxFlagStatus.Location = new System.Drawing.Point(710, 80);
+                this.ucTransmitterMonitoring1.textBoxTransmitterTemp.Location = new System.Drawing.Point(250, 497);
+                this.ucTransmitterMonitoring1.textBoxQBit.Location = new System.Drawing.Point(250, 420);
+                this.ucTransmitterMonitoring1.lblTEMP.Location = new System.Drawing.Point(85, 500);
+                this.ucTransmitterMonitoring1.labelQPres.Location = new System.Drawing.Point(118, 422);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Location = new System.Drawing.Point(42, 30);
+                this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Size = new System.Drawing.Size(420, 725);
+                this.ucTransmitterMonitoring1.textBoxTransmitterSN.Location = new System.Drawing.Point(250, 56);
+                this.ucTransmitterMonitoring1.textBoxTransmitterID.Location = new System.Drawing.Point(250, 150);
                 this.ucTransmitterMonitoring1.panel_GenSet_sensorMon.Location = new System.Drawing.Point(40, 28);
                 this.ucTransmitterMonitoring1.panel_GenSet_sensorMon.Size = new System.Drawing.Size(425, 730);
                 this.ucTransmitterMonitoring1.panel_command_senorMon.Location = new System.Drawing.Point(1140, 27);
                 this.ucTransmitterMonitoring1.panel_command_senorMon.Size = new System.Drawing.Size(365, 730);
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Location = new System.Drawing.Point(660, 27);
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Size = new System.Drawing.Size(300, 730);
-
-                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(250, 330); //(170, 330);
-
+                this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(250, 330);
 #endif
-#if DNP && !ENMAX
-                // this.TransmitterEnabled = false;
+
                 this.TransmitterEnabled = true;
-#else
-                TransmitterEnabled = true;
-#endif
-
                 this.ArcFaultEnabled = false;
-#if EVERSOURCE
-                    checkBox277DNPOutputs.Visible = false;
-#endif
-#if CONED
-                this.Customer = Customers.CONED;
-                ucRemoteCommandBlock1.Visible = false;
-                this.ucRemoteCommandBlock1.Visible = false;
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-
-                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7); //(1000, 13);  
-                this.groupBox_PC.Location = new System.Drawing.Point(1004, 406); //(1004, 390);   
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 360); //(470, 370);
-                //    this.panel_PCsettings.Location = new System.Drawing.Point(1002, 387);
-                //    this.panel_PCsettings.Size = new System.Drawing.Size(475, 374);
-                //    this.panel_PCsettings.SendToBack();
-                    this.panelPCsettings.Location = new System.Drawing.Point(1000, 402); //(1000, 360);
-                    this.panelPCsettings.Size = new System.Drawing.Size(477, 366); //(477, 403);
-
-                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
-                this.btn_PC_Send.Location = new System.Drawing.Point(280, 295); //(120, 326);
-                /*
-                    Reshuffle the placement of the REquest All and Program All button on relay settings tab
-                    only for CONED APP - since its needs extra space for the Permissive close groupBox
-                */
-               // this.panelOtherRelayControls.Location = new System.Drawing.Point(740, 455);  
-                this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
-                this.buttonSendAll.Text = "Program all settings to the Relay";
-
-                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
-
-                // Select Profile directly under name box
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
-
-                // Load Profile where Delete used to be
-                this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
-
-                // Delete Profile under Load Profile
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
-
-                this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
-                this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
-                this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
-
-#elif SCE
-                this.Customer = Customers.SCE;
-                ucRemoteCommandBlock1.Visible = false;
-                this.ucRemoteCommandBlock1.Visible = false;
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
-#elif TORONTO_HYDRO
-                this.Customer = Customers.TORONTO_HYDRO;
-                ucRemoteCommandBlock1.Visible = false;
-                this.ucRemoteCommandBlock1.Visible = false;
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring); 
-              //  this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Location = new System.Drawing.Point(550, 550); //(400, 550);
-               
-
-
-#elif GERELAY
-                            this.Customer = Customers.NonConEdGE;
-                            this.DNPEnabled = false;
-                            this.enableAllToolStripMenuItem.Visible = true;
-                            this.TransmitterEnabled = true;
-#elif DNP
-                this.Customer = Customers.ENMAX;
-                this.DNPEnabled = true;
-#else
-                this.Customer = Customers.ENMAX;
-                this.DNPEnabled = false;
-                this.TransmitterEnabled = true;
-                this.enableAllToolStripMenuItem.Visible = true;
-#endif
-#endif
-                this.enableAllToolStripMenuItem.Visible = true;
 
 #if DNP
-#if DEBUG
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-
-#endif
-                //#if (!DIGITALGRID || DIGITALGRIDDNP)
-#if (ONCOR || TORONTO_HYDRO || ENMAX || PSEG || CONED)
-              //  if (!this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-              //      this.tabControlMain.TabPages.Add(this.tabPageDNP);
-               // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-               //     this.tabControlMain.TabPages.Add(this.tabPageDNPData);
-               // if (!this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-               //     this.tabControlMain.TabPages.Add(this.tabPageDNPSecureAuth);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-                if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                    this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-#endif
-
-#if ENGINEERING
-            if (!this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
-            this.tabControlMain.TabPages.Add(this.tabPageShortRange);
+        this.DNPEnabled = true;
 #else
-                if (this.tabControlMain.TabPages.Contains(this.tabPageShortRange))
-                    this.tabControlMain.TabPages.Remove(this.tabPageShortRange);
+                this.DNPEnabled = false;
 #endif
 
-#else         
-                checkBox277DNPOutputs.Visible = false;
+#if EVERSOURCE
+        checkBox277DNPOutputs.Visible = false;
+#else
+                checkBox277DNPOutputs.Visible = true;
 #endif
 
-#if DEBUG || COMED || LONDON_HYDRO
-                this.toolStripStatusLabelReceiverStatus.Visible = true;
-#endif
+                this.enableAllToolStripMenuItem.Visible = true;
+#endif // DEBUG || ENGINEERING
 
 #if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-                this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
+        this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
 #endif
-                // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
-                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+
+                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
                     this.ucTransmitter1.DNPCommLabelStatus = true;
                 else
                     this.ucTransmitter1.DNPCommLabelStatus = false;
 
-                // Set the Title / Caption of all groupBoxes on all tabs to be in bold and the remaining items inside the groupbox in regular font
+                // Set the Title / Caption of groupBoxes bold; child controls regular
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
-                foreach (Control child in groupBox_RelayInfo.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in groupBox_RelayInfo.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 groupBoxRelayStatus.Font = new Font(groupBoxRelayStatus.Font, FontStyle.Bold);
-                foreach (Control child in groupBoxRelayStatus.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in groupBoxRelayStatus.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 grpBox_RelayCommands.Font = new Font(grpBox_RelayCommands.Font, FontStyle.Bold);
-                foreach (Control child in grpBox_RelayCommands.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in grpBox_RelayCommands.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 groupBox_FirmwareInfo.Font = new Font(groupBox_FirmwareInfo.Font, FontStyle.Bold);
-                foreach (Control child in groupBox_FirmwareInfo.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in groupBox_FirmwareInfo.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTripMode2.groupBoxTripModeSettings.Font = new Font(this.ucTripMode2.groupBoxTripModeSettings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTripMode2.groupBoxTripModeSettings.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTripMode2.groupBoxTripModeSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucCloseMode1.groupBoxCloseMode.Font = new Font(this.ucCloseMode1.groupBoxCloseMode.Font, FontStyle.Bold);
-                foreach (Control child in this.ucCloseMode1.groupBoxCloseMode.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucCloseMode1.groupBoxCloseMode.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 groupBoxNetworkCTRatio.Font = new Font(groupBoxNetworkCTRatio.Font, FontStyle.Bold);
-                foreach (Control child in groupBoxNetworkCTRatio.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in groupBoxNetworkCTRatio.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 groupBox_PC.Font = new Font(groupBox_PC.Font, FontStyle.Bold);
-                foreach (Control child in groupBox_PC.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in groupBox_PC.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucPumpMode1.groupBoxPumpMode.Font = new Font(this.ucPumpMode1.groupBoxPumpMode.Font, FontStyle.Bold);
-                foreach (Control child in this.ucPumpMode1.groupBoxPumpMode.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucPumpMode1.groupBoxPumpMode.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucSafeService1.groupBoxSafeService.Font = new Font(this.ucSafeService1.groupBoxSafeService.Font, FontStyle.Bold);
-                foreach (Control child in this.ucSafeService1.groupBoxSafeService.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucSafeService1.groupBoxSafeService.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxGeneralSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Font = new Font(this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxCurrentReadings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Font = new Font(this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxVaultMonitoringCommands.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalog2.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalog2.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalog2.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalog1.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalog1.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalog1.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
+
                 this.ucTransmitterMonitoring1.label2.Font = new Font(this.ucTransmitterMonitoring1.label2.Font, FontStyle.Regular);
                 this.ucTransmitterMonitoring1.textBox_Input7.Font = new Font(this.ucTransmitterMonitoring1.textBox_Input7.Font, FontStyle.Regular);
 
                 this.ucTransmitterMonitoring1.groupBoxFlagStatus.Font = new Font(this.ucTransmitterMonitoring1.groupBoxFlagStatus.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxFlagStatus.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
-
-                this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font = new Font(this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitterMonitoring1.groupBoxFlagStatus.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitter1.grpBox_TXcommands.Font = new Font(this.ucTransmitter1.grpBox_TXcommands.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitter1.grpBox_TXcommands.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitter1.grpBox_TXcommands.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucTransmitter1.grpBx_DNPSettings.Font = new Font(this.ucTransmitter1.grpBx_DNPSettings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucTransmitter1.grpBx_DNPSettings.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucTransmitter1.grpBx_DNPSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucDNP1.groupBoxDNPSettings.Font = new Font(this.ucDNP1.groupBoxDNPSettings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucDNP1.groupBoxDNPSettings.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucDNP1.groupBoxDNPSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucPhasorGraph1.groupBoxTHD.Font = new Font(this.ucPhasorGraph1.groupBoxTHD.Font, FontStyle.Bold);
-                foreach (Control child in this.ucPhasorGraph1.groupBoxTHD.Controls)
-                {
-                    child.Font = new Font(child.Font, FontStyle.Regular);
-                }
+                foreach (Control child in this.ucPhasorGraph1.groupBoxTHD.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
-
-                // to remove the default blue highlight on comboboxes and numeric dropdown buttons : 
+                // remove default blue highlight behavior
                 comboBoxDNPVoltage.DropDownStyle = ComboBoxStyle.DropDownList;
                 comboBox_RelayType.DropDownStyle = ComboBoxStyle.DropDownList;
                 comboBox_Phasings.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1006,12 +800,12 @@ namespace RelayControl
                 this.ucSafeService1.comboBox_DataViews.DropDownStyle = ComboBoxStyle.DropDownList;
                 this.ucTripMode2.comboBox_TripStyle.DropDownStyle = ComboBoxStyle.DropDownList;
                 this.ucTripMode2.comboBox_TripType.DropDownStyle = ComboBoxStyle.DropDownList;
-
             }
             catch (Exception ex)
             {
                 this.messageHandler("Error in Timer and Release Visibility", ex);
             }
+
             try
             {
                 if (!this.noMonitoringVersion)

@@ -217,6 +217,7 @@ namespace RelayControlLibrary
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
+            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.panel_TXco = new System.Windows.Forms.Panel();
             this.panel_dnpComSet = new System.Windows.Forms.Panel();
             this.lbl_UplinkEn = new System.Windows.Forms.Label();
@@ -250,7 +251,6 @@ namespace RelayControlLibrary
             this.numericUpDownDestinationAddress = new System.Windows.Forms.NumericUpDown();
             this.labelDestinationAddress = new System.Windows.Forms.Label();
             this.grpBox_TXcommands = new RelayControlLibrary.BorderlessGroupBox();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.ucTransmitterMonitoring2 = new RelayControlLibrary.ucTransmitterMonitoring();
             this.panelFreqPanel.SuspendLayout();
             this.panelAlarmSettings.SuspendLayout();
@@ -927,7 +927,7 @@ namespace RelayControlLibrary
             // 
             this.labelGeneralSettings.AutoSize = true;
             this.labelGeneralSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGeneralSettings.Location = new System.Drawing.Point(25, 19); //(56, 9);
+            this.labelGeneralSettings.Location = new System.Drawing.Point(25, 19);
             this.labelGeneralSettings.Name = "labelGeneralSettings";
             this.labelGeneralSettings.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelGeneralSettings.Size = new System.Drawing.Size(145, 19);
@@ -2290,7 +2290,7 @@ namespace RelayControlLibrary
             // labelFlagSettingsFlagPostPosition
             // 
             this.labelFlagSettingsFlagPostPosition.AutoSize = true;
-            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(64, 27); //(64, 13);
+            this.labelFlagSettingsFlagPostPosition.Location = new System.Drawing.Point(64, 27);
             this.labelFlagSettingsFlagPostPosition.Name = "labelFlagSettingsFlagPostPosition";
             this.labelFlagSettingsFlagPostPosition.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFlagSettingsFlagPostPosition.Size = new System.Drawing.Size(140, 19);
@@ -2301,7 +2301,7 @@ namespace RelayControlLibrary
             // labelFlagSettingsFlag
             // 
             this.labelFlagSettingsFlag.AutoSize = true;
-            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(20, 25); //(20, 13);
+            this.labelFlagSettingsFlag.Location = new System.Drawing.Point(20, 25);
             this.labelFlagSettingsFlag.Name = "labelFlagSettingsFlag";
             this.labelFlagSettingsFlag.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFlagSettingsFlag.Size = new System.Drawing.Size(44, 19);
@@ -2401,7 +2401,7 @@ namespace RelayControlLibrary
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(446, 19); 
+            this.label21.Location = new System.Drawing.Point(446, 19);
             this.label21.Name = "label21";
             this.label21.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label21.Size = new System.Drawing.Size(115, 19);
@@ -2452,6 +2452,17 @@ namespace RelayControlLibrary
             this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
+            // 
+            // ucDNP2
+            // 
+            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNP2.Customer = RelayControlLibrary.Customers.ENMAX;
+            this.ucDNP2.DNPLabelStatus = false;
+            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
+            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
+            this.ucDNP2.Name = "ucDNP2";
+            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
+            this.ucDNP2.TabIndex = 0;
             // 
             // panel_TXco
             // 
@@ -2890,10 +2901,6 @@ namespace RelayControlLibrary
             this.labelDestinationAddress.TabIndex = 18;
             this.labelDestinationAddress.Text = "Destination  (master):";
             // 
-        
-            // 
-            
-            // 
             // grpBox_TXcommands
             // 
             this.grpBox_TXcommands.BackColor = System.Drawing.SystemColors.Control;
@@ -2905,17 +2912,6 @@ namespace RelayControlLibrary
             this.grpBox_TXcommands.TabIndex = 88;
             this.grpBox_TXcommands.TabStop = false;
             this.grpBox_TXcommands.Text = "Transmission Commands";
-            // 
-            // ucDNP2
-            // 
-            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP2.Customer = RelayControlLibrary.Customers.ENMAX;
-            this.ucDNP2.DNPLabelStatus = false;
-            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
-            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucDNP2.Name = "ucDNP2";
-            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
-            this.ucDNP2.TabIndex = 0;
             // 
             // ucTransmitterMonitoring2
             // 
@@ -3026,7 +3022,6 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDestinationAddress)).EndInit();
-          
             this.ResumeLayout(false);
             this.PerformLayout();
 
