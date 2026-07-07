@@ -286,7 +286,9 @@ namespace RelayControlLibrary
         private SendEventArgs RQSEA = new SendEventArgs(3);
         private SendEventArgs TXSEA = new SendEventArgs(31);
         private int packetLength = 30;
+#pragma warning disable CS0414 // field assigned but its value is never used
         private string dNPErrorMsg = "Please Verify all settings for DNP Tabs";
+#pragma warning restore CS0414
 
         public int SerialNumber
         {

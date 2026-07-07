@@ -350,7 +350,7 @@ namespace RelayControl
 #endif
 
                 // Pre-delivery / locked startup policy currently global
-                this.enableAutoloadToolStripMenuItem.Checked = false;
+                this.enableAutoloadToolStripMenuItem.Checked = true;
 
                 this.loadConfigurationToolStripMenuItem.Visible = false;
 
@@ -838,29 +838,29 @@ namespace RelayControl
         {
 
 #if EVERSOURCE
-            this.customerRevisionName = "Eversource";
+            this.customerRevisionName = "EVERSOURCE";
 #elif BGE
             customerRevisionName = "BGE";
 #elif SCL
-            this.customerRevisionName = "Seattle";
+            this.customerRevisionName = "SCL";
 #elif DOMINION
-            this.customerRevisionName = "Dominion";
+            this.customerRevisionName = "DOMINION";
 #elif COMED
             this.customerRevisionName = "COMED";
 #elif LONDON_HYDRO
-            this.customerRevisionName = "London Hydro";
+            this.customerRevisionName = "LONDON_HYDRO";
 #elif TAUNTON
-            this.customerRevisionName = "Taunton";
+            this.customerRevisionName = "TAUNTON";
 #elif ENMAX
-            this.customerRevisionName = "Enmax";
+            this.customerRevisionName = "ENMAX";
 #elif ONCOR
-            this.customerRevisionName = "Oncor";
+            this.customerRevisionName = "ONCOR";
 #elif TORONTO_HYDRO
-            this.customerRevisionName = "Toronto Hydro";
+            this.customerRevisionName = "TORONTO_HYDRO";
 #elif PSEG
-            this.customerRevisionName = "PSEG with DNP";
+            this.customerRevisionName = "PSEG";
 #else
-            this.customerRevisionName = "";
+            this.customerRevisionName = "DIGITALGRID, INC";
 #endif
         }
 
@@ -3690,7 +3690,8 @@ namespace RelayControl
                     //========================================================================================================
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
-#if !CONED
+
+#if (ENMAX || PSEG || ONCOR || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL) // exising customers
                     // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
@@ -3769,7 +3770,8 @@ namespace RelayControl
             if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
             {
                 initializeAutoLoad = false;
-#if !CONED
+
+#if (ENMAX || PSEG || ONCOR || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL)
                 //MessageBox.Show("ucRelayProgramming1.remoteMasterRevisionNumber : " + this.ucRelayProgramming1.remoteMasterRevisionNumber + " AND Constants.Rev10Master : " + Constants.Rev10Master); // Only for testing - to be removed
                 // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
                 if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
@@ -5027,13 +5029,9 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-#if DOMINION || EVERSOURCE || BGE
-                //this.ucRelayProgramming1.MasterRevisionString = "RELAY MASTER PROC WH SEC 260121";// revision;
-                trim_rev = revision.Replace("DNP", "").Trim();
-                this.ucRelayProgramming1.MasterRevisionString = trim_rev;
-#else
+
                 this.ucRelayProgramming1.MasterRevisionString = revision;
-#endif
+
 
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
@@ -5057,17 +5055,15 @@ namespace RelayControl
 
                 if (this.Customer == Customers.None)
                 {
-#if CONED
-                    this.Customer = Customers.CONED;
-#else
-    this.Customer = Customers.ENMAX;
-#endif
+                    this.Customer = Customers.ENMAX;
                 }
 
+#if CONED
                 this.ucRelayProgramming1.setConEdFiles();
+#endif
 
                 this.handleNewMasterRevision();
-               this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
+                this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
                 this.relayFound = true;
                 ucShortRange1.relayFound_forRNCMonitoring = true;
                 this.relayFound_forDNPdataMonitoring = true;
