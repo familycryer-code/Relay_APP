@@ -759,87 +759,156 @@ namespace RelayControlLibrary
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
-            if ((this.Customer == Customers.CONED) || (this.Customer == Customers.ENMAX)) 
-            {
-                this.checkBoxCircleClose.Checked = false;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDA.Value = -5;
-#if ENMAX
-                this.checkBoxCircleClose.Checked = true;
-                this.numericUpDownPDV.Value = 0.0m;
+            // numericUpDownTimeDelay = Time Delay
+            // numericUpDownRecloseVolts.Value = Reclose Volts
+            // numericUpDownPDA.Value = Phase Detection Angle
+            // numericUpDownPDV.Value = Phase Detection Offset
+            // numericUpDownCloseTiltAngle.Value = Tilt Angle
+            // checkBoxCircleClose.Checked = Circle Close
+            // checkBox1.Checked = Override Blocked Open On Dead Network
+
+#if BGE
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif COMED
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif CONED
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif DOMINION
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif ENMAX
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = true;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif EVERSOURCE
-                this.checkBoxCircleClose.Checked = false;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
-                this.numericUpDownPDV.Value = 0.0m;
-#else
-                this.numericUpDownPDV.Value = 0.4m;
-#endif
-                this.numericUpDownRecloseVolts.Value = 1.5m;
-                this.numericUpDownTimeDelay.Value = 6;
-                this.checkBox1.Checked = false;
-#if !EVERSOURCE
-                this.checkBoxCircleClose.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.CircleClose;
-#endif
-                this.CloseModeDef.TimeDelay = 6;
-            }
-            else
-            {
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
 
-#if ENMAX
-                this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.5m;
-                this.numericUpDownPDA.Value = -5;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDV.Value = 0.0m;
-                this.checkBoxCircleClose.Checked = true;
-                //this.radioButtonNeverOverride.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.CircleClose;
-                this.CloseModeDef.TimeDelay = 6;
-#elif PSEG
-                this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.4m;
-                this.numericUpDownPDA.Value = -5;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDV.Value = 0.4m;
-                this.checkBoxCircleClose.Checked = false;
-                //this.radioButtonNeverOverride.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
-                this.CloseModeDef.TimeDelay = 6;
+            this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif LONDON_HYDRO
-                this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.2m;
-                this.numericUpDownPDA.Value = -5;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDV.Value = 0.0m;
-                this.checkBoxCircleClose.Checked = false;
-                //this.radioButtonNeverOverride.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
-                this.CloseModeDef.TimeDelay = 6;
-#elif TAUNTON
-                this.numericUpDownTimeDelay.Value = CloseModeDef.TimeDelay = 5;
-                this.numericUpDownRecloseVolts.Value = 1.4m;
-                this.numericUpDownPDA.Value = -6;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.numericUpDownPDV.Value = 0.3m;
-                this.checkBoxCircleClose.Checked = false;
-                //this.radioButtonNeverOverride.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
-#else
-                this.numericUpDownTimeDelay.Value = 6;
-                this.numericUpDownRecloseVolts.Value = 1.5m;
-                this.numericUpDownPDA.Value = -5;
-                this.numericUpDownCloseTiltAngle.Value = 95;
-                this.checkBoxCircleClose.Checked = false;
-                //this.radioButtonNeverOverride.Checked = true;
-                this.CloseModeDef.CloseMode = CloseModes.Normal;
-                this.CloseModeDef.TimeDelay = 6;
-                this.checkBox1.Checked = false;
-                this.numericUpDownPDV.Value = 0.4m;
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.2m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
 
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif ONCOR
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif PSEG
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.4m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.Normal;
+#elif SCE
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif SCL
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif TAUNTON
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.4m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.3m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#elif TORONTO_HYDRO
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+#else
+            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownCloseTiltAngle.Value = 95;
+            this.checkBoxCircleClose.Checked = false;
+            this.checkBox1.Checked = true;
+
+            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #endif
 
-            }
             this.setVerticalLine();
             this.setHorizontalLine();
 

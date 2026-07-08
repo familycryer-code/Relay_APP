@@ -5991,44 +5991,15 @@ namespace RelayControl
 
         private void restoreDefaultsTypeAndPhasing()
         {
-            // 1 = Sequence, 0 - Power
-            // 0 - ABC, 1 - ACB, 2 - AutoDetect
+            
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
             checkBox277DNPOutputs.Checked = true;
 
-#if DOMINION
-            this.comboBox_RelayType.SelectedIndex = 1;
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
-            labelConEdPowerRelay.Visible = false;
-#elif LONDON_HYDRO || BGE
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
-#elif ENMAX || TAUNTON
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 0; 
-            labelConEdPowerRelay.Visible = false;
-#elif PSEG
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
-            labelConEdPowerRelay.Text = "Sequence";
-#elif EVERSOURCE || SCL || COMED
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
-#elif LONDON_HYDRO
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
-//#elif ONCOR
-            this.comboBox_RelayType.SelectedIndex = 1;
-#elif CONED
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 0;
-#else
-            this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
-#endif
-            /*
+            // Phasings - 0 - ABC, 1 - ACB, 2 - AutoDetect
+
+            // RelayType - 1 = Sequence, 0 = Power
+
+            /*  CTRatio
              * 0    3750
              * 1    3500
              * 2    3000
@@ -6039,14 +6010,68 @@ namespace RelayControl
              * 7    800
              * 8   "Special"
              */
-#if SCL || DOMINION || COMED || ENMAX
+
+#if BGE
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif COMED
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
             this.comboBox_CTRatio.SelectedIndex = 2;
-#elif CONED || LONDON_HYDRO || ONCOR
+#elif CONED
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 0;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif DOMINION
+            this.comboBox_RelayType.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 2;
+            //not sure about next line.
+            labelConEdPowerRelay.Visible = false;
+#elif ENMAX
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 0;
+            this.comboBox_CTRatio.SelectedIndex = 2;
+            // not sure about next line?
+            labelConEdPowerRelay.Visible = false;
+#elif EVERSOURCE
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif LONDON_HYDRO
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif ONCOR
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif PSEG
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif SCE
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif SCL
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 2;
+#elif TAUNTON
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_CTRatio.SelectedIndex = 5;
+#elif TORONTO_HYDRO
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
             this.comboBox_CTRatio.SelectedIndex = 5;
 #else
+            this.comboBox_Phasings.SelectedIndex = 0;
+            this.comboBox_RelayType.SelectedIndex = 1;
             this.comboBox_CTRatio.SelectedIndex = 5;
 #endif
-
         }
 
         private bool pauseMonitoring = false;

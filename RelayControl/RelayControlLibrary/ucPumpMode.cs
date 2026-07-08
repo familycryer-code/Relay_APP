@@ -1,15 +1,16 @@
-﻿using System;
+﻿using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using System.Runtime.Serialization;
+using System.Drawing;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using SharedResources;
+using System.Text;
 using System.Threading;
+using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 
 namespace RelayControlLibrary
 {
@@ -428,78 +429,196 @@ namespace RelayControlLibrary
 
         private void setDefaults()
         {
-#if PSEG || EVERSOURCE || LONDON_HYDRO
-            this.checkBoxNeverReclose.Checked = false;
-            this.checkBoxCycles.Checked = true;
-            this.checkBoxMotorCycles.Checked = true;
-            this.checkBoxMotorTime.Checked = true;
 
+            // numericUpDownCycleLimit.Value = Cycle Limit
+            // numericUpDownPumpTime.Value = Pump Time
+            // numericUpDownMotorTimeout.Value = Motor Timeout
+            // numericUpDownMotorCycles.Value = Motor Cycles
+            // numericUpDownProtectTime.Value = Protect Time
+
+            // checkBoxCycles.Checked = Cycle Limit Enable
+            // checkBoxMotorTime.Checked = Motor Timeout Enable
+            // checkBoxMotorCycles.Checked = Motor Cycles Enable
+
+            // checkBoxNeverReclose.Checked = Never Reclose
+
+#if BGE
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 60;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+
+#elif COMED
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
-#elif COMED || SCL || ENMAX
+
             this.checkBoxCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
             this.checkBoxMotorCycles.Checked = true;
+
             this.checkBoxNeverReclose.Checked = false;
 
+#elif CONED
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+
 #elif DOMINION
-            this.checkBoxCycles.Checked = true;
-            this.checkBoxMotorTime.Checked = true;
-            this.checkBoxMotorCycles.Checked = true;
-            this.checkBoxNeverReclose.Checked = false;
-
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 60;
-#elif BGE
-            this.checkBoxCycles.Checked = true;
-            this.checkBoxMotorTime.Checked = false;
-            this.checkBoxMotorCycles.Checked = false;
-            this.checkBoxNeverReclose.Checked = false;
 
-            this.numericUpDownCycleLimit.Value = 3;
-            this.numericUpDownPumpTime.Value = 30;
-            this.numericUpDownMotorTimeout.Value = 10;
-            this.numericUpDownMotorCycles.Value = 5;
-            this.numericUpDownProtectTime.Value = 60;
-#elif TAUNTON
-            checkBoxCycles.Checked = true;
-            checkBoxMotorTime.Checked = false;
-            checkBoxMotorCycles.Checked = false;
-            checkBoxNeverReclose.Checked = false;
-
-            numericUpDownCycleLimit.Value = 3;
-            numericUpDownPumpTime.Value = 30;
-            numericUpDownMotorTimeout.Value = 10;
-            numericUpDownMotorCycles.Value = 5;
-            numericUpDownProtectTime.Value = 15;
-#else
-            this.checkBoxNeverReclose.Checked = false;
-#if TORONTO_HYDRO
             this.checkBoxCycles.Checked = true;
-            this.checkBoxMotorCycles.Checked = true;
             this.checkBoxMotorTime.Checked = true;
-#else
-            this.checkBoxCycles.Checked = false;
-            this.checkBoxMotorCycles.Checked = false;
-            this.checkBoxMotorTime.Checked = false;
-#endif
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+
+#elif ENMAX
             this.numericUpDownCycleLimit.Value = 3;
             this.numericUpDownPumpTime.Value = 30;
             this.numericUpDownMotorTimeout.Value = 10;
             this.numericUpDownMotorCycles.Value = 5;
             this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+
+#elif EVERSOURCE
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+
+#elif LONDON_HYDRO
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#elif ONCOR
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#elif PSEG
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#elif SCE
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#elif SCL
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#elif TAUNTON
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#elif TORONTO_HYDRO
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
+#else
+            this.numericUpDownCycleLimit.Value = 3;
+            this.numericUpDownPumpTime.Value = 30;
+            this.numericUpDownMotorTimeout.Value = 10;
+            this.numericUpDownMotorCycles.Value = 5;
+            this.numericUpDownProtectTime.Value = 15;
+
+            this.checkBoxCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = true;
+            this.checkBoxMotorCycles.Checked = true;
+
+            this.checkBoxNeverReclose.Checked = false;
 #endif
+
+
         }
 
         private void errorHandler(Exception ex)
@@ -579,7 +698,7 @@ namespace RelayControlLibrary
 
         private void writeSaveObjecToFile()
         {
-            Stream stream = File.Open(_savePath, FileMode.Create);
+            Stream stream = System.IO.File.Open(_savePath, FileMode.Create);
             BinaryFormatter bFormatter = new BinaryFormatter();
 
             bFormatter.Serialize(stream, this.saveObject);
