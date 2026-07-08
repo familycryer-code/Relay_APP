@@ -1751,25 +1751,8 @@ namespace RelayControlLibrary
 
         private void restoreDefaults()
         {
-            /*   this.setTypeIndependentDefaults();
-
-                switch (this.displayType)
-                {
-                    case eDisplayType.Percent:
-                        this.setPercentageTypeDefaults();
-                        break;
-                    case eDisplayType.Protector:
-                        this.setProtectorTypeDefaults();
-                        break;
-                    case eDisplayType.Relay:
-                    default:
-                        this.setRelayTypeDefaults();
-                        break;
-                }
-             */
-
+            // domainUpDownType.SelectedIndex = Sensitive Trip
             this.domainUpDownType.SelectedIndex = 0;
-            //this.comboBox_TripType.SelectedIndex = 0;
             this.setRelayTypeDefaults();
             this.makeRelayType();
 
@@ -1852,93 +1835,102 @@ namespace RelayControlLibrary
 
         private void setRelayTypeDefaults()
         {
-#if DOMINION || COMED || ENMAX || EVERSOURCE || ONCOR || TORONTO_HYDRO
+            // ---------- Baseline (applies to all customers unless overridden) ----------
             insensitiveCurrent = 2.5m;
             instantaneousCurrent = 2.5m;
-            this.listBoxTripModes.SelectedIndex = 0;    // Sensitive
-            this.numericUpDownSensitiveTimeDelay.Value = 6;
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 10.0m;
-#if (TORONTO_HYDRO || ONCOR)
-            this.numericUpDownSensTrip.Value = 7.5m;// 10.0m;
-#endif
-            this.numericUpDownWVCurrent.Value = 2.5m;
 
-            this.checkBoxEnableGullWing.Checked = false;
-            this.checkBoxTripOnPowerDown.Checked = false;
-#if TORONTO_HYDRO
-            this.checkBoxTripOnPowerDown.Checked = true;
-#endif
-            this.gullWingEnabled = false;
-            this.numericUpDownTimeDelay.Value = 0;
+            // Trip Mode section
+            this.listBoxTripModes.SelectedIndex = 0;            // Sensitive
+            this.numericUpDownSensitiveTimeDelay.Value = 6;
+            this.numericUpDownSensTrip.Value = 7.5m;
             this.numericUpDownAngle.Value = 90;
-            this.numericUpDownGullWingAngle.Value = 90;
-#if EVERSOURCE
-            this.numericUpDownGullWingAngle.Value = 85;// Trim Angle
-            this.numericUpDownAngle.Value = 95; // Tilt Angle
-#endif
-            //this.domainUpDownTripStyle.SelectedIndex = 3;
-            this.comboBox_TripStyle.SelectedIndex = 3;
-#if EVERSOURCE
-            this.comboBox_TripStyle.SelectedIndex = 0; // hold trip
-            this.checkBoxEnableGullWing.Checked = true;
-#endif
-#if ENMAX
-            this.comboBox_TripStyle.SelectedIndex = 0;
             this.checkBoxTripOnPowerDown.Checked = true;
-#endif
-#if ONCOR
-            //this.domainUpDownTripStyle.SelectedIndex = 0; // Hold Trip (Troubleshooting Only)
-            this.comboBox_TripStyle.SelectedIndex = 0;
-#endif
-#if TORONTO_HYDRO
-            //this.domainUpDownTripStyle.SelectedIndex = 0; 
-            this.comboBox_TripStyle.SelectedIndex = 0;
-#endif
+            this.comboBox_TripStyle.SelectedIndex = 0;          // Hold Trip
+            this.checkBoxEnableGullWing.Checked = false;
+            this.numericUpDownGullWingAngle.Value = 90;
+            this.gullWingEnabled = false;
+
+            // Insensitive Trip settings
             this.numericUpDownExtendedTimeDelay.Value = 0;
             this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownWVAngle.Value = -60;
-#elif SCL || CONED || PSEG
-            this.numericUpDownSensitiveTimeDelay.Value = 6;
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 7.5m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
-            this.numericUpDownAngle.Value = 90;
-            this.listBoxTripModes.SelectedIndex = 0;
 
+            // Time Delay settings
+            this.numericUpDownTimeDelay.Value = 0;
+
+            // Watt-Var settings
+            this.numericUpDownWVCurrent.Value = 2.5m;
+            this.numericUpDownWVAngle.Value = -60;
+
+            // Keep existing "green" defaults in a known state
             this.numericUpDown_GreenDelay.Value = 250;
             this.numericUpDown_GreenMagX.Value = 150;
             this.numericUpDown_GreenMagY.Value = 150;
-            this.numericUpDown_InCurrkW.Value = 128;// 1.25m;
-            this.numericUpDown_InCurrkVAR.Value = 128;// 2.5m;    
-            this.checkBoxTripOnPowerDown.Checked = true;
-            //this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
-            //this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
-            this.comboBox_TripStyle.SelectedIndex = 2;
-            this.checkBoxEnableGullWing.Checked = false;
-            this.numericUpDownExtendedTimeDelay.Value = 0;
+            this.numericUpDown_InCurrkW.Value = 128;
+            this.numericUpDown_InCurrkVAR.Value = 128;
+
+            // ---------- Customer overrides ----------
+#if BGE
+            this.numericUpDownSensTrip.Value = 10.0m;
+            this.checkBoxTripOnPowerDown.Checked = false;
+            this.comboBox_TripStyle.SelectedIndex = 3;          // Short Trip
+
+#elif COMED
+            this.numericUpDownSensTrip.Value = 10.0m;
+            this.checkBoxTripOnPowerDown.Checked = false;
+
+#elif CONED
+            // ConEd: only one with Adaptive Trip feature (per request)
+            this.listBoxTripModes.SelectedIndex = 4;            // Adaptive
             this.numericUpDownTimeDelay.Value = 150;
-            this.numericUpDownWVAngle.Value = -60;
+            this.comboBox_TripStyle.SelectedIndex = 2;          // Single Attempt
+            this.checkBoxTripOnPowerDown.Checked = true;
+
+#elif DOMINION
+            this.numericUpDownSensTrip.Value = 10.0m;
+            this.checkBoxTripOnPowerDown.Checked = false;
+            this.comboBox_TripStyle.SelectedIndex = 3;          // Short Trip
+
+#elif ENMAX
+            this.numericUpDownSensTrip.Value = 10.0m;
+            // Baseline already TRUE + Hold Trip
+
+#elif EVERSOURCE
+            this.numericUpDownSensTrip.Value = 10.0m;
+            this.numericUpDownAngle.Value = 95;
+            this.numericUpDownGullWingAngle.Value = 85;
+            this.checkBoxEnableGullWing.Checked = true;
+            this.checkBoxTripOnPowerDown.Checked = false;
 
 #elif LONDON_HYDRO
-            this.numericUpDownInsensTrip.Value = 2.5m;
             this.numericUpDownSensTrip.Value = 9.3m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
+            // Baseline trip-on-power-down true matches sheet
+
+#elif ONCOR
+            this.checkBoxTripOnPowerDown.Checked = false;
+            // Baseline 7.5m + Hold Trip matches sheet
+
+#elif PSEG
+            this.comboBox_TripStyle.SelectedIndex = 1;          // Pulse Trip
+            // Baseline TRUE/7.5m matches sheet
+
+#elif SCE
+            // Southern California Edison matches baseline (Sensitive / Hold / TRUE / 7.5m)
+
+#elif SCL
+            this.numericUpDownTimeDelay.Value = 3;
+            // Baseline TRUE/7.5m/Hold matches sheet
+
 #elif TAUNTON
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 7.5m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
-#elif DIGITALGRIDINC
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 7.5m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
-            this.numericUpDownAngle.Value = 90;
-            
+            this.listBoxTripModes.SelectedIndex = 3;            // Watt-Var
+            this.checkBoxTripOnPowerDown.Checked = false;
+            // Baseline 7.5m + Hold Trip matches sheet
+
+#elif TORONTO_HYDRO
+            // Based on your sheet, Toronto Hydro follows baseline values shown
+            // (Sensitive, 7.5m, Hold Trip, Trip on Power Down TRUE)
+
 #else
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 7.5m;//10m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
-            this.numericUpDownAngle.Value = 90;
+            // Keep baseline values for any other customers not listed above
 #endif
         }
 
