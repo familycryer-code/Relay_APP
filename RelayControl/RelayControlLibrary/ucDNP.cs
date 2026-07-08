@@ -825,7 +825,8 @@ namespace RelayControlLibrary
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
-#if (ENMAX || CONED || TORONTO_HYDRO)
+
+#if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
             this.comboBoxDNPBaudRate.SelectedIndex = 2;// 3;
 #else
             this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
