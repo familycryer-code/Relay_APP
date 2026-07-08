@@ -9556,12 +9556,8 @@ namespace RelayControl
                 if (relayHasDnp)
                 {
                     this.requestDNPSettings();      // 'U'
-                    this.RequestDNPSav5Settings();  // 'D'+'s'
+                    //this.RequestDNPSav5Settings();  // 'D'+'s'
                 }
-                //this.requestDNPSettings();
-                //this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
-                //Thread.Sleep(1000);   // delay 1second
-                                      // tw.Close();
             }
             catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
             {
@@ -9584,10 +9580,9 @@ namespace RelayControl
             this.writeSafeServiceDataBackUp_ToMaster();
             this.writeTransmitterDataBackUp_ToMaster(); 
             this.writeDNPDataBackUp_ToMaster();
-            this.writeDNPSAv5SettingsDataBackUp_ToMaster();
+            //this.writeDNPSAv5SettingsDataBackUp_ToMaster();
             this.writeArcFaultDataBackUp_ToMaster();
-           
-            //this.writeCalibrationDataBackUp_ToMaster();
+            //this.writeCalibrationDataBackUp_ToMaster();  // Let Relay processor handle it - this did not work
         }
 
 
@@ -10778,7 +10773,7 @@ namespace RelayControl
 
             if (!backupExpectDnp) return true;
 
-            return backupGotDnpData && backupGotDnpSav5;
+            return backupGotDnpData;
         }
 
         private void TryCompleteBackup()
