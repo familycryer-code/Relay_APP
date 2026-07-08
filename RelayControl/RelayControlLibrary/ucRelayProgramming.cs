@@ -756,10 +756,6 @@ namespace RelayControlLibrary
             else
                 internalGESetter = false;
             
-#if !DEBUG
-            if (upgradeAutoDR == DialogResult.Yes && notPollingPort)
-                this.upgradeAutoDR = checkDNPPLCMessage(upgradeAutoDR);
-#endif
             if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
                 this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 5 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
 
@@ -833,26 +829,6 @@ namespace RelayControlLibrary
             return dR;
         }
 
-        private DialogResult checkDNPPLCMessage(DialogResult dR)
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (masterRevisionString.Contains("DNP"))
-            {
-#if !DNP
-                //show that it is dnp relay on plc gui
-                dR = MessageBox.Show("Warning: This is a PLC only program and has been connected to a DNP/PLC relay. It is recommended you use the proper program and that you do not downgrade to PLC only. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-#endif
-            }
-            else
-            {
-#if DNP
-                //show that it is PLC relay on DNP PLC GUI
-                dR = MessageBox.Show("Warning: This is a DNP/PLC program and has been connected to a PLC relay. It is recommended you use the proper program if you don't want to change the relay to a DNP/PLC relay. Would you like to proceed?", "Different Type of Relay", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-#endif
-            }
-            return dR;
-        }
-
         public void InitialAutoLoadFiles()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -862,9 +838,6 @@ namespace RelayControlLibrary
 
             if (dR != DialogResult.Yes)
                 return;
-
-            if (notPollingPort)
-                dR = checkDNPPLCMessage(dR);
 
             if (dR == DialogResult.No)
                 return;
@@ -1269,10 +1242,6 @@ namespace RelayControlLibrary
             {
                 askToUgradeShown = true;
                 dR = showAutoLoadUpdateMessage();
-#if !DEBUG
-                if (dR == DialogResult.Yes)
-                    dR = checkDNPPLCMessage(dR);
-#endif
             }
             else
             {
