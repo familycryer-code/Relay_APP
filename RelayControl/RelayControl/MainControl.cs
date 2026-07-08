@@ -79,7 +79,9 @@ namespace RelayControl
         private bool backupGotSafeService = false;
         private bool backupGotArcFault = false;
         private bool backupGotDnpData = false;
+#pragma warning disable CS0414 // The field is assigned but its value is never used
         private bool backupGotDnpSav5 = false;
+#pragma warning restore CS0414
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
         private DateTime backupStartedAtUtc;

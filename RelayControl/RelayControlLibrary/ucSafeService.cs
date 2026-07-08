@@ -651,38 +651,23 @@ namespace RelayControlLibrary
 #endif
         private void restoreDefaults()
         {
-#if EVERSOURCE || SCL || DOMINION || BGE
-            this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
-            this.numericUpDownCurrentImbalance.Value = 0.8m;
-            this.numericUpDownDelay.Value = 0;
-           // this.domainUpDownDataViews.SelectedIndex = 0;
+            // comboBoxSSEnable.SelectedIndex =  1 Disable - 0 Enable
+            //  defaultOverCurrentValue = Over Current
+            // numericUpDownCurrentImbalance.Value = Current Imbalance
+            // numericUpDownLowVoltage.Value = Low Volatage
+            // numericUpDownVoltageImbalance.Value = Voltage Imbalance
+
+            this.comboBoxSSEnable.SelectedIndex = 1;
             this.comboBox_DataViews.SelectedIndex = 0;
             setDataViewDefaults();
-
+            this.numericUpDownDelay.Value = 0;
+            this.numericUpDownCurrentImbalance.Value = 0.8m;
             this.numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
             this.numericUpDownVoltageImbalance.Value = 10.0m * protectorVoltage.Scaling;
-#elif TAUNTON
-            this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
-            this.numericUpDownCurrentImbalance.Value = 0.8m;
-            this.numericUpDownDelay.Value = 0;
-            //this.domainUpDownDataViews.SelectedIndex = 0;
-            this.comboBox_DataViews.SelectedIndex = 0;
-            setDataViewDefaults();
 
+#if TAUNTON
             this.numericUpDownLowVoltage.Value = 100m * protectorVoltage.Scaling;
             this.numericUpDownVoltageImbalance.Value = 20.0m * protectorVoltage.Scaling;
-#else
-
-            this.comboBoxSSEnable.SelectedIndex = 1; // 1 - Disable
-            this.numericUpDownCurrentImbalance.Value = 0.8m;
-            this.numericUpDownDelay.Value = 0;
-            //this.domainUpDownDataViews.SelectedIndex = 0;
-            this.comboBox_DataViews.SelectedIndex = 0;
-            setDataViewDefaults();
-
-            numericUpDownLowVoltage.Value = 95m * protectorVoltage.Scaling;
-
-            this.numericUpDownVoltageImbalance.Value = 10.0m * protectorVoltage.Scaling;
 #endif
         }
 
