@@ -69,6 +69,21 @@ namespace RelayControl
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private bool pendingAutoloadAfterBackup = false;
+        // Backup orchestration flags
+        private bool backupInProgress = false;
+        private bool backupExpectDnp = false;
+
+        private bool backupGotRelayParams = false;
+        private bool backupGotCalibration = false;
+        private bool backupGotTx = false;
+        private bool backupGotSafeService = false;
+        private bool backupGotArcFault = false;
+        private bool backupGotDnpData = false;
+        private bool backupGotDnpSav5 = false;
+
+        private System.Windows.Forms.Timer backupTimeoutTimer;
+        private DateTime backupStartedAtUtc;
+        private const int BackupTimeoutMs = 10000; // 10s
 
         public Customers Customer
         {
@@ -2434,9 +2449,17 @@ namespace RelayControl
                             tw.WriteLine(bytePacket[index]);
                         }
                         tw.Close();
+
                         dataBackup_fromRelay = false;
                     }
+
                     this.setArcFaultData(bytePacket);
+
+                    if (backupInProgress)
+                    {
+                        backupGotArcFault = true;
+                        TryCompleteBackup();
+                    }
                     break;
                 case IncomingCommCommands.Boot:
                     this.handleBootMessage(bytePacket);
@@ -2448,7 +2471,9 @@ namespace RelayControl
                     this.calibrationComplete(bytePacket);
                     break;
                 case IncomingCommCommands.CalibrationConstants:
-                    this.setCalibrationConstants(bytePacket); // store calibration constants received from master to the APP
+                    this.setCalibrationConstants(bytePacket);
+                    backupGotCalibration = true;
+                    TryCompleteBackup();
                     break;
                 case IncomingCommCommands.CurrentTime:
                     this.storeCurrentTime(bytePacket);
@@ -2477,6 +2502,8 @@ namespace RelayControl
                             this.parametersFinishedLoading();
                         }
                     }
+                    backupGotSafeService = true;
+                    TryCompleteBackup();
                     break;
                 case IncomingCommCommands.ShortRangeStrength:
                 case IncomingCommCommands.ShortRangeTransmit:
@@ -2496,6 +2523,8 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.RelayParameters:
                     this.setRelayParameters(bytePacket);
+                    backupGotRelayParams = true;
+                    TryCompleteBackup();
                     break;
                 case IncomingCommCommands.RelayRegisters:
                     this.setRelayRegisters(bytePacket);
@@ -2532,6 +2561,8 @@ namespace RelayControl
                         uTemp += bytePacket[0];
                         this.textBox_TxID.Text = uTemp.ToString();
                     }
+                    backupGotTx = true;
+                    TryCompleteBackup();
                     break;
                 case IncomingCommCommands.TransmitterMonitor:
                     this.setTransmitterMonitorData(bytePacket);
@@ -2542,8 +2573,13 @@ namespace RelayControl
                 case IncomingCommCommands.DNPData:
                     if (!ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
-                        Thread.Sleep(1000);  // 1 seconds
                         this.setDNPSettings(bytePacket);
+
+                        if (backupInProgress && dataBackup_fromRelay)
+                        {
+                            backupGotDnpData = true;
+                            TryCompleteBackup();
+                        }
                     }
                     break;
                 case IncomingCommCommands.DNPSAv5:
@@ -2557,20 +2593,17 @@ namespace RelayControl
                             tw.WriteLine(bytePacket[index]);
                         }
                         tw.Close();
+
                         dataBackupR.dataBackup_fromRelay = false;
-                        MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
-                        if (pendingAutoloadAfterBackup)
-                        {
-                            pendingAutoloadAfterBackup = false;
-
-                            Application.UseWaitCursor = false;
-                            System.Windows.Forms.Cursor.Current = Cursors.Default;
-                            this.enableAll(true);
-
-                            this.ucRelayProgramming1.InitializeAutoload();
-                        }
                     }
+
                     this.ucDNPSAv51.Message(bytePacket);
+
+                    if (backupInProgress && dataBackupR.dataBackup_fromRelay == false)
+                    {
+                        backupGotDnpSav5 = true;
+                        TryCompleteBackup();
+                    }
                     break;
                 case IncomingCommCommands.LowVoltageThresReceived:
                     this.SetLowVoltageThres(bytePacket);
@@ -9485,8 +9518,9 @@ namespace RelayControl
         {
             // Pull data from relay master uP if its firmware is les then rev 10
             // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
+            bool relayHasDnp = !string.IsNullOrEmpty(this.ucRelayProgramming1.MasterRevisionString) && this.ucRelayProgramming1.MasterRevisionString.Contains("DNP");
 
-
+            StartBackupTracking(relayHasDnp);
             //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
             dataBackup_fromRelay = true;
             dataBackupR.dataBackup_fromRelay = true;
@@ -9517,11 +9551,16 @@ namespace RelayControl
                 this.requestRelayParameters();
                 this.requestCalibrationConstants();
                 this.requestTransmitterSettings();
-                this.requestDNPSettings();
                 this.requestSafeServiceSettings();
                 this.arcFaultEnableMonitoring(true);
-                this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
-                Thread.Sleep(1000);   // delay 1second
+                if (relayHasDnp)
+                {
+                    this.requestDNPSettings();      // 'U'
+                    this.RequestDNPSav5Settings();  // 'D'+'s'
+                }
+                //this.requestDNPSettings();
+                //this.RequestDNPSav5Settings();// request DNPSAv5 settings ( 'D' + 's' )
+                //Thread.Sleep(1000);   // delay 1second
                                       // tw.Close();
             }
             catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
@@ -10690,6 +10729,92 @@ namespace RelayControl
             MessageBox.Show("Sending all parameters from the selected profile to the Relay");
             this.buttonSendAll_Click(this, new EventArgs());
         }
+        private void StartBackupTracking(bool expectDnp)
+        {
+            backupInProgress = true;
+            backupExpectDnp = expectDnp;
+
+            backupGotRelayParams = false;
+            backupGotCalibration = false;
+            backupGotTx = false;
+            backupGotSafeService = false;
+            backupGotArcFault = false;
+            backupGotDnpData = false;
+            backupGotDnpSav5 = false;
+
+            backupStartedAtUtc = DateTime.UtcNow;
+
+            if (backupTimeoutTimer == null)
+            {
+                backupTimeoutTimer = new System.Windows.Forms.Timer();
+                backupTimeoutTimer.Interval = BackupTimeoutMs;
+                backupTimeoutTimer.Tick += backupTimeoutTimer_Tick;
+            }
+
+            backupTimeoutTimer.Stop();
+            backupTimeoutTimer.Start();
+        }
+
+        private void backupTimeoutTimer_Tick(object sender, EventArgs e)
+        {
+            backupTimeoutTimer.Stop();
+
+            if (backupInProgress)
+            {
+                CompleteBackupAndContinue("Backup timeout reached (10s). Continuing with available data.");
+            }
+        }
+
+        private bool IsBackupComplete()
+        {
+            bool commonDone =
+                backupGotRelayParams &&
+                backupGotCalibration &&
+                backupGotTx &&
+                backupGotSafeService &&
+                backupGotArcFault;
+
+            if (!commonDone) return false;
+
+            if (!backupExpectDnp) return true;
+
+            return backupGotDnpData && backupGotDnpSav5;
+        }
+
+        private void TryCompleteBackup()
+        {
+            if (backupInProgress && IsBackupComplete())
+            {
+                CompleteBackupAndContinue(null);
+            }
+        }
+
+        private void CompleteBackupAndContinue(string timeoutMessageOrNull)
+        {
+            backupInProgress = false;
+            if (backupTimeoutTimer != null) backupTimeoutTimer.Stop();
+
+            dataBackup_fromRelay = false;
+            dataBackupR.dataBackup_fromRelay = false;
+
+            if (!string.IsNullOrEmpty(timeoutMessageOrNull))
+            {
+                MessageBox.Show(timeoutMessageOrNull);
+            }
+
+            MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
+
+            if (pendingAutoloadAfterBackup)
+            {
+                pendingAutoloadAfterBackup = false;
+
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+
+                this.ucRelayProgramming1.InitializeAutoload();
+            }
+        }
     }
 
     public partial class MyPort : SerialPort
@@ -11185,6 +11310,7 @@ namespace RelayControl
                 throw new Exception("Error Instantiating Overall Single Saved Setting V4.", ex);
             }
         }
+
 
         public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
