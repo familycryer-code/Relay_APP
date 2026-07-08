@@ -179,6 +179,7 @@ namespace RelayControlLibrary
 
             NormalizeTxCommandButtonsLayout();
             NormalizeDnpUplinkPlacement();
+            NormalizeTxButtonTextAlignment();
 
             // Default caption/state
             this.button_FastMode.Text = "Fast Mode Disabled";
@@ -2502,6 +2503,9 @@ namespace RelayControlLibrary
 
         private void NormalizeTxCommandButtonsLayout()
         {
+            const int TX_BUTTON_X = 37; // was 18; bump right until it looks centered
+            const int TX_UPLINK_X = 35;
+
             // Ensure TX command buttons are inside the TX commands group
             if (this.buttonRestoreDefaults.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.buttonRestoreDefaults);
@@ -2515,6 +2519,7 @@ namespace RelayControlLibrary
             if (this.buttonForceConfigMessage.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.buttonForceConfigMessage);
 
+
             // ConEd override: hide config-message button, show fast controls
             if (this.Customer == Customers.CONED)
             {
@@ -2527,7 +2532,7 @@ namespace RelayControlLibrary
 
                 this.grpBox_TXcommands.Size = new Size(220, 594);
 
-                int x = 18, w = 184, h = 62, gap = 16, y = 25;
+                int x = TX_BUTTON_X, w = 184, h = 62, gap = 16, y = 25;
 
                 this.buttonRestoreDefaults.Location = new Point(x, y);
                 this.buttonRestoreDefaults.Size = new Size(w, h); y += h + gap;
@@ -2557,8 +2562,8 @@ namespace RelayControlLibrary
                 this.buttonForceConfigMessage.Enabled = false;
 
                 // Uplink block starts below buttons
-                this.lbl_UplinkEn.Location = new Point(x, y + 4);
-                this.checkBoxDNPEnable.Location = new Point(x, y + 56);
+                this.lbl_UplinkEn.Location = new Point(TX_UPLINK_X, y + 4);
+                this.checkBoxDNPEnable.Location = new Point(TX_UPLINK_X, y + 56);
 
                 this.buttonRestoreDefaults.BringToFront();
                 this.buttonTX.BringToFront();
@@ -2569,8 +2574,10 @@ namespace RelayControlLibrary
                 return;
             }
 
+
+
 #if DNP
-            // Widen group so uplink text fits on one line
+            // TX commands group sizing
             this.grpBox_TXcommands.Size = new Size(220, 594);
 
             // Uniform button sizes
@@ -2579,11 +2586,11 @@ namespace RelayControlLibrary
             this.buttonRQ.Size = new Size(184, 75);
             this.buttonForceConfigMessage.Size = new Size(184, 75);
 
-            // Center buttons within wider group and slide up for uplink controls
-            this.buttonRestoreDefaults.Location = new Point(18, 25);
-            this.buttonTX.Location = new Point(18, 145);
-            this.buttonRQ.Location = new Point(18, 265);
-            this.buttonForceConfigMessage.Location = new Point(18, 385);
+            // Fixed legacy placement
+            this.buttonRestoreDefaults.Location = new Point(TX_BUTTON_X, 25);
+            this.buttonTX.Location = new Point(TX_BUTTON_X, 145);
+            this.buttonRQ.Location = new Point(TX_BUTTON_X, 265);
+            this.buttonForceConfigMessage.Location = new Point(TX_BUTTON_X, 385);
 #else
     // Original/non-DNP sizing
     this.grpBox_TXcommands.Size = new Size(220, 594);
@@ -2593,10 +2600,10 @@ namespace RelayControlLibrary
     this.buttonRQ.Size = new Size(184, 75);
     this.buttonForceConfigMessage.Size = new Size(184, 75);
 
-    this.buttonRestoreDefaults.Location = new Point(18, 60);
-    this.buttonTX.Location = new Point(18, 210);
-    this.buttonRQ.Location = new Point(18, 360);
-    this.buttonForceConfigMessage.Location = new Point(18, 510);
+    this.buttonRestoreDefaults.Location = new Point(TX_BUTTON_X, 60);
+    this.buttonTX.Location = new Point(TX_BUTTON_X, 210);
+    this.buttonRQ.Location = new Point(TX_BUTTON_X, 360);
+    this.buttonForceConfigMessage.Location = new Point(TX_BUTTON_X, 510);
 #endif
 
             this.buttonRestoreDefaults.BringToFront();
@@ -2606,6 +2613,7 @@ namespace RelayControlLibrary
         }
         private void NormalizeDnpUplinkPlacement()
         {
+            const int TX_UPLINK_X = 35;
 #if DNP
             if (this.lbl_UplinkEn.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.lbl_UplinkEn);
@@ -2615,12 +2623,12 @@ namespace RelayControlLibrary
 
             // "Enable" label
             this.lbl_UplinkEn.AutoSize = true;
-            this.lbl_UplinkEn.Location = new Point(18, 498);
+            this.lbl_UplinkEn.Location = new Point(TX_UPLINK_X, 498);
             this.lbl_UplinkEn.Text = "Enable";
 
             // Multi-line checkbox text to match legacy layout
             this.checkBoxDNPEnable.AutoSize = false;
-            this.checkBoxDNPEnable.Location = new Point(18, 516);
+            this.checkBoxDNPEnable.Location = new Point(TX_UPLINK_X, 516);
             this.checkBoxDNPEnable.MaximumSize = new Size(198, 0);
             this.checkBoxDNPEnable.MinimumSize = new Size(198, 96);
             this.checkBoxDNPEnable.Size = new Size(198, 96);
@@ -2650,6 +2658,7 @@ namespace RelayControlLibrary
             // Run again after all parent/container layout passes
             NormalizeTxCommandButtonsLayout();
             NormalizeDnpUplinkPlacement();
+            NormalizeTxButtonTextAlignment();
         }
         private void HandleDnpParseFailure(string context, Exception ex)
         {
@@ -2658,6 +2667,15 @@ namespace RelayControlLibrary
                 "DNP Parse Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
+        }
+        private void NormalizeTxButtonTextAlignment()
+        {
+            this.buttonRestoreDefaults.TextAlign = ContentAlignment.MiddleCenter;
+            this.buttonTX.TextAlign = ContentAlignment.MiddleCenter;
+            this.buttonRQ.TextAlign = ContentAlignment.MiddleCenter;
+            this.buttonForceConfigMessage.TextAlign = ContentAlignment.MiddleCenter;
+            this.button_FastFire.TextAlign = ContentAlignment.MiddleCenter;
+            this.button_FastMode.TextAlign = ContentAlignment.MiddleCenter;
         }
     }
 
