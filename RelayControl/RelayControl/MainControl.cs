@@ -68,6 +68,8 @@ namespace RelayControl
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
+        private bool pendingAutoloadAfterBackup = false;
+
         public Customers Customer
         {
             get { return this.customer; }
@@ -2557,6 +2559,16 @@ namespace RelayControl
                         tw.Close();
                         dataBackupR.dataBackup_fromRelay = false;
                         MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
+                        if (pendingAutoloadAfterBackup)
+                        {
+                            pendingAutoloadAfterBackup = false;
+
+                            Application.UseWaitCursor = false;
+                            System.Windows.Forms.Cursor.Current = Cursors.Default;
+                            this.enableAll(true);
+
+                            this.ucRelayProgramming1.InitializeAutoload();
+                        }
                     }
                     this.ucDNPSAv51.Message(bytePacket);
                     break;
@@ -3780,26 +3792,25 @@ namespace RelayControl
                     // And rewrite that data to go with the rev 10 firmware after programming is done
                     string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
                     MessageBox.Show(text);
+
                     if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
                     {
                         File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
                     }
 
                     if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
-                    {//if relay has old DNP firmware
-                        dataBackupD.dataBackup_withDNP = true; // used to save DNPSAv5 settings
+                    {
+                        dataBackupD.dataBackup_withDNP = true;
                     }
 
                     this.enableAll(false);
-                    Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+                    Application.UseWaitCursor = true;
+                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
 
+                    pendingAutoloadAfterBackup = true;
+                    dataB.oldDataBackup = true;
                     this.BackUpRelayDatatoFile();
-                    Thread.Sleep(16000); // 16 seconds
-
-                    Application.UseWaitCursor = false;
-                    System.Windows.Forms.Cursor.Current = Cursors.Default;
-                    this.enableAll(true);
+                    return; // wait to call InitializeAutoload() until backup-complete path
                 }
 #endif
                 Application.UseWaitCursor = false;
