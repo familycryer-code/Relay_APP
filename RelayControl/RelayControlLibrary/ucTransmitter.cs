@@ -2504,7 +2504,10 @@ namespace RelayControlLibrary
         private void NormalizeTxCommandButtonsLayout()
         {
             const int TX_BUTTON_X = 37; // was 18; bump right until it looks centered
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
             const int TX_UPLINK_X = 35;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
+
 
             // Ensure TX command buttons are inside the TX commands group
             if (this.buttonRestoreDefaults.Parent != this.grpBox_TXcommands)
@@ -2613,7 +2616,9 @@ namespace RelayControlLibrary
         }
         private void NormalizeDnpUplinkPlacement()
         {
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
             const int TX_UPLINK_X = 35;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
 #if DNP
             if (this.lbl_UplinkEn.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.lbl_UplinkEn);
