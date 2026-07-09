@@ -487,12 +487,22 @@ namespace RelayControlLibrary
             }
         }
 
+        private decimal ClampToNumeric(NumericUpDown nud, decimal value)
+        {
+            if (value < nud.Minimum) return nud.Minimum;
+            if (value > nud.Maximum) return nud.Maximum;
+            return value;
+        }
+
         private void setAll(byte[] bytePacket)
         {
             decimal tempM = 0, tempM2 = 0;
             Int16 temp;
             UInt16 uTemp;
-            
+
+            if (bytePacket == null || bytePacket.Length < 13)
+                return;
+
             try
             {
                 if ((char)bytePacket[10] == 'r' || (char)bytePacket[10] == 'R')
@@ -588,7 +598,7 @@ namespace RelayControlLibrary
                 if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
                 {
                     tempM2 = Math.Round(tempM, 1);
-                    this.numericUpDownPDV.Value = tempM2;
+                    this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, tempM2);
                 }
             }
             catch
@@ -612,7 +622,7 @@ namespace RelayControlLibrary
                 if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
                 {
                     tempM2 = Math.Round(tempM);
-                    this.numericUpDownPDA.Value = tempM2;
+                    this.numericUpDownPDA.Value = ClampToNumeric(this.numericUpDownPDA, tempM2);
                 }
             }
             catch
@@ -669,8 +679,11 @@ namespace RelayControlLibrary
 
             try
             {
-                this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
-                this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
+                decimal scaledPdv = this.numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
+                decimal scaledReclose = this.numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
+
+                this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, scaledPdv);
+                this.numericUpDownRecloseVolts.Value = ClampToNumeric(this.numericUpDownRecloseVolts, scaledReclose);
             }
             catch
             {
@@ -914,8 +927,11 @@ namespace RelayControlLibrary
 
             try
             {
-                this.numericUpDownPDV.Value = numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
-                this.numericUpDownRecloseVolts.Value = numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
+                decimal scaledPdv = this.numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
+                decimal scaledReclose = this.numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
+
+                this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, scaledPdv);
+                this.numericUpDownRecloseVolts.Value = ClampToNumeric(this.numericUpDownRecloseVolts, scaledReclose);
             }
             catch
             {
