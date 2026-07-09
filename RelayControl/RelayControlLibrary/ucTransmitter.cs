@@ -2203,9 +2203,22 @@ namespace RelayControlLibrary
             this.setDefaultDNPsettings();
         }
 
+        private void SetDnpBaudByValue(int baud)
+        {
+            if (this.comboBox_DNPBaudRate == null) return;
+            if (this.comboBox_DNPBaudRate.Items == null || this.comboBox_DNPBaudRate.Items.Count == 0) return;
+
+            string target = baud.ToString();
+            int idx = this.comboBox_DNPBaudRate.FindStringExact(target);
+
+            if (idx < 0) idx = 0;
+            if (idx >= this.comboBox_DNPBaudRate.Items.Count) idx = this.comboBox_DNPBaudRate.Items.Count - 1;
+
+            this.comboBox_DNPBaudRate.SelectedIndex = idx;
+        }
+
         private void setDefaultDNPsettings()
         {
-            // MessageBox.Show("setting default values for dnp settings"); // Only for testing - to be removed
             this.numericUpDownDestinationAddress.Value = 3;
             this.numericUpDownFragmentSize.Value = 1024;
             this.numericUpDownMaxEvents.Value = 120;
@@ -2217,11 +2230,14 @@ namespace RelayControlLibrary
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
 
-#if (ENMAX || CONED || TORONTO_HYDRO)
-            this.comboBox_DNPBaudRate.SelectedIndex = 3;
-#else
-            this.comboBox_DNPBaudRate.SelectedIndex = 5; //19200
-#endif
+            bool is9600Customer =
+                this.Customer == Customers.ENMAX ||
+                this.Customer == Customers.CONED ||
+                this.Customer == Customers.ONCOR ||
+                this.Customer == Customers.SCE ||
+                this.Customer == Customers.TORONTO_HYDRO;
+
+            SetDnpBaudByValue(is9600Customer ? 9600 : 19200);
         }
 
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
@@ -2495,10 +2511,22 @@ namespace RelayControlLibrary
 
             try
             {
-                this.comboBox_DNPBaudRate.SelectedIndex = bytePacket[17];
+                SetDnpBaudByIndexSafe(bytePacket[17]);
             }
             catch (Exception ex) { HandleDnpParseFailure("Error Setting Baud Rate", ex); return; }
 #endif
+        }
+
+        private void SetDnpBaudByIndexSafe(int index)
+        {
+            if (this.comboBox_DNPBaudRate == null) return;
+            int count = this.comboBox_DNPBaudRate.Items?.Count ?? 0;
+            if (count <= 0) return;
+
+            if (index < 0) index = 0;
+            if (index >= count) index = count - 1;
+
+            this.comboBox_DNPBaudRate.SelectedIndex = index;
         }
 
         private void NormalizeTxCommandButtonsLayout()

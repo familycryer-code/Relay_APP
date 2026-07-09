@@ -791,23 +791,10 @@ namespace RelayControlLibrary
             this.customerChanged = false;
         }
 
-        private void makeMemphis()
-        {
-            this.numericUpDownMemphisStage.Visible = true;
-            this.labelMemphisStage.Visible = true;
-            
-            this.groupBoxMemphisDeadBand.Location = this.groupBoxDIGITALGRIDDNPDeadBand.Location;
-            this.groupBoxDIGITALGRIDDNPDeadBand.Hide();
-            this.groupBoxMemphisDeadBand.Show();
-
-            this.buttonSendDeadBand.Visible = false;
-
-            this.buttonDefaults.Text = "Restore Memphis Defaults";
-        }
-
         //private void buttonDefaults_Click(object sender, EventArgs e)
         public void buttonDefaults_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("ucDNP buttonDefaults_Click HIT");
             this.setDefaultDefaults();
         }
 
@@ -817,59 +804,25 @@ namespace RelayControlLibrary
         {
             this.numericUpDownDestinationAddress.Value = 3;
             this.numericUpDownFragmentSize.Value = 1024;
-            this.numericUpDownMaxEvents.Value = 120;// 20;
+            this.numericUpDownMaxEvents.Value = 120;
             this.numericUpDownSourceAddress.Value = 4;
             this.numericUpDownUnsolRetries.Value = 5;
-            this.numericUpDownUnsolTimeout.Value = 1000;// 10000;
+            this.numericUpDownUnsolTimeout.Value = 1000;
             this.comboBoxLinkLayerConfirm.SelectedIndex = 0;
             this.comboBoxSelfAddress.SelectedIndex = 1;
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
 
-#if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
-            this.comboBoxDNPBaudRate.SelectedIndex = 2;// 3;
-#else
-            this.comboBoxDNPBaudRate.SelectedIndex = 5; //19200
-#endif
-        }
+            bool is9600Customer =
+                    this.Customer == Customers.ENMAX ||
+                    this.Customer == Customers.CONED ||
+                    this.Customer == Customers.ONCOR ||
+                    this.Customer == Customers.SCE ||
+                    this.Customer == Customers.TORONTO_HYDRO;
 
-        private void setMemphisDefaults()
-        {
-            this.numericUpDownDestinationAddress.Value = 3;
-            this.numericUpDownFragmentSize.Value = 1024;
-            this.numericUpDownMaxEvents.Value = 120;// 20;
-            this.numericUpDownMemphisStage.Value = 1;
-            this.numericUpDownSourceAddress.Value = 4;
-            //this.numericUpDownTriggerRangeAnalog.Value = 10;
-            this.numericUpDownTriggerRangeCurrent.Value = 10;
-            this.numericUpDownTriggerRangeTemperature.Value = 10;
-            this.numericUpDownTriggerRangeTHD.Value = 20;
-            this.numericUpDownTriggerRangeVoltage.Value = 10;
-            this.numericUpDownUnsolRetries.Value = 5;
-            this.numericUpDownUnsolTimeout.Value = 10000;
-            this.comboBoxLinkLayerConfirm.SelectedIndex = 0;
-            this.comboBoxSelfAddress.SelectedIndex = 1;
-            this.comboBoxTerminationResistor.SelectedIndex = 1;
-            this.comboBoxUnsolResponse.SelectedIndex = 1;
-            this.comboBoxDNPBaudRate.SelectedIndex = 2;// 3;
+            this.comboBoxDNPBaudRate.SelectedIndex = is9600Customer ? 2 : 5;
 
-            this.numericUpDownAnalog1DeadBand.Value = 0.0m;
-            this.numericUpDownAnalog2DeadBand.Value = 0.0m;
-            this.numericUpDownAnalog3DeadBand.Value = 0.0m;
-            this.numericUpDownAnalog4DeadBand.Value = 0.0m;
-            this.numericUpDownCurrentAngleDB.Value = 0.0m;
-            this.numericUpDownDifferentialVoltsDB.Value = 0.0m;
-            this.numericUpDownDifferentialVoltsRealDB.Value = 0.0m;
-            this.numericUpDownPhaseKVADB.Value = 0.0m;
-            this.numericUpDownPhaseKVARDB.Value = 0.0m;
-            this.numericUpDownPhaseKWDB.Value = 0.0m;
-            this.numericUpDownTotalKVAVARDB.Value = 0.0m;
-            this.numericUpDownTotalKWDB.Value = 0.0m;
-            this.numericUpDownTriggerRangeCurrent.Value = 0.0m;
-            this.numericUpDownTriggerRangeTemperature.Value = 0.0m;
-            this.numericUpDownTriggerRangeTHD.Value = 0.0m;
-            this.numericUpDownTriggerRangeVoltage.Value = 0.0m;
-            this.numericUpDownOdometer.Value = 0.0m;
+            MessageBox.Show("Customer=" + this.Customer);
         }
 
         #endregion
@@ -883,6 +836,14 @@ namespace RelayControlLibrary
                 this.dNPLabelStatus = value;
                 this.setDNPLabelStatus();
             }
+        }
+
+        public void SetDnpBaudIndex(int index)
+        {
+            if (index < 0 || index >= this.comboBoxDNPBaudRate.Items.Count)
+                return;
+
+            this.comboBoxDNPBaudRate.SelectedIndex = index;
         }
 
         void setDNPLabelStatus()

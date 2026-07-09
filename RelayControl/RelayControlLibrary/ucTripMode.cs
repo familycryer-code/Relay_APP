@@ -1833,6 +1833,18 @@ namespace RelayControlLibrary
 #endif
         }
 
+        private void SetListIndexSafe(ListBox lb, int index)
+        {
+            if (lb == null) return;
+            int count = lb.Items?.Count ?? 0;
+            if (count <= 0) return;
+
+            if (index < 0) index = 0;
+            if (index >= count) index = count - 1;
+
+            lb.SelectedIndex = index;
+        }
+
         private void setRelayTypeDefaults()
         {
             // ---------- Baseline (applies to all customers unless overridden) ----------
@@ -1880,7 +1892,7 @@ namespace RelayControlLibrary
 
 #elif CONED
             // ConEd: only one with Adaptive Trip feature (per request)
-            this.listBoxTripModes.SelectedIndex = 4;            // Adaptive
+            SetListIndexSafe(this.listBoxTripModes, 0);
             this.numericUpDownTimeDelay.Value = 150;
             this.comboBox_TripStyle.SelectedIndex = 2;          // Single Attempt
             this.checkBoxTripOnPowerDown.Checked = true;

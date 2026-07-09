@@ -3850,6 +3850,7 @@ namespace RelayControl
 #endif
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
+                ApplyCustomerDnpBaudOnce();
                 this.enableAll(true);
                 ucRelayProgramming1.InitializeAutoload();
             }
@@ -8007,7 +8008,25 @@ namespace RelayControl
                 tCPConnection ? 420 : 210, false);
         }
 
-      
+        private bool dnpBaudInitialized = false;
+
+        private void ApplyCustomerDnpBaudOnce()
+        {
+            if (dnpBaudInitialized) return;
+            if (!this.DNPEnabled) return;
+
+#if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
+            this.ucDNP1.SetDnpBaudIndex(2); // 9600
+#elif PSEG
+    this.ucDNP1.SetDnpBaudIndex(5); // 19200
+#else
+    return;
+#endif
+
+            this.ucDNP1.SendAllDNPSettings();
+            dnpBaudInitialized = true;
+        }
+
         private ProgressBarForm downloadProgress;
         private void downloadingDialogCountDown(string title, string label, int halfSecondCounts, bool dialog)
         {
