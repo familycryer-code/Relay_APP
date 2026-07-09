@@ -450,8 +450,8 @@ namespace RelayControlLibrary
             this.numericUpDownProtectTime.Value = 60;
 
             this.checkBoxCycles.Checked = true;
-            this.checkBoxMotorTime.Checked = true;
-            this.checkBoxMotorCycles.Checked = true;
+            this.checkBoxMotorTime.Checked = false;
+            this.checkBoxMotorCycles.Checked = false;
 
             this.checkBoxNeverReclose.Checked = false;
 
