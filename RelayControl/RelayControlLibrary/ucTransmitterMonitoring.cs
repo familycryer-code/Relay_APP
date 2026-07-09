@@ -1316,7 +1316,7 @@ namespace RelayControlLibrary
 
         private int getOilTemperatureFromAnalog(int bAN1)
         {
-#if ENMAX //consider adding for chicago as well
+#if ENMAX
             double oil_temp = .0393701 * bAN1 * 32; // 0.0393701 = 5V / 127 counts
 #elif LONDON_HYDRO
             double oil_temp = (double)bAN1 * 160d / 127d; // 127 Counts = 5V. 160 degrees / 5 v 
