@@ -260,7 +260,7 @@ namespace RelayControlLibrary
                 if (!this.forceDNPEnable)
                 {
                     this.dNPEnabled = value;                  // <- keep state
-                    this.checkBoxDNPEnable.Checked = value;   // <- update UI
+                    //this.checkBoxDNPEnable.Checked = value;   // <- update UI
                                                               // do NOT set dnpUplinkK here
                 }
             }
