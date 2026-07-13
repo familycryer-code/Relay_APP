@@ -794,7 +794,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif COMED

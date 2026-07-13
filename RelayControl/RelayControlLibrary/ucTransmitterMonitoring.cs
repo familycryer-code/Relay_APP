@@ -60,14 +60,6 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyGreen.Location = this.checkBoxFrequencyRed.Location = new System.Drawing.Point(217, 210); //(149, 210);
             this.label64.Location = new System.Drawing.Point(65, 53); //(5, 53);
 
-#if CONED
-            this.listBoxA1SensorSelect.SelectedIndex = 0;
-            this.listBoxA2SensorSelect.SelectedIndex = 0;
-#else
-            this.listBoxA1SensorSelect.SelectedIndex = 0;
-            this.listBoxA2SensorSelect.SelectedIndex = 0;
-#endif
-
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
             this.textBoxTransmitterTemp.Enabled = false;
@@ -125,17 +117,53 @@ namespace RelayControlLibrary
             this.checkBoxFrequencyGreen.Checked = true;
             this.checkBoxFrequencyRed.Checked = true;
             this.checkBoxFrequencyYellow.Checked = true;
-#if PSEG
-            this.listBoxA2SensorSelect.SelectedItem = "Oil Temperature";
-            groupBoxAnalogFlagValues.Visible = true;
-            textBoxHa.Visible = true;
-            labelHa.Visible = true;
-            checkBoxFlagStatusC.Visible = true;
-            checkBoxFlagStatusD.Visible = true;
-            checkBoxFlagStatusE.Visible = true;
-            checkBoxFlagStatusF.Visible = true;
-            checkBoxFlagStatusG.Visible = true;
+
+        
+#if BGE
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif COMED
+            this.listBoxA1SensorSelect.SelectedIndex = 3;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif CONED
+            this.listBoxA1SensorSelect.SelectedIndex = 0;
+            this.listBoxA2SensorSelect.SelectedIndex = 1;
+#elif DOMINION
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif ENMAX
+            this.listBoxA1SensorSelect.SelectedIndex = 0;
+            this.listBoxA2SensorSelect.SelectedIndex = 2;
+#elif EVERSOURCE
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif LONDON_HYDRO
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif ONCOR
+            this.listBoxA1SensorSelect.SelectedIndex = 3;
+            this.listBoxA2SensorSelect.SelectedIndex = 2;
+#elif PSEG
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif SCE
+            this.listBoxA1SensorSelect.SelectedIndex = 3;
+            this.listBoxA2SensorSelect.SelectedIndex = 3;
+#elif SCL
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 3;
+#elif TAUNTON
+            this.listBoxA1SensorSelect.SelectedIndex = 2;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#elif TORONTO_HYDRO
+            this.listBoxA1SensorSelect.SelectedIndex = 0;
+            this.listBoxA2SensorSelect.SelectedIndex = 0;
+#else
+            this.listBoxA1SensorSelect.SelectedIndex = 3;
+            this.listBoxA2SensorSelect.SelectedIndex = 3;
+
 #endif
+
         }
 
         #endregion
