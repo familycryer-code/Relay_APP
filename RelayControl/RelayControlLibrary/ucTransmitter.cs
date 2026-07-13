@@ -572,7 +572,6 @@ namespace RelayControlLibrary
         {
             if (!this.checkBoxDNPEnable.Checked)
             {
-                this.checkBoxDNPEnable.Checked = true;
                 this.buttonTX_Click(this, new EventArgs());
             }
 
@@ -2116,10 +2115,12 @@ namespace RelayControlLibrary
             set
             {
                 this.forceDNPEnable = value;
+
+                // Do not force UI checked state here.
+                // Only relay readback should set checkbox truth.
                 if (value)
                 {
-                    // MessageBox.Show("DNP Uplink chkBox checked 8"); // Only for testing - to be removed 6/15/2026
-                    this.DNPEnabled = this.checkBoxDNPEnable.Checked = true;
+                    this.buttonTX_Click(this, new EventArgs()); // send request/apply path
                 }
             }
         }

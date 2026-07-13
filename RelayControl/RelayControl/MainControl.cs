@@ -5885,6 +5885,34 @@ namespace RelayControl
             this.sendPacket(sendArray);
         }
 
+        private bool IsDnpCustomer()
+        {
+            return this.Customer == Customers.CONED ||
+                   this.Customer == Customers.ENMAX ||
+                   this.Customer == Customers.ONCOR ||
+                   this.Customer == Customers.PSEG ||
+                   this.Customer == Customers.SCE;
+        }
+
+        private void ApplyDnpUiGate()
+        {
+            bool isDnpCust = IsDnpCustomer();
+            bool uplinkOn = isDnpCust && this.ucTransmitter1.CheckDNPEnable; // relay-backed state
+
+            // Uplink control visibility
+            this.ucTransmitter1.checkBoxDNPEnable.Visible = isDnpCust;
+            this.ucTransmitter1.checkBoxDNPEnable.Enabled = isDnpCust;
+
+            // DNP settings visibility + gating
+            this.tabPageDNP.Visible = isDnpCust;          // if using tab pages
+            this.ucDNP1.Visible = isDnpCust;
+            this.ucDNP1.Enabled = uplinkOn;
+
+            // Status
+            this.ucTransmitter1.DNPCommLabelStatus =
+                isDnpCust && uplinkOn && applyTX.applyTxSettings && applyDNP.applyDNPSettings;
+        }
+
         //private void buttonRelayType_Click(object sender, EventArgs e)
         private void sendRelayPhasingAndType()
         {
