@@ -99,43 +99,15 @@ namespace SineDisplayGraph
             Array temp = Enum.GetValues(typeof(PhasorTypes));
             int count = 0;
 
-            // Relocate the voltage, current, power  labels, text and boxes as per new design for PQ Monitor tab and Tahoma font
-            /*
-                this.labelRealValue.Location = new System.Drawing.Point(1420, -3);
-
-                this.textBoxIEffReal.Location = new System.Drawing.Point(1400, 583);
-                this.labelIEffRealUnits.Location = new System.Drawing.Point(1470, 586);
-
-                this.textBoxICReal.Location = new System.Drawing.Point(1400, 553);
-                this.labelICRealUnits.Location = new System.Drawing.Point(1470, 556); 
-
-                this.textBoxIBReal.Location = new System.Drawing.Point(1400, 523);
-                this.labelIBRealUnits.Location = new System.Drawing.Point(1470, 526);
-
-                this.textBoxIAReal.Location = new System.Drawing.Point(1400, 493);
-                this.labelIARealUnits.Location = new System.Drawing.Point(1470, 496);
-
-                this.textBoxVdAReal.Location = new System.Drawing.Point(1400, 193);
-                this.labelVdAReal.Location = new System.Drawing.Point(1470, 197);
-
-                this.textBoxVdBReal.Location = new System.Drawing.Point(1400, 223);
-                this.labelVdBReal.Location = new System.Drawing.Point(1470, 227);
-
-                this.textBoxVdCReal.Location = new System.Drawing.Point(1400, 253);
-                this.labelVdCReal.Location = new System.Drawing.Point(1470, 257);
-
-                this.textBoxVdTReal.Location = new System.Drawing.Point(1400, 283);
-                this.labelVdTReal.Location = new System.Drawing.Point(1470, 286);
-           */
-            this.panel_load.Location = new System.Drawing.Point(1565, 27); 
-            this.panel_load.Size = new System.Drawing.Size(250, 293); 
-            this.lbl_loadReading.Location = new System.Drawing.Point(1570, 17); 
-            this.groupBoxTHD.Location = new System.Drawing.Point(1537, 750); //(1537, 780); 
-            this.panel_PQmon.Location = new System.Drawing.Point(1530, 4); 
-            this.panel_PQmon.Size = new System.Drawing.Size(320, 950); 
+            this.panel_load.Location = new System.Drawing.Point(1565, 27);
+            this.panel_load.Size = new System.Drawing.Size(250, 293);
+            this.lbl_loadReading.Location = new System.Drawing.Point(1570, 17);
+            this.groupBoxTHD.Location = new System.Drawing.Point(1537, 750); //(1537, 780);
+            this.panel_PQmon.Location = new System.Drawing.Point(1530, 4);
+            this.panel_PQmon.Size = new System.Drawing.Size(320, 950);
 
             //Positioning of phasorGraph2 and its 4 quarter degree
-            this.phasorGraph2.Location = new System.Drawing.Point(900, 35); 
+            this.phasorGraph2.Location = new System.Drawing.Point(900, 35);
             this.label54.Location = new System.Drawing.Point(1223, 174); // right
             this.label62.Location = new System.Drawing.Point(1042, 5); // top
             this.label61.Location = new System.Drawing.Point(852, 174); // left
@@ -172,13 +144,13 @@ namespace SineDisplayGraph
             this.textBoxIPAngle.Location = new System.Drawing.Point(1235, 496);     //txtbox current pos seq
             this.textBoxPAAngle.Location = new System.Drawing.Point(1235, 541);     //txtbox phaseA power
             this.textBoxPBAngle.Location = new System.Drawing.Point(1235, 586);     //txtbox phaseB power
-            this.textBoxPCAngle.Location = new System.Drawing.Point(1235, 631);     //txtbox phaseC power 
+            this.textBoxPCAngle.Location = new System.Drawing.Point(1235, 631);     //txtbox phaseC power
             this.textBoxPTAngle.Location = new System.Drawing.Point(1235, 676);     //txtbox avg power
             this.textBoxVdPAngle.Location = new System.Drawing.Point(1235, 721);    //txtbox diff pos seq
             this.textBoxVdNAngle.Location = new System.Drawing.Point(1235, 766);    //txtbox diff neg seq
             this.textBoxVtPAngle.Location = new System.Drawing.Point(1235, 811);    //txtbox transformer pos seq
             this.textBoxVtNAngle.Location = new System.Drawing.Point(1235, 856);    //txtbox transformer neg seq
-            this.textBoxVnPAngle.Location = new System.Drawing.Point(1235, 901);    //txtbox nw pos seq 
+            this.textBoxVnPAngle.Location = new System.Drawing.Point(1235, 901);    //txtbox nw pos seq
             this.textBoxVnNAngle.Location = new System.Drawing.Point(1235, 946);    //txtbox nw neg seq
 
             this.labelIEffUnits.Location = new System.Drawing.Point(1135, 406);     //unit lbl eff curr val
@@ -225,21 +197,21 @@ namespace SineDisplayGraph
             this.labelVnN.Location = new System.Drawing.Point(780, 946);
 
             this.labelRealValue.Location = new System.Drawing.Point(510, 379);  //Real value column header ( left set )
-            this.labelVdAReal.Location = new System.Drawing.Point(650, 586);
-            this.labelVdBReal.Location = new System.Drawing.Point(650, 631);
-            this.labelVdCReal.Location = new System.Drawing.Point(650, 676);
-            this.labelVdTReal.Location = new System.Drawing.Point(650, 721);
-            this.labelIARealUnits.Location = new System.Drawing.Point(650, 766);
-            this.labelIBRealUnits.Location = new System.Drawing.Point(650, 811);
-            this.labelICRealUnits.Location = new System.Drawing.Point(650, 856);
+            this.labelVdAReal.Location = new System.Drawing.Point(650, 676);
+            this.labelVdBReal.Location = new System.Drawing.Point(650, 721);
+            this.labelVdCReal.Location = new System.Drawing.Point(650, 766);
+            this.labelVdTReal.Location = new System.Drawing.Point(650, 811);
+            this.labelIARealUnits.Location = new System.Drawing.Point(650, 856);
+            this.labelIBRealUnits.Location = new System.Drawing.Point(650, 901);
+            this.labelICRealUnits.Location = new System.Drawing.Point(650, 946);
 
-            this.textBoxVdAReal.Location = new System.Drawing.Point(530, 586);
-            this.textBoxVdBReal.Location = new System.Drawing.Point(530, 631);
-            this.textBoxVdCReal.Location = new System.Drawing.Point(530, 676);
-            this.textBoxVdTReal.Location = new System.Drawing.Point(530, 721);
-            this.textBoxIAReal.Location = new System.Drawing.Point(530, 766);
-            this.textBoxIBReal.Location = new System.Drawing.Point(530, 811);
-            this.textBoxICReal.Location = new System.Drawing.Point(530, 856);
+            this.textBoxVdAReal.Location = new System.Drawing.Point(530, 676);
+            this.textBoxVdBReal.Location = new System.Drawing.Point(530, 721);
+            this.textBoxVdCReal.Location = new System.Drawing.Point(530, 766);
+            this.textBoxVdTReal.Location = new System.Drawing.Point(530, 811);
+            this.textBoxIAReal.Location = new System.Drawing.Point(530, 856);
+            this.textBoxIBReal.Location = new System.Drawing.Point(530, 901);
+            this.textBoxICReal.Location = new System.Drawing.Point(530, 946);
 
             this.label48.Location = new System.Drawing.Point(425, 379);         //Angle column header ( left set )
             this.textBoxVtAAngle.Location = new System.Drawing.Point(424, 406);
@@ -258,7 +230,7 @@ namespace SineDisplayGraph
 
             this.labelVtAUnits.Location = new System.Drawing.Point(355, 406);
             this.labelVtBUnits.Location = new System.Drawing.Point(355, 451);
-            this.labelVtCUnits.Location = new System.Drawing.Point(355, 496); 
+            this.labelVtCUnits.Location = new System.Drawing.Point(355, 496);
             this.labelVnAUnits.Location = new System.Drawing.Point(355, 541);
             this.labelVnBUnits.Location = new System.Drawing.Point(355, 586);
             this.labelVnCUnits.Location = new System.Drawing.Point(355, 631);

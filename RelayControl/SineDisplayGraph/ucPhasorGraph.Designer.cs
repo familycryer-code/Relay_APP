@@ -2029,7 +2029,7 @@ namespace SineDisplayGraph
             // textBoxVdTReal
             // 
             this.textBoxVdTReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdTReal.Location = new System.Drawing.Point(441, 672);
+            this.textBoxVdTReal.Location = new System.Drawing.Point(441, 732);
             this.textBoxVdTReal.Name = "textBoxVdTReal";
             this.textBoxVdTReal.ReadOnly = true;
             this.textBoxVdTReal.Size = new System.Drawing.Size(60, 27);
@@ -2039,7 +2039,7 @@ namespace SineDisplayGraph
             // textBoxVdCReal
             // 
             this.textBoxVdCReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdCReal.Location = new System.Drawing.Point(441, 640);
+            this.textBoxVdCReal.Location = new System.Drawing.Point(441, 700);
             this.textBoxVdCReal.Name = "textBoxVdCReal";
             this.textBoxVdCReal.ReadOnly = true;
             this.textBoxVdCReal.Size = new System.Drawing.Size(60, 27);
@@ -2049,7 +2049,7 @@ namespace SineDisplayGraph
             // textBoxVdBReal
             // 
             this.textBoxVdBReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdBReal.Location = new System.Drawing.Point(441, 610);
+            this.textBoxVdBReal.Location = new System.Drawing.Point(441, 670);
             this.textBoxVdBReal.Name = "textBoxVdBReal";
             this.textBoxVdBReal.ReadOnly = true;
             this.textBoxVdBReal.Size = new System.Drawing.Size(60, 27);
@@ -2059,7 +2059,7 @@ namespace SineDisplayGraph
             // textBoxVdAReal
             // 
             this.textBoxVdAReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVdAReal.Location = new System.Drawing.Point(441, 580);
+            this.textBoxVdAReal.Location = new System.Drawing.Point(441, 640);
             this.textBoxVdAReal.Name = "textBoxVdAReal";
             this.textBoxVdAReal.ReadOnly = true;
             this.textBoxVdAReal.Size = new System.Drawing.Size(60, 27);
@@ -2080,7 +2080,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdTReal.AutoSize = true;
             this.labelVdTReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdTReal.Location = new System.Drawing.Point(505, 672);
+            this.labelVdTReal.Location = new System.Drawing.Point(505, 732);
             this.labelVdTReal.Name = "labelVdTReal";
             this.labelVdTReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdTReal.TabIndex = 293;
@@ -2090,7 +2090,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdCReal.AutoSize = true;
             this.labelVdCReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdCReal.Location = new System.Drawing.Point(503, 640);
+            this.labelVdCReal.Location = new System.Drawing.Point(503, 700);
             this.labelVdCReal.Name = "labelVdCReal";
             this.labelVdCReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdCReal.TabIndex = 292;
@@ -2100,7 +2100,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdBReal.AutoSize = true;
             this.labelVdBReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdBReal.Location = new System.Drawing.Point(505, 610);
+            this.labelVdBReal.Location = new System.Drawing.Point(505, 670);
             this.labelVdBReal.Name = "labelVdBReal";
             this.labelVdBReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdBReal.TabIndex = 291;
@@ -2110,7 +2110,7 @@ namespace SineDisplayGraph
             // 
             this.labelVdAReal.AutoSize = true;
             this.labelVdAReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVdAReal.Location = new System.Drawing.Point(505, 580);
+            this.labelVdAReal.Location = new System.Drawing.Point(505, 640);
             this.labelVdAReal.Name = "labelVdAReal";
             this.labelVdAReal.Size = new System.Drawing.Size(44, 19);
             this.labelVdAReal.TabIndex = 290;
@@ -2253,7 +2253,7 @@ namespace SineDisplayGraph
             // textBoxICReal
             // 
             this.textBoxICReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxICReal.Location = new System.Drawing.Point(440, 765);
+            this.textBoxICReal.Location = new System.Drawing.Point(440, 825);
             this.textBoxICReal.Name = "textBoxICReal";
             this.textBoxICReal.ReadOnly = true;
             this.textBoxICReal.Size = new System.Drawing.Size(60, 27);
@@ -2263,7 +2263,7 @@ namespace SineDisplayGraph
             // textBoxIBReal
             // 
             this.textBoxIBReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIBReal.Location = new System.Drawing.Point(441, 735);
+            this.textBoxIBReal.Location = new System.Drawing.Point(441, 795);
             this.textBoxIBReal.Name = "textBoxIBReal";
             this.textBoxIBReal.ReadOnly = true;
             this.textBoxIBReal.Size = new System.Drawing.Size(60, 27);
@@ -2273,7 +2273,7 @@ namespace SineDisplayGraph
             // textBoxIAReal
             // 
             this.textBoxIAReal.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxIAReal.Location = new System.Drawing.Point(441, 704);
+            this.textBoxIAReal.Location = new System.Drawing.Point(441, 764);
             this.textBoxIAReal.Name = "textBoxIAReal";
             this.textBoxIAReal.ReadOnly = true;
             this.textBoxIAReal.Size = new System.Drawing.Size(60, 27);
@@ -2284,7 +2284,7 @@ namespace SineDisplayGraph
             // 
             this.labelICRealUnits.AutoSize = true;
             this.labelICRealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelICRealUnits.Location = new System.Drawing.Point(507, 765);
+            this.labelICRealUnits.Location = new System.Drawing.Point(507, 825);
             this.labelICRealUnits.Name = "labelICRealUnits";
             this.labelICRealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelICRealUnits.TabIndex = 301;
@@ -2294,7 +2294,7 @@ namespace SineDisplayGraph
             // 
             this.labelIBRealUnits.AutoSize = true;
             this.labelIBRealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIBRealUnits.Location = new System.Drawing.Point(507, 735);
+            this.labelIBRealUnits.Location = new System.Drawing.Point(507, 795);
             this.labelIBRealUnits.Name = "labelIBRealUnits";
             this.labelIBRealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIBRealUnits.TabIndex = 300;
@@ -2304,7 +2304,7 @@ namespace SineDisplayGraph
             // 
             this.labelIARealUnits.AutoSize = true;
             this.labelIARealUnits.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIARealUnits.Location = new System.Drawing.Point(505, 704);
+            this.labelIARealUnits.Location = new System.Drawing.Point(505, 764);
             this.labelIARealUnits.Name = "labelIARealUnits";
             this.labelIARealUnits.Size = new System.Drawing.Size(50, 19);
             this.labelIARealUnits.TabIndex = 299;
