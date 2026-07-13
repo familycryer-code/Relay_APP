@@ -1011,94 +1011,87 @@ namespace RelayControlLibrary
 
         private void setProgrammingFiles()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (this.dontReloadFromResource || RelayProgrammingStates.Idle != this.state)
+            logger.Trace("Method: {0}", nameof(setProgrammingFiles));
+            if (this.dontReloadFromResource || this.state != RelayProgrammingStates.Idle)
                 return;
 
             // Keep for now during stabilization
             checkDNP();
 
             CustomerLoadFiles cLF = null;
+            string customerDisplayName = null;
 
-        #if (DEBUG || ENMAX || ENGINEERING)
-                    // Base all resource selection on ENMAX for these builds
-                    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
-        #endif
-        #if BGE
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.BGE));
-        #endif
-        #if COMED
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.COMED));
-        #endif
-        #if CONED
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.CONED));
-        #endif
-        #if DOMINION
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.DOMINION));
-        #endif
-        #if EVERSOURCE
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.EVERSOURCE));
-        #endif
-        #if LONDON_HYDRO
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.LONDON_HYDRO));
-        #endif
-        #if ONCOR
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ONCOR));
-        #endif
-        #if PSEG
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.PSEG));
-        #endif
-        #if SCE
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCE));
-        #endif
-        #if SCL
+#if DEBUG || ENGINEERING
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
+    customerDisplayName = "ENMAX";
+#elif BGE
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.BGE));
+    customerDisplayName = "BGE";
+#elif COMED
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.COMED));
+    customerDisplayName = "COMED";
+#elif CONED
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.CONED));
+    customerDisplayName = "CONED";
+#elif DOMINION
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.DOMINION));
+    customerDisplayName = "DOMINION";
+#elif ENMAX
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
+    customerDisplayName = "ENMAX";
+#elif EVERSOURCE
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.EVERSOURCE));
+    customerDisplayName = "EVERSOURCE";
+#elif LONDON_HYDRO
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.LONDON_HYDRO));
+    customerDisplayName = "LONDON_HYDRO";
+#elif ONCOR
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ONCOR));
+    customerDisplayName = "ONCOR";
+#elif PSEG
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.PSEG));
+    customerDisplayName = "PSEG";
+#elif SCE
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCE));
+    customerDisplayName = "SCE";
+#elif SCL
             cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCL));
-        #endif
-        #if TAUNTON
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TAUNTON));
-        #endif
-        #if TORONTO_HYDRO
-            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
-        #endif
+            customerDisplayName = "SCL";
+#elif TAUNTON
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TAUNTON));
+    customerDisplayName = "TAUNTON";
+#elif TORONTO_HYDRO
+    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
+    customerDisplayName = "TORONTO_HYDRO";
+#else
+    throw new Exception("No supported customer build symbol is defined.");
+#endif
 
             if (cLF == null)
                 throw new Exception("Customer load files not initialized for active build symbol.");
 
-        #if CONED
-            if (this.GERelay)
-            {
-                this.masterCode.FileString = cLF.MasterFileConEdHBD;
-                this.textBoxMasterFileName.Text = "GE Master Relay From Resource CONED (HBD)";
-
-                this.relayCode.FileString = cLF.RelayFileGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource CONED";
-            }
-            else
-            {
-                this.masterCode.FileString = cLF.MasterFileConEdSEC;
-                this.textBoxMasterFileName.Text = "WH Master Relay From Resource CONED (SEC)";
-
-                this.relayCode.FileString = cLF.RelayFileWH;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource CONED";
-            }
-        #else
             if (this.GERelay)
             {
                 this.masterCode.FileString = cLF.MasterFileGE;
-                this.textBoxMasterFileName.Text = "GE Master Relay From Resource " + cLF.Customer.ToString();
+                this.textBoxMasterFileName.Text = "GE Master Relay From Resource " + customerDisplayName;
 
                 this.relayCode.FileString = cLF.RelayFileGE;
-                this.textBoxRelayFileName.Text = "GE Relay From Resource " + cLF.Customer.ToString();
+                this.textBoxRelayFileName.Text = "GE Relay From Resource " + customerDisplayName;
             }
             else
             {
                 this.masterCode.FileString = cLF.MasterFileWH;
-                this.textBoxMasterFileName.Text = "WH Master Relay From Resource " + cLF.Customer.ToString();
+                this.textBoxMasterFileName.Text = "WH Master Relay From Resource " + customerDisplayName;
 
                 this.relayCode.FileString = cLF.RelayFileWH;
-                this.textBoxRelayFileName.Text = "WH Relay From Resource " + cLF.Customer.ToString();
+                this.textBoxRelayFileName.Text = "WH Relay From Resource " + customerDisplayName;
             }
-        #endif
+
+            if (string.IsNullOrWhiteSpace(this.masterCode.FileString))
+                throw new Exception("Master firmware resource was not loaded for customer " + customerDisplayName);
+
+            if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
+                throw new Exception("Relay firmware resource was not loaded for customer " + customerDisplayName);
 
             if (this.transmitterEnabled)
             {
@@ -1109,7 +1102,9 @@ namespace RelayControlLibrary
             this.parseSFile(this.masterCode);
             this.parseSFile(this.relayCode);
 
-            logger.Trace("MP: " + this.textBoxMasterFileName.Text + " RP: " + this.textBoxRelayFileName.Text + " FPGA: " + this.textBoxFPGAFile.Text);
+            logger.Trace("MP: " + this.textBoxMasterFileName.Text +
+                         " RP: " + this.textBoxRelayFileName.Text +
+                         " FPGA: " + this.textBoxFPGAFile.Text);
         }
 
 

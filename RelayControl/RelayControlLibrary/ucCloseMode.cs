@@ -245,25 +245,7 @@ namespace RelayControlLibrary
                 mySEA.RequestAll = false;
                 CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(CloseModeDef);
-                /*
-                 if (dataBackupR.dataBackup_fromRelay == true)
-                {
-                    string lineRead;
-                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                    
-                    mySEA.SendPacket[0] = 77;  // 'M'
-                    mySEA.SendPacket[1] = 67;  // 'C'
-                    for (int cnt = 2; cnt <= 6; cnt++)
-                    {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        if((cnt%2) == 0)//even numbered
-                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
-                        else
-                            mySEA.SendPacket[cnt-2] = Convert.ToByte(lineRead);
-                    }
-                    mySEA.SendPacket[7] = 0x0D;
-                }
-                */
+             
                 OnSend(this, mySEA);
             }
             catch (Exception ex)

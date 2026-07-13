@@ -1930,7 +1930,7 @@ namespace RelayControlLibrary
 #elif CONED
             // ConEd: only one with Adaptive Trip feature (per request)
             SetListIndexSafe(this.listBoxTripModes, 0);
-            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownTimeDelay.Value = 150;
             this.comboBox_TripStyle.SelectedIndex = 2;          // Single Attempt
             this.checkBoxTripOnPowerDown.Checked = true;
 
