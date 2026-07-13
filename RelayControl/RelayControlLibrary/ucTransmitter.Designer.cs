@@ -1735,14 +1735,13 @@ namespace RelayControlLibrary
             this.checkBoxWBC.UseVisualStyleBackColor = true;
             // 
             // checkBoxDNPEnable
-            // 
             this.checkBoxDNPEnable.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxDNPEnable.Location = new System.Drawing.Point(25, 595);
+            this.checkBoxDNPEnable.Location = new System.Drawing.Point(41, 596);
             this.checkBoxDNPEnable.Name = "checkBoxDNPEnable";
             this.checkBoxDNPEnable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxDNPEnable.Size = new System.Drawing.Size(222, 23);
+            this.checkBoxDNPEnable.Size = new System.Drawing.Size(260, 110);
             this.checkBoxDNPEnable.TabIndex = 72;
-            this.checkBoxDNPEnable.Text = "DNP Uplink ( Kit Required )";
+            this.checkBoxDNPEnable.Text = "Enable\r\nDNP Uplink Feature.\r\n(DIGITALGRID DNP\r\nUplink kit required for\r\nwireless/fiber locations)";
             this.checkBoxDNPEnable.UseVisualStyleBackColor = true;
             this.checkBoxDNPEnable.Click += new System.EventHandler(this.dnpUplink_Click);
             // 
@@ -2481,14 +2480,14 @@ namespace RelayControlLibrary
             this.panel_dnpComSet.TabIndex = 91;
             // 
             // lbl_UplinkEn
-            // 
             this.lbl_UplinkEn.AutoSize = true;
             this.lbl_UplinkEn.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_UplinkEn.Location = new System.Drawing.Point(673, 598);
+            this.lbl_UplinkEn.Location = new System.Drawing.Point(41, 596);
             this.lbl_UplinkEn.Name = "lbl_UplinkEn";
             this.lbl_UplinkEn.Size = new System.Drawing.Size(56, 19);
             this.lbl_UplinkEn.TabIndex = 92;
             this.lbl_UplinkEn.Text = "Enable";
+            this.lbl_UplinkEn.Visible = false;
             // 
             // grpBx_DNPSettings
             // 

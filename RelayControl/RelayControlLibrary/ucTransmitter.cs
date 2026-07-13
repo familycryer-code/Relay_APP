@@ -2676,44 +2676,39 @@ namespace RelayControlLibrary
         }
         private void NormalizeDnpUplinkPlacement()
         {
-#pragma warning disable CS0219 // Variable is assigned but its value is never used
-            const int TX_UPLINK_X = 35;
-#pragma warning restore CS0219 // Variable is assigned but its value is never used
 #if DNP
+            const int TX_UPLINK_X = 30;
+            const int TX_UPLINK_Y = 496;
+
             if (this.lbl_UplinkEn.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.lbl_UplinkEn);
 
             if (this.checkBoxDNPEnable.Parent != this.grpBox_TXcommands)
                 this.grpBox_TXcommands.Controls.Add(this.checkBoxDNPEnable);
 
-            // "Enable" label
-            this.lbl_UplinkEn.AutoSize = true;
-            this.lbl_UplinkEn.Location = new Point(TX_UPLINK_X, 498);
-            this.lbl_UplinkEn.Text = "Enable";
+            this.checkBoxDNPEnable.AutoSize = true;
+            this.checkBoxDNPEnable.Text = "";
+            this.checkBoxDNPEnable.Location = new Point(TX_UPLINK_X, TX_UPLINK_Y + 5);
+            this.checkBoxDNPEnable.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
+            this.checkBoxDNPEnable.Visible = true;
 
-            // Multi-line checkbox text to match legacy layout
-            this.checkBoxDNPEnable.AutoSize = false;
-            this.checkBoxDNPEnable.Location = new Point(TX_UPLINK_X, 516);
-            this.checkBoxDNPEnable.MaximumSize = new Size(198, 0);
-            this.checkBoxDNPEnable.MinimumSize = new Size(198, 96);
-            this.checkBoxDNPEnable.Size = new Size(198, 96);
-            this.checkBoxDNPEnable.Text =
+            this.lbl_UplinkEn.Visible = true;
+            this.lbl_UplinkEn.AutoSize = false;
+            this.lbl_UplinkEn.Location = new Point(TX_UPLINK_X + 18, TX_UPLINK_Y);
+            this.lbl_UplinkEn.Size = new Size(185, 120);
+            this.lbl_UplinkEn.Text =
+                "Enable\r\n" +
                 "DNP Uplink Feature.\r\n" +
                 "(DIGITALGRID DNP\r\n" +
                 "Uplink kit required for\r\n" +
                 "wireless/fiber locations)";
-            this.checkBoxDNPEnable.TextAlign = ContentAlignment.TopLeft;
-            this.checkBoxDNPEnable.UseCompatibleTextRendering = true;
-            this.checkBoxDNPEnable.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
-            this.checkBoxDNPEnable.AutoEllipsis = false;
-            this.checkBoxDNPEnable.Visible = true;
+            this.lbl_UplinkEn.TextAlign = ContentAlignment.TopLeft;
 
-            this.lbl_UplinkEn.BringToFront();
             this.checkBoxDNPEnable.BringToFront();
+            this.lbl_UplinkEn.BringToFront();
 
-            // force redraw/layout now
             this.checkBoxDNPEnable.Invalidate();
-            this.checkBoxDNPEnable.Update();
+            this.lbl_UplinkEn.Invalidate();
             this.grpBox_TXcommands.PerformLayout();
             this.grpBox_TXcommands.Refresh();
 #endif
