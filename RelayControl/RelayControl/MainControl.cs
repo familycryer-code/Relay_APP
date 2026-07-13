@@ -607,7 +607,7 @@ namespace RelayControl
         this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
         this.Customer = Customers.COMED;
 #elif CONED
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Consolidated Edison";
+        this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
         this.Customer = Customers.CONED;
 #elif DOMINION
         this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
@@ -640,7 +640,7 @@ namespace RelayControl
         this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
         this.Customer = Customers.TORONTO_HYDRO;
 #else
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0";
+        this.Text = "DIGITALGRID, INC. - ";
         this.Customer = Customers.None;
 #endif
 

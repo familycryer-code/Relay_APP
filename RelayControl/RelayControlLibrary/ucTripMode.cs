@@ -179,14 +179,14 @@ namespace RelayControlLibrary
             {
                 this.listBoxTripModes.SelectedIndex = 0;
             }
-            //this.domainUpDownTripStyle.Visible = false;
-            this.comboBox_TripStyle.Visible = false;
-            this.labelTripStyle.Visible = false;
+           
+            this.comboBox_TripStyle.Visible = true;
+            this.labelTripStyle.Visible = true;
             this.labelGullWingAngle.Visible = false;
-            this.checkBoxEnableGullWing.Visible = false;
+            this.checkBoxEnableGullWing.Visible = true;
             this.labelGullWingUnits.Visible = false;
             this.numericUpDownGullWingAngle.Visible = false;
-            this.checkBoxTripOnPowerDown.Visible = false;
+            this.checkBoxTripOnPowerDown.Visible = true;
 
             this.domainUpDownType.Visible = true;// false;
             System.Diagnostics.Trace.WriteLine("...");
@@ -255,17 +255,15 @@ namespace RelayControlLibrary
             {
                 this.versionNumber = value;
 
-                if (this.versionNumber >= 110609 && this.Customer != Customers.CONED)
+                if (this.versionNumber >= 110609)
                 {
                     this.labelTripStyle.Visible = true;
-                    // this.domainUpDownTripStyle.Visible = true;
                     this.comboBox_TripStyle.Visible = true;
                     this.checkBoxTripOnPowerDown.Visible = true;
                 }
                 else
                 {
                     this.labelTripStyle.Hide();
-                    // this.domainUpDownTripStyle.Hide();
                     this.comboBox_TripStyle.Hide();
                     this.checkBoxTripOnPowerDown.Hide();
                 }
