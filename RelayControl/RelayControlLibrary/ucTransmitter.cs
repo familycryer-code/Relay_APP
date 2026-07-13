@@ -260,8 +260,8 @@ namespace RelayControlLibrary
                 if (!this.forceDNPEnable)
                 {
                     this.dNPEnabled = value;
-                    //this.checkBoxDNPEnable.Checked = value; 
-                    dnpUplinkK.dnpEnabledWithKit = this.checkBoxDNPEnable.Checked = value;
+                    this.checkBoxDNPEnable.Checked = value;   // keep UI synced to relay-backed value
+                                                              // do NOT set dnpUplinkK here
                 }
             }
         }
@@ -520,7 +520,7 @@ namespace RelayControlLibrary
                 }
 
                 // Comm label should reflect apply state, not force-enable
-                this.DNPCommLabelStatus = applyTX.applyTxSettings && applyDNP.applyDNPSettings;
+                this.DNPCommLabelStatus = this.DNPEnabled;
 
                 if ((bA[28] & 0x08) == 0x08)
                 {
@@ -2526,6 +2526,9 @@ namespace RelayControlLibrary
                 SetDnpBaudByIndexSafe(bytePacket[17]);
             }
             catch (Exception ex) { HandleDnpParseFailure("Error Setting Baud Rate", ex); return; }
+
+            bool dnpEnabledFromPacket = (bytePacket[0] & 0x08) == 0x08;
+            this.DNPCommLabelStatus = dnpEnabledFromPacket;
 #endif
         }
 

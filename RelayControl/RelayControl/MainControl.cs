@@ -337,6 +337,9 @@ namespace RelayControl
                 AutoReProgramF.AutoReProgramFPGA = false;
 
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = false;
+                dnpUplinkK.dnpEnabledWithKit = false;
+                applyTX.applyTxSettings = false;
+                applyDNP.applyDNPSettings = false;
 
 #if DEBUG
         this.initializeFromConfigFileDebug();
@@ -1716,12 +1719,7 @@ namespace RelayControl
                 requestRelayRegisters();
                 this.requestAllData();
                 this.parametersLoaded = true;
-                this.ucTransmitter1.ForceDNPEnable = true;
-                Thread.Sleep(100);
-                this.ucTransmitter1.SendTransmitterSettings();
 
-                // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
                 if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
                     this.ucTransmitter1.DNPCommLabelStatus = true;
                 else
