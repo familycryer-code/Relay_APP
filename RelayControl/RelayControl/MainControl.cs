@@ -6083,7 +6083,7 @@ namespace RelayControl
             this.comboBox_CTRatio.SelectedIndex = 2;
 #elif TAUNTON
             this.comboBox_Phasings.SelectedIndex = 0;
-            this.comboBox_RelayType.SelectedIndex = 1;
+            this.comboBox_RelayType.SelectedIndex = 0;
             this.comboBox_CTRatio.SelectedIndex = 5;
 #elif TORONTO_HYDRO
             this.comboBox_Phasings.SelectedIndex = 0;

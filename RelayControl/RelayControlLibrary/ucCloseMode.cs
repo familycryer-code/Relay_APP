@@ -876,7 +876,7 @@ namespace RelayControlLibrary
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif PSEG
             this.numericUpDownTimeDelay.Value = 6;
-            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownRecloseVolts.Value = 1.4m;
             this.numericUpDownPDA.Value = -5;
             this.numericUpDownPDV.Value = 0.4m;
             this.numericUpDownCloseTiltAngle.Value = 95;
@@ -905,9 +905,9 @@ namespace RelayControlLibrary
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif TAUNTON
-            this.numericUpDownTimeDelay.Value = 6;
+            this.numericUpDownTimeDelay.Value = 5;
             this.numericUpDownRecloseVolts.Value = 1.4m;
-            this.numericUpDownPDA.Value = -5;
+            this.numericUpDownPDA.Value = -6;
             this.numericUpDownPDV.Value = 0.3m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
