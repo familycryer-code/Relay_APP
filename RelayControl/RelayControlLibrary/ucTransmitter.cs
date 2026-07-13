@@ -259,8 +259,8 @@ namespace RelayControlLibrary
             {
                 if (!this.forceDNPEnable)
                 {
-                    this.dNPEnabled = value;
-                    this.checkBoxDNPEnable.Checked = value;   // keep UI synced to relay-backed value
+                    this.dNPEnabled = value;                  // <- keep state
+                    this.checkBoxDNPEnable.Checked = value;   // <- update UI
                                                               // do NOT set dnpUplinkK here
                 }
             }
@@ -280,6 +280,13 @@ namespace RelayControlLibrary
                 this.waterBugNoTransmitter = value;
                 this.showWaterbugNoTransmitter(value);
             }
+        }
+
+        private uint masterRevisionNumber = 0;
+        public uint MasterRevisionNumber
+        {
+            get { return this.masterRevisionNumber; }
+            set { this.masterRevisionNumber = value; }
         }
 
         private int serialNumber = 0;
@@ -505,7 +512,7 @@ namespace RelayControlLibrary
                 }
 
                 bool txUplinkBit = (bA[28] & 0x04) == 0x04;
-                bool isRev10Plus = this.RelayMasterRevision >= Constants.Rev10Master; // use your rev-10 constant
+                bool isRev10Plus = this.MasterRevisionNumber >= Constants.Rev10Master;
                 bool isToronto = this.Customer == Customers.TORONTO_HYDRO;
 
                 // Rev10+: uplink bit controls uplink checkbox/state (except Toronto special handling)

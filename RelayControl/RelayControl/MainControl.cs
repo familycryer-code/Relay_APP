@@ -5068,7 +5068,8 @@ namespace RelayControl
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
-                this.ucTransmitter1.RelayMasterRevision = this.masterRevision;
+                this.ucTransmitter1.MasterRevisionNumber = this.masterRevision;
+
 
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
