@@ -334,6 +334,14 @@ namespace RelayControlLibrary
                 TXSettings.PacketLength = value;
             }
         }
+
+        private uint relayMasterRevision = 0;
+        public uint RelayMasterRevision
+        {
+            get { return this.relayMasterRevision; }
+            set { this.relayMasterRevision = value; }
+        }
+
         private delegate void setAllCallBack(byte[] bA);
         private bool customerVersion = false;
         private bool badType1MessagePeriod = false;
@@ -495,22 +503,25 @@ namespace RelayControlLibrary
                     this.enableWaterbury(false);
                     this.checkBoxSmartExternalCableEnable.Checked = false;
                 }
-                //MessageBox.Show("type1message length bA[28] coming from relay : " + bA[28]); // Only for testing - to be removed
-                if ((bA[28] & 0x04) == 0x04)
+
+                bool txUplinkBit = (bA[28] & 0x04) == 0x04;
+                bool isRev10Plus = this.RelayMasterRevision >= Constants.Rev10Master; // use your rev-10 constant
+                bool isToronto = this.Customer == Customers.TORONTO_HYDRO;
+
+                // Rev10+: uplink bit controls uplink checkbox/state (except Toronto special handling)
+                if (isRev10Plus && !isToronto)
                 {
-                    if (dnpUplinkK.dnpEnabledWithKit == false)
-                    {
-                        this.DNPEnabled = true;
-                        this.DNPCommLabelStatus = true;
-                        applyTX.applyTxSettings = applyDNP.applyDNPSettings = true;
-                    }
+                    this.DNPEnabled = txUplinkBit;
                 }
                 else
                 {
+                    // Rev9/older (and Toronto exception path): do NOT auto-enable uplink from TX bit
                     this.DNPEnabled = false;
-                    this.DNPCommLabelStatus = false;
-                    applyTX.applyTxSettings = applyDNP.applyDNPSettings = false;
                 }
+
+                // Comm label should reflect apply state, not force-enable
+                this.DNPCommLabelStatus = applyTX.applyTxSettings && applyDNP.applyDNPSettings;
+
                 if ((bA[28] & 0x08) == 0x08)
                 {
                     this.checkBoxTransmitterEnable.Checked = true;

@@ -5066,15 +5066,15 @@ namespace RelayControl
             {
                 revision = "R";
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
-                if (!revision.Contains("MASTER") && !revision.Contains("REVERBERATOR"))
+                if (!revision.Contains("MASTER"))
                     return;
 
                 this.masterRevision = getMasterRevisionNumber(revision);
+                this.ucTransmitter1.RelayMasterRevision = this.masterRevision;
 
                 this.ucRelayProgramming1.MasterRevisionString = revision;
-
-
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
+
 
                 if (this.dNPDIGITALGRIDData != null)
                     this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
