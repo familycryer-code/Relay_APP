@@ -218,6 +218,13 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Minimum = 0.4m;
         }
 
+        private decimal Clamp(decimal v, decimal min, decimal max)
+        {
+            if (v < min) return min;
+            if (v > max) return max;
+            return v;
+        }
+
         private void setNonConEd()
         {
             this.checkBoxCircleClose.Visible = true;
