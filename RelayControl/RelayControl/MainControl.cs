@@ -336,6 +336,8 @@ namespace RelayControl
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
 
+                this.ucTransmitter1.checkBoxDNPEnable.Checked = false;
+
 #if DEBUG
         this.initializeFromConfigFileDebug();
 #endif
@@ -733,10 +735,6 @@ namespace RelayControl
 
                 this.enableAllToolStripMenuItem.Visible = true;
 #endif // DEBUG || ENGINEERING
-
-#if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-                this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
-#endif
 
                 if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
                     this.ucTransmitter1.DNPCommLabelStatus = true;
@@ -1634,9 +1632,7 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
                         ucDNP1.SendAllDNPSettings();
-#if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-                    this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
-#endif
+
                     // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                     // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
                     if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
@@ -1723,9 +1719,7 @@ namespace RelayControl
                 this.ucTransmitter1.ForceDNPEnable = true;
                 Thread.Sleep(100);
                 this.ucTransmitter1.SendTransmitterSettings();
-#if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-                this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
-#endif
+
                 // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
                 // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
                 if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
@@ -5834,9 +5828,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-            //this.ucTransmitter1.checkBoxDNPEnable.Checked = true;
-#endif
+
             //  this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
             //  this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
             if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)

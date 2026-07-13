@@ -831,7 +831,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif ENMAX
@@ -841,7 +841,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = true;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif EVERSOURCE
@@ -851,7 +851,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif LONDON_HYDRO
@@ -861,7 +861,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif ONCOR
@@ -871,7 +871,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif PSEG
@@ -881,7 +881,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.4m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif SCE
@@ -891,7 +891,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif SCL
@@ -901,7 +901,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif TAUNTON
@@ -911,7 +911,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.3m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif TORONTO_HYDRO
@@ -921,7 +921,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #else
@@ -931,7 +931,7 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #endif
