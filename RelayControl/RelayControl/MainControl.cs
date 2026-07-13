@@ -7928,55 +7928,29 @@ namespace RelayControl
 
         private void sendAllParameters()
         {
-            //string text = "Please wait. Relay Parameters are being updated. This will take few seconds !";
-            //MessageBox.Show(text);
             sendAllF.SendAllFlag = true;
-            /*   this.SendAll_Message_PopUp1.WindowState = System.Windows.Forms.FormWindowState.Normal; //System.Windows.Forms.FormWindowState.Minimized;
-               this.SendAll_Message_PopUp1.BringToFront();
-               this.SendAll_Message_PopUp1.Enabled = true;
-               this.SendAll_Message_PopUp1.Visible = true;
-             */
-            //  this.downloadingDialogCountDown("", "Please have patience. The relay is updating its critical parameters", 5, true);
-
-#if DNP
-            // DNPSAv5 Settings NOT sent to the master with this SEND ALL button on Relay Settings Tab
-            /*
-            this.ucDNPSAv5OSName2.buttonGenerateName.Enabled = true;
-            this.ucDNPSAv5OSName2.newOSname();
-            //Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(500);   // .5 seconds
-            Thread.Sleep(834);   // 2.5 seconds
-            this.ucDNPSAv5OSName2.sendOSName();
-            //Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(500);   // .5 seconds
-            Thread.Sleep(834);   // 2.5 seconds
-            this.ucDNPSAv5Settings2.setDefaults();
-            //Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(500);   // .5 seconds
-            Thread.Sleep(834);   // 2.5 seconds
-            this.ucDNPSAv5Settings2.sendSettings();
-            //Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(500);   // .5 seconds
-            Thread.Sleep(834);   // 2.5 seconds
-            */
-#endif
             this.sendAll = true;
+
+            // Trip Mode
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(834);   // 2.5 seconds
+           
+            // Close Mode
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(834);   // 2.5 seconds
-            //this.buttonRelayType_Click(this, new EventArgs());
+#if CONED
+            // Permissive Close Mode
+            this.SendPCData(); 
+            Thread.Sleep(100);  // 100 milliseconds
+#endif
+            // NWP Settings
             this.buttonSendCTRatio_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(834);   // 2.5 seconds
-         //   this.buttonSendCTRatio_Click(this, new EventArgs());
-         //   Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(834);   // 2.5 seconds
+     
+            // Pump Mode
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(834);   // 2.5 seconds
+            
 
 #if DNP
             if (receivedMasterRevision.Contains("DNP"))
@@ -7984,21 +7958,13 @@ namespace RelayControl
 #endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
+                // Safe Service Mode
                 this.ucSafeService1.SendAll();
                 Thread.Sleep(100);  // 100 milliseconds
-                //Thread.Sleep(834);   // 1 seconds
+                
             }
 
-        //    this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-            //Thread.Sleep(834);   // 2.5 seconds
-
-            // DNP Settings NOT sent to the master with this SEND ALL button on Relay Settings Tab
-            /*
-            this.ucDNP1.buttonSendAllDNPSettings_Click(this, new EventArgs());
-            Thread.Sleep(834);   // 2.5 seconds
-            */
-
 
             this.sendAll = false;
             if (!this.loadingNewCode)

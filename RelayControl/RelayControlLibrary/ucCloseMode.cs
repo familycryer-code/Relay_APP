@@ -805,7 +805,7 @@ namespace RelayControlLibrary
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
 
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
+            this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif DOMINION
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
