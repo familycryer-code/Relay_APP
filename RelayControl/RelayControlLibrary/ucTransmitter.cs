@@ -2534,8 +2534,18 @@ namespace RelayControlLibrary
             }
             catch (Exception ex) { HandleDnpParseFailure("Error Setting Baud Rate", ex); return; }
 
-            bool dnpEnabledFromPacket = (bytePacket[0] & 0x08) == 0x08;
-            this.DNPCommLabelStatus = dnpEnabledFromPacket;
+            bool isRev10Plus = this.MasterRevisionNumber >= Constants.Rev10Master;
+
+            // DNP bits in command byte
+            bool selfAddrEnabled = (bytePacket[0] & 0x04) == 0x04;
+            bool unsolEnabled = (bytePacket[0] & 0x08) == 0x08;
+
+            // Rev10+: follow TX uplink gate
+            // Rev9: derive from DNP packet behavior bits
+            if (isRev10Plus)
+                this.DNPCommLabelStatus = this.DNPEnabled;
+            else
+                this.DNPCommLabelStatus = selfAddrEnabled || unsolEnabled;
 #endif
         }
 
