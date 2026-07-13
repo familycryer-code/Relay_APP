@@ -776,6 +776,13 @@ namespace RelayControlLibrary
                 this.CloseModeDef.OverrideBlockedClose = false;
         }
 
+        private decimal ClampToRange(NumericUpDown n, decimal v)
+        {
+            if (v < n.Minimum) return n.Minimum;
+            if (v > n.Maximum) return n.Maximum;
+            return v;
+        }
+
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
@@ -804,17 +811,17 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Value = 0.0m;
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif CONED
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
             this.numericUpDownPDA.Value = -5;
-            this.numericUpDownPDV.Value = 0.0m;
+            this.numericUpDownPDV.Value = ClampToRange(this.numericUpDownPDV, 0.0m);
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
-            this.checkBox1.Checked = true;
+            this.checkBox1.Checked = false;
 
             this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif DOMINION
