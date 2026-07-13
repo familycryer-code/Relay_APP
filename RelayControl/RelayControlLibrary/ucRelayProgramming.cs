@@ -1022,49 +1022,49 @@ namespace RelayControlLibrary
             string customerDisplayName = null;
 
 #if DEBUG || ENGINEERING
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
-    customerDisplayName = "ENMAX";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
+            customerDisplayName = "ENMAX";
 #elif BGE
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.BGE));
-    customerDisplayName = "BGE";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.BGE));
+            customerDisplayName = "BGE";
 #elif COMED
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.COMED));
-    customerDisplayName = "COMED";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.COMED));
+            customerDisplayName = "COMED";
 #elif CONED
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.CONED));
-    customerDisplayName = "CONED";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.CONED));
+            customerDisplayName = "CONED";
 #elif DOMINION
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.DOMINION));
-    customerDisplayName = "DOMINION";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.DOMINION));
+            customerDisplayName = "DOMINION";
 #elif ENMAX
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
-    customerDisplayName = "ENMAX";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ENMAX));
+            customerDisplayName = "ENMAX";
 #elif EVERSOURCE
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.EVERSOURCE));
-    customerDisplayName = "EVERSOURCE";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.EVERSOURCE));
+            customerDisplayName = "EVERSOURCE";
 #elif LONDON_HYDRO
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.LONDON_HYDRO));
-    customerDisplayName = "LONDON_HYDRO";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.LONDON_HYDRO));
+            customerDisplayName = "LONDON_HYDRO";
 #elif ONCOR
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ONCOR));
-    customerDisplayName = "ONCOR";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.ONCOR));
+            customerDisplayName = "ONCOR";
 #elif PSEG
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.PSEG));
-    customerDisplayName = "PSEG";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.PSEG));
+            customerDisplayName = "PSEG";
 #elif SCE
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCE));
-    customerDisplayName = "SCE";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCE));
+            customerDisplayName = "SCE";
 #elif SCL
             cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.SCL));
             customerDisplayName = "SCL";
 #elif TAUNTON
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TAUNTON));
-    customerDisplayName = "TAUNTON";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TAUNTON));
+            customerDisplayName = "TAUNTON";
 #elif TORONTO_HYDRO
-    cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
-    customerDisplayName = "TORONTO_HYDRO";
+            cLF = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
+            customerDisplayName = "TORONTO_HYDRO";
 #else
-    throw new Exception("No supported customer build symbol is defined.");
+            throw new Exception("No supported customer build symbol is defined.");
 #endif
 
             if (cLF == null)
