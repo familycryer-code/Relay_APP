@@ -203,6 +203,17 @@ namespace RelayControl
             }
         }
 
+        private decimal ClampToNumericRange(decimal value, NumericUpDown control)
+        {
+            if (value < control.Minimum)
+                return control.Minimum;
+
+            if (value > control.Maximum)
+                return control.Maximum;
+
+            return value;
+        }
+
         private void setDNPTabPoints()
         {
             // Current DNP customers (EVERSOURCE excluded for now)
@@ -5264,11 +5275,13 @@ namespace RelayControl
                     this.lbl_PermissiveClose_Status.Text = "Disabled";
                 }
 
-                this.numericUpDown_PC_floatTime.Value = bytePacket[3];
-                this.numericUpDown_PC_activeTime.Value = bytePacket[5];
-                this.numericUpDown_PC_voltage.Value = bytePacket[7] + (bytePacket[6] >> 4);
+                decimal floatTime = bytePacket[3];
+                decimal activeTime = bytePacket[5];
+                decimal voltage = bytePacket[7] + (bytePacket[6] >> 4);
 
-
+                this.numericUpDown_PC_floatTime.Value = ClampToNumericRange(floatTime, this.numericUpDown_PC_floatTime);
+                this.numericUpDown_PC_activeTime.Value = ClampToNumericRange(activeTime, this.numericUpDown_PC_activeTime);
+                this.numericUpDown_PC_voltage.Value = ClampToNumericRange(voltage, this.numericUpDown_PC_voltage);
             }
             catch (Exception ex)
             {
