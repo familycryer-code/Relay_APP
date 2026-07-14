@@ -527,6 +527,9 @@ namespace RelayControlLibrary
                     this.DNPEnabled = false;
                 }
 
+                // Comm label should reflect relay-reported DNP state
+                this.DNPCommLabelStatus = this.DNPEnabled;
+
                 if ((bA[28] & 0x08) == 0x08)
                 {
                     this.checkBoxTransmitterEnable.Checked = true;
