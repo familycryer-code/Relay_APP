@@ -2143,15 +2143,35 @@ namespace RelayControlLibrary
             try
             {
                 this.listBoxTripModes.SelectedItem = RelayModeFunctions.StringRepresentationOf(lTSS.TripMode);
-                this.numericUpDownAngle.Value = lTSS.TiltAngle;
-                this.numericUpDownExtendedTimeDelay.Value = lTSS.ExtendedTimeDelay;
-                this.numericUpDownGullWingAngle.Value = lTSS.GullWingAngle;
-                this.numericUpDownInsensTrip.Value = lTSS.InsensitiveCurrent * insensConversionFactor;
-                this.numericUpDownSensitiveTimeDelay.Value = lTSS.SensitiveTripDelay;
-                this.numericUpDownSensTrip.Value = lTSS.SensitiveTrip * sensConversionFactor;
-                this.numericUpDownTimeDelay.Value = lTSS.TimeDelay;
-                this.numericUpDownWVAngle.Value = lTSS.WattVarAngle;
-                this.numericUpDownWVCurrent.Value = lTSS.WattVarCurrent * insensConversionFactor;
+
+                this.numericUpDownAngle.Value =
+                    Clamp(lTSS.TiltAngle, this.numericUpDownAngle.Minimum, this.numericUpDownAngle.Maximum);
+
+                this.numericUpDownExtendedTimeDelay.Value =
+                    Clamp(lTSS.ExtendedTimeDelay, this.numericUpDownExtendedTimeDelay.Minimum, this.numericUpDownExtendedTimeDelay.Maximum);
+
+                this.numericUpDownGullWingAngle.Value =
+                    Clamp(lTSS.GullWingAngle, this.numericUpDownGullWingAngle.Minimum, this.numericUpDownGullWingAngle.Maximum);
+
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(lTSS.InsensitiveCurrent * insensConversionFactor, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
+
+                this.numericUpDownSensitiveTimeDelay.Value =
+                    Clamp(lTSS.SensitiveTripDelay, this.numericUpDownSensitiveTimeDelay.Minimum, this.numericUpDownSensitiveTimeDelay.Maximum);
+
+                this.numericUpDownSensTrip.Value =
+                    Clamp(lTSS.SensitiveTrip * sensConversionFactor, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+
+                this.numericUpDownTimeDelay.Value =
+                    Clamp(lTSS.TimeDelay, this.numericUpDownTimeDelay.Minimum, this.numericUpDownTimeDelay.Maximum);
+
+                this.numericUpDownWVAngle.Value =
+                    Clamp(lTSS.WattVarAngle, this.numericUpDownWVAngle.Minimum, this.numericUpDownWVAngle.Maximum);
+
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(lTSS.WattVarCurrent * insensConversionFactor, this.numericUpDownWVCurrent.Minimum, this.numericUpDownWVCurrent.Maximum);
+
+
                 this.checkBoxEnableGullWing.Checked = lTSS.GullWingEnabled;
                 //this.domainUpDownTripStyle.SelectedIndex = lTSS.TripStyle;
                 this.comboBox_TripStyle.SelectedIndex = lTSS.TripStyle;
