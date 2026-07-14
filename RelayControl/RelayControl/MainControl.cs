@@ -8281,6 +8281,7 @@ namespace RelayControl
 
         private void MainControl_FormClosed(object sender, FormClosedEventArgs e)
         {
+            this.ucTransmitter1.RestoreFastModeOnShutdown();
             this.disableAllMonitoring();
             this.pauseTransmitterMonitoring();
             this.ucShortRange1.StopMonitoring();

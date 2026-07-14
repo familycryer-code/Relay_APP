@@ -2171,6 +2171,19 @@ namespace RelayControlLibrary
         {
             get { return this.checkBoxDNPEnable.Checked; }
         }
+        public void RestoreFastModeOnShutdown()
+        {
+            if (this.button_FastMode.Text != "Fast Mode Enabled")
+                return;
+
+            this.timer_FastMode.Enabled = false;
+            this.timer_FireFastConfig.Enabled = false;
+            this.button_FastMode.BackColor = Color.Transparent;
+            this.button_FastMode.Text = "Fast Mode Disabled";
+
+            this.radioButton60S.Checked = true;
+            SendTransmitterSettings();
+        }
 
         private void button_FastMode_Click(object sender, EventArgs e)
         {
