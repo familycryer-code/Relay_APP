@@ -2181,6 +2181,19 @@ namespace RelayControlLibrary
             }
             else if (button_FastMode.Text == "Fast Mode Disabled")
             {
+                DialogResult result = MessageBox.Show(
+                    "Fast Mode will set transmitter PLC message frequency to 10 seconds for 10 minutes.\n\n" +
+                    "The application must remain open long enough to restore normal 60 second operation.\n\n" +
+                    "Continue?",
+                    "Enable Fast Mode",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+
                 button_FastMode.Text = "Fast Mode Enabled";
                 button_FastMode.BackColor = Color.Yellow;
 
@@ -2193,22 +2206,15 @@ namespace RelayControlLibrary
                 this.timer_FireFastConfig.Enabled = true; // 3 minutes
                 this.timer_FastMode.Enabled = true;       // 10 minutes
             }
-
         }
 
         private void timer_FastMode_Tick(object sender, EventArgs e)
         {
-            // 10 minute timer for fast mode is finished
-            // stop the 3 minute fast fire timer
-            // get this fast mode button background color and text to default
             this.timer_FastMode.Enabled = false;
             this.timer_FireFastConfig.Enabled = false;
             this.button_FastMode.BackColor = Color.Transparent;
             this.button_FastMode.Text = "Fast Mode Disabled";
-            MessageBox.Show("Disabling Fast Mode. 10 minute Time Out");
-            MessageBox.Show("No more firing of fast config every 3 minutes");
 
-            //After 10 minutes getting the config back to 60 second in the relay
             this.radioButton60S.Checked = true;
             SendTransmitterSettings();
         }
@@ -2216,7 +2222,6 @@ namespace RelayControlLibrary
         private void timer_FireFastConfig_Tick(object sender, EventArgs e)
         {
             this.timer_FireFastConfig.Enabled = false;
-            MessageBox.Show("3 minute Time Out. Another Fire of Fast config");
             this.radioButton10S.Checked = true;
             buttonForceConfigMessage_Click(this, new EventArgs());
             this.timer_FireFastConfig.Enabled = true; // restart the 3 minute timer
