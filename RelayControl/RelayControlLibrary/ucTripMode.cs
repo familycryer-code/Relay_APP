@@ -741,6 +741,10 @@ namespace RelayControlLibrary
                     this.ExtendedTDVisible(false);
                     this.WattVarVisible(true);
                     this.setWattVarToolTip();
+                    if (this.Customer == Customers.CONED)
+                    {
+                        this.numericUpDownTimeDelay.Value = 0;
+                    }
                     break;
                 case TripModes.Adaptive:
                     this.numericUpDownInsensTrip.Visible = false;

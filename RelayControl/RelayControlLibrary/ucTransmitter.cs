@@ -2224,8 +2224,6 @@ namespace RelayControlLibrary
 
         private void button_FastFire_Click(object sender, EventArgs e)
         {
-            this.radioButton10S.Checked = true;
-            SendTransmitterSettings();
             this.buttonForceConfigMessage_Click(this, new EventArgs());
         }
 
