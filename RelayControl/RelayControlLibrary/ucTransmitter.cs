@@ -527,9 +527,6 @@ namespace RelayControlLibrary
                     this.DNPEnabled = false;
                 }
 
-                // Comm label should reflect actual apply state
-                this.DNPCommLabelStatus = applyTX.applyTxSettings && applyDNP.applyDNPSettings;
-
                 if ((bA[28] & 0x08) == 0x08)
                 {
                     this.checkBoxTransmitterEnable.Checked = true;
@@ -2126,6 +2123,7 @@ namespace RelayControlLibrary
         }
 
 
+
         private bool fPGARevisionValid = true;
         public bool FPGARevisionValid
         {
@@ -2599,12 +2597,8 @@ namespace RelayControlLibrary
             bool selfAddrEnabled = (bytePacket[0] & 0x04) == 0x04;
             bool unsolEnabled = (bytePacket[0] & 0x08) == 0x08;
 
-            // Rev10+: follow TX uplink gate
-            // Rev9: derive from DNP packet behavior bits
-            if (isRev10Plus)
-                this.DNPCommLabelStatus = applyTX.applyTxSettings && applyDNP.applyDNPSettings;
-            else
-                this.DNPCommLabelStatus = selfAddrEnabled || unsolEnabled;
+            // Comm label should reflect relay-reported DNP state
+            this.DNPCommLabelStatus = selfAddrEnabled || unsolEnabled;
 #endif
         }
 
