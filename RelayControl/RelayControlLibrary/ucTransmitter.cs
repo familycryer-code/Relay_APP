@@ -1366,14 +1366,12 @@ namespace RelayControlLibrary
                 if (dnpUplinkK.dnpEnabledWithKit == true) // check box checked AND DNP Uplink kit is also present
                 {
                     applyDNP.applyDNPSettings = false; //uplinkC.uplinkCount += 1;
-                    this.DNPCommLabelStatus = false;
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
                 }
                 else
                 {
                     applyTX.applyTxSettings = false; //uplinkC.uplinkCount = 0;
                     applyDNP.applyDNPSettings = false;
-                    this.DNPCommLabelStatus = false;
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xFB);
                 }
 
