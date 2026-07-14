@@ -17,6 +17,7 @@ namespace RelayControlLibrary
         public ucDNP()
         {
             InitializeComponent();
+            this.numericUpDownFragmentSize.ValueChanged += new System.EventHandler(this.numericUpDownFragmentSize_ValueChanged);
         }
         public delegate void SendEventHandler(SendEventArgs sEA);
         public event SendEventHandler Send;
@@ -57,6 +58,36 @@ namespace RelayControlLibrary
             //========================================================================================================
 
             SendAllDNPSettings();
+        }
+
+        private decimal SnapFragmentSize(decimal value)
+        {
+            decimal[] allowed = { 256, 512, 1024, 2048, 4096 };
+
+            decimal closest = allowed[0];
+            decimal smallestDiff = Math.Abs(value - allowed[0]);
+
+            for (int i = 1; i < allowed.Length; i++)
+            {
+                decimal diff = Math.Abs(value - allowed[i]);
+                if (diff < smallestDiff)
+                {
+                    smallestDiff = diff;
+                    closest = allowed[i];
+                }
+            }
+
+            return closest;
+        }
+
+        private void numericUpDownFragmentSize_ValueChanged(object sender, EventArgs e)
+        {
+            decimal snappedValue = SnapFragmentSize(this.numericUpDownFragmentSize.Value);
+
+            if (this.numericUpDownFragmentSize.Value != snappedValue)
+            {
+                this.numericUpDownFragmentSize.Value = snappedValue;
+            }
         }
         public void SendAllDNPSettings()
         {
@@ -444,7 +475,7 @@ namespace RelayControlLibrary
                 tempInt <<= 8;
                 tempInt += bytePacket[8];
 
-                this.numericUpDownFragmentSize.Value = tempInt;
+                this.numericUpDownFragmentSize.Value = SnapFragmentSize(tempInt);
             }
             catch (Exception ex)
             {

@@ -688,10 +688,10 @@ namespace RelayControlLibrary
             get { return this.iD; }
             set
             {
-                if (value < 1 || value > 1023)
+                if (value < 1 || value > 2046)
                 {
                     dataBackupTX.dataBackup_txDefaults = true;
-                    throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 1023");
+                    throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 2046");
                 }
                 else
                 {

@@ -22,6 +22,7 @@ namespace RelayControlLibrary
             this.textBoxTXCTRatio.Text = "120";
 
             this.DNPCoverFlags = ((byte)(0));
+            this.numericUpDownFragmentSize.ValueChanged += new System.EventHandler(this.numericUpDownFragmentSize_ValueChanged);
 
 #if DEBUG || ENGINEERING
             this.textBoxSerialNumber.Enabled = true;
@@ -526,8 +527,8 @@ namespace RelayControlLibrary
                     this.DNPEnabled = false;
                 }
 
-                // Comm label should reflect apply state, not force-enable
-                this.DNPCommLabelStatus = this.DNPEnabled;
+                // Comm label should reflect actual apply state
+                this.DNPCommLabelStatus = applyTX.applyTxSettings && applyDNP.applyDNPSettings;
 
                 if ((bA[28] & 0x08) == 0x08)
                 {
@@ -1150,6 +1151,18 @@ namespace RelayControlLibrary
             {
                 errorMessage = "Bad ID value";
                 this.tempID = Convert.ToUInt16(this.textBoxID.Text);
+
+#if CONED
+                if (this.tempID < 1 || this.tempID > 2046)
+                {
+                    throw new Exception("Transmission ID must be between 1 and 2046");
+                }
+#else
+                if (this.tempID < 1 || this.tempID > 1023)
+                {
+                    throw new Exception("Transmission ID must be between 1 and 1023");
+                }
+#endif
                 this.TXSettings.ID = this.tempID;
 
                 errorMessage = "Bad Serial Number";
@@ -2079,24 +2092,36 @@ namespace RelayControlLibrary
                 this.errorHandler(new Exception("Bad ID Character"));
                 return;
             }
+
             try
             {
-
                 if (temp < 1)
                 {
                     this.textBoxID.Text = "1";
                     throw new Exception();
                 }
 
-                if (temp > 1023)
+#if CONED
+                if (temp > 2046)
                 {
-                    this.textBoxID.Text = "1023";
+                    this.textBoxID.Text = "2046";
                     throw new Exception();
                 }
+#else
+        if (temp > 1023)
+        {
+            this.textBoxID.Text = "1023";
+            throw new Exception();
+        }
+#endif
             }
             catch
             {
-                this.errorHandler(new Exception("ID value must be between 1 and 1023"));
+#if CONED
+                this.errorHandler(new Exception("ID value must be between 1 and 2046"));
+#else
+        this.errorHandler(new Exception("ID value must be between 1 and 1023"));
+#endif
             }
         }
 
@@ -2262,21 +2287,25 @@ namespace RelayControlLibrary
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
 #if DNP
-            if (applyTX.applyTxSettings == true)
+            if (this.checkBoxDNPEnable.Checked && dnpUplinkK.dnpEnabledWithKit && applyTX.applyTxSettings)
             {
                 applyDNP.applyDNPSettings = true;
             }
             else
             {
-                MessageBox.Show("Please ensure the 'DNP Uplink Kit' is installed before activating the 'DNP Uplink' feature. Activating this feature without the required kit will disable communication with the Relay Control and Monitoring Application", "Kit Required");
+
+                MessageBox.Show(
+                    "Please enable the DNP Uplink feature and click Apply in Transmission Commands before applying DNP settings.",
+                    "DNP Uplink Required");
                 applyDNP.applyDNPSettings = false;
+                return;
             }
 
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-            //this.enableAll(false);
-            //========================================================================================================
+                                                                      //this.enableAll(false);
+                                                                      //========================================================================================================
 
             this.SendAllDNPSettings();
 #endif
@@ -2427,6 +2456,36 @@ namespace RelayControlLibrary
             }
         }
 
+        private decimal SnapFragmentSize(decimal value)
+        {
+            decimal[] allowed = { 256, 512, 1024, 2048, 4096 };
+
+            decimal closest = allowed[0];
+            decimal smallestDiff = Math.Abs(value - allowed[0]);
+
+            for (int i = 1; i < allowed.Length; i++)
+            {
+                decimal diff = Math.Abs(value - allowed[i]);
+                if (diff < smallestDiff)
+                {
+                    smallestDiff = diff;
+                    closest = allowed[i];
+                }
+            }
+
+            return closest;
+        }
+
+        private void numericUpDownFragmentSize_ValueChanged(object sender, EventArgs e)
+        {
+            decimal snappedValue = SnapFragmentSize(this.numericUpDownFragmentSize.Value);
+
+            if (this.numericUpDownFragmentSize.Value != snappedValue)
+            {
+                this.numericUpDownFragmentSize.Value = snappedValue;
+            }
+        }
+
         private void setDNPCommunicationStatus()
         {
             if (dNPCommStatus)
@@ -2494,7 +2553,7 @@ namespace RelayControlLibrary
             {
                 UInt16 tempInt = bytePacket[9];
                 tempInt <<= 8; tempInt += bytePacket[8];
-                this.numericUpDownFragmentSize.Value = tempInt;
+                this.numericUpDownFragmentSize.Value = SnapFragmentSize(tempInt);
             }
             catch (Exception ex) { HandleDnpParseFailure("Error Setting Fragment Size", ex); return; }
 
@@ -2543,7 +2602,7 @@ namespace RelayControlLibrary
             // Rev10+: follow TX uplink gate
             // Rev9: derive from DNP packet behavior bits
             if (isRev10Plus)
-                this.DNPCommLabelStatus = this.DNPEnabled;
+                this.DNPCommLabelStatus = applyTX.applyTxSettings && applyDNP.applyDNPSettings;
             else
                 this.DNPCommLabelStatus = selfAddrEnabled || unsolEnabled;
 #endif

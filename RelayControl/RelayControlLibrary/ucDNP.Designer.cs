@@ -269,7 +269,7 @@ namespace RelayControlLibrary
             0});
             this.numericUpDownFragmentSize.Location = new System.Drawing.Point(197, 142);
             this.numericUpDownFragmentSize.Maximum = new decimal(new int[] {
-            1024,
+            4096,
             0,
             0,
             0});
