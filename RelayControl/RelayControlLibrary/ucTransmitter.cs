@@ -2599,7 +2599,7 @@ namespace RelayControlLibrary
             bool unsolEnabled = (bytePacket[0] & 0x08) == 0x08;
 
             // Comm label should reflect relay-reported DNP state
-            this.DNPCommLabelStatus = selfAddrEnabled || unsolEnabled;
+            //this.DNPCommLabelStatus = this.DNPEnabled;
 #endif
         }
 
