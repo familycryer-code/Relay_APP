@@ -1464,11 +1464,17 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp * this.CTRatio, 1);
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(Math.Round(temp * this.CTRatio, 1),
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
             }
             else if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp * .05m * CTRatio, 1);
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(Math.Round(temp * .05m * CTRatio, 1),
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
             }
 
             temp = this.numericUpDownWVCurrent.Value;
@@ -1479,24 +1485,24 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDownWVCurrent.Value = Math.Round(temp * this.CTRatio);
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(Math.Round(temp * this.CTRatio),
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
             }
             else if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownWVCurrent.Value = Math.Round(temp * .050m * CTRatio, 1);
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(Math.Round(temp * .050m * CTRatio, 1),
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
             }
 
-            /*temp = this.numericUpDown_GreenMagX.Value;
-            temp2 = this.numericUpDown_GreenMagY.Value;
-            temp3 = this.numericUpDown_InCurrkW.Value;
-            temp4 = this.numericUpDown_InCurrkVAR.Value;
-            */
             this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = .0001m * this.CTRatio;
             this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = 15m * this.CTRatio;
             this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = .0001m * this.CTRatio;
             this.lblUnitGreenMagX.Text = this.lblUnitGreenMagY.Text = "Amps";
 
-            //this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkW.Minimum = .1m * this.CTRatio;
             this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkVAR.Minimum = .1m * this.CTRatio;
             this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = 15m * this.CTRatio;
             this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = .1m * this.CTRatio;
@@ -1507,25 +1513,50 @@ namespace RelayControlLibrary
             temp4 = this.numericUpDown_InCurrkVAR.Value;
 
             this.lblUnitInCur_kWdir.Text = this.lblUnitInCur_kVARdir.Text = "Amps";
+
             if (this.displayType == eDisplayType.Relay)
             {
-                //this.numericUpDown_GreenMagX.Value = Math.Round(temp * this.CTRatio, 3);
-                this.numericUpDown_GreenMagX.Value = (temp * this.CTRatio) / 1000;
-                //this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * this.CTRatio, 3);
-                this.numericUpDown_GreenMagY.Value = (temp2 * this.CTRatio) / 1000;
-                //this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * this.CTRatio, 1);
-                this.numericUpDown_InCurrkW.Value = (temp3 * this.CTRatio) / 10;
-                //this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * this.CTRatio, 1);
-                this.numericUpDown_InCurrkVAR.Value = (temp4 * this.CTRatio) / 10;
+                this.numericUpDown_GreenMagX.Value =
+                    Clamp((temp * this.CTRatio) / 1000m,
+                          this.numericUpDown_GreenMagX.Minimum,
+                          this.numericUpDown_GreenMagX.Maximum);
+
+                this.numericUpDown_GreenMagY.Value =
+                    Clamp((temp2 * this.CTRatio) / 1000m,
+                          this.numericUpDown_GreenMagY.Minimum,
+                          this.numericUpDown_GreenMagY.Maximum);
+
+                this.numericUpDown_InCurrkW.Value =
+                    Clamp((temp3 * this.CTRatio) / 10m,
+                          this.numericUpDown_InCurrkW.Minimum,
+                          this.numericUpDown_InCurrkW.Maximum);
+
+                this.numericUpDown_InCurrkVAR.Value =
+                    Clamp((temp4 * this.CTRatio) / 10m,
+                          this.numericUpDown_InCurrkVAR.Minimum,
+                          this.numericUpDown_InCurrkVAR.Maximum);
             }
             else if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDown_GreenMagX.Value = Math.Round(temp * .05m * CTRatio, 3);
-                this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * .05m * CTRatio, 3);
-                //this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * .05m * CTRatio, 1);
-                this.numericUpDown_InCurrkW.Value = (temp3 * .05m * CTRatio) / 10;
-                //this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * .05m * CTRatio, 1);
-                this.numericUpDown_InCurrkVAR.Value = (temp4 * .05m * CTRatio) / 10;
+                this.numericUpDown_GreenMagX.Value =
+                    Clamp(Math.Round(temp * .05m * CTRatio, 3),
+                          this.numericUpDown_GreenMagX.Minimum,
+                          this.numericUpDown_GreenMagX.Maximum);
+
+                this.numericUpDown_GreenMagY.Value =
+                    Clamp(Math.Round(temp2 * .05m * CTRatio, 3),
+                          this.numericUpDown_GreenMagY.Minimum,
+                          this.numericUpDown_GreenMagY.Maximum);
+
+                this.numericUpDown_InCurrkW.Value =
+                    Clamp((temp3 * .05m * CTRatio) / 10m,
+                          this.numericUpDown_InCurrkW.Minimum,
+                          this.numericUpDown_InCurrkW.Maximum);
+
+                this.numericUpDown_InCurrkVAR.Value =
+                    Clamp((temp4 * .05m * CTRatio) / 10m,
+                          this.numericUpDown_InCurrkVAR.Minimum,
+                          this.numericUpDown_InCurrkVAR.Maximum);
             }
 
             displayType = eDisplayType.Protector;
@@ -1534,52 +1565,77 @@ namespace RelayControlLibrary
         private void setProtectorValues(Int32 value)
         {
             decimal temp, temp2;
+            decimal newCTRatio = (decimal)value;
+
             if (this.displayType == eDisplayType.Protector)
             {
-                temp = this.numericUpDownSensTrip.Value;
-                temp = temp / this.CTRatio;
+                temp = this.numericUpDownSensTrip.Value / this.CTRatio;
 
-                this.numericUpDownSensTrip.Increment = (decimal)value * .001m;
-                this.numericUpDownSensTrip.Maximum = (decimal)value * 5m;
-                this.numericUpDownSensTrip.Minimum = (decimal)value * .001m;
+                this.numericUpDownSensTrip.Increment = newCTRatio * .001m;
+                this.numericUpDownSensTrip.Maximum = newCTRatio * 5m;
+                this.numericUpDownSensTrip.Minimum = newCTRatio * .001m;
 
-                this.numericUpDownSensTrip.Value = value * temp;
+                this.numericUpDownSensTrip.Value =
+                    Clamp(newCTRatio * temp,
+                          this.numericUpDownSensTrip.Minimum,
+                          this.numericUpDownSensTrip.Maximum);
 
-                temp = this.numericUpDownInsensTrip.Value;
-                temp = temp / this.CTRatio;
+                temp = this.numericUpDownInsensTrip.Value / this.CTRatio;
 
-                this.numericUpDownInsensTrip.Increment = (decimal)value * .1m;
-                this.numericUpDownInsensTrip.Maximum = (decimal)value * 15m;
-                this.numericUpDownInsensTrip.Minimum = (decimal)value * .1m;
+                this.numericUpDownInsensTrip.Increment = newCTRatio * .1m;
+                this.numericUpDownInsensTrip.Maximum = newCTRatio * 15m;
+                this.numericUpDownInsensTrip.Minimum = newCTRatio * .1m;
 
-                this.numericUpDownInsensTrip.Value = value * temp;
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(newCTRatio * temp,
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
 
-                temp = this.numericUpDownWVCurrent.Value;
-                temp = temp / this.CTRatio;
+                temp = this.numericUpDownWVCurrent.Value / this.CTRatio;
 
-                this.numericUpDownWVCurrent.Increment = (decimal)value * .1m;
-                this.numericUpDownWVCurrent.Maximum = (decimal)value * 15m;
-                this.numericUpDownWVCurrent.Minimum = (decimal)value * .1m;
+                this.numericUpDownWVCurrent.Increment = newCTRatio * .1m;
+                this.numericUpDownWVCurrent.Maximum = newCTRatio * 15m;
+                this.numericUpDownWVCurrent.Minimum = newCTRatio * .1m;
 
-                this.numericUpDownWVCurrent.Value = value * temp;
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(newCTRatio * temp,
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
 
                 temp = this.numericUpDown_GreenMagX.Value / this.CTRatio;
                 temp2 = this.numericUpDown_GreenMagY.Value / this.CTRatio;
-                this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = (decimal)value * .0001m;
-                this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = (decimal)value * 15m;
-                this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = (decimal)value * .0001m;
-                this.numericUpDown_GreenMagX.Value = temp * value;
-                this.numericUpDown_GreenMagY.Value = temp2 * value;
+
+                this.numericUpDown_GreenMagX.Minimum = this.numericUpDown_GreenMagY.Minimum = newCTRatio * .0001m;
+                this.numericUpDown_GreenMagX.Maximum = this.numericUpDown_GreenMagY.Maximum = newCTRatio * 15m;
+                this.numericUpDown_GreenMagX.Increment = this.numericUpDown_GreenMagY.Increment = newCTRatio * .0001m;
+
+                this.numericUpDown_GreenMagX.Value =
+                    Clamp(temp * newCTRatio,
+                          this.numericUpDown_GreenMagX.Minimum,
+                          this.numericUpDown_GreenMagX.Maximum);
+
+                this.numericUpDown_GreenMagY.Value =
+                    Clamp(temp2 * newCTRatio,
+                          this.numericUpDown_GreenMagY.Minimum,
+                          this.numericUpDown_GreenMagY.Maximum);
 
                 temp = this.numericUpDown_InCurrkW.Value / this.CTRatio;
                 temp2 = this.numericUpDown_InCurrkVAR.Value / this.CTRatio;
-                this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkVAR.Minimum = (decimal)value * .1m;
-                this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = (decimal)value * 15m;
-                this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = (decimal)value * .1m;
-                this.numericUpDown_InCurrkW.Value = temp * value;
-                this.numericUpDown_InCurrkVAR.Value = temp2 * value;
+
+                this.numericUpDown_InCurrkW.Minimum = this.numericUpDown_InCurrkVAR.Minimum = newCTRatio * .1m;
+                this.numericUpDown_InCurrkW.Maximum = this.numericUpDown_InCurrkVAR.Maximum = newCTRatio * 15m;
+                this.numericUpDown_InCurrkW.Increment = this.numericUpDown_InCurrkVAR.Increment = newCTRatio * .1m;
+
+                this.numericUpDown_InCurrkW.Value =
+                    Clamp(temp * newCTRatio,
+                          this.numericUpDown_InCurrkW.Minimum,
+                          this.numericUpDown_InCurrkW.Maximum);
+
+                this.numericUpDown_InCurrkVAR.Value =
+                    Clamp(temp2 * newCTRatio,
+                          this.numericUpDown_InCurrkVAR.Minimum,
+                          this.numericUpDown_InCurrkVAR.Maximum);
             }
-            value = value * 5;
         }
 
         private decimal Clamp(decimal v, decimal min, decimal max)
