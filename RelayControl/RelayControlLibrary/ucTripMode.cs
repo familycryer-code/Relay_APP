@@ -675,14 +675,21 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.setSensitiveToolTip();
                     break;
+
                 case TripModes.Insensitive:
                     try
                     {
-                        this.numericUpDownInsensTrip.Value = this.convertDisplay(this.insensitiveCurrent);
+                        this.numericUpDownInsensTrip.Value =
+                            Clamp(this.convertDisplay(this.insensitiveCurrent),
+                                  this.numericUpDownInsensTrip.Minimum,
+                                  this.numericUpDownInsensTrip.Maximum);
                     }
                     catch
                     {
-                        this.numericUpDownInsensTrip.Value = 2.5m;
+                        this.numericUpDownInsensTrip.Value =
+                            Clamp(2.5m,
+                                  this.numericUpDownInsensTrip.Minimum,
+                                  this.numericUpDownInsensTrip.Maximum);
                     }
                     this.numericUpDownInsensTrip.Visible = true;
                     this.labelInsensTripUnit.Visible = true;
@@ -697,14 +704,21 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.setInsensitiveToolTip();
                     break;
+
                 case TripModes.TimeDelay:
                     try
                     {
-                        this.numericUpDownInsensTrip.Value = this.convertDisplay(this.instantaneousCurrent);
+                        this.numericUpDownInsensTrip.Value =
+                            Clamp(this.convertDisplay(this.instantaneousCurrent),
+                                  this.numericUpDownInsensTrip.Minimum,
+                                  this.numericUpDownInsensTrip.Maximum);
                     }
                     catch
                     {
-                        this.numericUpDownInsensTrip.Value = 2.5m;
+                        this.numericUpDownInsensTrip.Value =
+                            Clamp(2.5m,
+                                  this.numericUpDownInsensTrip.Minimum,
+                                  this.numericUpDownInsensTrip.Maximum);
                     }
                     this.numericUpDownInsensTrip.Visible = true;
                     this.labelInsensTripUnit.Visible = true;
@@ -719,6 +733,7 @@ namespace RelayControlLibrary
                     this.InsensitiveLabelVisible(false);
                     this.setTimeDelayToolTip();
                     break;
+
                 case TripModes.RemoteTrip:
                     this.sensitiveTimeVisible(false);
                     this.SensitiveVisible(false);
@@ -728,6 +743,7 @@ namespace RelayControlLibrary
                     this.TimeDelayInstantCurrentLabelVisible(false);
                     this.InsensitiveLabelVisible(false);
                     break;
+
                 case TripModes.WattVar:
                     this.numericUpDownInsensTrip.Visible = true;
                     this.labelInsensTripUnit.Visible = true;
@@ -743,9 +759,13 @@ namespace RelayControlLibrary
                     this.setWattVarToolTip();
                     if (this.Customer == Customers.CONED)
                     {
-                        this.numericUpDownTimeDelay.Value = 0;
+                        this.numericUpDownTimeDelay.Value =
+                            Clamp(0m,
+                                  this.numericUpDownTimeDelay.Minimum,
+                                  this.numericUpDownTimeDelay.Maximum);
                     }
                     break;
+
                 case TripModes.Adaptive:
                     this.numericUpDownInsensTrip.Visible = false;
                     this.labelInsensTripUnit.Visible = false;
@@ -761,7 +781,6 @@ namespace RelayControlLibrary
                     this.WattVarVisible(false);
                     this.Display_adaptiveTrip_Settings();
                     break;
-
             }
 
             this.modeChanged();
@@ -1952,73 +1971,142 @@ namespace RelayControlLibrary
             insensitiveCurrent = 2.5m;
             instantaneousCurrent = 2.5m;
             this.listBoxTripModes.SelectedIndex = 0;
-            this.numericUpDownSensitiveTimeDelay.Value = 6;
-            this.numericUpDownExtendedTimeDelay.Value = 0;
-            this.numericUpDownTimeDelay.Value = 0;
-            this.numericUpDownWVAngle.Value = -60;
+
+            this.numericUpDownSensitiveTimeDelay.Value =
+                Clamp(6m,
+                      this.numericUpDownSensitiveTimeDelay.Minimum,
+                      this.numericUpDownSensitiveTimeDelay.Maximum);
+
+            this.numericUpDownExtendedTimeDelay.Value =
+                Clamp(0m,
+                      this.numericUpDownExtendedTimeDelay.Minimum,
+                      this.numericUpDownExtendedTimeDelay.Maximum);
+
+            this.numericUpDownTimeDelay.Value =
+                Clamp(0m,
+                      this.numericUpDownTimeDelay.Minimum,
+                      this.numericUpDownTimeDelay.Maximum);
+
+            this.numericUpDownWVAngle.Value =
+                Clamp(-60m,
+                      this.numericUpDownWVAngle.Minimum,
+                      this.numericUpDownWVAngle.Maximum);
+
             //  this.numericUpDownAngle.Value = 90;
-            // Making this the case for all defaults, I want them to 
+            // Making this the case for all defaults, I want them to
             // actively set it if they are going to use it.
             checkBoxTripOnPowerDown.Checked = false;
 
 #if ENMAX || PSEG
-            checkBoxTripOnPowerDown.Checked = true;
+    checkBoxTripOnPowerDown.Checked = true;
 #endif
 
-
-            // Trip Style 
+            // Trip Style
             // 0 - Hold, 1 - Pulse, 2 - Single
 #if EVERSOURCE
-            this.checkBoxEnableGullWing.Checked = true;
-            this.gullWingEnabled = true;
-            this.numericUpDownTimeDelay.Value = 0;
-            this.numericUpDownAngle.Value = 95;
-            this.numericUpDownGullWingAngle.Value = 85;
-            //this.domainUpDownTripStyle.SelectedIndex = 0;
-            this.comboBox_TripStyle.SelectedIndex = 0;
-            domainUpDownType.SelectedIndex = 0;
-            //this.comboBox_TripType.SelectedIndex = 0;
+    this.checkBoxEnableGullWing.Checked = true;
+    this.gullWingEnabled = true;
+    this.numericUpDownTimeDelay.Value =
+        Clamp(0m,
+              this.numericUpDownTimeDelay.Minimum,
+              this.numericUpDownTimeDelay.Maximum);
+    this.numericUpDownAngle.Value =
+        Clamp(95m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
+    this.numericUpDownGullWingAngle.Value =
+        Clamp(85m,
+              this.numericUpDownGullWingAngle.Minimum,
+              this.numericUpDownGullWingAngle.Maximum);
+    //this.domainUpDownTripStyle.SelectedIndex = 0;
+    this.comboBox_TripStyle.SelectedIndex = 0;
+    domainUpDownType.SelectedIndex = 0;
+    //this.comboBox_TripType.SelectedIndex = 0;
+
 #elif DOMINION || BGE
-            this.checkBoxEnableGullWing.Checked = false;
-            this.gullWingEnabled = false;
-            this.numericUpDownTimeDelay.Value = 0;
-            this.numericUpDownAngle.Value = 90;
-            this.numericUpDownGullWingAngle.Value = 90;
-            //this.domainUpDownTripStyle.SelectedIndex = 3;
-            this.comboBox_TripStyle.SelectedIndex = 3;
+    this.checkBoxEnableGullWing.Checked = false;
+    this.gullWingEnabled = false;
+    this.numericUpDownTimeDelay.Value =
+        Clamp(0m,
+              this.numericUpDownTimeDelay.Minimum,
+              this.numericUpDownTimeDelay.Maximum);
+    this.numericUpDownAngle.Value =
+        Clamp(90m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
+    this.numericUpDownGullWingAngle.Value =
+        Clamp(90m,
+              this.numericUpDownGullWingAngle.Minimum,
+              this.numericUpDownGullWingAngle.Maximum);
+    //this.domainUpDownTripStyle.SelectedIndex = 3;
+    this.comboBox_TripStyle.SelectedIndex = 3;
+
 #elif COMED || LONDON_HYDRO
-            this.checkBoxEnableGullWing.Checked = false;
-            this.gullWingEnabled = false;
-            this.numericUpDownTimeDelay.Value = 0;
-            this.numericUpDownAngle.Value = 90;
-            this.numericUpDownGullWingAngle.Value = 90;
-            //this.domainUpDownTripStyle.SelectedIndex = 0;
-            this.comboBox_TripStyle.SelectedIndex = 0;
-            checkBoxTripOnPowerDown.Checked = true;
+    this.checkBoxEnableGullWing.Checked = false;
+    this.gullWingEnabled = false;
+    this.numericUpDownTimeDelay.Value =
+        Clamp(0m,
+              this.numericUpDownTimeDelay.Minimum,
+              this.numericUpDownTimeDelay.Maximum);
+    this.numericUpDownAngle.Value =
+        Clamp(90m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
+    this.numericUpDownGullWingAngle.Value =
+        Clamp(90m,
+              this.numericUpDownGullWingAngle.Minimum,
+              this.numericUpDownGullWingAngle.Maximum);
+    //this.domainUpDownTripStyle.SelectedIndex = 0;
+    this.comboBox_TripStyle.SelectedIndex = 0;
+    checkBoxTripOnPowerDown.Checked = true;
+
 #elif TAUNTON
-            listBoxTripModes.SelectedIndex = 3;
-            checkBoxEnableGullWing.Checked = false;
-            gullWingEnabled = false;
-            numericUpDownTimeDelay.Value = 0;
-            numericUpDownAngle.Value = 90;
-            numericUpDownGullWingAngle.Value = 90;
-            //domainUpDownTripStyle.SelectedIndex = 0;
-            this.comboBox_TripStyle.SelectedIndex = 0;
+    listBoxTripModes.SelectedIndex = 3;
+    checkBoxEnableGullWing.Checked = false;
+    gullWingEnabled = false;
+    numericUpDownTimeDelay.Value =
+        Clamp(0m,
+              numericUpDownTimeDelay.Minimum,
+              numericUpDownTimeDelay.Maximum);
+    numericUpDownAngle.Value =
+        Clamp(90m,
+              numericUpDownAngle.Minimum,
+              numericUpDownAngle.Maximum);
+    numericUpDownGullWingAngle.Value =
+        Clamp(90m,
+              numericUpDownGullWingAngle.Minimum,
+              numericUpDownGullWingAngle.Maximum);
+    //domainUpDownTripStyle.SelectedIndex = 0;
+    this.comboBox_TripStyle.SelectedIndex = 0;
+
 #elif SCL
-            this.checkBoxEnableGullWing.Checked = false;
-            checkBoxTripOnPowerDown.Checked = true;
-            this.gullWingEnabled = false;
-            this.numericUpDownAngle.Value = 90;
-            this.numericUpDownGullWingAngle.Value = 90;
-            //this.domainUpDownTripStyle.SelectedIndex = 0;
-            this.comboBox_TripStyle.SelectedIndex = 0;
+    this.checkBoxEnableGullWing.Checked = false;
+    checkBoxTripOnPowerDown.Checked = true;
+    this.gullWingEnabled = false;
+    this.numericUpDownAngle.Value =
+        Clamp(90m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
+    this.numericUpDownGullWingAngle.Value =
+        Clamp(90m,
+              this.numericUpDownGullWingAngle.Minimum,
+              this.numericUpDownGullWingAngle.Maximum);
+    //this.domainUpDownTripStyle.SelectedIndex = 0;
+    this.comboBox_TripStyle.SelectedIndex = 0;
+
 #elif PSEG
-            this.checkBoxEnableGullWing.Checked = false;
-            this.gullWingEnabled = false;
-            this.numericUpDownAngle.Value = 90;
-            this.numericUpDownGullWingAngle.Value = 90;
-            //this.domainUpDownTripStyle.SelectedIndex = 1;
-            this.comboBox_TripStyle.SelectedIndex = 1;
+    this.checkBoxEnableGullWing.Checked = false;
+    this.gullWingEnabled = false;
+    this.numericUpDownAngle.Value =
+        Clamp(90m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
+    this.numericUpDownGullWingAngle.Value =
+        Clamp(90m,
+              this.numericUpDownGullWingAngle.Minimum,
+              this.numericUpDownGullWingAngle.Maximum);
+    //this.domainUpDownTripStyle.SelectedIndex = 1;
+    this.comboBox_TripStyle.SelectedIndex = 1;
 #endif
         }
 
@@ -2042,96 +2130,120 @@ namespace RelayControlLibrary
 
             // Trip Mode section
             this.listBoxTripModes.SelectedIndex = 0;            // Sensitive
-            this.numericUpDownSensitiveTimeDelay.Value = 6;
-            this.numericUpDownSensTrip.Value = 7.5m;
-            this.numericUpDownAngle.Value = 90;
+            this.numericUpDownSensitiveTimeDelay.Value =
+                Clamp(6m, this.numericUpDownSensitiveTimeDelay.Minimum, this.numericUpDownSensitiveTimeDelay.Maximum);
+            this.numericUpDownSensTrip.Value =
+                Clamp(7.5m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+            this.numericUpDownAngle.Value =
+                Clamp(90m, this.numericUpDownAngle.Minimum, this.numericUpDownAngle.Maximum);
             this.checkBoxTripOnPowerDown.Checked = true;
             this.comboBox_TripStyle.SelectedIndex = 0;          // Hold Trip
             this.checkBoxEnableGullWing.Checked = false;
-            this.numericUpDownGullWingAngle.Value = 90;
+            this.numericUpDownGullWingAngle.Value =
+                Clamp(90m, this.numericUpDownGullWingAngle.Minimum, this.numericUpDownGullWingAngle.Maximum);
             this.gullWingEnabled = false;
 
             // Insensitive Trip settings
-            this.numericUpDownExtendedTimeDelay.Value = 0;
-            this.numericUpDownInsensTrip.Value = 2.5m;
+            this.numericUpDownExtendedTimeDelay.Value =
+                Clamp(0m, this.numericUpDownExtendedTimeDelay.Minimum, this.numericUpDownExtendedTimeDelay.Maximum);
+            this.numericUpDownInsensTrip.Value =
+                Clamp(2.5m, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
 
             // Time Delay settings
-            this.numericUpDownTimeDelay.Value = 0;
+            this.numericUpDownTimeDelay.Value =
+                Clamp(0m, this.numericUpDownTimeDelay.Minimum, this.numericUpDownTimeDelay.Maximum);
 
             // Watt-Var settings
-            this.numericUpDownWVCurrent.Value = 2.5m;
-            this.numericUpDownWVAngle.Value = -60;
+            this.numericUpDownWVCurrent.Value =
+                Clamp(2.5m, this.numericUpDownWVCurrent.Minimum, this.numericUpDownWVCurrent.Maximum);
+            this.numericUpDownWVAngle.Value =
+                Clamp(-60m, this.numericUpDownWVAngle.Minimum, this.numericUpDownWVAngle.Maximum);
 
             // Keep existing "green" defaults in a known state
-            this.numericUpDown_GreenDelay.Value = 250;
-            this.numericUpDown_GreenMagX.Value = Math.Round(this.CTRatio * 0.03m, 0); // 3%
-            this.numericUpDown_GreenMagY.Value = Math.Round(this.CTRatio * 0.03m, 0); // 3%
-            this.numericUpDown_InCurrkW.Value = Math.Round(this.CTRatio * 0.25m, 0);   // 25%
-            this.numericUpDown_InCurrkVAR.Value = Math.Round(this.CTRatio * 0.50m, 0); // 50%
+            this.numericUpDown_GreenDelay.Value =
+                Clamp(250m, this.numericUpDown_GreenDelay.Minimum, this.numericUpDown_GreenDelay.Maximum);
+            this.numericUpDown_GreenMagX.Value =
+                Clamp(Math.Round(this.CTRatio * 0.03m, 0), this.numericUpDown_GreenMagX.Minimum, this.numericUpDown_GreenMagX.Maximum); // 3%
+            this.numericUpDown_GreenMagY.Value =
+                Clamp(Math.Round(this.CTRatio * 0.03m, 0), this.numericUpDown_GreenMagY.Minimum, this.numericUpDown_GreenMagY.Maximum); // 3%
+            this.numericUpDown_InCurrkW.Value =
+                Clamp(Math.Round(this.CTRatio * 0.25m, 0), this.numericUpDown_InCurrkW.Minimum, this.numericUpDown_InCurrkW.Maximum);   // 25%
+            this.numericUpDown_InCurrkVAR.Value =
+                Clamp(Math.Round(this.CTRatio * 0.50m, 0), this.numericUpDown_InCurrkVAR.Minimum, this.numericUpDown_InCurrkVAR.Maximum); // 50%
 
             // ---------- Customer overrides ----------
 #if BGE
-            this.numericUpDownSensTrip.Value = 10.0m;
-            this.checkBoxTripOnPowerDown.Checked = false;
-            this.comboBox_TripStyle.SelectedIndex = 3;          // Short Trip
+    this.numericUpDownSensTrip.Value =
+        Clamp(10.0m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+    this.checkBoxTripOnPowerDown.Checked = false;
+    this.comboBox_TripStyle.SelectedIndex = 3;          // Short Trip
 
 #elif COMED
-            this.numericUpDownSensTrip.Value = 10.0m;
-            this.checkBoxTripOnPowerDown.Checked = false;
+    this.numericUpDownSensTrip.Value =
+        Clamp(10.0m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+    this.checkBoxTripOnPowerDown.Checked = false;
 
 #elif CONED
             // ConEd: only one with Adaptive Trip feature (per request)
             SetListIndexSafe(this.listBoxTripModes, 0);
-            this.numericUpDownTimeDelay.Value = 150;
+            this.numericUpDownTimeDelay.Value =
+                Clamp(150m, this.numericUpDownTimeDelay.Minimum, this.numericUpDownTimeDelay.Maximum);
             this.comboBox_TripStyle.SelectedIndex = 2;          // Single Attempt
             this.checkBoxTripOnPowerDown.Checked = true;
 
 #elif DOMINION
-            this.numericUpDownSensTrip.Value = 10.0m;
-            this.checkBoxTripOnPowerDown.Checked = false;
-            this.comboBox_TripStyle.SelectedIndex = 3;          // Short Trip
+    this.numericUpDownSensTrip.Value =
+        Clamp(10.0m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+    this.checkBoxTripOnPowerDown.Checked = false;
+    this.comboBox_TripStyle.SelectedIndex = 3;          // Short Trip
 
 #elif ENMAX
-            this.numericUpDownSensTrip.Value = 10.0m;
-            // Baseline already TRUE + Hold Trip
+    this.numericUpDownSensTrip.Value =
+        Clamp(10.0m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+    // Baseline already TRUE + Hold Trip
 
 #elif EVERSOURCE
-            this.numericUpDownSensTrip.Value = 10.0m;
-            this.numericUpDownAngle.Value = 95;
-            this.numericUpDownGullWingAngle.Value = 85;
-            this.checkBoxEnableGullWing.Checked = true;
-            this.checkBoxTripOnPowerDown.Checked = false;
+    this.numericUpDownSensTrip.Value =
+        Clamp(10.0m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+    this.numericUpDownAngle.Value =
+        Clamp(95m, this.numericUpDownAngle.Minimum, this.numericUpDownAngle.Maximum);
+    this.numericUpDownGullWingAngle.Value =
+        Clamp(85m, this.numericUpDownGullWingAngle.Minimum, this.numericUpDownGullWingAngle.Maximum);
+    this.checkBoxEnableGullWing.Checked = true;
+    this.checkBoxTripOnPowerDown.Checked = false;
 
 #elif LONDON_HYDRO
-            this.numericUpDownSensTrip.Value = 9.3m;
-            // Baseline trip-on-power-down true matches sheet
+    this.numericUpDownSensTrip.Value =
+        Clamp(9.3m, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
+    // Baseline trip-on-power-down true matches sheet
 
 #elif ONCOR
-            this.checkBoxTripOnPowerDown.Checked = false;
-            // Baseline 7.5m + Hold Trip matches sheet
+    this.checkBoxTripOnPowerDown.Checked = false;
+    // Baseline 7.5m + Hold Trip matches sheet
 
 #elif PSEG
-            this.comboBox_TripStyle.SelectedIndex = 1;          // Pulse Trip
-            // Baseline TRUE/7.5m matches sheet
+    this.comboBox_TripStyle.SelectedIndex = 1;          // Pulse Trip
+    // Baseline TRUE/7.5m matches sheet
 
 #elif SCE
-            // Southern California Edison matches baseline (Sensitive / Hold / TRUE / 7.5m)
+    // Southern California Edison matches baseline (Sensitive / Hold / TRUE / 7.5m)
 
 #elif SCL
-            this.numericUpDownTimeDelay.Value = 3;
-            // Baseline TRUE/7.5m/Hold matches sheet
+    this.numericUpDownTimeDelay.Value =
+        Clamp(3m, this.numericUpDownTimeDelay.Minimum, this.numericUpDownTimeDelay.Maximum);
+    // Baseline TRUE/7.5m/Hold matches sheet
 
 #elif TAUNTON
-            this.listBoxTripModes.SelectedIndex = 3;            // Watt-Var
-            this.checkBoxTripOnPowerDown.Checked = false;
-            // Baseline 7.5m + Hold Trip matches sheet
+    this.listBoxTripModes.SelectedIndex = 3;            // Watt-Var
+    this.checkBoxTripOnPowerDown.Checked = false;
+    // Baseline 7.5m + Hold Trip matches sheet
 
 #elif TORONTO_HYDRO
-            // Based on your sheet, Toronto Hydro follows baseline values shown
-            // (Sensitive, 7.5m, Hold Trip, Trip on Power Down TRUE)
+    // Based on your sheet, Toronto Hydro follows baseline values shown
+    // (Sensitive, 7.5m, Hold Trip, Trip on Power Down TRUE)
 
 #else
-            // Keep baseline values for any other customers not listed above
+    // Keep baseline values for any other customers not listed above
 #endif
         }
 
@@ -2139,18 +2251,57 @@ namespace RelayControlLibrary
         {
 
 #if SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
-            this.numericUpDownInsensTrip.Value = 50m;
-            this.numericUpDownSensTrip.Value = .15m;
-            this.numericUpDownWVCurrent.Value = 50m;
+    this.numericUpDownInsensTrip.Value =
+        Clamp(50m,
+              this.numericUpDownInsensTrip.Minimum,
+              this.numericUpDownInsensTrip.Maximum);
+
+    this.numericUpDownSensTrip.Value =
+        Clamp(.15m,
+              this.numericUpDownSensTrip.Minimum,
+              this.numericUpDownSensTrip.Maximum);
+
+    this.numericUpDownWVCurrent.Value =
+        Clamp(50m,
+              this.numericUpDownWVCurrent.Minimum,
+              this.numericUpDownWVCurrent.Maximum);
+
 #elif LONDON_HYDRO
-            this.numericUpDownInsensTrip.Value = 50m;
-            this.numericUpDownSensTrip.Value = .186m;
-            this.numericUpDownWVCurrent.Value = 50m;
+    this.numericUpDownInsensTrip.Value =
+        Clamp(50m,
+              this.numericUpDownInsensTrip.Minimum,
+              this.numericUpDownInsensTrip.Maximum);
+
+    this.numericUpDownSensTrip.Value =
+        Clamp(.186m,
+              this.numericUpDownSensTrip.Minimum,
+              this.numericUpDownSensTrip.Maximum);
+
+    this.numericUpDownWVCurrent.Value =
+        Clamp(50m,
+              this.numericUpDownWVCurrent.Minimum,
+              this.numericUpDownWVCurrent.Maximum);
+
 #elif DIGITALGRIDINC
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 7.5m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
-            this.numericUpDownAngle.Value = 90;
+    this.numericUpDownInsensTrip.Value =
+        Clamp(2.5m,
+              this.numericUpDownInsensTrip.Minimum,
+              this.numericUpDownInsensTrip.Maximum);
+
+    this.numericUpDownSensTrip.Value =
+        Clamp(7.5m,
+              this.numericUpDownSensTrip.Minimum,
+              this.numericUpDownSensTrip.Maximum);
+
+    this.numericUpDownWVCurrent.Value =
+        Clamp(2.5m,
+              this.numericUpDownWVCurrent.Minimum,
+              this.numericUpDownWVCurrent.Maximum);
+
+    this.numericUpDownAngle.Value =
+        Clamp(90m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
 
 #endif
         }
@@ -2159,18 +2310,57 @@ namespace RelayControlLibrary
         {
 
 #if SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
-            this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
-            this.numericUpDownSensTrip.Value = .0075m * (decimal)this.CTRatio;
-            this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+    this.numericUpDownInsensTrip.Value =
+        Clamp((decimal)this.CTRatio * 2.5m,
+              this.numericUpDownInsensTrip.Minimum,
+              this.numericUpDownInsensTrip.Maximum);
+
+    this.numericUpDownSensTrip.Value =
+        Clamp(.0075m * (decimal)this.CTRatio,
+              this.numericUpDownSensTrip.Minimum,
+              this.numericUpDownSensTrip.Maximum);
+
+    this.numericUpDownWVCurrent.Value =
+        Clamp((decimal)this.CTRatio * 2.5m,
+              this.numericUpDownWVCurrent.Minimum,
+              this.numericUpDownWVCurrent.Maximum);
+
 #elif LONDON_HYDRO
-            this.numericUpDownInsensTrip.Value = (decimal)this.CTRatio * 2.5m;
-            this.numericUpDownSensTrip.Value = .0093m * (decimal)this.CTRatio;
-            this.numericUpDownWVCurrent.Value = (decimal)this.CTRatio * 2.5m;
+    this.numericUpDownInsensTrip.Value =
+        Clamp((decimal)this.CTRatio * 2.5m,
+              this.numericUpDownInsensTrip.Minimum,
+              this.numericUpDownInsensTrip.Maximum);
+
+    this.numericUpDownSensTrip.Value =
+        Clamp(.0093m * (decimal)this.CTRatio,
+              this.numericUpDownSensTrip.Minimum,
+              this.numericUpDownSensTrip.Maximum);
+
+    this.numericUpDownWVCurrent.Value =
+        Clamp((decimal)this.CTRatio * 2.5m,
+              this.numericUpDownWVCurrent.Minimum,
+              this.numericUpDownWVCurrent.Maximum);
+
 #elif DIGITALGRIDINC
-            this.numericUpDownInsensTrip.Value = 2.5m;
-            this.numericUpDownSensTrip.Value = 7.5m;
-            this.numericUpDownWVCurrent.Value = 2.5m;
-            this.numericUpDownAngle.Value = 90;
+    this.numericUpDownInsensTrip.Value =
+        Clamp(2.5m,
+              this.numericUpDownInsensTrip.Minimum,
+              this.numericUpDownInsensTrip.Maximum);
+
+    this.numericUpDownSensTrip.Value =
+        Clamp(7.5m,
+              this.numericUpDownSensTrip.Minimum,
+              this.numericUpDownSensTrip.Maximum);
+
+    this.numericUpDownWVCurrent.Value =
+        Clamp(2.5m,
+              this.numericUpDownWVCurrent.Minimum,
+              this.numericUpDownWVCurrent.Maximum);
+
+    this.numericUpDownAngle.Value =
+        Clamp(90m,
+              this.numericUpDownAngle.Minimum,
+              this.numericUpDownAngle.Maximum);
 
 #endif
         }
