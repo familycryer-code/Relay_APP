@@ -10619,13 +10619,17 @@ namespace RelayControl
 
         private void btn_PC_Send_Click(object sender, EventArgs e)
         {
-            if (comboBox_PC.SelectedIndex == 0)
-            {
-                //MessageBox.Show("Send PC parameters to the relay");
-                SendPCData();
-            }
+            this.enableAll(false);
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
 
+            SendPCData();
+
+            Application.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
+            this.enableAll(true);
         }
+
         private void SendPCData()
         {
             decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
@@ -10643,14 +10647,6 @@ namespace RelayControl
             packet[6] = 0x0D;
 
             this.sendPacketAck(packet, "Permissice Close packet Send");
-
-            /* Thread.Sleep(100);
-             if (!this.sendAll)
-             {
-                 this.requestAllData();
-                 this.parametersLoaded = true;
-             }
-            */
 
             Thread.Sleep(100);
             this.request_PCdata();
