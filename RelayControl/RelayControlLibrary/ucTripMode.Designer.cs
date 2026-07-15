@@ -147,6 +147,12 @@ namespace RelayControlLibrary
             0,
             0,
             0});
+
+            this.numericUpDownSensitiveTimeDelay.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numericUpDownTimeDelay
             // 

@@ -1041,7 +1041,8 @@ namespace RelayControlLibrary
                 temp += bytePacket[1];//12
 
 
-                this.numericUpDownTimeDelay.Value = temp;
+                this.numericUpDownTimeDelay.Value =
+                    Clamp(temp, this.numericUpDownTimeDelay.Minimum, this.numericUpDownTimeDelay.Maximum);
             }
             catch
             {
@@ -1052,7 +1053,8 @@ namespace RelayControlLibrary
             {
                 //Extended Delay
                 temp = bytePacket[4];
-                this.numericUpDownExtendedTimeDelay.Value = temp;
+                this.numericUpDownExtendedTimeDelay.Value =
+                    Clamp(temp, this.numericUpDownExtendedTimeDelay.Minimum, this.numericUpDownExtendedTimeDelay.Maximum);
 
             }
             catch
@@ -1065,7 +1067,8 @@ namespace RelayControlLibrary
                 //Sensitive Delay
                 temp = bytePacket[3];
 
-                this.numericUpDownSensitiveTimeDelay.Value = temp;
+                this.numericUpDownSensitiveTimeDelay.Value =
+                    Clamp(temp, this.numericUpDownSensitiveTimeDelay.Minimum, this.numericUpDownSensitiveTimeDelay.Maximum);
             }
             catch
             {
@@ -1106,7 +1109,8 @@ namespace RelayControlLibrary
                     tempD *= -1m;
                     tempD = Math.Round(tempD, 3);
                 }
-                this.numericUpDownSensTrip.Value = tempD;
+                this.numericUpDownSensTrip.Value =
+                    Clamp(tempD, this.numericUpDownSensTrip.Minimum, this.numericUpDownSensTrip.Maximum);
 
             }
             catch
@@ -1138,11 +1142,14 @@ namespace RelayControlLibrary
                 tempD = Math.Round(tempD);
                 if (tempD > 0)
                 {
-                    this.numericUpDownAngle.Value = tempD;
+                    this.numericUpDownAngle.Value =
+                        Clamp(tempD, this.numericUpDownAngle.Minimum, this.numericUpDownAngle.Maximum);
                 }
                 else
                 {
-                    this.numericUpDownAngle.Value = 180m + tempD;
+                    this.numericUpDownAngle.Value =
+                        Clamp(180m + tempD, this.numericUpDownAngle.Minimum, this.numericUpDownAngle.Maximum);
+
                 }
 
                 tripAngle = tempD;
@@ -1168,7 +1175,8 @@ namespace RelayControlLibrary
 
 
                 if (tempTM == TripModes.TimeDelay)
-                    this.numericUpDownInsensTrip.Value = tempD;
+                    this.numericUpDownInsensTrip.Value =
+                        Clamp(tempD, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
 
 
             }
@@ -1194,7 +1202,8 @@ namespace RelayControlLibrary
 
 
                 if (tempTM == TripModes.Insensitive)
-                    this.numericUpDownInsensTrip.Value = tempD;
+                    this.numericUpDownInsensTrip.Value =
+                        Clamp(tempD, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
             }
             catch
             {
@@ -1212,7 +1221,8 @@ namespace RelayControlLibrary
                 tempD = Math.Round(tempD, 1);
                 tempD *= conversionFactor;
 
-                this.numericUpDownWVCurrent.Value = tempD;
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(tempD, this.numericUpDownWVCurrent.Minimum, this.numericUpDownWVCurrent.Maximum);
             }
             catch
             {
@@ -1247,7 +1257,9 @@ namespace RelayControlLibrary
                 if (tempD > 90)
                     tempD -= 180m;
 
-                this.numericUpDownWVAngle.Value = Math.Round(tempD);
+                this.numericUpDownWVAngle.Value =
+                    Clamp(Math.Round(tempD), this.numericUpDownWVAngle.Minimum, this.numericUpDownWVAngle.Maximum);
+
             }
             catch
             {
@@ -1286,11 +1298,13 @@ namespace RelayControlLibrary
                 tempD = Math.Round(tempD);
                 if (tempD > 0)
                 {
-                    this.numericUpDownGullWingAngle.Value = tempD;
+                    this.numericUpDownGullWingAngle.Value =
+                        Clamp(tempD, this.numericUpDownGullWingAngle.Minimum, this.numericUpDownGullWingAngle.Maximum);
                 }
                 else
                 {
-                    this.numericUpDownGullWingAngle.Value = 180m + tempD;
+                    this.numericUpDownGullWingAngle.Value =
+                        Clamp(180m + tempD, this.numericUpDownGullWingAngle.Minimum, this.numericUpDownGullWingAngle.Maximum);
                 }
             }
             catch
@@ -1422,19 +1436,25 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownSensTrip.Value;
 
-            this.numericUpDownSensTrip.Minimum = .0001m * this.CTRatio;
+            this.numericUpDownSensTrip.Minimum = .001m * this.CTRatio;
             this.numericUpDownSensTrip.Maximum = 5m * this.CTRatio;
-            this.numericUpDownSensTrip.Increment = .0001m * this.CTRatio;
+            this.numericUpDownSensTrip.Increment = .001m * this.CTRatio;
+
+            decimal convertedSensTrip = temp;
 
             if (this.displayType == eDisplayType.Relay)
             {
-                //this.numericUpDownSensTrip.Value = Math.Round(temp * this.CTRatio, 3);
-                this.numericUpDownSensTrip.Value = (temp * this.CTRatio)/1000;
+                convertedSensTrip = (temp * this.CTRatio) / 1000m;
             }
             else if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownSensTrip.Value = Math.Round(temp * .05m * CTRatio, 3);
+                convertedSensTrip = Math.Round(temp * .05m * CTRatio, 3);
             }
+
+            this.numericUpDownSensTrip.Value =
+                Clamp(convertedSensTrip,
+                      this.numericUpDownSensTrip.Minimum,
+                      this.numericUpDownSensTrip.Maximum);
 
             temp = this.numericUpDownInsensTrip.Value;
 
@@ -1519,9 +1539,9 @@ namespace RelayControlLibrary
                 temp = this.numericUpDownSensTrip.Value;
                 temp = temp / this.CTRatio;
 
-                this.numericUpDownSensTrip.Increment = (decimal)value * .0001m;
+                this.numericUpDownSensTrip.Increment = (decimal)value * .001m;
                 this.numericUpDownSensTrip.Maximum = (decimal)value * 5m;
-                this.numericUpDownSensTrip.Minimum = (decimal)value * .0001m;
+                this.numericUpDownSensTrip.Minimum = (decimal)value * .001m;
 
                 this.numericUpDownSensTrip.Value = value * temp;
 
@@ -1579,18 +1599,24 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownSensTrip.Value;
 
-            this.numericUpDownSensTrip.Minimum = .002m;
+            this.numericUpDownSensTrip.Minimum = .02m;
             this.numericUpDownSensTrip.Maximum = 100m;
-            this.numericUpDownSensTrip.Increment = .002m;
+            this.numericUpDownSensTrip.Increment = .02m;
             this.numericUpDownSensTrip.DecimalPlaces = 3;
 
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDownSensTrip.Value = Math.Round(temp / 50m, 3);
+                this.numericUpDownSensTrip.Value =
+                    Clamp(Math.Round(temp / 50m, 3),
+                          this.numericUpDownSensTrip.Minimum,
+                          this.numericUpDownSensTrip.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
-                this.numericUpDownSensTrip.Value = Math.Round(temp / CTRatio / .050m, 3);
+                this.numericUpDownSensTrip.Value =
+                    Clamp(Math.Round(temp / CTRatio / .050m, 3),
+                          this.numericUpDownSensTrip.Minimum,
+                          this.numericUpDownSensTrip.Maximum);
             }
 
             temp = this.numericUpDownInsensTrip.Value;
@@ -1602,27 +1628,39 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp * 1000m / 50m, 0);
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(Math.Round(temp * 1000m / 50m, 0),
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp / CTRatio / .050m, 0);
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(Math.Round(temp / CTRatio / .050m, 0),
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
             }
 
             temp = this.numericUpDownWVCurrent.Value;
 
             this.numericUpDownWVCurrent.Minimum = 2m;
-            this.numericUpDownWVCurrent.Maximum = 100000m;
+            this.numericUpDownWVCurrent.Maximum = 300m;
             this.numericUpDownWVCurrent.Increment = 2m;
             this.numericUpDownWVCurrent.DecimalPlaces = 0;
 
             if (this.displayType == eDisplayType.Relay)
             {
-                this.numericUpDownWVCurrent.Value = Math.Round(temp * 1000m / 50m, 0);
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(Math.Round(temp * 1000m / 50m, 0),
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
-                this.numericUpDownWVCurrent.Value = Math.Round(temp / CTRatio / .050m, 0);
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(Math.Round(temp / CTRatio / .050m, 0),
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
             }
 
             // Capture current Adaptive values before changing ranges
@@ -1672,11 +1710,17 @@ namespace RelayControlLibrary
                 newKVAR = temp4;
             }
 
-            // Clamp to avoid ArgumentOutOfRange
-            this.numericUpDown_GreenMagX.Value = Clamp(newMagX, this.numericUpDown_GreenMagX.Minimum, this.numericUpDown_GreenMagX.Maximum);
-            this.numericUpDown_GreenMagY.Value = Clamp(newMagY, this.numericUpDown_GreenMagY.Minimum, this.numericUpDown_GreenMagY.Maximum);
-            this.numericUpDown_InCurrkW.Value = Clamp(newKW, this.numericUpDown_InCurrkW.Minimum, this.numericUpDown_InCurrkW.Maximum);
-            this.numericUpDown_InCurrkVAR.Value = Clamp(newKVAR, this.numericUpDown_InCurrkVAR.Minimum, this.numericUpDown_InCurrkVAR.Maximum);
+            this.numericUpDown_GreenMagX.Value =
+                Clamp(newMagX, this.numericUpDown_GreenMagX.Minimum, this.numericUpDown_GreenMagX.Maximum);
+
+            this.numericUpDown_GreenMagY.Value =
+                Clamp(newMagY, this.numericUpDown_GreenMagY.Minimum, this.numericUpDown_GreenMagY.Maximum);
+
+            this.numericUpDown_InCurrkW.Value =
+                Clamp(newKW, this.numericUpDown_InCurrkW.Minimum, this.numericUpDown_InCurrkW.Maximum);
+
+            this.numericUpDown_InCurrkVAR.Value =
+                Clamp(newKVAR, this.numericUpDown_InCurrkVAR.Minimum, this.numericUpDown_InCurrkVAR.Maximum);
 
             displayType = eDisplayType.Percent;
         }
@@ -1691,18 +1735,24 @@ namespace RelayControlLibrary
 
             temp = this.numericUpDownSensTrip.Value;
 
-            this.numericUpDownSensTrip.Minimum = .1m;
+            this.numericUpDownSensTrip.Minimum = 1m;
             this.numericUpDownSensTrip.Maximum = 5000m;
-            this.numericUpDownSensTrip.Increment = .1m;
+            this.numericUpDownSensTrip.Increment = 1m;
             this.numericUpDownSensTrip.DecimalPlaces = 1;
 
             if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownSensTrip.Value = Math.Round(temp * 50m, 1);
+                this.numericUpDownSensTrip.Value =
+                    Clamp(Math.Round(temp * 50m, 1),
+                          this.numericUpDownSensTrip.Minimum,
+                          this.numericUpDownSensTrip.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
-                this.numericUpDownSensTrip.Value = Math.Round(temp * 1000m / CTRatio, 1);
+                this.numericUpDownSensTrip.Value =
+                    Clamp(Math.Round(temp * 1000m / CTRatio, 1),
+                          this.numericUpDownSensTrip.Minimum,
+                          this.numericUpDownSensTrip.Maximum);
             }
 
             temp = this.numericUpDownInsensTrip.Value;
@@ -1714,11 +1764,17 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp / 1000m * 50m, 1);
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(Math.Round(temp / 1000m * 50m, 1),
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
-                this.numericUpDownInsensTrip.Value = Math.Round(temp / CTRatio, 1);
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(Math.Round(temp / CTRatio, 1),
+                          this.numericUpDownInsensTrip.Minimum,
+                          this.numericUpDownInsensTrip.Maximum);
             }
 
             temp = this.numericUpDownWVCurrent.Value;
@@ -1730,11 +1786,17 @@ namespace RelayControlLibrary
 
             if (this.displayType == eDisplayType.Percent)
             {
-                this.numericUpDownWVCurrent.Value = Math.Round(temp / 1000m * 50m, 1);
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(Math.Round(temp / 1000m * 50m, 1),
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
-                this.numericUpDownWVCurrent.Value = Math.Round(temp / CTRatio, 1);
+                this.numericUpDownWVCurrent.Value =
+                    Clamp(Math.Round(temp / CTRatio, 1),
+                          this.numericUpDownWVCurrent.Minimum,
+                          this.numericUpDownWVCurrent.Maximum);
             }
 
             // --- Adaptive fields ---
@@ -1767,18 +1829,48 @@ namespace RelayControlLibrary
             if (this.displayType == eDisplayType.Percent)
             {
                 // percent -> relay amps
-                this.numericUpDown_GreenMagX.Value = Math.Round(temp * CTRatio / 100m, 0);
-                this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * CTRatio / 100m, 0);
-                this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * CTRatio / 100m, 0);
-                this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * CTRatio / 100m, 0);
+                this.numericUpDown_GreenMagX.Value =
+                    Clamp(Math.Round(temp * CTRatio / 100m, 0),
+                          this.numericUpDown_GreenMagX.Minimum,
+                          this.numericUpDown_GreenMagX.Maximum);
+
+                this.numericUpDown_GreenMagY.Value =
+                    Clamp(Math.Round(temp2 * CTRatio / 100m, 0),
+                          this.numericUpDown_GreenMagY.Minimum,
+                          this.numericUpDown_GreenMagY.Maximum);
+
+                this.numericUpDown_InCurrkW.Value =
+                    Clamp(Math.Round(temp3 * CTRatio / 100m, 0),
+                          this.numericUpDown_InCurrkW.Minimum,
+                          this.numericUpDown_InCurrkW.Maximum);
+
+                this.numericUpDown_InCurrkVAR.Value =
+                    Clamp(Math.Round(temp4 * CTRatio / 100m, 0),
+                          this.numericUpDown_InCurrkVAR.Minimum,
+                          this.numericUpDown_InCurrkVAR.Maximum);
             }
             else if (this.displayType == eDisplayType.Protector)
             {
                 // protector(primary amps) -> relay(secondary amps)
-                this.numericUpDown_GreenMagX.Value = Math.Round(temp * 1000m / CTRatio, 0);
-                this.numericUpDown_GreenMagY.Value = Math.Round(temp2 * 1000m / CTRatio, 0);
-                this.numericUpDown_InCurrkW.Value = Math.Round(temp3 * 1000m / CTRatio, 0);
-                this.numericUpDown_InCurrkVAR.Value = Math.Round(temp4 * 1000m / CTRatio, 0);
+                this.numericUpDown_GreenMagX.Value =
+                    Clamp(Math.Round(temp * 1000m / CTRatio, 0),
+                          this.numericUpDown_GreenMagX.Minimum,
+                          this.numericUpDown_GreenMagX.Maximum);
+
+                this.numericUpDown_GreenMagY.Value =
+                    Clamp(Math.Round(temp2 * 1000m / CTRatio, 0),
+                          this.numericUpDown_GreenMagY.Minimum,
+                          this.numericUpDown_GreenMagY.Maximum);
+
+                this.numericUpDown_InCurrkW.Value =
+                    Clamp(Math.Round(temp3 * 1000m / CTRatio, 0),
+                          this.numericUpDown_InCurrkW.Minimum,
+                          this.numericUpDown_InCurrkW.Maximum);
+
+                this.numericUpDown_InCurrkVAR.Value =
+                    Clamp(Math.Round(temp4 * 1000m / CTRatio, 0),
+                          this.numericUpDown_InCurrkVAR.Minimum,
+                          this.numericUpDown_InCurrkVAR.Maximum);
             }
 
             displayType = eDisplayType.Relay;
