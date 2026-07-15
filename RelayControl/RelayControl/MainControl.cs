@@ -6816,17 +6816,15 @@ namespace RelayControl
                         if (cTRatio5 < 0)
                             cTRatio5 = -cTRatio5;
 
-                        cTRatio5 = cTRatio5 - (cTRatio5 % 50); //make sure it is divisible by 50
-
                         if (cTRatio5 > 12750)
                         {
                             this.textBoxCTRatio.Text = "12750";
                             cTRatio5 = 12750;
                         }
-                        else if (cTRatio5 < 50)
+                        else if (cTRatio5 < 5)
                         {
-                            cTRatio5 = 50;
-                            this.textBoxCTRatio.Text = "50";
+                            cTRatio5 = 5;
+                            this.textBoxCTRatio.Text = "5";
                         }
                     }
                     else
