@@ -94,7 +94,7 @@ namespace RelayControl
         {
             this.ucTransmitter1.SerialNumber = (int)uSNEA.SerialNumber;
             this.ucTransmitter1.SendTransmitterSettings();
-            this.ucTransmitter1.buttonSendAllDNPSettings_Click(this, new EventArgs());
+            //this.ucTransmitter1.buttonSendAllDNPSettings_Click(this, new EventArgs());
             if (tempForm != null)
             {
                 tempForm.UpdateSerialNumber -= updateSerialNumber;
