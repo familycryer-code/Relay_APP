@@ -4821,8 +4821,9 @@ namespace RelayControl
             {
                 this.badDataDetected = true;
                 this.messageHandler("Error in Relay Trip Setting Data", ex);
-                this.defaultTripSettings();
-                this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
+
+                // Do not overwrite relay settings on read/parse failure.
+                // Leave current state alone so the operator can retry.
             }
             try
             {
