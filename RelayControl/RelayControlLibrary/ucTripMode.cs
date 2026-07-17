@@ -270,6 +270,57 @@ namespace RelayControlLibrary
             }
         }
 
+        public void SetAdaptiveValuesFromPacket(byte[] bytePacket)
+        {
+            if (bytePacket == null || bytePacket.Length < 10)
+                return;
+
+            ushort greenDelay = (ushort)((bytePacket[0] << 8) | bytePacket[1]);
+            short greenMagXRaw = unchecked((short)((bytePacket[2] << 8) | bytePacket[3]));
+            short greenMagYRaw = unchecked((short)((bytePacket[4] << 8) | bytePacket[5]));
+            short inCurrkWRaw = unchecked((short)((bytePacket[6] << 8) | bytePacket[7]));
+            short inCurrkVARRaw = unchecked((short)((bytePacket[8] << 8) | bytePacket[9]));
+
+            // Decode packet values back to engineering units
+            decimal greenMagXAmp = greenMagXRaw / 65536m;
+            decimal greenMagYAmp = greenMagYRaw / 65536m;
+            decimal inCurrkWAmp = inCurrkWRaw / 4096m;
+            decimal inCurrkVARAmp = inCurrkVARRaw / 4096m;
+
+            decimal greenMagX;
+            decimal greenMagY;
+            decimal inCurrkW;
+            decimal inCurrkVAR;
+
+            if (this.displayType == eDisplayType.Percent)
+            {
+                greenMagX = (greenMagXAmp / 5m) * 100m;
+                greenMagY = (greenMagYAmp / 5m) * 100m;
+                inCurrkW = Math.Abs((inCurrkWAmp / 5m) * 100m);
+                inCurrkVAR = (inCurrkVARAmp / 5m) * 100m;
+            }
+            else if (this.displayType == eDisplayType.Relay || this.displayType == eDisplayType.Protector)
+            {
+                greenMagX = greenMagXAmp;
+                greenMagY = greenMagYAmp;
+                inCurrkW = Math.Abs(inCurrkWAmp);
+                inCurrkVAR = inCurrkVARAmp;
+            }
+            else
+            {
+                greenMagX = greenMagXAmp;
+                greenMagY = greenMagYAmp;
+                inCurrkW = Math.Abs(inCurrkWAmp);
+                inCurrkVAR = inCurrkVARAmp;
+            }
+
+            this.numericUpDown_GreenDelay.Value = Clamp((decimal)greenDelay, this.numericUpDown_GreenDelay.Minimum, this.numericUpDown_GreenDelay.Maximum);
+            this.numericUpDown_GreenMagX.Value = Clamp(greenMagX, this.numericUpDown_GreenMagX.Minimum, this.numericUpDown_GreenMagX.Maximum);
+            this.numericUpDown_GreenMagY.Value = Clamp(greenMagY, this.numericUpDown_GreenMagY.Minimum, this.numericUpDown_GreenMagY.Maximum);
+            this.numericUpDown_InCurrkW.Value = Clamp(inCurrkW, this.numericUpDown_InCurrkW.Minimum, this.numericUpDown_InCurrkW.Maximum);
+            this.numericUpDown_InCurrkVAR.Value = Clamp(inCurrkVAR, this.numericUpDown_InCurrkVAR.Minimum, this.numericUpDown_InCurrkVAR.Maximum);
+        }
+
         private bool sensitiveTimeEnabled = true;
         private Int32 cTRatio = 320;
         public Int32 CTRatio
@@ -308,6 +359,7 @@ namespace RelayControlLibrary
                 mySEA.RequestAll = false;
 
                 this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+
                 TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
                 TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
                 if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
@@ -315,10 +367,11 @@ namespace RelayControlLibrary
                 else
                     TripModeDef.TimeDelay = 0;
 
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                OnSend(mySEA);
+
                 if (this.TripModeDef.Mode == TripModes.RemoteTrip)
                 {
-                    mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
-                    OnSend(mySEA);
                     return;
                 }
 
@@ -373,38 +426,7 @@ namespace RelayControlLibrary
                 OnSend(mySEA);
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
-                /* if (dataBackupR.dataBackup_fromRelay == true)
-                    {
-                        // writes to 12 bytes T1_byte1 to T1_byte12 in master uP
-                        // these 12 bytes correspond to the byte packet refering to APP contents as seen on line 381-394 in RelayModeFunctions.cs
-                        string lineRead;
-                        StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                        int c = 1;
-                        while (c <= 32)
-                        {// skip through first 32 data bytes
-                            lineRead = sr.ReadLine(); //Read the next line
-                            c++;
-                        }
-
-                        mySEA.SendPacket[0] = 84;  // 'T'
-                        //mySEA.SendPacket[1] = 49;   // '1'
-                        for (int cnt = 1; cnt <= 12; cnt++)
-                        {
-                            lineRead = sr.ReadLine(); //Read the next line
-                            if ((cnt % 2) != 0)//odd 
-                                mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
-                            else
-                                mySEA.SendPacket[cnt - 2] = Convert.ToByte(lineRead);
-
-
-                        }
-                        mySEA.SendPacket[13] = 0x0D;
-
-                        dataBackupR.dataBackup_fromRelay = false;
-                        sr.Close();
-
-                    }
-                */
+           
                 this.OnSend(mySEA);
 
                 decimal tempDecimal;
@@ -415,6 +437,9 @@ namespace RelayControlLibrary
                     tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
                 else
                     tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
+
+                this.instantaneousCurrent = 0;
+                this.insensitiveCurrent = 0;
 
                 if (this.numericUpDownTimeDelay.Visible)
                 {
@@ -436,12 +461,15 @@ namespace RelayControlLibrary
                 if (!this.numericUpDownTimeDelay.Visible)
                 {
                     TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
-
+                    TripCurveTimeDelay.Offset = 0;
+                    TripCurveTimeDelay.Tilt = 90;
+                    TripCurveTimeDelay.Magnitude = 0;
                 }
                 else
                 {
                     TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
                 }
+
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
                 OnSend(mySEA);
 
@@ -466,8 +494,7 @@ namespace RelayControlLibrary
 
 
                 TripCurveWV.CurveNumber = 4;
-                TripCurveWV.CurveType = TripCurveTypes.WattVar;
-                //Offset Set Above
+                // Offset Set Above
                 TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
                 TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
                 TripCurveWV.Tilt = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
@@ -479,95 +506,79 @@ namespace RelayControlLibrary
                 else
                     TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value / CTRatio;
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
-
                 if (this.numericUpDownWVCurrent.Visible)
                     this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
                 else
                     this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
-
+  
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
                 OnSend(mySEA);
 
-                adaptiveTrip_package[0] = (byte)'{'; //Adaptive trip command
-                adaptiveTrip_package[1] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);                   // high byte of GreenDelay
-                adaptiveTrip_package[2] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value);               // low byte of GreenDelay
-                decimal tempKW, tempkVA, temp_AdaptiveMag_X, temp_AdaptiveMag_Y = 0;
-                if (this.displayType == eDisplayType.Relay)
+
+                if (this.TripModeDef.Mode == TripModes.Adaptive)
                 {
-                    temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value);
-                    temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value);
-                    tempKW = (-this.numericUpDown_InCurrkW.Value);
-                    tempkVA = (this.numericUpDown_InCurrkVAR.Value);
-                }
+                    NormalizeAdaptiveTripValues();
 
-                else if (this.displayType == eDisplayType.Percent)
-                {
-                    temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value * 50m);
-                    temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value * 50m);
-                    tempKW = (-this.numericUpDown_InCurrkW.Value * .050m);
-                    tempkVA = (this.numericUpDown_InCurrkVAR.Value * .050m);
-                }
+                    adaptiveTrip_package[0] = (byte)'{'; //Adaptive trip command
+                    adaptiveTrip_package[1] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);                   // high byte of GreenDelay
+                    adaptiveTrip_package[2] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value);               // low byte of GreenDelay
 
-                else
-                {
-                    temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value / CTRatio);
-                    temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value / CTRatio);
-                    tempKW = (-this.numericUpDown_InCurrkW.Value / CTRatio);
-                    tempkVA = (this.numericUpDown_InCurrkVAR.Value / CTRatio);
-                }
+                    decimal tempKW = 0;
+                    decimal tempkVA = 0;
+                    decimal temp_AdaptiveMag_X = 0;
+                    decimal temp_AdaptiveMag_Y = 0;
 
-                temp_AdaptiveMag_X = GetFixed_16FracBits(temp_AdaptiveMag_X);
-                temp_AdaptiveMag_Y = GetFixed_16FracBits(temp_AdaptiveMag_Y);
-                tempKW = GetFixed_12FracBits(tempKW);
-                tempkVA = GetFixed_12FracBits(tempkVA);
+                    temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value / 100m) * 5m;
+                    temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value / 100m) * 5m;
+                    tempKW = -((this.numericUpDown_InCurrkW.Value / 100m) * 5m);
+                    tempkVA = (this.numericUpDown_InCurrkVAR.Value / 100m) * 5m;
 
 
-                adaptiveTrip_package[3] = (byte)((int)temp_AdaptiveMag_X >> 8);             // high byte of Green Magnitude X
-                adaptiveTrip_package[4] = (byte)(0x00FF & (int)temp_AdaptiveMag_X);         // low byte of Green Magnitude X
-                adaptiveTrip_package[5] = (byte)((int)temp_AdaptiveMag_Y >> 8);             // high byte of Green Magnitude X
-                adaptiveTrip_package[6] = (byte)(0x00FF & (int)temp_AdaptiveMag_Y);
-                adaptiveTrip_package[7] = (byte)((int)tempKW >> 8);                         // high byte of Instantenous Current KW direction
-                adaptiveTrip_package[8] = (byte)(0x00FF & (int)tempKW);                     // low byte of Instantenous Current KW direction
-                adaptiveTrip_package[9] = (byte)((int)tempkVA >> 8);                        // high byte of Instantenous Current kVAR direction
-                adaptiveTrip_package[10] = (byte)(0x00FF & (int)tempkVA);                   // low byte of Instantenous Current kVAR direction
-                adaptiveTrip_package[11] = (byte)0x0D;
 
-                mySEA.SendPacket = adaptiveTrip_package; // To be saved in master uP as in place of Green Delay parameter storage
-                //Thread.Sleep(1000);   // 1 second delay
-                OnSend(mySEA);
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                    int encodedMagX = (int)GetFixed_16FracBits(temp_AdaptiveMag_X);
+                    int encodedMagY = (int)GetFixed_16FracBits(temp_AdaptiveMag_Y);
+                    int encodedKW = (int)GetFixed_12FracBits(tempKW);
+                    int encodedKVA = (int)GetFixed_12FracBits(tempkVA);
 
-                /*
-                if (dataBackupR.dataBackup_fromRelay == true)
-                {
-                    // writes to 6 bytes Mtrip_byte1 to Mtrip_byte6 in master uP
-                    // these 6 bytes correspond to the byte packet refering to APP contents as seen on line 342-349 in RelayModeFunctions.cs
-                    string lineRead;
-                    StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\test_fileRead.txt");
-                    int c = 1;
-                    while (c <= 14)
-                    {// skip through first 14 data bytes
-                        lineRead = sr.ReadLine(); //Read the next line
-                        c++;
-                    }
 
-                    mySEA.SendPacket[0] = 77;  // 'M'
-                    mySEA.SendPacket[1] = 84;  // 'T'
-                    for (int cnt = 2; cnt <= 6; cnt++)
+                    if (encodedMagX < short.MinValue || encodedMagX > short.MaxValue)
                     {
-                        lineRead = sr.ReadLine(); //Read the next line
-                        if ((cnt % 2) == 0)//odd 
-                            mySEA.SendPacket[cnt] = Convert.ToByte(lineRead);
-                        else
-                            mySEA.SendPacket[cnt + 1] = Convert.ToByte(lineRead);
+                        MessageBox.Show($"Adaptive Magnitude X is out of range.\nValue: {this.numericUpDown_GreenMagX.Value}");
+                        return;
                     }
-                    mySEA.SendPacket[7] = 0x0D;
-                    sr.Close();
 
+                    if (encodedMagY < short.MinValue || encodedMagY > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive Magnitude Y is out of range.\nValue: {this.numericUpDown_GreenMagY.Value}");
+                        return;
+                    }
+
+                    if (encodedKW < short.MinValue || encodedKW > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive kW Direction is out of range.\nValue: {this.numericUpDown_InCurrkW.Value}");
+                        return;
+                    }
+
+                    if (encodedKVA < short.MinValue || encodedKVA > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive kVAR Direction is out of range.\nValue: {this.numericUpDown_InCurrkVAR.Value}");
+                        return;
+                    }
+
+                    adaptiveTrip_package[3] = (byte)(encodedMagX >> 8);
+                    adaptiveTrip_package[4] = (byte)(encodedMagX & 0x00FF);
+                    adaptiveTrip_package[5] = (byte)(encodedMagY >> 8);
+                    adaptiveTrip_package[6] = (byte)(encodedMagY & 0x00FF);
+                    adaptiveTrip_package[7] = (byte)(encodedKW >> 8);
+                    adaptiveTrip_package[8] = (byte)(encodedKW & 0x00FF);
+                    adaptiveTrip_package[9] = (byte)(encodedKVA >> 8);
+                    adaptiveTrip_package[10] = (byte)(encodedKVA & 0x00FF);
+                    adaptiveTrip_package[11] = (byte)0x0D;
+
+                    mySEA.SendPacket = adaptiveTrip_package;
+                    OnSend(mySEA);
                 }
-                */
-                OnSend(mySEA);
 
                 //New Trip Parameters
                 mySEA.WithAck = true;
@@ -575,24 +586,16 @@ namespace RelayControlLibrary
                 mySEA.SendPacket[0] = (byte)'M';
                 mySEA.SendPacket[1] = (byte)'S';
 
-                //mySEA.SendPacket[2] = 0;
-                //if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip")
-                //if ((string)this.domainUpDownTripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
-        //        if ((string)this.comboBox_TripStyle.SelectedItem == "Hold Trip (Troubleshooting Only)")
+               
                 if (this.comboBox_TripStyle.SelectedIndex == 0) // Hold Trip
                         mySEA.SendPacket[2] = 0;
-                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Pulse Trip")
-                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Continuous Pulse")
-        //        else if ((string)this.comboBox_TripStyle.SelectedItem == "Continuous Pulse")
+              
                 else if (this.comboBox_TripStyle.SelectedIndex == 1) // Continous Pulse
                     mySEA.SendPacket[2] = 1;
-                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Single Attempt")
-                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "3 Pulse, then off")
-        //        else if ((string)this.comboBox_TripStyle.SelectedItem == "3 Pulse, then off")
+                
                 else if (this.comboBox_TripStyle.SelectedIndex == 2) // 3 Pulse, then off
                     mySEA.SendPacket[2] = 2;
-                //else if ((string)this.domainUpDownTripStyle.SelectedItem == "Short Trip")
-        //        else if ((string)this.comboBox_TripStyle.SelectedItem == "Short Trip")
+                
                 else if (this.comboBox_TripStyle.SelectedIndex == 3) // Short Trip
                     mySEA.SendPacket[2] = 3;
                 else
@@ -609,10 +612,76 @@ namespace RelayControlLibrary
                 if (this.VersionNumber >= 110609)
                     OnSend(mySEA);
 
+                Thread.Sleep(100);
+
+                mySEA.WithAck = false;
+                mySEA.RequestAll = false;
+                mySEA.SendPacket = new byte[3];
+                mySEA.SendPacket[0] = (byte)'[';
+                mySEA.SendPacket[1] = (byte)'U';
+                mySEA.SendPacket[2] = 0x0D;
+                OnSend(mySEA);
+
                 sending = false;
 
             }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             Thread.Sleep(1500);   // 1 second
+        }
+
+        private void NormalizeAdaptiveTripValues()
+        {
+            UpdateAdaptiveTripRanges();
+            ClampAdaptiveTripValues();
+        }
+
+        private void ClampAdaptiveTripValues()
+        {
+            if (this.numericUpDown_GreenDelay.Value > this.numericUpDown_GreenDelay.Maximum)
+                this.numericUpDown_GreenDelay.Value = this.numericUpDown_GreenDelay.Maximum;
+            if (this.numericUpDown_GreenDelay.Value < this.numericUpDown_GreenDelay.Minimum)
+                this.numericUpDown_GreenDelay.Value = this.numericUpDown_GreenDelay.Minimum;
+
+            if (this.numericUpDown_InCurrkW.Value > this.numericUpDown_InCurrkW.Maximum)
+                this.numericUpDown_InCurrkW.Value = this.numericUpDown_InCurrkW.Maximum;
+            if (this.numericUpDown_InCurrkW.Value < this.numericUpDown_InCurrkW.Minimum)
+                this.numericUpDown_InCurrkW.Value = this.numericUpDown_InCurrkW.Minimum;
+
+            if (this.numericUpDown_InCurrkVAR.Value > this.numericUpDown_InCurrkVAR.Maximum)
+                this.numericUpDown_InCurrkVAR.Value = this.numericUpDown_InCurrkVAR.Maximum;
+            if (this.numericUpDown_InCurrkVAR.Value < this.numericUpDown_InCurrkVAR.Minimum)
+                this.numericUpDown_InCurrkVAR.Value = this.numericUpDown_InCurrkVAR.Minimum;
+
+            if (this.numericUpDown_GreenMagX.Value > this.numericUpDown_GreenMagX.Maximum)
+                this.numericUpDown_GreenMagX.Value = this.numericUpDown_GreenMagX.Maximum;
+            if (this.numericUpDown_GreenMagX.Value < this.numericUpDown_GreenMagX.Minimum)
+                this.numericUpDown_GreenMagX.Value = this.numericUpDown_GreenMagX.Minimum;
+
+            if (this.numericUpDown_GreenMagY.Value > this.numericUpDown_GreenMagY.Maximum)
+                this.numericUpDown_GreenMagY.Value = this.numericUpDown_GreenMagY.Maximum;
+            if (this.numericUpDown_GreenMagY.Value < this.numericUpDown_GreenMagY.Minimum)
+                this.numericUpDown_GreenMagY.Value = this.numericUpDown_GreenMagY.Minimum;
+        }
+        private void UpdateAdaptiveTripRanges()
+        {
+            this.numericUpDown_GreenDelay.Minimum = 150;
+            this.numericUpDown_GreenDelay.Maximum = 250;
+            this.numericUpDown_GreenDelay.Increment = 1;
+
+            this.numericUpDown_GreenMagX.Minimum = 1;
+            this.numericUpDown_GreenMagX.Maximum = 5;
+            this.numericUpDown_GreenMagX.Increment = 1;
+
+            this.numericUpDown_GreenMagY.Minimum = 1;
+            this.numericUpDown_GreenMagY.Maximum = 5;
+            this.numericUpDown_GreenMagY.Increment = 1;
+
+            this.numericUpDown_InCurrkW.Minimum = 15;
+            this.numericUpDown_InCurrkW.Maximum = 35;
+            this.numericUpDown_InCurrkW.Increment = 1;
+
+            this.numericUpDown_InCurrkVAR.Minimum = 40;
+            this.numericUpDown_InCurrkVAR.Maximum = 60;
+            this.numericUpDown_InCurrkVAR.Increment = 1;
         }
 
         private void OnSend(SendEventArgs sEA)
@@ -623,17 +692,18 @@ namespace RelayControlLibrary
 
         public decimal GetFixed_16FracBits(decimal value)
         {
-            Int32 temp;
-            temp = (Int32)Math.Round((value / 1000m) / Constants.SixteenFracBits);
-            return (decimal)temp;
+            decimal scaled = Math.Round(value / Constants.SixteenFracBits);
+
+            if (scaled < short.MinValue || scaled > short.MaxValue)
+                throw new OverflowException($"Fixed16 value out of range: {value}");
+
+            return scaled;
         }
 
         public decimal GetFixed_12FracBits(decimal value)
         {
-            //Int16 temp;
-            //temp = (Int16)(value / Constants.TwelveFracBits);
-            Int32 temp;
-            temp = (Int32)(value / Constants.TwelveFracBits);
+            decimal scaled = value / Constants.TwelveFracBits;
+            short temp = (short)scaled;
             return (decimal)temp;
         }
 

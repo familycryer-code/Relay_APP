@@ -357,25 +357,7 @@ namespace RelayControlLibrary
             Thread.Sleep(1000);   //1 second delay
            
         }
-        /*
-        public void SendPermissiveData()
-        {
-            decimal tempVoltage = GetFixed_12FracBits(numericnumericUpDown_PermClVoltage.Value);
-            byte[] packet = new byte[7]; //permissivePacketSize
-            
-            packet[0] = (byte)'}';
-            if(this.chkBox_EnablePermClose.Checked == true)
-                packet[1] = 1;
-            else 
-                packet[1] = 0;
-            packet[2] = (byte)numericUpDown_FloatTime.Value;
-            packet[3] = (byte)numericUpDown_PermClActTime.Value;
-            packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
-            packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
-            packet[6] = 0x0D;
-            this.OnSend(this, new SendEventArgs(7) { SendPacket = packet });
-        }
-        */
+      
         public decimal GetFixed_12FracBits(decimal value)
         {
             Int16 temp;

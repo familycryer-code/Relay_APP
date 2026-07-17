@@ -158,7 +158,8 @@ namespace RelayControlLibrary
         DNPMessage5,  // Analog Outputs 
         LowVoltageThresReceived,
         NoMemFix,
-        PCdata,
+        PCdata,  // Permissive Close Data
+        ATdata,  // Adaptive Trip Data
         Invalid,
         StandardPacket
     }

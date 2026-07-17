@@ -2145,6 +2145,11 @@ namespace RelayControl
                             return true;
                         else
                             return false;
+                    case IncomingCommCommands.ATdata:
+                        if (i == 10)
+                            return true;
+                        else
+                            return false;
                     case IncomingCommCommands.Revision:
                         if (i == 38)
                             return true;
@@ -2384,6 +2389,8 @@ namespace RelayControl
                     return IncomingCommCommands.LowVoltageThresReceived;
                 case (byte)'~':
                     return IncomingCommCommands.PCdata;
+                case (byte)'[':
+                    return IncomingCommCommands.ATdata;
                 default:
                     return IncomingCommCommands.Invalid;
             }
@@ -2543,6 +2550,9 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.PCdata:
                     this.setPermissiveCloseData(bytePacket);
+                    break;
+                case IncomingCommCommands.ATdata:
+                    this.ucTripMode2.SetAdaptiveValuesFromPacket(bytePacket);
                     break;
                 case IncomingCommCommands.Revision:
                     this.revisionReceived(bytePacket);
@@ -3774,6 +3784,7 @@ namespace RelayControl
                     this.enableAll(true);
 
                     this.request_PCdata(); // Permissive close data
+                    this.request_ATdata(); // Adaptive trip data
                 }
 
                 if (ucSafeService1.SendSSModeFlag_Send == true)
@@ -4821,6 +4832,7 @@ namespace RelayControl
             {
                 this.badDataDetected = true;
                 this.messageHandler("Error in Relay Trip Setting Data", ex);
+
 
                 // Do not overwrite relay settings on read/parse failure.
                 // Leave current state alone so the operator can retry.
@@ -10689,6 +10701,18 @@ namespace RelayControl
             {
 
             }
+        }
+
+        private void request_ATdata()
+        {
+            // asks master to send Adaptive Trip data to the APP
+            byte[] packet = new byte[3];
+
+            packet[0] = (byte)'[';
+            packet[1] = (byte)'U';
+            packet[2] = 0x0D;
+
+            this.sendPacket(packet);
         }
 
         private void btn_RelaxClose_Click(object sender, EventArgs e)
