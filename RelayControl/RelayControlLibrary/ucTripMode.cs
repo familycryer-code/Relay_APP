@@ -684,6 +684,21 @@ namespace RelayControlLibrary
             this.numericUpDown_InCurrkVAR.Increment = 1;
         }
 
+        private void UpdateDisplayTypeAvailabilityForTripMode()
+        {
+            bool isAdaptive = this.TripModeDef.Mode == TripModes.Adaptive;
+
+            if (isAdaptive)
+            {
+                this.domainUpDownType.SelectedIndex = 1; // Percent
+                this.domainUpDownType.Enabled = false;
+            }
+            else
+            {
+                this.domainUpDownType.Enabled = true;
+            }
+        }
+
         private void OnSend(SendEventArgs sEA)
         {
             if (Send != null && !this.SendTimedOut)
@@ -710,6 +725,7 @@ namespace RelayControlLibrary
         private void listBoxTripModes_SelectedIndexChanged(object sender, EventArgs e)
         {
             TripModes tripMode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+            this.TripModeDef.Mode = tripMode;
 
             this.lblGreenDelay.Visible = false;
             this.numericUpDown_GreenDelay.Visible = false;
@@ -853,6 +869,7 @@ namespace RelayControlLibrary
                     break;
             }
 
+            this.UpdateDisplayTypeAvailabilityForTripMode();
             this.modeChanged();
         }
 
@@ -1044,8 +1061,11 @@ namespace RelayControlLibrary
             Int32 temp = 0;
             decimal tempD = 0, tripAngle = 0, conversionFactor = 1m;
 
+            tempTM = RelayModeFunctions.TripModeFrom((char)bytePacket[0]);
+            this.TripModeDef.Mode = tempTM;
+            this.UpdateDisplayTypeAvailabilityForTripMode();
+
             switch (this.domainUpDownType.SelectedIndex)
-            //switch (this.comboBox_TripType.SelectedIndex)
             {
                 case 0:
                     conversionFactor = 1m;
@@ -1062,32 +1082,11 @@ namespace RelayControlLibrary
 
             }
 
-            tempTM = RelayModeFunctions.TripModeFrom((char)bytePacket[0]);
+            
 
             try
             {
-                /*switch (tempTM)
-                {
-                    case TripModes.Insensitive:
-                        this.listBoxTripModes.SelectedIndex = 1;
-                        break;
-                    case TripModes.TimeDelay:
-                        this.listBoxTripModes.SelectedIndex = 2;
-                        break;
-                    case TripModes.WattVar:
-                        this.listBoxTripModes.SelectedIndex = 3;
-                        break;
-                    case TripModes.Adaptive:
-                        this.listBoxTripModes.SelectedIndex = 4;
-                        break;
-                    case TripModes.Sensitive:
-                    case TripModes.RemoteTrip:
-                    default:
-                        this.listBoxTripModes.SelectedIndex = 0;
-                        break;
-
-                }*/
-
+               
                 switch (tempTM)
                 {
                     case TripModes.Insensitive:
@@ -1168,8 +1167,7 @@ namespace RelayControlLibrary
 
             try
             {
-                //bytePacket[5] = 113;// 20;
-                //bytePacket[6] = 253;// 254;
+                
                 //Sensitive Trip Setting
                 temp = bytePacket[12];
                 temp <<= 8;
@@ -1408,30 +1406,22 @@ namespace RelayControlLibrary
                     //Set Trip Style Drop down
                     if ((bytePacket[22] & 0x03) == 1)
                     {
-                        //this.domainUpDownTripStyle.SelectedItem = "Pulse Trip";
-                        //this.domainUpDownTripStyle.SelectedItem = "Continuous Pulse";
-             //        this.comboBox_TripStyle.SelectedItem = "Continuous Pulse";
+                     
                         this.comboBox_TripStyle.SelectedIndex = 1;
                     }
                     else if ((bytePacket[22] & 0x03) == 2)
                     {
-                        //this.domainUpDownTripStyle.SelectedItem = "Single Attempt";
-                        //this.domainUpDownTripStyle.SelectedItem = "3 Pulse, then off";
-            //           this.comboBox_TripStyle.SelectedItem = "3 Pulse, then off";
+                      
                         this.comboBox_TripStyle.SelectedIndex = 2;
                     }
                     else if ((bytePacket[22] & 0x03) == 3)
                     {
-                        //  this.domainUpDownTripStyle.SelectedIndex = 3;
-                        //this.domainUpDownTripStyle.SelectedItem = "Short Trip";
-            //            this.comboBox_TripStyle.SelectedItem = "Short Trip";
+                     
                         this.comboBox_TripStyle.SelectedIndex = 3;
                     }
                     else
                     {
-                        //this.domainUpDownTripStyle.SelectedItem = "Hold Trip";
-                        //this.domainUpDownTripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
-            //           this.comboBox_TripStyle.SelectedItem = "Hold Trip (Troubleshooting Only)";
+                      
                         this.comboBox_TripStyle.SelectedIndex = 0;
                     }
 
