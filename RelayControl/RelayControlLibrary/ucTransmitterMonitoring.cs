@@ -82,6 +82,16 @@ namespace RelayControlLibrary
             this.labelGa.Visible = true;
             this.labelHa.Visible = true;
 
+#if CONED
+            this.labelCa.Text = "A";
+            this.labelDa.Text = "D";
+            this.labelEa.Text = "E";
+            this.labelFa.Text = "F";
+            this.labelGa.Text = "G";
+            this.labelHa.Text = "H";
+            this.label2.Text = "A1";
+#endif
+
             this.checkBoxFlagStatusA.Visible = true;
             this.checkBoxFlagStatusB.Visible = true;
             this.checkBoxFlagStatusC.Visible = true;
@@ -426,188 +436,118 @@ namespace RelayControlLibrary
 
         private void setAll(byte[] bytePacket)
         {
-            int localTemp, powerPercent, monByteLength = 0;
+            int localTemp;
+            int powerPercent;
+            int monByteLength;
 
-            //TransmitterPower
+            // Basic guard
+            if (bytePacket == null || bytePacket.Length < 7)
+                return;
+
+            // -------------------------
+            // Transmitter Power
+            // -------------------------
             localTemp = bytePacket[1];
             localTemp <<= 8;
             localTemp += bytePacket[0];
 
-            localTemp >>= 7;                //Align 12 bit ADC value then get MS Byte
+            localTemp >>= 7;                 // Align 12-bit ADC value then get MS byte
             localTemp = localTemp & 0x00FF;
 
-            if (localTemp <= 9)
-                powerPercent = 0;
-            else if (localTemp <= 13)
-                powerPercent = 20;
-            else if (localTemp <= 18)
-                powerPercent = 30;
-            else if (localTemp <= 28)
-                powerPercent = 40;
-            else if (localTemp <= 38)
-                powerPercent = 50;
-            else if (localTemp <= 48)
-                powerPercent = 60;
-            else if (localTemp <= 58)
-                powerPercent = 70;
-            else if (localTemp <= 68)
-                powerPercent = 80;
-            else if (localTemp <= 78)
-                powerPercent = 90;
-            else
-                powerPercent = 100;
+            if (localTemp <= 9) powerPercent = 0;
+            else if (localTemp <= 13) powerPercent = 20;
+            else if (localTemp <= 18) powerPercent = 30;
+            else if (localTemp <= 28) powerPercent = 40;
+            else if (localTemp <= 38) powerPercent = 50;
+            else if (localTemp <= 48) powerPercent = 60;
+            else if (localTemp <= 58) powerPercent = 70;
+            else if (localTemp <= 68) powerPercent = 80;
+            else if (localTemp <= 78) powerPercent = 90;
+            else powerPercent = 100;
 
             powerP.pwrPer = powerPercent;
-            // this.textBoxTransmitterOutputPower.Text = powerPercent.ToString();
 
-            //Transmitter Temperature
+            // -------------------------
+            // Transmitter Temperature
+            // -------------------------
             localTemp = bytePacket[3];
             localTemp <<= 8;
             localTemp += bytePacket[2];
-
             this.textBoxTransmitterTemp.Text = localTemp.ToString();
-            if (relayHBD.relayWithHBD == false)
-            {// For master uP with SEC
-               
-                if ((bytePacket[6] & 1) == 1) //Transmitter Flags A is LSB
-                {
-                    this.checkBoxFlagStatusA.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusA.Checked = false;
-                }
 
-                if ((bytePacket[6] & 2) == 2)
-                {
-                    this.checkBoxFlagStatusB.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusB.Checked = false;
-                }
-                if ((bytePacket[6] & 4) == 4)
-                {
-                    this.checkBoxFlagStatusC.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusC.Checked = false;
-                }
-                if ((bytePacket[6] & 8) == 8)
-                {
-                    this.checkBoxFlagStatusD.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusD.Checked = false;
-                }
-                if ((bytePacket[6] & 16) == 16)
-                {
-                    this.checkBoxFlagStatusE.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusE.Checked = false;
-                }
-                if ((bytePacket[6] & 32) == 32)
-                {
-                    this.checkBoxFlagStatusF.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusF.Checked = false;
-                }
-                if ((bytePacket[6] & 64) == 64)
-                {
-                    this.checkBoxFlagStatusG.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusG.Checked = false;
-                }
-                if ((bytePacket[6] & 128) == 128)
-                {
-                    this.checkBoxFlagStatusH.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusH.Checked = false;
-                }
-            }
-            else if (relayHBD.relayWithHBD == true)
-            {// For master uP with HBoard
-#if CONED
-                if ((bytePacket[6] & 2) == 2) // Digital Input 1
-                {
-                    this.checkBoxFlagStatusA.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusA.Checked = false;
-                }
+            // -------------------------
+            // Digital Flags mapping
+            // -------------------------
+#if TORONTO_HYDRO
+    // Toronto Hydro / H_BOARD mapping (Input 1..4 style)
+    // Input 1 -> B (bit1)
+    this.checkBoxFlagStatusB.Checked = ((bytePacket[6] & 0x02) == 0x02);
 
-                if ((bytePacket[6] & 8) == 8) // Digital Input 2
-                {
-                    this.checkBoxFlagStatusB.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusB.Checked = false;
-                }
-#elif TORONTO_HYDRO
-                if ((bytePacket[6] & 2) == 2) // Digital Input 1
-                {
-                    this.checkBoxFlagStatusB.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusB.Checked = false;
-                }
+    // Input 2 -> A (bit3)
+    this.checkBoxFlagStatusA.Checked = ((bytePacket[6] & 0x08) == 0x08);
 
-                if ((bytePacket[6] & 8) == 8) // Digital Input 2
-                {
-                    this.checkBoxFlagStatusA.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusA.Checked = false;
-                }
+    // Input 3 -> C (bit0)
+    this.checkBoxFlagStatusC.Checked = ((bytePacket[6] & 0x01) == 0x01);
+
+    // Input 4 -> D (bit4)
+    this.checkBoxFlagStatusD.Checked = ((bytePacket[6] & 0x10) == 0x10);
+
+    // Unused in Toronto H_BOARD layout
+    this.checkBoxFlagStatusE.Checked = false;
+    this.checkBoxFlagStatusF.Checked = false;
+    this.checkBoxFlagStatusG.Checked = false;
+    this.checkBoxFlagStatusH.Checked = false;
+#else
+            // SEC mapping (all non-Toronto builds): A..H = bits 0..7
+            this.checkBoxFlagStatusA.Checked = ((bytePacket[6] & 0x01) == 0x01);
+            this.checkBoxFlagStatusB.Checked = ((bytePacket[6] & 0x02) == 0x02);
+            this.checkBoxFlagStatusC.Checked = ((bytePacket[6] & 0x04) == 0x04);
+            this.checkBoxFlagStatusD.Checked = ((bytePacket[6] & 0x08) == 0x08);
+            this.checkBoxFlagStatusE.Checked = ((bytePacket[6] & 0x10) == 0x10);
+            this.checkBoxFlagStatusF.Checked = ((bytePacket[6] & 0x20) == 0x20);
+            this.checkBoxFlagStatusG.Checked = ((bytePacket[6] & 0x40) == 0x40);
+            this.checkBoxFlagStatusH.Checked = ((bytePacket[6] & 0x80) == 0x80);
 #endif
 
-                if ((bytePacket[6] & 1) == 1) // Digital Input 3
-                {
-                    this.checkBoxFlagStatusC.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusC.Checked = false;
-                }
-
-                if ((bytePacket[6] & 16) == 16) // Digital Input 4
-                {
-                    this.checkBoxFlagStatusD.Checked = true;
-                }
-                else
-                {
-                    this.checkBoxFlagStatusD.Checked = false;
-                }
+            // -------------------------
+            // Meter raw values -> widgets
+            // -------------------------
+            // -------------------------
+            // Meter raw values -> widgets
+            // -------------------------
+#if CONED
+            // ConEd: A1/A2 come from packet bytes 13/14
+            if (bytePacket.Length > 14)
+            {
+                this.transmitterMeterValuesA1.RawValue = (int)bytePacket[13];
+                this.transmitterMeterValuesA2.RawValue = (int)bytePacket[14];
             }
-            this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4]; 
-            this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5]; 
+#else
+    // Legacy mapping
+    if (bytePacket.Length > 5)
+    {
+        this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4];
+        this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5];
+    }
+#endif
 
-            ((Thermometer)this.myTempWidgetA1.Widget.DeviceList.GetDevice(0)).Value = this.transmitterMeterValuesA1.DGITemp;
-            ((Meter)this.myPSIWidgetA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA1.Pressure;
-            ((Meter)this.myThermometerA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA1.OilTemp;
+    ((Thermometer)this.myTempWidgetA1.Widget.DeviceList.GetDevice(0)).Value =
+        this.transmitterMeterValuesA1.DGITemp;
+            ((Meter)this.myPSIWidgetA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
+                this.transmitterMeterValuesA1.Pressure;
+            ((Meter)this.myThermometerA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
+                this.transmitterMeterValuesA1.OilTemp;
 
-            ((Thermometer)this.myTempWidgetA2.Widget.DeviceList.GetDevice(0)).Value = this.transmitterMeterValuesA2.DGITemp;
-            ((Meter)this.myPSIWidgetA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA2.Pressure;
-            ((Meter)this.myThermometerA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value = this.transmitterMeterValuesA2.OilTemp;
+            ((Thermometer)this.myTempWidgetA2.Widget.DeviceList.GetDevice(0)).Value =
+                this.transmitterMeterValuesA2.DGITemp;
+            ((Meter)this.myPSIWidgetA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
+                this.transmitterMeterValuesA2.Pressure;
+            ((Meter)this.myThermometerA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
+                this.transmitterMeterValuesA2.OilTemp;
 
-          //  this.setA1Value();
-           // this.setA2Value();
-            this.textBoxA1Analog1.Text = bytePacket[13].ToString();
-            this.textBoxA2Analog2.Text = bytePacket[14].ToString();
+            // Right-side raw analog display boxes
+            if (bytePacket.Length > 13) this.textBoxA1Analog1.Text = bytePacket[13].ToString();
+            if (bytePacket.Length > 14) this.textBoxA2Analog2.Text = bytePacket[14].ToString();
 
             this.myPSIWidgetA2.Invalidate();
             this.myTempWidgetA2.Invalidate();
@@ -616,20 +556,32 @@ namespace RelayControlLibrary
             this.myTempWidgetA1.Invalidate();
             this.myThermometerA1.Invalidate();
 
-            //CDEFGH Q set
-
+            // -------------------------
+            // C..H / Input7 / QBit block
+            // -------------------------
             monByteLength = bytePacket.Length;
-
             if (monByteLength != 7)
             {
-                this.textBoxCa.Text = bytePacket[7].ToString();     // Analog Input 1 : Oil Temperature
-                this.textBoxDa.Text = bytePacket[8].ToString();     // Analog Input 2 : Transformer Pressure
-                this.textBoxEa.Text = bytePacket[9].ToString();     // Analog Input 3 : Oil Level
-                this.textBoxFa.Text = bytePacket[10].ToString();    // Analog Input 4 : Spare
-                this.textBoxGa.Text = bytePacket[11].ToString();    // Analog Input 5 : NWP Pressure
-                this.textBoxHa.Text = bytePacket[12].ToString();    // Analog Input 6 : Spare
-                this.textBox_Input7.Text = bytePacket[13].ToString(); // Analog Input 7: Spare
-                if (this.waterBugActive)
+#if CONED
+                if (bytePacket.Length > 7) this.textBoxCa.Text = bytePacket[7].ToString();   // A
+                if (bytePacket.Length > 8) this.textBoxDa.Text = bytePacket[8].ToString();   // D
+                if (bytePacket.Length > 9) this.textBoxEa.Text = bytePacket[9].ToString();   // E
+                if (bytePacket.Length > 10) this.textBoxFa.Text = bytePacket[10].ToString();  // F (NI)
+                if (bytePacket.Length > 11) this.textBoxGa.Text = bytePacket[11].ToString();  // G (NI)
+                if (bytePacket.Length > 12) this.textBoxHa.Text = bytePacket[12].ToString();  // H
+                if (bytePacket.Length > 13) this.textBox_Input7.Text = bytePacket[13].ToString(); // A1
+#else
+                if (bytePacket.Length > 7) this.textBoxCa.Text = bytePacket[7].ToString();
+                if (bytePacket.Length > 8) this.textBoxDa.Text = bytePacket[8].ToString();
+                if (bytePacket.Length > 9) this.textBoxEa.Text = bytePacket[9].ToString();
+                if (bytePacket.Length > 10) this.textBoxFa.Text = bytePacket[10].ToString();
+                if (bytePacket.Length > 11) this.textBoxGa.Text = bytePacket[11].ToString();
+                if (bytePacket.Length > 12) this.textBoxHa.Text = bytePacket[12].ToString();
+                if (bytePacket.Length > 13) this.textBox_Input7.Text = bytePacket[13].ToString();
+#endif
+
+
+                if (this.waterBugActive && bytePacket.Length > 15)
                     this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1) ? "LOW" : "OK";
                 else
                     this.textBoxQBit.Text = "N/A";
