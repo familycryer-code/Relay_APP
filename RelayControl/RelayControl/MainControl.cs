@@ -5274,6 +5274,7 @@ namespace RelayControl
 
         private void setPermissiveCloseData(byte[] bytePacket)
         {
+            if (bytePacket == null || bytePacket.Length < 8) return;
 #if CONED
             try
             {
@@ -5290,14 +5291,39 @@ namespace RelayControl
 
                 decimal floatTime = bytePacket[3];
                 decimal activeTime = bytePacket[5];
-                decimal voltage = bytePacket[7] + (bytePacket[6] >> 4);
+
+                UInt16 raw = (UInt16)((bytePacket[6] << 8) | bytePacket[7]); // swapped
+                decimal voltage = raw * Constants.TwelveFracBits;
+
+                // DEBUG POPUP #2 (read-side)
+                MessageBox.Show(
+                    "READ PC\r\n" +
+                    $"Rx Byte[6] LOW: 0x{bytePacket[6]:X2}\r\n" +
+                    $"Rx Byte[7] HIGH: 0x{bytePacket[7]:X2}\r\n" +
+                    $"Raw: {raw}\r\n" +
+                    $"TwelveFracBits: {Constants.TwelveFracBits}\r\n" +
+                    $"Decoded Voltage: {voltage}",
+                    "PC Debug - Read",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
                 this.numericUpDown_PC_floatTime.Value = ClampToNumericRange(floatTime, this.numericUpDown_PC_floatTime);
                 this.numericUpDown_PC_activeTime.Value = ClampToNumericRange(activeTime, this.numericUpDown_PC_activeTime);
                 this.numericUpDown_PC_voltage.Value = ClampToNumericRange(voltage, this.numericUpDown_PC_voltage);
+
+                if (_pcApplyPendingConfirmation)
+                {
+                    _pcApplyPendingConfirmation = false;
+                    MessageBox.Show(
+                        "Parameters Loaded Successfully",
+                        "Parameters Loaded",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
+                _pcApplyPendingConfirmation = false;
                 this.messageHandler("Error in Permissive Close data received from the relay", ex);
             }
 #endif
@@ -10641,40 +10667,51 @@ namespace RelayControl
             this.enableAll(true);
         }
 
+        // Add field in MainControl class
+        private bool _pcApplyPendingConfirmation = false;
         private void SendPCData()
         {
-            decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
-            byte[] packet = new byte[7]; //permissivePacketSize
+            // Encode UI volts -> FIXED20_12 raw (assuming TwelveFracBits is 1/4096)
+            UInt16 rawVoltage = (UInt16)Math.Round(
+                numericUpDown_PC_voltage.Value / Constants.TwelveFracBits,
+                MidpointRounding.AwayFromZero);
 
+            byte[] packet = new byte[7];
             packet[0] = (byte)'}';
-            if (comboBox_PC.SelectedIndex == 0)
-                packet[1] = 1;
-            else
-                packet[1] = 0;
+            packet[1] = (comboBox_PC.SelectedIndex == 0) ? (byte)1 : (byte)0;
             packet[2] = (byte)numericUpDown_PC_floatTime.Value;
             packet[3] = (byte)numericUpDown_PC_activeTime.Value;
-            packet[4] = (byte)((int)tempVoltage & 0xFF);           // LOW byte//(byte)(((int)tempVoltage >> 8) & 0x00FF);
-            packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF);    // HIGH byte//(byte)((int)tempVoltage & 0x00FF);
+            packet[4] = (byte)(rawVoltage & 0xFF);         // LOW
+            packet[5] = (byte)((rawVoltage >> 8) & 0xFF);  // HIGH
             packet[6] = 0x0D;
 
-            this.sendPacketAck(packet, "Permissice Close packet Send");
+            // DEBUG POPUP #1 (send-side)
+            MessageBox.Show(
+                "SEND PC\r\n" +
+                $"UI Voltage: {numericUpDown_PC_voltage.Value}\r\n" +
+                $"TwelveFracBits: {Constants.TwelveFracBits}\r\n" +
+                $"RawVoltage: {rawVoltage}\r\n" +
+                $"Byte[4] LOW: 0x{packet[4]:X2}\r\n" +
+                $"Byte[5] HIGH: 0x{packet[5]:X2}",
+                "PC Debug - Send",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
 
-            Thread.Sleep(100);
+            this.sendPacketAck(packet, "Permissive Close packet send");
+
+            _pcApplyPendingConfirmation = true;
+            Thread.Sleep(250);
             this.request_PCdata();
         }
 
         private void request_PCdata()
         {
-            //asks relay to send Permissive Close data to the APP
             byte[] packet = new byte[3];
-
-            //packet[0] = (byte)'~';
-            //packet[1] = (byte)'U';
-            packet[0] = 0x7E;
-            packet[1] = 0x55;
+            packet[0] = 0x7E; // '~'
+            packet[1] = 0x55; // 'U'
             packet[2] = 0x0D;
 
-            this.sendPacket(packet);
+            this.sendPacket(packet);   // <-- not sendPacketAck
         }
 
         public void send_PC_active()
