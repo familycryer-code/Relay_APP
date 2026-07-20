@@ -5294,18 +5294,7 @@ namespace RelayControl
 
                 UInt16 raw = (UInt16)((bytePacket[6] << 8) | bytePacket[7]); // swapped
                 decimal voltage = raw * Constants.TwelveFracBits;
-
-                // DEBUG POPUP #2 (read-side)
-                MessageBox.Show(
-                    "READ PC\r\n" +
-                    $"Rx Byte[6] LOW: 0x{bytePacket[6]:X2}\r\n" +
-                    $"Rx Byte[7] HIGH: 0x{bytePacket[7]:X2}\r\n" +
-                    $"Raw: {raw}\r\n" +
-                    $"TwelveFracBits: {Constants.TwelveFracBits}\r\n" +
-                    $"Decoded Voltage: {voltage}",
-                    "PC Debug - Read",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+              
 
                 this.numericUpDown_PC_floatTime.Value = ClampToNumericRange(floatTime, this.numericUpDown_PC_floatTime);
                 this.numericUpDown_PC_activeTime.Value = ClampToNumericRange(activeTime, this.numericUpDown_PC_activeTime);
@@ -10684,18 +10673,6 @@ namespace RelayControl
             packet[4] = (byte)(rawVoltage & 0xFF);         // LOW
             packet[5] = (byte)((rawVoltage >> 8) & 0xFF);  // HIGH
             packet[6] = 0x0D;
-
-            // DEBUG POPUP #1 (send-side)
-            MessageBox.Show(
-                "SEND PC\r\n" +
-                $"UI Voltage: {numericUpDown_PC_voltage.Value}\r\n" +
-                $"TwelveFracBits: {Constants.TwelveFracBits}\r\n" +
-                $"RawVoltage: {rawVoltage}\r\n" +
-                $"Byte[4] LOW: 0x{packet[4]:X2}\r\n" +
-                $"Byte[5] HIGH: 0x{packet[5]:X2}",
-                "PC Debug - Send",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
 
             this.sendPacketAck(packet, "Permissive Close packet send");
 
