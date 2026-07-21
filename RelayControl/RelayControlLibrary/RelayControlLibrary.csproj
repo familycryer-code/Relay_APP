@@ -656,35 +656,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
-    <Content Include="Resources\MasterProcessor__COMED_SEC_260214.S" />
-    <Content Include="Resources\MasterProcessor__COMED_SEC_GE_260214.S" />
-    <Content Include="Resources\MasterProcessor__CONED_SEC_260214.S" />
-    <Content Include="Resources\MasterProcessor__CONED_SEC_GE_260214.S" />
-    <Content Include="Resources\MasterProcessor__LONDON_HYDRO_SEC_260214.S" />
-    <Content Include="Resources\MasterProcessor__LONDON_HYDRO_SEC_GE_260214.S" />
-    <Content Include="Resources\MasterProcessor__PSEG_SEC_260214.S" />
-    <Content Include="Resources\MasterProcessor__PSEG_SEC_GE_260214.S" />
-    <Content Include="Resources\MasterProcessor__SCL_SEC_260214.S" />
-    <Content Include="Resources\MasterProcessor__SCL_SEC_GE_260214.S" />
-    <Content Include="Resources\MasterProcessor__TAUNTON_SEC_260214.S" />
-    <Content Include="Resources\MasterProcessor__TAUNTON_SEC_GE_260214.S" />
-    <Content Include="Resources\RelayProcessor_conEdison_20260126.S" />
-    <Content Include="Resources\RelayProcessor_GE_conEdison_20260126.S" />
+    <Content Include="Resources\MasterProcessor__CONED_SEC_260215.S" />
+    <Content Include="Resources\MasterProcessor__CONED_SEC_GE_260215.S" />
+    <Content Include="Resources\MasterProcessor__DGI_SEC_260215.S" />
+    <Content Include="Resources\MasterProcessor__DGI_SEC_GE_260215.S" />
+    <Content Include="Resources\MasterProcessor__ONCOR_SEC_260215.S" />
+    <Content Include="Resources\MasterProcessor__ONCOR_SEC_GE_260215.S" />
+    <Content Include="Resources\MasterProcessor__SCE_SEC_260215.S" />
+    <Content Include="Resources\MasterProcessor__SCE_SEC_GE_260215.S" />
+    <Content Include="Resources\RelayProcessor_20260127.S" />
+    <Content Include="Resources\RelayProcessor_conEdison_20260127.S" />
+    <Content Include="Resources\RelayProcessor_GE_20260127.S" />
+    <Content Include="Resources\RelayProcessor_GE_conEdison_20260127.S" />
     <None Include="packages.config" />
-    <None Include="Resources\RelayProcessor_GE_20260126.S" />
-    <None Include="Resources\RelayProcessor_20260126.S" />
-    <None Include="Resources\MasterProcessor__ENMAX_SEC_260214.S" />
-    <None Include="Resources\MasterProcessor__ENMAX_SEC_GE_260214.S" />
-    <None Include="Resources\MasterProcessor__EVERSOURCE_SEC_260214.S" />
-    <None Include="Resources\MasterProcessor__EVERSOURCE_SEC_GE_260214.S" />
-    <None Include="Resources\MasterProcessor__ONCOR_SEC_260214.S" />
-    <None Include="Resources\MasterProcessor__ONCOR_SEC_GE_260214.S" />
-    <None Include="Resources\MasterProcessor__SCE_SEC_260214.S" />
-    <None Include="Resources\MasterProcessor__SCE_SEC_GE_260214.S" />
-    <None Include="Resources\MasterProcessor__DOMINION_SEC_260214.S" />
-    <None Include="Resources\MasterProcessor__DOMINION_SEC_GE_260214.S" />
-    <None Include="Resources\MasterProcessor__BGE_SEC_260214.S" />
-    <None Include="Resources\MasterProcessor__BGE_SEC_GE_260214.S" />
     <None Include="Resources\FPGAdata.rbf" />
   </ItemGroup>
   <ItemGroup>

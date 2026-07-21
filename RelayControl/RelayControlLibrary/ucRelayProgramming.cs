@@ -555,72 +555,72 @@ namespace RelayControlLibrary
 
                     // Relay firmware
                     lf.RelayFileWH = useConEdRelay
-                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260126
-                        : RelayControlLibrary.Properties.Resources.RelayProcessor_20260126;
+                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260127
+                        : RelayControlLibrary.Properties.Resources.RelayProcessor_20260127;
 
                     lf.RelayFileGE = useConEdRelay
-                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260126
-                        : RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260126;
+                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260127
+                        : RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127;
                 };
 
                 setFiles(Customers.BGE,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__BGE_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.COMED,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__COMED_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__COMED_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.CONED,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260215,
                     true);
 
                 setFiles(Customers.DOMINION,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__DOMINION_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.ENMAX,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__ENMAX_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.EVERSOURCE,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__EVERSOURCE_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.LONDON_HYDRO,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__LONDON_HYDRO_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__LONDON_HYDRO_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.ONCOR,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.PSEG,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__PSEG_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__PSEG_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.SCE,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.SCL,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCL_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__SCL_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 setFiles(Customers.TAUNTON,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__TAUNTON_SEC_260214,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__TAUNTON_SEC_GE_260214,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260215,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260215,
                     false);
 
                 // TORONTO_HYDRO is HBD-only (still using available CONED HBD-compatible asset)
@@ -628,16 +628,16 @@ namespace RelayControlLibrary
                 if (toronto != null)
                 {
                     toronto.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
-                    toronto.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260214;
+                    toronto.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260215;
 
                     // Safe non-null defaults
-                    toronto.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260214;
-                    toronto.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260214;
+                    toronto.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260215;
+                    toronto.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260215;
                     toronto.MasterFileWHDNP = toronto.MasterFileWH;
                     toronto.MasterFileGEDNP = toronto.MasterFileGE;
                     toronto.MasterFileDNPPLC = toronto.MasterFileWH;
-                    toronto.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260126;
-                    toronto.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260126;
+                    toronto.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260127;
+                    toronto.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260127;
                 }
             }
             catch (Exception ex)
