@@ -656,6 +656,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
+    <Content Include="RelayProcessor_GE_conEdison_20260127.S" />
     <Content Include="Resources\MasterProcessor__CONED_SEC_260215.S" />
     <Content Include="Resources\MasterProcessor__CONED_SEC_GE_260215.S" />
     <Content Include="Resources\MasterProcessor__DGI_SEC_260215.S" />

@@ -4839,33 +4839,57 @@ namespace RelayControl
             }
             try
             {
-                // ABC or ACB
-                // The bottom three bits of the packet
+                // ABC/ACB or CONED-specific phasing encoding
                 temp = 0x07 & bytePacket[80];
-                if (this.customer != Customers.CONED)
+                this.conedPhasing = 0;
+
+                if (this.Customer == Customers.CONED)
                 {
-                    this.conedPhasing = 0; //For when debug is running with coned, the values are different so 
- 
-                    if (temp == 1)
+                    // Preserve CONED behavior (legacy ASCII-style values may be present)
+                    if (temp > 48 && temp <= 54)
                     {
-                        this.comboBox_Phasings.SelectedIndex = 1;
+                        this.conedPhasing = (uint)temp;
+                        this.comboBox_Phasings.SelectedIndex = 0; // safe display default
+                       
                     }
                     else if (temp == 0)
                     {
                         this.comboBox_Phasings.SelectedIndex = 0;
                     }
-                    else if (temp > 48 && temp <= 54) //if it is a coned relay, the phasing will be in ASCII
+                    else if (temp == 1)
+                    {
+                        this.comboBox_Phasings.SelectedIndex = 1;
+                    }
+                    else
+                    {
+                        this.restoreDefaultsTypeAndPhasing();
+                        this.buttonSendCTRatio_Click(this, new EventArgs());
+                    }
+                }
+                else
+                {
+                    if (temp == 1)
+                    {
+                        this.comboBox_Phasings.SelectedIndex = 1;
+                      
+                    }
+                    else if (temp == 0)
+                    {
+                        this.comboBox_Phasings.SelectedIndex = 0;
+                        
+                    }
+                    else if (temp > 48 && temp <= 54) // CONED-style encoding seen on non-CONED build
                     {
 #if !DOMINION
                         this.comboBox_Phasings.SelectedIndex = 0;
                         this.conedPhasing = (uint)temp;
-
+                        
 #endif
                     }
                     else
                     {
-                        //this.messageHandler("Setting default values for phasing", "temp.ToString()" + " " + "Invalid value for phasing received from relay");
                         this.restoreDefaultsTypeAndPhasing();
+                       
                         this.buttonSendCTRatio_Click(this, new EventArgs());
                     }
                 }
@@ -5925,33 +5949,6 @@ namespace RelayControl
             this.sendPacket(sendArray);
         }
 
-        private bool IsDnpCustomer()
-        {
-            return this.Customer == Customers.CONED ||
-                   this.Customer == Customers.ENMAX ||
-                   this.Customer == Customers.ONCOR ||
-                   this.Customer == Customers.PSEG ||
-                   this.Customer == Customers.SCE;
-        }
-
-        private void ApplyDnpUiGate()
-        {
-            bool isDnpCust = IsDnpCustomer();
-            bool uplinkOn = isDnpCust && this.ucTransmitter1.CheckDNPEnable; // relay-backed state
-
-            // Uplink control visibility
-            this.ucTransmitter1.checkBoxDNPEnable.Visible = isDnpCust;
-            this.ucTransmitter1.checkBoxDNPEnable.Enabled = isDnpCust;
-
-            // DNP settings visibility + gating
-            this.tabPageDNP.Visible = isDnpCust;          // if using tab pages
-            this.ucDNP1.Visible = isDnpCust;
-            this.ucDNP1.Enabled = uplinkOn;
-
-            // Status
-            this.ucTransmitter1.DNPCommLabelStatus =
-                isDnpCust && uplinkOn && applyTX.applyTxSettings && applyDNP.applyDNPSettings;
-        }
 
         //private void buttonRelayType_Click(object sender, EventArgs e)
         private void sendRelayPhasingAndType()
@@ -8040,15 +8037,16 @@ namespace RelayControl
             if (!this.DNPEnabled) return;
 
 #if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
-            this.ucDNP1.SetDnpBaudIndex(2); // 9600
+    this.ucDNP1.SetDnpBaudIndex(2); // 9600
+    this.ucDNP1.SendAllDNPSettings();
+    dnpBaudInitialized = true;
 #elif PSEG
     this.ucDNP1.SetDnpBaudIndex(5); // 19200
+    this.ucDNP1.SendAllDNPSettings();
+    dnpBaudInitialized = true;
 #else
-    return;
+            return;
 #endif
-
-            this.ucDNP1.SendAllDNPSettings();
-            dnpBaudInitialized = true;
         }
 
         private ProgressBarForm downloadProgress;
@@ -8159,26 +8157,25 @@ namespace RelayControl
 
         private void updateCTRatio(int ratio)
         {
+            // Valid range in "ratio" units (display is ratio * 5)
+            // 5..12750 display => 1..2550 ratio, but your defaults imply practical min of 160.
+            if (ratio <= 0)
+            {
+                this.messageHandler("Bad CT Ratio Value",
+                    new Exception("Can't set CT Ratio to zero or negative.\r\nSending a valid value to relay. Please check."));
+                ratio = 320;
+                this.comboBox_CTRatio.SelectedIndex = 5; // 320 => 1600 display
+            }
+            else if (ratio > 2550) // 2550 * 5 = 12750
+            {
+                this.messageHandler("Bad CT Ratio Value",
+                    new Exception("Can't set CT Ratio above 12750.\r\nPlease send a valid value to relay."));
+                ratio = 320;
+                this.comboBox_CTRatio.SelectedIndex = 5; // 320 => 1600 display
+            }
+
             int ratio5 = ratio * 5;
 
-            if (ratio5 == 0)
-            {
-                this.messageHandler("Bad CT Ratio Value", new Exception("Can't set CT Ratio to zero. \r\n Sending a valid value to relay.  Please Check."));
-                this.CTRatio = 320;
-                ratio = 320;
-                ratio5 = 1600;
-                this.comboBox_CTRatio.SelectedIndex = 4;
-
-            }
-            if (ratio5 > 12750)
-            {
-                this.messageHandler("Bad CT Ratio Value", new Exception("Can't Set CT Ratio above 12750. \r\n Please send a valid value to relay"));
-                this.CTRatio = 320;
-                ratio = 320;
-                ratio5 = 1600;
-                this.comboBox_CTRatio.SelectedIndex = 4;
-                this.updateCTRatio(ratio5);
-            }
             this.ucPhasorGraph1.CTRatio = ratio;
             this.ucTripMode2.CTRatio = ratio;
             this.ucEventGraph0.CTRatio = ratio;
@@ -8190,7 +8187,6 @@ namespace RelayControl
             this.ucEventGraph6.CTRatio = ratio;
             this.ucEventGraph7.CTRatio = ratio;
             this.ucLiveData1.CTRatio = ratio;
-            this.comboBox_CTRatio.Text = ratio5.ToString();
             this.ucTransmitter1.CTRatio = (uint)ratio;
             this.ucSafeService1.CTRatio = ratio;
             this.CTRatio = ratio;
@@ -8200,8 +8196,7 @@ namespace RelayControl
             this.comboBox_CTRatio.Text = ratio5.ToString();
             this.textBoxCTRatioPQMonitor.Visible = true;
             this.textBoxCTRatioPQMonitor.BringToFront();
-            this.textBoxCTRatioPQMonitor.Text = textBoxCTRatio.Text;
-
+            this.textBoxCTRatioPQMonitor.Text = this.textBoxCTRatio.Text;
         }
 
         private bool downloadingLiveData = true;
@@ -9588,73 +9583,104 @@ namespace RelayControl
 
         private void BackUpRelayDatatoFile()
         {
-            // Pull data from relay master uP if its firmware is les then rev 10
-            // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
-            bool relayHasDnp = !string.IsNullOrEmpty(this.ucRelayProgramming1.MasterRevisionString) && this.ucRelayProgramming1.MasterRevisionString.Contains("DNP");
-
-            StartBackupTracking(relayHasDnp);
-            //READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
-            dataBackup_fromRelay = true;
-            dataBackupR.dataBackup_fromRelay = true;
+            // Pull data from relay master uP if its firmware is less than rev 10.
+            // Since rev 10 onwards there are storage changes for memory-corruption protection.
+            bool relayHasDnp =
+                !string.IsNullOrEmpty(this.ucRelayProgramming1.MasterRevisionString) &&
+                this.ucRelayProgramming1.MasterRevisionString.Contains("DNP");
 
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-                Console.WriteLine("File deleted successfully.");
-            }
-            else
-            {
-                Console.WriteLine("File does not exist.");
-            }
 
-
-            //string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Get current timestamp
-            //File.WriteAllText(filePath, "Data residing in the relay as on : " + timestamp + Environment.NewLine); // Write timestamp to a new file
-            File.WriteAllText(filePath, "Data residing in the relay : " + Environment.NewLine);
             try
             {
-                //string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                //TextWriter tw = new StreamWriter(path, true);
-                //tw.WriteLine("Data residing in the relay as on :" + String.Format("{0:yyyyMMddHHmmss}"), DateTime.Now);
+                StartBackupTracking(relayHasDnp);
 
+                // READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
+                dataBackup_fromRelay = true;
+                dataBackupR.dataBackup_fromRelay = true;
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                    logger.Info("Existing backup file deleted: {0}", filePath);
+                }
+
+                File.WriteAllText(
+                    filePath,
+                    "Data residing in the relay :" + Environment.NewLine +
+                    "Timestamp: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine +
+                    "MasterRevision: " + (this.ucRelayProgramming1.MasterRevisionString ?? "UNKNOWN") + Environment.NewLine);
 
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestRelayParameters();
                 this.requestCalibrationConstants();
                 this.requestTransmitterSettings();
                 this.requestSafeServiceSettings();
-                this.arcFaultEnableMonitoring(true);
+
+                // Prefer explicit request for backup capture instead of toggling monitor mode
+                this.arcFault_requestArcFaultMonitoring();
+
                 if (relayHasDnp)
                 {
                     this.requestDNPSettings();      // 'U'
-                    //this.RequestDNPSav5Settings();  // 'D'+'s'
+                                                    // this.RequestDNPSav5Settings();  // 'D'+'s'
                 }
             }
-            catch (Exception ex)//file does not exist or is corrupt so just delete it if it does exist
+            catch (Exception ex)
             {
-                throw new Exception("Pull data File Corrupt", ex);
-            }
+                // Ensure backup state is clean on failure
+                backupInProgress = false;
+                if (backupTimeoutTimer != null)
+                    backupTimeoutTimer.Stop();
 
+                dataBackup_fromRelay = false;
+                dataBackupR.dataBackup_fromRelay = false;
+
+                throw new Exception("Pull data backup failed", ex);
+            }
         }
 
         private void WriteBackUpData_FileToRelay()
         {
-            // Push data backed up in the "RelayData_Backup.txt" from a relay with firmware rev 9 or older
-            // to relay master uP  (for programming a firmware with rev 10 or more) 
-            // Since rev 10 onwards there are some changes in data storage to take care of memory corruption
-            //MessageBox.Show("Now writing rev 9 data from backup File to the realy with rev10 firmware");
+            // Push data backed up in RelayData_Backup.txt from rev9-or-older relay
+            // to relay master uP (for rev10+ firmware mapping changes).
 
-            this.writeCloseModeDataBackUp_ToMaster();
-            this.writeTripModeDataBackUp_ToMaster();
-            this.writeNWProtectorDataBackUp_ToMaster();
-            this.writePumpModeDataBackUp_ToMaster();
-            this.writeSafeServiceDataBackUp_ToMaster();
-            this.writeTransmitterDataBackUp_ToMaster(); 
-            this.writeDNPDataBackUp_ToMaster();
-            //this.writeDNPSAv5SettingsDataBackUp_ToMaster();
-            this.writeArcFaultDataBackUp_ToMaster();
-            //this.writeCalibrationDataBackUp_ToMaster();  // Let Relay processor handle it - this did not work
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+
+            if (!File.Exists(filePath))
+            {
+                this.messageHandler("Backup Restore", "Backup file not found. Cannot restore.");
+                return;
+            }
+
+            if (!checkValidDataBackup())
+            {
+                this.messageHandler("Backup Restore", "Backup file validation failed. Restore aborted.");
+                return;
+            }
+
+            try
+            {
+                logger.Info("Starting backup restore to relay.");
+
+                this.writeCloseModeDataBackUp_ToMaster();
+                this.writeTripModeDataBackUp_ToMaster();
+                this.writeNWProtectorDataBackUp_ToMaster();
+                this.writePumpModeDataBackUp_ToMaster();
+                this.writeSafeServiceDataBackUp_ToMaster();
+                this.writeTransmitterDataBackUp_ToMaster();
+                this.writeDNPDataBackUp_ToMaster();
+                // this.writeDNPSAv5SettingsDataBackUp_ToMaster(); // currently disabled by design
+                this.writeArcFaultDataBackUp_ToMaster();
+                // this.writeCalibrationDataBackUp_ToMaster(); // intentionally disabled
+
+                logger.Info("Backup restore completed.");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Backup restore failed.");
+                this.messageHandler("Backup Restore Failed", ex);
+            }
         }
 
 
@@ -9671,642 +9697,420 @@ namespace RelayControl
 
         private void writeCloseModeDataBackUp_ToMaster()
         {
-            if (dataBackupCM.dataBackup_closeModeDefaults == false) //if not loading close mode defaults - and loading old close mode data back to the relay
+            if (dataBackupCM.dataBackup_closeModeDefaults)
             {
-                byte[] packet_C = new byte[10];
-                string lineRead;
-                StreamReader sr = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int c = 1;
-                while (c <= 3)
-                { //Read through the next line untill we reach 'Relay Parameters:'
-                    lineRead = sr.ReadLine();
-                    c++;
-                }
-                packet_C[0] = 67;    // 'C'
-                /* packet_C[1] = 23;    // C_byte1 - RecloseVoltsByteHigh
-                   packet_C[2] = 0;     // C_byte2
-                   packet_C[3] = 244;   // C_byte3 - TiltAngleTangentHighByte
-                   packet_C[4] = 146;   // C_byte4
-                   packet_C[5] = 6;     // C_byte5 - PhasingOffsetHighByte
-                   packet_C[6] = 102;   // C_byte6
-                   packet_C[7] = 254;   // C_byte7 - PhaseDetectTangentHighByte
-                   packet_C[8] = 154;   // C_byte8
-                 */
-                for (int cnt = 1; cnt <= 8; cnt++)
-                {
-                    lineRead = sr.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_C[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_C[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_C[9] = 0x0D;
-                this.sendPacket(packet_C);
-
-                byte[] packet_MC = new byte[8];
-                StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int mc = 1; // go to the beginning of the data backup file
-                while (mc <= 11)
-                {
-                    lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining of data with command 'M' + 'C'
-                    mc++;
-                }
-
-                packet_MC[0] = 77;    // 'M'
-                /*  packet_MC[1] = 67;  // 'C' - Mclose_byte1
-                  packet_MC[2] = 78;  // Mclose_byte2
-                  packet_MC[3] = 0;   // Mclose_byte3
-                  packet_MC[4] = 7;   // Mclose_byte4 - Close Time Delay
-                  packet_MC[5] = 0;   // Mclose_byte5
-                  packet_MC[6] = 0;   // Mclose_byte6
-                 */
-                for (int cnt = 1; cnt <= 6; cnt++)
-                {
-                    lineRead = sr1.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_MC[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_MC[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_MC[7] = 0x0D;
-
-                this.sendPacket(packet_MC);
-            }//if not loading close mode defaults - and loading old close mode data back to the relay
-            else
-            {
-                // since close mode data from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the defaults for close mode to the relay with the new firmware
+                // Fallback to defaults when old backup values are flagged bad
                 this.ucCloseMode1.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            // Find section start
+            int relayParamsHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Relay Parameters:", StringComparison.Ordinal));
+            if (relayParamsHeader < 0)
+                throw new Exception("Relay Parameters section not found in backup file.");
+
+            // Need at least 94 bytes after header for relay parameter block
+            int relayStart = relayParamsHeader + 1;
+            if (relayStart + 93 >= lines.Length)
+                throw new Exception("Relay Parameters section is incomplete.");
+
+            byte ReadByteAt(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup index out of range at line index {idx}.");
+
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
+                    throw new Exception($"Invalid byte value at line index {idx}: '{lines[idx]}'.");
+
+                return value;
+            }
+
+            // Pull relay parameter bytes into local array [0..93]
+            byte[] rp = new byte[94];
+            for (int i = 0; i < rp.Length; i++)
+                rp[i] = ReadByteAt(relayStart + i);
+
+            // -------- Packet 'C' (close curve bytes from relay params C_byte1..C_byte8) --------
+            // Existing code swaps odd/even from file sequence into packet slots.
+            byte[] packet_C = new byte[10];
+            packet_C[0] = (byte)'C';
+
+            // rp[0..7] correspond to first 8 relay-param bytes written in backup.
+            // Preserve legacy mapping:
+            // cnt odd -> packet_C[cnt+1], cnt even -> packet_C[cnt-1]
+            for (int cnt = 1; cnt <= 8; cnt++)
+            {
+                byte b = rp[cnt - 1];
+                if ((cnt % 2) != 0)
+                    packet_C[cnt + 1] = b;
+                else
+                    packet_C[cnt - 1] = b;
+            }
+
+            packet_C[9] = 0x0D;
+            this.sendPacket(packet_C);
+
+            // -------- Packet 'M''C' (Mclose bytes) --------
+            byte[] packet_MC = new byte[8];
+            packet_MC[0] = (byte)'M';
+
+            // Legacy mapping using next 6 bytes from relay params block (originally lines after first 8)
+            // rp[8..13] => mapped with same odd/even swap
+            for (int cnt = 1; cnt <= 6; cnt++)
+            {
+                byte b = rp[8 + (cnt - 1)];
+                if ((cnt % 2) != 0)
+                    packet_MC[cnt + 1] = b;
+                else
+                    packet_MC[cnt - 1] = b;
+            }
+
+            packet_MC[7] = 0x0D;
+            this.sendPacket(packet_MC);
         }
 
         private void writeTripModeDataBackUp_ToMaster()
         {
-            if (dataBackupTM.dataBackup_tripModeDefaults == false) //if not loading trip mode defaults - and loading old trip mode data back to the relay
+            if (dataBackupTM.dataBackup_tripModeDefaults)
             {
-                //==========================================Mtrip===================================================
-                byte[] packet_MT = new byte[8];
-                string lineRead;
-                StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int mc = 1; // go to the beginning of the data backup file
-                while (mc <= 17)
-                {
-                    lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining of data with command'M' + 'T'
-                    mc++;
-                }
-
-                packet_MT[0] = 77;    // 'M'
-                /*  packet_MT[1] = 84;  // 'T' - Mtrip_byte1
-                  packet_MT[2] = 83;  // Mtrip_byte2
-                  packet_MT[3] = 0;   // Mtrip_byte3 - TimeDelayHighByte
-                  packet_MT[4] = 0;   // Mtrip_byte4 
-                  packet_MT[5] = 2;   // Mtrip_byte5 - //tMD.SensitiveTimeDelayHighByte;
-                  packet_MT[6] = 6;   // Mtrip_byte6
-                */
-                for (int cnt = 1; cnt <= 6; cnt++)
-                {
-                    lineRead = sr1.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_MT[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_MT[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_MT[7] = 0x0D;
-                this.sendPacket(packet_MT);
-                Thread.Sleep(1000);   // 1 second delay
-
-                //==================================    T0    ==============================================
-                byte[] packet_T0 = new byte[14];
-                StreamReader sr2 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int t0 = 1; // go to the beginning of the data backup file
-                while (t0 <= 23)
-                {
-                    lineRead = sr2.ReadLine(); //Read the next line untill we reach the begining of data with command'T0'
-                    t0++;
-                }
-
-                packet_T0[0] = 84;      // 'T'
-                /* packet_T0[1] = 48;      // '0' - T0_byte1
-                 packet_T0[2] = 79;      // T0_byte2
-                 packet_T0[3] = 250;     // T0_byte3 - Sensitive Trip
-                 packet_T0[4] = 20;      // T0_byte4
-                 packet_T0[5] = 0;       // T0_byte5 - TiltAngleHighByte;
-                 packet_T0[6] = 0;       // T0_byte6
-                 packet_T0[7] = 64;      // T0_byte7 - Constants.MaxFixedPointValue
-                 packet_T0[8] = 0;       // T0_byte8
-                 packet_T0[9] = 192;     // T0_byte9 - Constants.MinFixedPointValue
-                 packet_T0[10] = 0;      // T0_byte10
-                 packet_T0[11] = 255;    // T0_byte11 - MagnitudeHighByte
-                 packet_T0[12] = 255;    // T0_byte12
-                */
-
-                for (int cnt = 1; cnt <= 12; cnt++)
-                {
-                    lineRead = sr2.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_T0[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_T0[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_T0[13] = 0x0D;
-                this.sendPacket(packet_T0);
-                Thread.Sleep(1000);   // 1 second delay
-
-                //==================================    T1    ==============================================
-                byte[] packet_T1 = new byte[14];
-                StreamReader sr3 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int t1 = 1; // go to the beginning of the data backup file
-                while (t1 <= 35)
-                {
-                    lineRead = sr3.ReadLine(); //Read the next line untill we reach the begining of data with command'T1'
-                    t1++;
-                }
-
-                packet_T1[0] = 84;      // 'T'
-                /*packet_T1[1] = 49;    // '1' - T1_byte1
-                packet_T1[2] = 78;      // T1_byte2
-                packet_T1[3] = 240;     // T1_byte3 - Sensitive Trip
-                packet_T1[4] = 22;      // T1_byte4
-                packet_T1[5] = 0;       // T1_byte5 - TrimAngleHighByte ( WV Angle )
-                packet_T1[6] = 0;       // T1_byte6
-                packet_T1[7] = 64;      // T1_byte7 - Constants.MaxFixedPointValue
-                packet_T1[8] = 0;       // T1_byte8
-                packet_T1[9] = 0;       // T1_byte9 - Constants.MinFixedPointValue
-                packet_T1[10] = 0;      // T1_byte10
-                packet_T1[11] = 10;     // T1_byte11 - MagnitudeHighByte
-                packet_T1[12] = 0;      // T1_byte12
-                */
-
-                for (int cnt = 1; cnt <= 12; cnt++)
-                {
-                    lineRead = sr3.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_T1[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_T1[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_T1[13] = 0x0D;
-                this.sendPacket(packet_T1);
-                Thread.Sleep(1000);   // 1 second delay
-
-                //==================================    T2    ==============================================
-                byte[] packet_T2 = new byte[14];
-                StreamReader sr4 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int t2 = 1; // go to the beginning of the data backup file
-                while (t2 <= 47)
-                {
-                    lineRead = sr4.ReadLine(); //Read the next line untill we reach the begining of data with command'T2'
-                    t2++;
-                }
-
-                packet_T2[0] = 84;      // 'T'
-                /*packet_T2[1] = 50;      // '2' - T2_byte1
-                packet_T2[2] = 77;      // T2_byte2
-                packet_T2[3] = 0;       // T2_byte3 - Offset ( 0 )
-                packet_T2[4] = 0;       // T2_byte4
-                packet_T2[5] = 0;       // T2_byte5 - Tilt ( 90 )
-                packet_T2[6] = 0;       // T2_byte6
-                packet_T2[7] = 64;      // T2_byte7 - Constants.MaxFixedPointValue
-                packet_T2[8] = 0;       // T2_byte8
-                packet_T2[9] = 192;     // T2_byte9 - Constants.MinFixedPointValue
-                packet_T2[10] = 0;      // T2_byte10
-                packet_T2[11] = 25;     // T2_byte11 - insensitiveCurrent ( Insensitive Trip (IT) )
-                packet_T2[12] = 0;      // T2_byte12
-                */
-
-                for (int cnt = 1; cnt <= 12; cnt++)
-                {
-                    lineRead = sr4.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_T2[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_T2[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_T2[13] = 0x0D;
-                this.sendPacket(packet_T2);
-                Thread.Sleep(1000);   // 1 second delay
-
-                //==================================    T3    ==============================================
-                byte[] packet_T3 = new byte[14];
-                StreamReader sr5 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int t3 = 1; // go to the beginning of the data backup file
-                while (t3 <= 59)
-                {
-                    lineRead = sr5.ReadLine(); //Read the next line untill we reach the begining of data with command'T3'
-                    t3++;
-                }
-
-                packet_T3[0] = 84;      // 'T'
-                /*packet_T3[1] = 51;      // '3' - T3_byte1
-                packet_T3[2] = 78;      // T3_byte2
-                packet_T3[3] = 0;       // T3_byte3 - Offset ( 0 )
-                packet_T3[4] = 0;       // T3_byte4
-                packet_T3[5] = 0;       // T3_byte5 - Tilt ( 90 )
-                packet_T3[6] = 0;       // T3_byte6
-                packet_T3[7] = 64;      // T3_byte7 - Constants.MaxFixedPointValue
-                packet_T3[8] = 0;       // T3_byte8
-                packet_T3[9] = 192;     // T3_byte9 - Constants.MinFixedPointValue
-                packet_T3[10] = 0;      // T3_byte10
-                packet_T3[11] = 30;     // T3_byte11 - instantaneousCurrent ( Insensitive Trip (IT) )
-                packet_T3[12] = 0;      // T3_byte12
-                */
-
-                for (int cnt = 1; cnt <= 12; cnt++)
-                {
-                    lineRead = sr5.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_T3[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_T3[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_T3[13] = 0x0D;
-                this.sendPacket(packet_T3);
-                Thread.Sleep(1000);   // 1 second delay
-
-                //==================================    T4    ==============================================
-                byte[] packet_T4 = new byte[14];
-                StreamReader sr6 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int t4 = 1; // go to the beginning of the data backup file
-                while (t4 <= 71)
-                {
-                    lineRead = sr6.ReadLine(); //Read the next line untill we reach the begining of data with command'T4'
-                    t4++;
-                }
-
-                packet_T4[0] = 84;      // 'T'
-                /* packet_T4[1] = 52;      // '4' - T4_byte1
-                 packet_T4[2] = 87;      // T4_byte2
-                 packet_T4[3] = 254;      // T4_byte3 - Offset ( 0 )
-                 packet_T4[4] = 20;      // T4_byte4
-                 packet_T4[5] = 0;       // T4_byte5 - Tilt (numericUpDownAngle.Value + numericUpDownWVAngle.Value)
-                 packet_T4[6] = 148;       // T4_byte6
-                 packet_T4[7] = 64;      // T4_byte7 - Constants.MaxFixedPointValue
-                 packet_T4[8] = 0;       // T4_byte8
-                 packet_T4[9] = 192;     // T4_byte9 - Constants.MinFixedPointValue
-                 packet_T4[10] = 0;      // T4_byte10
-                 packet_T4[11] = 30;     // T4_byte11 - numericUpDownWVCurrent
-                 packet_T4[12] = 0;      // T4_byte12
-                 */
-
-                for (int cnt = 1; cnt <= 12; cnt++)
-                {
-                    lineRead = sr6.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_T4[cnt + 1] = Convert.ToByte(lineRead);
-                    else
-                        packet_T4[cnt - 1] = Convert.ToByte(lineRead);
-                }
-
-                packet_T4[13] = 0x0D;
-                this.sendPacket(packet_T4);
-                Thread.Sleep(1000);   // 1 second delay
-
-                //=======================      dummy_PC_param_bytes ( M + S )      ===================================================
-                byte[] packet_MS = new byte[8];
-                StreamReader sr7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int ms = 1; // go to the beginning of the data backup file
-                while (ms <= 95)
-                {
-                    lineRead = sr7.ReadLine(); //Read the next line untill we reach the begining of data with command'M' + 'S'
-                    ms++;
-                }
-
-                packet_MS[0] = 77;  // 'M'
-                packet_MS[1] = 83;  // 'S' - dummy_PC_param_bytes
-                /* packet_MS[2] = 3;   // domainUpDownTripStyle.SelectedItem
-                 packet_MS[3] = 0;   
-                 packet_MS[4] = 0;    
-                 packet_MS[5] = 0;   
-                 packet_MS[6] = 0;   
-                 */
-                for (int cnt = 1; cnt <= 2; cnt++)
-                {
-                    lineRead = sr7.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_MS[2] = Convert.ToByte(lineRead);
-                    else
-                        packet_MS[3] = Convert.ToByte(lineRead);
-                }
-                packet_MS[4] = packet_MS[5] = packet_MS[6] = 0;
-
-                packet_MS[7] = 0x0D;
-                this.sendPacket(packet_MS);
-                Thread.Sleep(1000);   // 1 second delay
-            } ////if not loading trip mode defaults - and loading old trip mode data back to the relay
-            else
-            {
-                // since trip mode data from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the defaults for trip mode to the relay with the new firmware
+                // Fallback to defaults when old trip data is flagged bad
                 this.ucTripMode2.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int relayParamsHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Relay Parameters:", StringComparison.Ordinal));
+            if (relayParamsHeader < 0)
+                throw new Exception("Relay Parameters section not found in backup file.");
+
+            int relayStart = relayParamsHeader + 1;
+            if (relayStart + 93 >= lines.Length)
+                throw new Exception("Relay Parameters section is incomplete.");
+
+            byte ReadByteAtLineIndex(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup line index out of range: {idx}");
+                if (!byte.TryParse(lines[idx]?.Trim(), out var b))
+                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+                return b;
+            }
+
+            // Pull relay-parameter section bytes [0..93]
+            byte[] rp = new byte[94];
+            for (int i = 0; i < rp.Length; i++)
+                rp[i] = ReadByteAtLineIndex(relayStart + i);
+
+            // ---------------- Mtrip ('M' + 6 bytes + CR) from rp[14..19] ----------------
+            // Original code started here after relay params + close blocks.
+            byte[] packet_MT = new byte[8];
+            packet_MT[0] = (byte)'M';
+            // Fill packet indices [1..6] via legacy mapping
+            for (int cnt = 1; cnt <= 6; cnt++)
+            {
+                byte b = rp[14 + (cnt - 1)];
+                if ((cnt % 2) != 0) packet_MT[cnt + 1] = b;
+                else packet_MT[cnt - 1] = b;
+            }
+            packet_MT[7] = 0x0D;
+            this.sendPacket(packet_MT);
+            Thread.Sleep(1000);
+
+            // ---------------- T0..T4 each 12 bytes ----------------
+            // In relay params block these are contiguous after Mtrip:
+            // T0: rp[20..31], T1: rp[32..43], T2: rp[44..55], T3: rp[56..67], T4: rp[68..79]
+            void SendTPacket(int tNumber, int rpStart)
+            {
+                byte[] p = new byte[14];
+                p[0] = (byte)'T';
+                for (int cnt = 1; cnt <= 12; cnt++)
+                {
+                    byte b = rp[rpStart + (cnt - 1)];
+                    if ((cnt % 2) != 0) p[cnt + 1] = b;
+                    else p[cnt - 1] = b;
+                }
+                p[13] = 0x0D;
+                this.sendPacket(p);
+                Thread.Sleep(1000);
+            }
+
+            SendTPacket(0, 20);
+            SendTPacket(1, 32);
+            SendTPacket(2, 44);
+            SendTPacket(3, 56);
+            SendTPacket(4, 68);
+
+            // ---------------- MS packet (dummy_PC_param_bytes from rp[92], rp[93]) ----------------
+            byte[] packet_MS = new byte[8];
+            packet_MS[0] = (byte)'M';
+            packet_MS[1] = (byte)'S';
+            packet_MS[2] = rp[92];   // first dummy byte
+            packet_MS[3] = rp[93];   // second dummy byte
+            packet_MS[4] = 0;
+            packet_MS[5] = 0;
+            packet_MS[6] = 0;
+            packet_MS[7] = 0x0D;
+
+            this.sendPacket(packet_MS);
+            Thread.Sleep(1000);
         }
 
         private void writeNWProtectorDataBackUp_ToMaster()
         {
-            if (dataBackupNW.dataBackup_nwProtectorDefaults == false) //if not loading NW Protector defaults - and loading old NW Protector data back to the relay
+            if (dataBackupNW.dataBackup_nwProtectorDefaults)
             {
-                //=======================      relay_type_byte2 ( s )      ===================================================
-                byte[] packet_s = new byte[4];
-                string lineRead;
-                StreamReader sr1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int s = 1; // go to the beginning of the data backup file
-                while (s <= 83)
-                {
-                    lineRead = sr1.ReadLine(); //Read the next line untill we reach the begining of data with command 's'
-                    s++;
-                }
-
-                packet_s[0] = 115;  // 's'
-
-                for (int cnt = 1; cnt <= 2; cnt++)
-                {
-                    lineRead = sr1.ReadLine(); //Read the next line
-                    if ((cnt % 2) != 0)//odd numbered ?
-                        packet_s[2] = Convert.ToByte(lineRead);
-                    else
-                        packet_s[1] = Convert.ToByte(lineRead);
-                }
-
-                packet_s[3] = 0x0D;
-                this.sendPacket(packet_s);
-                Thread.Sleep(1000);   // 1 second delay
-            }//if not loading NW Protector defaults - and loading old NW Protector data back to the relay
-            else
-            {
-                // since NW Protector data from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the defaults for NW Protector to the relay with the new firmware
+                // Old NW Protector data flagged bad/out-of-range -> apply defaults
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                //this.buttonRelayType_Click(this, new EventArgs());
                 this.buttonSendCTRatio_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int relayParamsHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Relay Parameters:", StringComparison.Ordinal));
+            if (relayParamsHeader < 0)
+                throw new Exception("Relay Parameters section not found in backup file.");
+
+            int relayStart = relayParamsHeader + 1;
+            if (relayStart + 93 >= lines.Length)
+                throw new Exception("Relay Parameters section is incomplete.");
+
+            byte ReadByteAt(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup index out of range at line index {idx}.");
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
+                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+                return value;
+            }
+
+            // relay_type bytes in relay param block:
+            // rp[80] = relay_type_byte2
+            // rp[81] = relay_type_byte1
+            byte relayTypeByte2 = ReadByteAt(relayStart + 80);
+            byte relayTypeByte1 = ReadByteAt(relayStart + 81);
+
+            byte[] packet_s = new byte[4];
+            packet_s[0] = (byte)'s';
+            packet_s[1] = relayTypeByte1; // keep wire order expected by receiver
+            packet_s[2] = relayTypeByte2;
+            packet_s[3] = 0x0D;
+
+            this.sendPacket(packet_s);
+            Thread.Sleep(1000);
         }
 
         private void writePumpModeDataBackUp_ToMaster()
         {
-            if (dataBackupPM.dataBackup_pumpModeDefaults == false) //if not loading pump mode defaults - and loading old pump mode data back to the relay
+            if (dataBackupPM.dataBackup_pumpModeDefaults)
             {
-                //=======================      pump_mode_enabled to timeout_on_breaker_close ( G )      ===================================================
-                byte[] packet_G = new byte[10];
-                string lineRead;
-                StreamReader srG = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int G = 1; // go to the beginning of the data backup file
-                while (G <= 85)
-                {
-                    lineRead = srG.ReadLine(); //Read the next line untill we reach the begining of data with command 'G'
-                    G++;
-                }
-
-                packet_G[0] = 71;   // 'G'
-                /* packet_G[1] = 0;    // EnableSendByte
-                 packet_G[2] = 3;    // Cycles ( pump_cycles )
-                 packet_G[3] = 0;    // PumpTimeHigh
-                 packet_G[4] = 120;
-                 packet_G[5] = 0;    // PumpProtectTimeHigh
-                 packet_G[6] = 15;
-                 packet_G[7] = 8;    // MotorCycles
-                 packet_G[8] = 100;  // MotorTimeout
-                */
-
-                for (int cnt = 1; cnt <= 8; cnt++)
-                {
-                    lineRead = srG.ReadLine(); //Read the next line
-                    if ((cnt < 3) || (cnt >= 7))
-                        packet_G[cnt] = Convert.ToByte(lineRead);
-                    else if ((cnt >= 3) && (cnt < 7))
-                    {
-                        if ((cnt % 2) != 0)//odd numbered ?
-                            packet_G[cnt + 1] = Convert.ToByte(lineRead);
-                        else
-                            packet_G[cnt - 1] = Convert.ToByte(lineRead);
-                    }
-                }
-
-                packet_G[9] = 0x0D;
-                this.sendPacket(packet_G);
-                Thread.Sleep(1000);   // 1 second delay
-            }//if not loading pump mode defaults - and loading old pump mode data back to the relay
-            else
-            {
-                // since pump mode data from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the defaults for pump mode to the relay with the new firmware
+                // Old pump data flagged bad/out-of-range -> apply defaults
                 this.ucPumpMode1.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int relayParamsHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Relay Parameters:", StringComparison.Ordinal));
+            if (relayParamsHeader < 0)
+                throw new Exception("Relay Parameters section not found in backup file.");
+
+            int relayStart = relayParamsHeader + 1;
+            if (relayStart + 93 >= lines.Length)
+                throw new Exception("Relay Parameters section is incomplete.");
+
+            byte ReadByteAt(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup index out of range at line index {idx}.");
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
+                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+                return value;
+            }
+
+            // Pump bytes in relay-param block are rp[82..89]
+            byte[] p = new byte[8];
+            for (int i = 0; i < 8; i++)
+                p[i] = ReadByteAt(relayStart + 82 + i);
+
+            byte[] packet_G = new byte[10];
+            packet_G[0] = (byte)'G';
+
+            // Preserve original mapping logic:
+            // cnt 1..2 and 7..8 direct to same index
+            // cnt 3..6 odd/even swap
+            for (int cnt = 1; cnt <= 8; cnt++)
+            {
+                byte b = p[cnt - 1];
+
+                if ((cnt < 3) || (cnt >= 7))
+                {
+                    packet_G[cnt] = b;
+                }
+                else
+                {
+                    if ((cnt % 2) != 0) packet_G[cnt + 1] = b;
+                    else packet_G[cnt - 1] = b;
+                }
+            }
+
+            packet_G[9] = 0x0D;
+            this.sendPacket(packet_G);
+            Thread.Sleep(1000);
         }
 
         private void writeSafeServiceDataBackUp_ToMaster()
         {
-            if (dataBackupSSM.dataBackup_safeServiceDefaults == false) //if not loading safe service defaults - and loading old safe service data back to the relay
+            if (dataBackupSSM.dataBackup_safeServiceDefaults)
             {
-                //=======================      safe_service_data_byte ( 0x0F )      ===================================================
-                byte[] packet_F = new byte[22];
-                string lineRead;
-                StreamReader srF = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int F = 1; // go to the beginning of the data backup file
-                while (F <= 291)
-                {
-                    lineRead = srF.ReadLine(); //Read the next line untill we reach the begining of data with command '0x0F'
-                    F++;
-                }
-
-                packet_F[0] = 0x0F;   // '0x0F'
-                /*packet_F[1] = 0;      
-                packet_F[2] = 1;      // Enable/Disable ( comboBoxSSEnable.SelectedIndex )
-                packet_F[3] = 40;     // OverCurrent ( numericUpDownOverCurrent )
-                packet_F[4] = 0;
-                packet_F[5] = 0;      // Current Imbalance(numericUpDownCurrentImbalance)
-                packet_F[6] = 204;
-                packet_F[7] = 0;      // Delay (numericUpDownDelay)
-                packet_F[8] = 0;      
-                packet_F[9] = 95;     // Low Voltage (numericUpDownLowVoltage)
-                packet_F[10] = 0;     
-                packet_F[11] = 10;    // Voltage Imbalance (numericUpDownVoltageImbalance)
-                packet_F[12] = 0;
-                packet_F[13] = 0;     
-                packet_F[14] = 0;
-                packet_F[15] = 0;     
-                packet_F[16] = 0;     
-                packet_F[17] = 0;     
-                packet_F[18] = 0;
-                packet_F[19] = 0;     
-                packet_F[20] = 0;     
-                */
-
-                for (int cnt = 1; cnt <= 20; cnt++)
-                {
-                    lineRead = srF.ReadLine(); //Read the next line
-                    packet_F[cnt] = Convert.ToByte(lineRead);
-                }
-
-                packet_F[21] = 0x0D;
-                this.sendPacket(packet_F);
-                Thread.Sleep(1000);   // 1 second delay
-            }//if not loading safe service defaults - and loading old safe service data back to the relay
-            else
-            {
-                // since safe service data from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the defaults for safe service to the relay with the new firmware
+                // Old safe-service data flagged bad/out-of-range -> apply defaults
                 this.ucSafeService1.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.ucSafeService1.buttonSend_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int safeHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Safe Service Data:", StringComparison.Ordinal));
+            if (safeHeader < 0)
+                throw new Exception("Safe Service Data section not found in backup file.");
+
+            int safeStart = safeHeader + 1;
+            if (safeStart + 19 >= lines.Length)
+                throw new Exception("Safe Service Data section is incomplete.");
+
+            byte ReadByteAt(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup index out of range at line index {idx}.");
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
+                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+                return value;
+            }
+
+            byte[] packet_F = new byte[22];
+            packet_F[0] = 0x0F;
+
+            for (int cnt = 1; cnt <= 20; cnt++)
+                packet_F[cnt] = ReadByteAt(safeStart + (cnt - 1));
+
+            packet_F[21] = 0x0D;
+            this.sendPacket(packet_F);
+            Thread.Sleep(1000);
         }
 
         private void writeTransmitterDataBackUp_ToMaster()
         {
-            if (dataBackupTX.dataBackup_txDefaults == false) //if not loading TX Settings defaults - and loading old TX Settings back to the relay
+            if (dataBackupTX.dataBackup_txDefaults)
             {
-                //=======================      ID_lsbyte to SRlinktest ( Y )      ===================================================
-                byte[] packet_Y = new byte[34];
-                string lineRead;
-                StreamReader srY = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int Y = 1; // go to the beginning of the data backup file
-                while (Y <= 159)
-                {
-                    lineRead = srY.ReadLine(); //Read the next line untill we reach the begining of data with command 'Y'
-                    Y++;
-                }
-
-                packet_Y[0] = 89;     // 'Y'
-                /* packet_Y[1] = 169;    // ID - lsb  
-                 packet_Y[2] = 2;      // ID - msb
-                 packet_Y[3] = 15;     // SN - lsb
-                 packet_Y[4] = 0;      // SN - msb
-                 packet_Y[5] = 120;    // CT Multiplier - lsb
-                 packet_Y[6] = 0;      // CT Multiplier - msb
-                 packet_Y[7] = 64;     // CT lsb
-                 packet_Y[8] = 1;      // CT msb
-                 packet_Y[9] = 1;      // XM Frequency
-                 packet_Y[10] = 255;   // Flag Polarity
-                 packet_Y[11] = 0;     // Enable Flag Alarms
-                 packet_Y[12] = 0;     // Enable other Alarms
-                 packet_Y[13] = 100;    // I_threshold_high
-                 packet_Y[14] = 75;     // I_threshold_low 
-                 packet_Y[15] = 135;    // V_threshold_high
-                 packet_Y[16] = 110;    // V_threshold_low
-                 packet_Y[17] = 100;    // A1_threshold
-                 packet_Y[18] = 100;   // A2_threshold 
-                 packet_Y[19] = 3;     // analog_alarm_sense
-                 packet_Y[20] = 2;       //type1_msg_period
-                 packet_Y[21] = 15;      // MUX_period
-                 packet_Y[22] = 255;     // type2_msg_period
-                 packet_Y[23] = 23;      // config_msg_period
-                 packet_Y[24] = 4;       // alarm_burst_count
-                 packet_Y[25] = 20;      // alarm_spacing
-                 packet_Y[26] = 4;       // other_msg_burst_count
-                 packet_Y[27] = 5;       // other_msg_spacing
-                 packet_Y[28] = 1;       // ZeroCrossing_phase
-                 packet_Y[29] = 12;      // type1msglength
-                 packet_Y[30] = 255;     // data_from_SEC
-                 packet_Y[31] = 20;      // display_update_interval
-                 packet_Y[32] = 0;       // SRlinktest
-                */
-
-                // this.ucTransmitter1.SendTransmitterSettings();
-
-                for (int cnt = 1; cnt <= 32; cnt++)
-                {
-                    lineRead = srY.ReadLine(); //Read the next line
-                    packet_Y[cnt] = Convert.ToByte(lineRead);
-                }
-
-                packet_Y[33] = 0x0D;
-                this.sendPacket(packet_Y);
-                Thread.Sleep(1000);   // 1 second delay
-            }//if not loading TX Settings defaults - and loading old TX Settings back to the relay
-            else
-            {
-                // since TX Settings from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the defaults for TX Settings to the relay with the new firmware
+                // Old TX data flagged bad/out-of-range -> apply defaults
                 this.ucTransmitter1.buttonRestoreDefaults_Click(this, new EventArgs());
                 this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int txHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Transmitter Parameters:", StringComparison.Ordinal));
+            if (txHeader < 0)
+                throw new Exception("Transmitter Parameters section not found in backup file.");
+
+            int txStart = txHeader + 1;
+            if (txStart + 31 >= lines.Length)
+                throw new Exception("Transmitter Parameters section is incomplete.");
+
+            byte ReadByteAt(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup index out of range at line index {idx}.");
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
+                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+                return value;
+            }
+
+            byte[] packet_Y = new byte[34];
+            packet_Y[0] = (byte)'Y';
+
+            // 32 TX bytes (includes ID + SN bytes)
+            for (int cnt = 1; cnt <= 32; cnt++)
+                packet_Y[cnt] = ReadByteAt(txStart + (cnt - 1));
+
+            packet_Y[33] = 0x0D;
+            this.sendPacket(packet_Y);
+            Thread.Sleep(1000);
         }
 
         private void writeDNPDataBackUp_ToMaster()
         {
-            if (dataBackupTX.dataBackup_txDefaults == false) //if not loading DNP defaults - and loading old DNP params back to the relay
+            // NOTE: use DNP default flag, not TX flag
+            if (dataBackupD.dataBackup_dnpDefaults)
             {
-                //=======================      DNP_params_as_bytes ( D )      ===================================================
-                byte[] packet_D = new byte[98];
-                string lineRead;
-                StreamReader srD = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                int D = 1; // go to the beginning of the data backup file
-                while (D <= 196)
-                {
-                    lineRead = srD.ReadLine(); //Read the next line untill we reach the begining of data with command 'D'
-                    D++;
-                }
-
-                packet_D[0] = 68;     // 'D'
-                packet_D[1] = 97;
-                packet_D[2] = 0;
-                packet_D[3] = 0;
-                /* packet_D[4] = 0;      
-                 packet_D[5] = 0;     // Unsolicited Timeout
-                 packet_D[6] = 0;     // Unsolicited Timeout
-                 packet_D[7] = 252;   // Unsolicited Timeout 
-                 packet_D[8] = 38;    // Unsolicited Timeout  
-                 packet_D[9] = 236;   // Fragment Size 
-                 packet_D[10] = 3;    // Fragment Size
-                 packet_D[11] = 3;     
-                 packet_D[12] = 0;     
-                 packet_D[13] = 4;    
-                 packet_D[14] = 0;     
-                 packet_D[15] = 5;    
-                 packet_D[16] = 0;    
-                 packet_D[17] = 20;   
-                 packet_D[18] = 3;   
-                 for (int cnt = 19; cnt <= 96; cnt++)
-                 {
-                     packet_D[cnt] = 0;
-                 }
-                 */
-
-                // this.ucTransmitter1.SendTransmitterSettings();
-
-                for (int cnt = 7; cnt <= 8; cnt++)
-                {
-                    lineRead = srD.ReadLine(); //Read the next line
-                    packet_D[cnt] = Convert.ToByte(lineRead);
-                }
-                for (int cnt = 4; cnt <= 5; cnt++)
-                {
-                    lineRead = srD.ReadLine(); //Read the next line
-                    packet_D[cnt] = Convert.ToByte(lineRead);
-                }
-                for (int cnt = 9; cnt <= 96; cnt++)
-                {
-                    lineRead = srD.ReadLine(); //Read the next line
-                    packet_D[cnt] = Convert.ToByte(lineRead);
-                }
-
-                packet_D[97] = 0x0D;
-                this.sendPacket(packet_D);
-                Thread.Sleep(1000);   // 1 second delay
-            }//if not loading DNP defaults - and loading old DNP params back to the relay
-            else
-            {
-                // since DNP parameters from old firmware rev was found out to be bad / corrupt / out of range
-                // do not load that data ( which is backed up in the file)
-                // instead load the default DNP params to the relay with the new firmware
                 this.ucDNP1.buttonDefaults_Click(this, new EventArgs());
                 this.ucDNP1.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                return;
             }
+
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int dnpHeader = Array.FindIndex(
+                lines,
+                l => string.Equals(l?.Trim(), "DNP Data:", StringComparison.Ordinal));
+
+            // Missing DNP section: ignore (non-DNP backup / older backup format)
+            if (dnpHeader < 0)
+            {
+                // optional: status/log message instead of modal popup
+                // this.messageHandler("Backup Restore", "DNP Data section not found; skipping DNP restore.");
+                return;
+            }
+
+            int dnpStart = dnpHeader + 1;
+            if (dnpStart + 97 >= lines.Length)
+                throw new Exception("DNP Data section is incomplete (expected 98 bytes).");
+
+            byte ReadByteAt(int idx)
+            {
+                if (idx < 0 || idx >= lines.Length)
+                    throw new Exception($"Backup index out of range at line index {idx}.");
+
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
+                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+
+                return value;
+            }
+
+            byte[] dnp = new byte[98];
+            for (int i = 0; i < dnp.Length; i++) dnp[i] = ReadByteAt(dnpStart + i);
+
+            byte[] packet_D = new byte[98];
+            packet_D[0] = (byte)'D';
+            packet_D[1] = 97;
+            packet_D[2] = 0;
+            packet_D[3] = 0;
+
+            packet_D[7] = dnp[0];
+            packet_D[8] = dnp[1];
+            packet_D[4] = dnp[2];
+            packet_D[5] = dnp[3];
+
+            for (int i = 0; i < 88; i++) packet_D[9 + i] = dnp[4 + i];
+
+            packet_D[97] = 0x0D;
+            this.sendPacket(packet_D);
+            Thread.Sleep(1000);
         }
 
         private void writeDNPSAv5SettingsDataBackUp_ToMaster()
@@ -10418,28 +10222,31 @@ namespace RelayControl
 
         private void writeArcFaultDataBackUp_ToMaster()
         {
-            //=======================      ARC_fault_params_as_bytes ( E )      ===================================================
-            byte[] packet_E = new byte[42];
-            string lineRead;
-            StreamReader srE = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            int E = 1; // go to the beginning of the data backup file
-            while (E <= 411)
+            const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+            string[] lines = File.ReadAllLines(filePath);
+
+            int arcHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Arc Fault Parameters:", StringComparison.Ordinal));
+            if (arcHeader < 0) throw new Exception("Arc Fault Parameters section not found in backup file.");
+
+            int arcStart = arcHeader + 1;
+            if (arcStart + 39 >= lines.Length) throw new Exception("Arc Fault Parameters section is incomplete (expected 40 bytes).");
+
+            byte ReadByteAt(int idx)
             {
-                lineRead = srE.ReadLine(); //Read the next line untill we reach the begining of data with command 'E'
-                E++;
+                if (idx < 0 || idx >= lines.Length) throw new Exception($"Backup index out of range at line index {idx}.");
+                if (!byte.TryParse(lines[idx]?.Trim(), out byte value)) throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
+                return value;
             }
 
-            packet_E[0] = 69;   // 'E'
+            byte[] packet_E = new byte[42];
+            packet_E[0] = (byte)'E';
 
             for (int cnt = 1; cnt <= 40; cnt++)
-            {
-                lineRead = srE.ReadLine(); //Read the next line
-                packet_E[cnt] = Convert.ToByte(lineRead);
-            }
+                packet_E[cnt] = ReadByteAt(arcStart + (cnt - 1));
 
             packet_E[41] = 0x0D;
             this.sendPacket(packet_E);
-            Thread.Sleep(1000);   // 1 second delay
+            Thread.Sleep(1000);
         }
 
         private void writeCalibrationDataBackUp_ToMaster()
@@ -10493,136 +10300,72 @@ namespace RelayControl
 
         private bool checkValidDataBackup()
         {
-            /*
-             While programing a relay having firmware with older version, data from this relay gets 
-            backed up / stored in file "RelayData_Backup.txt" on the computer. So that it gets written back
-            to the relay with its new structure for relay parameters implemented to secure memory corruption.
-            This data that gets backed up in the "RelayData_Backup.txt" is stored in the following sequence :
-
-            Data currently residing in the relay :
-            Signal Strength - XS:   1 byte on the same line
-            Relay Parameters:       94 bytes, each one on 94 consecutives lines
-            Calibration Constants:  60 bytes, each one on 60 consecutives lines
-            Transmitter Parameters: 32 bytes, each one on 32 consecutives lines
-            DNP Data:               98 bytes, each one on 98 consecutives lines
-            Safe Service Data:      20 bytes, each one on 20 consecutives lines
-            DNPSAv5 Settings:       98 bytes, each one on 98 consecutives lines (ONLY IF old firmware was a DNP one)
-            Arc Fault Parameters:   40 bytes, each one on 40 consecutives lines
-            
-            Accordingly this function checks if all the above fields of data ( Relay Params, Calibration .. etc
-            are stored at the correct line# of the back up file ) and only then considers it as a valid file 
-            with valid data to be written back to the relay.
-            */
-
-
-            string lineRead;
-            StreamReader srV1 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            int V, cnt = 0; // go to the beginning of the data backup file
-
-            lineRead = srV1.ReadLine(); //Read line
-            //if (lineRead == "Data currently residing in the relay :")  
-            if (lineRead == "Data residing in the relay : ")
-                cnt++;//1
-
-            StreamReader srV2 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= Constants.SkipUntillLine_RelayParams)
+            try
             {
-                lineRead = srV2.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "Relay Parameters:")
-                cnt++;//2
+                const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
-            StreamReader srV3 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= Constants.SkipUntillLine_CalibCons)
-            {
-                lineRead = srV3.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "Calibration Constants:")
-                cnt++;//3
-
-            StreamReader srV4 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= Constants.SkipUntillLine_TransmitterParams)
-            {
-                lineRead = srV4.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "Transmitter Parameters:")
-                cnt++;//4
-
-            StreamReader srV5 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= Constants.SkipUntillLine_DNPdata)
-            {
-                lineRead = srV5.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "DNP Data:")
-                cnt++;//5
-
-            StreamReader srV6 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-            V = 1;
-            while (V <= Constants.SkipUntillLine_SafeService)
-            {
-                lineRead = srV6.ReadLine(); //Read the next line 
-                V++;
-            }
-            if (lineRead == "Safe Service Data:")
-                cnt++;//6
-
-            if (dataBackupD.dataBackup_withDNP == true)
-            {//if old firmware was a DNP one
-                StreamReader srV7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                V = 1;
-                while (V <= Constants.SkipUntillLine_SAv5settings)
+                if (!File.Exists(filePath))
                 {
-                    lineRead = srV7.ReadLine(); //Read the next line 
-                    V++;
-                }
-                if (lineRead == "DNPSAv5 Settings:")
-                    cnt++;//7
-
-                StreamReader srV8 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                V = 1;
-                while (V <= Constants.SkipUntillLine_ArcFault)
-                {
-                    lineRead = srV8.ReadLine(); //Read the next line 
-                    V++;
-                }
-                if (lineRead == "Arc Fault Parameters:")
-                    cnt++;//8
-
-                if (cnt == Constants.BackupDataFields) // Data Backup file verified to contain all the data Fields (8) required to be pushed back to the relay
-                    return true;
-                else
+                    logger.Warn("Backup validation failed: file not found: {0}", filePath);
                     return false;
-
-            }
-            else //if old firmware was a non DNP one
-            {
-                StreamReader srV7 = new StreamReader("C:\\DGI Systems\\Relay\\Saved Data\\RelayData_Backup.txt");
-                V = 1;
-                while (V <= 312)
-                {
-                    lineRead = srV7.ReadLine(); //Read the next line 
-                    V++;
                 }
-                if (lineRead == "Arc Fault Parameters:")
-                    cnt++;//7
 
-                if (cnt == Constants.BackupDataFields_NoDNP) // Data Backup file verified to contain all the data Fields (8) required to be pushed back to the relay
-                    return true;
-                else
+                string[] lines = File.ReadAllLines(filePath);
+
+                if (lines.Length == 0)
+                {
+                    logger.Warn("Backup validation failed: file is empty.");
                     return false;
+                }
 
+                bool hasHeader =
+                    lines.Any(l => l != null && l.Trim().Equals("Data residing in the relay :", StringComparison.OrdinalIgnoreCase));
+
+                bool hasRelayParams = lines.Any(l => l != null && l.Trim().Equals("Relay Parameters:", StringComparison.Ordinal));
+                bool hasCal = lines.Any(l => l != null && l.Trim().Equals("Calibration Constants:", StringComparison.Ordinal));
+                bool hasTx = lines.Any(l => l != null && l.Trim().Equals("Transmitter Parameters:", StringComparison.Ordinal));
+                bool hasDnp = lines.Any(l => l != null && l.Trim().Equals("DNP Data:", StringComparison.Ordinal));
+                bool hasSafeService = lines.Any(l => l != null && l.Trim().Equals("Safe Service Data:", StringComparison.Ordinal));
+                bool hasArc = lines.Any(l => l != null && l.Trim().Equals("Arc Fault Parameters:", StringComparison.Ordinal));
+
+                bool hasSav5 = lines.Any(l => l != null && l.Trim().Equals("DNPSAv5 Settings:", StringComparison.Ordinal));
+
+                // Required sections for current backup flow:
+                // - DNP relay: still require DNP Data section, but DO NOT require SAv5 (currently not requested)
+                // - non-DNP relay: DNP section may still exist in some builds, but we don't require it
+                bool baseOk = hasHeader && hasRelayParams && hasCal && hasTx && hasSafeService && hasArc;
+
+                if (!baseOk)
+                {
+                    logger.Warn(
+                        "Backup validation failed. Header={0}, Relay={1}, Cal={2}, Tx={3}, SafeService={4}, Arc={5}",
+                        hasHeader, hasRelayParams, hasCal, hasTx, hasSafeService, hasArc);
+                    return false;
+                }
+
+                if (dataBackupD.dataBackup_withDNP)
+                {
+                    if (!hasDnp)
+                    {
+                        logger.Warn("Backup validation failed: DNP relay expected DNP Data section.");
+                        return false;
+                    }
+
+                    // informational only (since SAv5 request is currently disabled)
+                    if (!hasSav5)
+                    {
+                        logger.Info("Backup validation note: DNPSAv5 Settings section not present (expected with current request flow).");
+                    }
+                }
+
+                logger.Info("Backup validation passed.");
+                return true;
             }
-
-
-
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Backup validation exception.");
+                return false;
+            }
         }
 
         public decimal GetFixed_12FracBits(decimal value)
@@ -10657,6 +10400,7 @@ namespace RelayControl
         }
 
         // Add field in MainControl class
+
         private bool _pcApplyPendingConfirmation = false;
         private void SendPCData()
         {
@@ -10676,7 +10420,6 @@ namespace RelayControl
 
             this.sendPacketAck(packet, "Permissive Close packet send");
 
-            _pcApplyPendingConfirmation = true;
             Thread.Sleep(250);
             this.request_PCdata();
         }
@@ -10805,6 +10548,7 @@ namespace RelayControl
         }
         private void StartBackupTracking(bool expectDnp)
         {
+            // Reset state for a fresh backup session
             backupInProgress = true;
             backupExpectDnp = expectDnp;
 
@@ -10824,19 +10568,55 @@ namespace RelayControl
                 backupTimeoutTimer.Interval = BackupTimeoutMs;
                 backupTimeoutTimer.Tick += backupTimeoutTimer_Tick;
             }
+            else
+            {
+                // Ensure interval is always in sync with config constant
+                backupTimeoutTimer.Interval = BackupTimeoutMs;
+            }
 
+            // Restart timeout window for this run
             backupTimeoutTimer.Stop();
             backupTimeoutTimer.Start();
+
+            logger.Info(
+                "Backup tracking started. ExpectDnp={0}, TimeoutMs={1}, StartedAtUtc={2:O}",
+                backupExpectDnp,
+                BackupTimeoutMs,
+                backupStartedAtUtc);
         }
 
         private void backupTimeoutTimer_Tick(object sender, EventArgs e)
         {
             backupTimeoutTimer.Stop();
 
-            if (backupInProgress)
-            {
-                CompleteBackupAndContinue("Backup timeout reached (10s). Continuing with available data.");
-            }
+            if (!backupInProgress)
+                return;
+
+            var elapsedMs = (int)(DateTime.UtcNow - backupStartedAtUtc).TotalMilliseconds;
+            var missing = GetBackupMissingSectionsSummary();
+
+            logger.Warn(
+                "Backup timeout. ElapsedMs={0}, MissingSections={1}",
+                elapsedMs,
+                missing);
+
+            CompleteBackupAndContinue(
+                $"Backup timeout reached ({BackupTimeoutMs / 1000}s). " +
+                $"Continuing with available data. Missing: {missing}");
+        }
+        private string GetBackupMissingSectionsSummary()
+        {
+            var missing = new List<string>();
+
+            if (!backupGotRelayParams) missing.Add("RelayParams");
+            if (!backupGotCalibration) missing.Add("Calibration");
+            if (!backupGotTx) missing.Add("Transmitter");
+            if (!backupGotSafeService) missing.Add("SafeService");
+            if (!backupGotArcFault) missing.Add("ArcFault");
+
+            if (backupExpectDnp && !backupGotDnpData) missing.Add("DNP");
+
+            return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
 
         private bool IsBackupComplete()
@@ -10848,9 +10628,11 @@ namespace RelayControl
                 backupGotSafeService &&
                 backupGotArcFault;
 
-            if (!commonDone) return false;
+            if (!commonDone)
+                return false;
 
-            if (!backupExpectDnp) return true;
+            if (!backupExpectDnp)
+                return true;
 
             return backupGotDnpData;
         }
@@ -10865,11 +10647,24 @@ namespace RelayControl
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
         {
+            bool wasInProgress = backupInProgress;
             backupInProgress = false;
-            if (backupTimeoutTimer != null) backupTimeoutTimer.Stop();
+
+            if (backupTimeoutTimer != null)
+                backupTimeoutTimer.Stop();
 
             dataBackup_fromRelay = false;
             dataBackupR.dataBackup_fromRelay = false;
+
+            var elapsedMs = (int)(DateTime.UtcNow - backupStartedAtUtc).TotalMilliseconds;
+            var missing = GetBackupMissingSectionsSummary();
+
+            logger.Info(
+                "Backup complete. WasInProgress={0}, ElapsedMs={1}, ExpectDnp={2}, MissingSections={3}",
+                wasInProgress,
+                elapsedMs,
+                backupExpectDnp,
+                missing);
 
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {

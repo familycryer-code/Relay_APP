@@ -2091,6 +2091,7 @@ namespace RelayControlLibrary
 
     public static class dataBackupD
     {
+        public static bool dataBackup_dnpDefaults;   // removed readonly
         public static bool dataBackup_withDNP;
     }
 
