@@ -766,8 +766,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif COMED
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -776,8 +774,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif CONED
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -786,8 +782,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif DOMINION
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -796,8 +790,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif ENMAX
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -806,8 +798,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = true;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif EVERSOURCE
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -816,8 +806,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif LONDON_HYDRO
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.2m;
@@ -826,8 +814,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif ONCOR
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -836,8 +822,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif PSEG
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.4m;
@@ -846,8 +830,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.Normal;
 #elif SCE
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -856,8 +838,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif SCL
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -866,8 +846,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif TAUNTON
             this.numericUpDownTimeDelay.Value = 5;
             this.numericUpDownRecloseVolts.Value = 1.4m;
@@ -876,8 +854,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #elif TORONTO_HYDRO
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -886,8 +862,6 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #else
             this.numericUpDownTimeDelay.Value = 6;
             this.numericUpDownRecloseVolts.Value = 1.5m;
@@ -896,9 +870,12 @@ namespace RelayControlLibrary
             this.numericUpDownCloseTiltAngle.Value = 95;
             this.checkBoxCircleClose.Checked = false;
             this.checkBox1.Checked = false;
-
-            this.CloseModeDef.CloseMode = CloseModes.CircleClose;
 #endif
+
+            // FIX: keep internal mode consistent with checkbox/default UI state
+            this.Mode = this.checkBoxCircleClose.Checked
+                ? CloseModes.CircleClose
+                : CloseModes.Normal;
 
             this.setVerticalLine();
             this.setHorizontalLine();

@@ -3416,7 +3416,7 @@ namespace RelayControlLibrary
             this.programmingForm.CurrentTask = "Timed Out - Restarting";
             logger.Trace("Timed Out in State " + this.state);
             this.timerTimeout.Stop();
-            this.timerTimeout.Interval = 10000;
+            this.timerTimeout.Interval = 20000;
             this.timerTimeout.Start();
 
 

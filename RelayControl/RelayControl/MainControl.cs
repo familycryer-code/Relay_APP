@@ -2462,7 +2462,7 @@ namespace RelayControl
                         }
                         tw.Close();
 
-                        dataBackup_fromRelay = false;
+                        //dataBackup_fromRelay = false;
                     }
 
                     this.setArcFaultData(bytePacket);
@@ -2590,7 +2590,8 @@ namespace RelayControl
                     {
                         this.setDNPSettings(bytePacket);
 
-                        if (backupInProgress && dataBackup_fromRelay)
+                        // Mark DNP received for backup whenever backup session is active.
+                        if (backupInProgress)
                         {
                             backupGotDnpData = true;
                             TryCompleteBackup();
@@ -3751,7 +3752,7 @@ namespace RelayControl
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
 
-#if (ENMAX || PSEG || ONCOR || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL) // exising customers
+#if (ENMAX || PSEG  || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL) // exising customers
                     // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
@@ -4611,10 +4612,6 @@ namespace RelayControl
                 closePacket[0] = bytePacket[0];
                 closePacket[1] = bytePacket[1];
 
-
-                //   MessageBox.Show(bytePacket[2].ToString() + " bytePacket[2] Relay Parameters coming from master");// Only for testing - to be removed
-                //   MessageBox.Show(bytePacket[3].ToString() + " bytePacket[3] Relay Parameters coming from master");// Only for testing - to be removed
-
                 //Tilt Angle Bytes - Vertical
                 temp = bytePacket[3];
                 temp <<= 8;
@@ -4674,6 +4671,7 @@ namespace RelayControl
                 closePacket[9] = bytePacket[11];
                 closePacket[11] = bytePacket[12];
                 closePacket[12] = bytePacket[13];
+                
                 this.ucCloseMode1.SetAllValues(closePacket);
             }
             catch (Exception ex)
@@ -9620,10 +9618,10 @@ namespace RelayControl
                 // Prefer explicit request for backup capture instead of toggling monitor mode
                 this.arcFault_requestArcFaultMonitoring();
 
-                if (relayHasDnp)
+                if (backupExpectDnp)
                 {
                     this.requestDNPSettings();      // 'U'
-                                                    // this.RequestDNPSav5Settings();  // 'D'+'s'
+                    // this.RequestDNPSav5Settings();  // 'D'+'s'
                 }
             }
             catch (Exception ex)
@@ -9770,6 +9768,11 @@ namespace RelayControl
             }
 
             packet_MC[7] = 0x0D;
+
+            // Debug popup before restore-send.
+            // Verify which byte contains circle-close in 'C' packet.
+            // Start with index 8/10 depending your protocol; adjust after first run.
+           
             this.sendPacket(packet_MC);
         }
 
@@ -10401,7 +10404,9 @@ namespace RelayControl
 
         // Add field in MainControl class
 
+#pragma warning disable CS0414 // field assigned but value never used
         private bool _pcApplyPendingConfirmation = false;
+#pragma warning restore CS0414
         private void SendPCData()
         {
             // Encode UI volts -> FIXED20_12 raw (assuming TwelveFracBits is 1/4096)

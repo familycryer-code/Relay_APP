@@ -422,32 +422,51 @@ namespace RelayControlLibrary
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0); // To be saved in master uP as T0_byte
                 Thread.Sleep(1000);   // 1 second delay
-                
+
                 OnSend(mySEA);
 
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
-           
+
                 this.OnSend(mySEA);
 
                 decimal tempDecimal;
 
-                if (this.displayType == eDisplayType.Relay)
-                    tempDecimal = this.numericUpDownInsensTrip.Value;
-                else if (this.displayType == eDisplayType.Percent)
-                    tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
-                else
-                    tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
-
-                this.instantaneousCurrent = 0;
-                this.insensitiveCurrent = 0;
-
-                if (this.numericUpDownTimeDelay.Visible)
+                if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
                 {
-                    this.instantaneousCurrent = tempDecimal;
+                    // already in relay/internal units
+                    tempDecimal = this.instantaneousCurrent;
+                }
+                else if (this.TripModeDef.Mode == TripModes.Insensitive)
+                {
+                    // already in relay/internal units
+                    tempDecimal = this.insensitiveCurrent;
                 }
                 else
                 {
-                    this.insensitiveCurrent = tempDecimal;
+                    // fallback: convert from current UI display units
+                    if (this.displayType == eDisplayType.Relay)
+                        tempDecimal = this.numericUpDownInsensTrip.Value;
+                    else if (this.displayType == eDisplayType.Percent)
+                        tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
+                    else
+                        tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
+                }
+
+                // CHANGE: mode-driven selection instead of visibility-driven
+                bool useTimeDelayCurve =
+                    (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar);
+                bool useInsensitiveCurve =
+                    (this.TripModeDef.Mode == TripModes.Insensitive);
+
+                if (useTimeDelayCurve)
+                {
+                    // do not overwrite IC from shared UI control during send
+                    tempDecimal = this.instantaneousCurrent;
+                }
+                else if (useInsensitiveCurve)
+                {
+                    // do not overwrite IT from shared UI control during send
+                    tempDecimal = this.insensitiveCurrent;
                 }
 
                 TripCurveTimeDelay.CurveNumber = 3;
@@ -458,12 +477,13 @@ namespace RelayControlLibrary
                 TripCurveTimeDelay.Tilt = 90;
                 TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
 
-                if (!this.numericUpDownTimeDelay.Visible)
+                // CHANGE: mode-driven enable/disable instead of visibility-driven
+                if (!useTimeDelayCurve)
                 {
                     TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
                     TripCurveTimeDelay.Offset = 0;
                     TripCurveTimeDelay.Tilt = 90;
-                    TripCurveTimeDelay.Magnitude = 0;
+                    //TripCurveTimeDelay.Magnitude = 0;
                 }
                 else
                 {
@@ -481,7 +501,8 @@ namespace RelayControlLibrary
                 this.TripCurveInsensTripMag.Tilt = 90;
                 this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
 
-                if (!this.labelInsensTrip.Visible)
+                // CHANGE: mode-driven enable/disable instead of visibility-driven
+                if (!useInsensitiveCurve)
                 {
                     this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
                 }
@@ -510,7 +531,7 @@ namespace RelayControlLibrary
                     this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
                 else
                     this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
-  
+
                 mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
                 OnSend(mySEA);
 
@@ -586,16 +607,16 @@ namespace RelayControlLibrary
                 mySEA.SendPacket[0] = (byte)'M';
                 mySEA.SendPacket[1] = (byte)'S';
 
-               
+
                 if (this.comboBox_TripStyle.SelectedIndex == 0) // Hold Trip
-                        mySEA.SendPacket[2] = 0;
-              
+                    mySEA.SendPacket[2] = 0;
+
                 else if (this.comboBox_TripStyle.SelectedIndex == 1) // Continous Pulse
                     mySEA.SendPacket[2] = 1;
-                
+
                 else if (this.comboBox_TripStyle.SelectedIndex == 2) // 3 Pulse, then off
                     mySEA.SendPacket[2] = 2;
-                
+
                 else if (this.comboBox_TripStyle.SelectedIndex == 3) // Short Trip
                     mySEA.SendPacket[2] = 3;
                 else
@@ -627,6 +648,7 @@ namespace RelayControlLibrary
             }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             Thread.Sleep(1500);   // 1 second
         }
+
 
         private void NormalizeAdaptiveTripValues()
         {
@@ -1082,8 +1104,6 @@ namespace RelayControlLibrary
 
             }
 
-            
-
             try
             {
                
@@ -1448,6 +1468,8 @@ namespace RelayControlLibrary
         private void domainUpDownType_SelectedItemChanged(object sender, EventArgs e)
         //private void comboBox_TripType_SelectedItemChanged(object sender, EventArgs e)
         {
+            if (_restoringDefaults) return;
+
             DomainUpDown dUP = (DomainUpDown)sender;
 
             switch (dUP.SelectedIndex)
@@ -2011,6 +2033,8 @@ namespace RelayControlLibrary
             displayType = eDisplayType.Relay;
         }
 
+        private bool _restoringDefaults = false;
+
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
@@ -2019,11 +2043,25 @@ namespace RelayControlLibrary
 
         private void restoreDefaults()
         {
-            // domainUpDownType.SelectedIndex = Sensitive Trip
-            this.domainUpDownType.SelectedIndex = 0;
-            this.setRelayTypeDefaults();
-            this.makeRelayType();
+            _restoringDefaults = true;
+            try
+            {
+                this.domainUpDownType.SelectedIndex = 0;   // Relay display
+                this.setRelayTypeDefaults();
+                this.makeRelayType();
 
+                // Final authoritative values (prevents event/conversion overwrite)
+                this.numericUpDownInsensTrip.Value =
+                    Clamp(2.5m, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
+                this.instantaneousCurrent = 2.5m; // Time Delay IC
+                this.insensitiveCurrent = 2.5m;   // Insensitive IT
+                displayType = eDisplayType.Relay;
+            }
+            finally
+            {
+                
+                _restoringDefaults = false;
+            }
         }
 
         private void setTypeIndependentDefaults()
