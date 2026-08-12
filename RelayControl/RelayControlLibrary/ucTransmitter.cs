@@ -2100,9 +2100,9 @@ namespace RelayControlLibrary
                 }
 
 #if CONED
-                if (temp > 2046)
+                if (temp > 2047)
                 {
-                    this.textBoxID.Text = "2046";
+                    this.textBoxID.Text = "2047";
                     throw new Exception();
                 }
 #else
@@ -2116,7 +2116,7 @@ namespace RelayControlLibrary
             catch
             {
 #if CONED
-                this.errorHandler(new Exception("ID value must be between 1 and 2046"));
+                this.errorHandler(new Exception("ID value must be between 1 and 2047"));
 #else
         this.errorHandler(new Exception("ID value must be between 1 and 1023"));
 #endif
