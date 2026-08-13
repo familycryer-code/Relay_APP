@@ -83,7 +83,7 @@ namespace RelayControlLibrary
             this.labelHa.Visible = true;
 
 #if CONED
-            this.labelCa.Text = "A";
+            this.labelCa.Text = "C";
             this.labelDa.Text = "D";
             this.labelEa.Text = "E";
             this.labelFa.Text = "F";
@@ -516,19 +516,17 @@ namespace RelayControlLibrary
             // Meter raw values -> widgets
             // -------------------------
 #if CONED
-            // ConEd: A1/A2 come from packet bytes 13/14
             if (bytePacket.Length > 14)
             {
                 this.transmitterMeterValuesA1.RawValue = (int)bytePacket[13];
                 this.transmitterMeterValuesA2.RawValue = (int)bytePacket[14];
             }
 #else
-    // Legacy mapping
-    if (bytePacket.Length > 5)
-    {
-        this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4];
-        this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5];
-    }
+            if (bytePacket.Length > 5)
+            {
+                this.transmitterMeterValuesA1.RawValue = (int)bytePacket[4];
+                this.transmitterMeterValuesA2.RawValue = (int)bytePacket[5];
+            }
 #endif
 
     ((Thermometer)this.myTempWidgetA1.Widget.DeviceList.GetDevice(0)).Value =
@@ -545,9 +543,13 @@ namespace RelayControlLibrary
             ((Meter)this.myThermometerA2.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
                 this.transmitterMeterValuesA2.OilTemp;
 
-            // Right-side raw analog display boxes
+#if CONED
             if (bytePacket.Length > 13) this.textBoxA1Analog1.Text = bytePacket[13].ToString();
             if (bytePacket.Length > 14) this.textBoxA2Analog2.Text = bytePacket[14].ToString();
+#else
+            if (bytePacket.Length > 4) this.textBoxA1Analog1.Text = bytePacket[4].ToString();
+            if (bytePacket.Length > 5) this.textBoxA2Analog2.Text = bytePacket[5].ToString();
+#endif
 
             this.myPSIWidgetA2.Invalidate();
             this.myTempWidgetA2.Invalidate();
@@ -563,7 +565,7 @@ namespace RelayControlLibrary
             if (monByteLength != 7)
             {
 #if CONED
-                if (bytePacket.Length > 7) this.textBoxCa.Text = bytePacket[7].ToString();   // A
+                if (bytePacket.Length > 7) this.textBoxCa.Text = bytePacket[7].ToString();   // C
                 if (bytePacket.Length > 8) this.textBoxDa.Text = bytePacket[8].ToString();   // D
                 if (bytePacket.Length > 9) this.textBoxEa.Text = bytePacket[9].ToString();   // E
                 if (bytePacket.Length > 10) this.textBoxFa.Text = bytePacket[10].ToString();  // F (NI)
