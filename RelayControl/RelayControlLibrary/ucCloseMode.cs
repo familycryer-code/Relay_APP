@@ -776,7 +776,7 @@ namespace RelayControlLibrary
             this.checkBox1.Checked = false;
 #elif CONED
             this.numericUpDownTimeDelay.Value = 6;
-            this.numericUpDownRecloseVolts.Value = 1.5m;
+            this.numericUpDownRecloseVolts.Value = 1.4m;
             this.numericUpDownPDA.Value = -5;
             this.numericUpDownPDV.Value = ClampToRange(this.numericUpDownPDV, 0.0m);
             this.numericUpDownCloseTiltAngle.Value = 95;
