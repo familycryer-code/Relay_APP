@@ -561,6 +561,7 @@ namespace RelayControlLibrary
 
                 if (this.badType1MessagePeriod)
                 {
+                    this.badType1MessagePeriod = false;   // prevent repeated/side-effect sends
                     this.TXSettings.MessagePeriod = 2;
                     this.buttonTX_Click(this, new EventArgs());
                 }
@@ -2247,9 +2248,7 @@ namespace RelayControlLibrary
 
         private void btn_CTratioCal_Click(object sender, EventArgs e)
         {
-            //  CTRatioCaculator CTCalculator = new CTRatioCaculator();
-            //   CTCalculator.ShowDialog(this);
-            clickbuttonCT.CTratioButton = true;
+            CTCalc_Click(sender, e);
         }
 
         private void label2_Click(object sender, EventArgs e)
