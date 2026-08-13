@@ -1154,9 +1154,9 @@ namespace RelayControlLibrary
                 this.tempID = Convert.ToUInt16(this.textBoxID.Text);
 
 #if CONED
-                if (this.tempID < 1 || this.tempID > 2046)
+                if (this.tempID < 1 || this.tempID > 2047)
                 {
-                    throw new Exception("Transmission ID must be between 1 and 2046");
+                    throw new Exception("Transmission ID must be between 1 and 2047");
                 }
 #else
                 if (this.tempID < 1 || this.tempID > 1023)
