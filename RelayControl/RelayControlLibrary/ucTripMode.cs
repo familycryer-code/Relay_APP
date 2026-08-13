@@ -48,6 +48,7 @@ namespace RelayControlLibrary
 #else
             this.Customer = Customers.ENMAX;
 #endif
+            ApplyConEdTripStyleLabels();
 
         }
         public enum eDisplayType
@@ -150,6 +151,18 @@ namespace RelayControlLibrary
                     break;
             }
             System.Diagnostics.Trace.WriteLine("...");
+        }
+
+        private void ApplyConEdTripStyleLabels()
+        {
+            if (this.Customer != Customers.CONED) return;
+            if (this.comboBox_TripStyle == null) return;
+            if (this.comboBox_TripStyle.Items.Count < 3) return;
+
+            // Keep mapping by SelectedIndex unchanged
+            this.comboBox_TripStyle.Items[0] = "Hold Trip (TROUBLESHOOTING ONLY)";
+            this.comboBox_TripStyle.Items[1] = "Continuous Pulse";
+            this.comboBox_TripStyle.Items[2] = "3 Pulse, then off";
         }
 
         string[] conEdTripModes = new string[] {
