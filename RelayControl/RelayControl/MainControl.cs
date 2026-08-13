@@ -684,8 +684,8 @@ namespace RelayControl
         this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
         this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
 
-        this.buttonRequestRelayParamaters.Text = "Read all settings from Relay";
-        this.buttonSendAll.Text = "Program all settings to the Relay";
+        this.buttonRequestRelayParamaters.Text = "Read";
+        this.buttonSendAll.Text = "Program";
 
         this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
         this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
