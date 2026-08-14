@@ -692,7 +692,7 @@ namespace RelayControlLibrary
                 if (value < 1 || value > 2047)
                 {
                     dataBackupTX.dataBackup_txDefaults = true;
-                    throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 2046");
+                    throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 2047");
                 }
                 else
                 {
