@@ -183,7 +183,7 @@ namespace RelayControlLibrary
             NormalizeTxButtonTextAlignment();
 
             // Default caption/state
-            this.button_FastMode.Text = "Fast Mode Disabled";
+            this.button_FastMode.Text = "Fast Mode";
             this.button_FastMode.BackColor = Color.Transparent;
             this.button_FastFire.Text = "Fast Fire";
 
@@ -559,11 +559,13 @@ namespace RelayControlLibrary
 
                 this.setButtonEnable(true, this.buttonTX);
 
+               
                 if (this.badType1MessagePeriod)
                 {
                     this.badType1MessagePeriod = false;   // prevent repeated/side-effect sends
-                    this.TXSettings.MessagePeriod = 2;
-                    this.buttonTX_Click(this, new EventArgs());
+                    // Intentionally do NOT auto-force 60s or auto-resend TX settings.
+                    // this.TXSettings.MessagePeriod = 2;
+                    // this.buttonTX_Click(this, new EventArgs());
                 }
 
                 if (this.packetLength == 30)
@@ -630,8 +632,8 @@ namespace RelayControlLibrary
 
             if (this.customerVersion && (p == 0 || p == 1))
             {
+                // Keep telemetry/flag if needed, but do not override UI selection
                 this.badType1MessagePeriod = true;
-                this.radioButton60S.Checked = true;
             }
             else
             {
@@ -2174,60 +2176,77 @@ namespace RelayControlLibrary
         }
         public void RestoreFastModeOnShutdown()
         {
-            if (this.button_FastMode.Text != "Fast Mode Enabled")
+            if (!fastModeActive)
                 return;
 
+            fastModeActive = false;
             this.timer_FastMode.Enabled = false;
             this.timer_FireFastConfig.Enabled = false;
             this.button_FastMode.BackColor = Color.Transparent;
-            this.button_FastMode.Text = "Fast Mode Disabled";
+            this.button_FastMode.Text = "Fast Mode";
 
             this.radioButton60S.Checked = true;
             SendTransmitterSettings();
         }
 
+        private bool fastModeActive = false;
+
         private void button_FastMode_Click(object sender, EventArgs e)
         {
-            if (button_FastMode.Text == "Fast Mode Enabled")
+            if (fastModeActive)
             {
-                button_FastMode.Text = "Fast Mode Disabled";
+                fastModeActive = false;
+                this.timer_FastMode.Enabled = false;
+                this.timer_FireFastConfig.Enabled = false;
                 button_FastMode.BackColor = Color.Transparent;
-            }
-            else if (button_FastMode.Text == "Fast Mode Disabled")
-            {
-                DialogResult result = MessageBox.Show(
-                    "Fast Mode will set transmitter PLC message frequency to 10 seconds for 10 minutes.\n\n" +
-                    "The application must remain open long enough to restore normal 60 second operation.\n\n" +
-                    "Continue?",
-                    "Enable Fast Mode",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
+                button_FastMode.Text = "Fast Mode";
 
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
-
-                button_FastMode.Text = "Fast Mode Enabled";
-                button_FastMode.BackColor = Color.Yellow;
-
-                //set the 10 second config and send it to the relay
-                this.radioButton10S.Checked = true;
+                this.radioButton60S.Checked = true;
                 SendTransmitterSettings();
-
-                // The sequence in which these timers are enabledhere matters - to follow up the next timer time out
-                // so do not change this sequence
-                this.timer_FireFastConfig.Enabled = true; // 3 minutes
-                this.timer_FastMode.Enabled = true;       // 10 minutes
+                SendForceConfigMessageSilent();  // apply immediately
+                return;
             }
+
+            DialogResult result = MessageBox.Show(
+                "Fast Mode will set transmitter PLC message frequency to 10 seconds for 10 minutes.\n\n" +
+                "The application must remain open long enough to restore normal 60 second operation.\n\n" +
+                "Continue?",
+                "Enable Fast Mode",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes) return;
+
+            fastModeActive = true;
+            button_FastMode.BackColor = Color.Yellow;
+            button_FastMode.Text = "Fast Mode";
+
+            this.radioButton10S.Checked = true;
+            SendTransmitterSettings();
+            SendForceConfigMessageSilent(); // apply immediately
+
+            this.timer_FireFastConfig.Enabled = true;
+            this.timer_FastMode.Enabled = true;
+        }
+
+        private void SendForceConfigMessageSilent()
+        {
+            byte[] packet = new byte[3];
+            packet[0] = 0x66;
+            packet[1] = 0x01;
+            packet[2] = 0x0D;
+
+            this.RQSEA.SendPacket = packet;
+            OnSend(RQSEA);
         }
 
         private void timer_FastMode_Tick(object sender, EventArgs e)
         {
+            fastModeActive = false;
             this.timer_FastMode.Enabled = false;
             this.timer_FireFastConfig.Enabled = false;
             this.button_FastMode.BackColor = Color.Transparent;
-            this.button_FastMode.Text = "Fast Mode Disabled";
+            this.button_FastMode.Text = "Fast Mode";
 
             this.radioButton60S.Checked = true;
             SendTransmitterSettings();
@@ -2235,6 +2254,12 @@ namespace RelayControlLibrary
 
         private void timer_FireFastConfig_Tick(object sender, EventArgs e)
         {
+            if (!fastModeActive)
+            {
+                this.timer_FireFastConfig.Enabled = false;
+                return;
+            }
+
             this.timer_FireFastConfig.Enabled = false;
             this.radioButton10S.Checked = true;
             buttonForceConfigMessage_Click(this, new EventArgs());
@@ -2686,7 +2711,7 @@ namespace RelayControlLibrary
                 this.button_FastMode.Size = new Size(w, h);
                 this.button_FastMode.Visible = true;
                 this.button_FastMode.Enabled = true;
-                this.button_FastMode.Text = "Fast Mode Disabled";
+                this.button_FastMode.Text = "Fast Mode";
                 this.button_FastMode.BackColor = Color.Transparent;
                 y += h + gap;
 

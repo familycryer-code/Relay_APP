@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RelayControl</RootNamespace>
-    <AssemblyName>RelayControl</AssemblyName>
+    <AssemblyName>ALWAYS ON</AssemblyName>
     <StartupObject>RelayControl.Program</StartupObject>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileUpgradeFlags>

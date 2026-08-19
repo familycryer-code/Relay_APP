@@ -7777,7 +7777,12 @@ namespace RelayControl
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("Error deserializing SavedSettingsV4", ex);
+                            // Recover from bad/old/corrupt saved settings without crashing startup
+                            try
+                            {
+                                stream.Close();
+                            }
+                            catch { }
                         }
                     stream.Close();
                 }
