@@ -5025,6 +5025,7 @@ namespace RelayControl
         }
 
         private uint conedPhasing;
+        private bool _phasingWarningShownThisApplyAll = false;
 
         private void defaultTripSettings()
         {
@@ -6011,7 +6012,11 @@ namespace RelayControl
                     }
                     catch
                     {
-                        this.messageHandler("No Phasing Selected", new Exception("Please Select Phasing"));
+                        if (!_phasingWarningShownThisApplyAll)
+                        {
+                            _phasingWarningShownThisApplyAll = true;
+                            this.messageHandler("No Phasing Selected", new Exception("Please Select Phasing"));
+                        }
                         return;
                     }
 
@@ -7950,6 +7955,8 @@ namespace RelayControl
 
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
+            _phasingWarningShownThisApplyAll = false;
+
             DialogResult SendAll_DelayAlertDR = new DialogResult();
             SendAll_DelayAlertDR = MessageBox.Show("The relay is updating its critical parameters ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
             if (SendAll_DelayAlertDR == DialogResult.OK)
