@@ -278,6 +278,8 @@ namespace RelayControl
         private int savedSaveFileComboBoxWidth;
         public bool relayFound_forDNPdataMonitoring = false;
 
+       
+
         public MainControl()
         {
             
@@ -1682,14 +1684,26 @@ namespace RelayControl
             }
         }
 
-        void ucTransmitter1_Send(SendEventArgs sEA)
+        private void ucTransmitter1_Send(SendEventArgs sEA)
         {
             if (sEA.SendPacket[0] == 0x66)
             {
                 this.sendPacket(sEA.SendPacket);
-                this.downloadProgress = new ProgressBarForm("Force Config Message", "Sending Configuration Messages. Please Wait.", 140, true);
-                this.downloadProgress.Done += new ProgressBarForm.ProgressBarEvent(downloadProgress_Done);
-                this.downloadProgress.ShowDialog();
+
+                // Show popup only when NOT in Fast Mode
+                bool showForceConfigPopup = !this.ucTransmitter1.FastModeActive;
+
+                if (showForceConfigPopup)
+                {
+                    this.downloadProgress = new ProgressBarForm(
+                        "Force Config Message",
+                        "Sending Configuration Messages. Please Wait.",
+                        140,
+                        true);
+
+                    this.downloadProgress.Done += new ProgressBarForm.ProgressBarEvent(downloadProgress_Done);
+                    this.downloadProgress.ShowDialog();
+                }
             }
             else if (sEA.SendPacket[0] == (byte)'X')  //requestPacket
             {

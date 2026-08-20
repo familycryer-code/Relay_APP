@@ -1088,21 +1088,28 @@ namespace RelayControlLibrary
 
         private void buttonForceConfigMessage_Click(object sender, EventArgs e)
         {
-            //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-            //this.enableAll(false);
-            //========================================================================================================
+            bool showWaitUi = object.ReferenceEquals(sender, this.buttonForceConfigMessage);
+
+            if (showWaitUi)
+            {
+                // only for manual Fast Fire
+                Application.UseWaitCursor = true;
+                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+            }
 
             byte[] packet = new byte[3];
-
             packet[0] = 0x66;
             packet[1] = 0x01;
             packet[2] = 0x0D;
 
             this.RQSEA.SendPacket = packet;
-
             OnSend(RQSEA);
+
+            if (showWaitUi)
+            {
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+            }
         }
 
         private void dnpUplink_Click(object sender, EventArgs e)
@@ -1354,7 +1361,7 @@ namespace RelayControlLibrary
                     this.TXSettings.ConfigMessagePeriod = tempByte;
                 }
 
-                //Waterbury
+                //SEC
                 if (this.checkBoxSmartExternalCableEnable.Checked)
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x80);
                 else
@@ -1383,7 +1390,7 @@ namespace RelayControlLibrary
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xF7);
 
-                //External Data/ Data from Waterbury
+                //External Data/ Data from SEC
                 errorMessage = "SEC Error";
                 tempByte = 0;
 
@@ -2180,16 +2187,26 @@ namespace RelayControlLibrary
                 return;
 
             fastModeActive = false;
+            fastModeForceIndex = 0;
+
             this.timer_FastMode.Enabled = false;
             this.timer_FireFastConfig.Enabled = false;
+
             this.button_FastMode.BackColor = Color.Transparent;
             this.button_FastMode.Text = "Fast Mode";
 
             this.radioButton60S.Checked = true;
             SendTransmitterSettings();
+            SendForceConfigMessageSilent(); // ensure restore is applied before exit
         }
 
         private bool fastModeActive = false;
+        private int fastModeForceIndex = 0;
+
+        public bool FastModeActive
+        {
+            get { return this.fastModeActive; }
+        }
 
         private void button_FastMode_Click(object sender, EventArgs e)
         {
@@ -2203,7 +2220,7 @@ namespace RelayControlLibrary
 
                 this.radioButton60S.Checked = true;
                 SendTransmitterSettings();
-                SendForceConfigMessageSilent();  // apply immediately
+                SendForceConfigMessageSilent();  // final apply
                 return;
             }
 
@@ -2221,12 +2238,23 @@ namespace RelayControlLibrary
             button_FastMode.BackColor = Color.Yellow;
             button_FastMode.Text = "Fast Mode";
 
+            // t=0: set 10s and send force config
             this.radioButton10S.Checked = true;
             SendTransmitterSettings();
-            SendForceConfigMessageSilent(); // apply immediately
+            SendForceConfigMessageSilent();
 
-            this.timer_FireFastConfig.Enabled = true;
+            // t=10 min end
+            this.timer_FastMode.Interval = 10 * 60 * 1000;
             this.timer_FastMode.Enabled = true;
+
+            // reset milestone tracking
+            this.fastModeForceIndex = 0;
+
+            // first periodic force at t=2 min
+            this.timer_FireFastConfig.Interval = 2 * 60 * 1000;
+            this.timer_FireFastConfig.Enabled = true;
+
+            
         }
 
         private void SendForceConfigMessageSilent()
@@ -2239,19 +2267,22 @@ namespace RelayControlLibrary
             this.RQSEA.SendPacket = packet;
             OnSend(RQSEA);
         }
-
         private void timer_FastMode_Tick(object sender, EventArgs e)
         {
-            fastModeActive = false;
             this.timer_FastMode.Enabled = false;
             this.timer_FireFastConfig.Enabled = false;
-            this.button_FastMode.BackColor = Color.Transparent;
-            this.button_FastMode.Text = "Fast Mode";
 
+            fastModeActive = false;
+            fastModeForceIndex = 0;
+
+            button_FastMode.BackColor = Color.Transparent;
+            button_FastMode.Text = "Fast Mode";
+
+            // t=10: restore 60s, apply settings, then force config immediately
             this.radioButton60S.Checked = true;
             SendTransmitterSettings();
+            SendForceConfigMessageSilent();
         }
-
         private void timer_FireFastConfig_Tick(object sender, EventArgs e)
         {
             if (!fastModeActive)
@@ -2261,14 +2292,30 @@ namespace RelayControlLibrary
             }
 
             this.timer_FireFastConfig.Enabled = false;
-            this.radioButton10S.Checked = true;
-            buttonForceConfigMessage_Click(this, new EventArgs());
-            this.timer_FireFastConfig.Enabled = true; // restart the 3 minute timer
+
+            // Fire now (at 2, then 5, then 8 minutes)
+            SendForceConfigMessageSilent();
+
+            // Move to next milestone
+            fastModeForceIndex++;
+
+            // index: 0->2min, 1->5min, 2->8min
+            // after firing at 8 (index becomes 3), stop periodic sends
+            if (fastModeForceIndex >= 3)
+            {
+                return;
+            }
+
+            // Next delays:
+            // after 2 -> wait 3 minutes to 5
+            // after 5 -> wait 3 minutes to 8
+            this.timer_FireFastConfig.Interval = 3 * 60 * 1000;
+            this.timer_FireFastConfig.Enabled = true;
         }
 
         private void button_FastFire_Click(object sender, EventArgs e)
         {
-            this.buttonForceConfigMessage_Click(this, new EventArgs());
+            SendForceConfigMessageSilent();
         }
 
         private void btn_CTratioCal_Click(object sender, EventArgs e)
