@@ -628,16 +628,16 @@ namespace RelayControlLibrary
                 if (toronto != null)
                 {
                     toronto.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
-                    toronto.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220;
+                    toronto.MasterFileConEdHBD = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260220;
 
                     // Safe non-null defaults
-                    toronto.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220;
-                    toronto.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220;
+                    toronto.MasterFileWH = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260220;
+                    toronto.MasterFileGE = RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260220;
                     toronto.MasterFileWHDNP = toronto.MasterFileWH;
                     toronto.MasterFileGEDNP = toronto.MasterFileGE;
                     toronto.MasterFileDNPPLC = toronto.MasterFileWH;
-                    toronto.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_20260127;
-                    toronto.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127;
+                    toronto.RelayFileWH = RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260127;
+                    toronto.RelayFileGE = RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260127;
                 }
             }
             catch (Exception ex)

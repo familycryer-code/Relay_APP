@@ -7803,24 +7803,23 @@ namespace RelayControl
 
                 try
                 {
-                    Stream stream = File.Open(@"C:\DGI Systems\Relay\Saved Data\SavedSettings.dgi", FileMode.OpenOrCreate);
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    using (Stream stream = File.Open(@"C:\DGI Systems\Relay\Saved Data\SavedSettings.dgi", FileMode.OpenOrCreate))
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
 
-                    if (stream.Length != 0)
-                        try
+                        if (stream.Length != 0)
                         {
-                            this.saveObject = (SavedSettingsV4)formatter.Deserialize(stream);
-                        }
-                        catch (Exception ex)
-                        {
-                            // Recover from bad/old/corrupt saved settings without crashing startup
                             try
                             {
-                                stream.Close();
+                                this.saveObject = (SavedSettingsV4)formatter.Deserialize(stream);
                             }
-                            catch { }
+                            catch (Exception)
+                            {
+                                // Recover from bad/old/corrupt saved settings without crashing startup.
+                                // Keep defaults and continue startup.
+                            }
                         }
-                    stream.Close();
+                    }
                 }
                 catch (Exception ex)
                 {
