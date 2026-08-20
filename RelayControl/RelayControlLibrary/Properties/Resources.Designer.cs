@@ -106,9 +106,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__CONED_SEC_260215 {
+        internal static string MasterProcessor__CONED_SEC_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__CONED_SEC_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__CONED_SEC_260220", resourceCulture);
             }
         }
         
@@ -121,9 +121,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__CONED_SEC_GE_260215 {
+        internal static string MasterProcessor__CONED_SEC_GE_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__CONED_SEC_GE_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__CONED_SEC_GE_260220", resourceCulture);
             }
         }
         
@@ -136,9 +136,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__DGI_SEC_260215 {
+        internal static string MasterProcessor__DGI_SEC_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__DGI_SEC_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__DGI_SEC_260220", resourceCulture);
             }
         }
         
@@ -151,9 +151,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__DGI_SEC_GE_260215 {
+        internal static string MasterProcessor__DGI_SEC_GE_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__DGI_SEC_GE_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__DGI_SEC_GE_260220", resourceCulture);
             }
         }
         
@@ -166,9 +166,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__ONCOR_SEC_260215 {
+        internal static string MasterProcessor__ONCOR_SEC_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_260220", resourceCulture);
             }
         }
         
@@ -181,9 +181,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__ONCOR_SEC_GE_260215 {
+        internal static string MasterProcessor__ONCOR_SEC_GE_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_GE_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__ONCOR_SEC_GE_260220", resourceCulture);
             }
         }
         
@@ -196,9 +196,9 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__SCE_SEC_260215 {
+        internal static string MasterProcessor__SCE_SEC_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__SCE_SEC_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__SCE_SEC_260220", resourceCulture);
             }
         }
         
@@ -211,14 +211,14 @@ namespace RelayControlLibrary.Properties {
         ///S3250000008054E2A80E54E25C0254E25C0254E25C0254E25C0254E25C0254E2B61054E25C02FA
         ///S325000000A054E2B30E54E25C0254E2DA0954E25C0254E25C0254E25C0254E2870C54E2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MasterProcessor__SCE_SEC_GE_260215 {
+        internal static string MasterProcessor__SCE_SEC_GE_260220 {
             get {
-                return ResourceManager.GetString("MasterProcessor__SCE_SEC_GE_260215", resourceCulture);
+                return ResourceManager.GetString("MasterProcessor__SCE_SEC_GE_260220", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 260215.
+        ///   Looks up a localized string similar to 260220.
         /// </summary>
         internal static string MasterRevision {
             get {
