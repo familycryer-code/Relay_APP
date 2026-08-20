@@ -3731,7 +3731,11 @@ namespace RelayControl
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
-                this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                if (!this.sendingAllSettings && !_paramsLoadedShownThisApplyAll)
+                {
+                    _paramsLoadedShownThisApplyAll = true;
+                    this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                }
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -5026,6 +5030,7 @@ namespace RelayControl
 
         private uint conedPhasing;
         private bool _phasingWarningShownThisApplyAll = false;
+        private bool _paramsLoadedShownThisApplyAll = false;
 
         private void defaultTripSettings()
         {
@@ -5340,11 +5345,16 @@ namespace RelayControl
                 if (_pcApplyPendingConfirmation)
                 {
                     _pcApplyPendingConfirmation = false;
-                    MessageBox.Show(
-                        "Parameters Loaded Successfully",
-                        "Parameters Loaded",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+
+                    if (!_paramsLoadedShownThisApplyAll)
+                    {
+                        _paramsLoadedShownThisApplyAll = true;
+                        MessageBox.Show(
+                            "Parameters Loaded Successfully",
+                            "Parameters Loaded",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
                 }
             }
             catch (Exception ex)
@@ -6003,7 +6013,13 @@ namespace RelayControl
                             else if (this.comboBox_Phasings.SelectedItem.ToString() == "CBA : BAC : ACB")
                                 packet[2] = 0x01;
                             else
-                                throw new Exception(packet[2].ToString() + " is a bad Phasing");
+                            {
+                                // Legacy/unknown phasing (ex: older relay "Auto") -> default to ABC
+                                packet[2] = 0x00;
+
+                                if (this.comboBox_Phasings.Items.Count > 0)
+                                    this.comboBox_Phasings.SelectedIndex = 0; // ABC in this UI
+                            }
                         }
                         else
                         {
@@ -6012,11 +6028,12 @@ namespace RelayControl
                     }
                     catch
                     {
-                        if (!_phasingWarningShownThisApplyAll)
-                        {
-                            _phasingWarningShownThisApplyAll = true;
-                            this.messageHandler("No Phasing Selected", new Exception("Please Select Phasing"));
-                        }
+                        // Legacy/unknown/null phasing -> default to ABC instead of warning
+                        packet[2] = 0x00;
+
+                        if (this.comboBox_Phasings.Items.Count > 0)
+                            this.comboBox_Phasings.SelectedIndex = 0; // ABC in this UI
+
                         return;
                     }
 
@@ -7956,6 +7973,7 @@ namespace RelayControl
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
             _phasingWarningShownThisApplyAll = false;
+            _paramsLoadedShownThisApplyAll = false;
 
             DialogResult SendAll_DelayAlertDR = new DialogResult();
             SendAll_DelayAlertDR = MessageBox.Show("The relay is updating its critical parameters ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
@@ -10432,6 +10450,7 @@ namespace RelayControl
 
 #pragma warning disable CS0414 // field assigned but value never used
         private bool _pcApplyPendingConfirmation = false;
+        private bool sendingAllSettings;
 #pragma warning restore CS0414
         private void SendPCData()
         {
