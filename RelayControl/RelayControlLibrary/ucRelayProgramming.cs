@@ -553,14 +553,9 @@ namespace RelayControlLibrary
                     lf.MasterFileGEDNP = ge;
                     lf.MasterFileDNPPLC = wh;
 
-                    // Relay firmware
-                    lf.RelayFileWH = useConEdRelay
-                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260127
-                        : RelayControlLibrary.Properties.Resources.RelayProcessor_20260127;
-
-                    lf.RelayFileGE = useConEdRelay
-                        ? RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260127
-                        : RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127;
+                    // Relay firmware (customer-aware; avoids CONED image bleed into other customers)
+                    lf.RelayFileWH = GetRelayProcessorResource(customer.ToString(), isGE: false);
+                    lf.RelayFileGE = GetRelayProcessorResource(customer.ToString(), isGE: true);
                 };
 
                 setFiles(Customers.BGE,
