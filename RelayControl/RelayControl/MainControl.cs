@@ -3580,19 +3580,25 @@ namespace RelayControl
                 this.ucRelayProgramming1.SerialNumber = (UInt32)tempI;
                 this.ucDNPSAv51.SerialNumber = tempI;
 
-                if (tempI >= 25000 && !GERelay)
+                // 3076 indicates default/fallback serial due to bad memory; do not use for GE/WH mismatch checks
+                if (tempI != 3076)
                 {
-                   // messageHandler("GE Serial Number programmed with WH Firmware", "Is this a GE Relay? If Yes, please manually reload with GE Software. If No, please contact DIGITALGRID");
+                    if (tempI >= 25000 && !GERelay)
+                    {
+                        messageHandler("GE Serial Number programmed with WH Firmware",
+                            "Is this a GE Relay? If Yes, please manually reload with GE Software. If No, please contact DIGITALGRID");
 #if !DEBUG
-                   // enableAll(false);
+                        enableAll(false);
 #endif
-                }
-                else if (tempI < 25000 && GERelay)
-                {
-                    messageHandler("WH Serial Number programmed with GE Firmware", "Is this a WH Relay? If Yes, please manually reload with WH Software. If No, please contact DIGITALGRID");
+                    }
+                    else if (tempI < 25000 && GERelay)
+                    {
+                        messageHandler("WH Serial Number programmed with GE Firmware",
+                            "Is this a WH Relay? If Yes, please manually reload with WH Software. If No, please contact DIGITALGRID");
 #if !DEBUG
-                    enableAll(false);
+                        enableAll(false);
 #endif
+                    }
                 }
 
                 if (this.savedSerialNumber != tempI && checkSerialNumber) //check to see if it matches old serial num

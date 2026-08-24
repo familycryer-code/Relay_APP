@@ -237,10 +237,19 @@ namespace RelayControlLibrary
                     this.serialNumberError = false;
                 }
 
-                if (this.serialNumber >= 25000 ^ this.gERelay) //25k and up are GE Serial Numbers
-                    this.gERelaySerialMatch = false;
-                else
+                // 3076 = default/fallback serial when relay memory is bad; exclude from GE/WH comparisons
+                if (this.serialNumber == 3076)
+                {
                     this.gERelaySerialMatch = true;
+                }
+                else if ((this.serialNumber >= 25000) ^ this.gERelay) //25k and up are GE Serial Numbers
+                {
+                    this.gERelaySerialMatch = false;
+                }
+                else
+                {
+                    this.gERelaySerialMatch = true;
+                }
             }
         }
 
@@ -266,10 +275,19 @@ namespace RelayControlLibrary
             {
                 this.currentRelayLog.GERelay = this.gERelay = value;
 
-                if (this.gERelay ^ this.serialNumber >= 25000)
-                    this.gERelaySerialMatch = false;
-                else
+                // 3076 = default/fallback serial when relay memory is bad; exclude from GE/WH comparisons
+                if (this.serialNumber == 3076)
+                {
                     this.gERelaySerialMatch = true;
+                }
+                else if (this.gERelay ^ (this.serialNumber >= 25000))
+                {
+                    this.gERelaySerialMatch = false;
+                }
+                else
+                {
+                    this.gERelaySerialMatch = true;
+                }
             }
         }
         public bool DNPRelay
@@ -537,86 +555,94 @@ namespace RelayControlLibrary
 
             try
             {
-                Action<Customers, string, string, bool> setFiles = (customer, wh, ge, useConEdRelay) =>
+                Action<Customers, string, string, string, string> setFiles = (customer, masterWh, masterGe, relayWh, relayGe) =>
                 {
                     var lf = this.customersFiles.Find(x => x.Customer.Equals(customer));
                     if (lf == null) return;
 
                     lf.FPGAFile.DataBytes = RelayControlLibrary.Properties.Resources.FPGAdata;
 
-                    // Primary firmware
-                    lf.MasterFileWH = wh;
-                    lf.MasterFileGE = ge;
+                    lf.MasterFileWH = masterWh;
+                    lf.MasterFileGE = masterGe;
+                    lf.MasterFileWHDNP = masterWh;
+                    lf.MasterFileGEDNP = masterGe;
+                    lf.MasterFileDNPPLC = masterWh;
 
-                    // Backward-compatible properties (same firmware, app toggles DNP behavior)
-                    lf.MasterFileWHDNP = wh;
-                    lf.MasterFileGEDNP = ge;
-                    lf.MasterFileDNPPLC = wh;
-
-                    // Relay firmware (customer-aware; avoids CONED image bleed into other customers)
-                    lf.RelayFileWH = GetRelayProcessorResource(customer.ToString(), isGE: false);
-                    lf.RelayFileGE = GetRelayProcessorResource(customer.ToString(), isGE: true);
+                    lf.RelayFileWH = relayWh;
+                    lf.RelayFileGE = relayGe;
                 };
 
                 setFiles(Customers.BGE,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.COMED,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.CONED,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260220,
-                    true);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260127);
 
                 setFiles(Customers.DOMINION,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.ENMAX,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.EVERSOURCE,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.LONDON_HYDRO,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.ONCOR,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__ONCOR_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.PSEG,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.SCE,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__SCE_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.SCL,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.TAUNTON,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_260220,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__DGI_SEC_GE_260220,
-                    false);
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_20260127,
+                    RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 // TORONTO_HYDRO is HBD-only (still using available CONED HBD-compatible asset)
                 var toronto = this.customersFiles.Find(x => x.Customer.Equals(Customers.TORONTO_HYDRO));
@@ -1189,7 +1215,9 @@ namespace RelayControlLibrary
 
             if (dR == DialogResult.Yes)
             {
-                if (this.serialNumber < 25000 || this.serialNumber > 32767 || this.serialNumber == 0) //25k and up are GE serial Numbers
+                // 3076 = default/fallback serial when relay memory is bad; exclude from GE/WH serial validity checks
+                if (this.serialNumber != 3076 &&
+                    (this.serialNumber < 25000 || this.serialNumber > 32767 || this.serialNumber == 0)) //25k and up are GE serial Numbers
                 {
                     MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.serialNumberError = true;
@@ -1200,7 +1228,8 @@ namespace RelayControlLibrary
             }
             else
             {
-                if (this.serialNumber >= 25000 || this.serialNumber == 0)
+                // 3076 = default/fallback serial when relay memory is bad; exclude from GE/WH serial validity checks
+                if (this.serialNumber != 3076 && (this.serialNumber >= 25000 || this.serialNumber == 0))
                 {
                     this.serialNumberError = true;
                     MessageBox.Show("Bad Serial Number!", "Problem with Serial Number. \r\nPlease Contact DIGITALGRID, INC.", MessageBoxButtons.OK, MessageBoxIcon.Error);
