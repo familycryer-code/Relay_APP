@@ -759,8 +759,26 @@ namespace RelayControlLibrary
 
         private void listBoxTripModes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            TripModes previousMode = this.TripModeDef.Mode;   // add
+
             TripModes tripMode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
             this.TripModeDef.Mode = tripMode;
+
+            // ConEd: Adaptive is percent-only; ensure canonical type exactly once on entry
+            if (this.Customer == Customers.CONED &&
+                tripMode == TripModes.Adaptive &&
+                this.displayType != eDisplayType.Percent)
+            {
+                this.makePercentType();
+            }
+
+            // ConEd: leaving Adaptive should not reconvert stale adaptive values
+            if (this.Customer == Customers.CONED &&
+                previousMode == TripModes.Adaptive &&
+                tripMode != TripModes.Adaptive)
+            {
+                this.displayType = eDisplayType.Percent;
+            }
 
             this.lblGreenDelay.Visible = false;
             this.numericUpDown_GreenDelay.Visible = false;
@@ -783,6 +801,11 @@ namespace RelayControlLibrary
             switch (tripMode)
             {
                 case TripModes.Sensitive:
+                    if (this.Customer == Customers.CONED && this.displayType == eDisplayType.Percent)
+                    {
+                        this.makeRelayType();
+                    }
+
                     this.numericUpDownInsensTrip.Visible = false;
                     this.labelInsensTripUnit.Visible = false;
                     this.labelInstantCurrent.Visible = false;
@@ -2054,25 +2077,45 @@ namespace RelayControlLibrary
             this.restoreDefaults();
         }
 
+        // AFTER
+        // AFTER
         private void restoreDefaults()
         {
             _restoringDefaults = true;
             try
             {
-                this.domainUpDownType.SelectedIndex = 0;   // Relay display
-                this.setRelayTypeDefaults();
-                this.makeRelayType();
+                TripModes currentMode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
+                bool conEdAdaptive = (this.Customer == Customers.CONED && currentMode == TripModes.Adaptive);
 
-                // Final authoritative values (prevents event/conversion overwrite)
-                this.numericUpDownInsensTrip.Value =
-                    Clamp(2.5m, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
-                this.instantaneousCurrent = 2.5m; // Time Delay IC
-                this.insensitiveCurrent = 2.5m;   // Insensitive IT
-                displayType = eDisplayType.Relay;
+                if (conEdAdaptive)
+                {
+                    // ConEd Adaptive restore: percent-only
+                    if (this.displayType != eDisplayType.Percent)
+                        this.makePercentType();
+
+                    this.setRelayTypeDefaults();      // shared baseline fields
+                    this.setPercentageTypeDefaults(); // percent defaults for adaptive context
+                    displayType = eDisplayType.Percent;
+                }
+                else
+                {
+                    // Non-adaptive restore must normalize to Relay units first
+                    this.domainUpDownType.SelectedIndex = 0;
+                    if (this.displayType != eDisplayType.Relay)
+                        this.makeRelayType();
+
+                    this.setRelayTypeDefaults();
+
+                    // authoritative current defaults
+                    this.numericUpDownInsensTrip.Value =
+                        Clamp(2.5m, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
+                    this.instantaneousCurrent = 2.5m;
+                    this.insensitiveCurrent = 2.5m;
+                    displayType = eDisplayType.Relay;
+                }
             }
             finally
             {
-                
                 _restoringDefaults = false;
             }
         }
