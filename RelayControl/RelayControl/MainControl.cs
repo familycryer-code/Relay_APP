@@ -3737,11 +3737,12 @@ namespace RelayControl
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
-                if (!this.sendingAllSettings && !_paramsLoadedShownThisApplyAll)
-                {
-                    _paramsLoadedShownThisApplyAll = true;
-                    this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-                }
+                this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                //if (!this.sendingAllSettings && !_paramsLoadedShownThisApplyAll)
+                //{
+                  //  _paramsLoadedShownThisApplyAll = true;
+                   // this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                //}
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -10444,6 +10445,7 @@ namespace RelayControl
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
 
+            _pcApplyPendingConfirmation = true;   // add this line
             SendPCData();
 
             Application.UseWaitCursor = false;
