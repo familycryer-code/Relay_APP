@@ -803,7 +803,7 @@ namespace RelayControlLibrary
                 case TripModes.Sensitive:
                     if (this.Customer == Customers.CONED && this.displayType == eDisplayType.Percent)
                     {
-                        this.makeRelayType();
+                        this.makePercentType();
                     }
 
                     this.numericUpDownInsensTrip.Visible = false;
@@ -2087,31 +2087,35 @@ namespace RelayControlLibrary
                 TripModes currentMode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
                 bool conEdAdaptive = (this.Customer == Customers.CONED && currentMode == TripModes.Adaptive);
 
-                if (conEdAdaptive)
+                // NEW: if ConEd is currently in Percent, preserve Percent domain on restore
+                bool keepConEdPercent =
+                    (this.Customer == Customers.CONED && this.displayType == eDisplayType.Percent);
+
+                if (conEdAdaptive || keepConEdPercent)
                 {
-                    // ConEd Adaptive restore: percent-only
                     if (this.displayType != eDisplayType.Percent)
                         this.makePercentType();
 
-                    this.setRelayTypeDefaults();      // shared baseline fields
-                    this.setPercentageTypeDefaults(); // percent defaults for adaptive context
-                    displayType = eDisplayType.Percent;
+                    this.setRelayTypeDefaults();      // baseline
+                    this.setPercentageTypeDefaults(); // percent-authoritative values
+                    this.displayType = eDisplayType.Percent;
+
+                    // optional: keep selector visually aligned
+                    // this.domainUpDownType.SelectedItem = "Percent";
                 }
                 else
                 {
-                    // Non-adaptive restore must normalize to Relay units first
                     this.domainUpDownType.SelectedIndex = 0;
                     if (this.displayType != eDisplayType.Relay)
                         this.makeRelayType();
 
                     this.setRelayTypeDefaults();
 
-                    // authoritative current defaults
                     this.numericUpDownInsensTrip.Value =
                         Clamp(2.5m, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
                     this.instantaneousCurrent = 2.5m;
                     this.insensitiveCurrent = 2.5m;
-                    displayType = eDisplayType.Relay;
+                    this.displayType = eDisplayType.Relay;
                 }
             }
             finally
@@ -2404,7 +2408,24 @@ namespace RelayControlLibrary
         private void setPercentageTypeDefaults()
         {
 
-#if SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
+#if CONED
+            // ConEd percent-mode defaults (set to correct ConEd values)
+            this.numericUpDownInsensTrip.Value =
+                Clamp(50m,
+                      this.numericUpDownInsensTrip.Minimum,
+                      this.numericUpDownInsensTrip.Maximum);
+
+            this.numericUpDownSensTrip.Value =
+                Clamp(0.15m,   // <-- replace with ConEd-approved Sensitive % default if different
+                      this.numericUpDownSensTrip.Minimum,
+                      this.numericUpDownSensTrip.Maximum);
+
+            this.numericUpDownWVCurrent.Value =
+                Clamp(50m,
+                      this.numericUpDownWVCurrent.Minimum,
+                      this.numericUpDownWVCurrent.Maximum);
+
+#elif SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
     this.numericUpDownInsensTrip.Value =
         Clamp(50m,
               this.numericUpDownInsensTrip.Minimum,
@@ -2462,8 +2483,24 @@ namespace RelayControlLibrary
 
         private void setProtectorTypeDefaults()
         {
+#if CONED
+            // ConEd protector-mode defaults (confirm exact approved values)
+            this.numericUpDownInsensTrip.Value =
+                Clamp((decimal)this.CTRatio * 2.5m,
+                      this.numericUpDownInsensTrip.Minimum,
+                      this.numericUpDownInsensTrip.Maximum);
 
-#if SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
+            this.numericUpDownSensTrip.Value =
+                Clamp(0.0075m * (decimal)this.CTRatio,   // adjust if ConEd spec differs
+                      this.numericUpDownSensTrip.Minimum,
+                      this.numericUpDownSensTrip.Maximum);
+
+            this.numericUpDownWVCurrent.Value =
+                Clamp((decimal)this.CTRatio * 2.5m,
+                      this.numericUpDownWVCurrent.Minimum,
+                      this.numericUpDownWVCurrent.Maximum);
+
+#elif SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
     this.numericUpDownInsensTrip.Value =
         Clamp((decimal)this.CTRatio * 2.5m,
               this.numericUpDownInsensTrip.Minimum,
