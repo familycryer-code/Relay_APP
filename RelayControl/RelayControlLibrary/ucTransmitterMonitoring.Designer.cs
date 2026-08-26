@@ -1461,7 +1461,11 @@ namespace RelayControlLibrary
             this.groupBoxFlagStatus.Size = new System.Drawing.Size(161, 222);
             this.groupBoxFlagStatus.TabIndex = 74;
             this.groupBoxFlagStatus.TabStop = false;
+#if TORONTO_HYDRO
+            this.groupBoxFlagStatus.Text = "Digital Values";
+#else
             this.groupBoxFlagStatus.Text = "Digital Flag Status";
+#endif
             // 
             // checkBoxFlagStatusH
             // 
@@ -1515,7 +1519,11 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusD.Size = new System.Drawing.Size(73, 23);
             this.checkBoxFlagStatusD.TabIndex = 23;
             this.checkBoxFlagStatusD.TabStop = false;
+#if TORONTO_HYDRO
+            this.checkBoxFlagStatusD.Text = "Input 4";
+#else
             this.checkBoxFlagStatusD.Text = "Flag D";
+#endif
             this.checkBoxFlagStatusD.UseVisualStyleBackColor = true;
             // 
             // checkBoxFlagStatusC
@@ -1526,7 +1534,11 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusC.Size = new System.Drawing.Size(72, 23);
             this.checkBoxFlagStatusC.TabIndex = 19;
             this.checkBoxFlagStatusC.TabStop = false;
+#if TORONTO_HYDRO
+            this.checkBoxFlagStatusC.Text = "Input 3";
+#else
             this.checkBoxFlagStatusC.Text = "Flag C";
+#endif
             this.checkBoxFlagStatusC.UseVisualStyleBackColor = true;
             // 
             // checkBoxFlagStatusB
@@ -1537,7 +1549,11 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusB.Size = new System.Drawing.Size(71, 23);
             this.checkBoxFlagStatusB.TabIndex = 15;
             this.checkBoxFlagStatusB.TabStop = false;
+#if TORONTO_HYDRO
+            this.checkBoxFlagStatusB.Text = "Input 2";
+#else
             this.checkBoxFlagStatusB.Text = "Flag B";
+#endif
             this.checkBoxFlagStatusB.UseVisualStyleBackColor = true;
             // 
             // checkBoxFlagStatusA
@@ -1548,8 +1564,25 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusA.Size = new System.Drawing.Size(73, 23);
             this.checkBoxFlagStatusA.TabIndex = 11;
             this.checkBoxFlagStatusA.TabStop = false;
+#if TORONTO_HYDRO
+            this.checkBoxFlagStatusA.Text = "Input 1";
+#else
             this.checkBoxFlagStatusA.Text = "Flag A";
+#endif
             this.checkBoxFlagStatusA.UseVisualStyleBackColor = true;
+
+#if TORONTO_HYDRO
+            this.checkBoxFlagStatusE.Visible = false;
+            this.checkBoxFlagStatusF.Visible = false;
+            this.checkBoxFlagStatusG.Visible = false;
+            this.checkBoxFlagStatusH.Visible = false;
+#else
+            this.checkBoxFlagStatusE.Visible = true;
+            this.checkBoxFlagStatusF.Visible = true;
+            this.checkBoxFlagStatusG.Visible = true;
+            this.checkBoxFlagStatusH.Visible = true;
+#endif
+
             // 
             // groupBoxAnalogFlagValues
             // 

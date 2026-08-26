@@ -62,8 +62,12 @@ namespace RelayControlLibrary
 
             groupBoxVoltageReadings.Visible = false;
             groupBox17.Visible = false;
-            this.textBoxTransmitterTemp.Enabled = false;
-            this.textBoxQBit.Enabled = false;
+
+            this.textBoxTransmitterTemp.ReadOnly = true;
+            this.textBoxTransmitterTemp.Enabled = true;
+
+            this.textBoxQBit.ReadOnly = true;
+            this.textBoxQBit.Enabled = true;
 
             // Defaults: same for all customers
             groupBoxAnalogFlagValues.Visible = true;
@@ -82,6 +86,56 @@ namespace RelayControlLibrary
             this.labelGa.Visible = true;
             this.labelHa.Visible = true;
 
+#if TORONTO_HYDRO
+            this.labelCa.Text = "Input 1";
+            this.labelDa.Text = "Input 2";
+            this.labelEa.Text = "Input 3";
+            this.labelFa.Text = "Input 4";
+            this.labelGa.Text = "Input 5";
+            this.labelHa.Text = "Input 6";
+            this.label2.Text = "Input 7";
+
+            this.labelCa.Location = new System.Drawing.Point(12, this.labelCa.Location.Y);
+            this.labelDa.Location = new System.Drawing.Point(12, this.labelDa.Location.Y);
+            this.labelEa.Location = new System.Drawing.Point(12, this.labelEa.Location.Y);
+            this.labelFa.Location = new System.Drawing.Point(12, this.labelFa.Location.Y);
+            this.labelGa.Location = new System.Drawing.Point(12, this.labelGa.Location.Y);
+            this.labelHa.Location = new System.Drawing.Point(12, this.labelHa.Location.Y);
+
+            this.labelCa.TextAlign = ContentAlignment.MiddleRight;
+            this.labelDa.TextAlign = ContentAlignment.MiddleRight;
+            this.labelEa.TextAlign = ContentAlignment.MiddleRight;
+            this.labelFa.TextAlign = ContentAlignment.MiddleRight;
+            this.labelGa.TextAlign = ContentAlignment.MiddleRight;
+            this.labelHa.TextAlign = ContentAlignment.MiddleRight;
+
+            // ensure Input 7 controls are in the Analog group
+            if (!this.groupBoxAnalogFlagValues.Controls.Contains(this.label2))
+                this.groupBoxAnalogFlagValues.Controls.Add(this.label2);
+
+            if (!this.groupBoxAnalogFlagValues.Controls.Contains(this.textBox_Input7))
+                this.groupBoxAnalogFlagValues.Controls.Add(this.textBox_Input7);
+
+            this.label2.Visible = true;
+            this.textBox_Input7.Visible = true;
+            this.label2.TextAlign = ContentAlignment.MiddleRight;
+
+            // place Input 7 under Input 6
+            this.label2.Location = new System.Drawing.Point(12, 218);
+            this.textBox_Input7.Location = new System.Drawing.Point(71, 214);
+
+            // grow group box so Input 7 is visible
+            this.groupBoxAnalogFlagValues.Size = new System.Drawing.Size(
+                this.groupBoxAnalogFlagValues.Size.Width, 260);
+#else
+            this.labelCa.Text = "C";
+            this.labelDa.Text = "D";
+            this.labelEa.Text = "E";
+            this.labelFa.Text = "F";
+            this.labelGa.Text = "G";
+            this.labelHa.Text = "H";
+#endif
+
 #if CONED
             this.labelCa.Text = "C";
             this.labelDa.Text = "D";
@@ -96,23 +150,18 @@ namespace RelayControlLibrary
             this.checkBoxFlagStatusB.Visible = true;
             this.checkBoxFlagStatusC.Visible = true;
             this.checkBoxFlagStatusD.Visible = true;
+#if TORONTO_HYDRO
+            this.checkBoxFlagStatusE.Visible = false;
+            this.checkBoxFlagStatusF.Visible = false;
+            this.checkBoxFlagStatusG.Visible = false;
+            this.checkBoxFlagStatusH.Visible = false;
+#else
             this.checkBoxFlagStatusE.Visible = true;
             this.checkBoxFlagStatusF.Visible = true;
             this.checkBoxFlagStatusG.Visible = true;
             this.checkBoxFlagStatusH.Visible = true;
-
-#if TORONTO_HYDRO
-            // Keep only true Toronto Hydro differences here (if required)
-            // Example (uncomment if needed by TH spec):
-            // this.checkBoxFlagStatusC.Visible = false;
-            // this.checkBoxFlagStatusD.Visible = false;
-            // this.checkBoxFlagStatusE.Visible = false;
-            // this.checkBoxFlagStatusF.Visible = false;
-            // this.checkBoxFlagStatusG.Visible = false;
-            // this.checkBoxFlagStatusH.Visible = false;
-            // this.textBoxHa.Visible = false;
-            // this.labelHa.Visible = false;
 #endif
+
             this.checkBoxFrequenceBlue.Visible = false;
             this.checkBoxFrequencyGreen.Visible = false;
             this.checkBoxFrequencyRed.Visible = false;
@@ -415,22 +464,28 @@ namespace RelayControlLibrary
 
         public void SetAll(byte[] bytePacket)
         {
-            if (relayHBD.relayWithHBD == true)
-            {
-                this.labelQPres.Enabled = false;
-                this.labelQPres.Visible = false;
-                this.textBoxQBit.Enabled = false;
-                this.textBoxQBit.Visible = false;
-            }
-
             if (this.InvokeRequired)
             {
-                bytePacketCallback bPCB = new bytePacketCallback(setAll);
+                bytePacketCallback bPCB = new bytePacketCallback(SetAll);
                 this.Invoke(bPCB, new object[] { bytePacket });
+                return;
             }
-            else
+
+            // UI thread from here down
+            if (relayHBD.relayWithHBD == true)
             {
-                this.setAll(bytePacket);
+                this.labelQPres.Enabled = true;
+                this.labelQPres.Visible = true;
+                this.textBoxQBit.Visible = true;
+                this.textBoxQBit.ReadOnly = true;
+                this.textBoxQBit.Enabled = true;
+            }
+
+            this.setAll(bytePacket);
+
+            if (relayHBD.relayWithHBD == true)
+            {
+                this.textBoxQBit.Text = "N/A";
             }
         }
 
@@ -479,24 +534,24 @@ namespace RelayControlLibrary
             // Digital Flags mapping
             // -------------------------
 #if TORONTO_HYDRO
-    // Toronto Hydro / H_BOARD mapping (Input 1..4 style)
-    // Input 1 -> B (bit1)
-    this.checkBoxFlagStatusB.Checked = ((bytePacket[6] & 0x02) == 0x02);
+            // Toronto Hydro / H_BOARD mapping (Input 1..4 style)
+            // Input 1 -> B (bit1)
+            this.checkBoxFlagStatusB.Checked = ((bytePacket[6] & 0x02) == 0x02);
 
-    // Input 2 -> A (bit3)
-    this.checkBoxFlagStatusA.Checked = ((bytePacket[6] & 0x08) == 0x08);
+            // Input 2 -> A (bit3)
+            this.checkBoxFlagStatusA.Checked = ((bytePacket[6] & 0x08) == 0x08);
 
-    // Input 3 -> C (bit0)
-    this.checkBoxFlagStatusC.Checked = ((bytePacket[6] & 0x01) == 0x01);
+            // Input 3 -> C (bit0)
+            this.checkBoxFlagStatusC.Checked = ((bytePacket[6] & 0x01) == 0x01);
 
-    // Input 4 -> D (bit4)
-    this.checkBoxFlagStatusD.Checked = ((bytePacket[6] & 0x10) == 0x10);
+            // Input 4 -> D (bit4)
+            this.checkBoxFlagStatusD.Checked = ((bytePacket[6] & 0x10) == 0x10);
 
-    // Unused in Toronto H_BOARD layout
-    this.checkBoxFlagStatusE.Checked = false;
-    this.checkBoxFlagStatusF.Checked = false;
-    this.checkBoxFlagStatusG.Checked = false;
-    this.checkBoxFlagStatusH.Checked = false;
+            // Unused in Toronto H_BOARD layout
+            this.checkBoxFlagStatusE.Checked = false;
+            this.checkBoxFlagStatusF.Checked = false;
+            this.checkBoxFlagStatusG.Checked = false;
+            this.checkBoxFlagStatusH.Checked = false;
 #else
             // SEC mapping (all non-Toronto builds): A..H = bits 0..7
             this.checkBoxFlagStatusA.Checked = ((bytePacket[6] & 0x01) == 0x01);
@@ -529,8 +584,8 @@ namespace RelayControlLibrary
             }
 #endif
 
-    ((Thermometer)this.myTempWidgetA1.Widget.DeviceList.GetDevice(0)).Value =
-        this.transmitterMeterValuesA1.DGITemp;
+            ((Thermometer)this.myTempWidgetA1.Widget.DeviceList.GetDevice(0)).Value =
+                this.transmitterMeterValuesA1.DGITemp;
             ((Meter)this.myPSIWidgetA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
                 this.transmitterMeterValuesA1.Pressure;
             ((Meter)this.myThermometerA1.Widget.DeviceList.GetDevice(0)).NeedleList.GetNeedle(0).Value =
@@ -583,11 +638,28 @@ namespace RelayControlLibrary
 #endif
 
 
+#if TORONTO_HYDRO
+                this.textBoxQBit.Text = "N/A";
+#else
                 if (this.waterBugActive && bytePacket.Length > 15)
                     this.textBoxQBit.Text = ((bytePacket[15] & 0x01) == 1) ? "LOW" : "OK";
                 else
                     this.textBoxQBit.Text = "N/A";
+#endif
             }
+
+#if TORONTO_HYDRO
+                this.textBoxQBit.Text = "N/A";
+                this.textBoxTransmitterTemp.ReadOnly = true;
+                this.textBoxTransmitterTemp.Enabled = true;
+                this.textBoxTransmitterTemp.ForeColor = System.Drawing.Color.Black;
+                this.textBoxTransmitterTemp.BackColor = System.Drawing.Color.White;
+
+                this.textBoxQBit.ReadOnly = true;
+                this.textBoxQBit.Enabled = true;
+                this.textBoxQBit.ForeColor = System.Drawing.Color.Black;
+                this.textBoxQBit.BackColor = System.Drawing.Color.White;
+#endif
         }
 
         public delegate void MonitoringControlHandler(object sender, TransmitterMonitoringEventArgs tMEA);
@@ -596,11 +668,7 @@ namespace RelayControlLibrary
 
         private void enableMonitoring()
         {
-            if (relayHBD.relayWithHBD == true)
-            {
-                Hboard_layout();
-            }
-
+            
             if (statusNew.flagFromRelay)
             {
                // this.setFlagPolarity(flagS.flagSettings);

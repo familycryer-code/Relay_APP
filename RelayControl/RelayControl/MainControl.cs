@@ -355,7 +355,7 @@ namespace RelayControl
                 applyDNP.applyDNPSettings = false;
 
 #if DEBUG
-        this.initializeFromConfigFileDebug();
+                this.initializeFromConfigFileDebug();
 #endif
 
                 this.initializeStatusFlags();
@@ -713,7 +713,7 @@ namespace RelayControl
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
 
-#if !TORONTO_HYDRO
+                
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250);
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500);
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400);
@@ -733,8 +733,7 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Location = new System.Drawing.Point(660, 27);
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Size = new System.Drawing.Size(300, 730);
                 this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(250, 330);
-#endif
-
+                
                 this.TransmitterEnabled = true;
                 this.ArcFaultEnabled = false;
 
@@ -7165,7 +7164,14 @@ namespace RelayControl
 
                             if (this.relayFound == true && this.toolStripStatusLabelRelayDisconnected.Visible == false)
                             {
-                                this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+                                if (this.customer == Customers.TORONTO_HYDRO)
+                                {
+                                    this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
+                                }
+                                else
+                                {
+                                    this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+                                }
                                 enableAllMonitoring();
                                 missedMonitoringCount = 3;
 
@@ -8733,7 +8739,13 @@ namespace RelayControl
                 this.eventActionsToolStripMenuItem.Enabled = false;
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
                 if (this.allEnabled)
-                    this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+                {
+                    if (this.customer == Customers.TORONTO_HYDRO)
+                        this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
+                    else
+                        this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+
+                }
 
                 this.requestPhasorData();
                 this.everyOtherMonitor = false;
