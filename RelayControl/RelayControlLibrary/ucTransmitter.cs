@@ -49,8 +49,17 @@ namespace RelayControlLibrary
             this.panelMessageFreqSettings.Visible = false;
             this.labelMessageFrequencySettings.Visible = false;
             this.customerVersion = true;
-            this.checkBoxDNPEnable.Visible = true;// false;
+
+#if TORONTO_HYDRO
+            this.checkBoxDNPEnable.Visible = false;
+            this.checkBoxDNPEnable.Enabled = false;
+#else
+            this.checkBoxDNPEnable.Visible = true; // false;
+#endif
             this.dNPEnabled = this.checkBoxDNPEnable.Visible;
+
+
+
             this.checkBoxTransmitterEnable.Visible = false;
             this.panelMessageFreqSettings.Visible = false;
             this.labelLEDSpeed.Visible = false;
@@ -167,7 +176,7 @@ namespace RelayControlLibrary
             this.panel_dnpComSet.Size = new System.Drawing.Size(289, 599);
             // DNP Comm settings groupBox ==============================================
 
-#if !DNP
+#if !DNP || TORONTO_HYDRO
             this.grpBx_DNPSettings.Enabled = false;
             this.grpBx_DNPSettings.Visible = false;
             this.panel_dnpComSet.Enabled = false;
@@ -177,6 +186,7 @@ namespace RelayControlLibrary
             this.checkBoxDNPEnable.Enabled = false;
             this.checkBoxDNPEnable.Visible = false;
 #endif
+
 
             NormalizeTxCommandButtonsLayout();
             NormalizeDnpUplinkPlacement();
@@ -2817,7 +2827,7 @@ namespace RelayControlLibrary
         }
         private void NormalizeDnpUplinkPlacement()
         {
-#if DNP
+#if DNP && !TORONTO_HYDRO
             const int TX_UPLINK_X = 30;
             const int TX_UPLINK_Y = 496;
 
@@ -2852,6 +2862,12 @@ namespace RelayControlLibrary
             this.lbl_UplinkEn.Invalidate();
             this.grpBox_TXcommands.PerformLayout();
             this.grpBox_TXcommands.Refresh();
+#else
+            // TH (or non-DNP): keep hidden
+            this.checkBoxDNPEnable.Visible = false;
+            this.checkBoxDNPEnable.Enabled = false;
+            this.lbl_UplinkEn.Visible = false;
+            this.lbl_UplinkEn.Enabled = false;
 #endif
         }
         private void ucTransmitter_Load(object sender, EventArgs e)

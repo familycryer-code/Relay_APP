@@ -705,15 +705,18 @@ namespace RelayControl
                 this.btn_PermCl_Active.Visible = false;
 #endif
 
-#if (CONED || PSEG || ENMAX || ONCOR || SCE)
-        this.ucTransmitter1.checkBoxDNPEnable.Enabled = true;
-        this.ucTransmitter1.checkBoxDNPEnable.Visible = true;
+#if TORONTO_HYDRO
+                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+#elif (CONED || PSEG || ENMAX || ONCOR || SCE)
+                this.ucTransmitter1.checkBoxDNPEnable.Enabled = true;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = true;
 #else
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
 
-                
+
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250);
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500);
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400);
