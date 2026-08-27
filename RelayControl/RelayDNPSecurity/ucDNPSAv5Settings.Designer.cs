@@ -260,7 +260,12 @@ namespace RelayDNPSecurity
             this.groupBoxSecurityStats.Size = new System.Drawing.Size(793, 985);
             this.groupBoxSecurityStats.TabIndex = 7;
             this.groupBoxSecurityStats.TabStop = false;
+            this.groupBoxSecurityStats.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBoxSecurityStats.Text = "Security Statistics Thresholds";
+            this.panel_DNPSAv5set.BorderStyle = System.Windows.Forms.BorderStyle.None;
+
+
+
             // 
             // numericUpDownReplyTimeout
             // 
