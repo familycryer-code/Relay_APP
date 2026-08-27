@@ -95,6 +95,12 @@ namespace RelayControlLibrary
             this.labelHa.Text = "Input 6";
             this.label2.Text = "Input 7";
 
+            // Hide Analog1/Analog2 panels for TH
+            this.groupBoxAnalog1.Visible = false;
+            this.groupBoxAnalog1.Enabled = false;
+            this.groupBoxAnalog2.Visible = false;
+            this.groupBoxAnalog2.Enabled = false;
+
             this.labelCa.Location = new System.Drawing.Point(12, this.labelCa.Location.Y);
             this.labelDa.Location = new System.Drawing.Point(12, this.labelDa.Location.Y);
             this.labelEa.Location = new System.Drawing.Point(12, this.labelEa.Location.Y);
@@ -616,13 +622,16 @@ namespace RelayControlLibrary
             // -------------------------
             // C..H / Input7 / QBit block
             // -------------------------
+            // -------------------------
+            // C..H / Input7 / QBit block
+            // -------------------------
             monByteLength = bytePacket.Length;
-            if (monByteLength != 7)
+            if (monByteLength >= 7)
             {
 #if CONED
-                if (bytePacket.Length > 7) this.textBoxCa.Text = bytePacket[7].ToString();   // C
-                if (bytePacket.Length > 8) this.textBoxDa.Text = bytePacket[8].ToString();   // D
-                if (bytePacket.Length > 9) this.textBoxEa.Text = bytePacket[9].ToString();   // E
+                if (bytePacket.Length > 7) this.textBoxCa.Text = bytePacket[7].ToString();    // C
+                if (bytePacket.Length > 8) this.textBoxDa.Text = bytePacket[8].ToString();    // D
+                if (bytePacket.Length > 9) this.textBoxEa.Text = bytePacket[9].ToString();    // E
                 if (bytePacket.Length > 10) this.textBoxFa.Text = bytePacket[10].ToString();  // F (NI)
                 if (bytePacket.Length > 11) this.textBoxGa.Text = bytePacket[11].ToString();  // G (NI)
                 if (bytePacket.Length > 12) this.textBoxHa.Text = bytePacket[12].ToString();  // H
@@ -637,7 +646,6 @@ namespace RelayControlLibrary
                 if (bytePacket.Length > 13) this.textBox_Input7.Text = bytePacket[13].ToString();
 #endif
 
-
 #if TORONTO_HYDRO
                 this.textBoxQBit.Text = "N/A";
 #else
@@ -649,16 +657,16 @@ namespace RelayControlLibrary
             }
 
 #if TORONTO_HYDRO
-                this.textBoxQBit.Text = "N/A";
-                this.textBoxTransmitterTemp.ReadOnly = true;
-                this.textBoxTransmitterTemp.Enabled = true;
-                this.textBoxTransmitterTemp.ForeColor = System.Drawing.Color.Black;
-                this.textBoxTransmitterTemp.BackColor = System.Drawing.Color.White;
+            this.textBoxQBit.Text = "N/A";
+            this.textBoxTransmitterTemp.ReadOnly = true;
+            this.textBoxTransmitterTemp.Enabled = true;
+            this.textBoxTransmitterTemp.ForeColor = System.Drawing.Color.Black;
+            this.textBoxTransmitterTemp.BackColor = System.Drawing.Color.White;
 
-                this.textBoxQBit.ReadOnly = true;
-                this.textBoxQBit.Enabled = true;
-                this.textBoxQBit.ForeColor = System.Drawing.Color.Black;
-                this.textBoxQBit.BackColor = System.Drawing.Color.White;
+            this.textBoxQBit.ReadOnly = true;
+            this.textBoxQBit.Enabled = true;
+            this.textBoxQBit.ForeColor = System.Drawing.Color.Black;
+            this.textBoxQBit.BackColor = System.Drawing.Color.White;
 #endif
         }
 
