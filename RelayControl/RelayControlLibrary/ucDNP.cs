@@ -722,6 +722,18 @@ namespace RelayControlLibrary
             this.groupBoxDIGITALGRIDDNPDeadBand.Controls.Clear();
             this.groupBoxMemphisDeadBand.Visible = false;
 
+            // Reset TH layout baseline (prevents overlap from prior non-deadband positioning)
+            this.groupBoxDNPSettings.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxDNPSettings.Size = new System.Drawing.Size(320, 590);
+
+            this.panel_DNPsettings.Location = new System.Drawing.Point(0, 0);
+            this.panel_DNPsettings.Size = new System.Drawing.Size(335, 820);
+
+            this.buttonSendAllDNPSettings.Location = new System.Drawing.Point(40, 425);
+            this.buttonDefaults.Location = new System.Drawing.Point(40, 475);
+            this.buttonRQDNPSettings.Location = new System.Drawing.Point(40, 525);
+            this.groupBoxDNPStatus.Location = new System.Drawing.Point(40, 600);
+
             // 54 new rev10 firmware - ucDeadBandSettingsObject includes default value parameter
             this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages", 1));
             this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage Angle", "Degrees", 0, 180, 1, "Applies to all Network and Transformer Voltages", 1));
@@ -785,7 +797,7 @@ namespace RelayControlLibrary
             location.Y = this.groupBoxDNPSettings.Location.Y;
             location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
 
-            this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(400, 6);
+            this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(430, 6);
             this.groupBoxDIGITALGRIDDNPDeadBand.Height = 0;
 
             location = new Point(2, 15); // starting spot
@@ -825,7 +837,6 @@ namespace RelayControlLibrary
         //private void buttonDefaults_Click(object sender, EventArgs e)
         public void buttonDefaults_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("ucDNP buttonDefaults_Click HIT");
             this.setDefaultDefaults();
         }
 
@@ -852,8 +863,6 @@ namespace RelayControlLibrary
                     this.Customer == Customers.TORONTO_HYDRO;
 
             this.comboBoxDNPBaudRate.SelectedIndex = is9600Customer ? 2 : 5;
-
-            MessageBox.Show("Customer=" + this.Customer);
         }
 
         #endregion

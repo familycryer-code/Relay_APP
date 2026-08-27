@@ -172,6 +172,7 @@ namespace RelayControl
                     this.Customer == Customers.TORONTO_HYDRO;
 
                 bool dnpKitEnabled = (dnpUplinkK.dnpEnabledWithKit != false);
+                bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
 
                 // Enable path
                 if (value && this.masterRevision > REV0_MASTER_REVISION && isDnpCustomer && dnpKitEnabled)
@@ -179,9 +180,11 @@ namespace RelayControl
                     // Keep existing DNP point wiring behavior
                     setDNPTabPoints();
 
-                    // DNPSAv5/SecureAuth intentionally disabled for all customers for now.
+#if !TORONTO_HYDRO
+                    // non-TH: keep SecureAuth hidden as before
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+#endif
 
                     this.dNPEnabledSavedVal = true;
                     this.ucRelayProgramming1.DNPRelay = true;
@@ -189,6 +192,7 @@ namespace RelayControl
                 }
 
                 // Disable path (or unsupported customer / old revision / kit disabled)
+#if !TORONTO_HYDRO
                 if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
@@ -197,7 +201,10 @@ namespace RelayControl
 
                 if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
                     this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-
+#else
+                // TH requirement: keep all 3 DNP tabs present/live
+                // (tabPageDNP, tabPageDNPData, tabPageDNPSecureAuth)
+#endif
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
             }
@@ -4074,6 +4081,7 @@ namespace RelayControl
 
         private void removeDNPTabs()
         {
+#if !TORONTO_HYDRO
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
@@ -4082,6 +4090,7 @@ namespace RelayControl
 
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+#endif
         }
 
         private void setRelayRegisters(byte[] bytePacket)

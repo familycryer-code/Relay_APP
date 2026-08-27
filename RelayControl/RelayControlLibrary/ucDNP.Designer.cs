@@ -50,8 +50,8 @@ namespace RelayControlLibrary
             this.labelUnsolRetries = new System.Windows.Forms.Label();
             this.labelTerminationResistor = new System.Windows.Forms.Label();
             this.comboBoxTerminationResistor = new System.Windows.Forms.ComboBox();
-            this.labelMemphisStage = new System.Windows.Forms.Label();
-            this.numericUpDownMemphisStage = new System.Windows.Forms.NumericUpDown();
+            //this.labelMemphisStage = new System.Windows.Forms.Label();
+            //this.numericUpDownMemphisStage = new System.Windows.Forms.NumericUpDown();
             this.labelTHDTriggerRange = new System.Windows.Forms.Label();
             this.labelVoltageTriggerRange = new System.Windows.Forms.Label();
             this.numericUpDownTriggerRangeTHD = new System.Windows.Forms.NumericUpDown();
@@ -134,7 +134,7 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolRetries)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRangeTHD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRangeVoltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRangeCurrent)).BeginInit();
@@ -443,15 +443,16 @@ namespace RelayControlLibrary
             // 
             // labelMemphisStage
             // 
-            this.labelMemphisStage.AutoSize = true;
-            this.labelMemphisStage.Location = new System.Drawing.Point(66, 345);
-            this.labelMemphisStage.Name = "labelMemphisStage";
-            this.labelMemphisStage.Size = new System.Drawing.Size(122, 19);
-            this.labelMemphisStage.TabIndex = 33;
-            this.labelMemphisStage.Text = "Memphis Stage:";
+            //this.labelMemphisStage.AutoSize = true;
+            //this.labelMemphisStage.Location = new System.Drawing.Point(66, 345);
+            //this.labelMemphisStage.Name = "labelMemphisStage";
+            //this.labelMemphisStage.Size = new System.Drawing.Size(122, 19);
+            //this.labelMemphisStage.TabIndex = 33;
+            //this.labelMemphisStage.Text = "Memphis Stage:";
             // 
             // numericUpDownMemphisStage
             // 
+            /*
             this.numericUpDownMemphisStage.Location = new System.Drawing.Point(197, 345);
             this.numericUpDownMemphisStage.Maximum = new decimal(new int[] {
             5,
@@ -472,6 +473,7 @@ namespace RelayControlLibrary
             0,
             0,
             0});
+            */
             // 
             // labelTHDTriggerRange
             // 
@@ -1186,8 +1188,8 @@ namespace RelayControlLibrary
             this.groupBoxDNPSettings.Controls.Add(this.numericUpDownSourceAddress);
             this.groupBoxDNPSettings.Controls.Add(this.numericUpDownDestinationAddress);
             this.groupBoxDNPSettings.Controls.Add(this.labelDestinationAddress);
-            this.groupBoxDNPSettings.Controls.Add(this.labelMemphisStage);
-            this.groupBoxDNPSettings.Controls.Add(this.numericUpDownMemphisStage);
+            //this.groupBoxDNPSettings.Controls.Add(this.labelMemphisStage);
+            //this.groupBoxDNPSettings.Controls.Add(this.numericUpDownMemphisStage);
             this.groupBoxDNPSettings.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDNPSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxDNPSettings.Name = "groupBoxDNPSettings";
@@ -1395,7 +1397,7 @@ namespace RelayControlLibrary
             // 
             // panel_DNPsettings
             // 
-            this.panel_DNPsettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_DNPsettings.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.panel_DNPsettings.Location = new System.Drawing.Point(974, 654);
             this.panel_DNPsettings.Name = "panel_DNPsettings";
             this.panel_DNPsettings.Size = new System.Drawing.Size(50, 35);
@@ -1429,7 +1431,7 @@ namespace RelayControlLibrary
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSourceAddress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUnsolRetries)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.numericUpDownMemphisStage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRangeTHD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRangeVoltage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRangeCurrent)).EndInit();
@@ -1483,7 +1485,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelUnsolRetries;
         private System.Windows.Forms.Label labelTerminationResistor;
         private System.Windows.Forms.ComboBox comboBoxTerminationResistor;
-        private System.Windows.Forms.Label labelMemphisStage;
+        //private System.Windows.Forms.Label labelMemphisStage;
         private System.Windows.Forms.NumericUpDown numericUpDownMemphisStage;
         private System.Windows.Forms.Label labelTHDTriggerRange;
         private System.Windows.Forms.Label labelVoltageTriggerRange;
