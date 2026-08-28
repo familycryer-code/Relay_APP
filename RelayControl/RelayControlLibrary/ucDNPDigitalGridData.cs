@@ -19,8 +19,8 @@ namespace RelayControlLibrary
             InitializeComponent();
             SetSize();
             this.initializeComponents();
+            SetSize(); // add this
         }
-        //static readonly int _600V_ADDED = 190611;
 
         public ucDNPDIGITALGRIDData(Customers customer)
         {
@@ -28,6 +28,7 @@ namespace RelayControlLibrary
             this.customer = customer;
             SetSize();
             this.initializeComponents();
+            SetSize(); // add this
             tabControlMemphisDNP.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControlMemphisDNP.DrawItem += tabControlMemphisDNP_DrawItem;
         }
@@ -105,7 +106,47 @@ namespace RelayControlLibrary
             this.initializeBinaryOutputs();
             this.initializeAnalogInputs();
             this.initializeAnalogOutputs();
+
+            // TH-only runtime guard for current rollout
+            if (this.customer != Customers.TORONTO_HYDRO)
+            {
+                this.tabPageBinaryInputs.Controls.Clear();
+                var lbl = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(20, 20),
+                    Text = "DNP Live Data is currently enabled for TORONTO_HYDRO only."
+                };
+                this.tabPageBinaryInputs.Controls.Add(lbl);
+            }
+
+            // Never allow silent blank screen
+            bool empty =
+                this.tabPageBinaryInputs.Controls.Count == 0 &&
+                this.tabPageBinaryInputs2.Controls.Count == 0 &&
+                this.tabPageAnalogInputs1.Controls.Count == 0 &&
+                this.tabPageAnalogInputs2.Controls.Count == 0 &&
+                this.tabPageAnalogInputs3.Controls.Count == 0;
+
+            if (empty)
+            {
+                this.tabPageBinaryInputs.Controls.Add(new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(20, 20),
+                    Text = "No DNP point map initialized for current customer/build."
+                });
+            }
+
             this.tabControlMemphisDNP_SelectedIndexChanged_1(this, new EventArgs());
+
+            MessageBox.Show(
+    $"BI1={this.tabPageBinaryInputs.Controls.Count}, " +
+    $"BI2={this.tabPageBinaryInputs2.Controls.Count}, " +
+    $"AI1={this.tabPageAnalogInputs1.Controls.Count}, " +
+    $"AI2={this.tabPageAnalogInputs2.Controls.Count}, " +
+    $"AI3={this.tabPageAnalogInputs3.Controls.Count}, " +
+    $"TABS={this.tabControlMemphisDNP.TabPages.Count}");
         }
 
         private void tabControlMemphisDNP_DrawItem(object sender, DrawItemEventArgs e)
@@ -1338,12 +1379,11 @@ namespace RelayControlLibrary
 
         private void SetSize()
         {
-            this.tabControlMemphisDNP.Size = this.Size;
-        }
-
-        private void tabControlMemphisDNP_Resize(object sender, EventArgs e)
-        {
-            this.SetSize();
+            this.tabControlMemphisDNP.Dock = DockStyle.Fill;
+            this.tabControlMemphisDNP.Location = new Point(0, 0);
+            this.tabControlMemphisDNP.Size = this.ClientSize;
+            this.tabControlMemphisDNP.Visible = true;
+            this.tabControlMemphisDNP.BringToFront();
         }
 
         //Adds a binary box to the selected page

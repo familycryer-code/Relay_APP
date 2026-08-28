@@ -221,9 +221,10 @@ namespace RelayControl
             return value;
         }
 
+        // AFTER
+        // AFTER (full setDNPTabPoints body)
         private void setDNPTabPoints()
         {
-            // Current DNP customers (EVERSOURCE excluded for now)
             bool isDnpCustomer =
                 this.Customer == Customers.CONED ||
                 this.Customer == Customers.ENMAX ||
@@ -235,7 +236,6 @@ namespace RelayControl
             if (!isDnpCustomer)
                 return;
 
-            // Respect kit gating
             if (dnpUplinkK.dnpEnabledWithKit == false)
             {
                 this.dNPEnabledSavedVal = false;
@@ -243,16 +243,33 @@ namespace RelayControl
                 return;
             }
 
-            // Use DigitalGridData for all DNP customers per new rule
+            if (this.dNPDIGITALGRIDData != null)
+            {
+                this.dNPDIGITALGRIDData.Send -= standardizedSendData;
+                this.dNPDIGITALGRIDData.PointChanged -= DNPDigitalGridData_PointChanged;
+
+                if (this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                    this.tabPageDNPData.Controls.Remove(this.dNPDIGITALGRIDData);
+            }
+
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.Customer);
-            // this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
             this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
-            this.dNPDIGITALGRIDData.Location = new Point(0, 0);
+            this.dNPDIGITALGRIDData.Dock = DockStyle.Fill;
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
-            this.dNPDIGITALGRIDData.Show();
 
-            // DNPSAv5/SecureAuth intentionally disabled for all DNP customers for now
+            this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
+
+            MessageBox.Show(
+    $"tabPageDNPData.Controls={this.tabPageDNPData.Controls.Count}\n" +
+    $"dNPDIGITALGRIDData.Visible={this.dNPDIGITALGRIDData.Visible}\n" +
+    $"dNPDIGITALGRIDData.Size={this.dNPDIGITALGRIDData.Size}\n" +
+    $"dNPDIGITALGRIDData.ChildControls={this.dNPDIGITALGRIDData.Controls.Count}");
+
+            this.dNPDIGITALGRIDData.Visible = true;
+            this.dNPDIGITALGRIDData.BringToFront();
+            this.tabPageDNPData.PerformLayout();
+
             if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
                 this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
         }
@@ -2072,7 +2089,11 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                if(command != IncomingCommCommands.DNPMessage1)
+                if (command != IncomingCommCommands.DNPMessage1 &&
+                    command != IncomingCommCommands.DNPMessage2 &&
+                    command != IncomingCommCommands.DNPMessage3 &&
+                    command != IncomingCommCommands.DNPMessage4 &&
+                    command != IncomingCommCommands.DNPMessage5)
                 {
                     this.messageHandler("Error Checking Raw Communication Data", ex);
                     this.RegisterPolling(true);
@@ -2455,19 +2476,25 @@ namespace RelayControl
             switch (command)
             {
                 case IncomingCommCommands.DNPMessage1://BI
-                    this.dNPDataMessage(bytePacket, 1);
-                    break;
+                    //this.dNPDataMessage(bytePacket, 1);
+                   // break;
                 case IncomingCommCommands.DNPMessage2://BO
-                    this.dNPDataMessage(bytePacket, 2);
-                    break;
+                    //this.dNPDataMessage(bytePacket, 2);
+                    //break;
                 case IncomingCommCommands.DNPMessage3://AI
-                    this.dNPDataMessage(bytePacket, 3);
-                    break;
+                    //this.dNPDataMessage(bytePacket, 3);
+                    //break;
                 case IncomingCommCommands.DNPMessage4://AI
-                    this.dNPDataMessage(bytePacket, 4);
-                    break;
+                   // this.dNPDataMessage(bytePacket, 4);
+                    //break;
                 case IncomingCommCommands.DNPMessage5: //AO
-                    this.dNPDataMessage(bytePacket, 5);
+                    if (this.dNPDIGITALGRIDData == null)
+                        return;
+
+                    this.dNPDataMessage(bytePacket, command == IncomingCommCommands.DNPMessage1 ? 1 :
+                                                    command == IncomingCommCommands.DNPMessage2 ? 2 :
+                                                    command == IncomingCommCommands.DNPMessage3 ? 3 :
+                                                    command == IncomingCommCommands.DNPMessage4 ? 4 : 5);
                     break;
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
