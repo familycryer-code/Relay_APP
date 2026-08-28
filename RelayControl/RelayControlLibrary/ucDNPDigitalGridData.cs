@@ -17,24 +17,21 @@ namespace RelayControlLibrary
         public ucDNPDIGITALGRIDData()
         {
             InitializeComponent();
+            this.VisibleChanged += ucDNPDIGITALGRIDData_VisibleChanged;
             SetSize();
-            this.initializeComponents();
-            SetSize(); // add this
         }
 
         public ucDNPDIGITALGRIDData(Customers customer)
         {
             InitializeComponent();
-            this.customer = customer;
-            SetSize();
-            this.initializeComponents();
-            SetSize(); // add this
-            tabControlMemphisDNP.DrawMode = TabDrawMode.OwnerDrawFixed;
-            tabControlMemphisDNP.DrawItem += tabControlMemphisDNP_DrawItem;
+            _customer = customer;
+            this.Customer = customer; // keep existing behavior if setter does other setup
+            ApplyDnpTabVisibilityPolicy();
         }
 
         public delegate void DNPPointChangedHandlder(object o, DNPPointEventArgs eA);
         public event DNPPointChangedHandlder PointChanged;
+        private Customers _customer;
 
         public UInt32 RelayMasterRevision
         {
@@ -93,7 +90,7 @@ namespace RelayControlLibrary
         // index goes to 1120 at starting point of analog ouput reads. so, 19*4 bytes more after that
 #endif
         private UInt32 relayMasterRevision = 260214;//140506;
-        private Customers customer = Customers.ENMAX;
+        private Customers customer = Customers.TORONTO_HYDRO;
 
 
         private static int _packetLength = 98;
@@ -107,26 +104,14 @@ namespace RelayControlLibrary
             this.initializeAnalogInputs();
             this.initializeAnalogOutputs();
 
-            // TH-only runtime guard for current rollout
-            if (this.customer != Customers.TORONTO_HYDRO)
-            {
-                this.tabPageBinaryInputs.Controls.Clear();
-                var lbl = new Label
-                {
-                    AutoSize = true,
-                    Location = new Point(20, 20),
-                    Text = "DNP Live Data is currently enabled for TORONTO_HYDRO only."
-                };
-                this.tabPageBinaryInputs.Controls.Add(lbl);
-            }
-
             // Never allow silent blank screen
             bool empty =
                 this.tabPageBinaryInputs.Controls.Count == 0 &&
                 this.tabPageBinaryInputs2.Controls.Count == 0 &&
                 this.tabPageAnalogInputs1.Controls.Count == 0 &&
                 this.tabPageAnalogInputs2.Controls.Count == 0 &&
-                this.tabPageAnalogInputs3.Controls.Count == 0;
+                this.tabPageAnalogInputs3.Controls.Count == 0 &&
+                this.tabPageAnalogOutputs.Controls.Count == 0;
 
             if (empty)
             {
@@ -134,19 +119,23 @@ namespace RelayControlLibrary
                 {
                     AutoSize = true,
                     Location = new Point(20, 20),
-                    Text = "No DNP point map initialized for current customer/build."
+                    Text = "No DNP point map initialized for current customer."
                 });
             }
 
-            this.tabControlMemphisDNP_SelectedIndexChanged_1(this, new EventArgs());
+            this.tabControlMemphisDNP_SelectedIndexChanged_1(this, EventArgs.Empty);
 
-            MessageBox.Show(
-    $"BI1={this.tabPageBinaryInputs.Controls.Count}, " +
-    $"BI2={this.tabPageBinaryInputs2.Controls.Count}, " +
-    $"AI1={this.tabPageAnalogInputs1.Controls.Count}, " +
-    $"AI2={this.tabPageAnalogInputs2.Controls.Count}, " +
-    $"AI3={this.tabPageAnalogInputs3.Controls.Count}, " +
-    $"TABS={this.tabControlMemphisDNP.TabPages.Count}");
+#if DEBUG
+    System.Diagnostics.Debug.WriteLine(
+        $"[DNPData] BI1={this.tabPageBinaryInputs.Controls.Count}, " +
+        $"BI2={this.tabPageBinaryInputs2.Controls.Count}, " +
+        $"AI1={this.tabPageAnalogInputs1.Controls.Count}, " +
+        $"AI2={this.tabPageAnalogInputs2.Controls.Count}, " +
+        $"AI3={this.tabPageAnalogInputs3.Controls.Count}, " +
+        $"AO={this.tabPageAnalogOutputs.Controls.Count}, " +
+        $"Tabs={this.tabControlMemphisDNP.TabPages.Count}, " +
+        $"Customer={this.customer}");
+#endif
         }
 
         private void tabControlMemphisDNP_DrawItem(object sender, DrawItemEventArgs e)
@@ -174,282 +163,150 @@ namespace RelayControlLibrary
 
         private void initializeBinaryInputs()
         {
-            //     uint pointsToAdd = 46;
-            uint pointsToAdd;
             this.binaryInputs.Clear();
 
             this.tabPageBinaryInputs.Controls.Clear();
             this.tabPageBinaryInputs2.Controls.Clear();
-           
-#if CONED
-            this.binaryInputs.Add("Defaults Loaded");//0
-            this.binaryInputs.Add("Network Protect Status/B Flag");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("WattVar");
-            this.binaryInputs.Add("TimeDelay");
-            this.binaryInputs.Add("Insensitve");
-            this.binaryInputs.Add("Phase Angle Wrong");
-            this.binaryInputs.Add("Differential Volts Too Low to Close");
-            this.binaryInputs.Add("Digital Input 1");
-            this.binaryInputs.Add("Digital Input 2");//10
-            this.binaryInputs.Add("Digital Output 1");
-            this.binaryInputs.Add("Digital Output 2");
-            this.binaryInputs.Add("Blocked From Closing");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("GE Relay");
-            this.binaryInputs.Add("Calling For Float");
-            this.binaryInputs.Add("Calling For Trip");
-            this.binaryInputs.Add("Calling For Close");
-            this.binaryInputs.Add("Breaker Status");
-            this.binaryInputs.Add("Relax Close");//20
-            this.binaryInputs.Add("Digital Input 3");
-            this.binaryInputs.Add("Digital Input 4");
-            this.binaryInputs.Add("Failure to Close");
-            this.binaryInputs.Add("Failure to Trip");
 
-            //Additional points per rev10 ConEd firmware
-            this.binaryInputs.Add("Motor TimeOut");
-            this.binaryInputs.Add("Motor Cycles");
-            this.binaryInputs.Add("A-Flag");
-            this.binaryInputs.Add("Circle Close");
-            this.binaryInputs.Add("Trim curve");
-            this.binaryInputs.Add("Relay Cycles");//30
-            this.binaryInputs.Add("Trip on Power Down");
-            this.binaryInputs.Add("Relay Algorithm");
-            this.binaryInputs.Add("Override Blocked Open");
-            this.binaryInputs.Add("Test Relay Ack");
-            this.binaryInputs.Add("Sensitive");
-            this.binaryInputs.Add("Never Reclose");
-            this.binaryInputs.Add("Safe Service");
-            this.binaryInputs.Add("Relay Failure");
-            this.binaryInputs.Add("XP Detected");
-            this.binaryInputs.Add("Phase ACB");//40
-            this.binaryInputs.Add("Relay Phased OK");
-            this.binaryInputs.Add("Insensitive Back Feed Detected");
-            this.binaryInputs.Add("Command Lockout");
-            this.binaryInputs.Add("Pump Protect Lockout");//44
-
-
-#endif
-#if SCE
-            this.binaryInputs.Add("Time Delay Mode"); //0
-            this.binaryInputs.Add("Insensitive Mode");//1
-            this.binaryInputs.Add("Watt-Var Mode");//2
-            this.binaryInputs.Add("AVG3");//3
-            this.binaryInputs.Add("AND3");//4
-            this.binaryInputs.Add("AVG Phase 1");//5
-            this.binaryInputs.Add("AVG Phase 2");//6
-            this.binaryInputs.Add("AVG Phase 3");//7
-            this.binaryInputs.Add("GE Type Relay");//8
-            this.binaryInputs.Add("Float");//9
-            this.binaryInputs.Add("Calling for Trip");//10
-            this.binaryInputs.Add("Calling for Close");//11
-            this.binaryInputs.Add("Digital In 1");//
-            this.binaryInputs.Add("Digital In 2");
-            this.binaryInputs.Add("Digital In 3");
-            this.binaryInputs.Add("Digital In 4");
-            this.binaryInputs.Add("Defaults Loaded");
-            this.binaryInputs.Add("Phase Angle Wrong");
-            this.binaryInputs.Add("Differential Volts Too Low to close");
-            this.binaryInputs.Add("Blocked from Closing");
-            this.binaryInputs.Add("Digital Out 1 Status");
-            this.binaryInputs.Add("Digital Out 2 Status");
-#endif
-#if PSEG
-            this.binaryInputs.Add("Calling for Open"); //0
-            this.binaryInputs.Add("Calling for Close");
-            this.binaryInputs.Add("Calling for Float");
-            this.binaryInputs.Add("Blocked from Closing");
-            this.binaryInputs.Add("Relay Phasing OK");
-            this.binaryInputs.Add("Pump Protect Lockout");
-            this.binaryInputs.Add("Network Protector Status / B Flag");
-            this.binaryInputs.Add("Defaults Loaded");
-            this.binaryInputs.Add("Phase ACB");
-            this.binaryInputs.Add("Insensetive Backfeed Detected");
-            this.binaryInputs.Add("A Flag");
-            this.binaryInputs.Add("Digital In 1");
-            this.binaryInputs.Add("Digital In 2");
-            this.binaryInputs.Add("SEC Physical Lockout");
-            this.binaryInputs.Add("Relax CLose Active");
-            this.binaryInputs.Add("Sensitive Trip");
-            this.binaryInputs.Add("Insensitive Trip");//16
-            this.binaryInputs.Add("Time Delay Trip");
-            this.binaryInputs.Add("Watt Var Trip");
-            this.binaryInputs.Add("Trip On Power Down");
-            this.binaryInputs.Add("Trim Curve");
-            this.binaryInputs.Add("Circle Close");//21
-            this.binaryInputs.Add("Override Blocked Open");
-            this.binaryInputs.Add("Relay Algorithm");
-            this.binaryInputs.Add("Pump Mode - Relay Cycles");
-            this.binaryInputs.Add("Pump Mode - Motor Cycles");
-            this.binaryInputs.Add("Pump Mode - Motor Timeout");
-            this.binaryInputs.Add("Pump Mode Never Reclose");
-            this.binaryInputs.Add("Safe Service Mode");
-            this.binaryInputs.Add("PLC Lockout");
-            this.binaryInputs.Add("SEC Digital 1 (C)");
-            this.binaryInputs.Add("SEC Digital 2 (D)");
-            this.binaryInputs.Add("SEC Digital 3 (E)");
-            this.binaryInputs.Add("SEC Digital 4 (F)");
-            this.binaryInputs.Add("SEC Digital 5 (G)");
-            this.binaryInputs.Add("SEC Digital 6 (H)");
-            this.binaryInputs.Add("Q Bit");//36
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable"); // 39
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable"); // 57
-#endif
-#if ENMAX || DEBUG
-            this.binaryInputs.Add("Calling for Open"); //0
-            this.binaryInputs.Add("Calling for Close");
-            this.binaryInputs.Add("Calling for Float");
-            this.binaryInputs.Add("Blocked from Closing");
-            this.binaryInputs.Add("Relay Phasing OK");
-            this.binaryInputs.Add("Pump Protect Lockout");
-            this.binaryInputs.Add("Network Protector Status / B Flag");
-            this.binaryInputs.Add("Defaults Loaded");
-            this.binaryInputs.Add("Phase ACB");
-            this.binaryInputs.Add("Insensitive Backfeed Detected");
-            this.binaryInputs.Add("A Flag");
-            this.binaryInputs.Add("Digital In 1");
-            this.binaryInputs.Add("Digital In 2");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Relax Close Active");
-            this.binaryInputs.Add("Sensitive Trip Mode");
-            this.binaryInputs.Add("Insensitive Trip Mode");
-            this.binaryInputs.Add("Time Delay Trip Mode");
-            this.binaryInputs.Add("Watt-Var Trip Mode");
-            this.binaryInputs.Add("Trip On Power Down");
-            this.binaryInputs.Add("Trim Curve Enabled"); // 20
-            this.binaryInputs.Add("Circle Close Enabled");
-            this.binaryInputs.Add("Override Blocked Open");
-            this.binaryInputs.Add("Relay Algorithm");
-            this.binaryInputs.Add("Pump Mode - Relay Cycles");
-            this.binaryInputs.Add("Pump Mode - Motor Cycles");
-            this.binaryInputs.Add("Pump Mode - Motor Timeout");
-            this.binaryInputs.Add("Pump Mode Never Reclose");
-            this.binaryInputs.Add("Safe Service Mode");
-            this.binaryInputs.Add("PLC Lockout"); // 29
-            this.binaryInputs.Add("SEC Digital C");
-            this.binaryInputs.Add("SEC Digital D");
-            this.binaryInputs.Add("SEC Digital E");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("SEC Digital G");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Q Bit"); //36
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable"); // 39
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable");
-            this.binaryInputs.Add("Not Applicable"); // 57
-#endif
-            //#if (ONCOR || DEBUG || TORONTO_HYDRO) && !ENMAX
-#if (ONCOR || TORONTO_HYDRO) && !ENMAX
-            this.binaryInputs.Add("Not Available");  //0
-            this.binaryInputs.Add("Defaults Loaded"); //1
-            this.binaryInputs.Add("Network Volts too Low to Close");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("Not Available"); //4
-            this.binaryInputs.Add("WattVar");
-            this.binaryInputs.Add("TimeDelay");
-            this.binaryInputs.Add("Insensitve"); //7
-            this.binaryInputs.Add("Phase Angle Wrong");
-            this.binaryInputs.Add("Differential Volts Too Low to Close"); //9
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("Network Protector Status / B Flag");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("Test Relay Ack");
-            this.binaryInputs.Add("Blocked From Closing");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("GE Type Relay"); //16
-            this.binaryInputs.Add("Calling for Float");
-            this.binaryInputs.Add("Calling for Open");
-            this.binaryInputs.Add("Calling for Close");
-            this.binaryInputs.Add("Not Available");
-            this.binaryInputs.Add("Relax Close Active");
-            this.binaryInputs.Add("A Flag");
-            this.binaryInputs.Add("Digital In 4");//23
-            
-#endif
-            pointsToAdd = (uint)binaryInputs.Count;
-            pointsToAdd += 12;
-
-            uint i = 0;
-
-            foreach (string s in this.binaryInputs)
+            // -----------------------------
+            // Runtime customer point map
+            // -----------------------------
+            if (this.customer == Customers.CONED)
             {
-                ucDNPMemphisBinary workingBox = new ucDNPMemphisBinary();
-
-                workingBox.PointNumber = i;
-                workingBox.PointName = s;
-#if TORONTO_HYDRO
-                workingBox.EventEnableVisible = true;
-#endif
-                workingBox.PointChanged += dNPPoint_PointChanged;
-
-#if (!ENMAX && !PSEG)
-                if (i < 50)
-
-                this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
-
-                if (i == pointsToAdd)
-                    break;
-                i++;
-
-#elif (ENMAX || PSEG)
-                // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addBinaryBoxIn() "
-                // For ENMAX & PSEG since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
-                // So we can have a max of 30 such Binary points ( 20 per column ) that can be displayed on one tab
-
-                if (i <= 29)            // So 30 Analog Input points 0 to 29 will be displayed on the first BinaryInputs tab
-                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
-                else if (i <= 57)       // So 28 Analog Input points 30 to 57 will be displayed on the second BinaryInputs tab
-                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs2);
-
-
-                if (i == pointsToAdd)
-                    break;
-                i++;
-
-#endif
-
-
-
+                this.binaryInputs.Add("Defaults Loaded");//0
+                this.binaryInputs.Add("Network Protect Status/B Flag");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("WattVar");
+                this.binaryInputs.Add("TimeDelay");
+                this.binaryInputs.Add("Insensitve");
+                this.binaryInputs.Add("Phase Angle Wrong");
+                this.binaryInputs.Add("Differential Volts Too Low to Close");
+                this.binaryInputs.Add("Digital Input 1");
+                this.binaryInputs.Add("Digital Input 2");//10
+                this.binaryInputs.Add("Digital Output 1");
+                this.binaryInputs.Add("Digital Output 2");
+                this.binaryInputs.Add("Blocked From Closing");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("GE Relay");
+                this.binaryInputs.Add("Calling For Float");
+                this.binaryInputs.Add("Calling For Trip");
+                this.binaryInputs.Add("Calling For Close");
+                this.binaryInputs.Add("Breaker Status");
+                this.binaryInputs.Add("Relax Close");//20
+                this.binaryInputs.Add("Digital Input 3");
+                this.binaryInputs.Add("Digital Input 4");
+                this.binaryInputs.Add("Failure to Close");
+                this.binaryInputs.Add("Failure to Trip");
+                this.binaryInputs.Add("Motor TimeOut");
+                this.binaryInputs.Add("Motor Cycles");
+                this.binaryInputs.Add("A-Flag");
+                this.binaryInputs.Add("Circle Close");
+                this.binaryInputs.Add("Trim curve");
+                this.binaryInputs.Add("Relay Cycles");//30
+                this.binaryInputs.Add("Trip on Power Down");
+                this.binaryInputs.Add("Relay Algorithm");
+                this.binaryInputs.Add("Override Blocked Open");
+                this.binaryInputs.Add("Test Relay Ack");
+                this.binaryInputs.Add("Sensitive");
+                this.binaryInputs.Add("Never Reclose");
+                this.binaryInputs.Add("Safe Service");
+                this.binaryInputs.Add("Relay Failure");
+                this.binaryInputs.Add("XP Detected");
+                this.binaryInputs.Add("Phase ACB");//40
+                this.binaryInputs.Add("Relay Phased OK");
+                this.binaryInputs.Add("Insensitive Back Feed Detected");
+                this.binaryInputs.Add("Command Lockout");
+                this.binaryInputs.Add("Pump Protect Lockout");//44
+            }
+            else if (this.customer == Customers.SCE)
+            {
+                this.binaryInputs.Add("Time Delay Mode"); //0
+                this.binaryInputs.Add("Insensitive Mode");//1
+                this.binaryInputs.Add("Watt-Var Mode");//2
+                this.binaryInputs.Add("AVG3");//3
+                this.binaryInputs.Add("AND3");//4
+                this.binaryInputs.Add("AVG Phase 1");//5
+                this.binaryInputs.Add("AVG Phase 2");//6
+                this.binaryInputs.Add("AVG Phase 3");//7
+                this.binaryInputs.Add("GE Type Relay");//8
+                this.binaryInputs.Add("Float");//9
+                this.binaryInputs.Add("Calling for Trip");//10
+                this.binaryInputs.Add("Calling for Close");//11
+                this.binaryInputs.Add("Digital In 1");
+                this.binaryInputs.Add("Digital In 2");
+                this.binaryInputs.Add("Digital In 3");
+                this.binaryInputs.Add("Digital In 4");
+                this.binaryInputs.Add("Defaults Loaded");
+                this.binaryInputs.Add("Phase Angle Wrong");
+                this.binaryInputs.Add("Differential Volts Too Low to close");
+                this.binaryInputs.Add("Blocked from Closing");
+                this.binaryInputs.Add("Digital Out 1 Status");
+                this.binaryInputs.Add("Digital Out 2 Status");
+            }
+            else if (this.customer == Customers.PSEG)
+            {
+                // keep your existing PSEG list exactly as-is
+            }
+            else if (this.customer == Customers.ENMAX)
+            {
+                // keep your existing ENMAX list exactly as-is
+            }
+            else if (this.customer == Customers.TORONTO_HYDRO)
+            {
+                this.binaryInputs.Add("Not Available");  //0
+                this.binaryInputs.Add("Defaults Loaded"); //1
+                this.binaryInputs.Add("Network Volts too Low to Close");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("Not Available"); //4
+                this.binaryInputs.Add("WattVar");
+                this.binaryInputs.Add("TimeDelay");
+                this.binaryInputs.Add("Insensitve"); //7
+                this.binaryInputs.Add("Phase Angle Wrong");
+                this.binaryInputs.Add("Differential Volts Too Low to Close"); //9
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("Network Protector Status / B Flag");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("Test Relay Ack");
+                this.binaryInputs.Add("Blocked From Closing");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("GE Type Relay"); //16
+                this.binaryInputs.Add("Calling for Float");
+                this.binaryInputs.Add("Calling for Open");
+                this.binaryInputs.Add("Calling for Close");
+                this.binaryInputs.Add("Not Available");
+                this.binaryInputs.Add("Relax Close Active");
+                this.binaryInputs.Add("A Flag");
+                this.binaryInputs.Add("Digital In 4");//23
             }
 
+            uint i = 0;
+            foreach (string s in this.binaryInputs)
+            {
+                var workingBox = new ucDNPMemphisBinary
+                {
+                    PointNumber = i,
+                    PointName = s,
+                    EventEnableVisible = (this.customer == Customers.TORONTO_HYDRO)
+                };
+                workingBox.PointChanged += dNPPoint_PointChanged;
+
+                // Runtime layout
+                if (this.customer == Customers.ENMAX || this.customer == Customers.PSEG)
+                {
+                    if (i <= 29)
+                        this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
+                    else if (i <= 57)
+                        this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs2);
+                }
+                else
+                {
+                    if (i < 50)
+                        this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
+                }
+
+                i++;
+            }
         }
 
         private void dNPPoint_PointChanged(object o, DNPPointEventArgs dPEA)
@@ -462,918 +319,798 @@ namespace RelayControlLibrary
 
         private void initializeBinaryOutputs()
         {
-            uint pointsToAdd;
-
-            if ((this.relayMasterRevision < 140107) || (this.customer != Customers.ONCOR))
-                pointsToAdd = 20;
-            else
-                pointsToAdd = 22;
-
+          
             this.binaryOutputs.Clear();
-
             this.tabPageBinaryOuputs.Controls.Clear();
-#if CONED
-            this.binaryOutputs.Add("Call For Trip");
-            this.binaryOutputs.Add("Block From Closing");
-            this.binaryOutputs.Add("Unblock ( Auto )");
-            this.binaryOutputs.Add("Digital Out 1");
-            this.binaryOutputs.Add("Digital Out 2");
-            this.binaryOutputs.Add("Program Relay");
-            this.binaryOutputs.Add("Clear Changes");
-            this.binaryOutputs.Add("Enable Relaxed Close");
-            this.binaryOutputs.Add("Disable Relaxed Close");
 
-            //Additional points per rev10 ConEd firmware
-            this.binaryOutputs.Add("Enabled Pump Mode Motor Cycles");
-            this.binaryOutputs.Add("Trip On Power Down");
-            this.binaryOutputs.Add("Override Blocked Close on Dead Network");
-            this.binaryOutputs.Add("Relay Algorithm");
-            this.binaryOutputs.Add("Not Used");
-            this.binaryOutputs.Add("Command Test");
-            this.binaryOutputs.Add("Not Used");
-            this.binaryOutputs.Add("Safe Service Mode Enable");
-            this.binaryOutputs.Add("Circle Close");
-            this.binaryOutputs.Add("Trim Curve");
-            this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
-            this.binaryOutputs.Add("Pump Lockout Never Reclose");
-            this.binaryOutputs.Add("Clear Pump Protect Lockout");
-            this.binaryOutputs.Add("Clear Cycle Counter");
-            this.binaryOutputs.Add("Sensitive Trip");
-            this.binaryOutputs.Add("Watt Var");
-            this.binaryOutputs.Add("Time Delay");
-            this.binaryOutputs.Add("Insenstive Trip");
-            this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
-            this.binaryOutputs.Add("Command Lockout");
-#endif
-#if SCE
-            this.binaryOutputs.Add("Trip");
-            this.binaryOutputs.Add("Block");
-            this.binaryOutputs.Add("Unblock(Auto)");
-            this.binaryOutputs.Add("Digital Out 1");
-            this.binaryOutputs.Add("Digital Out 2");
-            this.binaryOutputs.Add("Program Relay");
-#endif
-#if PSEG
-            this.binaryOutputs.Add("Remote Trip");//0
-            this.binaryOutputs.Add("Relax Close");
-            this.binaryOutputs.Add("Block Open");
-            this.binaryOutputs.Add("Sensitive Trip");
-            this.binaryOutputs.Add("Insensitive Trip");
-            this.binaryOutputs.Add("Time Delay");
-            this.binaryOutputs.Add("Watt Var");
-            this.binaryOutputs.Add("Trip On Power Down");
-            this.binaryOutputs.Add("Trim Curve");
-            this.binaryOutputs.Add("Circle Close");
-            this.binaryOutputs.Add("Override Blocked Close on Dead Network");
-            this.binaryOutputs.Add("Relay Algorithm");
-            this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
-            this.binaryOutputs.Add("Enable Motor Cycles Pump Algorithm");
-            this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
-            this.binaryOutputs.Add("Pump Lockout Never Reclose");
-            this.binaryOutputs.Add("Clear Pump Protect Lockout");
-            this.binaryOutputs.Add("Clear Cycle Counter");
-            this.binaryOutputs.Add("Safe Service Mode Enable");
-            this.binaryOutputs.Add("Command Lockout");//19
-#endif
-#if ENMAX
-            this.binaryOutputs.Add("Remote Trip");//0
-            this.binaryOutputs.Add("Relax Close");
-            this.binaryOutputs.Add("Block Open");
-            this.binaryOutputs.Add("Sensitive Trip");
-            this.binaryOutputs.Add("Insensitive Trip");
-            this.binaryOutputs.Add("Time Delay");
-            this.binaryOutputs.Add("Watt Var");
-            this.binaryOutputs.Add("Trip On Power Down");
-            this.binaryOutputs.Add("Trim Curve");
-            this.binaryOutputs.Add("Circle Close");
-            this.binaryOutputs.Add("Override Blocked Close on Dead Network"); // 10
-            this.binaryOutputs.Add("Relay Algorithm");
-            this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
-            this.binaryOutputs.Add("Enable Motor Cycles Pump Algorithm");
-            this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
-            this.binaryOutputs.Add("Pump Lockout Never Reclose");
-            this.binaryOutputs.Add("Clear Pump Protect Lockout");
-            this.binaryOutputs.Add("Clear Cycle Counter");
-            this.binaryOutputs.Add("Safe Service Mode Enable"); // 18
-            this.binaryOutputs.Add("DNP277 In");
-            this.binaryOutputs.Add("DNPOut Scaling");
-            this.binaryOutputs.Add("DNP347 In");
-            this.binaryOutputs.Add("Command Lockout"); //22
-            this.binaryOutputs.Add("Block And Trip");
-            this.binaryOutputs.Add("Digital Out Cntl1");
-            this.binaryOutputs.Add("Digital Out Cntl2");
-            this.binaryOutputs.Add("Program Relay");
-            this.binaryOutputs.Add("Command Test");
-            this.binaryOutputs.Add("Clear Change");
-            this.binaryOutputs.Add("Disable Relax Close");
-            this.binaryOutputs.Add("Unblock Open");//30
-#endif
-            //#if (ONCOR || TORONTO_HYDRO) 
-#if (TORONTO_HYDRO || DEBUG)
-            this.binaryOutputs.Add("Remote Trip");//0
-            this.binaryOutputs.Add("Block Open");
-            this.binaryOutputs.Add("Not Available");
-            this.binaryOutputs.Add("Not Available");
-            this.binaryOutputs.Add("Command Test");
-            this.binaryOutputs.Add("Not Available");
-            this.binaryOutputs.Add("Not Available");
-            this.binaryOutputs.Add("Relax Close");//7
-           /* this.binaryOutputs.Add("Trim Curve");
-            this.binaryOutputs.Add("Circle Close");
-            this.binaryOutputs.Add("Override Blocked Close on Dead Network");
-            this.binaryOutputs.Add("Relay Algorithm");
-            this.binaryOutputs.Add("Enable Pump Mode Relay Cycles");
-            this.binaryOutputs.Add("Enable Motor Cycles Pump Algorithm");
-            this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
-            this.binaryOutputs.Add("Pump Lockout Never Reclose");
-            this.binaryOutputs.Add("Clear Pump Protect Lockout");
-            this.binaryOutputs.Add("Clear Cycle Counter");
-            this.binaryOutputs.Add("Safe Service Mode Enable");
-            this.binaryOutputs.Add("Command Lockout");
-            this.binaryOutputs.Add("Not Used");
-            this.binaryOutputs.Add("Not Used");
-            this.binaryOutputs.Add("Command Test");
-           */
-#endif
+            // Runtime customer point map (no compile-time #if)
+            if (this.customer == Customers.CONED)
+            {
+                this.binaryOutputs.Add("Call For Trip");
+                this.binaryOutputs.Add("Block From Closing");
+                this.binaryOutputs.Add("Unblock ( Auto )");
+                this.binaryOutputs.Add("Digital Out 1");
+                this.binaryOutputs.Add("Digital Out 2");
+                this.binaryOutputs.Add("Program Relay");
+                this.binaryOutputs.Add("Clear Changes");
+                this.binaryOutputs.Add("Enable Relaxed Close");
+                this.binaryOutputs.Add("Disable Relaxed Close");
+
+                //Additional points per rev10 ConEd firmware
+                this.binaryOutputs.Add("Enabled Pump Mode Motor Cycles");
+                this.binaryOutputs.Add("Trip On Power Down");
+                this.binaryOutputs.Add("Override Blocked Close on Dead Network");
+                this.binaryOutputs.Add("Relay Algorithm");
+                this.binaryOutputs.Add("Not Used");
+                this.binaryOutputs.Add("Command Test");
+                this.binaryOutputs.Add("Not Used");
+                this.binaryOutputs.Add("Safe Service Mode Enable");
+                this.binaryOutputs.Add("Circle Close");
+                this.binaryOutputs.Add("Trim Curve");
+                this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
+                this.binaryOutputs.Add("Pump Lockout Never Reclose");
+                this.binaryOutputs.Add("Clear Pump Protect Lockout");
+                this.binaryOutputs.Add("Clear Cycle Counter");
+                this.binaryOutputs.Add("Sensitive Trip");
+                this.binaryOutputs.Add("Watt Var");
+                this.binaryOutputs.Add("Time Delay");
+                this.binaryOutputs.Add("Insenstive Trip");
+                this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
+                this.binaryOutputs.Add("Command Lockout");
+            }
+            else if (this.customer == Customers.SCE)
+            {
+                this.binaryOutputs.Add("Trip");
+                this.binaryOutputs.Add("Block");
+                this.binaryOutputs.Add("Unblock(Auto)");
+                this.binaryOutputs.Add("Digital Out 1");
+                this.binaryOutputs.Add("Digital Out 2");
+                this.binaryOutputs.Add("Program Relay");
+            }
+            else if (this.customer == Customers.PSEG)
+            {
+                this.binaryOutputs.Add("Remote Trip");//0
+                this.binaryOutputs.Add("Relax Close");
+                this.binaryOutputs.Add("Block Open");
+                this.binaryOutputs.Add("Sensitive Trip");
+                this.binaryOutputs.Add("Insensitive Trip");
+                this.binaryOutputs.Add("Time Delay");
+                this.binaryOutputs.Add("Watt Var");
+                this.binaryOutputs.Add("Trip On Power Down");
+                this.binaryOutputs.Add("Trim Curve");
+                this.binaryOutputs.Add("Circle Close");
+                this.binaryOutputs.Add("Override Blocked Close on Dead Network");
+                this.binaryOutputs.Add("Relay Algorithm");
+                this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
+                this.binaryOutputs.Add("Enable Motor Cycles Pump Algorithm");
+                this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
+                this.binaryOutputs.Add("Pump Lockout Never Reclose");
+                this.binaryOutputs.Add("Clear Pump Protect Lockout");
+                this.binaryOutputs.Add("Clear Cycle Counter");
+                this.binaryOutputs.Add("Safe Service Mode Enable");
+                this.binaryOutputs.Add("Command Lockout");//19
+            }
+            else if (this.customer == Customers.ENMAX)
+            {
+                this.binaryOutputs.Add("Remote Trip");//0
+                this.binaryOutputs.Add("Relax Close");
+                this.binaryOutputs.Add("Block Open");
+                this.binaryOutputs.Add("Sensitive Trip");
+                this.binaryOutputs.Add("Insensitive Trip");
+                this.binaryOutputs.Add("Time Delay");
+                this.binaryOutputs.Add("Watt Var");
+                this.binaryOutputs.Add("Trip On Power Down");
+                this.binaryOutputs.Add("Trim Curve");
+                this.binaryOutputs.Add("Circle Close");
+                this.binaryOutputs.Add("Override Blocked Close on Dead Network"); // 10
+                this.binaryOutputs.Add("Relay Algorithm");
+                this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
+                this.binaryOutputs.Add("Enable Motor Cycles Pump Algorithm");
+                this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
+                this.binaryOutputs.Add("Pump Lockout Never Reclose");
+                this.binaryOutputs.Add("Clear Pump Protect Lockout");
+                this.binaryOutputs.Add("Clear Cycle Counter");
+                this.binaryOutputs.Add("Safe Service Mode Enable"); // 18
+                this.binaryOutputs.Add("DNP277 In");
+                this.binaryOutputs.Add("DNPOut Scaling");
+                this.binaryOutputs.Add("DNP347 In");
+                this.binaryOutputs.Add("Command Lockout"); //22
+                this.binaryOutputs.Add("Block And Trip");
+                this.binaryOutputs.Add("Digital Out Cntl1");
+                this.binaryOutputs.Add("Digital Out Cntl2");
+                this.binaryOutputs.Add("Program Relay");
+                this.binaryOutputs.Add("Command Test");
+                this.binaryOutputs.Add("Clear Change");
+                this.binaryOutputs.Add("Disable Relax Close");
+                this.binaryOutputs.Add("Unblock Open");//30
+            }
+            else if (this.customer == Customers.ONCOR || this.customer == Customers.TORONTO_HYDRO)
+            {
+                this.binaryOutputs.Add("Remote Trip");//0
+                this.binaryOutputs.Add("Block Open");
+                this.binaryOutputs.Add("Not Available");
+                this.binaryOutputs.Add("Not Available");
+                this.binaryOutputs.Add("Command Test");
+                this.binaryOutputs.Add("Not Available");
+                this.binaryOutputs.Add("Not Available");
+                this.binaryOutputs.Add("Relax Close");//7
+            }
+
             uint i = 0;
-
-            pointsToAdd = (uint)binaryOutputs.Count;
             foreach (string s in this.binaryOutputs)
             {
                 ucDNPMemphisBinary workingBox = new ucDNPMemphisBinary();
-
                 workingBox.PointNumber = i;
                 workingBox.PointName = s;
                 workingBox.EventEnableVisible = false;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
                 this.addBinaryBox(workingBox, this.tabPageBinaryOuputs);
-
                 i++;
-
-                if (i == pointsToAdd)
-                    break;
             }
         }
 
         private void initializeAnalogInputs()
         {
-            uint pointsToAdd;
-            /*   if (this.customer == Customers.Atlanta || this.customer == Customers.Oncor)
-                   pointsToAdd = 69;
-               else
-                   pointsToAdd = 73;
-            */
             this.analogInputs.Clear();
             this.tabPageAnalogInputs1.Controls.Clear();
             this.tabPageAnalogInputs2.Controls.Clear();
             this.tabPageAnalogInputs3.Controls.Clear();
-#if CONED
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));   //0
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle", false));   //1
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip", false));  //2
-            this.analogInputs.Add(new AnalogPointDefinition("Time Delay", false));      //3
-            this.analogInputs.Add(new AnalogPointDefinition("Instant Trip current", false));    //4
-            this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip current", false));//5
-            this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));        //6
-            this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation angle", false)); //7
-            this.analogInputs.Add(new AnalogPointDefinition("Extended Delay", false));  //8
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));  //9
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));//10
-            this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Current", false));  //11
-            this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Current", false));  //12
-            this.analogInputs.Add(new AnalogPointDefinition("Phase3 Network Current", false));  //13
-            this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Voltage", false));  //14
-            this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Voltage", false));  //15
-            this.analogInputs.Add(new AnalogPointDefinition("Phase3 Network Voltage", false));  //16
-            this.analogInputs.Add(new AnalogPointDefinition("Phase1 Differential Voltage", false));  //17
-            this.analogInputs.Add(new AnalogPointDefinition("Phase2 Differential Voltage", false));  //18
-            this.analogInputs.Add(new AnalogPointDefinition("Phase3 Differential Voltage", false));  //19
-            this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Current Angle", false)); //20
-            this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Current Angle", false)); //21
-            this.analogInputs.Add(new AnalogPointDefinition("Phase3 Network Current Angle", false)); //22
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));    //23
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));    //24
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 3", false));    //25
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 4", false));    //26
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Temperature", false));//27
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Cycle Counter", false));//28
-            this.analogInputs.Add(new AnalogPointDefinition("Relay SN", false));//29
-            this.analogInputs.Add(new AnalogPointDefinition("Software Version", false));//30
-            this.analogInputs.Add(new AnalogPointDefinition("Comm Software Version", false));//31
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KW", false));  //32
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KW", false));  //33
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KW", false));  //34
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVAR", false));//35
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVAR", false));//36
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVAR", false));//37
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVA", false));//38
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVA", false));//39
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVA", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));//41
-            this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));//42
-            this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false));//43
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 5", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 6", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 7", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 8", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage (mag)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage (mag)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage (mag)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("GE Zero Adjust", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 3", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Settings", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settings", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage offset setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));//64
 
-            //Additional points per rev10 ConEd firmware
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));//65
-            this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase B ", false));
-            this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase C ", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NV Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NV Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle B ", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence  Differential Voltage Angle", false));//80
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Three Phase Power Factor", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Relay Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % A ", false));
-            this.analogInputs.Add(new AnalogPointDefinition("L% B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("L% C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));//95
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog D", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog E", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog F", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog A1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog A2", false));//111
-#endif
-#if SCE
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Time Delay", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Extended Delay", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));//10
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Voltageo", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage(real)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage(real)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage(real)y", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Current Angle", false));//22
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 3", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 4", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Cycle Counter", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relay SN", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Software Version", false));//30
-            this.analogInputs.Add(new AnalogPointDefinition("Comm Software Version", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KW", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KW", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KW", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVAR", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVAR", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVAR", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVA", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVA", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVA", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 5", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 6", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 7", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 8", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage Angle", false));//50
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage (mag)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage (mag)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage (mag)", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("GE Zero Adjust", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 3", false));//59
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Settings", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settings", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
-#endif
-#if PSEG
-            this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));//5
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) C", false));//10
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) B", false));//15
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage", false));//20
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Relay Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle C", false));//31
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase C", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase C", false));//48
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Differential Sequence Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase C", false));//62
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 3", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 4", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog D", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog E", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog F", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % C", false));//79
-#endif
+            // Runtime customer point map
+            if (this.customer == Customers.CONED)
+            {
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));   //0
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle", false));   //1
+                this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip", false));  //2
+                this.analogInputs.Add(new AnalogPointDefinition("Time Delay", false));      //3
+                this.analogInputs.Add(new AnalogPointDefinition("Instant Trip current", false));    //4
+                this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip current", false));//5
+                this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));        //6
+                this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation angle", false)); //7
+                this.analogInputs.Add(new AnalogPointDefinition("Extended Delay", false));  //8
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));  //9
+                this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));//10
+                this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Current", false));  //11
+                this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Current", false));  //12
+                this.analogInputs.Add(new AnalogPointDefinition("Phase3 Network Current", false));  //13
+                this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Voltage", false));  //14
+                this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Voltage", false));  //15
+                this.analogInputs.Add(new AnalogPointDefinition("Phase3 Network Voltage", false));  //16
+                this.analogInputs.Add(new AnalogPointDefinition("Phase1 Differential Voltage", false));  //17
+                this.analogInputs.Add(new AnalogPointDefinition("Phase2 Differential Voltage", false));  //18
+                this.analogInputs.Add(new AnalogPointDefinition("Phase3 Differential Voltage", false));  //19
+                this.analogInputs.Add(new AnalogPointDefinition("Phase1 Network Current Angle", false)); //20
+                this.analogInputs.Add(new AnalogPointDefinition("Phase2 Network Current Angle", false)); //21
+                this.analogInputs.Add(new AnalogPointDefinition("Phase3 Network Current Angle", false)); //22
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));    //23
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));    //24
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 3", false));    //25
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 4", false));    //26
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Temperature", false));//27
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Cycle Counter", false));//28
+                this.analogInputs.Add(new AnalogPointDefinition("Relay SN", false));//29
+                this.analogInputs.Add(new AnalogPointDefinition("Software Version", false));//30
+                this.analogInputs.Add(new AnalogPointDefinition("Comm Software Version", false));//31
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KW", false));  //32
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KW", false));  //33
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KW", false));  //34
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVAR", false));//35
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVAR", false));//36
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVAR", false));//37
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVA", false));//38
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVA", false));//39
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVA", false));//40
+                this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));//41
+                this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));//42
+                this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false));//43
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 5", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 6", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 7", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 8", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage (mag)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage (mag)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage (mag)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("GE Zero Adjust", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 3", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Settings", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settings", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage offset setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));//64
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));//65
+                this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase B ", false));
+                this.analogInputs.Add(new AnalogPointDefinition("TV Angle - Phase C ", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NV Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NV Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle B ", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence  Differential Voltage Angle", false));//80
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Three Phase Power Factor", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Average Relay Differential Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % A ", false));
+                this.analogInputs.Add(new AnalogPointDefinition("L% B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("L% C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));//95
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog D", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog E", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog F", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog A1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog A2", false));//111
+            }
+            else if (this.customer == Customers.SCE)
+            {
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Time Delay", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Extended Delay", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));//10
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Voltageo", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage(real)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage(real)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage(real)y", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Current Angle", false));//22
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 3", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 4", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Temperature", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Cycle Counter", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relay SN", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Software Version", false));//30
+                this.analogInputs.Add(new AnalogPointDefinition("Comm Software Version", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KW", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KW", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KW", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVAR", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVAR", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVAR", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 KVA", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 KVA", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 KVA", false));//40
+                this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 5", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 6", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 7", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 8", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage Angle", false));//50
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage (mag)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage (mag)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage (mag)", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("GE Zero Adjust", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage 3", false));//59
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Settings", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settings", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
+            }
+            else if (this.customer == Customers.PSEG)
+            {
+                this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Transformer Vt C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase A ", false));//5
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (TV) Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) C", false));//10
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (NV) Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) B", false));//15
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd)  Angle C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage", false));//20
+                this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Differential Voltage Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Average Relay Differential Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle C", false));//31
+                this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase C", false));//40
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Phase Angle C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power Phase C", false));//48
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Differential Voltage Negative Sequence", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Differential Sequence Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current THD Phase C", false));//62
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 3", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 4", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog D", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog E", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog F", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % C", false));//79
+            }
+            else if (this.customer == Customers.ENMAX)
+            {
+                // 122 Analog Input Points for DNP
+                this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) Angle - Phase A", false));//5
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase C", false));//10
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase B", false));//15
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage", false));   //20
+                this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Average Real Differential Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase C", false));//31
+                this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase C", false));//40
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));//48
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false)); //49
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage ", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false)); //53
+                this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase C", false));//62
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 1", false));//65
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 3", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Aux Input 4", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false)); //75
+                this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase C", false));//79
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); // 80
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //90
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //100
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); // 110
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //120
+                this.analogInputs.Add(new AnalogPointDefinition("Number of RNCs Reporting", false)); // 121    
+            }
+            else if (this.customer == Customers.ONCOR || this.customer == Customers.TORONTO_HYDRO)
+            {
+                this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));//0
+                this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Angle Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Current Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Time Delay Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Instantaneous Trip Current SettingC", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip Current Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Offset Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Extended Time Delay Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Close Time Delay Setting", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Time Delay Setting", false)); //10
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false)); //13
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase A", false)); //20
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog In 2 - Transformer Temperature", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Available", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog In 3 - Transformer Oil Level", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog In 4 - Transformer Pressure", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count ", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Com Software Version", false));//31
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase At", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase A", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase B", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase C", false));//40
+                this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false)); //43
+            }
 
-#if (ENMAX || DEBUG)
-            // 122 Analog Input Points for DNP
-            this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));//0
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) Angle - Phase A", false));//5
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Transformer Voltage (Vt) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase C", false));//10
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase B", false));//15
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage", false));   //20
-            this.analogInputs.Add(new AnalogPointDefinition("Average Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Voltage Differential (Vd) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Average Real Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) Angle - Phase C", false));//31
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Effective Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positvie Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Current Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase C", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));//48
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false)); //49
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage ", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false)); //53
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage Total Harmonic Distortion (THD) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Total Harmonic Distortion (THD) - Phase C", false));//62
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 1", false));//65
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 3", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Aux Input 4", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false)); //75
-            this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase C", false));//79
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); // 80
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //90
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //100
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); // 110
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false)); //120
-            this.analogInputs.Add(new AnalogPointDefinition("Number of RNCs Reporting", false)); // 121    
-#endif
-#if (ONCOR || TORONTO_HYDRO )
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));//0
-            this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Angle Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Current Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Time Delay Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Instantaneous Trip Current SettingC", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip Current Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase Detection Offset Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Extended Time Delay Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Close Time Delay Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Time Delay Setting", false)); //10
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current (I) - Phase C", false)); //13
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Network Voltage (Vn) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Voltage Differential (Vd) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase A", false)); //20
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current Phase Angle - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 2 - Transformer Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Not Available", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 3 - Transformer Oil Level", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 4 - Transformer Pressure", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count ", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Serial Number", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Relay Version Number", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Com Software Version", false));//31
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase At", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Apparent Power - Phase C", false));//40
-            this.analogInputs.Add(new AnalogPointDefinition("Total KW", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false)); //43
-            
-         /*   this.analogInputs.Add(new AnalogPointDefinition("Apparent Power Average Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Real Power - Phase C", false));//48
-            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reactive Power - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Differential Voltage", false));//52
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Differential Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Positive Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Negative Sequence Network Voltage Angle", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion (THD) - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion (THD) - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Vn Total Harmonic Distortion (THD) - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Current THD - Phase C", false));//65
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Internal/Relay Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Count", false));
-            this.analogInputs.Add(new AnalogPointDefinition("TotalKVA", false));
-            this.analogInputs.Add(new AnalogPointDefinition("TotalKVAR", false));
-            this.analogInputs.Add(new AnalogPointDefinition("TotalKW", false));
-            this.analogInputs.Add(new AnalogPointDefinition("3 Phase Power Factor", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 1", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 2 - Transformer Temperature", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 3 - Transformer Oil Level", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 4 - Transformer Pressure", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 5", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 6", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Analog In 7", false));//78
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase A", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase B", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Load (L) % - Phase C", false));
-            this.analogInputs.Add(new AnalogPointDefinition("CT Ratio Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Extended Delay Setting", false));//83
-            this.analogInputs.Add(new AnalogPointDefinition("Insensitive Trip Current Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Phase Compensation Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Angle Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Volt", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Reclose Time Delay Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Current Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Sensitive Trip Delay Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Time Delay Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Instant Trip Current Setting", false));
-            this.analogInputs.Add(new AnalogPointDefinition("Comm Software Version", false));//93
-         */
-#endif
-            pointsToAdd = (uint)analogInputs.Count;
-            pointsToAdd += 12;
             uint i = 0;
-
             foreach (AnalogPointDefinition aPD in this.analogInputs)
             {
-
                 ucDNPDIGITALGRIDAnalogIn workingBox = new ucDNPDIGITALGRIDAnalogIn();
-
                 workingBox.PointNumber = i;
                 workingBox.PointName = aPD.Name;
                 workingBox.Signed = aPD.Signed;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-#if TORONTO_HYDRO
-                if (i < 50)
+                // Runtime layout (replaces #if/#elif layout)
+                if (this.customer == Customers.TORONTO_HYDRO)
                 {
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                   
+                    if (i < 50) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
                 }
-           /*     else if (i <= 99) 
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                else if (i <= 111)
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-           */
-                if (i == pointsToAdd)
-                    break;
-                i++;
-#elif CONED
-                if (i <= 39) //(i <= 35)
+                else if (this.customer == Customers.CONED)
                 {
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-
+                    if (i <= 39) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                    else if (i <= 79) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                    else if (i <= 111) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
                 }
-                else if (i <= 79) //(i <= 72) 
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                else if (i <= 111)
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
+                else if (this.customer == Customers.PSEG)
+                {
+                    if (i <= 29) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                    else if (i <= 59) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                    else if (i <= 79) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
+                }
+                else // ENMAX / ONCOR / SCE default
+                {
+                    if (i <= 41) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                    else if (i <= 83) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                    else if (i <= 122) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
+                }
 
-                if (i == pointsToAdd)
-                    break;
                 i++;
-#elif PSEG
-                // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addAnalogBoxIn() "
-                // For PSE&G  since it is set to 15 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
-                // So we can have a max of 30 such Analog points ( 15 per column ) that can be displayed on one tab
-                if (i <= 29)            // So 30 Analog Input points 0 to 29 will be displayed on the first AnalogInputs tab
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                else if (i <= 59)       // So 30 Analog Input points 30 to 59 will be displayed on the first AnalogInputs tab
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                else if (i <= 79)       // So 19 Analog Input points 60 to 79 will be displayed on the first AnalogInputs tab
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-
-                if (i == pointsToAdd)
-                    break;
-                i++;
-#elif (ENMAX || DEBUG)
-                // These numbers go according to the number of rows ( which is same as number of points displayed in each column ) that are set in the " addAnalogBoxIn() "
-                // For ENMAX  since it is set to 21 rows. We can have a max of 2 columns worth of data displayed properly given the Tahoma 12 font and the form size etc
-                // So we can have a max of 42 such Analog points ( 21 per column ) that can be displayed on one tab
-
-                if (i <= 41)            // So 42 Analog Input points 0 to 41 will be displayed on the first AnalogInputs tab
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                else if (i <= 83)       // So 42 Analog Input points 42 to 83 will be displayed on the second AnalogInputs tab
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                else if (i <= 122)      // So 39 Analog Input points 84 to 122 will be displayed on the third AnalogInputs tab
-                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-
-                if (i == pointsToAdd)
-                    break;
-                i++;
-
-#endif
             }
         }
 
         private void initializeAnalogOutputs()
         {
-            uint pointsToAdd = 37;// 35;// 28;
-
             this.analogOutputs.Clear();
             this.tabPageAnalogOutputs.Controls.Clear();
-#if CONED
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Volt Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Mode - Insensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Extended Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensetive Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("GE Zero Adj", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
 
-            //Additional points per rev10 ConEd firmware
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Offset", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Lockout time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Limit", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Current Imbalance", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Trip Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Low Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Overcurrent", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Voltage Imbalance", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Mode Trim Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
-#endif
-#if SCE
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt Var Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Time Delay Trip Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt Var Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Time Delay Trip Extended Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Unsolicited Fire Time", false));
-#endif
-#if PSEG
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Time Delay Trip Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));//9
-            this.analogOutputs.Add(new AnalogPointDefinition("Trim Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relay Cycle Limit", false));//18
-            this.analogOutputs.Add(new AnalogPointDefinition("Cycle Time Limit", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Motor Cycles", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Motor Timeout", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Lockout time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Trip Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Overcurrent", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Current Imbalance", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Low Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
-
-#endif
-#if (ONCOR || TORONTO_HYDRO)
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));//4
-            this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));//9
-            this.analogOutputs.Add(new AnalogPointDefinition("Trim Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Cycle Limit", false));//18
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Pump Time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Protect time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Overcurrent", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Current Imbalance", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Low Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
-#endif
-
-#if ENMAX
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
-            this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));//4
-            this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));//9
-            this.analogOutputs.Add(new AnalogPointDefinition("Trim Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Time Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Cycle Limit", false));//18
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Pump Time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Protect time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Delay", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Overcurrent", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Current Imbalance", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Low Voltage", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
-            this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("GE Zero Adj", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Settings", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settingse", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close Active Timer", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("Unsolicited Fire Time", false));
-            this.analogOutputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false)); //37
-#endif
-            uint i = 0;
-            if (pointsToAdd != 0)
+            // Runtime customer point map (same lists, no compile-time #if)
+            if (this.customer == Customers.CONED)
             {
-                foreach (AnalogPointDefinition aPD in this.analogOutputs)
-                {
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Volt Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Mode - Insensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Extended Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensetive Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("GE Zero Adj", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Offset", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Lockout time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Limit", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Current Imbalance", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Trip Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Low Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Overcurrent", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Voltage Imbalance", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Mode Trim Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
+            }
+            else if (this.customer == Customers.SCE)
+            {
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Volts Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Instant Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt Var Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Time Delay Trip Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt Var Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Time Delay Trip Extended Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Unsolicited Fire Time", false));
+            }
+            else if (this.customer == Customers.PSEG)
+            {
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Time Delay Trip Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));//9
+                this.analogOutputs.Add(new AnalogPointDefinition("Trim Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relay Cycle Limit", false));//18
+                this.analogOutputs.Add(new AnalogPointDefinition("Cycle Time Limit", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Motor Cycles", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Motor Timeout", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Lockout time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Trip Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Overcurrent", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Current Imbalance", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Low Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
+            }
+            else if (this.customer == Customers.ONCOR)
+            {
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));//4
+                this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));//9
+                this.analogOutputs.Add(new AnalogPointDefinition("Trim Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Cycle Limit", false));//18
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Pump Time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Protect time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Overcurrent", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Current Imbalance", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Low Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
+            }
+            else if (this.customer == Customers.ENMAX)
+            {
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Time Delay", false));//0
+                this.analogOutputs.Add(new AnalogPointDefinition("Sensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Insensitive Trip Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Instantaneous Trip Current", false));//4
+                this.analogOutputs.Add(new AnalogPointDefinition("Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Extended Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));//9
+                this.analogOutputs.Add(new AnalogPointDefinition("Trim Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Time Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Close Tilt Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("CT Ratio", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Cycle Limit", false));//18
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Pump Time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Protect time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Overcurrent", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Current Imbalance", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Low Voltage", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Voltage Imbalance", false));//27
+                this.analogOutputs.Add(new AnalogPointDefinition("Reclose Angle", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Phase Compensation", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("GE Zero Adj", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Volts Settings", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settingse", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close Active Timer", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Unsolicited Fire Time", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false)); //37
+            }
 
-                    ucDNPDIGITALGRIDAnalogOut workingBox = new ucDNPDIGITALGRIDAnalogOut();
+            uint i = 0;
+            foreach (AnalogPointDefinition aPD in this.analogOutputs)
+            {
+                ucDNPDIGITALGRIDAnalogOut workingBox = new ucDNPDIGITALGRIDAnalogOut();
+                workingBox.PointNumber = i;
+                workingBox.PointName = aPD.Name;
+                workingBox.Signed = aPD.Signed;
 
-                    workingBox.PointNumber = i;
-                    workingBox.PointName = aPD.Name;
-                    workingBox.Signed = aPD.Signed;
-
-                    this.addAnalogBoxOut(workingBox, this.tabPageAnalogOutputs);
-
-                    if (i == pointsToAdd)
-                        break;
-                    i++;
-                }
+                this.addAnalogBoxOut(workingBox, this.tabPageAnalogOutputs);
+                i++;
             }
         }
 
@@ -1389,48 +1126,35 @@ namespace RelayControlLibrary
         //Adds a binary box to the selected page
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
-#if DEBUG
-            int y = tB.Controls.Count % 25 * box.Height + 5; //22 is the height of the control - %20 because 20 per row
-             int x = box.Width * (tB.Controls.Count / 25) + 1;
-#elif TORONTO_HYDRO
-            //13 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 13 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 13) + 1;
-#elif CONED
-            //23 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 23 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 23) + 1;
-#elif PSEG
-            //19 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 19 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 19) + 1;
-#elif ENMAX || ONCOR || SCE || DOMINION || BGE
-            //15 Rows of Binary Input Points per column
-            int y = tB.Controls.Count % 15 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 15) + 1;
-#else
-            // default layout for configs not explicitly listed
-            int y = tB.Controls.Count % 25 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 25) + 1;
-#endif
+            int rowsPerColumn;
 
+            if (this.customer == Customers.TORONTO_HYDRO)
+                rowsPerColumn = 13;
+            else if (this.customer == Customers.CONED)
+                rowsPerColumn = 23;
+            else if (this.customer == Customers.PSEG)
+                rowsPerColumn = 19;
+            else if (this.customer == Customers.ENMAX ||
+                     this.customer == Customers.ONCOR ||
+                     this.customer == Customers.SCE ||
+                     this.customer == Customers.DOMINION ||
+                     this.customer == Customers.BGE)
+                rowsPerColumn = 15;
+            else
+                rowsPerColumn = 25; // default
 
-            // since eversource do not use DNP
+            int y = (tB.Controls.Count % rowsPerColumn) * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / rowsPerColumn) + 1;
+
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
-
-
         }
 
         private void addBinaryBox(ucDNPMemphisBinary box, TabPage tB)
         {
-            int y = tB.Controls.Count % 20 * 22 + 1; //22 is the height of the control - %20 because 20 per row
-            int x;
+            int y = tB.Controls.Count % 20 * 22 + 1;
+            int x = (tB.Controls.Count >= 20) ? (tB.Width / 2) : 1;
 
-            if (tB.Controls.Count >= 20)
-                x = this.tabPageBinaryInputs.Width / 2;
-            else
-                x = 1;
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
@@ -1438,58 +1162,58 @@ namespace RelayControlLibrary
         //Adds an analog box to the selected page
         private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
-#if DEBUG
-            //21 Rows of Analog Inputs Points per column ( 42 points per tab )
-            int y = tB.Controls.Count % 21 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 21) + 1;
-#elif TORONTO_HYDRO
-            //22 Rows of Analog Inputs Points per column
-            int y = tB.Controls.Count % 22 * box.Height + 5; 
-            int x = box.Width * (tB.Controls.Count / 22) + 1;
-#elif CONED
-            //20 Rows of Analog Inputs Points per column
-            int y = tB.Controls.Count % 20 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 20) + 1;
-#elif PSEG
-            //15 Rows of Analog Inputs Points per column
-            int y = tB.Controls.Count % 15 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 15) + 1;
-#elif ENMAX || ONCOR || SCE || DOMINION || BGE
-            //21 Rows of Analog Inputs Points per column ( 42 points per tab )
-            int y = tB.Controls.Count % 21 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 21) + 1;
-#else
-            // default layout for configs not explicitly listed (e.g., EVERSOURCE)
-            int y = tB.Controls.Count % 25 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 25) + 1;
-#endif
+            int rowsPerColumn;
 
-            // since eversource do not use DNP
+            if (this.customer == Customers.TORONTO_HYDRO)
+                rowsPerColumn = 22;
+            else if (this.customer == Customers.CONED)
+                rowsPerColumn = 20;
+            else if (this.customer == Customers.PSEG)
+                rowsPerColumn = 15;
+            else if (this.customer == Customers.ENMAX ||
+                     this.customer == Customers.ONCOR ||
+                     this.customer == Customers.SCE ||
+                     this.customer == Customers.DOMINION ||
+                     this.customer == Customers.BGE)
+                rowsPerColumn = 21;
+            else
+                rowsPerColumn = 25; // default (e.g., EVERSOURCE)
+
+            int y = (tB.Controls.Count % rowsPerColumn) * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / rowsPerColumn) + 1;
+
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
-
         }
 
         private void addAnalogBoxOut(ucDNPMemphisAnalog box, TabPage tB)
         {
+            int rowsPerColumn;
+            int rowHeight;
+            int columnWidth;
 
-#if DEBUG
-            //13 Rows of Analog Output Points per column
-            int y = tB.Controls.Count % 13 * 20 + 5;
-            int x = 347 * (tB.Controls.Count / 13) + 1;
+            if (this.customer == Customers.ENMAX)
+            {
+                // 20 rows/column for ENMAX
+                rowsPerColumn = 20;
+                rowHeight = box.Height;
+                columnWidth = box.Width;
+            }
+            else
+            {
+                // legacy default layout
+                rowsPerColumn = 25;
+                rowHeight = 20;
+                columnWidth = 347;
+            }
 
-#elif ENMAX
-            //20 Rows of Analog Outputs Points per column ( 40 points per tab )
-            int y = tB.Controls.Count % 20 * box.Height + 5;
-            int x = box.Width * (tB.Controls.Count / 20) + 1;
-#else
-            int y = tB.Controls.Count % 25 * 20 + 5; //22 is the height of the control - %20 because 20 per row
-            int x = 347 * (tB.Controls.Count / 25) + 1;
-#endif
+            int y = (tB.Controls.Count % rowsPerColumn) * rowHeight + 5;
+            int x = columnWidth * (tB.Controls.Count / rowsPerColumn) + 1;
+
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
         }
-#endregion
+        #endregion
 
         #region Send Region
 
@@ -1553,24 +1277,50 @@ namespace RelayControlLibrary
 
         private void tabControlMemphisDNP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
+            bool onBinaryInputs = this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs;
+
+            this.buttonSendBinaryEventEnables.Visible = onBinaryInputs;
+            this.buttonEnableAllBinaryEvents.Visible = onBinaryInputs;
+            this.buttonDisableAllBinaryEvents.Visible = onBinaryInputs;
+        }
+
+        private void ApplyDnpTabVisibilityPolicy()
+        {
+            bool isENMAX = (_customer == Customers.ENMAX);
+            bool isCONED = (_customer == Customers.CONED);
+
+            SetTabVisible(this.tabPageBinaryInputs, true);
+            SetTabVisible(this.tabPageBinaryInputs2, isENMAX);
+            SetTabVisible(this.tabPageBinaryOuputs, true);
+
+            SetTabVisible(this.tabPageAnalogInputs1, true);
+            SetTabVisible(this.tabPageAnalogInputs2, isCONED || isENMAX);
+            SetTabVisible(this.tabPageAnalogInputs3, isCONED || isENMAX);
+
+            // Force OFF for this instance
+            SetTabVisible(this.tabPageAnalogOutputs, false);
+
+            if (this.tabControlMemphisDNP.TabPages.Count > 0 &&
+                this.tabControlMemphisDNP.SelectedIndex < 0)
             {
-                this.buttonSendBinaryEventEnables.Visible = true;
-                this.buttonEnableAllBinaryEvents.Visible = true;
-                this.buttonDisableAllBinaryEvents.Visible = true;
+                this.tabControlMemphisDNP.SelectedIndex = 0;
             }
-            else
-            {
-                this.buttonSendBinaryEventEnables.Visible = false;
-                this.buttonEnableAllBinaryEvents.Visible = false;
-                this.buttonDisableAllBinaryEvents.Visible = false;
-            }
+        }
+
+        private void SetTabVisible(TabPage page, bool visible)
+        {
+            bool contains = this.tabControlMemphisDNP.TabPages.Contains(page);
+
+            if (visible && !contains)
+                this.tabControlMemphisDNP.TabPages.Add(page);
+            else if (!visible && contains)
+                this.tabControlMemphisDNP.TabPages.Remove(page);
         }
 
         #endregion
 
         #region Incoming Data Handling
-           
+
         public int setBinaryInputs(byte[] bytePacket)
         {
             //int i = this.tabPageBinaryInputs.Controls.Count;
@@ -1798,139 +1548,84 @@ namespace RelayControlLibrary
             else
                 return false;
         }
-#endregion
+        #endregion
 
         private void tabControlMemphisDNP_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs1)
+            TabPage selected = this.tabControlMemphisDNP.SelectedTab;
+
+            // ----- Helper local actions -----
+            void RemoveAnalogButtonsFrom(TabPage page)
             {
-                if (this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
+                if (page.Controls.Contains(this.buttonSendAnalogEnables))
                 {
-                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonDisableAllAnalogEvents);
+                    page.Controls.Remove(this.buttonSendAnalogEnables);
+                    page.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                    page.Controls.Remove(this.buttonDisableAllAnalogEvents);
                 }
-                if (this.tabPageAnalogInputs3.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonDisableAllAnalogEvents);
-                }
-                if (!this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs1.Controls.Add(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs1.Controls.Add(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs1.Controls.Add(this.buttonDisableAllAnalogEvents);
-                }
-                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-#if !TORONTO_HYDRO
-                this.buttonDisableAllAnalogEvents.Enabled = false;
-                this.buttonDisableAllAnalogEvents.Visible = false;
-                this.buttonEnableAllAnalogEvents.Enabled = false;
-                this.buttonEnableAllAnalogEvents.Visible = false;
-                this.buttonSendAnalogEnables.Enabled = false;
-                this.buttonSendAnalogEnables.Visible = false;
-#endif
             }
-            else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2)
+
+            void EnsureAnalogButtonsOn(TabPage page)
             {
-                if (this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
+                if (!page.Controls.Contains(this.buttonSendAnalogEnables))
                 {
-                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonDisableAllAnalogEvents);
+                    page.Controls.Add(this.buttonSendAnalogEnables);
+                    page.Controls.Add(this.buttonEnableAllAnalogEvents);
+                    page.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
-                if (this.tabPageAnalogInputs3.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs3.Controls.Remove(this.buttonDisableAllAnalogEvents);
-                }
-                if (!this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs2.Controls.Add(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs2.Controls.Add(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs2.Controls.Add(this.buttonDisableAllAnalogEvents);
-                }
-                /*this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs2.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
-                this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
-                this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs2.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs2.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
-                */
-                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-#if !TORONTO_HYDRO
-                this.buttonDisableAllAnalogEvents.Enabled = false;
-                this.buttonDisableAllAnalogEvents.Visible = false;
-                this.buttonEnableAllAnalogEvents.Enabled = false;
-                this.buttonEnableAllAnalogEvents.Visible = false;
-                this.buttonSendAnalogEnables.Enabled = false;
-                this.buttonSendAnalogEnables.Visible = false;
-#endif
             }
-            else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs3)
+
+            void SetAnalogButtonLocations()
             {
-                if (this.tabPageAnalogInputs1.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs1.Controls.Remove(this.buttonDisableAllAnalogEvents);
-                }
-                if (this.tabPageAnalogInputs2.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs2.Controls.Remove(this.buttonDisableAllAnalogEvents);
-                }
-                if (!this.tabPageAnalogInputs3.Controls.Contains(this.buttonSendAnalogEnables))
-                {
-                    this.tabPageAnalogInputs3.Controls.Add(this.buttonSendAnalogEnables);
-                    this.tabPageAnalogInputs3.Controls.Add(this.buttonEnableAllAnalogEvents);
-                    this.tabPageAnalogInputs3.Controls.Add(this.buttonDisableAllAnalogEvents);
-                }
-                /*this.buttonDisableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs3.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs3.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonDisableAllAnalogEvents.Visible = true;
-                this.buttonEnableAllAnalogEvents.Location = new Point(this.tabPageAnalogInputs3.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs3.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonEnableAllAnalogEvents.Visible = true;
-                this.buttonSendAnalogEnables.Location = new Point(this.tabPageAnalogInputs3.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs3.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Visible = true;
-                */
-                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-#if !TORONTO_HYDRO
-                this.buttonDisableAllAnalogEvents.Enabled = false;
-                this.buttonDisableAllAnalogEvents.Visible = false;
-                this.buttonEnableAllAnalogEvents.Enabled = false;
-                this.buttonEnableAllAnalogEvents.Visible = false;
-                this.buttonSendAnalogEnables.Enabled = false;
-                this.buttonSendAnalogEnables.Visible = false;                              
-#endif
+                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720);
+                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720);
+                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720);
             }
-            else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs)
+
+            void SetAnalogButtonsVisibleEnabled(bool enabledVisible)
             {
-                if (!this.tabPageBinaryInputs.Controls.Contains(this.buttonSendBinaryEventEnables))
+                this.buttonDisableAllAnalogEvents.Enabled = enabledVisible;
+                this.buttonDisableAllAnalogEvents.Visible = enabledVisible;
+                this.buttonEnableAllAnalogEvents.Enabled = enabledVisible;
+                this.buttonEnableAllAnalogEvents.Visible = enabledVisible;
+                this.buttonSendAnalogEnables.Enabled = enabledVisible;
+                this.buttonSendAnalogEnables.Visible = enabledVisible;
+            }
+
+            void RemoveBinaryButtonsFrom(TabPage page)
+            {
+                if (page.Controls.Contains(this.buttonSendBinaryEventEnables))
                 {
-                    this.tabPageBinaryInputs.Controls.Add(this.buttonSendBinaryEventEnables);
-                    this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
-                    this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
+                    page.Controls.Remove(this.buttonSendBinaryEventEnables);
+                    page.Controls.Remove(this.buttonEnableAllBinaryEvents);
+                    page.Controls.Remove(this.buttonDisableAllBinaryEvents);
                 }
-#if TORONTO_HYDRO//!CONED
-                //this.buttonDisableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonEnableAllBinaryEvents.Width * 3 - 23, this.tabPageBinaryInputs.Height - this.buttonEnableAllBinaryEvents.Height - 2);
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);  
+            }
+
+            void EnsureBinaryButtonsOn(TabPage page)
+            {
+                if (!page.Controls.Contains(this.buttonSendBinaryEventEnables))
+                {
+                    page.Controls.Add(this.buttonSendBinaryEventEnables);
+                    page.Controls.Add(this.buttonEnableAllBinaryEvents);
+                    page.Controls.Add(this.buttonDisableAllBinaryEvents);
+                }
+            }
+
+            void SetBinaryButtonsThStyle()
+            {
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);
                 this.buttonDisableAllBinaryEvents.Visible = true;
-                //this.buttonEnableAllBinaryEvents.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - this.buttonEnableAllBinaryEvents.Width - 4, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720);  
+
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720);
                 this.buttonEnableAllBinaryEvents.Visible = true;
-                //this.buttonSendBinaryEventEnables.Location = new Point(this.tabPageBinaryInputs.Width - this.buttonSendBinaryEventEnables.Width - 2, this.tabPageBinaryInputs.Height - this.buttonSendBinaryEventEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); 
+
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720);
                 this.buttonSendBinaryEventEnables.Visible = true;
-#elif CONED || PSEG
+            }
+
+            void SetBinaryButtonsConedPsegStyle()
+            {
                 this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(670, 723);
                 this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(192, 32);
                 this.buttonDisableAllBinaryEvents.Visible = true;
@@ -1942,70 +1637,96 @@ namespace RelayControlLibrary
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(1285, 722);
                 this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(220, 32);
                 this.buttonSendBinaryEventEnables.Visible = true;
-#elif ENMAX
-                if (this.tabPageBinaryInputs2.Controls.Contains(this.buttonSendBinaryEventEnables))
-                {
-                    this.tabPageBinaryInputs.Controls.Remove(this.buttonSendBinaryEventEnables);
-                    this.tabPageBinaryInputs.Controls.Remove(this.buttonEnableAllBinaryEvents);
-                    this.tabPageBinaryInputs.Controls.Remove(this.buttonDisableAllBinaryEvents);
-                }
-                if (!this.tabPageBinaryInputs.Controls.Contains(this.buttonSendBinaryEventEnables))
-                {
-                    this.tabPageBinaryInputs.Controls.Add(this.buttonSendBinaryEventEnables);
-                    this.tabPageBinaryInputs.Controls.Add(this.buttonEnableAllBinaryEvents);
-                    this.tabPageBinaryInputs.Controls.Add(this.buttonDisableAllBinaryEvents);
-                }
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                //DNP Event Enable buttons not displayed for Enmax
-                this.buttonDisableAllBinaryEvents.Enabled = false;
-                this.buttonDisableAllBinaryEvents.Visible = false;
-                this.buttonEnableAllBinaryEvents.Enabled = false;
-                this.buttonEnableAllBinaryEvents.Visible = false;
-                this.buttonSendBinaryEventEnables.Enabled = false;
-                this.buttonSendBinaryEventEnables.Visible = false;
-
-#endif
-
-#if (DIGITALGRIDINC && (ONCOR || CONED || TORONTO_HYDRO))
-                /* this.buttonDisableAllBinaryEvents.Enabled = false;
-                 this.buttonDisableAllBinaryEvents.Visible = false;
-                 this.buttonEnableAllBinaryEvents.Enabled = false;
-                 this.buttonEnableAllBinaryEvents.Visible = false;
-                 this.buttonSendBinaryEventEnables.Enabled = false;
-                 this.buttonSendBinaryEventEnables.Visible = false;
-                */
-#endif
             }
-            else if (this.tabControlMemphisDNP.SelectedTab == this.tabPageBinaryInputs2)
+
+            void SetBinaryButtonsEnmaxStyleHidden()
             {
-#if ENMAX
-                if (this.tabPageBinaryInputs.Controls.Contains(this.buttonSendBinaryEventEnables))
-                {
-                    this.tabPageBinaryInputs.Controls.Remove(this.buttonSendBinaryEventEnables);
-                    this.tabPageBinaryInputs.Controls.Remove(this.buttonEnableAllBinaryEvents);
-                    this.tabPageBinaryInputs.Controls.Remove(this.buttonDisableAllBinaryEvents);
-                }
-                if (!this.tabPageBinaryInputs2.Controls.Contains(this.buttonSendBinaryEventEnables))
-                {
-                    this.tabPageBinaryInputs2.Controls.Add(this.buttonSendBinaryEventEnables);
-                    this.tabPageBinaryInputs2.Controls.Add(this.buttonEnableAllBinaryEvents);
-                    this.tabPageBinaryInputs2.Controls.Add(this.buttonDisableAllBinaryEvents);
-                }
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonDisableAllAnalogEvents.Width * 3 + 23, this.tabPageAnalogInputs1.Height - this.buttonEnableAllAnalogEvents.Height - 2);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonEnableAllAnalogEvents.Width - this.buttonSendAnalogEnables.Width - 4, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720); //new Point(this.tabPageAnalogInputs1.Width - this.buttonSendAnalogEnables.Width - 2, this.tabPageAnalogInputs1.Height - this.buttonSendAnalogEnables.Height - 2);
-                //DNP Event Enable buttons not displayed for Enmax
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720);
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720);
+
+                // DNP Event Enable buttons not displayed for Enmax
                 this.buttonDisableAllBinaryEvents.Enabled = false;
                 this.buttonDisableAllBinaryEvents.Visible = false;
                 this.buttonEnableAllBinaryEvents.Enabled = false;
                 this.buttonEnableAllBinaryEvents.Visible = false;
                 this.buttonSendBinaryEventEnables.Enabled = false;
                 this.buttonSendBinaryEventEnables.Visible = false;
-#endif
             }
 
+            // ----- Analog tab handling -----
+            if (selected == this.tabPageAnalogInputs1 ||
+                selected == this.tabPageAnalogInputs2 ||
+                selected == this.tabPageAnalogInputs3)
+            {
+                // remove from all three first
+                RemoveAnalogButtonsFrom(this.tabPageAnalogInputs1);
+                RemoveAnalogButtonsFrom(this.tabPageAnalogInputs2);
+                RemoveAnalogButtonsFrom(this.tabPageAnalogInputs3);
+
+                // add to selected analog tab
+                EnsureAnalogButtonsOn(selected);
+                SetAnalogButtonLocations();
+
+                // runtime equivalent of #if !TORONTO_HYDRO
+                bool analogEventsEnabled = (this.customer == Customers.TORONTO_HYDRO);
+                SetAnalogButtonsVisibleEnabled(analogEventsEnabled);
+                return;
+            }
+
+            // ----- Binary Inputs tab handling -----
+            if (selected == this.tabPageBinaryInputs)
+            {
+                EnsureBinaryButtonsOn(this.tabPageBinaryInputs);
+
+                // runtime equivalent of old #if branches
+                if (this.customer == Customers.TORONTO_HYDRO)
+                {
+                    SetBinaryButtonsThStyle();
+                    this.buttonDisableAllBinaryEvents.Enabled = true;
+                    this.buttonEnableAllBinaryEvents.Enabled = true;
+                    this.buttonSendBinaryEventEnables.Enabled = true;
+                }
+                else if (this.customer == Customers.CONED || this.customer == Customers.PSEG)
+                {
+                    SetBinaryButtonsConedPsegStyle();
+                    this.buttonDisableAllBinaryEvents.Enabled = true;
+                    this.buttonEnableAllBinaryEvents.Enabled = true;
+                    this.buttonSendBinaryEventEnables.Enabled = true;
+                }
+                else if (this.customer == Customers.ENMAX)
+                {
+                    RemoveBinaryButtonsFrom(this.tabPageBinaryInputs2); // mirrors old ENMAX swap behavior
+                    EnsureBinaryButtonsOn(this.tabPageBinaryInputs);
+                    SetBinaryButtonsEnmaxStyleHidden();
+                }
+                else
+                {
+                    // default: hide buttons for other customers
+                    this.buttonDisableAllBinaryEvents.Enabled = false;
+                    this.buttonDisableAllBinaryEvents.Visible = false;
+                    this.buttonEnableAllBinaryEvents.Enabled = false;
+                    this.buttonEnableAllBinaryEvents.Visible = false;
+                    this.buttonSendBinaryEventEnables.Enabled = false;
+                    this.buttonSendBinaryEventEnables.Visible = false;
+                }
+
+                return;
+            }
+
+            // ----- Binary Inputs 2 tab handling -----
+            if (selected == this.tabPageBinaryInputs2)
+            {
+                // old behavior only had logic here for ENMAX
+                if (this.customer == Customers.ENMAX)
+                {
+                    RemoveBinaryButtonsFrom(this.tabPageBinaryInputs);
+                    EnsureBinaryButtonsOn(this.tabPageBinaryInputs2);
+                    SetBinaryButtonsEnmaxStyleHidden();
+                }
+
+                return;
+            }
         }
 
         private void buttonSendBinaryEventEnables_Click(object sender, EventArgs e)
@@ -2486,7 +2207,37 @@ namespace RelayControlLibrary
             }
 #endif
         }
+        private void ucDNPDIGITALGRIDData_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                this.initializeComponents();
 
+                // Re-apply runtime tab policy every time view becomes visible
+                ApplyDnpTabVisibilityPolicy();
+
+                // Hard-stop: no Analog Outputs in this instance
+                this.tabControlMemphisDNP.TabPages.Remove(this.tabPageAnalogOutputs);
+
+                SetSize();
+
+                this.tabControlMemphisDNP.Visible = true;
+                this.tabControlMemphisDNP.Enabled = true;
+                this.tabControlMemphisDNP.BringToFront();
+
+                if (this.tabControlMemphisDNP.TabPages.Count > 0)
+                    this.tabControlMemphisDNP.SelectedIndex = 0;
+
+                this.tabControlMemphisDNP_SelectedIndexChanged_1(this, EventArgs.Empty);
+
+                System.Diagnostics.Debug.WriteLine(
+                    $"[VisibleChanged] HasAnalogOut={this.tabControlMemphisDNP.TabPages.Contains(this.tabPageAnalogOutputs)}, " +
+                    $"TabCount={this.tabControlMemphisDNP.TabPages.Count}");
+
+                this.PerformLayout();
+                this.Refresh();
+            }
+        }
         private void buttonDisableAllAnalogEvents_Click(object sender, EventArgs e)
         {
             ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();

@@ -64,16 +64,15 @@ namespace RelayControlLibrary
             // tabControlMemphisDNP
             // 
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs);
-#if ENMAX
             this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryInputs2);
-#endif
-           // this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
+            this.tabControlMemphisDNP.Controls.Add(this.tabPageBinaryOuputs);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs1);
-#if CONED || ENMAX || DEBUG         
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs2);
             this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogInputs3);
-#endif
-           // this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogOutputs);
+           
+
+
+            this.tabControlMemphisDNP.Controls.Add(this.tabPageAnalogOutputs);
             this.tabControlMemphisDNP.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControlMemphisDNP.Location = new System.Drawing.Point(0, 0);
             this.tabControlMemphisDNP.Name = "tabControlMemphisDNP";

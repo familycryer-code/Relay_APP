@@ -171,40 +171,49 @@ namespace RelayControl
                     this.Customer == Customers.SCE ||
                     this.Customer == Customers.TORONTO_HYDRO;
 
-                bool dnpKitEnabled = (dnpUplinkK.dnpEnabledWithKit != false);
                 bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
+                bool dnpKitEnabled = (dnpUplinkK.dnpEnabledWithKit != false);
+
+                // Business rule:
+                // - TORONTO_HYDRO always has DNP (does not require kit flag)
+                // - Other DNP customers require DNP kit enabled
+                bool canUseDnp = isTH || dnpKitEnabled;
 
                 // Enable path
-                if (value && this.masterRevision > REV0_MASTER_REVISION && isDnpCustomer && dnpKitEnabled)
+                if (value &&
+                    this.masterRevision > REV0_MASTER_REVISION &&
+                    isDnpCustomer &&
+                    canUseDnp)
                 {
                     // Keep existing DNP point wiring behavior
                     setDNPTabPoints();
 
-#if !TORONTO_HYDRO
-                    // non-TH: keep SecureAuth hidden as before
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-#endif
+                    // TH keeps SecureAuth tab live; others remove it
+                    if (!isTH)
+                    {
+                        if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                            this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                    }
 
                     this.dNPEnabledSavedVal = true;
                     this.ucRelayProgramming1.DNPRelay = true;
                     return;
                 }
 
-                // Disable path (or unsupported customer / old revision / kit disabled)
-#if !TORONTO_HYDRO
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+                // Disable path (or unsupported customer / old revision / kit disabled for non-TH)
+                if (!isTH)
+                {
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNP);
 
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-#else
-                // TH requirement: keep all 3 DNP tabs present/live
-                // (tabPageDNP, tabPageDNPData, tabPageDNPSecureAuth)
-#endif
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                        this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
+                }
+                // TH requirement: keep DNP tabs present/live
+
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
             }
@@ -225,6 +234,10 @@ namespace RelayControl
         // AFTER (full setDNPTabPoints body)
         private void setDNPTabPoints()
         {
+            // IMPORTANT:
+            // Host the DNP user control on the tab the user is actually viewing ("DNP Live Data")
+            TabPage host = this.tabPageDNPData;
+
             bool isDnpCustomer =
                 this.Customer == Customers.CONED ||
                 this.Customer == Customers.ENMAX ||
@@ -233,10 +246,26 @@ namespace RelayControl
                 this.Customer == Customers.SCE ||
                 this.Customer == Customers.TORONTO_HYDRO;
 
-            if (!isDnpCustomer)
-                return;
+            bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
 
-            if (dnpUplinkK.dnpEnabledWithKit == false)
+            if (!isDnpCustomer)
+            {
+                if (this.dNPDIGITALGRIDData != null)
+                {
+                    this.dNPDIGITALGRIDData.Send -= standardizedSendData;
+                    this.dNPDIGITALGRIDData.PointChanged -= DNPDigitalGridData_PointChanged;
+
+                    if (host.Controls.Contains(this.dNPDIGITALGRIDData))
+                        host.Controls.Remove(this.dNPDIGITALGRIDData);
+
+                    this.dNPDIGITALGRIDData.Dispose();
+                    this.dNPDIGITALGRIDData = null;
+                }
+                return;
+            }
+
+            // TH bypasses kit requirement; other customers require kit enabled
+            if (!isTH && dnpUplinkK.dnpEnabledWithKit == false)
             {
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
@@ -248,8 +277,11 @@ namespace RelayControl
                 this.dNPDIGITALGRIDData.Send -= standardizedSendData;
                 this.dNPDIGITALGRIDData.PointChanged -= DNPDigitalGridData_PointChanged;
 
-                if (this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                    this.tabPageDNPData.Controls.Remove(this.dNPDIGITALGRIDData);
+                if (host.Controls.Contains(this.dNPDIGITALGRIDData))
+                    host.Controls.Remove(this.dNPDIGITALGRIDData);
+
+                this.dNPDIGITALGRIDData.Dispose();
+                this.dNPDIGITALGRIDData = null;
             }
 
             this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.Customer);
@@ -258,20 +290,25 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Send += standardizedSendData;
             this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
 
-            this.tabPageDNPData.Controls.Add(this.dNPDIGITALGRIDData);
+            host.SuspendLayout();
+            host.Controls.Clear();
 
-            MessageBox.Show(
-    $"tabPageDNPData.Controls={this.tabPageDNPData.Controls.Count}\n" +
-    $"dNPDIGITALGRIDData.Visible={this.dNPDIGITALGRIDData.Visible}\n" +
-    $"dNPDIGITALGRIDData.Size={this.dNPDIGITALGRIDData.Size}\n" +
-    $"dNPDIGITALGRIDData.ChildControls={this.dNPDIGITALGRIDData.Controls.Count}");
-
+            host.Controls.Add(this.dNPDIGITALGRIDData);
+            this.dNPDIGITALGRIDData.Dock = DockStyle.Fill;
             this.dNPDIGITALGRIDData.Visible = true;
+            this.dNPDIGITALGRIDData.Enabled = true;
             this.dNPDIGITALGRIDData.BringToFront();
-            this.tabPageDNPData.PerformLayout();
 
-            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+            host.ResumeLayout(true);
+            host.PerformLayout();
+            host.Refresh();
+
+            System.Diagnostics.Debug.WriteLine(
+                $"[DNP TAB] Host={host.Name}, Controls={host.Controls.Count}, " +
+                $"HasCtrl={host.Controls.Contains(this.dNPDIGITALGRIDData)}, " +
+                $"CtrlVisible={this.dNPDIGITALGRIDData?.Visible}, " +
+                $"CtrlSize={this.dNPDIGITALGRIDData?.Size}, " +
+                $"CtrlDock={this.dNPDIGITALGRIDData?.Dock}");
         }
 
         private bool gERelay = false;
@@ -8831,6 +8868,10 @@ namespace RelayControl
                 this.enableDNPMonitoring(false);
             }
             this.phasorGraphTabSwitchCall = false; //deset so next time it does not think it was called from the phasorGraph
+            if (this.tabControlMain.SelectedTab == this.tabPageDNPData)
+            {
+                this.enableDNPMonitoring(true); // or existing flow
+            }
         }
 
         private void buttonFPGAProcVersion_Click(object sender, EventArgs e)
