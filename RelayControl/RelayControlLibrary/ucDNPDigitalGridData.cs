@@ -25,7 +25,8 @@ namespace RelayControlLibrary
         {
             InitializeComponent();
             _customer = customer;
-            this.Customer = customer; // keep existing behavior if setter does other setup
+            this.Customer = customer;   // triggers init path
+            this.initializeComponents(); // ensure point lists built
             ApplyDnpTabVisibilityPolicy();
         }
 
@@ -51,8 +52,7 @@ namespace RelayControlLibrary
                 if (value != this.customer)
                 {
                     this.customer = value;
-                    if (this.customer == Customers.ENMAX)
-                        return;
+                    this._customer = value;   // <- add here
                     SetSize();
                     this.initializeComponents();
                 }
@@ -111,6 +111,7 @@ namespace RelayControlLibrary
                 this.tabPageAnalogInputs1.Controls.Count == 0 &&
                 this.tabPageAnalogInputs2.Controls.Count == 0 &&
                 this.tabPageAnalogInputs3.Controls.Count == 0 &&
+                this.tabPageAnalogInputs4.Controls.Count == 0 &&
                 this.tabPageAnalogOutputs.Controls.Count == 0;
 
             if (empty)
@@ -132,6 +133,7 @@ namespace RelayControlLibrary
         $"AI1={this.tabPageAnalogInputs1.Controls.Count}, " +
         $"AI2={this.tabPageAnalogInputs2.Controls.Count}, " +
         $"AI3={this.tabPageAnalogInputs3.Controls.Count}, " +
+        $"AI3={this.tabPageAnalogInputs4.Controls.Count}, " +
         $"AO={this.tabPageAnalogOutputs.Controls.Count}, " +
         $"Tabs={this.tabControlMemphisDNP.TabPages.Count}, " +
         $"Customer={this.customer}");
@@ -291,19 +293,11 @@ namespace RelayControlLibrary
                 };
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-                // Runtime layout
-                if (this.customer == Customers.ENMAX || this.customer == Customers.PSEG)
-                {
-                    if (i <= 29)
-                        this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
-                    else if (i <= 57)
-                        this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs2);
-                }
-                else
-                {
-                    if (i < 50)
-                        this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
-                }
+                // Standardized paging: 32 per tab (16 rows x 2 columns)
+                if (i <= 31)
+                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs);
+                else if (i <= 63)
+                    this.addBinaryBoxIn(workingBox, this.tabPageBinaryInputs2);
 
                 i++;
             }
@@ -445,7 +439,10 @@ namespace RelayControlLibrary
                 workingBox.EventEnableVisible = false;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-                this.addBinaryBox(workingBox, this.tabPageBinaryOuputs);
+                // Binary Out: 16 rows x 2 columns = 32 capacity; max used = 31
+                if (i <= 31)
+                    this.addBinaryBox(workingBox, this.tabPageBinaryOuputs);
+
                 i++;
             }
         }
@@ -456,6 +453,7 @@ namespace RelayControlLibrary
             this.tabPageAnalogInputs1.Controls.Clear();
             this.tabPageAnalogInputs2.Controls.Clear();
             this.tabPageAnalogInputs3.Controls.Clear();
+            this.tabPageAnalogInputs4.Controls.Clear();
 
             // Runtime customer point map
             if (this.customer == Customers.CONED)
@@ -907,32 +905,57 @@ namespace RelayControlLibrary
                 workingBox.Signed = aPD.Signed;
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
-                // Runtime layout (replaces #if/#elif layout)
-                if (this.customer == Customers.TORONTO_HYDRO)
-                {
-                    if (i < 50) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                }
-                else if (this.customer == Customers.CONED)
-                {
-                    if (i <= 39) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                    else if (i <= 79) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                    else if (i <= 111) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-                }
-                else if (this.customer == Customers.PSEG)
-                {
-                    if (i <= 29) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                    else if (i <= 59) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                    else if (i <= 79) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-                }
-                else // ENMAX / ONCOR / SCE default
-                {
-                    if (i <= 41) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
-                    else if (i <= 83) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
-                    else if (i <= 122) this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
-                }
+                // Standardized paging: 20 rows x 2 columns = 40 per tab
+                if (i <= 39)
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs1);
+                else if (i <= 79)
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs2);
+                else if (i <= 119)
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs3);
+                else if (i <= 159)
+                    this.addAnalogBoxIn(workingBox, this.tabPageAnalogInputs4);
 
                 i++;
             }
+            TabPage analogTarget =
+                (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs1 ||
+                 this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2 ||
+                 this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs3 ||
+                 this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs4)
+                ? this.tabControlMemphisDNP.SelectedTab
+                : this.tabPageAnalogInputs1;
+
+            if (!analogTarget.Controls.Contains(this.buttonDisableAllAnalogEvents))
+                analogTarget.Controls.Add(this.buttonDisableAllAnalogEvents);
+            if (!analogTarget.Controls.Contains(this.buttonEnableAllAnalogEvents))
+                analogTarget.Controls.Add(this.buttonEnableAllAnalogEvents);
+            if (!analogTarget.Controls.Contains(this.buttonSendAnalogEnables))
+                analogTarget.Controls.Add(this.buttonSendAnalogEnables);
+
+            // force visible + position now (not only on tab-changed event)
+            int footerY = 625;
+            this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(85, footerY);
+            this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(204, 30);
+
+            this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(305, footerY);
+            this.buttonEnableAllAnalogEvents.Size = new System.Drawing.Size(204, 30);
+
+            this.buttonSendAnalogEnables.Location = new System.Drawing.Point(525, footerY);
+            this.buttonSendAnalogEnables.Size = new System.Drawing.Size(220, 30);
+
+            bool analogEventsEnabledVisible = true; // or (this.customer == Customers.TORONTO_HYDRO)
+
+            this.buttonDisableAllAnalogEvents.Visible = analogEventsEnabledVisible;
+            this.buttonEnableAllAnalogEvents.Visible = analogEventsEnabledVisible;
+            this.buttonSendAnalogEnables.Visible = analogEventsEnabledVisible;
+
+            this.buttonDisableAllAnalogEvents.Enabled = analogEventsEnabledVisible;
+            this.buttonEnableAllAnalogEvents.Enabled = analogEventsEnabledVisible;
+            this.buttonSendAnalogEnables.Enabled = analogEventsEnabledVisible;
+
+            this.buttonDisableAllAnalogEvents.BringToFront();
+            this.buttonEnableAllAnalogEvents.BringToFront();
+            this.buttonSendAnalogEnables.BringToFront();
         }
 
         private void initializeAnalogOutputs()
@@ -1109,40 +1132,25 @@ namespace RelayControlLibrary
                 workingBox.PointName = aPD.Name;
                 workingBox.Signed = aPD.Signed;
 
-                this.addAnalogBoxOut(workingBox, this.tabPageAnalogOutputs);
+                // Analog Out: 20 rows x 2 columns = 40 capacity
+                if (i <= 39)
+                    this.addAnalogBoxOut(workingBox, this.tabPageAnalogOutputs);
+
                 i++;
             }
         }
 
         private void SetSize()
         {
+            this.Dock = DockStyle.Fill;
             this.tabControlMemphisDNP.Dock = DockStyle.Fill;
-            this.tabControlMemphisDNP.Location = new Point(0, 0);
-            this.tabControlMemphisDNP.Size = this.ClientSize;
-            this.tabControlMemphisDNP.Visible = true;
             this.tabControlMemphisDNP.BringToFront();
         }
 
         //Adds a binary box to the selected page
         private void addBinaryBoxIn(ucDNPMemphisBinary box, TabPage tB)
         {
-            int rowsPerColumn;
-
-            if (this.customer == Customers.TORONTO_HYDRO)
-                rowsPerColumn = 13;
-            else if (this.customer == Customers.CONED)
-                rowsPerColumn = 23;
-            else if (this.customer == Customers.PSEG)
-                rowsPerColumn = 19;
-            else if (this.customer == Customers.ENMAX ||
-                     this.customer == Customers.ONCOR ||
-                     this.customer == Customers.SCE ||
-                     this.customer == Customers.DOMINION ||
-                     this.customer == Customers.BGE)
-                rowsPerColumn = 15;
-            else
-                rowsPerColumn = 25; // default
-
+            const int rowsPerColumn = 16; // 2 cols => 32/tab
             int y = (tB.Controls.Count % rowsPerColumn) * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / rowsPerColumn) + 1;
 
@@ -1152,8 +1160,9 @@ namespace RelayControlLibrary
 
         private void addBinaryBox(ucDNPMemphisBinary box, TabPage tB)
         {
-            int y = tB.Controls.Count % 20 * 22 + 1;
-            int x = (tB.Controls.Count >= 20) ? (tB.Width / 2) : 1;
+            const int rowsPerColumn = 16; // 2 cols => 32/tab
+            int y = (tB.Controls.Count % rowsPerColumn) * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / rowsPerColumn) + 1;
 
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
@@ -1162,23 +1171,7 @@ namespace RelayControlLibrary
         //Adds an analog box to the selected page
         private void addAnalogBoxIn(ucDNPDIGITALGRIDAnalogIn box, TabPage tB)
         {
-            int rowsPerColumn;
-
-            if (this.customer == Customers.TORONTO_HYDRO)
-                rowsPerColumn = 22;
-            else if (this.customer == Customers.CONED)
-                rowsPerColumn = 20;
-            else if (this.customer == Customers.PSEG)
-                rowsPerColumn = 15;
-            else if (this.customer == Customers.ENMAX ||
-                     this.customer == Customers.ONCOR ||
-                     this.customer == Customers.SCE ||
-                     this.customer == Customers.DOMINION ||
-                     this.customer == Customers.BGE)
-                rowsPerColumn = 21;
-            else
-                rowsPerColumn = 25; // default (e.g., EVERSOURCE)
-
+            const int rowsPerColumn = 20; // 2 cols => 40/tab
             int y = (tB.Controls.Count % rowsPerColumn) * box.Height + 5;
             int x = box.Width * (tB.Controls.Count / rowsPerColumn) + 1;
 
@@ -1188,27 +1181,9 @@ namespace RelayControlLibrary
 
         private void addAnalogBoxOut(ucDNPMemphisAnalog box, TabPage tB)
         {
-            int rowsPerColumn;
-            int rowHeight;
-            int columnWidth;
-
-            if (this.customer == Customers.ENMAX)
-            {
-                // 20 rows/column for ENMAX
-                rowsPerColumn = 20;
-                rowHeight = box.Height;
-                columnWidth = box.Width;
-            }
-            else
-            {
-                // legacy default layout
-                rowsPerColumn = 25;
-                rowHeight = 20;
-                columnWidth = 347;
-            }
-
-            int y = (tB.Controls.Count % rowsPerColumn) * rowHeight + 5;
-            int x = columnWidth * (tB.Controls.Count / rowsPerColumn) + 1;
+            const int rowsPerColumn = 20; // 2 cols => 40/tab
+            int y = (tB.Controls.Count % rowsPerColumn) * box.Height + 5;
+            int x = box.Width * (tB.Controls.Count / rowsPerColumn) + 1;
 
             box.Location = new Point(x, y);
             tB.Controls.Add(box);
@@ -1286,24 +1261,33 @@ namespace RelayControlLibrary
 
         private void ApplyDnpTabVisibilityPolicy()
         {
-            bool isENMAX = (_customer == Customers.ENMAX);
-            bool isCONED = (_customer == Customers.CONED);
-
+            // Binary tabs
             SetTabVisible(this.tabPageBinaryInputs, true);
-            SetTabVisible(this.tabPageBinaryInputs2, isENMAX);
             SetTabVisible(this.tabPageBinaryOuputs, true);
+            SetTabVisible(this.tabPageBinaryInputs2, this.tabPageBinaryInputs2.Controls.Count > 0);
 
-            SetTabVisible(this.tabPageAnalogInputs1, true);
-            SetTabVisible(this.tabPageAnalogInputs2, isCONED || isENMAX);
-            SetTabVisible(this.tabPageAnalogInputs3, isCONED || isENMAX);
+            // Analog input tabs: visibility based on total analog input points
+            // 20 rows/column * 2 columns = 40 points per tab
+            const int perPage = 40;
+            int totalAI = (this.analogInputs != null) ? this.analogInputs.Count : 0;
 
-            // Force OFF for this instance
-            SetTabVisible(this.tabPageAnalogOutputs, false);
+            SetTabVisible(this.tabPageAnalogInputs1, totalAI > 0);
+            SetTabVisible(this.tabPageAnalogInputs2, totalAI > perPage);          // > 40
+            SetTabVisible(this.tabPageAnalogInputs3, totalAI > (perPage * 2));    // > 80
+            SetTabVisible(this.tabPageAnalogInputs4, totalAI > (perPage * 3));    // > 120
 
-            if (this.tabControlMemphisDNP.TabPages.Count > 0 &&
-                this.tabControlMemphisDNP.SelectedIndex < 0)
+            // Analog outputs: default ON, explicitly OFF only where not supported
+            bool showAnalogOutputs = (this.customer != Customers.TORONTO_HYDRO);
+            SetTabVisible(this.tabPageAnalogOutputs, showAnalogOutputs);
+
+            // Keep selected tab valid
+            if (this.tabControlMemphisDNP.TabPages.Count > 0)
             {
-                this.tabControlMemphisDNP.SelectedIndex = 0;
+                if (this.tabControlMemphisDNP.SelectedTab == null ||
+                    !this.tabControlMemphisDNP.TabPages.Contains(this.tabControlMemphisDNP.SelectedTab))
+                {
+                    this.tabControlMemphisDNP.SelectedIndex = 0;
+                }
             }
         }
 
@@ -1554,7 +1538,7 @@ namespace RelayControlLibrary
         {
             TabPage selected = this.tabControlMemphisDNP.SelectedTab;
 
-            // ----- Helper local actions -----
+            // --- local actions ---
             void RemoveAnalogButtonsFrom(TabPage page)
             {
                 if (page.Controls.Contains(this.buttonSendAnalogEnables))
@@ -1573,23 +1557,6 @@ namespace RelayControlLibrary
                     page.Controls.Add(this.buttonEnableAllAnalogEvents);
                     page.Controls.Add(this.buttonDisableAllAnalogEvents);
                 }
-            }
-
-            void SetAnalogButtonLocations()
-            {
-                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(170, 720);
-                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(470, 720);
-                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(770, 720);
-            }
-
-            void SetAnalogButtonsVisibleEnabled(bool enabledVisible)
-            {
-                this.buttonDisableAllAnalogEvents.Enabled = enabledVisible;
-                this.buttonDisableAllAnalogEvents.Visible = enabledVisible;
-                this.buttonEnableAllAnalogEvents.Enabled = enabledVisible;
-                this.buttonEnableAllAnalogEvents.Visible = enabledVisible;
-                this.buttonSendAnalogEnables.Enabled = enabledVisible;
-                this.buttonSendAnalogEnables.Visible = enabledVisible;
             }
 
             void RemoveBinaryButtonsFrom(TabPage page)
@@ -1612,119 +1579,95 @@ namespace RelayControlLibrary
                 }
             }
 
-            void SetBinaryButtonsThStyle()
-            {
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);
-                this.buttonDisableAllBinaryEvents.Visible = true;
-
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720);
-                this.buttonEnableAllBinaryEvents.Visible = true;
-
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720);
-                this.buttonSendBinaryEventEnables.Visible = true;
-            }
-
-            void SetBinaryButtonsConedPsegStyle()
-            {
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(670, 723);
-                this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(192, 32);
-                this.buttonDisableAllBinaryEvents.Visible = true;
-
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(870, 723);
-                this.buttonEnableAllBinaryEvents.Size = new System.Drawing.Size(190, 32);
-                this.buttonEnableAllBinaryEvents.Visible = true;
-
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(1285, 722);
-                this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(220, 32);
-                this.buttonSendBinaryEventEnables.Visible = true;
-            }
-
-            void SetBinaryButtonsEnmaxStyleHidden()
-            {
-                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(170, 720);
-                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(470, 720);
-                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(770, 720);
-
-                // DNP Event Enable buttons not displayed for Enmax
-                this.buttonDisableAllBinaryEvents.Enabled = false;
-                this.buttonDisableAllBinaryEvents.Visible = false;
-                this.buttonEnableAllBinaryEvents.Enabled = false;
-                this.buttonEnableAllBinaryEvents.Visible = false;
-                this.buttonSendBinaryEventEnables.Enabled = false;
-                this.buttonSendBinaryEventEnables.Visible = false;
-            }
-
-            // ----- Analog tab handling -----
+            // ---------- Analog tabs ----------
+            // ---------- Analog tabs ----------
             if (selected == this.tabPageAnalogInputs1 ||
                 selected == this.tabPageAnalogInputs2 ||
-                selected == this.tabPageAnalogInputs3)
+                selected == this.tabPageAnalogInputs3 ||
+                selected == this.tabPageAnalogInputs4)
             {
-                // remove from all three first
                 RemoveAnalogButtonsFrom(this.tabPageAnalogInputs1);
                 RemoveAnalogButtonsFrom(this.tabPageAnalogInputs2);
                 RemoveAnalogButtonsFrom(this.tabPageAnalogInputs3);
+                RemoveAnalogButtonsFrom(this.tabPageAnalogInputs4);
 
-                // add to selected analog tab
                 EnsureAnalogButtonsOn(selected);
-                SetAnalogButtonLocations();
 
-                // runtime equivalent of #if !TORONTO_HYDRO
-                bool analogEventsEnabled = (this.customer == Customers.TORONTO_HYDRO);
-                SetAnalogButtonsVisibleEnabled(analogEventsEnabled);
+                int footerY = 625;
+
+                this.buttonDisableAllAnalogEvents.Location = new System.Drawing.Point(85, footerY);
+                this.buttonDisableAllAnalogEvents.Size = new System.Drawing.Size(204, 30);
+
+                this.buttonEnableAllAnalogEvents.Location = new System.Drawing.Point(305, footerY);
+                this.buttonEnableAllAnalogEvents.Size = new System.Drawing.Size(204, 30);
+
+                this.buttonSendAnalogEnables.Location = new System.Drawing.Point(525, footerY);
+                this.buttonSendAnalogEnables.Size = new System.Drawing.Size(220, 30);
+
+                this.buttonDisableAllAnalogEvents.BringToFront();
+                this.buttonEnableAllAnalogEvents.BringToFront();
+                this.buttonSendAnalogEnables.BringToFront();
+
+                bool analogEventsEnabledVisible = true;
+
+                this.buttonDisableAllAnalogEvents.Enabled = analogEventsEnabledVisible;
+                this.buttonDisableAllAnalogEvents.Visible = analogEventsEnabledVisible;
+
+                this.buttonEnableAllAnalogEvents.Enabled = analogEventsEnabledVisible;
+                this.buttonEnableAllAnalogEvents.Visible = analogEventsEnabledVisible;
+
+                this.buttonSendAnalogEnables.Enabled = analogEventsEnabledVisible;
+                this.buttonSendAnalogEnables.Visible = analogEventsEnabledVisible;
+
                 return;
             }
 
-            // ----- Binary Inputs tab handling -----
+            // ---------- Binary Inputs tab 1 ----------
             if (selected == this.tabPageBinaryInputs)
             {
+                RemoveBinaryButtonsFrom(this.tabPageBinaryInputs2);
                 EnsureBinaryButtonsOn(this.tabPageBinaryInputs);
 
-                // runtime equivalent of old #if branches
-                if (this.customer == Customers.TORONTO_HYDRO)
-                {
-                    SetBinaryButtonsThStyle();
-                    this.buttonDisableAllBinaryEvents.Enabled = true;
-                    this.buttonEnableAllBinaryEvents.Enabled = true;
-                    this.buttonSendBinaryEventEnables.Enabled = true;
-                }
-                else if (this.customer == Customers.CONED || this.customer == Customers.PSEG)
-                {
-                    SetBinaryButtonsConedPsegStyle();
-                    this.buttonDisableAllBinaryEvents.Enabled = true;
-                    this.buttonEnableAllBinaryEvents.Enabled = true;
-                    this.buttonSendBinaryEventEnables.Enabled = true;
-                }
-                else if (this.customer == Customers.ENMAX)
-                {
-                    RemoveBinaryButtonsFrom(this.tabPageBinaryInputs2); // mirrors old ENMAX swap behavior
-                    EnsureBinaryButtonsOn(this.tabPageBinaryInputs);
-                    SetBinaryButtonsEnmaxStyleHidden();
-                }
-                else
-                {
-                    // default: hide buttons for other customers
-                    this.buttonDisableAllBinaryEvents.Enabled = false;
-                    this.buttonDisableAllBinaryEvents.Visible = false;
-                    this.buttonEnableAllBinaryEvents.Enabled = false;
-                    this.buttonEnableAllBinaryEvents.Visible = false;
-                    this.buttonSendBinaryEventEnables.Enabled = false;
-                    this.buttonSendBinaryEventEnables.Visible = false;
-                }
+                int footerY = 625; // was 550
+
+                this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(85, footerY);
+                this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(204, 30);
+
+                this.buttonEnableAllBinaryEvents.Location = new System.Drawing.Point(305, footerY);
+                this.buttonEnableAllBinaryEvents.Size = new System.Drawing.Size(204, 30);
+
+                this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(525, footerY);
+                this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(220, 30);
+
+                // add back Stop Requesting Data on BI tab
+                this.buttonDisableAllBinaryEvents.BringToFront();
+                this.buttonEnableAllBinaryEvents.BringToFront();
+                this.buttonSendBinaryEventEnables.BringToFront();
+               
+
+                bool showBinaryEventButtons = (this.customer == Customers.TORONTO_HYDRO);
+
+                this.buttonDisableAllBinaryEvents.Enabled = showBinaryEventButtons;
+                this.buttonDisableAllBinaryEvents.Visible = showBinaryEventButtons;
+
+                this.buttonEnableAllBinaryEvents.Enabled = showBinaryEventButtons;
+                this.buttonEnableAllBinaryEvents.Visible = showBinaryEventButtons;
+
+                this.buttonSendBinaryEventEnables.Enabled = showBinaryEventButtons;
+                this.buttonSendBinaryEventEnables.Visible = showBinaryEventButtons;
 
                 return;
             }
 
-            // ----- Binary Inputs 2 tab handling -----
+            // ---------- Binary Inputs tab 2 ----------
             if (selected == this.tabPageBinaryInputs2)
             {
-                // old behavior only had logic here for ENMAX
-                if (this.customer == Customers.ENMAX)
-                {
-                    RemoveBinaryButtonsFrom(this.tabPageBinaryInputs);
-                    EnsureBinaryButtonsOn(this.tabPageBinaryInputs2);
-                    SetBinaryButtonsEnmaxStyleHidden();
-                }
+                // Footer lives on BI tab 1 only
+                RemoveBinaryButtonsFrom(this.tabPageBinaryInputs2);
 
+                this.buttonDisableAllBinaryEvents.Visible = false;
+                this.buttonEnableAllBinaryEvents.Visible = false;
+                this.buttonSendBinaryEventEnables.Visible = false;
                 return;
             }
         }
@@ -2229,10 +2172,6 @@ namespace RelayControlLibrary
                     this.tabControlMemphisDNP.SelectedIndex = 0;
 
                 this.tabControlMemphisDNP_SelectedIndexChanged_1(this, EventArgs.Empty);
-
-                System.Diagnostics.Debug.WriteLine(
-                    $"[VisibleChanged] HasAnalogOut={this.tabControlMemphisDNP.TabPages.Contains(this.tabPageAnalogOutputs)}, " +
-                    $"TabCount={this.tabControlMemphisDNP.TabPages.Count}");
 
                 this.PerformLayout();
                 this.Refresh();
