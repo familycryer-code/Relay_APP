@@ -645,7 +645,7 @@ namespace RelayControlLibrary
         #region Customer Handlers
         private void setCustomer()
         {
-
+            this.numericUpDownMaxEvents.Value = 120;
             this.makeDefault();
             this.customerChanged = false;
         }
@@ -1097,6 +1097,17 @@ namespace RelayControlLibrary
     {
         public DNPSaveStateV4()
         {
+            this.LinkLayerConfirm = "Never";
+            this.SelfAddress = false;
+            this.UnsolResponse = false;
+            this.UnsolTimeout = 1000;
+            this.FragmentSize = 1024;
+            this.SourceAddress = 4;
+            this.DestinationAddress = 3;
+            this.MaxEvents = 120;
+            this.UnsolRetries = 5;
+            this.TerminationResistor = false;
+            this.DNPBaudRate = 9600;
         }
 
         public string Name;
