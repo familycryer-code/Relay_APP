@@ -217,7 +217,6 @@ namespace RelayControlLibrary
             this.timer_FastMode = new System.Windows.Forms.Timer(this.components);
             this.timer_FireFastConfig = new System.Windows.Forms.Timer(this.components);
             this.tabPageDNP = new System.Windows.Forms.TabPage();
-            this.ucDNP2 = new RelayControlLibrary.ucDNP();
             this.panel_TXco = new System.Windows.Forms.Panel();
             this.panel_dnpComSet = new System.Windows.Forms.Panel();
             this.lbl_UplinkEn = new System.Windows.Forms.Label();
@@ -2443,7 +2442,7 @@ namespace RelayControlLibrary
             // tabPageDNP
             // 
             this.tabPageDNP.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageDNP.Controls.Add(this.ucDNP2);
+            //this.tabPageDNP.Controls.Add(this.ucDNP2);
             this.tabPageDNP.Location = new System.Drawing.Point(4, 24);
             this.tabPageDNP.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDNP.Name = "tabPageDNP";
@@ -2451,17 +2450,7 @@ namespace RelayControlLibrary
             this.tabPageDNP.Size = new System.Drawing.Size(1449, 910);
             this.tabPageDNP.TabIndex = 9;
             this.tabPageDNP.Text = "DNP";
-            // 
-            // ucDNP2
-            // 
-            this.ucDNP2.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP2.Customer = RelayControlLibrary.Customers.ENMAX;
-            this.ucDNP2.DNPLabelStatus = false;
-            this.ucDNP2.Location = new System.Drawing.Point(10, 4);
-            this.ucDNP2.Margin = new System.Windows.Forms.Padding(4);
-            this.ucDNP2.Name = "ucDNP2";
-            this.ucDNP2.Size = new System.Drawing.Size(1147, 644);
-            this.ucDNP2.TabIndex = 0;
+           
             // 
             // panel_TXco
             // 
@@ -3209,7 +3198,6 @@ namespace RelayControlLibrary
         private System.Windows.Forms.CheckBox checkBoxExtendedPLCMessage;
         private System.Windows.Forms.Label labelGEWHDisplay;
         public RelayControlLibrary.ucTransmitterMonitoring ucTransmitterMonitoring2;
-        public RelayControlLibrary.ucDNP ucDNP2;
         private System.Windows.Forms.Panel panelFlagSettings;
         private System.Windows.Forms.Panel panelFlagSettingH;
         public System.Windows.Forms.RadioButton radioButtonFPHClose;

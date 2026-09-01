@@ -1385,13 +1385,10 @@ namespace RelayControlLibrary
                 //if (this.checkBoxDNPEnable.Checked)
                 if (dnpUplinkK.dnpEnabledWithKit == true) // check box checked AND DNP Uplink kit is also present
                 {
-                    applyDNP.applyDNPSettings = false; //uplinkC.uplinkCount += 1;
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
                 }
                 else
                 {
-                    applyTX.applyTxSettings = false; //uplinkC.uplinkCount = 0;
-                    applyDNP.applyDNPSettings = false;
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xFB);
                 }
 
@@ -2382,28 +2379,37 @@ namespace RelayControlLibrary
 
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("buttonSendAllDNPSettings_Click fired");
 #if DNP
-            if (this.checkBoxDNPEnable.Checked && dnpUplinkK.dnpEnabledWithKit && applyTX.applyTxSettings)
+            if (this.checkBoxDNPEnable.Checked && dnpUplinkK.dnpEnabledWithKit)
             {
                 applyDNP.applyDNPSettings = true;
             }
             else
             {
-
                 MessageBox.Show(
-                    "Please enable the DNP Uplink feature and click Apply in Transmission Commands before applying DNP settings.",
+                    "Please enable the DNP Uplink feature before applying DNP settings.",
                     "DNP Uplink Required");
                 applyDNP.applyDNPSettings = false;
                 return;
             }
 
-            //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-                                                                      //this.enableAll(false);
-                                                                      //========================================================================================================
+            MessageBox.Show("Before SendAllDNPSettings");
 
-            this.SendAllDNPSettings();
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                this.SendAllDNPSettings();
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+            }
+
+            MessageBox.Show("After SendAllDNPSettings");
 #endif
         }
         private static int _DNPpacketLength = 98;

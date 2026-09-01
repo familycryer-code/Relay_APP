@@ -99,7 +99,7 @@ namespace RelayControl
                 this.ucTripMode2.Customer = this.customer;
                 this.ucCloseMode1.Customer = this.customer;
                 this.ucTransmitter1.Customer = this.customer;
-                this.ucDNP1.Customer = this.customer;
+                this.ucDNP.Customer = this.customer;
                 this.ucForceCustomerSwitch1.Customer = this.customer;
                 this.ucEventGraph0.Customer = this.customer;
                 this.ucEventGraph1.Customer = this.customer;
@@ -464,7 +464,7 @@ namespace RelayControl
                 this.ucCalibration1.Send += standardizedSendData;
                 this.ucPumpMode1.Send += standardizedSendData;
                 this.ucTransmitter1.Send += new ucTransmitter.SendEventHandler(ucTransmitter1_Send);
-                this.ucDNP1.Send += new ucDNP.SendEventHandler(ucDNP1_Send);
+                this.ucDNP.Send += new ucDNP.SendEventHandler(ucDNP_Send);
                 this.ucShortRange1.Send += standardizedSendData;
                 this.ucTimeControl1.SendData += standardizedSendData;
                 this.ucSafeService1.Send += standardizedSendData;
@@ -482,7 +482,7 @@ namespace RelayControl
                 this.ucTransmitter1.TransmitterException += this.standardExceptionMessage;
                 this.ucShortRange1.ErrorHandler += this.standardExceptionMessage;
                 this.ucRelayProgramming1.Error += this.standardExceptionMessage;
-                this.ucDNP1.DNPControlException += this.standardExceptionMessage;
+                this.ucDNP.DNPControlException += this.standardExceptionMessage;
                 this.ucTimeControl1.TimeControlError += standardExceptionMessage;
                 this.ucLiveData1.Error += this.standardExceptionMessage;
                 this.ucSafeService1.SafeServiceException += this.standardExceptionMessage;
@@ -881,8 +881,8 @@ namespace RelayControl
                 this.ucTransmitter1.grpBx_DNPSettings.Font = new Font(this.ucTransmitter1.grpBx_DNPSettings.Font, FontStyle.Bold);
                 foreach (Control child in this.ucTransmitter1.grpBx_DNPSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
-                this.ucDNP1.groupBoxDNPSettings.Font = new Font(this.ucDNP1.groupBoxDNPSettings.Font, FontStyle.Bold);
-                foreach (Control child in this.ucDNP1.groupBoxDNPSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
+                this.ucDNP.groupBoxDNPSettings.Font = new Font(this.ucDNP.groupBoxDNPSettings.Font, FontStyle.Bold);
+                foreach (Control child in this.ucDNP.groupBoxDNPSettings.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
 
                 this.ucPhasorGraph1.groupBoxTHD.Font = new Font(this.ucPhasorGraph1.groupBoxTHD.Font, FontStyle.Bold);
                 foreach (Control child in this.ucPhasorGraph1.groupBoxTHD.Controls) child.Font = new Font(child.Font, FontStyle.Regular);
@@ -1710,10 +1710,9 @@ namespace RelayControl
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     if (DNPEnabled)
-                        ucDNP1.SendAllDNPSettings();
+                        ucDNP.SendAllDNPSettings();
 
-                    // this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-                    // this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
+                    
                     if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
                         this.ucTransmitter1.DNPCommLabelStatus = true;
                     else
@@ -1795,24 +1794,18 @@ namespace RelayControl
             }
         }
 
-        void ucDNP1_Send(SendEventArgs sEA)
+        void ucDNP_Send(SendEventArgs sEA)
         {
+            this.sendPacket(sEA.SendPacket);
 
-            if (sEA.SendPacket[0] != 0x55)
-                this.sendPacketAck(sEA.SendPacket, "DNP Control");
-            else
-                this.sendPacket(sEA.SendPacket);
+            // TEMP: do not request relay registers yet
+            // until we confirm this is not re-entering the wait loop.
             if (!this.sendAll && sEA.SendPacket[0] != 0x55)
             {
-                requestRelayRegisters();
-                this.requestAllData();
-                this.parametersLoaded = true;
-
-                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
                     this.ucTransmitter1.DNPCommLabelStatus = true;
                 else
                     this.ucTransmitter1.DNPCommLabelStatus = false;
-
             }
         }
 
@@ -5998,8 +5991,6 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
 
-            //  this.ucDNP1.DNPLabelStatus = ucTransmitter1.CheckDNPEnable;
-            //  this.ucTransmitter1.DNPCommLabelStatus = ucTransmitter1.CheckDNPEnable;
             if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
                 this.ucTransmitter1.DNPCommLabelStatus = true;
             else
@@ -6527,28 +6518,25 @@ namespace RelayControl
         private void requestAllDataNoMasterRev()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             if (this.InvokeRequired)
             {
-                requestAllCallBack rACB = new requestAllCallBack(this.requestAllData);
-                this.Invoke(rACB);
+                // Use BeginInvoke so we do not block the calling thread.
+                this.BeginInvoke(new Action(requestAllDataNoMasterRev));
+                return;
             }
-            else
+
+            this.requestedAllParameters = true;
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
+
+            if (!ucRelayProgramming1.ReprogrammingInProgress)
             {
-                this.requestedAllParameters = true;
-                this.ProgramState = ProgramStates.DownloadingAllParameters;
-
-
-                if (!ucRelayProgramming1.ReprogrammingInProgress)
-                {
-                    logger.Debug("Requesting Relay Revision");
-                    clearRemoteBuffer();
-                    this.requestRelayRevision();
-                    logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
-                    this.timerResponseTimeOut.Enabled = true;
-                }
-
+                logger.Debug("Requesting Relay Revision");
+                clearRemoteBuffer();
+                this.requestRelayRevision();
+                logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
+                this.timerResponseTimeOut.Enabled = true;
             }
-            return;
         }
 
         private void relayNotFound()
@@ -7953,7 +7941,7 @@ namespace RelayControl
             sS.PumpSettings = this.ucPumpMode1.GetSavedState();
             sS.CloseSettings = this.ucCloseMode1.GetSavedState();
 #if DNP
-            sS.DNPSettings = this.ucDNP1.GetSavedState();
+            sS.DNPSettings = this.ucDNP.GetSavedState();
 #endif
             sS.SafeServiceSettings = this.ucSafeService1.GetSavedState();
             sS.CTRatio = this.CTRatio;
@@ -8027,7 +8015,7 @@ namespace RelayControl
             }
             else
             {
-                this.ucDNP1.SetAllValues(sS.DNPSettings);
+                this.ucDNP.SetAllValues(sS.DNPSettings);
             }
 #endif
             if (sS.SafeServiceSettings == null)
@@ -8167,12 +8155,12 @@ namespace RelayControl
             if (!this.DNPEnabled) return;
 
 #if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
-    this.ucDNP1.SetDnpBaudIndex(2); // 9600
-    this.ucDNP1.SendAllDNPSettings();
+    this.ucDNP.SetDnpBaudIndex(2); // 9600
+    this.ucDNP.SendAllDNPSettings();
     dnpBaudInitialized = true;
 #elif PSEG
-    this.ucDNP1.SetDnpBaudIndex(5); // 19200
-    this.ucDNP1.SendAllDNPSettings();
+    this.ucDNP.SetDnpBaudIndex(5); // 19200
+    this.ucDNP.SendAllDNPSettings();
     dnpBaudInitialized = true;
 #else
             return;
@@ -10202,8 +10190,8 @@ namespace RelayControl
             // NOTE: use DNP default flag, not TX flag
             if (dataBackupD.dataBackup_dnpDefaults)
             {
-                this.ucDNP1.buttonDefaults_Click(this, new EventArgs());
-                this.ucDNP1.buttonSendAllDNPSettings_Click(this, new EventArgs());
+                this.ucDNP.buttonDefaults_Click(this, new EventArgs());
+                this.ucDNP.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 

@@ -14,10 +14,13 @@ namespace RelayControlLibrary
 {
     public partial class ucDNP : UserControl
     {
+        private static int _ucDNPInstanceCounter = 0;
+    
         public ucDNP()
         {
             InitializeComponent();
             this.numericUpDownFragmentSize.ValueChanged += new System.EventHandler(this.numericUpDownFragmentSize_ValueChanged);
+            
         }
         public delegate void SendEventHandler(SendEventArgs sEA);
         public event SendEventHandler Send;
@@ -54,10 +57,19 @@ namespace RelayControlLibrary
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-            //this.enableAll(false);
+                                                                      //this.enableAll(false);
+
             //========================================================================================================
 
-            SendAllDNPSettings();
+            try
+            {
+                this.SendAllDNPSettings();
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+            }
         }
 
         private decimal SnapFragmentSize(decimal value)

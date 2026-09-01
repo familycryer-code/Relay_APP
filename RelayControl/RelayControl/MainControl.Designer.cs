@@ -256,7 +256,7 @@ namespace RelayControl
             this.panel_RelayCo = new System.Windows.Forms.Panel();
             this.tabPageDNP = new System.Windows.Forms.TabPage();
             this.buttonResetRelay2 = new System.Windows.Forms.Button();
-            this.ucDNP1 = new RelayControlLibrary.ucDNP();
+            this.ucDNP = new RelayControlLibrary.ucDNP();
             this.tabPageArcFault = new System.Windows.Forms.TabPage();
             this.buttonArcFaultStartMonitoring = new System.Windows.Forms.Button();
             this.ucArcFault1 = new RelayControlLibrary.ucArcFault();
@@ -3098,7 +3098,7 @@ namespace RelayControl
             // 
             this.tabPageDNP.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageDNP.Controls.Add(this.buttonResetRelay2);
-            this.tabPageDNP.Controls.Add(this.ucDNP1);
+            this.tabPageDNP.Controls.Add(this.ucDNP);
             this.tabPageDNP.Location = new System.Drawing.Point(4, 27);
             this.tabPageDNP.Margin = new System.Windows.Forms.Padding(5);
             this.tabPageDNP.Name = "tabPageDNP";
@@ -3119,16 +3119,16 @@ namespace RelayControl
             this.buttonResetRelay2.UseVisualStyleBackColor = true;
             this.buttonResetRelay2.Visible = false;
             // 
-            // ucDNP1
+            // ucDNP
             // 
-            this.ucDNP1.BackColor = System.Drawing.SystemColors.Control;
-            this.ucDNP1.Customer = RelayControlLibrary.Customers.ENMAX;
-            this.ucDNP1.DNPLabelStatus = false;
-            this.ucDNP1.Location = new System.Drawing.Point(12, 5);
-            this.ucDNP1.Margin = new System.Windows.Forms.Padding(5);
-            this.ucDNP1.Name = "ucDNP1";
-            this.ucDNP1.Size = new System.Drawing.Size(1684, 1125);
-            this.ucDNP1.TabIndex = 0;
+            this.ucDNP.BackColor = System.Drawing.SystemColors.Control;
+            this.ucDNP.Customer = RelayControlLibrary.Customers.ENMAX;
+            this.ucDNP.DNPLabelStatus = false;
+            this.ucDNP.Location = new System.Drawing.Point(12, 5);
+            this.ucDNP.Margin = new System.Windows.Forms.Padding(5);
+            this.ucDNP.Name = "ucDNP";
+            this.ucDNP.Size = new System.Drawing.Size(1684, 1125);
+            this.ucDNP.TabIndex = 0;
             // 
             // tabPageArcFault
             // 
@@ -3514,7 +3514,7 @@ namespace RelayControl
         private System.Windows.Forms.Label labelQuietMode;
         private System.Windows.Forms.Timer timerFindRelayTimeout;
         private System.Windows.Forms.TabPage tabPageDNP;
-        public RelayControlLibrary.ucDNP ucDNP1;
+        public RelayControlLibrary.ucDNP ucDNP;
         private System.Windows.Forms.Button buttonResetRelay2;
         private System.Windows.Forms.Button buttonToggleQuietMode;
         private System.Windows.Forms.Button buttonBlockAndTrip;
