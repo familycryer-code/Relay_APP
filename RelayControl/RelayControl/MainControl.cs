@@ -148,15 +148,6 @@ namespace RelayControl
             }
         }
 
-        private bool blockDNPEnableFromTransmitterSavedVal = false;
-        private bool blockDNPEnableFromTransmitterSettings
-        {
-            get { return this.blockDNPEnableFromTransmitterSavedVal; }
-            set
-            {
-                this.blockDNPEnableFromTransmitterSavedVal = value;
-            }
-        }
         private bool dNPEnabledSavedVal = false;
         private bool IsDnpCustomer()
         {
@@ -1822,8 +1813,13 @@ namespace RelayControl
 
         private bool RelaySupportsDnp()
         {
-            return !string.IsNullOrEmpty(receivedMasterRevision) &&
-                   receivedMasterRevision.Contains("DNP");
+            string revision =
+                !string.IsNullOrEmpty(receivedMasterRevision)
+                    ? receivedMasterRevision
+                    : this.ucRelayProgramming1.MasterRevisionString;
+
+            return !string.IsNullOrEmpty(revision) &&
+                   revision.Contains("DNP");
         }
 
         private void UpdateDnpCommStatusFromRelayState(bool relayDnpActive)
@@ -3697,7 +3693,6 @@ namespace RelayControl
                 {
                     this.checkSerialNumber = false;
                     this.savedSerialNumber = tempI;
-                    this.blockDNPEnableFromTransmitterSettings = false;
                     this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
 
                     this.textBoxRelaySNControl.Text = tempI.ToString();
@@ -3746,12 +3741,9 @@ namespace RelayControl
                 this.ucTransmitter1.DNPEnabled = txUplinkFeatureEnabled;
 
                 // DNP comm capability
-                if (!this.blockDNPEnableFromTransmitterSettings)
-                {
-                    // Intentionally decoupled from txUplinkFeatureEnabled:
-                    // this DNPEnabled flag represents DNP comm availability, not uplink feature state.
-                    this.DNPEnabled = IsDnpCommSupported();
-                }
+                // Intentionally decoupled from txUplinkFeatureEnabled:
+                // this DNPEnabled flag represents DNP comm availability, not uplink feature state.
+                this.DNPEnabled = IsDnpCommSupported();
 
                 if ((bytePacket[28] & 0x08) == 0x08)
                 {
@@ -4121,6 +4113,8 @@ namespace RelayControl
 
         private void checkDNPEnabled()
         {
+            bool sendProperDNPValue = false;
+
             if (!this.checkedDNPEnable)
                 this.checkedDNPEnable = true;
             else
@@ -4134,6 +4128,13 @@ namespace RelayControl
                 (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable))
             {
                 this.ucTransmitter1.DNPEnabled = false;
+                sendProperDNPValue = true;
+            }
+
+            if (sendProperDNPValue)
+            {
+                this.ucTransmitter1.SendTransmitterSettings();
+                Thread.Sleep(100);
             }
         }
 
@@ -5228,20 +5229,19 @@ namespace RelayControl
 
                 receivedMasterRevision = revision;
 
-                if (this.Customer == Customers.None)
-                {
-                    this.Customer = Customers.ENMAX;
-                }
-
                 // Keep build/customer assignment stable during runtime.
                 // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
                 bool dnpCommSupported = IsDnpCommSupported();
                 this.DNPEnabled = dnpCommSupported;
-                this.blockDNPEnableFromTransmitterSettings = dnpCommSupported;
 
                 if (revision.Contains("HBD"))
                 {
                     relayHBD.relayWithHBD = true;
+                }
+
+                if (this.Customer == Customers.None)
+                {
+                    this.Customer = Customers.ENMAX;
                 }
 
 #if CONED
@@ -8090,10 +8090,12 @@ namespace RelayControl
             
 
 #if DNP
-            if (IsDnpCommSupported() && dnpUplinkK.dnpEnabledWithKit)
+            if (IsDnpCommSupported() &&
+                (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit))
             {
                 // Intentional: ForceDNPEnable controls the transmitter uplink feature bit,
-                // and remains tied to kit availability even though DNP comm settings are decoupled.
+                // and remains tied to kit availability (except TORONTO_HYDRO legacy behavior)
+                // even though DNP comm settings are decoupled.
                 this.ucTransmitter1.ForceDNPEnable = true;
             }
 #endif
