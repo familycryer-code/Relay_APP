@@ -1084,12 +1084,20 @@ namespace RelayControl
             if (!this.relayFound)
                 return;
 
-            logger.Trace("Sending Data to Relay: {0}", BitConverter.ToString(sEA.SendPacket.ToArray()));
+            string packetText = BitConverter.ToString(sEA.SendPacket.ToArray());
+            string sourceText = o?.ToString() ?? "unknown";
+
+            MessageBox.Show(
+                $"Source: {sourceText}\nPacket: {packetText}",
+                "Sending to Relay");
+
+            logger.Trace("Sending Data to Relay: {0}", packetText);
+
             if (sEA.WithAck)
             {
                 if (!this.sendAll)
                 {
-                    this.sendPacketAck(sEA.SendPacket, o.ToString());
+                    this.sendPacketAck(sEA.SendPacket, sourceText);
                     if (sEA.RequestAll)
                     {
                         this.requestAllData();
@@ -1690,15 +1698,7 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
-
-                    if (DNPEnabled)
-                    {
-                        ucDNP.SendAllDNPSettings();
-                      
-                    }
-
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
-
                     break;
                 case RelayProgrammingSendCommands.RawData:
                     this.ucSafeService1.LoadingNewCode = true;
@@ -1780,6 +1780,7 @@ namespace RelayControl
 
         void ucDNP_Send(SendEventArgs sEA)
         {
+            
             if (sEA.SendPacket == null || sEA.SendPacket.Length == 0)
             {
                 logger.Warn("ucDNP_Send called with empty packet.");
@@ -1801,7 +1802,7 @@ namespace RelayControl
                 this.sendPacketAck(sEA.SendPacket, caller);
 
                 if (!this.loadingNewCode)
-                    this.requestDNPSettings();
+                    this.requestAllData();
 
                 this.parametersLoaded = true;
                 return;
@@ -4115,11 +4116,6 @@ namespace RelayControl
         {
             bool sendProperDNPValue = false;
 
-            if (!this.checkedDNPEnable)
-                this.checkedDNPEnable = true;
-            else
-                return;
-
             bool dnpCommSupported = IsDnpCommSupported();
 
             this.DNPEnabled = dnpCommSupported;
@@ -5229,11 +5225,6 @@ namespace RelayControl
 
                 receivedMasterRevision = revision;
 
-                // Keep build/customer assignment stable during runtime.
-                // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
-                bool dnpCommSupported = IsDnpCommSupported();
-                this.DNPEnabled = dnpCommSupported;
-
                 if (revision.Contains("HBD"))
                 {
                     relayHBD.relayWithHBD = true;
@@ -5243,6 +5234,11 @@ namespace RelayControl
                 {
                     this.Customer = Customers.ENMAX;
                 }
+                // Keep build/customer assignment stable during runtime.
+                // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
+                bool dnpCommSupported = IsDnpCommSupported();
+                this.DNPEnabled = dnpCommSupported;
+                this.checkDNPEnabled();
 
 #if CONED
                 this.ucRelayProgramming1.setConEdFiles();
@@ -6627,6 +6623,7 @@ namespace RelayControl
                 {
                     logger.Trace(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
                 }
+
                 this.SCITimedOut = false;
 
                 while (this.expectingAck && !this.loadingNewCode)
@@ -6661,6 +6658,9 @@ namespace RelayControl
                 ++this.byteCount;
 
                 errorMessage = "Error Writing To Port";
+                Application.UseWaitCursor = true;
+                Cursor.Current = Cursors.WaitCursor;
+
                 this.serialPort1.Write(bytePacket, 0, bytePacket.Length);
                 this.expectingAck = true;
 
@@ -6670,6 +6670,9 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+
                 this.monitoring(false);
                 this.RegisterPolling(false);
                 this.enableAll(false);
@@ -8159,7 +8162,6 @@ namespace RelayControl
 
             int dnpBaudIndex = DnpCustomerPolicy.Uses9600DefaultBaud(this.Customer) ? 2 : 5;
             this.ucDNP.SetDnpBaudIndex(dnpBaudIndex);
-            this.ucDNP.SendAllDNPSettings();
             dnpBaudInitialized = true;
         }
 

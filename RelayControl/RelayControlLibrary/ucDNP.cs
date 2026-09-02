@@ -56,7 +56,19 @@ namespace RelayControlLibrary
         {
 #if DNP
             applyDNP.applyDNPSettings = true;
-            this.SendAllDNPSettings();
+
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                this.SendAllDNPSettings();
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+            }
 #endif
         }
 
@@ -91,12 +103,13 @@ namespace RelayControlLibrary
         }
         public void SendAllDNPSettings()
         {
+            // MessageBox.Show("send dnp settings to master processor"); // Only for testing - to be removed
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_packetLength);
                 byte tempByte = 0;
                 UInt32 tempInt32;
-             //   MessageBox.Show("1 sending command D to master"); // Only for testing - to be removed
+                //    MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
                 sEA.SendPacket[1] = (byte)'a';        //For set all
 
@@ -124,6 +137,7 @@ namespace RelayControlLibrary
                     tempByte |= 16;
                 else if ((string)this.comboBoxTerminationResistor.SelectedItem != "Disable")
                     throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem.ToString());
+
 
                 sEA.SendPacket[3] = tempByte;
 
@@ -163,6 +177,8 @@ namespace RelayControlLibrary
                 sEA.SendPacket[18] = (byte)this.comboBoxDNPBaudRate.SelectedIndex;
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
+
+                //uplinkC.uplinkCount += 1;
 
                 this.Send(sEA);
             }
@@ -297,7 +313,6 @@ namespace RelayControlLibrary
             try
             {
                 temp = (byte)(bytePacket[0] & 3);
-         //       MessageBox.Show("bytePacket[0] in DNP packet : " + bytePacket[0]); // Only for testing - to be removed
                 switch (temp)
                 {
                     case 0:
@@ -315,16 +330,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Link Layer Confirm", ex));
-                //#else
-#else
-                MessageBox.Show("WRONG DNP Setting from the master relay for Link Layer Confirm. Restoring to its Default");
+
+                MessageBox.Show("Wrong DNP Setting from the master relay for Link Layer Confirm.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -339,16 +348,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Self Address", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 2");
+
+                MessageBox.Show("DNP Address error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -363,16 +366,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Unsolicited Allowed", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 3");
+
+                MessageBox.Show("DNP Unsolicited error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -387,35 +384,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Resistor Termination", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 4");
-                this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
 
-            try
-            {
-                
-            }
-            catch (Exception ex)
-            {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Memphis Stage", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 5");
+                MessageBox.Show("DNP Resistor error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -425,20 +397,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 6");
+
+                MessageBox.Show("DNP Baud rate error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
-
-            //bytes 2 & 3???
 
             try
             {
@@ -455,20 +419,12 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting MSB unsoltimeout", ex));
-                //#else
-#else
-                MessageBox.Show("WRONG DNP Setting from the master relay for Unsolicited TimeOut. Restoring to its Default");
+                MessageBox.Show("Wrong DNP Setting from the master relay for Unsolicited TimeOut.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
-            //8 9 = Fragment Size
             try
             {
                 UInt16 tempInt = bytePacket[9];
@@ -479,16 +435,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Fragment Size", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 8");
+
+                MessageBox.Show("DNP Fragment Size error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -503,16 +453,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Destination Address", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 9");
+
+                MessageBox.Show("DNP Destination Address error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
             //12 13 Source Addy
@@ -526,16 +470,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Source Address", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 10");
+
+                MessageBox.Show("DNP Source Address error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
             //14 15 unsol max retries
@@ -549,16 +487,10 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Unsolicited Max Retries", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 11");
+
+                MessageBox.Show("DNP Unsolicited Retry error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
@@ -571,41 +503,15 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Max Events", ex));
-                //#else
-#else
-                MessageBox.Show("Comes here for verify DNP setting error 12");
+
+                MessageBox.Show("DNP error.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
                 dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
                 return;
             }
 
             try
             {
-                this.comboBoxDNPBaudRate.SelectedIndex = bytePacket[17];
-            }
-            catch (Exception ex)
-            {
-#if DEBUG
-                this.errorHandler(new Exception("Error Setting Baud Rate", ex));
-#else
-    MessageBox.Show("Comes here for verify DNP setting error 13");
-    this.errorHandler(new Exception(dNPErrorMsg, ex));
-#endif
-                dataBackupDNP.dataBackup_dnpDefaults = true;
-                this.buttonDefaults_Click(this, new EventArgs());
-                this.buttonSendAllDNPSettings_Click(this, new EventArgs());
-                return;
-            }
-
-
-            try
-            {
-               
                     ucDNPDeadBand uDDB = new ucDNPDeadBand();
                     uint index = 30;
 
@@ -623,7 +529,6 @@ namespace RelayControlLibrary
                         }
                     }
                
-
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -635,10 +540,7 @@ namespace RelayControlLibrary
             {
                 dataBackupDNP.dataBackup_dnpDefaults = true;
                 this.restoreDefaultsDeadBandVariables();
-
-                //this.errorHandler(new Exception("Error Setting Trigger Ranges", ex));
             }
-
         }
         #endregion
 
