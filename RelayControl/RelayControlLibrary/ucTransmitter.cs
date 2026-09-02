@@ -526,14 +526,19 @@ namespace RelayControlLibrary
                 bool isRev10Plus = this.MasterRevisionNumber >= Constants.Rev10Master;
                 bool isToronto = this.Customer == Customers.TORONTO_HYDRO;
 
-                // Rev10+: uplink bit controls uplink checkbox/state (except Toronto special handling)
-                if (isRev10Plus && !isToronto)
+                // Toronto Hydro is always-on for DNP status reporting
+                if (isToronto)
+                {
+                    this.DNPEnabled = true;
+                }
+                // Rev10+: uplink bit controls uplink checkbox/state for non-TH customers
+                else if (isRev10Plus)
                 {
                     this.DNPEnabled = txUplinkBit;
                 }
                 else
                 {
-                    // Rev9/older (and Toronto exception path): do NOT auto-enable uplink from TX bit
+                    // Rev9/older: do not auto-enable uplink from TX bit
                     this.DNPEnabled = false;
                 }
 
@@ -1127,9 +1132,12 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
 
-            if (this.checkBoxDNPEnable.Checked == true)
+            if (this.Customer == Customers.TORONTO_HYDRO)
             {
-                //dR = new YesNoMessageBoxResized("DNP Uplink", "Have you installed the 'DNP Uplink Kit'?", "Yes", "No").ShowDialog();
+                dnpUplinkK.dnpEnabledWithKit = true;
+            }
+            else if (this.checkBoxDNPEnable.Checked == true)
+            {
                 dR = new YesNoMessageBoxResized("Enable", " Enable DNP Uplink Feature ? ", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                 {
@@ -1152,7 +1160,7 @@ namespace RelayControlLibrary
         //private void buttonTX_Click(object sender, EventArgs e)
         public void buttonTX_Click(object sender, EventArgs e)
         {
-            if (dnpUplinkK.dnpEnabledWithKit == true)
+            if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit == true)
             {
                 applyTX.applyTxSettings = true;
             }
@@ -1382,8 +1390,11 @@ namespace RelayControlLibrary
                 else
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength & (byte)0xEF);
 
-                //if (this.checkBoxDNPEnable.Checked)
-                if (dnpUplinkK.dnpEnabledWithKit == true) // check box checked AND DNP Uplink kit is also present
+                if (this.Customer == Customers.TORONTO_HYDRO)
+                {
+                    this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
+                }
+                else if (dnpUplinkK.dnpEnabledWithKit == true)
                 {
                     this.TXSettings.Type1MessageLength = (byte)(this.TXSettings.Type1MessageLength | (byte)0x04);
                 }
@@ -2174,13 +2185,8 @@ namespace RelayControlLibrary
             set
             {
                 this.forceDNPEnable = value;
-
-                // Do not force UI checked state here.
-                // Only relay readback should set checkbox truth.
-                if (value)
-                {
-                    this.buttonTX_Click(this, new EventArgs()); // send request/apply path
-                }
+                // Intentionally do not auto-send TX settings here.
+                // The caller should decide when to apply transmitter settings.
             }
         }
 
@@ -2373,7 +2379,7 @@ namespace RelayControlLibrary
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
 #if DNP
-            if (!this.checkBoxDNPEnable.Checked)
+            if (this.Customer != Customers.TORONTO_HYDRO && !this.checkBoxDNPEnable.Checked)
             {
                 MessageBox.Show(
                     "Please enable DNP before applying DNP settings.",
@@ -2398,6 +2404,7 @@ namespace RelayControlLibrary
             }
 #endif
         }
+
         private static int _DNPpacketLength = 98;
         private void SendAllDNPSettings()
         {

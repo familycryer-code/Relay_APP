@@ -764,7 +764,7 @@ namespace RelayControlLibrary
                     this.Customer == Customers.SCE ||
                     this.Customer == Customers.TORONTO_HYDRO;
 
-            this.comboBoxDNPBaudRate.SelectedIndex = is9600Customer ? 2 : 5;
+            this.comboBoxDNPBaudRate.SelectedIndex = is9600Customer ? 3 : 4;
         }
 
         #endregion

@@ -1202,7 +1202,7 @@ namespace RelayControlLibrary
             // 
             this.comboBoxDNPBaudRate.FormattingEnabled = true;
             this.comboBoxDNPBaudRate.Items.AddRange(new object[] {
-            //"1200",
+            "1200",
             "2400",
             "4800",
             "9600",

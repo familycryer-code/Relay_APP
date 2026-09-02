@@ -3736,15 +3736,21 @@ namespace RelayControl
                 tempI += bytePacket[4];
 
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
+
                 // TX uplink feature bit (independent from DNP comm capability)
                 bool txUplinkFeatureEnabled = (bytePacket[28] & 0x04) == 0x04;
 
                 this.ucTransmitter1.DNPEnabled = txUplinkFeatureEnabled;
 
-                // DNP comm capability
-                // Intentionally decoupled from txUplinkFeatureEnabled:
-                // this DNPEnabled flag represents DNP comm availability, not uplink feature state.
-                this.DNPEnabled = IsDnpCommSupported();
+                // DNP comm capability / status
+                if (this.Customer == Customers.TORONTO_HYDRO)
+                {
+                    this.DNPEnabled = true;
+                }
+                else
+                {
+                    this.DNPEnabled = IsDnpCommSupported();
+                }
 
                 if ((bytePacket[28] & 0x08) == 0x08)
                 {
@@ -4114,8 +4120,6 @@ namespace RelayControl
 
         private void checkDNPEnabled()
         {
-            bool sendProperDNPValue = false;
-
             bool dnpCommSupported = IsDnpCommSupported();
 
             this.DNPEnabled = dnpCommSupported;
@@ -4124,13 +4128,6 @@ namespace RelayControl
                 (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable))
             {
                 this.ucTransmitter1.DNPEnabled = false;
-                sendProperDNPValue = true;
-            }
-
-            if (sendProperDNPValue)
-            {
-                this.ucTransmitter1.SendTransmitterSettings();
-                Thread.Sleep(100);
             }
         }
 
@@ -8090,18 +8087,18 @@ namespace RelayControl
             // Pump Mode
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-            
 
 #if DNP
-            if (IsDnpCommSupported() &&
-                (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit))
+            if (this.Customer == Customers.TORONTO_HYDRO)
             {
-                // Intentional: ForceDNPEnable controls the transmitter uplink feature bit,
-                // and remains tied to kit availability (except TORONTO_HYDRO legacy behavior)
-                // even though DNP comm settings are decoupled.
+                this.ucTransmitter1.ForceDNPEnable = true;
+            }
+            else if (dnpUplinkK.dnpEnabledWithKit)
+            {
                 this.ucTransmitter1.ForceDNPEnable = true;
             }
 #endif
+
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
                 // Safe Service Mode
@@ -8160,7 +8157,7 @@ namespace RelayControl
             if (!this.DNPEnabled) return;
             if (!DnpCustomerPolicy.IsDnpCommCustomer(this.Customer)) return;
 
-            int dnpBaudIndex = DnpCustomerPolicy.Uses9600DefaultBaud(this.Customer) ? 2 : 5;
+            int dnpBaudIndex = DnpCustomerPolicy.Uses9600DefaultBaud(this.Customer) ? 3 : 4;
             this.ucDNP.SetDnpBaudIndex(dnpBaudIndex);
             dnpBaudInitialized = true;
         }
@@ -9032,9 +9029,9 @@ namespace RelayControl
                     this.parametersFinishedLoading();
                 }
 
-                // Intentionally keyed off DNP comm capability (customer + relay firmware),
-                // not uplink feature state, so settings can sync even when uplink is disabled.
-                if (!IsDnpCommSupported())
+                bool isDnpSupported = IsDnpCommSupported() || this.Customer == Customers.TORONTO_HYDRO;
+
+                if (!isDnpSupported)
                 {
                     logger.Warn("Ignoring DNP settings packet because DNP comm is not supported for current customer/revision.");
                     UpdateDnpCommStatusFromRelayState(false);
@@ -9045,7 +9042,7 @@ namespace RelayControl
                     this.ucTransmitter1.SetAll(bytePacket);
                     this.ucDNP.SetAll(bytePacket);
 
-                    UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
+                    UpdateDnpCommStatusFromRelayState(true);
                 }
             }
             catch (Exception ex)
