@@ -2367,14 +2367,7 @@ namespace RelayControlLibrary
             this.comboBoxTerminationResistor.SelectedIndex = 1;
             this.comboBoxUnsolResponse.SelectedIndex = 1;
 
-            bool is9600Customer =
-                this.Customer == Customers.ENMAX ||
-                this.Customer == Customers.CONED ||
-                this.Customer == Customers.ONCOR ||
-                this.Customer == Customers.SCE ||
-                this.Customer == Customers.TORONTO_HYDRO;
-
-            SetDnpBaudByValue(is9600Customer ? 9600 : 19200);
+            SetDnpBaudByValue(DnpCustomerPolicy.GetDefaultDnpBaud(this.Customer));
         }
 
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)

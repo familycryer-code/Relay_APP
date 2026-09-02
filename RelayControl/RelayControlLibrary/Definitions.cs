@@ -2144,6 +2144,35 @@ namespace RelayControlLibrary
         public static bool dataBackup_sav5Defaults;
     }
 
+    public static class DnpCustomerPolicy
+    {
+        public static bool IsDnpCommCustomer(Customers customer)
+        {
+            return
+                customer == Customers.CONED ||
+                customer == Customers.ENMAX ||
+                customer == Customers.ONCOR ||
+                customer == Customers.PSEG ||
+                customer == Customers.SCE ||
+                customer == Customers.TORONTO_HYDRO;
+        }
+
+        public static bool Uses9600DefaultBaud(Customers customer)
+        {
+            return
+                customer == Customers.CONED ||
+                customer == Customers.ENMAX ||
+                customer == Customers.ONCOR ||
+                customer == Customers.SCE ||
+                customer == Customers.TORONTO_HYDRO;
+        }
+
+        public static int GetDefaultDnpBaud(Customers customer)
+        {
+            return Uses9600DefaultBaud(customer) ? 9600 : 19200;
+        }
+    }
+
     public static class tripModeM
     {
         public static bool tripMode_message;

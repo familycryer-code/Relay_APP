@@ -160,13 +160,7 @@ namespace RelayControl
         private bool dNPEnabledSavedVal = false;
         private bool IsDnpCustomer()
         {
-            return
-                this.Customer == Customers.CONED ||
-                this.Customer == Customers.ENMAX ||
-                this.Customer == Customers.ONCOR ||
-                this.Customer == Customers.PSEG ||
-                this.Customer == Customers.SCE ||
-                this.Customer == Customers.TORONTO_HYDRO;
+            return DnpCustomerPolicy.IsDnpCommCustomer(this.Customer);
         }
 
         private bool IsDnpCommSupported()
@@ -3971,10 +3965,7 @@ namespace RelayControl
                         File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
                     }
 
-                    if (RelaySupportsDnp())
-                    {
-                        dataBackupD.dataBackup_withDNP = true;
-                    }
+                    dataBackupD.dataBackup_withDNP = IsDnpCommSupported();
 
                     this.enableAll(false);
                     Application.UseWaitCursor = true;
@@ -4135,27 +4126,15 @@ namespace RelayControl
             else
                 return;
 
-#if DNP
-            if (IsDnpCommSupported())
-            {
-                this.DNPEnabled = true;
-            }
-            else
-            {
-                this.DNPEnabled = false;
-            }
-#else
-            if (!RelaySupportsDnp())
-            {
-                if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
-                {
-                    this.ucTransmitter1.DNPEnabled = false;
-                }
+            bool dnpCommSupported = IsDnpCommSupported();
 
-                this.ucRelayProgramming1.DNPRelay = false;
-                this.removeDNPTabs();
+            this.DNPEnabled = dnpCommSupported;
+
+            if (!dnpCommSupported &&
+                (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable))
+            {
+                this.ucTransmitter1.DNPEnabled = false;
             }
-#endif
         }
 
         private void removeDNPTabs()
@@ -5249,22 +5228,20 @@ namespace RelayControl
 
                 receivedMasterRevision = revision;
 
+                if (this.Customer == Customers.None)
+                {
+                    this.Customer = Customers.ENMAX;
+                }
+
                 // Keep build/customer assignment stable during runtime.
                 // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
-                if (RelaySupportsDnp())
-                {
-                    this.DNPEnabled = true;
-                    this.blockDNPEnableFromTransmitterSettings = true;
-                }
+                bool dnpCommSupported = IsDnpCommSupported();
+                this.DNPEnabled = dnpCommSupported;
+                this.blockDNPEnableFromTransmitterSettings = dnpCommSupported;
 
                 if (revision.Contains("HBD"))
                 {
                     relayHBD.relayWithHBD = true;
-                }
-
-                if (this.Customer == Customers.None)
-                {
-                    this.Customer = Customers.ENMAX;
                 }
 
 #if CONED
@@ -5998,10 +5975,7 @@ namespace RelayControl
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-#if (TORONTO_HYDRO || ENMAX || EVERSOURCE || PSEG)
-        
-#endif
-           
+
             UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
         }
@@ -8179,18 +8153,12 @@ namespace RelayControl
         {
             if (dnpBaudInitialized) return;
             if (!this.DNPEnabled) return;
+            if (!DnpCustomerPolicy.IsDnpCommCustomer(this.Customer)) return;
 
-#if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
-            this.ucDNP.SetDnpBaudIndex(2); // 9600
+            int dnpBaudIndex = DnpCustomerPolicy.Uses9600DefaultBaud(this.Customer) ? 2 : 5;
+            this.ucDNP.SetDnpBaudIndex(dnpBaudIndex);
             this.ucDNP.SendAllDNPSettings();
             dnpBaudInitialized = true;
-#elif PSEG
-            this.ucDNP.SetDnpBaudIndex(5); // 19200
-            this.ucDNP.SendAllDNPSettings();
-            dnpBaudInitialized = true;
-#else
-            return;
-#endif
         }
 
         private ProgressBarForm downloadProgress;
@@ -9749,12 +9717,13 @@ namespace RelayControl
             // Pull data from relay master uP if its firmware is less than rev 10.
             // Since rev 10 onwards there are storage changes for memory-corruption protection.
             bool relayHasDnp =
-                RelaySupportsDnp();
+                IsDnpCommSupported();
 
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
             try
             {
+                dataBackupD.dataBackup_withDNP = relayHasDnp;
                 StartBackupTracking(relayHasDnp);
 
                 // READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
