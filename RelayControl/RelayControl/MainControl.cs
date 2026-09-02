@@ -28,6 +28,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel.Channels;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -67,6 +68,7 @@ namespace RelayControl
         private TCPComms tcpClient;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Regex DnpSupportPattern = new Regex(@"\bDNP\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private bool pendingAutoloadAfterBackup = false;
         // Backup orchestration flags
@@ -1790,6 +1792,9 @@ namespace RelayControl
             }
         }
 
+        private const byte DnpControlOpcode = (byte)'D';
+        private const byte DnpDeadbandSubcode = (byte)'d';
+
         void ucDNP_Send(SendEventArgs sEA)
         {
             if (sEA.SendPacket == null || sEA.SendPacket.Length == 0)
@@ -1799,9 +1804,14 @@ namespace RelayControl
             }
 
             // DNP apply/deadband packets should follow ACK path like TX Apply
-            if (sEA.SendPacket[0] == (byte)'D')
+            bool isDnpApplyOrDeadbandPacket =
+                sEA.SendPacket[0] == DnpControlOpcode &&
+                sEA.SendPacket.Length > 1 &&
+                (sEA.SendPacket[1] == (byte)'a' || sEA.SendPacket[1] == DnpDeadbandSubcode);
+
+            if (isDnpApplyOrDeadbandPacket)
             {
-                string caller = (sEA.SendPacket.Length > 1 && sEA.SendPacket[1] == (byte)'d')
+                string caller = (sEA.SendPacket.Length > 1 && sEA.SendPacket[1] == DnpDeadbandSubcode)
                     ? "DNP DeadBand Send"
                     : "DNP Settings Send";
 
@@ -1821,12 +1831,13 @@ namespace RelayControl
         private bool RelaySupportsDnp()
         {
             return !string.IsNullOrEmpty(receivedMasterRevision) &&
-                   receivedMasterRevision.Contains("DNP");
+                   DnpSupportPattern.IsMatch(receivedMasterRevision);
         }
 
         private void UpdateDnpCommStatusFromRelayState(bool relayDnpActive)
         {
             this.ucTransmitter1.DNPCommLabelStatus = relayDnpActive;
+            this.ucDNP.DNPLabelStatus = relayDnpActive;
         }
 
         private Point PanelLocation = new Point(300, 12);
@@ -9051,16 +9062,21 @@ namespace RelayControl
                     this.parametersFinishedLoading();
                 }
 
+                // Intentionally keyed off relay capability (revision) instead of local DNPEnabled state
+                // so DNP comm settings can be read/synced even when uplink feature is disabled.
                 if (!RelaySupportsDnp())
                 {
-                    logger.Warn("Received DNP settings packet while relay revision does not advertise DNP support.");
+                    logger.Warn("Ignoring DNP settings packet because relay revision does not advertise DNP support.");
+                    UpdateDnpCommStatusFromRelayState(false);
                 }
+                else
+                {
+                    // Keep both DNP comm UIs in sync from the same relay readback packet.
+                    this.ucTransmitter1.SetAll(bytePacket);
+                    this.ucDNP.SetAll(bytePacket);
 
-                // Keep both DNP comm UIs in sync from the same relay readback packet.
-                this.ucTransmitter1.SetAll(bytePacket);
-                this.ucDNP.SetAll(bytePacket);
-
-                UpdateDnpCommStatusFromRelayState(this.ucTransmitter1.DNPEnabled);
+                    UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
+                }
             }
             catch (Exception ex)
             {
