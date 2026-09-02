@@ -242,6 +242,7 @@ namespace RelayControl
 
             if (!isDnpCustomer)
             {
+                logger.Info("DNP tabs not initialized because customer {0} is not in DNP customer list.", this.Customer);
                 if (this.dNPDIGITALGRIDData != null)
                 {
                     this.dNPDIGITALGRIDData.Send -= standardizedSendData;
@@ -259,6 +260,7 @@ namespace RelayControl
             // TH bypasses kit requirement; other customers require kit enabled
             if (!isTH && dnpUplinkK.dnpEnabledWithKit == false)
             {
+                logger.Info("DNP tabs disabled for customer {0} because DNP uplink kit flag is not enabled.", this.Customer);
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
                 return;
@@ -812,10 +814,7 @@ namespace RelayControl
                 this.enableAllToolStripMenuItem.Visible = true;
 #endif // DEBUG || ENGINEERING
 
-                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
-                    this.ucTransmitter1.DNPCommLabelStatus = true;
-                else
-                    this.ucTransmitter1.DNPCommLabelStatus = false;
+                UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
                 // Set the Title / Caption of groupBoxes bold; child controls regular
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
@@ -1713,10 +1712,7 @@ namespace RelayControl
                       
                     }
 
-                    if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
-                        this.ucTransmitter1.DNPCommLabelStatus = true;
-                    else
-                        this.ucTransmitter1.DNPCommLabelStatus = false;
+                    UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
                     break;
                 case RelayProgrammingSendCommands.RawData:
@@ -1796,17 +1792,41 @@ namespace RelayControl
 
         void ucDNP_Send(SendEventArgs sEA)
         {
-            this.sendPacket(sEA.SendPacket);
-
-            // TEMP: do not request relay registers yet
-            // until we confirm this is not re-entering the wait loop.
-            if (!this.sendAll && sEA.SendPacket[0] != 0x55)
+            if (sEA.SendPacket == null || sEA.SendPacket.Length == 0)
             {
-                if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
-                    this.ucTransmitter1.DNPCommLabelStatus = true;
-                else
-                    this.ucTransmitter1.DNPCommLabelStatus = false;
+                logger.Warn("ucDNP_Send called with empty packet.");
+                return;
             }
+
+            // DNP apply/deadband packets should follow ACK path like TX Apply
+            if (sEA.SendPacket[0] == (byte)'D')
+            {
+                string caller = (sEA.SendPacket.Length > 1 && sEA.SendPacket[1] == (byte)'d')
+                    ? "DNP DeadBand Send"
+                    : "DNP Settings Send";
+
+                this.sendPacketAck(sEA.SendPacket, caller);
+
+                if (!this.loadingNewCode)
+                    this.requestDNPSettings();
+
+                this.parametersLoaded = true;
+                return;
+            }
+
+            // Request/read path and other non-setting DNP packets remain non-ACK
+            this.sendPacket(sEA.SendPacket);
+        }
+
+        private bool RelaySupportsDnp()
+        {
+            return !string.IsNullOrEmpty(receivedMasterRevision) &&
+                   receivedMasterRevision.Contains("DNP");
+        }
+
+        private void UpdateDnpCommStatusFromRelayState(bool relayDnpActive)
+        {
+            this.ucTransmitter1.DNPCommLabelStatus = relayDnpActive;
         }
 
         private Point PanelLocation = new Point(300, 12);
@@ -2519,7 +2539,10 @@ namespace RelayControl
                     //break;
                 case IncomingCommCommands.DNPMessage5: //AO
                     if (this.dNPDIGITALGRIDData == null)
+                    {
+                        logger.Warn("Dropping DNP live-data packet because DNP live-data control is not initialized.");
                         return;
+                    }
 
                     this.dNPDataMessage(bytePacket, command == IncomingCommCommands.DNPMessage1 ? 1 :
                                                     command == IncomingCommCommands.DNPMessage2 ? 2 :
@@ -5974,10 +5997,7 @@ namespace RelayControl
         
 #endif
            
-            if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
-                this.ucTransmitter1.DNPCommLabelStatus = true;
-            else
-                this.ucTransmitter1.DNPCommLabelStatus = false;
+            UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
         }
 
@@ -5991,10 +6011,7 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
 
-            if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
-                this.ucTransmitter1.DNPCommLabelStatus = true;
-            else
-                this.ucTransmitter1.DNPCommLabelStatus = false;
+            UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
         }
 
@@ -9033,13 +9050,17 @@ namespace RelayControl
                 {
                     this.parametersFinishedLoading();
                 }
-                if (this.DNPEnabled)
+
+                if (!RelaySupportsDnp())
                 {
-
-                    this.ucTransmitter1.SetAll(bytePacket);
-
+                    logger.Warn("Received DNP settings packet while relay revision does not advertise DNP support.");
                 }
-                
+
+                // Keep both DNP comm UIs in sync from the same relay readback packet.
+                this.ucTransmitter1.SetAll(bytePacket);
+                this.ucDNP.SetAll(bytePacket);
+
+                UpdateDnpCommStatusFromRelayState(this.ucTransmitter1.DNPEnabled);
             }
             catch (Exception ex)
             {
