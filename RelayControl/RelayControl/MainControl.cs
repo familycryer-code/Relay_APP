@@ -28,7 +28,6 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel.Channels;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -68,7 +67,6 @@ namespace RelayControl
         private TCPComms tcpClient;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        private static readonly Regex DnpSupportPattern = new Regex(@"\bDNP\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private bool pendingAutoloadAfterBackup = false;
         // Backup orchestration flags
@@ -1831,7 +1829,7 @@ namespace RelayControl
         private bool RelaySupportsDnp()
         {
             return !string.IsNullOrEmpty(receivedMasterRevision) &&
-                   DnpSupportPattern.IsMatch(receivedMasterRevision);
+                   receivedMasterRevision.Contains("DNP");
         }
 
         private void UpdateDnpCommStatusFromRelayState(bool relayDnpActive)
@@ -4141,13 +4139,10 @@ namespace RelayControl
             if (IsDnpCommSupported())
             {
                 this.DNPEnabled = true;
-                this.ucRelayProgramming1.DNPRelay = true;
             }
             else
             {
                 this.DNPEnabled = false;
-                this.ucRelayProgramming1.DNPRelay = false;
-                this.removeDNPTabs();
             }
 #else
             if (!RelaySupportsDnp())
@@ -9078,7 +9073,7 @@ namespace RelayControl
                     this.ucTransmitter1.SetAll(bytePacket);
                     this.ucDNP.SetAll(bytePacket);
 
-                    UpdateDnpCommStatusFromRelayState(true);
+                    UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                 }
             }
             catch (Exception ex)

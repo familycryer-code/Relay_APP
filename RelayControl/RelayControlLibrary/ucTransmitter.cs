@@ -2380,6 +2380,15 @@ namespace RelayControlLibrary
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
 #if DNP
+            if (!this.checkBoxDNPEnable.Checked)
+            {
+                MessageBox.Show(
+                    "Please enable DNP before applying DNP settings.",
+                    "DNP Required");
+                applyDNP.applyDNPSettings = false;
+                return;
+            }
+
             applyDNP.applyDNPSettings = true;
 
             Application.UseWaitCursor = true;
