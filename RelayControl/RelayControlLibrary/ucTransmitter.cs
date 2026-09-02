@@ -2379,24 +2379,8 @@ namespace RelayControlLibrary
 
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("dnpEnabledWithKit = " + dnpUplinkK.dnpEnabledWithKit);
-            MessageBox.Show("checkBoxDNPEnable.Checked = " + this.checkBoxDNPEnable.Checked);
-
 #if DNP
-            if (this.checkBoxDNPEnable.Checked && dnpUplinkK.dnpEnabledWithKit)
-            {
-                applyDNP.applyDNPSettings = true;
-            }
-            else
-            {
-                MessageBox.Show(
-                    "Please enable the DNP Uplink feature before applying DNP settings.",
-                    "DNP Uplink Required");
-                applyDNP.applyDNPSettings = false;
-                return;
-            }
-
-           
+            applyDNP.applyDNPSettings = true;
 
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;

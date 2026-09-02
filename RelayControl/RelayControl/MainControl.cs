@@ -160,32 +160,35 @@ namespace RelayControl
             }
         }
         private bool dNPEnabledSavedVal = false;
+        private bool IsDnpCustomer()
+        {
+            return
+                this.Customer == Customers.CONED ||
+                this.Customer == Customers.ENMAX ||
+                this.Customer == Customers.ONCOR ||
+                this.Customer == Customers.PSEG ||
+                this.Customer == Customers.SCE ||
+                this.Customer == Customers.TORONTO_HYDRO;
+        }
+
+        private bool IsDnpCommSupported()
+        {
+            return this.masterRevision > REV0_MASTER_REVISION &&
+                   IsDnpCustomer() &&
+                   RelaySupportsDnp();
+        }
+
         private bool DNPEnabled
         {
             get { return this.dNPEnabledSavedVal; }
             set
             {
-                bool isDnpCustomer =
-                    this.Customer == Customers.CONED ||
-                    this.Customer == Customers.ENMAX ||
-                    this.Customer == Customers.ONCOR ||
-                    this.Customer == Customers.PSEG ||
-                    this.Customer == Customers.SCE ||
-                    this.Customer == Customers.TORONTO_HYDRO;
-
                 bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
-                bool dnpKitEnabled = (dnpUplinkK.dnpEnabledWithKit != false);
-
-                // Business rule:
-                // - TORONTO_HYDRO always has DNP (does not require kit flag)
-                // - Other DNP customers require DNP kit enabled
-                bool canUseDnp = isTH || dnpKitEnabled;
+                bool canUseDnpComm = IsDnpCommSupported();
 
                 // Enable path
                 if (value &&
-                    this.masterRevision > REV0_MASTER_REVISION &&
-                    isDnpCustomer &&
-                    canUseDnp)
+                    canUseDnpComm)
                 {
                     // Keep existing DNP point wiring behavior
                     setDNPTabPoints();
@@ -202,7 +205,7 @@ namespace RelayControl
                     return;
                 }
 
-                // Disable path (or unsupported customer / old revision / kit disabled for non-TH)
+                // Disable path (or unsupported customer / old revision / firmware without DNP)
                 if (!isTH)
                 {
                     if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
@@ -220,25 +223,13 @@ namespace RelayControl
                 this.ucRelayProgramming1.DNPRelay = false;
             }
         }
-
-      
-       
-
-        // AFTER
-        // AFTER (full setDNPTabPoints body)
         private void setDNPTabPoints()
         {
             // IMPORTANT:
             // Host the DNP user control on the tab the user is actually viewing ("DNP Live Data")
             TabPage host = this.tabPageDNPData;
 
-            bool isDnpCustomer =
-                this.Customer == Customers.CONED ||
-                this.Customer == Customers.ENMAX ||
-                this.Customer == Customers.ONCOR ||
-                this.Customer == Customers.PSEG ||
-                this.Customer == Customers.SCE ||
-                this.Customer == Customers.TORONTO_HYDRO;
+            bool isDnpCustomer = IsDnpCustomer();
 
             bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
 
@@ -259,10 +250,9 @@ namespace RelayControl
                 return;
             }
 
-            // TH bypasses kit requirement; other customers require kit enabled
-            if (!isTH && dnpUplinkK.dnpEnabledWithKit == false)
+            if (!IsDnpCommSupported())
             {
-                logger.Info("DNP tabs disabled for customer {0} because DNP uplink kit flag is not enabled.", this.Customer);
+                logger.Info("DNP tabs disabled because DNP comm is not supported for customer {0} / relay revision.", this.Customer);
                 this.dNPEnabledSavedVal = false;
                 this.ucRelayProgramming1.DNPRelay = false;
                 return;
@@ -2621,7 +2611,7 @@ namespace RelayControl
 
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
-                        if (this.DNPEnabled && receivedMasterRevision.Contains("DNP") && !ucRelayProgramming1.ProgramBootCodeInProgress)
+                        if (IsDnpCommSupported() && !ucRelayProgramming1.ProgramBootCodeInProgress)
                             this.requestDNPSettings();
                         else
                         {
@@ -3748,17 +3738,17 @@ namespace RelayControl
                 tempI += bytePacket[4];
 
                 this.ucTransmitterMonitoring1.CTMult = tempI.ToString();
-                //DNP Enabled
+                // TX uplink feature bit (independent from DNP comm capability)
+                bool txUplinkFeatureEnabled = (bytePacket[28] & 0x04) == 0x04;
+
+                this.ucTransmitter1.DNPEnabled = txUplinkFeatureEnabled;
+
+                // DNP comm capability
                 if (!this.blockDNPEnableFromTransmitterSettings)
                 {
-                    if ((bytePacket[28] & 0x04) == 0x04)
-                    {
-                        this.DNPEnabled = true;
-                    }
-                    else
-                    {
-                        this.DNPEnabled = false;
-                    }
+                    // Intentionally decoupled from txUplinkFeatureEnabled:
+                    // this DNPEnabled flag represents DNP comm availability, not uplink feature state.
+                    this.DNPEnabled = IsDnpCommSupported();
                 }
 
                 if ((bytePacket[28] & 0x08) == 0x08)
@@ -3973,7 +3963,7 @@ namespace RelayControl
                         File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
                     }
 
-                    if (this.ucRelayProgramming1.MasterRevisionString.Contains("DNP"))
+                    if (RelaySupportsDnp())
                     {
                         dataBackupD.dataBackup_withDNP = true;
                     }
@@ -4132,42 +4122,35 @@ namespace RelayControl
 
         private void checkDNPEnabled()
         {
-            bool sendProperDNPValue = false;
-
             if (!this.checkedDNPEnable)
                 this.checkedDNPEnable = true;
             else
                 return;
 
 #if DNP
-            if (receivedMasterRevision.Contains("DNP"))
+            if (IsDnpCommSupported())
             {
-                if (!ucTransmitter1.DNPEnabled || !ucTransmitter1.CheckDNPEnable)
-                {
-                    this.ucTransmitter1.DNPEnabled = true;
-                    sendProperDNPValue = true;
-                }
+                this.DNPEnabled = true;
                 this.ucRelayProgramming1.DNPRelay = true;
             }
+            else
+            {
+                this.DNPEnabled = false;
+                this.ucRelayProgramming1.DNPRelay = false;
+                this.removeDNPTabs();
+            }
 #else
-            if (!receivedMasterRevision.Contains("DNP"))
+            if (!RelaySupportsDnp())
             {
                 if (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable)
                 {
                     this.ucTransmitter1.DNPEnabled = false;
-                    sendProperDNPValue = true;
                 }
 
                 this.ucRelayProgramming1.DNPRelay = false;
                 this.removeDNPTabs();
             }
 #endif
-
-            if (sendProperDNPValue)
-            {
-                this.ucTransmitter1.SendTransmitterSettings();
-                Thread.Sleep(100);
-            }
         }
 
         private void removeDNPTabs()
@@ -5257,7 +5240,7 @@ namespace RelayControl
 
                 // Keep build/customer assignment stable during runtime.
                 // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
-                if (revision.Contains("DNP"))
+                if (RelaySupportsDnp())
                 {
                     this.DNPEnabled = true;
                     this.blockDNPEnableFromTransmitterSettings = true;
@@ -8122,8 +8105,12 @@ namespace RelayControl
             
 
 #if DNP
-            if (receivedMasterRevision.Contains("DNP"))
+            if (IsDnpCommSupported() && dnpUplinkK.dnpEnabledWithKit)
+            {
+                // Intentional: ForceDNPEnable controls the transmitter uplink feature bit,
+                // and remains tied to kit availability even though DNP comm settings are decoupled.
                 this.ucTransmitter1.ForceDNPEnable = true;
+            }
 #endif
             if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
@@ -9062,11 +9049,11 @@ namespace RelayControl
                     this.parametersFinishedLoading();
                 }
 
-                // Intentionally keyed off relay capability (revision) instead of local DNPEnabled state
-                // so DNP comm settings can be read/synced even when uplink feature is disabled.
-                if (!RelaySupportsDnp())
+                // Intentionally keyed off DNP comm capability (customer + relay firmware),
+                // not uplink feature state, so settings can sync even when uplink is disabled.
+                if (!IsDnpCommSupported())
                 {
-                    logger.Warn("Ignoring DNP settings packet because relay revision does not advertise DNP support.");
+                    logger.Warn("Ignoring DNP settings packet because DNP comm is not supported for current customer/revision.");
                     UpdateDnpCommStatusFromRelayState(false);
                 }
                 else
@@ -9075,7 +9062,7 @@ namespace RelayControl
                     this.ucTransmitter1.SetAll(bytePacket);
                     this.ucDNP.SetAll(bytePacket);
 
-                    UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
+                    UpdateDnpCommStatusFromRelayState(true);
                 }
             }
             catch (Exception ex)
@@ -9751,8 +9738,7 @@ namespace RelayControl
             // Pull data from relay master uP if its firmware is less than rev 10.
             // Since rev 10 onwards there are storage changes for memory-corruption protection.
             bool relayHasDnp =
-                !string.IsNullOrEmpty(this.ucRelayProgramming1.MasterRevisionString) &&
-                this.ucRelayProgramming1.MasterRevisionString.Contains("DNP");
+                RelaySupportsDnp();
 
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
