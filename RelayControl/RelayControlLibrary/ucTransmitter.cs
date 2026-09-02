@@ -2379,7 +2379,9 @@ namespace RelayControlLibrary
 
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("buttonSendAllDNPSettings_Click fired");
+            MessageBox.Show("dnpEnabledWithKit = " + dnpUplinkK.dnpEnabledWithKit);
+            MessageBox.Show("checkBoxDNPEnable.Checked = " + this.checkBoxDNPEnable.Checked);
+
 #if DNP
             if (this.checkBoxDNPEnable.Checked && dnpUplinkK.dnpEnabledWithKit)
             {
@@ -2394,7 +2396,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            MessageBox.Show("Before SendAllDNPSettings");
+           
 
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -2408,8 +2410,6 @@ namespace RelayControlLibrary
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
             }
-
-            MessageBox.Show("After SendAllDNPSettings");
 #endif
         }
         private static int _DNPpacketLength = 98;

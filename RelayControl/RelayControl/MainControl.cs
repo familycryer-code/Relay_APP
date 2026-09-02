@@ -33,7 +33,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 namespace RelayControl
-{
+{ 
 
     public partial class MainControl : Form
     {
@@ -219,16 +219,8 @@ namespace RelayControl
             }
         }
 
-        private decimal ClampToNumericRange(decimal value, NumericUpDown control)
-        {
-            if (value < control.Minimum)
-                return control.Minimum;
-
-            if (value > control.Maximum)
-                return control.Maximum;
-
-            return value;
-        }
+      
+       
 
         // AFTER
         // AFTER (full setDNPTabPoints body)
@@ -356,7 +348,12 @@ namespace RelayControl
             logger.Info("Version number: {0}", version);
             // Officially start everything
             this.MainControlInit();
-           
+
+#if TORONTO_HYDRO
+            this.DNPEnabled = true;
+            this.ucTransmitter1.DNPEnabled = true;
+#endif
+
             tCPConnectionToolStripMenuItem.Visible = true;
 
         }
@@ -1709,11 +1706,14 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
-                    if (DNPEnabled)
-                        ucDNP.SendAllDNPSettings();
 
-                    
-                    if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)//if (uplinkC.uplinkCount == 2)
+                    if (DNPEnabled)
+                    {
+                        ucDNP.SendAllDNPSettings();
+                      
+                    }
+
+                    if (applyTX.applyTxSettings && applyDNP.applyDNPSettings)
                         this.ucTransmitter1.DNPCommLabelStatus = true;
                     else
                         this.ucTransmitter1.DNPCommLabelStatus = false;
@@ -8155,13 +8155,13 @@ namespace RelayControl
             if (!this.DNPEnabled) return;
 
 #if (ENMAX || CONED || ONCOR || SCE || TORONTO_HYDRO)
-    this.ucDNP.SetDnpBaudIndex(2); // 9600
-    this.ucDNP.SendAllDNPSettings();
-    dnpBaudInitialized = true;
+            this.ucDNP.SetDnpBaudIndex(2); // 9600
+            this.ucDNP.SendAllDNPSettings();
+            dnpBaudInitialized = true;
 #elif PSEG
-    this.ucDNP.SetDnpBaudIndex(5); // 19200
-    this.ucDNP.SendAllDNPSettings();
-    dnpBaudInitialized = true;
+            this.ucDNP.SetDnpBaudIndex(5); // 19200
+            this.ucDNP.SendAllDNPSettings();
+            dnpBaudInitialized = true;
 #else
             return;
 #endif

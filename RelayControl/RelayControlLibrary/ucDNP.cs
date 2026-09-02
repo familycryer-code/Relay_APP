@@ -54,22 +54,10 @@ namespace RelayControlLibrary
         //private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
-            //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-                                                                      //this.enableAll(false);
-
-            //========================================================================================================
-
-            try
-            {
-                this.SendAllDNPSettings();
-            }
-            finally
-            {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-            }
+#if DNP
+            applyDNP.applyDNPSettings = true;
+            this.SendAllDNPSettings();
+#endif
         }
 
         private decimal SnapFragmentSize(decimal value)
