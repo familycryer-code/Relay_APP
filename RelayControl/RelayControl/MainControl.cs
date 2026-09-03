@@ -178,19 +178,13 @@ namespace RelayControl
 
         private void addDNPTabs()
         {
-            bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
+            bool showDnpTabs = this.ucDNP != null && this.ucDNP.ShouldShowDnpTabs();
+            if (!showDnpTabs)
+                return;
 
             EnsureTabPageVisible(this.tabPageDNP, this.tabPageArcFault);
-            EnsureTabPageVisible(this.tabPageDNPData, isTH ? this.tabPageDNPSecureAuth : null);
-
-            if (isTH)
-            {
-                EnsureTabPageVisible(this.tabPageDNPSecureAuth);
-            }
-            else if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-            {
-                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
-            }
+            EnsureTabPageVisible(this.tabPageDNPData, this.tabPageDNPSecureAuth);
+            EnsureTabPageVisible(this.tabPageDNPSecureAuth);
         }
 
         private void DisposeDnpLiveDataControl()
@@ -241,11 +235,11 @@ namespace RelayControl
             // Host the DNP user control on the tab the user is actually viewing ("DNP Live Data")
             TabPage host = this.tabPageDNPData;
 
-            bool isDnpCustomer = IsDnpCustomer();
+            bool showDnpTabs = this.ucDNP != null && this.ucDNP.ShouldShowDnpTabs();
 
-            if (!isDnpCustomer)
+            if (!showDnpTabs)
             {
-                logger.Info("DNP tabs not initialized because customer {0} is not in DNP customer list.", this.Customer);
+                logger.Info("DNP tabs not initialized because customer {0} is not Toronto Hydro.", this.Customer);
                 DisposeDnpLiveDataControl();
                 removeDNPTabs();
                 return;
@@ -4133,19 +4127,14 @@ namespace RelayControl
 
         private void removeDNPTabs()
         {
-            bool isTH = (this.Customer == Customers.TORONTO_HYDRO);
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
 
-            if (!isTH)
-            {
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPSecureAuth))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPSecureAuth);
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNP);
 
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNP))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNP);
-
-                if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
-                    this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
-            }
+            if (this.tabControlMain.TabPages.Contains(this.tabPageDNPData))
+                this.tabControlMain.TabPages.Remove(this.tabPageDNPData);
 
             DisposeDnpLiveDataControl();
             this.enableDNPMonitoring(false);
@@ -9029,7 +9018,7 @@ namespace RelayControl
                     this.parametersFinishedLoading();
                 }
 
-                bool isDnpSupported = IsDnpCommSupported() || this.Customer == Customers.TORONTO_HYDRO;
+                bool isDnpSupported = IsDnpCommSupported();
 
                 if (!isDnpSupported)
                 {

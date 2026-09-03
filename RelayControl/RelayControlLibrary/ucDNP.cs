@@ -258,6 +258,11 @@ namespace RelayControlLibrary
             }
         }
 
+        public bool ShouldShowDnpTabs()
+        {
+            return this.Customer == Customers.TORONTO_HYDRO;
+        }
+
         private void OnSend(SendEventArgs sEA)
         {
             if (Send != null)
