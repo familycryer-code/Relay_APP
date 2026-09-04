@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using static RelayControlLibrary.ucTransmitterMonitoring;
 
 namespace RelayControlLibrary
@@ -2379,7 +2380,8 @@ namespace RelayControlLibrary
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
 #if DNP
-            if (this.Customer != Customers.TORONTO_HYDRO && !this.checkBoxDNPEnable.Checked)
+            /*
+            if (this.Customer != Customers.TORONTO_HYDRO) && !this.checkBoxDNPEnable.Checked)
             {
                 MessageBox.Show(
                     "Please enable DNP before applying DNP settings.",
@@ -2387,6 +2389,7 @@ namespace RelayControlLibrary
                 applyDNP.applyDNPSettings = false;
                 return;
             }
+            */
 
             applyDNP.applyDNPSettings = true;
 

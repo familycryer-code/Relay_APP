@@ -260,7 +260,13 @@ namespace RelayControlLibrary
 
         public bool ShouldShowDnpTabs()
         {
-            return this.Customer == Customers.TORONTO_HYDRO;
+            return this.Customer == Customers.TORONTO_HYDRO
+                || this.Customer == Customers.ONCOR
+                || this.Customer == Customers.ENMAX
+                || this.Customer == Customers.PSEG
+                || this.Customer == Customers.EVERSOURCE
+                || this.Customer == Customers.CONED
+                || this.Customer == Customers.SCE;
         }
 
         private void OnSend(SendEventArgs sEA)
@@ -581,6 +587,25 @@ namespace RelayControlLibrary
 
             this.buttonSendDeadBand_Click(this, new EventArgs());
         }
+        private bool IsUplinkCustomer()
+        {
+            return this.Customer == Customers.ONCOR
+                || this.Customer == Customers.CONED
+                || this.Customer == Customers.EVERSOURCE
+                || this.Customer == Customers.PSEG
+                || this.Customer == Customers.ENMAX
+                || this.Customer == Customers.SCE;
+        }
+        private bool IsDnpDbCustomer()
+        {
+            return this.Customer == Customers.TORONTO_HYDRO
+                || this.Customer == Customers.ONCOR
+                || this.Customer == Customers.CONED
+                || this.Customer == Customers.EVERSOURCE
+                || this.Customer == Customers.PSEG
+                || this.Customer == Customers.ENMAX
+                || this.Customer == Customers.SCE;
+        }
 
         private void makeDefault()
         {
@@ -592,7 +617,7 @@ namespace RelayControlLibrary
             if (!this.customerChanged)
                 return;
 
-            bool hasDeadBand = (this.Customer == Customers.TORONTO_HYDRO);
+            bool hasDeadBand = IsDnpDbCustomer();
 
             this.buttonDefaults.Text = "Restore Defaults";
 
@@ -704,8 +729,22 @@ namespace RelayControlLibrary
             location.Y = this.groupBoxDNPSettings.Location.Y;
             location.X = this.groupBoxDNPSettings.Location.X + this.groupBoxDNPSettings.Width + 2;
 
-            this.groupBoxDIGITALGRIDDNPDeadBand.Location = new System.Drawing.Point(430, 6);
-            this.groupBoxDIGITALGRIDDNPDeadBand.Height = 0;
+            bool hideLeftDnpSettings = IsUplinkCustomer(); // ONCOR/CONED/EVERSOURCE/PSEG/ENMAX/SCE only
+
+            this.groupBoxDNPSettings.Visible = !hideLeftDnpSettings;
+            this.groupBoxDNPStatus.Visible = !hideLeftDnpSettings;
+            this.buttonSendAllDNPSettings.Visible = !hideLeftDnpSettings;
+            this.buttonSendAllDNPSettings.Enabled = !hideLeftDnpSettings;
+
+            // hide leftover left-side buttons for uplink customers
+            this.buttonDefaults.Visible = !hideLeftDnpSettings;
+            this.buttonRQDNPSettings.Visible = !hideLeftDnpSettings;
+            this.buttonDefaults.Enabled = !hideLeftDnpSettings;
+            this.buttonRQDNPSettings.Enabled = !hideLeftDnpSettings;
+
+            this.groupBoxDIGITALGRIDDNPDeadBand.Location = hideLeftDnpSettings
+                ? new System.Drawing.Point(8, 6)     // move left for uplink customers
+                : new System.Drawing.Point(430, 6);  // keep TH/current layout
 
             location = new Point(2, 15); // starting spot
 
@@ -739,6 +778,9 @@ namespace RelayControlLibrary
             this.buttonSendDeadBand.Visible = true;
 
             this.customerChanged = false;
+
+            this.groupBoxDIGITALGRIDDNPDeadBand.BringToFront();
+            this.buttonSendDeadBand.BringToFront();
         }
 
         //private void buttonDefaults_Click(object sender, EventArgs e)

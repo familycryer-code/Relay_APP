@@ -283,6 +283,8 @@ namespace RelayControl
                 $"CtrlVisible={this.dNPDIGITALGRIDData?.Visible}, " +
                 $"CtrlSize={this.dNPDIGITALGRIDData?.Size}, " +
                 $"CtrlDock={this.dNPDIGITALGRIDData?.Dock}");
+
+            UpdateDnpTabTitle();  // name them..
         }
 
         private bool gERelay = false;
@@ -662,44 +664,44 @@ namespace RelayControl
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
                 this.Customer = Customers.BGE;
 #elif COMED
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
-        this.Customer = Customers.COMED;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
+                this.Customer = Customers.COMED;
 #elif CONED
-        this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
-        this.Customer = Customers.CONED;
+                this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
+                this.Customer = Customers.CONED;
 #elif DOMINION
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
-        this.Customer = Customers.DOMINION;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
+                this.Customer = Customers.DOMINION;
 #elif ENMAX
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
-        this.Customer = Customers.ENMAX;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
+                this.Customer = Customers.ENMAX;
 #elif EVERSOURCE
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
-        this.Customer = Customers.EVERSOURCE;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
+                this.Customer = Customers.EVERSOURCE;
 #elif LONDON_HYDRO
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
-        this.Customer = Customers.LONDON_HYDRO;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
+                this.Customer = Customers.LONDON_HYDRO;
 #elif ONCOR
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
-        this.Customer = Customers.ONCOR;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
+                this.Customer = Customers.ONCOR;
 #elif PSEG
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
-        this.Customer = Customers.PSEG;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
+                this.Customer = Customers.PSEG;
 #elif SCE
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
-        this.Customer = Customers.SCE;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
+                this.Customer = Customers.SCE;
 #elif SCL
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
-        this.Customer = Customers.SCL;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
+                this.Customer = Customers.SCL;
 #elif TAUNTON
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
-        this.Customer = Customers.TAUNTON;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
+                this.Customer = Customers.TAUNTON;
 #elif TORONTO_HYDRO
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
-        this.Customer = Customers.TORONTO_HYDRO;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
+                this.Customer = Customers.TORONTO_HYDRO;
 #else
-        this.Text = "DIGITALGRID, INC. - ";
-        this.Customer = Customers.None;
+                this.Text = "DIGITALGRID, INC. - ";
+                this.Customer = Customers.None;
 #endif
 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
@@ -709,35 +711,35 @@ namespace RelayControl
                 this.labelConEdPowerRelay.Visible = false;
 
 #if CONED
-        this.groupBox_PC.Enabled = true;
-        this.groupBox_PC.Visible = true;
-        this.btn_PermCl_Active.Enabled = true;
-        this.btn_PermCl_Active.Visible = true;
+                this.groupBox_PC.Enabled = true;
+                this.groupBox_PC.Visible = true;
+                this.btn_PermCl_Active.Enabled = true;
+                this.btn_PermCl_Active.Visible = true;
 
-        // Keep ConEd layout specifics
-        ucRemoteCommandBlock1.Visible = true;
-        this.ucRemoteCommandBlock1.Visible = true;
-        this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
-        this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
-        this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
-        this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
-        this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
+                // Keep ConEd layout specifics
+                ucRemoteCommandBlock1.Visible = true;
+                this.ucRemoteCommandBlock1.Visible = true;
+                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
+                this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
+                this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
+                this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
 
-        this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
-        this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
+                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
+                this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
 
-        this.buttonRequestRelayParamaters.Text = "Read";
-        this.buttonSendAll.Text = "Program";
+                this.buttonRequestRelayParamaters.Text = "Read";
+                this.buttonSendAll.Text = "Program";
 
-        this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
-        this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
-        this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
-        this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
-        this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
+                this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
 
-        this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
-        this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
-        this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
+                this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
+                this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
+                this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
 #else
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
@@ -755,8 +757,6 @@ namespace RelayControl
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
-
-
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250);
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500);
                 this.ucTransmitterMonitoring1.groupBoxAnalogFlagValues.Location = new System.Drawing.Point(710, 400);
@@ -776,7 +776,6 @@ namespace RelayControl
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Location = new System.Drawing.Point(660, 27);
                 this.ucTransmitterMonitoring1.panel_read_sensorMon.Size = new System.Drawing.Size(300, 730);
                 this.ucTransmitterMonitoring1.textBoxCTMult.Location = new System.Drawing.Point(250, 330);
-                
                 this.TransmitterEnabled = true;
                 this.ArcFaultEnabled = false;
 
@@ -906,6 +905,19 @@ namespace RelayControl
             this.messageHandler(eEA.Title, eEA.InnerException);
         }
 
+        private void UpdateDnpTabTitle()
+        {
+            bool isUplinkCustomer =
+                this.Customer == Customers.ONCOR ||
+                this.Customer == Customers.CONED ||
+                this.Customer == Customers.EVERSOURCE ||
+                this.Customer == Customers.PSEG ||
+                this.Customer == Customers.ENMAX ||
+                this.Customer == Customers.SCE;
+
+            this.tabPageDNP.Text = isUplinkCustomer ? "DNP DB Settings" : "DNP Comm Settings";
+        }
+
         private void setCustomersRevisionName()
         {
 
@@ -929,6 +941,10 @@ namespace RelayControl
             this.customerRevisionName = "ONCOR";
 #elif TORONTO_HYDRO
             this.customerRevisionName = "TORONTO_HYDRO";
+#elif CONED
+            this.customerRevisionName = "CONED";
+#elif SCE
+            this.customerRevisionName = "SCE";
 #elif PSEG
             this.customerRevisionName = "PSEG";
 #else
@@ -1081,10 +1097,7 @@ namespace RelayControl
             string packetText = BitConverter.ToString(sEA.SendPacket.ToArray());
             string sourceText = o?.ToString() ?? "unknown";
 
-            MessageBox.Show(
-                $"Source: {sourceText}\nPacket: {packetText}",
-                "Sending to Relay");
-
+ 
             logger.Trace("Sending Data to Relay: {0}", packetText);
 
             if (sEA.WithAck)
@@ -5374,6 +5387,13 @@ namespace RelayControl
             {
                 this.messageHandler("Error in Trip/Close Event", ex);
             }
+        }
+
+        private decimal ClampToNumericRange(decimal value, NumericUpDown control)
+        {
+            if (value < control.Minimum) return control.Minimum;
+            if (value > control.Maximum) return control.Maximum;
+            return value;
         }
 
         private void setPermissiveCloseData(byte[] bytePacket)

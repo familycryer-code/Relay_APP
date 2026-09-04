@@ -2154,6 +2154,7 @@ namespace RelayControlLibrary
                 customer == Customers.ONCOR ||
                 customer == Customers.PSEG ||
                 customer == Customers.SCE ||
+                customer == Customers.EVERSOURCE ||
                 customer == Customers.TORONTO_HYDRO;
         }
 
@@ -2163,6 +2164,7 @@ namespace RelayControlLibrary
                 customer == Customers.CONED ||
                 customer == Customers.ENMAX ||
                 customer == Customers.ONCOR ||
+                customer == Customers.EVERSOURCE ||
                 customer == Customers.SCE ||
                 customer == Customers.TORONTO_HYDRO;
         }
