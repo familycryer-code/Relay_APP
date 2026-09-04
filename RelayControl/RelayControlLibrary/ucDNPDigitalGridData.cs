@@ -350,8 +350,9 @@ namespace RelayControlLibrary
                 {
                     PointNumber = i,
                     PointName = s,
-                    EventEnableVisible = (this.customer == Customers.TORONTO_HYDRO)
+                    EventEnableVisible = true
                 };
+
                 workingBox.PointChanged += dNPPoint_PointChanged;
 
                 // Standardized paging: 32 per tab (16 rows x 2 columns)
@@ -815,6 +816,7 @@ namespace RelayControlLibrary
 
                 i++;
             }
+
             TabPage analogTarget =
                 (this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs1 ||
                  this.tabControlMemphisDNP.SelectedTab == this.tabPageAnalogInputs2 ||
