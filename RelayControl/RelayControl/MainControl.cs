@@ -8827,11 +8827,7 @@ namespace RelayControl
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
                 if (this.allEnabled)
                 {
-                    if (this.customer == Customers.TORONTO_HYDRO)
-                        this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
-                    else
-                        this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
-
+                    this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
                 }
 
                 this.requestPhasorData();
