@@ -133,7 +133,7 @@
     <comment>What to display, this was done for testing, so it will display properly, but we can always reprogram if we want.</comment>
   </data>
   <data name="MasterRevision" xml:space="preserve">
-    <value>260220</value>
+    <value>260222</value>
   </data>
   <data name="RelayRevision" xml:space="preserve">
     <value>20260127</value>
@@ -150,28 +150,34 @@
   <data name="RelayProcessor_GE_conEdison_20260127" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RelayProcessor_GE_conEdison_20260127.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="MasterProcessor__CONED_SEC_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__CONED_SEC_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__CONED_SEC_GE_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__CONED_SEC_GE_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__DGI_SEC_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__DGI_SEC_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__DGI_SEC_GE_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__DGI_SEC_GE_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__ONCOR_SEC_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__ONCOR_SEC_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__ONCOR_SEC_GE_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__ONCOR_SEC_GE_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__SCE_SEC_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__SCE_SEC_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="MasterProcessor__SCE_SEC_GE_260220" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasterProcessor__SCE_SEC_GE_260220.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
+	<data name="MasterProcessor__CONED_SEC_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__CONED_SEC_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__CONED_SEC_GE_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__CONED_SEC_GE_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__DGI_SEC_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__DGI_SEC_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__DGI_SEC_GE_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__DGI_SEC_GE_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__ONCOR_SEC_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__ONCOR_SEC_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__ONCOR_SEC_GE_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__ONCOR_SEC_GE_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__SCE_SEC_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__SCE_SEC_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__SCE_SEC_GE_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__SCE_SEC_GE_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__TORONTO_HYDRO_HBD_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__TORONTO_HYDRO_HBD_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
+	<data name="MasterProcessor__TORONTO_HYDRO_HBD_GE_260222" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\MasterProcessor__TORONTO_HYDRO_HBD_GE_260222.S;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+	</data>
 </root>

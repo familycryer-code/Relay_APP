@@ -656,14 +656,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copy of ProgressWnd.cpp" />
-    <Content Include="Resources\MasterProcessor__CONED_SEC_260220.S" />
-    <Content Include="Resources\MasterProcessor__CONED_SEC_GE_260220.S" />
-    <Content Include="Resources\MasterProcessor__DGI_SEC_260220.S" />
-    <Content Include="Resources\MasterProcessor__DGI_SEC_GE_260220.S" />
-    <Content Include="Resources\MasterProcessor__ONCOR_SEC_260220.S" />
-    <Content Include="Resources\MasterProcessor__ONCOR_SEC_GE_260220.S" />
-    <Content Include="Resources\MasterProcessor__SCE_SEC_260220.S" />
-    <Content Include="Resources\MasterProcessor__SCE_SEC_GE_260220.S" />
+    <Content Include="Resources\MasterProcessor__CONED_SEC_260222.S" />
+    <Content Include="Resources\MasterProcessor__CONED_SEC_GE_260222.S" />
+    <Content Include="Resources\MasterProcessor__DGI_SEC_260222.S" />
+    <Content Include="Resources\MasterProcessor__DGI_SEC_GE_260222.S" />
+    <Content Include="Resources\MasterProcessor__ONCOR_SEC_260222.S" />
+    <Content Include="Resources\MasterProcessor__ONCOR_SEC_GE_260222.S" />
+    <Content Include="Resources\MasterProcessor__SCE_SEC_260222.S" />
+    <Content Include="Resources\MasterProcessor__SCE_SEC_GE_260222.S" />
+    <Content Include="Resources\MasterProcessor__TORONTO_HYDRO_HBD_260222.S" />
+    <Content Include="Resources\MasterProcessor__TORONTO_HYDRO_HBD_GE_260222.S" />
     <Content Include="Resources\RelayProcessor_20260127.S" />
     <Content Include="Resources\RelayProcessor_conEdison_20260127.S" />
     <Content Include="Resources\RelayProcessor_GE_20260127.S" />
