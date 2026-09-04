@@ -585,7 +585,7 @@ namespace RelayControlLibrary
                     RelayControlLibrary.Properties.Resources.RelayProcessor_GE_20260127);
 
                 setFiles(Customers.CONED,
-                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_26022,
+                    RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_260222,
                     RelayControlLibrary.Properties.Resources.MasterProcessor__CONED_SEC_GE_260222,
                     RelayControlLibrary.Properties.Resources.RelayProcessor_conEdison_20260127,
                     RelayControlLibrary.Properties.Resources.RelayProcessor_GE_conEdison_20260127);
