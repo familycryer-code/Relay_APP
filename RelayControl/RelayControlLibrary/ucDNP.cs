@@ -865,6 +865,7 @@ namespace RelayControlLibrary
 
             bool is9600Customer =
                     this.Customer == Customers.ENMAX ||
+                    this.Customer == Customers.EVERSOURCE ||
                     this.Customer == Customers.CONED ||
                     this.Customer == Customers.ONCOR ||
                     this.Customer == Customers.SCE ||

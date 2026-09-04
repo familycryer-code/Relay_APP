@@ -95,7 +95,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Eversource|AnyCPU'">
     <OutputPath>bin\Release Eversource\</OutputPath>
-    <DefineConstants>EVERSOURCE;PLC</DefineConstants>
+    <DefineConstants>EVERSOURCE;DNP;PLC</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Oncor|AnyCPU'">

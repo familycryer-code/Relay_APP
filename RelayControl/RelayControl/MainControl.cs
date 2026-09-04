@@ -750,7 +750,7 @@ namespace RelayControl
 #if TORONTO_HYDRO
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
-#elif (CONED || PSEG || ENMAX || ONCOR || SCE)
+#elif (CONED || PSEG || ENMAX || ONCOR || SCE || EVERSOURCE)
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = true;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = true;
 #else
