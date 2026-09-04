@@ -2598,10 +2598,69 @@ namespace RelayControlLibrary
             }
         }
 
+        private bool TryExtractDnpSettingsPayload(byte[] packet, out byte[] payload, out string reason)
+        {
+            payload = null;
+            reason = null;
+
+            if (packet == null || packet.Length == 0)
+            {
+                reason = "null/empty packet";
+                return false;
+            }
+
+            bool hasTerminator = packet.Length >= 3 &&
+                                 (packet[packet.Length - 1] == 0x0D || packet[packet.Length - 1] == 0x0A);
+
+            if (hasTerminator && packet[0] == (byte)'D')
+            {
+                int declaredLen = packet[1];
+                int availablePayload = packet.Length - 3;
+
+                if (declaredLen <= 0 || declaredLen > availablePayload)
+                {
+                    reason = $"bad declared length={declaredLen}, available={availablePayload}";
+                    return false;
+                }
+
+                payload = new byte[declaredLen];
+                Buffer.BlockCopy(packet, 2, payload, 0, declaredLen);
+            }
+            else
+            {
+                payload = packet; // raw payload fallback
+            }
+
+            if (payload.Length < 18)
+            {
+                reason = $"payload too short ({payload.Length})";
+                payload = null;
+                return false;
+            }
+
+            byte linkLayer = (byte)(payload[0] & 0x03);
+            if (linkLayer > 2)
+            {
+                reason = $"invalid link-layer bits ({linkLayer})";
+                payload = null;
+                return false;
+            }
+
+            return true;
+        }
+
         private void setDNPsettings(byte[] bytePacket)
         {
 #if DNP
             byte temp;
+
+            if (!TryExtractDnpSettingsPayload(bytePacket, out var payload, out var reason))
+            {
+                System.Diagnostics.Debug.WriteLine($"[DNP] ucTransmitter ignored packet: {reason}");
+                return;
+            }
+
+            bytePacket = payload;
 
             try
             {

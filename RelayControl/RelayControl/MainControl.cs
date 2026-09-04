@@ -178,7 +178,7 @@ namespace RelayControl
 
         private void addDNPTabs()
         {
-            bool showDnpTabs = this.ucDNP != null && this.ucDNP.ShouldShowDnpTabs();
+            bool showDnpTabs = IsDnpCustomer();
             if (!showDnpTabs)
                 return;
 
@@ -2532,29 +2532,48 @@ namespace RelayControl
         {
             switch (command)
             {
-                case IncomingCommCommands.DNPMessage1://BI
-                    //this.dNPDataMessage(bytePacket, 1);
-                   // break;
-                case IncomingCommCommands.DNPMessage2://BO
-                    //this.dNPDataMessage(bytePacket, 2);
-                    //break;
-                case IncomingCommCommands.DNPMessage3://AI
-                    //this.dNPDataMessage(bytePacket, 3);
-                    //break;
-                case IncomingCommCommands.DNPMessage4://AI
-                   // this.dNPDataMessage(bytePacket, 4);
-                    //break;
-                case IncomingCommCommands.DNPMessage5: //AO
+                case IncomingCommCommands.DNPMessage1: // BI
                     if (this.dNPDIGITALGRIDData == null)
                     {
-                        logger.Warn("Dropping DNP live-data packet because DNP live-data control is not initialized.");
+                        logger.Warn("Dropping DNPMessage1: live-data control not initialized.");
                         return;
                     }
+                    this.dNPDataMessage(bytePacket, 1);
+                    break;
 
-                    this.dNPDataMessage(bytePacket, command == IncomingCommCommands.DNPMessage1 ? 1 :
-                                                    command == IncomingCommCommands.DNPMessage2 ? 2 :
-                                                    command == IncomingCommCommands.DNPMessage3 ? 3 :
-                                                    command == IncomingCommCommands.DNPMessage4 ? 4 : 5);
+                case IncomingCommCommands.DNPMessage2: // BO
+                    if (this.dNPDIGITALGRIDData == null)
+                    {
+                        logger.Warn("Dropping DNPMessage2: live-data control not initialized.");
+                        return;
+                    }
+                    this.dNPDataMessage(bytePacket, 2);
+                    break;
+
+                case IncomingCommCommands.DNPMessage3: // AI
+                    if (this.dNPDIGITALGRIDData == null)
+                    {
+                        logger.Warn("Dropping DNPMessage3: live-data control not initialized.");
+                        return;
+                    }
+                    this.dNPDataMessage(bytePacket, 3);
+                    break;
+
+                case IncomingCommCommands.DNPMessage4: // AI
+                    if (this.dNPDIGITALGRIDData == null)
+                    {
+                        logger.Warn("Dropping DNPMessage4: live-data control not initialized.");
+                        return;
+                    }
+                    this.dNPDataMessage(bytePacket, 4);
+                    break;
+                case IncomingCommCommands.DNPMessage5: // AO
+                    if (this.dNPDIGITALGRIDData == null)
+                    {
+                        logger.Warn("Dropping DNPMessage5: live-data control not initialized.");
+                        return;
+                    }
+                    this.dNPDataMessage(bytePacket, 5);
                     break;
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);

@@ -190,8 +190,7 @@ namespace RelayControlLibrary
 
         private void buttonSendDeadBand_Click(object sender, EventArgs e)
         {
-           //this.deadBandVariables.// ucDeadBandSettingsObject.
-           // this.deadBandVariables.Add(new ucDeadBandSettingsObject("Voltage", "Volts", 0.0m, 255m, 1, "Applies to all Network and Transformer Voltages"));
+
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_packetLength); //98
@@ -225,6 +224,7 @@ namespace RelayControlLibrary
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
+                
                 this.Send(sEA);
             }
             catch (Exception ex)
@@ -232,7 +232,6 @@ namespace RelayControlLibrary
                 this.errorHandler(ex);
             }
         }
-
 
         private void buttonRQDNPSettings_Click(object sender, EventArgs e)
         {
@@ -256,6 +255,58 @@ namespace RelayControlLibrary
             {
                 this.errorHandler(ex);
             }
+        }
+
+        private bool TryExtractDnpSettingsPayload(byte[] packet, out byte[] payload, out string reason)
+        {
+            payload = null;
+            reason = null;
+
+            if (packet == null || packet.Length == 0)
+            {
+                reason = "null/empty packet";
+                return false;
+            }
+
+            bool hasTerminator = packet.Length >= 3 &&
+                                 (packet[packet.Length - 1] == 0x0D || packet[packet.Length - 1] == 0x0A);
+
+            if (hasTerminator && packet[0] == (byte)'D')
+            {
+                int declaredLen = packet[1];
+                int availablePayload = packet.Length - 3; // cmd + len + terminator removed
+
+                if (declaredLen <= 0 || declaredLen > availablePayload)
+                {
+                    reason = $"bad declared length={declaredLen}, available={availablePayload}";
+                    return false;
+                }
+
+                payload = new byte[declaredLen];
+                Buffer.BlockCopy(packet, 2, payload, 0, declaredLen);
+            }
+            else
+            {
+                // raw payload fallback
+                payload = packet;
+            }
+
+            if (payload.Length < 18)
+            {
+                reason = $"payload too short ({payload.Length})";
+                payload = null;
+                return false;
+            }
+
+            byte linkLayer = (byte)(payload[0] & 0x03);
+            if (linkLayer > 2)
+            {
+                reason = $"invalid link-layer bits ({linkLayer})";
+                payload = null;
+                return false;
+            }
+
+            return true;
         }
 
         public bool ShouldShowDnpTabs()
@@ -321,6 +372,15 @@ namespace RelayControlLibrary
             //LSByte comes first
             //bytes 0 and 1 for control word
             //bits 0 and 1 are for link layer
+
+            if (!TryExtractDnpSettingsPayload(bytePacket, out var payload, out var reason))
+            {
+                System.Diagnostics.Debug.WriteLine($"[DNP] ucDNP ignored packet: {reason}");
+                return;
+            }
+
+            bytePacket = payload;
+
             try
             {
                 temp = (byte)(bytePacket[0] & 3);
@@ -341,7 +401,6 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("Wrong DNP Setting from the master relay for Link Layer Confirm.");
                 this.errorHandler(new Exception(dNPErrorMsg, ex));
                 dataBackupDNP.dataBackup_dnpDefaults = true;
