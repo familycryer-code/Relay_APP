@@ -1435,48 +1435,58 @@ namespace RelayControlLibrary
         {
             TabPage selected = this.tabControlMemphisDNP.SelectedTab;
 
+            if (selected == null)
+                return;
+
             // --- local actions ---
             void RemoveAnalogButtonsFrom(TabPage page)
             {
+                if (page == null) return;
+
                 if (page.Controls.Contains(this.buttonSendAnalogEnables))
-                {
                     page.Controls.Remove(this.buttonSendAnalogEnables);
+                if (page.Controls.Contains(this.buttonEnableAllAnalogEvents))
                     page.Controls.Remove(this.buttonEnableAllAnalogEvents);
+                if (page.Controls.Contains(this.buttonDisableAllAnalogEvents))
                     page.Controls.Remove(this.buttonDisableAllAnalogEvents);
-                }
             }
 
             void EnsureAnalogButtonsOn(TabPage page)
             {
+                if (page == null) return;
+
                 if (!page.Controls.Contains(this.buttonSendAnalogEnables))
-                {
                     page.Controls.Add(this.buttonSendAnalogEnables);
+                if (!page.Controls.Contains(this.buttonEnableAllAnalogEvents))
                     page.Controls.Add(this.buttonEnableAllAnalogEvents);
+                if (!page.Controls.Contains(this.buttonDisableAllAnalogEvents))
                     page.Controls.Add(this.buttonDisableAllAnalogEvents);
-                }
             }
 
             void RemoveBinaryButtonsFrom(TabPage page)
             {
+                if (page == null) return;
+
                 if (page.Controls.Contains(this.buttonSendBinaryEventEnables))
-                {
                     page.Controls.Remove(this.buttonSendBinaryEventEnables);
+                if (page.Controls.Contains(this.buttonEnableAllBinaryEvents))
                     page.Controls.Remove(this.buttonEnableAllBinaryEvents);
+                if (page.Controls.Contains(this.buttonDisableAllBinaryEvents))
                     page.Controls.Remove(this.buttonDisableAllBinaryEvents);
-                }
             }
 
             void EnsureBinaryButtonsOn(TabPage page)
             {
+                if (page == null) return;
+
                 if (!page.Controls.Contains(this.buttonSendBinaryEventEnables))
-                {
                     page.Controls.Add(this.buttonSendBinaryEventEnables);
+                if (!page.Controls.Contains(this.buttonEnableAllBinaryEvents))
                     page.Controls.Add(this.buttonEnableAllBinaryEvents);
+                if (!page.Controls.Contains(this.buttonDisableAllBinaryEvents))
                     page.Controls.Add(this.buttonDisableAllBinaryEvents);
-                }
             }
 
-            // ---------- Analog tabs ----------
             // ---------- Analog tabs ----------
             if (selected == this.tabPageAnalogInputs1 ||
                 selected == this.tabPageAnalogInputs2 ||
@@ -1505,7 +1515,7 @@ namespace RelayControlLibrary
                 this.buttonEnableAllAnalogEvents.BringToFront();
                 this.buttonSendAnalogEnables.BringToFront();
 
-                bool analogEventsEnabledVisible = true;
+                bool analogEventsEnabledVisible = true; // all DNP customers
 
                 this.buttonDisableAllAnalogEvents.Enabled = analogEventsEnabledVisible;
                 this.buttonDisableAllAnalogEvents.Visible = analogEventsEnabledVisible;
@@ -1519,13 +1529,15 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // ---------- Binary Inputs tab 1 ----------
-            if (selected == this.tabPageBinaryInputs)
+            // ---------- Binary Inputs tabs ----------
+            if (selected == this.tabPageBinaryInputs || selected == this.tabPageBinaryInputs2)
             {
+                RemoveBinaryButtonsFrom(this.tabPageBinaryInputs);
                 RemoveBinaryButtonsFrom(this.tabPageBinaryInputs2);
-                EnsureBinaryButtonsOn(this.tabPageBinaryInputs);
 
-                int footerY = 625; // was 550
+                EnsureBinaryButtonsOn(selected);
+
+                int footerY = 625;
 
                 this.buttonDisableAllBinaryEvents.Location = new System.Drawing.Point(85, footerY);
                 this.buttonDisableAllBinaryEvents.Size = new System.Drawing.Size(204, 30);
@@ -1536,13 +1548,11 @@ namespace RelayControlLibrary
                 this.buttonSendBinaryEventEnables.Location = new System.Drawing.Point(525, footerY);
                 this.buttonSendBinaryEventEnables.Size = new System.Drawing.Size(220, 30);
 
-                // add back Stop Requesting Data on BI tab
                 this.buttonDisableAllBinaryEvents.BringToFront();
                 this.buttonEnableAllBinaryEvents.BringToFront();
                 this.buttonSendBinaryEventEnables.BringToFront();
-               
 
-                bool showBinaryEventButtons = (this.customer == Customers.TORONTO_HYDRO);
+                bool showBinaryEventButtons = true; // all DNP customers
 
                 this.buttonDisableAllBinaryEvents.Enabled = showBinaryEventButtons;
                 this.buttonDisableAllBinaryEvents.Visible = showBinaryEventButtons;
@@ -1556,139 +1566,81 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // ---------- Binary Inputs tab 2 ----------
-            if (selected == this.tabPageBinaryInputs2)
-            {
-                // Footer lives on BI tab 1 only
-                RemoveBinaryButtonsFrom(this.tabPageBinaryInputs2);
+            // ---------- Any other tab: hide both footer sets ----------
+            this.buttonDisableAllBinaryEvents.Visible = false;
+            this.buttonEnableAllBinaryEvents.Visible = false;
+            this.buttonSendBinaryEventEnables.Visible = false;
 
-                this.buttonDisableAllBinaryEvents.Visible = false;
-                this.buttonEnableAllBinaryEvents.Visible = false;
-                this.buttonSendBinaryEventEnables.Visible = false;
-                return;
-            }
+            this.buttonDisableAllAnalogEvents.Visible = false;
+            this.buttonEnableAllAnalogEvents.Visible = false;
+            this.buttonSendAnalogEnables.Visible = false;
         }
 
         private void buttonSendBinaryEventEnables_Click(object sender, EventArgs e)
         {
             uint i = 0;
-            uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
+            uint packetByteNumber = 2; // starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
-     //       MessageBox.Show("5 sending command D to master"); // Only for testing - to be removed
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
-            sEA.SendPacket[1] = (byte)'e';        //For set binary events subcode
+            sEA.SendPacket[1] = (byte)'e'; // set binary events subcode
 
-            foreach (Control C in this.tabPageBinaryInputs.Controls)
+            // Gather points from BOTH binary input tabs
+            var allBinaryPoints = new List<ucDNPMemphisBinary>();
+
+            foreach (Control c in this.tabPageBinaryInputs.Controls)
             {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    if (i % 8 == 0)
-                    {
-                        tempByte = 0; //First value of byte, so clear tempByte
-                        if (uDMB.EventEnabled)
-                            tempByte = 1;
-                    }
-                    else if (i % 8 == 7) //last value of group
-                    {
-                        if (uDMB.EventEnabled)
-                            tempByte += (byte)0x80;
-
-                        sEA.SendPacket[packetByteNumber] = tempByte;
-
-                        packetByteNumber++; //next byte goes into next byte of packet
-                    }
-                    else
-                    {
-                        if (uDMB.EventEnabled)
-                        {
-                            byte j = 0;
-                            byte value = 1;
-                            for (j = 0; j < i % 8; ++j)
-                            {
-                                value <<= 1;
-                            }
-
-                            tempByte += value;
-                        }
-                    }
-
-                    i++;
-                }
-            
-                if (i % 8 != 0)
-                {
-                    sEA.SendPacket[packetByteNumber] = tempByte;
-                }
+                if (c is ucDNPMemphisBinary b)
+                    allBinaryPoints.Add(b);
             }
-#if ENMAX
-            foreach (Control C in this.tabPageBinaryInputs2.Controls)
+
+            foreach (Control c in this.tabPageBinaryInputs2.Controls)
             {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    if (i % 8 == 0)
-                    {
-                        tempByte = 0; //First value of byte, so clear tempByte
-                        if (uDMB.EventEnabled)
-                            tempByte = 1;
-                    }
-                    else if (i % 8 == 7) //last value of group
-                    {
-                        if (uDMB.EventEnabled)
-                            tempByte += (byte)0x80;
-
-                        sEA.SendPacket[packetByteNumber] = tempByte;
-
-                        packetByteNumber++; //next byte goes into next byte of packet
-                    }
-                    else
-                    {
-                        if (uDMB.EventEnabled)
-                        {
-                            byte j = 0;
-                            byte value = 1;
-                            for (j = 0; j < i % 8; ++j)
-                            {
-                                value <<= 1;
-                            }
-
-                            tempByte += value;
-                        }
-                    }
-
-                    i++;
-                }
-
-                if (i % 8 != 0)
-                {
-                    sEA.SendPacket[packetByteNumber] = tempByte;
-                }
+                if (c is ucDNPMemphisBinary b)
+                    allBinaryPoints.Add(b);
             }
-#endif
+
+            // Ensure bit packing is by actual point number
+            allBinaryPoints = allBinaryPoints.OrderBy(b => b.PointNumber).ToList();
+
+            foreach (var uDMB in allBinaryPoints)
+            {
+                if (i % 8 == 0)
+                {
+                    tempByte = 0;
+                    if (uDMB.EventEnabled)
+                        tempByte = 1;
+                }
+                else if (i % 8 == 7)
+                {
+                    if (uDMB.EventEnabled)
+                        tempByte += 0x80;
+
+                    sEA.SendPacket[packetByteNumber] = tempByte;
+                    packetByteNumber++;
+                }
+                else
+                {
+                    if (uDMB.EventEnabled)
+                    {
+                        byte value = 1;
+                        for (byte j = 0; j < i % 8; ++j)
+                            value <<= 1;
+
+                        tempByte += value;
+                    }
+                }
+
+                i++;
+            }
+
+            // Flush partial byte
+            if (i % 8 != 0)
+                sEA.SendPacket[packetByteNumber] = tempByte;
+
             sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
+
             if (this.Send != null)
                 this.Send(this, sEA);
         }
@@ -1696,205 +1648,72 @@ namespace RelayControlLibrary
         private void buttonSendAnalogEnables_Click(object sender, EventArgs e)
         {
             uint i = 0;
-            uint packetByteNumber = 2; //starts at 2 after OpCode and SubCode
+            uint packetByteNumber = 2; // starts at 2 after OpCode and SubCode
             byte tempByte = 0;
 
             SendEventArgs sEA = new SendEventArgs(_packetLength);
-       //     MessageBox.Show("6 sending command D to master"); // Only for testing - to be removed
             sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
-            sEA.SendPacket[1] = (byte)'E';        //For set analog events subcode
+            sEA.SendPacket[1] = (byte)'E';                                   // set analog events subcode
 
-            foreach (Control C in this.tabPageAnalogInputs1.Controls)
+            // Gather analog points from all analog input tabs
+            var allAnalogPoints = new List<ucDNPDIGITALGRIDAnalogIn>();
+
+            TabPage[] analogPages =
             {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
+        this.tabPageAnalogInputs1,
+        this.tabPageAnalogInputs2,
+        this.tabPageAnalogInputs3,
+        this.tabPageAnalogInputs4
+    };
 
-                try
+            foreach (TabPage page in analogPages)
+            {
+                foreach (Control c in page.Controls)
                 {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
+                    if (c is ucDNPDIGITALGRIDAnalogIn a)
+                        allAnalogPoints.Add(a);
                 }
-                catch
+            }
+
+            // Ensure proper bit order by point index
+            allAnalogPoints = allAnalogPoints.OrderBy(a => a.PointNumber).ToList();
+
+            foreach (var uDDGA in allAnalogPoints)
+            {
+                if (i % 8 == 0)
                 {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    if (i % 8 == 0)
-                    {
-                        tempByte = 0; //First value of byte, so clear tempByte
-                        if (uDDGA.EventEnabled)
-                            tempByte = 1;
-
-                    }
-                    else if (i % 8 == 7) //last value of group
-                    {
-                        //MessageBox.Show(tempByte + " TEMPBYTE : ");// Only for testing - to be removed
-                        if (uDDGA.EventEnabled)
-                            tempByte += (byte)0x80;
-
-                        //MessageBox.Show(tempByte + " tempByte at : " + packetByteNumber + " packetByteNumber and " + i + " i");// Only for testing - to be removed
-                        sEA.SendPacket[packetByteNumber] = tempByte;
-
-                        packetByteNumber++; //next byte goes into next byte of packet
-                    }
-                    else
-                    {
-                        if (uDDGA.EventEnabled)
-                        {
-                            byte j = 0;
-                            byte value = 1;
-                            for (j = 0; j < i % 8; ++j)
-                            {
-                                value <<= 1;
-                            }
-
-                            tempByte += value;
-                            //MessageBox.Show(tempByte + " : tempByte with value : " + value + " i j and i%8 : " + i + j + i % 8);// Only for testing - to be removed
-                        }
-                    }
-
-                    i++;
-                }
-#if TORONTO_HYDRO
-                if (i == 43)
-                {  
-                       // MessageBox.Show(tempByte + " TEMPBYTE @ 43 : ");// Only for testing - to be removed
+                    tempByte = 0;
                     if (uDDGA.EventEnabled)
-                        tempByte += (byte)0x80;
+                        tempByte = 1;
+                }
+                else if (i % 8 == 7)
+                {
+                    if (uDDGA.EventEnabled)
+                        tempByte += 0x80;
 
-                    //MessageBox.Show(tempByte + " tempByte at : " + packetByteNumber + " packetByteNumber and " + i + " i");// Only for testing - to be removed
                     sEA.SendPacket[packetByteNumber] = tempByte;
-                    
+                    packetByteNumber++;
+                }
+                else
+                {
                     if (uDDGA.EventEnabled)
                     {
-                        byte j = 0;
                         byte value = 1;
-                        for (j = 0; j < i % 8; ++j)
-                        {
+                        for (byte j = 0; j < i % 8; ++j)
                             value <<= 1;
-                        }
 
                         tempByte += value;
-                     //   MessageBox.Show(tempByte + " : tempByte with value : " + value + " i j and i%8 : " + i + j + i % 8);// Only for testing - to be removed
                     }
-
-                   // MessageBox.Show(tempByte + " tempByte at : " + packetByteNumber + " packetByteNumber and " + i + " i");// Only for testing - to be removed
-                    sEA.SendPacket[packetByteNumber] = tempByte;
-
-                    packetByteNumber++; //next byte goes into next byte of packet
                 }
-#endif
+
+                i++;
             }
-#if CONED || ENMAX
-            foreach (Control C in this.tabPageAnalogInputs2.Controls)
-            {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
 
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    if (i % 8 == 0)
-                    {
-                        tempByte = 0; //First value of byte, so clear tempByte
-                        if (uDDGA.EventEnabled)
-                            tempByte = 1;
-                    }
-                    else if (i % 8 == 7) //last value of group
-                    {
-                        if (uDDGA.EventEnabled)
-                            tempByte += (byte)0x80;
+            // Flush final partial byte
+            if (i % 8 != 0)
+                sEA.SendPacket[packetByteNumber] = tempByte;
 
-                        sEA.SendPacket[packetByteNumber] = tempByte;
-
-                        packetByteNumber++; //next byte goes into next byte of packet
-                    }
-                    else
-                    {
-                        if (uDDGA.EventEnabled)
-                        {
-                            byte j = 0;
-                            byte value = 1;
-                            for (j = 0; j < i % 8; ++j)
-                            {
-                                value <<= 1;
-                            }
-
-                            tempByte += value;
-                        }
-                    }
-
-                    i++;
-                }
-                if (i % 8 != 0)
-                {
-                    sEA.SendPacket[packetByteNumber] = tempByte;
-                }
-            }
-            foreach (Control C in this.tabPageAnalogInputs3.Controls)
-            {
-                ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-                bool failed = false;
-
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    if (i % 8 == 0)
-                    {
-                        tempByte = 0; //First value of byte, so clear tempByte
-                        if (uDDGA.EventEnabled)
-                            tempByte = 1;
-                    }
-                    else if (i % 8 == 7) //last value of group
-                    {
-                        if (uDDGA.EventEnabled)
-                            tempByte += (byte)0x80;
-
-                        sEA.SendPacket[packetByteNumber] = tempByte;
-
-                        packetByteNumber++; //next byte goes into next byte of packet
-                    }
-                    else
-                    {
-                        if (uDDGA.EventEnabled)
-                        {
-                            byte j = 0;
-                            byte value = 1;
-                            for (j = 0; j < i % 8; ++j)
-                            {
-                                value <<= 1;
-                            }
-
-                            tempByte += value;
-                        }
-                    }
-
-                    i++;
-                }
-                if (i % 8 != 0)
-                {
-                    sEA.SendPacket[packetByteNumber] = tempByte;
-                }
-            }
-#endif
             sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
-
-           // for (int tempX = 0; tempX <= 97; tempX++)
-            //    MessageBox.Show(sEA.SendPacket[tempX].ToString() + " : sEA.SendPacket[] at " + tempX);// Only for testing - to be removed
 
             if (this.Send != null)
                 this.Send(this, sEA);
@@ -1903,101 +1722,40 @@ namespace RelayControlLibrary
         private void buttonEnableAllBinaryEvents_Click(object sender, EventArgs e)
         {
             if (PointChanged != null)
-            {
                 this.PointChanged(this, new DNPPointEventArgs(true));
-            }
-            foreach (Control C in this.tabPageBinaryInputs.Controls)
-            {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
 
-                if (!failed)
-                {
-                    uDMB.EventEnabled = true;
-                }
-            }
-#if ENMAX
-            foreach (Control C in this.tabPageBinaryInputs2.Controls)
+            foreach (Control c in this.tabPageBinaryInputs.Controls)
             {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    uDMB.EventEnabled = true;
-                }
+                if (c is ucDNPMemphisBinary b)
+                    b.EventEnabled = true;
             }
-#endif
+
+            foreach (Control c in this.tabPageBinaryInputs2.Controls)
+            {
+                if (c is ucDNPMemphisBinary b)
+                    b.EventEnabled = true;
+            }
         }
 
         private void buttonEnableAllAnalogEvents_Click(object sender, EventArgs e)
         {
-            ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-            bool failed = false;
-
             if (PointChanged != null)
-            {
                 this.PointChanged(this, new DNPPointEventArgs(true));
-            }
-            foreach (Control C in this.tabPageAnalogInputs3.Controls)
+
+            TabPage[] analogPages =
             {
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = true;
-                }
-            }
-            foreach (Control C in this.tabPageAnalogInputs2.Controls)
+                this.tabPageAnalogInputs1,
+                this.tabPageAnalogInputs2,
+                this.tabPageAnalogInputs3,
+                this.tabPageAnalogInputs4
+            };
+
+            foreach (TabPage page in analogPages)
             {
-                try
+                foreach (Control c in page.Controls)
                 {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = true;
-                }
-            }
-            foreach (Control C in this.tabPageAnalogInputs1.Controls)
-            {
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = true;
+                    if (c is ucDNPDIGITALGRIDAnalogIn a)
+                        a.EventEnabled = true;
                 }
             }
         }
@@ -2005,47 +1763,19 @@ namespace RelayControlLibrary
         private void buttonDisableAllBinaryEvents_Click(object sender, EventArgs e)
         {
             if (PointChanged != null)
-            {
                 this.PointChanged(this, new DNPPointEventArgs(false));
-            }
-            foreach (Control C in this.tabPageBinaryInputs.Controls)
-            {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
 
-                if (!failed)
-                {
-                    uDMB.EventEnabled = false;
-                }
-            }
-#if ENMAX
-            foreach (Control C in this.tabPageBinaryInputs2.Controls)
+            foreach (Control c in this.tabPageBinaryInputs.Controls)
             {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                bool failed = false;
-                try
-                {
-                    uDMB = (ucDNPMemphisBinary)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-
-                if (!failed)
-                {
-                    uDMB.EventEnabled = false;
-                }
+                if (c is ucDNPMemphisBinary b)
+                    b.EventEnabled = false;
             }
-#endif
+
+            foreach (Control c in this.tabPageBinaryInputs2.Controls)
+            {
+                if (c is ucDNPMemphisBinary b)
+                    b.EventEnabled = false;
+            }
         }
         private void ucDNPDIGITALGRIDData_VisibleChanged(object sender, EventArgs e)
         {
@@ -2073,56 +1803,23 @@ namespace RelayControlLibrary
         }
         private void buttonDisableAllAnalogEvents_Click(object sender, EventArgs e)
         {
-            ucDNPDIGITALGRIDAnalogIn uDDGA = new ucDNPDIGITALGRIDAnalogIn();
-            bool failed = false;
-
             if (PointChanged != null)
-            {
                 this.PointChanged(this, new DNPPointEventArgs(false));
-            }
-            foreach (Control C in this.tabPageAnalogInputs3.Controls)
+
+            TabPage[] analogPages =
             {
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = false;
-                }
-            }
-            foreach (Control C in this.tabPageAnalogInputs2.Controls)
+                this.tabPageAnalogInputs1,
+                this.tabPageAnalogInputs2,
+                this.tabPageAnalogInputs3,
+                this.tabPageAnalogInputs4
+            };
+
+            foreach (TabPage page in analogPages)
             {
-                try
+                foreach (Control c in page.Controls)
                 {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = false;
-                }
-            }
-            foreach (Control C in this.tabPageAnalogInputs1.Controls)
-            {
-                try
-                {
-                    uDDGA = (ucDNPDIGITALGRIDAnalogIn)C;
-                }
-                catch
-                {
-                    failed = true;
-                }
-                if (!failed)
-                {
-                    uDDGA.EventEnabled = false;
+                    if (c is ucDNPDIGITALGRIDAnalogIn a)
+                        a.EventEnabled = false;
                 }
             }
         }
