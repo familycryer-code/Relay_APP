@@ -1204,28 +1204,26 @@ namespace RelayControlLibrary
 
         public int setBinaryInputs(byte[] bytePacket)
         {
-            //int i = this.tabPageBinaryInputs.Controls.Count;
-            int j = 0;
-            foreach (Control C in this.tabPageBinaryInputs.Controls)
-            {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
-                
-                uDMB = (ucDNPMemphisBinary)C;
-                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[j]);
-                j += 1;
-                
-            }
-#if ENMAX
-            j = 30;
-            foreach (Control C in this.tabPageBinaryInputs2.Controls)
-            {
-                ucDNPMemphisBinary uDMB = new ucDNPMemphisBinary();
+            // Gather BI controls from both tabs and update by PointNumber
+            var allBinaryPoints = new List<ucDNPMemphisBinary>();
 
-                uDMB = (ucDNPMemphisBinary)C;
-                uDMB.CheckValue = this.convertDataByteToBool(bytePacket[j]);
-                j += 1;
+            foreach (Control c in this.tabPageBinaryInputs.Controls)
+                if (c is ucDNPMemphisBinary b) allBinaryPoints.Add(b);
+
+            foreach (Control c in this.tabPageBinaryInputs2.Controls)
+                if (c is ucDNPMemphisBinary b) allBinaryPoints.Add(b);
+
+            allBinaryPoints = allBinaryPoints
+                .OrderBy(b => b.PointNumber)
+                .ToList();
+
+            int max = Math.Min(allBinaryPoints.Count, bytePacket.Length);
+
+            for (int j = 0; j < max; j++)
+            {
+                allBinaryPoints[j].CheckValue = this.convertDataByteToBool(bytePacket[j]);
             }
-#endif
+
             return 0;
         }
 
