@@ -3402,6 +3402,7 @@ namespace RelayControl
             this.tabPageEngineering2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.enableDNPMonitoring(false);
 
         }
 

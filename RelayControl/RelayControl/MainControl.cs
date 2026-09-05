@@ -9394,7 +9394,7 @@ namespace RelayControl
 
         private void enableDNPMonitoring(bool val)
         {
-            //MessageBox.Show("DNP Live Data to be requested from master processor : " + val); // Only for testing - to be removed
+            // OFF state is default. Only poll when explicitly started.
             if (val)
             {
                 this.buttonRequestDNPData.Text = "Stop Requesting Data";
@@ -9402,17 +9402,10 @@ namespace RelayControl
             }
             else
             {
-                this.buttonRequestDNPData.Text = "Request DNP Data";
+                this.buttonRequestDNPData.Text = "Start Requesting Data"; // changed
                 this.buttonRequestDNPData.BackColor = Color.Red;
-                /*   if (this.relayFound_forDNPdataMonitoring == false)
-                   {
-                       this.enableDNPMonitoring(false);
-                       this.relayFound_forDNPdataMonitoring = false;
-                       string text = "Relay not found. Please check for its Power and then start the Monitoring ";
-                       MessageBox.Show(text);
-                   }
-                */
             }
+
             this.requestingDNPData = val;
         }
 
