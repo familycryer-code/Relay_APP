@@ -20,6 +20,9 @@ namespace RelayControlLibrary
         public ucTransmitter()
         {
             InitializeComponent();
+            this.checkBoxDNPEnable.CheckedChanged += new System.EventHandler(this.checkBoxDNPEnable_CheckedChanged);
+        
+
             this.textBoxTXCTRatio.Text = "120";
 
             this.DNPCoverFlags = ((byte)(0));
@@ -275,7 +278,23 @@ namespace RelayControlLibrary
 
                     if (this.checkBoxDNPEnable != null)
                         this.checkBoxDNPEnable.Checked = value;
+
+                    // THIS is the missing fix:
+                    if (!value)
+                    {
+                        this.DNPCommLabelStatus = false;
+                    }
                 }
+            }
+        }
+
+        private void checkBoxDNPEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            this.dNPEnabled = this.checkBoxDNPEnable.Checked; // direct field to avoid recursion
+
+            if (!this.dNPEnabled)
+            {
+                this.DNPCommLabelStatus = false;
             }
         }
 
@@ -2566,10 +2585,13 @@ namespace RelayControlLibrary
                 this.numericUpDownFragmentSize.Value = snappedValue;
             }
         }
-
         private void setDNPCommunicationStatus()
         {
-            if (dNPCommStatus)
+            bool showEnabled = this.dNPCommStatus
+                && this.DNPEnabled
+                && this.checkBoxDNPEnable.Checked;
+
+            if (showEnabled)
             {
                 this.lbl_DNPCommStatus.Text = "Enabled";
                 this.lbl_DNPCommStatus.BackColor = Color.SkyBlue;
