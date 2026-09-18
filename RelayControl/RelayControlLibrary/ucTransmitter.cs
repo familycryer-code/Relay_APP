@@ -1778,7 +1778,6 @@ namespace RelayControlLibrary
         {
             this.textBoxID.Text = "1023";
             this.textBoxTXCTRatio.Text = "120";
-            this.CTRatio = 600;
 
             this.checkBoxBlue.Checked = true;
             this.checkBoxGreen.Checked = false;
@@ -1869,11 +1868,6 @@ namespace RelayControlLibrary
         {
             this.textBoxID.Text = "1023";
             this.textBoxTXCTRatio.Text = "120";
-#if PSEG || CONED
-            this.CTRatio = 320;
-#else
-            this.CTRatio = 600;
-#endif
 
             this.checkBoxBlue.Checked = true;
             this.checkBoxGreen.Checked = false;

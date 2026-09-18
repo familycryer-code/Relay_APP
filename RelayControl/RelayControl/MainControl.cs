@@ -9791,9 +9791,16 @@ namespace RelayControl
 
         private void WriteBackUpData_FileToRelay()
         {
+            // Guard: only run legacy backup restore during actual migration/autoload programming.
+            // This avoids accidental restore side effects from normal UI actions.
+            if (!(pendingAutoloadAfterBackup || this.ucRelayProgramming1.ReprogrammingInProgress))
+            {
+                logger.Info("Skipping backup restore: not in migration/programming flow.");
+                return;
+            }
+
             // Push data backed up in RelayData_Backup.txt from rev9-or-older relay
             // to relay master uP (for rev10+ firmware mapping changes).
-
             const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
             if (!File.Exists(filePath))
@@ -9819,9 +9826,7 @@ namespace RelayControl
                 this.writeSafeServiceDataBackUp_ToMaster();
                 this.writeTransmitterDataBackUp_ToMaster();
                 this.writeDNPDataBackUp_ToMaster();
-                // this.writeDNPSAv5SettingsDataBackUp_ToMaster(); // currently disabled by design
                 this.writeArcFaultDataBackUp_ToMaster();
-                // this.writeCalibrationDataBackUp_ToMaster(); // intentionally disabled
 
                 logger.Info("Backup restore completed.");
             }
