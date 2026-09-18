@@ -545,8 +545,13 @@ namespace RelayControlLibrary
                     this.DNPEnabled = false;
                 }
 
-                // Comm label should reflect relay-reported DNP state
-                this.DNPCommLabelStatus = this.DNPEnabled;
+                // Uplink off => DNP comm status must be off
+                if (!this.DNPEnabled)
+                {
+                    this.DNPCommLabelStatus = false;
+                }
+                // If uplink is on, do NOT force Enabled here.
+                // Let DNP Apply path set it true after successful apply.
 
                 if ((bA[28] & 0x08) == 0x08)
                 {
@@ -2372,21 +2377,9 @@ namespace RelayControlLibrary
 
             SetDnpBaudByValue(DnpCustomerPolicy.GetDefaultDnpBaud(this.Customer));
         }
-
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
 #if DNP
-            /*
-            if (this.Customer != Customers.TORONTO_HYDRO) && !this.checkBoxDNPEnable.Checked)
-            {
-                MessageBox.Show(
-                    "Please enable DNP before applying DNP settings.",
-                    "DNP Required");
-                applyDNP.applyDNPSettings = false;
-                return;
-            }
-            */
-
             applyDNP.applyDNPSettings = true;
 
             Application.UseWaitCursor = true;
@@ -2394,7 +2387,13 @@ namespace RelayControlLibrary
 
             try
             {
-                this.SendAllDNPSettings();
+                bool applied = this.SendAllDNPSettings();
+                this.DNPCommLabelStatus = applied && this.DNPEnabled;
+            }
+            catch (Exception ex)
+            {
+                this.DNPCommLabelStatus = false;
+                this.errorHandler(ex);
             }
             finally
             {
@@ -2405,19 +2404,17 @@ namespace RelayControlLibrary
         }
 
         private static int _DNPpacketLength = 98;
-        private void SendAllDNPSettings()
+        private bool SendAllDNPSettings()
         {
-            // MessageBox.Show("send dnp settings to master processor"); // Only for testing - to be removed
             try
             {
                 SendEventArgs sEA = new SendEventArgs(_DNPpacketLength);
                 byte tempByte = 0;
                 UInt32 tempInt32;
-                //    MessageBox.Show("sending command D + a to uP for all dnp settings"); // Only for testing - to be removed
-                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; //"D"
-                sEA.SendPacket[1] = (byte)'a';        //For set all
 
-                //Setting the command bits 0 - 6
+                sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode;
+                sEA.SendPacket[1] = (byte)'a';
+
                 if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Always")
                     tempByte = 2;
                 else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Sometimes")
@@ -2425,70 +2422,60 @@ namespace RelayControlLibrary
                 else if ((string)this.comboBoxLinkLayerConfirm.SelectedItem == "Never")
                     tempByte = 0;
                 else
-                    throw new Exception("Error Getting Value For Link Layer: " + this.comboBoxLinkLayerConfirm.SelectedItem.ToString());
+                    throw new Exception("Error Getting Value For Link Layer: " + this.comboBoxLinkLayerConfirm.SelectedItem);
 
                 if ((string)this.comboBoxSelfAddress.SelectedItem == "Enable")
                     tempByte |= 4;
                 else if ((string)this.comboBoxSelfAddress.SelectedItem != "Disable")
-                    throw new Exception("Error Getting Value For Self Address: " + this.comboBoxSelfAddress.SelectedItem.ToString());
+                    throw new Exception("Error Getting Value For Self Address: " + this.comboBoxSelfAddress.SelectedItem);
 
                 if ((string)this.comboBoxUnsolResponse.SelectedItem == "Enable")
                     tempByte |= 8;
                 else if ((string)this.comboBoxUnsolResponse.SelectedItem != "Disable")
-                    throw new Exception("Error Getting Value For Unsolicited Response: " + this.comboBoxUnsolResponse.SelectedItem.ToString());
+                    throw new Exception("Error Getting Value For Unsolicited Response: " + this.comboBoxUnsolResponse.SelectedItem);
 
                 if ((string)this.comboBoxTerminationResistor.SelectedItem == "Enable")
                     tempByte |= 16;
                 else if ((string)this.comboBoxTerminationResistor.SelectedItem != "Disable")
-                    throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem.ToString());
-
+                    throw new Exception("Error Getting Value For Termination Resistor: " + this.comboBoxTerminationResistor.SelectedItem);
 
                 sEA.SendPacket[3] = tempByte;
 
-                //Unsolicited Timeout
                 tempInt32 = (UInt32)this.numericUpDownUnsolTimeout.Value;
-
                 sEA.SendPacket[7] = (byte)tempInt32;
                 sEA.SendPacket[8] = (byte)(tempInt32 >> 8);
                 sEA.SendPacket[5] = (byte)(tempInt32 >> 16);
                 sEA.SendPacket[6] = (byte)(tempInt32 >> 24);
 
-                //Fragment Size
                 tempInt32 = (UInt32)this.numericUpDownFragmentSize.Value;
                 sEA.SendPacket[9] = (byte)tempInt32;
                 sEA.SendPacket[10] = (byte)(tempInt32 >> 8);
 
-                //Destination Address
                 tempInt32 = (UInt32)this.numericUpDownDestinationAddress.Value;
                 sEA.SendPacket[11] = (byte)tempInt32;
                 sEA.SendPacket[12] = (byte)(tempInt32 >> 8);
 
-                //Source Address
                 tempInt32 = (UInt32)this.numericUpDownSourceAddress.Value;
                 sEA.SendPacket[13] = (byte)tempInt32;
                 sEA.SendPacket[14] = (byte)(tempInt32 >> 8);
 
-                //Unsolicited Max Retries
                 tempInt32 = (UInt32)this.numericUpDownUnsolRetries.Value;
                 sEA.SendPacket[15] = (byte)tempInt32;
                 sEA.SendPacket[16] = (byte)(tempInt32 >> 8);
 
-                //Max Events
                 tempByte = (byte)this.numericUpDownMaxEvents.Value;
                 sEA.SendPacket[17] = tempByte;
 
-                // Baude Rate
                 sEA.SendPacket[18] = (byte)this.comboBox_DNPBaudRate.SelectedIndex;
-
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
-                //uplinkC.uplinkCount += 1;
-
                 this.Send(sEA);
+                return true;
             }
             catch (Exception ex)
             {
                 this.errorHandler(ex);
+                return false;
             }
         }
 
