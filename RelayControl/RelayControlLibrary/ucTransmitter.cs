@@ -271,12 +271,14 @@ namespace RelayControlLibrary
             {
                 if (!this.forceDNPEnable)
                 {
-                    this.dNPEnabled = value;                  // <- keep state
-                    //this.checkBoxDNPEnable.Checked = value;   // <- update UI
-                                                              // do NOT set dnpUplinkK here
+                    this.dNPEnabled = value;
+
+                    if (this.checkBoxDNPEnable != null)
+                        this.checkBoxDNPEnable.Checked = value;
                 }
             }
         }
+
         public delegate void CTChangedHandler(object sender, EventArgs e);
         public event CTChangedHandler CTChanged;
 
