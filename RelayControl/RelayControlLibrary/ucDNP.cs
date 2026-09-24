@@ -59,15 +59,18 @@ namespace RelayControlLibrary
 
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
+            Application.DoEvents();
 
             try
             {
                 this.SendAllDNPSettings();
             }
-            finally
+            catch (Exception ex)
             {
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
+
+                this.errorHandler(ex);
             }
 #endif
         }

@@ -2389,6 +2389,7 @@ namespace RelayControlLibrary
 
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
+            Application.DoEvents();
 
             try
             {
@@ -2396,13 +2397,11 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                this.DNPCommLabelStatus = false;
-                this.errorHandler(ex);
-            }
-            finally
-            {
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
+
+                this.DNPCommLabelStatus = false;
+                this.errorHandler(ex);
             }
 #endif
         }
