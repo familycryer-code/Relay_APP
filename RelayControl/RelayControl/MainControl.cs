@@ -1832,8 +1832,8 @@ namespace RelayControl
 
         private void UpdateDnpCommStatusFromRelayState(bool relayDnpActive)
         {
-            this.ucTransmitter1.DNPCommLabelStatus = relayDnpActive;
-            this.ucDNP.DNPLabelStatus = relayDnpActive;
+            // Do not drive ucTransmitter1.DNPCommLabelStatus from MainControl.
+            // The transmitter control owns DNP status from relay TX readback.
         }
 
         private Point PanelLocation = new Point(300, 12);

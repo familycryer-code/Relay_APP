@@ -278,24 +278,14 @@ namespace RelayControlLibrary
 
                     if (this.checkBoxDNPEnable != null)
                         this.checkBoxDNPEnable.Checked = value;
-
-                    // THIS is the missing fix:
-                    if (!value)
-                    {
-                        this.DNPCommLabelStatus = false;
-                    }
                 }
             }
         }
 
         private void checkBoxDNPEnable_CheckedChanged(object sender, EventArgs e)
         {
-            this.dNPEnabled = this.checkBoxDNPEnable.Checked; // direct field to avoid recursion
-
-            if (!this.dNPEnabled)
-            {
-                this.DNPCommLabelStatus = false;
-            }
+            // Checkbox reflects a pending UI edit only.
+            // Do not change live/applied DNP status here.
         }
 
         public delegate void CTChangedHandler(object sender, EventArgs e);
@@ -564,13 +554,9 @@ namespace RelayControlLibrary
                     this.DNPEnabled = false;
                 }
 
-                // Uplink off => DNP comm status must be off
-                if (!this.DNPEnabled)
-                {
-                    this.DNPCommLabelStatus = false;
-                }
-                // If uplink is on, do NOT force Enabled here.
-                // Let DNP Apply path set it true after successful apply.
+                // DNP status label should reflect relay-read transmitter uplink state.
+                // This is the authoritative source after Apply + reread.
+                this.DNPCommLabelStatus = txUplinkBit;
 
                 if ((bA[28] & 0x08) == 0x08)
                 {
@@ -2406,8 +2392,7 @@ namespace RelayControlLibrary
 
             try
             {
-                bool applied = this.SendAllDNPSettings();
-                this.DNPCommLabelStatus = applied && this.DNPEnabled;
+                this.SendAllDNPSettings();
             }
             catch (Exception ex)
             {
@@ -2551,6 +2536,7 @@ namespace RelayControlLibrary
             get { return this.dNPCommStatus; }
             set
             {
+
                 this.dNPCommStatus = value;
                 this.setDNPCommunicationStatus();
             }
@@ -2587,9 +2573,7 @@ namespace RelayControlLibrary
         }
         private void setDNPCommunicationStatus()
         {
-            bool showEnabled = this.dNPCommStatus
-                && this.DNPEnabled
-                && this.checkBoxDNPEnable.Checked;
+            bool showEnabled = this.dNPCommStatus;
 
             if (showEnabled)
             {

@@ -73,7 +73,7 @@ namespace RelayControl
             Thread.Sleep(100);
             this.requestTransmitterSettings(); // read back actual relay state
 
-            this.ucTransmitter1.DNPCommLabelStatus = this.ucTransmitter1.DNPEnabled;
+            //this.ucTransmitter1.DNPCommLabelStatus = this.ucTransmitter1.DNPEnabled;
 
         }
 
