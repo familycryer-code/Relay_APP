@@ -14,20 +14,25 @@ namespace RelayDNPSecurity
 {
     public partial class ucDNPSAv5 : ucDNPSAv5SuperClass
     {
+        private bool _initialRequestDone = false;
         public ucDNPSAv5()
         {
             InitializeComponent();
 
             this.intializeComponentEvents();
+            this.VisibleChanged += ucDNPSAv5_VisibleChanged;
 
-#if !DEBUG
-            this.buttonLoadDefaultAuthorityKey.Visible = false;
-            this.buttonLoadDefaultUser.Visible = false;
-#endif
-
-            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619); 
+            this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619);
             this.labelCurrentlyLoadedUsers.BringToFront();
+        }
 
+        private void ucDNPSAv5_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible && !_initialRequestDone)
+            {
+                _initialRequestDone = true;
+                this.RequestAllData();
+            }
         }
 
         public int SerialNumber
