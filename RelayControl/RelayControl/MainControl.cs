@@ -3855,11 +3855,7 @@ namespace RelayControl
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-                //if (!this.sendingAllSettings && !_paramsLoadedShownThisApplyAll)
-                //{
-                  //  _paramsLoadedShownThisApplyAll = true;
-                   // this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-                //}
+              
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -3885,7 +3881,12 @@ namespace RelayControl
                 if (!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
-                    this.messageHandler("Data Recieved", "All Parameters Received");
+
+                    if (!ucRelayProgramming1.ReprogrammingInProgress)
+                    {
+                        this.messageHandler("Data Received", "All Parameters Received");
+                    }
+
                     //=====================Remove throbber and enable everything disaplayed on the screen=====================
                     Application.UseWaitCursor = false;
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -3894,7 +3895,7 @@ namespace RelayControl
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
 
-#if (ENMAX || PSEG  || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL) // exising customers
+#if (ENMAX || PSEG || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL) // exising customers
                     // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
                     if (dataB.oldDataBackup == true)
                     {
@@ -3906,11 +3907,11 @@ namespace RelayControl
                         {
                             this.WriteBackUpData_FileToRelay();
                             dataB.oldDataBackup = false;
-                            MessageBox.Show("Backup data loaded to the Relay !");
-#if !ENMAX
-                            this.buttonRequestRelayParamaters_Click(this, new EventArgs());
-#endif
-                            MessageBox.Show("Relay is now up to date with the latest firmware !");
+                            MessageBox.Show("Backup data loaded to the Relay.");
+
+                            this.buttonRequestRelayParamaters_Click(this, new EventArgs()); // Read back up data to display.
+
+                            MessageBox.Show("Relay is now up to date with the latest firmware.");
                         }
                         else
                         {
@@ -3922,7 +3923,7 @@ namespace RelayControl
                         this.enableAll(true);
                     }
 #endif
-                            Application.UseWaitCursor = false;
+                    Application.UseWaitCursor = false;
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
 
@@ -3936,77 +3937,6 @@ namespace RelayControl
                     this.ucSafeService1.SendSSModeFlag_Send = false;
                     this.timerResponseTimeOut.Enabled = false;
                 }
-            }
-
-
-            if (ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
-            {
-                logger.Debug("-------------------------------Resetting ShortRange Parameters");
-                this.ucShortRange1.ResetThreshold();
-            }
-            this.ucRelayProgramming1.AllParametersReceived();
-
-
-            this.ProgramState = ProgramStates.Running;
-
-            this.requestRelayRegisters();
-
-            this.enableAll(true);
-            this.RegisterPolling(true);
-
-
-            if (!tCPConnection)
-                this.toolStripStatusLabelMain.Text = "Relay found on " + this.serialPort1.PortName;
-
-#if !DEBUG
-            this.sendTime(DateTime.UtcNow);
-#endif
-
-            CheckTransmitterTab();
-
-            startMonitoringWBSettings();
-
-            if (!initializeAutoLoad && !ucRelayProgramming1.ReprogrammingInProgress)
-            {
-                this.checkDNPEnabled();
-            }
-            //MessageBox.Show("stripMenuItme : " + this.enableAutoloadToolStripMenuItem.Checked + " AND initializeAutoLoad : " + initializeAutoLoad); // Only for testing - to be removed
-            if (this.enableAutoloadToolStripMenuItem.Checked && initializeAutoLoad)
-            {
-                initializeAutoLoad = false;
-
-#if (ENMAX || PSEG || ONCOR || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL)
-                //MessageBox.Show("ucRelayProgramming1.remoteMasterRevisionNumber : " + this.ucRelayProgramming1.remoteMasterRevisionNumber + " AND Constants.Rev10Master : " + Constants.Rev10Master); // Only for testing - to be removed
-                // SAVE ( BACKUP ) DATA CURRENTLY EXISTING IN THE RELAY ON A FILE IN THE COMPUTER :
-                if (this.ucRelayProgramming1.remoteMasterRevisionNumber < Constants.Rev10Master)
-                {
-                    // If Master uP revision is less than Rev 10, backup its data to the computer
-                    // And rewrite that data to go with the rev 10 firmware after programming is done
-                    string text = "Saving Relay data before programming. This will take few seconds before the actual programing starts..";
-                    MessageBox.Show(text);
-
-                    if (File.Exists(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt"))
-                    {
-                        File.Delete(@"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
-                    }
-
-                    dataBackupD.dataBackup_withDNP = IsDnpCommSupported();
-
-                    this.enableAll(false);
-                    Application.UseWaitCursor = true;
-                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
-
-                    pendingAutoloadAfterBackup = true;
-                    dataB.oldDataBackup = true;
-                    this.BackUpRelayDatatoFile();
-                    return; // wait to call InitializeAutoload() until backup-complete path
-                }
-#endif
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                ApplyCustomerDnpBaudOnce();
-                this.enableAll(true);
-                ucRelayProgramming1.InitializeAutoload();
             }
         }
 
