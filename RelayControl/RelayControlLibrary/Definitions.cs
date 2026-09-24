@@ -689,7 +689,7 @@ namespace RelayControlLibrary
             get { return this.iD; }
             set
             {
-                if (value < 1 || value > 2047)
+                if (value < 1 || value > 1023)  // change to 2047 for coned
                 {
                     dataBackupTX.dataBackup_txDefaults = true;
                     throw new Exception(value.ToString() + " is a bad ID Value.  ID Value must be between 1 and 2047");

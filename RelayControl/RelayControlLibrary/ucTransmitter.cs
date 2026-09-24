@@ -1193,17 +1193,17 @@ namespace RelayControlLibrary
                 errorMessage = "Bad ID value";
                 this.tempID = Convert.ToUInt16(this.textBoxID.Text);
 
-#if CONED
-                if (this.tempID < 1 || this.tempID > 2047)
-                {
-                    throw new Exception("Transmission ID must be between 1 and 2047");
-                }
-#else
+//#if CONED
+                //if (this.tempID < 1 || this.tempID > 2047)
+               // {
+                  //  throw new Exception("Transmission ID must be between 1 and 2047");
+               // }
+//#else
                 if (this.tempID < 1 || this.tempID > 1023)
                 {
                     throw new Exception("Transmission ID must be between 1 and 1023");
                 }
-#endif
+//#endif
                 this.TXSettings.ID = this.tempID;
 
                 errorMessage = "Bad Serial Number";
@@ -2134,27 +2134,27 @@ namespace RelayControlLibrary
                     throw new Exception();
                 }
 
-#if CONED
-                if (temp > 2047)
+//#if CONED
+               // if (temp > 2047)
+                //{
+                 //   this.textBoxID.Text = "2047";
+                  //  throw new Exception();
+               // }
+//#else
+                if (temp > 1023)
                 {
-                    this.textBoxID.Text = "2047";
+                    this.textBoxID.Text = "1023";
                     throw new Exception();
                 }
-#else
-        if (temp > 1023)
-        {
-            this.textBoxID.Text = "1023";
-            throw new Exception();
-        }
-#endif
+//#endif
             }
             catch
             {
-#if CONED
-                this.errorHandler(new Exception("ID value must be between 1 and 2047"));
-#else
-        this.errorHandler(new Exception("ID value must be between 1 and 1023"));
-#endif
+//#if CONED
+                //this.errorHandler(new Exception("ID value must be between 1 and 2047"));
+//#else
+                this.errorHandler(new Exception("ID value must be between 1 and 1023"));
+//#endif
             }
         }
 
