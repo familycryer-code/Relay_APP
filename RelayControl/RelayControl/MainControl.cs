@@ -5203,8 +5203,12 @@ namespace RelayControl
                 if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
                 {
                     this.enableAll(true);
+                    this.toolStripStatusLabelRelayDisconnected.Visible = false;
+                    this.RegisterPolling(true);
+
                     if (!tCPConnection)
                         this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
+
                     this.timerCheckPortTime.Enabled = false;
                     this.requestAllDataNoMasterRev();
                 }
@@ -7196,23 +7200,17 @@ namespace RelayControl
         private void enableFlagsAndStatus(bool b)
         {
             this.enableCheckBox(b, this.checkBoxACB);
-            //  this.enableCheckBox(b, this.checkBoxDefaultsUsed);
             this.enableCheckBox(b, this.checkBoxBlockedCloseFlag);
-            // this.enableCheckBox(b, this.checkBoxBlockedOpenFlag);
             this.enableCheckBox(b, this.checkBoxCalibrating);
-            //  this.enableCheckBox(b, this.checkBoxFloatFlag);
             this.enableCheckBox(b, this.checkBoxMathError);
             this.enableCheckBox(b, this.checkBoxMathOverTime);
             this.enableCheckBox(b, this.checkBoxMonitorPhasors);
             this.enableCheckBox(b, this.checkBoxOffsetOkay);
-            // this.enableCheckBox(b, this.checkBoxPhasingOkayFlag);
             this.enableCheckBox(b, this.checkBoxPowerSaveFlag);
-            // this.enableCheckBox(b, this.checkBoxPumping);
             this.enableCheckBox(b, this.checkBoxSequence);
             this.enableCheckBox(b, this.checkBoxFlag1);
             this.enableCheckBox(b, this.checkBoxFlag2);
-            //  this.enableCheckBox(b, this.checkBoxBFlag);
-            // this.labelNWPStatus.Enabled = b;
+            
             if (!b)
             {
                 // this.labelNWPStatus.Text = "NWP: Unknown";
@@ -7220,13 +7218,12 @@ namespace RelayControl
             }
             this.enableCheckBox(b, this.checkBoxInInsensRegion);
             this.enableCheckBox(b, this.checkBoxInTripRegion);
-            // this.enableCheckBox(b, this.checkBoxTripFlag);
-            //  this.enableCheckBox(b, this.checkBoxTrippingFlag);
-
-            this.showLabel(!b, this.labelRelayDisconnected);
-            this.showLabel(!b, this.labelRelayDisconnected2);
-            this.showLabel(!b, this.labelRelayDisconnected3);
-            this.showLabel(!b, this.toolStripStatusLabelRelayDisconnected);
+           
+            bool showDisconnected = !b && !this.relayFound;
+            this.showLabel(showDisconnected, this.labelRelayDisconnected);
+            this.showLabel(showDisconnected, this.labelRelayDisconnected2);
+            this.showLabel(showDisconnected, this.labelRelayDisconnected3);
+            this.showLabel(showDisconnected, this.toolStripStatusLabelRelayDisconnected);
 
             if (!b)
             {
