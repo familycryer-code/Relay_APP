@@ -5204,7 +5204,6 @@ namespace RelayControl
                 {
                     this.enableAll(true);
                     this.toolStripStatusLabelRelayDisconnected.Visible = false;
-                    this.RegisterPolling(true);
 
                     if (!tCPConnection)
                         this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;

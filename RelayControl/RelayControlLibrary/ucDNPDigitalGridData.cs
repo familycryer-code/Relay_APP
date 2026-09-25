@@ -175,7 +175,8 @@ namespace RelayControlLibrary
             // -----------------------------
             if (this.customer == Customers.CONED)
             {
-                this.binaryInputs.Add("Defaults Loaded");//0
+                this.binaryInputs.Add("Spare"); // 0
+                this.binaryInputs.Add("Defaults Loaded");
                 this.binaryInputs.Add("Network Volts too Low to Close");
                 this.binaryInputs.Add("Not Available");
                 this.binaryInputs.Add("Not Available");
@@ -184,8 +185,8 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Insensitve");
                 this.binaryInputs.Add("Phase Angle Wrong");
                 this.binaryInputs.Add("Differential Volts Too Low to Close");
-                this.binaryInputs.Add("Digital Input 1");
-                this.binaryInputs.Add("Digital Input 2");
+                this.binaryInputs.Add("C Flag DGOA");
+                this.binaryInputs.Add("D Flag High Water Float");
                 this.binaryInputs.Add("Digital Output 1");
                 this.binaryInputs.Add("Digital Output 2");
                 this.binaryInputs.Add("Blocked From Closing");
@@ -195,11 +196,36 @@ namespace RelayControlLibrary
                 this.binaryInputs.Add("Calling For Trip");
                 this.binaryInputs.Add("Calling For Close");
                 this.binaryInputs.Add("Breaker Status");
-                this.binaryInputs.Add("Relax Close");
-                this.binaryInputs.Add("Digital Input 3");
-                this.binaryInputs.Add("Digital Input 4");
+                this.binaryInputs.Add("Relax Close"); // 21
+                this.binaryInputs.Add("E Flag");
+                this.binaryInputs.Add("H Flag");
                 this.binaryInputs.Add("Failure to Close");
-                this.binaryInputs.Add("Failure to Trip"); // 24
+                this.binaryInputs.Add("Failure to Trip"); 
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");// 29
+                this.binaryInputs.Add("Adapative Trip");
+                this.binaryInputs.Add("Sensitive Trip");
+                this.binaryInputs.Add("Permissive Close Active");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");// 37
+                this.binaryInputs.Add("G Flag");
+                this.binaryInputs.Add("F Flag");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
+                this.binaryInputs.Add("Not Applicable");
             }
             else if (this.customer == Customers.ONCOR)
             {
@@ -578,10 +604,10 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Network Current Angle", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Network Current Angle", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Network Current Angle", false));//22
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 1", false));
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 2", false));
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 3", false));
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 4", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog A2", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog A1", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog H", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog F", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Relay Temperature", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Relay Cycle Counter", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Relay SN", false));
@@ -600,9 +626,9 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("Total KVAR", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Total KVA", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Analog 5", false));
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 6", false));
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 7", false));
-                this.analogInputs.Add(new AnalogPointDefinition("Analog 8", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog C", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog D", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog E", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Phase 1 Differential Voltage Angle", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Phase 2 Differential Voltage Angle", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Phase 3 Differential Voltage Angle", false));//50
@@ -619,7 +645,32 @@ namespace RelayControlLibrary
                 this.analogInputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Settings", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
                 this.analogInputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
-                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
+                this.analogInputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false)); // 64
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Instantaneous Current", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Adaptive Delay", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Adaptive Magnitude X", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Adaptive Magnitude Y", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogInputs.Add(new AnalogPointDefinition("Analog G", false));
             }
             else if (this.customer == Customers.PSEG || this.customer == Customers.ENMAX || this.customer == Customers.EVERSOURCE || this.customer == Customers.ONCOR)
             {
