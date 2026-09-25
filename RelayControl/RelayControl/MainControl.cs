@@ -8708,7 +8708,10 @@ namespace RelayControl
                 this.liveDataActionsToolStripMenuItem.Enabled = false;
                 if (this.allEnabled)
                 {
+                    this.RegisterPolling(true);
+                    this.transmitterMonitoring = true;
                     this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+                    this.requestTransmitterMonitorData();
                 }
 
                 this.requestPhasorData();
@@ -8803,11 +8806,15 @@ namespace RelayControl
 
         private void startTransmitterMonitoring()
         {
+            this.RegisterPolling(true);
+            this.transmitterMonitoring = true;
             this.ucTransmitterMonitoring1.TransmitterMonitoring = true;
+            this.requestTransmitterMonitorData();
         }
 
         private void pauseTransmitterMonitoring()
         {
+            this.transmitterMonitoring = false;
             this.ucTransmitterMonitoring1.TransmitterMonitoring = false;
         }
 
