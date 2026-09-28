@@ -837,6 +837,7 @@ namespace RelayControlLibrary
             if (warningBootDR == DialogResult.OK)
             {
                 this.dontShowRelayUpgradeMessage = false;
+                System.Windows.Forms.Application.DoEvents();
                 Thread.Sleep(3000);
                 this.ProgramBootCodeStart = true;
             }
@@ -1311,7 +1312,7 @@ namespace RelayControlLibrary
                         this.programmingForm.ClearAllChecks();
                     this.startProgramming();
                     if (!this.programmingForm.Visible)
-                        this.programmingForm.ShowDialog();
+                        this.programmingForm.Show();
                 }
             }
             else
@@ -1459,7 +1460,7 @@ namespace RelayControlLibrary
         {
             this.labelState.Text = "Boot Received";
             if (this.autoLoad && !this.programmingForm.Visible && this.state != RelayProgrammingStates.AutoLoadCheckBoot)
-                this.programmingForm.ShowDialog();
+                this.programmingForm.Show();
 
             logger.Trace("Boot Received - " + this.state.ToString());
 
@@ -2148,6 +2149,12 @@ namespace RelayControlLibrary
             logger.Trace("Done Loading Master Boot");
             this.programmingForm.MasterBootComplete = true;
 
+            if (programBootCodeOnly)
+            {
+                this.programmingForm.Hide();
+                System.Windows.Forms.Application.DoEvents();
+            }
+
             Thread.Sleep(3000); //must delay before sending any other commands on completion!
 
             programBootCodeInProgress = false;
@@ -2155,14 +2162,11 @@ namespace RelayControlLibrary
 
             if (programBootCodeOnly)
             {
-                this.programmingForm.Hide();
-
                 allReprogramingDone();
 
                 this.restartProgram();
                 this.requestAll();
             }
-
 
             if (!programBootCodeOnly)
             {
@@ -2175,7 +2179,6 @@ namespace RelayControlLibrary
                 reprogramRelay = true;
                 CheckForUpdate();
             }
-
         }
 
         public void FinalizeReprogram()
@@ -2430,6 +2433,7 @@ namespace RelayControlLibrary
             {
                 this.programBootCodeOnly = true;
                 dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                System.Windows.Forms.Application.DoEvents();
                 Thread.Sleep(3000); //need this delay here
                 ProgramBootCodeStart = true;
             }
@@ -2475,6 +2479,7 @@ namespace RelayControlLibrary
 
                         this.programBootCodeOnly = true;
                         dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                        System.Windows.Forms.Application.DoEvents();
                         Thread.Sleep(3000); //need this delay here
                         this.ProgramBootCodeStart = true;
                     }

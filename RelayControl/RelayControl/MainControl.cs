@@ -3861,6 +3861,7 @@ namespace RelayControl
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
 
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
+                this.UseWaitCursor = false;
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
@@ -3914,6 +3915,7 @@ namespace RelayControl
 
                             MessageBox.Show("Relay is now up to date with the latest firmware.");
 
+                            this.UseWaitCursor = false;
                             Application.UseWaitCursor = false;
                             System.Windows.Forms.Cursor.Current = Cursors.Default;
                             this.enableAll(true);
@@ -3938,7 +3940,11 @@ namespace RelayControl
                         }
                         else
                         {
-                            this.messageHandler("Data Received", "All Parameters Received");
+                            if (!skipAutoloadAfterDecline)
+                            {
+                                this.messageHandler("Data Received", "All Parameters Received");
+                            }
+
                             this.monitoring(true);
                             this.RegisterPolling(true);
                             this.requestRelayRegisters();
@@ -3985,6 +3991,7 @@ namespace RelayControl
                     }
 
 
+                    this.UseWaitCursor = false;
                     Application.UseWaitCursor = false;
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
@@ -8156,7 +8163,8 @@ namespace RelayControl
             dnpBaudInitialized = true;
         }
 
-        private ProgressBarForm downloadProgress;
+        private ProgressBarForm downloadProgress; 
+        
         private void downloadingDialogCountDown(string title, string label, int halfSecondCounts, bool dialog)
         {
             this.enableAll(false);
@@ -10807,7 +10815,14 @@ namespace RelayControl
                 MessageBox.Show(timeoutMessageOrNull);
             }
 
-            MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
+            if (!this.ucRelayProgramming1.ReprogrammingInProgress)
+            {
+                MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
+            }
+            else
+            {
+                logger.Info("Skipping backup-complete popup because reprogramming is still in progress.");
+            }
 
             if (pendingAutoloadAfterBackup)
             {
@@ -10823,6 +10838,11 @@ namespace RelayControl
                 {
                     skipAutoloadAfterDecline = true;
                     pendingAutoloadAfterBackup = false;
+
+                    this.enableAll(false);
+                    Application.UseWaitCursor = true;
+                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
                     this.monitoring(true);
                     this.RegisterPolling(true);
                     this.requestAllData();
