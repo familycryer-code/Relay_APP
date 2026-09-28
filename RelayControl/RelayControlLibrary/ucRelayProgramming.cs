@@ -764,20 +764,26 @@ namespace RelayControlLibrary
             DialogResult dR;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             // MessageBox.Show("wrongRelayTypeAutoLoad : " + wrongRelayTypeAutoLoad); // Only for testing - to be removed
-     
+
             this.checkSafeServiceMaster();
 
             if (ManualUpdate.usingManualMode == false)
             {
                 this.upgradeAutoDR = showAutoLoadUpdateMessage();
+
+                if (this.upgradeAutoDR != DialogResult.Yes)
+                {
+                    this.askToUgradeShown = true;
+                    return;
+                }
             }
-           
+
             dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
             if (dR == DialogResult.Yes)
                 internalGESetter = true;
             else
                 internalGESetter = false;
-            
+
             if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
                 this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 5 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
 
