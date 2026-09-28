@@ -3899,6 +3899,14 @@ namespace RelayControl
 
                             MessageBox.Show("Backup data loaded to the Relay");
 
+                            backupInProgress = false;
+                            pendingAutoloadAfterBackup = false;
+                            pendingRestoreAfterProgramming = false;
+                            backupGotRelayParams = false;
+
+                            if (backupTimeoutTimer != null)
+                                backupTimeoutTimer.Stop();
+
                             this.ucRelayProgramming1.ReprogrammingInProgress = false;
                             this.buttonRequestRelayParamaters_Click(this, new EventArgs()); // Read back updated relay data to display.
 
@@ -4137,6 +4145,7 @@ namespace RelayControl
 
         private void setRelayRegisters(byte[] bytePacket)
         {
+            this.expectingRelayRegisters = false;
             if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
             {
                 this.quietMode = true;
@@ -6006,6 +6015,8 @@ namespace RelayControl
                 this.timerRegisterPolling.Enabled = false;
                 return;
             }
+
+            this.expectingRelayRegisters = true;
 
             if (this.ProgramState != ProgramStates.DownloadingAllParameters)     //checked so it does not start the timer during initial download, but starts it everytime the program is running
                 this.timerRegisterPolling.Enabled = true;
