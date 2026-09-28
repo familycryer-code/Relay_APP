@@ -1243,13 +1243,15 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
-            if (this.serialNumberError)
+
+            if (this.serialNumberError) {
                 return;
+            }
 
             if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
-                askToUgradeShown = true;
                 dR = showAutoLoadUpdateMessage();
+                askToUgradeShown = true;
             }
             else
             {

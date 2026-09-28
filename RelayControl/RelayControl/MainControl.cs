@@ -69,8 +69,10 @@ namespace RelayControl
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private bool pendingAutoloadAfterBackup = false;
+        private bool pendingRestoreAfterProgramming = false;
         // Backup orchestration flags
         private bool backupInProgress = false;
+
         private bool backupExpectDnp = false;
 
         private bool backupGotRelayParams = false;
@@ -3850,12 +3852,12 @@ namespace RelayControl
         private bool paramsReceivedLock = false;
         private void parametersFinishedLoading()
         {
-            logger.Trace("parameters finished loading");
+            logger.Trace("Parameters Finished Loading");
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-              
+
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -3872,7 +3874,7 @@ namespace RelayControl
             else if (this.badDataDetected == true)
             {
                 this.parametersLoaded = false;
-                this.messageHandler("Error", "Parameters NOT Loaded Successfully");
+                this.messageHandler("Error", "Parameters Not Loaded Successfully");
             }
             else if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
@@ -3884,7 +3886,47 @@ namespace RelayControl
 
                     if (!ucRelayProgramming1.ReprogrammingInProgress)
                     {
-                        this.messageHandler("Data Received", "All Parameters Received");
+                        if (pendingRestoreAfterProgramming)
+                        {
+                            pendingRestoreAfterProgramming = false;
+
+                            this.enableAll(false);
+                            Application.UseWaitCursor = true;
+                            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
+                            this.WriteBackUpData_FileToRelay();
+                            dataB.oldDataBackup = false;
+
+                            MessageBox.Show("Backup data loaded to the Relay");
+
+                            this.ucRelayProgramming1.ReprogrammingInProgress = false;
+                            this.buttonRequestRelayParamaters_Click(this, new EventArgs()); // Read back updated relay data to display.
+
+                            MessageBox.Show("Relay is now up to date with the latest firmware.");
+
+                            Application.UseWaitCursor = false;
+                            System.Windows.Forms.Cursor.Current = Cursors.Default;
+                            this.enableAll(true);
+                            paramsReceivedLock = false;
+                            return;
+                        }
+                        else if (pendingAutoloadAfterBackup)
+                        {
+                            if (checkValidDataBackup())
+                            {
+                                this.CompleteBackupAndContinue(null);
+                                paramsReceivedLock = false;
+                                return;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Data retrieved from the relay is not correct. Cannot continue relay migration.");
+                            }
+                        }
+                        else
+                        {
+                            this.messageHandler("Data Received", "All Parameters Received");
+                        }
                     }
 
                     //=====================Remove throbber and enable everything disaplayed on the screen=====================
@@ -3895,34 +3937,25 @@ namespace RelayControl
                     paramsReceivedLock = false;
                     tripModeM.tripMode_message = true;
 
-#if (ENMAX || PSEG || EVERSOURCE || DOMINION || LONDON_HYDRO || BGE || COMED || TAUNTON || SCL) // exising customers
-                    // WRITE DATA FROM THE BACKUP FILE IN THE COMPUTER  (rev9 firmware) BACK TO THE RELAY (rev10 firmware):
-                    if (dataB.oldDataBackup == true)
-                    {
-                        this.enableAll(false);
-                        Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                        System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
 
+
+                    if (dataB.oldDataBackup == true &&
+                        !pendingAutoloadAfterBackup &&
+                        !pendingRestoreAfterProgramming &&
+                        !ucRelayProgramming1.ReprogrammingInProgress)
+                    {
                         if (checkValidDataBackup())
                         {
-                            this.WriteBackUpData_FileToRelay();
-                            dataB.oldDataBackup = false;
-                            MessageBox.Show("Backup data loaded to the Relay.");
-
-                            this.buttonRequestRelayParamaters_Click(this, new EventArgs()); // Read back up data to display.
-
-                            MessageBox.Show("Relay is now up to date with the latest firmware.");
+                            pendingAutoloadAfterBackup = true;
+                            pendingRestoreAfterProgramming = true;
                         }
                         else
                         {
-                            MessageBox.Show("Data retrieved from the relay is not correct. Cannot load it back to the relay");
+                            MessageBox.Show("Data retrieved from the relay is not correct. Cannot continue relay migration.");
                         }
-
-                        Application.UseWaitCursor = false;
-                        System.Windows.Forms.Cursor.Current = Cursors.Default;
-                        this.enableAll(true);
                     }
-#endif
+
+
                     Application.UseWaitCursor = false;
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
@@ -5167,9 +5200,16 @@ namespace RelayControl
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
 
+                if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
+                {
+                    pendingAutoloadAfterBackup = true;
+                }
+
 
                 if (this.dNPDIGITALGRIDData != null)
                     this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
+
+
 
                 receivedMasterRevision = revision;
 
@@ -7199,17 +7239,23 @@ namespace RelayControl
         private void enableFlagsAndStatus(bool b)
         {
             this.enableCheckBox(b, this.checkBoxACB);
+            //  this.enableCheckBox(b, this.checkBoxDefaultsUsed);
             this.enableCheckBox(b, this.checkBoxBlockedCloseFlag);
+            // this.enableCheckBox(b, this.checkBoxBlockedOpenFlag);
             this.enableCheckBox(b, this.checkBoxCalibrating);
+            //  this.enableCheckBox(b, this.checkBoxFloatFlag);
             this.enableCheckBox(b, this.checkBoxMathError);
             this.enableCheckBox(b, this.checkBoxMathOverTime);
             this.enableCheckBox(b, this.checkBoxMonitorPhasors);
             this.enableCheckBox(b, this.checkBoxOffsetOkay);
+            // this.enableCheckBox(b, this.checkBoxPhasingOkayFlag);
             this.enableCheckBox(b, this.checkBoxPowerSaveFlag);
+            // this.enableCheckBox(b, this.checkBoxPumping);
             this.enableCheckBox(b, this.checkBoxSequence);
             this.enableCheckBox(b, this.checkBoxFlag1);
             this.enableCheckBox(b, this.checkBoxFlag2);
-            
+            //  this.enableCheckBox(b, this.checkBoxBFlag);
+            // this.labelNWPStatus.Enabled = b;
             if (!b)
             {
                 // this.labelNWPStatus.Text = "NWP: Unknown";
@@ -7217,12 +7263,13 @@ namespace RelayControl
             }
             this.enableCheckBox(b, this.checkBoxInInsensRegion);
             this.enableCheckBox(b, this.checkBoxInTripRegion);
-           
-            bool showDisconnected = !b && !this.relayFound;
-            this.showLabel(showDisconnected, this.labelRelayDisconnected);
-            this.showLabel(showDisconnected, this.labelRelayDisconnected2);
-            this.showLabel(showDisconnected, this.labelRelayDisconnected3);
-            this.showLabel(showDisconnected, this.toolStripStatusLabelRelayDisconnected);
+            // this.enableCheckBox(b, this.checkBoxTripFlag);
+            //  this.enableCheckBox(b, this.checkBoxTrippingFlag);
+
+            this.showLabel(!b, this.labelRelayDisconnected);
+            this.showLabel(!b, this.labelRelayDisconnected2);
+            this.showLabel(!b, this.labelRelayDisconnected3);
+            this.showLabel(!b, this.toolStripStatusLabelRelayDisconnected);
 
             if (!b)
             {
@@ -10726,6 +10773,7 @@ namespace RelayControl
             if (pendingAutoloadAfterBackup)
             {
                 pendingAutoloadAfterBackup = false;
+                pendingRestoreAfterProgramming = true;
 
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
