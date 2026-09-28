@@ -2105,6 +2105,8 @@ namespace RelayControlLibrary
             this.enableButtons(true);
             this.programmingForm.Hide();
 
+            this.ReprogrammingInProgress = false;
+
             this.autoLoad = false;
             this.loadMasterFirst = false;
             this.firstCheckForUpdate = false;
@@ -2176,6 +2178,9 @@ namespace RelayControlLibrary
             if (this.state == RelayProgrammingStates.Finalized)
             {
                 this.programmingForm.Hide();
+
+                this.ReprogrammingInProgress = false;
+
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
                 this.programmingForm.ClearAllChecks();
                 logger.Trace("Reprogam Completed Successfully");

@@ -3917,6 +3917,9 @@ namespace RelayControl
                             Application.UseWaitCursor = false;
                             System.Windows.Forms.Cursor.Current = Cursors.Default;
                             this.enableAll(true);
+                            this.monitoring(true);
+                            this.RegisterPolling(true);
+                            this.requestRelayRegisters();
                             paramsReceivedLock = false;
                             return;
                         }
@@ -3936,6 +3939,9 @@ namespace RelayControl
                         else
                         {
                             this.messageHandler("Data Received", "All Parameters Received");
+                            this.monitoring(true);
+                            this.RegisterPolling(true);
+                            this.requestRelayRegisters();
                             if (skipAutoloadAfterDecline)
                             {
                                 this.monitoring(true);
