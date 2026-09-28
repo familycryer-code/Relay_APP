@@ -681,10 +681,14 @@ namespace RelayControlLibrary
             destination.RelayFileGE = source.RelayFileGE;
         }
 
-        public void InitializeAutoload()
+        public bool InitializeAutoload()
         {
             logger.Trace("InitializeAutoLoad");
-            this.reprogramBootCodeAuto = true;
+
+            if (!this.askToUgradeShown)
+            {
+                this.reprogramBootCodeAuto = true;
+            }
 
             bool needsUpdate = CompareMasterRevisionToGUI();
 
@@ -700,7 +704,7 @@ namespace RelayControlLibrary
                     this.autoLoad = true;
 
                     if (!this.MasterBootRevisionSet())
-                        return;
+                        return true;
 
                     if ((this.CheckForBootCodeUpdate() && masterBootRevisionSet) ||
                         (this.CheckForProperBootCodeAutoUpdate() && this.masterBootRevisionSet))
@@ -713,9 +717,16 @@ namespace RelayControlLibrary
                     this.autoLoad = false;
                 }
             }
-            else if (!needsUpdate)
+            else
             {
+
                 this.autoLoad = false;
+                this.reprogramBootCodeAuto = false;
+                this.askToUgradeShown = true;
+                this.ReprogrammingInProgress = false;
+                this.NotPollingPort = false;
+                this.State = RelayProgrammingStates.Idle;
+                return false;
             }
 
             if ((!dontShowRelayUpgradeMessage &&
@@ -726,6 +737,7 @@ namespace RelayControlLibrary
             {
                 this.CheckForUpdate();
             }
+            return true;
         }
 
         private bool MasterBootRevisionSet()

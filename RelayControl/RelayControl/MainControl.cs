@@ -69,6 +69,7 @@ namespace RelayControl
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private bool pendingAutoloadAfterBackup = false;
+        private bool skipAutoloadAfterDecline = false;
         private bool pendingRestoreAfterProgramming = false;
         // Backup orchestration flags
         private bool backupInProgress = false;
@@ -84,6 +85,7 @@ namespace RelayControl
 #pragma warning disable CS0414 // The field is assigned but its value is never used
         private bool backupGotDnpSav5 = false;
 #pragma warning restore CS0414
+
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
         private DateTime backupStartedAtUtc;
@@ -3880,6 +3882,7 @@ namespace RelayControl
             {
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
+                this.ProgramState = ProgramStates.Running;
                 if (!paramsReceivedLock)
                 {
                     paramsReceivedLock = true;
@@ -3908,7 +3911,6 @@ namespace RelayControl
                                 backupTimeoutTimer.Stop();
 
                             this.ucRelayProgramming1.ReprogrammingInProgress = false;
-                            this.buttonRequestRelayParamaters_Click(this, new EventArgs()); // Read back updated relay data to display.
 
                             MessageBox.Show("Relay is now up to date with the latest firmware.");
 
@@ -3934,6 +3936,13 @@ namespace RelayControl
                         else
                         {
                             this.messageHandler("Data Received", "All Parameters Received");
+                            if (skipAutoloadAfterDecline)
+                            {
+                                this.monitoring(true);
+                                this.RegisterPolling(true);
+                                this.requestRelayRegisters();
+                                skipAutoloadAfterDecline = false;
+                            }
                         }
                     }
 
@@ -3952,10 +3961,16 @@ namespace RelayControl
                         !pendingRestoreAfterProgramming &&
                         !ucRelayProgramming1.ReprogrammingInProgress)
                     {
-                        if (checkValidDataBackup())
+                        if (skipAutoloadAfterDecline)
+                        {
+                            this.monitoring(true);
+                            this.RegisterPolling(true);
+                            this.requestRelayRegisters();
+                            skipAutoloadAfterDecline = false;
+                        }
+                        else if (checkValidDataBackup())
                         {
                             pendingAutoloadAfterBackup = true;
-                            pendingRestoreAfterProgramming = true;
                         }
                         else
                         {
@@ -5211,7 +5226,14 @@ namespace RelayControl
 
                 if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
                 {
-                    pendingAutoloadAfterBackup = true;
+                    if (skipAutoloadAfterDecline)
+                    {
+                        logger.Info("Skipping pending autoload after prior user decline.");
+                    }
+                    else
+                    {
+                        pendingAutoloadAfterBackup = true;
+                    }
                 }
 
 
@@ -10784,13 +10806,22 @@ namespace RelayControl
             if (pendingAutoloadAfterBackup)
             {
                 pendingAutoloadAfterBackup = false;
-                pendingRestoreAfterProgramming = true;
 
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
 
-                this.ucRelayProgramming1.InitializeAutoload();
+                bool autoloadAccepted = this.ucRelayProgramming1.InitializeAutoload();
+
+                if (!autoloadAccepted)
+                {
+                    skipAutoloadAfterDecline = true;
+                    pendingAutoloadAfterBackup = false;
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestAllData();
+                    return;
+                }
             }
         }
     }
