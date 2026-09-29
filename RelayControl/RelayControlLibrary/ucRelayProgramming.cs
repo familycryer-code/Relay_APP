@@ -43,6 +43,16 @@ namespace RelayControlLibrary
             this.programmingForm.FormClosed += programmingForm_FormClosed;
         }
 
+        public void HideProgrammingProgress()
+        {
+            if (this.programmingForm != null && !this.programmingForm.IsDisposed)
+            {
+                this.programmingForm.CurrentTask = string.Empty;
+                this.programmingForm.Hide();
+                logger.Info("POST-PROGRAM RESTORE: programming progress form hidden after completion acknowledgement.");
+            }
+        }
+
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public bool ActiveRelay { get; set; }
         // These need to be updated when new files are used
@@ -211,9 +221,16 @@ namespace RelayControlLibrary
 
         public delegate void SendDelegate(object o, RelayProgrammingEventArgs rPEA);
         public event SendDelegate Send;
+
         public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
         public event ErrorHandler Error;
+
+        public delegate void BackupBeforeProgrammingHandler(object sender, EventArgs e);
+        public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
+
         public byte[] TransmitterPacket;
+
+
 
         public UInt32 SerialNumber
         {
@@ -420,6 +437,7 @@ namespace RelayControlLibrary
         private bool reprogramMaster = false;
         private bool reprogramRelay = false;
         private bool reprogramFPGA = false;
+        private bool resumeProgrammingAfterBackup = false;
         // initiaLoad is required because loading the relay from the boot code requires loading master first.  Once loaded, it is safer to load relay code first.
         private bool loadMasterFirst = false;
         private bool gERelay = false;
@@ -741,15 +759,6 @@ namespace RelayControlLibrary
             {
                 if (needsUpdate && reprogramBootCodeAuto)
                 {
-                    if (!AutoloadAcceptedPendingBackup)
-                    {
-                        logger.Info("User accepted autoload. Deferring programming until fresh relay backup completes.");
-                        AutoloadAcceptedPendingBackup = true;
-                        this.autoLoad = false;
-                        return true;
-                    }
-
-                    AutoloadAcceptedPendingBackup = false;
                     this.autoLoad = true;
 
                     if (!this.MasterBootRevisionSet())
@@ -812,15 +821,6 @@ namespace RelayControlLibrary
         {
             DialogResult dR;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            // MessageBox.Show("wrongRelayTypeAutoLoad : " + wrongRelayTypeAutoLoad); // Only for testing - to be removed
-
-            if (this.AutoloadAcceptedPendingBackup)
-            {
-                logger.Info("Resuming autoload after backup; skipping repeated confirmation dialogs.");
-                this.askToUgradeShown = true;
-                this.upgradeAutoDR = DialogResult.Yes;
-                return;
-            }
 
             this.checkSafeServiceMaster();
 
@@ -882,18 +882,24 @@ namespace RelayControlLibrary
 
         private DialogResult ShowProgrammingStartWarning()
         {
+            logger.Info("ShowProgrammingStartWarning ENTER");
+
             const string message =
                 "Relay update is starting.\r\n\r\n" +
                 "The relay may temporarily disconnect and reconnect during this process.\r\n" +
                 "Progress will be shown in the programming window.\r\n\r\n" +
                 "Do not remove the port, power down the relay, let the computer sleep, or click around the GUI until the update finishes.";
 
-            return MessageBox.Show(
+            DialogResult result = MessageBox.Show(
                 message,
                 "Relay Update In Progress",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning,
                 MessageBoxDefaultButton.Button1);
+
+            logger.Info($"ShowProgrammingStartWarning EXIT result={result}");
+
+            return result;
         }
 
         private void UpgradeBootCode()
@@ -910,9 +916,8 @@ namespace RelayControlLibrary
             if (warningBootDR == DialogResult.OK)
             {
                 this.dontShowRelayUpgradeMessage = false;
-                System.Windows.Forms.Application.DoEvents();
-                Thread.Sleep(3000);
-                this.ProgramBootCodeStart = true;
+                this.AutoloadAcceptedPendingBackup = true;
+                this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -1019,6 +1024,14 @@ namespace RelayControlLibrary
                 this.startManualReload();
             }
 
+        }
+
+        public void ResumeAutoloadAfterBackup()
+        {
+            logger.Info("ResumeAutoloadAfterBackup ENTER");
+            this.AutoloadAcceptedPendingBackup = false;
+            this.resumeProgrammingAfterBackup = true;
+            this.startProgramming();
         }
 
         private void startManualReloadWithBootCheck()
@@ -1373,9 +1386,10 @@ namespace RelayControlLibrary
 
                     this.onSend(rPEA);
 
-                    // If we aren't loading from resource, don't bother warning
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
-                        ShowProgrammingStartWarning();
+                    {
+                        logger.Info("CALLSITE startAutoLoad path: ShowProgrammingStartWarning deferred to startProgramming");
+                    }
 
                     logger.Trace("User Verified Programming Start");
                     Thread.Sleep(500);
@@ -2022,6 +2036,7 @@ namespace RelayControlLibrary
                     this.programmingForm.RelayDataComplete = true;
                     if (this.reprogramMaster)
                     {
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to master code load");
                         this.parseSFile(this.masterCode);
                         this.State = RelayProgrammingStates.WaitingForBootMaster;
                         this.programmingForm.Maximum = this.masterCode.NumberOfCodeBlocks * 2;
@@ -2031,6 +2046,7 @@ namespace RelayControlLibrary
                     }
                     else if (this.reprogramFPGA)
                     {
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to FPGA load");
                         this.programmingForm.MasterDataComplete = true;
                         this.programmingForm.MasterCodeComplete = true;
                         this.parseFPGAFile(this.fPGACode);
@@ -2041,10 +2057,18 @@ namespace RelayControlLibrary
                         this.timerTimeout.Start();
                     }
                     else
+                    {
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: before allReprogramingDone");
                         this.allReprogramingDone();
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: after allReprogramingDone");
+                    }
                 }
                 else
+                {
+                    logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload before allReprogramingDone");
                     this.allReprogramingDone();
+                    logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload after allReprogramingDone");
+                }
             }
             else
             {
@@ -2053,6 +2077,7 @@ namespace RelayControlLibrary
                     this.programmingForm.RelayDataComplete = true;
                     if (this.reprogramFPGA)
                     {
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: loadMasterFirst chaining to FPGA load");
                         this.parseFPGAFile(this.fPGACode);
                         this.State = RelayProgrammingStates.WaitingForBootFPGA;
                         this.programmingForm.Maximum = 96;
@@ -2061,12 +2086,20 @@ namespace RelayControlLibrary
                         this.timerTimeout.Start();
                     }
                     else if (this.programMasterBootFileSelect)
+                    {
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: before startManualBootCodeLoad");
                         startManualBootCodeLoad();
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: after startManualBootCodeLoad");
+                    }
                     else
+                    {
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: loadMasterFirst before allReprogramingDone");
                         this.allReprogramingDone();
+                        logger.Info("COMPLETE FLOW doneLoadingRelay: loadMasterFirst after allReprogramingDone");
+                    }
                 }
                 //else
-                    //this.allReprogramingDone();
+                //this.allReprogramingDone();
             }
         }
 
@@ -2148,7 +2181,6 @@ namespace RelayControlLibrary
                 }
             }
         }
-
         private void allReprogramingDone()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2159,7 +2191,7 @@ namespace RelayControlLibrary
 
             if (this.autoLoad)
             {
-                this.programmingForm.Hide();
+                this.programmingForm.CurrentTask = "Finalizing Update";
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
                 this.requestAll();
@@ -2186,7 +2218,10 @@ namespace RelayControlLibrary
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.enableButtons(true);
+
+            logger.Info("COMPLETE PATH finalizeReprogram: before programmingForm.Hide");
             this.programmingForm.Hide();
+            logger.Info("COMPLETE PATH finalizeReprogram: after programmingForm.Hide");
 
             this.ReprogrammingInProgress = false;
 
@@ -2194,7 +2229,10 @@ namespace RelayControlLibrary
             this.loadMasterFirst = false;
             this.firstCheckForUpdate = false;
 
+            logger.Info("COMPLETE PATH finalizeReprogram: before completion MessageBox");
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+            logger.Info("COMPLETE PATH finalizeReprogram: after completion MessageBox");
+
             this.programmingForm.ClearAllChecks();
             rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
 
@@ -2227,21 +2265,32 @@ namespace RelayControlLibrary
 
             if (programBootCodeOnly)
             {
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before programmingForm.Hide");
                 this.programmingForm.Hide();
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after programmingForm.Hide");
                 System.Windows.Forms.Application.DoEvents();
             }
 
+            logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before Thread.Sleep(3000)");
             Thread.Sleep(3000); //must delay before sending any other commands on completion!
+            logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after Thread.Sleep(3000)");
 
             programBootCodeInProgress = false;
             programmingForm.MasterBootComplete = true;
 
             if (programBootCodeOnly)
             {
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before allReprogramingDone");
                 allReprogramingDone();
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after allReprogramingDone");
 
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before restartProgram");
                 this.restartProgram();
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after restartProgram");
+
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before requestAll");
                 this.requestAll();
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after requestAll");
             }
 
             if (!programBootCodeOnly)
@@ -2253,7 +2302,9 @@ namespace RelayControlLibrary
                      reprogramRelay = true;
                 */
                 reprogramRelay = true;
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before CheckForUpdate");
                 CheckForUpdate();
+                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after CheckForUpdate");
             }
         }
 
@@ -2262,11 +2313,16 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (this.state == RelayProgrammingStates.Finalized)
             {
+                logger.Info("COMPLETE PATH FinalizeReprogram: before programmingForm.Hide");
                 this.programmingForm.Hide();
+                logger.Info("COMPLETE PATH FinalizeReprogram: after programmingForm.Hide");
 
                 this.ReprogrammingInProgress = false;
 
+                logger.Info("COMPLETE PATH FinalizeReprogram: before completion MessageBox");
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+                logger.Info("COMPLETE PATH FinalizeReprogram: after completion MessageBox");
+
                 this.programmingForm.ClearAllChecks();
                 logger.Trace("Reprogam Completed Successfully");
                 if (ManualUpdate.usingManualMode == true)
@@ -2508,7 +2564,9 @@ namespace RelayControlLibrary
             if (dR == DialogResult.Yes)
             {
                 this.programBootCodeOnly = true;
+                logger.Info("CALLSITE boot-code-only path 1: before ShowProgrammingStartWarning");
                 dR = ShowProgrammingStartWarning();
+                logger.Info($"CALLSITE boot-code-only path 1: after ShowProgrammingStartWarning result={dR}");
                 System.Windows.Forms.Application.DoEvents();
                 Thread.Sleep(3000); //need this delay here
                 ProgramBootCodeStart = true;
@@ -2554,7 +2612,9 @@ namespace RelayControlLibrary
                     {
 
                         this.programBootCodeOnly = true;
+                        logger.Info("CALLSITE boot-code-only path 2: before ShowProgrammingStartWarning");
                         dR = ShowProgrammingStartWarning();
+                        logger.Info($"CALLSITE boot-code-only path 2: after ShowProgrammingStartWarning result={dR}");
                         System.Windows.Forms.Application.DoEvents();
                         Thread.Sleep(3000); //need this delay here
                         this.ProgramBootCodeStart = true;
@@ -3224,7 +3284,18 @@ namespace RelayControlLibrary
         private void startProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (!resumeProgrammingAfterBackup &&
+                !this.dontReloadFromResource &&
+                programmingForm.MasterBootComplete == false)
+            {
+                logger.Info("CALLSITE startProgramming: before ShowProgrammingStartWarning");
+                DialogResult startWarningResult = ShowProgrammingStartWarning();
+                logger.Info($"CALLSITE startProgramming: after ShowProgrammingStartWarning result={startWarningResult}");
+            }
+
+            resumeProgrammingAfterBackup = false;
             this.reprogrammingInProgress = true;
+
             if (!this.loadMasterFirst)
             {
                 if (this.autoLoad)

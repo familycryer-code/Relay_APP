@@ -455,8 +455,11 @@ namespace RelayControl
                 this.ucShortRange1.Send += standardizedSendData;
                 this.ucTimeControl1.SendData += standardizedSendData;
                 this.ucSafeService1.Send += standardizedSendData;
+              
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
+                this.ucRelayProgramming1.BackupBeforeProgrammingRequested += UcRelayProgramming1_BackupBeforeProgrammingRequested;
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
+
                 this.ucDNPSAv51.Send += standardizedSendData;
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
                 this.ucBlockControl1.Send += standardizedSendData;
@@ -2652,12 +2655,13 @@ namespace RelayControl
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
                         if (IsDnpCommSupported() && !ucRelayProgramming1.ProgramBootCodeInProgress)
-                            this.requestDNPSettings();
-                        else
                         {
-                            this.parametersFinishedLoading();
+                            logger.Info("Skipping DNP settings request during parameter download for rev9 to rev10 compatibility.");
                         }
+
+                        this.parametersFinishedLoading();
                     }
+
                     backupGotSafeService = true;
                     TryCompleteBackup();
                     break;
@@ -2732,10 +2736,13 @@ namespace RelayControl
                 case IncomingCommCommands.DNPData:
                     if (!ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
-                        this.setDNPSettings(bytePacket);
+                        bool wroteDnpBackup = this.setDNPSettings(bytePacket);
+                        logger.Info("DNP backup write result: backupInProgress={0}, dataBackup_fromRelay={1}, wroteDnpBackup={2}",
+                            backupInProgress,
+                            dataBackup_fromRelay,
+                            wroteDnpBackup);
 
-                        // Mark DNP received for backup whenever backup session is active.
-                        if (backupInProgress)
+                        if (backupInProgress && wroteDnpBackup)
                         {
                             backupGotDnpData = true;
                             TryCompleteBackup();
@@ -3917,16 +3924,17 @@ namespace RelayControl
             {
                 if (pendingRestoreAfterProgramming)
                 {
-                    pendingRestoreAfterProgramming = false;
+                    logger.Info("POST-PROGRAM RESTORE: entering pendingRestoreAfterProgramming block");
 
                     this.enableAll(false);
                     Application.UseWaitCursor = true;
                     System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
 
+                    logger.Info("POST-PROGRAM RESTORE: before WriteBackUpData_FileToRelay");
                     this.WriteBackUpData_FileToRelay();
-                    dataB.oldDataBackup = false;
+                    logger.Info("POST-PROGRAM RESTORE: after WriteBackUpData_FileToRelay");
 
-                    MessageBox.Show("Programming complete", "Programming Complete");
+                    dataB.oldDataBackup = false;
 
                     backupInProgress = false;
                     pendingAutoloadAfterBackup = false;
@@ -3937,6 +3945,10 @@ namespace RelayControl
                         backupTimeoutTimer.Stop();
 
                     this.ucRelayProgramming1.ReprogrammingInProgress = false;
+
+                    MessageBox.Show("Programming complete", "Programming Complete");
+
+                    this.ucRelayProgramming1.HideProgrammingProgress();
 
                     this.UseWaitCursor = false;
                     Application.UseWaitCursor = false;
@@ -6138,6 +6150,13 @@ namespace RelayControl
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
         {
             this.restoreDefaultsTypeAndPhasing();
+        }
+
+        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
+        {
+            logger.Info("Final programming warning accepted. Starting backup before programming.");
+            pendingAutoloadAfterBackup = true;
+            this.BackUpRelayDatatoFile();
         }
 
         private void restoreDefaultsTypeAndPhasing()
@@ -9018,11 +9037,11 @@ namespace RelayControl
                 this.textBoxLRLockoutStatusMain.Text = "Not Locked";
         }
 
-        private void setDNPSettings(byte[] bytePacket)
+        private bool setDNPSettings(byte[] bytePacket)
         {
-         
+            bool wroteBackupSection = false;
 
-            if (dataBackup_fromRelay == true) // write DNP Data currently residing in the relay to the backup file on computer
+            if (dataBackup_fromRelay == true)
             {
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                 TextWriter tw = new StreamWriter(path, true);
@@ -9032,6 +9051,8 @@ namespace RelayControl
                     tw.WriteLine(bytePacket[index]);
                 }
                 tw.Close();
+
+                wroteBackupSection = true;
             }
 
             try
@@ -9050,7 +9071,6 @@ namespace RelayControl
                 }
                 else
                 {
-                    // Keep both DNP comm UIs in sync from the same relay readback packet.
                     this.ucTransmitter1.SetAll(bytePacket);
                     this.ucDNP.SetAll(bytePacket);
 
@@ -9061,6 +9081,8 @@ namespace RelayControl
             {
                 this.messageHandler("Error Setting DNPData", ex);
             }
+
+            return wroteBackupSection;
         }
 
         #region Screen Save & Print
@@ -9759,7 +9781,8 @@ namespace RelayControl
 
                 if (backupExpectDnp)
                 {
-                    this.requestDNPSettings();      // 'U'
+                    logger.Info("DNP detected, but DNP settings backup is being skipped for rev9 to rev10 compatibility.");
+                    // this.requestDNPSettings();      // 'U'
                     // this.RequestDNPSav5Settings();  // 'D'+'s'
                 }
             }
@@ -9781,7 +9804,7 @@ namespace RelayControl
         {
             // Guard: only run legacy backup restore during actual migration/autoload programming.
             // This avoids accidental restore side effects from normal UI actions.
-            if (!(pendingAutoloadAfterBackup || this.ucRelayProgramming1.ReprogrammingInProgress))
+            if (!(pendingAutoloadAfterBackup || pendingRestoreAfterProgramming || this.ucRelayProgramming1.ReprogrammingInProgress))
             {
                 logger.Info("Skipping backup restore: not in migration/programming flow.");
                 return;
@@ -9813,7 +9836,7 @@ namespace RelayControl
                 this.writePumpModeDataBackUp_ToMaster();
                 this.writeSafeServiceDataBackUp_ToMaster();
                 this.writeTransmitterDataBackUp_ToMaster();
-                this.writeDNPDataBackUp_ToMaster();
+                logger.Info("Skipping DNP restore for rev9 to rev10 compatibility.");
                 this.writeArcFaultDataBackUp_ToMaster();
 
                 logger.Info("Backup restore completed.");
@@ -10477,9 +10500,6 @@ namespace RelayControl
 
                 bool hasSav5 = lines.Any(l => l != null && l.Trim().Equals("DNPSAv5 Settings:", StringComparison.Ordinal));
 
-                // Required sections for current backup flow:
-                // - DNP relay: still require DNP Data section, but DO NOT require SAv5 (currently not requested)
-                // - non-DNP relay: DNP section may still exist in some builds, but we don't require it
                 bool baseOk = hasHeader && hasRelayParams && hasCal && hasTx && hasSafeService && hasArc;
 
                 if (!baseOk)
@@ -10494,14 +10514,12 @@ namespace RelayControl
                 {
                     if (!hasDnp)
                     {
-                        logger.Warn("Backup validation failed: DNP relay expected DNP Data section.");
-                        return false;
+                        logger.Info("DNP Data section not present by design for rev9 to rev10 compatibility.");
                     }
 
-                    // informational only (since SAv5 request is currently disabled)
                     if (!hasSav5)
                     {
-                        logger.Info("Backup validation note: DNPSAv5 Settings section not present (expected with current request flow).");
+                        logger.Info("DNPSAv5 Settings section not present by design for rev9 to rev10 compatibility.");
                     }
                 }
 
@@ -10767,8 +10785,6 @@ namespace RelayControl
             if (!backupGotSafeService) missing.Add("SafeService");
             if (!backupGotArcFault) missing.Add("ArcFault");
 
-            if (backupExpectDnp && !backupGotDnpData) missing.Add("DNP");
-
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
 
@@ -10784,10 +10800,12 @@ namespace RelayControl
             if (!commonDone)
                 return false;
 
-            if (!backupExpectDnp)
-                return true;
+            if (backupExpectDnp)
+            {
+                logger.Info("DNP was detected, but DNP backup completion is being skipped for rev9 to rev10 compatibility.");
+            }
 
-            return backupGotDnpData;
+            return true;
         }
 
         private void TryCompleteBackup()
@@ -10834,30 +10852,15 @@ namespace RelayControl
 
             if (pendingAutoloadAfterBackup)
             {
-                
                 pendingAutoloadAfterBackup = false;
 
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
 
-                
-                bool autoloadAccepted = this.ucRelayProgramming1.InitializeAutoload();
-
-                if (!autoloadAccepted)
-                {
-                    skipAutoloadAfterDecline = true;
-                    pendingAutoloadAfterBackup = false;
-
-                    this.enableAll(false);
-                    Application.UseWaitCursor = true;
-                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
-
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestAllData();
-                    return;
-                }
+                logger.Info("Backup completed after final warning acknowledgment; resuming programming.");
+                this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
+                return;
             }
         }
     }
