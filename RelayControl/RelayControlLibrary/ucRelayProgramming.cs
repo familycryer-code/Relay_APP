@@ -80,6 +80,7 @@ namespace RelayControlLibrary
         private bool notPollingPort = false;
         private DialogResult upgradeAutoDR = DialogResult.No;
         private bool reprogrammingInProgress = false;
+        public bool AutoloadAcceptedPendingBackup { get; set; } = false;
 
         public Customers Customer
         {
@@ -681,6 +682,45 @@ namespace RelayControlLibrary
             destination.RelayFileGE = source.RelayFileGE;
         }
 
+        private bool ContinueAutoloadAfterBootCheck()
+        {
+            logger.Trace("ContinueAutoloadAfterBootCheck");
+
+            bool needsUpdate = CompareMasterRevisionToGUI();
+
+            if (this.upgradeAutoDR != DialogResult.Yes)
+            {
+                this.autoLoad = false;
+                return false;
+            }
+
+            if (!needsUpdate || !this.reprogramBootCodeAuto)
+            {
+                this.autoLoad = false;
+                return true;
+            }
+
+            this.autoLoad = true;
+
+            if ((this.CheckForBootCodeUpdate() && this.masterBootRevisionSet) ||
+                (this.CheckForProperBootCodeAutoUpdate() && this.masterBootRevisionSet))
+            {
+                this.UpgradeBootCode();
+                return true;
+            }
+
+            if ((!dontShowRelayUpgradeMessage &&
+                 !this.ProgramBootCodeInProgress &&
+                 this.masterBootRevisionSet &&
+                 this.upgradeAutoDR == DialogResult.Yes) ||
+                !askToUgradeShown)
+            {
+                this.CheckForUpdate();
+            }
+
+            return true;
+        }
+
         public bool InitializeAutoload()
         {
             logger.Trace("InitializeAutoLoad");
@@ -701,6 +741,15 @@ namespace RelayControlLibrary
             {
                 if (needsUpdate && reprogramBootCodeAuto)
                 {
+                    if (!AutoloadAcceptedPendingBackup)
+                    {
+                        logger.Info("User accepted autoload. Deferring programming until fresh relay backup completes.");
+                        AutoloadAcceptedPendingBackup = true;
+                        this.autoLoad = false;
+                        return true;
+                    }
+
+                    AutoloadAcceptedPendingBackup = false;
                     this.autoLoad = true;
 
                     if (!this.MasterBootRevisionSet())
@@ -719,7 +768,7 @@ namespace RelayControlLibrary
             }
             else
             {
-
+                AutoloadAcceptedPendingBackup = false;
                 this.autoLoad = false;
                 this.reprogramBootCodeAuto = false;
                 this.askToUgradeShown = true;
@@ -765,6 +814,14 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             // MessageBox.Show("wrongRelayTypeAutoLoad : " + wrongRelayTypeAutoLoad); // Only for testing - to be removed
 
+            if (this.AutoloadAcceptedPendingBackup)
+            {
+                logger.Info("Resuming autoload after backup; skipping repeated confirmation dialogs.");
+                this.askToUgradeShown = true;
+                this.upgradeAutoDR = DialogResult.Yes;
+                return;
+            }
+
             this.checkSafeServiceMaster();
 
             if (ManualUpdate.usingManualMode == false)
@@ -785,7 +842,7 @@ namespace RelayControlLibrary
                 internalGESetter = false;
 
             if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
-                this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 5 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
+                this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
 
             this.askToUgradeShown = true;
         }
@@ -823,6 +880,22 @@ namespace RelayControlLibrary
             }
         }
 
+        private DialogResult ShowProgrammingStartWarning()
+        {
+            const string message =
+                "Relay update is starting.\r\n\r\n" +
+                "The relay may temporarily disconnect and reconnect during this process.\r\n" +
+                "Progress will be shown in the programming window.\r\n\r\n" +
+                "Do not remove the port, power down the relay, let the computer sleep, or click around the GUI until the update finishes.";
+
+            return MessageBox.Show(
+                message,
+                "Relay Update In Progress",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button1);
+        }
+
         private void UpgradeBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -832,7 +905,7 @@ namespace RelayControlLibrary
 
             this.programmingForm.ClearAllChecks();
 
-            warningBootDR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            warningBootDR = ShowProgrammingStartWarning();
 
             if (warningBootDR == DialogResult.OK)
             {
@@ -1302,7 +1375,7 @@ namespace RelayControlLibrary
 
                     // If we aren't loading from resource, don't bother warning
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
-                        MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process");
+                        ShowProgrammingStartWarning();
 
                     logger.Trace("User Verified Programming Start");
                     Thread.Sleep(500);
@@ -1514,7 +1587,7 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.AutoLoadCheckBoot:
                     logger.Trace("AutoLoadCheckBoot");
                     this.state = RelayProgrammingStates.Idle;
-                    InitializeAutoload();
+                    ContinueAutoloadAfterBootCheck();
                     break;
                 case RelayProgrammingStates.ManualLoadCheckBoot:
                     logger.Trace("manualLoadCheckBoot");
@@ -2082,8 +2155,10 @@ namespace RelayControlLibrary
             logger.Trace(String.Format("autoload: {0}", autoLoad));
 
             this.reprogrammingInProgress = false;
+
             if (this.autoLoad)
             {
+                this.programmingForm.Hide();
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
                 this.requestAll();
@@ -2432,7 +2507,7 @@ namespace RelayControlLibrary
             if (dR == DialogResult.Yes)
             {
                 this.programBootCodeOnly = true;
-                dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                dR = ShowProgrammingStartWarning();
                 System.Windows.Forms.Application.DoEvents();
                 Thread.Sleep(3000); //need this delay here
                 ProgramBootCodeStart = true;
@@ -2478,7 +2553,7 @@ namespace RelayControlLibrary
                     {
 
                         this.programBootCodeOnly = true;
-                        dR = MessageBox.Show("Please do not remove the port, turn off the computer, power down the relay, let the computer sleep or click around the GUI during the upgrade process", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                        dR = ShowProgrammingStartWarning();
                         System.Windows.Forms.Application.DoEvents();
                         Thread.Sleep(3000); //need this delay here
                         this.ProgramBootCodeStart = true;

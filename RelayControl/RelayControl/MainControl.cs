@@ -63,6 +63,8 @@ namespace RelayControl
 
         private Customers customer = Customers.None;
 
+
+
         private bool tCPConnection = false;
         private TCPComms tcpClient;
 
@@ -71,6 +73,7 @@ namespace RelayControl
         private bool pendingAutoloadAfterBackup = false;
         private bool skipAutoloadAfterDecline = false;
         private bool pendingRestoreAfterProgramming = false;
+        private DateTime? backupStartedAtUtc = null;
         // Backup orchestration flags
         private bool backupInProgress = false;
 
@@ -88,7 +91,6 @@ namespace RelayControl
 
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
-        private DateTime backupStartedAtUtc;
         private const int BackupTimeoutMs = 10000; // 10s
 
         public Customers Customer
@@ -3855,6 +3857,7 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("Parameters Finished Loading");
+
             if (this.parametersLoaded && this.badDataDetected == false)
             {
                 this.parametersLoaded = false;
@@ -3873,139 +3876,130 @@ namespace RelayControl
                 Cursor.Current = Cursors.Default;
                 // update display of DNP tabs based on change in DNP UPlink checkbox in TX Settings tab
                 setDNPTabPoints();
+                return;
             }
-            else if (this.badDataDetected == true)
+
+            if (this.badDataDetected == true)
             {
                 this.parametersLoaded = false;
                 this.messageHandler("Error", "Parameters Not Loaded Successfully");
+                return;
             }
-            else if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
+
+            if (!(this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters))
+                return;
+
+            this.requestedAllParameters = false;
+            this.timerResponseTimeOut.Enabled = false;
+            this.ProgramState = ProgramStates.Running;
+
+            if (paramsReceivedLock)
+                return;
+
+            paramsReceivedLock = true;
+
+            try
             {
-                this.requestedAllParameters = false;
-                this.timerResponseTimeOut.Enabled = false;
-                this.ProgramState = ProgramStates.Running;
-                if (!paramsReceivedLock)
+                if (pendingRestoreAfterProgramming)
                 {
-                    paramsReceivedLock = true;
+                    pendingRestoreAfterProgramming = false;
 
-                    if (!ucRelayProgramming1.ReprogrammingInProgress)
-                    {
-                        if (pendingRestoreAfterProgramming)
-                        {
-                            pendingRestoreAfterProgramming = false;
+                    this.enableAll(false);
+                    Application.UseWaitCursor = true;
+                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
 
-                            this.enableAll(false);
-                            Application.UseWaitCursor = true;
-                            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+                    this.WriteBackUpData_FileToRelay();
+                    dataB.oldDataBackup = false;
 
-                            this.WriteBackUpData_FileToRelay();
-                            dataB.oldDataBackup = false;
+                    MessageBox.Show("Programming complete", "Programming Complete");
 
-                            MessageBox.Show("Backup data loaded to the Relay");
+                    backupInProgress = false;
+                    pendingAutoloadAfterBackup = false;
+                    pendingRestoreAfterProgramming = false;
+                    backupGotRelayParams = false;
 
-                            backupInProgress = false;
-                            pendingAutoloadAfterBackup = false;
-                            pendingRestoreAfterProgramming = false;
-                            backupGotRelayParams = false;
+                    if (backupTimeoutTimer != null)
+                        backupTimeoutTimer.Stop();
 
-                            if (backupTimeoutTimer != null)
-                                backupTimeoutTimer.Stop();
-
-                            this.ucRelayProgramming1.ReprogrammingInProgress = false;
-
-                            MessageBox.Show("Relay is now up to date with the latest firmware.");
-
-                            this.UseWaitCursor = false;
-                            Application.UseWaitCursor = false;
-                            System.Windows.Forms.Cursor.Current = Cursors.Default;
-                            this.enableAll(true);
-                            this.monitoring(true);
-                            this.RegisterPolling(true);
-                            this.requestRelayRegisters();
-                            paramsReceivedLock = false;
-                            return;
-                        }
-                        else if (pendingAutoloadAfterBackup)
-                        {
-                            if (checkValidDataBackup())
-                            {
-                                this.CompleteBackupAndContinue(null);
-                                paramsReceivedLock = false;
-                                return;
-                            }
-                            else
-                            {
-                                MessageBox.Show("Data retrieved from the relay is not correct. Cannot continue relay migration.");
-                            }
-                        }
-                        else
-                        {
-                            if (!skipAutoloadAfterDecline)
-                            {
-                                this.messageHandler("Data Received", "All Parameters Received");
-                            }
-
-                            this.monitoring(true);
-                            this.RegisterPolling(true);
-                            this.requestRelayRegisters();
-                            if (skipAutoloadAfterDecline)
-                            {
-                                this.monitoring(true);
-                                this.RegisterPolling(true);
-                                this.requestRelayRegisters();
-                                skipAutoloadAfterDecline = false;
-                            }
-                        }
-                    }
-
-                    //=====================Remove throbber and enable everything disaplayed on the screen=====================
-                    Application.UseWaitCursor = false;
-                    System.Windows.Forms.Cursor.Current = Cursors.Default;
-                    this.enableAll(true);
-                    //========================================================================================================
-                    paramsReceivedLock = false;
-                    tripModeM.tripMode_message = true;
-
-
-
-                    if (dataB.oldDataBackup == true &&
-                        !pendingAutoloadAfterBackup &&
-                        !pendingRestoreAfterProgramming &&
-                        !ucRelayProgramming1.ReprogrammingInProgress)
-                    {
-                        if (skipAutoloadAfterDecline)
-                        {
-                            this.monitoring(true);
-                            this.RegisterPolling(true);
-                            this.requestRelayRegisters();
-                            skipAutoloadAfterDecline = false;
-                        }
-                        else if (checkValidDataBackup())
-                        {
-                            pendingAutoloadAfterBackup = true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Data retrieved from the relay is not correct. Cannot continue relay migration.");
-                        }
-                    }
-
+                    this.ucRelayProgramming1.ReprogrammingInProgress = false;
 
                     this.UseWaitCursor = false;
                     Application.UseWaitCursor = false;
                     System.Windows.Forms.Cursor.Current = Cursors.Default;
                     this.enableAll(true);
-
-                    this.request_PCdata(); // Permissive close data
-                    this.request_ATdata(); // Adaptive trip data
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+                    return;
                 }
 
-                if (ucSafeService1.SendSSModeFlag_Send == true)
+                if (this.ucRelayProgramming1.ReprogrammingInProgress &&
+                    !pendingRestoreAfterProgramming &&
+                    !pendingAutoloadAfterBackup)
                 {
-                    this.ucSafeService1.SendAll();
-                    this.ucSafeService1.SendSSModeFlag_Send = false;
-                    this.timerResponseTimeOut.Enabled = false;
+                    logger.Info("Parameters finished loading during active reprogramming with no pending restore/autoload continuation; skipping autoload re-entry.");
+                    return;
                 }
+
+                if (!pendingAutoloadAfterBackup)
+                {
+                    logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+                    return;
+                }
+
+                if (skipAutoloadAfterDecline)
+                {
+                    logger.Info("User declined autoload; clearing pending migration state and restoring normal communications.");
+                    pendingAutoloadAfterBackup = false;
+
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+
+                    skipAutoloadAfterDecline = false;
+                    return;
+                }
+
+                pendingAutoloadAfterBackup = false;
+
+                logger.Info("CALLER: parametersFinishedLoading -> InitializeAutoload()");
+                bool autoloadAccepted = this.ucRelayProgramming1.InitializeAutoload();
+
+                if (!autoloadAccepted)
+                {
+                    logger.Info("User declined autoload during pending update check. Restoring normal communications.");
+                    skipAutoloadAfterDecline = true;
+
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+                    return;
+                }
+
+                if (this.ucRelayProgramming1.AutoloadAcceptedPendingBackup)
+                {
+                    logger.Info("User accepted autoload. Starting fresh relay backup before continuing migration.");
+                    pendingAutoloadAfterBackup = true;
+
+                    this.enableAll(false);
+                    Application.UseWaitCursor = true;
+                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
+                    BackUpRelayDatatoFile();
+                    return;
+                }
+
+                logger.Info("InitializeAutoload() completed without a pending backup continuation. Restoring normal communications.");
+                this.monitoring(true);
+                this.RegisterPolling(true);
+                this.requestRelayRegisters();
+            }
+            finally
+            {
+                paramsReceivedLock = false;
             }
         }
 
@@ -5219,9 +5213,9 @@ namespace RelayControl
         {
             string revision;
 
-            #pragma warning disable CS0168 // variable declared but never used
+#pragma warning disable CS0168 // variable declared but never used
             string trim_rev;
-            #pragma warning restore CS0168
+#pragma warning restore CS0168
 
             try
             {
@@ -5232,7 +5226,6 @@ namespace RelayControl
 
                 this.masterRevision = getMasterRevisionNumber(revision);
                 this.ucTransmitter1.MasterRevisionNumber = this.masterRevision;
-
 
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
@@ -5246,14 +5239,12 @@ namespace RelayControl
                     else
                     {
                         pendingAutoloadAfterBackup = true;
+                        logger.Info("Autoload required. Pending backup before migration.");
                     }
                 }
 
-
                 if (this.dNPDIGITALGRIDData != null)
                     this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
-
-
 
                 receivedMasterRevision = revision;
 
@@ -5266,6 +5257,7 @@ namespace RelayControl
                 {
                     this.Customer = Customers.ENMAX;
                 }
+
                 // Keep build/customer assignment stable during runtime.
                 // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
                 bool dnpCommSupported = IsDnpCommSupported();
@@ -5273,7 +5265,7 @@ namespace RelayControl
                 this.checkDNPEnabled();
 
 #if CONED
-                this.ucRelayProgramming1.setConEdFiles();
+        this.ucRelayProgramming1.setConEdFiles();
 #endif
 
                 this.handleNewMasterRevision();
@@ -9738,7 +9730,7 @@ namespace RelayControl
                 File.WriteAllText(
                     filePath,
                     "Data residing in the relay :" + Environment.NewLine +
-                    "Timestamp: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine +
+                    "TimestampUtc: " + backupStartedAtUtc.Value.ToString("O", CultureInfo.InvariantCulture) + Environment.NewLine +
                     "MasterRevision: " + (this.ucRelayProgramming1.MasterRevisionString ?? "UNKNOWN") + Environment.NewLine);
 
                 this.ucShortRange1.Request_SignalStrength();
@@ -10736,7 +10728,9 @@ namespace RelayControl
             if (!backupInProgress)
                 return;
 
-            var elapsedMs = (int)(DateTime.UtcNow - backupStartedAtUtc).TotalMilliseconds;
+            var elapsedMs = backupStartedAtUtc.HasValue
+                ? (int)(DateTime.UtcNow - backupStartedAtUtc.Value).TotalMilliseconds
+                : 0;
             var missing = GetBackupMissingSectionsSummary();
 
             logger.Warn(
@@ -10800,7 +10794,9 @@ namespace RelayControl
             dataBackup_fromRelay = false;
             dataBackupR.dataBackup_fromRelay = false;
 
-            var elapsedMs = (int)(DateTime.UtcNow - backupStartedAtUtc).TotalMilliseconds;
+            var elapsedMs = backupStartedAtUtc.HasValue
+                ? (int)(DateTime.UtcNow - backupStartedAtUtc.Value).TotalMilliseconds
+                : 0;
             var missing = GetBackupMissingSectionsSummary();
 
             logger.Info(
@@ -10815,23 +10811,22 @@ namespace RelayControl
                 MessageBox.Show(timeoutMessageOrNull);
             }
 
-            if (!this.ucRelayProgramming1.ReprogrammingInProgress)
-            {
-                MessageBox.Show("Data currently residing in the relay with firmware rev less than 10.0 is now backed up on the computer");
-            }
-            else
-            {
-                logger.Info("Skipping backup-complete popup because reprogramming is still in progress.");
-            }
+            logger.Info(
+                "Backup completed silently. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}",
+                this.ucRelayProgramming1.ReprogrammingInProgress,
+                pendingAutoloadAfterBackup,
+                pendingRestoreAfterProgramming);
 
             if (pendingAutoloadAfterBackup)
             {
+                
                 pendingAutoloadAfterBackup = false;
 
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
 
+                
                 bool autoloadAccepted = this.ucRelayProgramming1.InitializeAutoload();
 
                 if (!autoloadAccepted)
