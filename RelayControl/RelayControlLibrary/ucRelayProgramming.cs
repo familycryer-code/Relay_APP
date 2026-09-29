@@ -2153,6 +2153,7 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             logger.Trace(String.Format("autoload: {0}", autoLoad));
+            logger.Info($"allReprogramingDone: autoLoad={this.autoLoad}, state={this.State}, reprogrammingInProgress={this.reprogrammingInProgress}");
 
             this.reprogrammingInProgress = false;
 

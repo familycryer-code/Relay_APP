@@ -1690,9 +1690,17 @@ namespace RelayControl
             this.currentReprogramState = rPEA.Command;
 
             logger.Trace("Programming Command: {0}", rPEA.Command);
+            logger.Info($"Programming_Send RequestAll: requestedAllParameters(before)={this.requestedAllParameters}, ProgramState(before)={this.ProgramState}, loadingNewCode={this.loadingNewCode}");
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
+                    if (this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
+                    {
+                        this.pendingAutoloadAfterBackup = false;
+                        this.pendingRestoreAfterProgramming = true;
+                    }
+
+                    this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     loadingNewCode = false;
                     Thread.Sleep(6000);
@@ -1738,6 +1746,7 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }
+            logger.Info($"Programming_Send RequestAll: requestedAllParameters(after)={this.requestedAllParameters}, ProgramState(after)={this.ProgramState}");
         }
 
         private void ucTransmitter1_Send(SendEventArgs sEA)
@@ -3857,6 +3866,12 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("Parameters Finished Loading");
+            logger.Info(
+    $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
+    $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
+    $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
+    $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
+    $"loadingNewCode={this.loadingNewCode}");
 
             if (this.parametersLoaded && this.badDataDetected == false)
             {
