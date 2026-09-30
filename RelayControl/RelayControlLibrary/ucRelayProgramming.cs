@@ -193,6 +193,31 @@ namespace RelayControlLibrary
             }
         }
 
+        public void StartManualForcedUpdate()
+        {
+            logger.Info("StartManualForcedUpdate ENTER");
+
+            this.useDefaultSettings = false;
+            this.programmingForm.ClearAllChecks();
+
+            this.autoLoad = true;
+            this.askToUgradeShown = false;
+            this.upgradeAutoDR = DialogResult.Yes;
+            this.firstCheckForUpdate = false;
+
+            this.reprogramMaster = true;
+            this.reprogramRelay = true;
+            this.reprogramFPGA = this.transmitterEnabled;
+
+            this.setProgrammingFiles();
+            this.showAutoLoadDialog();
+
+            if (this.upgradeAutoDR != DialogResult.Yes)
+                return;
+
+            this.startAutoLoad();
+        }
+
         public void ProgramBootCode()
         {
             MasterBootLoaderStart();
@@ -1361,7 +1386,11 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
+            if (ManualUpdate.usingManualMode)
+            {
+                dR = DialogResult.Yes;
+            }
+            else if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
                 dR = showAutoLoadUpdateMessage();
                 askToUgradeShown = true;

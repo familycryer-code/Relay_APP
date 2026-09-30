@@ -9485,11 +9485,8 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // this.ucRelayProgramming1.InitialAutoLoadFiles();
-            // this.checkedDNPEnable = false;
-
-            this.ucRelayProgramming1.ProgramBootCodeStart = true;
             ManualUpdate.usingManualMode = true;
+            this.ucRelayProgramming1.StartManualForcedUpdate();
         }
 
 
