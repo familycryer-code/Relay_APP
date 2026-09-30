@@ -91,7 +91,7 @@ namespace RelayControl
 
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
-        private const int BackupTimeoutMs = 10000; // 10s
+        private const int BackupTimeoutMs = 30000; // 30s
 
         public Customers Customer
         {
@@ -1699,13 +1699,22 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.RequestAll:
                     if (this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
                     {
+                        logger.Info("Allowing RequestAll after ReprogramSuccess for post-programming restore.");
                         this.pendingAutoloadAfterBackup = false;
                         this.pendingRestoreAfterProgramming = true;
+                        this.loadingNewCode = false;
+                    }
+                    else if (this.pendingAutoloadAfterBackup ||
+                             this.ucRelayProgramming1.ReprogrammingInProgress ||
+                             this.loadingNewCode)
+                    {
+                        logger.Info("Suppressing RequestAll during backup/programming transition.");
+                        break;
                     }
 
                     this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
-                    loadingNewCode = false;
+                    this.loadingNewCode = false;
                     Thread.Sleep(6000);
                     clearRemoteBuffer();
                     Thread.Sleep(1000);
@@ -1781,8 +1790,16 @@ namespace RelayControl
             {
                 this.sendPacketAck(sEA.SendPacket, "Transmitter Settings Send");
 
-                if (!this.loadingNewCode)
+                if (!this.pendingAutoloadAfterBackup &&
+                    !this.ucRelayProgramming1.ReprogrammingInProgress &&
+                    !this.loadingNewCode)
+                {
                     this.requestAllData();
+                }
+                else
+                {
+                    logger.Info("Suppressing transmitter-triggered RequestAll during backup/programming transition.");
+                }
 
                 this.parametersLoaded = true;
             }
@@ -3970,10 +3987,17 @@ namespace RelayControl
 
                 if (!pendingAutoloadAfterBackup)
                 {
-                    logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    if (this.ucRelayProgramming1.ReprogrammingInProgress || this.loadingNewCode)
+                    {
+                        logger.Info("Parameters finished loading but programming transition is still active; suppressing normal communications.");
+                    }
+                    else
+                    {
+                        logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
+                        this.monitoring(true);
+                        this.RegisterPolling(true);
+                        this.requestRelayRegisters();
+                    }
                     return;
                 }
 
@@ -4019,10 +4043,19 @@ namespace RelayControl
                     return;
                 }
 
-                logger.Info("InitializeAutoload() completed without a pending backup continuation. Restoring normal communications.");
-                this.monitoring(true);
-                this.RegisterPolling(true);
-                this.requestRelayRegisters();
+                if (this.pendingAutoloadAfterBackup ||
+                    this.ucRelayProgramming1.ReprogrammingInProgress ||
+                    this.loadingNewCode)
+                {
+                    logger.Info("InitializeAutoload() completed but normal communications remain suppressed for programming transition.");
+                }
+                else
+                {
+                    logger.Info("InitializeAutoload() completed without a pending backup continuation. Restoring normal communications.");
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+                }
             }
             finally
             {
@@ -7155,7 +7188,13 @@ namespace RelayControl
                 return;
             }
 
-            this.loadingNewCode = false;
+            if (!this.pendingAutoloadAfterBackup &&
+                !this.ucRelayProgramming1.ReprogrammingInProgress &&
+                this.ucRelayProgramming1.State != RelayProgrammingStates.ReprogramSuccess)
+            {
+                this.loadingNewCode = false;
+            }
+
             if (!this.serialPort1.IsOpen && !tCPConnection)
             {
                 if (this.portLost)
@@ -7197,9 +7236,16 @@ namespace RelayControl
 
             if (!this.quietMode)
             {
-                this.registersReceived = false;
-                this.requestRelayRegisters();
-                this.labelQuietMode.Visible = false;
+                if (this.pendingAutoloadAfterBackup || this.ucRelayProgramming1.ReprogrammingInProgress || this.loadingNewCode)
+                {
+                    logger.Info("Suppressing register polling during backup/programming transition.");
+                }
+                else
+                {
+                    this.registersReceived = false;
+                    this.requestRelayRegisters();
+                    this.labelQuietMode.Visible = false;
+                }
             }
             else
             {

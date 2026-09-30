@@ -1031,6 +1031,13 @@ namespace RelayControlLibrary
             logger.Info("ResumeAutoloadAfterBackup ENTER");
             this.AutoloadAcceptedPendingBackup = false;
             this.resumeProgrammingAfterBackup = true;
+
+            if (!this.dontReloadFromResource)
+            {
+                logger.Info("ResumeAutoloadAfterBackup: reloading programming files from embedded resources.");
+                this.setProgrammingFiles();
+            }
+
             this.startProgramming();
         }
 
@@ -1127,7 +1134,7 @@ namespace RelayControlLibrary
         private void setProgrammingFiles()
         {
             logger.Trace("Method: {0}", nameof(setProgrammingFiles));
-            if (this.dontReloadFromResource || this.state != RelayProgrammingStates.Idle)
+            if (this.dontReloadFromResource)
                 return;
 
             // Keep for now during stabilization
@@ -2207,6 +2214,7 @@ namespace RelayControlLibrary
                 this.programmingForm.CurrentTask = "Finalizing Update";
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
+                logger.Info("allReprogramingDone: autoload success, issuing final RequestAll for restore.");
                 this.requestAll();
             }
             else
@@ -3173,11 +3181,20 @@ namespace RelayControlLibrary
         private void startRelayProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if ((this.relayCode.FileString == "" || this.relayCode.FileString == null))
+            if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
             {
-                MessageBox.Show("No Relay File Loaded");
-                this.State = RelayProgrammingStates.Idle;
-                return;
+                if (!this.dontReloadFromResource)
+                {
+                    logger.Info("startRelayProgramming: relay resource not loaded; attempting to reload programming files from embedded resources.");
+                    this.setProgrammingFiles();
+                }
+
+                if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
+                {
+                    MessageBox.Show("No Relay File Loaded");
+                    this.State = RelayProgrammingStates.Idle;
+                    return;
+                }
             }
 
             this.parseSFile(this.relayCode);
@@ -3332,16 +3349,23 @@ namespace RelayControlLibrary
                     }
                 }
 
-                if ((this.relayCode.FileString == "" || this.masterCode.FileString == null))
+                if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
                 {
-                    MessageBox.Show("No Relay File Loaded");
-                    this.State = RelayProgrammingStates.Idle;
-                    return;
+                    if (!this.dontReloadFromResource)
+                    {
+                        logger.Info("startProgramming: relay resource not loaded; attempting to reload programming files from embedded resources.");
+                        this.setProgrammingFiles();
+                    }
+
+                    if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
+                    {
+                        MessageBox.Show("No Relay File Loaded");
+                        this.State = RelayProgrammingStates.Idle;
+                        return;
+                    }
                 }
 
                 this.parseSFile(this.relayCode);
-
-
 
                 this.State = RelayProgrammingStates.LoadingRelayCode;
                 if (this.autoLoad)
