@@ -7203,9 +7203,15 @@ namespace RelayControl
             }
             else
             {
-#if !DEBUG
-                this.messageHandler("Set To Quiet Mode", "Unset Quiet Mode");
-#endif
+                if (this.pendingAutoloadAfterBackup || this.ucRelayProgramming1.ReprogrammingInProgress || this.loadingNewCode)
+                {
+                    logger.Info("Suppressing Quiet Mode popup during backup/programming transition.");
+                }
+                else
+                {
+                    this.messageHandler("Set To Quiet Mode", "Unset Quiet Mode");
+                }
+
                 this.labelQuietMode.Visible = true;
             }
 
@@ -10853,10 +10859,6 @@ namespace RelayControl
             if (pendingAutoloadAfterBackup)
             {
                 pendingAutoloadAfterBackup = false;
-
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
 
                 logger.Info("Backup completed after final warning acknowledgment; resuming programming.");
                 this.ucRelayProgramming1.ResumeAutoloadAfterBackup();

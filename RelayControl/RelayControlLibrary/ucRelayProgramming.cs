@@ -1349,7 +1349,8 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
 
-            if (this.serialNumberError) {
+            if (this.serialNumberError)
+            {
                 return;
             }
 
@@ -1366,7 +1367,6 @@ namespace RelayControlLibrary
             if (dR == DialogResult.Yes)
             {
                 // If we aren't loading from resource, don't bother asking this question
-
                 if (forceRelayUpdate == false && programmingForm.MasterBootComplete == false && this.reprogramMaster == false)
                 {
                     if (!this.dontReloadFromResource)
@@ -1377,18 +1377,32 @@ namespace RelayControlLibrary
                     dR = DialogResult.Yes;
                 }
 
-
                 if (dR == DialogResult.Yes)
                 {
+                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
+                    {
+                        logger.Info("CALLSITE startAutoLoad path: before ShowProgrammingStartWarning");
+                        DialogResult startWarningResult = ShowProgrammingStartWarning();
+                        logger.Info($"CALLSITE startAutoLoad path: after ShowProgrammingStartWarning result={startWarningResult}");
+
+                        if (startWarningResult != DialogResult.OK)
+                        {
+                            this.autoLoad = false;
+                            return;
+                        }
+                    }
+
                     RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
                     rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
-
                     this.onSend(rPEA);
 
                     if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                     {
-                        logger.Info("CALLSITE startAutoLoad path: ShowProgrammingStartWarning deferred to startProgramming");
+                        logger.Info("Final programming warning accepted. Starting backup before programming.");
+                        this.autoLoad = true;
+                        this.AutoloadAcceptedPendingBackup = true;
+                        this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
+                        return;
                     }
 
                     logger.Trace("User Verified Programming Start");
@@ -1406,7 +1420,6 @@ namespace RelayControlLibrary
             {
                 this.autoLoad = false;
             }
-
         }
 
         public void PrepForBoot()
