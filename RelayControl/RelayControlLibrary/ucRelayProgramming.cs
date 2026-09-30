@@ -2238,12 +2238,12 @@ namespace RelayControlLibrary
 
             this.reprogrammingInProgress = false;
 
-            if (this.autoLoad)
+            if (this.autoLoad || ManualUpdate.usingManualMode)
             {
                 this.programmingForm.CurrentTask = "Finalizing Update";
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
-                logger.Info("allReprogramingDone: autoload success, issuing final RequestAll for restore.");
+                logger.Info("allReprogramingDone: autoload/manual success, issuing final RequestAll for restore.");
                 this.requestAll();
             }
             else

@@ -1203,6 +1203,10 @@ namespace RelayControl
             }
         }
 
+        public void ResetAutoloadDeclineState()
+        {
+            this.skipAutoloadAfterDecline = false;
+        }
 
         void ucTransmitterMonitoring1_MonitoringStateChange(object sender, TransmitterMonitoringEventArgs tMEA)
         {
@@ -3891,11 +3895,11 @@ namespace RelayControl
         {
             logger.Trace("Parameters Finished Loading");
             logger.Info(
-    $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
-    $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
-    $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
-    $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
-    $"loadingNewCode={this.loadingNewCode}");
+                $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
+                $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
+                $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
+                $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
+                $"loadingNewCode={this.loadingNewCode}");
 
             if (this.parametersLoaded && this.badDataDetected == false)
             {
@@ -9486,6 +9490,7 @@ namespace RelayControl
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ManualUpdate.usingManualMode = true;
+            this.ResetAutoloadDeclineState();
             this.ucRelayProgramming1.StartManualForcedUpdate();
         }
 
