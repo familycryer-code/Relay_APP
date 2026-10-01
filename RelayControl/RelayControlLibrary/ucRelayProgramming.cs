@@ -193,31 +193,6 @@ namespace RelayControlLibrary
             }
         }
 
-        public void StartManualForcedUpdate()
-        {
-            logger.Info("StartManualForcedUpdate ENTER");
-
-            this.useDefaultSettings = false;
-            this.programmingForm.ClearAllChecks();
-
-            this.autoLoad = true;
-            this.askToUgradeShown = false;
-            this.upgradeAutoDR = DialogResult.Yes;
-            this.firstCheckForUpdate = false;
-
-            this.reprogramMaster = true;
-            this.reprogramRelay = true;
-            this.reprogramFPGA = this.transmitterEnabled;
-
-            this.setProgrammingFiles();
-            this.showAutoLoadDialog();
-
-            if (this.upgradeAutoDR != DialogResult.Yes)
-                return;
-
-            this.startAutoLoad();
-        }
-
         public void ProgramBootCode()
         {
             MasterBootLoaderStart();
@@ -842,6 +817,30 @@ namespace RelayControlLibrary
                 return true;
         }
 
+        private DialogResult showManualLoadDialog()
+        {
+            DialogResult dR;
+
+            dR = new CustomYesNoDialog(
+                "GE or WH Select",
+                "Is this a GE or WH style relay?",
+                "GE",
+                "WH"
+            ).ShowDialog();
+
+            if (dR == DialogResult.Yes)
+                this.internalGESetter = true;
+            else
+                this.internalGESetter = false;
+
+            // This preserves the "10 minute" warning in manual mode
+            return MessageBox.Show(
+                "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
+                "Confirm Update Request",
+                MessageBoxButtons.YesNo
+            );
+        }
+
         private void showAutoLoadDialog()
         {
             DialogResult dR;
@@ -870,25 +869,6 @@ namespace RelayControlLibrary
                 this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
 
             this.askToUgradeShown = true;
-        }
-
-        private void ForceUpgradeCheck()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
-            {
-                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DIGITALGRID, INC. and return relay to factory.");
-                this.revTooLowErrorAlreadyShown = true;
-            }
-            else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
-            {
-                this.forceRelayUpdate = true;
-                this.forceUpdateReason = "Safe Service";
-            }
-            else
-            {
-                this.forceRelayUpdate = false;
-            }
         }
 
         private void checkSafeServiceMaster()
@@ -951,12 +931,6 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             DialogResult dR;
 
-            /*dR1 = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
-            if (dR1 == DialogResult.Yes)
-                internalGESetter = true;
-            else
-                internalGESetter = false;
-            */
             dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
             return dR;
         }
@@ -1003,57 +977,38 @@ namespace RelayControlLibrary
             this.reprogramFPGA = false;
 #endif
 #endif
-#if DEBUG
-            dR = new CustomYesNoDialog("Select Communication Type", "Does this have DNP?", "Yes", "No").ShowDialog();
-            if (dR == DialogResult.Yes)
-            {
-                this.DNPRelay = true;
 
-                dR = new CustomYesNoDialog("Select Communication Type", "Does this use PLC?", "Yes", "No").ShowDialog();
+        }
 
-                if (dR == DialogResult.Yes)
-                {
-                    this.reprogramFPGA = true;
-                    this.TransmitterEnabled = true;
-                }
-                else
-                    this.TransmitterEnabled = false;
-            }
-            else
-            {
-                this.DNPRelay = false;
-                dR = new CustomYesNoDialog("Select Communication Type", "Does this use PLC?", "Yes", "No").ShowDialog();
-
-                if (dR == DialogResult.Yes)
-                {
-                    this.reprogramFPGA = true;
-                    this.TransmitterEnabled = true;
-                }
-                else
-                {
-                    this.reprogramFPGA = false;
-                    this.TransmitterEnabled = false;
-                }
-            }
-
-
-#endif
-            if (this.notPollingPort)
-            {
-                this.CheckForProperBootCodeManualUpdate();
-                if (masterBootRevisionSet == true)
-                    this.startManualReloadWithBootCheck();
-            }
-            else
-            {
-                this.startManualReload();
-            }
-
+        public void StartManualForcedUpdate()
+        {
+            this.startManualReloadWithBootCheck();
         }
 
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
+
+            bool bootNeedsUpdate = this.masterBootRevisionSet &&
+                                  (this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+
+            if (ManualUpdate.usingManualMode)
+            {
+                this.loadMasterFirst = true;
+            }
+            else
+            {
+                this.loadMasterFirst = bootNeedsUpdate;
+            }
+
+            logger.Info(
+                "RESUME AUTLOAD ORDER | bootSet={0}, bootRev={1}, bootRequired={2}, bootNeedsUpdate={3}, loadMasterFirst={4}",
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber,
+                bootNeedsUpdate,
+                this.loadMasterFirst);
+
             this.AutoloadAcceptedPendingBackup = false;
             this.resumeProgrammingAfterBackup = true;
 
@@ -1069,42 +1024,27 @@ namespace RelayControlLibrary
         private void startManualReloadWithBootCheck()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.loadMasterFirst = true;
-            this.masterCode.WithParameters = false;
 
-            setManualReloadVars();
-            this.CheckForProperBootCodeManualUpdate();
-
-            this.programmingForm.ClearAllChecks();
-
-            if (masterBootRevisionSet == true)
-            {
-                this.setProgrammingFiles();
-                this.startProgramming();
-            }
-        }
-
-        private void startManualReload()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.loadMasterFirst = true;
             this.masterCode.WithParameters = false;
 
             this.manualReload = true;
-            setManualReloadVars();
-            this.programmingForm.ClearAllChecks();
+            this.reloadBootWithPrompt = false;
 
-            this.setProgrammingFiles();
-            this.startProgramming();
-        }
-
-        private void setManualReloadVars()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.autoLoad = true;
+            this.autoLoad = false;
             this.reprogramMaster = true;
             this.reprogramRelay = true;
-            this.askToUgradeShown = true;
+            this.askToUgradeShown = false;
+
+            this.CheckProperMasterBootCode();
+
+            if (this.notPollingPort && !this.programBootCodeInProgress)
+                Thread.Sleep(1000);
+
+            this.programmingForm.ClearAllChecks();
+            this.setProgrammingFiles();
+            this.startAutoLoad();
+            
         }
 
         private void checkDNP()
@@ -1262,29 +1202,25 @@ namespace RelayControlLibrary
         public void CheckForUpdate()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (forceRelayUpdate == false)
+            
+            if (!this.firstCheckForUpdate)
+            return;
+
+            this.firstCheckForUpdate = false;
+            if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
             {
-                if (!this.firstCheckForUpdate)
-                    return;
+                this.transmitterEnabled = true;
 
-                this.firstCheckForUpdate = false;
-                if (this.reprogramFPGA || this.reprogramMaster || this.reprogramRelay)
-                {
-                    this.transmitterEnabled = true;
+                if (!this.gERelaySerialMatch && !this.serialNumberError)
+                    this.askIfGERelay();
+                this.setProgrammingFiles();
 
-                    if (!this.gERelaySerialMatch && !this.serialNumberError)
-                        this.askIfGERelay();
-                    this.setProgrammingFiles();
-
-                    this.startAutoLoad();
-                }
-                else
-                    logger.Trace("No Updated Needed");
+                this.startAutoLoad();
             }
             else
             {
-                forceRelayToUpdate();
-            }
+                logger.Trace("No Updated Needed");
+            }   
         }
 
         public bool CheckForBootCodeUpdate()
@@ -1307,28 +1243,6 @@ namespace RelayControlLibrary
             }
             else
                 return false;
-        }
-
-        private void forceRelayToUpdate()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (forceUpdateOnce == false)
-            {
-                forceUpdateOnce = true;
-                if (this.forceUpdateReason == "Generic")
-                {
-                    MessageBox.Show("The Relay Software is outdated and must be upgraded for the relay to function properly!", "Relay Must be Upgraded!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (this.forceUpdateReason == "Safe Service")
-                {
-                    MessageBox.Show("The Relay Software is outdated and must be upgraded for the Safe Service Mode Indicator attachment to function properly!", "Relay Must be Upgraded for Safe Service Mode Indicator!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (!this.gERelaySerialMatch && !this.serialNumberError)
-                    this.askIfGERelay();
-                this.setProgrammingFiles();
-                this.startAutoLoad();
-            }
-
         }
 
         private void askIfGERelay()
@@ -1379,6 +1293,30 @@ namespace RelayControlLibrary
         private void startAutoLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+           
+            bool bootNeedsUpdate = this.masterBootRevisionSet &&
+                                   (this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+
+            // Manual mode intentionally forces master-first.
+            // Auto mode decides order based on boot revision state.
+            if (ManualUpdate.usingManualMode)
+            {
+                this.loadMasterFirst = true;
+            }
+            else
+            {
+                this.loadMasterFirst = bootNeedsUpdate;
+            }
+
+            logger.Info(
+                "BOOT ORDER DECISION | bootSet={0}, bootRev={1}, bootRequired={2}, bootNeedsUpdate={3}, loadMasterFirst={4}",
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber,
+                bootNeedsUpdate,
+                this.loadMasterFirst);
+
             DialogResult dR;
 
             if (this.serialNumberError)
@@ -1388,7 +1326,7 @@ namespace RelayControlLibrary
 
             if (ManualUpdate.usingManualMode)
             {
-                dR = DialogResult.Yes;
+                dR = this.showManualLoadDialog();
             }
             else if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
@@ -1402,55 +1340,43 @@ namespace RelayControlLibrary
 
             if (dR == DialogResult.Yes)
             {
-                // If we aren't loading from resource, don't bother asking this question
-                if (forceRelayUpdate == false && programmingForm.MasterBootComplete == false && this.reprogramMaster == false)
+                if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                 {
-                    if (!this.dontReloadFromResource)
-                        dR = MessageBox.Show("Are You Sure?  This will take a while.", "Are You Sure?", MessageBoxButtons.YesNo);
-                }
-                else
-                {
-                    dR = DialogResult.Yes;
-                }
+                    logger.Info("CALLSITE startAutoLoad path: before ShowProgrammingStartWarning");
+                    DialogResult startWarningResult = ShowProgrammingStartWarning();
+                    logger.Info($"CALLSITE startAutoLoad path: after ShowProgrammingStartWarning result={startWarningResult}");
 
-                if (dR == DialogResult.Yes)
-                {
-                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
+                    if (startWarningResult != DialogResult.OK)
                     {
-                        logger.Info("CALLSITE startAutoLoad path: before ShowProgrammingStartWarning");
-                        DialogResult startWarningResult = ShowProgrammingStartWarning();
-                        logger.Info($"CALLSITE startAutoLoad path: after ShowProgrammingStartWarning result={startWarningResult}");
-
-                        if (startWarningResult != DialogResult.OK)
-                        {
-                            this.autoLoad = false;
-                            return;
-                        }
-                    }
-
-                    RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-                    rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
-                    this.onSend(rPEA);
-
-                    if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
-                    {
-                        logger.Info("Final programming warning accepted. Starting backup before programming.");
-                        this.autoLoad = true;
-                        this.AutoloadAcceptedPendingBackup = true;
-                        this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
+                        this.autoLoad = false;
                         return;
                     }
-
-                    logger.Trace("User Verified Programming Start");
-                    Thread.Sleep(500);
-                    this.autoLoad = true;
-
-                    if (!programmingForm.MasterBootComplete)
-                        this.programmingForm.ClearAllChecks();
-                    this.startProgramming();
-                    if (!this.programmingForm.Visible)
-                        this.programmingForm.Show();
                 }
+
+                RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+                rPEA.Command = RelayProgrammingSendCommands.SaveSettings;
+                this.onSend(rPEA);
+
+                if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
+                {
+                    logger.Info("Final programming warning accepted. Starting backup before programming.");
+                    this.autoLoad = true;
+                    this.AutoloadAcceptedPendingBackup = true;
+                    this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
+
+                logger.Trace("User Verified Programming Start");
+                Thread.Sleep(500);
+                this.autoLoad = true;
+
+                if (!programmingForm.MasterBootComplete)
+                    this.programmingForm.ClearAllChecks();
+
+                this.startProgramming();
+
+                if (!this.programmingForm.Visible)
+                    this.programmingForm.Show();
             }
             else
             {
@@ -1611,12 +1537,12 @@ namespace RelayControlLibrary
             masterBootRevisionSet = true;
 
             if (manualReload && !notPollingPort && !programBootCodeInProgress)
-                this.CheckForProperBootCodeManualUpdate();
+                this.CheckProperMasterBootCode();
 
             switch (state)
             {
                 case RelayProgrammingStates.ManualPortSelectionWaitingForBoot:
-                    this.startProgramming();
+                    this.startAutoLoad();
                     break;
                 case RelayProgrammingStates.WaitingForBootMaster:
                     this.programmingForm.CurrentTask = "Loading Master Code";
@@ -2637,16 +2563,6 @@ namespace RelayControlLibrary
             return wrongBootCodeLoaded;
         }
 
-        private void CheckForProperBootCodeManualUpdate()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.manualReload = true;
-            reloadBootWithPrompt = false;
-            CheckProperMasterBootCode();
-            if (this.notPollingPort && !this.programBootCodeInProgress)
-                Thread.Sleep(1000);
-        }
-
         private void checkBootCodeforProperDate()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -3343,14 +3259,29 @@ namespace RelayControlLibrary
         private void startProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (!resumeProgrammingAfterBackup &&
-                !this.dontReloadFromResource &&
-                programmingForm.MasterBootComplete == false)
+            // Final order decision before branching
+            bool bootNeedsUpdate = this.masterBootRevisionSet &&
+                                   (this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+
+            if (ManualUpdate.usingManualMode)
             {
-                logger.Info("CALLSITE startProgramming: before ShowProgrammingStartWarning");
-                DialogResult startWarningResult = ShowProgrammingStartWarning();
-                logger.Info($"CALLSITE startProgramming: after ShowProgrammingStartWarning result={startWarningResult}");
+                this.loadMasterFirst = true;
             }
+            else
+            {
+                this.loadMasterFirst = bootNeedsUpdate;
+            }
+
+            logger.Info(
+                "FINAL ORDER CHECK | autoLoad={0}, manualReload={1}, bootSet={2}, bootRev={3}, bootRequired={4}, bootNeedsUpdate={5}, loadMasterFirst={6}",
+                this.autoLoad,
+                this.manualReload,
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber,
+                bootNeedsUpdate,
+                this.loadMasterFirst);
+
 
             resumeProgrammingAfterBackup = false;
             this.reprogrammingInProgress = true;
@@ -3448,7 +3379,6 @@ namespace RelayControlLibrary
                     return;
                 }
                 // Auto-load always does with parameters.  For now
-
 
                 this.parseSFile(this.masterCode);
 
@@ -3750,7 +3680,7 @@ namespace RelayControlLibrary
             {
                 this.autoLoad = true;
                 this.setProgrammingFiles();
-                this.startProgramming();
+                this.startAutoLoad();
             }
 
             if (this.textBoxFPGAFile.Text.Trim().Length == 0 && this.textBoxRelayFileName.Text.Trim().Length == 0 &&
@@ -3801,101 +3731,11 @@ namespace RelayControlLibrary
             else
                 internalGESetter = false;
 
-            this.selectNewestMasterFirmware();
-            this.selectNewestRelayFirmware();
-            this.selectNewestFPGAFirmware();
+            //this.selectNewestMasterFirmware();
+           // this.selectNewestRelayFirmware();
+            //this.selectNewestFPGAFirmware();
 
             this.programmingForm.ClearAllChecks();
-        }
-
-        private void selectNewestRelayFirmware()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-#if DEBUG
-            if (Directory.Exists(@"C:\Freescale\RelayProcessor\output\"))
-            {
-
-                DirectoryInfo dI = new DirectoryInfo(@"C:\Freescale\RelayProcessor\output\");
-                FileInfo[] fI;
-
-
-                if (GERelay)
-                    fI = dI.GetFiles("*GE*.s");
-                else
-                    fI = dI.GetFiles("*WH*.s");
-
-                if (fI.Length == 0)
-                {
-                    this.errorHandler("No Relay S File", new Exception("No Relay S File"));
-                    return;
-                }
-
-                fI.OrderByDescending(f => f.Name);
-
-
-                this.relayCode.FileName = fI[fI.Length - 1].FullName;
-                this.useRelaySFile(fI[fI.Length - 1].FullName);
-                this.textBoxRelayFileName.Text = fI[fI.Length - 1].FullName;
-            }
-            else
-            {
-                this.errorHandler("No Standard Relay Freescale Directory to search", new Exception("No Standard Relay Freescale Directory to search"));
-            }
-#endif
-        }
-
-        private void selectNewestFPGAFirmware()
-        {
-#if DEBUG
-            if (Directory.Exists(@"C:\Freescale\RelayMasterProcessor\output\"))
-            {
-                DirectoryInfo dI = new DirectoryInfo(@"C:\Freescale\FPGA Files\");
-                FileInfo[] fI = dI.GetFiles("*.rbf");
-
-                if (fI.Length == 0)
-                {
-                    this.errorHandler("No FPGA File", new Exception("No FPGA file"));
-                    return;
-                }
-
-                fI.OrderByDescending(f => f.Name);
-
-                this.fPGACode.FileName = fI[fI.Length - 1].FullName;
-                this.parseFPGAFile(this.fPGACode);
-                this.textBoxFPGAFile.Text = fI[fI.Length - 1].FullName;
-            }
-            else
-            {
-                this.errorHandler("No Standard FPGA Freescale Directory to search", new Exception("No Standard FPGA Freescale Directory to search"));
-            }
-#endif
-        }
-
-        private void selectNewestMasterFirmware()
-        {
-#if DEBUG
-            if (Directory.Exists(@"C:\Freescale\RelayMasterProcessor\output\"))
-            {
-                DirectoryInfo dI = new DirectoryInfo(@"C:\Freescale\RelayMasterProcessor\output\");
-                FileInfo[] fI = dI.GetFiles("*.s");
-
-                if (fI.Length == 0)
-                {
-                    this.errorHandler("No Master S File", new Exception("No Master S File"));
-                    return;
-                }
-
-                fI.OrderByDescending(f => f.Name);
-
-                this.masterCode.FileName = fI[fI.Length - 1].FullName;
-                this.useMasterSFile(fI[fI.Length - 1].FullName);
-                this.textBoxMasterFileName.Text = fI[fI.Length - 1].FullName;
-            }
-            else
-            {
-                this.errorHandler("No Standard Freescale Directory to search", new Exception("No Standard Freescale Directory to search"));
-            }
-#endif
         }
 
         private void buttonFixBootLoader_Click(object sender, EventArgs e)
