@@ -91,7 +91,7 @@ namespace RelayControl
 
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
-        private const int BackupTimeoutMs = 30000; // 30s
+        private const int BackupTimeoutMs = 60000; // 30s
 
         public Customers Customer
         {
@@ -10931,20 +10931,16 @@ namespace RelayControl
 
             pendingAutoloadAfterBackup = true;
 
+            // Backup is complete, so this flag must not remain set or ResumeAutoloadAfterBackup()
+            // will incorrectly suppress the continuation.
+            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+
             logger.Info(
-                "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}",
+                "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, AutoloadAcceptedPendingBackup={3}",
                 this.ucRelayProgramming1.ReprogrammingInProgress,
                 pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming);
-
-
-
-            logger.Info(
-    "Before ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, AutoloadAcceptedPendingBackup={1}, reprogrammingInProgress={2}, state={3}",
-    pendingAutoloadAfterBackup,
-    this.ucRelayProgramming1.AutoloadAcceptedPendingBackup,
-    this.ucRelayProgramming1.ReprogrammingInProgress,
-    this.ucRelayProgramming1.State);
+                pendingRestoreAfterProgramming,
+                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup);
 
             this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
 
