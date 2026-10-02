@@ -731,10 +731,13 @@ namespace RelayControlLibrary
                     this.masterBootRevisionNumberReceived,
                     _bootCodeRevisionNumber);
 
-                this.autoLoad = true;                 // keep autoload context
-                this.reprogramBootCodeAuto = true;    // allow auto update path
-                this.askToUgradeShown = false;        // ensure normal "newer firmware" prompt can be shown
-                this.CheckForUpdate();                // uses normal prompt sequence
+                // IMPORTANT: do NOT mark autoload active before the user prompt.
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.autoLoad = false;
+                this.askToUgradeShown = false;
+
+                this.CheckForUpdate();
                 return true;
             }
 
