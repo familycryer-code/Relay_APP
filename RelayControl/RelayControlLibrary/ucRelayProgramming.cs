@@ -2404,19 +2404,22 @@ namespace RelayControlLibrary
             logger.Trace("Done Loading Master Boot");
             this.programmingForm.MasterBootComplete = true;
 
+            // Preserve branch intent before clearing flags.
+            bool bootOnlyFlow = this.programBootCodeOnly;
+
             // Clear bootloader/upgrade flags before continuing to next stage.
             this.wrongBootCodeLoaded = false;
             this.programBootCodeOnly = false;
             this.programBootCodeStart = false;          // direct field clear, not property
-            this.programBootCodeInProgress = false;    // direct field clear
+            this.programBootCodeInProgress = false;     // direct field clear
             this.loadMasterFirst = false;
             this.firmwareUpgradeAcceptedThisCycle = false;
-            this.autoLoad = false;                     // critical: allow next stage to start
-            this.reprogrammingInProgress = false;      // critical: allow next stage to start
+            this.autoLoad = false;                      // critical: allow next stage to start
+            this.reprogrammingInProgress = false;       // critical: allow next stage to start
             this.askToUgradeShown = true;
             this.reloadBootWithPrompt = false;
 
-            if (programBootCodeOnly)
+            if (bootOnlyFlow)
             {
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before programmingForm.Hide");
                 this.programmingForm.Hide();
@@ -2428,7 +2431,7 @@ namespace RelayControlLibrary
             Thread.Sleep(3000);
             logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after Thread.Sleep(3000)");
 
-            if (programBootCodeOnly)
+            if (bootOnlyFlow)
             {
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before allReprogramingDone");
                 allReprogramingDone();
@@ -2442,8 +2445,7 @@ namespace RelayControlLibrary
                 this.requestAll();
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after requestAll");
             }
-
-            if (!programBootCodeOnly)
+            else
             {
                 this.State = RelayProgrammingStates.Idle;
                 firstCheckForUpdate = true;
