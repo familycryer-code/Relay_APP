@@ -1053,12 +1053,7 @@ namespace RelayControlLibrary
                 logger.Info("Boot revision still unknown after backup; requesting boot read before continuing.");
                 this.loadMasterFirst = false;
                 this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-
-                // Trigger the boot-read sequence, but do not leave the UI locked.
                 this.sendReset();
-
-                // This is the key: allow the UI to recover while waiting for callback.
-                // The deferred state is not a permanent lock.
                 return;
             }
 

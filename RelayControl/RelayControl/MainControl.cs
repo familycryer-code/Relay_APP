@@ -1732,6 +1732,11 @@ namespace RelayControl
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
+                    if (this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot)
+                    {
+                        this.toolStripStatusLabelRelayDisconnected.Visible = false;
+                        return;
+                    }
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     break;
                 case RelayProgrammingSendCommands.SaveSettings:
@@ -10941,11 +10946,15 @@ namespace RelayControl
             }
             else
             {
-                // Deferred path (boot read/reset path): do not leave app greyed out.
                 logger.Info("Autoload continuation deferred; restoring normal UI/monitoring while waiting for boot read.");
 
-                // Keep pendingAutoloadAfterBackup true if you want continuation later.
-                // But re-enable UI and normal comms now.
+                pendingAutoloadAfterBackup = false;
+
+                // Unlatch transition suppression flags so normal comms can resume.
+                this.loadingNewCode = false;
+                this.quietMode = false;
+                this.pauseMonitoring = false;
+
                 this.UseWaitCursor = false;
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
