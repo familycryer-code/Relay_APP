@@ -946,26 +946,25 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.dontShowRelayUpgradeMessage = true;
 
-            DialogResult warningBootDR = new DialogResult();
-
             this.programmingForm.ClearAllChecks();
 
-            warningBootDR = ShowProgrammingStartWarning();
+            DialogResult warningBootDR = ShowProgrammingStartWarning();
 
-            if (warningBootDR == DialogResult.OK)
+            if (warningBootDR != DialogResult.OK)
             {
+                this.autoLoad = false;
                 this.dontShowRelayUpgradeMessage = false;
-
-                if (this.AutoloadAcceptedPendingBackup)
-                {
-                    logger.Info("Backup already accepted for this autoload flow; skipping duplicate backup trigger from UpgradeBootCode.");
-                }
-                else
-                {
-                    this.AutoloadAcceptedPendingBackup = true;
-                    this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
-                }
+                return;
             }
+
+            this.dontShowRelayUpgradeMessage = false;
+
+            // Startup backup already handled elsewhere. Do NOT trigger backup again here.
+            logger.Info("UpgradeBootCode: startup backup already completed; proceeding without additional backup trigger.");
+
+            // Continue directly into programming flow.
+            this.autoLoad = true;
+            this.startProgramming();
         }
 
         private DialogResult showAutoLoadUpdateMessage()
@@ -1440,17 +1439,8 @@ namespace RelayControlLibrary
 
                 if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                 {
-                    if (this.AutoloadAcceptedPendingBackup)
-                    {
-                        logger.Info("Backup already accepted for this autoload flow; skipping duplicate backup trigger.");
-                    }
-                    else
-                    {
-                        logger.Info("Final programming warning accepted. Starting backup before programming.");
-                        this.AutoloadAcceptedPendingBackup = true;
-                        this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
-                        return;
-                    }
+                    logger.Info("Startup backup policy active: skipping backup trigger in startAutoLoad.");
+                    this.AutoloadAcceptedPendingBackup = false;
                 }
 
                 logger.Trace("User Verified Programming Start");
