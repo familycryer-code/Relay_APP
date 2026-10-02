@@ -10937,7 +10937,23 @@ namespace RelayControl
                 pendingAutoloadAfterBackup,
                 pendingRestoreAfterProgramming);
 
+
+
+            logger.Info(
+    "Before ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, AutoloadAcceptedPendingBackup={1}, reprogrammingInProgress={2}, state={3}",
+    pendingAutoloadAfterBackup,
+    this.ucRelayProgramming1.AutoloadAcceptedPendingBackup,
+    this.ucRelayProgramming1.ReprogrammingInProgress,
+    this.ucRelayProgramming1.State);
+
             this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
+
+            logger.Info(
+                "After ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, AutoloadAcceptedPendingBackup={1}, reprogrammingInProgress={2}, state={3}",
+                pendingAutoloadAfterBackup,
+                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup,
+                this.ucRelayProgramming1.ReprogrammingInProgress,
+                this.ucRelayProgramming1.State);
 
             if (this.ucRelayProgramming1.ReprogrammingInProgress)
             {

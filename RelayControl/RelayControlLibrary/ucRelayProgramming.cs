@@ -711,9 +711,32 @@ namespace RelayControlLibrary
 
         private bool ContinueAutoloadAfterBootCheck()
         {
-            logger.Trace("ContinueAutoloadAfterBootCheck");
+            logger.Info(
+                "ContinueAutoloadAfterBootCheck ENTER: masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}, bootOld={2}",
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived,
+                this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+
+            bool bootOld = this.masterBootRevisionSet &&
+                           this.masterBootRevisionNumberReceived > 0 &&
+                           this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
             bool needsUpdate = CompareMasterRevisionToGUI();
+
+            // If relay boot is stale after deferred backup, re-enter NORMAL autoload prompt flow.
+            if (bootOld)
+            {
+                logger.Info(
+                    "Boot revision is stale after deferred backup continuation; entering normal autoload prompt flow. Current={0}, Required={1}",
+                    this.masterBootRevisionNumberReceived,
+                    _bootCodeRevisionNumber);
+
+                this.autoLoad = true;                 // keep autoload context
+                this.reprogramBootCodeAuto = true;    // allow auto update path
+                this.askToUgradeShown = false;        // ensure normal "newer firmware" prompt can be shown
+                this.CheckForUpdate();                // uses normal prompt sequence
+                return true;
+            }
 
             if (this.upgradeAutoDR != DialogResult.Yes)
             {
@@ -1034,6 +1057,13 @@ namespace RelayControlLibrary
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
+
+            logger.Info(
+    "ResumeAutoloadAfterBackup flags: AutoloadAcceptedPendingBackup={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}, state={3}",
+    this.AutoloadAcceptedPendingBackup,
+    this.masterBootRevisionSet,
+    this.masterBootRevisionNumberReceived,
+    this.state);
 
             if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
@@ -1668,7 +1698,11 @@ namespace RelayControlLibrary
                     break;
 
                 case RelayProgrammingStates.AutoLoadCheckBoot:
-                    logger.Trace("AutoLoadCheckBoot");
+                    logger.Info("AutoLoadCheckBoot: entering continuation evaluation. AutoloadAcceptedPendingBackup={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
+                        this.AutoloadAcceptedPendingBackup,
+                        this.masterBootRevisionSet,
+                        this.masterBootRevisionNumberReceived);
+
                     this.state = RelayProgrammingStates.Idle;
 
                     if (this.AutoloadAcceptedPendingBackup)
@@ -1677,6 +1711,7 @@ namespace RelayControlLibrary
                         break;
                     }
 
+                    logger.Info("Calling ContinueAutoloadAfterBootCheck()");
                     ContinueAutoloadAfterBootCheck();
                     break;
 
