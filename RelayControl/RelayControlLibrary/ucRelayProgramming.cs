@@ -501,67 +501,6 @@ namespace RelayControlLibrary
             }
         }
 
-        private string GetRequiredResource(string key)
-        {
-            string value = RelayControlLibrary.Properties.Resources.ResourceManager.GetString(key);
-            if (string.IsNullOrEmpty(value))
-                throw new MissingManifestResourceException(
-                    $"Missing resource key '{key}' in Resources.resx.");
-            return value;
-        }
-        private string GetFirstExistingResource(params string[] keys)
-        {
-            foreach (var key in keys)
-            {
-                var v = RelayControlLibrary.Properties.Resources.ResourceManager.GetString(key);
-                if (!string.IsNullOrEmpty(v)) return v;
-            }
-            throw new MissingManifestResourceException("Missing all resource keys: " + string.Join(", ", keys));
-        }
-
-        private string GetRelayProcessorResource(string customer, bool isGE)
-        {
-            customer = (customer ?? "").Trim().ToUpperInvariant();
-
-            if (customer == "CONED")
-            {
-                return isGE
-                    ? GetFirstExistingResource(
-                        "RelayProcessor_GE_conEdison",
-                        "RelayProcessorGE_conEdison",
-                        "RelayProcessor_GE_ConEdison")
-                    : GetFirstExistingResource(
-                        "RelayProcessor_conEdison",
-                        "RelayProcessorConEdison");
-            }
-
-            return isGE
-                ? GetFirstExistingResource(
-                    "RelayProcessorGE",
-                    "RelayProcessor_GE_20260126",
-                    "RelayProcessor_GE")
-                : GetFirstExistingResource(
-                    "RelayProcessor",
-                    "RelayProcessor_20260126");
-        }
-
-        private string GetMasterProcessorResource(string customer, bool isGE)
-        {
-            customer = (customer ?? "").Trim().ToUpperInvariant();
-
-            // Preferred stable keys first, then known legacy keys
-            if (isGE)
-            {
-                return GetFirstExistingResource(
-                    $"MasterProcessor_{customer}_SEC_GE",
-                    $"MasterProcessor__{customer}_SEC_GE_260214");
-            }
-
-            return GetFirstExistingResource(
-                $"MasterProcessor_{customer}_SEC",
-                $"MasterProcessor__{customer}_SEC_260214");
-        }
-
         /// <summary>
         /// Creates the list of 
         /// </summary>
@@ -689,26 +628,6 @@ namespace RelayControlLibrary
             this.initializeCustomerFileSets(); // update programming files for ConEd based on what is currently stored in the relay
         }
 
-        private void copyCustomerLoadFiles(CustomerLoadFiles destination, CustomerLoadFiles source)
-        {
-            if (destination == null || source == null) return;
-
-            destination.FPGAFile = source.FPGAFile;
-
-            destination.MasterFileWH = source.MasterFileWH;
-            destination.MasterFileGE = source.MasterFileGE;
-
-            destination.MasterFileWHDNP = source.MasterFileWHDNP;
-            destination.MasterFileGEDNP = source.MasterFileGEDNP;
-            destination.MasterFileDNPPLC = source.MasterFileDNPPLC;
-
-            destination.MasterFileConEdHBD = source.MasterFileConEdHBD;
-            destination.MasterFileConEdSEC = source.MasterFileConEdSEC;
-
-            destination.RelayFileWH = source.RelayFileWH;
-            destination.RelayFileGE = source.RelayFileGE;
-        }
-
         private bool ContinueAutoloadAfterBootCheck()
         {
             logger.Info(
@@ -727,16 +646,26 @@ namespace RelayControlLibrary
             if (bootOld)
             {
                 logger.Info(
-                    "Boot revision is stale after deferred backup continuation; entering normal autoload prompt flow. Current={0}, Required={1}",
+                    "Boot revision is stale after deferred backup continuation; re-entering full autoload dialog flow. Current={0}, Required={1}",
                     this.masterBootRevisionNumberReceived,
                     _bootCodeRevisionNumber);
 
-                // IMPORTANT: do NOT mark autoload active before the user prompt.
+                // Clear active flags; do NOT mark autoload active yet.
                 this.reprogrammingInProgress = false;
                 this.programBootCodeInProgress = false;
                 this.autoLoad = false;
                 this.askToUgradeShown = false;
 
+                // Re-arm update check once for this continuation.
+                this.firstCheckForUpdate = true;
+
+                // Ensure normal update flags are present so CheckForUpdate() does not no-op.
+                this.reprogramMaster = true;
+                this.reprogramRelay = true;
+                this.reprogramFPGA = this.transmitterEnabled;
+
+                // IMPORTANT: use normal path; this will eventually call startAutoLoad(),
+                // which shows update prompt(s) in correct order.
                 this.CheckForUpdate();
                 return true;
             }
@@ -993,8 +922,16 @@ namespace RelayControlLibrary
             if (warningBootDR == DialogResult.OK)
             {
                 this.dontShowRelayUpgradeMessage = false;
-                this.AutoloadAcceptedPendingBackup = true;
-                this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
+
+                if (this.AutoloadAcceptedPendingBackup)
+                {
+                    logger.Info("Backup already accepted for this autoload flow; skipping duplicate backup trigger from UpgradeBootCode.");
+                }
+                else
+                {
+                    this.AutoloadAcceptedPendingBackup = true;
+                    this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -1159,44 +1096,6 @@ namespace RelayControlLibrary
 #endif
         }
 
-        private DialogResult askIfDNPRelay()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            return new CustomYesNoDialog("Select Communication Type", "Does this have DNP?", "Yes", "No").ShowDialog();
-        }
-
-        private void setDNPRelay(DialogResult dR)
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (dR == DialogResult.Yes)
-            {
-                this.DNPRelay = true;
-                this.TransmitterEnabled = false;
-            }
-        }
-
-        private void determineIfTransmitterRelay()
-        {
-            DialogResult dR;
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            switch (this.customer)
-            {
-                default:
-                    dR = new CustomYesNoDialog("Select Communication Type", "Does this use PLC?", "Yes", "No").ShowDialog();
-
-                    if (dR == DialogResult.Yes)
-                    {
-                        this.reprogramFPGA = true;
-                        this.TransmitterEnabled = true;
-                    }
-                    else
-                    {
-                        this.reprogramFPGA = false;
-                        this.TransmitterEnabled = false;
-                    }
-                    break;
-            }
-        }
 
         private void setProgrammingFiles()
         {
@@ -1466,10 +1365,17 @@ namespace RelayControlLibrary
 
                 if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                 {
-                    logger.Info("Final programming warning accepted. Starting backup before programming.");
-                    this.AutoloadAcceptedPendingBackup = true;
-                    this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
-                    return;
+                    if (this.AutoloadAcceptedPendingBackup)
+                    {
+                        logger.Info("Backup already accepted for this autoload flow; skipping duplicate backup trigger.");
+                    }
+                    else
+                    {
+                        logger.Info("Final programming warning accepted. Starting backup before programming.");
+                        this.AutoloadAcceptedPendingBackup = true;
+                        this.BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
+                        return;
+                    }
                 }
 
                 logger.Trace("User Verified Programming Start");
@@ -1734,31 +1640,6 @@ namespace RelayControlLibrary
                 default:
                     break;
             }
-        }
-
-
-        bool IsDigitsOnly(string str)
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            foreach (char c in str)
-            {
-                if (c < '0' || c > '9')
-                    return false;
-            }
-
-            return true;
-        }
-
-        private void masterFinished()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            logger.Trace("Master Finished Loading");
-            if (autoLoad)
-            {
-                this.State = RelayProgrammingStates.WaitingForBootRelay;
-            }
-            else
-                this.enableButtons(true);
         }
 
 
@@ -3154,22 +3035,6 @@ namespace RelayControlLibrary
             int temp = this.relayCode.CodeBytes.Count / 34;
 
             this.labelCodeTotal.Text = temp.ToString();
-        }
-
-        private void sendBootLoaderClearMemory()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
-            rPEA.Command = RelayProgrammingSendCommands.RawData;
-
-            rPEA.BytesToSend = new byte[3];
-
-            rPEA.BytesToSend[0] = 0x80;
-            rPEA.BytesToSend[1] = 0x55;
-            rPEA.BytesToSend[2] = 0x0D;
-
-            this.onSend(rPEA);
         }
 
         private void startMasterProgramming()
