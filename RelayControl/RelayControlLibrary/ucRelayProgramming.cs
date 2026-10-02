@@ -859,7 +859,7 @@ namespace RelayControlLibrary
             }
 
             logger.Info("Boot revision is current enough; continue normal programming flow.");
-            this.loadMasterFirst = true;
+            this.loadMasterFirst = false;
             return true;
         }
 
@@ -1030,47 +1030,6 @@ namespace RelayControlLibrary
         {
             this.startManualReloadWithBootCheck();
         }
-        private void PrepareAutoload()
-        {
-            logger.Info("Method: PrepareAutoload");
-
-            // Do not continue while backup is still pending.
-            if (this.AutoloadAcceptedPendingBackup)
-            {
-                logger.Info("PrepareAutoload suppressed because backup is still pending.");
-                return;
-            }
-
-            if (!this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0)
-            {
-                logger.Info("PrepareAutoload: boot revision not yet known; requesting boot response.");
-                this.loadMasterFirst = false;
-                this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-                this.sendReset();
-                return;
-            }
-
-            bool bootOld = this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
-
-            if (bootOld)
-            {
-                logger.Info(
-                    "PrepareAutoload: boot revision behind target; boot must be upgraded before normal programming. Current={0}, Required={1}",
-                    this.masterBootRevisionNumberReceived,
-                    _bootCodeRevisionNumber);
-
-                // Old boot must not force master-first.
-                this.loadMasterFirst = false;
-                this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-                this.sendReset();
-                return;
-            }
-
-            // Boot is current enough for normal programming flow.
-            this.loadMasterFirst = true;
-            this.state = RelayProgrammingStates.LoadingMasterCode;
-            this.setProgrammingFiles();
-        }
 
         public void ResumeAutoloadAfterBackup()
         {
@@ -1094,7 +1053,12 @@ namespace RelayControlLibrary
                 logger.Info("Boot revision still unknown after backup; requesting boot read before continuing.");
                 this.loadMasterFirst = false;
                 this.state = RelayProgrammingStates.AutoLoadCheckBoot;
+
+                // Trigger the boot-read sequence, but do not leave the UI locked.
                 this.sendReset();
+
+                // This is the key: allow the UI to recover while waiting for callback.
+                // The deferred state is not a permanent lock.
                 return;
             }
 
@@ -1107,14 +1071,13 @@ namespace RelayControlLibrary
                     this.masterBootRevisionNumberReceived,
                     _bootCodeRevisionNumber);
 
-                // Old boot must not trigger master-first.
                 this.loadMasterFirst = false;
                 this.state = RelayProgrammingStates.AutoLoadCheckBoot;
                 this.sendReset();
                 return;
             }
 
-            this.loadMasterFirst = true;
+            this.loadMasterFirst = false;
             this.resumeProgrammingAfterBackup = true;
 
             if (!this.dontReloadFromResource)

@@ -894,6 +894,12 @@ namespace RelayControl
             {
                 this.messageHandler(ex.Message, ex.InnerException);
             }
+
+            // startup backup only once, after relay-ready startup path
+            if (!this.noMonitoringVersion)
+            {
+                StartStartupBackupOnce();
+            }
         }
 
         private void UcRelayProgramming1_RelayTypeChanged(object sender, RelayTypeChangedEventArgs e)
@@ -3898,6 +3904,7 @@ namespace RelayControl
                 $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
                 $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
                 $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
+                $"backupInProgress={this.backupInProgress}, " +
                 $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
                 $"loadingNewCode={this.loadingNewCode}");
 
@@ -3981,6 +3988,13 @@ namespace RelayControl
                     return;
                 }
 
+                // CRITICAL: never run autoload decision while backup is still in progress
+                if (backupInProgress)
+                {
+                    logger.Info("parametersFinishedLoading: backup still in progress; deferring autoload/normal comms decision.");
+                    return;
+                }
+
                 if (this.ucRelayProgramming1.ReprogrammingInProgress &&
                     !pendingRestoreAfterProgramming &&
                     !pendingAutoloadAfterBackup)
@@ -4018,6 +4032,7 @@ namespace RelayControl
                     return;
                 }
 
+                // consume continuation token
                 pendingAutoloadAfterBackup = false;
 
                 logger.Info("CALLER: parametersFinishedLoading -> InitializeAutoload()");
@@ -4031,19 +4046,6 @@ namespace RelayControl
                     this.monitoring(true);
                     this.RegisterPolling(true);
                     this.requestRelayRegisters();
-                    return;
-                }
-
-                if (this.ucRelayProgramming1.AutoloadAcceptedPendingBackup)
-                {
-                    logger.Info("User accepted autoload. Starting fresh relay backup before continuing migration.");
-                    pendingAutoloadAfterBackup = true;
-
-                    this.enableAll(false);
-                    Application.UseWaitCursor = true;
-                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
-
-                    BackUpRelayDatatoFile();
                     return;
                 }
 
@@ -5300,11 +5302,6 @@ namespace RelayControl
                     {
                         logger.Info("Skipping pending autoload after prior user decline.");
                     }
-                    else
-                    {
-                        pendingAutoloadAfterBackup = true;
-                        logger.Info("Autoload required. Pending backup before migration.");
-                    }
                 }
 
                 if (this.dNPDIGITALGRIDData != null)
@@ -5555,6 +5552,23 @@ namespace RelayControl
 
             }
 
+        }
+        private void StartStartupBackupOnce()
+        {
+            if (backupInProgress)
+            {
+                logger.Info("Startup backup already in progress; skipping duplicate startup backup.");
+                return;
+            }
+
+            if (pendingAutoloadAfterBackup)
+            {
+                logger.Info("Startup backup continuation already pending; skipping duplicate startup backup.");
+                return;
+            }
+
+            logger.Info("Starting one-time startup backup before autoload logic.");
+            BackUpRelayDatatoFile();   // do not set pendingAutoloadAfterBackup here
         }
 
         private void setTextBox(string s, TextBox tB)
@@ -6192,7 +6206,6 @@ namespace RelayControl
         private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
         {
             logger.Info("Final programming warning accepted. Starting backup before programming.");
-            pendingAutoloadAfterBackup = true;
             this.BackUpRelayDatatoFile();
         }
 
@@ -9798,13 +9811,17 @@ namespace RelayControl
         {
             // Pull data from relay master uP if its firmware is less than rev 10.
             // Since rev 10 onwards there are storage changes for memory-corruption protection.
-            bool relayHasDnp =
-                IsDnpCommSupported();
+            bool relayHasDnp = IsDnpCommSupported();
 
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
             try
             {
+                // IMPORTANT:
+                // Starting backup should NOT arm autoload continuation yet.
+                // Autoload continuation is only armed after successful backup completion.
+                pendingAutoloadAfterBackup = false;
+
                 dataBackupD.dataBackup_withDNP = relayHasDnp;
                 StartBackupTracking(relayHasDnp);
 
@@ -9839,6 +9856,8 @@ namespace RelayControl
                     // this.requestDNPSettings();      // 'U'
                     // this.RequestDNPSav5Settings();  // 'D'+'s'
                 }
+
+                logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
             }
             catch (Exception ex)
             {
@@ -9850,6 +9869,10 @@ namespace RelayControl
                 dataBackup_fromRelay = false;
                 dataBackupR.dataBackup_fromRelay = false;
 
+                // Do not continue autoload on startup backup failure
+                pendingAutoloadAfterBackup = false;
+
+                logger.Error(ex, "Pull data backup failed while dispatching backup requests.");
                 throw new Exception("Pull data backup failed", ex);
             }
         }
@@ -10895,22 +10918,42 @@ namespace RelayControl
 
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
+                pendingAutoloadAfterBackup = false;
                 MessageBox.Show(timeoutMessageOrNull);
+                logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
+                return;
             }
 
+            pendingAutoloadAfterBackup = true;
+
             logger.Info(
-                "Backup completed silently. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}",
+                "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}",
                 this.ucRelayProgramming1.ReprogrammingInProgress,
                 pendingAutoloadAfterBackup,
                 pendingRestoreAfterProgramming);
 
-            if (pendingAutoloadAfterBackup)
+            this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
+
+            if (this.ucRelayProgramming1.ReprogrammingInProgress)
             {
                 pendingAutoloadAfterBackup = false;
+                logger.Info("Autoload continuation consumed; programming started.");
+            }
+            else
+            {
+                // Deferred path (boot read/reset path): do not leave app greyed out.
+                logger.Info("Autoload continuation deferred; restoring normal UI/monitoring while waiting for boot read.");
 
-                logger.Info("Backup completed after final warning acknowledgment; resuming programming.");
-                this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
-                return;
+                // Keep pendingAutoloadAfterBackup true if you want continuation later.
+                // But re-enable UI and normal comms now.
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+
+                this.monitoring(true);
+                this.RegisterPolling(true);
+                this.requestRelayRegisters();
             }
         }
     }
