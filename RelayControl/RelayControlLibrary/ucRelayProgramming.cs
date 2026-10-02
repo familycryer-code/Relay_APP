@@ -643,7 +643,7 @@ namespace RelayControlLibrary
 
             bool needsUpdate = CompareMasterRevisionToGUI();
 
-            // If relay boot is stale after deferred backup, re-enter NORMAL autoload prompt flow.
+            // If relay boot is stale after deferred backup, re-enter the normal approval flow.
             if (bootOld)
             {
                 logger.Info(
@@ -652,16 +652,23 @@ namespace RelayControlLibrary
                     _bootCodeRevisionNumber,
                     this.firmwareUpgradeAcceptedThisCycle);
 
-                // Do not continue auto-upgrade unless user approval is already established.
                 if (!this.firmwareUpgradeAcceptedThisCycle && this.upgradeAutoDR != DialogResult.Yes)
                 {
-                    logger.Info("ContinueAutoloadAfterBootCheck: boot stale but no user approval; suppressing automatic continuation.");
-                    this.reprogrammingInProgress = false;
-                    this.programBootCodeInProgress = false;
-                    this.autoLoad = false;
-                    this.askToUgradeShown = false;
-                    this.State = RelayProgrammingStates.Idle;
-                    return false;
+                    logger.Info("ContinueAutoloadAfterBootCheck: stale boot but no approval; prompting user.");
+                    this.showAutoLoadDialog();
+
+                    if (this.upgradeAutoDR != DialogResult.Yes)
+                    {
+                        logger.Info("ContinueAutoloadAfterBootCheck: user declined stale boot update.");
+                        this.reprogrammingInProgress = false;
+                        this.programBootCodeInProgress = false;
+                        this.autoLoad = false;
+                        this.askToUgradeShown = false;
+                        this.State = RelayProgrammingStates.Idle;
+                        return false;
+                    }
+
+                    this.firmwareUpgradeAcceptedThisCycle = true;
                 }
 
                 if (this.firmwareUpgradeAcceptedThisCycle)
@@ -1066,9 +1073,18 @@ namespace RelayControlLibrary
             {
                 if (!userApprovedPath)
                 {
-                    logger.Info("ResumeAutoloadAfterBackup: boot unknown but update not approved; suppressing reset.");
-                    this.state = RelayProgrammingStates.Idle;
-                    return;
+                    logger.Info("Boot unknown after backup; showing autoload approval prompt.");
+                    this.showAutoLoadDialog();
+
+                    if (this.upgradeAutoDR != DialogResult.Yes)
+                    {
+                        logger.Info("User declined autoload after backup.");
+                        this.state = RelayProgrammingStates.Idle;
+                        return;
+                    }
+
+                    this.firmwareUpgradeAcceptedThisCycle = true;
+                    userApprovedPath = true;
                 }
 
                 logger.Info("Boot revision unknown after backup; approved path -> requesting boot read.");
@@ -1084,9 +1100,18 @@ namespace RelayControlLibrary
             {
                 if (!userApprovedPath)
                 {
-                    logger.Info("ResumeAutoloadAfterBackup: boot stale but update not approved; suppressing reset.");
-                    this.state = RelayProgrammingStates.Idle;
-                    return;
+                    logger.Info("Boot stale after backup; showing autoload approval prompt.");
+                    this.showAutoLoadDialog();
+
+                    if (this.upgradeAutoDR != DialogResult.Yes)
+                    {
+                        logger.Info("User declined stale-boot autoload.");
+                        this.state = RelayProgrammingStates.Idle;
+                        return;
+                    }
+
+                    this.firmwareUpgradeAcceptedThisCycle = true;
+                    userApprovedPath = true;
                 }
 
                 logger.Info(
@@ -1131,8 +1156,17 @@ namespace RelayControlLibrary
 
             if (!IsBootUpdateApproved())
             {
-                logger.Info("Manual boot check skipped: no explicit approval yet.");
-                return;
+                logger.Info("Manual path: requesting explicit approval before boot check.");
+                this.upgradeAutoDR = this.showManualLoadDialog();
+
+                if (this.upgradeAutoDR != DialogResult.Yes)
+                {
+                    this.firmwareUpgradeAcceptedThisCycle = false;
+                    logger.Info("Manual path: user declined update.");
+                    return;
+                }
+
+                this.firmwareUpgradeAcceptedThisCycle = true;
             }
 
             this.CheckProperMasterBootCode();
@@ -1151,9 +1185,6 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", nameof(setProgrammingFiles));
             if (this.dontReloadFromResource)
                 return;
-
-            // Keep for now during stabilization
-            checkDNP();
 
             CustomerLoadFiles cLF = null;
             string customerDisplayName = null;
@@ -1383,6 +1414,16 @@ namespace RelayControlLibrary
         private void startAutoLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            // If the bootloader just finished and we are re-entering from a completed stage,
+            // do not block the next phase just because a stale flag remained set.
+            if (this.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
+                this.State == RelayProgrammingStates.Idle)
+            {
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.autoLoad = false;
+            }
 
             // Prevent re-entry into the autoload decision flow after the current cycle has already been accepted.
             if (this.firmwareUpgradeAcceptedThisCycle &&
@@ -2363,13 +2404,17 @@ namespace RelayControlLibrary
             logger.Trace("Done Loading Master Boot");
             this.programmingForm.MasterBootComplete = true;
 
-            // Clear stale boot flags after a successful boot-loader update.
+            // Clear bootloader/upgrade flags before continuing to next stage.
             this.wrongBootCodeLoaded = false;
             this.programBootCodeOnly = false;
-            this.ProgramBootCodeStart = false;
-            this.programBootCodeInProgress = false;
+            this.programBootCodeStart = false;          // direct field clear, not property
+            this.programBootCodeInProgress = false;    // direct field clear
             this.loadMasterFirst = false;
             this.firmwareUpgradeAcceptedThisCycle = false;
+            this.autoLoad = false;                     // critical: allow next stage to start
+            this.reprogrammingInProgress = false;      // critical: allow next stage to start
+            this.askToUgradeShown = true;
+            this.reloadBootWithPrompt = false;
 
             if (programBootCodeOnly)
             {
@@ -2382,9 +2427,6 @@ namespace RelayControlLibrary
             logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before Thread.Sleep(3000)");
             Thread.Sleep(3000);
             logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after Thread.Sleep(3000)");
-
-            programBootCodeInProgress = false;
-            programmingForm.MasterBootComplete = true;
 
             if (programBootCodeOnly)
             {
@@ -2403,8 +2445,10 @@ namespace RelayControlLibrary
 
             if (!programBootCodeOnly)
             {
+                this.State = RelayProgrammingStates.Idle;
                 firstCheckForUpdate = true;
                 reprogramRelay = true;
+
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before CheckForUpdate");
                 CheckForUpdate();
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after CheckForUpdate");
