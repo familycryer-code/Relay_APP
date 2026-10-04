@@ -683,6 +683,15 @@ namespace RelayControlLibrary
                     this.askToUgradeShown = true;
                     this.upgradeAutoDR = DialogResult.Yes;
 
+                    // Stale boot must go through boot repair decision before normal programming.
+                    this.CheckProperMasterBootCode();
+
+                    if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
+                    {
+                        this.ProgramBootCodeStart = true;
+                        return true;
+                    }
+
                     this.startProgramming();
                     return true;
                 }
@@ -860,25 +869,30 @@ namespace RelayControlLibrary
         private DialogResult showManualLoadDialog()
         {
             DialogResult dR;
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
+            logger.Info("POPUP SHOW: GE_WH_SELECT");
             dR = new CustomYesNoDialog(
                 "GE or WH Select",
                 "Is this a GE or WH style relay?",
                 "GE",
                 "WH"
             ).ShowDialog();
+            logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", dR);
 
             if (dR == DialogResult.Yes)
                 this.internalGESetter = true;
             else
                 this.internalGESetter = false;
 
-            // This preserves the "10 minute" warning in manual mode
-            return MessageBox.Show(
+            logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+            DialogResult confirmResult = MessageBox.Show(
                 "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
                 "Confirm Update Request",
-                MessageBoxButtons.YesNo
-            );
+                MessageBoxButtons.YesNo);
+            logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
+
+            return confirmResult;
         }
 
         private void showAutoLoadDialog()
@@ -900,14 +914,24 @@ namespace RelayControlLibrary
                 }
             }
 
+            logger.Info("POPUP SHOW: GE_WH_SELECT");
             dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
+            logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", dR);
+
             if (dR == DialogResult.Yes)
                 internalGESetter = true;
             else
                 internalGESetter = false;
 
             if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
-                this.upgradeAutoDR = MessageBox.Show("Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.", "Confirm Update Request", MessageBoxButtons.YesNo);
+            {
+                logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+                this.upgradeAutoDR = MessageBox.Show(
+                    "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
+                    "Confirm Update Request",
+                    MessageBoxButtons.YesNo);
+                logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", this.upgradeAutoDR);
+            }
 
             this.askToUgradeShown = true;
             if (this.upgradeAutoDR == DialogResult.Yes)
@@ -937,6 +961,7 @@ namespace RelayControlLibrary
         private DialogResult ShowProgrammingStartWarning()
         {
             logger.Info("ShowProgrammingStartWarning ENTER");
+            logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
 
             const string message =
                 "Relay update is starting.\r\n\r\n" +
@@ -951,6 +976,7 @@ namespace RelayControlLibrary
                 MessageBoxIcon.Warning,
                 MessageBoxDefaultButton.Button1);
 
+            logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
             logger.Info($"ShowProgrammingStartWarning EXIT result={result}");
 
             return result;
@@ -985,9 +1011,14 @@ namespace RelayControlLibrary
         private DialogResult showAutoLoadUpdateMessage()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            DialogResult dR;
+            logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
 
-            dR = MessageBox.Show("Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update", "Relay Code Updater", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            DialogResult dR = MessageBox.Show(
+                "Newer Firmware is available to update the Relay. It is necessary that the update be completed.\r\nClick Yes to begin update",
+                "Relay Code Updater",
+                MessageBoxButtons.YesNo);
+
+            logger.Info("POPUP RESULT: AUTOLOAD_NEWER_FW result={0}", dR);
             return dR;
         }
 
@@ -1142,7 +1173,9 @@ namespace RelayControlLibrary
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-            this.loadMasterFirst = bootUnknown || bootOld;
+            // Keep boot repair separate. After boot is approved, use one simple order:
+            // master -> relay -> FPGA
+            this.loadMasterFirst = false;
 
             this.masterCode.WithParameters = false;
 
@@ -1152,6 +1185,7 @@ namespace RelayControlLibrary
             this.autoLoad = false;
             this.reprogramMaster = true;
             this.reprogramRelay = true;
+            this.reprogramFPGA = this.transmitterEnabled;
             this.askToUgradeShown = false;
 
             if (!IsBootUpdateApproved())
@@ -1369,8 +1403,6 @@ namespace RelayControlLibrary
         private void askIfGERelay()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (this.loadMasterFirst)
-                return;
 
             DialogResult dR = dR = new CustomYesNoDialog("Serial Number and Relay Type Mismatch", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
 
@@ -1443,10 +1475,12 @@ namespace RelayControlLibrary
                                this.masterBootRevisionNumberReceived <= 0;
 
             bool bootNeedsUpdate = bootUnknown ||
-                                   (this.masterBootRevisionSet &&
-                                    this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+                       (this.masterBootRevisionSet &&
+                        this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
 
-            this.loadMasterFirst = bootNeedsUpdate;
+            // Explicit sequencing is handled in startProgramming().
+            // Do not let boot detection reintroduce master-first ordering.
+            this.loadMasterFirst = false;
 
             logger.Info(
                 "BOOT ORDER DECISION | bootSet={0}, bootRev={1}, bootRequired={2}, bootUnknown={3}, bootNeedsUpdate={4}, loadMasterFirst={5}, manualMode={6}",
@@ -2150,6 +2184,7 @@ namespace RelayControlLibrary
             if (!this.programMasterBootFileSelect)
                 this.programmingForm.Hide();
 
+            this.reprogramFPGA = false;   // consume final stage
             this.programmingForm.FPGAComplete = true;
             this.timerTimeout.Stop();
             logger.Trace("");
@@ -2160,7 +2195,6 @@ namespace RelayControlLibrary
                 this.allReprogramingDone();
             else if (this.autoLoad && this.programMasterBootFileSelect)
                 startManualBootCodeLoad();
-
         }
 
         private void doneLoadingRelay()
@@ -2168,78 +2202,47 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.timerTimeout.Stop();
 
-            if (!this.loadMasterFirst)
+            if (this.autoLoad)
             {
-                if (this.autoLoad)
+                this.programmingForm.RelayDataComplete = true;
+
+                if (this.reprogramMaster)
                 {
-                    this.programmingForm.RelayDataComplete = true;
-                    if (this.reprogramMaster)
-                    {
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to master code load");
-                        this.parseSFile(this.masterCode);
-                        this.State = RelayProgrammingStates.WaitingForBootMaster;
-                        this.programmingForm.Maximum = this.masterCode.NumberOfCodeBlocks * 2;
-                        this.programmingForm.CurrentTask = "Loading Master Code";
-                        logger.Trace("Loading Master Code");
-                        this.timerTimeout.Start();
-                    }
-                    else if (this.reprogramFPGA)
-                    {
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to FPGA load");
-                        this.programmingForm.MasterDataComplete = true;
-                        this.programmingForm.MasterCodeComplete = true;
-                        this.parseFPGAFile(this.fPGACode);
-                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                        this.programmingForm.Maximum = 96;
-                        this.programmingForm.CurrentTask = "Loading FPGA";
-                        logger.Trace("Loading FPGA");
-                        this.timerTimeout.Start();
-                    }
-                    else
-                    {
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: before allReprogramingDone");
-                        this.allReprogramingDone();
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: after allReprogramingDone");
-                    }
+                    this.reprogramMaster = false;   // consume current stage
+                    logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to master code load");
+                    this.parseSFile(this.masterCode);
+                    this.State = RelayProgrammingStates.WaitingForBootMaster;
+                    this.programmingForm.Maximum = this.masterCode.NumberOfCodeBlocks * 2;
+                    this.programmingForm.CurrentTask = "Loading Master Code";
+                    logger.Trace("Loading Master Code");
+                    this.timerTimeout.Start();
+                    return;
                 }
-                else
+
+                if (this.reprogramFPGA)
                 {
-                    logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload before allReprogramingDone");
-                    this.allReprogramingDone();
-                    logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload after allReprogramingDone");
+                    this.reprogramFPGA = false;     // consume current stage
+                    logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to FPGA load");
+                    this.programmingForm.MasterDataComplete = true;
+                    this.programmingForm.MasterCodeComplete = true;
+                    this.parseFPGAFile(this.fPGACode);
+                    this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                    this.programmingForm.Maximum = 96;
+                    this.programmingForm.CurrentTask = "Loading FPGA";
+                    logger.Trace("Loading FPGA");
+                    this.timerTimeout.Start();
+                    return;
                 }
+
+                logger.Info("COMPLETE FLOW doneLoadingRelay: before allReprogramingDone");
+                this.allReprogramingDone();
+                logger.Info("COMPLETE FLOW doneLoadingRelay: after allReprogramingDone");
+                return;
             }
-            else
-            {
-                if (true)//this.autoLoad)
-                {
-                    this.programmingForm.RelayDataComplete = true;
-                    if (this.reprogramFPGA)
-                    {
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: loadMasterFirst chaining to FPGA load");
-                        this.parseFPGAFile(this.fPGACode);
-                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                        this.programmingForm.Maximum = 96;
-                        this.programmingForm.CurrentTask = "Loading FPGA";
-                        logger.Trace("Loading FPGA");
-                        this.timerTimeout.Start();
-                    }
-                    else if (this.programMasterBootFileSelect)
-                    {
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: before startManualBootCodeLoad");
-                        startManualBootCodeLoad();
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: after startManualBootCodeLoad");
-                    }
-                    else
-                    {
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: loadMasterFirst before allReprogramingDone");
-                        this.allReprogramingDone();
-                        logger.Info("COMPLETE FLOW doneLoadingRelay: loadMasterFirst after allReprogramingDone");
-                    }
-                }
-                //else
-                //this.allReprogramingDone();
-            }
+
+            logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload before allReprogramingDone");
+            this.allReprogramingDone();
+            logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload after allReprogramingDone");
         }
 
         private void doneLoadingMaster()
@@ -2248,77 +2251,43 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
 
-            if (!this.loadMasterFirst)
+            if (this.autoLoad)
             {
-                if (this.autoLoad)
+                if (this.reprogramRelay)
                 {
-                    if (this.reprogramFPGA)
-                    {
-                        this.parseFPGAFile(this.fPGACode); //todo
-                        this.programmingForm.RelayCodeComplete = true;
-                        this.programmingForm.RelayDataComplete = true;
-                        this.programmingForm.CurrentTask = "Loading FPGA";
-                        logger.Trace("Loading FPGA");
-                        this.programmingForm.Maximum = 96;
-                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                        this.sendReset();
-                        Thread.Sleep(1000);
-                        this.timerTimeout.Start();
-                    }
-                    else
-                    {
-                        this.programmingForm.FPGAComplete = true;
-                        logger.Trace("doneloadingmaster");
-                        this.State = RelayProgrammingStates.Idle;
+                    this.reprogramRelay = false;    // consume current stage
+                    this.parseSFile(this.relayCode);
+                    this.programmingForm.CurrentTask = "Loading Relay Code g";
+                    logger.Trace("Loading Relay Code g");
+                    this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
+                    this.State = RelayProgrammingStates.WaitingForBootRelay;
+                    this.timerTimeout.Start();
+                    return;
+                }
 
-                        this.allReprogramingDone();
-                    }
-                }
-                else
+                if (this.reprogramFPGA)
                 {
-                    this.allReprogramingDone();
+                    this.reprogramFPGA = false;    // consume current stage
+                    this.parseFPGAFile(this.fPGACode);
+                    this.programmingForm.RelayCodeComplete = true;
+                    this.programmingForm.RelayDataComplete = true;
+                    this.programmingForm.CurrentTask = "Loading FPGA";
+                    logger.Trace("Loading FPGA");
+                    this.programmingForm.Maximum = 96;
+                    this.State = RelayProgrammingStates.WaitingForBootFPGA;
+                    this.timerTimeout.Start();
+                    return;
                 }
-            }
-            else
-            {
-                if (this.autoLoad)
-                {
-                    if (this.reprogramRelay)
-                    {
-                        this.parseSFile(this.relayCode);
-                        this.programmingForm.CurrentTask = "Loading Relay Code g";
-                        logger.Trace("Loading Relay Code g");
-                        this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
-                        this.State = RelayProgrammingStates.WaitingForBootRelay;
-                        this.timerTimeout.Start();
-                    }
-                    else if (this.reprogramFPGA)
-                    {
-                        this.parseFPGAFile(this.fPGACode);
-                        this.programmingForm.RelayCodeComplete = true;
-                        this.programmingForm.RelayDataComplete = true;
-                        this.programmingForm.CurrentTask = "Loading FPGA";
-                        logger.Trace("Loading FPGA");
-                        this.programmingForm.Maximum = 96;
-                        this.State = RelayProgrammingStates.WaitingForBootFPGA;
-                        this.timerTimeout.Start();
-                    }
-                    else if (this.programMasterBootFileSelect)
-                        startManualBootCodeLoad();
-                    else
-                    {
-                        this.programmingForm.FPGAComplete = true;
-                        logger.Trace("DoneLoadingMaster 2");
-                        this.State = RelayProgrammingStates.Idle;
 
-                        this.allReprogramingDone();
-                    }
-                }
-                else
-                {
-                    this.allReprogramingDone();
-                }
+                this.programmingForm.FPGAComplete = true;
+                logger.Trace("DoneLoadingMaster 2");
+                this.State = RelayProgrammingStates.Idle;
+
+                this.allReprogramingDone();
+                return;
             }
+
+            this.allReprogramingDone();
         }
         private void allReprogramingDone()
         {
@@ -2370,8 +2339,10 @@ namespace RelayControlLibrary
             this.firstCheckForUpdate = false;
             this.firmwareUpgradeAcceptedThisCycle = false;
 
+            logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
             logger.Info("COMPLETE PATH finalizeReprogram: before completion MessageBox");
             MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+            logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
             logger.Info("COMPLETE PATH finalizeReprogram: after completion MessageBox");
 
             this.programmingForm.ClearAllChecks();
@@ -2468,8 +2439,10 @@ namespace RelayControlLibrary
 
                 this.ReprogrammingInProgress = false;
 
+                logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
                 logger.Info("COMPLETE PATH FinalizeReprogram: before completion MessageBox");
                 MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+                logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
                 logger.Info("COMPLETE PATH FinalizeReprogram: after completion MessageBox");
 
                 this.programmingForm.ClearAllChecks();
@@ -3333,9 +3306,9 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (this.reprogramMaster && this.loadMasterFirst)
+            if (this.reprogramMaster)
             {
-                logger.Info("startProgramming: loadMasterFirst -> start master programming");
+                logger.Info("startProgramming: master update selected -> start master programming");
                 this.startMasterProgramming();
                 return;
             }
@@ -3344,13 +3317,6 @@ namespace RelayControlLibrary
             {
                 logger.Info("startProgramming: relay update selected -> start relay programming");
                 this.startRelayProgramming();
-                return;
-            }
-
-            if (this.reprogramMaster)
-            {
-                logger.Info("startProgramming: master update selected -> start master programming");
-                this.startMasterProgramming();
                 return;
             }
 
