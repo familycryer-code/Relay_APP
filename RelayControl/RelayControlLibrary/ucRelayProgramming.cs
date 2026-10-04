@@ -56,17 +56,11 @@ namespace RelayControlLibrary
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public bool ActiveRelay { get; set; }
         // These need to be updated when new files are used
-#if DEBUG
-        private static UInt32 _masterCodeRevisionNumber = 999999;
-        private static UInt32 _relayCodeRevisionNumber = 99999999;
-        private static UInt32 _fPGACodeRevisionNumber = 1212071;
-        private static UInt32 _bootCodeRevisionNumber = 99999999;
-#else
+
         private static UInt32 _masterCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.MasterRevision);
         private static UInt32 _relayCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.RelayRevision);
         private static UInt32 _fPGACodeRevisionNumber = Convert.ToUInt32(Properties.Resources.FPGARevision);
         private static UInt32 _bootCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.BootRevision);
-#endif
         private static UInt32 _safeService_MASTER_REVISION = 160621;
         private static UInt32 _rEV1_MASTER_REVISION = 100713;
 
@@ -92,6 +86,7 @@ namespace RelayControlLibrary
         private DialogResult upgradeAutoDR = DialogResult.No;
         private bool reprogrammingInProgress = false;
         public bool AutoloadAcceptedPendingBackup { get; set; } = false;
+
 
         public Customers Customer
         {
@@ -163,7 +158,7 @@ namespace RelayControlLibrary
             {
                 if (this.reprogrammingInProgress || this.programBootCodeInProgress)
                 {
-                    logger.Warn("Ignoring ProgramBootCodeStart because programming is already active.");
+                    logger.Info("ProgramBootCodeStart ignored; programming already active. Continuing current cycle.");
                     return;
                 }
 
@@ -637,6 +632,12 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived,
                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
 
+            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
+            {
+                logger.Info("ContinueAutoloadAfterBootCheck suppressed; programming already active. Continuing current cycle.");
+                return true;
+            }
+
             // NEW GUARD: this is boot-only repair, not a generic firmware autoload.
             if (this.IsBootOnlyManualRequired())
             {
@@ -764,7 +765,6 @@ namespace RelayControlLibrary
         {
             logger.Trace("InitializeAutoLoad");
 
-            // NEW GUARD: boot-only repair is manual-only; never enter autoload prompt path.
             if (this.IsBootOnlyManualRequired())
             {
                 logger.Info("Boot-only repair required; suppressing autoload path in InitializeAutoload.");
@@ -776,9 +776,15 @@ namespace RelayControlLibrary
                 return false;
             }
 
+            // same-cycle guard: no re-prompt if already approved or already handled
+            if (this.askToUgradeShown || this.firmwareUpgradeAcceptedThisCycle || this.upgradeAutoDR == DialogResult.Yes)
+            {
+                logger.Info("InitializeAutoload: approval already handled this cycle; skipping duplicate prompt.");
+                return true;
+            }
+
             this.firmwareUpgradeAcceptedThisCycle = false;
 
-            // Do not enter autoload decision while backup is pending or incomplete.
             if (this.AutoloadAcceptedPendingBackup)
             {
                 logger.Info("InitializeAutoload suppressed because backup is still pending.");
@@ -786,27 +792,23 @@ namespace RelayControlLibrary
             }
 
             if (!this.askToUgradeShown)
-            {
                 this.reprogramBootCodeAuto = true;
-            }
 
             bool needsUpdate = CompareMasterRevisionToGUI();
 
-            if (!askToUgradeShown && needsUpdate)
-            {
+            if (!this.askToUgradeShown && needsUpdate)
                 this.showAutoLoadDialog();
-            }
 
-            if (upgradeAutoDR == DialogResult.Yes)
+            if (this.upgradeAutoDR == DialogResult.Yes)
             {
-                if (needsUpdate && reprogramBootCodeAuto)
+                if (needsUpdate && this.reprogramBootCodeAuto)
                 {
                     this.autoLoad = true;
 
                     if (!this.MasterBootRevisionSet())
                         return true;
 
-                    if ((this.CheckForBootCodeUpdate() && masterBootRevisionSet) ||
+                    if ((this.CheckForBootCodeUpdate() && this.masterBootRevisionSet) ||
                         (this.CheckForProperBootCodeAutoUpdate() && this.masterBootRevisionSet))
                     {
                         this.UpgradeBootCode();
@@ -819,7 +821,7 @@ namespace RelayControlLibrary
             }
             else
             {
-                AutoloadAcceptedPendingBackup = false;
+                this.AutoloadAcceptedPendingBackup = false;
                 this.autoLoad = false;
                 this.reprogramBootCodeAuto = false;
                 this.askToUgradeShown = true;
@@ -829,14 +831,15 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            if ((!dontShowRelayUpgradeMessage &&
+            if ((!this.dontShowRelayUpgradeMessage &&
                  !this.ProgramBootCodeInProgress &&
                  this.masterBootRevisionSet &&
                  this.upgradeAutoDR == DialogResult.Yes) ||
-                !askToUgradeShown)
+                !this.askToUgradeShown)
             {
                 this.CheckForUpdate();
             }
+
             return true;
         }
 
@@ -844,47 +847,48 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (!CompareMasterRevisionToGUI())
-                return true;
-
-            if (this.masterBootRevisionSet && this.masterBootRevisionNumberReceived > 0)
-                return true;
-
-            // If backup is still pending, do not continue.
+            // Backup gate is a hard stop before any further boot/programming progression.
             if (this.AutoloadAcceptedPendingBackup)
             {
                 logger.Info("Deferring boot revision reset because backup is still pending.");
                 return false;
             }
 
-            bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
-            bool bootOld = this.masterBootRevisionSet &&
-                          this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
-
-            if (bootOld)
+            // If the relay is in a boot-only/manual state, do not continue normal autoload flow.
+            if (this.IsBootOnlyManualRequired())
             {
+                logger.Info("Boot-only/manual path required; skipping standard autoload continuation.");
+                this.loadMasterFirst = false;
+                this.State = RelayProgrammingStates.Idle;
+                return false;
+            }
+
+            // If boot is stale or unknown, do not continue to normal firmware flow.
+            if (this.IsBootLoadRequired())
+            {
+                bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
+                bool bootOld = this.masterBootRevisionSet &&
+                               this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+
                 logger.Info(
-                    "Boot revision is behind required target. Load newer boot first. Current={0}, Required={1}",
+                    "Boot revision is not ready for normal flow. bootUnknown={0}, bootOld={1}, current={2}, required={3}",
+                    bootUnknown,
+                    bootOld,
                     this.masterBootRevisionNumberReceived,
                     _bootCodeRevisionNumber);
 
-                // Old boot must not trigger master-first.
                 this.loadMasterFirst = false;
                 this.state = RelayProgrammingStates.AutoLoadCheckBoot;
                 this.sendReset();
                 return false;
             }
 
-            if (bootUnknown)
-            {
-                logger.Info("Boot revision not yet known; resetting relay to request boot response.");
-                this.loadMasterFirst = false;
-                this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-                this.sendReset();
-                return false;
-            }
+            // Boot is current enough; normal continuation is allowed.
+            logger.Info(
+                "Boot revision is current enough; continue normal programming flow. current={0}, required={1}",
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber);
 
-            logger.Info("Boot revision is current enough; continue normal programming flow.");
             this.loadMasterFirst = false;
             return true;
         }
@@ -920,12 +924,20 @@ namespace RelayControlLibrary
 
         private void showAutoLoadDialog()
         {
-            DialogResult dR;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            // same-cycle guard: do not prompt again
+            if (this.askToUgradeShown || this.firmwareUpgradeAcceptedThisCycle || this.upgradeAutoDR == DialogResult.Yes)
+            {
+                logger.Info("showAutoLoadDialog suppressed; approval already handled for this cycle.");
+                return;
+            }
 
             this.checkSafeServiceMaster();
 
-            if (ManualUpdate.usingManualMode == false)
+            this.upgradeAutoDR = DialogResult.No;
+
+            if (!ManualUpdate.usingManualMode)
             {
                 this.upgradeAutoDR = showAutoLoadUpdateMessage();
 
@@ -938,33 +950,24 @@ namespace RelayControlLibrary
             }
 
             logger.Info("POPUP SHOW: GE_WH_SELECT");
-            dR = new CustomYesNoDialog("GE or WH Select", "Is this a GE or WH style relay?", "GE", "WH").ShowDialog();
-            logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", dR);
+            DialogResult relayTypeDR = new CustomYesNoDialog(
+                "GE or WH Select",
+                "Is this a GE or WH style relay?",
+                "GE",
+                "WH").ShowDialog();
+            logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
 
-            if (dR == DialogResult.Yes)
-                internalGESetter = true;
-            else
-                internalGESetter = false;
+            internalGESetter = (relayTypeDR == DialogResult.Yes);
 
-            if (!this.dontReloadFromResource && upgradeAutoDR == DialogResult.Yes)
-            {
-                logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
-                this.upgradeAutoDR = MessageBox.Show(
-                    "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
-                    "Confirm Update Request",
-                    MessageBoxButtons.YesNo);
-                logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", this.upgradeAutoDR);
-            }
+            logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+            this.upgradeAutoDR = MessageBox.Show(
+                "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
+                "Confirm Update Request",
+                MessageBoxButtons.YesNo);
+            logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", this.upgradeAutoDR);
 
             this.askToUgradeShown = true;
-            if (this.upgradeAutoDR == DialogResult.Yes)
-            {
-                this.firmwareUpgradeAcceptedThisCycle = true;
-            }
-            else
-            {
-                this.firmwareUpgradeAcceptedThisCycle = false;
-            }
+            this.firmwareUpgradeAcceptedThisCycle = (this.upgradeAutoDR == DialogResult.Yes);
         }
 
         private void checkSafeServiceMaster()
@@ -979,6 +982,20 @@ namespace RelayControlLibrary
             {
                 MessageBox.Show("The Relay Software is outdated and must be upgraded for the Safe Service Mode Indicator attachment to function properly!", "Relay Must be Upgraded for Safe Service Mode Indicator!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private bool finalSuccessPopupShownThisCycle = false;
+
+        private void ShowFinalSuccessPopupOnce()
+        {
+            if (this.finalSuccessPopupShownThisCycle)
+                return;
+
+            this.finalSuccessPopupShownThisCycle = true;
+
+            logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
+            MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+            logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
         }
 
         private DialogResult ShowProgrammingStartWarning()
@@ -1100,11 +1117,10 @@ namespace RelayControlLibrary
             logger.Info("ResumeAutoloadAfterBackup ENTER");
 
             logger.Info(
-                "ResumeAutoloadAfterBackup flags: AutoloadAcceptedPendingBackup={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}, state={3}",
-                this.AutoloadAcceptedPendingBackup,
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived,
-                this.state);
+                "POST-OVERRIDE FLAGS | reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}",
+                this.reprogramMaster,
+                this.reprogramRelay,
+                this.reprogramFPGA);
 
             if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
@@ -1118,7 +1134,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // NEW GUARD: boot-only repair is manual-only; never show autoload popup here.
             if (this.IsBootOnlyManualRequired())
             {
                 logger.Info("Boot-only repair required; suppressing autoload popup in ResumeAutoloadAfterBackup.");
@@ -1128,6 +1143,27 @@ namespace RelayControlLibrary
                 this.programBootCodeInProgress = false;
                 this.State = RelayProgrammingStates.Idle;
                 return;
+            }
+
+            // same-cycle guard: no duplicate prompt
+            if (this.askToUgradeShown || this.firmwareUpgradeAcceptedThisCycle || this.upgradeAutoDR == DialogResult.Yes)
+            {
+                logger.Info("ResumeAutoloadAfterBackup: approval already handled this cycle; skipping duplicate prompt.");
+            }
+            else if (!this.IsBootLoadRequired())
+            {
+                logger.Info(
+                    "Boot is current/newer; continuing to normal firmware evaluation after backup. bootRev={0}, required={1}",
+                    this.masterBootRevisionNumberReceived,
+                    _bootCodeRevisionNumber);
+
+                // DO NOT return here.
+                // Current boot should allow normal master/relay/fpga evaluation to continue.
+            }
+            else
+            {
+                // Keep stale/unknown boot path as the only early gate.
+                // Existing stale/unknown handling below is still used.
             }
 
             bool userApprovedPath =
@@ -1151,6 +1187,13 @@ namespace RelayControlLibrary
 
                     this.firmwareUpgradeAcceptedThisCycle = true;
                     userApprovedPath = true;
+                }
+
+                if (!ConfirmApprovedUpdateStartOnce())
+                {
+                    logger.Info("ResumeAutoloadAfterBackup: user cancelled start warning; aborting update flow.");
+                    this.state = RelayProgrammingStates.Idle;
+                    return;
                 }
 
                 logger.Info("Boot revision unknown after backup; approved path -> requesting boot read.");
@@ -1180,6 +1223,13 @@ namespace RelayControlLibrary
                     userApprovedPath = true;
                 }
 
+                if (!ConfirmApprovedUpdateStartOnce())
+                {
+                    logger.Info("ResumeAutoloadAfterBackup stale-boot: user cancelled start warning; aborting update flow.");
+                    this.state = RelayProgrammingStates.Idle;
+                    return;
+                }
+
                 logger.Info(
                     "Boot revision stale after backup; approved path -> requesting boot read. Current={0}, Required={1}",
                     this.masterBootRevisionNumberReceived,
@@ -1188,6 +1238,16 @@ namespace RelayControlLibrary
                 this.loadMasterFirst = false;
                 this.state = RelayProgrammingStates.AutoLoadCheckBoot;
                 this.sendReset();
+                return;
+            }
+
+            // NEW GUARD: current boot + no firmware updates => skip autoload UI and programming
+            if (!this.reprogramMaster && !this.reprogramRelay && !this.reprogramFPGA)
+            {
+                logger.Info("ResumeAutoloadAfterBackup: no updates required; skipping autoload prompts/programming.");
+                this.autoLoad = false;
+                this.reprogrammingInProgress = false;
+                this.state = RelayProgrammingStates.Idle;
                 return;
             }
 
@@ -1236,6 +1296,12 @@ namespace RelayControlLibrary
                 }
 
                 this.firmwareUpgradeAcceptedThisCycle = true;
+            }
+
+            if (!ConfirmApprovedUpdateStartOnce())
+            {
+                logger.Info("Manual path: user cancelled start warning; aborting update flow.");
+                return;
             }
 
             this.CheckProperMasterBootCode();
@@ -1506,6 +1572,28 @@ namespace RelayControlLibrary
                 return;
             }
 
+            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
+            {
+                logger.Info("startAutoLoad suppressed; programming already active. Continuing current flow.");
+                return;
+            }
+
+            if (!this.IsBootLoadRequired())
+            {
+                logger.Info(
+                    "Boot is current/newer; continuing to normal firmware evaluation. bootRev={0}, required={1}",
+                    this.masterBootRevisionNumberReceived,
+                    _bootCodeRevisionNumber);
+
+                // Do not return here.
+                // Current boot should allow master/relay/fpga evaluation to continue.
+            }
+            else
+            {
+                // Boot stale/unknown path remains the early gate.
+                // Existing boot-repair flow stays here.
+            }
+
             // If the bootloader just finished and we are re-entering from a completed stage,
             // do not block the next phase just because a stale flag remained set.
             if (this.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
@@ -1520,36 +1608,23 @@ namespace RelayControlLibrary
             if (this.firmwareUpgradeAcceptedThisCycle &&
                 (this.AutoloadAcceptedPendingBackup || this.reprogrammingInProgress || this.programBootCodeInProgress))
             {
-                logger.Warn("startAutoLoad suppressed: autoload already accepted for this cycle.");
+                logger.Info("startAutoLoad suppressed: autoload already accepted for this cycle.");
                 return;
             }
 
-            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
+            // ***** NEW GUARD: NO UPDATE NEEDED -> DO NOTHING *****
+            if (!this.reprogramMaster && !this.reprogramRelay && !this.reprogramFPGA)
             {
-                logger.Warn("startAutoLoad suppressed; autoload/programming already active.");
+                logger.Info("startAutoLoad: no updates required; skipping prompts and programming.");
+                this.autoLoad = false;
+                this.reprogrammingInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
                 return;
             }
-
-            bool bootUnknown = !this.masterBootRevisionSet ||
-                               this.masterBootRevisionNumberReceived <= 0;
-
-            bool bootNeedsUpdate = bootUnknown ||
-                       (this.masterBootRevisionSet &&
-                        this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
 
             // Explicit sequencing is handled in startProgramming().
             // Do not let boot detection reintroduce master-first ordering.
             this.loadMasterFirst = false;
-
-            logger.Info(
-                "BOOT ORDER DECISION | bootSet={0}, bootRev={1}, bootRequired={2}, bootUnknown={3}, bootNeedsUpdate={4}, loadMasterFirst={5}, manualMode={6}",
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived,
-                _bootCodeRevisionNumber,
-                bootUnknown,
-                bootNeedsUpdate,
-                this.loadMasterFirst,
-                ManualUpdate.usingManualMode);
 
             DialogResult dR;
 
@@ -1564,7 +1639,8 @@ namespace RelayControlLibrary
             }
             else if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
-                dR = showAutoLoadUpdateMessage();
+                this.showAutoLoadDialog();
+                dR = this.upgradeAutoDR;
                 askToUgradeShown = true;
             }
             else
@@ -1598,7 +1674,7 @@ namespace RelayControlLibrary
                 }
 
                 logger.Trace("User Verified Programming Start");
-                // make sure stale boot is decided before enabling autoload mode
+
                 if (this.masterBootRevisionSet &&
                     this.masterBootRevisionNumberReceived > 0 &&
                     this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
@@ -1683,10 +1759,12 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             logger.Trace(String.Format("Command: {0}", rPEA.Command));
+
             if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
-                Thread.Sleep(500); // Put in so I don't go too fast for the processor
+                Thread.Sleep(500);
             else
-                Thread.Sleep(75); // Put in so I don't go too fast for the processor
+                Thread.Sleep(75);
+
             if (this.Send != null)
                 this.Send(this, rPEA);
         }
@@ -2317,20 +2395,25 @@ namespace RelayControlLibrary
             this.allReprogramingDone();
             logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload after allReprogramingDone");
         }
+
+        private bool IsBootLoadRequired()
+        {
+            bool bootUnknown = !this.masterBootRevisionSet ||
+                               this.masterBootRevisionNumberReceived <= 0;
+
+            bool bootOld = this.masterBootRevisionSet &&
+                           this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+
+            return bootUnknown || bootOld;
+        }
         private bool IsBootOnlyManualRequired()
         {
-            bool bootUnknownOrOld =
-                !this.masterBootRevisionSet ||
-                this.masterBootRevisionNumberReceived <= 0 ||
-                (this.masterBootRevisionSet &&
-                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+            bool bootNeedsLoad = this.IsBootLoadRequired();
 
-            // Approved stale/unknown boot must proceed to boot repair.
-            if (bootUnknownOrOld && IsBootUpdateApproved())
+            if (bootNeedsLoad && IsBootUpdateApproved())
                 return false;
 
-            // If boot is healthy, this is not a boot-only/manual case.
-            if (!bootUnknownOrOld)
+            if (!bootNeedsLoad)
                 return false;
 
             bool masterKnown = this.remoteMasterRevisionNumber > 0;
@@ -2424,7 +2507,7 @@ namespace RelayControlLibrary
                 this.finalizeReprogram();
             }
         }
-
+       
         private void requestAll()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2435,31 +2518,7 @@ namespace RelayControlLibrary
 
         private void finalizeReprogram()
         {
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            this.enableButtons(true);
-
-            logger.Info("COMPLETE PATH finalizeReprogram: before programmingForm.Hide");
-            this.programmingForm.Hide();
-            logger.Info("COMPLETE PATH finalizeReprogram: after programmingForm.Hide");
-
-            this.ReprogrammingInProgress = false;
-
-            this.autoLoad = false;
-            this.loadMasterFirst = false;
-            this.firstCheckForUpdate = false;
-            this.firmwareUpgradeAcceptedThisCycle = false;
-
-            logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
-            logger.Info("COMPLETE PATH finalizeReprogram: before completion MessageBox");
-            MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
-            logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
-            logger.Info("COMPLETE PATH finalizeReprogram: after completion MessageBox");
-
-            this.programmingForm.ClearAllChecks();
-            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
-
-            this.onSend(rPEA);
+            this.FinalizeReprogram();
         }
 
         private void doneLoadingRelayBootLoader()
@@ -2542,35 +2601,91 @@ namespace RelayControlLibrary
         public void FinalizeReprogram()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (this.state == RelayProgrammingStates.Finalized)
+
+            if (this.state != RelayProgrammingStates.Finalized &&
+                this.state != RelayProgrammingStates.ReprogramSuccess &&
+                this.state != RelayProgrammingStates.WaitForAllData)
             {
-                logger.Info("COMPLETE PATH FinalizeReprogram: before programmingForm.Hide");
-                this.programmingForm.Hide();
-                logger.Info("COMPLETE PATH FinalizeReprogram: after programmingForm.Hide");
-
-                this.ReprogrammingInProgress = false;
-
-                logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
-                logger.Info("COMPLETE PATH FinalizeReprogram: before completion MessageBox");
-                MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
-                logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
-                logger.Info("COMPLETE PATH FinalizeReprogram: after completion MessageBox");
-
-                this.programmingForm.ClearAllChecks();
-                logger.Trace("Reprogam Completed Successfully");
-                if (ManualUpdate.usingManualMode == true)
-                {
-                    ManualUpdate.usingManualMode = false;
-                }
-                logger.Trace("FinalizeReprogram");
-                this.state = RelayProgrammingStates.Idle;
-                this.autoLoad = false;
-                this.loadMasterFirst = false;
-                this.firstCheckForUpdate = false;
-                this.firmwareUpgradeAcceptedThisCycle = false;
-                dataB.oldDataBackup = true;
-                restartProgram();
+                logger.Warn("FinalizeReprogram ignored; state={0}", this.state);
+                return;
             }
+
+            logger.Info("COMPLETE PATH FinalizeReprogram: before programmingForm.Hide");
+            this.programmingForm.Hide();
+            logger.Info("COMPLETE PATH FinalizeReprogram: after programmingForm.Hide");
+
+            this.ReprogrammingInProgress = false;
+
+            this.autoLoad = false;
+            this.loadMasterFirst = false;
+            this.firstCheckForUpdate = false;
+            this.firmwareUpgradeAcceptedThisCycle = false;
+
+            this.ShowFinalSuccessPopupOnce();
+
+            this.programmingForm.ClearAllChecks();
+            logger.Trace("Reprogram Completed Successfully");
+
+            if (ManualUpdate.usingManualMode == true)
+            {
+                ManualUpdate.usingManualMode = false;
+            }
+
+            this.state = RelayProgrammingStates.Idle;
+            dataB.oldDataBackup = true;
+            restartProgram();
+
+            // reset cycle gates for the NEXT programming cycle
+            this.startWarningShownThisCycle = false;
+            this.finalSuccessPopupShownThisCycle = false;
+        }
+
+        private bool startWarningShownThisCycle = false;
+
+        private bool ConfirmApprovedUpdateStartOnce()
+        {
+            // Do NOT change SimulationMode here.
+            // Keep the dry-run/simulation state stable.
+            if (this.startWarningShownThisCycle)
+                return true;
+
+            DialogResult result = ShowProgrammingStartWarning();
+            this.startWarningShownThisCycle = true;
+
+            if (result != DialogResult.OK)
+            {
+                this.autoLoad = false;
+                this.upgradeAutoDR = DialogResult.No;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.askToUgradeShown = true;
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool IsDangerousProgrammingSend(RelayProgrammingEventArgs rPEA)
+        {
+            if (rPEA == null) return false;
+
+            if (rPEA.Command == RelayProgrammingSendCommands.RawData)
+                return true;
+
+            if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
+                return true;
+
+            if (rPEA.Command == RelayProgrammingSendCommands.SaveSettings ||
+                rPEA.Command == RelayProgrammingSendCommands.RequestAll ||
+                rPEA.Command == RelayProgrammingSendCommands.RecallSavedSettings ||
+                rPEA.Command == RelayProgrammingSendCommands.RestoreDefaults)
+                return true;
+
+            return false;
+        }
+
+        private void SimLog(string msg)
+        {
+            logger.Warn("[SIM] " + msg);
         }
 
         private void sendNonTransmitterSettings()
@@ -2669,26 +2784,23 @@ namespace RelayControlLibrary
         {
             if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
-                logger.Warn("Ignoring boot decision because programming is already active.");
+                logger.Info("CheckProperMasterBootCode suppressed; programming already active. Continuing current in-flight cycle.");
                 return;
             }
 
-            bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
-            bool bootOld = this.masterBootRevisionSet &&
-                           this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+            bool bootNeedsLoad = this.IsBootLoadRequired();
             bool bootCurrentOrNewer = this.masterBootRevisionSet &&
                                       this.masterBootRevisionNumberReceived >= _bootCodeRevisionNumber;
 
             logger.Info(
-                "BOOT DECISION | bootSet={0}, bootRev={1}, required={2}, unknown={3}, old={4}, currentOrNewer={5}",
+                "BOOT DECISION | bootSet={0}, bootRev={1}, required={2}, bootNeedsLoad={3}, currentOrNewer={4}",
                 this.masterBootRevisionSet,
                 this.masterBootRevisionNumberReceived,
                 _bootCodeRevisionNumber,
-                bootUnknown,
-                bootOld,
+                bootNeedsLoad,
                 bootCurrentOrNewer);
 
-            if (bootUnknown || bootOld)
+            if (bootNeedsLoad)
             {
                 if (!IsBootUpdateApproved())
                 {
@@ -3233,6 +3345,7 @@ namespace RelayControlLibrary
         private void startRelayProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
             {
                 if (!this.dontReloadFromResource)
@@ -3286,6 +3399,7 @@ namespace RelayControlLibrary
         private void startMasterProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             if ((this.masterCode.FileString == "" || this.masterCode.FileString == null))
             {
                 MessageBox.Show("No Master File Loaded");
@@ -3358,13 +3472,11 @@ namespace RelayControlLibrary
             }
 
             bool bootUnknown = !this.masterBootRevisionSet ||
-                  this.masterBootRevisionNumberReceived <= 0;
-
+                              this.masterBootRevisionNumberReceived <= 0;
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-            // Old boot/unknown boot must not trigger master-first.
-            // Keep the boot-code repair flow instead.
+            // If boot is stale/unknown, do not continue master-first programming order.
             this.loadMasterFirst = false;
 
             logger.Info(
@@ -3381,7 +3493,6 @@ namespace RelayControlLibrary
             resumeProgrammingAfterBackup = false;
             this.reprogrammingInProgress = true;
 
-            // Ensure firmware payloads are present for autoload/resource path.
             if (!this.dontReloadFromResource)
             {
                 if (string.IsNullOrWhiteSpace(this.masterCode.FileString) ||
@@ -3392,7 +3503,6 @@ namespace RelayControlLibrary
                 }
             }
 
-            // Hard fail only if still missing after reload attempt.
             if (this.reprogramMaster && string.IsNullOrWhiteSpace(this.masterCode.FileString))
             {
                 logger.Error("startProgramming aborted: master payload is empty.");
@@ -3533,6 +3643,7 @@ namespace RelayControlLibrary
         private void sendRelayReset()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[3];
@@ -3548,8 +3659,6 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            // Allow explicit user-triggered reset path (manual mode / alternate actions flow),
-            // but suppress unintended auto-reset during active programming in non-boot states.
             bool userInitiatedPath = ManualUpdate.usingManualMode;
 
             bool bootStateAllowed =
@@ -3621,6 +3730,7 @@ namespace RelayControlLibrary
 
         private void programFPGA()
         {
+            
             this.reprogramFPGA = true;
             this.transmitterEnabled = true;
             this.parseFPGAFile(this.fPGACode);
