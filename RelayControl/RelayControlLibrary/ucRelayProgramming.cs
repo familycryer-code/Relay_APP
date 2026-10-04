@@ -161,9 +161,9 @@ namespace RelayControlLibrary
             get { return this.programBootCodeStart; }
             set
             {
-                if (this.reprogrammingInProgress || this.programBootCodeInProgress || this.autoLoad)
+                if (this.reprogrammingInProgress || this.programBootCodeInProgress)
                 {
-                    logger.Warn("Ignoring ProgramBootCodeStart because programming already active.");
+                    logger.Warn("Ignoring ProgramBootCodeStart because programming is already active.");
                     return;
                 }
 
@@ -179,7 +179,7 @@ namespace RelayControlLibrary
                     if (!this.programBootCodeInProgress)
                         ProgramBootCode();
 
-                    this.ProgramBootCodeStart = false;
+                    this.programBootCodeStart = false;
                 }
             }
         }
@@ -686,16 +686,14 @@ namespace RelayControlLibrary
                 if (this.firmwareUpgradeAcceptedThisCycle)
                 {
                     logger.Info("Stale boot continuation already accepted in this cycle; continuing.");
-                    if (this.reprogrammingInProgress || this.programBootCodeInProgress || this.autoLoad)
+                    if (this.reprogrammingInProgress || this.programBootCodeInProgress)
                     {
                         return true;
                     }
 
-                    this.autoLoad = true;
                     this.askToUgradeShown = true;
                     this.upgradeAutoDR = DialogResult.Yes;
 
-                    // Stale boot must go through boot repair decision before normal programming.
                     this.CheckProperMasterBootCode();
 
                     if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
@@ -704,6 +702,7 @@ namespace RelayControlLibrary
                         return true;
                     }
 
+                    this.autoLoad = true;
                     this.startProgramming();
                     return true;
                 }
@@ -1519,13 +1518,13 @@ namespace RelayControlLibrary
 
             // Prevent re-entry into the autoload decision flow after the current cycle has already been accepted.
             if (this.firmwareUpgradeAcceptedThisCycle &&
-                (this.AutoloadAcceptedPendingBackup || this.reprogrammingInProgress || this.programBootCodeInProgress || this.autoLoad))
+                (this.AutoloadAcceptedPendingBackup || this.reprogrammingInProgress || this.programBootCodeInProgress))
             {
                 logger.Warn("startAutoLoad suppressed: autoload already accepted for this cycle.");
                 return;
             }
 
-            if (this.reprogrammingInProgress || this.programBootCodeInProgress || this.autoLoad)
+            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
                 logger.Warn("startAutoLoad suppressed; autoload/programming already active.");
                 return;
@@ -1599,6 +1598,20 @@ namespace RelayControlLibrary
                 }
 
                 logger.Trace("User Verified Programming Start");
+                // make sure stale boot is decided before enabling autoload mode
+                if (this.masterBootRevisionSet &&
+                    this.masterBootRevisionNumberReceived > 0 &&
+                    this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
+                {
+                    this.CheckProperMasterBootCode();
+
+                    if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
+                    {
+                        this.ProgramBootCodeStart = true;
+                        return;
+                    }
+                }
+
                 Thread.Sleep(500);
                 this.autoLoad = true;
 
@@ -2312,22 +2325,34 @@ namespace RelayControlLibrary
                 (this.masterBootRevisionSet &&
                  this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
 
+            // Approved stale/unknown boot must proceed to boot repair.
+            if (bootUnknownOrOld && IsBootUpdateApproved())
+                return false;
+
+            // If boot is healthy, this is not a boot-only/manual case.
+            if (!bootUnknownOrOld)
+                return false;
+
             bool masterKnown = this.remoteMasterRevisionNumber > 0;
             bool relayKnown = this.remoteRelayRevisionNumber > 0;
             bool fpgaKnown = !this.transmitterEnabled || this.remoteFPGARevisionNumber > 0;
 
-            bool firmwareKnown = masterKnown && relayKnown && fpgaKnown;
+            bool anyFirmwareKnown = masterKnown || relayKnown || fpgaKnown;
 
-            bool fullFirmwareNeedsUpdate =
-                (masterKnown && this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) ||
-                (relayKnown && this.remoteRelayRevisionNumber < _relayCodeRevisionNumber) ||
-                (this.transmitterEnabled && fpgaKnown && this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber);
+            bool masterNeedsUpdate = masterKnown && this.remoteMasterRevisionNumber < _masterCodeRevisionNumber;
+            bool relayNeedsUpdate = relayKnown && this.remoteRelayRevisionNumber < _relayCodeRevisionNumber;
+            bool fpgaNeedsUpdate = this.transmitterEnabled && fpgaKnown &&
+                                   this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber;
 
-            // Important: if boot is unknown/old but firmware state is not yet known, do not trigger autoload.
-            if (bootUnknownOrOld && !firmwareKnown)
+            bool anyFirmwareNeedsUpdate = masterNeedsUpdate || relayNeedsUpdate || fpgaNeedsUpdate;
+
+            if (anyFirmwareNeedsUpdate)
+                return false;
+
+            if (anyFirmwareKnown)
                 return true;
 
-            return bootUnknownOrOld && !fullFirmwareNeedsUpdate;
+            return true;
         }
 
 
@@ -2642,9 +2667,9 @@ namespace RelayControlLibrary
 
         public void CheckProperMasterBootCode()
         {
-            if (this.reprogrammingInProgress || this.programBootCodeInProgress || this.autoLoad)
+            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
-                logger.Warn("Ignoring boot decision because programming already active.");
+                logger.Warn("Ignoring boot decision because programming is already active.");
                 return;
             }
 
