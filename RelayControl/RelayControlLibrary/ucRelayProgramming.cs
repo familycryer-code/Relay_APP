@@ -637,6 +637,18 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived,
                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
 
+            // NEW GUARD: this is boot-only repair, not a generic firmware autoload.
+            if (this.IsBootOnlyManualRequired())
+            {
+                logger.Info("Boot-only repair required in ContinueAutoloadAfterBootCheck; suppressing autoload and requiring manual path.");
+                this.autoLoad = false;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
+                return false;
+            }
+
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived > 0 &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
@@ -752,6 +764,18 @@ namespace RelayControlLibrary
         public bool InitializeAutoload()
         {
             logger.Trace("InitializeAutoLoad");
+
+            // NEW GUARD: boot-only repair is manual-only; never enter autoload prompt path.
+            if (this.IsBootOnlyManualRequired())
+            {
+                logger.Info("Boot-only repair required; suppressing autoload path in InitializeAutoload.");
+                this.autoLoad = false;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
+                return false;
+            }
 
             this.firmwareUpgradeAcceptedThisCycle = false;
 
@@ -1095,6 +1119,18 @@ namespace RelayControlLibrary
                 return;
             }
 
+            // NEW GUARD: boot-only repair is manual-only; never show autoload popup here.
+            if (this.IsBootOnlyManualRequired())
+            {
+                logger.Info("Boot-only repair required; suppressing autoload popup in ResumeAutoloadAfterBackup.");
+                this.autoLoad = false;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
+                return;
+            }
+
             bool userApprovedPath =
                 ManualUpdate.usingManualMode ||
                 this.firmwareUpgradeAcceptedThisCycle ||
@@ -1318,6 +1354,18 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
+            // NEW GUARD: boot-only repair is manual-only; never enter autoload flow.
+            if (this.IsBootOnlyManualRequired())
+            {
+                logger.Info("Boot-only repair required; suppressing autoload path in CheckForUpdate.");
+                this.autoLoad = false;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
+                return;
+            }
+
             if (!this.firstCheckForUpdate)
                 return;
 
@@ -1446,6 +1494,18 @@ namespace RelayControlLibrary
         private void startAutoLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            // NEW GUARD: boot-only repair is a manual-only condition, not an autoload event.
+            if (this.IsBootOnlyManualRequired())
+            {
+                logger.Info("Boot-only repair required; suppressing startAutoLoad autoload flow; manual programming required.");
+                this.autoLoad = false;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
+                return;
+            }
 
             // If the bootloader just finished and we are re-entering from a completed stage,
             // do not block the next phase just because a stale flag remained set.
@@ -2244,6 +2304,32 @@ namespace RelayControlLibrary
             this.allReprogramingDone();
             logger.Info("COMPLETE FLOW doneLoadingRelay: non-autoload after allReprogramingDone");
         }
+        private bool IsBootOnlyManualRequired()
+        {
+            bool bootUnknownOrOld =
+                !this.masterBootRevisionSet ||
+                this.masterBootRevisionNumberReceived <= 0 ||
+                (this.masterBootRevisionSet &&
+                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
+
+            bool masterKnown = this.remoteMasterRevisionNumber > 0;
+            bool relayKnown = this.remoteRelayRevisionNumber > 0;
+            bool fpgaKnown = !this.transmitterEnabled || this.remoteFPGARevisionNumber > 0;
+
+            bool firmwareKnown = masterKnown && relayKnown && fpgaKnown;
+
+            bool fullFirmwareNeedsUpdate =
+                (masterKnown && this.remoteMasterRevisionNumber < _masterCodeRevisionNumber) ||
+                (relayKnown && this.remoteRelayRevisionNumber < _relayCodeRevisionNumber) ||
+                (this.transmitterEnabled && fpgaKnown && this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber);
+
+            // Important: if boot is unknown/old but firmware state is not yet known, do not trigger autoload.
+            if (bootUnknownOrOld && !firmwareKnown)
+                return true;
+
+            return bootUnknownOrOld && !fullFirmwareNeedsUpdate;
+        }
+
 
         private void doneLoadingMaster()
         {
