@@ -782,10 +782,6 @@ namespace RelayControlLibrary
                 this.AnyFirmwarePending(),
                 this.IsBootUpdateApproved());
 
-
-
-            // Single source of truth: if boot is stale/unknown and there is no firmware work pending,
-            // do not continue programming. This is the manual-only exit.
             if (this.IsBootOnlyManualRequired())
             {
                 logger.Info("Boot-only/manual exit: no real firmware update pending; returning to idle.");
@@ -793,7 +789,6 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            // If there is no firmware pending at all, stop here and exit cleanly.
             if (!this.AnyFirmwarePending())
             {
                 logger.Info("No firmware pending after boot check; ending autoload flow cleanly.");
@@ -801,12 +796,20 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            // Boot stale/unknown path: we only continue once approval exists.
             bool bootNeedsLoad = this.IsBootLoadRequired();
+
             if (bootNeedsLoad && !this.IsBootUpdateApproved())
             {
-                logger.Info("Boot needs repair/update but approval is not yet set; waiting for approval.");
-                return false;
+                logger.Info("Boot needs repair/update but approval is not yet set; prompting now.");
+
+                // This is the missing step in the current flow.
+                this.showAutoLoadDialog();
+
+                if (!this.IsBootUpdateApproved())
+                {
+                    logger.Info("Approval still not granted after fresh boot read; waiting.");
+                    return false;
+                }
             }
 
             if (!bootNeedsLoad)
@@ -818,33 +821,45 @@ namespace RelayControlLibrary
                     return false;
                 }
 
-                // Hard stop until the programming warning is actually acknowledged.
-                if (!this.startWarningAcknowledgedThisCycle && !this.IsBootUpdateApproved())
+                // NEW: enforce full approval dialog sequence first
+                if (!this.IsBootUpdateApproved())
                 {
-                    logger.Info("Boot current but programming warning not acknowledged; prompting now.");
+                    logger.Info("Boot current but firmware pending; requesting full autoload approval dialogs.");
+                    this.showAutoLoadDialog();
+
+                    if (!this.IsBootUpdateApproved())
+                    {
+                        logger.Info("User declined firmware update after boot check.");
+                        this.ResetAutoloadState();
+                        return false;
+                    }
+                }
+
+                // Existing start warning gate
+                if (!this.startWarningAcknowledgedThisCycle)
+                {
+                    logger.Info("Approval granted; showing programming start warning.");
                     if (!EnsureProgrammingStartWarningAcknowledged())
                     {
                         return false;
                     }
                 }
 
-                logger.Info("Boot is current; continuing standard firmware flow.");
+                logger.Info("Boot is current and approved; continuing standard firmware flow.");
                 this.autoLoad = true;
                 this.startProgramming();
                 return true;
             }
 
-            // Boot is stale/unknown but approval exists; now decide if a boot rewrite is required.
             this.CheckProperMasterBootCode();
 
             if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
             {
                 logger.Info("Boot repair is active or required; entering warning/start path.");
-                this.UpgradeBootCode();   // ensures START_WARNING popup is shown
+                this.UpgradeBootCode();
                 return true;
             }
 
-            // Current boot is acceptable so continue firmware programming normally.
             logger.Info("Boot validation passed; continuing firmware update path.");
             this.autoLoad = true;
             this.startProgramming();
@@ -3857,7 +3872,7 @@ namespace RelayControlLibrary
 
             bool userInitiatedPath = ManualUpdate.usingManualMode;
 
-            bool bootStateAllowed =
+            bool stateAllowsReset =
                 this.State == RelayProgrammingStates.AutoLoadCheckBoot ||
                 this.State == RelayProgrammingStates.ManualLoadCheckBoot ||
                 this.State == RelayProgrammingStates.CheckMasterBootCode ||
@@ -3865,11 +3880,32 @@ namespace RelayControlLibrary
                 this.State == RelayProgrammingStates.WaitingForBootRelay ||
                 this.State == RelayProgrammingStates.WaitingForBootFPGA;
 
-            if (!userInitiatedPath &&
-                (this.autoLoad || this.reprogrammingInProgress || this.programBootCodeInProgress) &&
-                !bootStateAllowed)
+            bool activeProgramming =
+                this.autoLoad ||
+                this.reprogrammingInProgress ||
+                this.programBootCodeInProgress;
+
+            // Hard block: never reset during an active programming run unless we are already
+            // in a known boot/programming handoff state.
+            if (!userInitiatedPath && activeProgramming && !stateAllowsReset)
             {
-                logger.Warn("sendReset suppressed: non-user reset requested during active programming from disallowed state={0}", this.State);
+                logger.Warn(
+                    "sendReset suppressed: active programming in invalid state. state={0}, autoLoad={1}, reprogrammingInProgress={2}, programBootCodeInProgress={3}",
+                    this.State,
+                    this.autoLoad,
+                    this.reprogrammingInProgress,
+                    this.programBootCodeInProgress);
+
+                return;
+            }
+
+            // Also block any raw reset from a non-state-machine context.
+            if (!userInitiatedPath && !stateAllowsReset)
+            {
+                logger.Warn(
+                    "sendReset suppressed: invalid reset state. state={0}",
+                    this.State);
+
                 return;
             }
 
