@@ -180,6 +180,14 @@ namespace RelayControlLibrary
                     return;
                 }
 
+                // Hard block: manual update is full-update mode, not boot-repair mode.
+                if (ManualUpdate.usingManualMode)
+                {
+                    logger.Warn("ProgramBootCodeStart blocked: manual update mode does not allow boot repair.");
+                    this.programBootCodeStart = false;
+                    return;
+                }
+
                 if (this.programBootCodeInProgress)
                 {
                     logger.Warn("Boot code already in progress; ignoring duplicate ProgramBootCodeStart.");
@@ -194,21 +202,15 @@ namespace RelayControlLibrary
                     return;
                 }
 
-                if (ManualUpdate.usingManualMode)
-                {
-                    this.programmingForm.ClearAllChecks();
-                }
-
                 this.programBootCodeStart = true;
 
                 if (this.programBootCodeStart)
                 {
                     if (!this.programBootCodeInProgress)
                     {
-                        bool manualOverride = ManualUpdate.usingManualMode;
+                        bool manualOverride = false;
 
-                        // New safety gate: only boot repair is allowed if the state is valid
-                        // for repair. Auto mode requires known + outdated boot.
+                        // Auto mode only: boot repair allowed only when CanRepairBoot passes.
                         if (!this.CanRepairBoot(manualOverride))
                         {
                             logger.Warn(
@@ -748,6 +750,15 @@ namespace RelayControlLibrary
 
         private void RefreshPendingFirmwareFromCurrentRevisions()
         {
+            if (ManualUpdate.usingManualMode)
+            {
+                logger.Info("Manual update path: forcing full update; bypassing version-based pending refresh.");
+                this.reprogramMaster = true;
+                this.reprogramRelay = true;
+                this.reprogramFPGA = this.transmitterEnabled;
+                return;
+            }
+
             this.reprogramMaster =
                 this.remoteMasterRevisionNumber > 0 &&
                 this.remoteMasterRevisionNumber < _masterCodeRevisionNumber;
@@ -989,7 +1000,7 @@ namespace RelayControlLibrary
             return true;
         }
 
-        private DialogResult showManualLoadDialog()
+        private DialogResult showManualLoadDialog(bool forcedFullUpdate)
         {
             DialogResult dR;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -1003,16 +1014,22 @@ namespace RelayControlLibrary
             ).ShowDialog();
             logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", dR);
 
-            if (dR == DialogResult.Yes)
-                this.internalGESetter = true;
-            else
-                this.internalGESetter = false;
+            this.internalGESetter = (dR == DialogResult.Yes);
 
             logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+
+            string confirmMessage = forcedFullUpdate
+                ? "Please confirm update request.\r\n" +
+                  "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
+                  "Relay update can take up to 10 minutes to complete."
+                : "Please confirm update request.\r\n" +
+                  "Relay update can take up to 10 minutes to complete.";
+
             DialogResult confirmResult = MessageBox.Show(
-                "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
+                confirmMessage,
                 "Confirm Update Request",
                 MessageBoxButtons.YesNo);
+
             logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
 
             return confirmResult;
@@ -1275,55 +1292,36 @@ namespace RelayControlLibrary
         // 2) Remove dead locals in manual reload path
         private void startManualReloadWithBootCheck()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            // Remove these unused locals
-            // bool bootUnknown = !this.masterBootRevisionSet ||
-            //                   this.masterBootRevisionNumberReceived <= 0;
-            //
-            // bool bootOld = this.masterBootRevisionSet &&
-            //                this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
-
-            this.masterCode.WithParameters = false;
+            logger.Info("Manual update path: forced full firmware update, bypassing boot-check logic.");
 
             this.manualReload = true;
             this.reloadBootWithPrompt = false;
-
             this.autoLoad = false;
+
             this.reprogramMaster = true;
             this.reprogramRelay = true;
             this.reprogramFPGA = this.transmitterEnabled;
+
             this.askToUgradeShown = false;
 
-            if (!IsBootUpdateApproved())
+            this.upgradeAutoDR = this.showManualLoadDialog(true);
+
+            if (this.upgradeAutoDR != DialogResult.Yes)
             {
-                logger.Info("Manual path: requesting explicit approval before boot check.");
-                this.upgradeAutoDR = this.showManualLoadDialog();
-
-                if (this.upgradeAutoDR != DialogResult.Yes)
-                {
-                    this.firmwareUpgradeAcceptedThisCycle = false;
-                    logger.Info("Manual path: user declined update.");
-                    return;
-                }
-
-                this.firmwareUpgradeAcceptedThisCycle = true;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                logger.Info("Manual path: user declined forced full update.");
+                return;
             }
 
             if (!EnsureProgrammingStartWarningAcknowledged())
             {
-                logger.Info("Manual path: user cancelled start warning; aborting update flow.");
+                logger.Info("Manual path: user cancelled start warning; aborting.");
                 return;
             }
 
-            this.CheckProperMasterBootCode();
-
-            if (this.notPollingPort && !this.programBootCodeInProgress)
-                Thread.Sleep(1000);
-
             this.programmingForm.ClearAllChecks();
             this.setProgrammingFiles();
-            this.startAutoLoad();
+            this.startProgramming();
         }
 
 
@@ -1631,7 +1629,7 @@ namespace RelayControlLibrary
 
             if (ManualUpdate.usingManualMode)
             {
-                dR = this.showManualLoadDialog();
+                dR = this.showManualLoadDialog(true);
             }
             else if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
@@ -1920,25 +1918,10 @@ namespace RelayControlLibrary
                 logger.Warn("BootReceived: non-numeric/unknown boot revision. Raw='{0}'", normalizedBoot);
             }
 
-            // Manual flow: only attempt boot repair when explicitly approved,
-            // and route through manual override policy.
+            // Manual flow: do not evaluate boot repair or boot approval logic.
             if (this.manualReload && !this.notPollingPort && !this.programBootCodeInProgress)
             {
-                if (this.IsBootUpdateApproved())
-                {
-                    if (this.CanRepairBoot(manualOverride: true))
-                    {
-                        this.CheckProperMasterBootCode();
-                    }
-                    else
-                    {
-                        logger.Warn("BootReceived manual path blocked by CanRepairBoot override policy.");
-                    }
-                }
-                else
-                {
-                    logger.Info("BootReceived: manual boot check skipped; no explicit approval yet.");
-                }
+                logger.Info("BootReceived manual path: skipping boot repair logic; manual update is full-update mode.");
             }
 
             switch (this.state)
@@ -2797,7 +2780,7 @@ namespace RelayControlLibrary
 
         private bool startWarningShownThisCycle = false;
 
-        private bool CanRepairBoot(bool manualOverride = false)
+        private bool CanRepairBoot(bool manualOverride)
         {
             bool bootUnknown =
                 !this.masterBootRevisionSet ||
@@ -2808,16 +2791,12 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived > 0 &&
                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-            logger.Info(
-                "CanRepairBoot: manualOverride={0}, bootSet={1}, bootRev={2}, required={3}, bootUnknown={4}, bootOutdated={5}",
-                manualOverride,
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived,
-                _bootCodeRevisionNumber,
-                bootUnknown,
-                bootOutdated);
+            if (ManualUpdate.usingManualMode)
+            {
+                logger.Warn("Boot repair blocked (manual): manual update is full-update mode, not boot repair.");
+                return false;
+            }
 
-            // Auto mode: must be known + outdated
             if (!manualOverride)
             {
                 if (bootUnknown)
@@ -2836,10 +2815,8 @@ namespace RelayControlLibrary
                 return true;
             }
 
-            // Manual override mode:
-            // user explicitly requested boot repair path; allow even when unknown/current
-            logger.Warn("Boot repair allowed via manual override.");
-            return true;
+            logger.Warn("Boot repair blocked: manual override not allowed for this path.");
+            return false;
         }
 
         private void sendNonTransmitterSettings()
@@ -2936,15 +2913,20 @@ namespace RelayControlLibrary
 
         private void CheckProperMasterBootCode()
         {
-            bool manualOverride = ManualUpdate.usingManualMode;
+            if (ManualUpdate.usingManualMode)
+            {
+                logger.Info("Manual update path: bypassing boot repair decision logic.");
+                this.wrongBootCodeLoaded = false;
+                this.programBootCodeOnly = false;
+                return;
+            }
 
-            // Safety gate: auto mode requires known + outdated boot.
-            // Manual override is allowed only when the operator intentionally forced it.
+            bool manualOverride = false;
+
             if (!this.CanRepairBoot(manualOverride))
             {
                 logger.Info(
-                    "CheckProperMasterBootCode: boot repair deferred/blocked. manualOverride={0}, bootSet={1}, bootRev={2}",
-                    manualOverride,
+                    "CheckProperMasterBootCode: boot repair deferred/blocked. bootSet={0}, bootRev={1}",
                     this.masterBootRevisionSet,
                     this.masterBootRevisionNumberReceived);
 
@@ -2974,23 +2956,13 @@ namespace RelayControlLibrary
 
             bool bootNeedsLoad = this.IsBootLoadRequired();
 
-            logger.Info(
-                "BOOT DECISION | manualOverride={0}, bootSet={1}, bootRev={2}, required={3}, bootNeedsLoad={4}",
-                manualOverride,
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived,
-                _bootCodeRevisionNumber,
-                bootNeedsLoad);
-
-            // Auto path: only stale boot should start repair.
-            if (!manualOverride && !bootNeedsLoad)
+            if (!bootNeedsLoad)
             {
                 this.wrongBootCodeLoaded = false;
                 this.programBootCodeOnly = false;
                 return;
             }
 
-            // Explicit approval is still required before starting the boot write.
             if (!this.IsBootUpdateApproved())
             {
                 logger.Info("CheckProperMasterBootCode: repair suppressed; waiting for explicit approval.");
@@ -3003,11 +2975,8 @@ namespace RelayControlLibrary
 
             logger.Info("Boot load required (unknown or older revision).");
             this.wrongBootCodeLoaded = true;
-
-            // Only force boot-only completion when there is no remaining firmware work.
             this.programBootCodeOnly = !(this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA);
 
-            // Single source of truth: boot repair is launched here only once.
             if (!this.programBootCodeInProgress)
             {
                 logger.Info(
