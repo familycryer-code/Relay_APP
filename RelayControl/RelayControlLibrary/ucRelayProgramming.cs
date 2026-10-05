@@ -86,6 +86,7 @@ namespace RelayControlLibrary
         private DialogResult upgradeAutoDR = DialogResult.No;
         private bool reprogrammingInProgress = false;
         public bool AutoloadAcceptedPendingBackup { get; set; } = false;
+        private bool startWarningAcknowledgedThisCycle = false;
 
 
         public Customers Customer
@@ -204,6 +205,13 @@ namespace RelayControlLibrary
                 {
                     if (!this.programBootCodeInProgress)
                     {
+                        if (!EnsureProgrammingStartWarningAcknowledged())
+                        {
+                            logger.Warn("ProgramBootCodeStart blocked: start warning not acknowledged.");
+                            this.programBootCodeStart = false;
+                            return;
+                        }
+
                         logger.Info("ProgramBootCodeStart setter: about to call ProgramBootCode()");
                         ProgramBootCode();
                     }
@@ -236,6 +244,26 @@ namespace RelayControlLibrary
         {
             logger.Info("ProgramBootCode() entered");
             MasterBootLoaderStart();
+        }
+
+        private bool EnsureProgrammingStartWarningAcknowledged()
+        {
+            if (this.startWarningAcknowledgedThisCycle)
+                return true;
+
+            DialogResult dr = ShowProgrammingStartWarning();
+            logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", dr);
+
+            if (dr != DialogResult.OK)
+            {
+                this.startWarningAcknowledgedThisCycle = false;
+                this.autoLoad = false;
+                this.reprogrammingInProgress = false;
+                return false;
+            }
+
+            this.startWarningAcknowledgedThisCycle = true;
+            return true;
         }
 
         private bool forceUpdateOnce = false;
@@ -3517,6 +3545,12 @@ namespace RelayControlLibrary
                     "startProgramming suppressed while bootloader flow is active. state={0}, programBootCodeInProgress={1}",
                     this.State,
                     this.programBootCodeInProgress);
+                return;
+            }
+
+            if (!EnsureProgrammingStartWarningAcknowledged())
+            {
+                logger.Warn("startProgramming blocked: start warning not acknowledged.");
                 return;
             }
 
