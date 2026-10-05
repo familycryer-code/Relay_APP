@@ -1156,7 +1156,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // One canonical gate before any continuation:
             if (this.IsBootOnlyManualRequired())
             {
                 logger.Info("Boot-only/manual path required; aborting resume and returning to idle.");
@@ -1171,10 +1170,19 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // If boot is stale/unknown but approval was not already granted, get approval once.
-            if (this.IsBootLoadRequired() && !this.IsBootUpdateApproved())
+            // 1) If boot is unknown, force a fresh boot read before showing any approval popup.
+            if (this.IsBootLoadRequired() && !this.masterBootRevisionSet)
             {
-                logger.Info("Boot stale/unknown after backup; requesting approval before resume.");
+                logger.Info("Boot unknown after backup; forcing fresh boot read before any approval prompt.");
+                this.State = RelayProgrammingStates.AutoLoadCheckBoot;
+                this.sendReset();
+                return;
+            }
+
+            // 2) If boot is known and still stale, then this is the real prompt condition.
+            if (this.IsBootLoadRequired() && this.masterBootRevisionSet && !this.IsBootUpdateApproved())
+            {
+                logger.Info("Boot stale after fresh read; requesting approval before resume.");
                 this.showAutoLoadDialog();
 
                 if (this.upgradeAutoDR != DialogResult.Yes)
@@ -1188,7 +1196,7 @@ namespace RelayControlLibrary
                 this.upgradeAutoDR = DialogResult.Yes;
             }
 
-            // One consistent next step: request boot read again, then let AutoLoadCheckBoot unify the decision.
+            // 3) Boot is valid or user approved; continue the flow.
             logger.Info("Approved path after backup -> requesting fresh boot read.");
             this.State = RelayProgrammingStates.AutoLoadCheckBoot;
             this.sendReset();
