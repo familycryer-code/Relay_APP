@@ -1716,9 +1716,22 @@ namespace RelayControl
                     }
                     else if (this.pendingAutoloadAfterBackup ||
                              this.ucRelayProgramming1.ReprogrammingInProgress ||
-                             this.loadingNewCode)
+                             this.loadingNewCode ||
+                             this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
+                             this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
+                             this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
+                             this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                             this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
+                             this.ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
-                        logger.Info("Suppressing RequestAll during backup/programming transition.");
+                        logger.Info(
+                            "Suppressing RequestAll during backup/boot-check/programming transition. " +
+                            "pendingAutoloadAfterBackup={0}, reprogrammingInProgress={1}, loadingNewCode={2}, state={3}",
+                            this.pendingAutoloadAfterBackup,
+                            this.ucRelayProgramming1.ReprogrammingInProgress,
+                            this.loadingNewCode,
+                            this.ucRelayProgramming1.State);
+
                         break;
                     }
 
@@ -10956,13 +10969,29 @@ namespace RelayControl
                 pendingAutoloadAfterBackup = false;
                 logger.Info("Autoload continuation consumed; programming started.");
             }
+            else if (pendingAutoloadAfterBackup &&
+                     (this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
+                      this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
+                      this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
+                      this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                      this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
+                      this.ucRelayProgramming1.ProgramBootCodeInProgress))
+            {
+                logger.Info(
+                    "Autoload continuation still in boot-check/boot-repair handoff; keeping comm suppression active. " +
+                    "State={0}, pendingAutoloadAfterBackup={1}, programBootCodeInProgress={2}",
+                    this.ucRelayProgramming1.State,
+                    pendingAutoloadAfterBackup,
+                    this.ucRelayProgramming1.ProgramBootCodeInProgress);
+
+                // leave pendingAutoloadAfterBackup true
+                // do not restore monitoring
+                // do not clear loadingNewCode / quietMode / pauseMonitoring
+            }
             else
             {
-                logger.Info("Autoload continuation deferred; restoring normal UI/monitoring while waiting for boot read.");
-
+                logger.Info("Autoload continuation deferred with no active boot-check; restoring normal UI/monitoring.");
                 pendingAutoloadAfterBackup = false;
-
-                // Unlatch transition suppression flags so normal comms can resume.
                 this.loadingNewCode = false;
                 this.quietMode = false;
                 this.pauseMonitoring = false;
