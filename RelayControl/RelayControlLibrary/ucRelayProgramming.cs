@@ -766,9 +766,31 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            // If the boot is current and firmware is pending, continue normal firmware path.
             if (!bootNeedsLoad)
             {
+                if (!this.AnyFirmwarePending())
+                {
+                    logger.Info("No firmware pending after fresh boot read; stopping cleanly.");
+                    this.ResetAutoloadState();
+                    return false;
+                }
+
+                // Hard stop until the programming warning is actually acknowledged.
+                if (!this.startWarningAcknowledgedThisCycle && !this.IsBootUpdateApproved())
+                {
+                    logger.Info("Boot current but programming warning not acknowledged; prompting now.");
+                    DialogResult dr = ShowProgrammingStartWarning();
+
+                    if (dr != DialogResult.OK)
+                    {
+                        logger.Info("User declined start warning; aborting autoload.");
+                        this.ResetAutoloadState();
+                        return false;
+                    }
+
+                    this.startWarningAcknowledgedThisCycle = true;
+                }
+
                 logger.Info("Boot is current; continuing standard firmware flow.");
                 this.autoLoad = true;
                 this.startProgramming();
