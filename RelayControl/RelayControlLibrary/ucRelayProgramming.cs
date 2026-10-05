@@ -818,7 +818,9 @@ namespace RelayControlLibrary
 
                 if (!this.IsBootUpdateApproved())
                 {
-                    logger.Info("Approval still not granted after fresh boot read; waiting.");
+                    logger.Info("User declined autoload after fresh boot read; restoring normal comms state.");
+                    this.ResetAutoloadState();   // critical
+                    this.NotPollingPort = false; // if your comm loop checks this
                     return false;
                 }
             }
@@ -2521,14 +2523,24 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
 
-            // NEW: master stage is complete; consume it so we don't re-enter master after relay.
+            // master stage finished
             this.reprogramMaster = false;
 
-            if (this.autoLoad)
+            bool stagedFlow = this.autoLoad || ManualUpdate.usingManualMode;
+
+            logger.Info(
+                "doneLoadingMaster NEXT STAGE decision: stagedFlow={0}, reprogramRelay={1}, reprogramFPGA={2}, manualMode={3}, autoLoad={4}",
+                stagedFlow,
+                this.reprogramRelay,
+                this.reprogramFPGA,
+                ManualUpdate.usingManualMode,
+                this.autoLoad);
+
+            if (stagedFlow)
             {
                 if (this.reprogramRelay)
                 {
-                    this.reprogramRelay = false;    // consume current stage
+                    this.reprogramRelay = false;
                     this.parseSFile(this.relayCode);
                     this.programmingForm.CurrentTask = "Loading Relay Code g";
                     logger.Trace("Loading Relay Code g");
@@ -2540,7 +2552,7 @@ namespace RelayControlLibrary
 
                 if (this.reprogramFPGA)
                 {
-                    this.reprogramFPGA = false;    // consume current stage
+                    this.reprogramFPGA = false;
                     this.parseFPGAFile(this.fPGACode);
                     this.programmingForm.RelayCodeComplete = true;
                     this.programmingForm.RelayDataComplete = true;
