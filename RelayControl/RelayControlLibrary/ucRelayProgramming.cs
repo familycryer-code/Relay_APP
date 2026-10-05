@@ -2589,6 +2589,9 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
 
+            // NEW: master stage is complete; consume it so we don't re-enter master after relay.
+            this.reprogramMaster = false;
+
             if (this.autoLoad)
             {
                 if (this.reprogramRelay)
@@ -2691,29 +2694,49 @@ namespace RelayControlLibrary
 
             this.enableButtons(true);
             this.timerTimeout.Stop();
-            logger.Trace("");
             logger.Trace("Done Loading Master Boot");
             this.programmingForm.MasterBootComplete = true;
 
             // Preserve branch intent before clearing flags.
             bool bootOnlyFlow = this.programBootCodeOnly;
 
-            // Clear bootloader/upgrade flags before continuing to next stage.
+            // We are not done with the overall firmware cycle.  The relay has just rebooted
+            // after the bootloader upload, so we must wait for a fresh boot read before
+            // deciding whether to continue master/relay/FPGA programming or repair boot code.
             this.wrongBootCodeLoaded = false;
             this.programBootCodeOnly = false;
             this.programBootCodeStart = false;
             this.programBootCodeInProgress = false;
             this.loadMasterFirst = false;
-            this.firmwareUpgradeAcceptedThisCycle = false;
-            this.autoLoad = false;
-            this.reprogrammingInProgress = false;
-            this.askToUgradeShown = true;
+
+            // IMPORTANT:
+            // Keep the current cycle's approval and active programming state intact.
+            // The bootloader upload is part of the same operation, not a new cycle.
+            // We intentionally do NOT clear:
+            //   this.firmwareUpgradeAcceptedThisCycle
+            //   this.askToUgradeShown
+            //   this.reprogrammingInProgress
+            //   this.autoLoad
+            //
+            // Those flags are used to carry the update decision and state through the relay reset.
+            // Re-prompting / clearing them here causes the same update cycle to be re-entered incorrectly.
+
             this.reloadBootWithPrompt = false;
 
-            logger.Info("doneLoadingMasterBootLoader gate: bootOnlyFlow={0}, reprogramMaster={1}, reprogramRelay={2}, reprogramFPGA={3}",
-                bootOnlyFlow, this.reprogramMaster, this.reprogramRelay, this.reprogramFPGA);
+            bool keepMasterPending = this.reprogramMaster;
+            bool keepRelayPending = this.reprogramRelay;
+            bool keepFpgaPending = this.reprogramFPGA;
 
-            if (bootOnlyFlow && !(this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA))
+            logger.Info(
+                "doneLoadingMasterBootLoader gate: bootOnlyFlow={0}, keepMasterPending={1}, keepRelayPending={2}, keepFpgaPending={3}, bootRevSet={4}, bootRev={5}",
+                bootOnlyFlow,
+                keepMasterPending,
+                keepRelayPending,
+                keepFpgaPending,
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived);
+
+            if (bootOnlyFlow && !keepMasterPending && !keepRelayPending && !keepFpgaPending)
             {
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: boot-only flow finalization.");
                 this.programmingForm.Hide();
@@ -2725,34 +2748,23 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.State = RelayProgrammingStates.Idle;
+            // Clear stale boot value so the next read is authoritative.
+            this.masterBootRevisionSet = false;
+            this.masterBootRevisionNumberReceived = 0;
 
-            // If the relay still reports a stale boot revision after bootloader upload,
-            // do not immediately re-trigger boot repair / firmware evaluation.
-            // Wait for a fresh BootReceived/read before continuing.
-            bool bootStillStale =
-                this.masterBootRevisionSet &&
-                this.masterBootRevisionNumberReceived > 0 &&
-                this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+            // The relay is resetting here. Give it a short settle window before requesting
+            // the fresh BOOT read. Without this delay, we can read stale/half-reset state.
+            const int resetReadbackDelayMs = 3000;
+            logger.Info("doneLoadingMasterBootLoader: waiting {0} ms for relay reset/readback to settle.", resetReadbackDelayMs);
+            Thread.Sleep(resetReadbackDelayMs);
 
-            if (bootStillStale)
-            {
-                logger.Info(
-                    "doneLoadingMasterBootLoader: boot still stale after upload. rev={0}, required={1}; deferring CheckForUpdate until fresh BootReceived.",
-                    this.masterBootRevisionNumberReceived,
-                    _bootCodeRevisionNumber);
+            // Trigger the original boot-read sequence again.
+            // When BootReceived() fires, it will land in AutoLoadCheckBoot and ContinueAutoloadAfterBootCheck()
+            // will decide whether to continue firmware programming or re-enter boot repair.
+            this.state = RelayProgrammingStates.AutoLoadCheckBoot;
+            this.sendReset();
 
-                // Do not loop back into CheckForUpdate()/CheckProperMasterBootCode() immediately.
-                // The next BootReceived() will decide next action.
-                return;
-            }
-
-            firstCheckForUpdate = true;
-            reprogramRelay = true;
-
-            logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: before CheckForUpdate");
-            CheckForUpdate();
-            logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: after CheckForUpdate");
+            logger.Info("doneLoadingMasterBootLoader: boot read re-triggered after reset; waiting for fresh BootReceived()");
         }
 
         public void FinalizeReprogram()
