@@ -205,6 +205,22 @@ namespace RelayControlLibrary
                 {
                     if (!this.programBootCodeInProgress)
                     {
+                        bool manualOverride = ManualUpdate.usingManualMode;
+
+                        // New safety gate: only boot repair is allowed if the state is valid
+                        // for repair. Auto mode requires known + outdated boot.
+                        if (!this.CanRepairBoot(manualOverride))
+                        {
+                            logger.Warn(
+                                "ProgramBootCodeStart blocked: boot state is not valid for repair. manualOverride={0}, bootSet={1}, bootRev={2}",
+                                manualOverride,
+                                this.masterBootRevisionSet,
+                                this.masterBootRevisionNumberReceived);
+
+                            this.programBootCodeStart = false;
+                            return;
+                        }
+
                         if (!EnsureProgrammingStartWarningAcknowledged())
                         {
                             logger.Warn("ProgramBootCodeStart blocked: start warning not acknowledged.");
@@ -806,16 +822,10 @@ namespace RelayControlLibrary
                 if (!this.startWarningAcknowledgedThisCycle && !this.IsBootUpdateApproved())
                 {
                     logger.Info("Boot current but programming warning not acknowledged; prompting now.");
-                    DialogResult dr = ShowProgrammingStartWarning();
-
-                    if (dr != DialogResult.OK)
+                    if (!EnsureProgrammingStartWarningAcknowledged())
                     {
-                        logger.Info("User declined start warning; aborting autoload.");
-                        this.ResetAutoloadState();
                         return false;
                     }
-
-                    this.startWarningAcknowledgedThisCycle = true;
                 }
 
                 logger.Info("Boot is current; continuing standard firmware flow.");
@@ -1285,7 +1295,7 @@ namespace RelayControlLibrary
                 this.firmwareUpgradeAcceptedThisCycle = true;
             }
 
-            if (!ConfirmApprovedUpdateStartOnce())
+            if (!EnsureProgrammingStartWarningAcknowledged())
             {
                 logger.Info("Manual path: user cancelled start warning; aborting update flow.");
                 return;
@@ -1575,14 +1585,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (!this.IsBootLoadRequired())
-            {
-                logger.Info(
-                    "Boot is current/newer; continuing to normal firmware evaluation. bootRev={0}, required={1}",
-                    this.masterBootRevisionNumberReceived,
-                    _bootCodeRevisionNumber);
-            }
-
             if (this.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
                 this.State == RelayProgrammingStates.Idle)
             {
@@ -1632,7 +1634,7 @@ namespace RelayControlLibrary
             {
                 if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                 {
-                    if (!ConfirmApprovedUpdateStartOnce())
+                    if (!EnsureProgrammingStartWarningAcknowledged())
                     {
                         this.autoLoad = false;
                         return;
@@ -1651,9 +1653,22 @@ namespace RelayControlLibrary
 
                 logger.Trace("User Verified Programming Start");
 
-                if (this.masterBootRevisionSet &&
-                    this.masterBootRevisionNumberReceived > 0 &&
-                    this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber)
+                bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
+                bool bootOld = this.masterBootRevisionSet &&
+                               this.masterBootRevisionNumberReceived > 0 &&
+                               this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+
+                // HARDENING: auto path must not continue normal flow with unknown boot state.
+                // Force a fresh boot read first, then let AutoLoadCheckBoot decide.
+                if (bootUnknown && !ManualUpdate.usingManualMode)
+                {
+                    logger.Warn("startAutoLoad: boot revision unknown in auto mode; deferring programming until fresh boot read.");
+                    this.State = RelayProgrammingStates.AutoLoadCheckBoot;
+                    this.sendReset();
+                    return;
+                }
+
+                if (bootOld)
                 {
                     this.CheckProperMasterBootCode();
 
@@ -1662,31 +1677,18 @@ namespace RelayControlLibrary
                         logger.Info("startAutoLoad: boot repair already scheduled/active; exiting without re-entry.");
                         return;
                     }
-
-                    Thread.Sleep(500);
-                    this.autoLoad = true;
-
-                    if (!programmingForm.MasterBootComplete)
-                        this.programmingForm.ClearAllChecks();
-
-                    this.startProgramming();
-
-                    if (!this.programmingForm.Visible)
-                        this.programmingForm.Show();
                 }
-                else
-                {
-                    Thread.Sleep(500);
-                    this.autoLoad = true;
 
-                    if (!programmingForm.MasterBootComplete)
-                        this.programmingForm.ClearAllChecks();
+                Thread.Sleep(500);
+                this.autoLoad = true;
 
-                    this.startProgramming();
+                if (!programmingForm.MasterBootComplete)
+                    this.programmingForm.ClearAllChecks();
 
-                    if (!this.programmingForm.Visible)
-                        this.programmingForm.Show();
-                }
+                this.startProgramming();
+
+                if (!this.programmingForm.Visible)
+                    this.programmingForm.Show();
             }
             else
             {
@@ -1879,33 +1881,44 @@ namespace RelayControlLibrary
             string rawBoot = bootReceived ?? string.Empty;
             string normalizedBoot = rawBoot.Trim();
 
-            // Extract the numeric portion if present.
-            // Handles:
-            //  "BOOT C 260116" -> 260116
-            //  "BOOT 260116"   -> 260116
-            //  "BOOT A BYPASS" -> no numeric portion
+            // Extract numeric portion if present.
+            // Examples:
+            //   "BOOT C 260116" -> 260116
+            //   "BOOT 260116"   -> 260116
+            //   "BOOT A BYPASS" -> no numeric portion
             string numericPart = Regex.Match(normalizedBoot, @"\d+").Value;
 
-            masterBootStringReceived = normalizedBoot;
-            bootStartUpChar = rawBoot.Length >= 3 ? rawBoot.Substring(3, 1) : "0";
+            this.masterBootStringReceived = normalizedBoot;
+            this.bootStartUpChar = rawBoot.Length >= 3 ? rawBoot.Substring(3, 1) : "0";
 
             if (!string.IsNullOrEmpty(numericPart) && UInt32.TryParse(numericPart, out UInt32 parsedRevision))
             {
-                masterBootRevisionNumberReceived = parsedRevision;
-                masterBootRevisionSet = true;
+                this.masterBootRevisionNumberReceived = parsedRevision;
+                this.masterBootRevisionSet = true;
+                logger.Info("BootReceived parsed revision: {0}", parsedRevision);
             }
             else
             {
-                // If boot is BYPASS or another non-digit response, treat as known but not a valid numeric revision.
-                masterBootRevisionNumberReceived = 0;
-                masterBootRevisionSet = true;
+                // Critical safety behavior: unknown remains unknown.
+                this.masterBootRevisionNumberReceived = 0;
+                this.masterBootRevisionSet = false;
+                logger.Warn("BootReceived: non-numeric/unknown boot revision. Raw='{0}'", normalizedBoot);
             }
 
-            if (manualReload && !notPollingPort && !programBootCodeInProgress)
+            // Manual flow: only attempt boot repair when explicitly approved,
+            // and route through manual override policy.
+            if (this.manualReload && !this.notPollingPort && !this.programBootCodeInProgress)
             {
-                if (IsBootUpdateApproved())
+                if (this.IsBootUpdateApproved())
                 {
-                    this.CheckProperMasterBootCode();
+                    if (this.CanRepairBoot(manualOverride: true))
+                    {
+                        this.CheckProperMasterBootCode();
+                    }
+                    else
+                    {
+                        logger.Warn("BootReceived manual path blocked by CanRepairBoot override policy.");
+                    }
                 }
                 else
                 {
@@ -1913,7 +1926,7 @@ namespace RelayControlLibrary
                 }
             }
 
-            switch (state)
+            switch (this.state)
             {
                 case RelayProgrammingStates.ManualPortSelectionWaitingForBoot:
                     this.startAutoLoad();
@@ -1950,11 +1963,12 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.CheckMasterBootCode:
                     logger.Trace("CheckMasterBootCode");
                     this.state = RelayProgrammingStates.Idle;
-                    CheckProperMasterBootCode();
+                    this.CheckProperMasterBootCode();
                     break;
 
                 case RelayProgrammingStates.AutoLoadCheckBoot:
-                    logger.Info("AutoLoadCheckBoot: entering continuation evaluation. AutoloadAcceptedPendingBackup={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
+                    logger.Info(
+                        "AutoLoadCheckBoot: entering continuation evaluation. AutoloadAcceptedPendingBackup={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
                         this.AutoloadAcceptedPendingBackup,
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
@@ -1968,19 +1982,19 @@ namespace RelayControlLibrary
                     }
 
                     logger.Info("Calling ContinueAutoloadAfterBootCheck()");
-                    ContinueAutoloadAfterBootCheck();
+                    this.ContinueAutoloadAfterBootCheck();
                     break;
 
                 case RelayProgrammingStates.ManualLoadCheckBoot:
                     logger.Trace("ManualLoadCheckBoot");
                     this.state = RelayProgrammingStates.Idle;
-                    startManualReloadWithBootCheck();
+                    this.startManualReloadWithBootCheck();
                     break;
 
                 case RelayProgrammingStates.ReloadMasterBoot:
                     this.timerTimeout.Stop();
                     Thread.Sleep(3000);
-                    programBootCodeInProgress = false;
+                    this.programBootCodeInProgress = false;
                     this.ProgramBootCodeStart = true;
                     break;
 
@@ -2465,12 +2479,27 @@ namespace RelayControlLibrary
 
         private bool IsBootLoadRequired()
         {
-            bool bootKnown = this.masterBootRevisionSet && this.masterBootRevisionNumberReceived > 0;
+            // Safe policy:
+            // unknown boot revision is not a valid reason to start boot programming
+            if (!this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0)
+            {
+                logger.Info(
+                    "Boot revision unknown; not eligible for automatic boot repair. bootSet={0}, bootRev={1}",
+                    this.masterBootRevisionSet,
+                    this.masterBootRevisionNumberReceived);
 
-            if (!bootKnown)
-                return true;
+                return false;
+            }
 
-            return this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+            bool outdated = this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
+
+            logger.Info(
+                "Boot load required check: bootRev={0}, required={1}, outdated={2}",
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber,
+                outdated);
+
+            return outdated;
         }
         private bool IsBootOnlyManualRequired()
         {
@@ -2753,50 +2782,49 @@ namespace RelayControlLibrary
 
         private bool startWarningShownThisCycle = false;
 
-        private bool ConfirmApprovedUpdateStartOnce()
+        private bool CanRepairBoot(bool manualOverride = false)
         {
-            // Do NOT change SimulationMode here.
-            // Keep the dry-run/simulation state stable.
-            if (this.startWarningShownThisCycle)
-                return true;
+            bool bootUnknown =
+                !this.masterBootRevisionSet ||
+                this.masterBootRevisionNumberReceived <= 0;
 
-            DialogResult result = ShowProgrammingStartWarning();
-            this.startWarningShownThisCycle = true;
+            bool bootOutdated =
+                this.masterBootRevisionSet &&
+                this.masterBootRevisionNumberReceived > 0 &&
+                this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-            if (result != DialogResult.OK)
+            logger.Info(
+                "CanRepairBoot: manualOverride={0}, bootSet={1}, bootRev={2}, required={3}, bootUnknown={4}, bootOutdated={5}",
+                manualOverride,
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber,
+                bootUnknown,
+                bootOutdated);
+
+            // Auto mode: must be known + outdated
+            if (!manualOverride)
             {
-                this.autoLoad = false;
-                this.upgradeAutoDR = DialogResult.No;
-                this.firmwareUpgradeAcceptedThisCycle = false;
-                this.askToUgradeShown = true;
-                return false;
+                if (bootUnknown)
+                {
+                    logger.Warn("Boot repair blocked (auto): boot revision unknown/invalid.");
+                    return false;
+                }
+
+                if (!bootOutdated)
+                {
+                    logger.Info("Boot repair not required (auto): boot is current/newer.");
+                    return false;
+                }
+
+                logger.Info("Boot repair allowed (auto): boot is outdated.");
+                return true;
             }
 
+            // Manual override mode:
+            // user explicitly requested boot repair path; allow even when unknown/current
+            logger.Warn("Boot repair allowed via manual override.");
             return true;
-        }
-
-        private bool IsDangerousProgrammingSend(RelayProgrammingEventArgs rPEA)
-        {
-            if (rPEA == null) return false;
-
-            if (rPEA.Command == RelayProgrammingSendCommands.RawData)
-                return true;
-
-            if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
-                return true;
-
-            if (rPEA.Command == RelayProgrammingSendCommands.SaveSettings ||
-                rPEA.Command == RelayProgrammingSendCommands.RequestAll ||
-                rPEA.Command == RelayProgrammingSendCommands.RecallSavedSettings ||
-                rPEA.Command == RelayProgrammingSendCommands.RestoreDefaults)
-                return true;
-
-            return false;
-        }
-
-        private void SimLog(string msg)
-        {
-            logger.Warn("[SIM] " + msg);
         }
 
         private void sendNonTransmitterSettings()
@@ -2891,8 +2919,25 @@ namespace RelayControlLibrary
             this.timerTimeout.Start();
         }
 
-        public void CheckProperMasterBootCode()
+        private void CheckProperMasterBootCode()
         {
+            bool manualOverride = ManualUpdate.usingManualMode;
+
+            // Safety gate: auto mode requires known + outdated boot.
+            // Manual override is allowed only when the operator intentionally forced it.
+            if (!this.CanRepairBoot(manualOverride))
+            {
+                logger.Info(
+                    "CheckProperMasterBootCode: boot repair deferred/blocked. manualOverride={0}, bootSet={1}, bootRev={2}",
+                    manualOverride,
+                    this.masterBootRevisionSet,
+                    this.masterBootRevisionNumberReceived);
+
+                this.wrongBootCodeLoaded = false;
+                this.programBootCodeOnly = false;
+                return;
+            }
+
             if (this.programBootCodeInProgress)
             {
                 logger.Warn("CheckProperMasterBootCode suppressed: boot repair already active.");
@@ -2915,28 +2960,29 @@ namespace RelayControlLibrary
             bool bootNeedsLoad = this.IsBootLoadRequired();
 
             logger.Info(
-                "BOOT DECISION | bootSet={0}, bootRev={1}, required={2}, bootNeedsLoad={3}",
+                "BOOT DECISION | manualOverride={0}, bootSet={1}, bootRev={2}, required={3}, bootNeedsLoad={4}",
+                manualOverride,
                 this.masterBootRevisionSet,
                 this.masterBootRevisionNumberReceived,
                 _bootCodeRevisionNumber,
                 bootNeedsLoad);
 
-            if (!bootNeedsLoad)
+            // Auto path: only stale boot should start repair.
+            if (!manualOverride && !bootNeedsLoad)
             {
                 this.wrongBootCodeLoaded = false;
                 this.programBootCodeOnly = false;
                 return;
             }
 
-            // This is the actual gate that blocks the boot path.
+            // Explicit approval is still required before starting the boot write.
             if (!this.IsBootUpdateApproved())
             {
-                logger.Info("CheckProperMasterBootCode: stale/unknown boot suppressed; waiting for explicit approval.");
+                logger.Info("CheckProperMasterBootCode: repair suppressed; waiting for explicit approval.");
                 this.wrongBootCodeLoaded = false;
                 this.programBootCodeOnly = false;
                 this.programBootCodeStart = false;
                 this.programBootCodeInProgress = false;
-              
                 return;
             }
 
@@ -2944,13 +2990,18 @@ namespace RelayControlLibrary
             this.wrongBootCodeLoaded = true;
 
             // Only force boot-only completion when there is no remaining firmware work.
-            // In the stale-boot autoload path, master/relay/FPGA updates are still pending.
             this.programBootCodeOnly = !(this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA);
 
             // Single source of truth: boot repair is launched here only once.
             if (!this.programBootCodeInProgress)
             {
-                logger.Info("CheckProperMasterBootCode: launching boot repair.");
+                logger.Info(
+                    "CheckProperMasterBootCode: launching boot repair. programBootCodeOnly={0}, pending(M={1},R={2},F={3})",
+                    this.programBootCodeOnly,
+                    this.reprogramMaster,
+                    this.reprogramRelay,
+                    this.reprogramFPGA);
+
                 this.ProgramBootCodeStart = true;
             }
         }
