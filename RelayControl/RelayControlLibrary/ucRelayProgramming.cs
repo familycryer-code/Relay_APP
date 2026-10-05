@@ -752,7 +752,8 @@ namespace RelayControlLibrary
 
             if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
             {
-                logger.Info("Boot repair is active or required; letting boot-repair flow own the continuation.");
+                logger.Info("Boot repair is active or required; entering warning/start path.");
+                this.UpgradeBootCode();   // ensures START_WARNING popup is shown
                 return true;
             }
 
@@ -1028,17 +1029,23 @@ namespace RelayControlLibrary
             {
                 this.autoLoad = false;
                 this.dontShowRelayUpgradeMessage = false;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.upgradeAutoDR = DialogResult.No;
                 return;
             }
 
             this.dontShowRelayUpgradeMessage = false;
 
-            // Startup backup already handled elsewhere. Do NOT trigger backup again here.
-            logger.Info("UpgradeBootCode: startup backup already completed; proceeding without additional backup trigger.");
-
-            // Continue directly into programming flow.
+            // IMPORTANT:
+            // Do not start normal firmware programming here.
+            // The bootloader upload must finish, the relay must reboot, and then
+            // doneLoadingMasterBootLoader() / BootReceived() / ContinueAutoloadAfterBootCheck()
+            // decide whether to continue firmware programming or re-run boot repair.
+            this.firmwareUpgradeAcceptedThisCycle = true;
+            this.upgradeAutoDR = DialogResult.Yes;
             this.autoLoad = true;
-            this.startProgramming();
+
+            logger.Info("UpgradeBootCode: boot repair approved; deferring normal firmware start until after bootloader reset and fresh boot read.");
         }
 
         private DialogResult showAutoLoadUpdateMessage()
@@ -2027,9 +2034,6 @@ namespace RelayControlLibrary
             this.upgradeAutoDR = DialogResult.No;
             this.askToUgradeShown = false;
             this.AutoloadAcceptedPendingBackup = false;
-            this.reprogramMaster = false;
-            this.reprogramRelay = false;
-            this.reprogramFPGA = false;
             this.State = RelayProgrammingStates.Idle;
         }
 
@@ -2457,7 +2461,6 @@ namespace RelayControlLibrary
             this.ResetAutoloadState();
 
             // Keep this only if you intentionally want to suppress re-prompting on the next UI cycle
-            // If you want a fresh prompt in the next cycle, leave this as false.
             this.askToUgradeShown = true;
 
             if (wasAutoLoad || ManualUpdate.usingManualMode)
@@ -2466,14 +2469,39 @@ namespace RelayControlLibrary
                 this.State = RelayProgrammingStates.ReprogramSuccess;
                 this.timerTimeout.Stop();
 
-                logger.Info("allReprogramingDone: final success path -> issuing final RequestAll.");
+                logger.Info("allReprogramingDone: final success path -> issuing final RequestAll inline; skipping FinalizeReprogram().");
                 this.requestAll();
                 return;
             }
 
             logger.Trace("All Loading Done, idle");
             this.State = RelayProgrammingStates.Idle;
-            this.FinalizeReprogram();
+
+            // Inline completion to avoid re-entering FinalizeReprogram() from this path
+            logger.Info("COMPLETE PATH allReprogramingDone: inline finalization.");
+            this.programmingForm.Hide();
+
+            this.ReprogrammingInProgress = false;
+            this.autoLoad = false;
+            this.firstCheckForUpdate = false;
+            this.firmwareUpgradeAcceptedThisCycle = false;
+
+            this.ShowFinalSuccessPopupOnce();
+
+            this.programmingForm.ClearAllChecks();
+            logger.Trace("Reprogram Completed Successfully");
+
+            if (ManualUpdate.usingManualMode == true)
+            {
+                ManualUpdate.usingManualMode = false;
+            }
+
+            this.state = RelayProgrammingStates.Idle;
+            dataB.oldDataBackup = true;
+            restartProgram();
+
+            this.startWarningShownThisCycle = false;
+            this.finalSuccessPopupShownThisCycle = false;
         }
 
         private void requestAll()
@@ -3479,6 +3507,18 @@ namespace RelayControlLibrary
         private void startProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            // NEW GUARD: never start normal firmware while bootloader upload/reset is in progress.
+            if (this.programBootCodeInProgress ||
+                this.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                this.State == RelayProgrammingStates.DoneLoadingMasterBootLoader)
+            {
+                logger.Warn(
+                    "startProgramming suppressed while bootloader flow is active. state={0}, programBootCodeInProgress={1}",
+                    this.State,
+                    this.programBootCodeInProgress);
+                return;
+            }
 
             if (this.AutoloadAcceptedPendingBackup)
             {
