@@ -730,8 +730,33 @@ namespace RelayControlLibrary
             return this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA;
         }
 
+        private void RefreshPendingFirmwareFromCurrentRevisions()
+        {
+            this.reprogramMaster =
+                this.remoteMasterRevisionNumber > 0 &&
+                this.remoteMasterRevisionNumber < _masterCodeRevisionNumber;
+
+            this.reprogramRelay =
+                this.remoteRelayRevisionNumber > 0 &&
+                this.remoteRelayRevisionNumber < _relayCodeRevisionNumber;
+
+            this.reprogramFPGA =
+                this.transmitterEnabled &&
+                this.remoteFPGARevisionNumber > 0 &&
+                this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber;
+
+            logger.Info(
+                "RefreshPendingFirmwareFromCurrentRevisions | masterRemote={0}, masterReq={1}, relayRemote={2}, relayReq={3}, fpgaRemote={4}, fpgaReq={5}, tx={6} => pending(M={7},R={8},F={9})",
+                this.remoteMasterRevisionNumber, _masterCodeRevisionNumber,
+                this.remoteRelayRevisionNumber, _relayCodeRevisionNumber,
+                this.remoteFPGARevisionNumber, _fPGACodeRevisionNumber,
+                this.transmitterEnabled,
+                this.reprogramMaster, this.reprogramRelay, this.reprogramFPGA);
+        }
+
         private bool ContinueAutoloadAfterBootCheck()
         {
+            this.RefreshPendingFirmwareFromCurrentRevisions();
             logger.Info(
                 "ContinueAutoloadAfterBootCheck ENTER: state={0}, bootSet={1}, bootRev={2}, bootOld={3}, pendingFirmware={4}, approved={5}",
                 this.State,
@@ -740,6 +765,8 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived > 0 && this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber,
                 this.AnyFirmwarePending(),
                 this.IsBootUpdateApproved());
+
+
 
             // Single source of truth: if boot is stale/unknown and there is no firmware work pending,
             // do not continue programming. This is the manual-only exit.
@@ -1073,9 +1100,8 @@ namespace RelayControlLibrary
 
             this.programmingForm.ClearAllChecks();
 
-            DialogResult warningBootDR = ShowProgrammingStartWarning();
-
-            if (warningBootDR != DialogResult.OK)
+            // was: DialogResult warningBootDR = ShowProgrammingStartWarning();
+            if (!EnsureProgrammingStartWarningAcknowledged())
             {
                 this.autoLoad = false;
                 this.dontShowRelayUpgradeMessage = false;
@@ -1086,11 +1112,6 @@ namespace RelayControlLibrary
 
             this.dontShowRelayUpgradeMessage = false;
 
-            // IMPORTANT:
-            // Do not start normal firmware programming here.
-            // The bootloader upload must finish, the relay must reboot, and then
-            // doneLoadingMasterBootLoader() / BootReceived() / ContinueAutoloadAfterBootCheck()
-            // decide whether to continue firmware programming or re-run boot repair.
             this.firmwareUpgradeAcceptedThisCycle = true;
             this.upgradeAutoDR = DialogResult.Yes;
             this.autoLoad = true;
@@ -1165,6 +1186,8 @@ namespace RelayControlLibrary
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
+
+            this.RefreshPendingFirmwareFromCurrentRevisions();
 
             if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
@@ -2092,6 +2115,11 @@ namespace RelayControlLibrary
             this.upgradeAutoDR = DialogResult.No;
             this.askToUgradeShown = false;
             this.AutoloadAcceptedPendingBackup = false;
+
+            // NEW: clear warning-per-cycle gate
+            this.startWarningAcknowledgedThisCycle = false;
+            this.startWarningShownThisCycle = false; // only if this field exists
+
             this.State = RelayProgrammingStates.Idle;
         }
 
