@@ -1021,86 +1021,115 @@ namespace RelayControlLibrary
 
         private DialogResult showManualLoadDialog(bool forcedFullUpdate)
         {
-            DialogResult dR;
+            DialogResult result = DialogResult.No;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            logger.Info("POPUP SHOW: GE_WH_SELECT");
-            dR = new CustomYesNoDialog(
-                "GE or WH Select",
-                "Is this a GE or WH style relay?",
-                "GE",
-                "WH"
-            ).ShowDialog();
-            logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", dR);
+            Cursor previousCursor = Cursor.Current;
+            bool previousUseWait = Application.UseWaitCursor;
 
-            this.internalGESetter = (dR == DialogResult.Yes);
+            try
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
 
-            logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+                logger.Info("POPUP SHOW: GE_WH_SELECT");
+                result = new CustomYesNoDialog(
+                    "GE or WH Select",
+                    "Is this a GE or WH style relay?",
+                    "GE",
+                    "WH"
+                ).ShowDialog();
+                logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", result);
 
-            string confirmMessage = forcedFullUpdate
-                ? "Please confirm update request.\r\n" +
-                  "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
-                  "Relay update can take up to 10 minutes to complete."
-                : "Please confirm update request.\r\n" +
-                  "Relay update can take up to 10 minutes to complete.";
+                this.internalGESetter = (result == DialogResult.Yes);
 
-            DialogResult confirmResult = MessageBox.Show(
-                confirmMessage,
-                "Confirm Update Request",
-                MessageBoxButtons.YesNo);
+                logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
 
-            logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
+                string confirmMessage = forcedFullUpdate
+                    ? "Please confirm update request.\r\n" +
+                      "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
+                      "Relay update can take up to 10 minutes to complete."
+                    : "Please confirm update request.\r\n" +
+                      "Relay update can take up to 10 minutes to complete.";
 
-            return confirmResult;
+                DialogResult confirmResult = MessageBox.Show(
+                    confirmMessage,
+                    "Confirm Update Request",
+                    MessageBoxButtons.YesNo);
+
+                logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
+
+                return confirmResult;
+            }
+            finally
+            {
+                Application.UseWaitCursor = previousUseWait;
+                Cursor.Current = previousCursor ?? Cursors.Default;
+            }
         }
 
         private void showAutoLoadDialog()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            // same-cycle guard: do not prompt again
             if (this.askToUgradeShown || this.firmwareUpgradeAcceptedThisCycle || this.upgradeAutoDR == DialogResult.Yes)
             {
                 logger.Info("showAutoLoadDialog suppressed; approval already handled for this cycle.");
                 return;
             }
 
-            this.upgradeAutoDR = DialogResult.No;
+            Cursor previousCursor = Cursor.Current;
+            bool previousUseWait = Application.UseWaitCursor;
 
-            if (!ManualUpdate.usingManualMode)
+            try
             {
-                this.upgradeAutoDR = showAutoLoadUpdateMessage();
+                // Force normal cursor while user must click dialogs
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
 
-                if (this.upgradeAutoDR != DialogResult.Yes)
+                this.upgradeAutoDR = DialogResult.No;
+
+                if (!ManualUpdate.usingManualMode)
                 {
-                    this.askToUgradeShown = true;
-                    this.firmwareUpgradeAcceptedThisCycle = false;
-                    logger.Info("showAutoLoadDialog: user declined AUTOLOAD_NEWER_FW; forcing ResetAutoloadState().");
-                    this.ResetAutoloadState();
-                    this.RaiseAutoloadDeclined();
-                    return;
+                    this.upgradeAutoDR = showAutoLoadUpdateMessage();
+
+                    if (this.upgradeAutoDR != DialogResult.Yes)
+                    {
+                        this.askToUgradeShown = true;
+                        this.firmwareUpgradeAcceptedThisCycle = false;
+                        logger.Info("showAutoLoadDialog: user declined AUTOLOAD_NEWER_FW; forcing ResetAutoloadState().");
+                        this.ResetAutoloadState();
+                        this.RaiseAutoloadDeclined();
+                        return;
+                    }
                 }
+
+                logger.Info("POPUP SHOW: GE_WH_SELECT");
+                DialogResult relayTypeDR = new CustomYesNoDialog(
+                    "GE or WH Select",
+                    "Is this a GE or WH style relay?",
+                    "GE",
+                    "WH").ShowDialog();
+                logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
+
+                internalGESetter = (relayTypeDR == DialogResult.Yes);
+
+                logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+                this.upgradeAutoDR = MessageBox.Show(
+                    "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
+                    "Confirm Update Request",
+                    MessageBoxButtons.YesNo);
+                logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", this.upgradeAutoDR);
+
+                this.askToUgradeShown = true;
+                this.firmwareUpgradeAcceptedThisCycle = (this.upgradeAutoDR == DialogResult.Yes);
             }
-
-            logger.Info("POPUP SHOW: GE_WH_SELECT");
-            DialogResult relayTypeDR = new CustomYesNoDialog(
-                "GE or WH Select",
-                "Is this a GE or WH style relay?",
-                "GE",
-                "WH").ShowDialog();
-            logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
-
-            internalGESetter = (relayTypeDR == DialogResult.Yes);
-
-            logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
-            this.upgradeAutoDR = MessageBox.Show(
-                "Please confirm update request.\r\nRelay update can take up to 10 minutes to complete.",
-                "Confirm Update Request",
-                MessageBoxButtons.YesNo);
-            logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", this.upgradeAutoDR);
-
-            this.askToUgradeShown = true;
-            this.firmwareUpgradeAcceptedThisCycle = (this.upgradeAutoDR == DialogResult.Yes);
+            finally
+            {
+                // Always restore cursor state
+                Application.UseWaitCursor = previousUseWait;
+                Cursor.Current = previousCursor ?? Cursors.Default;
+            }
         }
 
         private bool finalSuccessPopupShownThisCycle = false;
