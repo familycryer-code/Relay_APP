@@ -2657,12 +2657,11 @@ namespace RelayControl
                         }
                         tw.Close();
 
-                        //dataBackup_fromRelay = false;
                     }
 
                     this.setArcFaultData(bytePacket);
 
-                    if (backupInProgress)
+                    if (backupInProgress && !backupGotArcFault)
                     {
                         backupGotArcFault = true;
                         TryCompleteBackup();
@@ -2700,18 +2699,11 @@ namespace RelayControl
                         tw.Close();
                     }
 
-                    if (this.ProgramState == ProgramStates.DownloadingAllParameters)
+                    if (backupInProgress && !backupGotSafeService)
                     {
-                        if (IsDnpCommSupported() && !ucRelayProgramming1.ProgramBootCodeInProgress)
-                        {
-                            logger.Info("Skipping DNP settings request during parameter download for rev9 to rev10 compatibility.");
-                        }
-
-                        this.parametersFinishedLoading();
+                        backupGotSafeService = true;
+                        TryCompleteBackup();
                     }
-
-                    backupGotSafeService = true;
-                    TryCompleteBackup();
                     break;
                 case IncomingCommCommands.ShortRangeStrength:
                 case IncomingCommCommands.ShortRangeTransmit:
