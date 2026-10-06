@@ -6442,8 +6442,6 @@ namespace RelayControl
                 this.portNames.RemoveAt(0);                     //if the port is unavailable, remove and call this function again
                 this.checkPortsForRelay();
             }
-
-            //this.portNames.RemoveAt(0);
         }
 
         private void RegisterPolling(bool p)

@@ -2107,7 +2107,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private void ResetAutoloadState()
+        private void ResetAutoloadState([CallerMemberName] string caller = null)
         {
             logger.Info(
                 "ResetAutoloadState ENTER caller={0} | pre: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, firmwareUpgradeAcceptedThisCycle={5}, upgradeAutoDR={6}, askToUgradeShown={7}, AutoloadAcceptedPendingBackup={8}, NotPollingPort={9}",
@@ -2135,7 +2135,6 @@ namespace RelayControlLibrary
             this.startWarningShownThisCycle = false; // only if this field exists
 
             this.NotPollingPort = false; // defensive: ensure comm loop can resume
-
             this.State = RelayProgrammingStates.Idle;
 
             logger.Info(
