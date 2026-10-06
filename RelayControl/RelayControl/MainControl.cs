@@ -392,11 +392,14 @@ namespace RelayControl
             try
             {
                 initializeDNPVoltageComboBox();
-                this.restoreDefaultsTypeAndPhasing();
+
+                // Keep the default restore after the state flags and configuration are initialized,
+                // so it is not writing defaults into half-built state.
+                // this.restoreDefaultsTypeAndPhasing();  // moved later
+
                 this.initializeFromConfigFile();
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
-
 
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = false;
                 dnpUplinkK.dnpEnabledWithKit = false;
@@ -404,7 +407,7 @@ namespace RelayControl
                 applyDNP.applyDNPSettings = false;
 
 #if DEBUG
-                this.initializeFromConfigFileDebug();
+        this.initializeFromConfigFileDebug();
 #endif
 
                 this.initializeStatusFlags();
@@ -412,7 +415,7 @@ namespace RelayControl
                 this.labelQuietMode.Visible = false;
                 this.initializeEventPage();
 
-                if (!Directory.Exists(SavedDataPath)) // Create the Save Data path if it does not already exist
+                if (!Directory.Exists(SavedDataPath))
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
@@ -424,8 +427,8 @@ namespace RelayControl
                 this.buttonUpdateCTRatio.Visible = false;
 
                 this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
-                this.initializeExternalFileRevisionNumber(); // Get the saved data version
-                this.initializeSaveObject();                 // Check the save data to see
+                this.initializeExternalFileRevisionNumber();
+                this.initializeSaveObject();
 
                 tCPConnectionToolStripMenuItem.Visible = true;
                 comboBox_RelayType.Visible = true;
@@ -441,7 +444,7 @@ namespace RelayControl
                 this.loadConfigurationToolStripMenuItem.Visible = false;
 
                 statusNew.flagFromRelay = false;
-                relayHBD.relayWithHBD = false; // considering non H Board relay until revision is received from master
+                relayHBD.relayWithHBD = false;
 
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
@@ -458,7 +461,7 @@ namespace RelayControl
                 this.ucShortRange1.Send += standardizedSendData;
                 this.ucTimeControl1.SendData += standardizedSendData;
                 this.ucSafeService1.Send += standardizedSendData;
-              
+
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
                 this.ucRelayProgramming1.BackupBeforeProgrammingRequested += UcRelayProgramming1_BackupBeforeProgrammingRequested;
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
@@ -614,12 +617,12 @@ namespace RelayControl
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
 
 #if (PSEG || CONED)
-                this.grpBox_LightningCount.Enabled = true;
-                this.grpBox_LightningCount.Visible = true;
-                this.lblLC_Name.Enabled = true;
-                this.lblLC_Name.Visible = true;
-                this.lbl_LightningCount.Enabled = true;
-                this.lbl_LightningCount.Visible = true;
+        this.grpBox_LightningCount.Enabled = true;
+        this.grpBox_LightningCount.Visible = true;
+        this.lblLC_Name.Enabled = true;
+        this.lblLC_Name.Visible = true;
+        this.lbl_LightningCount.Enabled = true;
+        this.lbl_LightningCount.Visible = true;
 #else
                 this.grpBox_LightningCount.Enabled = false;
                 this.grpBox_LightningCount.Visible = false;
@@ -673,47 +676,47 @@ namespace RelayControl
                 this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10);
 
 #if BGE
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
-                this.Customer = Customers.BGE;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
+        this.Customer = Customers.BGE;
 #elif COMED
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
-                this.Customer = Customers.COMED;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
+        this.Customer = Customers.COMED;
 #elif CONED
-                this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
-                this.Customer = Customers.CONED;
+        this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
+        this.Customer = Customers.CONED;
 #elif DOMINION
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
-                this.Customer = Customers.DOMINION;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
+        this.Customer = Customers.DOMINION;
 #elif ENMAX
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
                 this.Customer = Customers.ENMAX;
 #elif EVERSOURCE
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
-                this.Customer = Customers.EVERSOURCE;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
+        this.Customer = Customers.EVERSOURCE;
 #elif LONDON_HYDRO
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
-                this.Customer = Customers.LONDON_HYDRO;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
+        this.Customer = Customers.LONDON_HYDRO;
 #elif ONCOR
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
-                this.Customer = Customers.ONCOR;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
+        this.Customer = Customers.ONCOR;
 #elif PSEG
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
-                this.Customer = Customers.PSEG;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
+        this.Customer = Customers.PSEG;
 #elif SCE
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
-                this.Customer = Customers.SCE;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
+        this.Customer = Customers.SCE;
 #elif SCL
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
-                this.Customer = Customers.SCL;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
+        this.Customer = Customers.SCL;
 #elif TAUNTON
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
-                this.Customer = Customers.TAUNTON;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
+        this.Customer = Customers.TAUNTON;
 #elif TORONTO_HYDRO
-                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
-                this.Customer = Customers.TORONTO_HYDRO;
+        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
+        this.Customer = Customers.TORONTO_HYDRO;
 #else
-                this.Text = "DIGITALGRID, INC. - ";
-                this.Customer = Customers.None;
+        this.Text = "DIGITALGRID, INC. - ";
+        this.Customer = Customers.None;
 #endif
 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
@@ -723,35 +726,34 @@ namespace RelayControl
                 this.labelConEdPowerRelay.Visible = false;
 
 #if CONED
-                this.groupBox_PC.Enabled = true;
-                this.groupBox_PC.Visible = true;
-                this.btn_PermCl_Active.Enabled = true;
-                this.btn_PermCl_Active.Visible = true;
+        this.groupBox_PC.Enabled = true;
+        this.groupBox_PC.Visible = true;
+        this.btn_PermCl_Active.Enabled = true;
+        this.btn_PermCl_Active.Visible = true;
 
-                // Keep ConEd layout specifics
-                ucRemoteCommandBlock1.Visible = true;
-                this.ucRemoteCommandBlock1.Visible = true;
-                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
-                this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
-                this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
-                this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
-                this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
+        ucRemoteCommandBlock1.Visible = true;
+        this.ucRemoteCommandBlock1.Visible = true;
+        this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
+        this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
+        this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
+        this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
+        this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
 
-                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
-                this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
+        this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
+        this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
 
-                this.buttonRequestRelayParamaters.Text = "Read";
-                this.buttonSendAll.Text = "Program";
+        this.buttonRequestRelayParamaters.Text = "Read";
+        this.buttonSendAll.Text = "Program";
 
-                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
-                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
-                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
-                this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
-                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
+        this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
+        this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
+        this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
+        this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
+        this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
 
-                this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
-                this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
-                this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
+        this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
+        this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
+        this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
 #else
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
@@ -760,14 +762,14 @@ namespace RelayControl
 #endif
 
 #if TORONTO_HYDRO
-                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+        this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+        this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #elif (CONED || PSEG || ENMAX || ONCOR || SCE || EVERSOURCE)
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = true;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = true;
 #else
-                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+        this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+        this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250);
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500);
@@ -794,7 +796,7 @@ namespace RelayControl
 #if DNP
                 this.DNPEnabled = true;
 #else
-                this.DNPEnabled = false;
+        this.DNPEnabled = false;
 #endif
 
                 checkBox277DNPOutputs.Visible = false;
@@ -898,10 +900,16 @@ namespace RelayControl
                 this.messageHandler(ex.Message, ex.InnerException);
             }
 
+            // Move defaults restore later in init, before startup backup
+            this.restoreDefaultsTypeAndPhasing();
+
             // startup backup only once, after relay-ready startup path
             if (!this.noMonitoringVersion)
             {
-                StartStartupBackupOnce();
+                BeginInvoke(new Action(() =>
+                {
+                    StartStartupBackupOnce();
+                }));
             }
         }
 
