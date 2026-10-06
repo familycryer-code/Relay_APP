@@ -62,15 +62,15 @@ namespace RelayControlLibrary
         private static UInt32 _relayCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.RelayRevision);
         private static UInt32 _fPGACodeRevisionNumber = Convert.ToUInt32(Properties.Resources.FPGARevision);
         private static UInt32 _bootCodeRevisionNumber = Convert.ToUInt32(Properties.Resources.BootRevision);
-        private static UInt32 _safeService_MASTER_REVISION = 160621;
-        private static UInt32 _rEV1_MASTER_REVISION = 100713;
+        //private static UInt32 _safeService_MASTER_REVISION = 160621;
+        //private static UInt32 _rEV1_MASTER_REVISION = 100713;
 
         private uint tempBootAddress = 0;
         private bool programBootCodeOnly = false;
         private bool programBootCodeStart = false;
         private bool programBootCodeInProgress = false;
         private UInt32 masterBootRevisionNumberReceived = 0;
-        private bool revTooLowErrorAlreadyShown = false;
+        //private bool revTooLowErrorAlreadyShown = false;
         private bool dontShowRelayUpgradeMessage = false;
         private bool masterBootRevisionSet = false;
         private bool askToUgradeShown = false;
@@ -78,7 +78,9 @@ namespace RelayControlLibrary
         private bool reprogramBootCodeAuto = false;
         private string bootStartUpChar = "0";
         private bool wrongBootCodeLoaded = false;
+       
         private bool reloadBootWithPrompt = false;
+     
         private bool programMasterBootFileSelect = false;
         private string masterBootStringReceived = "0";
         private bool autoLoad = false;

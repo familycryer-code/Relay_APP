@@ -14,7 +14,7 @@ namespace RelayControlLibrary
 {
     public partial class ucDNP : UserControl
     {
-        private static int _ucDNPInstanceCounter = 0;
+        //private static int _ucDNPInstanceCounter = 0;
     
         public ucDNP()
         {

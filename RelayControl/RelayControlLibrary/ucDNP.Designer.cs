@@ -1486,7 +1486,7 @@ namespace RelayControlLibrary
         private System.Windows.Forms.Label labelTerminationResistor;
         private System.Windows.Forms.ComboBox comboBoxTerminationResistor;
         //private System.Windows.Forms.Label labelMemphisStage;
-        private System.Windows.Forms.NumericUpDown numericUpDownMemphisStage;
+        //private System.Windows.Forms.NumericUpDown numericUpDownMemphisStage;
         private System.Windows.Forms.Label labelTHDTriggerRange;
         private System.Windows.Forms.Label labelVoltageTriggerRange;
         private System.Windows.Forms.NumericUpDown numericUpDownTriggerRangeTHD;

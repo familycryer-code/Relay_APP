@@ -10695,7 +10695,7 @@ namespace RelayControl
 
 #pragma warning disable CS0414 // field assigned but value never used
         private bool _pcApplyPendingConfirmation = false;
-        private bool sendingAllSettings;
+        //private bool sendingAllSettings;
 #pragma warning restore CS0414
         private void SendPCData()
         {
