@@ -181,10 +181,10 @@ namespace RelayControlLibrary
                     return;
                 }
 
-                // Hard block: manual update is full-update mode, not boot-repair mode.
-                if (ManualUpdate.usingManualMode)
+                // Full manual reload is allowed to start boot. Only block non-full manual paths.
+                if (ManualUpdate.usingManualMode && !this.manualReload)
                 {
-                    logger.Warn("ProgramBootCodeStart blocked: manual update mode does not allow boot repair.");
+                    logger.Warn("ProgramBootCodeStart blocked: manual mode without full reload intent.");
                     this.programBootCodeStart = false;
                     return;
                 }
@@ -211,8 +211,8 @@ namespace RelayControlLibrary
                     {
                         bool manualOverride = false;
 
-                        // Auto mode only: boot repair allowed only when CanRepairBoot passes.
-                        if (!this.CanRepairBoot(manualOverride))
+                       
+                        if (!this.manualReload && !this.CanRepairBoot(manualOverride))
                         {
                             logger.Warn(
                                 "ProgramBootCodeStart blocked: boot state is not valid for repair. manualOverride={0}, bootSet={1}, bootRev={2}",
@@ -1328,7 +1328,11 @@ namespace RelayControlLibrary
 
             this.programmingForm.ClearAllChecks();
             this.setProgrammingFiles();
-            this.startProgramming();
+
+            // Full manual update must start with BOOT first, then continue with master/relay/fpga
+            this.programBootCodeOnly = false;
+            this.ProgramBootCodeStart = true;
+            return;
         }
 
 
@@ -2840,10 +2844,18 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived > 0 &&
                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-            if (ManualUpdate.usingManualMode)
+            // Manual full reload is not a boot-repair path. Let the full-update flow proceed.
+            if (ManualUpdate.usingManualMode && !this.manualReload)
             {
-                logger.Warn("Boot repair blocked (manual): manual update is full-update mode, not boot repair.");
+                logger.Warn("Boot repair blocked (manual): manual update without full reload intent.");
                 return false;
+            }
+
+            // If this is full manual reload, boot repair is intentionally not being evaluated.
+            if (this.manualReload)
+            {
+                logger.Info("CanRepairBoot: manual full reload path enabled; boot will be started as part of full update.");
+                return true;
             }
 
             if (!manualOverride)
@@ -3707,15 +3719,15 @@ namespace RelayControlLibrary
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-            
+
 
             logger.Info(
-                "FINAL ORDER CHECK | autoLoad={0}, manualReload={1}, bootSet={2}, bootRev={3}, bootRequired={4}, bootUnknown={5}, bootOld={6}, loadMasterFirst={7}",
+                "FINAL ORDER CHECK | autoLoad={0}, manualReload={1}, bootSet={2}, bootRev={3}, bootRequired={4}, bootUnknown={5}, bootOld={6}",
                 this.autoLoad,
                 this.manualReload,
                 this.masterBootRevisionSet,
                 this.masterBootRevisionNumberReceived,
-                _bootCodeRevisionNumber,
+                 _bootCodeRevisionNumber,
                 bootUnknown,
                 bootOld);
 
