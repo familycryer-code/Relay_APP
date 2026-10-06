@@ -2614,8 +2614,8 @@ namespace RelayControlLibrary
                 {
                     this.reprogramRelay = false;
                     this.parseSFile(this.relayCode);
-                    this.programmingForm.CurrentTask = "Loading Relay Code g";
-                    logger.Trace("Loading Relay Code g");
+                    this.programmingForm.CurrentTask = "Loading Relay Code";
+                    logger.Trace("Loading Relay Code");
                     this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
                     this.State = RelayProgrammingStates.WaitingForBootRelay;
                     this.timerTimeout.Start();
@@ -2646,6 +2646,7 @@ namespace RelayControlLibrary
 
             this.allReprogramingDone();
         }
+
         private void allReprogramingDone()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
