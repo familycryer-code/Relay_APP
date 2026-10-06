@@ -907,9 +907,9 @@ namespace RelayControl
             // startup backup only once, after relay-ready startup path
             if (!this.noMonitoringVersion)
             {
-                BeginInvoke(new Action(() =>
+                BeginInvoke(new Action(async () =>
                 {
-                    StartStartupBackupOnce();
+                    await StartStartupBackupOnceAsync();
                 }));
             }
         }
@@ -1710,7 +1710,7 @@ namespace RelayControl
         private bool loadingNewCode = false;
         private RelayProgrammingSendCommands currentReprogramState = RelayProgrammingSendCommands.RestartProgram;
 
-        private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
+        private async void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
         {
             this.currentReprogramState = rPEA.Command;
 
@@ -1750,11 +1750,13 @@ namespace RelayControl
                     this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
-                    DelayWithLog(6000, "send-all inter-command settle", nameof(Programming_Send));
+
+                    await DelayWithLogAsync(6000, "send-all inter-command settle", nameof(Programming_Send));
                     clearRemoteBuffer();
-                    DelayWithLog(1000, "send-all inter-command settle", nameof(Programming_Send));
+                    await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(Programming_Send));
                     requestRelayRevision();
                     break;
+
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
                     if (this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot)
@@ -1764,15 +1766,18 @@ namespace RelayControl
                     }
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     break;
+
                 case RelayProgrammingSendCommands.SaveSettings:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.getAllSaveStates(this.reprogrammingTempSettings);
                     break;
+
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
+
                 case RelayProgrammingSendCommands.RawData:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.enableAll(false);
@@ -1782,22 +1787,24 @@ namespace RelayControl
                     this.pauseMonitoring = true;
                     this.sendPacket(rPEA.BytesToSend);
                     break;
+
                 case RelayProgrammingSendCommands.RecallSavedSettings:
-                    // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
                     this.ucSafeService1.SetDefaults();
-                    ////
                     this.setAllValues(this.reprogrammingTempSettings);
-                    this.sendAllParametersAsync();
+                    await this.sendAllParametersAsync();
                     break;
+
                 case RelayProgrammingSendCommands.DisableGERelayFix:
                     this.ucTransmitter1.GERelay = false;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
+
                 case RelayProgrammingSendCommands.EnableGERelayFix:
                     this.ucTransmitter1.GERelay = true;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }
+
             logger.Info($"Programming_Send RequestAll: requestedAllParameters(after)={this.requestedAllParameters}, ProgramState(after)={this.ProgramState}");
         }
 
@@ -3637,10 +3644,10 @@ namespace RelayControl
             }
         }
 
-        private void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
+        private async void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
         {
             logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
-            this.RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
+            await this.RestoreNormalCommsAfterAutoloadDeclineAsync(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
 
@@ -5581,7 +5588,7 @@ namespace RelayControl
             }
 
         }
-        private void StartStartupBackupOnce()
+        private async Task StartStartupBackupOnceAsync()
         {
             if (backupInProgress)
             {
@@ -5596,7 +5603,9 @@ namespace RelayControl
             }
 
             logger.Info("Starting one-time startup backup before autoload logic.");
-            BackUpRelayDatatoFile();   // do not set pendingAutoloadAfterBackup here
+
+            // keep same logic/order
+            await Task.Run(() => BackUpRelayDatatoFile());
         }
 
         private void setTextBox(string s, TextBox tB)
@@ -8201,7 +8210,7 @@ namespace RelayControl
                 this.buttonSendAll.Enabled = false;
                 this.buttonRequestRelayParamaters.Enabled = false;
 
-                await sendAllParametersAsync();
+                await this.sendAllParametersAsync();
             }
             catch (Exception ex)
             {
@@ -8279,11 +8288,11 @@ namespace RelayControl
             }
         }
 
-        public void SendDefaultsToMaster()
+        public async Task SendDefaultsToMasterAsync()
         {
             this.restoreDefaultsTypeAndPhasing();
             this.ucSafeService1.SetDefaults();
-            this.sendAllParametersAsync();
+            await this.sendAllParametersAsync();
         }
 
         private bool readyToGetCycleData = true;
@@ -10932,7 +10941,7 @@ namespace RelayControl
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
 
-        public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
+        public async Task RestoreNormalCommsAfterAutoloadDeclineAsync(string caller = "unknown")
         {
             logger.Info(
                 "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
@@ -10975,6 +10984,8 @@ namespace RelayControl
                 this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring);
+
+            await Task.CompletedTask;
         }
 
         private bool IsBackupComplete()
