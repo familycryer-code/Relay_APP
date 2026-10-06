@@ -13,10 +13,12 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+
 namespace RelayControlLibrary
 {
     public partial class ucCloseMode : UserControl
     {
+        
         public ucCloseMode()
         {
             try
@@ -354,7 +356,7 @@ namespace RelayControlLibrary
                 mySEA.RequestAll = true;
                 this.OnSend(this, mySEA);
             }
-            Thread.Sleep(1000);   //1 second delay
+            Thread.Sleep(1000);
            
         }
       

@@ -1741,9 +1741,9 @@ namespace RelayControl
                     this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
-                    Thread.Sleep(6000);
+                    DelayWithLog(6000, "send-all inter-command settle", nameof(Programming_Send));
                     clearRemoteBuffer();
-                    Thread.Sleep(1000);
+                    DelayWithLog(1000, "send-all inter-command settle", nameof(Programming_Send));
                     requestRelayRevision();
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
@@ -3717,7 +3717,7 @@ namespace RelayControl
             this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
-            Thread.Sleep(1000);   // delay 1second
+            DelayWithLog(1000, "send-all inter-command settle", nameof(setTransmitterSettings));
             if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
             {
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -4794,7 +4794,7 @@ namespace RelayControl
 
                 if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
                 {
-                    Thread.Sleep(3000);
+                    DelayWithLog(3000, "send-all inter-command settle", nameof(setRelayParameters));
                     string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                     TextWriter tw = new StreamWriter(path, true);
                     tw.WriteLine("Relay Parameters:");
@@ -4803,7 +4803,7 @@ namespace RelayControl
                         tw.WriteLine(bytePacket[index]);
                     }
                     tw.Close();
-                    Thread.Sleep(3000);
+                    DelayWithLog(3000, "send-all inter-command settle", nameof(setRelayParameters));
                 }
 
                 //Reclose Voltage Btyes - Vertical
@@ -6233,7 +6233,7 @@ namespace RelayControl
 
                     this.sendPacketAck(packet, "Relay Type Send");
 
-                    Thread.Sleep(100);
+                    DelayWithLog(100, "send-all inter-command settle", nameof(sendRelayPhasingAndType));
 
                     // ONLY ONE final refresh for the Apply flow
                     if (!this.sendAll)
@@ -6517,7 +6517,7 @@ namespace RelayControl
                 }
 
                 this.clearRemoteBuffer();
-                Thread.Sleep(1000);
+                DelayWithLog(1000, "send-all inter-command settle", nameof(checkPortForRelay));
                 this.requestMasterRevisionNumber();
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
@@ -6616,6 +6616,8 @@ namespace RelayControl
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
         }
+
+
 
         private void requestAllDataNoMasterRev()
         {
@@ -8215,23 +8217,23 @@ namespace RelayControl
 
             // Trip Mode
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
-            Thread.Sleep(100);  // 100 milliseconds
-           
+            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+
             // Close Mode
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
-            Thread.Sleep(100);  // 100 milliseconds
+            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
 #if CONED
             // Permissive Close Mode
             this.SendPCData(); 
-            Thread.Sleep(100);  // 100 milliseconds
+            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
 #endif
             // NWP Settings
             this.buttonSendCTRatio_Click(this, new EventArgs());
-            Thread.Sleep(100);  // 100 milliseconds
-     
+            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+
             // Pump Mode
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
-            Thread.Sleep(100);  // 100 milliseconds
+            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
 
 #if DNP
             if (this.Customer == Customers.TORONTO_HYDRO)
@@ -8248,11 +8250,11 @@ namespace RelayControl
             {
                 // Safe Service Mode
                 this.ucSafeService1.SendAll();
-                Thread.Sleep(100);  // 100 milliseconds
-                
+                DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+
             }
 
-            Thread.Sleep(100);  // 100 milliseconds
+            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
 
             this.sendAll = false;
             if (!this.loadingNewCode)
@@ -9649,7 +9651,7 @@ namespace RelayControl
 
                 if (!this.sendAll)
                 {
-                    Thread.Sleep(100);
+                    DelayWithLog(100, "send-all inter-command settle", nameof(buttonSendLowVoltageThres_Click));
                     this.requestAllData();
                     this.parametersLoaded = true;
                 }
@@ -10117,7 +10119,7 @@ namespace RelayControl
             }
             packet_MT[7] = 0x0D;
             this.sendPacket(packet_MT);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
 
             // ---------------- T0..T4 each 12 bytes ----------------
             // In relay params block these are contiguous after Mtrip:
@@ -10134,7 +10136,7 @@ namespace RelayControl
                 }
                 p[13] = 0x0D;
                 this.sendPacket(p);
-                Thread.Sleep(1000);
+                DelayWithLog(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
             }
 
             SendTPacket(0, 20);
@@ -10155,7 +10157,7 @@ namespace RelayControl
             packet_MS[7] = 0x0D;
 
             this.sendPacket(packet_MS);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
         }
 
         private void writeNWProtectorDataBackUp_ToMaster()
@@ -10201,7 +10203,7 @@ namespace RelayControl
             packet_s[3] = 0x0D;
 
             this.sendPacket(packet_s);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writeNWProtectorDataBackUp_ToMaster));
         }
 
         private void writePumpModeDataBackUp_ToMaster()
@@ -10262,7 +10264,7 @@ namespace RelayControl
 
             packet_G[9] = 0x0D;
             this.sendPacket(packet_G);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writePumpModeDataBackUp_ToMaster));
         }
 
         private void writeSafeServiceDataBackUp_ToMaster()
@@ -10303,7 +10305,7 @@ namespace RelayControl
 
             packet_F[21] = 0x0D;
             this.sendPacket(packet_F);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writeSafeServiceDataBackUp_ToMaster) );
         }
 
         private void writeTransmitterDataBackUp_ToMaster()
@@ -10345,7 +10347,7 @@ namespace RelayControl
 
             packet_Y[33] = 0x0D;
             this.sendPacket(packet_Y);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writeTransmitterDataBackUp_ToMaster));
         }
 
         private void writeDNPDataBackUp_ToMaster()
@@ -10542,7 +10544,7 @@ namespace RelayControl
 
             packet_E[41] = 0x0D;
             this.sendPacket(packet_E);
-            Thread.Sleep(1000);
+            DelayWithLog(1000, "send-all inter-command settle", nameof(writeArcFaultDataBackUp_ToMaster));
         }
 
         private void writeCalibrationDataBackUp_ToMaster()
@@ -10582,7 +10584,7 @@ namespace RelayControl
 
                 packet_Cal[61] = 0x0D;
                 this.sendPacket(packet_Cal);
-                Thread.Sleep(1000);   // 1 second delay
+                DelayWithLog(1000, "send-all inter-command settle", nameof(writeCalibrationDataBackUp_ToMaster));
             }//if not loading calibration constant defaults - and loading old calibration constants back to the relay
             else
             {
@@ -10715,7 +10717,7 @@ namespace RelayControl
 
             this.sendPacketAck(packet, "Permissive Close packet send");
 
-            Thread.Sleep(250);
+            DelayWithLog(250, "send-all inter-command settle", nameof(SendPCData));
             this.request_PCdata();
         }
 
