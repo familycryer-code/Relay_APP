@@ -29,6 +29,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -1786,7 +1787,7 @@ namespace RelayControl
                     this.ucSafeService1.SetDefaults();
                     ////
                     this.setAllValues(this.reprogrammingTempSettings);
-                    this.sendAllParameters();
+                    this.sendAllParametersAsync();
                     break;
                 case RelayProgrammingSendCommands.DisableGERelayFix:
                     this.ucTransmitter1.GERelay = false;
@@ -6612,6 +6613,7 @@ namespace RelayControl
         private void requestAllData()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
@@ -8189,85 +8191,99 @@ namespace RelayControl
 
         private bool sendAll = false;
 
-        private void buttonSendAll_Click(object sender, EventArgs e)
+        private async void buttonSendAll_Click(object sender, EventArgs e)
         {
-            _phasingWarningShownThisApplyAll = false;
-            _paramsLoadedShownThisApplyAll = false;
+            if (this.sendAll)
+                return;
 
-            DialogResult SendAll_DelayAlertDR = new DialogResult();
-            SendAll_DelayAlertDR = MessageBox.Show("The relay is updating its critical parameters ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-            if (SendAll_DelayAlertDR == DialogResult.OK)
+            try
             {
-                this.enableAll(false);
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-                
-                this.sendAllParameters();
-               
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
+                this.buttonSendAll.Enabled = false;
+                this.buttonRequestRelayParamaters.Enabled = false;
+
+                await sendAllParametersAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "sendAllParametersAsync failed.");
+                this.messageHandler("Apply All failed", ex);
+            }
+            finally
+            {
+                this.buttonSendAll.Enabled = true;
+                this.buttonRequestRelayParamaters.Enabled = true;
             }
         }
 
-        private void sendAllParameters()
+        private async Task sendAllParametersAsync()
         {
             sendAllF.SendAllFlag = true;
             this.sendAll = true;
 
-            // Trip Mode
-            this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
-            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+            try
+            {
+                // Trip Mode
+                this.ucTripMode2.buttonSendTripMode_Click(this, EventArgs.Empty);
+                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
 
-            // Close Mode
-            this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
-            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+                // Close Mode
+                this.ucCloseMode1.buttonSendCloseData_Click(this, EventArgs.Empty);
+                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
+
 #if CONED
-            // Permissive Close Mode
-            this.SendPCData(); 
-            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+        // Permissive Close Mode
+        this.SendPCData();
+        await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
 #endif
-            // NWP Settings
-            this.buttonSendCTRatio_Click(this, new EventArgs());
-            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
 
-            // Pump Mode
-            this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
-            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+                // NWP Settings
+                this.buttonSendCTRatio_Click(this, EventArgs.Empty);
+                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
+
+                // Pump Mode
+                this.ucPumpMode1.buttonSend_Click(this, EventArgs.Empty);
+                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
 
 #if DNP
-            if (this.Customer == Customers.TORONTO_HYDRO)
-            {
-                this.ucTransmitter1.ForceDNPEnable = true;
-            }
-            else if (dnpUplinkK.dnpEnabledWithKit)
-            {
-                this.ucTransmitter1.ForceDNPEnable = true;
-            }
+                if (this.Customer == Customers.TORONTO_HYDRO)
+                {
+                    this.ucTransmitter1.ForceDNPEnable = true;
+                }
+                else if (dnpUplinkK.dnpEnabledWithKit)
+                {
+                    this.ucTransmitter1.ForceDNPEnable = true;
+                }
 #endif
 
-            if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
-            {
-                // Safe Service Mode
-                this.ucSafeService1.SendAll();
-                DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
+                if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
+                {
+                    // Safe Service Mode
+                    this.ucSafeService1.SendAll();
+                    await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
+                }
 
+                // keep original spacing behavior
+                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
+
+                this.sendAll = false;
+
+                if (!this.loadingNewCode)
+                    this.requestAllData();
+
+                this.parametersLoaded = true;
             }
-
-            DelayWithLog(100, "send-all inter-command settle", nameof(sendAllParameters));
-
-            this.sendAll = false;
-            if (!this.loadingNewCode)
-                this.requestAllData();
-
-            this.parametersLoaded = true;
+            finally
+            {
+                this.sendAll = false;
+                sendAllF.SendAllFlag = false;
+            }
         }
 
         public void SendDefaultsToMaster()
         {
             this.restoreDefaultsTypeAndPhasing();
             this.ucSafeService1.SetDefaults();
-            this.sendAllParameters();
+            this.sendAllParametersAsync();
         }
 
         private bool readyToGetCycleData = true;
