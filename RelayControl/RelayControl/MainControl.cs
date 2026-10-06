@@ -5664,14 +5664,24 @@ namespace RelayControl
 
         private int missedMonitoringCount = 0;
         private bool phasorReceived = false;
+        private bool phasorSettingErrorShown;
+
         private void setPhasorValue(byte[] packet)
         {
+            if (packet == null || packet.Length < 14)
+            {
+                logger.Warn("setPhasorValue: invalid packet length={0}", packet == null ? 0 : packet.Length);
+                return;
+            }
+
             long realValue;
-            long imaginaryValue, rMS;
+            long imaginaryValue;
+            long rMS;
             PhasorTypes phasorType = PhasorTypes.None;
 
             this.phasorReceived = true;
             this.missedMonitoringCount = 0;
+
             logger.Info("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
             phasorType = RelayModeFunctions.PhasorTypeFrom((char)packet[0], (char)packet[1]);
 
@@ -5683,30 +5693,43 @@ namespace RelayControl
                     realValue += ((Int32)packet[3]) << 16;
                     realValue += ((Int32)packet[4]) << 8;
                     realValue += ((int)packet[5]);
+
                     imaginaryValue = (int)packet[6] << 24;
                     imaginaryValue += (int)packet[7] << 16;
                     imaginaryValue += (int)packet[8] << 8;
                     imaginaryValue += (int)packet[9];
+
                     rMS = (int)packet[10] << 24;
                     rMS += (int)packet[11] << 16;
                     rMS += (int)packet[12] << 8;
                     rMS += (int)packet[13];
+
                     if (this.pQMonitoringEnabled)
                         this.ucPhasorGraph1.ValuesForUpdate(phasorType, realValue, imaginaryValue, this.CTRatio, rMS);
+
                     if (this.transmitterMonitoring)
                         this.setTransmitterPhasorValues(phasorType, realValue, imaginaryValue, this.CTRatio, rMS);
 
-                    //this.ucPhasorGraph1.textBoxPTRMS.Text = "15";
-
-                    // only send it to this if monitoring is not going on, so that it doens't get every
+                    // only send it to this if monitoring is not going on, so that it doesn't get every
                     // phasor that comes in during monitoring.
                     if (!this.pQMonitoringEnabled)
                         ucPhasorRequest1.SetPhasorValues(packet[0], packet[1], realValue, imaginaryValue, rMS);
+
+                    // Clear the error flag once we successfully processed a valid phasor packet.
+                    this.phasorSettingErrorShown = false;
                 }
             }
             catch (Exception ex)
             {
-                this.messageHandler("Error Setting Phasor Value", ex);
+                logger.Error(ex, "Error Setting Phasor Value. phasorType={0}, packet={1}",
+                    phasorType,
+                    BitConverter.ToString(packet));
+
+                if (!this.phasorSettingErrorShown)
+                {
+                    this.phasorSettingErrorShown = true;
+                    this.messageHandler("Error Setting Phasor Value", ex);
+                }
             }
         }
 
