@@ -5664,6 +5664,7 @@ namespace RelayControl
 
         private int missedMonitoringCount = 0;
         private bool phasorReceived = false;
+
         private bool phasorSettingErrorShown;
 
         private void setPhasorValue(byte[] packet)
