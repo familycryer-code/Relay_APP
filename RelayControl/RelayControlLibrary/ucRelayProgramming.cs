@@ -2636,7 +2636,7 @@ namespace RelayControlLibrary
                     return;
                 }
 
-                this.programmingForm.FPGAComplete = true;
+                // No relay/fpga stage pending -> finish without falsely marking FPGA complete.
                 logger.Trace("DoneLoadingMaster 2");
                 this.State = RelayProgrammingStates.Idle;
 
