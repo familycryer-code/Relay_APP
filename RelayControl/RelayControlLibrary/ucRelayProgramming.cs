@@ -749,6 +749,13 @@ namespace RelayControlLibrary
             return this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA;
         }
 
+        public event EventHandler AutoloadDeclined;
+
+        private void RaiseAutoloadDeclined()
+        {
+            AutoloadDeclined?.Invoke(this, EventArgs.Empty);
+        }
+
         private void RefreshPendingFirmwareFromCurrentRevisions()
         {
             if (ManualUpdate.usingManualMode)
@@ -798,6 +805,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("Boot-only/manual exit: no real firmware update pending; returning to idle.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return false;
             }
 
@@ -805,6 +813,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("No firmware pending after boot check; ending autoload flow cleanly.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return false;
             }
 
@@ -821,6 +830,7 @@ namespace RelayControlLibrary
                 {
                     logger.Info("User declined autoload after fresh boot read; restoring normal comms state.");
                     this.ResetAutoloadState();   // critical
+                    this.RaiseAutoloadDeclined();
                     this.NotPollingPort = false; // if your comm loop checks this
                     return false;
                 }
@@ -832,6 +842,7 @@ namespace RelayControlLibrary
                 {
                     logger.Info("No firmware pending after fresh boot read; stopping cleanly.");
                     this.ResetAutoloadState();
+                    this.RaiseAutoloadDeclined();
                     return false;
                 }
 
@@ -845,6 +856,7 @@ namespace RelayControlLibrary
                     {
                         logger.Info("User declined firmware update after boot check.");
                         this.ResetAutoloadState();
+                        this.RaiseAutoloadDeclined();
                         return false;
                     }
                 }
@@ -888,6 +900,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("Boot-only repair required; suppressing autoload path in InitializeAutoload.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return false;
             }
 
@@ -939,6 +952,7 @@ namespace RelayControlLibrary
                 this.reprogramBootCodeAuto = false;
                 this.NotPollingPort = false;
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 this.askToUgradeShown = true;
                 return false;
             }
@@ -1061,6 +1075,7 @@ namespace RelayControlLibrary
                     this.firmwareUpgradeAcceptedThisCycle = false;
                     logger.Info("showAutoLoadDialog: user declined AUTOLOAD_NEWER_FW; forcing ResetAutoloadState().");
                     this.ResetAutoloadState();
+                    this.RaiseAutoloadDeclined();
                     return;
                 }
             }
@@ -1236,6 +1251,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("Boot-only/manual path required; aborting resume and returning to idle.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return;
             }
 
@@ -1243,6 +1259,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("ResumeAutoloadAfterBackup: no firmware pending; exiting idle.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return;
             }
 
@@ -1265,6 +1282,7 @@ namespace RelayControlLibrary
                 {
                     logger.Info("User declined autoload after backup.");
                     this.ResetAutoloadState();
+                    this.RaiseAutoloadDeclined();
                     return;
                 }
 
@@ -1437,6 +1455,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("Boot-only repair required; suppressing autoload path in CheckForUpdate.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return;
             }
 
@@ -1490,6 +1509,7 @@ namespace RelayControlLibrary
                     {
                         logger.Info("CheckForUpdate: user declined autoload in full dialog flow. Forcing ResetAutoloadState().");
                         this.ResetAutoloadState();
+                        this.RaiseAutoloadDeclined();
                         return;
                     }
 
@@ -1578,6 +1598,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("Boot-only repair required; suppressing startAutoLoad autoload flow; manual programming required.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return;
             }
 
@@ -1606,6 +1627,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("startAutoLoad: no updates required; skipping prompts and programming.");
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return;
             }
 
@@ -1695,6 +1717,7 @@ namespace RelayControlLibrary
             else
             {
                 this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
             }
         }
 

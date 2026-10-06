@@ -397,6 +397,7 @@ namespace RelayControl
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
 
+
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = false;
                 dnpUplinkK.dnpEnabledWithKit = false;
                 applyTX.applyTxSettings = false;
@@ -445,6 +446,8 @@ namespace RelayControl
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
                 this.timerLiveEventAcknowledge.Elapsed += new System.Timers.ElapsedEventHandler(timerLiveEventAcknowledge_Tick);
+
+                this.ucRelayProgramming1.AutoloadDeclined += UcRelayProgramming1_AutoloadDeclined;
 
                 this.ucCloseMode1.Send += standardizedSendData;
                 this.ucTripMode2.Send += standardizedSendData;
@@ -3631,6 +3634,12 @@ namespace RelayControl
                 showMemFixMsg = false;
                 MessageBox.Show("Hardware incompatible with DNP. Return to vendor for UPGRADE", "Hardware needs to be UPDATED!");
             }
+        }
+
+        private void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
+        {
+            logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
+            this.RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
 
@@ -10879,6 +10888,51 @@ namespace RelayControl
             if (!backupGotArcFault) missing.Add("ArcFault");
 
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
+        }
+
+        public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
+        {
+            logger.Info(
+                "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                caller,
+                pendingAutoloadAfterBackup,
+                pendingRestoreAfterProgramming,
+                backupInProgress,
+                this.loadingNewCode,
+                this.quietMode,
+                this.pauseMonitoring);
+
+            pendingAutoloadAfterBackup = false;
+            pendingRestoreAfterProgramming = false;
+            backupInProgress = false;
+            skipAutoloadAfterDecline = false;
+            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+
+            this.loadingNewCode = false;
+            this.quietMode = false;
+            this.pauseMonitoring = false;
+
+            if (backupTimeoutTimer != null)
+                backupTimeoutTimer.Stop();
+
+            this.UseWaitCursor = false;
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            this.enableAll(true);
+
+            this.monitoring(true);
+            this.RegisterPolling(true);
+            this.requestRelayRegisters();
+
+            logger.Info(
+                "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                caller,
+                pendingAutoloadAfterBackup,
+                pendingRestoreAfterProgramming,
+                backupInProgress,
+                this.loadingNewCode,
+                this.quietMode,
+                this.pauseMonitoring);
         }
 
         private bool IsBackupComplete()
