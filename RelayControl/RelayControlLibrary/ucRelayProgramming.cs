@@ -15,6 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace RelayControlLibrary
@@ -1048,8 +1049,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.checkSafeServiceMaster();
-
             this.upgradeAutoDR = DialogResult.No;
 
             if (!ManualUpdate.usingManualMode)
@@ -1060,6 +1059,8 @@ namespace RelayControlLibrary
                 {
                     this.askToUgradeShown = true;
                     this.firmwareUpgradeAcceptedThisCycle = false;
+                    logger.Info("showAutoLoadDialog: user declined AUTOLOAD_NEWER_FW; forcing ResetAutoloadState().");
+                    this.ResetAutoloadState();
                     return;
                 }
             }
@@ -1083,20 +1084,6 @@ namespace RelayControlLibrary
 
             this.askToUgradeShown = true;
             this.firmwareUpgradeAcceptedThisCycle = (this.upgradeAutoDR == DialogResult.Yes);
-        }
-
-        private void checkSafeServiceMaster()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (this.remoteMasterRevisionNumber <= _rEV1_MASTER_REVISION && this.revTooLowErrorAlreadyShown == false)
-            {
-                MessageBox.Show("Relay Upgrade", "To upgrade relay, please contact DIGITALGRID, INC. return relay to factory.");
-                this.revTooLowErrorAlreadyShown = true;
-            }
-            else if (this.remoteMasterRevisionNumber < _safeService_MASTER_REVISION)
-            {
-                MessageBox.Show("The Relay Software is outdated and must be upgraded for the Safe Service Mode Indicator attachment to function properly!", "Relay Must be Upgraded for Safe Service Mode Indicator!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private bool finalSuccessPopupShownThisCycle = false;
@@ -1501,8 +1488,8 @@ namespace RelayControlLibrary
 
                     if (this.upgradeAutoDR != DialogResult.Yes)
                     {
-                        logger.Info("CheckForUpdate: user declined autoload in full dialog flow.");
-                        this.autoLoad = false;
+                        logger.Info("CheckForUpdate: user declined autoload in full dialog flow. Forcing ResetAutoloadState().");
+                        this.ResetAutoloadState();
                         return;
                     }
 
@@ -2122,6 +2109,19 @@ namespace RelayControlLibrary
 
         private void ResetAutoloadState()
         {
+            logger.Info(
+                "ResetAutoloadState ENTER caller={0} | pre: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, firmwareUpgradeAcceptedThisCycle={5}, upgradeAutoDR={6}, askToUgradeShown={7}, AutoloadAcceptedPendingBackup={8}, NotPollingPort={9}",
+                caller,
+                this.State,
+                this.autoLoad,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.firmwareUpgradeAcceptedThisCycle,
+                this.upgradeAutoDR,
+                this.askToUgradeShown,
+                this.AutoloadAcceptedPendingBackup,
+                this.NotPollingPort);
+
             this.autoLoad = false;
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
@@ -2134,7 +2134,22 @@ namespace RelayControlLibrary
             this.startWarningAcknowledgedThisCycle = false;
             this.startWarningShownThisCycle = false; // only if this field exists
 
+            this.NotPollingPort = false; // defensive: ensure comm loop can resume
+
             this.State = RelayProgrammingStates.Idle;
+
+            logger.Info(
+                "ResetAutoloadState EXIT caller={0} | post: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, firmwareUpgradeAcceptedThisCycle={5}, upgradeAutoDR={6}, askToUgradeShown={7}, AutoloadAcceptedPendingBackup={8}, NotPollingPort={9}",
+                caller,
+                this.State,
+                this.autoLoad,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.firmwareUpgradeAcceptedThisCycle,
+                this.upgradeAutoDR,
+                this.askToUgradeShown,
+                this.AutoloadAcceptedPendingBackup,
+                this.NotPollingPort);
         }
 
         private void MasterBootLoaderStart()
