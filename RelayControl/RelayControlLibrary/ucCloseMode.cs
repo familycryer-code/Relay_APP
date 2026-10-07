@@ -299,51 +299,41 @@ namespace RelayControlLibrary
             this.labelTiltAngleUnit.Visible = value;
         }
 
-        public void SendCloseDataNew()
-        {
-            if (this.checkBoxCircleClose.Checked)
-                this.Mode = CloseModes.CircleClose;
-            else
-                this.Mode = CloseModes.Normal;
-
-            if (sendAllF.SendAllFlag == false)
-            {
-                var choice = DialogResult.OK;
-                if (choice == DialogResult.OK)
-                {
-                    this.sendCloseData();
-                }
-            }
-            else
-            {
-                this.sendCloseData();
-            }
-        }
-        public void buttonSendCloseData_Click(object sender, EventArgs e)
-        {
-            this.SendCloseDataNew();
-        }
-
         private void buttonRelaxClose_Click(object sender, EventArgs e)
         {
             relaxCloseC.RelaxCloseClick = true;
             this.sendRelaxClose();
         }
 
-        //private void sendCloseData()
+        public void buttonSendCloseData_Click(object sender, EventArgs e)
+        {
+            var choice = DialogResult.OK;
+            if (choice == DialogResult.OK)
+            {
+                sendCloseData();
+            }
+        }
+
         public void sendCloseData()
         {
+            if (this.checkBoxCircleClose.Checked)
+                this.Mode = CloseModes.CircleClose;
+            else
+                this.Mode = CloseModes.Normal;
+
             if (relaxCloseC.RelaxCloseClick == false)
             {
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Application.UseWaitCursor = true;
                 Cursor.Current = Cursors.WaitCursor;
                 screenD.screenDisable = true;
                 this.SendTimedOut = false;
             }
-            relaxCloseC.RelaxCloseClick = false;
-            buttonSendCloseMode_Click(this, new EventArgs());  // Sends 6 bytes of MClose params with command 'M' + 'C'
 
-            // If sending relax, just send the command and no curves
+            relaxCloseC.RelaxCloseClick = false;
+
+            // TODO: replace this with non-UI helper when ready
+            buttonSendCloseMode_Click(this, new EventArgs());
+
             if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
                 relayRevisionNumber < _singleCommandRelaxCloseUpdate)
             {
@@ -351,19 +341,15 @@ namespace RelayControlLibrary
                 this.setVerticalLine();
                 this.setHorizontalLine();
 
-                mySEA.SendPacket = this.CloseCurve.BytePacket();  // Sends 8 bytes of C params with command 'C'
-                
-                //if(chkBox_EnablePermClose.Checked == true)
-                //this.SendPermissiveData();
-
+                mySEA.SendPacket = this.CloseCurve.BytePacket();
                 mySEA.WithAck = true;
                 mySEA.RequestAll = true;
                 this.OnSend(this, mySEA);
             }
+
             Thread.Sleep(1000);
-           
         }
-      
+
         public decimal GetFixed_12FracBits(decimal value)
         {
             Int16 temp;

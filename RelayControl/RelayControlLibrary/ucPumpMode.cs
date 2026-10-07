@@ -125,55 +125,47 @@ namespace RelayControlLibrary
                     break;
             }
         }
+        public void buttonSend_Click(object sender, EventArgs e)
+        {
+            var choice = DialogResult.OK; // or MessageBox
+
+            if (choice != DialogResult.OK)
+                return;
+
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
+
+            try
+            {
+                this.SendPumpMode();
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                screenD.screenDisable = false;
+            }
+        }
 
         public void SendPumpMode()
         {
-            var choice = DialogResult.Cancel;
+            PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
+            PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
+            PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
+            PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
 
-            if (!sendAllF.SendAllFlag)
-                choice = DialogResult.OK; // or MessageBox
+            PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
+            PD.PumpTime = (short)this.numericUpDownPumpTime.Value;
+            PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
+            PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
+            PD.PumpProtectTime = this.checkBoxNeverReclose.Checked ? (short)0 : (short)this.numericUpDownProtectTime.Value;
 
-            if ((choice == DialogResult.OK) || sendAllF.SendAllFlag)
-            {
-                Application.UseWaitCursor = true;
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-
-                try
-                {
-                    PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
-                    PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
-                    PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
-                    PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
-
-                    PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
-                    PD.PumpTime = (short)this.numericUpDownPumpTime.Value;
-                    PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
-                    PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
-                    PD.PumpProtectTime = this.checkBoxNeverReclose.Checked ? (short)0 : (short)this.numericUpDownProtectTime.Value;
-
-                    this.sEA.SendPacket = this.bytePacketFor(PD);
-                    this.sEA.WithAck = true;
-                    OnSend(sEA);
-                }
-                catch (Exception ex)
-                {
-                    //this.messageHandler("Error sending Pump Mode", ex);
-                }
-                finally
-                {
-                    Application.UseWaitCursor = false;
-                    Cursor.Current = Cursors.Default;
-                    screenD.screenDisable = false;
-                }
-            }
+            this.sEA.SendPacket = this.bytePacketFor(PD);
+            this.sEA.WithAck = true;
+            OnSend(sEA);
 
             Thread.Sleep(1000);
-        }
-
-        public void buttonSend_Click(object sender, EventArgs e)
-        {
-            this.SendPumpMode();
         }
 
         public byte[] bytePacketFor(PumpDefinition pD)

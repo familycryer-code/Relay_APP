@@ -4889,7 +4889,7 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Error in Relay Close Data", ex);
                 //this.resetCloseData();
-                this.ucCloseMode1.SendCloseDataNew();
+                this.ucCloseMode1.sendCloseData();
             }
 
             try
@@ -6240,34 +6240,39 @@ namespace RelayControl
 
             var choice = DialogResult.Cancel;
 
-            if (sendAllF.SendAllFlag == false)
+            if (!sendAllF.SendAllFlag)
             {
                 choice = DialogResult.OK;
             }
 
-            if((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            if ((choice == DialogResult.OK) || sendAllF.SendAllFlag)
             {
                 try
                 {
                     byte[] packet = new byte[4];
                     packet[0] = (byte)'s';
 
-                    if (this.comboBox_RelayType.SelectedItem.ToString() == "Sequence")
+                    var relayType = this.comboBox_RelayType?.SelectedItem?.ToString();
+                    if (relayType == "Sequence")
                         packet[1] = (byte)'S';
-                    else if (this.comboBox_RelayType.SelectedItem.ToString() == "Power")
+                    else if (relayType == "Power")
                         packet[1] = (byte)'P';
+                    else
+                        packet[1] = (byte)'P'; // safe default
+
+                    var phasing = this.comboBox_Phasings?.SelectedItem?.ToString();
 
                     if (this.Customer != Customers.CONED)
                     {
-                        if (this.comboBox_Phasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                        if (phasing == "ABC : CAB : BCA")
                             packet[2] = 0x00;
-                        else if (this.comboBox_Phasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                        else if (phasing == "CBA : BAC : ACB")
                             packet[2] = 0x01;
                         else
                         {
                             packet[2] = 0x00;
 
-                            if (this.comboBox_Phasings.Items.Count > 0)
+                            if (this.comboBox_Phasings != null && this.comboBox_Phasings.Items.Count > 0)
                                 this.comboBox_Phasings.SelectedIndex = 0;
                         }
                     }
@@ -6296,23 +6301,20 @@ namespace RelayControl
 
                     packet[3] = 0x0D;
 
-                    this.sendPacketAck(packet, "Relay Type Send");
+                    // IMPORTANT:
+                    // This call may be blocking serial I/O. Keep it off the UI thread.
+                    await Task.Run(() =>
+                    {
+                        this.sendPacketAck(packet, "Relay Type Send");
+                    });
 
                     await DelayWithLogAsync(100, "send-all inter-command settle", nameof(SendRelayPhasingAndTypeAsync));
-
-                    //if (!this.sendAll)
-                    //{
-                       // this.requestAllData();
-                       // this.parametersLoaded = true;
-                    //}
                 }
                 catch (Exception ex)
                 {
                     this.messageHandler("Error Setting Relay Type", ex);
                 }
             }
-
-            //await DelayWithLogAsync(1000, "post relay phasing/type settle", nameof(SendRelayPhasingAndTypeAsync));
         }
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
@@ -7074,6 +7076,23 @@ namespace RelayControl
             this.serialPort1.Close();
         }
 
+        private async void buttonSendCTRatio_Click(object sender, EventArgs e)
+        {
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
+
+            try
+            {
+                await SendCTRatioAndPhasingAsync(requestAfter: true);
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                screenD.screenDisable = false;
+            }
+        }
         private void buttonResetMaster_Click(object sender, EventArgs e)
         {
             this.resetMaster();
@@ -7089,16 +7108,13 @@ namespace RelayControl
 
             this.sendPacket(packet);
         }
-        private async void buttonSendCTRatio_Click(object sender, EventArgs e)
-        {
-            await SendCTRatioAndPhasingAsync(requestAfter: true);
-        }
 
-        private async Task SendCTRatioAndPhasingAsync(bool requestAfter)
+
+        public async Task SendCTRatioAndPhasingAsync(bool requestAfter)
         {
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
+            // No UI cursor logic here.
+            // No screenD changes here.
+            // This is pure send logic.
 
             try
             {
@@ -7111,12 +7127,6 @@ namespace RelayControl
             catch (Exception ex)
             {
                 this.messageHandler("Error setting CT ratio / relay type", ex);
-            }
-            finally
-            {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                screenD.screenDisable = false;
             }
         }
         private void sendCTRatio(bool requestAfter = true)
@@ -8325,7 +8335,7 @@ namespace RelayControl
             Thread.Sleep(100);  // 100 milliseconds
 
             // Close Mode
-            this.ucCloseMode1.SendCloseDataNew();
+            this.ucCloseMode1.sendCloseData();
             Thread.Sleep(100);  // 100 milliseconds
 
 #if CONED
@@ -10134,7 +10144,7 @@ namespace RelayControl
             {
                 // Fallback to defaults when old backup values are flagged bad
                 this.ucCloseMode1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucCloseMode1.SendCloseDataNew();
+                this.ucCloseMode1.sendCloseData();
                 return;
             }
 
