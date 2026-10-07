@@ -1126,7 +1126,7 @@ namespace RelayControl
                     this.sendPacketAck(sEA.SendPacket, sourceText);
                     if (sEA.RequestAll)
                     {
-                        this.requestAllData();
+                        this.requestAllData("standardizedSendData");
                         this.parametersLoaded = true;
                     }
                 }
@@ -1816,7 +1816,7 @@ namespace RelayControl
             }
             else if (sEA.SendPacket[0] == (byte)'X')  //requestPacket
             {
-                this.requestAllData();
+                this.requestAllData("ucTransmitter1_Send");
             }
             else
             {
@@ -1826,7 +1826,7 @@ namespace RelayControl
                     !this.ucRelayProgramming1.ReprogrammingInProgress &&
                     !this.loadingNewCode)
                 {
-                    this.requestAllData();
+                    this.requestAllData("ucTransmitter1_Send");
                 }
                 else
                 {
@@ -1844,7 +1844,7 @@ namespace RelayControl
             if (sEA.SendPacket[1] != 2 && !this.sendAll)
             {
                 this.requestRelayRegisters();
-                this.requestAllData();
+                this.requestAllData("ucPumpMode1_Send");    
                 this.parametersLoaded = true;
             }
         }
@@ -1876,7 +1876,7 @@ namespace RelayControl
                 this.sendPacketAck(sEA.SendPacket, caller);
 
                 if (!this.loadingNewCode)
-                    this.requestAllData();
+                    this.requestAllData("ucDNP_Send");
 
                 this.parametersLoaded = true;
                 return;
@@ -5986,7 +5986,7 @@ namespace RelayControl
                     else
                     {
                         this.dataRetryCount++;
-                        this.requestAllData();
+                        this.requestAllData("timerFindRelayTimeout_Tick");
                     }
                 }
                 else if (this.expectingRelayRegisters)
@@ -6063,7 +6063,7 @@ namespace RelayControl
                     else
                     {
                         this.dataRetryCount++;
-                        this.requestAllData();
+                        this.requestAllData("timerSCITimeOut_Tick");
                     }
                 }
                 else if (this.expectingRelayRegisters)
@@ -6121,7 +6121,7 @@ namespace RelayControl
             this.enableAll(false);
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-            this.requestAllData();
+            this.requestAllData("buttonRequestRelayParamaters_Click");
 
             Application.UseWaitCursor = false;
             System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -6668,19 +6668,26 @@ namespace RelayControl
 
         delegate void requestAllCallBack();
 
-        private void requestAllData()
+
+        private void BeginFullParameterDownload(string caller)
         {
-            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            this.requestedAllParameters = true;
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
+            logger.Info("BeginFullParameterDownload caller={0}", caller);
+        }
+        private void requestAllData(string caller = "unknown")
+        {
+            logger.Info("requestAllData caller={0} ...", caller);
             logger.Info(
-    "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, loadingNewCode={4}, backupInProgress={6}, pendingAutoloadAfterBackup={7}, pendingRestoreAfterProgramming={8}",
-    requestedAllParameters,
-    ProgramState,
-    this.sendAll,
-    loadingNewCode,
-    backupInProgress,
-    pendingAutoloadAfterBackup,
-    pendingRestoreAfterProgramming
-);
+                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, loadingNewCode={4}, backupInProgress={6}, pendingAutoloadAfterBackup={7}, pendingRestoreAfterProgramming={8}",
+                requestedAllParameters,
+                ProgramState,
+                this.sendAll,
+                loadingNewCode,
+                backupInProgress,
+                pendingAutoloadAfterBackup,
+                pendingRestoreAfterProgramming
+            );
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
@@ -6691,14 +6698,14 @@ namespace RelayControl
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             logger.Info(
-    "parametersFinishedLoading ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, loadingNewCode={6}",
-    requestedAllParameters,
-    ProgramState,
-    pendingRestoreAfterProgramming,
-    pendingAutoloadAfterBackup,
-    backupInProgress,
-    loadingNewCode
-);
+                "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, loadingNewCode={6}",
+                requestedAllParameters,
+                ProgramState,
+                pendingRestoreAfterProgramming,
+                pendingAutoloadAfterBackup,
+                backupInProgress,
+                loadingNewCode
+            );
 
             if (this.InvokeRequired)
             {
@@ -7108,7 +7115,7 @@ namespace RelayControl
             // IMPORTANT: do not refresh here during the combined Apply flow
             if (requestAfter && !this.sendAll)
             {
-                this.requestAllData();
+                this.requestAllData("sendCTRatio");
                 this.parametersLoaded = true;
             }
         }
@@ -8292,13 +8299,14 @@ namespace RelayControl
 
         private void sendAllParameters()
         {
+
             sendAllF.SendAllFlag = true;
             this.sendAll = true;
 
             // Trip Mode
             this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-           
+
             // Close Mode
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
@@ -8310,7 +8318,7 @@ namespace RelayControl
             // NWP Settings
             this.buttonSendCTRatio_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
-     
+
             // Pump Mode
             this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
@@ -8331,15 +8339,17 @@ namespace RelayControl
                 // Safe Service Mode
                 this.ucSafeService1.SendAll();
                 Thread.Sleep(100);  // 100 milliseconds
-                
+
             }
 
             Thread.Sleep(100);  // 100 milliseconds
 
             this.sendAll = false;
-            if (!this.loadingNewCode)
-                this.requestAllData();
 
+            if (!this.loadingNewCode) {
+                BeginFullParameterDownload(nameof(sendAllParameters));
+                this.requestAllData("sendAllParameters");
+            }
             this.parametersLoaded = true;
         }
 
@@ -9732,7 +9742,7 @@ namespace RelayControl
                 if (!this.sendAll)
                 {
                     Thread.Sleep(100);
-                    this.requestAllData();
+                    this.requestAllData("buttonSendLowVoltageThres_Click");
                     this.parametersLoaded = true;
                 }
 
