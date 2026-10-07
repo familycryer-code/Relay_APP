@@ -1987,24 +1987,38 @@ namespace RelayControl
                     }
                     if (lastByte == 0x06)
                     {
-                        if (!this.expectingAck)
+                        string ackCaller = null;
+                        bool acceptedAck = false;
+
+                        lock (_ackFlowLock)
                         {
-                            logger.Warn("Duplicate ACK ignored. lastByte=0x06, expectingAck=False, caller={0}", this.AcknowledgeCaller);
-                            continue;
+                            if (!this.expectingAck)
+                            {
+                                logger.Warn("Duplicate ACK ignored. expectingAck=False, caller={0}", this.AcknowledgeCaller);
+                            }
+                            else
+                            {
+                                ackCaller = this.AcknowledgeCaller;
+                                this.expectingAck = false;
+                                this.AcknowledgeCaller = string.Empty;
+                                acceptedAck = true;
+                            }
                         }
 
-                        string ackCaller = this.AcknowledgeCaller;
-
-                        this.SendConfirmed = true;
-                        this.expectingAck = false;
-                        packetAcknowledged(true);
-                        this.timerSCITimeOut.Enabled = false;
-
-                        logger.Info("ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
-
-                        if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
+                        if (acceptedAck)
                         {
-                            this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT");
+                            this.SendConfirmed = true;
+                            this.timerSCITimeOut.Enabled = false;
+
+                            // IMPORTANT: keep this call
+                            packetAcknowledged(true);
+
+                            logger.Info("ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
+
+                            if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
+                            {
+                                this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT");
+                            }
                         }
                     }
                     if (lastByte == 0x0D)
@@ -6035,67 +6049,56 @@ namespace RelayControl
             try
             {
                 this.timerSCITimeOut.Enabled = false;
-                this.expectingAck = false;
-                this.TryDrainPendingRelayTypePhasingSend("ACK-RX");
+
+                bool hadPendingAck;
+                string timedOutCaller;
+
+                lock (_ackFlowLock)
+                {
+                    hadPendingAck = this.expectingAck;
+                    timedOutCaller = this.AcknowledgeCaller;
+
+                    if (hadPendingAck)
+                    {
+                        this.expectingAck = false;
+                        this.AcknowledgeCaller = string.Empty;
+                    }
+                }
+
+                if (hadPendingAck)
+                {
+                    logger.Warn("SCI timeout: clearing pending ACK state. caller={0}", timedOutCaller);
+                    this.TryDrainPendingRelayTypePhasingSend("SCI-TIMEOUT");
+                }
+                else
+                {
+                    logger.Info("SCI timeout tick with no pending ACK state.");
+                }
+
                 if (this.expectingRelayRevision)
                 {
-                    if (this.dataRetryCount == 3)
-                    {
-                        this.noResponseError("Unable to get Relay Revision");
-                    }
-                    else
-                    {
-                        this.dataRetryCount++;
-                        this.requestRelayRevision();
-                    }
+                    if (this.dataRetryCount == 3) this.noResponseError("Unable to get Relay Revision");
+                    else { this.dataRetryCount++; this.requestRelayRevision(); }
                 }
                 else if (this.expectingFPGARevision)
                 {
-                    if (this.dataRetryCount == 3)
-                    {
-                        this.noResponseError("Unable to get FPGA Revision");
-                    }
-                    else
-                    {
-                        this.dataRetryCount++;
-                        this.requestFPGARevision();
-                    }
+                    if (this.dataRetryCount == 3) this.noResponseError("Unable to get FPGA Revision");
+                    else { this.dataRetryCount++; this.requestFPGARevision(); }
                 }
                 else if (this.expectingRelayParameters)
                 {
-                    if (this.dataRetryCount == 3)
-                    {
-                        this.noResponseError("Unable to get Relay Parameters");
-                    }
-                    else
-                    {
-                        this.dataRetryCount++;
-                        this.requestAllData("timerSCITimeOut_Tick");
-                    }
+                    if (this.dataRetryCount == 3) this.noResponseError("Unable to get Relay Parameters");
+                    else { this.dataRetryCount++; this.requestAllData("timerSCITimeOut_Tick"); }
                 }
                 else if (this.expectingRelayRegisters)
                 {
-                    if (this.dataRetryCount == 3)
-                    {
-                        this.noResponseError("Unable to get Relay Registers");
-                    }
-                    else
-                    {
-                        this.dataRetryCount++;
-                        this.requestRelayRegisters();
-                    }
+                    if (this.dataRetryCount == 3) this.noResponseError("Unable to get Relay Registers");
+                    else { this.dataRetryCount++; this.requestRelayRegisters(); }
                 }
                 else if (this.expectingTransmitterSettings)
                 {
-                    if (this.dataRetryCount == 3)
-                    {
-                        this.noResponseError("Unable to get Transmitter Settings");
-                    }
-                    else
-                    {
-                        this.dataRetryCount++;
-                        this.requestTransmitterSettings();
-                    }
+                    if (this.dataRetryCount == 3) this.noResponseError("Unable to get Transmitter Settings");
+                    else { this.dataRetryCount++; this.requestTransmitterSettings(); }
                 }
                 else
                 {
@@ -6867,7 +6870,20 @@ namespace RelayControl
         {
             string errorMessage = "None";
 
-            AcknowledgeCaller = caller;
+            // Prevent overlapping ACK transactions.
+            lock (_ackFlowLock)
+            {
+                if (this.expectingAck)
+                {
+                    logger.Warn("sendPacketAckComm blocked: ACK already pending. currentCaller={0}, newCaller={1}",
+                        this.AcknowledgeCaller ?? "<null>", caller);
+                    return;
+                }
+
+                this.AcknowledgeCaller = caller;
+                this.expectingAck = true;
+            }
+
             try
             {
                 logger.Info("sendPacketAckComm ENTER caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}, packet=[{4}]",
@@ -6880,33 +6896,6 @@ namespace RelayControl
 
                 this.SCITimedOut = false;
 
-                var waitStart = DateTime.UtcNow;
-                while (this.expectingAck)
-                {
-                    if ((DateTime.UtcNow - waitStart).TotalMilliseconds > 1000)
-                    {
-                        logger.Warn("sendPacketAckComm waiting for ACK. caller={0}, elapsedMs={1}, expectingAck={2}, loadingNewCode={3}, sciTimedOut={4}",
-                            caller,
-                            (int)(DateTime.UtcNow - waitStart).TotalMilliseconds,
-                            this.expectingAck,
-                            this.loadingNewCode,
-                            this.SCITimedOut);
-                        waitStart = DateTime.UtcNow;
-                    }
-
-                    Application.DoEvents();
-                }
-
-                logger.Info("sendPacketAckComm wait complete. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
-                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
-
-                if (this.SCITimedOut)
-                {
-                    logger.Warn("sendPacketAckComm early return because SCITimedOut. caller={0}", caller);
-                    return;
-                }
-
-                errorMessage = "Error Checking if Port is open";
                 if (!this.serialPort1.IsOpen)
                 {
                     logger.Warn("sendPacketAckComm port reopened. caller={0}, port={1}, baud={2}",
@@ -6929,35 +6918,37 @@ namespace RelayControl
                     this.clearSerialPortBuffers(this.serialPort1);
                 }
 
-                errorMessage = "Error Checking For Bytes left to read";
                 ++this.byteCount;
 
-                errorMessage = "Error Writing To Port";
-                Application.UseWaitCursor = true;
-                Cursor.Current = Cursors.WaitCursor;
+                // Remove UI wait cursor from this path to avoid grey-screen effects.
+                // Application.UseWaitCursor = true;
+                // Cursor.Current = Cursors.WaitCursor;
 
                 logger.Info("sendPacketAckComm writing packet. caller={0}, packet=[{1}]",
                     caller, BitConverter.ToString(bytePacket));
 
                 this.serialPort1.Write(bytePacket, 0, bytePacket.Length);
 
-                this.expectingAck = true;
-                logger.Info("sendPacketAckComm set expectingAck=TRUE. caller={0}", caller);
-
-                errorMessage = "Error At End of Routine";
                 this.timerSCITimeOut.Enabled = true;
                 logger.Info("sendPacketAckComm enabled timerSCITimeOut. caller={0}", caller);
-
                 logger.Info("sendPacketAckComm EXIT caller={0}", caller);
                 return;
             }
             catch (Exception ex)
             {
+                lock (_ackFlowLock)
+                {
+                    this.expectingAck = false;
+                    this.AcknowledgeCaller = string.Empty;
+                }
+
+                this.timerSCITimeOut.Enabled = false;
+
                 logger.Error(ex, "sendPacketAckComm EXCEPTION. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
                     caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
 
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
+                // Application.UseWaitCursor = false;
+                // Cursor.Current = Cursors.Default;
 
                 this.monitoring(false);
                 this.RegisterPolling(false);
@@ -7183,9 +7174,14 @@ namespace RelayControl
             this.sendPacket(packet);
         }
 
+        // Fields
         private readonly object _ackFlowLock = new object();
         private bool _pendingRelayTypePhasingSend = false;
         private DateTime _pendingRelayTypePhasingQueuedAtUtc;
+        private int _drainInProgress = 0;
+
+        // Optional: if you can, make this volatile or always access under lock
+        //private string AcknowledgeCaller = string.Empty;
 
         public void SendCTRatioAndPhasing(bool requestAfter)
         {
@@ -7193,10 +7189,9 @@ namespace RelayControl
             {
                 lock (_ackFlowLock)
                 {
-                    // Send CT now (this sets expectingAck=true)
+                    // sendPacketAckComm must set AcknowledgeCaller="CT Ratio Send"
                     this.sendCTRatio(requestAfter);
 
-                    // Queue second command; do NOT send immediately.
                     _pendingRelayTypePhasingSend = true;
                     _pendingRelayTypePhasingQueuedAtUtc = DateTime.UtcNow;
 
@@ -7211,30 +7206,55 @@ namespace RelayControl
 
         private void TryDrainPendingRelayTypePhasingSend(string caller)
         {
-            lock (_ackFlowLock)
+            if (Interlocked.Exchange(ref _drainInProgress, 1) == 1)
+                return;
+
+            try
             {
-                if (!_pendingRelayTypePhasingSend)
-                    return;
-
-                if (this.expectingAck)
+                lock (_ackFlowLock)
                 {
-                    logger.Info("Drain deferred ({0}): ACK still pending.", caller);
-                    return;
+                    if (!_pendingRelayTypePhasingSend)
+                        return;
+
+                    if (this.expectingAck)
+                    {
+                        logger.Info("Drain deferred ({0}): ACK still pending.", caller);
+                        return;
+                    }
+
+                    // Block drain during comm-suppressed/programming states
+                    if (this.loadingNewCode || this.backupInProgress || this.pendingAutoloadAfterBackup)
+                    {
+                        logger.Info("Drain postponed ({0}): comm-suppressed state active.", caller);
+                        return;
+                    }
+
+                    // NEW: block drain while full parameter download is active
+                    if (this.requestedAllParameters ||
+                        this.ProgramState == ProgramingState.DownloadingAllParameters)
+                    {
+                        logger.Info("Drain blocked ({0}): parameter download active. requestedAllParameters={1}, ProgramState={2}",
+                            caller, this.requestedAllParameters, this.ProgramState);
+                        return;
+                    }
+
+                    _pendingRelayTypePhasingSend = false;
+
+                    var queuedMs = (int)(DateTime.UtcNow - _pendingRelayTypePhasingQueuedAtUtc).TotalMilliseconds;
+                    logger.Info("Drain sending Relay Type/Phasing now ({0}). queuedMs={1}", caller, queuedMs);
                 }
 
-                if (this.loadingNewCode || this.backupInProgress || this.pendingAutoloadAfterBackup)
-                {
-                    logger.Info("Drain postponed ({0}): comm-suppressed state active.", caller);
-                    return;
-                }
-
-                _pendingRelayTypePhasingSend = false;
-
-                var queuedMs = (int)(DateTime.UtcNow - _pendingRelayTypePhasingQueuedAtUtc).TotalMilliseconds;
-                logger.Info("Drain sending Relay Type/Phasing now ({0}). queuedMs={1}", caller, queuedMs);
+                // Keep send off receive/UI path
+                Task.Run(() => this.SendRelayPhasingAndTypeAsync());
             }
-
-            Task.Run(() => this.SendRelayPhasingAndTypeAsync());
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TryDrainPendingRelayTypePhasingSend EXCEPTION. caller={0}", caller);
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _drainInProgress, 0);
+            }
         }
 
         private void sendCTRatio(bool requestAfter = true)
@@ -9994,22 +10014,25 @@ namespace RelayControl
                     {
                         if (!this.expectingAck)
                         {
-                            logger.Warn("Duplicate ACK ignored. lastByte=0x06, expectingAck=False, caller={0}", this.AcknowledgeCaller);
-                            continue;
+                            logger.Warn("Duplicate TCP ACK ignored. expectingAck=False, caller={0}", this.AcknowledgeCaller);
                         }
-
-                        string ackCaller = this.AcknowledgeCaller;
-
-                        this.SendConfirmed = true;
-                        this.expectingAck = false;
-                        packetAcknowledged(true);
-                        this.timerSCITimeOut.Enabled = false;
-
-                        logger.Info("ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
-
-                        if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
+                        else
                         {
-                            this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT");
+                            string ackCaller = this.AcknowledgeCaller;
+
+                            this.SendConfirmed = true;
+                            this.expectingAck = false;
+                            packetAcknowledged(true);
+                            this.timerSCITimeOut.Enabled = false;
+
+                            logger.Info("TCP ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
+
+                            this.AcknowledgeCaller = string.Empty;
+
+                            if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
+                            {
+                                this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT-TCP");
+                            }
                         }
                     }
                     if (b == 0x0D)
