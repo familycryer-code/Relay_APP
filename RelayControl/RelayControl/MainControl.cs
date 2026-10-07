@@ -3714,7 +3714,7 @@ namespace RelayControl
         private int savedSerialNumber = 0;
         private bool checkSerialNumber = false;
 
-        private void setTransmitterSettings(byte[] bytePacket)
+        private async void setTransmitterSettings(byte[] bytePacket)
         {
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
@@ -3725,7 +3725,7 @@ namespace RelayControl
             this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
-            DelayWithLog(1000, "send-all inter-command settle", nameof(setTransmitterSettings));
+            await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(setTransmitterSettings));
             if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
             {
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -6214,7 +6214,7 @@ namespace RelayControl
 
 
         //private void buttonRelayType_Click(object sender, EventArgs e)
-        private void sendRelayPhasingAndType()
+        private async void sendRelayPhasingAndType()
         {
             var choice = DialogResult.Cancel;
 
@@ -6243,7 +6243,7 @@ namespace RelayControl
 
                     this.sendPacketAck(packet, "Relay Type Send");
 
-                    DelayWithLog(100, "send-all inter-command settle", nameof(sendRelayPhasingAndType));
+                    await DelayWithLogSynch(100, "send-all inter-command settle", nameof(sendRelayPhasingAndType));
 
                     // ONLY ONE final refresh for the Apply flow
                     if (!this.sendAll)
@@ -6527,7 +6527,7 @@ namespace RelayControl
                 }
 
                 this.clearRemoteBuffer();
-                await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(checkPortForRelayAsync));
+                DelayWithLogSynch(1000, "send-all inter-command settle", nameof(checkPortForRelayAsync));
                 this.requestMasterRevisionNumber();
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
@@ -6536,6 +6536,34 @@ namespace RelayControl
                 this.timerCheckPortTime.Start();
 
 
+            }
+            catch (Exception ex)
+            {
+                this.messageHandler("Error Checking Port For Relay", ex);
+            }
+        }
+
+        private async Task checkPortForRelayAsync()
+        {
+            this.toolStripStatusLabelMain.Text = "Checking " + this.serialPort1.PortName + " for Relay";
+
+            try
+            {
+                this.serialPort1.Open();
+                this.clearSerialPortBuffers(this.serialPort1);
+
+                if (!this.serialPort1.IsOpen)
+                    return;
+
+                this.clearRemoteBuffer();
+                await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(checkPortForRelayAsync));
+                this.requestMasterRevisionNumber();
+
+                this.timerCheckPortTime.Dispose();
+                this.timerCheckPortTime = new System.Windows.Forms.Timer();
+                this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
+                this.timerCheckPortTime.Interval = 500;
+                this.timerCheckPortTime.Start();
             }
             catch (Exception ex)
             {
@@ -6599,7 +6627,7 @@ namespace RelayControl
                         this.serialPort1.Close();
                         this.serialPort1.BaudRate = 19200;
                         this.serialPort1.Open();
-                        await this.checkPortsForRelay();
+                        this.checkPortsForRelay();
                     }
                 }
                 catch (Exception ex)
@@ -9676,7 +9704,7 @@ namespace RelayControl
 
                 if (!this.sendAll)
                 {
-                    DelayWithLog(100, "send-all inter-command settle", nameof(buttonSendLowVoltageThres_Click));
+                    DelayWithLogSynch(100, "send-all inter-command settle", nameof(buttonSendLowVoltageThres_Click));
                     this.requestAllData();
                     this.parametersLoaded = true;
                 }
@@ -10144,7 +10172,7 @@ namespace RelayControl
             }
             packet_MT[7] = 0x0D;
             this.sendPacket(packet_MT);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
 
             // ---------------- T0..T4 each 12 bytes ----------------
             // In relay params block these are contiguous after Mtrip:
@@ -10161,7 +10189,7 @@ namespace RelayControl
                 }
                 p[13] = 0x0D;
                 this.sendPacket(p);
-                DelayWithLog(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
+                DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
             }
 
             SendTPacket(0, 20);
@@ -10182,7 +10210,7 @@ namespace RelayControl
             packet_MS[7] = 0x0D;
 
             this.sendPacket(packet_MS);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
         }
 
         private void writeNWProtectorDataBackUp_ToMaster()
@@ -10228,7 +10256,7 @@ namespace RelayControl
             packet_s[3] = 0x0D;
 
             this.sendPacket(packet_s);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writeNWProtectorDataBackUp_ToMaster));
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeNWProtectorDataBackUp_ToMaster));
         }
 
         private void writePumpModeDataBackUp_ToMaster()
@@ -10289,7 +10317,7 @@ namespace RelayControl
 
             packet_G[9] = 0x0D;
             this.sendPacket(packet_G);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writePumpModeDataBackUp_ToMaster));
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writePumpModeDataBackUp_ToMaster));
         }
 
         private void writeSafeServiceDataBackUp_ToMaster()
@@ -10330,7 +10358,7 @@ namespace RelayControl
 
             packet_F[21] = 0x0D;
             this.sendPacket(packet_F);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writeSafeServiceDataBackUp_ToMaster) );
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeSafeServiceDataBackUp_ToMaster) );
         }
 
         private void writeTransmitterDataBackUp_ToMaster()
@@ -10372,7 +10400,7 @@ namespace RelayControl
 
             packet_Y[33] = 0x0D;
             this.sendPacket(packet_Y);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writeTransmitterDataBackUp_ToMaster));
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTransmitterDataBackUp_ToMaster));
         }
 
         private void writeDNPDataBackUp_ToMaster()
@@ -10569,7 +10597,7 @@ namespace RelayControl
 
             packet_E[41] = 0x0D;
             this.sendPacket(packet_E);
-            DelayWithLog(1000, "send-all inter-command settle", nameof(writeArcFaultDataBackUp_ToMaster));
+            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeArcFaultDataBackUp_ToMaster));
         }
 
         private void writeCalibrationDataBackUp_ToMaster()
@@ -10609,7 +10637,7 @@ namespace RelayControl
 
                 packet_Cal[61] = 0x0D;
                 this.sendPacket(packet_Cal);
-                DelayWithLog(1000, "send-all inter-command settle", nameof(writeCalibrationDataBackUp_ToMaster));
+                DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeCalibrationDataBackUp_ToMaster));
             }//if not loading calibration constant defaults - and loading old calibration constants back to the relay
             else
             {
@@ -10742,7 +10770,7 @@ namespace RelayControl
 
             this.sendPacketAck(packet, "Permissive Close packet send");
 
-            DelayWithLog(250, "send-all inter-command settle", nameof(SendPCData));
+            DelayWithLogSynch(250, "send-all inter-command settle", nameof(SendPCData));
             this.request_PCdata();
         }
 

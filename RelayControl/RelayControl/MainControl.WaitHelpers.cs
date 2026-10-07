@@ -58,7 +58,7 @@ namespace RelayControl
             return false;
         }
 
-        internal void DelayWithLog(
+        internal void DelayWithLogSynch(
             int delayMs,
             string reason,
             string caller = null)
