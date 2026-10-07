@@ -6207,6 +6207,13 @@ namespace RelayControl
         //private void buttonRelayType_Click(object sender, EventArgs e)
         private async Task SendRelayPhasingAndTypeAsync()
         {
+            logger.Info("SendRelayPhasingAndTypeAsync called. sendAllFlag={0}, sendAll={1}, customer={2}, relayTypeSelected={3}, phasingSelected={4}",
+                this.sendAll,
+                this.sendAll,
+                this.Customer,
+                this.comboBox_RelayType?.SelectedItem?.ToString() ?? "<null>",
+                this.comboBox_Phasings?.SelectedItem?.ToString() ?? "<null>");
+
             var choice = DialogResult.Cancel;
 
             if (sendAllF.SendAllFlag == false)
@@ -6269,11 +6276,11 @@ namespace RelayControl
 
                     await DelayWithLogAsync(100, "send-all inter-command settle", nameof(SendRelayPhasingAndTypeAsync));
 
-                    if (!this.sendAll)
-                    {
-                        this.requestAllData();
-                        this.parametersLoaded = true;
-                    }
+                    //if (!this.sendAll)
+                    //{
+                       // this.requestAllData();
+                       // this.parametersLoaded = true;
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -6281,7 +6288,7 @@ namespace RelayControl
                 }
             }
 
-            await DelayWithLogAsync(1000, "post relay phasing/type settle", nameof(SendRelayPhasingAndTypeAsync));
+            //await DelayWithLogAsync(1000, "post relay phasing/type settle", nameof(SendRelayPhasingAndTypeAsync));
         }
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
