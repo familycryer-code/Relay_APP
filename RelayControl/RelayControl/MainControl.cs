@@ -2708,7 +2708,7 @@ namespace RelayControl
                             logger.Info("Skipping DNP settings request during parameter download for rev9 to rev10 compatibility.");
                         }
 
-                        this.parametersFinishedLoading();
+                        //this.parametersFinishedLoading();
                     }
 
                     backupGotSafeService = true;
@@ -3966,15 +3966,14 @@ namespace RelayControl
 
             // ===== Added filter block =====
 
-            bool isApplyAllWorkflow = this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters;
-
-            bool isProgrammingOrAutoloadWorkflow =
+            bool isFullSyncWorkflow =
+                this.requestedAllParameters ||
+                this.ProgramState == ProgramStates.DownloadingAllParameters ||
                 this.pendingAutoloadAfterBackup ||
-                this.ucRelayProgramming1.ReprogrammingInProgress ||
                 this.pendingRestoreAfterProgramming ||
-                this.backupInProgress;
+                this.backupInProgress ||
+                this.ucRelayProgramming1.ReprogrammingInProgress;
 
-            bool isFullSyncWorkflow = isApplyAllWorkflow || isProgrammingOrAutoloadWorkflow;
 
             if (!isFullSyncWorkflow)
             {
