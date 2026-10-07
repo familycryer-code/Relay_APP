@@ -6205,74 +6205,49 @@ namespace RelayControl
 
 
         //private void buttonRelayType_Click(object sender, EventArgs e)
-        private async Task sendRelayPhasingAndType()
+        private async Task SendRelayPhasingAndTypeAsync()
         {
             var choice = DialogResult.Cancel;
 
             if (sendAllF.SendAllFlag == false)
             {
-                choice = DialogResult.OK;// MessageBox.Show("Sending Network Protector and Phasing Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+                choice = DialogResult.OK;
             }
+
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
                 try
                 {
                     byte[] packet = new byte[4];
-
                     packet[0] = (byte)'s';
-                    try
-                    {
-                        if (this.comboBox_RelayType.SelectedItem.ToString() == "Sequence")
-                            packet[1] = (byte)'S';
-                        else if (this.comboBox_RelayType.SelectedItem.ToString() == "Power")
-                            packet[1] = (byte)'P';
-                    }
-                    catch
-                    {
-                        this.messageHandler("No Relay Type Selected", new Exception("Please Select Relay Type"));
-                        return;
-                    }
-                    try
-                    {
-                        if (this.Customer != Customers.CONED)
-                        {
-                            if (this.comboBox_Phasings.SelectedItem.ToString() == "ABC : CAB : BCA")
-                                packet[2] = 0x00;
-                            else if (this.comboBox_Phasings.SelectedItem.ToString() == "CBA : BAC : ACB")
-                                packet[2] = 0x01;
-                            else
-                            {
-                                // Legacy/unknown phasing (ex: older relay "Auto") -> default to ABC
-                                packet[2] = 0x00;
 
-                                if (this.comboBox_Phasings.Items.Count > 0)
-                                    this.comboBox_Phasings.SelectedIndex = 0; // ABC in this UI
-                            }
-                        }
+                    if (this.comboBox_RelayType.SelectedItem.ToString() == "Sequence")
+                        packet[1] = (byte)'S';
+                    else if (this.comboBox_RelayType.SelectedItem.ToString() == "Power")
+                        packet[1] = (byte)'P';
+
+                    if (this.Customer != Customers.CONED)
+                    {
+                        if (this.comboBox_Phasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                            packet[2] = 0x00;
+                        else if (this.comboBox_Phasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                            packet[2] = 0x01;
                         else
                         {
-                            packet[2] = (byte)this.conedPhasing;
+                            packet[2] = 0x00;
+
+                            if (this.comboBox_Phasings.Items.Count > 0)
+                                this.comboBox_Phasings.SelectedIndex = 0;
                         }
                     }
-                    catch
+                    else
                     {
-                        // Legacy/unknown/null phasing -> default to ABC instead of warning
-                        packet[2] = 0x00;
-
-                        if (this.comboBox_Phasings.Items.Count > 0)
-                            this.comboBox_Phasings.SelectedIndex = 0; // ABC in this UI
-
-                        return;
+                        packet[2] = (byte)this.conedPhasing;
                     }
 
                     try
                     {
-                        // set proper bit voltage protector Voltage
                         packet[2] |= (byte)protectorVoltage.SetBit;
-
                     }
                     catch (Exception ex)
                     {
@@ -6281,8 +6256,6 @@ namespace RelayControl
 
                     try
                     {
-                        // made invisible. But will send it as being checked to the master uP
-                        //  if (checkBox277DNPOutputs.Checked)
                         packet[2] |= 0x10;
                     }
                     catch (Exception ex)
@@ -6294,7 +6267,8 @@ namespace RelayControl
 
                     this.sendPacketAck(packet, "Relay Type Send");
 
-                    await DelayWithLogSynch(100, "send-all inter-command settle", nameof(sendRelayPhasingAndType));
+                    await DelayWithLogAsync(100, "send-all inter-command settle", nameof(SendRelayPhasingAndTypeAsync));
+
                     if (!this.sendAll)
                     {
                         this.requestAllData();
@@ -6305,9 +6279,9 @@ namespace RelayControl
                 {
                     this.messageHandler("Error Setting Relay Type", ex);
                 }
-            }// if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            }
 
-            await DelayWithLogSynch(1000, "post relay phasing/type settle", nameof(sendRelayPhasingAndType));
+            await DelayWithLogAsync(1000, "post relay phasing/type settle", nameof(SendRelayPhasingAndTypeAsync));
         }
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
@@ -7051,7 +7025,7 @@ namespace RelayControl
             this.sendPacket(packet);
         }
 
-        private void buttonSendCTRatio_Click(object sender, EventArgs e)
+        private async void buttonSendCTRatio_Click(object sender, EventArgs e)
         {
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -7063,14 +7037,17 @@ namespace RelayControl
                 this.sendCTRatio(false);
 
                 // Second send only: relay type/phasing
-                this.sendRelayPhasingAndType();
+                await this.SendRelayPhasingAndTypeAsync();
             }
             catch (Exception ex)
+            {
+                this.messageHandler("Error setting CT ratio / relay type", ex);
+            }
+            finally
             {
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
                 screenD.screenDisable = false;
-                this.messageHandler("Error setting CT ratio / relay type", ex);
             }
         }
         private void sendCTRatio(bool requestAfter = true)

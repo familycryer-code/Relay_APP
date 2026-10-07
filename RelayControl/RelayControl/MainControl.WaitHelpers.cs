@@ -76,6 +76,20 @@ namespace RelayControl
             Thread.Sleep(delayMs);
         }
 
+        internal async Task DelayWithLogAsync(
+    int delayMs,
+    string reason,
+    string caller = null)
+        {
+            if (caller == null)
+                caller = "unknown";
+
+            logger.Info("DELAY caller={0}, reason={1}, delayMs={2}",
+                caller, reason, delayMs);
+
+            await Task.Delay(delayMs);
+        }
+
         // ------------------------------------------------------------
         // Async versions: use in UI-thread call paths such as Apply All,
         // startup sequencing, modal decision flow, and any method that
