@@ -8490,24 +8490,47 @@ namespace RelayControl
 
         private bool sendAll = false;
 
+        // In buttonSendAll_Click: wrap in try/finally and only restore UI state here
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
             _phasingWarningShownThisApplyAll = false;
             _paramsLoadedShownThisApplyAll = false;
 
-            DialogResult SendAll_DelayAlertDR = new DialogResult();
-            SendAll_DelayAlertDR = MessageBox.Show("The relay is updating its critical parameters ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-            if (SendAll_DelayAlertDR == DialogResult.OK)
+            var dr = MessageBox.Show(
+                "The relay is updating its critical parameters ",
+                "Warning",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button1);
+
+            if (dr != DialogResult.OK)
+                return;
+
+            this.enableAll(false);
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
             {
-                this.enableAll(false);
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-                
                 this.sendAllParameters();
-               
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Apply All failed");
+                this.messageHandler("Apply All Failed", ex);
+            }
+            finally
+            {
+                this.sendAll = false;
+                sendAllF.SendAllFlag = false;
+
+                this.Enabled = true;                 // important
                 Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
+                this.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+
+                this.enableAll(true);                // important
+                this.tabControlMain.Enabled = true;  // extra belt-and-suspenders
             }
         }
 
@@ -8516,66 +8539,49 @@ namespace RelayControl
             sendAllF.SendAllFlag = true;
             this.sendAll = true;
 
-            // Trip Mode
-            this.ucTripMode2.SendTripMode();
-            Thread.Sleep(100);  // 100 milliseconds
+            try
+            {
+                this.ucTripMode2.SendTripMode();
+                Thread.Sleep(100);
 
-            // Close Mode
-            this.ucCloseMode1.sendCloseData();
-            Thread.Sleep(100);  // 100 milliseconds
+                this.ucCloseMode1.sendCloseData();
+                Thread.Sleep(100);
 
 #if CONED
-            // Permissive Close Mode
-            this.SendPCData();
-            Thread.Sleep(100);  // 100 milliseconds
+        this.SendPCData();
+        Thread.Sleep(100);
 #endif
 
-            // NWP Settings
-            this.SendCTRatioAndPhasing(requestAfter: false);
-            Thread.Sleep(100);  // 100 milliseconds
+                this.SendCTRatioAndPhasing(requestAfter: false);
+                Thread.Sleep(100);
 
-            // Pump Mode
-            this.ucPumpMode1.SendPumpMode();
-            Thread.Sleep(100);  // 100 milliseconds
+                this.ucPumpMode1.SendPumpMode();
+                Thread.Sleep(100);
 
 #if DNP
-            if (this.Customer == Customers.TORONTO_HYDRO)
-            {
-                this.ucTransmitter1.ForceDNPEnable = true;
-            }
-            else if (dnpUplinkK.dnpEnabledWithKit)
-            {
-                this.ucTransmitter1.ForceDNPEnable = true;
-            }
+                if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit)
+                    this.ucTransmitter1.ForceDNPEnable = true;
 #endif
 
-            if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
-            {
-                // Safe Service Mode
-                this.ucSafeService1.SendAll();
-                Thread.Sleep(100);  // 100 milliseconds
-            }
-
-            Thread.Sleep(100);  // 100 milliseconds
-
-            // End send-all write phase
-            this.sendAll = false;
-            sendAllF.SendAllFlag = false;
-
-            // Let any async send-all packet settle before full read
-            Thread.Sleep(200);
-
-            if (!this.loadingNewCode)
-            {
-                // hard guard: no full read while send-all still active
-                if (this.sendAll || sendAllF.SendAllFlag)
+                if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
                 {
-                    logger.Info("sendAllParameters: deferring requestAllData because sendAll is still active.");
-                    return;
+                    this.ucSafeService1.SendAll();
+                    Thread.Sleep(100);
                 }
 
-                BeginFullParameterDownload(nameof(sendAllParameters));
-                this.requestAllData("sendAllParameters");
+                Thread.Sleep(200);
+
+                // DO NOT gate this on sendAll flags here; they are your own in-method flags
+                if (!this.loadingNewCode)
+                {
+                    BeginFullParameterDownload(nameof(sendAllParameters));
+                    this.requestAllData("sendAllParameters");
+                }
+            }
+            finally
+            {
+                this.sendAll = false;
+                sendAllF.SendAllFlag = false;
             }
         }
 
