@@ -4769,7 +4769,7 @@ namespace RelayControl
         private bool parametersLoaded = false;
         private bool badDataDetected = false;
 
-        private void setRelayParameters(byte[] bytePacket)
+        private async Task setRelayParameters(byte[] bytePacket)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Int32 temp;
@@ -4802,7 +4802,7 @@ namespace RelayControl
 
                 if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
                 {
-                    DelayWithLog(3000, "send-all inter-command settle", nameof(setRelayParameters));
+                    await DelayWithLogAsync(3000, "send-all inter-command settle", nameof(setRelayParameters));
                     string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                     TextWriter tw = new StreamWriter(path, true);
                     tw.WriteLine("Relay Parameters:");
@@ -4811,7 +4811,7 @@ namespace RelayControl
                         tw.WriteLine(bytePacket[index]);
                     }
                     tw.Close();
-                    DelayWithLog(3000, "send-all inter-command settle", nameof(setRelayParameters));
+                    await DelayWithLogAsync(3000, "send-all inter-command settle", nameof(setRelayParameters));
                 }
 
                 //Reclose Voltage Btyes - Vertical
