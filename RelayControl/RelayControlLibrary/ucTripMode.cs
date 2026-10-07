@@ -346,9 +346,7 @@ namespace RelayControlLibrary
             }
         }
 
-
-        private bool sending = false;
-        public void buttonSendTripMode_Click(object sender, EventArgs e)
+        public void SendTripMode()
         {
             var choice = DialogResult.Cancel;
             byte[] adaptiveTrip_package = new byte[12];
@@ -660,6 +658,12 @@ namespace RelayControlLibrary
 
             }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             Thread.Sleep(1500);   // 1 second
+        }
+
+        private bool sending = false;
+        public void buttonSendTripMode_Click(object sender, EventArgs e)
+        {
+            SendTripMode();
         }
 
 

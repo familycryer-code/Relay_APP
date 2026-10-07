@@ -1095,7 +1095,12 @@ namespace RelayControlLibrary
                 Send(sEA);
         }
 
-        public void buttonRQ_Click(object sender, EventArgs e)
+        private void buttonRQ_Click(object sender, EventArgs e)
+        {
+            RequestLightningCount();
+        }
+
+        public void RequestLightningCount()
         {
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
@@ -1170,8 +1175,7 @@ namespace RelayControlLibrary
             }
         }
 
-        //private void buttonTX_Click(object sender, EventArgs e)
-        public void buttonTX_Click(object sender, EventArgs e)
+        public void SendTransmitterSettingsNew()
         {
             if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit == true)
             {
@@ -1183,6 +1187,11 @@ namespace RelayControlLibrary
             //this.enableAll(false);
             //========================================================================================================
             this.SendTransmitterSettings();
+        }
+
+        private void buttonTX_Click(object sender, EventArgs e)
+        {
+            SendTransmitterSettingsNew();
         }
 
         public void SendTransmitterSettings()
@@ -1210,11 +1219,11 @@ namespace RelayControlLibrary
                 //this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
 #if CONED
                 //this.tempID = Convert.ToUInt16(this.SerialNumber);     //this.tempID = this.TXSettings.SerialNumber;
-           //     int iSN = Convert.ToUInt16(this.textBoxSerialNumber.Text);
-           if((Convert.ToUInt32(this.textBoxSerialNumber.Text) < 65535))
+           //   int iSN = Convert.ToUInt16(this.textBoxSerialNumber.Text);
+                if((Convert.ToUInt32(this.textBoxSerialNumber.Text) < 65535))
                     this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
                 else if ((Convert.ToUInt32(this.textBoxSerialNumber.Text) > 900000))
-                            this.tempID = (ushort)(Convert.ToUInt32(this.textBoxSerialNumber.Text) - 900000);
+                    this.tempID = (ushort)(Convert.ToUInt32(this.textBoxSerialNumber.Text) - 900000);
            
 #else
                 this.tempID = Convert.ToUInt16(this.textBoxSerialNumber.Text);
@@ -1458,7 +1467,7 @@ namespace RelayControlLibrary
             {
                 this.labelErrorLabel.Text = errorMessage;
                 this.errorHandler(ex);
-                this.buttonRQ_Click(this, new EventArgs());
+                this.RequestLightningCount();
                 return;
             }
 

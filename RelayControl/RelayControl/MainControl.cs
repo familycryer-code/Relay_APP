@@ -2644,7 +2644,7 @@ namespace RelayControl
                     break;
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
-                    this.ucTransmitter1.buttonRQ_Click(this, new EventArgs()); // to update the lightnign count label
+                    this.ucTransmitter1.RequestLightningCount();
                     break;
                 case IncomingCommCommands.ArcFaultData:
                     if (dataBackup_fromRelay == true) // write Arc Fault parameters currently residing in the relay to the backup file on computer
@@ -3739,7 +3739,7 @@ namespace RelayControl
                 this.updateCTRatio(320);
                 this.messageHandler("Bad CT Ratio", "Please resend correct CT Ratio");
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCTRatio_Click(this, new EventArgs());
+                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
                 //this.buttonRelayType_Click(this, new EventArgs());
             }
 
@@ -3907,7 +3907,7 @@ namespace RelayControl
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 this.ucTransmitter1.SetDefaults(tempI);
-                this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
+                this.ucTransmitter1.SendTransmitterSettingsNew();
             }
         }
 
@@ -4575,8 +4575,7 @@ namespace RelayControl
                             this.ucPumpMode1.PumpReason = PumpReasons.MotorTimeout;
                             break;
                         default:
-                            this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
-                            this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+                            this.ucPumpMode1.SendPumpMode();
                             throw new Exception(b.ToString() + " is not a valid Pump Reason byte value");
 
 
@@ -4737,7 +4736,7 @@ namespace RelayControl
                     return PumpReasons.MotorTimeout;
                 default:
                     this.ucPumpMode1.buttonRestoreDefaults_Click(this, new EventArgs());
-                    this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+                    this.ucPumpMode1.SendPumpMode();
                     throw new Exception(pumpReason.ToString() + " is a bad value for Pump Reason");
             }
         }
@@ -4890,8 +4889,7 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Error in Relay Close Data", ex);
                 //this.resetCloseData();
-                this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
-                this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
+                this.ucCloseMode1.SendCloseDataNew();
             }
 
             try
@@ -5072,7 +5070,7 @@ namespace RelayControl
                     else
                     {
                         this.restoreDefaultsTypeAndPhasing();
-                        this.buttonSendCTRatio_Click(this, new EventArgs());
+                        _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
                     }
                 }
                 else
@@ -5099,7 +5097,7 @@ namespace RelayControl
                     {
                         this.restoreDefaultsTypeAndPhasing();
                        
-                        this.buttonSendCTRatio_Click(this, new EventArgs());
+                        _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
                     }
                 }
             }
@@ -5109,7 +5107,7 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Phase Issue", ex);
                 this.restoreDefaultsTypeAndPhasing();
-                this.buttonSendCTRatio_Click(this, new EventArgs());
+                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
             }
 
             try
@@ -5129,7 +5127,7 @@ namespace RelayControl
                 this.messageHandler("Trouble setting 277V Bit", ex);
                 this.restoreDefaultsTypeAndPhasing();
                 //this.buttonRelayType_Click(this, new EventArgs());
-                this.buttonSendCTRatio_Click(this, new EventArgs());
+                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
             }
 
             try
@@ -5143,7 +5141,7 @@ namespace RelayControl
                 this.messageHandler("Trouble setting 277V Output Bit", ex);
                 this.restoreDefaultsTypeAndPhasing();
                 //this.buttonRelayType_Click(this, new EventArgs());
-                this.buttonSendCTRatio_Click(this, new EventArgs());
+                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
             }
 
             try
@@ -5166,7 +5164,7 @@ namespace RelayControl
                 {
                    // this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
                     this.restoreDefaultsTypeAndPhasing();
-                    this.buttonSendCTRatio_Click(this, new EventArgs());
+                    _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
                 }
             }
             catch (Exception ex)
@@ -5176,7 +5174,7 @@ namespace RelayControl
                 this.messageHandler("Error in Relay Type Data", ex);
                 this.comboBox_RelayType.SelectedIndex = 0;
                 this.restoreDefaultsTypeAndPhasing();
-                this.buttonSendCTRatio_Click(this, new EventArgs());
+                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
             }
             try
             {
@@ -5200,7 +5198,7 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Error Setting Pump Data", ex);
                 this.ucPumpMode1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+                this.ucPumpMode1.SendPumpMode();
             }
 
             //Control Parameters 
@@ -6121,6 +6119,22 @@ namespace RelayControl
             this.enableAll(true);
         }
 
+
+        private void requestRelayParameters()
+        {
+            byte[] sendArray = new byte[3];
+
+            sendArray[0] = (byte)'S';
+            sendArray[1] = 0x55;
+            sendArray[2] = 0x0D;
+
+            this.sendPacket(sendArray);
+
+            // request low-voltage threshold explicitly; avoid UI click side effects
+            this.requestLowVoltageThreshold();
+        }
+
+        /*
         private void requestRelayParameters()
         {
             byte[] sendArray = new byte[3];
@@ -6132,7 +6146,7 @@ namespace RelayControl
             this.sendPacket(sendArray);
 
             buttonRequestLowVotlageThres_Click(null, null);
-        }
+        }*/
 
         private void requestDNPSettings()
         {
@@ -7075,8 +7089,12 @@ namespace RelayControl
 
             this.sendPacket(packet);
         }
-
         private async void buttonSendCTRatio_Click(object sender, EventArgs e)
+        {
+            await SendCTRatioAndPhasingAsync(requestAfter: true);
+        }
+
+        private async Task SendCTRatioAndPhasingAsync(bool requestAfter)
         {
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -7085,7 +7103,7 @@ namespace RelayControl
             try
             {
                 // First send only: CT ratio
-                this.sendCTRatio(false);
+                this.sendCTRatio(requestAfter);
 
                 // Second send only: relay type/phasing
                 await this.SendRelayPhasingAndTypeAsync();
@@ -8303,25 +8321,25 @@ namespace RelayControl
             this.sendAll = true;
 
             // Trip Mode
-            this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
+            this.ucTripMode2.SendTripMode();
             Thread.Sleep(100);  // 100 milliseconds
 
             // Close Mode
-            this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
+            this.ucCloseMode1.SendCloseDataNew();
             Thread.Sleep(100);  // 100 milliseconds
 
 #if CONED
-    // Permissive Close Mode
-    this.SendPCData();
-    Thread.Sleep(100);  // 100 milliseconds
+            // Permissive Close Mode
+            this.SendPCData();
+            Thread.Sleep(100);  // 100 milliseconds
 #endif
 
             // NWP Settings
-            this.buttonSendCTRatio_Click(this, new EventArgs());
+            this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
             Thread.Sleep(100);  // 100 milliseconds
 
             // Pump Mode
-            this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+            this.ucPumpMode1.SendPumpMode();
             Thread.Sleep(100);  // 100 milliseconds
 
 #if DNP
@@ -9776,7 +9794,28 @@ namespace RelayControl
                 MessageBox.Show("Bad value in requested Low Voltage Threshold");
             }
         }
+        private void buttonRequestLowVotlageThres_Click(object sender, EventArgs e)
+        {
+            this.requestLowVoltageThreshold();
+        }
 
+        private void requestLowVoltageThreshold()
+        {
+            try
+            {
+                byte[] sendArray = new byte[3];
+                sendArray[0] = (byte)'?';
+                sendArray[1] = 0x55;
+                sendArray[2] = 0x0D;
+
+                this.sendPacket(sendArray);
+            }
+            catch
+            {
+                MessageBox.Show("Error Requesting Low Voltage Threshold Value");
+            }
+        }
+        /*
         private void buttonRequestLowVotlageThres_Click(object sender, EventArgs e)
         {
             SendEventArgs sEA = new SendEventArgs(3);
@@ -9794,6 +9833,7 @@ namespace RelayControl
                 MessageBox.Show("Error Requesting Low Voltage Threshold Value");
             }
         }
+        */
 
         private void initializeFromConfigFileDebug()
         {
@@ -10094,7 +10134,7 @@ namespace RelayControl
             {
                 // Fallback to defaults when old backup values are flagged bad
                 this.ucCloseMode1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
+                this.ucCloseMode1.SendCloseDataNew();
                 return;
             }
 
@@ -10177,7 +10217,7 @@ namespace RelayControl
             {
                 // Fallback to defaults when old trip data is flagged bad
                 this.ucTripMode2.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
+                this.ucTripMode2.SendTripMode();
                 return;
             }
 
@@ -10266,7 +10306,7 @@ namespace RelayControl
             {
                 // Old NW Protector data flagged bad/out-of-range -> apply defaults
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCTRatio_Click(this, new EventArgs());
+                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
                 return;
             }
 
@@ -10312,7 +10352,7 @@ namespace RelayControl
             {
                 // Old pump data flagged bad/out-of-range -> apply defaults
                 this.ucPumpMode1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+                this.ucPumpMode1.SendPumpMode();
                 return;
             }
 
@@ -10414,7 +10454,7 @@ namespace RelayControl
             {
                 // Old TX data flagged bad/out-of-range -> apply defaults
                 this.ucTransmitter1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucTransmitter1.buttonTX_Click(this, new EventArgs());
+                this.ucTransmitter1.SendTransmitterSettings();
                 return;
             }
 
@@ -10692,7 +10732,7 @@ namespace RelayControl
                 // do not load those calibration constants ( which are backed up in the file)
                 // instead load the defaults calibration constants to the relay with the new firmware
                 this.ucPumpMode1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+                this.ucPumpMode1.SendPumpMode();
             }
         }
 

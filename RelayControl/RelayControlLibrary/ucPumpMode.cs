@@ -126,7 +126,7 @@ namespace RelayControlLibrary
             }
         }
 
-        public void buttonSend_Click(object sender, EventArgs e)
+        public void SendPumpMode()
         {
             var choice = DialogResult.Cancel;
 
@@ -168,6 +168,11 @@ namespace RelayControlLibrary
                 }
             }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             Thread.Sleep(1000);   // 1 second
+        }
+
+        public void buttonSend_Click(object sender, EventArgs e)
+        {
+            this.SendPumpMode();
         }
 
         public byte[] bytePacketFor(PumpDefinition pD)

@@ -299,15 +299,16 @@ namespace RelayControlLibrary
             this.labelTiltAngleUnit.Visible = value;
         }
 
-        public void buttonSendCloseData_Click(object sender, EventArgs e)
+        public void SendCloseDataNew()
         {
             if (this.checkBoxCircleClose.Checked)
                 this.Mode = CloseModes.CircleClose;
             else
                 this.Mode = CloseModes.Normal;
+
             if (sendAllF.SendAllFlag == false)
             {
-                var choice = DialogResult.OK;// MessageBox.Show("Sending Close Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
+                var choice = DialogResult.OK;
                 if (choice == DialogResult.OK)
                 {
                     this.sendCloseData();
@@ -317,7 +318,10 @@ namespace RelayControlLibrary
             {
                 this.sendCloseData();
             }
-            //this.sendCloseData();
+        }
+        public void buttonSendCloseData_Click(object sender, EventArgs e)
+        {
+            this.SendCloseDataNew();
         }
 
         private void buttonRelaxClose_Click(object sender, EventArgs e)
