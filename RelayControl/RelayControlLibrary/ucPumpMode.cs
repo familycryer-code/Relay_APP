@@ -130,15 +130,15 @@ namespace RelayControlLibrary
         {
             var choice = DialogResult.Cancel;
 
-            if (sendAllF.SendAllFlag == false)
+            if (!sendAllF.SendAllFlag)
+                choice = DialogResult.OK; // or MessageBox
+
+            if ((choice == DialogResult.OK) || sendAllF.SendAllFlag)
             {
-                choice = DialogResult.OK; // MessageBox.Show("Sending Pump Mode Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
-            }
-            if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
-            {
-                Application.UseWaitCursor = true;  //keeps waitcursor even when the thread ends.
+                Application.UseWaitCursor = true;
                 Cursor.Current = Cursors.WaitCursor;
                 screenD.screenDisable = true;
+
                 try
                 {
                     PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
@@ -147,27 +147,28 @@ namespace RelayControlLibrary
                     PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
 
                     PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
-                    PD.PumpTime = (Int16)this.numericUpDownPumpTime.Value;
+                    PD.PumpTime = (short)this.numericUpDownPumpTime.Value;
                     PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
                     PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
-                    if (this.checkBoxNeverReclose.Checked)
-                    {
-                        PD.PumpProtectTime = 0;
-                    }
-                    else
-                    {
-                        PD.PumpProtectTime = (Int16)this.numericUpDownProtectTime.Value;
-                    }
+                    PD.PumpProtectTime = this.checkBoxNeverReclose.Checked ? (short)0 : (short)this.numericUpDownProtectTime.Value;
 
                     this.sEA.SendPacket = this.bytePacketFor(PD);
                     this.sEA.WithAck = true;
                     OnSend(sEA);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    //this.messageHandler("Error sending Pump Mode", ex);
                 }
-            }//((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
-            Thread.Sleep(1000);   // 1 second
+                finally
+                {
+                    Application.UseWaitCursor = false;
+                    Cursor.Current = Cursors.Default;
+                    screenD.screenDisable = false;
+                }
+            }
+
+            Thread.Sleep(1000);
         }
 
         public void buttonSend_Click(object sender, EventArgs e)

@@ -3739,7 +3739,7 @@ namespace RelayControl
                 this.updateCTRatio(320);
                 this.messageHandler("Bad CT Ratio", "Please resend correct CT Ratio");
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
                 //this.buttonRelayType_Click(this, new EventArgs());
             }
 
@@ -5070,7 +5070,7 @@ namespace RelayControl
                     else
                     {
                         this.restoreDefaultsTypeAndPhasing();
-                        _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                        this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
                     }
                 }
                 else
@@ -5097,7 +5097,7 @@ namespace RelayControl
                     {
                         this.restoreDefaultsTypeAndPhasing();
                        
-                        _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                        this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
                     }
                 }
             }
@@ -5107,7 +5107,7 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Phase Issue", ex);
                 this.restoreDefaultsTypeAndPhasing();
-                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
             }
 
             try
@@ -5127,7 +5127,7 @@ namespace RelayControl
                 this.messageHandler("Trouble setting 277V Bit", ex);
                 this.restoreDefaultsTypeAndPhasing();
                 //this.buttonRelayType_Click(this, new EventArgs());
-                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
             }
 
             try
@@ -5141,7 +5141,7 @@ namespace RelayControl
                 this.messageHandler("Trouble setting 277V Output Bit", ex);
                 this.restoreDefaultsTypeAndPhasing();
                 //this.buttonRelayType_Click(this, new EventArgs());
-                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
             }
 
             try
@@ -5164,7 +5164,7 @@ namespace RelayControl
                 {
                    // this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
                     this.restoreDefaultsTypeAndPhasing();
-                    _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                    this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
@@ -5174,7 +5174,7 @@ namespace RelayControl
                 this.messageHandler("Error in Relay Type Data", ex);
                 this.comboBox_RelayType.SelectedIndex = 0;
                 this.restoreDefaultsTypeAndPhasing();
-                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
             }
             try
             {
@@ -10306,7 +10306,7 @@ namespace RelayControl
             {
                 // Old NW Protector data flagged bad/out-of-range -> apply defaults
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                _ = this.SendCTRatioAndPhasingAsync(requestAfter: false);
+                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
                 return;
             }
 
