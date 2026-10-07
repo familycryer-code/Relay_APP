@@ -3964,8 +3964,34 @@ namespace RelayControl
                 return;
             }
 
-            if (!(this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters))
-                return;
+            // ===== Added filter block =====
+
+            bool isApplyAllWorkflow = this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters;
+
+            bool isProgrammingOrAutoloadWorkflow =
+                this.pendingAutoloadAfterBackup ||
+                this.ucRelayProgramming1.ReprogrammingInProgress ||
+                this.pendingRestoreAfterProgramming ||
+                this.backupInProgress;
+
+            bool isFullSyncWorkflow = isApplyAllWorkflow || isProgrammingOrAutoloadWorkflow;
+
+            if (!isFullSyncWorkflow)
+            {
+                logger.Info(
+                    "Bypassing full parameter completion for targeted config change. requestedAllParameters={0}, ProgramState={1}, sendAll={2}, sendAllFlag={3}, pendingAutoloadAfterBackup={4}, reprogrammingInProgress={5}, loadingNewCode={6}, pendingRestoreAfterProgramming={7}",
+                    this.requestedAllParameters,
+                    this.ProgramState,
+                    this.sendAll,
+                    sendAllF.SendAllFlag,
+                    this.pendingAutoloadAfterBackup,
+                    this.ucRelayProgramming1.ReprogrammingInProgress,
+                    this.loadingNewCode,
+                    this.pendingRestoreAfterProgramming
+                );
+                return; // targeted config change -> bypass full parameter completion
+            }
+            // ===== End added filter block =====
 
             this.requestedAllParameters = false;
             this.timerResponseTimeOut.Enabled = false;
@@ -4097,6 +4123,7 @@ namespace RelayControl
             }
         }
 
+        /*
         private void startMonitoringWBSettings()
         {
             this.groupBoxLRLockoutMain.Visible = false;
@@ -4107,6 +4134,7 @@ namespace RelayControl
             if (this.tabControlMain.SelectedTab == this.tabPageTransmitter)
                 tabControlMain_SelectedIndexChanged(null, null);
         }
+        */
 
         //private void updateCTRatioDomain(int CT_ratio, DomainUpDown dUP)
         private void updateCTRatioDomain(int CT_ratio, int comboBoxCT)
@@ -6207,12 +6235,14 @@ namespace RelayControl
         //private void buttonRelayType_Click(object sender, EventArgs e)
         private async Task SendRelayPhasingAndTypeAsync()
         {
-            logger.Info("SendRelayPhasingAndTypeAsync called. sendAllFlag={0}, sendAll={1}, customer={2}, relayTypeSelected={3}, phasingSelected={4}",
-                this.sendAll,
+            logger.Info(
+                "SendRelayPhasingAndTypeAsync called. sendAllFlag={0}, sendAll={1}, customer={2}, relayTypeSelected={3}, phasingSelected={4}",
+                sendAllF.SendAllFlag ? sendAllF.SendAllFlag : false,
                 this.sendAll,
                 this.Customer,
                 this.comboBox_RelayType?.SelectedItem?.ToString() ?? "<null>",
-                this.comboBox_Phasings?.SelectedItem?.ToString() ?? "<null>");
+                this.comboBox_Phasings?.SelectedItem?.ToString() ?? "<null>"
+            );
 
             var choice = DialogResult.Cancel;
 
@@ -6221,7 +6251,7 @@ namespace RelayControl
                 choice = DialogResult.OK;
             }
 
-            if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+            if((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
                 try
                 {
@@ -6654,6 +6684,16 @@ namespace RelayControl
         private void requestAllData()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info(
+    "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, loadingNewCode={4}, backupInProgress={6}, pendingAutoloadAfterBackup={7}, pendingRestoreAfterProgramming={8}",
+    requestedAllParameters,
+    ProgramState,
+    this.sendAll,
+    loadingNewCode,
+    backupInProgress,
+    pendingAutoloadAfterBackup,
+    pendingRestoreAfterProgramming
+);
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
@@ -6662,6 +6702,16 @@ namespace RelayControl
         private void requestAllDataNoMasterRev()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            logger.Info(
+    "parametersFinishedLoading ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, loadingNewCode={6}",
+    requestedAllParameters,
+    ProgramState,
+    pendingRestoreAfterProgramming,
+    pendingAutoloadAfterBackup,
+    backupInProgress,
+    loadingNewCode
+);
 
             if (this.InvokeRequired)
             {
