@@ -9,6 +9,7 @@ namespace RelayControl
     {
         // ------------------------------------------------------------
         // Sync versions: keep for worker/background-thread use only.
+        // These should not be used on the UI thread for long-running waits.
         // ------------------------------------------------------------
 
         internal bool WaitUntil(
@@ -78,7 +79,8 @@ namespace RelayControl
             TimeSpan timeout,
             int pollMs = 50,
             string reason = null,
-            string caller = null)
+            string caller = null,
+            CancellationToken ct = default)
         {
             var sw = Stopwatch.StartNew();
 
@@ -93,6 +95,8 @@ namespace RelayControl
 
             while (sw.Elapsed < timeout)
             {
+                ct.ThrowIfCancellationRequested();
+
                 try
                 {
                     if (condition())
@@ -107,7 +111,7 @@ namespace RelayControl
                     logger.Warn(ex, "WAIT condition threw async caller={0}, reason={1}", caller, reason);
                 }
 
-                await Task.Delay(pollMs).ConfigureAwait(true);
+                await Task.Delay(pollMs, ct).ConfigureAwait(true);
             }
 
             logger.Warn("WAIT TIMEOUT async caller={0}, reason={1}, elapsedMs={2}",
@@ -118,7 +122,8 @@ namespace RelayControl
         internal async Task DelayWithLogAsync(
             int delayMs,
             string reason,
-            string caller = null)
+            string caller = null,
+            CancellationToken ct = default)
         {
             if (caller == null)
                 caller = "unknown";
@@ -126,7 +131,7 @@ namespace RelayControl
             logger.Info("DELAY async caller={0}, reason={1}, delayMs={2}",
                 caller, reason, delayMs);
 
-            await Task.Delay(delayMs).ConfigureAwait(true);
+            await Task.Delay(delayMs, ct).ConfigureAwait(true);
         }
 
         // ------------------------------------------------------------

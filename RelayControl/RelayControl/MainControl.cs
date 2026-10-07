@@ -64,7 +64,7 @@ namespace RelayControl
 
         private Customers customer = Customers.None;
 
-
+        private readonly SemaphoreSlim _relayCommsLock = new SemaphoreSlim(1, 1);
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
@@ -10941,51 +10941,59 @@ namespace RelayControl
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
 
-        public async Task RestoreNormalCommsAfterAutoloadDeclineAsync(string caller = "unknown")
+        public async Task RestoreNormalCommsAfterAutoloadDeclineAsync(
+    string caller = "unknown",
+    CancellationToken ct = default)
         {
-            logger.Info(
-                "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
-                caller,
-                pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming,
-                backupInProgress,
-                this.loadingNewCode,
-                this.quietMode,
-                this.pauseMonitoring);
+            await _relayCommsLock.WaitAsync(ct);
+            try
+            {
+                logger.Info(
+                    "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                    caller,
+                    pendingAutoloadAfterBackup,
+                    pendingRestoreAfterProgramming,
+                    backupInProgress,
+                    this.loadingNewCode,
+                    this.quietMode,
+                    this.pauseMonitoring);
 
-            pendingAutoloadAfterBackup = false;
-            pendingRestoreAfterProgramming = false;
-            backupInProgress = false;
-            skipAutoloadAfterDecline = false;
-            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+                pendingAutoloadAfterBackup = false;
+                pendingRestoreAfterProgramming = false;
+                backupInProgress = false;
+                skipAutoloadAfterDecline = false;
+                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
 
-            this.loadingNewCode = false;
-            this.quietMode = false;
-            this.pauseMonitoring = false;
+                this.loadingNewCode = false;
+                this.quietMode = false;
+                this.pauseMonitoring = false;
 
-            if (backupTimeoutTimer != null)
-                backupTimeoutTimer.Stop();
+                if (backupTimeoutTimer != null)
+                    backupTimeoutTimer.Stop();
 
-            this.UseWaitCursor = false;
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
-            this.enableAll(true);
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
 
-            this.monitoring(true);
-            this.RegisterPolling(true);
-            this.requestRelayRegisters();
+                this.monitoring(true);
+                this.RegisterPolling(true);
+                this.requestRelayRegisters();
 
-            logger.Info(
-                "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
-                caller,
-                pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming,
-                backupInProgress,
-                this.loadingNewCode,
-                this.quietMode,
-                this.pauseMonitoring);
-
-            await Task.CompletedTask;
+                logger.Info(
+                    "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                    caller,
+                    pendingAutoloadAfterBackup,
+                    pendingRestoreAfterProgramming,
+                    backupInProgress,
+                    this.loadingNewCode,
+                    this.quietMode,
+                    this.pauseMonitoring);
+            }
+            finally
+            {
+                _relayCommsLock.Release();
+            }
         }
 
         private bool IsBackupComplete()
