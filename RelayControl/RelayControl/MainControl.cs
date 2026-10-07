@@ -1987,10 +1987,25 @@ namespace RelayControl
                     }
                     if (lastByte == 0x06)
                     {
+                        if (!this.expectingAck)
+                        {
+                            logger.Warn("Duplicate ACK ignored. lastByte=0x06, expectingAck=False, caller={0}", this.AcknowledgeCaller);
+                            continue;
+                        }
+
+                        string ackCaller = this.AcknowledgeCaller;
+
                         this.SendConfirmed = true;
                         this.expectingAck = false;
                         packetAcknowledged(true);
                         this.timerSCITimeOut.Enabled = false;
+
+                        logger.Info("ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
+
+                        if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
+                        {
+                            this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT");
+                        }
                     }
                     if (lastByte == 0x0D)
                         dReceived = true;
@@ -3739,7 +3754,7 @@ namespace RelayControl
                 this.updateCTRatio(320);
                 this.messageHandler("Bad CT Ratio", "Please resend correct CT Ratio");
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                this.SendCTRatioAndPhasing(requestAfter: false);
                 //this.buttonRelayType_Click(this, new EventArgs());
             }
 
@@ -5070,7 +5085,7 @@ namespace RelayControl
                     else
                     {
                         this.restoreDefaultsTypeAndPhasing();
-                        this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                        this.SendCTRatioAndPhasing(requestAfter: false);
                     }
                 }
                 else
@@ -5097,7 +5112,7 @@ namespace RelayControl
                     {
                         this.restoreDefaultsTypeAndPhasing();
                        
-                        this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                        this.SendCTRatioAndPhasing(requestAfter: false);   
                     }
                 }
             }
@@ -5107,7 +5122,7 @@ namespace RelayControl
                 this.badDataDetected = true;
                 this.messageHandler("Phase Issue", ex);
                 this.restoreDefaultsTypeAndPhasing();
-                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                this.SendCTRatioAndPhasing(requestAfter: false);
             }
 
             try
@@ -5127,7 +5142,7 @@ namespace RelayControl
                 this.messageHandler("Trouble setting 277V Bit", ex);
                 this.restoreDefaultsTypeAndPhasing();
                 //this.buttonRelayType_Click(this, new EventArgs());
-                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                this.SendCTRatioAndPhasing(requestAfter: false);
             }
 
             try
@@ -5141,7 +5156,7 @@ namespace RelayControl
                 this.messageHandler("Trouble setting 277V Output Bit", ex);
                 this.restoreDefaultsTypeAndPhasing();
                 //this.buttonRelayType_Click(this, new EventArgs());
-                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                this.SendCTRatioAndPhasing(requestAfter: false);
             }
 
             try
@@ -5164,7 +5179,7 @@ namespace RelayControl
                 {
                    // this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
                     this.restoreDefaultsTypeAndPhasing();
-                    this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                    this.SendCTRatioAndPhasing(requestAfter: false);
                 }
             }
             catch (Exception ex)
@@ -5174,7 +5189,7 @@ namespace RelayControl
                 this.messageHandler("Error in Relay Type Data", ex);
                 this.comboBox_RelayType.SelectedIndex = 0;
                 this.restoreDefaultsTypeAndPhasing();
-                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                this.SendCTRatioAndPhasing(requestAfter: false);
             }
             try
             {
@@ -6021,6 +6036,7 @@ namespace RelayControl
             {
                 this.timerSCITimeOut.Enabled = false;
                 this.expectingAck = false;
+                this.TryDrainPendingRelayTypePhasingSend("ACK-RX");
                 if (this.expectingRelayRevision)
                 {
                     if (this.dataRetryCount == 3)
@@ -6224,102 +6240,125 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
         }
+        private async void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
+        {
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
 
-
+            try
+            {
+                this.SendRelayPhasingAndTypeAsync();
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                screenD.screenDisable = false;
+            }
+        }
         //private void buttonRelayType_Click(object sender, EventArgs e)
-        private async Task SendRelayPhasingAndTypeAsync()
+        private void SendRelayPhasingAndTypeAsync()
         {
             logger.Info(
                 "SendRelayPhasingAndTypeAsync called. sendAllFlag={0}, sendAll={1}, customer={2}, relayTypeSelected={3}, phasingSelected={4}",
-                sendAllF.SendAllFlag ? sendAllF.SendAllFlag : false,
+                sendAllF.SendAllFlag == false,
                 this.sendAll,
                 this.Customer,
                 this.comboBox_RelayType?.SelectedItem?.ToString() ?? "<null>",
                 this.comboBox_Phasings?.SelectedItem?.ToString() ?? "<null>"
             );
 
-            var choice = DialogResult.Cancel;
-
-            if (!sendAllF.SendAllFlag)
+            try
             {
-                choice = DialogResult.OK;
-            }
+                byte[] packet = new byte[4];
+                packet[0] = (byte)'s';
 
-            if ((choice == DialogResult.OK) || sendAllF.SendAllFlag)
-            {
+                var relayType = this.comboBox_RelayType?.SelectedItem?.ToString();
+                if (relayType == "Sequence")
+                    packet[1] = (byte)'S';
+                else if (relayType == "Power")
+                    packet[1] = (byte)'P';
+                else
+                    packet[1] = (byte)'P';
+
+                var phasing = this.comboBox_Phasings?.SelectedItem?.ToString();
+                if (this.Customer != Customers.CONED)
+                {
+                    if (phasing == "ABC : CAB : BCA")
+                        packet[2] = 0x00;
+                    else if (phasing == "CBA : BAC : ACB")
+                        packet[2] = 0x01;
+                    else
+                        packet[2] = 0x00;
+                }
+                else
+                {
+                    packet[2] = (byte)this.conedPhasing;
+                }
+
                 try
                 {
-                    byte[] packet = new byte[4];
-                    packet[0] = (byte)'s';
-
-                    var relayType = this.comboBox_RelayType?.SelectedItem?.ToString();
-                    if (relayType == "Sequence")
-                        packet[1] = (byte)'S';
-                    else if (relayType == "Power")
-                        packet[1] = (byte)'P';
-                    else
-                        packet[1] = (byte)'P'; // safe default
-
-                    var phasing = this.comboBox_Phasings?.SelectedItem?.ToString();
-
-                    if (this.Customer != Customers.CONED)
-                    {
-                        if (phasing == "ABC : CAB : BCA")
-                            packet[2] = 0x00;
-                        else if (phasing == "CBA : BAC : ACB")
-                            packet[2] = 0x01;
-                        else
-                        {
-                            packet[2] = 0x00;
-
-                            if (this.comboBox_Phasings != null && this.comboBox_Phasings.Items.Count > 0)
-                                this.comboBox_Phasings.SelectedIndex = 0;
-                        }
-                    }
-                    else
-                    {
-                        packet[2] = (byte)this.conedPhasing;
-                    }
-
-                    try
-                    {
-                        packet[2] |= (byte)protectorVoltage.SetBit;
-                    }
-                    catch (Exception ex)
-                    {
-                        messageHandler("Problem Setting Protector Voltage bits", ex);
-                    }
-
-                    try
-                    {
-                        packet[2] |= 0x10;
-                    }
-                    catch (Exception ex)
-                    {
-                        messageHandler("Problem setting 277 V Outputs bit", ex);
-                    }
-
-                    packet[3] = 0x0D;
-
-                    // IMPORTANT:
-                    // This call may be blocking serial I/O. Keep it off the UI thread.
-                    await Task.Run(() =>
-                    {
-                        this.sendPacketAck(packet, "Relay Type Send");
-                    });
-
-                    await DelayWithLogAsync(100, "send-all inter-command settle", nameof(SendRelayPhasingAndTypeAsync));
+                    packet[2] |= (byte)protectorVoltage.SetBit;
                 }
                 catch (Exception ex)
                 {
-                    this.messageHandler("Error Setting Relay Type", ex);
+                    messageHandler("Problem Setting Protector Voltage bits", ex);
                 }
-            }
-        }
 
-        private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
-        {
-            this.restoreDefaultsTypeAndPhasing();
+                try
+                {
+                    packet[2] |= 0x10;
+                }
+                catch (Exception ex)
+                {
+                    messageHandler("Problem setting 277 V Outputs bit", ex);
+                }
+
+                packet[3] = 0x0D;
+
+                logger.Info("BEFORE sendPacketAck packet=[{0}]",
+                    BitConverter.ToString(packet));
+
+                bool completed = false;
+                Exception timeoutEx = null;
+
+                var worker = new Thread(() =>
+                {
+                    try
+                    {
+                        this.sendPacketAck(packet, "Relay Type Send");
+                        completed = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        timeoutEx = ex;
+                    }
+                });
+
+                worker.IsBackground = true;
+                worker.Start();
+
+                if (!worker.Join(TimeSpan.FromSeconds(8)))
+                {
+                    logger.Warn("sendPacketAck TIMEOUT after 8 seconds.");
+                    var tex = new TimeoutException("Timed out sending relay type/phasing (no ACK).");
+                    this.messageHandler("Timed out sending relay type/phasing (no ACK).", tex);
+                    return;
+                }
+
+                if (timeoutEx != null)
+                {
+                    throw timeoutEx;
+                }
+
+                logger.Info("AFTER sendPacketAck success.");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error Setting Relay Type");
+                this.messageHandler("Error Setting Relay Type", ex);
+            }
         }
 
         private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
@@ -6831,6 +6870,9 @@ namespace RelayControl
             AcknowledgeCaller = caller;
             try
             {
+                logger.Info("sendPacketAckComm ENTER caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}, packet=[{4}]",
+                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut, BitConverter.ToString(bytePacket));
+
                 if (checkBoxSerialCommsDebugging.Checked)
                 {
                     logger.Trace(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
@@ -6838,17 +6880,38 @@ namespace RelayControl
 
                 this.SCITimedOut = false;
 
-                while (this.expectingAck && !this.loadingNewCode)
+                var waitStart = DateTime.UtcNow;
+                while (this.expectingAck)
                 {
+                    if ((DateTime.UtcNow - waitStart).TotalMilliseconds > 1000)
+                    {
+                        logger.Warn("sendPacketAckComm waiting for ACK. caller={0}, elapsedMs={1}, expectingAck={2}, loadingNewCode={3}, sciTimedOut={4}",
+                            caller,
+                            (int)(DateTime.UtcNow - waitStart).TotalMilliseconds,
+                            this.expectingAck,
+                            this.loadingNewCode,
+                            this.SCITimedOut);
+                        waitStart = DateTime.UtcNow;
+                    }
+
                     Application.DoEvents();
                 }
 
-                if (this.SCITimedOut)               //if the SCI Timed out while waiting for the ACK
+                logger.Info("sendPacketAckComm wait complete. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
+                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
+
+                if (this.SCITimedOut)
+                {
+                    logger.Warn("sendPacketAckComm early return because SCITimedOut. caller={0}", caller);
                     return;
+                }
 
                 errorMessage = "Error Checking if Port is open";
                 if (!this.serialPort1.IsOpen)
                 {
+                    logger.Warn("sendPacketAckComm port reopened. caller={0}, port={1}, baud={2}",
+                        caller, this.serialPort1.PortName, this.serialPort1.BaudRate);
+
                     string comPort = this.serialPort1.PortName;
                     int baudRate = this.serialPort1.BaudRate;
 
@@ -6873,15 +6936,26 @@ namespace RelayControl
                 Application.UseWaitCursor = true;
                 Cursor.Current = Cursors.WaitCursor;
 
+                logger.Info("sendPacketAckComm writing packet. caller={0}, packet=[{1}]",
+                    caller, BitConverter.ToString(bytePacket));
+
                 this.serialPort1.Write(bytePacket, 0, bytePacket.Length);
+
                 this.expectingAck = true;
+                logger.Info("sendPacketAckComm set expectingAck=TRUE. caller={0}", caller);
 
                 errorMessage = "Error At End of Routine";
                 this.timerSCITimeOut.Enabled = true;
+                logger.Info("sendPacketAckComm enabled timerSCITimeOut. caller={0}", caller);
+
+                logger.Info("sendPacketAckComm EXIT caller={0}", caller);
                 return;
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "sendPacketAckComm EXCEPTION. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
+                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
+
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
 
@@ -7084,7 +7158,7 @@ namespace RelayControl
 
             try
             {
-                await SendCTRatioAndPhasingAsync(requestAfter: true);
+                this.SendCTRatioAndPhasing(requestAfter : false);
             }
             finally
             {
@@ -7109,26 +7183,60 @@ namespace RelayControl
             this.sendPacket(packet);
         }
 
+        private readonly object _ackFlowLock = new object();
+        private bool _pendingRelayTypePhasingSend = false;
+        private DateTime _pendingRelayTypePhasingQueuedAtUtc;
 
-        public async Task SendCTRatioAndPhasingAsync(bool requestAfter)
+        public void SendCTRatioAndPhasing(bool requestAfter)
         {
-            // No UI cursor logic here.
-            // No screenD changes here.
-            // This is pure send logic.
-
             try
             {
-                // First send only: CT ratio
-                this.sendCTRatio(requestAfter);
+                lock (_ackFlowLock)
+                {
+                    // Send CT now (this sets expectingAck=true)
+                    this.sendCTRatio(requestAfter);
 
-                // Second send only: relay type/phasing
-                await this.SendRelayPhasingAndTypeAsync();
+                    // Queue second command; do NOT send immediately.
+                    _pendingRelayTypePhasingSend = true;
+                    _pendingRelayTypePhasingQueuedAtUtc = DateTime.UtcNow;
+
+                    logger.Info("Queued Relay Type/Phasing send after CT ACK. expectingAck={0}", this.expectingAck);
+                }
             }
             catch (Exception ex)
             {
                 this.messageHandler("Error setting CT ratio / relay type", ex);
             }
         }
+
+        private void TryDrainPendingRelayTypePhasingSend(string caller)
+        {
+            lock (_ackFlowLock)
+            {
+                if (!_pendingRelayTypePhasingSend)
+                    return;
+
+                if (this.expectingAck)
+                {
+                    logger.Info("Drain deferred ({0}): ACK still pending.", caller);
+                    return;
+                }
+
+                if (this.loadingNewCode || this.backupInProgress || this.pendingAutoloadAfterBackup)
+                {
+                    logger.Info("Drain postponed ({0}): comm-suppressed state active.", caller);
+                    return;
+                }
+
+                _pendingRelayTypePhasingSend = false;
+
+                var queuedMs = (int)(DateTime.UtcNow - _pendingRelayTypePhasingQueuedAtUtc).TotalMilliseconds;
+                logger.Info("Drain sending Relay Type/Phasing now ({0}). queuedMs={1}", caller, queuedMs);
+            }
+
+            Task.Run(() => this.SendRelayPhasingAndTypeAsync());
+        }
+
         private void sendCTRatio(bool requestAfter = true)
         {
             byte[] packet = new byte[4];
@@ -7138,6 +7246,12 @@ namespace RelayControl
             packet[2] = (byte)(this.CTRatio >> 8);
             packet[3] = 0x0D;
 
+            if (this.expectingAck)
+            {
+                logger.Warn("sendCTRatio skipped because expectingAck is already TRUE. caller=CT Ratio Send");
+                return;
+            }
+
             this.sendPacketAck(packet, "CT Ratio Send");
 
             // IMPORTANT: do not refresh here during the combined Apply flow
@@ -7146,17 +7260,6 @@ namespace RelayControl
                 this.requestAllData("sendCTRatio");
                 this.parametersLoaded = true;
             }
-        }
-
-        private void buttonMakeRetarded_Click(object sender, EventArgs e)
-        {
-            byte[] packet = new byte[3];
-
-            packet[0] = (byte)'L';
-            packet[1] = 0x55;
-            packet[2] = 0x0D;
-
-            this.sendPacket(packet);
         }
 
         private void buttonClearCycleCount_Click(object sender, EventArgs e)
@@ -8345,7 +8448,7 @@ namespace RelayControl
 #endif
 
             // NWP Settings
-            this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+            this.SendCTRatioAndPhasing(requestAfter: false);
             Thread.Sleep(100);  // 100 milliseconds
 
             // Pump Mode
@@ -9889,11 +9992,25 @@ namespace RelayControl
                     this.receiveArray[this.rXWritePtr] = b;
                     if (b == 0x06)
                     {
+                        if (!this.expectingAck)
+                        {
+                            logger.Warn("Duplicate ACK ignored. lastByte=0x06, expectingAck=False, caller={0}", this.AcknowledgeCaller);
+                            continue;
+                        }
+
+                        string ackCaller = this.AcknowledgeCaller;
+
                         this.SendConfirmed = true;
                         this.expectingAck = false;
-                        logger.Info("Ack");
                         packetAcknowledged(true);
                         this.timerSCITimeOut.Enabled = false;
+
+                        logger.Info("ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
+
+                        if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
+                        {
+                            this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT");
+                        }
                     }
                     if (b == 0x0D)
                         dReceived = true;
@@ -10316,7 +10433,7 @@ namespace RelayControl
             {
                 // Old NW Protector data flagged bad/out-of-range -> apply defaults
                 this.buttonTypePhasingRestoreDefaults_Click(this, new EventArgs());
-                this.SendCTRatioAndPhasingAsync(requestAfter: false).GetAwaiter().GetResult();
+                this.SendCTRatioAndPhasing(requestAfter: false);
                 return;
             }
 
