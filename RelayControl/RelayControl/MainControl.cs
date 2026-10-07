@@ -1742,7 +1742,7 @@ namespace RelayControl
                     this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
-                    Thread.Sleep(6000);
+                    Thread.Sleep(3000);
                     clearRemoteBuffer();
                     Thread.Sleep(1000);
                     requestRelayRevision();
@@ -3791,9 +3791,7 @@ namespace RelayControl
                     this.textBoxRelaySNControl.Text = tempI.ToString();
                     this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
-                    this.requestedAllParameters = true;
-                    this.requestMasterRevisionNumber();
-                    this.ProgramState = ProgramStates.DownloadingAllParameters;
+                    this.requestAllData("setTransmitterSettings");
 
                     this.requestRelayRevision();
                     logger.Trace("Setting timerResponseTimeOut from setTransmitterSettings");
@@ -3925,36 +3923,6 @@ namespace RelayControl
                 $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
                 $"loadingNewCode={this.loadingNewCode}");
 
-            if (this.parametersLoaded && this.badDataDetected == false)
-            {
-                this.parametersLoaded = false;
-                this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-
-                //=====================Remove throbber and enable everything disaplayed on the screen=====================
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-                //========================================================================================================
-                this.enableAll(true);
-                sendAllF.SendAllFlag = false;
-                screenD.screenDisable = false;
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                // update display of DNP tabs based on change in DNP UPlink checkbox in TX Settings tab
-                setDNPTabPoints();
-                return;
-            }
-
-            if (this.badDataDetected == true)
-            {
-                this.parametersLoaded = false;
-                this.messageHandler("Error", "Parameters Not Loaded Successfully");
-                return;
-            }
-
-            // ===== Added filter block =====
-
             bool isFullSyncWorkflow =
                 this.requestedAllParameters ||
                 this.ProgramState == ProgramStates.DownloadingAllParameters ||
@@ -3962,7 +3930,6 @@ namespace RelayControl
                 this.pendingRestoreAfterProgramming ||
                 this.backupInProgress ||
                 this.ucRelayProgramming1.ReprogrammingInProgress;
-
 
             if (!isFullSyncWorkflow)
             {
@@ -3977,9 +3944,37 @@ namespace RelayControl
                     this.loadingNewCode,
                     this.pendingRestoreAfterProgramming
                 );
-                return; // targeted config change -> bypass full parameter completion
+                return;
             }
-            // ===== End added filter block =====
+
+            if (this.badDataDetected == true)
+            {
+                this.parametersLoaded = false;
+                this.requestedAllParameters = false;
+                this.ProgramState = ProgramStates.Running;
+                this.messageHandler("Error", "Parameters Not Loaded Successfully");
+                return;
+            }
+
+            // Only a real full-sync state should trigger the success popup.
+            if (this.parametersLoaded)
+            {
+                this.parametersLoaded = false;
+                this.requestedAllParameters = false;
+                this.ProgramState = ProgramStates.Running;
+                this.timerResponseTimeOut.Enabled = false;
+
+                this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+                sendAllF.SendAllFlag = false;
+                screenD.screenDisable = false;
+                setDNPTabPoints();
+                return;
+            }
 
             if (paramsReceivedLock)
                 return;
@@ -4029,7 +4024,6 @@ namespace RelayControl
                     return;
                 }
 
-                // CRITICAL: never run autoload decision while backup is still in progress
                 if (backupInProgress)
                 {
                     logger.Info("parametersFinishedLoading: backup still in progress; deferring autoload/normal comms decision.");
@@ -4073,7 +4067,6 @@ namespace RelayControl
                     return;
                 }
 
-                // consume continuation token
                 pendingAutoloadAfterBackup = false;
 
                 logger.Info("CALLER: parametersFinishedLoading -> InitializeAutoload()");
@@ -5389,7 +5382,7 @@ namespace RelayControl
                         this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
 
                     this.timerCheckPortTime.Enabled = false;
-                    this.requestAllDataNoMasterRev();
+                    this.requestAllData("relay-connect-serial");
                 }
             }
             catch (Exception ex)
@@ -6677,9 +6670,15 @@ namespace RelayControl
         }
         private void requestAllData(string caller = "unknown")
         {
+            if (this.sendAll || sendAllF.SendAllFlag)
+            {
+                logger.Info("requestAllData SUPPRESSED: sendAll active. caller={0}", caller);
+                return;
+            }
+
             logger.Info("requestAllData caller={0} ...", caller);
             logger.Info(
-                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, loadingNewCode={4}, backupInProgress={6}, pendingAutoloadAfterBackup={7}, pendingRestoreAfterProgramming={8}",
+                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, loadingNewCode={3}, backupInProgress={4}, pendingAutoloadAfterBackup={5}, pendingRestoreAfterProgramming={6}",
                 requestedAllParameters,
                 ProgramState,
                 this.sendAll,
@@ -6688,6 +6687,7 @@ namespace RelayControl
                 pendingAutoloadAfterBackup,
                 pendingRestoreAfterProgramming
             );
+
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
@@ -8299,7 +8299,6 @@ namespace RelayControl
 
         private void sendAllParameters()
         {
-
             sendAllF.SendAllFlag = true;
             this.sendAll = true;
 
@@ -8310,11 +8309,13 @@ namespace RelayControl
             // Close Mode
             this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
+
 #if CONED
-            // Permissive Close Mode
-            this.SendPCData(); 
-            Thread.Sleep(100);  // 100 milliseconds
+    // Permissive Close Mode
+    this.SendPCData();
+    Thread.Sleep(100);  // 100 milliseconds
 #endif
+
             // NWP Settings
             this.buttonSendCTRatio_Click(this, new EventArgs());
             Thread.Sleep(100);  // 100 milliseconds
@@ -8339,18 +8340,29 @@ namespace RelayControl
                 // Safe Service Mode
                 this.ucSafeService1.SendAll();
                 Thread.Sleep(100);  // 100 milliseconds
-
             }
 
             Thread.Sleep(100);  // 100 milliseconds
 
+            // End send-all write phase
             this.sendAll = false;
+            sendAllF.SendAllFlag = false;
 
-            if (!this.loadingNewCode) {
+            // Let any async send-all packet settle before full read
+            Thread.Sleep(200);
+
+            if (!this.loadingNewCode)
+            {
+                // hard guard: no full read while send-all still active
+                if (this.sendAll || sendAllF.SendAllFlag)
+                {
+                    logger.Info("sendAllParameters: deferring requestAllData because sendAll is still active.");
+                    return;
+                }
+
                 BeginFullParameterDownload(nameof(sendAllParameters));
                 this.requestAllData("sendAllParameters");
             }
-            this.parametersLoaded = true;
         }
 
         public void SendDefaultsToMaster()
@@ -9812,9 +9824,7 @@ namespace RelayControl
             toolStripStatusLabelMain.Text = String.Format("TCP Connect: {0}:{1}", tcpClient.IPAddress.ToString(), tcpClient.Port);
             tcpClient.DataReceived += TcpClient_DataReceived;
             tCPConnection = true;
-            this.requestedAllParameters = true;
-            this.requestMasterRevisionNumber();
-            this.requestAllDataNoMasterRev();
+            this.requestAllData("handleSuccessfulTCPConnection");
         }
 
         private void TcpClient_DataReceived(object o, TCPCommsEventArgs tCPCEA)
