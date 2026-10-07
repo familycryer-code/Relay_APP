@@ -2700,17 +2700,6 @@ namespace RelayControl
                         }
                         tw.Close();
                     }
-
-                    if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                    {
-                        if (IsDnpCommSupported() && !ucRelayProgramming1.ProgramBootCodeInProgress)
-                        {
-                            logger.Info("Skipping DNP settings request during parameter download for rev9 to rev10 compatibility.");
-                        }
-
-                        //this.parametersFinishedLoading();
-                    }
-
                     backupGotSafeService = true;
                     TryCompleteBackup();
                     break;
@@ -3992,13 +3981,12 @@ namespace RelayControl
             }
             // ===== End added filter block =====
 
-            this.requestedAllParameters = false;
-            this.timerResponseTimeOut.Enabled = false;
-            this.ProgramState = ProgramStates.Running;
-
             if (paramsReceivedLock)
                 return;
 
+            this.requestedAllParameters = false;
+            this.timerResponseTimeOut.Enabled = false;
+            this.ProgramState = ProgramStates.Running;
             paramsReceivedLock = true;
 
             try
