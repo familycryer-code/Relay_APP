@@ -64,7 +64,7 @@ namespace RelayControl
 
         private Customers customer = Customers.None;
 
-        private readonly SemaphoreSlim _relayCommsLock = new SemaphoreSlim(1, 1);
+
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
@@ -393,14 +393,11 @@ namespace RelayControl
             try
             {
                 initializeDNPVoltageComboBox();
-
-                // Keep the default restore after the state flags and configuration are initialized,
-                // so it is not writing defaults into half-built state.
-                // this.restoreDefaultsTypeAndPhasing();  // moved later
-
+                this.restoreDefaultsTypeAndPhasing();
                 this.initializeFromConfigFile();
                 AutoReProgramR.AutoReProgramRelay = false;
                 AutoReProgramF.AutoReProgramFPGA = false;
+
 
                 this.ucTransmitter1.checkBoxDNPEnable.Checked = false;
                 dnpUplinkK.dnpEnabledWithKit = false;
@@ -408,7 +405,7 @@ namespace RelayControl
                 applyDNP.applyDNPSettings = false;
 
 #if DEBUG
-        this.initializeFromConfigFileDebug();
+                this.initializeFromConfigFileDebug();
 #endif
 
                 this.initializeStatusFlags();
@@ -416,7 +413,7 @@ namespace RelayControl
                 this.labelQuietMode.Visible = false;
                 this.initializeEventPage();
 
-                if (!Directory.Exists(SavedDataPath))
+                if (!Directory.Exists(SavedDataPath)) // Create the Save Data path if it does not already exist
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
@@ -428,8 +425,8 @@ namespace RelayControl
                 this.buttonUpdateCTRatio.Visible = false;
 
                 this.savedSaveFileComboBoxWidth = this.comboBoxSavedStates.Width;
-                this.initializeExternalFileRevisionNumber();
-                this.initializeSaveObject();
+                this.initializeExternalFileRevisionNumber(); // Get the saved data version
+                this.initializeSaveObject();                 // Check the save data to see
 
                 tCPConnectionToolStripMenuItem.Visible = true;
                 comboBox_RelayType.Visible = true;
@@ -445,7 +442,7 @@ namespace RelayControl
                 this.loadConfigurationToolStripMenuItem.Visible = false;
 
                 statusNew.flagFromRelay = false;
-                relayHBD.relayWithHBD = false;
+                relayHBD.relayWithHBD = false; // considering non H Board relay until revision is received from master
 
                 this.timerLiveEventAcknowledge.Interval = 250;
                 this.timerLiveEventAcknowledge.SynchronizingObject = this;
@@ -462,7 +459,7 @@ namespace RelayControl
                 this.ucShortRange1.Send += standardizedSendData;
                 this.ucTimeControl1.SendData += standardizedSendData;
                 this.ucSafeService1.Send += standardizedSendData;
-
+              
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
                 this.ucRelayProgramming1.BackupBeforeProgrammingRequested += UcRelayProgramming1_BackupBeforeProgrammingRequested;
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
@@ -618,12 +615,12 @@ namespace RelayControl
                 this.ucSafeService1.Location = new System.Drawing.Point(390, 406);
 
 #if (PSEG || CONED)
-        this.grpBox_LightningCount.Enabled = true;
-        this.grpBox_LightningCount.Visible = true;
-        this.lblLC_Name.Enabled = true;
-        this.lblLC_Name.Visible = true;
-        this.lbl_LightningCount.Enabled = true;
-        this.lbl_LightningCount.Visible = true;
+                this.grpBox_LightningCount.Enabled = true;
+                this.grpBox_LightningCount.Visible = true;
+                this.lblLC_Name.Enabled = true;
+                this.lblLC_Name.Visible = true;
+                this.lbl_LightningCount.Enabled = true;
+                this.lbl_LightningCount.Visible = true;
 #else
                 this.grpBox_LightningCount.Enabled = false;
                 this.grpBox_LightningCount.Visible = false;
@@ -677,47 +674,47 @@ namespace RelayControl
                 this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10);
 
 #if BGE
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
-        this.Customer = Customers.BGE;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
+                this.Customer = Customers.BGE;
 #elif COMED
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
-        this.Customer = Customers.COMED;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Commonwealth Edison";
+                this.Customer = Customers.COMED;
 #elif CONED
-        this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
-        this.Customer = Customers.CONED;
+                this.Text = "DIGITALGRID, INC. - ALWAYS ON - 10.0.10.0 - Consolidated Edison";
+                this.Customer = Customers.CONED;
 #elif DOMINION
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
-        this.Customer = Customers.DOMINION;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Dominion Energy";
+                this.Customer = Customers.DOMINION;
 #elif ENMAX
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ENMAX";
                 this.Customer = Customers.ENMAX;
 #elif EVERSOURCE
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
-        this.Customer = Customers.EVERSOURCE;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - EVERSOURCE";
+                this.Customer = Customers.EVERSOURCE;
 #elif LONDON_HYDRO
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
-        this.Customer = Customers.LONDON_HYDRO;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - London Hydro";
+                this.Customer = Customers.LONDON_HYDRO;
 #elif ONCOR
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
-        this.Customer = Customers.ONCOR;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - ONCOR";
+                this.Customer = Customers.ONCOR;
 #elif PSEG
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
-        this.Customer = Customers.PSEG;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - PSE&G";
+                this.Customer = Customers.PSEG;
 #elif SCE
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
-        this.Customer = Customers.SCE;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Southern California Edison";
+                this.Customer = Customers.SCE;
 #elif SCL
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
-        this.Customer = Customers.SCL;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Seattle City Lights";
+                this.Customer = Customers.SCL;
 #elif TAUNTON
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
-        this.Customer = Customers.TAUNTON;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Taunton Municipal Lighting Plant";
+                this.Customer = Customers.TAUNTON;
 #elif TORONTO_HYDRO
-        this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
-        this.Customer = Customers.TORONTO_HYDRO;
+                this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - TORONTO HYDRO";
+                this.Customer = Customers.TORONTO_HYDRO;
 #else
-        this.Text = "DIGITALGRID, INC. - ";
-        this.Customer = Customers.None;
+                this.Text = "DIGITALGRID, INC. - ";
+                this.Customer = Customers.None;
 #endif
 
                 this.acknowledgeToolStripMenuItem1.Visible = false;
@@ -727,34 +724,35 @@ namespace RelayControl
                 this.labelConEdPowerRelay.Visible = false;
 
 #if CONED
-        this.groupBox_PC.Enabled = true;
-        this.groupBox_PC.Visible = true;
-        this.btn_PermCl_Active.Enabled = true;
-        this.btn_PermCl_Active.Visible = true;
+                this.groupBox_PC.Enabled = true;
+                this.groupBox_PC.Visible = true;
+                this.btn_PermCl_Active.Enabled = true;
+                this.btn_PermCl_Active.Visible = true;
 
-        ucRemoteCommandBlock1.Visible = true;
-        this.ucRemoteCommandBlock1.Visible = true;
-        this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
-        this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
-        this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
-        this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
-        this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
+                // Keep ConEd layout specifics
+                ucRemoteCommandBlock1.Visible = true;
+                this.ucRemoteCommandBlock1.Visible = true;
+                this.ucCloseMode1.Location = new System.Drawing.Point(1000, 7);
+                this.groupBox_PC.Location = new System.Drawing.Point(1004, 406);
+                this.groupBox_PC.Size = new System.Drawing.Size(470, 360);
+                this.panelPCsettings.Location = new System.Drawing.Point(1000, 402);
+                this.panelPCsettings.Size = new System.Drawing.Size(477, 366);
 
-        this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
-        this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
+                this.btn_RestorePC_defaults.Location = new System.Drawing.Point(80, 295);
+                this.btn_PC_Send.Location = new System.Drawing.Point(280, 295);
 
-        this.buttonRequestRelayParamaters.Text = "Read";
-        this.buttonSendAll.Text = "Program";
+                this.buttonRequestRelayParamaters.Text = "Read";
+                this.buttonSendAll.Text = "Program";
 
-        this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
-        this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
-        this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
-        this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
-        this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
+                this.buttonSaveSetting.Location = new System.Drawing.Point(780, 600);
+                this.textBoxSaveStateName.Location = new System.Drawing.Point(780, 630);
+                this.comboBoxSavedStates.Location = new System.Drawing.Point(780, 660);
+                this.btn_LoadProfile.Location = new System.Drawing.Point(780, 690);
+                this.buttonDeleteSetting.Location = new System.Drawing.Point(780, 720);
 
-        this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
-        this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
-        this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
+                this.btn_LoadProfile.Width = this.buttonSaveSetting.Width;
+                this.buttonDeleteSetting.Width = this.buttonSaveSetting.Width;
+                this.comboBoxSavedStates.Width = this.buttonSaveSetting.Width;
 #else
                 this.groupBox_PC.Enabled = false;
                 this.groupBox_PC.Visible = false;
@@ -763,14 +761,14 @@ namespace RelayControl
 #endif
 
 #if TORONTO_HYDRO
-        this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-        this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #elif (CONED || PSEG || ENMAX || ONCOR || SCE || EVERSOURCE)
                 this.ucTransmitter1.checkBoxDNPEnable.Enabled = true;
                 this.ucTransmitter1.checkBoxDNPEnable.Visible = true;
 #else
-        this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
-        this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Enabled = false;
+                this.ucTransmitter1.checkBoxDNPEnable.Visible = false;
 #endif
                 this.ucTransmitterMonitoring1.groupBoxAnalog1.Location = new System.Drawing.Point(1150, 250);
                 this.ucTransmitterMonitoring1.groupBoxAnalog2.Location = new System.Drawing.Point(1150, 500);
@@ -797,7 +795,7 @@ namespace RelayControl
 #if DNP
                 this.DNPEnabled = true;
 #else
-        this.DNPEnabled = false;
+                this.DNPEnabled = false;
 #endif
 
                 checkBox277DNPOutputs.Visible = false;
@@ -901,16 +899,10 @@ namespace RelayControl
                 this.messageHandler(ex.Message, ex.InnerException);
             }
 
-            // Move defaults restore later in init, before startup backup
-            this.restoreDefaultsTypeAndPhasing();
-
             // startup backup only once, after relay-ready startup path
             if (!this.noMonitoringVersion)
             {
-                BeginInvoke(new Action(async () =>
-                {
-                    await StartStartupBackupOnceAsync();
-                }));
+                StartStartupBackupOnce();
             }
         }
 
@@ -1710,7 +1702,7 @@ namespace RelayControl
         private bool loadingNewCode = false;
         private RelayProgrammingSendCommands currentReprogramState = RelayProgrammingSendCommands.RestartProgram;
 
-        private async void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
+        private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
         {
             this.currentReprogramState = rPEA.Command;
 
@@ -1750,13 +1742,11 @@ namespace RelayControl
                     this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
-
-                    await DelayWithLogAsync(6000, "send-all inter-command settle", nameof(Programming_Send));
+                    Thread.Sleep(6000);
                     clearRemoteBuffer();
-                    await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(Programming_Send));
+                    Thread.Sleep(1000);
                     requestRelayRevision();
                     break;
-
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
                     if (this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot)
@@ -1766,18 +1756,15 @@ namespace RelayControl
                     }
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     break;
-
                 case RelayProgrammingSendCommands.SaveSettings:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.getAllSaveStates(this.reprogrammingTempSettings);
                     break;
-
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
-
                 case RelayProgrammingSendCommands.RawData:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.enableAll(false);
@@ -1787,24 +1774,22 @@ namespace RelayControl
                     this.pauseMonitoring = true;
                     this.sendPacket(rPEA.BytesToSend);
                     break;
-
                 case RelayProgrammingSendCommands.RecallSavedSettings:
+                    // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
                     this.ucSafeService1.SetDefaults();
+                    ////
                     this.setAllValues(this.reprogrammingTempSettings);
-                    await this.sendAllParametersAsync();
+                    this.sendAllParameters();
                     break;
-
                 case RelayProgrammingSendCommands.DisableGERelayFix:
                     this.ucTransmitter1.GERelay = false;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
-
                 case RelayProgrammingSendCommands.EnableGERelayFix:
                     this.ucTransmitter1.GERelay = true;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }
-
             logger.Info($"Programming_Send RequestAll: requestedAllParameters(after)={this.requestedAllParameters}, ProgramState(after)={this.ProgramState}");
         }
 
@@ -2673,11 +2658,12 @@ namespace RelayControl
                         }
                         tw.Close();
 
+                        //dataBackup_fromRelay = false;
                     }
 
                     this.setArcFaultData(bytePacket);
 
-                    if (backupInProgress && !backupGotArcFault)
+                    if (backupInProgress)
                     {
                         backupGotArcFault = true;
                         TryCompleteBackup();
@@ -2715,11 +2701,18 @@ namespace RelayControl
                         tw.Close();
                     }
 
-                    if (backupInProgress && !backupGotSafeService)
+                    if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                     {
-                        backupGotSafeService = true;
-                        TryCompleteBackup();
+                        if (IsDnpCommSupported() && !ucRelayProgramming1.ProgramBootCodeInProgress)
+                        {
+                            logger.Info("Skipping DNP settings request during parameter download for rev9 to rev10 compatibility.");
+                        }
+
+                        this.parametersFinishedLoading();
                     }
+
+                    backupGotSafeService = true;
+                    TryCompleteBackup();
                     break;
                 case IncomingCommCommands.ShortRangeStrength:
                 case IncomingCommCommands.ShortRangeTransmit:
@@ -3644,10 +3637,10 @@ namespace RelayControl
             }
         }
 
-        private async void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
+        private void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
         {
             logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
-            await this.RestoreNormalCommsAfterAutoloadDeclineAsync(nameof(UcRelayProgramming1_AutoloadDeclined));
+            this.RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
 
@@ -3714,7 +3707,7 @@ namespace RelayControl
         private int savedSerialNumber = 0;
         private bool checkSerialNumber = false;
 
-        private async void setTransmitterSettings(byte[] bytePacket)
+        private void setTransmitterSettings(byte[] bytePacket)
         {
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
@@ -3725,7 +3718,7 @@ namespace RelayControl
             this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
-            await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(setTransmitterSettings));
+            Thread.Sleep(1000);   // delay 1second
             if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
             {
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -4769,7 +4762,7 @@ namespace RelayControl
         private bool parametersLoaded = false;
         private bool badDataDetected = false;
 
-        private async Task setRelayParameters(byte[] bytePacket)
+        private void setRelayParameters(byte[] bytePacket)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Int32 temp;
@@ -4802,7 +4795,7 @@ namespace RelayControl
 
                 if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
                 {
-                    await DelayWithLogAsync(3000, "send-all inter-command settle", nameof(setRelayParameters));
+                    Thread.Sleep(3000);
                     string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                     TextWriter tw = new StreamWriter(path, true);
                     tw.WriteLine("Relay Parameters:");
@@ -4811,7 +4804,7 @@ namespace RelayControl
                         tw.WriteLine(bytePacket[index]);
                     }
                     tw.Close();
-                    await DelayWithLogAsync(3000, "send-all inter-command settle", nameof(setRelayParameters));
+                    Thread.Sleep(3000);
                 }
 
                 //Reclose Voltage Btyes - Vertical
@@ -5588,7 +5581,7 @@ namespace RelayControl
             }
 
         }
-        private async Task StartStartupBackupOnceAsync()
+        private void StartStartupBackupOnce()
         {
             if (backupInProgress)
             {
@@ -5603,9 +5596,7 @@ namespace RelayControl
             }
 
             logger.Info("Starting one-time startup backup before autoload logic.");
-
-            // keep same logic/order
-            await Task.Run(() => BackUpRelayDatatoFile());
+            BackUpRelayDatatoFile();   // do not set pendingAutoloadAfterBackup here
         }
 
         private void setTextBox(string s, TextBox tB)
@@ -6214,38 +6205,96 @@ namespace RelayControl
 
 
         //private void buttonRelayType_Click(object sender, EventArgs e)
-        private async void sendRelayPhasingAndType()
+        private async Task sendRelayPhasingAndType()
         {
             var choice = DialogResult.Cancel;
 
             if (sendAllF.SendAllFlag == false)
             {
-                choice = DialogResult.OK;
+                choice = DialogResult.OK;// MessageBox.Show("Sending Network Protector and Phasing Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
             }
-
             if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
             {
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
                 try
                 {
                     byte[] packet = new byte[4];
+
                     packet[0] = (byte)'s';
+                    try
+                    {
+                        if (this.comboBox_RelayType.SelectedItem.ToString() == "Sequence")
+                            packet[1] = (byte)'S';
+                        else if (this.comboBox_RelayType.SelectedItem.ToString() == "Power")
+                            packet[1] = (byte)'P';
+                    }
+                    catch
+                    {
+                        this.messageHandler("No Relay Type Selected", new Exception("Please Select Relay Type"));
+                        return;
+                    }
+                    try
+                    {
+                        if (this.Customer != Customers.CONED)
+                        {
+                            if (this.comboBox_Phasings.SelectedItem.ToString() == "ABC : CAB : BCA")
+                                packet[2] = 0x00;
+                            else if (this.comboBox_Phasings.SelectedItem.ToString() == "CBA : BAC : ACB")
+                                packet[2] = 0x01;
+                            else
+                            {
+                                // Legacy/unknown phasing (ex: older relay "Auto") -> default to ABC
+                                packet[2] = 0x00;
 
-                    // set relay type
-                    if (this.comboBox_RelayType.SelectedItem.ToString() == "Sequence")
-                        packet[1] = (byte)'S';
-                    else if (this.comboBox_RelayType.SelectedItem.ToString() == "Power")
-                        packet[1] = (byte)'P';
+                                if (this.comboBox_Phasings.Items.Count > 0)
+                                    this.comboBox_Phasings.SelectedIndex = 0; // ABC in this UI
+                            }
+                        }
+                        else
+                        {
+                            packet[2] = (byte)this.conedPhasing;
+                        }
+                    }
+                    catch
+                    {
+                        // Legacy/unknown/null phasing -> default to ABC instead of warning
+                        packet[2] = 0x00;
 
-                    // set phasing / voltage bits
-                    // ... existing code unchanged ...
+                        if (this.comboBox_Phasings.Items.Count > 0)
+                            this.comboBox_Phasings.SelectedIndex = 0; // ABC in this UI
+
+                        return;
+                    }
+
+                    try
+                    {
+                        // set proper bit voltage protector Voltage
+                        packet[2] |= (byte)protectorVoltage.SetBit;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        messageHandler("Problem Setting Protector Voltage bits", ex);
+                    }
+
+                    try
+                    {
+                        // made invisible. But will send it as being checked to the master uP
+                        //  if (checkBox277DNPOutputs.Checked)
+                        packet[2] |= 0x10;
+                    }
+                    catch (Exception ex)
+                    {
+                        messageHandler("Problem setting 277 V Outputs bit", ex);
+                    }
 
                     packet[3] = 0x0D;
 
                     this.sendPacketAck(packet, "Relay Type Send");
 
                     await DelayWithLogSynch(100, "send-all inter-command settle", nameof(sendRelayPhasingAndType));
-
-                    // ONLY ONE final refresh for the Apply flow
                     if (!this.sendAll)
                     {
                         this.requestAllData();
@@ -6256,7 +6305,9 @@ namespace RelayControl
                 {
                     this.messageHandler("Error Setting Relay Type", ex);
                 }
-            }
+            }// if ((choice == DialogResult.OK) || (sendAllF.SendAllFlag == true))
+
+            await DelayWithLogSynch(1000, "post relay phasing/type settle", nameof(sendRelayPhasingAndType));
         }
 
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
@@ -6527,7 +6578,7 @@ namespace RelayControl
                 }
 
                 this.clearRemoteBuffer();
-                DelayWithLogSynch(1000, "send-all inter-command settle", nameof(checkPortForRelayAsync));
+                Thread.Sleep(1000);
                 this.requestMasterRevisionNumber();
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
@@ -6536,34 +6587,6 @@ namespace RelayControl
                 this.timerCheckPortTime.Start();
 
 
-            }
-            catch (Exception ex)
-            {
-                this.messageHandler("Error Checking Port For Relay", ex);
-            }
-        }
-
-        private async Task checkPortForRelayAsync()
-        {
-            this.toolStripStatusLabelMain.Text = "Checking " + this.serialPort1.PortName + " for Relay";
-
-            try
-            {
-                this.serialPort1.Open();
-                this.clearSerialPortBuffers(this.serialPort1);
-
-                if (!this.serialPort1.IsOpen)
-                    return;
-
-                this.clearRemoteBuffer();
-                await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(checkPortForRelayAsync));
-                this.requestMasterRevisionNumber();
-
-                this.timerCheckPortTime.Dispose();
-                this.timerCheckPortTime = new System.Windows.Forms.Timer();
-                this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
-                this.timerCheckPortTime.Interval = 500;
-                this.timerCheckPortTime.Start();
             }
             catch (Exception ex)
             {
@@ -6597,7 +6620,7 @@ namespace RelayControl
 
         private bool firstPortCheckAttempt = true;
 
-        private async void timerCheckPortTime_Tick(object sender, EventArgs e)
+        private void timerCheckPortTime_Tick(object sender, EventArgs e)
         {
 
             this.timerCheckPortTime.Enabled = false;
@@ -6609,7 +6632,7 @@ namespace RelayControl
                 try
                 {
                     this.firstPortCheckAttempt = false;
-                    await this.checkPortForRelayAsync();
+                    this.checkPortForRelay();
                 }
                 catch (Exception ex)
                 {
@@ -6650,13 +6673,10 @@ namespace RelayControl
         private void requestAllData()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
             this.requestAllDataNoMasterRev();
         }
-
-
 
         private void requestAllDataNoMasterRev()
         {
@@ -8228,99 +8248,85 @@ namespace RelayControl
 
         private bool sendAll = false;
 
-        private async void buttonSendAll_Click(object sender, EventArgs e)
+        private void buttonSendAll_Click(object sender, EventArgs e)
         {
-            if (this.sendAll)
-                return;
+            _phasingWarningShownThisApplyAll = false;
+            _paramsLoadedShownThisApplyAll = false;
 
-            try
+            DialogResult SendAll_DelayAlertDR = new DialogResult();
+            SendAll_DelayAlertDR = MessageBox.Show("The relay is updating its critical parameters ", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            if (SendAll_DelayAlertDR == DialogResult.OK)
             {
-                this.buttonSendAll.Enabled = false;
-                this.buttonRequestRelayParamaters.Enabled = false;
-
-                await this.sendAllParametersAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "sendAllParametersAsync failed.");
-                this.messageHandler("Apply All failed", ex);
-            }
-            finally
-            {
-                this.buttonSendAll.Enabled = true;
-                this.buttonRequestRelayParamaters.Enabled = true;
+                this.enableAll(false);
+                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
+                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+                
+                this.sendAllParameters();
+               
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
             }
         }
 
-        private async Task sendAllParametersAsync()
+        private void sendAllParameters()
         {
             sendAllF.SendAllFlag = true;
             this.sendAll = true;
 
-            try
-            {
-                // Trip Mode
-                this.ucTripMode2.buttonSendTripMode_Click(this, EventArgs.Empty);
-                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
-
-                // Close Mode
-                this.ucCloseMode1.buttonSendCloseData_Click(this, EventArgs.Empty);
-                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
-
+            // Trip Mode
+            this.ucTripMode2.buttonSendTripMode_Click(this, new EventArgs());
+            Thread.Sleep(100);  // 100 milliseconds
+           
+            // Close Mode
+            this.ucCloseMode1.buttonSendCloseData_Click(this, new EventArgs());
+            Thread.Sleep(100);  // 100 milliseconds
 #if CONED
-        // Permissive Close Mode
-        this.SendPCData();
-        await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
+            // Permissive Close Mode
+            this.SendPCData(); 
+            Thread.Sleep(100);  // 100 milliseconds
 #endif
-
-                // NWP Settings
-                this.buttonSendCTRatio_Click(this, EventArgs.Empty);
-                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
-
-                // Pump Mode
-                this.ucPumpMode1.buttonSend_Click(this, EventArgs.Empty);
-                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
+            // NWP Settings
+            this.buttonSendCTRatio_Click(this, new EventArgs());
+            Thread.Sleep(100);  // 100 milliseconds
+     
+            // Pump Mode
+            this.ucPumpMode1.buttonSend_Click(this, new EventArgs());
+            Thread.Sleep(100);  // 100 milliseconds
 
 #if DNP
-                if (this.Customer == Customers.TORONTO_HYDRO)
-                {
-                    this.ucTransmitter1.ForceDNPEnable = true;
-                }
-                else if (dnpUplinkK.dnpEnabledWithKit)
-                {
-                    this.ucTransmitter1.ForceDNPEnable = true;
-                }
+            if (this.Customer == Customers.TORONTO_HYDRO)
+            {
+                this.ucTransmitter1.ForceDNPEnable = true;
+            }
+            else if (dnpUplinkK.dnpEnabledWithKit)
+            {
+                this.ucTransmitter1.ForceDNPEnable = true;
+            }
 #endif
 
-                if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
-                {
-                    // Safe Service Mode
-                    this.ucSafeService1.SendAll();
-                    await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
-                }
-
-                // keep original spacing behavior
-                await DelayWithLogAsync(100, "send-all inter-command settle", nameof(sendAllParametersAsync));
-
-                this.sendAll = false;
-
-                if (!this.loadingNewCode)
-                    this.requestAllData();
-
-                this.parametersLoaded = true;
-            }
-            finally
+            if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
             {
-                this.sendAll = false;
-                sendAllF.SendAllFlag = false;
+                // Safe Service Mode
+                this.ucSafeService1.SendAll();
+                Thread.Sleep(100);  // 100 milliseconds
+                
             }
+
+            Thread.Sleep(100);  // 100 milliseconds
+
+            this.sendAll = false;
+            if (!this.loadingNewCode)
+                this.requestAllData();
+
+            this.parametersLoaded = true;
         }
 
-        public async Task SendDefaultsToMasterAsync()
+        public void SendDefaultsToMaster()
         {
             this.restoreDefaultsTypeAndPhasing();
             this.ucSafeService1.SetDefaults();
-            await this.sendAllParametersAsync();
+            this.sendAllParameters();
         }
 
         private bool readyToGetCycleData = true;
@@ -9704,7 +9710,7 @@ namespace RelayControl
 
                 if (!this.sendAll)
                 {
-                    DelayWithLogSynch(100, "send-all inter-command settle", nameof(buttonSendLowVoltageThres_Click));
+                    Thread.Sleep(100);
                     this.requestAllData();
                     this.parametersLoaded = true;
                 }
@@ -10172,7 +10178,7 @@ namespace RelayControl
             }
             packet_MT[7] = 0x0D;
             this.sendPacket(packet_MT);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
+            Thread.Sleep(1000);
 
             // ---------------- T0..T4 each 12 bytes ----------------
             // In relay params block these are contiguous after Mtrip:
@@ -10189,7 +10195,7 @@ namespace RelayControl
                 }
                 p[13] = 0x0D;
                 this.sendPacket(p);
-                DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
+                Thread.Sleep(1000);
             }
 
             SendTPacket(0, 20);
@@ -10210,7 +10216,7 @@ namespace RelayControl
             packet_MS[7] = 0x0D;
 
             this.sendPacket(packet_MS);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTripModeDataBackUp_ToMaster));
+            Thread.Sleep(1000);
         }
 
         private void writeNWProtectorDataBackUp_ToMaster()
@@ -10256,7 +10262,7 @@ namespace RelayControl
             packet_s[3] = 0x0D;
 
             this.sendPacket(packet_s);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeNWProtectorDataBackUp_ToMaster));
+            Thread.Sleep(1000);
         }
 
         private void writePumpModeDataBackUp_ToMaster()
@@ -10317,7 +10323,7 @@ namespace RelayControl
 
             packet_G[9] = 0x0D;
             this.sendPacket(packet_G);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writePumpModeDataBackUp_ToMaster));
+            Thread.Sleep(1000);
         }
 
         private void writeSafeServiceDataBackUp_ToMaster()
@@ -10358,7 +10364,7 @@ namespace RelayControl
 
             packet_F[21] = 0x0D;
             this.sendPacket(packet_F);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeSafeServiceDataBackUp_ToMaster) );
+            Thread.Sleep(1000);
         }
 
         private void writeTransmitterDataBackUp_ToMaster()
@@ -10400,7 +10406,7 @@ namespace RelayControl
 
             packet_Y[33] = 0x0D;
             this.sendPacket(packet_Y);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeTransmitterDataBackUp_ToMaster));
+            Thread.Sleep(1000);
         }
 
         private void writeDNPDataBackUp_ToMaster()
@@ -10597,7 +10603,7 @@ namespace RelayControl
 
             packet_E[41] = 0x0D;
             this.sendPacket(packet_E);
-            DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeArcFaultDataBackUp_ToMaster));
+            Thread.Sleep(1000);
         }
 
         private void writeCalibrationDataBackUp_ToMaster()
@@ -10637,7 +10643,7 @@ namespace RelayControl
 
                 packet_Cal[61] = 0x0D;
                 this.sendPacket(packet_Cal);
-                DelayWithLogSynch(1000, "send-all inter-command settle", nameof(writeCalibrationDataBackUp_ToMaster));
+                Thread.Sleep(1000);   // 1 second delay
             }//if not loading calibration constant defaults - and loading old calibration constants back to the relay
             else
             {
@@ -10770,7 +10776,7 @@ namespace RelayControl
 
             this.sendPacketAck(packet, "Permissive Close packet send");
 
-            DelayWithLogSynch(250, "send-all inter-command settle", nameof(SendPCData));
+            Thread.Sleep(250);
             this.request_PCdata();
         }
 
@@ -10969,59 +10975,49 @@ namespace RelayControl
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
 
-        public async Task RestoreNormalCommsAfterAutoloadDeclineAsync(
-    string caller = "unknown",
-    CancellationToken ct = default)
+        public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
         {
-            await _relayCommsLock.WaitAsync(ct);
-            try
-            {
-                logger.Info(
-                    "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
-                    caller,
-                    pendingAutoloadAfterBackup,
-                    pendingRestoreAfterProgramming,
-                    backupInProgress,
-                    this.loadingNewCode,
-                    this.quietMode,
-                    this.pauseMonitoring);
+            logger.Info(
+                "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                caller,
+                pendingAutoloadAfterBackup,
+                pendingRestoreAfterProgramming,
+                backupInProgress,
+                this.loadingNewCode,
+                this.quietMode,
+                this.pauseMonitoring);
 
-                pendingAutoloadAfterBackup = false;
-                pendingRestoreAfterProgramming = false;
-                backupInProgress = false;
-                skipAutoloadAfterDecline = false;
-                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+            pendingAutoloadAfterBackup = false;
+            pendingRestoreAfterProgramming = false;
+            backupInProgress = false;
+            skipAutoloadAfterDecline = false;
+            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
 
-                this.loadingNewCode = false;
-                this.quietMode = false;
-                this.pauseMonitoring = false;
+            this.loadingNewCode = false;
+            this.quietMode = false;
+            this.pauseMonitoring = false;
 
-                if (backupTimeoutTimer != null)
-                    backupTimeoutTimer.Stop();
+            if (backupTimeoutTimer != null)
+                backupTimeoutTimer.Stop();
 
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
+            this.UseWaitCursor = false;
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            this.enableAll(true);
 
-                this.monitoring(true);
-                this.RegisterPolling(true);
-                this.requestRelayRegisters();
+            this.monitoring(true);
+            this.RegisterPolling(true);
+            this.requestRelayRegisters();
 
-                logger.Info(
-                    "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
-                    caller,
-                    pendingAutoloadAfterBackup,
-                    pendingRestoreAfterProgramming,
-                    backupInProgress,
-                    this.loadingNewCode,
-                    this.quietMode,
-                    this.pauseMonitoring);
-            }
-            finally
-            {
-                _relayCommsLock.Release();
-            }
+            logger.Info(
+                "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                caller,
+                pendingAutoloadAfterBackup,
+                pendingRestoreAfterProgramming,
+                backupInProgress,
+                this.loadingNewCode,
+                this.quietMode,
+                this.pauseMonitoring);
         }
 
         private bool IsBackupComplete()
