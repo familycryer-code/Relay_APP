@@ -20,6 +20,10 @@ namespace RelayControl
             string caller = null)
         {
             var sw = Stopwatch.StartNew();
+            if (IsUiThread())
+            {
+                logger.Warn("SYNC WAIT ON UI THREAD caller={0}, reason={1}", caller ?? "unknown", reason ?? "unspecified");
+            }
 
             if (reason == null)
                 reason = "unspecified";
@@ -64,6 +68,10 @@ namespace RelayControl
 
             logger.Info("DELAY caller={0}, reason={1}, delayMs={2}",
                 caller, reason, delayMs);
+            if (IsUiThread())
+            {
+                logger.Warn("SYNC WAIT ON UI THREAD caller={0}, reason={1}", caller ?? "unknown", reason ?? "unspecified");
+            }
 
             Thread.Sleep(delayMs);
         }

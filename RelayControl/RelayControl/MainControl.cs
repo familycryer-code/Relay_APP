@@ -6527,7 +6527,7 @@ namespace RelayControl
                 }
 
                 this.clearRemoteBuffer();
-                DelayWithLog(1000, "send-all inter-command settle", nameof(checkPortForRelay));
+                await DelayWithLogAsync(1000, "send-all inter-command settle", nameof(checkPortForRelayAsync));
                 this.requestMasterRevisionNumber();
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
@@ -6569,7 +6569,7 @@ namespace RelayControl
 
         private bool firstPortCheckAttempt = true;
 
-        private void timerCheckPortTime_Tick(object sender, EventArgs e)
+        private async void timerCheckPortTime_Tick(object sender, EventArgs e)
         {
 
             this.timerCheckPortTime.Enabled = false;
@@ -6581,7 +6581,7 @@ namespace RelayControl
                 try
                 {
                     this.firstPortCheckAttempt = false;
-                    this.checkPortForRelay();
+                    await this.checkPortForRelayAsync();
                 }
                 catch (Exception ex)
                 {
@@ -6599,7 +6599,7 @@ namespace RelayControl
                         this.serialPort1.Close();
                         this.serialPort1.BaudRate = 19200;
                         this.serialPort1.Open();
-                        this.checkPortsForRelay();
+                        await this.checkPortsForRelay();
                     }
                 }
                 catch (Exception ex)
