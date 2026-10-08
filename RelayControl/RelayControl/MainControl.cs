@@ -8737,21 +8737,21 @@ namespace RelayControl
 
             try
             {
-                this.ucTripMode2.SendTripMode(requestAllAfterWrite: true);
+                this.ucTripMode2.SendTripMode(requestAllAfterWrite: false);
                 WaitForAckIdle(3000, "After TripMode");
 
-                this.ucCloseMode1.sendCloseData(requestAllAfterWrite: true);
+                this.ucCloseMode1.sendCloseData(requestAllAfterWrite: false);
                 WaitForAckIdle(3000, "After CloseMode");
 
 #if CONED
-        this.SendPCData(requestAllAfterWrite: true);
+        this.SendPCData(requestAllAfterWrite: false);
         WaitForAckIdle(3000, "After PCData");
 #endif
 
-                this.SendCTRatioAndPhasing(requestAfter: true);
+                this.SendCTRatioAndPhasing(requestAfter: false);
                 WaitForAckIdle(3000, "After CTRatioAndPhasing");
 
-                this.ucPumpMode1.SendPumpMode(requestAllAfterWrite: true);
+                this.ucPumpMode1.SendPumpMode(requestAllAfterWrite: false);
                 WaitForAckIdle(3000, "After PumpMode");
 
 #if DNP
