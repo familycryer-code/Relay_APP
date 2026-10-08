@@ -6254,13 +6254,31 @@ namespace RelayControl
         private void buttonRequestRelayParamaters_Click(object sender, EventArgs e)
         {
             this.enableAll(false);
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
-            this.requestAllData("buttonRequestRelayParamaters_Click");
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
 
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
-            this.enableAll(true);
+            // key: make this a full-sync readback flow
+            this.requestedAllParameters = true;
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
+
+            try
+            {
+            
+                screenD.screenDisable = true;
+                this.BeginFullParameterDownload("buttonRequestRelayParamaters_Click");
+                this.requestAllData("buttonRequestRelayParamaters_Click");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Request All failed");
+                this.messageHandler("Request All Failed", ex);
+
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+                screenD.screenDisable = false;
+            }
         }
 
 
