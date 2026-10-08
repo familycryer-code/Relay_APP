@@ -336,7 +336,7 @@ namespace RelayControlLibrary
 
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
 
-                SendAll();
+                //SendAll();
 #endif
                 return;
             }
