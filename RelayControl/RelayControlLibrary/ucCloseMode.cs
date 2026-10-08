@@ -1,4 +1,5 @@
 ﻿using GraphicsServer.GSNet.Charting;
+using NLog;
 using SharedResources;
 using System;
 using System.Collections.Generic;
@@ -236,34 +237,6 @@ namespace RelayControlLibrary
             this.numericUpDownPDV.Minimum = 0.0m;
         }
 
-        private void buttonSendCloseMode_Click(object sender, EventArgs e)
-        {
-            // writes to 6 bytes MClose_byte 1 to MClose_byte6 in master uP
-            // these 6 bytes correspond to the byte packet refering to APP contents as seen on line 461-468 in RelayModeFunctions.cs
-            try
-            {
-                mySEA = new SendEventArgs(_packetSize);
-                mySEA.WithAck = false;
-                mySEA.RequestAll = false;
-                CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(CloseModeDef);
-             
-                OnSend(this, mySEA);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error Sending Close Mode", ex);
-            }
-        }
-
-        private void OnSend(object sender, SendEventArgs sEA)
-        {
-            if (Send != null && !this.SendTimedOut)
-            {
-                Send(this, sEA);
-            }
-        }
-
         private void TimeDelayVisibility(bool value)
         {
             this.labelTDUnit.Visible = value;
@@ -305,6 +278,10 @@ namespace RelayControlLibrary
             this.sendRelaxClose();
         }
 
+        private static void UiTrace(string message)
+        {
+            System.Diagnostics.Trace.WriteLine($"[CLOSE] {DateTime.Now:HH:mm:ss.fff} {message}");
+        }
         private void SetBusyUi(bool busy)
         {
             if (this.IsDisposed) return;
@@ -324,24 +301,34 @@ namespace RelayControlLibrary
 
         public void buttonSendCloseData_Click(object sender, EventArgs e)
         {
-            var choice = DialogResult.OK;
-
-            if (choice != DialogResult.OK)
-                return;
+            UiTrace("buttonSendCloseData_Click ENTER");
 
             try
             {
                 SetBusyUi(true);
+                UiTrace("SetBusyUi(true) done");
+
                 sendCloseData(requestAllAfterWrite: false);
+
+                UiTrace("sendCloseData returned");
+            }
+            catch (Exception ex)
+            {
+                UiTrace($"buttonSendCloseData_Click EXCEPTION: {ex}");
+                throw;
             }
             finally
             {
+                UiTrace("finally -> SetBusyUi(false)");
                 SetBusyUi(false);
+                UiTrace("finally complete");
             }
         }
 
         public void sendCloseData(bool requestAllAfterWrite = false)
         {
+            UiTrace($"sendCloseData ENTER requestAllAfterWrite={requestAllAfterWrite}");
+
             if (this.checkBoxCircleClose.Checked)
                 this.Mode = CloseModes.CircleClose;
             else
@@ -350,23 +337,265 @@ namespace RelayControlLibrary
             this.SendTimedOut = false;
             relaxCloseC.RelaxCloseClick = false;
 
-            //buttonSendCloseData_Click(this, new EventArgs());  // this makes it work why?
-             
+            // keep close mode state synced to the UI prior to send
+            this.CloseModeDef.CloseMode = this.Mode;
+            this.CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
+            this.CloseModeDef.OverrideBlockedClose = this.checkBox1.Checked;
+
+            // rebuild live curve
+            this.CloseCurve = new CloseCurveDefinition();
+            this.setVerticalLine();
+            this.setHorizontalLine();
+
+            UiTrace(
+                $"mode={this.Mode}, tilt={this.numericUpDownCloseTiltAngle.Value}, " +
+                $"reclose={this.numericUpDownRecloseVolts.Value}, pdv={this.numericUpDownPDV.Value}, " +
+                $"pda={this.numericUpDownPDA.Value}, delay={this.numericUpDownTimeDelay.Value}, " +
+                $"blockedOverride={this.CloseModeDef.OverrideBlockedClose}");
 
             if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
                 relayRevisionNumber < _singleCommandRelaxCloseUpdate)
             {
+                // 1) send mode/control packet
                 mySEA = new SendEventArgs(_packetSize);
-                this.setVerticalLine();
-                this.setHorizontalLine();
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.CloseModeDef);
+                mySEA.WithAck = true;
+                mySEA.RequestAll = false;
 
+                UiTrace($"modePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
+                this.OnSend(this, mySEA);
+                UiTrace("mode packet sent");
+
+                // 2) send curve packet
+                mySEA = new SendEventArgs(_packetSize);
                 mySEA.SendPacket = this.CloseCurve.BytePacket();
                 mySEA.WithAck = true;
                 mySEA.RequestAll = requestAllAfterWrite;
+
+                UiTrace($"curvePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
                 this.OnSend(this, mySEA);
+                UiTrace("curve packet sent");
+            }
+            else
+            {
+                UiTrace("send skipped due to mode/revision gate");
             }
 
-            Thread.Sleep(1500);
+            UiTrace("sendCloseData EXIT");
+        }
+
+        private void OnSend(object sender, SendEventArgs sEA)
+        {
+            UiTrace($"OnSend ENTER SendTimedOut={this.SendTimedOut}, hasHandler={(Send != null)}");
+            if (Send != null && !this.SendTimedOut)
+            {
+                Send(this, sEA);
+                UiTrace("OnSend DISPATCHED");
+            }
+            else
+            {
+                UiTrace("OnSend SKIPPED");
+            }
+        }
+
+        private void setAll(byte[] bytePacket)
+        {
+            decimal tempM = 0, tempM2 = 0;
+            Int16 temp;
+            UInt16 uTemp;
+
+            if (bytePacket == null || bytePacket.Length < 13)
+                return;
+
+            try
+            {
+                if ((char)bytePacket[10] == 'r' || (char)bytePacket[10] == 'R')
+                {
+                    this.Mode = CloseModes.RelaxClose;
+                }
+                else if ((char)bytePacket[10] == 's')
+                {
+                    this.Mode = CloseModes.CircleAndRelax;
+                }
+                else if ((char)bytePacket[10] == 'C')
+                {
+                    this.Mode = CloseModes.CircleClose;
+                }
+                else
+                {
+                    this.Mode = CloseModes.Normal;
+                }
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[10]).ToString() + "' is not a valid Close Type Character."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+
+            try
+            {
+                uTemp = bytePacket[1];
+                uTemp <<= 8;
+                uTemp += bytePacket[0];
+                tempM = (decimal)uTemp * Constants.TwelveFracBits;
+
+                tempM2 = Math.Round(tempM, 1);
+
+                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
+                {
+                    this.savedRecloseValue = tempM2;
+                    this.numericUpDownRecloseVolts.Value = tempM2;
+                }
+
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Reclose/Circle Close Voltage Value"));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+            try
+            {
+                //Tilt Angle Bytes - Vertical
+                temp = bytePacket[3];
+                temp <<= 8;
+                temp += bytePacket[2];
+
+                if (temp == 0)
+                {
+                    tempM = 90m;
+                }
+                else
+                {
+                    tempM = (decimal)temp * Constants.EightFracBits;
+                    tempM = (decimal)Math.Atan((double)tempM);
+                    tempM = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempM);
+                }
+
+                if (tempM < 0)
+                {
+                    tempM += 180;
+                }
+                tempM2 = Math.Round(tempM);
+
+                this.numericUpDownCloseTiltAngle.Value = tempM2;
+
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Tilt Angle."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+            try
+            {
+                //Phasing Voltage Bytes - Horizontal
+                uTemp = bytePacket[5];
+                uTemp <<= 8;
+                uTemp += bytePacket[4];
+                tempM = (decimal)uTemp * Constants.TwelveFracBits;
+
+                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
+                {
+                    tempM2 = Math.Round(tempM, 1);
+                    this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, tempM2);
+                }
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Phasing Voltage."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+            try
+            {
+                //Phase Detect Angle Bytes - Horizontal
+                temp = bytePacket[7];
+                temp <<= 8;
+                temp += bytePacket[6];
+
+                tempM = (decimal)temp * Constants.TwelveFracBits;
+                tempM = (decimal)Math.Atan((double)tempM);
+                tempM = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempM);
+
+                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
+                {
+                    tempM2 = Math.Round(tempM);
+                    this.numericUpDownPDA.Value = ClampToNumeric(this.numericUpDownPDA, tempM2);
+                }
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Phase Detect Angle."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+            uTemp = 0;
+            try
+            {
+                //Time Delay Value
+
+                uTemp = bytePacket[9];
+                uTemp <<= 8;
+                uTemp += bytePacket[8];
+
+                this.numericUpDownTimeDelay.Value = uTemp;
+
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Time Delay."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+
+            try
+            {
+                uTemp = bytePacket[12];
+                uTemp <<= 8;
+                uTemp += bytePacket[11];
+
+                if (uTemp == 0)
+                {
+                    // this.radioButtonNeverOverride.Checked = true;
+                    this.checkBox1.Checked = false;
+                }
+                else
+                {
+                    //this.radioButtonOverrideBlockedOpen.Checked = true;
+                    this.checkBox1.Checked = true;
+                }
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Close Control Word."));
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
+
+            try
+            {
+                decimal scaledPdv = this.numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
+                decimal scaledReclose = this.numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
+
+                this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, scaledPdv);
+                this.numericUpDownRecloseVolts.Value = ClampToNumeric(this.numericUpDownRecloseVolts, scaledReclose);
+            }
+            catch
+            {
+                dataBackupCM.dataBackup_closeModeDefaults = true;
+                MessageBox.Show("Error setting close mode 277");
+                this.buttonRestoreDefaults_Click(this, new EventArgs());
+                this.sendCloseData();
+            }
         }
 
         public decimal GetFixed_12FracBits(decimal value)
@@ -476,205 +705,7 @@ namespace RelayControlLibrary
             return value;
         }
 
-        private void setAll(byte[] bytePacket)
-        {
-            decimal tempM = 0, tempM2 = 0;
-            Int16 temp;
-            UInt16 uTemp;
-
-            if (bytePacket == null || bytePacket.Length < 13)
-                return;
-
-            try
-            {
-                if ((char)bytePacket[10] == 'r' || (char)bytePacket[10] == 'R')
-                {
-                    this.Mode = CloseModes.RelaxClose;
-                }
-                else if ((char)bytePacket[10] == 's')
-                {
-                    this.Mode = CloseModes.CircleAndRelax;
-                }
-                else if ((char)bytePacket[10] == 'C')
-                {
-                    this.Mode = CloseModes.CircleClose;
-                }
-                else
-                {
-                    this.Mode = CloseModes.Normal;
-                }
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[10]).ToString() + "' is not a valid Close Type Character."));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-
-            try
-            {
-                uTemp = bytePacket[1];
-                uTemp <<= 8;
-                uTemp += bytePacket[0];
-                tempM = (decimal)uTemp * Constants.TwelveFracBits;
-
-                tempM2 = Math.Round(tempM, 1);
-
-                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
-                {
-                    this.savedRecloseValue = tempM2;
-                    this.numericUpDownRecloseVolts.Value = tempM2;
-                }
-
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Reclose/Circle Close Voltage Value"));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();   
-            }
-            try
-            {
-                //Tilt Angle Bytes - Vertical
-                temp = bytePacket[3];
-                temp <<= 8;
-                temp += bytePacket[2];
-
-                if (temp == 0)
-                {
-                    tempM = 90m;
-                }
-                else
-                {
-                    tempM = (decimal)temp * Constants.EightFracBits;
-                    tempM = (decimal)Math.Atan((double)tempM);
-                    tempM = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempM);
-                }
-
-                if (tempM < 0)
-                {
-                    tempM += 180;
-                }
-                tempM2 = Math.Round(tempM);
-
-                this.numericUpDownCloseTiltAngle.Value = tempM2;
-
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Tilt Angle."));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-            try
-            {
-              //Phasing Voltage Bytes - Horizontal
-                uTemp = bytePacket[5];
-                uTemp <<= 8;
-                uTemp += bytePacket[4];
-                tempM = (decimal)uTemp * Constants.TwelveFracBits;
-
-                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
-                {
-                    tempM2 = Math.Round(tempM, 1);
-                    this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, tempM2);
-                }
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Phasing Voltage."));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-            try
-            {
-               //Phase Detect Angle Bytes - Horizontal
-                temp = bytePacket[7];
-                temp <<= 8;
-                temp += bytePacket[6];
-
-                tempM = (decimal)temp * Constants.TwelveFracBits;
-                tempM = (decimal)Math.Atan((double)tempM);
-                tempM = (decimal)RelayModeFunctions.RadiansToDegrees((double)tempM);
-
-                if (!this.relaxClose && this.Mode != CloseModes.CircleAndRelax && this.Mode != CloseModes.RelaxClose)
-                {
-                    tempM2 = Math.Round(tempM);
-                    this.numericUpDownPDA.Value = ClampToNumeric(this.numericUpDownPDA, tempM2);
-                }
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Phase Detect Angle."));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-            uTemp = 0;
-            try
-            {
-              //Time Delay Value
-
-                uTemp = bytePacket[9];
-                uTemp <<= 8;
-                uTemp += bytePacket[8];
-
-                this.numericUpDownTimeDelay.Value = uTemp;
-
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Time Delay."));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-
-            try
-            {
-                uTemp = bytePacket[12];
-                uTemp <<= 8;
-                uTemp += bytePacket[11];
-
-                if (uTemp == 0)
-                {
-                   // this.radioButtonNeverOverride.Checked = true;
-                    this.checkBox1.Checked = false;
-                }
-                else
-                {
-                    //this.radioButtonOverrideBlockedOpen.Checked = true;
-                    this.checkBox1.Checked = true;
-                }
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Close Control Word."));
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-
-            try
-            {
-                decimal scaledPdv = this.numericUpDownPDV.Value * (decimal)protectorVoltage.Scaling;
-                decimal scaledReclose = this.numericUpDownRecloseVolts.Value * (decimal)protectorVoltage.Scaling;
-
-                this.numericUpDownPDV.Value = ClampToNumeric(this.numericUpDownPDV, scaledPdv);
-                this.numericUpDownRecloseVolts.Value = ClampToNumeric(this.numericUpDownRecloseVolts, scaledReclose);
-            }
-            catch
-            {
-                dataBackupCM.dataBackup_closeModeDefaults = true;
-                MessageBox.Show("Error setting close mode 277");
-                this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.sendCloseData();
-            }
-        }
+        
 
         private CloseModes mode = CloseModes.None;
         public CloseModes Mode
