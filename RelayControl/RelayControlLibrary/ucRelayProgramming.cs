@@ -1,12 +1,15 @@
-﻿using NLog;
+﻿using GraphicsServer.GSNet.Widgets;
+using NLog;
 using SharedResources;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 //using System.ComponentModel;
 //using System.Data;
 //using System.Diagnostics;
 //using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
 //using System.Linq;
 //using System.Net.NetworkInformation;
 //using System.Resources;
@@ -15,7 +18,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Runtime.CompilerServices;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace RelayControlLibrary
@@ -78,9 +80,13 @@ namespace RelayControlLibrary
         private bool reprogramBootCodeAuto = false;
         private string bootStartUpChar = "0";
         private bool wrongBootCodeLoaded = false;
-       
+
+#pragma warning disable CS0414 // The field is assigned but its value is never used
         private bool reloadBootWithPrompt = false;
-     
+#pragma warning restore CS0414
+
+
+
         private bool programMasterBootFileSelect = false;
         private string masterBootStringReceived = "0";
         private bool autoLoad = false;
@@ -287,7 +293,7 @@ namespace RelayControlLibrary
             return true;
         }
 
-        private bool forceUpdateOnce = false;
+        //private bool forceUpdateOnce = false;
         private bool forceRelayUpdate = false;
         public bool ForceRelayUpdate
         {
@@ -315,7 +321,10 @@ namespace RelayControlLibrary
         public event ErrorHandler Error;
 
         public delegate void BackupBeforeProgrammingHandler(object sender, EventArgs e);
+#pragma warning disable CS0067
         public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
+#pragma warning restore CS0067
+
 
         public byte[] TransmitterPacket;
 
@@ -564,9 +573,11 @@ namespace RelayControlLibrary
         private bool reprogramMaster = false;
         private bool reprogramRelay = false;
         private bool reprogramFPGA = false;
+#pragma warning disable CS0414 // The field is assigned but its value is never used
         private bool resumeProgrammingAfterBackup = false;
+#pragma warning restore CS0414
         // initiaLoad is required because loading the relay from the boot code requires loading master first.  Once loaded, it is safer to load relay code first.
-        
+
         private bool gERelay = false;
         private bool gERelaySerialMatch = true;
         private bool dNPRelay = false;
@@ -2863,7 +2874,10 @@ namespace RelayControlLibrary
             this.finalSuccessPopupShownThisCycle = false;
         }
 
+#pragma warning disable CS0414
         private bool startWarningShownThisCycle = false;
+#pragma warning restore CS0414
+       
 
         private bool CanRepairBoot(bool manualOverride)
         {

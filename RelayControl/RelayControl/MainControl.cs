@@ -60,7 +60,9 @@ namespace RelayControl
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
+#pragma warning disable CS0414 // Field is assigned but its value is never used
         private bool checkedDNPEnable = false;
+#pragma warning restore CS0414
 
         private Customers customer = Customers.None;
 
@@ -87,9 +89,16 @@ namespace RelayControl
         private bool backupGotTx = false;
         private bool backupGotSafeService = false;
         private bool backupGotArcFault = false;
-        private bool backupGotDnpData = false;
+
+        // Add these fields near the other backup state fields
+        private readonly object _backupCaptureLock = new object();
+        private readonly List<KeyValuePair<string, byte[]>> _backupCaptureSections = new List<KeyValuePair<string, byte[]>>();
+        private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+        private bool _backupCaptureActive;
+
 #pragma warning disable CS0414 // The field is assigned but its value is never used
         private bool backupGotDnpSav5 = false;
+        private bool backupGotDnpData = false;
 #pragma warning restore CS0414
 
 
@@ -1698,6 +1707,78 @@ namespace RelayControl
             {
                 ctl.Enabled = enable;
             }
+        }
+
+        private void BeginBackupCapture()
+        {
+            lock (_backupCaptureLock)
+            {
+                _backupCaptureSections.Clear();
+                _backupCaptureActive = true;
+            }
+        }
+
+        private void CaptureBackupSection(string sectionName, byte[] data)
+        {
+            if (!dataBackup_fromRelay || !_backupCaptureActive || data == null)
+                return;
+
+            byte[] snapshot = (byte[])data.Clone();
+
+            lock (_backupCaptureLock)
+            {
+                // Replace existing section if already captured, otherwise append
+                for (int i = 0; i < _backupCaptureSections.Count; i++)
+                {
+                    if (_backupCaptureSections[i].Key.Equals(sectionName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _backupCaptureSections[i] = new KeyValuePair<string, byte[]>(sectionName, snapshot);
+                        return;
+                    }
+                }
+
+                _backupCaptureSections.Add(new KeyValuePair<string, byte[]>(sectionName, snapshot));
+            }
+        }
+
+        private void ClearBackupCaptureState()
+        {
+            lock (_backupCaptureLock)
+            {
+                _backupCaptureSections.Clear();
+                _backupCaptureActive = false;
+            }
+        }
+
+        private void FlushBackupToDisk()
+        {
+            if (!_backupCaptureActive || _backupCaptureSections.Count == 0)
+                return;
+
+            // Ensure directory exists
+            string directory = Path.GetDirectoryName(_relayBackupPath);
+            if (!string.IsNullOrEmpty(directory))
+                Directory.CreateDirectory(directory);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Data residing in the relay :");
+            sb.AppendLine(DateTime.UtcNow.ToString("O"));
+
+            lock (_backupCaptureLock)
+            {
+                foreach (var section in _backupCaptureSections)
+                {
+                    sb.AppendLine(section.Key + ":");
+                    foreach (byte b in section.Value)
+                    {
+                        sb.AppendLine(b.ToString());
+                    }
+                }
+            }
+
+            File.WriteAllText(_relayBackupPath, sb.ToString());
+
+            ClearBackupCaptureState();
         }
 
         private void ResetFullParameterDownloadState(string caller)
@@ -3493,16 +3574,11 @@ namespace RelayControl
 
             focusEventGraphDownloading(eventValue);
 
-            if (dataBackup_fromRelay == true) // write calibration constants currently residing in the relay to the backup file on computer
+            if (dataBackup_fromRelay == true)
             {
-                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                TextWriter tw = new StreamWriter(path, true);
-                tw.WriteLine("Calibration Constants:");
-                for (int index = 0; index <= 59; ++index)
-                {
-                    tw.WriteLine(bytePacket[index]);
-                }
-                tw.Close();
+                byte[] snapshot = new byte[Math.Min(bytePacket.Length, 60)];
+                Array.Copy(bytePacket, snapshot, snapshot.Length);
+                CaptureBackupSection("Calibration Constants", snapshot);
             }
 
             for (int i = 0; i < 15; ++i)
@@ -3826,16 +3902,11 @@ namespace RelayControl
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
             //Thread.Sleep(1000);   // delay 1second
-            if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
+            if (dataBackup_fromRelay == true)
             {
-                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                TextWriter tw = new StreamWriter(path, true);
-                tw.WriteLine("Transmitter Parameters:");
-                for (int index = 0; index <= 31; ++index)
-                {
-                    tw.WriteLine(bytePacket[index]);
-                }
-                tw.Close();
+                byte[] snapshot = new byte[Math.Min(bytePacket.Length, 32)];
+                Array.Copy(bytePacket, snapshot, snapshot.Length);
+                CaptureBackupSection("Transmitter Parameters", snapshot);
             }
 
             for (int i = 0; i < settings.Length; ++i)
@@ -4918,18 +4989,11 @@ namespace RelayControl
                 {
                 }
 
-                if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
+                if (dataBackup_fromRelay == true)
                 {
-                    //Thread.Sleep(3000);
-                    string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                    TextWriter tw = new StreamWriter(path, true);
-                    tw.WriteLine("Relay Parameters:");
-                    for (int index = 0; index < 94; ++index)
-                    {
-                        tw.WriteLine(bytePacket[index]);
-                    }
-                    tw.Close();
-                    //Thread.Sleep(3000);
+                    byte[] snapshot = new byte[Math.Min(bytePacket.Length, 94)];
+                    Array.Copy(bytePacket, snapshot, snapshot.Length);
+                    CaptureBackupSection("Relay Parameters", snapshot);
                 }
 
                 //Reclose Voltage Btyes - Vertical
@@ -5338,8 +5402,12 @@ namespace RelayControl
         }
 
         private uint conedPhasing;
+
+#pragma warning disable CS0414
         private bool _phasingWarningShownThisApplyAll = false;
         private bool _paramsLoadedShownThisApplyAll = false;
+#pragma warning restore CS0414
+        
 
         private void defaultTripSettings()
         {
@@ -5695,13 +5763,11 @@ namespace RelayControl
             this.ucShortRange1.SetAll(bytePacket);
             if (dataBackup_fromRelay == true)
             {
-                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                TextWriter tw = new StreamWriter(path, true);
-                // write Transmitter strength currently residing in the relay to the backup file on computer
-                // "XS" = "SR_sig_strength_xmit_level" is byte[30] out of the 31 byte packet coming to the APP with command 'K'
-                tw.WriteLine("XS:" + bytePacket[30]);
-                tw.Close();
+                byte[] snapshot = new byte[Math.Min(bytePacket.Length, 1)];
+                if (bytePacket.Length > 30)
+                    snapshot[0] = bytePacket[30];
 
+                CaptureBackupSection("XS", snapshot);
             }
 
         }
@@ -7436,7 +7502,7 @@ namespace RelayControl
             this.serialPort1.Close();
         }
 
-        private async void buttonSendCTRatio_Click(object sender, EventArgs e)
+        private void buttonSendCTRatio_Click(object sender, EventArgs e)
         {
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -7471,9 +7537,16 @@ namespace RelayControl
 
         // Fields
         private readonly object _ackFlowLock = new object();
+#pragma warning disable CS0414
         private bool _pendingRelayTypePhasingSend = false;
-        private DateTime _pendingRelayTypePhasingQueuedAtUtc;
         private int _drainInProgress = 0;
+#pragma warning restore CS0414
+
+#pragma warning disable CS0169
+        private DateTime _pendingRelayTypePhasingQueuedAtUtc;
+#pragma warning restore CS0169
+
+
 
         // Optional: if you can, make this volatile or always access under lock
         //private string AcknowledgeCaller = string.Empty;
@@ -11281,7 +11354,11 @@ namespace RelayControl
 
         // Add field in MainControl class
 
+#pragma warning disable CS0414
         bool _pcApplyPendingConfirmation = false;
+#pragma warning restore CS0414
+
+
 
         private void SendPCData(bool requestAllAfterWrite = false)
         {
@@ -11615,6 +11692,9 @@ namespace RelayControl
                 logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
                 return;
             }
+
+            // Write once at successful completion, not in each packet handler.
+            FlushBackupToDisk();
 
             pendingAutoloadAfterBackup = true;
 
