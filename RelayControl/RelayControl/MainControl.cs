@@ -55,7 +55,7 @@ namespace RelayControl
         #pragma warning disable CS0169 // field assigned but value never used
         private bool showCrossPhaseMsgOnce;
         #pragma warning restore CS0169
-        private bool initializeAutoLoad = true;
+        //private bool initializeAutoLoad = true;
         private bool showMemFixMsg = true;
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
@@ -1126,11 +1126,11 @@ namespace RelayControl
                 if (!this.sendAll)
                 {
                     this.sendPacketAck(sEA.SendPacket, sourceText);
-                    if (sEA.RequestAll)
-                    {
-                        this.requestAllData("standardizedSendData");
-                        this.parametersLoaded = true;
-                    }
+                    //if (sEA.RequestAll)
+                    //{
+                        //this.requestAllData("standardizedSendData");
+                        //this.parametersLoaded = true;
+                    //}
                 }
                 else
                 {
@@ -1836,13 +1836,17 @@ namespace RelayControl
 
         private void ucTransmitter1_Send(SendEventArgs sEA)
         {
+            if (sEA?.SendPacket == null || sEA.SendPacket.Length == 0)
+            {
+                logger.Warn("ucTransmitter1_Send called with empty packet.");
+                return;
+            }
+
             if (sEA.SendPacket[0] == 0x66)
             {
                 this.sendPacket(sEA.SendPacket);
 
-                // Show popup only when NOT in Fast Mode
                 bool showForceConfigPopup = !this.ucTransmitter1.FastModeActive;
-
                 if (showForceConfigPopup)
                 {
                     this.downloadProgress = new ProgressBarForm(
@@ -1854,39 +1858,32 @@ namespace RelayControl
                     this.downloadProgress.Done += new ProgressBarForm.ProgressBarEvent(downloadProgress_Done);
                     this.downloadProgress.ShowDialog();
                 }
+
+                return;
             }
-            else if (sEA.SendPacket[0] == (byte)'X')  //requestPacket
+
+            if (sEA.SendPacket[0] == (byte)'X') // explicit request packet
             {
+                // keep explicit full read request behavior
                 this.requestAllData("ucTransmitter1_Send");
+                return;
+            }
+
+            // Normal TX settings apply path
+            this.sendPacketAck(sEA.SendPacket, "Transmitter Settings Send");
+
+            // Do NOT trigger full requestAllData here.
+            // If immediate confirmation is needed, use targeted TX read instead.
+            if (!this.pendingAutoloadAfterBackup &&
+                !this.ucRelayProgramming1.ReprogrammingInProgress &&
+                !this.loadingNewCode)
+            {
+                // optional targeted refresh:
+                // this.requestTransmitterSettings();
             }
             else
             {
-                this.sendPacketAck(sEA.SendPacket, "Transmitter Settings Send");
-
-                if (!this.pendingAutoloadAfterBackup &&
-                    !this.ucRelayProgramming1.ReprogrammingInProgress &&
-                    !this.loadingNewCode)
-                {
-                    this.requestAllData("ucTransmitter1_Send");
-                }
-                else
-                {
-                    logger.Info("Suppressing transmitter-triggered RequestAll during backup/programming transition.");
-                }
-
-                this.parametersLoaded = true;
-            }
-        }
-
-        void ucPumpMode1_Send(SendEventArgs sEA)
-        {
-            this.sendPacketAck(sEA.SendPacket, "Pump Mode Send");
-
-            if (sEA.SendPacket[1] != 2 && !this.sendAll)
-            {
-                this.requestRelayRegisters();
-                this.requestAllData("ucPumpMode1_Send");    
-                this.parametersLoaded = true;
+                logger.Info("Suppressing transmitter-triggered refresh during backup/programming transition.");
             }
         }
 
@@ -1895,14 +1892,12 @@ namespace RelayControl
 
         void ucDNP_Send(SendEventArgs sEA)
         {
-            
             if (sEA.SendPacket == null || sEA.SendPacket.Length == 0)
             {
                 logger.Warn("ucDNP_Send called with empty packet.");
                 return;
             }
 
-            // DNP apply/deadband packets should follow ACK path like TX Apply
             bool isDnpApplyOrDeadbandPacket =
                 sEA.SendPacket[0] == DnpControlOpcode &&
                 sEA.SendPacket.Length > 1 &&
@@ -1910,20 +1905,18 @@ namespace RelayControl
 
             if (isDnpApplyOrDeadbandPacket)
             {
-                string caller = (sEA.SendPacket.Length > 1 && sEA.SendPacket[1] == DnpDeadbandSubcode)
+                string caller = (sEA.SendPacket[1] == DnpDeadbandSubcode)
                     ? "DNP DeadBand Send"
                     : "DNP Settings Send";
 
                 this.sendPacketAck(sEA.SendPacket, caller);
 
-                if (!this.loadingNewCode)
-                    this.requestAllData("ucDNP_Send");
+                // optional targeted refresh only (if needed)
+                // this.requestDNPSettings();
 
-                this.parametersLoaded = true;
                 return;
             }
 
-            // Request/read path and other non-setting DNP packets remain non-ACK
             this.sendPacket(sEA.SendPacket);
         }
 
@@ -3910,20 +3903,19 @@ namespace RelayControl
                     }
                 }
 
-                if (this.savedSerialNumber != tempI && checkSerialNumber) //check to see if it matches old serial num
+                if (this.savedSerialNumber != tempI && checkSerialNumber)
                 {
                     this.checkSerialNumber = false;
                     this.savedSerialNumber = tempI;
-                    this.ucTransmitterMonitoring1.TransmitterSN = tempI.ToString();
 
-                    this.textBoxRelaySNControl.Text = tempI.ToString();
-                    this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
+                    logger.Warn(
+                        "Serial number mismatch detected. savedSerialNumber={0}, newSerialNumber={1}. Triggering resync guard.",
+                        this.savedSerialNumber,
+                        tempI);
 
-                    this.requestAllData("setTransmitterSettings");
-
-                    this.requestRelayRevision();
-                    logger.Trace("Setting timerResponseTimeOut from setTransmitterSettings");
-                    this.timerResponseTimeOut.Enabled = true;
+                    this.messageHandler(
+                        "Relay serial number changed",
+                        $"Expected serial {this.savedSerialNumber}, received {tempI}. Re-sync required.");
 
                     return;
                 }
@@ -7486,10 +7478,12 @@ namespace RelayControl
         // Optional: if you can, make this volatile or always access under lock
         //private string AcknowledgeCaller = string.Empty;
 
-        private void sendCTRatio(bool requestAfter = true)
+        private void sendCTRatio(bool requestAfter)
         {
-            byte[] packet = new byte[4];
+            logger.Info("sendCTRatio ENTER: CTRatio={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
+                this.CTRatio, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
 
+            byte[] packet = new byte[4];
             packet[0] = (byte)'Z';
             packet[1] = (byte)this.CTRatio;
             packet[2] = (byte)(this.CTRatio >> 8);
@@ -7502,13 +7496,6 @@ namespace RelayControl
             }
 
             this.sendPacketAck(packet, "CT Ratio Send");
-
-            // IMPORTANT: do not refresh here during the combined Apply flow
-            if (requestAfter && !this.sendAll)
-            {
-                this.requestAllData("sendCTRatio");
-                this.parametersLoaded = true;
-            }
         }
 
         private void buttonClearCycleCount_Click(object sender, EventArgs e)
@@ -10144,37 +10131,49 @@ namespace RelayControl
 
         private void buttonSendLowVoltageThres_Click(object sender, EventArgs e)
         {
-            SendEventArgs sEA = new SendEventArgs(4);
+            logger.Info("buttonSendLowVoltageThres_Click ENTER");
 
             try
             {
-                if (numericUpDownLowVoltageThres.Value <= numericUpDownLowVoltageThres.Maximum &&
-                    numericUpDownLowVoltageThres.Value >= numericUpDownLowVoltageThres.Minimum)
-                {
-                    sEA.SendPacket[0] = Convert.ToByte('&');
-                    sEA.SendPacket[1] = 0x55;
-                    sEA.SendPacket[2] = Convert.ToByte(numericUpDownLowVoltageThres.Value);
-                    sEA.SendPacket[3] = 0x0D;
+                SetBusyUi(true);
 
-                    this.sendPacket(sEA.SendPacket);
-                }
-                else
+                if (numericUpDownLowVoltageThres.Value > numericUpDownLowVoltageThres.Maximum ||
+                    numericUpDownLowVoltageThres.Value < numericUpDownLowVoltageThres.Minimum)
                 {
-                    MessageBox.Show("Low Voltage Threshold Value must be between %i and %i" +
-                        numericUpDownLowVoltageThres.Minimum + " and " + numericUpDownLowVoltageThres.Maximum);
+                    MessageBox.Show(
+                        $"Low Voltage Threshold Value must be between {numericUpDownLowVoltageThres.Minimum} and {numericUpDownLowVoltageThres.Maximum}");
+                    return;
                 }
+
+                var sEA = new SendEventArgs(4);
+                sEA.SendPacket[0] = Convert.ToByte('&');
+                sEA.SendPacket[1] = 0x55;
+                sEA.SendPacket[2] = Convert.ToByte(numericUpDownLowVoltageThres.Value);
+                sEA.SendPacket[3] = 0x0D;
+
+                // keep behavior explicit; low-voltage write does NOT require full requestAll
+                sEA.WithAck = false;
+                sEA.RequestAll = false;
+
+                this.standardizedSendData(this, sEA);
+                logger.Info("LowVoltage send dispatched");
 
                 if (!this.sendAll)
                 {
-                    Thread.Sleep(100);
-                    this.requestAllData("buttonSendLowVoltageThres_Click");
-                    this.parametersLoaded = true;
+                    // targeted refresh only
+                    this.requestLowVoltageThreshold();
+                    logger.Info("requestLowVoltageThreshold dispatched");
                 }
-
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "Error sending Low Voltage Threshold Value");
                 MessageBox.Show("Error sending Low Voltage Threshold Value");
+            }
+            finally
+            {
+                SetBusyUi(false);
+                logger.Info("buttonSendLowVoltageThres_Click EXIT");
             }
         }
 
@@ -11236,34 +11235,58 @@ namespace RelayControl
             this.btn_PermCl_Active.BackColor = Color.Transparent;
         }
 
+        private void SetBusyUi(bool busy)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy)));
+                return;
+            }
+
+            screenD.screenDisable = busy;
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+            this.Refresh();
+        }
+
         private void btn_PC_Send_Click(object sender, EventArgs e)
         {
-            this.enableAll(false);
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
+            logger.Info("btn_PC_Send_Click ENTER");
 
             try
             {
+                SetBusyUi(true);
+                logger.Info("SetBusyUi(true) done");
+
                 _pcApplyPendingConfirmation = true;
-                SendPCData();
+                SendPCData(requestAllAfterWrite: false);
+
+                logger.Info("SendPCData returned");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "btn_PC_Send_Click EXCEPTION");
+                throw;
             }
             finally
             {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                this.enableAll(true);
+                logger.Info("finally -> SetBusyUi(false)");
+                SetBusyUi(false);
+                logger.Info("finally complete");
             }
         }
 
         // Add field in MainControl class
 
-#pragma warning disable CS0414 // field assigned but value never used
-        private bool _pcApplyPendingConfirmation = false;
-        //private bool sendingAllSettings;
-#pragma warning restore CS0414
-        private void SendPCData()
+        bool _pcApplyPendingConfirmation = false;
+
+        private void SendPCData(bool requestAllAfterWrite = false)
         {
-            // Encode UI volts -> FIXED20_12 raw (assuming TwelveFracBits is 1/4096)
+            logger.Info($"SendPCData ENTER requestAllAfterWrite={requestAllAfterWrite}");
+
             UInt16 rawVoltage = (UInt16)Math.Round(
                 numericUpDown_PC_voltage.Value / Constants.TwelveFracBits,
                 MidpointRounding.AwayFromZero);
@@ -11277,10 +11300,26 @@ namespace RelayControl
             packet[5] = (byte)((rawVoltage >> 8) & 0xFF);  // HIGH
             packet[6] = 0x0D;
 
-            this.sendPacketAck(packet, "Permissive Close packet send");
+            logger.Info($"pcPacket={BitConverter.ToString(packet)}");
 
-            Thread.Sleep(250);
-            this.request_PCdata();
+            var sea = new SendEventArgs(packet.Length)
+            {
+                SendPacket = packet,
+                WithAck = true,
+                RequestAll = requestAllAfterWrite
+            };
+
+            this.standardizedSendData(this, sea); // or OnSend path if PC lives in a UC
+            logger.Info("PC packet sent");
+
+            if (!requestAllAfterWrite)
+            {
+                // targeted refresh only, no blocking sleep
+                this.request_PCdata();
+                logger.Info("request_PCdata sent");
+            }
+
+            logger.Info("SendPCData EXIT");
         }
 
         private void request_PCdata()
@@ -11336,11 +11375,6 @@ namespace RelayControl
             relaxCloseC.RelaxCloseClick = true;
             this.ucCloseMode1.sendRelaxClose();
         }
-
-        //private void lbl_PC_status_Click(object sender, EventArgs e)
-        //{
-
-        //}
 
         private void btn_ClearPumpProtect_Click(object sender, EventArgs e)
         {
