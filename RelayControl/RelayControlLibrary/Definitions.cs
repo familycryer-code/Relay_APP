@@ -247,6 +247,28 @@ namespace RelayControlLibrary
         RemoteTrip
     }
 
+    public enum SyncPhase
+    {
+        Idle,
+        StartupBackup,
+        FullParameterDownload,
+        RestoreAfterProgramming,
+        AutoloadHandoff
+    }
+
+    [Flags]
+    public enum SectionBits
+    {
+        None = 0,
+        RelayParams = 1 << 0,
+        Calibration = 1 << 1,
+        TxSettings = 1 << 2,
+        ArcFault = 1 << 3,
+        SafeService = 1 << 4,
+        Dnp = 1 << 5,
+        DnpSav5 = 1 << 6
+    }
+
     #endregion
 
     #region Classes

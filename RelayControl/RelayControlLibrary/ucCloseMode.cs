@@ -338,8 +338,8 @@ namespace RelayControlLibrary
             this.SendTimedOut = false;
             relaxCloseC.RelaxCloseClick = false;
 
-            //buttonSendCloseData_Click(this, new EventArgs());
-            //sendCloseData();   
+            //buttonSendCloseData_Click(this, new EventArgs());  // this makes it work why?
+             
 
             if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
                 relayRevisionNumber < _singleCommandRelaxCloseUpdate)

@@ -64,7 +64,9 @@ namespace RelayControl
 
         private Customers customer = Customers.None;
 
-
+        private SyncPhase syncPhase = SyncPhase.Idle;
+        private SectionBits requiredSections = SectionBits.None;
+        private SectionBits receivedSections = SectionBits.None;
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
@@ -2707,6 +2709,7 @@ namespace RelayControl
                     }
                     this.dNPDataMessage(bytePacket, 4);
                     break;
+
                 case IncomingCommCommands.DNPMessage5: // AO
                     if (this.dNPDIGITALGRIDData == null)
                     {
@@ -2715,12 +2718,14 @@ namespace RelayControl
                     }
                     this.dNPDataMessage(bytePacket, 5);
                     break;
+
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
                     this.ucTransmitter1.RequestLightningCount();
                     break;
+
                 case IncomingCommCommands.ArcFaultData:
-                    if (dataBackup_fromRelay == true) // write Arc Fault parameters currently residing in the relay to the backup file on computer
+                    if (dataBackup_fromRelay == true)
                     {
                         string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                         TextWriter tw = new StreamWriter(path, true);
@@ -2730,11 +2735,10 @@ namespace RelayControl
                             tw.WriteLine(bytePacket[index]);
                         }
                         tw.Close();
-
-                        //dataBackup_fromRelay = false;
                     }
 
                     this.setArcFaultData(bytePacket);
+                    this.MarkSectionReceived(SectionBits.ArcFault);
 
                     if (backupInProgress)
                     {
@@ -2742,27 +2746,35 @@ namespace RelayControl
                         TryCompleteBackup();
                     }
                     break;
+
                 case IncomingCommCommands.Boot:
                     this.handleBootMessage(bytePacket);
                     break;
+
                 case IncomingCommCommands.RelayStatusBits:
                     this.setRelayStatusBits(bytePacket);
                     break;
+
                 case IncomingCommCommands.CalibrationComplete:
                     this.calibrationComplete(bytePacket);
                     break;
+
                 case IncomingCommCommands.CalibrationConstants:
                     this.setCalibrationConstants(bytePacket);
+                    this.MarkSectionReceived(SectionBits.Calibration);
+
                     backupGotCalibration = true;
                     TryCompleteBackup();
                     break;
+
                 case IncomingCommCommands.CurrentTime:
                     this.storeCurrentTime(bytePacket);
                     break;
+
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
 
-                    if (dataBackup_fromRelay == true) // write safe service data that is currently residing in the relay to the backup file on computer
+                    if (dataBackup_fromRelay == true)
                     {
                         string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                         TextWriter tw = new StreamWriter(path, true);
@@ -2773,77 +2785,103 @@ namespace RelayControl
                         }
                         tw.Close();
                     }
+
+                    this.MarkSectionReceived(SectionBits.SafeService);
+
                     backupGotSafeService = true;
                     TryCompleteBackup();
                     break;
+
                 case IncomingCommCommands.ShortRangeStrength:
                 case IncomingCommCommands.ShortRangeTransmit:
                     this.setShortRangeParameters(bytePacket);
                     break;
+
                 case IncomingCommCommands.EventTimes:
                     this.storeTimesReceived(bytePacket);
                     break;
+
                 case IncomingCommCommands.EventDataPacket:
                     this.eventLiveDataPacket(bytePacket);
                     break;
+
                 case IncomingCommCommands.LiveDataPacket:
                     this.liveDataPacket(bytePacket);
                     break;
+
                 case IncomingCommCommands.PhasorUpdate:
                     this.setPhasorValue(bytePacket);
                     break;
+
                 case IncomingCommCommands.RelayParameters:
                     this.setRelayParameters(bytePacket);
+                    this.MarkSectionReceived(SectionBits.RelayParams);
+
                     backupGotRelayParams = true;
                     TryCompleteBackup();
                     break;
+
                 case IncomingCommCommands.RelayRegisters:
                     this.setRelayRegisters(bytePacket);
                     break;
+
                 case IncomingCommCommands.NoMemFix:
                     this.DNPEnabled = false;
                     this.showNoMemFixMessage(bytePacket);
                     break;
+
                 case IncomingCommCommands.RelayRevision:
                     this.setRelayRevisionLabel(bytePacket);
                     break;
+
                 case IncomingCommCommands.PCdata:
                     this.setPermissiveCloseData(bytePacket);
                     break;
+
                 case IncomingCommCommands.ATdata:
                     this.ucTripMode2.SetAdaptiveValuesFromPacket(bytePacket);
                     break;
+
                 case IncomingCommCommands.Revision:
                     this.revisionReceived(bytePacket);
                     break;
+
                 case IncomingCommCommands.FPGARevision:
                     this.setFPGARevision(bytePacket);
                     break;
+
                 case IncomingCommCommands.Temperature:
                     this.setTemperature(bytePacket);
                     break;
+
                 case IncomingCommCommands.TripOrCloseEvent:
                     this.trippedOrClosed(bytePacket);
                     break;
+
                 case IncomingCommCommands.TransmitterSettings:
                     this.setTransmitterSettings(bytePacket);
                     {
-                        // To display Transmitter ID on the relay Monitoring Tab :
                         UInt16 uTemp;
                         uTemp = bytePacket[1];
                         uTemp <<= 8;
                         uTemp += bytePacket[0];
                         this.textBox_TxID.Text = uTemp.ToString();
                     }
+
+                    this.MarkSectionReceived(SectionBits.TxSettings);
+
                     backupGotTx = true;
                     TryCompleteBackup();
                     break;
+
                 case IncomingCommCommands.TransmitterMonitor:
                     this.setTransmitterMonitorData(bytePacket);
                     break;
+
                 case IncomingCommCommands.FFTValue:
                     this.setFFTValue(bytePacket);
                     break;
+
                 case IncomingCommCommands.DNPData:
                     if (!ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
@@ -2853,6 +2891,11 @@ namespace RelayControl
                             dataBackup_fromRelay,
                             wroteDnpBackup);
 
+                        if (this.syncPhase == SyncPhase.FullParameterDownload)
+                        {
+                            this.MarkSectionReceived(SectionBits.Dnp);
+                        }
+
                         if (backupInProgress && wroteDnpBackup)
                         {
                             backupGotDnpData = true;
@@ -2860,8 +2903,9 @@ namespace RelayControl
                         }
                     }
                     break;
+
                 case IncomingCommCommands.DNPSAv5:
-                    if (dataBackupR.dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
+                    if (dataBackupR.dataBackup_fromRelay == true)
                     {
                         string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                         TextWriter tw = new StreamWriter(path, true);
@@ -2877,21 +2921,27 @@ namespace RelayControl
 
                     this.ucDNPSAv51.Message(bytePacket);
 
+                    if (this.syncPhase == SyncPhase.FullParameterDownload)
+                    {
+                        this.MarkSectionReceived(SectionBits.DnpSav5);
+                    }
+
                     if (backupInProgress && dataBackupR.dataBackup_fromRelay == false)
                     {
                         backupGotDnpSav5 = true;
                         TryCompleteBackup();
                     }
                     break;
+
                 case IncomingCommCommands.LowVoltageThresReceived:
                     this.SetLowVoltageThres(bytePacket);
                     break;
+
                 case IncomingCommCommands.Invalid:
                 default:
                     throw new Exception("bad command for function call");
             }
         }
-
         private RelayStatusCodeConverter relayStatusConverter = new RelayStatusCodeConverter();
 
         private void setRelayStatusBits(byte[] bytePacket)
@@ -6782,13 +6832,62 @@ namespace RelayControl
         private bool expectingFPGARevision = false;
 
         delegate void requestAllCallBack();
+        private void MarkSectionReceived(SectionBits section)
+        {
+            if (this.syncPhase != SyncPhase.FullParameterDownload)
+                return;
 
+            this.receivedSections |= section;
+
+            logger.Info(
+                "Section received: {0}, receivedMask={1}, requiredMask={2}, syncPhase={3}",
+                section,
+                this.receivedSections,
+                this.requiredSections,
+                this.syncPhase);
+
+            if ((this.receivedSections & this.requiredSections) == this.requiredSections)
+            {
+                logger.Info(
+                    "Full parameter set complete: firing parametersFinishedLoading(). received={0}, required={1}",
+                    this.receivedSections,
+                    this.requiredSections);
+
+                this.parametersFinishedLoading();
+            }
+        }
 
         private void BeginFullParameterDownload(string caller)
         {
             this.requestedAllParameters = true;
             this.ProgramState = ProgramStates.DownloadingAllParameters;
-            logger.Info("BeginFullParameterDownload caller={0}", caller);
+
+            // new phase-based tracker
+            this.syncPhase = SyncPhase.FullParameterDownload;
+            this.requiredSections = SectionBits.RelayParams
+                                  | SectionBits.Calibration
+                                  | SectionBits.TxSettings;
+
+
+            this.receivedSections = SectionBits.None;
+
+            logger.Info(
+                "BeginFullParameterDownload caller={0}, phase={1}, required={2}, received={3}",
+                caller,
+                this.syncPhase,
+                this.requiredSections,
+                this.receivedSections);
+        }
+
+        private bool ShouldRestoreFromBackup(string sectionName)
+        {
+            if (string.Equals(sectionName, "CalibrationConstants", StringComparison.OrdinalIgnoreCase))
+            {
+                logger.Info("Backup restore: skipping CalibrationConstants (live apply only; not replayed from backup).");
+                return false;
+            }
+
+            return true;
         }
         private void requestAllData(string caller = "unknown")
         {
@@ -10355,6 +10454,10 @@ namespace RelayControl
             try
             {
                 logger.Info("Starting backup restore to relay.");
+
+                // Live calibration is required during normal app operation.
+                // Backup restore should not replay calibration from RelayData_Backup.txt unless explicitly intended.
+                logger.Info("Backup restore: skipping CalibrationConstants replay from RelayData_Backup.txt (live apply only).");
 
                 this.writeCloseModeDataBackUp_ToMaster();
                 this.writeTripModeDataBackUp_ToMaster();
