@@ -6865,9 +6865,7 @@ namespace RelayControl
             // new phase-based tracker
             this.syncPhase = SyncPhase.FullParameterDownload;
             this.requiredSections = SectionBits.RelayParams
-                                  | SectionBits.Calibration
                                   | SectionBits.TxSettings;
-
 
             this.receivedSections = SectionBits.None;
 
