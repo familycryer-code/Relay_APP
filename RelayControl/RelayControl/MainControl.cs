@@ -1783,9 +1783,9 @@ namespace RelayControl
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
 
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                     clearRemoteBuffer();
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                     requestRelayRevision();
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
@@ -3825,7 +3825,7 @@ namespace RelayControl
             this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
-            Thread.Sleep(1000);   // delay 1second
+            //Thread.Sleep(1000);   // delay 1second
             if (dataBackup_fromRelay == true) // write Transmitter Parameters currently residing in the relay to the backup file on computer
             {
                 string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -4920,7 +4920,7 @@ namespace RelayControl
 
                 if (dataBackup_fromRelay == true) // write Relay Parameters currently residing in the relay to the backup file on computer
                 {
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                     string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
                     TextWriter tw = new StreamWriter(path, true);
                     tw.WriteLine("Relay Parameters:");
@@ -4929,7 +4929,7 @@ namespace RelayControl
                         tw.WriteLine(bytePacket[index]);
                     }
                     tw.Close();
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                 }
 
                 //Reclose Voltage Btyes - Vertical

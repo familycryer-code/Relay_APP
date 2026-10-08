@@ -612,7 +612,7 @@ namespace RelayControlLibrary
             else
                 this.Mode = CloseModes.RelaxClose;
 
-            this.sendCloseData();
+            this.sendCloseData(false);
         }
 
         private decimal savedRecloseValue = 1.5m;
