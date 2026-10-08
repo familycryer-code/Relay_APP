@@ -2143,8 +2143,8 @@ namespace RelayControl
                      
                     while (true)
                     {
-                        if (screenD.screenDisable == true)
-                            this.enableAll(false);
+                        //if (screenD.screenDisable == true)
+                           // this.enableAll(false);
                         initialRXPtr = tempRXReadPtr = this.rXReadPtr;
                         //check to see if we have found a command or we have reached the end of the data
                         command = this.getCommand(this.receiveArray[tempRXReadPtr]);
@@ -4078,30 +4078,18 @@ namespace RelayControl
             if (this.badDataDetected == true)
             {
                 this.parametersLoaded = false;
-                this.requestedAllParameters = false;
-                this.ProgramState = ProgramStates.Running;
                 this.messageHandler("Error", "Parameters Not Loaded Successfully");
+                ResetFullParameterDownloadState("parametersFinishedLoading.badDataDetected");
                 return;
             }
 
             // Only a real full-sync state should trigger the success popup.
             if (this.parametersLoaded)
             {
-                // we deliberately DO NOT reset parametersLoaded here
-                // because it is the one-shot latch for this full-download cycle
-                this.requestedAllParameters = false;
-                this.ProgramState = ProgramStates.Running;
-                this.timerResponseTimeOut.Enabled = false;
-
+                // We deliberately DO NOT reset parametersLoaded here
+                // because it is the one-shot latch for this full-download cycle.
                 this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-                sendAllF.SendAllFlag = false;
-                screenD.screenDisable = false;
-                setDNPTabPoints();
+                ResetFullParameterDownloadState("parametersFinishedLoading.parametersLoaded");
                 return;
             }
 
@@ -4143,13 +4131,11 @@ namespace RelayControl
 
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
-                    this.UseWaitCursor = false;
-                    Application.UseWaitCursor = false;
-                    System.Windows.Forms.Cursor.Current = Cursors.Default;
-                    this.enableAll(true);
                     this.monitoring(true);
                     this.RegisterPolling(true);
                     this.requestRelayRegisters();
+
+                    ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     return;
                 }
 
@@ -4180,6 +4166,8 @@ namespace RelayControl
                         this.RegisterPolling(true);
                         this.requestRelayRegisters();
                     }
+
+                    ResetFullParameterDownloadState("parametersFinishedLoading.noPendingAutoloadAfterBackup");
                     return;
                 }
 
@@ -4193,6 +4181,8 @@ namespace RelayControl
                     this.requestRelayRegisters();
 
                     skipAutoloadAfterDecline = false;
+
+                    ResetFullParameterDownloadState("parametersFinishedLoading.skipAutoloadAfterDecline");
                     return;
                 }
 
@@ -4209,6 +4199,8 @@ namespace RelayControl
                     this.monitoring(true);
                     this.RegisterPolling(true);
                     this.requestRelayRegisters();
+
+                    ResetFullParameterDownloadState("parametersFinishedLoading.autoloadDeclined");
                     return;
                 }
 
@@ -4217,6 +4209,8 @@ namespace RelayControl
                     this.loadingNewCode)
                 {
                     logger.Info("InitializeAutoload() completed but normal communications remain suppressed for programming transition.");
+                    ResetFullParameterDownloadState("parametersFinishedLoading.programmingTransitionStillActive");
+                    return;
                 }
                 else
                 {
@@ -4224,6 +4218,9 @@ namespace RelayControl
                     this.monitoring(true);
                     this.RegisterPolling(true);
                     this.requestRelayRegisters();
+
+                    ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
+                    return;
                 }
             }
             finally
@@ -6257,14 +6254,12 @@ namespace RelayControl
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
 
-            // key: make this a full-sync readback flow
             this.requestedAllParameters = true;
             this.ProgramState = ProgramStates.DownloadingAllParameters;
+            screenD.screenDisable = true;
 
             try
             {
-            
-                screenD.screenDisable = true;
                 this.BeginFullParameterDownload("buttonRequestRelayParamaters_Click");
                 this.requestAllData("buttonRequestRelayParamaters_Click");
             }
@@ -6272,12 +6267,10 @@ namespace RelayControl
             {
                 logger.Error(ex, "Request All failed");
                 this.messageHandler("Request All Failed", ex);
-
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-                screenD.screenDisable = false;
+            }
+            finally
+            {
+                ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click");
             }
         }
 

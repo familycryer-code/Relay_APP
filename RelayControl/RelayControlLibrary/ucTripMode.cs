@@ -351,43 +351,72 @@ namespace RelayControlLibrary
         private bool _tripSendInProgress;
         private bool sending;
 
-        private async void buttonSendTripMode_Click(object sender, EventArgs e)
+        private void SetBusyUi(bool busy)
         {
-            if (_tripSendInProgress) return;
-            _tripSendInProgress = true;
+            System.Diagnostics.Trace.WriteLine(
+                $"[UIBUSY] SetBusyUi busy={busy} caller={new System.Diagnostics.StackTrace().GetFrame(1)?.GetMethod()?.Name ?? "unknown"}");
 
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
-            // this.Enabled = false; // keep this off
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY] InvokeRequired -> BeginInvoke busy={busy}");
+                BeginInvoke((Action)(() => SetBusyUi(busy)));
+                return;
+            }
+
+            screenD.screenDisable = busy;
+            this.UseWaitCursor = busy;
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            _tripSendInProgress = busy;
+            this.Refresh();
+
+            System.Diagnostics.Trace.WriteLine(
+                $"[UIBUSY] Applied busy={busy} screenD.screenDisable={screenD.screenDisable} UseWaitCursor={this.UseWaitCursor}");
+        }
+
+        private void buttonSendTripMode_Click(object sender, EventArgs e)
+        {
+            var logger = NLog.LogManager.GetCurrentClassLogger();
+
+            logger.Info("[UIBUSY] buttonSendTripMode_Click ENTER");
+            System.Diagnostics.Trace.WriteLine("[UIBUSY] buttonSendTripMode_Click ENTER");
+
+            if (_tripSendInProgress)
+            {
+                logger.Info("[UIBUSY] buttonSendTripMode_Click blocked because _tripSendInProgress=true");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] buttonSendTripMode_Click blocked because _tripSendInProgress=true");
+                return;
+            }
+
+            SetBusyUi(true);
 
             try
             {
-                await Task.Run(() => SendTripMode(requestAllAfterWrite: false));
+                logger.Info("[UIBUSY] Before SendTripMode");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] Before SendTripMode");
+
+                SendTripMode(requestAllAfterWrite: false);
+
+                logger.Info("[UIBUSY] After SendTripMode");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] After SendTripMode");
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "[UIBUSY] SendTripMode exception");
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY] SendTripMode exception: {ex}");
                 MessageBox.Show(ex.Message, "Send Trip Mode Error");
             }
             finally
             {
-                if (this.IsHandleCreated && !this.IsDisposed)
-                {
-                    BeginInvoke((Action)(() =>
-                    {
-                        screenD.screenDisable = false;
-                        Application.UseWaitCursor = false;
-                        Cursor.Current = Cursors.Default;
-                        _tripSendInProgress = false;
-                        this.Refresh();
-                    }));
-                }
-                else
-                {
-                    _tripSendInProgress = false;
-                    Application.UseWaitCursor = false;
-                    Cursor.Current = Cursors.Default;
-                }
+                logger.Info("[UIBUSY] finally -> SetBusyUi(false)");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] finally -> SetBusyUi(false)");
+
+                SetBusyUi(false);
+
+                logger.Info("[UIBUSY] finally complete");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] finally complete");
             }
         }
 

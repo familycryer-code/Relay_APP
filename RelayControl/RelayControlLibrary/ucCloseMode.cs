@@ -305,6 +305,23 @@ namespace RelayControlLibrary
             this.sendRelaxClose();
         }
 
+        private void SetBusyUi(bool busy)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy)));
+                return;
+            }
+
+            screenD.screenDisable = busy;
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+            this.Refresh();
+        }
+
         public void buttonSendCloseData_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.OK;
@@ -314,17 +331,12 @@ namespace RelayControlLibrary
 
             try
             {
-                Application.UseWaitCursor = true;
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-
+                SetBusyUi(true);
                 sendCloseData(requestAllAfterWrite: false);
             }
             finally
             {
-                screenD.screenDisable = false;
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
+                SetBusyUi(false);
             }
         }
 
