@@ -6267,11 +6267,11 @@ namespace RelayControl
             {
                 logger.Error(ex, "Request All failed");
                 this.messageHandler("Request All Failed", ex);
+
+                // reset only on synchronous failure
+                ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
             }
-            finally
-            {
-                ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click");
-            }
+            // no finally reset here
         }
 
 
