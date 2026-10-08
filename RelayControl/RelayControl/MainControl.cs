@@ -4085,7 +4085,8 @@ namespace RelayControl
             // Only a real full-sync state should trigger the success popup.
             if (this.parametersLoaded)
             {
-                this.parametersLoaded = false;
+                // we deliberately DO NOT reset parametersLoaded here
+                // because it is the one-shot latch for this full-download cycle
                 this.requestedAllParameters = false;
                 this.ProgramState = ProgramStates.Running;
                 this.timerResponseTimeOut.Enabled = false;
@@ -6365,7 +6366,7 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
         }
-        private async void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
+        private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
         {
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -6373,7 +6374,7 @@ namespace RelayControl
 
             try
             {
-                this.SendRelayPhasingAndTypeAsync();
+                this.SendRelayPhasingAndType();
             }
             finally
             {
@@ -6383,11 +6384,11 @@ namespace RelayControl
             }
         }
 
-        private void SendRelayPhasingAndTypeAsync()
+        private void SendRelayPhasingAndType()
         {
             logger.Info(
-                "SendRelayPhasingAndTypeAsync called. sendAllFlag={0}, sendAll={1}, customer={2}, relayTypeSelected={3}, phasingSelected={4}",
-                sendAllF.SendAllFlag == false,
+                "SendRelayPhasingAndType called. sendAllFlag={0}, sendAll={1}, customer={2}, relayTypeSelected={3}, phasingSelected={4}",
+                sendAllF.SendAllFlag,
                 this.sendAll,
                 this.Customer,
                 this.comboBox_RelayType?.SelectedItem?.ToString() ?? "<null>",
@@ -6468,8 +6469,8 @@ namespace RelayControl
                     // Do NOT force a relay/phasing send here unless it is actually queued.
                     // The real drain is triggered when the CT ACK is received and processAckReceived()
                     // decides it is safe to send the queued relay type/phasing packet.
-                    this.pendingRelayTypePhasingPacket = null;
-                    this.pendingRelayTypePhasingCaller = null;
+                    //this.pendingRelayTypePhasingPacket = null;
+                    //this.pendingRelayTypePhasingCaller = null;
                 }
             }
             catch (Exception ex)
@@ -6834,9 +6835,6 @@ namespace RelayControl
         delegate void requestAllCallBack();
         private void MarkSectionReceived(SectionBits section)
         {
-            if (this.syncPhase != SyncPhase.FullParameterDownload)
-                return;
-
             this.receivedSections |= section;
 
             logger.Info(
@@ -6846,8 +6844,24 @@ namespace RelayControl
                 this.requiredSections,
                 this.syncPhase);
 
+            if (this.syncPhase != SyncPhase.FullParameterDownload)
+                return;
+
+            // Already completed this cycle: ignore repeated SafeService / late packets
+            if (this.parametersLoaded)
+            {
+                logger.Info(
+                    "Full parameter completion already processed; ignoring additional section. section={0}, received={1}, required={2}",
+                    section,
+                    this.receivedSections,
+                    this.requiredSections);
+                return;
+            }
+
             if ((this.receivedSections & this.requiredSections) == this.requiredSections)
             {
+                this.parametersLoaded = true;
+
                 logger.Info(
                     "Full parameter set complete: firing parametersFinishedLoading(). received={0}, required={1}",
                     this.receivedSections,
@@ -6868,6 +6882,9 @@ namespace RelayControl
                                   | SectionBits.TxSettings;
 
             this.receivedSections = SectionBits.None;
+
+            // reset the existing completion latch for this cycle
+            this.parametersLoaded = false;
 
             logger.Info(
                 "BeginFullParameterDownload caller={0}, phase={1}, required={2}, received={3}",
@@ -8677,21 +8694,21 @@ namespace RelayControl
 
             try
             {
-                this.ucTripMode2.SendTripMode();
+                this.ucTripMode2.SendTripMode(requestAllAfterWrite: true);
                 Thread.Sleep(100);
 
-                this.ucCloseMode1.sendCloseData();
+                this.ucCloseMode1.sendCloseData(requestAllAfterWrite: true);
                 Thread.Sleep(100);
 
 #if CONED
-        this.SendPCData();
-        Thread.Sleep(100);
+                this.SendPCData(requestAllAfterWrite: true);
+                Thread.Sleep(100);
 #endif
 
-                this.SendCTRatioAndPhasing(requestAfter: false);
+                this.SendCTRatioAndPhasing(requestAfter: true);
                 Thread.Sleep(100);
 
-                this.ucPumpMode1.SendPumpMode();
+                this.ucPumpMode1.SendPumpMode(requestAllAfterWrite: true);
                 Thread.Sleep(100);
 
 #if DNP
@@ -8699,9 +8716,9 @@ namespace RelayControl
                     this.ucTransmitter1.ForceDNPEnable = true;
 #endif
 
-                if (this.relayCodeRevisionNumber >= 20130111 || this.loadingNewCode)
+                if (this.relayCodeRevisionNumber >= 20130111)
                 {
-                    this.ucSafeService1.SendAll();
+                    this.ucSafeService1.SendSafeService(requestAllAfterWrite: true);
                     Thread.Sleep(100);
                 }
             }
@@ -10773,7 +10790,7 @@ namespace RelayControl
             {
                 // Old safe-service data flagged bad/out-of-range -> apply defaults
                 this.ucSafeService1.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.ucSafeService1.buttonSend_Click(this, new EventArgs());
+                this.ucSafeService1.SendSafeService(requestAllAfterWrite: false);
                 return;
             }
 

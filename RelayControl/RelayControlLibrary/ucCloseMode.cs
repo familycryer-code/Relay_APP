@@ -318,7 +318,7 @@ namespace RelayControlLibrary
                 Cursor.Current = Cursors.WaitCursor;
                 screenD.screenDisable = true;
 
-                sendCloseData();
+                sendCloseData(requestAllAfterWrite: false);
             }
             finally
             {
@@ -328,7 +328,7 @@ namespace RelayControlLibrary
             }
         }
 
-        public void sendCloseData()
+        public void sendCloseData(bool requestAllAfterWrite = false)
         {
             if (this.checkBoxCircleClose.Checked)
                 this.Mode = CloseModes.CircleClose;
@@ -350,7 +350,7 @@ namespace RelayControlLibrary
 
                 mySEA.SendPacket = this.CloseCurve.BytePacket();
                 mySEA.WithAck = true;
-                mySEA.RequestAll = true;
+                mySEA.RequestAll = requestAllAfterWrite;
                 this.OnSend(this, mySEA);
             }
 

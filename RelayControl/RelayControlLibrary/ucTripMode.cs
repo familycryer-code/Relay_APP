@@ -347,30 +347,34 @@ namespace RelayControlLibrary
         }
 
         private bool sending = false;
-        public void buttonSendTripMode_Click(object sender, EventArgs e)
+        private void buttonSendTripMode_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.OK;
 
             if (choice != DialogResult.OK)
                 return;
 
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
+            this.Enabled = false;
+            this.Refresh();
+
             try
             {
-                Application.UseWaitCursor = true;
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-
-                SendTripMode();
+                SendTripMode(requestAllAfterWrite: false);
             }
             finally
             {
+                this.Enabled = true;
                 screenD.screenDisable = false;
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
+                this.Refresh();
             }
         }
 
-        public void SendTripMode()
+        public void SendTripMode(bool requestAllAfterWrite = false)
         {
             byte[] adaptiveTrip_package = new byte[12];
 
@@ -380,7 +384,7 @@ namespace RelayControlLibrary
             this.SendTimedOut = false;
             sending = true;
             mySEA.WithAck = true;
-            mySEA.RequestAll = false;
+            mySEA.RequestAll = requestAllAfterWrite;
 
             try
             {
@@ -593,8 +597,9 @@ namespace RelayControlLibrary
                     OnSend(mySEA);
                 }
 
+                // Changed: caller decides whether this write should trigger full refresh
                 mySEA.WithAck = true;
-                mySEA.RequestAll = true;
+                mySEA.RequestAll = requestAllAfterWrite;
                 mySEA.SendPacket[0] = (byte)'M';
                 mySEA.SendPacket[1] = (byte)'S';
 

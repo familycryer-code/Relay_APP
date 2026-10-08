@@ -73,26 +73,17 @@ namespace RelayControlLibrary
 
         #region Send And Receive
 
-        private void send()
+        private void send(bool requestAllAfterWrite = false)
         {
             SendEventArgs sEA = new SendEventArgs(22);
             uint tempInt;
             sEA.WithAck = true;
 
+            // Optional: if your SendEventArgs supports it, propagate the request-all flag
+            // sEA.RequestAll = requestAllAfterWrite;
+
             decimal tempValue;
-            /* switch (this.domainUpDownDataViews.SelectedIndex)
-             {
-                 case 0:
-                 default:
-                     tempValue = this.numericUpDownOverCurrent.Value;
-                     break;
-                 case 1:
-                     tempValue = this.numericUpDownOverCurrent.Value / (decimal)this.CTRatio;
-                     break;
-                 case 2:
-                     tempValue = this.numericUpDownOverCurrent.Value / 20m;
-                     break;
-             }*/
+
             switch (this.comboBox_DataViews.SelectedIndex)
             {
                 case 0: // relay
@@ -109,19 +100,23 @@ namespace RelayControlLibrary
 
             try
             {
-                //low byte comes first
+                // low byte comes first
                 sEA.SendPacket[0] = 0x0F;
                 if (this.comboBoxSSEnable.SelectedIndex == 0)
                     sEA.SendPacket[2] = 1;
                 else
                     sEA.SendPacket[2] = 0;
+
                 sEA.SendPacket[1] = 0;
-                tempInt = RelayModeFunctions.ConvertTo6_10(tempValue);//this.numericUpDownOverCurrent.Value / (decimal)this.cTRatio);
+
+                tempInt = RelayModeFunctions.ConvertTo6_10(tempValue);
                 sEA.SendPacket[3] = (byte)(tempInt >> 8);
                 sEA.SendPacket[4] = (byte)tempInt;
+
                 tempInt = RelayModeFunctions.ConvertTo8_8(this.numericUpDownCurrentImbalance.Value);
                 sEA.SendPacket[5] = (byte)(tempInt >> 8);
                 sEA.SendPacket[6] = (byte)tempInt;
+
                 tempInt = (uint)this.numericUpDownDelay.Value;
                 sEA.SendPacket[7] = (byte)(tempInt >> 8);
                 sEA.SendPacket[8] = (byte)tempInt;
@@ -143,6 +138,7 @@ namespace RelayControlLibrary
             {
                 this.errorHandler("Error Generating Safe Service Send Settings", ex);
                 this.restoreDefaults();
+                return;
             }
 
             try
@@ -160,38 +156,56 @@ namespace RelayControlLibrary
             }
         }
 
-        //private void buttonSend_Click(object sender, EventArgs e)
         public void buttonSend_Click(object sender, EventArgs e)
         {
-            var choice = DialogResult.OK;// MessageBox.Show("Sending Safe Service Parameters as set in the APP to the Relay", "Send?", MessageBoxButtons.OKCancel);
-            if (choice == DialogResult.OK)
-            {
-                Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-                this.send();
-                Thread.Sleep(1000);   //1 second delay
-            }
+            var choice = DialogResult.OK;
+            if (choice != DialogResult.OK)
+                return;
 
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+            screenD.screenDisable = true;
+
+            try
+            {
+                SendSafeService(requestAllAfterWrite: false);   // single Apply
+            }
+            finally
+            {
+                screenD.screenDisable = false;
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+            }
         }
 
+        // explicit API used by both button and orchestration
+        public void SendSafeService(bool requestAllAfterWrite = false)
+        {
+            this.send(requestAllAfterWrite);
+        }
+
+        // compatibility
         public void SendAll()
         {
-            this.send();
+            SendSafeService(requestAllAfterWrite: false);
+            // if you intentionally want apply-all semantics, use true here
+            // but for this working pattern, single apply is safer
         }
+
         public delegate void SendHandler(object o, SendEventArgs sEA);
         public event SendHandler Send;
 
         private void buttonRequest_Click(object sender, EventArgs e)
         {
             SendEventArgs sEA = new SendEventArgs(3);
+
             try
             {
                 if (this.Send != null)
                 {
                     sEA.SendPacket[0] = 0x0E;
                     sEA.SendPacket[1] = 0x0D;
-                    sEA.WithAck = false;
+                    sEA.WithAck = false; // request/read packet: correct
                     this.Send(this, sEA);
                 }
                 else
@@ -204,6 +218,7 @@ namespace RelayControlLibrary
         }
 
         private delegate void setAllCallBack(byte[] bytePacket);
+
         public void SetAll(byte[] bytePacket)
         {
             try
@@ -250,19 +265,6 @@ namespace RelayControlLibrary
                 tempI <<= 8;
                 tempI += bytePacket[3];
 
-                /* switch (this.domainUpDownDataViews.SelectedIndex)
-                 {
-                     case 0:
-                     default:
-                         this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI);
-                         break;
-                     case 1:
-                         this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI * (uint)this.CTRatio);
-                         break;
-                     case 2:
-                         this.numericUpDownOverCurrent.Value = RelayModeFunctions.ConvertFrom6_10(tempI * 20);
-                         break;
-                 }*/
                 switch (this.comboBox_DataViews.SelectedIndex)
                 {
                     case 0:
@@ -280,26 +282,22 @@ namespace RelayControlLibrary
                 tempI = bytePacket[4];
                 tempI <<= 8;
                 tempI += bytePacket[5];
-
                 this.numericUpDownCurrentImbalance.Value = RelayModeFunctions.ConvertFrom8_8(tempI);
 
                 tempI = bytePacket[6];
                 tempI <<= 8;
                 tempI += bytePacket[7];
-
                 this.numericUpDownDelay.Value = tempI;
 
                 tempI = bytePacket[8];
                 tempI <<= 8;
                 tempI += bytePacket[9];
-
                 numericUpDownLowVoltage.Value =
                     RelayModeFunctions.ConvertFrom8_8(tempI) * protectorVoltage.Scaling;
 
                 tempI = bytePacket[10];
                 tempI <<= 8;
                 tempI += bytePacket[11];
-
                 numericUpDownVoltageImbalance.Value =
                     RelayModeFunctions.ConvertFrom8_8(tempI) * protectorVoltage.Scaling;
 
@@ -310,22 +308,24 @@ namespace RelayControlLibrary
                 numericUpDownLowVoltage_Temp = this.numericUpDownLowVoltage.Value;
                 numericUpDownVoltageImbalance_Temp = this.numericUpDownVoltageImbalance.Value;
             }
-            #if DEBUG
-            catch (Exception ex)
-            #else
+#if DEBUG
+    catch (Exception ex)
+#else
             catch (Exception)
-            #endif
+#endif
             {
-            #if DEBUG
-                if (this.LoadingNewCode)
-                    this.restoreDefaults();
-                else
-                {
-                this.errorHandler("Error in setAll", ex);
-                this.restoreDefaults();
-                this.buttonSend_Click(this, new EventArgs());
-                }
-            #else
+#if DEBUG
+        if (this.LoadingNewCode)
+            this.restoreDefaults();
+        else
+        {
+            this.errorHandler("Error in setAll", ex);
+            this.restoreDefaults();
+
+            // never call UI click handler from logic
+            this.SendSafeService(requestAllAfterWrite: false);
+        }
+#else
                 dataBackupSSM.dataBackup_safeServiceDefaults = true;
                 this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;
                 this.numericUpDownOverCurrent.Value = numericUpDownOverCurrent_Temp;
@@ -337,8 +337,7 @@ namespace RelayControlLibrary
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
 
                 SendAll();
-            #endif
-
+#endif
                 return;
             }
         }

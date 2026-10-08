@@ -138,7 +138,7 @@ namespace RelayControlLibrary
 
             try
             {
-                this.SendPumpMode();
+                this.SendPumpMode(requestAllAfterWrite: false);
             }
             finally
             {
@@ -148,24 +148,33 @@ namespace RelayControlLibrary
             }
         }
 
-        public void SendPumpMode()
+        public void SendPumpMode(bool requestAllAfterWrite = false)
         {
-            PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
-            PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
-            PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
-            PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
+            try
+            {
+                PD.RelayCycleEnabled = this.checkBoxCycles.Checked;
+                PD.MotorTimeoutEnabled = this.checkBoxMotorTime.Checked;
+                PD.MotorCycleEnabled = this.checkBoxMotorCycles.Checked;
+                PD.AlarmOnly = this.checkBoxAlarmOnly.Checked;
 
-            PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
-            PD.PumpTime = (short)this.numericUpDownPumpTime.Value;
-            PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
-            PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
-            PD.PumpProtectTime = this.checkBoxNeverReclose.Checked ? (short)0 : (short)this.numericUpDownProtectTime.Value;
+                PD.Cycles = (byte)this.numericUpDownCycleLimit.Value;
+                PD.PumpTime = (short)this.numericUpDownPumpTime.Value;
+                PD.MotorCycles = (byte)this.numericUpDownMotorCycles.Value;
+                PD.MotorTimeout = (byte)(this.numericUpDownMotorTimeout.Value * 10);
+                PD.PumpProtectTime = this.checkBoxNeverReclose.Checked ? (short)0 : (short)this.numericUpDownProtectTime.Value;
 
-            this.sEA.SendPacket = this.bytePacketFor(PD);
-            this.sEA.WithAck = true;
-            OnSend(sEA);
+                this.sEA.SendPacket = this.bytePacketFor(PD);
+                this.sEA.WithAck = true;
+                this.sEA.RequestAll = requestAllAfterWrite;
+                OnSend(sEA);
 
-            Thread.Sleep(1000);
+                Thread.Sleep(1000);
+            }
+            catch (Exception ex)
+            {
+                this.errorHandler(new Exception("Error sending pump mode", ex));
+                throw;
+            }
         }
 
         public byte[] bytePacketFor(PumpDefinition pD)
