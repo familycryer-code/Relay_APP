@@ -1978,6 +1978,8 @@ namespace RelayControl
         }
         private bool expectingAck = false;
 
+        public bool IsExpectingAck => this.expectingAck;
+
         private void resetCommunicationInterface()
         {
             try
@@ -8671,20 +8673,50 @@ namespace RelayControl
             {
                 logger.Error(ex, "Apply All failed");
                 this.messageHandler("Apply All Failed", ex);
-            }
-            finally
-            {
+
+                // only on immediate failure, restore UI here
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
-
-                this.Enabled = true;                 // important
+                this.Enabled = true;
                 Application.UseWaitCursor = false;
                 this.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
-
-                this.enableAll(true);                // important
-                this.tabControlMain.Enabled = true;  // extra belt-and-suspenders
+                this.enableAll(true);
+                this.tabControlMain.Enabled = true;
             }
+        }
+
+        private bool WaitForAckIdle(int timeoutMs, string step, int stableIdleMs = 75)
+        {
+            var total = System.Diagnostics.Stopwatch.StartNew();
+            var idle = new System.Diagnostics.Stopwatch();
+
+            while (total.ElapsedMilliseconds < timeoutMs)
+            {
+                if (!this.expectingAck)
+                {
+                    if (!idle.IsRunning)
+                        idle.Start();
+
+                    if (idle.ElapsedMilliseconds >= stableIdleMs)
+                    {
+                        logger.Info($"WaitForAckIdle OK step={step}, elapsedMs={total.ElapsedMilliseconds}, stableIdleMs={stableIdleMs}");
+                        return true;
+                    }
+                }
+                else
+                {
+                    // ACK became busy again; reset idle stability timer
+                    if (idle.IsRunning)
+                        idle.Reset();
+                }
+
+                Application.DoEvents(); // WinForms pump
+                Thread.Sleep(10);
+            }
+
+            logger.Info($"WaitForAckIdle TIMEOUT step={step}, expectingAck={this.expectingAck}, elapsedMs={total.ElapsedMilliseconds}, stableIdleMs={stableIdleMs}, idleMs={idle.ElapsedMilliseconds}");
+            return false;
         }
 
         private void sendAllParameters()
@@ -8695,21 +8727,21 @@ namespace RelayControl
             try
             {
                 this.ucTripMode2.SendTripMode(requestAllAfterWrite: true);
-                Thread.Sleep(100);
+                WaitForAckIdle(3000, "After TripMode");
 
                 this.ucCloseMode1.sendCloseData(requestAllAfterWrite: true);
-                Thread.Sleep(100);
+                WaitForAckIdle(3000, "After CloseMode");
 
 #if CONED
-                this.SendPCData(requestAllAfterWrite: true);
-                Thread.Sleep(100);
+        this.SendPCData(requestAllAfterWrite: true);
+        WaitForAckIdle(3000, "After PCData");
 #endif
 
                 this.SendCTRatioAndPhasing(requestAfter: true);
-                Thread.Sleep(100);
+                WaitForAckIdle(3000, "After CTRatioAndPhasing");
 
                 this.ucPumpMode1.SendPumpMode(requestAllAfterWrite: true);
-                Thread.Sleep(100);
+                WaitForAckIdle(3000, "After PumpMode");
 
 #if DNP
                 if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit)
@@ -8719,17 +8751,14 @@ namespace RelayControl
                 if (this.relayCodeRevisionNumber >= 20130111)
                 {
                     this.ucSafeService1.SendSafeService(requestAllAfterWrite: true);
-                    Thread.Sleep(100);
+                    WaitForAckIdle(3000, "After SafeService");
                 }
             }
             finally
             {
-                // clear the send-all gating before download begins
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
             }
-
-            Thread.Sleep(200);
 
             if (!this.loadingNewCode)
             {

@@ -1,4 +1,5 @@
 ﻿using GraphicsServer.GSNet.Charting;
+using NLog;
 using SharedResources;
 using System;
 using System.Collections;
@@ -13,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
 
@@ -346,32 +348,59 @@ namespace RelayControlLibrary
             }
         }
 
-        private bool sending = false;
-        private void buttonSendTripMode_Click(object sender, EventArgs e)
-        {
-            var choice = DialogResult.OK;
+        private bool _tripSendInProgress;
+        private bool sending;
 
-            if (choice != DialogResult.OK)
-                return;
+        private async void buttonSendTripMode_Click(object sender, EventArgs e)
+        {
+            if (_tripSendInProgress) return;
+            _tripSendInProgress = true;
 
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
             screenD.screenDisable = true;
-            this.Enabled = false;
-            this.Refresh();
+            // this.Enabled = false; // keep this off
 
             try
             {
-                SendTripMode(requestAllAfterWrite: false);
+                await Task.Run(() => SendTripMode(requestAllAfterWrite: false));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Send Trip Mode Error");
             }
             finally
             {
-                this.Enabled = true;
-                screenD.screenDisable = false;
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                this.Refresh();
+                if (this.IsHandleCreated && !this.IsDisposed)
+                {
+                    BeginInvoke((Action)(() =>
+                    {
+                        screenD.screenDisable = false;
+                        Application.UseWaitCursor = false;
+                        Cursor.Current = Cursors.Default;
+                        _tripSendInProgress = false;
+                        this.Refresh();
+                    }));
+                }
+                else
+                {
+                    _tripSendInProgress = false;
+                    Application.UseWaitCursor = false;
+                    Cursor.Current = Cursors.Default;
+                }
             }
+        }
+
+        private void SendTripPacket(byte[] packet, bool withAck, bool requestAll)
+        {
+            var sea = new SendEventArgs(packet.Length)
+            {
+                WithAck = withAck,
+                RequestAll = requestAll,
+                SendPacket = packet
+            };
+
+            OnSend(sea);
         }
 
         public void SendTripMode(bool requestAllAfterWrite = false)
@@ -383,8 +412,6 @@ namespace RelayControlLibrary
 
             this.SendTimedOut = false;
             sending = true;
-            mySEA.WithAck = true;
-            mySEA.RequestAll = requestAllAfterWrite;
 
             try
             {
@@ -392,13 +419,14 @@ namespace RelayControlLibrary
 
                 TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
                 TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
+
                 if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
                     TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 else
                     TripModeDef.TimeDelay = 0;
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
-                OnSend(mySEA);
+                var tripDefPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                SendTripPacket(tripDefPacket, withAck: true, requestAll: requestAllAfterWrite);
 
                 if (this.TripModeDef.Mode == TripModes.RemoteTrip)
                     return;
@@ -447,12 +475,9 @@ namespace RelayControlLibrary
                 TripCurve1.Tilt = this.numericUpDownAngle.Value;
                 TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0);
-                Thread.Sleep(1000);
-                OnSend(mySEA);
+                SendTripPacket(RelayModeFunctions.BytePacketFor(TripCurve1, 0), withAck: true, requestAll: false);
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
-                this.OnSend(mySEA);
+                SendTripPacket(RelayModeFunctions.BytePacketFor(TripCurveGW, 1), withAck: true, requestAll: false);
 
                 decimal tempDecimal;
 
@@ -497,8 +522,7 @@ namespace RelayControlLibrary
                     TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
                 }
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
-                OnSend(mySEA);
+                SendTripPacket(RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3), withAck: true, requestAll: false);
 
                 this.TripCurveInsensTripMag.CurveNumber = 2;
                 this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
@@ -513,8 +537,7 @@ namespace RelayControlLibrary
                 else
                     this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
-                OnSend(mySEA);
+                SendTripPacket(RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2), withAck: true, requestAll: false);
 
                 TripCurveWV.CurveNumber = 4;
                 TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
@@ -533,8 +556,7 @@ namespace RelayControlLibrary
                 else
                     this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
 
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
-                OnSend(mySEA);
+                SendTripPacket(RelayModeFunctions.BytePacketFor(TripCurveWV, 4), withAck: true, requestAll: false);
 
                 if (this.TripModeDef.Mode == TripModes.Adaptive)
                 {
@@ -593,48 +615,41 @@ namespace RelayControlLibrary
                     adaptiveTrip_package[10] = (byte)(encodedKVA & 0x00FF);
                     adaptiveTrip_package[11] = (byte)0x0D;
 
-                    mySEA.SendPacket = adaptiveTrip_package;
-                    OnSend(mySEA);
+                    SendTripPacket(adaptiveTrip_package, withAck: true, requestAll: false);
                 }
 
-                // Changed: caller decides whether this write should trigger full refresh
-                mySEA.WithAck = true;
-                mySEA.RequestAll = requestAllAfterWrite;
-                mySEA.SendPacket[0] = (byte)'M';
-                mySEA.SendPacket[1] = (byte)'S';
+                byte[] msPacket = new byte[8];
+                msPacket[0] = (byte)'M';
+                msPacket[1] = (byte)'S';
 
                 if (this.comboBox_TripStyle.SelectedIndex == 0)
-                    mySEA.SendPacket[2] = 0;
+                    msPacket[2] = 0;
                 else if (this.comboBox_TripStyle.SelectedIndex == 1)
-                    mySEA.SendPacket[2] = 1;
+                    msPacket[2] = 1;
                 else if (this.comboBox_TripStyle.SelectedIndex == 2)
-                    mySEA.SendPacket[2] = 2;
+                    msPacket[2] = 2;
                 else if (this.comboBox_TripStyle.SelectedIndex == 3)
-                    mySEA.SendPacket[2] = 3;
+                    msPacket[2] = 3;
                 else
                     throw new Exception(this.comboBox_TripStyle.SelectedItem.ToString());
 
                 if (this.checkBoxTripOnPowerDown.Checked)
-                    mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
+                    msPacket[2] = (byte)(msPacket[2] & (byte)0xFB);
                 else
-                    mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
+                    msPacket[2] = (byte)(msPacket[2] | 0x04);
 
-                mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
-                mySEA.SendPacket[7] = 0x0D;
+                msPacket[3] = 0;
+                msPacket[4] = 0;
+                msPacket[5] = 0;
+                msPacket[6] = 0;
+                msPacket[7] = 0x0D;
+
                 if (this.VersionNumber >= 110609)
-                    OnSend(mySEA);
+                    SendTripPacket(msPacket, withAck: true, requestAll: requestAllAfterWrite);
 
-                Thread.Sleep(100);
-
-                mySEA.WithAck = false;
-                mySEA.RequestAll = false;
-                mySEA.SendPacket = new byte[3];
-                mySEA.SendPacket[0] = (byte)'[';
-                mySEA.SendPacket[1] = (byte)'U';
-                mySEA.SendPacket[2] = 0x0D;
-                OnSend(mySEA);
-
-                Thread.Sleep(1500);
+                // no forced sleep here; the lower layer handles ack timing
+                byte[] requestPacket = new byte[] { (byte)'[', (byte)'U', 0x0D };
+                SendTripPacket(requestPacket, withAck: false, requestAll: false);
             }
             finally
             {
