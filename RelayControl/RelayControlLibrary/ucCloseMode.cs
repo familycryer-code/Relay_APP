@@ -308,9 +308,23 @@ namespace RelayControlLibrary
         public void buttonSendCloseData_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.OK;
-            if (choice == DialogResult.OK)
+
+            if (choice != DialogResult.OK)
+                return;
+
+            try
             {
+                Application.UseWaitCursor = true;
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
+
                 sendCloseData();
+            }
+            finally
+            {
+                screenD.screenDisable = false;
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -321,18 +335,10 @@ namespace RelayControlLibrary
             else
                 this.Mode = CloseModes.Normal;
 
-            if (relaxCloseC.RelaxCloseClick == false)
-            {
-                Application.UseWaitCursor = true;
-                Cursor.Current = Cursors.WaitCursor;
-                screenD.screenDisable = true;
-                this.SendTimedOut = false;
-            }
-
+            this.SendTimedOut = false;
             relaxCloseC.RelaxCloseClick = false;
 
-            // TODO: replace this with non-UI helper when ready
-            buttonSendCloseMode_Click(this, new EventArgs());
+            //buttonSendCloseData_Click(this, new EventArgs());
 
             if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
                 relayRevisionNumber < _singleCommandRelaxCloseUpdate)
@@ -490,7 +496,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception("'" + Convert.ToChar(bytePacket[10]).ToString() + "' is not a valid Close Type Character."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
 
             try
@@ -514,7 +520,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Reclose/Circle Close Voltage Value"));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();   
             }
             try
             {
@@ -548,7 +554,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Tilt Angle."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
             try
             {
@@ -569,7 +575,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Phasing Voltage."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
             try
             {
@@ -593,7 +599,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception(tempM2.ToString() + " is not a valid Phase Detect Angle."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
             uTemp = 0;
             try
@@ -612,7 +618,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Time Delay."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
 
             try
@@ -637,7 +643,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 this.errorHandler(new Exception(uTemp.ToString() + " is not a valid Close Control Word."));
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
 
             try
@@ -653,7 +659,7 @@ namespace RelayControlLibrary
                 dataBackupCM.dataBackup_closeModeDefaults = true;
                 MessageBox.Show("Error setting close mode 277");
                 this.buttonRestoreDefaults_Click(this, new EventArgs());
-                this.buttonSendCloseData_Click(this, new EventArgs());
+                this.sendCloseData();
             }
         }
 

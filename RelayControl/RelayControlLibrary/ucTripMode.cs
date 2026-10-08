@@ -351,13 +351,22 @@ namespace RelayControlLibrary
         {
             var choice = DialogResult.OK;
 
-            // If you want to restore the old user prompt:
-            // choice = MessageBox.Show("Sending Trip Mode Parameters as set in the APP to the Relay",
-            //     "Send?", MessageBoxButtons.OKCancel);
+            if (choice != DialogResult.OK)
+                return;
 
-            if (choice == DialogResult.OK)
+            try
             {
+                Application.UseWaitCursor = true;
+                Cursor.Current = Cursors.WaitCursor;
+                screenD.screenDisable = true;
+
                 SendTripMode();
+            }
+            finally
+            {
+                screenD.screenDisable = false;
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -368,296 +377,264 @@ namespace RelayControlLibrary
             if (sending)
                 return;
 
-            //if (this.listBoxTripModes.SelectedIndex != 4) // For Trip Modes other than Adaptive trip mode
-            //{
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
             this.SendTimedOut = false;
             sending = true;
             mySEA.WithAck = true;
             mySEA.RequestAll = false;
 
-            this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
-
-            TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
-            TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
-            if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
-                TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
-            else
-                TripModeDef.TimeDelay = 0;
-
-            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
-            OnSend(mySEA);
-
-            if (this.TripModeDef.Mode == TripModes.RemoteTrip)
+            try
             {
-                return;
-            }
+                this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
 
-            TripCurve1.CurveNumber = 0;
-            TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
-
-            TripCurveGW.CurveNumber = 1;
-
-            if (this.checkBoxEnableGullWing.Checked)
-            {
-
-                TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
-                TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
-                TripCurveGW.CodomainMinimum = 0;
-                TripCurve1.CodomainMaximum = 0;
-                TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
-            }
-            else
-            {
-                TripCurveGW.CurveType = TripCurveTypes.NoCurve;
-                TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
-                TripCurveGW.CodomainMinimum = 0;
-                TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
-                TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
-            }
-
-            if (this.displayType == eDisplayType.Relay)
-            {
-                TripCurve1.Offset = this.numericUpDownSensTrip.Value;
-                TripCurveGW.Offset = this.numericUpDownSensTrip.Value;
-                TripCurveWV.Offset = this.numericUpDownSensTrip.Value;
-            }
-            else if (this.displayType == eDisplayType.Percent)
-            {
-                TripCurve1.Offset = this.numericUpDownSensTrip.Value * 50m;
-                TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 50m;
-                TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 50m;
-            }
-            else
-            {
-                TripCurve1.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-                TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
-            }
-
-            TripCurve1.Tilt = this.numericUpDownAngle.Value;
-            TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
-
-            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0); // To be saved in master uP as T0_byte
-            Thread.Sleep(1000);   // 1 second delay
-
-            OnSend(mySEA);
-
-            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
-
-            this.OnSend(mySEA);
-
-            decimal tempDecimal;
-
-            if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
-            {
-                // already in relay/internal units
-                tempDecimal = this.instantaneousCurrent;
-            }
-            else if (this.TripModeDef.Mode == TripModes.Insensitive)
-            {
-                // already in relay/internal units
-                tempDecimal = this.insensitiveCurrent;
-            }
-            else
-            {
-                // fallback: convert from current UI display units
-                if (this.displayType == eDisplayType.Relay)
-                    tempDecimal = this.numericUpDownInsensTrip.Value;
-                else if (this.displayType == eDisplayType.Percent)
-                    tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
+                TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
+                TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
+                if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
+                    TripModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
                 else
-                    tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
-            }
+                    TripModeDef.TimeDelay = 0;
 
-            // CHANGE: mode-driven selection instead of visibility-driven
-            bool useTimeDelayCurve =
-                (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar);
-            bool useInsensitiveCurve =
-                (this.TripModeDef.Mode == TripModes.Insensitive);
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripModeDef);
+                OnSend(mySEA);
 
-            if (useTimeDelayCurve)
-            {
-                // do not overwrite IC from shared UI control during send
-                tempDecimal = this.instantaneousCurrent;
-            }
-            else if (useInsensitiveCurve)
-            {
-                // do not overwrite IT from shared UI control during send
-                tempDecimal = this.insensitiveCurrent;
-            }
+                if (this.TripModeDef.Mode == TripModes.RemoteTrip)
+                    return;
 
-            TripCurveTimeDelay.CurveNumber = 3;
-            TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
-            TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurveTimeDelay.Offset = 0;
-            TripCurveTimeDelay.Tilt = 90;
-            TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
+                TripCurve1.CurveNumber = 0;
+                TripCurve1.CurveType = TripCurveTypes.OffsetAngle;
 
-            // CHANGE: mode-driven enable/disable instead of visibility-driven
-            if (!useTimeDelayCurve)
-            {
-                TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
+                TripCurveGW.CurveNumber = 1;
+
+                if (this.checkBoxEnableGullWing.Checked)
+                {
+                    TripCurveGW.CurveType = TripCurveTypes.OffsetAngle;
+                    TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+                    TripCurveGW.CodomainMinimum = 0;
+                    TripCurve1.CodomainMaximum = 0;
+                    TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+                }
+                else
+                {
+                    TripCurveGW.CurveType = TripCurveTypes.NoCurve;
+                    TripCurveGW.CodomainMaximum = Constants.MaxFixedPointValue;
+                    TripCurveGW.CodomainMinimum = 0;
+                    TripCurve1.CodomainMaximum = Constants.MaxFixedPointValue;
+                    TripCurve1.CodomainMinimum = Constants.MinFixedPointValue;
+                }
+
+                if (this.displayType == eDisplayType.Relay)
+                {
+                    TripCurve1.Offset = this.numericUpDownSensTrip.Value;
+                    TripCurveGW.Offset = this.numericUpDownSensTrip.Value;
+                    TripCurveWV.Offset = this.numericUpDownSensTrip.Value;
+                }
+                else if (this.displayType == eDisplayType.Percent)
+                {
+                    TripCurve1.Offset = this.numericUpDownSensTrip.Value * 50m;
+                    TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 50m;
+                    TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 50m;
+                }
+                else
+                {
+                    TripCurve1.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                    TripCurveGW.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                    TripCurveWV.Offset = this.numericUpDownSensTrip.Value * 1000m / CTRatio;
+                }
+
+                TripCurve1.Tilt = this.numericUpDownAngle.Value;
+                TripCurveGW.Tilt = this.numericUpDownGullWingAngle.Value;
+
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurve1, 0);
+                Thread.Sleep(1000);
+                OnSend(mySEA);
+
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveGW, 1);
+                this.OnSend(mySEA);
+
+                decimal tempDecimal;
+
+                if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
+                    tempDecimal = this.instantaneousCurrent;
+                else if (this.TripModeDef.Mode == TripModes.Insensitive)
+                    tempDecimal = this.insensitiveCurrent;
+                else
+                {
+                    if (this.displayType == eDisplayType.Relay)
+                        tempDecimal = this.numericUpDownInsensTrip.Value;
+                    else if (this.displayType == eDisplayType.Percent)
+                        tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
+                    else
+                        tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
+                }
+
+                bool useTimeDelayCurve = (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar);
+                bool useInsensitiveCurve = (this.TripModeDef.Mode == TripModes.Insensitive);
+
+                if (useTimeDelayCurve)
+                    tempDecimal = this.instantaneousCurrent;
+                else if (useInsensitiveCurve)
+                    tempDecimal = this.insensitiveCurrent;
+
+                TripCurveTimeDelay.CurveNumber = 3;
+                TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
+                TripCurveTimeDelay.CodomainMaximum = Constants.MaxFixedPointValue;
+                TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
                 TripCurveTimeDelay.Offset = 0;
                 TripCurveTimeDelay.Tilt = 90;
-                //TripCurveTimeDelay.Magnitude = 0;
-            }
-            else
-            {
-                TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
-            }
+                TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
 
-            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
-            OnSend(mySEA);
+                if (!useTimeDelayCurve)
+                {
+                    TripCurveTimeDelay.CurveType = TripCurveTypes.NoCurve;
+                    TripCurveTimeDelay.Offset = 0;
+                    TripCurveTimeDelay.Tilt = 90;
+                }
+                else
+                {
+                    TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
+                }
 
-            this.TripCurveInsensTripMag.CurveNumber = 2;
-            this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
-            this.TripCurveInsensTripMag.CodomainMaximum = Constants.MaxFixedPointValue;
-            this.TripCurveInsensTripMag.CodomainMinimum = Constants.MinFixedPointValue;
-            this.TripCurveInsensTripMag.Offset = 0;
-            this.TripCurveInsensTripMag.Tilt = 90;
-            this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveTimeDelay, 3);
+                OnSend(mySEA);
 
-            // CHANGE: mode-driven enable/disable instead of visibility-driven
-            if (!useInsensitiveCurve)
-            {
-                this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
-            }
-            else
-            {
+                this.TripCurveInsensTripMag.CurveNumber = 2;
                 this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
+                this.TripCurveInsensTripMag.CodomainMaximum = Constants.MaxFixedPointValue;
+                this.TripCurveInsensTripMag.CodomainMinimum = Constants.MinFixedPointValue;
+                this.TripCurveInsensTripMag.Offset = 0;
+                this.TripCurveInsensTripMag.Tilt = 90;
+                this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
+
+                if (!useInsensitiveCurve)
+                    this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
+                else
+                    this.TripCurveInsensTripMag.CurveType = TripCurveTypes.Magnitude;
+
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
+                OnSend(mySEA);
+
+                TripCurveWV.CurveNumber = 4;
+                TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
+                TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
+                TripCurveWV.Tilt = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
+
+                if (this.displayType == eDisplayType.Relay)
+                    TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value;
+                else if (this.displayType == eDisplayType.Percent)
+                    TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value * .050m;
+                else
+                    TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value / CTRatio;
+
+                if (this.numericUpDownWVCurrent.Visible)
+                    this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
+                else
+                    this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
+
+                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
+                OnSend(mySEA);
+
+                if (this.TripModeDef.Mode == TripModes.Adaptive)
+                {
+                    NormalizeAdaptiveTripValues();
+
+                    adaptiveTrip_package[0] = (byte)'{';
+                    adaptiveTrip_package[1] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);
+                    adaptiveTrip_package[2] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value);
+
+                    decimal tempKW = 0;
+                    decimal tempkVA = 0;
+                    decimal temp_AdaptiveMag_X = 0;
+                    decimal temp_AdaptiveMag_Y = 0;
+
+                    temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value / 100m) * 5m;
+                    temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value / 100m) * 5m;
+                    tempKW = -((this.numericUpDown_InCurrkW.Value / 100m) * 5m);
+                    tempkVA = (this.numericUpDown_InCurrkVAR.Value / 100m) * 5m;
+
+                    int encodedMagX = (int)GetFixed_16FracBits(temp_AdaptiveMag_X);
+                    int encodedMagY = (int)GetFixed_16FracBits(temp_AdaptiveMag_Y);
+                    int encodedKW = (int)GetFixed_12FracBits(tempKW);
+                    int encodedKVA = (int)GetFixed_12FracBits(tempkVA);
+
+                    if (encodedMagX < short.MinValue || encodedMagX > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive Magnitude X is out of range.\nValue: {this.numericUpDown_GreenMagX.Value}");
+                        return;
+                    }
+
+                    if (encodedMagY < short.MinValue || encodedMagY > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive Magnitude Y is out of range.\nValue: {this.numericUpDown_GreenMagY.Value}");
+                        return;
+                    }
+
+                    if (encodedKW < short.MinValue || encodedKW > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive kW Direction is out of range.\nValue: {this.numericUpDown_InCurrkW.Value}");
+                        return;
+                    }
+
+                    if (encodedKVA < short.MinValue || encodedKVA > short.MaxValue)
+                    {
+                        MessageBox.Show($"Adaptive kVAR Direction is out of range.\nValue: {this.numericUpDown_InCurrkVAR.Value}");
+                        return;
+                    }
+
+                    adaptiveTrip_package[3] = (byte)(encodedMagX >> 8);
+                    adaptiveTrip_package[4] = (byte)(encodedMagX & 0x00FF);
+                    adaptiveTrip_package[5] = (byte)(encodedMagY >> 8);
+                    adaptiveTrip_package[6] = (byte)(encodedMagY & 0x00FF);
+                    adaptiveTrip_package[7] = (byte)(encodedKW >> 8);
+                    adaptiveTrip_package[8] = (byte)(encodedKW & 0x00FF);
+                    adaptiveTrip_package[9] = (byte)(encodedKVA >> 8);
+                    adaptiveTrip_package[10] = (byte)(encodedKVA & 0x00FF);
+                    adaptiveTrip_package[11] = (byte)0x0D;
+
+                    mySEA.SendPacket = adaptiveTrip_package;
+                    OnSend(mySEA);
+                }
+
+                mySEA.WithAck = true;
+                mySEA.RequestAll = true;
+                mySEA.SendPacket[0] = (byte)'M';
+                mySEA.SendPacket[1] = (byte)'S';
+
+                if (this.comboBox_TripStyle.SelectedIndex == 0)
+                    mySEA.SendPacket[2] = 0;
+                else if (this.comboBox_TripStyle.SelectedIndex == 1)
+                    mySEA.SendPacket[2] = 1;
+                else if (this.comboBox_TripStyle.SelectedIndex == 2)
+                    mySEA.SendPacket[2] = 2;
+                else if (this.comboBox_TripStyle.SelectedIndex == 3)
+                    mySEA.SendPacket[2] = 3;
+                else
+                    throw new Exception(this.comboBox_TripStyle.SelectedItem.ToString());
+
+                if (this.checkBoxTripOnPowerDown.Checked)
+                    mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
+                else
+                    mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
+
+                mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
+                mySEA.SendPacket[7] = 0x0D;
+                if (this.VersionNumber >= 110609)
+                    OnSend(mySEA);
+
+                Thread.Sleep(100);
+
+                mySEA.WithAck = false;
+                mySEA.RequestAll = false;
+                mySEA.SendPacket = new byte[3];
+                mySEA.SendPacket[0] = (byte)'[';
+                mySEA.SendPacket[1] = (byte)'U';
+                mySEA.SendPacket[2] = 0x0D;
+                OnSend(mySEA);
+
+                Thread.Sleep(1500);
             }
-            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.TripCurveInsensTripMag, 2);
-            OnSend(mySEA);
-
-            TripCurveWV.CurveNumber = 4;
-            // Offset Set Above
-            TripCurveWV.CodomainMaximum = Constants.MaxFixedPointValue;
-            TripCurveWV.CodomainMinimum = Constants.MinFixedPointValue;
-            TripCurveWV.Tilt = this.numericUpDownAngle.Value + this.numericUpDownWVAngle.Value;
-
-            if (this.displayType == eDisplayType.Relay)
-                TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value;
-            else if (this.displayType == eDisplayType.Percent)
-                TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value * .050m;
-            else
-                TripCurveWV.Magnitude = this.numericUpDownWVCurrent.Value / CTRatio;
-
-            if (this.numericUpDownWVCurrent.Visible)
-                this.TripCurveWV.CurveType = TripCurveTypes.WattVar;
-            else
-                this.TripCurveWV.CurveType = TripCurveTypes.NoCurve;
-
-            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(TripCurveWV, 4);
-            OnSend(mySEA);
-
-            if (this.TripModeDef.Mode == TripModes.Adaptive)
+            finally
             {
-                NormalizeAdaptiveTripValues();
-
-                adaptiveTrip_package[0] = (byte)'{'; //Adaptive trip command
-                adaptiveTrip_package[1] = (byte)((int)this.numericUpDown_GreenDelay.Value >> 8);                   // high byte of GreenDelay
-                adaptiveTrip_package[2] = (byte)(0x00FF & (int)this.numericUpDown_GreenDelay.Value);               // low byte of GreenDelay
-
-                decimal tempKW = 0;
-                decimal tempkVA = 0;
-                decimal temp_AdaptiveMag_X = 0;
-                decimal temp_AdaptiveMag_Y = 0;
-
-                temp_AdaptiveMag_X = (this.numericUpDown_GreenMagX.Value / 100m) * 5m;
-                temp_AdaptiveMag_Y = (this.numericUpDown_GreenMagY.Value / 100m) * 5m;
-                tempKW = -((this.numericUpDown_InCurrkW.Value / 100m) * 5m);
-                tempkVA = (this.numericUpDown_InCurrkVAR.Value / 100m) * 5m;
-
-                int encodedMagX = (int)GetFixed_16FracBits(temp_AdaptiveMag_X);
-                int encodedMagY = (int)GetFixed_16FracBits(temp_AdaptiveMag_Y);
-                int encodedKW = (int)GetFixed_12FracBits(tempKW);
-                int encodedKVA = (int)GetFixed_12FracBits(tempkVA);
-
-                if (encodedMagX < short.MinValue || encodedMagX > short.MaxValue)
-                {
-                    MessageBox.Show($"Adaptive Magnitude X is out of range.\nValue: {this.numericUpDown_GreenMagX.Value}");
-                    return;
-                }
-
-                if (encodedMagY < short.MinValue || encodedMagY > short.MaxValue)
-                {
-                    MessageBox.Show($"Adaptive Magnitude Y is out of range.\nValue: {this.numericUpDown_GreenMagY.Value}");
-                    return;
-                }
-
-                if (encodedKW < short.MinValue || encodedKW > short.MaxValue)
-                {
-                    MessageBox.Show($"Adaptive kW Direction is out of range.\nValue: {this.numericUpDown_InCurrkW.Value}");
-                    return;
-                }
-
-                if (encodedKVA < short.MinValue || encodedKVA > short.MaxValue)
-                {
-                    MessageBox.Show($"Adaptive kVAR Direction is out of range.\nValue: {this.numericUpDown_InCurrkVAR.Value}");
-                    return;
-                }
-
-                adaptiveTrip_package[3] = (byte)(encodedMagX >> 8);
-                adaptiveTrip_package[4] = (byte)(encodedMagX & 0x00FF);
-                adaptiveTrip_package[5] = (byte)(encodedMagY >> 8);
-                adaptiveTrip_package[6] = (byte)(encodedMagY & 0x00FF);
-                adaptiveTrip_package[7] = (byte)(encodedKW >> 8);
-                adaptiveTrip_package[8] = (byte)(encodedKW & 0x00FF);
-                adaptiveTrip_package[9] = (byte)(encodedKVA >> 8);
-                adaptiveTrip_package[10] = (byte)(encodedKVA & 0x00FF);
-                adaptiveTrip_package[11] = (byte)0x0D;
-
-                mySEA.SendPacket = adaptiveTrip_package;
-                OnSend(mySEA);
+                sending = false;
             }
-
-            //New Trip Parameters
-            mySEA.WithAck = true;
-            mySEA.RequestAll = true;
-            mySEA.SendPacket[0] = (byte)'M';
-            mySEA.SendPacket[1] = (byte)'S';
-
-            if (this.comboBox_TripStyle.SelectedIndex == 0) // Hold Trip
-                mySEA.SendPacket[2] = 0;
-
-            else if (this.comboBox_TripStyle.SelectedIndex == 1) // Continous Pulse
-                mySEA.SendPacket[2] = 1;
-
-            else if (this.comboBox_TripStyle.SelectedIndex == 2) // 3 Pulse, then off
-                mySEA.SendPacket[2] = 2;
-
-            else if (this.comboBox_TripStyle.SelectedIndex == 3) // Short Trip
-                mySEA.SendPacket[2] = 3;
-            else
-                throw new Exception(this.comboBox_TripStyle.SelectedItem.ToString());
-
-            if (this.checkBoxTripOnPowerDown.Checked)        //Reversed to be backward compatible in the relay
-                mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] & (byte)0xFB);
-            else
-                mySEA.SendPacket[2] = (byte)(mySEA.SendPacket[2] | 0x04);
-
-            mySEA.SendPacket[3] = mySEA.SendPacket[4] = mySEA.SendPacket[5] = mySEA.SendPacket[6] = 0;
-            mySEA.SendPacket[7] = 0x0D;
-            if (this.VersionNumber >= 110609)
-                OnSend(mySEA);
-
-            Thread.Sleep(100);
-
-            mySEA.WithAck = false;
-            mySEA.RequestAll = false;
-            mySEA.SendPacket = new byte[3];
-            mySEA.SendPacket[0] = (byte)'[';
-            mySEA.SendPacket[1] = (byte)'U';
-            mySEA.SendPacket[2] = 0x0D;
-            OnSend(mySEA);
-
-            sending = false;
-
-            Thread.Sleep(1500);   // 1 second
         }
         private void NormalizeAdaptiveTripValues()
         {

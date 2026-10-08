@@ -11045,12 +11045,17 @@ namespace RelayControl
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
 
-            _pcApplyPendingConfirmation = true;   // add this line
-            SendPCData();
-
-            Application.UseWaitCursor = false;
-            Cursor.Current = Cursors.Default;
-            this.enableAll(true);
+            try
+            {
+                _pcApplyPendingConfirmation = true;
+                SendPCData();
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+            }
         }
 
         // Add field in MainControl class
