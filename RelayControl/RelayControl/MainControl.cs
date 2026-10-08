@@ -2803,14 +2803,9 @@ namespace RelayControl
                 case IncomingCommCommands.ArcFaultData:
                     if (dataBackup_fromRelay == true)
                     {
-                        string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                        TextWriter tw = new StreamWriter(path, true);
-                        tw.WriteLine("Arc Fault Parameters:");
-                        for (int index = 0; index < 40; ++index)
-                        {
-                            tw.WriteLine(bytePacket[index]);
-                        }
-                        tw.Close();
+                        byte[] snapshot = new byte[Math.Min(bytePacket.Length, 40)];
+                        Array.Copy(bytePacket, snapshot, snapshot.Length);
+                        CaptureBackupSection("Arc Fault Parameters", snapshot);
                     }
 
                     this.setArcFaultData(bytePacket);
@@ -2852,14 +2847,9 @@ namespace RelayControl
 
                     if (dataBackup_fromRelay == true)
                     {
-                        string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                        TextWriter tw = new StreamWriter(path, true);
-                        tw.WriteLine("Safe Service Data:");
-                        for (int index = 0; index <= 19; ++index)
-                        {
-                            tw.WriteLine(bytePacket[index]);
-                        }
-                        tw.Close();
+                        byte[] snapshot = new byte[Math.Min(bytePacket.Length, 20)];
+                        Array.Copy(bytePacket, snapshot, snapshot.Length);
+                        CaptureBackupSection("Safe Service Data", snapshot);
                     }
 
                     this.MarkSectionReceived(SectionBits.SafeService);
@@ -2983,14 +2973,9 @@ namespace RelayControl
                 case IncomingCommCommands.DNPSAv5:
                     if (dataBackupR.dataBackup_fromRelay == true)
                     {
-                        string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                        TextWriter tw = new StreamWriter(path, true);
-                        tw.WriteLine("DNPSAv5 Settings:");
-                        for (int index = 0; index <= 97; ++index)
-                        {
-                            tw.WriteLine(bytePacket[index]);
-                        }
-                        tw.Close();
+                        byte[] snapshot = new byte[Math.Min(bytePacket.Length, 98)];
+                        Array.Copy(bytePacket, snapshot, snapshot.Length);
+                        CaptureBackupSection("DNPSAv5 Settings", snapshot);
 
                         dataBackupR.dataBackup_fromRelay = false;
                     }
@@ -9738,15 +9723,9 @@ namespace RelayControl
 
             if (dataBackup_fromRelay == true)
             {
-                string path = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-                TextWriter tw = new StreamWriter(path, true);
-                tw.WriteLine("DNP Data:");
-                for (int index = 0; index <= 97; ++index)
-                {
-                    tw.WriteLine(bytePacket[index]);
-                }
-                tw.Close();
-
+                byte[] snapshot = new byte[Math.Min(bytePacket.Length, 98)];
+                Array.Copy(bytePacket, snapshot, snapshot.Length);
+                CaptureBackupSection("DNP Data", snapshot);
                 wroteBackupSection = true;
             }
 
@@ -10497,10 +10476,13 @@ namespace RelayControl
                 // Autoload continuation is only armed after successful backup completion.
                 pendingAutoloadAfterBackup = false;
 
+                // Start in-memory capture for this backup session.
+                BeginBackupCapture();
+
                 dataBackupD.dataBackup_withDNP = relayHasDnp;
                 StartBackupTracking(relayHasDnp);
 
-                // READ/REQUEST FROM MASTER PROCESSOR AND WRITE TO FILE IN RESPECTIVE INCOMING DATA FUNCTIONS
+                // READ/REQUEST FROM MASTER PROCESSOR AND CAPTURE IN INCOMING DATA FUNCTIONS
                 dataBackup_fromRelay = true;
                 dataBackupR.dataBackup_fromRelay = true;
 
@@ -10510,6 +10492,7 @@ namespace RelayControl
                     logger.Info("Existing backup file deleted: {0}", filePath);
                 }
 
+                // Optional header placeholder; final file content is written by FlushBackupToDisk() on success.
                 File.WriteAllText(
                     filePath,
                     "Data residing in the relay :" + Environment.NewLine +
@@ -10543,6 +10526,9 @@ namespace RelayControl
 
                 dataBackup_fromRelay = false;
                 dataBackupR.dataBackup_fromRelay = false;
+
+                // Clear in-memory capture state on failure
+                ClearBackupCaptureState();
 
                 // Do not continue autoload on startup backup failure
                 pendingAutoloadAfterBackup = false;
