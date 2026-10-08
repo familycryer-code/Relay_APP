@@ -77,7 +77,7 @@ namespace RelayControlLibrary
         {
             SendEventArgs sEA = new SendEventArgs(22);
             uint tempInt;
-            sEA.WithAck = true;
+            sEA.WithAck = requestAllAfterWrite;
 
             // Optional: if your SendEventArgs supports it, propagate the request-all flag
             // sEA.RequestAll = requestAllAfterWrite;
