@@ -1698,6 +1698,23 @@ namespace RelayControl
             }
         }
 
+        private void ResetFullParameterDownloadState(string caller)
+        {
+            logger.Warn("ResetFullParameterDownloadState caller={0}", caller);
+
+            this.requestedAllParameters = false;
+            this.ProgramState = ProgramStates.Running;
+            this.sendAll = false;
+            sendAllF.SendAllFlag = false;
+            this.timerResponseTimeOut.Enabled = false;
+
+            this.enableAll(true);
+            screenD.screenDisable = false;
+            this.UseWaitCursor = false;
+            Application.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
+        }
+
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
         private bool loadingNewCode = false;
         private RelayProgrammingSendCommands currentReprogramState = RelayProgrammingSendCommands.RestartProgram;
@@ -1711,6 +1728,19 @@ namespace RelayControl
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
+                    // 1) Always clear stale full-download state before entering a new cycle
+                    if (this.ProgramState == ProgramStates.DownloadingAllParameters ||
+                        this.requestedAllParameters)
+                    {
+                        logger.Warn("Stale parameter download state detected before RequestAll. Resetting.");
+                        this.requestedAllParameters = false;
+                        this.ProgramState = ProgramStates.Running;
+                        this.sendAll = false;
+                        sendAllF.SendAllFlag = false;
+                        this.timerResponseTimeOut.Enabled = false;
+                    }
+
+                    // 2) Then check for real boot/backup/programming suppression
                     if (this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess)
                     {
                         logger.Info("Allowing RequestAll after ReprogramSuccess for post-programming restore.");
@@ -1739,9 +1769,18 @@ namespace RelayControl
                         break;
                     }
 
+                    // 3) Duplicate re-entry guard
+                    if (this.ProgramState == ProgramStates.DownloadingAllParameters &&
+                        this.requestedAllParameters)
+                    {
+                        logger.Warn("RequestAll already active; ignoring duplicate request.");
+                        break;
+                    }
+
                     this.requestedAllParameters = true;
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
+
                     Thread.Sleep(3000);
                     clearRemoteBuffer();
                     Thread.Sleep(1000);
@@ -8568,20 +8607,20 @@ namespace RelayControl
                     this.ucSafeService1.SendAll();
                     Thread.Sleep(100);
                 }
-
-                Thread.Sleep(200);
-
-                // DO NOT gate this on sendAll flags here; they are your own in-method flags
-                if (!this.loadingNewCode)
-                {
-                    BeginFullParameterDownload(nameof(sendAllParameters));
-                    this.requestAllData("sendAllParameters");
-                }
             }
             finally
             {
+                // clear the send-all gating before download begins
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
+            }
+
+            Thread.Sleep(200);
+
+            if (!this.loadingNewCode)
+            {
+                BeginFullParameterDownload(nameof(sendAllParameters));
+                this.requestAllData("sendAllParameters");
             }
         }
 

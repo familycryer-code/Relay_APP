@@ -339,6 +339,7 @@ namespace RelayControlLibrary
             relaxCloseC.RelaxCloseClick = false;
 
             //buttonSendCloseData_Click(this, new EventArgs());
+            //sendCloseData();   
 
             if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
                 relayRevisionNumber < _singleCommandRelaxCloseUpdate)
@@ -353,7 +354,7 @@ namespace RelayControlLibrary
                 this.OnSend(this, mySEA);
             }
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1500);
         }
 
         public decimal GetFixed_12FracBits(decimal value)
