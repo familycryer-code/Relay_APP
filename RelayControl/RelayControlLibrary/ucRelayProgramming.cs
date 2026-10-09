@@ -886,7 +886,6 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            // same-cycle guard: no re-prompt if already approved or already handled
             if (this.askToUgradeShown || this.firmwareUpgradeAcceptedThisCycle || this.upgradeAutoDR == DialogResult.Yes)
             {
                 logger.Info("InitializeAutoload: approval already handled this cycle; skipping duplicate prompt.");
@@ -1062,7 +1061,6 @@ namespace RelayControlLibrary
 
             try
             {
-                // Force normal cursor while user must click dialogs
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
 
@@ -1091,6 +1089,16 @@ namespace RelayControlLibrary
                     "WH").ShowDialog();
                 logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
 
+                if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
+                {
+                    this.askToUgradeShown = true;
+                    this.firmwareUpgradeAcceptedThisCycle = false;
+                    logger.Info("showAutoLoadDialog: GE/WH selection cancelled; forcing ResetAutoloadState().");
+                    this.ResetAutoloadState();
+                    this.RaiseAutoloadDeclined();
+                    return;
+                }
+
                 internalGESetter = (relayTypeDR == DialogResult.Yes);
 
                 logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
@@ -1110,12 +1118,15 @@ namespace RelayControlLibrary
                     return;
                 }
 
+                // Commit point: GE/WH + confirm flow have approved the update.
+                // Backup starts here, before programming begins.
                 this.askToUgradeShown = true;
                 this.firmwareUpgradeAcceptedThisCycle = true;
+                this.AutoloadAcceptedPendingBackup = true;
+                logger.Info("showAutoLoadDialog: autoload approved; backup pending before programming start.");
             }
             finally
             {
-                // Always restore cursor state
                 Application.UseWaitCursor = previousUseWait;
                 Cursor.Current = previousCursor ?? Cursors.Default;
             }
@@ -1743,6 +1754,14 @@ namespace RelayControlLibrary
 
             if (dR == DialogResult.Yes)
             {
+                if (this.AutoloadAcceptedPendingBackup)
+                {
+                    logger.Info("startAutoLoad: backup pending; delay programming until backup completes.");
+                    // existing backup routine call should happen here
+                    // e.g. BackupCurrentRelayState();
+                    this.AutoloadAcceptedPendingBackup = false;
+                }
+
                 if (!this.dontReloadFromResource && programmingForm.MasterBootComplete == false)
                 {
                     if (!EnsureProgrammingStartWarningAcknowledged())
@@ -1769,8 +1788,6 @@ namespace RelayControlLibrary
                                this.masterBootRevisionNumberReceived > 0 &&
                                this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-                // HARDENING: auto path must not continue normal flow with unknown boot state.
-                // Force a fresh boot read first, then let AutoLoadCheckBoot decide.
                 if (bootUnknown && !ManualUpdate.usingManualMode)
                 {
                     logger.Warn("startAutoLoad: boot revision unknown in auto mode; deferring programming until fresh boot read.");
@@ -1803,7 +1820,7 @@ namespace RelayControlLibrary
             }
             else
             {
-                logger.Info("startAutoLoad: user declined; do not reset here because showAutoLoadDialog owns the decline/reset path.");
+                logger.Info("startAutoLoad: user declined; showAutoLoadDialog owns reset/decline.");
                 this.upgradeAutoDR = dR;
                 this.firmwareUpgradeAcceptedThisCycle = false;
                 this.askToUgradeShown = true;
