@@ -1353,6 +1353,17 @@ namespace RelayControlLibrary
             this.sendReset();
         }
 
+        // in ucRelayProgramming
+        public void DeclineAutoload(string caller, string reason)
+        {
+            this.ClearAutoloadDecisionState(caller, reason);
+            this.upgradeAutoDR = DialogResult.No;
+            this.askToUgradeShown = true;
+            this.firmwareUpgradeAcceptedThisCycle = false;
+            this.autoLoad = false;
+            this.startWarningAcknowledgedThisCycle = false;
+        }
+
         // 2) Remove dead locals in manual reload path
         private void startManualReloadWithBootCheck()
         {
