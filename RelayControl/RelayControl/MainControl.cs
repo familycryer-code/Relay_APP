@@ -912,9 +912,11 @@ namespace RelayControl
 
             if (!this.noMonitoringVersion)
             {
-                logger.Info("Calling InitializeAutoload");
-                this.ucRelayProgramming1.InitializeAutoload();
-                
+                this.BeginInvoke(new Action(() =>
+                {
+                    logger.Info("Calling InitializeAutoload (deferred until form shown)");
+                    this.ucRelayProgramming1.InitializeAutoload();
+                }));
             }
         }
 
@@ -3808,6 +3810,7 @@ namespace RelayControl
         {
             // MainControl reacts only; it does not re-authorize or re-decline.
             logger.Info("MainControl: autoload declined by ucRelayProgramming; no second-cycle decision applied here.");
+            logger.Info("### HIT UcRelayProgramming1_AutoloadDeclined ###");
             // If you still need UI cleanup, do only minimal UI state cleanup here.
             // Do not reset or re-open programming approval logic in MainControl.
         }
