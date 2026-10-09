@@ -806,110 +806,71 @@ namespace RelayControlLibrary
         {
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
-            // Hard stop: once the user explicitly declined, do not continue a boot-read/reset path.
-            if (this.askToUgradeShown && this.upgradeAutoDR == DialogResult.No)
+            if (ManualUpdate.usingManualMode)
             {
-                logger.Info("ContinueAutoloadAfterBootCheck: autoload already declined; no reset or continuation allowed.");
-                this.ResetAutoloadState();
-                this.RaiseAutoloadDeclined();
+                logger.Info("Manual mode active: bypass autoload continuation logic.");
                 return false;
             }
 
-            logger.Info(
-                "ContinueAutoloadAfterBootCheck ENTER: state={0}, bootSet={1}, bootRev={2}, bootOld={3}, pendingFirmware={4}, approved={5}",
-                this.State,
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived,
-                this.masterBootRevisionNumberReceived > 0 && this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber,
-                this.AnyFirmwarePending(),
-                this.IsBootUpdateApproved());
-
-            if (this.IsBootOnlyManualRequired())
-            {
-                logger.Info("Boot-only/manual exit: no real firmware update pending; returning to idle.");
-                this.ResetAutoloadState();
-                this.RaiseAutoloadDeclined();
-                return false;
-            }
-
+            // If there is no real pending firmware, do not keep old approval/decline state alive.
             if (!this.AnyFirmwarePending())
             {
-                logger.Info("No firmware pending after boot check; ending autoload flow cleanly.");
-                this.ResetAutoloadState();
+                logger.Info("No firmware pending; exiting autoload flow cleanly.");
+                this.ClearAutoloadDecisionState("ContinueAutoloadAfterBootCheck", "no-pending-firmware");
+                this.ResetAutoloadState("ContinueAutoloadAfterBootCheck");
                 this.RaiseAutoloadDeclined();
                 return false;
             }
 
-            bool bootNeedsLoad = this.IsBootLoadRequired();
-
-            if (bootNeedsLoad && !this.IsBootUpdateApproved())
+            // If the user already said No, this should remain a one-time answer for this cycle only.
+            if (this.askToUgradeShown && this.upgradeAutoDR == DialogResult.No)
             {
-                logger.Info("Boot needs repair/update but approval is not yet set; prompting now.");
+                logger.Info("Autoload already declined; no reset or continuation permitted.");
+                this.ClearAutoloadDecisionState("ContinueAutoloadAfterBootCheck", "explicit-decline");
+                this.ResetAutoloadState("ContinueAutoloadAfterBootCheck");
+                this.RaiseAutoloadDeclined();
+                return false;
+            }
 
-                // This is the missing step in the current flow.
+            // Only prompt if approval is not already established.
+            if (!this.IsBootUpdateApproved())
+            {
+                logger.Info("Approval not set; prompting for autoload decision.");
                 this.showAutoLoadDialog();
 
                 if (!this.IsBootUpdateApproved())
                 {
-                    logger.Info("User declined autoload after fresh boot read; restoring normal comms state.");
-                    this.ResetAutoloadState();   // critical
+                    logger.Info("User declined autoload after prompt; clean up state.");
+                    this.ClearAutoloadDecisionState("ContinueAutoloadAfterBootCheck", "prompt-declined");
+                    this.ResetAutoloadState("ContinueAutoloadAfterBootCheck");
                     this.RaiseAutoloadDeclined();
-                    this.NotPollingPort = false; // if your comm loop checks this
+                    return false;
+                }
+            }
+
+            // Final startup warning gate
+            if (!this.startWarningAcknowledgedThisCycle)
+            {
+                logger.Info("Approval granted; showing programming start warning.");
+                if (!EnsureProgrammingStartWarningAcknowledged())
+                {
                     return false;
                 }
             }
 
-            if (!bootNeedsLoad)
+            // Now continue only if the state machine is truly authorized.
+            if (this.IsBootLoadRequired())
             {
-                if (!this.AnyFirmwarePending())
+                this.CheckProperMasterBootCode();
+                if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
                 {
-                    logger.Info("No firmware pending after fresh boot read; stopping cleanly.");
-                    this.ResetAutoloadState();
-                    this.RaiseAutoloadDeclined();
-                    return false;
+                    logger.Info("Boot repair required; entering boot repair path.");
+                    this.UpgradeBootCode();
+                    return true;
                 }
-
-                // NEW: enforce full approval dialog sequence first
-                if (!this.IsBootUpdateApproved())
-                {
-                    logger.Info("Boot current but firmware pending; requesting full autoload approval dialogs.");
-                    this.showAutoLoadDialog();
-
-                    if (!this.IsBootUpdateApproved())
-                    {
-                        logger.Info("User declined firmware update after boot check.");
-                        this.ResetAutoloadState();
-                        this.RaiseAutoloadDeclined();
-                        return false;
-                    }
-                }
-
-                // Existing start warning gate
-                if (!this.startWarningAcknowledgedThisCycle)
-                {
-                    logger.Info("Approval granted; showing programming start warning.");
-                    if (!EnsureProgrammingStartWarningAcknowledged())
-                    {
-                        return false;
-                    }
-                }
-
-                logger.Info("Boot is current and approved; continuing standard firmware flow.");
-                this.autoLoad = true;
-                this.startProgramming();
-                return true;
             }
 
-            this.CheckProperMasterBootCode();
-
-            if (this.programBootCodeOnly || this.wrongBootCodeLoaded)
-            {
-                logger.Info("Boot repair is active or required; entering warning/start path.");
-                this.UpgradeBootCode();
-                return true;
-            }
-
-            logger.Info("Boot validation passed; continuing firmware update path.");
+            logger.Info("Autoload approved and allowed to proceed.");
             this.autoLoad = true;
             this.startProgramming();
             return true;
@@ -1397,6 +1358,10 @@ namespace RelayControlLibrary
         {
             logger.Info("Manual update path: forced full firmware update, bypassing boot-check logic.");
 
+            // Clear stale autoload decision state before manual flow starts.
+            // This prevents a previous "No" from surviving into the next cycle.
+            this.ClearAutoloadDecisionState("startManualReloadWithBootCheck", "manual-reload-start");
+
             this.manualReload = true;
             this.reloadBootWithPrompt = false;
             this.autoLoad = false;
@@ -1406,19 +1371,23 @@ namespace RelayControlLibrary
             this.reprogramFPGA = this.transmitterEnabled;
 
             this.askToUgradeShown = false;
-
             this.upgradeAutoDR = this.showManualLoadDialog(true);
 
             if (this.upgradeAutoDR != DialogResult.Yes)
             {
                 this.firmwareUpgradeAcceptedThisCycle = false;
+                this.askToUgradeShown = false;
                 logger.Info("Manual path: user declined forced full update.");
                 return;
             }
 
+            this.firmwareUpgradeAcceptedThisCycle = true;
+            this.askToUgradeShown = true;
+
             if (!EnsureProgrammingStartWarningAcknowledged())
             {
                 logger.Info("Manual path: user cancelled start warning; aborting.");
+                this.ClearAutoloadDecisionState("startManualReloadWithBootCheck", "manual-start-warning-cancelled");
                 return;
             }
 
@@ -2230,7 +2199,7 @@ namespace RelayControlLibrary
             }
         }
 
-        private void ResetAutoloadState([CallerMemberName] string caller = null)
+        private void ResetAutoloadState(string caller = "unknown")
         {
             logger.Info(
                 "ResetAutoloadState ENTER caller={0} | pre: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, firmwareUpgradeAcceptedThisCycle={5}, upgradeAutoDR={6}, askToUgradeShown={7}, AutoloadAcceptedPendingBackup={8}, NotPollingPort={9}",
@@ -2245,23 +2214,11 @@ namespace RelayControlLibrary
                 this.AutoloadAcceptedPendingBackup,
                 this.NotPollingPort);
 
-            this.autoLoad = false;
+            this.ClearAutoloadDecisionState(caller, "ResetAutoloadState");
+
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
-
-            // Preserve the current update cycle while the relay resets and reports fresh boot data.
-            // Clearing these here causes the same cycle to re-enter the autoload dialog chain.
-            // this.firmwareUpgradeAcceptedThisCycle = false;
-            // this.upgradeAutoDR = DialogResult.No;
-            // this.askToUgradeShown = false;
-            // this.AutoloadAcceptedPendingBackup = false;
-
-            // Preserve warning acknowledgement across the bootloader reset handshake.
-            // this.startWarningAcknowledgedThisCycle = false;
-            // this.startWarningShownThisCycle = false;
-
             this.NotPollingPort = false;
-            this.State = RelayProgrammingStates.Idle;
 
             logger.Info(
                 "ResetAutoloadState EXIT caller={0} | post: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, firmwareUpgradeAcceptedThisCycle={5}, upgradeAutoDR={6}, askToUgradeShown={7}, AutoloadAcceptedPendingBackup={8}, NotPollingPort={9}",
@@ -2275,6 +2232,43 @@ namespace RelayControlLibrary
                 this.askToUgradeShown,
                 this.AutoloadAcceptedPendingBackup,
                 this.NotPollingPort);
+        }
+
+        private void LogAutoloadDecisionState(string caller, string tag)
+        {
+            logger.Info(
+                "AutoloadDecisionState[{0}] caller={1}: askToUgradeShown={2}, upgradeAutoDR={3}, firmwareUpgradeAcceptedThisCycle={4}, AutoloadAcceptedPendingBackup={5}, autoLoad={6}, reloadBootWithPrompt={7}, startWarningAcknowledgedThisCycle={8}, manualReload={9}, programBootCodeInProgress={10}, reprogrammingInProgress={11}, state={12}",
+                tag,
+                caller,
+                this.askToUgradeShown,
+                this.upgradeAutoDR,
+                this.firmwareUpgradeAcceptedThisCycle,
+                this.AutoloadAcceptedPendingBackup,
+                this.autoLoad,
+                this.reloadBootWithPrompt,
+                this.startWarningAcknowledgedThisCycle,
+                this.manualReload,
+                this.programBootCodeInProgress,
+                this.reprogrammingInProgress,
+                this.State);
+        }
+
+        private void ClearAutoloadDecisionState(string caller, string reason)
+        {
+            this.LogAutoloadDecisionState(caller, "BEFORE-" + reason);
+
+            this.askToUgradeShown = false;
+            this.upgradeAutoDR = DialogResult.None;
+            this.firmwareUpgradeAcceptedThisCycle = false;
+            this.AutoloadAcceptedPendingBackup = false;
+            this.autoLoad = false;
+            this.reloadBootWithPrompt = false;
+            this.startWarningAcknowledgedThisCycle = false;
+
+            // DO NOT clear manualReload here if the manual path intentionally sets it later.
+            // manualReload should be reset only by explicit manual-start/exit logic.
+
+            this.LogAutoloadDecisionState(caller, "AFTER-" + reason);
         }
 
         private void MasterBootLoaderStart()
