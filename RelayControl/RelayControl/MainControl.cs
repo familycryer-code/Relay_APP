@@ -911,9 +911,13 @@ namespace RelayControl
             }
 
             // startup backup only once, after relay-ready startup path
+            // MainControl must not re-authorize or re-decline the relay programming lifecycle.
+            // ucRelayProgramming owns the firmware state machine and auto-load decision path.
             if (!this.noMonitoringVersion)
             {
-                StartStartupBackupOnce();
+                // Intentionally no direct lifecycle enforcement here.
+                // Relay startup backup / autoload is handled by ucRelayProgramming.
+                logger.Info("MainControl startup: relay programming lifecycle delegated to ucRelayProgramming.");
             }
         }
 
@@ -1224,10 +1228,7 @@ namespace RelayControl
             }
         }
 
-        public void ResetAutoloadDeclineState()
-        {
-            this.skipAutoloadAfterDecline = false;
-        }
+        
 
         void ucTransmitterMonitoring1_MonitoringStateChange(object sender, TransmitterMonitoringEventArgs tMEA)
         {
@@ -3764,6 +3765,7 @@ namespace RelayControl
             }
         }
 
+        /*
         private void closePortThread()
         {
             try
@@ -3789,7 +3791,7 @@ namespace RelayControl
             }
 
         }
-
+        */
         private void portClosed(object sender, EventArgs e)
         {
             this.timerLiveEventAcknowledge.Enabled = false;
@@ -3807,8 +3809,10 @@ namespace RelayControl
 
         private void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
         {
-            logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
-            this.RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
+            // MainControl reacts only; it does not re-authorize or re-decline.
+            logger.Info("MainControl: autoload declined by ucRelayProgramming; no second-cycle decision applied here.");
+            // If you still need UI cleanup, do only minimal UI state cleanup here.
+            // Do not reset or re-open programming approval logic in MainControl.
         }
 
 
@@ -4275,6 +4279,29 @@ namespace RelayControl
             {
                 paramsReceivedLock = false;
             }
+        }
+
+        private bool IsRelayProgrammingLifecycleActive()
+        {
+            return this.ucRelayProgramming1 != null &&
+                   (this.ucRelayProgramming1.ReprogrammingInProgress ||
+                    this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.ReloadMasterBoot ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.Finalized ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitForAllData);
         }
 
         /*
@@ -5392,8 +5419,13 @@ namespace RelayControl
         private bool _phasingWarningShownThisApplyAll = false;
         private bool _paramsLoadedShownThisApplyAll = false;
 #pragma warning restore CS0414
-        
 
+        public void ResetAutoloadDeclineState()
+        {
+            this.skipAutoloadAfterDecline = false;
+        }
+
+        /*
         private void defaultTripSettings()
         {
             try
@@ -5426,7 +5458,9 @@ namespace RelayControl
                 this.messageHandler("Error Setting Default Trip Settings", ex);
             }
         }
+        */
 
+        /*
         private void resetCloseData()
         {
             try
@@ -5449,6 +5483,7 @@ namespace RelayControl
                 this.messageHandler("Error Setting Default Close Data", ex);
             }
         }
+        */
 
         private void handleBootMessage(byte[] bytePacket)
         {
@@ -5764,10 +5799,11 @@ namespace RelayControl
                 return;
             }
 
-            if (pendingAutoloadAfterBackup)
+            if (this.ucRelayProgramming1 != null)
             {
-                logger.Info("Startup backup continuation already pending; skipping duplicate startup backup.");
-                return;
+                // Defer to ucRelayProgramming lifecycle.
+                // MainControl should not decide whether the programming flow should continue.
+                logger.Info("MainControl: deferring relay lifecycle continuation to ucRelayProgramming.");
             }
 
             logger.Info("Starting one-time startup backup before autoload logic.");
@@ -6537,8 +6573,10 @@ namespace RelayControl
 
         private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
         {
-            logger.Info("Final programming warning accepted. Starting backup before programming.");
-            this.BackUpRelayDatatoFile();
+            // MainControl should not own the backup lifecycle decision.
+            logger.Info("MainControl: ucRelayProgramming requested backup before programming; MainControl is orchestration-only.");
+            // If backup orchestration still exists, keep it strictly UI/command-level only.
+            // Do not additionally set autoload bookkeeping in MainControl.
         }
 
         private void restoreDefaultsTypeAndPhasing()
@@ -10207,6 +10245,13 @@ namespace RelayControl
                 sEA.WithAck = false;
                 sEA.RequestAll = false;
 
+                // guard: MainControl must not send relay commands while the relay programming lifecycle is active
+                if (IsRelayProgrammingLifecycleActive())
+                {
+                    logger.Warn("MainControl suppressed relay send while ucRelayProgramming owns active lifecycle.");
+                    return;
+                }
+
                 this.standardizedSendData(this, sEA);
                 logger.Info("LowVoltage send dispatched");
 
@@ -11371,6 +11416,13 @@ namespace RelayControl
                 WithAck = true,
                 RequestAll = requestAllAfterWrite
             };
+
+            // guard: MainControl must not send relay commands while the relay programming lifecycle is active
+            if (IsRelayProgrammingLifecycleActive())
+            {
+                logger.Warn("MainControl suppressed relay send while ucRelayProgramming owns active lifecycle.");
+                return;
+            }
 
             this.standardizedSendData(this, sea); // or OnSend path if PC lives in a UC
             logger.Info("PC packet sent");
