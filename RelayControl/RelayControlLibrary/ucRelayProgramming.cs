@@ -815,6 +815,12 @@ namespace RelayControlLibrary
                 return false;
             }
 
+            if (ManualUpdate.usingManualMode)
+            {
+                logger.Info("Manual mode active: bypass autoload continuation logic.");
+                return false;
+            }
+
             logger.Info(
                 "ContinueAutoloadAfterBootCheck ENTER: state={0}, bootSet={1}, bootRev={2}, bootOld={3}, pendingFirmware={4}, approved={5}",
                 this.State,

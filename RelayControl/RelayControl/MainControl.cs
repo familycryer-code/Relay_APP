@@ -1807,10 +1807,47 @@ namespace RelayControl
             this.currentReprogramState = rPEA.Command;
 
             logger.Trace("Programming Command: {0}", rPEA.Command);
-            logger.Info($"Programming_Send RequestAll: requestedAllParameters(before)={this.requestedAllParameters}, ProgramState(before)={this.ProgramState}, loadingNewCode={this.loadingNewCode}");
+            logger.Info(
+                "Programming_Send ENTER cmd={0}, requestedAll(before)={1}, ProgramState(before)={2}, loadingNewCode={3}, rpState={4}, rpInProgress={5}, bootInProgress={6}, manualMode={7}",
+                rPEA.Command,
+                this.requestedAllParameters,
+                this.ProgramState,
+                this.loadingNewCode,
+                this.ucRelayProgramming1.State,
+                this.ucRelayProgramming1.ReprogrammingInProgress,
+                this.ucRelayProgramming1.ProgramBootCodeInProgress,
+                ManualUpdate.usingManualMode);
+
+            bool programmingIsolationActive =
+                ManualUpdate.usingManualMode ||
+                this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                this.ucRelayProgramming1.ReprogrammingInProgress ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode;
+
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
+                    // During programming isolation, never allow background RequestAll churn
+                    // except for the explicit post-success restore phase.
+                    if (programmingIsolationActive &&
+                        this.ucRelayProgramming1.State != RelayProgrammingStates.ReprogramSuccess)
+                    {
+                        logger.Info(
+                            "Suppressing RequestAll due to programming isolation. cmd={0}, rpState={1}, manualMode={2}, bootInProgress={3}, rpInProgress={4}",
+                            rPEA.Command,
+                            this.ucRelayProgramming1.State,
+                            ManualUpdate.usingManualMode,
+                            this.ucRelayProgramming1.ProgramBootCodeInProgress,
+                            this.ucRelayProgramming1.ReprogrammingInProgress);
+                        break;
+                    }
+
                     // 1) Always clear stale full-download state before entering a new cycle
                     if (this.ProgramState == ProgramStates.DownloadingAllParameters ||
                         this.requestedAllParameters)
@@ -1832,23 +1869,16 @@ namespace RelayControl
                         this.loadingNewCode = false;
                     }
                     else if (this.pendingAutoloadAfterBackup ||
-                             this.ucRelayProgramming1.ReprogrammingInProgress ||
                              this.loadingNewCode ||
                              this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
                              this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
-                             this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
-                             this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
-                             this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
-                             this.ucRelayProgramming1.ProgramBootCodeInProgress)
+                             this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot)
                     {
                         logger.Info(
-                            "Suppressing RequestAll during backup/boot-check/programming transition. " +
-                            "pendingAutoloadAfterBackup={0}, reprogrammingInProgress={1}, loadingNewCode={2}, state={3}",
+                            "Suppressing RequestAll during backup/boot-check/programming transition. pendingAutoloadAfterBackup={0}, loadingNewCode={1}, state={2}",
                             this.pendingAutoloadAfterBackup,
-                            this.ucRelayProgramming1.ReprogrammingInProgress,
                             this.loadingNewCode,
                             this.ucRelayProgramming1.State);
-
                         break;
                     }
 
@@ -1864,29 +1894,33 @@ namespace RelayControl
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
                     this.loadingNewCode = false;
 
-                    //Thread.Sleep(3000);
                     clearRemoteBuffer();
-                    //Thread.Sleep(1000);
                     requestRelayRevision();
                     break;
+
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.quietMode = false;
+
                     if (this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot)
                     {
                         this.toolStripStatusLabelRelayDisconnected.Visible = false;
                         return;
                     }
+
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     break;
+
                 case RelayProgrammingSendCommands.SaveSettings:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.getAllSaveStates(this.reprogrammingTempSettings);
                     break;
+
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
+
                 case RelayProgrammingSendCommands.RawData:
                     this.ucSafeService1.LoadingNewCode = true;
                     this.enableAll(false);
@@ -1896,23 +1930,31 @@ namespace RelayControl
                     this.pauseMonitoring = true;
                     this.sendPacket(rPEA.BytesToSend);
                     break;
+
                 case RelayProgrammingSendCommands.RecallSavedSettings:
-                    // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
                     this.ucSafeService1.SetDefaults();
-                    ////
                     this.setAllValues(this.reprogrammingTempSettings);
                     this.sendAllParameters();
                     break;
+
                 case RelayProgrammingSendCommands.DisableGERelayFix:
                     this.ucTransmitter1.GERelay = false;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
+
                 case RelayProgrammingSendCommands.EnableGERelayFix:
                     this.ucTransmitter1.GERelay = true;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
             }
-            logger.Info($"Programming_Send RequestAll: requestedAllParameters(after)={this.requestedAllParameters}, ProgramState(after)={this.ProgramState}");
+
+            logger.Info(
+                "Programming_Send EXIT cmd={0}, requestedAll(after)={1}, ProgramState(after)={2}, loadingNewCode={3}, rpState={4}",
+                rPEA.Command,
+                this.requestedAllParameters,
+                this.ProgramState,
+                this.loadingNewCode,
+                this.ucRelayProgramming1.State);
         }
 
         private void ucTransmitter1_Send(SendEventArgs sEA)
