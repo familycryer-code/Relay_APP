@@ -1100,8 +1100,18 @@ namespace RelayControlLibrary
                     MessageBoxButtons.YesNo);
                 logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", this.upgradeAutoDR);
 
+                if (this.upgradeAutoDR != DialogResult.Yes)
+                {
+                    this.askToUgradeShown = true;
+                    this.firmwareUpgradeAcceptedThisCycle = false;
+                    logger.Info("showAutoLoadDialog: user declined CONFIRM_UPDATE_10MIN; forcing ResetAutoloadState().");
+                    this.ResetAutoloadState();
+                    this.RaiseAutoloadDeclined();
+                    return;
+                }
+
                 this.askToUgradeShown = true;
-                this.firmwareUpgradeAcceptedThisCycle = (this.upgradeAutoDR == DialogResult.Yes);
+                this.firmwareUpgradeAcceptedThisCycle = true;
             }
             finally
             {
