@@ -11678,14 +11678,11 @@ namespace RelayControl
                 logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
                 return;
             }
-
             // Write once at successful completion, not in each packet handler.
             FlushBackupToDisk();
-
             pendingAutoloadAfterBackup = true;
 
-            // Backup is complete, so this flag must not remain set or ResumeAutoloadAfterBackup()
-            // will incorrectly suppress the continuation.
+
             this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
 
             logger.Info(
@@ -11723,10 +11720,6 @@ namespace RelayControl
                     this.ucRelayProgramming1.State,
                     pendingAutoloadAfterBackup,
                     this.ucRelayProgramming1.ProgramBootCodeInProgress);
-
-                // leave pendingAutoloadAfterBackup true
-                // do not restore monitoring
-                // do not clear loadingNewCode / quietMode / pauseMonitoring
             }
             else
             {
