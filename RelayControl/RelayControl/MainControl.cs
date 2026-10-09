@@ -910,14 +910,11 @@ namespace RelayControl
                 this.messageHandler(ex.Message, ex.InnerException);
             }
 
-            // startup backup only once, after relay-ready startup path
-            // MainControl must not re-authorize or re-decline the relay programming lifecycle.
-            // ucRelayProgramming owns the firmware state machine and auto-load decision path.
             if (!this.noMonitoringVersion)
             {
-                // Intentionally no direct lifecycle enforcement here.
-                // Relay startup backup / autoload is handled by ucRelayProgramming.
-                logger.Info("MainControl startup: relay programming lifecycle delegated to ucRelayProgramming.");
+                logger.Info("Calling InitializeAutoload");
+                this.ucRelayProgramming1.InitializeAutoload();
+                
             }
         }
 
@@ -11671,6 +11668,25 @@ namespace RelayControl
                 this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring);
+        }
+
+        private void EvaluateRelayProgrammingStartup()
+        {
+            if (this.ucRelayProgramming1 == null)
+                return;
+
+            // Never re-enter while a programming cycle is active.
+            if (this.ucRelayProgramming1.ReprogrammingInProgress ||
+                this.ucRelayProgramming1.ProgramBootCodeInProgress)
+            {
+                logger.Info("EvaluateRelayProgrammingStartup: skipped because relay programming lifecycle is already active.");
+                return;
+            }
+
+            // Allow only when the relay is ready and stable.
+            // Keep MainControl as a trigger only; ucRelayProgramming owns the actual logic.
+            logger.Info("EvaluateRelayProgrammingStartup: delegating firmware evaluation to ucRelayProgramming.");
+            this.ucRelayProgramming1.InitializeAutoload();
         }
 
         private bool IsBackupComplete()
