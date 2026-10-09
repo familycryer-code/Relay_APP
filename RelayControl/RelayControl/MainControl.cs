@@ -7021,13 +7021,13 @@ namespace RelayControl
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             logger.Info(
-                "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, loadingNewCode={6}",
-                requestedAllParameters,
-                ProgramState,
-                pendingRestoreAfterProgramming,
-                pendingAutoloadAfterBackup,
-                backupInProgress,
-                loadingNewCode
+                "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, loadingNewCode={5}",
+                this.requestedAllParameters,
+                this.ProgramState,
+                this.pendingRestoreAfterProgramming,
+                this.pendingAutoloadAfterBackup,
+                this.backupInProgress,
+                this.loadingNewCode
             );
 
             if (this.InvokeRequired)
@@ -7040,10 +7040,10 @@ namespace RelayControl
             this.requestedAllParameters = true;
             this.ProgramState = ProgramStates.DownloadingAllParameters;
 
-            if (!ucRelayProgramming1.ReprogrammingInProgress)
+            if (!this.ucRelayProgramming1.ReprogrammingInProgress)
             {
                 logger.Debug("Requesting Relay Revision");
-                clearRemoteBuffer();
+                this.clearRemoteBuffer();
                 this.requestRelayRevision();
                 logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
                 this.timerResponseTimeOut.Enabled = true;
