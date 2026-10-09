@@ -32,6 +32,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using static RelayControlLibrary.ucRelayProgramming;
 
 namespace RelayControl
 { 
@@ -6571,14 +6572,6 @@ namespace RelayControl
             }
         }
 
-        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
-        {
-            // MainControl should not own the backup lifecycle decision.
-            logger.Info("MainControl: ucRelayProgramming requested backup before programming; MainControl is orchestration-only.");
-            // If backup orchestration still exists, keep it strictly UI/command-level only.
-            // Do not additionally set autoload bookkeeping in MainControl.
-        }
-
         private void restoreDefaultsTypeAndPhasing()
         {
             
@@ -10504,6 +10497,15 @@ namespace RelayControl
         private void button_dataStore_Click(object sender, EventArgs e)
         {
             BackUpRelayDatatoFile();
+        }
+
+        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
+        {
+            if (this.ucRelayProgramming1.AutoloadAcceptedPendingBackup)
+            {
+                this.pendingAutoloadAfterBackup = true;
+                this.BackUpRelayDatatoFile();
+            }
         }
 
         private void BackUpRelayDatatoFile()

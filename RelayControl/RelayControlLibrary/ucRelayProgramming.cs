@@ -321,10 +321,6 @@ namespace RelayControlLibrary
         public event ErrorHandler Error;
 
         public delegate void BackupBeforeProgrammingHandler(object sender, EventArgs e);
-#pragma warning disable CS0067
-        public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
-#pragma warning restore CS0067
-
 
         public byte[] TransmitterPacket;
 
@@ -769,6 +765,7 @@ namespace RelayControlLibrary
             AutoloadDeclined?.Invoke(this, EventArgs.Empty);
         }
 
+
         private void RefreshPendingFirmwareFromCurrentRevisions()
         {
             if (ManualUpdate.usingManualMode)
@@ -805,12 +802,6 @@ namespace RelayControlLibrary
         private bool ContinueAutoloadAfterBootCheck()
         {
             this.RefreshPendingFirmwareFromCurrentRevisions();
-
-            if (ManualUpdate.usingManualMode)
-            {
-                logger.Info("Manual mode active: bypass autoload continuation logic.");
-                return false;
-            }
 
             // If there is no real pending firmware, do not keep old approval/decline state alive.
             if (!this.AnyFirmwarePending())
@@ -999,7 +990,6 @@ namespace RelayControlLibrary
 
         private DialogResult showManualLoadDialog(bool forcedFullUpdate)
         {
-            DialogResult result = DialogResult.No;
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             Cursor previousCursor = Cursor.Current;
@@ -1011,15 +1001,19 @@ namespace RelayControlLibrary
                 Cursor.Current = Cursors.Default;
 
                 logger.Info("POPUP SHOW: GE_WH_SELECT");
-                result = new CustomYesNoDialog(
+                DialogResult relayTypeDR = new CustomYesNoDialog(
                     "GE or WH Select",
                     "Is this a GE or WH style relay?",
                     "GE",
-                    "WH"
-                ).ShowDialog();
-                logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", result);
+                    "WH").ShowDialog();
+                logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
 
-                this.internalGESetter = (result == DialogResult.Yes);
+                if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
+                {
+                    return DialogResult.Cancel;
+                }
+
+                internalGESetter = (relayTypeDR == DialogResult.Yes);
 
                 logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
 
@@ -1036,7 +1030,6 @@ namespace RelayControlLibrary
                     MessageBoxButtons.YesNo);
 
                 logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
-
                 return confirmResult;
             }
             finally
@@ -1124,6 +1117,7 @@ namespace RelayControlLibrary
                 this.firmwareUpgradeAcceptedThisCycle = true;
                 this.AutoloadAcceptedPendingBackup = true;
                 logger.Info("showAutoLoadDialog: autoload approved; backup pending before programming start.");
+                RaiseBackupBeforeProgrammingRequested();
             }
             finally
             {
@@ -1410,22 +1404,18 @@ namespace RelayControlLibrary
                 return;
             }
 
+            // Approval committed for this manual cycle
             this.firmwareUpgradeAcceptedThisCycle = true;
             this.askToUgradeShown = true;
 
-            if (!EnsureProgrammingStartWarningAcknowledged())
-            {
-                logger.Info("Manual path: user cancelled start warning; aborting.");
-                this.ClearAutoloadDecisionState("startManualReloadWithBootCheck", "manual-start-warning-cancelled");
-                return;
-            }
+            // Arm backup gate and hand off to MainControl backup flow
+            this.AutoloadAcceptedPendingBackup = true;
+            logger.Info("Manual path approved; backup pending before programming start.");
+            RaiseBackupBeforeProgrammingRequested();
 
-            this.programmingForm.ClearAllChecks();
-            this.setProgrammingFiles();
-
-            // Full manual update must start with BOOT first, then continue with master/relay/fpga
-            this.programBootCodeOnly = false;
-            this.ProgramBootCodeStart = true;
+            // IMPORTANT:
+            // Stop here. Do not show start warning or start programming yet.
+            // MainControl will clear backup gate and call ResumeAutoloadAfterBackup().
             return;
         }
 
@@ -1738,7 +1728,8 @@ namespace RelayControlLibrary
 
             if (ManualUpdate.usingManualMode)
             {
-                dR = this.showManualLoadDialog(true);
+                logger.Info("startAutoLoad bypassed in manual mode; manual flow owns prompting and backup sequence.");
+                return;
             }
             else if (forceRelayUpdate == false && askToUgradeShown == false && programmingForm.MasterBootComplete == false)
             {
@@ -1827,6 +1818,8 @@ namespace RelayControlLibrary
                 return;
             }
         }
+
+
 
         public void PrepForBoot()
         {
@@ -2920,6 +2913,13 @@ namespace RelayControlLibrary
             this.sendReset();
 
             logger.Info("doneLoadingMasterBootLoader: boot read re-triggered after reset; waiting for fresh BootReceived()");
+        }
+
+        public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
+
+        private void RaiseBackupBeforeProgrammingRequested()
+        {
+            BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
         }
 
         public void FinalizeReprogram()
