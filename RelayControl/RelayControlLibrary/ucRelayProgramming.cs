@@ -805,6 +805,16 @@ namespace RelayControlLibrary
         private bool ContinueAutoloadAfterBootCheck()
         {
             this.RefreshPendingFirmwareFromCurrentRevisions();
+
+            // Hard stop: once the user explicitly declined, do not continue a boot-read/reset path.
+            if (this.askToUgradeShown && this.upgradeAutoDR == DialogResult.No)
+            {
+                logger.Info("ContinueAutoloadAfterBootCheck: autoload already declined; no reset or continuation allowed.");
+                this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
+                return false;
+            }
+
             logger.Info(
                 "ContinueAutoloadAfterBootCheck ENTER: state={0}, bootSet={1}, bootRev={2}, bootOld={3}, pendingFirmware={4}, approved={5}",
                 this.State,
@@ -1277,27 +1287,46 @@ namespace RelayControlLibrary
 
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
-            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
+            bool programmingActive = this.reprogrammingInProgress || this.programBootCodeInProgress;
+            bool backupGateLatched = this.AutoloadAcceptedPendingBackup;
+            bool anyFirmwarePending = this.AnyFirmwarePending();
+
+            bool bootLoadRequired = this.IsBootLoadRequired();
+            bool bootRevisionKnown = this.masterBootRevisionSet;
+            bool bootUpdateApproved = this.IsBootUpdateApproved();
+
+            bool promptAlreadyShown = this.askToUgradeShown;
+            bool userDeclined = this.upgradeAutoDR == DialogResult.No;
+            bool userApproved = this.upgradeAutoDR == DialogResult.Yes;
+
+            logger.Info(
+                "ResumeAutoloadAfterBackup DECISION SNAPSHOT | programmingActive={0}, backupGateLatched={1}, anyFirmwarePending={2}, bootLoadRequired={3}, bootRevisionKnown={4}, bootUpdateApproved={5}, promptAlreadyShown={6}, userDeclined={7}, userApproved={8}, state={9}, autoLoad={10}, pendingAutoloadAfterBackup={11}",
+                programmingActive,
+                backupGateLatched,
+                anyFirmwarePending,
+                bootLoadRequired,
+                bootRevisionKnown,
+                bootUpdateApproved,
+                promptAlreadyShown,
+                userDeclined,
+                userApproved,
+                this.State,
+                this.autoLoad,
+                this.AutoloadAcceptedPendingBackup);
+
+            if (programmingActive)
             {
                 logger.Warn("ResumeAutoloadAfterBackup suppressed; programming already active.");
                 return;
             }
 
-            if (this.AutoloadAcceptedPendingBackup)
+            if (backupGateLatched)
             {
                 logger.Warn("ResumeAutoloadAfterBackup suppressed; backup gate still latched.");
                 return;
             }
 
-            if (this.IsBootOnlyManualRequired())
-            {
-                logger.Info("Boot-only/manual path required; aborting resume and returning to idle.");
-                this.ResetAutoloadState();
-                this.RaiseAutoloadDeclined();
-                return;
-            }
-
-            if (!this.AnyFirmwarePending())
+            if (!anyFirmwarePending)
             {
                 logger.Info("ResumeAutoloadAfterBackup: no firmware pending; exiting idle.");
                 this.ResetAutoloadState();
@@ -1305,24 +1334,31 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // 1) If boot is unknown, force a fresh boot read before showing any approval popup.
-            if (this.IsBootLoadRequired() && !this.masterBootRevisionSet)
+            // Hard stop on explicit decline
+            if (promptAlreadyShown && userDeclined)
             {
-                logger.Info("Boot unknown after backup; forcing fresh boot read before any approval prompt.");
-                this.State = RelayProgrammingStates.AutoLoadCheckBoot;
-                this.sendReset();
+                logger.Info("ResumeAutoloadAfterBackup hard stop: user already declined this cycle; no reset allowed.");
+                this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
                 return;
             }
 
-            // 2) If boot is known and still stale, then this is the real prompt condition.
-            if (this.IsBootLoadRequired() && this.masterBootRevisionSet && !this.IsBootUpdateApproved())
+            // If update is not explicitly approved yet, prompt now BEFORE any reset.
+            if (!bootUpdateApproved)
             {
-                logger.Info("Boot stale after fresh read; requesting approval before resume.");
+                logger.Info("ResumeAutoloadAfterBackup: approval not set yet; showing autoload dialog BEFORE reset.");
                 this.showAutoLoadDialog();
 
-                if (this.upgradeAutoDR != DialogResult.Yes)
+                bool declinedAfterPrompt = this.upgradeAutoDR != DialogResult.Yes;
+                logger.Info(
+                    "ResumeAutoloadAfterBackup prompt result | declinedAfterPrompt={0}, upgradeAutoDR={1}, askToUgradeShown={2}",
+                    declinedAfterPrompt,
+                    this.upgradeAutoDR,
+                    this.askToUgradeShown);
+
+                if (declinedAfterPrompt)
                 {
-                    logger.Info("User declined autoload after backup.");
+                    logger.Info("User declined autoload; no reset allowed.");
                     this.ResetAutoloadState();
                     this.RaiseAutoloadDeclined();
                     return;
@@ -1330,9 +1366,27 @@ namespace RelayControlLibrary
 
                 this.firmwareUpgradeAcceptedThisCycle = true;
                 this.upgradeAutoDR = DialogResult.Yes;
+                bootUpdateApproved = true;
             }
 
-            // 3) Boot is valid or user approved; continue the flow.
+            // Single reset gate: only if explicitly approved.
+            bool allowResetForBootRead = bootUpdateApproved;
+
+            logger.Info(
+                "ResumeAutoloadAfterBackup final gate | allowResetForBootRead={0}, bootLoadRequired={1}, bootRevisionKnown={2}, approved={3}",
+                allowResetForBootRead,
+                bootLoadRequired,
+                bootRevisionKnown,
+                bootUpdateApproved);
+
+            if (!allowResetForBootRead)
+            {
+                logger.Info("Reset blocked: update not explicitly approved.");
+                this.ResetAutoloadState();
+                this.RaiseAutoloadDeclined();
+                return;
+            }
+
             logger.Info("Approved path after backup -> requesting fresh boot read.");
             this.State = RelayProgrammingStates.AutoLoadCheckBoot;
             this.sendReset();
@@ -2194,16 +2248,19 @@ namespace RelayControlLibrary
             this.autoLoad = false;
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
-            this.firmwareUpgradeAcceptedThisCycle = false;
-            this.upgradeAutoDR = DialogResult.No;
-            this.askToUgradeShown = false;
-            this.AutoloadAcceptedPendingBackup = false;
 
-            // NEW: clear warning-per-cycle gate
-            this.startWarningAcknowledgedThisCycle = false;
-            this.startWarningShownThisCycle = false; // only if this field exists
+            // Preserve the current update cycle while the relay resets and reports fresh boot data.
+            // Clearing these here causes the same cycle to re-enter the autoload dialog chain.
+            // this.firmwareUpgradeAcceptedThisCycle = false;
+            // this.upgradeAutoDR = DialogResult.No;
+            // this.askToUgradeShown = false;
+            // this.AutoloadAcceptedPendingBackup = false;
 
-            this.NotPollingPort = false; // defensive: ensure comm loop can resume
+            // Preserve warning acknowledgement across the bootloader reset handshake.
+            // this.startWarningAcknowledgedThisCycle = false;
+            // this.startWarningShownThisCycle = false;
+
+            this.NotPollingPort = false;
             this.State = RelayProgrammingStates.Idle;
 
             logger.Info(
