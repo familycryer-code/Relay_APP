@@ -931,10 +931,9 @@ namespace RelayControlLibrary
             }
             else
             {
+                logger.Info("InitializeAutoload: user declined; showAutoLoadDialog already owns reset/decline.");
                 this.reprogramBootCodeAuto = false;
                 this.NotPollingPort = false;
-                this.ResetAutoloadState();
-                this.RaiseAutoloadDeclined();
                 this.askToUgradeShown = true;
                 return false;
             }
