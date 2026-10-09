@@ -840,10 +840,8 @@ namespace RelayControlLibrary
 
                 if (!this.IsBootUpdateApproved())
                 {
-                    logger.Info("User declined autoload after prompt; clean up state.");
-                    this.ClearAutoloadDecisionState("ContinueAutoloadAfterBootCheck", "prompt-declined");
-                    this.ResetAutoloadState("ContinueAutoloadAfterBootCheck");
-                    this.RaiseAutoloadDeclined();
+                    logger.Info(
+                        "User declined autoload after prompt; stop here because showAutoLoadDialog already owns the reset/decline state.");
                     return false;
                 }
             }
@@ -1796,8 +1794,11 @@ namespace RelayControlLibrary
             }
             else
             {
-                this.ResetAutoloadState();
-                this.RaiseAutoloadDeclined();
+                logger.Info("startAutoLoad: user declined; do not reset here because showAutoLoadDialog owns the decline/reset path.");
+                this.upgradeAutoDR = dR;
+                this.firmwareUpgradeAcceptedThisCycle = false;
+                this.askToUgradeShown = true;
+                return;
             }
         }
 
