@@ -162,6 +162,8 @@ namespace RelayControlLibrary
         }
 
         public bool ProgramBootCodeStart
+
+
         {
             get { return this.programBootCodeStart; }
             set
@@ -795,6 +797,13 @@ namespace RelayControlLibrary
 
         private bool ContinueAutoloadAfterBootCheck()
         {
+            if (ManualUpdate.usingManualMode || this.manualReload)
+            {
+                logger.Info("Manual full-update path: skipping auto continuation logic.");
+                this.ResumeManualAfterBackup();
+                return;
+            }
+
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
             // If there is no real pending firmware, do not keep old approval/decline state alive.
@@ -1236,9 +1245,94 @@ namespace RelayControlLibrary
             this.startManualReloadWithBootCheck();
         }
 
+        private bool ContinueManualAfterBootCheck()
+        {
+            logger.Info("ContinueManualAfterBootCheck ENTER");
+
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+
+            if (!this.AnyFirmwarePending())
+            {
+                logger.Info("Manual flow: no firmware pending. Exiting cleanly.");
+                this.ClearAutoloadDecisionState("ContinueManualAfterBootCheck", "no-pending-firmware");
+                this.ResetAutoloadState("ContinueManualAfterBootCheck");
+                return false;
+            }
+
+            // Manual full update must not run auto approval logic.
+            // It should only continue once backup is complete and no stale autoload state remains.
+            this.ClearAutoloadDecisionState("ContinueManualAfterBootCheck", "manual-continuation");
+            this.startWarningAcknowledgedThisCycle = false;
+
+            // Boot-first behavior is still required if boot is stale/unknown.
+            if (this.bootNeedsUpdateAutoProgramming())
+            {
+                logger.Info("Manual flow: stale boot detected; starting boot repair path.");
+                this.wrongBootCodeLoaded = true;
+                this.programBootCodeOnly = !(this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA);
+                this.ProgramBootCodeStart = true;
+                return true;
+            }
+
+            logger.Info("Manual flow approved after backup; continuing normal programming.");
+            this.autoLoad = false;
+            this.startProgramming();
+            return true;
+        }
+
+        private void ClearManualBootContinuationState(string caller)
+        {
+            logger.Info("ClearManualBootContinuationState caller={0}", caller);
+
+            this.AutoloadAcceptedPendingBackup = false;
+            this.askToUgradeShown = false;
+            this.upgradeAutoDR = DialogResult.None;
+            this.firmwareUpgradeAcceptedThisCycle = false;
+            this.startWarningAcknowledgedThisCycle = false;
+            this.autoLoad = false;
+
+            // Keep manualReload; do not clear it.
+            this.reprogrammingInProgress = false;
+            this.programBootCodeInProgress = false;
+        }
+
+        public void ResumeManualAfterBackup()
+        {
+            logger.Info("ResumeManualAfterBackup ENTER");
+
+            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
+            {
+                logger.Warn("ResumeManualAfterBackup suppressed; programming active.");
+                return;
+            }
+
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+
+            if (!this.AnyFirmwarePending())
+            {
+                logger.Info("ResumeManualAfterBackup: no firmware pending.");
+                this.ResetAutoloadState("ResumeManualAfterBackup");
+                return;
+            }
+
+            // Critical: manual flow must not inherit auto approval state.
+            this.ClearAutoloadDecisionState("ResumeManualAfterBackup", "manual-resume");
+
+            logger.Info("Manual flow after backup: requesting fresh boot read.");
+            this.State = RelayProgrammingStates.ManualLoadCheckBoot;
+            this.sendReset();
+        }
+
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
+
+            if (ManualUpdate.usingManualMode || this.manualReload)
+            {
+                logger.Info("Manual full-update path: skipping auto continuation logic.");
+                this.ResumeManualAfterBackup();
+                return;
+            }
 
             this.RefreshPendingFirmwareFromCurrentRevisions();
 

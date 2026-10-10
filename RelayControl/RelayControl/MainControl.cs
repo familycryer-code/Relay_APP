@@ -1490,22 +1490,10 @@ namespace RelayControl
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonReqLiveData.Enabled = true;
             this.enableAll(true);
-            if (!this.ShouldSuppressPollingForProgrammingTransition())
-            {
-                this.monitoring(true);
-                this.RegisterPolling(true);
-            }
-            else
-            {
-                logger.Info(
-                    "Suppressing post-event-download polling restore because programming lifecycle is still active. state={0}, pendingAutoloadAfterBackup={1}, backupInProgress={2}, pendingRestoreAfterProgramming={3}, loadingNewCode={4}, pauseMonitoring={5}",
-                    this.ucRelayProgramming1?.State,
-                    this.pendingAutoloadAfterBackup,
-                    this.backupInProgress,
-                    this.pendingRestoreAfterProgramming,
-                    this.loadingNewCode,
-                    this.pauseMonitoring);
-            }
+            
+            this.monitoring(true);
+            this.RegisterPolling(true);
+           
             this.disableAllMonitoring();
         }
 
@@ -4198,16 +4186,11 @@ namespace RelayControl
 
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
-                    if (!this.ShouldSuppressPollingForProgrammingTransition())
-                    {
+                    
                         this.monitoring(true);
                         this.RegisterPolling(true);
                         this.requestRelayRegisters();
-                    }
-                    else
-                    {
-                        logger.Info("POST-PROGRAM RESTORE: polling restore suppressed by programming-transition gate.");
-                    }
+                 
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     return;
@@ -4257,16 +4240,11 @@ namespace RelayControl
                     logger.Info("User declined autoload; clearing pending migration state and restoring normal communications.");
                     pendingAutoloadAfterBackup = false;
 
-                    if (!this.ShouldSuppressPollingForProgrammingTransition())
-                    {
+                   
                         this.monitoring(true);
                         this.RegisterPolling(true);
                         this.requestRelayRegisters();
-                    }
-                    else
-                    {
-                        logger.Info("skipAutoloadAfterDecline: polling restore suppressed by programming-transition gate.");
-                    }
+                   
 
                     skipAutoloadAfterDecline = false;
 
@@ -4284,16 +4262,11 @@ namespace RelayControl
                     logger.Info("User declined autoload during pending update check. Restoring normal communications.");
                     skipAutoloadAfterDecline = true;
 
-                    if (!this.ShouldSuppressPollingForProgrammingTransition())
-                    {
+                    
                         this.monitoring(true);
                         this.RegisterPolling(true);
                         this.requestRelayRegisters();
-                    }
-                    else
-                    {
-                        logger.Info("autoloadDeclined: polling restore suppressed by programming-transition gate.");
-                    }
+                    
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.autoloadDeclined");
                     return;
@@ -4310,16 +4283,11 @@ namespace RelayControl
                 else
                 {
                     logger.Info("InitializeAutoload() completed without a pending backup continuation. Evaluating normal communications restore.");
-                    if (!this.ShouldSuppressPollingForProgrammingTransition())
-                    {
+                    
                         this.monitoring(true);
                         this.RegisterPolling(true);
                         this.requestRelayRegisters();
-                    }
-                    else
-                    {
-                        logger.Info("autoloadCompleted: polling restore suppressed by programming-transition gate.");
-                    }
+                 
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
                     return;
@@ -7528,23 +7496,9 @@ namespace RelayControl
 
             this.enableAll(true);
 
-            if (!this.ShouldSuppressPollingForProgrammingTransition())
-            {
-                this.monitoring(true);
-                this.RegisterPolling(true);
-            }
-            else
-            {
-                logger.Info(
-                    "calibrationComplete: suppressing polling restore due to active programming lifecycle/state. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
-                    this.ucRelayProgramming1?.State,
-                    this.pendingAutoloadAfterBackup,
-                    this.pendingRestoreAfterProgramming,
-                    this.backupInProgress,
-                    this.loadingNewCode,
-                    this.quietMode,
-                    this.pauseMonitoring);
-            }
+            this.monitoring(true);
+            this.RegisterPolling(true);
+           
         }
 
         private void sendSaveCalibration()
@@ -9054,23 +9008,10 @@ namespace RelayControl
             this.sendAll = false;
             this.enableAll(true);
 
-            if (!this.ShouldSuppressPollingForProgrammingTransition())
-            {
-                this.monitoring(true);
-                this.RegisterPolling(true);
-            }
-            else
-            {
-                logger.Info(
-                    "downloadProgress_Done: suppressing polling restore due to active programming lifecycle/state. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
-                    this.ucRelayProgramming1?.State,
-                    this.pendingAutoloadAfterBackup,
-                    this.pendingRestoreAfterProgramming,
-                    this.backupInProgress,
-                    this.loadingNewCode,
-                    this.quietMode,
-                    this.pauseMonitoring);
-            }
+            
+            this.monitoring(true);
+            this.RegisterPolling(true);
+           
 
             downloadEventsClicked = false;
 
@@ -11765,7 +11706,7 @@ namespace RelayControl
 
             // 4) Restore comms only when safe
             bool formAlive = !this.IsDisposed && !this.Disposing;
-            if (formAlive && !this.ShouldSuppressPollingForProgrammingTransition())
+            if (formAlive)
             {
                 this.monitoring(true);
                 this.RegisterPolling(true);
@@ -11934,22 +11875,11 @@ namespace RelayControl
             System.Windows.Forms.Cursor.Current = Cursors.Default;
             this.enableAll(true);
 
-            if (!this.ShouldSuppressPollingForProgrammingTransition())
-            {
+            
                 this.monitoring(true);
                 this.RegisterPolling(true);
                 this.requestRelayRegisters();
-            }
-            else
-            {
-                logger.Info(
-                    "CompleteBackupAndContinue: polling restore suppressed by programming-transition gate. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}",
-                    this.ucRelayProgramming1?.State,
-                    this.pendingAutoloadAfterBackup,
-                    this.pendingRestoreAfterProgramming,
-                    this.backupInProgress,
-                    this.loadingNewCode);
-            }
+           
         }
     }
 
