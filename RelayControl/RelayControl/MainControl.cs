@@ -1490,8 +1490,22 @@ namespace RelayControl
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonReqLiveData.Enabled = true;
             this.enableAll(true);
-            this.monitoring(true);
-            this.RegisterPolling(true);
+            if (!this.ShouldSuppressPollingForProgrammingTransition())
+            {
+                this.monitoring(true);
+                this.RegisterPolling(true);
+            }
+            else
+            {
+                logger.Info(
+                    "Suppressing post-event-download polling restore because programming lifecycle is still active. state={0}, pendingAutoloadAfterBackup={1}, backupInProgress={2}, pendingRestoreAfterProgramming={3}, loadingNewCode={4}, pauseMonitoring={5}",
+                    this.ucRelayProgramming1?.State,
+                    this.pendingAutoloadAfterBackup,
+                    this.backupInProgress,
+                    this.pendingRestoreAfterProgramming,
+                    this.loadingNewCode,
+                    this.pauseMonitoring);
+            }
             this.disableAllMonitoring();
         }
 
@@ -4184,9 +4198,16 @@ namespace RelayControl
 
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    if (!this.ShouldSuppressPollingForProgrammingTransition())
+                    {
+                        this.monitoring(true);
+                        this.RegisterPolling(true);
+                        this.requestRelayRegisters();
+                    }
+                    else
+                    {
+                        logger.Info("POST-PROGRAM RESTORE: polling restore suppressed by programming-transition gate.");
+                    }
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     return;
@@ -4214,10 +4235,17 @@ namespace RelayControl
                     }
                     else
                     {
-                        logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
-                        this.monitoring(true);
-                        this.RegisterPolling(true);
-                        this.requestRelayRegisters();
+                        if (!this.ShouldSuppressPollingForProgrammingTransition())
+                        {
+                            logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
+                            this.monitoring(true);
+                            this.RegisterPolling(true);
+                            this.requestRelayRegisters();
+                        }
+                        else
+                        {
+                            logger.Info("Parameters finished loading: polling restore suppressed by programming-transition gate.");
+                        }
                     }
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.noPendingAutoloadAfterBackup");
@@ -4229,9 +4257,16 @@ namespace RelayControl
                     logger.Info("User declined autoload; clearing pending migration state and restoring normal communications.");
                     pendingAutoloadAfterBackup = false;
 
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    if (!this.ShouldSuppressPollingForProgrammingTransition())
+                    {
+                        this.monitoring(true);
+                        this.RegisterPolling(true);
+                        this.requestRelayRegisters();
+                    }
+                    else
+                    {
+                        logger.Info("skipAutoloadAfterDecline: polling restore suppressed by programming-transition gate.");
+                    }
 
                     skipAutoloadAfterDecline = false;
 
@@ -4249,9 +4284,16 @@ namespace RelayControl
                     logger.Info("User declined autoload during pending update check. Restoring normal communications.");
                     skipAutoloadAfterDecline = true;
 
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    if (!this.ShouldSuppressPollingForProgrammingTransition())
+                    {
+                        this.monitoring(true);
+                        this.RegisterPolling(true);
+                        this.requestRelayRegisters();
+                    }
+                    else
+                    {
+                        logger.Info("autoloadDeclined: polling restore suppressed by programming-transition gate.");
+                    }
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.autoloadDeclined");
                     return;
@@ -4267,10 +4309,17 @@ namespace RelayControl
                 }
                 else
                 {
-                    logger.Info("InitializeAutoload() completed without a pending backup continuation. Restoring normal communications.");
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    logger.Info("InitializeAutoload() completed without a pending backup continuation. Evaluating normal communications restore.");
+                    if (!this.ShouldSuppressPollingForProgrammingTransition())
+                    {
+                        this.monitoring(true);
+                        this.RegisterPolling(true);
+                        this.requestRelayRegisters();
+                    }
+                    else
+                    {
+                        logger.Info("autoloadCompleted: polling restore suppressed by programming-transition gate.");
+                    }
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
                     return;
@@ -4280,6 +4329,24 @@ namespace RelayControl
             {
                 paramsReceivedLock = false;
             }
+        }
+
+        private bool ShouldSuppressPollingForProgrammingTransition()
+        {
+            if (this.ucRelayProgramming1 == null)
+                return false;
+
+            bool lifecycleActive = this.IsRelayProgrammingLifecycleActive();
+
+            bool flowLatchActive =
+                this.pendingAutoloadAfterBackup ||
+                this.pendingRestoreAfterProgramming ||
+                this.backupInProgress ||
+                this.loadingNewCode ||
+                this.quietMode ||
+                this.pauseMonitoring;
+
+            return lifecycleActive || flowLatchActive;
         }
 
         private bool IsRelayProgrammingLifecycleActive()
@@ -7430,14 +7497,7 @@ namespace RelayControl
             {
                 this.downloadProgress.Dispose();
             }
-            //if (bytePacket[1] == 1)
-            //{
-            //    s = "Error During Calibration, Please Check Input Values";
 
-            //    this.toolStripStatusLabelMain.Text = "Ready";
-            //    this.messageHandler("Calibration", s);
-            //}
-            //else 
             if (bytePacket[1] == 2)
             { // calibration constants are saved / stored from relay uP to master uP
                 DialogResult msg = new YesNoMessageBoxResized("Calibration Complete", "Calibration Values Saved", "ok").ShowDialog();
@@ -7453,6 +7513,7 @@ namespace RelayControl
                 DialogResult dR = new YesNoMessageBoxResized("Calibration Complete", "Save Calibration Constants?", "Yes", "No").ShowDialog();
                 if (dR == DialogResult.Yes)
                     this.sendSaveCalibration(); // tells master to send the calibration constants that are saved in its flash
+
                 this.monitoring(tempBool1);
                 this.RegisterPolling(tempBool2);
                 this.toolStripStatusLabelMain.Text = "Ready";
@@ -7464,9 +7525,26 @@ namespace RelayControl
                 this.toolStripStatusLabelMain.Text = "Ready";
                 this.messageHandler("Calibration", s);
             }
+
             this.enableAll(true);
-            this.monitoring(true);
-            this.RegisterPolling(true);
+
+            if (!this.ShouldSuppressPollingForProgrammingTransition())
+            {
+                this.monitoring(true);
+                this.RegisterPolling(true);
+            }
+            else
+            {
+                logger.Info(
+                    "calibrationComplete: suppressing polling restore due to active programming lifecycle/state. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                    this.ucRelayProgramming1?.State,
+                    this.pendingAutoloadAfterBackup,
+                    this.pendingRestoreAfterProgramming,
+                    this.backupInProgress,
+                    this.loadingNewCode,
+                    this.quietMode,
+                    this.pauseMonitoring);
+            }
         }
 
         private void sendSaveCalibration()
@@ -8972,13 +9050,31 @@ namespace RelayControl
                     }
                     break;
             }
+
             this.sendAll = false;
             this.enableAll(true);
-            this.monitoring(true);
-            this.RegisterPolling(true);
+
+            if (!this.ShouldSuppressPollingForProgrammingTransition())
+            {
+                this.monitoring(true);
+                this.RegisterPolling(true);
+            }
+            else
+            {
+                logger.Info(
+                    "downloadProgress_Done: suppressing polling restore due to active programming lifecycle/state. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                    this.ucRelayProgramming1?.State,
+                    this.pendingAutoloadAfterBackup,
+                    this.pendingRestoreAfterProgramming,
+                    this.backupInProgress,
+                    this.loadingNewCode,
+                    this.quietMode,
+                    this.pauseMonitoring);
+            }
+
             downloadEventsClicked = false;
 
-            //=====================Remove throbber and enable everything disaplayed on the screen=====================
+            //=====================Remove throbber and enable everything displayed on the screen=====================
             Application.UseWaitCursor = false;
             System.Windows.Forms.Cursor.Current = Cursors.Default;
             this.enableAll(true);
@@ -11635,41 +11731,66 @@ namespace RelayControl
             logger.Info(
                 "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
                 caller,
-                pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming,
-                backupInProgress,
+                this.pendingAutoloadAfterBackup,
+                this.pendingRestoreAfterProgramming,
+                this.backupInProgress,
                 this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring);
 
-            pendingAutoloadAfterBackup = false;
-            pendingRestoreAfterProgramming = false;
-            backupInProgress = false;
-            skipAutoloadAfterDecline = false;
-            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+            // 1) Ask ucRelayProgramming to own and clear its own autoload/programming state
+            if (this.ucRelayProgramming1 != null && !this.ucRelayProgramming1.IsDisposed)
+            {
+                this.ucRelayProgramming1.DeclineAutoload(caller, "restore-normal-comms");
+            }
+
+            // 2) Clear MainControl-owned flow flags only
+            this.pendingAutoloadAfterBackup = false;
+            this.pendingRestoreAfterProgramming = false;
+            this.backupInProgress = false;
+            this.skipAutoloadAfterDecline = false;
 
             this.loadingNewCode = false;
             this.quietMode = false;
             this.pauseMonitoring = false;
 
-            if (backupTimeoutTimer != null)
-                backupTimeoutTimer.Stop();
+            // 3) Stop MainControl-owned timers/UI wait state
+            this.backupTimeoutTimer?.Stop();
 
             this.UseWaitCursor = false;
             Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            Cursor.Current = Cursors.Default;
+
             this.enableAll(true);
 
-            this.monitoring(true);
-            this.RegisterPolling(true);
-            this.requestRelayRegisters();
+            // 4) Restore comms only when safe
+            bool formAlive = !this.IsDisposed && !this.Disposing;
+            if (formAlive && !this.ShouldSuppressPollingForProgrammingTransition())
+            {
+                this.monitoring(true);
+                this.RegisterPolling(true);
+                this.requestRelayRegisters();
+            }
+            else
+            {
+                logger.Info(
+                    "RestoreNormalCommsAfterAutoloadDecline: polling restore suppressed. formAlive={0}, state={1}, pendingAutoloadAfterBackup={2}, pendingRestoreAfterProgramming={3}, backupInProgress={4}, loadingNewCode={5}, quietMode={6}, pauseMonitoring={7}",
+                    formAlive,
+                    this.ucRelayProgramming1?.State,
+                    this.pendingAutoloadAfterBackup,
+                    this.pendingRestoreAfterProgramming,
+                    this.backupInProgress,
+                    this.loadingNewCode,
+                    this.quietMode,
+                    this.pauseMonitoring);
+            }
 
             logger.Info(
                 "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
                 caller,
-                pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming,
-                backupInProgress,
+                this.pendingAutoloadAfterBackup,
+                this.pendingRestoreAfterProgramming,
+                this.backupInProgress,
                 this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring);
@@ -11733,13 +11854,12 @@ namespace RelayControl
                 logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
                 return;
             }
+
             // Write once at successful completion, not in each packet handler.
             FlushBackupToDisk();
             pendingAutoloadAfterBackup = true;
 
-
-            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
-
+            // Ownership note: ucRelayProgramming should clear its own backup gate internally during resume/decline flow.
             logger.Info(
                 "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, AutoloadAcceptedPendingBackup={3}",
                 this.ucRelayProgramming1.ReprogrammingInProgress,
@@ -11789,9 +11909,22 @@ namespace RelayControl
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
 
-                this.monitoring(true);
-                this.RegisterPolling(true);
-                this.requestRelayRegisters();
+                if (!this.ShouldSuppressPollingForProgrammingTransition())
+                {
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+                }
+                else
+                {
+                    logger.Info(
+                        "CompleteBackupAndContinue: polling restore suppressed by programming-transition gate. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}",
+                        this.ucRelayProgramming1?.State,
+                        this.pendingAutoloadAfterBackup,
+                        this.pendingRestoreAfterProgramming,
+                        this.backupInProgress,
+                        this.loadingNewCode);
+                }
             }
         }
     }
