@@ -1879,6 +1879,7 @@ namespace RelayControlLibrary
         public void PrepForBoot()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             switch (this.State)
             {
                 case RelayProgrammingStates.LoadingMasterData:
@@ -1927,47 +1928,11 @@ namespace RelayControlLibrary
 
         private delegate void booleanInvoke(bool b);
 
-        private bool onSendHelper(RelayProgrammingEventArgs rPEA)
-        {
-
-            if (rPEA.Command != RelayProgrammingSendCommands.RawData &&
-                rPEA.Command != RelayProgrammingSendCommands.RestartProgram)
-                return false; // not handled, continue normal send
-
-            if (this.State == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.State == RelayProgrammingStates.AutoLoadCheckBoot ||
-                this.State == RelayProgrammingStates.CheckMasterBootCode)
-            {
-                this.masterBootRevisionSet = true;
-                this.masterBootRevisionNumberReceived = _bootCodeRevisionNumber; // or _bootCodeRevisionNumber - 1
-                this.BootReceived("BOOT " + this.masterBootRevisionNumberReceived.ToString());
-
-                logger.Warn(
-                    "DRY RUN: suppressed programming command={0}, state={1}, faked boot={2}",
-                    rPEA.Command, this.State, this.masterBootRevisionNumberReceived);
-
-                return true; // handled
-            }
-
-            logger.Warn(
-                "DRY RUN: suppressed command={0}, state={1}, payloadBytes={2}",
-                rPEA.Command,
-                this.State,
-                rPEA.BytesToSend == null ? 0 : rPEA.BytesToSend.Length);
-
-            return true; // handled
-        }
-
-        private bool dryRunSuppressProgrammingWrites = true;
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             logger.Trace(String.Format("Command: {0}", rPEA.Command));
 
-            if (this.dryRunSuppressProgrammingWrites && this.onSendHelper(rPEA))
-                return;
-
-            // Allow RequestAll in final success/finalization states.
             if (rPEA.Command == RelayProgrammingSendCommands.RequestAll)
             {
                 bool isFinalizationState =
@@ -3995,6 +3960,7 @@ namespace RelayControlLibrary
         private void resetMasterProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             if (this.masterCode.FileString == "" || this.masterCode.FileString == null)
             {
                 MessageBox.Show("No Master File Loaded");
@@ -4023,6 +3989,7 @@ namespace RelayControlLibrary
         private void resetProgrammingRelay()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             if (this.relayCode.FileString == "" || this.relayCode.FileString == null)
             {
                 MessageBox.Show("No Relay File Loaded");
@@ -4052,6 +4019,7 @@ namespace RelayControlLibrary
         private void resetProgrammingFPGA()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             this.parseFPGAFile(this.fPGACode);
 
             this.programmingForm.CurrentTask = "Loading FPGA Code - Waiting For Boot - Please Wait";
@@ -4254,9 +4222,7 @@ namespace RelayControlLibrary
 
         private void timerTimeout_Tick(object sender, EventArgs e)
         {
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
-          
+         
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out - Restarting";
             logger.Trace("Timed Out in State " + this.state);
@@ -4294,8 +4260,6 @@ namespace RelayControlLibrary
                     this.state = RelayProgrammingStates.ReloadMasterBoot;
                     break;
             }
-
-            //}
         }
 
         private void startManualBootCodeLoad()
