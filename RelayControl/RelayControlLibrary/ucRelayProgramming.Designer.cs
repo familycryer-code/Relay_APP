@@ -226,7 +226,7 @@
             this.buttonFirstLoad.TabIndex = 19;
             this.buttonFirstLoad.Text = "Program with Customer Firmware";
             this.buttonFirstLoad.UseVisualStyleBackColor = true;
-            this.buttonFirstLoad.Click += new System.EventHandler(this.buttonFirstLoad_Click);
+            //this.buttonFirstLoad.Click += new System.EventHandler(this.buttonFirstLoad_Click);
             // 
             // buttonLoadNewest
             // 
@@ -236,7 +236,7 @@
             this.buttonLoadNewest.TabIndex = 20;
             this.buttonLoadNewest.Text = "Program Using Newest Files";
             this.buttonLoadNewest.UseVisualStyleBackColor = true;
-            this.buttonLoadNewest.Click += new System.EventHandler(this.buttonLoadNewest_Click);
+            //this.buttonLoadNewest.Click += new System.EventHandler(this.buttonLoadNewest_Click);
             // 
             // buttonFixBootLoader
             // 
