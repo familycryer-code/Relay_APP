@@ -11675,25 +11675,6 @@ namespace RelayControl
                 this.pauseMonitoring);
         }
 
-        private void EvaluateRelayProgrammingStartup()
-        {
-            if (this.ucRelayProgramming1 == null)
-                return;
-
-            // Never re-enter while a programming cycle is active.
-            if (this.ucRelayProgramming1.ReprogrammingInProgress ||
-                this.ucRelayProgramming1.ProgramBootCodeInProgress)
-            {
-                logger.Info("EvaluateRelayProgrammingStartup: skipped because relay programming lifecycle is already active.");
-                return;
-            }
-
-            // Allow only when the relay is ready and stable.
-            // Keep MainControl as a trigger only; ucRelayProgramming owns the actual logic.
-            logger.Info("EvaluateRelayProgrammingStartup: delegating firmware evaluation to ucRelayProgramming.");
-            this.ucRelayProgramming1.InitializeAutoload();
-        }
-
         private bool IsBackupComplete()
         {
             bool commonDone =

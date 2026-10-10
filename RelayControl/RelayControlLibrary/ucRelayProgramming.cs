@@ -3019,7 +3019,7 @@ namespace RelayControlLibrary
                 this.ProgramBootCodeStart = true;
             }
         }
-
+        /*
         private bool CheckForProperBootCodeAutoUpdate()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -3027,6 +3027,7 @@ namespace RelayControlLibrary
             CheckProperMasterBootCode();
             return wrongBootCodeLoaded;
         }
+        */
        
 
         private void restartProgram()
@@ -3228,6 +3229,7 @@ namespace RelayControlLibrary
             }
         }
 
+        /*
         private void addBootLoaderAddress(List<byte> list, UInt32 address)
         {
             byte tempLSB, tempMSB;
@@ -3245,6 +3247,7 @@ namespace RelayControlLibrary
 
             return;
         }
+        */
 
         private void parseSFile(RelayProgrammingData rPD)
         {
@@ -4000,8 +4003,7 @@ namespace RelayControlLibrary
         {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
-            //if (ManualUpdate.usingManualMode == false)
-            //{
+          
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out - Restarting";
             logger.Trace("Timed Out in State " + this.state);
@@ -4135,10 +4137,6 @@ namespace RelayControlLibrary
             else
                 internalGESetter = false;
 
-            //this.selectNewestMasterFirmware();
-           // this.selectNewestRelayFirmware();
-            //this.selectNewestFPGAFirmware();
-
             this.programmingForm.ClearAllChecks();
         }
 
@@ -4253,6 +4251,7 @@ namespace RelayControlLibrary
         public string FileString;
         public bool WithParameters = false;
 
+        /*
         private List<byte> initializeBeginningData(int outside, int inside)
         {
             List<byte> returnList = new List<byte>();
@@ -4280,6 +4279,7 @@ namespace RelayControlLibrary
             }
             return returnList;
         }
+        */
 
         public List<byte> DataBytes;
         public List<byte> CodeBytes;
