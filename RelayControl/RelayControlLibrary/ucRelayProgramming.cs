@@ -2841,31 +2841,36 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (ManualUpdate.usingManualMode || this.manualReload)
-                return false;
-
             if (this.programBootCodeInProgress)
                 return false;
 
+            // Approval gate still required for both auto and manual continuation flows.
             bool approved = this.firmwareUpgradeAcceptedThisCycle
                          || this.upgradeAutoDR == DialogResult.Yes;
 
             if (!approved)
                 return false;
 
+            // In manual full-update mode, unknown boot should be treated as requiring boot-first.
+            // In auto mode, keep prior conservative behavior (unknown -> wait for explicit boot read path).
+            bool isManualFullFlow = ManualUpdate.usingManualMode || this.manualReload;
+
             if (!this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0)
             {
                 logger.Info(
-                    "Boot revision unknown; not eligible for automatic boot repair. bootSet={0}, bootRev={1}",
+                    "Boot revision unknown. manualFullFlow={0}, bootSet={1}, bootRev={2}",
+                    isManualFullFlow,
                     this.masterBootRevisionSet,
                     this.masterBootRevisionNumberReceived);
-                return false;
+
+                return isManualFullFlow; // manual: force boot-first; auto: false
             }
 
             bool outdated = this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
             logger.Info(
-                "Boot load required check: bootRev={0}, required={1}, outdated={2}",
+                "Boot load required check: manualFullFlow={0}, bootRev={1}, required={2}, outdated={3}",
+                isManualFullFlow,
                 this.masterBootRevisionNumberReceived,
                 _bootCodeRevisionNumber,
                 outdated);
@@ -3691,8 +3696,6 @@ namespace RelayControlLibrary
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
-
-
             logger.Info(
                 "FINAL ORDER CHECK | autoLoad={0}, manualReload={1}, bootSet={2}, bootRev={3}, bootRequired={4}, bootUnknown={5}, bootOld={6}",
                 this.autoLoad,
@@ -3702,6 +3705,29 @@ namespace RelayControlLibrary
                  _bootCodeRevisionNumber,
                 bootUnknown,
                 bootOld);
+
+            bool manualFullFlow = ManualUpdate.usingManualMode || this.manualReload;
+
+            // CRITICAL FIX:
+            // Manual full update must still respect boot-first ordering when boot is stale/unknown.
+            if (manualFullFlow && (bootUnknown || bootOld))
+            {
+                logger.Warn(
+                    "startProgramming: manual full-update requires boot-first. bootUnknown={0}, bootOld={1}, bootRev={2}, required={3}",
+                    bootUnknown,
+                    bootOld,
+                    this.masterBootRevisionNumberReceived,
+                    _bootCodeRevisionNumber);
+
+                this.wrongBootCodeLoaded = true;
+                this.programBootCodeOnly = !(this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA);
+
+                // Do not treat this as normal programming yet.
+                this.reprogrammingInProgress = false;
+
+                this.ProgramBootCodeStart = true;
+                return;
+            }
 
             resumeProgrammingAfterBackup = false;
             this.reprogrammingInProgress = true;
