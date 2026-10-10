@@ -3894,11 +3894,9 @@ namespace RelayControlLibrary
             this.onSend(rPEA);
         }
 
-        private void sendReset()
+        private void sendReset([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            bool userInitiatedPath = ManualUpdate.usingManualMode;
 
             bool stateAllowsReset =
                 this.State == RelayProgrammingStates.AutoLoadCheckBoot ||
@@ -3913,27 +3911,54 @@ namespace RelayControlLibrary
                 this.reprogrammingInProgress ||
                 this.programBootCodeInProgress;
 
-            // Hard block: never reset during an active programming run unless we are already
-            // in a known boot/programming handoff state.
-            if (!userInitiatedPath && activeProgramming && !stateAllowsReset)
+            bool bootloaderSensitiveState =
+                this.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                this.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
+                this.programBootCodeInProgress;
+
+            logger.Info(
+                "sendReset ENTRY caller={0}, state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, activeProgramming={5}, stateAllowsReset={6}, bootloaderSensitiveState={7}, manualMode={8}, manualReload={9}",
+                caller,
+                this.State,
+                this.autoLoad,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                activeProgramming,
+                stateAllowsReset,
+                bootloaderSensitiveState,
+                ManualUpdate.usingManualMode,
+                this.manualReload);
+
+            // Absolute guard: never reset during bootloader-sensitive states.
+            if (bootloaderSensitiveState && !stateAllowsReset)
             {
                 logger.Warn(
-                    "sendReset suppressed: active programming in invalid state. state={0}, autoLoad={1}, reprogrammingInProgress={2}, programBootCodeInProgress={3}",
+                    "sendReset suppressed (bootloader-sensitive invalid state) caller={0}, state={1}",
+                    caller,
+                    this.State);
+                return;
+            }
+
+            // Never reset during active programming unless state machine explicitly allows it.
+            if (activeProgramming && !stateAllowsReset)
+            {
+                logger.Warn(
+                    "sendReset suppressed (active programming invalid state) caller={0}, state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}",
+                    caller,
                     this.State,
                     this.autoLoad,
                     this.reprogrammingInProgress,
                     this.programBootCodeInProgress);
-
                 return;
             }
 
-            // Also block any raw reset from a non-state-machine context.
-            if (!userInitiatedPath && !stateAllowsReset)
+            // Block any raw reset from non-state-machine context.
+            if (!stateAllowsReset)
             {
                 logger.Warn(
-                    "sendReset suppressed: invalid reset state. state={0}",
+                    "sendReset suppressed (non-state-machine context) caller={0}, state={1}",
+                    caller,
                     this.State);
-
                 return;
             }
 
@@ -3944,6 +3969,12 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[0] = (byte)'b';
             rPEA.BytesToSend[1] = (byte)'U';
             rPEA.BytesToSend[2] = 0x0D;
+
+            logger.Info(
+                "sendReset SEND caller={0}, state={1}, payload={2}",
+                caller,
+                this.State,
+                BitConverter.ToString(rPEA.BytesToSend));
 
             this.onSend(rPEA);
         }
