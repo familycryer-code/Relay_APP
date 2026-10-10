@@ -46,7 +46,7 @@
             this.textBoxFPGAFile = new System.Windows.Forms.TextBox();
             this.buttonSelectFPGAFile = new System.Windows.Forms.Button();
             this.buttonProgramFPGA = new System.Windows.Forms.Button();
-            this.buttonStartAutoLoad = new System.Windows.Forms.Button();
+            //this.buttonStartAutoLoad = new System.Windows.Forms.Button();
             this.buttonFirstLoad = new System.Windows.Forms.Button();
             this.buttonLoadNewest = new System.Windows.Forms.Button();
             this.buttonFixBootLoader = new System.Windows.Forms.Button();
@@ -209,7 +209,8 @@
             this.buttonProgramFPGA.Click += new System.EventHandler(this.buttonProgramFPGA_Click);
             // 
             // buttonStartAutoLoad
-            // 
+            //
+            /*
             this.buttonStartAutoLoad.Location = new System.Drawing.Point(139, 167);
             this.buttonStartAutoLoad.Name = "buttonStartAutoLoad";
             this.buttonStartAutoLoad.Size = new System.Drawing.Size(96, 39);
@@ -217,6 +218,7 @@
             this.buttonStartAutoLoad.Text = "Program Using Selected Files";
             this.buttonStartAutoLoad.UseVisualStyleBackColor = true;
             this.buttonStartAutoLoad.Click += new System.EventHandler(this.buttonStartAutoLoad_Click);
+            */
             // 
             // buttonFirstLoad
             // 

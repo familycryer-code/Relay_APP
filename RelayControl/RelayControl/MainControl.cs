@@ -56,7 +56,7 @@ namespace RelayControl
         #pragma warning disable CS0169 // field assigned but value never used
         private bool showCrossPhaseMsgOnce;
         #pragma warning restore CS0169
-        //private bool initializeAutoLoad = true;
+        
         private bool showMemFixMsg = true;
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
@@ -4268,9 +4268,6 @@ namespace RelayControl
 
                 pendingAutoloadAfterBackup = false;
 
-                logger.Info("CALLER: parametersFinishedLoading -> InitializeAutoload()");
-                bool autoloadAccepted = this.ucRelayProgramming1.InitializeAutoload();
-
                 if (!autoloadAccepted)
                 {
                     logger.Info("User declined autoload during pending update check. Restoring normal communications.");
@@ -4290,13 +4287,13 @@ namespace RelayControl
                     this.ucRelayProgramming1.ReprogrammingInProgress ||
                     this.loadingNewCode)
                 {
-                    logger.Info("InitializeAutoload() completed but normal communications remain suppressed for programming transition.");
+                    
                     ResetFullParameterDownloadState("parametersFinishedLoading.programmingTransitionStillActive");
                     return;
                 }
                 else
                 {
-                    logger.Info("InitializeAutoload() completed without a pending backup continuation. Evaluating normal communications restore.");
+                    
                     
                         this.monitoring(true);
                         this.RegisterPolling(true);
@@ -10190,7 +10187,6 @@ namespace RelayControl
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ManualUpdate.usingManualMode = true;
-            this.ResetAutoloadDeclineState();
             this.ucRelayProgramming1.StartManualForcedUpdate();
         }
 
