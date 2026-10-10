@@ -11855,11 +11855,15 @@ namespace RelayControl
                 return;
             }
 
-            // Write once at successful completion, not in each packet handler.
+            // Successful backup: arm continuation, but do not restore normal comms yet.
             FlushBackupToDisk();
             pendingAutoloadAfterBackup = true;
 
-            // Ownership note: ucRelayProgramming should clear its own backup gate internally during resume/decline flow.
+            // Critical: clear child backup gate before resuming the autoload continuation flow.
+            // This avoids the deadlock where ResumeAutoloadAfterBackup() sees the backup latch still set
+            // and suppresses itself while MainControl wrongly restores polling anyway.
+            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+
             logger.Info(
                 "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, AutoloadAcceptedPendingBackup={3}",
                 this.ucRelayProgramming1.ReprogrammingInProgress,
@@ -11876,55 +11880,75 @@ namespace RelayControl
                 this.ucRelayProgramming1.ReprogrammingInProgress,
                 this.ucRelayProgramming1.State);
 
-            if (this.ucRelayProgramming1.ReprogrammingInProgress)
+            // If the child has genuinely started programming, keep suppression active.
+            if (this.ucRelayProgramming1.ReprogrammingInProgress ||
+                this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.ReloadMasterBoot ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader)
             {
                 pendingAutoloadAfterBackup = false;
-                logger.Info("Autoload continuation consumed; programming started.");
+                logger.Info(
+                    "Autoload continuation has entered a real programming/boot state; keep comm suppression active. state={0}",
+                    this.ucRelayProgramming1.State);
+                return;
             }
-            else if (pendingAutoloadAfterBackup &&
-                     (this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
-                      this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
-                      this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
-                      this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
-                      this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
-                      this.ucRelayProgramming1.ProgramBootCodeInProgress))
+
+            // If the child has not yet moved into a real programming state, do not restore comms.
+            // The continuation is still ambiguous. Keep the system quiet until the child decides.
+            if (pendingAutoloadAfterBackup ||
+                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup ||
+                this.ucRelayProgramming1.State == RelayProgrammingStates.Idle)
             {
                 logger.Info(
-                    "Autoload continuation still in boot-check/boot-repair handoff; keeping comm suppression active. " +
-                    "State={0}, pendingAutoloadAfterBackup={1}, programBootCodeInProgress={2}",
-                    this.ucRelayProgramming1.State,
+                    "Autoload continuation still pending or child is still idle; keeping comm suppression active. " +
+                    "pendingAutoloadAfterBackup={0}, AutoloadAcceptedPendingBackup={1}, state={2}",
                     pendingAutoloadAfterBackup,
-                    this.ucRelayProgramming1.ProgramBootCodeInProgress);
+                    this.ucRelayProgramming1.AutoloadAcceptedPendingBackup,
+                    this.ucRelayProgramming1.State);
+
+                // Do NOT resume monitoring here.
+                return;
+            }
+
+            // Only if the child is clearly not in programming and no continuation latch remains, restore.
+            logger.Info("Autoload continuation resolved without a live programming state; restoring normal UI/monitoring.");
+            pendingAutoloadAfterBackup = false;
+            this.loadingNewCode = false;
+            this.quietMode = false;
+            this.pauseMonitoring = false;
+
+            this.UseWaitCursor = false;
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            this.enableAll(true);
+
+            if (!this.ShouldSuppressPollingForProgrammingTransition())
+            {
+                this.monitoring(true);
+                this.RegisterPolling(true);
+                this.requestRelayRegisters();
             }
             else
             {
-                logger.Info("Autoload continuation deferred with no active boot-check; restoring normal UI/monitoring.");
-                pendingAutoloadAfterBackup = false;
-                this.loadingNewCode = false;
-                this.quietMode = false;
-                this.pauseMonitoring = false;
-
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-
-                if (!this.ShouldSuppressPollingForProgrammingTransition())
-                {
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
-                }
-                else
-                {
-                    logger.Info(
-                        "CompleteBackupAndContinue: polling restore suppressed by programming-transition gate. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}",
-                        this.ucRelayProgramming1?.State,
-                        this.pendingAutoloadAfterBackup,
-                        this.pendingRestoreAfterProgramming,
-                        this.backupInProgress,
-                        this.loadingNewCode);
-                }
+                logger.Info(
+                    "CompleteBackupAndContinue: polling restore suppressed by programming-transition gate. state={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}",
+                    this.ucRelayProgramming1?.State,
+                    this.pendingAutoloadAfterBackup,
+                    this.pendingRestoreAfterProgramming,
+                    this.backupInProgress,
+                    this.loadingNewCode);
             }
         }
     }
