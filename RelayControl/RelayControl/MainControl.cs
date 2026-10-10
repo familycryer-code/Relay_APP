@@ -3811,11 +3811,25 @@ namespace RelayControl
 
         private void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
         {
-            // MainControl reacts only; it does not re-authorize or re-decline.
-            logger.Info("MainControl: autoload declined by ucRelayProgramming; no second-cycle decision applied here.");
-            logger.Info("### HIT UcRelayProgramming1_AutoloadDeclined ###");
-            // If you still need UI cleanup, do only minimal UI state cleanup here.
-            // Do not reset or re-open programming approval logic in MainControl.
+            logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
+
+            if (this.ucRelayProgramming1 != null &&
+                (this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                 this.ucRelayProgramming1.ReprogrammingInProgress))
+            {
+                logger.Warn("Autoload decline handler skipped restore because programming lifecycle is still active.");
+                return;
+            }
+
+            this.pauseMonitoring = false;
+            this.quietMode = false;
+            this.allEnabled = true;
+            this.pQMonitoringEnabled = true;
+            this.ProgramState = ProgramStates.Running;
+
+            this.monitoring(true);
+            this.RegisterPolling(true);
+            this.requestRelayRegisters();
         }
 
 
