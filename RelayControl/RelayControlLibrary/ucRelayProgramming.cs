@@ -1722,11 +1722,7 @@ namespace RelayControlLibrary
                         this.masterBootRevisionNumberReceived);
 
                     this.state = RelayProgrammingStates.Idle;
-
-                    logger.Info("AutoLoadCheckBoot: calling ContinueAutoloadAfterBootCheck()");
-                    if (!this.autoLoadRequested){
-                        this.ContinueAutoloadAfterBootCheck();
-                    }
+                    this.ContinueAutoloadAfterBootCheck();
                     break;
 
                 case RelayProgrammingStates.ManualLoadCheckBoot:
@@ -1888,6 +1884,9 @@ namespace RelayControlLibrary
             this.NotPollingPort = false;
             this.backupIsPending = false;
             this.autoLoad = false;
+            this.autoLoadRequested = false;
+            this.autoPromptsApprovedThisCycle = false;
+            this.bootFirstAutoContinuation = false;
             this.startupIntent = StartupIntent.None;
 
             logger.Info(
@@ -3381,7 +3380,6 @@ namespace RelayControlLibrary
 
                 this.bootFirstAutoContinuation = false;
                 this.reprogrammingInProgress = false; // normal programming not started yet
-
                 this.RequestBootCodeUpload();
                 return;
             }
@@ -3453,6 +3451,8 @@ namespace RelayControlLibrary
             }
 
             logger.Warn("startProgramming: no programming branch selected; clearing state.");
+            this.reprogrammingInProgress = false;
+            this.bootFirstAutoContinuation = false;
             this.State = RelayProgrammingStates.Idle;
         }
 
