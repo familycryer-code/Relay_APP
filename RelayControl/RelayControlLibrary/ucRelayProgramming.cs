@@ -822,39 +822,9 @@ namespace RelayControlLibrary
             this.backupIsPending = true;
             RaiseBackupBeforeProgrammingRequested();
 
-            this.RefreshPendingFirmwareFromCurrentRevisions();
-
-            if (!this.AnyFirmwarePending())
-                return;
-
-            DialogResult newerFw = this.ShowAutoLoadUpdateMessage();
-            if (newerFw != DialogResult.Yes)
-            {
-                this.ResetAutoloadState("InitializeAutoload");
-                this.RaiseAutoloadDeclined();
-                return;
-            }
-
-            DialogResult confirmUpdate = this.ShowAutoLoadDialog();
-            if (confirmUpdate != DialogResult.Yes)
-            {
-                this.ResetAutoloadState("InitializeAutoload");
-                this.RaiseAutoloadDeclined();
-                return;
-            }
-
-            DialogResult confirmWarning = this.ShowAutoProgrammingStartWarning();
-            if (confirmWarning != DialogResult.OK)
-            {
-                this.ResetAutoloadState("InitializeAutoload");
-                this.RaiseAutoloadDeclined();
-                return;
-            }
-
             this.startupIntent = StartupIntent.AutoApproved;
             this.autoLoad = true;  // autoload is running
-           
-            this.startAutoLoad();
+         
         }
 
         private DialogResult showManualLoadDialog(bool forcedFullUpdate)
@@ -1130,15 +1100,11 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (this.backupIsPending)
-            {
-                logger.Warn("ResumeAutoloadAfterBackup suppressed; backup gate still latched.");
-                return;
-            }
+            // Backup has completed. The gate is no longer valid.
+            this.backupIsPending = false;
 
-            logger.Info("ResumeAutoloadAfterBackup approved path -> requesting fresh boot read.");
-            this.State = RelayProgrammingStates.AutoLoadCheckBoot;
-            this.sendReset();
+            logger.Info("ResumeAutoloadAfterBackup approved path -> re-entering autoload startup flow.");
+            this.startAutoLoad();
         }
 
         // in ucRelayProgramming
@@ -1377,6 +1343,8 @@ namespace RelayControlLibrary
             return this.autoLoad && !IsManualFlowActive();
         }
 
+        private bool autoPromptsApprovedThisCycle = false;
+
         private void startAutoLoad()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -1408,6 +1376,16 @@ namespace RelayControlLibrary
                 return;
             }
 
+            if (this.serialNumberError)
+            {
+                logger.Warn("startAutoLoad blocked: serial number error detected.");
+                this.bootFirstAutoContinuation = false;
+                this.autoPromptsApprovedThisCycle = false;
+                this.ResetAutoloadState("startAutoLoad");
+                this.RaiseAutoloadDeclined();
+                return;
+            }
+
             this.setProgrammingFiles();
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
@@ -1415,26 +1393,44 @@ namespace RelayControlLibrary
             {
                 logger.Info("startAutoLoad: no updates required; exiting autoload flow.");
                 this.bootFirstAutoContinuation = false;
+                this.autoPromptsApprovedThisCycle = false;
                 this.ResetAutoloadState("startAutoLoad");
                 this.RaiseAutoloadDeclined();
                 return;
             }
 
-            if (this.serialNumberError)
+            // Only show prompts once per autoload cycle.
+            if (!this.autoPromptsApprovedThisCycle)
             {
-                logger.Warn("startAutoLoad blocked: serial number error detected.");
-                this.bootFirstAutoContinuation = false;
-                this.ResetAutoloadState("startAutoLoad");
-                this.RaiseAutoloadDeclined();
-                return;
-            }
+                DialogResult newerFw = this.ShowAutoLoadUpdateMessage();
+                if (newerFw != DialogResult.Yes)
+                {
+                    this.autoPromptsApprovedThisCycle = false;
+                    this.ResetAutoloadState("startAutoLoad");
+                    this.RaiseAutoloadDeclined();
+                    return;
+                }
 
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
-            {
-                Command = RelayProgrammingSendCommands.SaveSettings
-            };
-            this.onSend(rPEA);
-            Thread.Sleep(500);
+                DialogResult confirmUpdate = this.ShowAutoLoadDialog();
+                if (confirmUpdate != DialogResult.Yes)
+                {
+                    this.autoPromptsApprovedThisCycle = false;
+                    this.ResetAutoloadState("startAutoLoad");
+                    this.RaiseAutoloadDeclined();
+                    return;
+                }
+
+                DialogResult confirmWarning = this.ShowAutoProgrammingStartWarning();
+                if (confirmWarning != DialogResult.OK)
+                {
+                    this.autoPromptsApprovedThisCycle = false;
+                    this.ResetAutoloadState("startAutoLoad");
+                    this.RaiseAutoloadDeclined();
+                    return;
+                }
+
+                this.autoPromptsApprovedThisCycle = true;
+            }
 
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
             bool bootOld = this.masterBootRevisionSet &&
@@ -1445,7 +1441,6 @@ namespace RelayControlLibrary
                 logger.Warn("startAutoLoad: boot revision unknown; requesting fresh boot read (auto).");
                 this.State = RelayProgrammingStates.AutoLoadCheckBoot;
                 this.sendReset();
-                Thread.Sleep(500);
                 return;
             }
 
@@ -1460,6 +1455,12 @@ namespace RelayControlLibrary
                 }
             }
 
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
+            {
+                Command = RelayProgrammingSendCommands.SaveSettings
+            };
+            this.onSend(rPEA);
+
             if (!this.programmingForm.MasterBootComplete)
                 this.programmingForm.ClearAllChecks();
 
@@ -1468,9 +1469,6 @@ namespace RelayControlLibrary
             if (!this.programmingForm.Visible)
                 this.programmingForm.Show();
         }
-
-
-
         public void PrepForBoot()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2420,7 +2418,6 @@ namespace RelayControlLibrary
         {
             return this.reprogrammingInProgress
                 || this.programBootCodeInProgress
-                || this.autoLoad
                 || this.State == RelayProgrammingStates.LoadingMasterBootLoader
                 || this.State == RelayProgrammingStates.LoadingMasterCode
                 || this.State == RelayProgrammingStates.LoadingMasterData

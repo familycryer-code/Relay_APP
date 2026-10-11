@@ -3831,6 +3831,12 @@ namespace RelayControl
                 return;
             }
 
+            // Critical parent-side transition latches
+            this.pendingAutoloadAfterBackup = false;
+            this.pendingRestoreAfterProgramming = false;
+            this.backupInProgress = false;
+            this.loadingNewCode = false;
+
             this.pauseMonitoring = false;
             this.quietMode = false;
             this.allEnabled = true;
