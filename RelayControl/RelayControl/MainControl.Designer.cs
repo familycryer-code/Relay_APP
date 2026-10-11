@@ -843,8 +843,8 @@ namespace RelayControl
             this.ucRelayProgramming1.ActiveRelay = false;
             this.ucRelayProgramming1.Customer = RelayControlLibrary.Customers.None;
             this.ucRelayProgramming1.DNPRelay = true;
-            this.ucRelayProgramming1.ForceRelayUpdate = false;
-            this.ucRelayProgramming1.ForceUpdateReason = "Generic";
+            //this.ucRelayProgramming1.ForceRelayUpdate = false;
+            //this.ucRelayProgramming1.ForceUpdateReason = "Generic";
             this.ucRelayProgramming1.FPGARevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.GERelay = false;
             this.ucRelayProgramming1.Location = new System.Drawing.Point(525, 413);
@@ -855,7 +855,7 @@ namespace RelayControl
             this.ucRelayProgramming1.Name = "ucRelayProgramming1";
             this.ucRelayProgramming1.NotPollingPort = false;
             this.ucRelayProgramming1.ProgramBootCodeInProgress = false;
-            this.ucRelayProgramming1.ProgramBootCodeStart = false;
+            //this.ucRelayProgramming1.ProgramBootCodeStart = false;
             this.ucRelayProgramming1.RelayRevisionNumber = ((uint)(0u));
             this.ucRelayProgramming1.ReprogramBootCodeAuto = false;
             this.ucRelayProgramming1.ReprogrammingInProgress = false;

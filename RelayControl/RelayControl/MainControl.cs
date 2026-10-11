@@ -35,16 +35,16 @@ using System.Windows.Forms.VisualStyles;
 using static RelayControlLibrary.ucRelayProgramming;
 
 namespace RelayControl
-{ 
+{
 
     public partial class MainControl : Form
     {
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-        #pragma warning disable CS0414 // field assigned but value never used
+#pragma warning disable CS0414 // field assigned but value never used
         private string customerRevisionName = string.Empty;
-        #pragma warning restore CS0414
+#pragma warning restore CS0414
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
@@ -53,10 +53,10 @@ namespace RelayControl
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
-        #pragma warning disable CS0169 // field assigned but value never used
+#pragma warning disable CS0169 // field assigned but value never used
         private bool showCrossPhaseMsgOnce;
-        #pragma warning restore CS0169
-        
+#pragma warning restore CS0169
+
         private bool showMemFixMsg = true;
 
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
@@ -334,13 +334,13 @@ namespace RelayControl
         private int savedSaveFileComboBoxWidth;
         public bool relayFound_forDNPdataMonitoring = false;
 
-       
+
 
         public MainControl()
         {
-            
+
             InitializeComponent();
-            
+
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControlMain.DrawItem += tabControlMain_DrawItem;
 
@@ -471,7 +471,7 @@ namespace RelayControl
                 this.ucShortRange1.Send += standardizedSendData;
                 this.ucTimeControl1.SendData += standardizedSendData;
                 this.ucSafeService1.Send += standardizedSendData;
-              
+
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
                 this.ucRelayProgramming1.BackupBeforeProgrammingRequested += UcRelayProgramming1_BackupBeforeProgrammingRequested;
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
@@ -985,28 +985,38 @@ namespace RelayControl
             this.customerRevisionName = "DIGITALGRID, INC";
 #endif
         }
+        private void SetToolTipSafe(Control control, string text)
+        {
+            if (control == null)
+            {
+                Debug.WriteLine($"NULL TOOLTIP CONTROL: {text}");
+                return; // or throw a clearer exception
+            }
+
+            this.toolTip.SetToolTip(control, text);
+        }
 
         private void initializeToolTip()
         {
-            this.toolTip.SetToolTip(this.comboBoxSavedStates, "Recall previously saved states");
-            this.toolTip.SetToolTip(this.comboBox_CTRatio, "Set to match the CT Ratio of the protector");
-            this.toolTip.SetToolTip(this.comboBox_Phasings, "How to determine phasing of the protector");
-            // this.toolTip.SetToolTip(this.domainUpDownRelayType, "Changes Relay Algorithm");
-            this.toolTip.SetToolTip(this.comboBox_RelayType, "Changes Relay Algorithm");
-            this.toolTip.SetToolTip(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
-            this.toolTip.SetToolTip(this.textBoxSaveStateName, "Enter name to save current settings to file");
-            this.toolTip.SetToolTip(this.comboBoxDNPVoltage, "Scales values on PQ Mon tab to protector voltage - now saved in relay, applies to DNP input values");
-            this.toolTip.SetToolTip(this.checkBox277DNPOutputs, "Configures DNP outputs to scale to 277V");
-            this.toolTip.SetToolTip(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
-            this.toolTip.SetToolTip(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
-            this.toolTip.SetToolTip(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
-            // this.toolTip.SetToolTip(this.buttonResetBothProc, "Reset the Relay");
-            this.toolTip.SetToolTip(this.buttonRSTRelay, "Reset the Relay");
-            this.toolTip.SetToolTip(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
-            this.toolTip.SetToolTip(this.buttonSendAll, "Upload all visible settings to the relay");
-            this.toolTip.SetToolTip(this.buttonTripRelay, "Send a Remote Trip to the relay");
-            this.toolTip.SetToolTip(this.btn_ClearPumpProtect, "Clears any active Pump Protect state");
-            this.toolTip.SetToolTip(this.btn_RelaxClose, "Temporarily sets ReClose Voltage to 0.1V");
+            this.SetToolTipSafe(this.comboBoxSavedStates, "Recall previously saved states");
+            this.SetToolTipSafe(this.comboBox_CTRatio, "Set to match the CT Ratio of the protector");
+            this.SetToolTipSafe(this.comboBox_Phasings, "How to determine phasing of the protector");
+            // this.toolTip.SetToolTipSafe(this.domainUpDownRelayType, "Changes Relay Algorithm");
+            this.SetToolTipSafe(this.comboBox_RelayType, "Changes Relay Algorithm");
+            this.SetToolTipSafe(this.textBoxCTRatio, "Select 'Special' in above box to manually enter CT Ratio");
+            this.SetToolTipSafe(this.textBoxSaveStateName, "Enter name to save current settings to file");
+            this.SetToolTipSafe(this.comboBoxDNPVoltage, "Scales values on PQ Mon tab to protector voltage - now saved in relay, applies to DNP input values");
+            this.SetToolTipSafe(this.checkBox277DNPOutputs, "Configures DNP outputs to scale to 277V");
+            this.SetToolTipSafe(this.buttonClearCycleCount, "Reset Cycle Count to Zero");
+            this.SetToolTipSafe(this.buttonDeleteSetting, "Remove the currently selected Saved State from the save file");
+            this.SetToolTipSafe(this.buttonRequestRelayParamaters, "Download All Parameters to GUI");
+            // this.toolTip.SetToolTipSafe(this.buttonResetBothProc, "Reset the Relay");
+            this.SetToolTipSafe(this.buttonRSTRelay, "Reset the Relay");
+            this.SetToolTipSafe(this.buttonSaveSetting, "Save the Current Settings to the file under the name in the Save Setting box");
+            this.SetToolTipSafe(this.buttonSendAll, "Upload all visible settings to the relay");
+            this.SetToolTipSafe(this.buttonTripRelay, "Send a Remote Trip to the relay");
+            this.SetToolTipSafe(this.btn_ClearPumpProtect, "Clears any active Pump Protect state");
+            this.SetToolTipSafe(this.btn_RelaxClose, "Temporarily sets ReClose Voltage to 0.1V");
         }
 
         #region Relay Flags/Status
@@ -1131,7 +1141,7 @@ namespace RelayControl
             string packetText = BitConverter.ToString(sEA.SendPacket.ToArray());
             string sourceText = o?.ToString() ?? "unknown";
 
- 
+
             logger.Trace("Sending Data to Relay: {0}", packetText);
 
             if (sEA.WithAck)
@@ -1141,8 +1151,8 @@ namespace RelayControl
                     this.sendPacketAck(sEA.SendPacket, sourceText);
                     //if (sEA.RequestAll)
                     //{
-                        //this.requestAllData("standardizedSendData");
-                        //this.parametersLoaded = true;
+                    //this.requestAllData("standardizedSendData");
+                    //this.parametersLoaded = true;
                     //}
                 }
                 else
@@ -1199,9 +1209,9 @@ namespace RelayControl
 
         }
 
-        #pragma warning disable CS0649 // never assigned; remains null in some build configs
+#pragma warning disable CS0649 // never assigned; remains null in some build configs
         private ucDNPDIGITALGRIDData dNPDIGITALGRIDData;
-        #pragma warning restore CS0649
+#pragma warning restore CS0649
 
         private bool otherPanelMovedForConEd = false;
         private void removePumpProtect()
@@ -1209,9 +1219,9 @@ namespace RelayControl
             if (this.ucPumpMode1.Visible || !this.ucPumpMode1.Enabled)
             {
                 this.ucPumpMode1.Visible = false;
-               // Point tempPoint = this.panelOtherRelayControls.Location;
-               // tempPoint.X -= this.ucPumpMode1.Width;
-               // this.panelOtherRelayControls.Location = tempPoint;
+                // Point tempPoint = this.panelOtherRelayControls.Location;
+                // tempPoint.X -= this.ucPumpMode1.Width;
+                // this.panelOtherRelayControls.Location = tempPoint;
                 this.otherPanelMovedForConEd = true;
             }
         }
@@ -1221,14 +1231,14 @@ namespace RelayControl
             if (!this.ucPumpMode1.Visible && this.otherPanelMovedForConEd)
             {
                 this.otherPanelMovedForConEd = false;
-               // Point tempPoint = this.panelOtherRelayControls.Location;
-               // tempPoint.X += this.ucPumpMode1.Width;
-               // this.panelOtherRelayControls.Location = tempPoint;
+                // Point tempPoint = this.panelOtherRelayControls.Location;
+                // tempPoint.X += this.ucPumpMode1.Width;
+                // this.panelOtherRelayControls.Location = tempPoint;
                 this.ucPumpMode1.Visible = true;
             }
         }
 
-        
+
 
         void ucTransmitterMonitoring1_MonitoringStateChange(object sender, TransmitterMonitoringEventArgs tMEA)
         {
@@ -1490,10 +1500,10 @@ namespace RelayControl
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonReqLiveData.Enabled = true;
             this.enableAll(true);
-            
+
             this.monitoring(true);
             this.RegisterPolling(true);
-           
+
             this.disableAllMonitoring();
         }
 
@@ -2217,19 +2227,19 @@ namespace RelayControl
                 while (this.rXReadPtr != this.rXWritePtr)
                 {
                     command = IncomingCommCommands.Invalid;
-                     
+
                     while (true)
                     {
                         //if (screenD.screenDisable == true)
-                           // this.enableAll(false);
+                        // this.enableAll(false);
                         initialRXPtr = tempRXReadPtr = this.rXReadPtr;
                         //check to see if we have found a command or we have reached the end of the data
                         command = this.getCommand(this.receiveArray[tempRXReadPtr]);
 
-                       //if(command == IncomingCommCommands.DNPMessage1)
+                        //if(command == IncomingCommCommands.DNPMessage1)
                         //    MessageBox.Show("dnpMessage1 - 0x11 - to be processed for AIs 0 to 42");
 
-                        
+
                         while (command == IncomingCommCommands.Invalid)
                         {
                             tempRXReadPtr = this.nextRXArrayAddress(tempRXReadPtr);
@@ -3072,7 +3082,7 @@ namespace RelayControl
                 this.toolStripStatusLabelReceiverStatus.Text = this.relayStatusConverter.CurrentStatus;
                 this.toolStripStatusLabelReceiverStatus.BackColor = this.relayStatusConverter.CurrentColor;
                 this.toolStripStatusLabelReceiverStatus.ForeColor = this.relayStatusConverter.CurrentForeColor;
-                this.lbl_Relayststatus_FC.BackColor = Color.DarkRed; 
+                this.lbl_Relayststatus_FC.BackColor = Color.DarkRed;
                 this.lbl_Relayststatus_SL.BackColor = Color.Transparent;
                 this.lbl_Relayststatus_backfeed.BackColor = Color.Transparent;
             }
@@ -3109,7 +3119,7 @@ namespace RelayControl
                     this.dNPDIGITALGRIDData.setBinaryOutputs(bytePacket);
                     break;
                 case 3:
-                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket,13);
+                    this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, 13);
                     break;
                 case 4:
                     this.dNPDIGITALGRIDData.setAnalogInputs(bytePacket, 14);
@@ -4200,11 +4210,11 @@ namespace RelayControl
 
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
-                    
-                        this.monitoring(true);
-                        this.RegisterPolling(true);
-                        this.requestRelayRegisters();
-                 
+
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     return;
@@ -4254,11 +4264,11 @@ namespace RelayControl
                     logger.Info("User declined autoload; clearing pending migration state and restoring normal communications.");
                     pendingAutoloadAfterBackup = false;
 
-                   
-                        this.monitoring(true);
-                        this.RegisterPolling(true);
-                        this.requestRelayRegisters();
-                   
+
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+
 
                     skipAutoloadAfterDecline = false;
 
@@ -4268,37 +4278,24 @@ namespace RelayControl
 
                 pendingAutoloadAfterBackup = false;
 
-                if (!autoloadAccepted)
-                {
-                    logger.Info("User declined autoload during pending update check. Restoring normal communications.");
-                    skipAutoloadAfterDecline = true;
 
-                    
-                        this.monitoring(true);
-                        this.RegisterPolling(true);
-                        this.requestRelayRegisters();
-                    
-
-                    ResetFullParameterDownloadState("parametersFinishedLoading.autoloadDeclined");
-                    return;
-                }
 
                 if (this.pendingAutoloadAfterBackup ||
                     this.ucRelayProgramming1.ReprogrammingInProgress ||
                     this.loadingNewCode)
                 {
-                    
+
                     ResetFullParameterDownloadState("parametersFinishedLoading.programmingTransitionStillActive");
                     return;
                 }
                 else
                 {
-                    
-                    
-                        this.monitoring(true);
-                        this.RegisterPolling(true);
-                        this.requestRelayRegisters();
-                 
+
+
+                    this.monitoring(true);
+                    this.RegisterPolling(true);
+                    this.requestRelayRegisters();
+
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
                     return;
@@ -4556,7 +4553,7 @@ namespace RelayControl
                 this.uc8CheckBoxFlagsGEControl2.SetValues(bytePacket[6]);
 
                 if ((bytePacket[5] & 16) == 16) // Insensitive Backfeed
-                    this.lbl_Relayststatus_Ib.BackColor = Color.LightGreen; 
+                    this.lbl_Relayststatus_Ib.BackColor = Color.LightGreen;
                 else if ((bytePacket[5] & 16) != 16) // Not in Insensitive Backfeed
                     this.lbl_Relayststatus_Ib.BackColor = Color.Transparent;
 
@@ -4564,7 +4561,7 @@ namespace RelayControl
                     this.lbl_Relayststatus_XP.BackColor = Color.FromArgb(64, 64, 64); // rgb for dark grey color 
 
                 if ((bytePacket[5] & 2) == 2) // Close
-                    this.lbl_Relayststatus_Close.BackColor = Color.Red; 
+                    this.lbl_Relayststatus_Close.BackColor = Color.Red;
 
                 if ((bytePacket[5] & 32) == 32) // Relax Close
                 {
@@ -4854,7 +4851,7 @@ namespace RelayControl
                 {
                     setLabelText("Open", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Green, this.labelRelayTrippedOrClose);
-                    
+
                     this.lbl_Relaystatus_Open.BackColor = Color.FromArgb(0, 255, 0); // rgb for green color
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4864,7 +4861,7 @@ namespace RelayControl
                 {
                     setLabelText("Float", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Yellow, this.labelRelayTrippedOrClose);
-                    
+
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Yellow; //Color.Green;
                     this.lbl_Relayststatus_RC.BackColor = Color.Transparent;
@@ -4874,7 +4871,7 @@ namespace RelayControl
                 {
                     setLabelText("Close", this.labelRelayTrippedOrClose);
                     setBackgroundColor(Color.Red, this.labelRelayTrippedOrClose);
-                   
+
                     this.lbl_Relaystatus_Open.BackColor = Color.Transparent;
                     this.lbl_Relayststatus_Float.BackColor = Color.Transparent;
                     /*
@@ -5122,7 +5119,7 @@ namespace RelayControl
                 closePacket[9] = bytePacket[11];
                 closePacket[11] = bytePacket[12];
                 closePacket[12] = bytePacket[13];
-                
+
                 this.ucCloseMode1.SetAllValues(closePacket);
             }
             catch (Exception ex)
@@ -5298,7 +5295,7 @@ namespace RelayControl
                     {
                         this.conedPhasing = (uint)temp;
                         this.comboBox_Phasings.SelectedIndex = 0; // safe display default
-                       
+
                     }
                     else if (temp == 0)
                     {
@@ -5319,26 +5316,26 @@ namespace RelayControl
                     if (temp == 1)
                     {
                         this.comboBox_Phasings.SelectedIndex = 1;
-                      
+
                     }
                     else if (temp == 0)
                     {
                         this.comboBox_Phasings.SelectedIndex = 0;
-                        
+
                     }
                     else if (temp > 48 && temp <= 54) // CONED-style encoding seen on non-CONED build
                     {
 #if !DOMINION
                         this.comboBox_Phasings.SelectedIndex = 0;
                         this.conedPhasing = (uint)temp;
-                        
+
 #endif
                     }
                     else
                     {
                         this.restoreDefaultsTypeAndPhasing();
-                       
-                        this.SendCTRatioAndPhasing(requestAfter: false);   
+
+                        this.SendCTRatioAndPhasing(requestAfter: false);
                     }
                 }
             }
@@ -5403,7 +5400,7 @@ namespace RelayControl
                 }
                 else
                 {
-                   // this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
+                    // this.messageHandler("Setting default values for Relay Type", "'" + Convert.ToChar(temp).ToString() + " " + "Invalid value for phasing received from relay");
                     this.restoreDefaultsTypeAndPhasing();
                     this.SendCTRatioAndPhasing(requestAfter: false);
                 }
@@ -5657,7 +5654,7 @@ namespace RelayControl
         private uint getMasterRevisionNumber(string revision)
         {
             uint returnInt;
-            revision = revision.Remove(0, 32); 
+            revision = revision.Remove(0, 32);
 
             try
             {
@@ -6620,7 +6617,7 @@ namespace RelayControl
 
         private void restoreDefaultsTypeAndPhasing()
         {
-            
+
             comboBoxDNPVoltage.SelectedItem = ProtectorVoltages.GetVoltage();
             checkBox277DNPOutputs.Checked = true;
 
@@ -7509,7 +7506,7 @@ namespace RelayControl
 
             this.monitoring(true);
             this.RegisterPolling(true);
-           
+
         }
 
         private void sendSaveCalibration()
@@ -7569,7 +7566,7 @@ namespace RelayControl
 
             try
             {
-                this.SendCTRatioAndPhasing(requestAfter : false);
+                this.SendCTRatioAndPhasing(requestAfter: false);
             }
             finally
             {
@@ -7808,7 +7805,7 @@ namespace RelayControl
                 this.sendPacket(bytePacket);
             }
         }
-       
+
         private void resetBothProcs()
         {
             byte[] packet = new byte[3];
@@ -7880,7 +7877,7 @@ namespace RelayControl
             {
                 setLabelText("Unknown", this.labelRelayTrippedOrClose);
                 setBackgroundColor(Color.Transparent, this.labelRelayTrippedOrClose);
-                
+
 
                 this.enableFlagsAndStatus(false);
 
@@ -8688,7 +8685,7 @@ namespace RelayControl
 
             if (this.comboBoxSavedStates.SelectedItem == null)
                 return;
-           
+
             try
             {
                 foreach (SavedSettingV4 s in this.saveObject.Settings)
@@ -8706,7 +8703,7 @@ namespace RelayControl
                 this.messageHandler("Error Selecting Saved Setting", ex);
             }
         }
-                
+
         private void comboBoxSavedStates_SelectedIndexChanged(object sender, EventArgs e)
         {
             SavedSettingV4 sS = new SavedSettingV4();
@@ -8943,8 +8940,8 @@ namespace RelayControl
             dnpBaudInitialized = true;
         }
 
-        private ProgressBarForm downloadProgress; 
-        
+        private ProgressBarForm downloadProgress;
+
         private void downloadingDialogCountDown(string title, string label, int halfSecondCounts, bool dialog)
         {
             this.enableAll(false);
@@ -9019,10 +9016,10 @@ namespace RelayControl
             this.sendAll = false;
             this.enableAll(true);
 
-            
+
             this.monitoring(true);
             this.RegisterPolling(true);
-           
+
 
             downloadEventsClicked = false;
 
@@ -10174,7 +10171,7 @@ namespace RelayControl
 
         private void requestDNPData()
         {
-          //  MessageBox.Show("sending commad to get DNP libe data from master processor"); // Only for testing - to be removed
+            //  MessageBox.Show("sending commad to get DNP libe data from master processor"); // Only for testing - to be removed
             byte[] sendPacket = new byte[3];
 
             sendPacket[0] = 0x05;
@@ -10186,7 +10183,7 @@ namespace RelayControl
 
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ManualUpdate.usingManualMode = true;
+
             this.ucRelayProgramming1.StartManualForcedUpdate();
         }
 
@@ -10365,6 +10362,7 @@ namespace RelayControl
             }
         }
         */
+
 
         private void initializeFromConfigFileDebug()
         {
@@ -10548,7 +10546,7 @@ namespace RelayControl
 
         private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
         {
-            if (this.ucRelayProgramming1.AutoloadAcceptedPendingBackup)
+            if (this.ucRelayProgramming1.backupIsPending)
             {
                 this.pendingAutoloadAfterBackup = true;
                 this.BackUpRelayDatatoFile();
@@ -10775,7 +10773,7 @@ namespace RelayControl
             // Debug popup before restore-send.
             // Verify which byte contains circle-close in 'C' packet.
             // Start with index 8/10 depending your protocol; adjust after first run.
-           
+
             this.sendPacket(packet_MC);
         }
 
@@ -11380,7 +11378,7 @@ namespace RelayControl
 
         private void btn_RestorePC_defaults_Click(object sender, EventArgs e)
         {
-           // MessageBox.Show("Restore default values for Permissive Close");
+            // MessageBox.Show("Restore default values for Permissive Close");
             this.numericUpDown_PC_floatTime.Value = 38;
             this.numericUpDown_PC_activeTime.Value = 15;
             this.numericUpDown_PC_voltage.Value = 5;
@@ -11584,7 +11582,7 @@ namespace RelayControl
 
         private void btn_clrLC_Click(object sender, EventArgs e)
         {
-            var response = MessageBox.Show("Are you sure you want to clear the count?","Clear Lightning Count?", MessageBoxButtons.YesNo);
+            var response = MessageBox.Show("Are you sure you want to clear the count?", "Clear Lightning Count?", MessageBoxButtons.YesNo);
 
             if (response == DialogResult.Yes)
             {
@@ -11810,26 +11808,47 @@ namespace RelayControl
             FlushBackupToDisk();
             pendingAutoloadAfterBackup = true;
 
-            // Critical: clear child backup gate before resuming the autoload continuation flow.
-            // This avoids the deadlock where ResumeAutoloadAfterBackup() sees the backup latch still set
-            // and suppresses itself while MainControl wrongly restores polling anyway.
-            this.ucRelayProgramming1.AutoloadAcceptedPendingBackup = false;
+            // Critical: clear child backup gate before resuming the continuation flow.
+            // This avoids deadlock where the child still sees the backup latch and suppresses itself.
+            this.ucRelayProgramming1.backupIsPending = false;
 
             logger.Info(
-                "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, AutoloadAcceptedPendingBackup={3}",
+                "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupIsPending={3}, startupIntent={4}",
                 this.ucRelayProgramming1.ReprogrammingInProgress,
                 pendingAutoloadAfterBackup,
                 pendingRestoreAfterProgramming,
-                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup);
+                this.ucRelayProgramming1.backupIsPending,
+                this.ucRelayProgramming1.CurrentStartupIntent);
 
-            this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
+            switch (this.ucRelayProgramming1.CurrentStartupIntent)
+            {
+                case ucRelayProgramming.StartupIntent.AutoApproved:
+                    this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
+                    logger.Info(
+                        "After ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, backupIsPending={1}, reprogrammingInProgress={2}, state={3}",
+                        pendingAutoloadAfterBackup,
+                        this.ucRelayProgramming1.backupIsPending,
+                        this.ucRelayProgramming1.ReprogrammingInProgress,
+                        this.ucRelayProgramming1.State);
+                    break;
 
-            logger.Info(
-                "After ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, AutoloadAcceptedPendingBackup={1}, reprogrammingInProgress={2}, state={3}",
-                pendingAutoloadAfterBackup,
-                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup,
-                this.ucRelayProgramming1.ReprogrammingInProgress,
-                this.ucRelayProgramming1.State);
+                case ucRelayProgramming.StartupIntent.ManualApproved:
+                    this.ucRelayProgramming1.ResumeManualAfterBackup();
+                    logger.Info(
+                        "After ResumeManualAfterBackup: pendingAutoloadAfterBackup={0}, backupIsPending={1}, reprogrammingInProgress={2}, state={3}",
+                        pendingAutoloadAfterBackup,
+                        this.ucRelayProgramming1.backupIsPending,
+                        this.ucRelayProgramming1.ReprogrammingInProgress,
+                        this.ucRelayProgramming1.State);
+                    break;
+
+                default:
+                    logger.Warn(
+                        "Backup complete but no approved startup intent was active; not resuming programming. startupIntent={0}",
+                        this.ucRelayProgramming1.CurrentStartupIntent);
+                    pendingAutoloadAfterBackup = false;
+                    return;
+            }
 
             // If the child has genuinely started programming, keep suppression active.
             if (this.ucRelayProgramming1.ReprogrammingInProgress ||
@@ -11859,17 +11878,16 @@ namespace RelayControl
             // If the child has not yet moved into a real programming state, do not restore comms.
             // The continuation is still ambiguous. Keep the system quiet until the child decides.
             if (pendingAutoloadAfterBackup ||
-                this.ucRelayProgramming1.AutoloadAcceptedPendingBackup ||
+                this.ucRelayProgramming1.backupIsPending ||
                 this.ucRelayProgramming1.State == RelayProgrammingStates.Idle)
             {
                 logger.Info(
                     "Autoload continuation still pending or child is still idle; keeping comm suppression active. " +
-                    "pendingAutoloadAfterBackup={0}, AutoloadAcceptedPendingBackup={1}, state={2}",
+                    "pendingAutoloadAfterBackup={0}, backupIsPending={1}, state={2}",
                     pendingAutoloadAfterBackup,
-                    this.ucRelayProgramming1.AutoloadAcceptedPendingBackup,
+                    this.ucRelayProgramming1.backupIsPending,
                     this.ucRelayProgramming1.State);
 
-                // Do NOT resume monitoring here.
                 return;
             }
 
@@ -11885,15 +11903,13 @@ namespace RelayControl
             System.Windows.Forms.Cursor.Current = Cursors.Default;
             this.enableAll(true);
 
-            
-                this.monitoring(true);
-                this.RegisterPolling(true);
-                this.requestRelayRegisters();
-           
+            this.monitoring(true);
+            this.RegisterPolling(true);
+            this.requestRelayRegisters();
         }
     }
 
-    public partial class MyPort : SerialPort
+        public partial class MyPort : SerialPort
     {
         public MyPort(System.ComponentModel.IContainer iC) : base(iC)
         {
