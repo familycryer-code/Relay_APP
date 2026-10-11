@@ -1907,7 +1907,7 @@ namespace RelayControl
                     this.loadingNewCode = true;
                     this.quietMode = true;
                     this.pauseMonitoring = true;
-                    this.sendPacket(rPEA.BytesToSend);
+                    this.sendPacketAck(rPEA.BytesToSend, "RelayProgramming RawData");  //this.sendPacket(rPEA.BytesToSend);
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
                     // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
@@ -7264,12 +7264,15 @@ namespace RelayControl
                 logger.Info("sendPacketAckComm writing packet. caller={0}, packet=[{1}]",
                     caller, BitConverter.ToString(bytePacket));
 
+                lock (_ackFlowLock)
+                {
+                    this.AcknowledgeCaller = caller;
+                    this.expectingAck = true;
+                    this.timerSCITimeOut.Enabled = true;
+                }
+
                 this.serialPort1.Write(bytePacket, 0, bytePacket.Length);
-
-                // Only set the ACK-in-flight after the actual send succeeds.
-                this.expectingAck = true;
-                this.timerSCITimeOut.Enabled = true;
-
+              
                 logger.Info("sendPacketAckComm set expectingAck=TRUE. caller={0}", caller);
                 logger.Info("sendPacketAckComm enabled timerSCITimeOut. caller={0}", caller);
                 logger.Info("sendPacketAckComm EXIT caller={0}", caller);
@@ -7278,8 +7281,11 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                this.expectingAck = false;
-                this.AcknowledgeCaller = string.Empty;
+                lock (_ackFlowLock)
+                {
+                    this.expectingAck = false;
+                    this.AcknowledgeCaller = string.Empty;
+                }
                 this.timerSCITimeOut.Enabled = false;
 
                 logger.Error(ex, "sendPacketAckComm EXCEPTION. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",

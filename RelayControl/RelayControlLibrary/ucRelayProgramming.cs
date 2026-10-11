@@ -194,7 +194,6 @@ namespace RelayControlLibrary
             if (manualFlowActive)
             {
                 logger.Info("RequestBootCodeUpload manual path: launching boot upload directly.");
-                this.programBootCodeInProgress = true;
                 this.ProgramBootCode();
                 return;
             }
@@ -1955,7 +1954,7 @@ namespace RelayControlLibrary
 
                 logger.Info("MasterBootLoaderStart: delaying before bootloader start for reset settle time at {0}",
                     DateTime.Now.ToString("HH:mm:ss.fff"));
-                Thread.Sleep(3000); // test timing margin after reset
+                //Thread.Sleep(3000);
 
                 logger.Info("MasterBootLoaderStart: sending #U at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
                 logger.Info("MasterBootLoaderStart sending #U packet: {0}", BitConverter.ToString(rPEA.BytesToSend));
