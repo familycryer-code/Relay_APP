@@ -1499,10 +1499,11 @@ namespace RelayControl
             this.buttonRQEventData.Enabled = true;
             this.requestLiveDataToolStripMenuItem1.Enabled = true;
             this.buttonReqLiveData.Enabled = true;
+
+            this.RegisterPolling(true);
+            this.monitoring(true);
             this.enableAll(true);
 
-            this.monitoring(true);
-            this.RegisterPolling(true);
 
             this.disableAllMonitoring();
         }
@@ -2048,7 +2049,7 @@ namespace RelayControl
 
                     if (checkBoxSerialCommsDebugging.Checked)
                     {
-                        logger.Info("RX BYTE: {0:X2} '{1}'", lastByte, (char)lastByte);
+                        logger.Trace("RX BYTE: {0:X2} '{1}'", lastByte, (char)lastByte);
                     }
 
                     if (checkBoxSerialCommsDebugging.Checked)
@@ -2059,7 +2060,7 @@ namespace RelayControl
                             if (testCount == 15)
                             {
                                 testCount = 0;
-                                logger.Info(DateTime.Now.ToString());
+                                logger.Trace(DateTime.Now.ToString());
                             }
                         }
                     }
@@ -2084,6 +2085,8 @@ namespace RelayControl
                 this.RegisterPolling(false);
                 this.resetCommunicationInterface();
                 this.RegisterPolling(true);
+                this.monitoring(true);
+                this.requestRelayRegisters();
             }
 
             if (clickbuttonCT.CTratioButton == true)
@@ -2107,10 +2110,13 @@ namespace RelayControl
             }
             catch
             {
+                
                 this.monitoring(false);
                 this.RegisterPolling(false);
                 this.resetCommunicationInterface();
                 this.RegisterPolling(true);
+                this.monitoring(true);
+                this.requestRelayRegisters();
             }
         }
 
@@ -2299,6 +2305,7 @@ namespace RelayControl
                 {
                     this.messageHandler("Error Checking Raw Communication Data", ex);
                     this.RegisterPolling(true);
+                    this.requestRelayRegisters();
                 }
             }
         }
@@ -2476,10 +2483,7 @@ namespace RelayControl
             }
             catch
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
+                this.RecoverComms("methodName/catch");
                 return false;
             }
         }
@@ -2505,10 +2509,7 @@ namespace RelayControl
             }
             catch
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
+                this.RecoverComms("methodName/catch");
                 return false;
             }
         }
@@ -2546,10 +2547,7 @@ namespace RelayControl
             }
             catch
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
+                this.RecoverComms("methodName/catch");
                 return false;
             }
         }
@@ -2664,10 +2662,7 @@ namespace RelayControl
             }
             catch //(Exception ex)
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
+                this.RecoverComms("methodName/catch");
                 return new byte[1];
 
             }
@@ -3757,9 +3752,7 @@ namespace RelayControl
             this.pQMonitoringEnabled = true;
             this.ProgramState = ProgramStates.Running;
 
-            this.monitoring(true);
-            this.RegisterPolling(true);
-            this.requestRelayRegisters();
+            this.RecoverComms("methodName/catch");
         }
 
 
@@ -4131,9 +4124,7 @@ namespace RelayControl
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
 
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    this.RecoverComms("methodName/catch");
 
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
@@ -4156,23 +4147,18 @@ namespace RelayControl
 
                 if (!pendingAutoloadAfterBackup)
                 {
-                    if (this.ucRelayProgramming1.ReprogrammingInProgress || this.loadingNewCode)
+                    if (this.ShouldAllowProgrammingTraffic())
                     {
-                        logger.Info("Parameters finished loading but programming transition is still active; suppressing normal communications.");
+                        logger.Info("parametersFinishedLoading: programming lifecycle active; keep protocol path open, do not restore background polling yet.");
+                    }
+                    else if (!this.ShouldSuppressBackgroundComms())
+                    {
+                        logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
+                        this.RecoverComms("methodName/catch");
                     }
                     else
                     {
-                        if (!this.ShouldSuppressPollingForProgrammingTransition())
-                        {
-                            logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
-                            this.monitoring(true);
-                            this.RegisterPolling(true);
-                            this.requestRelayRegisters();
-                        }
-                        else
-                        {
-                            logger.Info("Parameters finished loading: polling restore suppressed by programming-transition gate.");
-                        }
+                        logger.Info("Parameters finished loading: background polling restore suppressed by background-comm gate.");
                     }
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.noPendingAutoloadAfterBackup");
@@ -4185,9 +4171,7 @@ namespace RelayControl
                     pendingAutoloadAfterBackup = false;
 
 
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
+                    this.RecoverComms("methodName/catch");
 
 
                     skipAutoloadAfterDecline = false;
@@ -4198,28 +4182,24 @@ namespace RelayControl
 
                 pendingAutoloadAfterBackup = false;
 
-
-
-                if (this.pendingAutoloadAfterBackup ||
-                    this.ucRelayProgramming1.ReprogrammingInProgress ||
-                    this.loadingNewCode)
+                if (this.ShouldAllowProgrammingTraffic())
                 {
-
-                    ResetFullParameterDownloadState("parametersFinishedLoading.programmingTransitionStillActive");
+                    logger.Info("parametersFinishedLoading: lifecycle still active after autoload decision; deferring background comm restore.");
+                    ResetFullParameterDownloadState("parametersFinishedLoading.programmingLifecycleStillActive");
                     return;
+                }
+
+                if (!this.ShouldSuppressBackgroundComms())
+                {
+                    this.RecoverComms("methodName/catch");
                 }
                 else
                 {
-
-
-                    this.monitoring(true);
-                    this.RegisterPolling(true);
-                    this.requestRelayRegisters();
-
-
-                    ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
-                    return;
+                    logger.Info("parametersFinishedLoading: background comm restore suppressed by background gate.");
                 }
+
+                ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
+                return;
             }
             finally
             {
@@ -4227,22 +4207,28 @@ namespace RelayControl
             }
         }
 
-        private bool ShouldSuppressPollingForProgrammingTransition()
+        private bool ShouldAllowProgrammingTraffic()
         {
             if (this.ucRelayProgramming1 == null)
                 return false;
 
-            bool lifecycleActive = this.IsRelayProgrammingLifecycleActive();
+            return this.IsRelayProgrammingLifecycleActive();
+        }
 
-            bool flowLatchActive =
-                this.pendingAutoloadAfterBackup ||
-                this.pendingRestoreAfterProgramming ||
-                this.backupInProgress ||
-                this.loadingNewCode ||
-                this.quietMode ||
-                this.pauseMonitoring;
+        private bool ShouldSuppressBackgroundComms()
+        {
+            if (this.ucRelayProgramming1 == null)
+                return false;
 
-            return lifecycleActive || flowLatchActive;
+            if (this.IsRelayProgrammingLifecycleActive())
+                return false;
+
+            return this.pendingAutoloadAfterBackup ||
+                   this.pendingRestoreAfterProgramming ||
+                   this.backupInProgress ||
+                   this.loadingNewCode ||
+                   this.quietMode ||
+                   this.pauseMonitoring;
         }
 
         private bool IsRelayProgrammingLifecycleActive()
@@ -7438,10 +7424,7 @@ namespace RelayControl
                 this.messageHandler("Calibration", s);
             }
 
-            this.enableAll(true);
-
-            this.monitoring(true);
-            this.RegisterPolling(true);
+            this.RecoverComms("methodName/catch");
 
         }
 
@@ -7769,15 +7752,16 @@ namespace RelayControl
                 return;
             }
 
-            if (ucRelayProgramming1.ReprogrammingInProgress)
+            if (this.ShouldAllowProgrammingTraffic())
             {
-                this.timerRegisterPolling.Enabled = false;
+                // Programming lifecycle active: do not run background register polling this tick.
+                // Keep timer alive so we continue normal ticks.
+                this.timerRegisterPolling.Enabled = true;
                 return;
             }
 
             if (!this.pendingAutoloadAfterBackup &&
-                !this.ucRelayProgramming1.ReprogrammingInProgress &&
-                this.ucRelayProgramming1.State != RelayProgrammingStates.ReprogramSuccess)
+                !this.ShouldAllowProgrammingTraffic())
             {
                 this.loadingNewCode = false;
             }
@@ -7823,7 +7807,7 @@ namespace RelayControl
 
             if (!this.quietMode)
             {
-                if (this.pendingAutoloadAfterBackup || this.ucRelayProgramming1.ReprogrammingInProgress || this.loadingNewCode)
+                if (this.ShouldSuppressBackgroundComms())
                 {
                     logger.Info("Suppressing register polling during backup/programming transition.");
                 }
@@ -7836,7 +7820,7 @@ namespace RelayControl
             }
             else
             {
-                if (this.pendingAutoloadAfterBackup || this.ucRelayProgramming1.ReprogrammingInProgress || this.loadingNewCode)
+                if (this.ShouldSuppressBackgroundComms())
                 {
                     logger.Info("Suppressing Quiet Mode popup during backup/programming transition.");
                 }
@@ -8782,6 +8766,33 @@ namespace RelayControl
             return false;
         }
 
+        private void RecoverComms(string caller, Exception ex = null)
+        {
+            try
+            {
+                if (ex != null)
+                    logger.Error(ex, "RecoverComms invoked by {0}", caller);
+                else
+                    logger.Warn("RecoverComms invoked by {0}", caller);
+
+                this.monitoring(false);
+                this.RegisterPolling(false);
+                this.resetCommunicationInterface();
+
+                this.RegisterPolling(true);
+                this.monitoring(true);
+
+                if (this.timerRegisterPolling != null)
+                    this.timerRegisterPolling.Enabled = true;
+
+                this.requestRelayRegisters();
+            }
+            catch (Exception rex)
+            {
+                logger.Error(rex, "RecoverComms failed. caller={0}", caller);
+            }
+        }
+
         private void sendAllParameters()
         {
             sendAllF.SendAllFlag = true;
@@ -8952,10 +8963,7 @@ namespace RelayControl
             this.sendAll = false;
             this.enableAll(true);
 
-
-            this.monitoring(true);
-            this.RegisterPolling(true);
-
+            this.RecoverComms("methodName/catch");
 
             downloadEventsClicked = false;
 
@@ -10359,10 +10367,7 @@ namespace RelayControl
             }
             catch
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
+                this.RecoverComms("methodName/catch");
             }
 
             try
@@ -10375,10 +10380,7 @@ namespace RelayControl
             }
             catch
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
+                this.RecoverComms("methodName/catch");
             }
         }
 
@@ -11634,24 +11636,18 @@ namespace RelayControl
 
             // 4) Restore comms only when safe
             bool formAlive = !this.IsDisposed && !this.Disposing;
-            if (formAlive)
+            if (formAlive && !this.ShouldAllowProgrammingTraffic() && !this.ShouldSuppressBackgroundComms())
             {
-                this.monitoring(true);
-                this.RegisterPolling(true);
-                this.requestRelayRegisters();
+                this.RecoverComms("methodName/catch");
             }
             else
             {
                 logger.Info(
-                    "RestoreNormalCommsAfterAutoloadDecline: polling restore suppressed. formAlive={0}, state={1}, pendingAutoloadAfterBackup={2}, pendingRestoreAfterProgramming={3}, backupInProgress={4}, loadingNewCode={5}, quietMode={6}, pauseMonitoring={7}",
+                    "RestoreNormalCommsAfterAutoloadDecline: polling restore suppressed. formAlive={0}, allowProgrammingTraffic={1}, suppressBackgroundComms={2}, state={3}",
                     formAlive,
-                    this.ucRelayProgramming1?.State,
-                    this.pendingAutoloadAfterBackup,
-                    this.pendingRestoreAfterProgramming,
-                    this.backupInProgress,
-                    this.loadingNewCode,
-                    this.quietMode,
-                    this.pauseMonitoring);
+                    this.ShouldAllowProgrammingTraffic(),
+                    this.ShouldSuppressBackgroundComms(),
+                    this.ucRelayProgramming1?.State);
             }
 
             logger.Info(
@@ -11795,37 +11791,50 @@ namespace RelayControl
                 return;
             }
 
-            // If the child has not yet moved into a real programming state, do not restore comms.
-            // The continuation is still ambiguous. Keep the system quiet until the child decides.
-            if (pendingAutoloadAfterBackup ||
-                this.ucRelayProgramming1.backupIsPending ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.Idle)
+            // If the child is actively in the programming lifecycle, keep background suppression in place.
+            if (this.ShouldAllowProgrammingTraffic())
             {
+                pendingAutoloadAfterBackup = false;
                 logger.Info(
-                    "Autoload continuation still pending or child is still idle; keeping comm suppression active. " +
-                    "pendingAutoloadAfterBackup={0}, backupIsPending={1}, state={2}",
-                    pendingAutoloadAfterBackup,
-                    this.ucRelayProgramming1.backupIsPending,
+                    "Autoload continuation entered programming lifecycle; keep background comm suppression active. state={0}",
                     this.ucRelayProgramming1.State);
+                return;
+            }
+
+            // If the child is no longer in the programming lifecycle and there is no backup latch left,
+            // it is safe to restore normal comms.
+            if (!this.ucRelayProgramming1.backupIsPending)
+            {
+                logger.Info("Autoload continuation resolved with no active lifecycle; restoring normal UI/monitoring.");
+
+                pendingAutoloadAfterBackup = false;
+                this.loadingNewCode = false;
+                this.quietMode = false;
+                this.pauseMonitoring = false;
+
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+
+                if (!this.ShouldSuppressBackgroundComms())
+                {
+                    this.RecoverComms("methodName/catch");
+                }
+                else
+                {
+                    logger.Info("Restore deferred by background suppression gate.");
+                }
 
                 return;
             }
 
-            // Only if the child is clearly not in programming and no continuation latch remains, restore.
-            logger.Info("Autoload continuation resolved without a live programming state; restoring normal UI/monitoring.");
-            pendingAutoloadAfterBackup = false;
-            this.loadingNewCode = false;
-            this.quietMode = false;
-            this.pauseMonitoring = false;
-
-            this.UseWaitCursor = false;
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
-            this.enableAll(true);
-
-            this.monitoring(true);
-            this.RegisterPolling(true);
-            this.requestRelayRegisters();
+            // Fallback: the child still has a backup latch active, so keep suppression in place.
+            logger.Info(
+                "Autoload continuation still waiting on child backup latch; keeping comm suppression active. backupIsPending={0}, state={1}",
+                this.ucRelayProgramming1.backupIsPending,
+                this.ucRelayProgramming1.State);
+            return;
         }
     }
 

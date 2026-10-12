@@ -3266,7 +3266,7 @@ namespace RelayControl
             // checkBoxSerialCommsDebugging
             // 
             this.checkBoxSerialCommsDebugging.AutoSize = true;
-            this.checkBoxSerialCommsDebugging.Checked = true;
+            this.checkBoxSerialCommsDebugging.Checked = false;
             this.checkBoxSerialCommsDebugging.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSerialCommsDebugging.Location = new System.Drawing.Point(399, 15);
             this.checkBoxSerialCommsDebugging.Name = "checkBoxSerialCommsDebugging";

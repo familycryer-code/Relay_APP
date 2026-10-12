@@ -1460,21 +1460,6 @@ namespace RelayControlLibrary
                     return;
                 }
             }
-            /*
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
-            {
-                Command = RelayProgrammingSendCommands.SaveSettings
-            };
-            this.onSend(rPEA);
-
-            if (!this.programmingForm.MasterBootComplete)
-                this.programmingForm.ClearAllChecks();
-
-            this.startProgramming();
-
-            if (!this.programmingForm.Visible)
-                this.programmingForm.Show();
-            */
 
             // Boot is known and acceptable; continue via single gate function
             this.State = RelayProgrammingStates.AutoLoadCheckBoot; // AutoLoadCheckBoot in startAutoLoad
@@ -1545,6 +1530,12 @@ namespace RelayControlLibrary
                     this.State == RelayProgrammingStates.Finalized ||
                     this.State == RelayProgrammingStates.WaitForAllData;
 
+                bool activeProgrammingOrBackup =
+                    this.IsProgrammingActiveOrInFlight() ||
+                    this.backupIsPending ||
+                    this.programBootCodeInProgress ||
+                    this.reprogrammingInProgress;
+
                 if (!isFinalizationState &&
                     (this.State == RelayProgrammingStates.LoadingMasterBootLoader ||
                      this.State == RelayProgrammingStates.LoadingMasterCode ||
@@ -1552,16 +1543,17 @@ namespace RelayControlLibrary
                      this.State == RelayProgrammingStates.LoadingRelayCode ||
                      this.State == RelayProgrammingStates.LoadingRelayData ||
                      this.State == RelayProgrammingStates.LoadingFPGACode ||
-                     this.programBootCodeInProgress ||
-                     this.reprogrammingInProgress ||
-                     this.autoLoad))
+                     activeProgrammingOrBackup))
                 {
                     logger.Warn(
-                        "Suppressing RequestAll during bootloader/programming handoff. state={0}, programBootCodeInProgress={1}, reprogrammingInProgress={2}, autoLoad={3}",
+                        "Suppressing RequestAll during active programming/backup. state={0}, " +
+                        "programBootCodeInProgress={1}, reprogrammingInProgress={2}, " +
+                        "backupIsPending={3}, programmingActive={4}",
                         this.State,
                         this.programBootCodeInProgress,
                         this.reprogrammingInProgress,
-                        this.autoLoad);
+                        this.backupIsPending,
+                        this.IsProgrammingActiveOrInFlight());
                     return;
                 }
             }
