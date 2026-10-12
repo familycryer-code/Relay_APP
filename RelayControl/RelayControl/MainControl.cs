@@ -2039,6 +2039,12 @@ namespace RelayControl
             byte lastByte = 0;
             bool dReceived = false;
 
+            logger.Info("RAW RX: state={0}, reprogrammingInProgress={1}, notPollingPort={2}, manualMode={3}",
+               ucRelayProgramming1.State,
+               ucRelayProgramming1.ReprogrammingInProgress  ,
+               ucRelayProgramming1.NotPollingPort,
+               ManualUpdate.usingManualMode);
+
             try
             {
                 while (this.serialPort1.BytesToRead > 0)
@@ -10128,6 +10134,7 @@ namespace RelayControl
         private void reprogramRelayFileSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            logger.Info("Manual forced update invoked from reprogramRelayFileSelectToolStripMenuItem_Click");
             this.ucRelayProgramming1.StartManualForcedUpdate();
         }
 

@@ -1001,14 +1001,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.RefreshPendingFirmwareFromCurrentRevisions();
-
-            if (!this.AnyFirmwarePending())
-            {
-                logger.Info("InitializeAutoload: no firmware pending.");
-                return;
-            }
-
             DialogResult confirmUpdate = this.showManualLoadDialog(true);
             if (confirmUpdate != DialogResult.Yes)
             {
@@ -1025,12 +1017,12 @@ namespace RelayControlLibrary
                 return;
             }
 
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+
             ManualUpdate.usingManualMode = true;
             this.startupIntent = StartupIntent.ManualApproved;
             this.backupIsPending = true;
             RaiseBackupBeforeProgrammingRequested();
-            this.startManualLoad();
-           
         }
 
         public void ResumeManualAfterBackup()
@@ -1060,15 +1052,8 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (this.backupIsPending)
-            {
-                logger.Warn("ResumeManualAfterBackup suppressed; backup gate still latched.");
-                return;
-            }
-
-            logger.Info("ResumeManualAfterBackup approved path -> requesting fresh boot read.");
-            this.State = RelayProgrammingStates.ManualLoadCheckBoot;
-            this.sendReset();
+            logger.Info("ResumeManualAfterBackup start programming Manual mode.");
+            this.startProgramming();
         }
 
         public void ResumeAutoloadAfterBackup()
@@ -1112,102 +1097,7 @@ namespace RelayControlLibrary
             this.ResetAutoloadState(caller);
         }
 
-        // 2) Remove dead locals in manual reload path
-        private void startManualLoad()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            // Manual flow only runs when manual mode is active.
-            if (!this.IsManualFlowActive())
-            {
-                logger.Info("startManualLoad ignored because manual flow is not active.");
-                return;
-            }
-
-            // Manual flow should not run if auto flow is active.
-            if (this.IsAutoFlowActive())
-            {
-                logger.Info("startManualLoad bypassed because auto flow is active.");
-                return;
-            }
-
-            // Manual flow never uses auto boot-first continuation gate.
-            this.bootFirstAutoContinuation = false;
-
-            // Backup gate pause.
-            if (this.backupIsPending)
-            {
-                logger.Info("startManualLoad paused: backup is still pending.");
-                return;
-            }
-
-            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
-            {
-                logger.Info("startManualLoad suppressed; programming already active.");
-                return;
-            }
-
-            this.setProgrammingFiles();
-            this.RefreshPendingFirmwareFromCurrentRevisions();
-
-            if (!this.AnyFirmwarePending())
-            {
-                logger.Info("startManualLoad: no updates required; exiting manual flow.");
-                this.ResetAutoloadState("startManualLoad");
-                return;
-            }
-
-            if (this.serialNumberError)
-            {
-                logger.Warn("startManualLoad blocked: serial number error detected.");
-                this.ResetAutoloadState("startManualLoad");
-                return;
-            }
-
-            
-
-            bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
-            bool bootOld = this.masterBootRevisionSet &&
-                           this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
-
-            if (bootUnknown)
-            {
-                logger.Warn("startManualLoad: boot revision unknown; requesting fresh boot read (manual).");
-                this.State = RelayProgrammingStates.ManualLoadCheckBoot;
-                this.sendReset();
-                Thread.Sleep(500);
-                return;
-            }
-
-            if (bootOld)
-            {
-                logger.Info("startManualLoad: boot revision is old; scheduling boot repair path (manual full-update).");
-                this.RequestBootCodeUpload();
-                return;
-            }
-            /*
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
-            {
-                Command = RelayProgrammingSendCommands.SaveSettings
-            };
-            this.onSend(rPEA);
-            Thread.Sleep(500);
-
-            if (!this.programmingForm.MasterBootComplete)
-                this.programmingForm.ClearAllChecks();
-
-            this.startProgramming();
-
-            if (!this.programmingForm.Visible)
-                this.programmingForm.Show();
-            */
-            // Boot is known and acceptable; continue via single gate function
-            this.State = RelayProgrammingStates.ManualLoadCheckBoot; // AutoLoadCheckBoot in startAutoLoad
-            this.sendReset();
-            return;
-        }
-
-
+      
         private void setProgrammingFiles()
         {
             logger.Trace("Method: {0}", nameof(setProgrammingFiles));
@@ -1301,6 +1191,12 @@ namespace RelayControlLibrary
             logger.Trace("MP: " + this.textBoxMasterFileName.Text +
                          " RP: " + this.textBoxRelayFileName.Text +
                          " FPGA: " + this.textBoxFPGAFile.Text);
+
+            logger.Info("setProgrammingFiles OK: masterLen={0}, relayLen={1}, GERelay={2}, customer={3}",
+                this.masterCode?.FileString?.Length ?? 0,
+                this.relayCode?.FileString?.Length ?? 0,
+                this.GERelay,
+                customerDisplayName);
         }
 
 
@@ -1681,7 +1577,7 @@ namespace RelayControlLibrary
             switch (this.state)
             {
                 case RelayProgrammingStates.ManualPortSelectionWaitingForBoot:
-                    this.startManualLoad(); // FIXED
+                    //this.startManualLoad(); // FIXED
                     break;
 
                 case RelayProgrammingStates.WaitingForBootMaster:
@@ -3434,6 +3330,8 @@ namespace RelayControlLibrary
                 return;
             }
 
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
@@ -3461,7 +3359,6 @@ namespace RelayControlLibrary
                     _bootCodeRevisionNumber);
 
                 this.bootFirstAutoContinuation = false;
-                this.reprogrammingInProgress = false; // normal programming not started yet
                 this.RequestBootCodeUpload();
                 return;
             }
@@ -3653,69 +3550,6 @@ namespace RelayControlLibrary
         private void sendReset([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            bool stateAllowsReset =
-                this.State == RelayProgrammingStates.AutoLoadCheckBoot ||
-                this.State == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.State == RelayProgrammingStates.CheckMasterBootCode ||
-                this.State == RelayProgrammingStates.WaitingForBootMaster ||
-                this.State == RelayProgrammingStates.WaitingForBootRelay ||
-                this.State == RelayProgrammingStates.WaitingForBootFPGA;
-
-            bool activeProgramming =
-                this.autoLoad ||
-                this.reprogrammingInProgress ||
-                this.programBootCodeInProgress;
-
-            bool bootloaderSensitiveState =
-                this.State == RelayProgrammingStates.LoadingMasterBootLoader ||
-                this.State == RelayProgrammingStates.DoneLoadingMasterBootLoader ||
-                this.programBootCodeInProgress;
-
-            logger.Info(
-                "sendReset ENTRY caller={0}, state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, activeProgramming={5}, stateAllowsReset={6}, bootloaderSensitiveState={7}, manualMode={8}",
-                caller,
-                this.State,
-                this.autoLoad,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                activeProgramming,
-                stateAllowsReset,
-                bootloaderSensitiveState,
-                ManualUpdate.usingManualMode);
-
-            // Absolute guard: never reset during bootloader-sensitive states.
-            if (bootloaderSensitiveState && !stateAllowsReset)
-            {
-                logger.Warn(
-                    "sendReset suppressed (bootloader-sensitive invalid state) caller={0}, state={1}",
-                    caller,
-                    this.State);
-                return;
-            }
-
-            // Never reset during active programming unless state machine explicitly allows it.
-            if (activeProgramming && !stateAllowsReset)
-            {
-                logger.Warn(
-                    "sendReset suppressed (active programming invalid state) caller={0}, state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}",
-                    caller,
-                    this.State,
-                    this.autoLoad,
-                    this.reprogrammingInProgress,
-                    this.programBootCodeInProgress);
-                return;
-            }
-
-            // Block any raw reset from non-state-machine context.
-            if (!stateAllowsReset)
-            {
-                logger.Warn(
-                    "sendReset suppressed (non-state-machine context) caller={0}, state={1}",
-                    caller,
-                    this.State);
-                return;
-            }
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
