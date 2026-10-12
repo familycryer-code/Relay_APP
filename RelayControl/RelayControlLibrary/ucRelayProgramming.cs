@@ -2001,6 +2001,12 @@ namespace RelayControlLibrary
                 logger.Info("confirmProgramMasterBoot sending YES payload: {0}", BitConverter.ToString(rPEA.BytesToSend));
                 this.onSend(rPEA);
                 logger.Info("confirmProgramMasterBoot: YES sent at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
+
+                // short settle after YES so bootloader can enter data receive mode
+                Thread.Sleep(250);
+
+                logger.Info("confirmProgramMasterBoot: starting boot payload upload at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
+                this.sendMasterBootCode();
             }
         }
 

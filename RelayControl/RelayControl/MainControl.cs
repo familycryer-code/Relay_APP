@@ -1901,6 +1901,7 @@ namespace RelayControl
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
                 case RelayProgrammingSendCommands.RawData:
+                    
                     this.ucSafeService1.LoadingNewCode = true;
                     this.enableAll(false);
                     this.toolStripStatusLabelRelayDisconnected.Visible = false;
@@ -1908,31 +1909,8 @@ namespace RelayControl
                     this.quietMode = true;
                     this.pauseMonitoring = true;
 
-                    bool isBootloaderEnterPacket =
-                        rPEA.BytesToSend != null &&
-                        rPEA.BytesToSend.Length >= 4 &&
-                        rPEA.BytesToSend[0] == 0x23 && // '#'
-                        rPEA.BytesToSend[1] == 0x55;   // 'U'
-
-                    bool isYesPacket =
-                        rPEA.BytesToSend != null &&
-                        rPEA.BytesToSend.Length == 3 &&
-                        rPEA.BytesToSend[0] == (byte)'Y' &&
-                        rPEA.BytesToSend[1] == (byte)'E' &&
-                        rPEA.BytesToSend[2] == (byte)'S';
-
-                    if (isBootloaderEnterPacket || isYesPacket)
-                    {
-                        logger.Info("Bypassing ACK wait for bootloader handshake packet: {0}",
-                            BitConverter.ToString(rPEA.BytesToSend));
-
-                        // clear stale ACK state here if needed
-                        this.sendPacket(rPEA.BytesToSend);
-                    }
-                    else
-                    {
-                        this.sendPacketAck(rPEA.BytesToSend, "RelayProgramming RawData");
-                    }
+                    this.sendPacket(rPEA.BytesToSend);
+                    logger.Info("RawData SEND (ACK wait) | packet={0}", rPEA.BytesToSend);
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
                     // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
