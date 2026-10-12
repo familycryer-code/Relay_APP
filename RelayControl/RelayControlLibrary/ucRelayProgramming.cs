@@ -1201,6 +1201,10 @@ namespace RelayControlLibrary
             if (!this.programmingForm.Visible)
                 this.programmingForm.Show();
             */
+            // Boot is known and acceptable; continue via single gate function
+            this.State = RelayProgrammingStates.ManualLoadCheckBoot; // AutoLoadCheckBoot in startAutoLoad
+            this.sendReset();
+            return;
         }
 
 
@@ -1471,6 +1475,11 @@ namespace RelayControlLibrary
             if (!this.programmingForm.Visible)
                 this.programmingForm.Show();
             */
+
+            // Boot is known and acceptable; continue via single gate function
+            this.State = RelayProgrammingStates.AutoLoadCheckBoot; // AutoLoadCheckBoot in startAutoLoad
+            this.sendReset();
+            return;
         }
         public void PrepForBoot()
         {
