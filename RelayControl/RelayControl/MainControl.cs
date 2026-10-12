@@ -6326,6 +6326,45 @@ namespace RelayControl
                     logger.Info("SCI timeout tick with no pending ACK state.");
                 }
 
+                // NEW: programming/boot timeout handling (critical)
+                bool programmingFlowActive =
+                    this.loadingNewCode
+                    || this.ucRelayProgramming1.ReprogrammingInProgress
+                    || this.ucRelayProgramming1.ProgramBootCodeInProgress;
+
+                if (programmingFlowActive)
+                {
+                    logger.Error(
+                        "SCI timeout during programming/boot flow. caller={0}, loadingNewCode={1}, state={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, startupIntent={5}",
+                        timedOutCaller,
+                        this.loadingNewCode,
+                        this.ucRelayProgramming1.State,
+                        this.ucRelayProgramming1.ReprogrammingInProgress,
+                        this.ucRelayProgramming1.ProgramBootCodeInProgress,
+                        this.ucRelayProgramming1.CurrentStartupIntent);
+
+                    // clear local comm suppression flags
+                    this.loadingNewCode = false;
+                    this.quietMode = false;
+                    this.pauseMonitoring = false;
+                    this.SCITimedOut = true;
+
+                    // clear any stale deferred packet
+                    this.pendingRelayTypePhasingPacket = null;
+                    this.pendingRelayTypePhasingCaller = null;
+
+                    // ask programming control to reset its own state machine
+                    this.ucRelayProgramming1.DeclineAutoload("timerSCITimeOut_Tick", "SCI timeout during programming flow");
+
+                    // restore app comms/UI
+                    this.enableAll(true);
+
+                    this.noResponseError("Programming timed out; update flow was reset.");
+                    return; // IMPORTANT: do not fall through to generic request retries
+                }
+
+
+
                 if (this.expectingRelayRevision)
                 {
                     if (this.dataRetryCount == 3)
