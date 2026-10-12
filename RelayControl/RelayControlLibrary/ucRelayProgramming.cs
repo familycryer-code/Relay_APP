@@ -1164,12 +1164,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
-            {
-                Command = RelayProgrammingSendCommands.SaveSettings
-            };
-            this.onSend(rPEA);
-            Thread.Sleep(500);
+            
 
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
             bool bootOld = this.masterBootRevisionSet &&
@@ -1190,6 +1185,13 @@ namespace RelayControlLibrary
                 this.RequestBootCodeUpload();
                 return;
             }
+            /*
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
+            {
+                Command = RelayProgrammingSendCommands.SaveSettings
+            };
+            this.onSend(rPEA);
+            Thread.Sleep(500);
 
             if (!this.programmingForm.MasterBootComplete)
                 this.programmingForm.ClearAllChecks();
@@ -1198,6 +1200,7 @@ namespace RelayControlLibrary
 
             if (!this.programmingForm.Visible)
                 this.programmingForm.Show();
+            */
         }
 
 
@@ -1453,7 +1456,7 @@ namespace RelayControlLibrary
                     return;
                 }
             }
-
+            /*
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs
             {
                 Command = RelayProgrammingSendCommands.SaveSettings
@@ -1467,6 +1470,7 @@ namespace RelayControlLibrary
 
             if (!this.programmingForm.Visible)
                 this.programmingForm.Show();
+            */
         }
         public void PrepForBoot()
         {
