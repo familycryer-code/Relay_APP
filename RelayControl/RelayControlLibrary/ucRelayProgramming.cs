@@ -1954,13 +1954,13 @@ namespace RelayControlLibrary
 
                 logger.Info("MasterBootLoaderStart: delaying before bootloader start for reset settle time at {0}",
                     DateTime.Now.ToString("HH:mm:ss.fff"));
-                //Thread.Sleep(3000);
+                
 
                 logger.Info("MasterBootLoaderStart: sending #U at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
                 logger.Info("MasterBootLoaderStart sending #U packet: {0}", BitConverter.ToString(rPEA.BytesToSend));
                 this.onSend(rPEA);
                 logger.Info("MasterBootLoaderStart: #U packet sent at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-
+                Thread.Sleep(2000);  // wait for relay to send READY
                 confirmProgramMasterBoot();
             }
         }
