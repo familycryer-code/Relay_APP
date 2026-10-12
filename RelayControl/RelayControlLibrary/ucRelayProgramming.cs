@@ -1628,7 +1628,7 @@ namespace RelayControlLibrary
 
                         this.State = RelayProgrammingStates.LoadingMasterBootLoader;
                         logger.Info("packetAcknowledged: calling sendMasterBootCode() at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-                        this.sendMasterBootCode();
+                        //this.sendMasterBootCode();
                         break;
                 }
             }
@@ -2010,6 +2010,73 @@ namespace RelayControlLibrary
             }
         }
 
+        private DateTime? bootAckDeadline = null;
+        private int bootAckRetryCount = 0;
+        private const int BootAckTimeoutMs = 3000;
+        private const int BootAckMaxRetries = 2;
+
+        private void CheckBootAckTimeout()
+        {
+            if (this.State != RelayProgrammingStates.LoadingMasterBootLoader)
+                return;
+
+            if (!this.bootAckDeadline.HasValue)
+                return;
+
+            if (DateTime.Now <= this.bootAckDeadline.Value)
+                return;
+
+            this.bootAckRetryCount++;
+
+            logger.Warn(
+                "BOOT ACK TIMEOUT: retry={0}/{1}, deadline={2}, now={3}, remainingBytes={4}, state={5}",
+                this.bootAckRetryCount,
+                BootAckMaxRetries,
+                this.bootAckDeadline.Value.ToString("HH:mm:ss.fff"),
+                DateTime.Now.ToString("HH:mm:ss.fff"),
+                this.masterCode != null && this.masterCode.CodeBytes != null ? this.masterCode.CodeBytes.Count : -1,
+                this.State);
+
+            this.bootAckDeadline = null;
+
+            if (this.bootAckRetryCount <= BootAckMaxRetries)
+            {
+                logger.Warn("BOOT ACK TIMEOUT: retrying current boot block send.");
+                this.sendMasterBootCode();
+            }
+            else
+            {
+                logger.Error("BOOT ACK TIMEOUT: max retries exceeded; aborting bootloader upload.");
+
+                this.programBootCodeInProgress = false;
+                this.reprogrammingInProgress = false;
+                this.State = RelayProgrammingStates.Idle;
+
+                // optional: route through your existing error pipeline
+                // this.errorHandler("Bootloader ACK timeout exceeded retries.", null);
+            }
+        }
+
+        public bool HandleBootloaderAckByte(byte b)
+        {
+            if (this.State != RelayProgrammingStates.LoadingMasterBootLoader)
+                return false;
+
+            if (b != 0x06)
+                return false;
+
+            this.bootAckDeadline = null;
+            this.bootAckRetryCount = 0;
+
+            logger.Info(
+                "Bootloader ACK 0x06 received. Remaining boot bytes={0}, state={1}",
+                this.masterCode.CodeBytes != null ? this.masterCode.CodeBytes.Count : 0,
+                this.State);
+
+            this.sendMasterBootCode();
+            return true;
+        }
+
         private void sendMasterBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2031,6 +2098,8 @@ namespace RelayControlLibrary
                 if (this.masterCode.CodeBytes == null || this.masterCode.CodeBytes.Count == 0)
                 {
                     logger.Info("sendMasterBootCode: no remaining boot bytes; completing bootloader phase.");
+                    this.bootAckDeadline = null;
+                    this.bootAckRetryCount = 0;
                     this.doneLoadingMasterBootLoader();
                     return;
                 }
@@ -2050,20 +2119,24 @@ namespace RelayControlLibrary
                     rPEA.BytesToSend[i] = 0xFF;
                 }
 
-                logger.Info("sendMasterBootCode: sending boot block length={0} at {1}", rPEA.BytesToSend.Length, DateTime.Now.ToString("HH:mm:ss.fff"));
+                // Start ACK wait window for this block
+                this.bootAckDeadline = DateTime.Now.AddMilliseconds(BootAckTimeoutMs);
+
+                logger.Info(
+                    "sendMasterBootCode: sending boot block length={0} at {1}, ackDeadline={2}, remainingBytesAfterBuild={3}",
+                    rPEA.BytesToSend.Length,
+                    DateTime.Now.ToString("HH:mm:ss.fff"),
+                    this.bootAckDeadline.Value.ToString("HH:mm:ss.fff"),
+                    this.masterCode.CodeBytes.Count);
+
                 this.onSend(rPEA);
+
                 logger.Info("sendMasterBootCode: boot block sent at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
 
                 this.programmingForm.ProgressValue = temp;
                 temp++;
                 this.labelCodeCount.Text = temp.ToString();
                 logger.Trace("BL, ");
-
-                if (this.masterCode.CodeBytes.Count == 0)
-                {
-                    logger.Info("sendMasterBootCode: final boot block sent; completing bootloader phase.");
-                    this.doneLoadingMasterBootLoader();
-                }
             }
             catch (Exception ex)
             {
@@ -3751,6 +3824,8 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 20000;
             this.timerTimeout.Start();
+
+            this.CheckBootAckTimeout();
 
 
             switch (this.State)

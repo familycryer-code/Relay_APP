@@ -1820,7 +1820,7 @@ namespace RelayControl
             this.currentReprogramState = rPEA.Command;
 
             logger.Trace("Programming Command: {0}", rPEA.Command);
-            logger.Info($"Programming_Send RequestAll: requestedAllParameters(before)={this.requestedAllParameters}, ProgramState(before)={this.ProgramState}, loadingNewCode={this.loadingNewCode}");
+            logger.Info($"Programming_Send requestedAllParameters(before)={this.requestedAllParameters}, ProgramState(before)={this.ProgramState}, loadingNewCode={this.loadingNewCode}");
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
@@ -1901,16 +1901,29 @@ namespace RelayControl
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
                 case RelayProgrammingSendCommands.RawData:
-                    
-                    this.ucSafeService1.LoadingNewCode = true;
-                    this.enableAll(false);
-                    this.toolStripStatusLabelRelayDisconnected.Visible = false;
-                    this.loadingNewCode = true;
-                    this.quietMode = true;
-                    this.pauseMonitoring = true;
+                    // Do NOT enter global programming mode here.
+                    // This case is only about packet routing.
+                    // Do not call enableAll(false), do not set LoadingNewCode here.
 
-                    this.sendPacket(rPEA.BytesToSend);
-                    logger.Info("RawData SEND (ACK wait) | packet={0}", rPEA.BytesToSend);
+                    // Bootloader handshake packets are NOT generic ACK packets.
+                    // They follow the bootloader-specific protocol:
+                    //   #U -> READY
+                    //   YES -> start payload
+                    //   0x06 -> next payload block ACK
+                    // so send them raw and do not use sendPacketAckComm()
+
+                    if (IsBootloaderHandshakePacket(rPEA.BytesToSend))
+                    {
+                        // #U or YES is raw bootloader protocol traffic
+                        this.sendPacket(rPEA.BytesToSend);
+                    }
+                    else
+                    {
+                        // everything else stays a normal raw packet send
+                        this.sendPacket(rPEA.BytesToSend);
+                    }
+
+                    logger.Info("RawData SEND | packet={0}", BitConverter.ToString(rPEA.BytesToSend));
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
                     // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
@@ -1930,6 +1943,28 @@ namespace RelayControl
             }
             logger.Info($"Programming_Send RequestAll: requestedAllParameters(after)={this.requestedAllParameters}, ProgramState(after)={this.ProgramState}");
         }
+
+        private bool IsBootloaderHandshakePacket(byte[] packet)
+        {
+            if (packet == null || packet.Length == 0)
+                return false;
+
+            // #U
+            if (packet.Length >= 2 &&
+                packet[0] == 0x23 &&
+                packet[1] == 0x55)
+                return true;
+
+            // YES
+            if (packet.Length >= 3 &&
+                packet[0] == 0x59 &&
+                packet[1] == 0x45 &&
+                packet[2] == 0x53)
+                return true;
+
+            return false;
+        }
+
 
         private void ucTransmitter1_Send(SendEventArgs sEA)
         {
@@ -2097,7 +2132,7 @@ namespace RelayControl
         {
             byte lastByte = 0;
             bool dReceived = false;
-            
+
             try
             {
                 while (this.serialPort1.BytesToRead > 0)
@@ -2105,9 +2140,19 @@ namespace RelayControl
                     this.SendConfirmed = true;
 
                     lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
+
+                    bool bootUploadActive =
+                        this.ucRelayProgramming1 != null &&
+                        this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader;
+
+                    // Log bytes only in debug mode, or while boot upload is active
+                    if (checkBoxSerialCommsDebugging.Checked || bootUploadActive)
+                    {
+                        logger.Info("BOOT RX BYTE: {0:X2} '{1}'", lastByte, (char)lastByte);
+                    }
+
                     if (checkBoxSerialCommsDebugging.Checked)
                     {
-                        //logger.Trace(new ASCIIEncoding().GetString(new byte[] { lastByte }));
                         if (lastByte == '-')
                         {
                             testCount++;
@@ -2118,47 +2163,37 @@ namespace RelayControl
                             }
                         }
                     }
+
                     if (lastByte == 0x06)
                     {
-                        string ackCaller = null;
-                        bool acceptedAck = false;
+                        this.SendConfirmed = true;
+                        this.timerSCITimeOut.Enabled = false;
 
-                        lock (_ackFlowLock)
+                        bool inBootUpload =
+                            this.ucRelayProgramming1 != null &&
+                            this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader;
+
+                        bool consumedByBootloader = false;
+
+                        if (inBootUpload)
                         {
-                            if (!this.expectingAck)
-                            {
-                                logger.Warn("Duplicate ACK ignored. expectingAck=False, caller={0}", this.AcknowledgeCaller);
-                            }
-                            else
-                            {
-                                ackCaller = this.AcknowledgeCaller;
-                                this.expectingAck = false;
-                                this.AcknowledgeCaller = string.Empty;
-                                acceptedAck = true;
-                            }
+                            consumedByBootloader = this.ucRelayProgramming1.HandleBootloaderAckByte(lastByte);
+
+                            logger.Info(
+                                "RX 0x06 while boot upload active. consumedByBootloader={0}, state={1}",
+                                consumedByBootloader,
+                                this.ucRelayProgramming1.State);
+
+                            // IMPORTANT:
+                            // Never fall through to legacy ack path while in boot upload state.
                         }
-
-                        if (acceptedAck)
+                        else
                         {
-                            this.SendConfirmed = true;
-                            this.timerSCITimeOut.Enabled = false;
-
-                            // IMPORTANT: keep this call
+                            // Normal legacy ack path for non-bootloader states
                             packetAcknowledged(true);
-
-                            logger.Info("ACK received. caller={0}, expectingAck(after)={1}", ackCaller, this.expectingAck);
-
-                            if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
-                            {
-                                logger.Info("Drain blocked (ACK-RX-{0}): parameter download active. requestedAllParameters={1}, ProgramState={2}",
-                                    ackCaller, this.requestedAllParameters, this.ProgramState);
-                            }
-                            else if (string.Equals(ackCaller, "CT Ratio Send", StringComparison.OrdinalIgnoreCase))
-                            {
-                                this.TryDrainPendingRelayTypePhasingSend("ACK-RX-CT");
-                            }
                         }
                     }
+
                     if (lastByte == 0x0D)
                         dReceived = true;
 
@@ -2176,7 +2211,6 @@ namespace RelayControl
             if (clickbuttonCT.CTratioButton == true)
             {
                 clickbuttonCT.CTratioButton = false;
-                //this.cTRatioCalculatorToolStripMenuItem_Click(this, new EventArgs());
 
                 this.Invoke(new Action(() =>
                 {
@@ -2185,24 +2219,42 @@ namespace RelayControl
                 }));
             }
 
-            //Check to see if the last byte is a confirmation
-            try
+            // Parser gate: normal comms continue normally EXCEPT during master bootloader upload.
+            bool bootUploadActiveNow =
+                this.ucRelayProgramming1 != null &&
+                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader;
+
+            if (!bootUploadActiveNow)
             {
-                if (!this.readSemaphoreTaken || dReceived)//lastByte == 0x0D )
+                try
                 {
-                    this.BeginInvoke(new EventHandler(this.checkRawData));
-                    dReceived = false;
+                    if (!this.readSemaphoreTaken || dReceived)
+                    {
+                        this.BeginInvoke(new EventHandler(this.checkRawData));
+                        dReceived = false;
+                    }
+                }
+                catch
+                {
+                    this.monitoring(false);
+                    this.RegisterPolling(false);
+                    this.resetCommunicationInterface();
+                    this.RegisterPolling(true);
                 }
             }
-            catch //(Exception ex)
+            else
             {
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-                this.RegisterPolling(true);
-            }
+                // Definitive proof parser is gated during boot upload
+                logger.Info(
+                    "BOOTLOADER GATE ACTIVE: skipping checkRawData. state={0}, dReceived={1}, readSemaphoreTaken={2}",
+                    this.ucRelayProgramming1.State,
+                    dReceived,
+                    this.readSemaphoreTaken);
 
+                dReceived = false;
+            }
         }
+
 
         private void packetAcknowledged(bool b)
         {
@@ -4524,14 +4576,6 @@ namespace RelayControl
         private void setRelayRegisters(byte[] bytePacket)
         {
             this.expectingRelayRegisters = false;
-            if (ucRelayProgramming1.ProgramBootCodeInProgress == true)
-            {
-                this.quietMode = true;
-                this.pauseMonitoring = true;
-                return;
-            }
-
-
             setRelayStatusLabels(bytePacket);
         }
 
