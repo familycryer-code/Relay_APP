@@ -1628,7 +1628,7 @@ namespace RelayControlLibrary
 
                         this.State = RelayProgrammingStates.LoadingMasterBootLoader;
                         logger.Info("packetAcknowledged: calling sendMasterBootCode() at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-                        //this.sendMasterBootCode();
+                        this.sendMasterBootCode();
                         break;
                 }
             }
@@ -2006,7 +2006,6 @@ namespace RelayControlLibrary
                 Thread.Sleep(250);
 
                 logger.Info("confirmProgramMasterBoot: starting boot payload upload at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-                this.sendMasterBootCode();
             }
         }
 
