@@ -2119,7 +2119,7 @@ namespace RelayControl
         {
             byte lastByte = 0;
             bool dReceived = false;
-
+            
             try
             {
                 while (this.serialPort1.BytesToRead > 0)
@@ -7367,9 +7367,27 @@ namespace RelayControl
                 return;
             }
 
+            // Existing guard
             if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
-                logger.Info("Drain blocked: parameter download active. origin={0}, caller={1}", origin, this.pendingRelayTypePhasingCaller);
+                logger.Info("Drain blocked: parameter download active. origin={0}, caller={1}",
+                    origin, this.pendingRelayTypePhasingCaller);
+                return;
+            }
+
+            // NEW: block drain while programming/boot flow suppresses comms
+            if (this.loadingNewCode
+                || this.ucRelayProgramming1.ReprogrammingInProgress
+                || this.ucRelayProgramming1.ProgramBootCodeInProgress
+                || this.ucRelayProgramming1.CurrentStartupIntent != ucRelayProgramming.StartupIntent.None)
+            {
+                logger.Info("Drain blocked: programming/boot flow active. origin={0}, caller={1}, loadingNewCode={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, startupIntent={5}",
+                    origin,
+                    this.pendingRelayTypePhasingCaller,
+                    this.loadingNewCode,
+                    this.ucRelayProgramming1.ReprogrammingInProgress,
+                    this.ucRelayProgramming1.ProgramBootCodeInProgress,
+                    this.ucRelayProgramming1.CurrentStartupIntent);
                 return;
             }
 
