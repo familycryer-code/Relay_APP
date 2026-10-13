@@ -4248,7 +4248,7 @@ namespace RelayControl
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
+                    this.ucRelayProgramming1.State  == RelayProgrammingStates.LoadingFPGACode ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
