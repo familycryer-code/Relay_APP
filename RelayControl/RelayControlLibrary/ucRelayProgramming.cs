@@ -2563,14 +2563,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-           // if (ManualUpdate.usingManualMode)
-           // {
-               // this.startMasterProgramming();
-            //}
-
-            this.reprogrammingInProgress = true;
-            this.programBootCodeInProgress = false;
-
             this.state = RelayProgrammingStates.LoadingMasterCode;
 
             Thread.Sleep(20);
@@ -3334,6 +3326,14 @@ namespace RelayControlLibrary
                 return;
             }
 
+            if (this.state == RelayProgrammingStates.WaitingForBootMaster &&
+                this.reprogrammingInProgress &&
+                !this.programBootCodeInProgress)
+            {
+                logger.Warn("startProgramming: clearing stale reprogrammingInProgress in WaitingForBootMaster.");
+                this.reprogrammingInProgress = false;
+            }
+
             // Backup gate must complete before any programming begins.
             if (this.backupIsPending)
             {
@@ -3459,6 +3459,9 @@ namespace RelayControlLibrary
                 return;
             }
             this.parseSFile(this.masterCode);
+
+            this.reprogrammingInProgress = false;
+            this.programBootCodeInProgress = false;
 
             this.state = RelayProgrammingStates.WaitingForBootMaster;
             this.programmingForm.MasterCodeComplete = false;
