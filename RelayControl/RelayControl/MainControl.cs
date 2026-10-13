@@ -5468,10 +5468,6 @@ namespace RelayControl
         {
             string revision;
 
-#pragma warning disable CS0168 // variable declared but never used
-            string trim_rev;
-#pragma warning restore CS0168
-
             try
             {
                 revision = "R";
