@@ -2534,6 +2534,14 @@ namespace RelayControlLibrary
         private void sendMasterTransferPacket()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            if (ManualUpdate.usingManualMode)
+            {
+                this.startMasterProgramming();
+            }
+
+            Thread.Sleep(20);  // to allow master programming setup
+
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[4];
 
@@ -2545,7 +2553,6 @@ namespace RelayControlLibrary
                 rPEA.BytesToSend[2] = this.masterCode.NonParameterCount;
             rPEA.BytesToSend[3] = 0x0D;
 
-            Thread.Sleep(5);
             if (this.Send != null)
             {
                 this.onSend(rPEA);
@@ -3231,8 +3238,13 @@ namespace RelayControlLibrary
             this.programmingForm.Maximum = temp;
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
-            this.sendReset();
+
             this.enableButtons(false);
+
+            if (!ManualUpdate.usingManualMode)
+            {
+                this.sendReset();
+            }
         }
 
         private void startMasterProgrammingWithParameters()
