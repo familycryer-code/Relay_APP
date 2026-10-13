@@ -1561,8 +1561,6 @@ namespace RelayControlLibrary
                 logger.Info("BootReceived manual path: skipping boot repair logic; manual update is full-update mode.");
             }
 
-           
-
             switch (this.state)
             {
                 case RelayProgrammingStates.ManualPortSelectionWaitingForBoot:
@@ -2448,12 +2446,8 @@ namespace RelayControlLibrary
             this.masterBootRevisionSet = false;
             this.masterBootRevisionNumberReceived = 0;
 
-            const int resetReadbackDelayMs = 3000;
-            logger.Info("doneLoadingMasterBootLoader: waiting {0} ms for relay reset/readback to settle.", resetReadbackDelayMs);
-            Thread.Sleep(resetReadbackDelayMs);
-
             this.state = manualFlowActive
-                ? RelayProgrammingStates.ManualLoadCheckBoot
+                ? RelayProgrammingStates.WaitingForBootMaster
                 : RelayProgrammingStates.AutoLoadCheckBoot;
 
             this.sendReset();
@@ -3238,8 +3232,6 @@ namespace RelayControlLibrary
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
             this.sendReset();
-            if (programmingForm.MasterBootComplete)
-                Thread.Sleep(1000);
             this.enableButtons(false);
         }
 
@@ -3542,6 +3534,8 @@ namespace RelayControlLibrary
                 BitConverter.ToString(rPEA.BytesToSend));
 
             this.onSend(rPEA);
+            // wait after sending, not before
+            Thread.Sleep(2000); // 2 seconds for hardware to respond properly
         }
 
         private void buttonProgramRelay_Click(object sender, EventArgs e)
@@ -3597,8 +3591,6 @@ namespace RelayControlLibrary
             this.labelCodeCount.Text = "0";
             this.labelCodeTotal.Text = "96";
             this.sendReset();
-            if (programmingForm.MasterBootComplete)
-                Thread.Sleep(1000);
         }
 
         #endregion
