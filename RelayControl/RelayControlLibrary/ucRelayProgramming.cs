@@ -820,7 +820,6 @@ namespace RelayControlLibrary
 
             this.backupIsPending = true;
             RaiseBackupBeforeProgrammingRequested();
-
             this.startupIntent = StartupIntent.AutoApproved;
             this.autoLoad = true;  // autoload is running
          
@@ -1005,7 +1004,6 @@ namespace RelayControlLibrary
             if (confirmUpdate != DialogResult.Yes)
             {
                 ManualUpdate.usingManualMode = false;
-                this.backupIsPending = false;
                 return;
             }
 
@@ -1013,7 +1011,6 @@ namespace RelayControlLibrary
             if (confirmWarning != DialogResult.OK)
             {
                 ManualUpdate.usingManualMode = false;
-                this.backupIsPending = false;
                 return;
             }
 
@@ -1021,8 +1018,8 @@ namespace RelayControlLibrary
 
             ManualUpdate.usingManualMode = true;
             this.startupIntent = StartupIntent.ManualApproved;
-            this.backupIsPending = true;
-            RaiseBackupBeforeProgrammingRequested();
+            //RaiseBackupBeforeProgrammingRequested();  do not call auto takes care of it on startup.
+            this.ResumeManualAfterBackup();
         }
 
         public void ResumeManualAfterBackup()
@@ -1059,6 +1056,8 @@ namespace RelayControlLibrary
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
+            // Backup has completed. The gate is no longer valid.
+            this.backupIsPending = false;
 
             if (this.startupIntent != StartupIntent.AutoApproved)
             {
@@ -1083,9 +1082,6 @@ namespace RelayControlLibrary
                 this.RaiseAutoloadDeclined();
                 return;
             }
-
-            // Backup has completed. The gate is no longer valid.
-            this.backupIsPending = false;
 
             logger.Info("ResumeAutoloadAfterBackup approved path -> re-entering autoload startup flow.");
             this.startAutoLoad();
@@ -1356,7 +1352,7 @@ namespace RelayControlLibrary
                     return;
                 }
             }
-
+            
             // Boot is known and acceptable; continue via single gate function
             this.State = RelayProgrammingStates.AutoLoadCheckBoot; // AutoLoadCheckBoot in startAutoLoad
             this.sendReset();
@@ -1782,7 +1778,6 @@ namespace RelayControlLibrary
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
             this.NotPollingPort = false;
-            this.backupIsPending = false;
             this.autoLoad = false;
             this.autoLoadRequested = false;
             this.autoPromptsApprovedThisCycle = false;

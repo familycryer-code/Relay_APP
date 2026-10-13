@@ -2039,12 +2039,13 @@ namespace RelayControl
             byte lastByte = 0;
             bool dReceived = false;
 
+            /*
             logger.Info("RAW RX: state={0}, reprogrammingInProgress={1}, notPollingPort={2}, manualMode={3}",
                ucRelayProgramming1.State,
                ucRelayProgramming1.ReprogrammingInProgress  ,
                ucRelayProgramming1.NotPollingPort,
                ManualUpdate.usingManualMode);
-
+            */
             try
             {
                 while (this.serialPort1.BytesToRead > 0)
