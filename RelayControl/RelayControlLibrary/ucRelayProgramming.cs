@@ -80,6 +80,7 @@ namespace RelayControlLibrary
         private bool notPollingPort = false;
         private bool startWarningShownThisCycle = false;
         private bool reprogrammingInProgress = false;
+        private bool bootLoadDone = false;
         public bool backupIsPending { get; set; } = false;
         
 
@@ -2324,6 +2325,7 @@ namespace RelayControlLibrary
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
             this.bootFirstAutoContinuation = false;
+            this.bootLoadDone = false;
 
             this.programmingForm.CurrentTask = "Finalizing Update";
             this.state = RelayProgrammingStates.ReprogramSuccess;
@@ -2360,6 +2362,7 @@ namespace RelayControlLibrary
             this.programBootCodeInProgress = false;
             this.bootFirstAutoContinuation = false;
             this.autoLoad = false;
+            this.bootLoadDone = false;
 
             this.ShowFinalSuccessPopupOnce();
 
@@ -2433,21 +2436,25 @@ namespace RelayControlLibrary
                 || this.state == RelayProgrammingStates.ReloadMasterBoot;
         }
 
+
         private void doneLoadingMasterBootLoader()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             bool bootOnlyAutoContinuation = this.bootFirstAutoContinuation;
 
+            bool pendingMaster = this.reprogramMaster;
+            bool pendingRelay = this.reprogramRelay;
+            bool pendingFPGA = this.reprogramFPGA;
+
             bool manualFlowActive =
                 this.startupIntent == StartupIntent.ManualApproved ||
                 ManualUpdate.usingManualMode ||
                 this.backupIsPending;
 
-            // Close previous active programming cycle before moving on.
             this.programBootCodeInProgress = false;
             this.reprogrammingInProgress = false;
-        
+
             this.state = RelayProgrammingStates.DoneLoadingMasterBootLoader;
             this.enableButtons(true);
             this.timerTimeout.Stop();
@@ -2456,13 +2463,11 @@ namespace RelayControlLibrary
             if (manualFlowActive || !this.autoLoad)
                 this.bootFirstAutoContinuation = false;
 
-            this.masterBootRevisionSet = false;
-            this.masterBootRevisionNumberReceived = 0;
+            // Bootloader phase is complete.
+            this.bootLoadDone = true;
 
-            if (bootOnlyAutoContinuation &&
-                !this.reprogramMaster &&
-                !this.reprogramRelay &&
-                !this.reprogramFPGA)
+            // Special case: boot repair only; no payload left.
+            if (bootOnlyAutoContinuation && !pendingMaster && !pendingRelay && !pendingFPGA)
             {
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: auto boot-only continuation finalization.");
                 this.programmingForm.Hide();
@@ -2473,13 +2478,9 @@ namespace RelayControlLibrary
                 return;
             }
 
-            logger.Info(
-                "doneLoadingMasterBootLoader: boot read re-triggered after reset; waiting for fresh BootReceived() on {0}",
-                this.state);
-
-            //manual boot load is finished, now continue with the rest of the programming flow
-            this.startProgramming();
-
+            logger.Info("doneLoadingMasterBootLoader: boot payload complete; waiting for fresh BootReceived() after reset.");
+            this.sendReset();
+            return;
         }
 
         public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
@@ -3424,7 +3425,7 @@ namespace RelayControlLibrary
             //    If manual flow is active and the boot code is unknown/too old,
             //    we must upload the boot code before any main payload programming.
             // --------------------------------------------------------------------
-            if (manualFlowActive && ManualUpdate.usingManualMode && (bootUnknown || bootOld))
+            if (ManualUpdate.usingManualMode && !this.bootLoadDone)
             {
                 logger.Warn(
                     "startProgramming: manual full-update requires boot-first. bootUnknown={0}, bootOld={1}, bootRev={2}, required={3}",
