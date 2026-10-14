@@ -1818,25 +1818,37 @@ namespace RelayControl
 
         private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
         {
+            
             this.currentReprogramState = rPEA.Command;
+
+            logger.Info(
+                "PROGRAM_SEND_DIAG | command={0} | ProgramState={1} | currentReprogramState={2} | loadingNewCode={3} | quietMode={4} | pauseMonitoring={5} | toolStripRelayDisconnected={6} | ucState={7} | ucNotPollingPort={8} | ucReprogramming={9} | ucBootProg={10} | ucStartupIntent={11}",
+                rPEA.Command,
+                this.ProgramState,
+                this.currentReprogramState,
+                this.loadingNewCode,
+                this.quietMode,
+                this.pauseMonitoring,
+                this.toolStripStatusLabelRelayDisconnected.Visible,
+                this.ucRelayProgramming1?.State,
+                this.ucRelayProgramming1?.NotPollingPort,
+                this.ucRelayProgramming1?.ReprogrammingInProgress,
+                this.ucRelayProgramming1?.ProgramBootCodeInProgress,
+                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None
+            );
 
             logger.Trace("Programming Command: {0}", rPEA.Command);
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
                     this.ProgramState = ProgramStates.DownloadingAllParameters;
-                    loadingNewCode = false;
-                    Thread.Sleep(6000);
                     clearRemoteBuffer();
-                    Thread.Sleep(1000);
                     requestRelayRevision();
                     break;
                 case RelayProgrammingSendCommands.RestartProgram:
-                    this.quietMode = false;
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     break;
                 case RelayProgrammingSendCommands.SaveSettings:
-                    this.ucSafeService1.LoadingNewCode = true;
                     this.getAllSaveStates(this.reprogrammingTempSettings);
                     break;
                 case RelayProgrammingSendCommands.TransmitterSettings:
@@ -1845,12 +1857,8 @@ namespace RelayControl
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
                 case RelayProgrammingSendCommands.RawData:
-                    this.ucSafeService1.LoadingNewCode = true;
                     this.enableAll(false);
                     this.toolStripStatusLabelRelayDisconnected.Visible = false;
-                    this.loadingNewCode = true;
-                    this.quietMode = true;
-                    this.pauseMonitoring = true;
                     this.sendPacket(rPEA.BytesToSend);
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
@@ -3811,8 +3819,6 @@ namespace RelayControl
                 if (this.relayCodeRevisionNumber < 20130111)
                 {
                     this.ucSafeService1.Visible = false;
-                    // Added this for potential upgrade of software
-                    this.ucSafeService1.LoadingNewCode = true;
                 }
                 else
                     this.ucSafeService1.Visible = true;
@@ -4227,10 +4233,8 @@ namespace RelayControl
             if (this.ucRelayProgramming1 == null)
                 return false;
 
-            if (this.IsRelayProgrammingLifecycleActive())
-                return false;
-
-            return this.pendingAutoloadAfterBackup ||
+            return this.IsRelayProgrammingLifecycleActive() ||
+                   this.pendingAutoloadAfterBackup ||
                    this.pendingRestoreAfterProgramming ||
                    this.backupInProgress ||
                    this.loadingNewCode ||
@@ -4243,12 +4247,13 @@ namespace RelayControl
             return this.ucRelayProgramming1 != null &&
                    (this.ucRelayProgramming1.ReprogrammingInProgress ||
                     this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForMaster || // add this
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
-                    this.ucRelayProgramming1.State  == RelayProgrammingStates.LoadingFPGACode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
@@ -7730,6 +7735,8 @@ namespace RelayControl
 
         private void resetBothProcs()
         {
+            //DEBUG
+            /*
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'B';
@@ -7737,6 +7744,24 @@ namespace RelayControl
             packet[2] = 0x0D;
 
             this.sendPacket(packet);
+            */
+
+            logger.Info(
+                 "PROGRAM_SEND_DIAG | ProgramState={0} | currentReprogramState={1} | loadingNewCode={2} | quietMode={3} | pauseMonitoring={4} | toolStripRelayDisconnected={5} | ucState={6} | ucNotPollingPort={7} | ucReprogramming={8} | ucBootProg={9} | ucStartupIntent={10}",  
+                 this.ProgramState,
+                 this.currentReprogramState,
+                 this.loadingNewCode,
+                 this.quietMode,
+                 this.pauseMonitoring,
+                 this.toolStripStatusLabelRelayDisconnected.Visible,
+                 this.ucRelayProgramming1?.State,
+                 this.ucRelayProgramming1?.NotPollingPort,
+                 this.ucRelayProgramming1?.ReprogrammingInProgress,
+                 this.ucRelayProgramming1?.ProgramBootCodeInProgress,
+                 this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None
+             );
+
+            ucRelayProgramming1.sendReset();
         }
 
         private bool registersReceived = false;

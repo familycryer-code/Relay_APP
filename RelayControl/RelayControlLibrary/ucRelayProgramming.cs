@@ -1309,7 +1309,21 @@ namespace RelayControlLibrary
 
             switch (this.state)
             {
-                case RelayProgrammingStates.WaitingForMaster: // NEW
+                case RelayProgrammingStates.WaitingForMaster:
+                    var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
+                    if (elapsedMs < MasterHandoffSettleMs)
+                    {
+                        int wait = (int)(MasterHandoffSettleMs - elapsedMs);
+                        logger.Info("WaitingForMaster: settling {0}ms before master transfer", wait);
+                        Thread.Sleep(wait);
+                    }
+
+                    if (this.failCount == 5)
+                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try manual reset";
+
+                    this.failCount++;
+                    this.sendMasterTransferPacket();
+                    break;
                 case RelayProgrammingStates.LoadingMasterData:
                 case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.WaitingForBootMaster:
@@ -1415,13 +1429,19 @@ namespace RelayControlLibrary
                         break;
 
                     case RelayProgrammingStates.WaitingForMaster:
-                        logger.Info("AckM-start: master transfer accepted; entering LoadingMasterCode");
-                        this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
-                        this.timerTimeout.Start();
+                        var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
+                        if (elapsedMs < MasterHandoffSettleMs)
+                        {
+                            int wait = (int)(MasterHandoffSettleMs - elapsedMs);
+                            logger.Info("WaitingForMaster: settling {0}ms before master transfer", wait);
+                            Thread.Sleep(wait);
+                        }
 
-                        this.state = RelayProgrammingStates.LoadingMasterCode;
-                        this.sendNextMasterPacket();
+                        if (this.failCount == 5)
+                            this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try manual reset";
+
+                        this.failCount++;
+                        this.sendMasterTransferPacket();
                         break;
 
                     case RelayProgrammingStates.LoadingMasterCode:
@@ -1496,6 +1516,36 @@ namespace RelayControlLibrary
         public void BootReceived(string bootReceived)
         {
             this.labelState.Text = "Boot Received";
+
+            // parse boot bytes / revision...
+            // log elapsed time from reset
+            var deltaMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
+            logger.Info(
+                "BOOT_RX_DIAG | deltaMs={0:F1} | state={1} | autoLoad={2} | startupIntent={3} | reprogrammingInProgress={4} | programBootCodeInProgress={5} | notPollingPort={6} | backupIsPending={7} | masterBootRevisionSet={8} | masterBootRevisionNumberReceived={9}",
+                deltaMs,
+                this.state,
+                this.autoLoad,
+                this.startupIntent,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.notPollingPort,
+                this.backupIsPending,
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived
+            );
+
+            // only continue with programming actions if we are actually in a programming state
+            if (this.state != RelayProgrammingStates.WaitingForMaster &&
+                this.state != RelayProgrammingStates.WaitingForBootMaster &&
+                this.state != RelayProgrammingStates.LoadingMasterCode &&
+                this.state != RelayProgrammingStates.LoadingMasterData)
+            {
+                logger.Info("RESET_TEST: not in programming state; observing only.");
+                return;
+            }
+
+
+            this.labelState.Text = "Boot Received";
             if (this.autoLoad && !this.programmingForm.Visible && this.state != RelayProgrammingStates.AutoLoadCheckBoot)
                 this.programmingForm.Show();
 
@@ -1532,20 +1582,27 @@ namespace RelayControlLibrary
             switch (this.state)
             {
                 case RelayProgrammingStates.ManualPortSelectionWaitingForBoot:
-                    // keep as-is; not the master-transfer ACK path
+                    logger.Info("ManualPortSelectionWaitingForBoot: waiting for boot response.");
                     break;
-             
+                case RelayProgrammingStates.WaitingForMaster:
+                    var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
+                    if (elapsedMs < MasterHandoffSettleMs)
+                    {
+                        int wait = (int)(MasterHandoffSettleMs - elapsedMs);
+                        logger.Info("WaitingForMaster: settling {0}ms before master transfer", wait);
+                        Thread.Sleep(wait);
+                    }
+
+                    if (this.failCount == 5)
+                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try manual reset";
+
+                    this.failCount++;
+                    this.sendMasterTransferPacket();
+                    break;
+
                 case RelayProgrammingStates.WaitingForBootMaster:
                     this.programmingForm.CurrentTask = "Loading Master Code";
                     this.sendMasterTransferPacket(); // sends transfer packet, then waits for master start ACK
-                    break;
-
-                case RelayProgrammingStates.WaitingForMaster:
-                    if (this.failCount == 5)
-                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Wait for a while and then Try Manually Resetting Relay";
-
-                    this.failCount++;
-                    this.sendMasterTransferPacket(); // retry transfer packet while waiting for ACK
                     break;
 
                 case RelayProgrammingStates.LoadingMasterCode:
@@ -2526,21 +2583,20 @@ namespace RelayControlLibrary
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             logger.Info("State: {0}", this.state);
 
-            // Suppress only when an active payload stream is already running.
-            // Allow retries while WaitingForBootMaster / WaitingForMaster.
-            if (this.reprogrammingInProgress ||
-                this.state == RelayProgrammingStates.LoadingMasterData ||
-                this.state == RelayProgrammingStates.LoadingMasterBootLoader)
+            // Block only incompatible active states, not the lifecycle flag.
+            if (this.state == RelayProgrammingStates.LoadingMasterData ||
+                this.state == RelayProgrammingStates.LoadingMasterBootLoader ||
+                this.state == RelayProgrammingStates.LoadingRelayCode ||
+                this.state == RelayProgrammingStates.LoadingRelayData ||
+                this.state == RelayProgrammingStates.LoadingFPGACode)
             {
                 logger.Warn(
-                    "sendMasterTransferPacket suppressed; incompatible active run in progress. state={0}, reprogrammingInProgress={1}",
+                    "sendMasterTransferPacket suppressed; incompatible state in progress. state={0}, reprogrammingInProgress={1}",
                     this.state,
                     this.reprogrammingInProgress);
                 return;
             }
 
-            // IMPORTANT:
-            // Do NOT enter LoadingMasterCode yet; wait for ACK in packetAcknowledged().
             this.state = RelayProgrammingStates.WaitingForMaster;
 
             Thread.Sleep(20);
@@ -2555,15 +2611,12 @@ namespace RelayControlLibrary
                 : this.masterCode.NonParameterCount;
             rPEA.BytesToSend[3] = 0x0D;
 
-            if (this.Send != null)
-            {
-                this.onSend(rPEA);
-                this.labelState.Text = "Sent Master Transfer Packet";
-                logger.Info("Sent Master Transfer Packet");
-            }
+            this.onSend(rPEA);
+            this.labelState.Text = "Sent Master Transfer Packet";
+            logger.Info("Sent Master Transfer Packet");
 
             this.timerTimeout.Stop();
-            this.timerTimeout.Interval = 7000; // waiting for transfer ACK/start
+            this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
         }
 
@@ -3588,27 +3641,29 @@ namespace RelayControlLibrary
             this.onSend(rPEA);
         }
 
-        private void sendReset([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+        private DateTime _lastResetSentUtc = DateTime.MinValue;
+        private const int MasterHandoffSettleMs = 600;
 
+        public void sendReset([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
+        {
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
-            rPEA.BytesToSend = new byte[3];
-
-            rPEA.BytesToSend[0] = (byte)'b';
-            rPEA.BytesToSend[1] = (byte)'U';
-            rPEA.BytesToSend[2] = 0x0D;
+            rPEA.BytesToSend = new byte[] { (byte)'b', (byte)'U', 0x0D };
 
             logger.Info(
-                "sendReset SEND caller={0}, state={1}, payload={2}",
+                "UC_RESET_DIAG | caller={0} | state={1} | reprogrammingInProgress={2} | programBootCodeInProgress={3} | notPollingPort={4} | autoLoad={5} | backupIsPending={6} | payload={7}",
                 caller,
                 this.state,
-                BitConverter.ToString(rPEA.BytesToSend));
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.notPollingPort,
+                this.autoLoad,
+                this.backupIsPending,
+                BitConverter.ToString(rPEA.BytesToSend)
+            );
 
             this.onSend(rPEA);
-            // wait after sending, not before
-            Thread.Sleep(2000); // 2 seconds for hardware to respond properly
+            _lastResetSentUtc = DateTime.UtcNow;
         }
 
         private void buttonProgramRelay_Click(object sender, EventArgs e)
