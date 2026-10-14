@@ -1824,21 +1824,6 @@ namespace RelayControl
             
             this.currentReprogramState = rPEA.Command;
 
-            logger.Info(
-                "PROGRAM_SEND_DIAG | command={0} | ProgramState={1} | currentReprogramState={2} | quietMode={3} | pauseMonitoring={4} | toolStripRelayDisconnected={5} | ucState={6} | ucNotPollingPort={7} | ucReprogramming={8} | ucBootProg={9} | ucStartupIntent={10}",
-                rPEA.Command,
-                this.ProgramState,
-                this.currentReprogramState,
-                this.quietMode,
-                this.pauseMonitoring,
-                this.toolStripStatusLabelRelayDisconnected.Visible,
-                this.ucRelayProgramming1?.State,
-                this.ucRelayProgramming1?.NotPollingPort,
-                this.ucRelayProgramming1?.ReprogrammingInProgress,
-                this.ucRelayProgramming1?.ProgramBootCodeInProgress,
-                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None
-            );
-
             logger.Trace("Programming Command: {0}", rPEA.Command);
             switch (rPEA.Command)
             {
@@ -7775,7 +7760,7 @@ namespace RelayControl
             packet[2] = 0x0D;
 
             this.sendPacket(packet);
-            
+
             //DEBUG
             /*
             logger.Info(
@@ -7792,7 +7777,7 @@ namespace RelayControl
                  this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None
              );
 
-            //ucRelayProgramming1.sendReset();
+            ucRelayProgramming1.sendReset();
             */
         }
 
