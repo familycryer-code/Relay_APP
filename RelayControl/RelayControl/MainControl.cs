@@ -7767,7 +7767,7 @@ namespace RelayControl
         private void resetBothProcs()
         {
             //DEBUG
-            /*
+            
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'B';
@@ -7775,8 +7775,9 @@ namespace RelayControl
             packet[2] = 0x0D;
 
             this.sendPacket(packet);
-            */
-
+            
+            //DEBUG
+            /*
             logger.Info(
                  "PROGRAM_SEND_DIAG | ProgramState={0} | currentReprogramState={1} | quietMode={2} | pauseMonitoring={3} | toolStripRelayDisconnected={4} | ucState={5} | ucNotPollingPort={6} | ucReprogramming={7} | ucBootProg={8} | ucStartupIntent={9}",
                  this.ProgramState,
@@ -7791,7 +7792,8 @@ namespace RelayControl
                  this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None
              );
 
-            ucRelayProgramming1.sendReset();
+            //ucRelayProgramming1.sendReset();
+            */
         }
 
         private bool registersReceived = false;

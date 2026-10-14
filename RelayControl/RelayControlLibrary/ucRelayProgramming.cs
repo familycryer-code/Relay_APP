@@ -1177,8 +1177,7 @@ namespace RelayControlLibrary
         private bool IsManualFlowActive()
         {
             return ManualUpdate.usingManualMode
-                || this.state == RelayProgrammingStates.ManualLoadCheckBoot
-                || this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot;
+                || this.state == RelayProgrammingStates.ManualLoadCheckBoot;
         }
 
         private bool IsAutoFlowActive()
@@ -1310,35 +1309,27 @@ namespace RelayControlLibrary
             switch (this.state)
             {
                 case RelayProgrammingStates.WaitingForMaster:
-                    var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
-                    if (elapsedMs < MasterHandoffSettleMs)
-                    {
-                        int wait = (int)(MasterHandoffSettleMs - elapsedMs);
-                        logger.Info("WaitingForMaster: settling {0}ms before master transfer", wait);
-                        Thread.Sleep(wait);
-                    }
-
-                    if (this.failCount == 5)
-                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try manual reset";
-
-                    this.failCount++;
-                    this.sendMasterTransferPacket();
-                    break;
                 case RelayProgrammingStates.LoadingMasterData:
                 case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.WaitingForBootMaster:
                     this.resetMasterProgramming();
                     break;
+
                 case RelayProgrammingStates.LoadingRelayCode:
                 case RelayProgrammingStates.LoadingRelayData:
                 case RelayProgrammingStates.WaitingForBootRelay:
                     this.resetProgrammingRelay();
                     break;
+
                 case RelayProgrammingStates.WaitingForBootFPGA:
                 case RelayProgrammingStates.LoadingFPGACode:
                     this.resetProgrammingFPGA();
                     break;
+
+                default:
+                    break;
             }
+
             this.labelState.Text = "Waiting For Boot";
             logger.Trace("Waiting For Boot - " + this.state.ToString());
         }
@@ -1424,35 +1415,16 @@ namespace RelayControlLibrary
             {
                 switch (this.state)
                 {
-                    default:
                     case RelayProgrammingStates.Idle:
-                        break;
-
-                    case RelayProgrammingStates.WaitingForMaster:
-                        var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
-                        if (elapsedMs < MasterHandoffSettleMs)
-                        {
-                            int wait = (int)(MasterHandoffSettleMs - elapsedMs);
-                            logger.Info("WaitingForMaster: settling {0}ms before master transfer", wait);
-                            Thread.Sleep(wait);
-                        }
-
-                        if (this.failCount == 5)
-                            this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try manual reset";
-
-                        this.failCount++;
-                        this.sendMasterTransferPacket();
+                    default:
                         break;
 
                     case RelayProgrammingStates.LoadingMasterCode:
                     case RelayProgrammingStates.LoadingMasterData:
                         logger.Info("AckM, ");
-                        // DO NOT self-assign the same state here.
-                        // The state should already reflect the active flow.
                         this.timerTimeout.Stop();
                         this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
-
                         this.sendNextMasterPacket();
                         break;
 
@@ -1485,11 +1457,12 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingMasterBootLoader:
                         logger.Info("packetAcknowledged: LoadingMasterBootLoader ACK observed at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
                         logger.Trace("AckU, ");
+
                         this.timerTimeout.Stop();
                         this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
 
-                        this.state = RelayProgrammingStates.LoadingMasterBootLoader;
+                        // Do not reassign the same state; this state is already the active transfer state.
                         logger.Info("packetAcknowledged: calling sendMasterBootCode() at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
                         this.sendMasterBootCode();
                         break;
@@ -1515,51 +1488,19 @@ namespace RelayControlLibrary
 
         public void BootReceived(string bootReceived)
         {
+            logger.Info("Boot Received - {0}", this.state);
             this.labelState.Text = "Boot Received";
-
-            // parse boot bytes / revision...
-            // log elapsed time from reset
-            var deltaMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
-            logger.Info(
-                "BOOT_RX_DIAG | deltaMs={0:F1} | state={1} | autoLoad={2} | startupIntent={3} | reprogrammingInProgress={4} | programBootCodeInProgress={5} | notPollingPort={6} | backupIsPending={7} | masterBootRevisionSet={8} | masterBootRevisionNumberReceived={9}",
-                deltaMs,
-                this.state,
-                this.autoLoad,
-                this.startupIntent,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                this.notPollingPort,
-                this.backupIsPending,
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived
-            );
-
-            // only continue with programming actions if we are actually in a programming state
-            if (this.state != RelayProgrammingStates.WaitingForMaster &&
-                this.state != RelayProgrammingStates.WaitingForBootMaster &&
-                this.state != RelayProgrammingStates.LoadingMasterCode &&
-                this.state != RelayProgrammingStates.LoadingMasterData)
-            {
-                logger.Info("RESET_TEST: not in programming state; observing only.");
-                return;
-            }
-
-
-            this.labelState.Text = "Boot Received";
-            if (this.autoLoad && !this.programmingForm.Visible && this.state != RelayProgrammingStates.AutoLoadCheckBoot)
-                this.programmingForm.Show();
-
-            logger.Info("Boot Received - " + this.state.ToString());
+            this.programmingForm.Show();
 
             string rawBoot = bootReceived ?? string.Empty;
             string normalizedBoot = rawBoot.Trim();
+            this.masterBootStringReceived = normalizedBoot;
 
             string numericPart = Regex.Match(normalizedBoot, @"\d+").Value;
-
-            this.masterBootStringReceived = normalizedBoot;
             this.bootStartUpChar = rawBoot.Length >= 3 ? rawBoot.Substring(3, 1) : "0";
 
-            if (!string.IsNullOrEmpty(numericPart) && UInt32.TryParse(numericPart, out UInt32 parsedRevision))
+            if (!string.IsNullOrEmpty(numericPart) &&
+                UInt32.TryParse(numericPart, out UInt32 parsedRevision))
             {
                 this.masterBootRevisionNumberReceived = parsedRevision;
                 this.masterBootRevisionSet = true;
@@ -1572,65 +1513,51 @@ namespace RelayControlLibrary
                 logger.Warn("BootReceived: non-numeric/unknown boot revision. Raw='{0}'", normalizedBoot);
             }
 
-            bool manualFlowActive = this.IsManualFlowActive();
-
-            if (manualFlowActive && !this.notPollingPort && !this.programBootCodeInProgress)
-            {
-                logger.Info("BootReceived manual path: skipping boot repair logic; manual update is full-update mode.");
-            }
-
             switch (this.state)
             {
-                case RelayProgrammingStates.ManualPortSelectionWaitingForBoot:
-                    logger.Info("ManualPortSelectionWaitingForBoot: waiting for boot response.");
-                    break;
                 case RelayProgrammingStates.WaitingForMaster:
-                    var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
-                    if (elapsedMs < MasterHandoffSettleMs)
-                    {
-                        int wait = (int)(MasterHandoffSettleMs - elapsedMs);
-                        logger.Info("WaitingForMaster: settling {0}ms before master transfer", wait);
-                        Thread.Sleep(wait);
-                    }
+                case RelayProgrammingStates.WaitingForBootMaster:
+                case RelayProgrammingStates.WaitingForBootRelay:
+                case RelayProgrammingStates.WaitingForBootFPGA:
+                    this.waitForBootReady(this.state.ToString());
 
                     if (this.failCount == 5)
                         this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Try manual reset";
 
                     this.failCount++;
-                    this.sendMasterTransferPacket();
-                    break;
 
-                case RelayProgrammingStates.WaitingForBootMaster:
-                    this.programmingForm.CurrentTask = "Loading Master Code";
-                    this.sendMasterTransferPacket(); // sends transfer packet, then waits for master start ACK
+                    switch (this.state)
+                    {
+                        case RelayProgrammingStates.WaitingForMaster:
+                        case RelayProgrammingStates.WaitingForBootMaster:
+                            this.programmingForm.CurrentTask = "Loading Master Code";
+                            this.sendMasterTransferPacket();
+                            break;
+
+                        case RelayProgrammingStates.WaitingForBootRelay:
+                            this.programmingForm.CurrentTask = "Loading Relay Code";
+                            this.sendRelayTransferPacket();
+                            break;
+
+                        case RelayProgrammingStates.WaitingForBootFPGA:
+                            this.programmingForm.CurrentTask = "Loading FPGA Code";
+                            this.sendFPGATransferPacket();
+                            break;
+                    }
                     break;
 
                 case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.LoadingMasterData:
-                    if (this.failCount == 5)
-                        this.programmingForm.CurrentTask = "Relay Did Not Respond To Master Packet - Wait for a while and then Try Manually Resetting Relay";
-
-                    this.failCount++;
-                    this.sendMasterTransferPacket();   // keep retry for legacy recovery behavior
-                    break;
-                case RelayProgrammingStates.WaitingForBootRelay:
                 case RelayProgrammingStates.LoadingRelayCode:
-                    this.programmingForm.CurrentTask = "Loading Relay Code ";
-                    this.timerTimeout.Stop();
-                    this.timerTimeout.Interval = 1500;
-                    this.timerTimeout.Start();
-                    this.sendRelayTransferPacket();
-                    break;
-
-                case RelayProgrammingStates.WaitingForBootFPGA:
+                case RelayProgrammingStates.LoadingRelayData:
                 case RelayProgrammingStates.LoadingFPGACode:
-                    this.programmingForm.CurrentTask = "Loading FPGA Code";
-                    this.sendFPGATransferPacket();
+                case RelayProgrammingStates.LoadingMasterBootLoader:
+                case RelayProgrammingStates.ClearingBootLoader:
+                    logger.Info("BootReceived ignored; current state is already an active transfer state. state={0}", this.state);
                     break;
 
                 case RelayProgrammingStates.CheckMasterBootCode:
-                    logger.Trace("CheckMasterBootCode");
-                    this.state = RelayProgrammingStates.Idle;
+                    logger.Info("CheckMasterBootCode");
                     this.CheckProperMasterBootCode();
                     break;
 
@@ -1641,7 +1568,6 @@ namespace RelayControlLibrary
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
 
-                    this.state = RelayProgrammingStates.Idle;
                     this.ContinueAutoloadAfterBootCheck();
                     break;
 
@@ -1652,11 +1578,16 @@ namespace RelayControlLibrary
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
 
-                    this.state = RelayProgrammingStates.Idle;
-
-                    logger.Info("ManualLoadCheckBoot: calling ContinueManualAfterBootCheck()");
-                    //this.ContinueManualAfterBootCheck();
+                    if (!this.backupIsPending)
+                    {
+                        this.startProgramming();
+                    }
+                    else
+                    {
+                        logger.Info("ManualLoadCheckBoot deferred; backup still pending.");
+                    }
                     break;
+
                 case RelayProgrammingStates.DoneLoadingMasterBootLoader:
                     logger.Info("BootReceived: continuing after successful bootloader completion.");
 
@@ -1668,9 +1599,9 @@ namespace RelayControlLibrary
 
                     this.programBootCodeInProgress = false;
                     this.reprogrammingInProgress = true;
-
                     this.startProgramming();
                     break;
+
                 case RelayProgrammingStates.ReloadMasterBoot:
                     this.timerTimeout.Stop();
                     Thread.Sleep(3000);
@@ -2213,7 +2144,6 @@ namespace RelayControlLibrary
                 this.reprogrammingInProgress ||
                 this.programBootCodeInProgress ||
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot ||
                 ManualUpdate.usingManualMode ||
                 this.backupIsPending;
 
@@ -2276,7 +2206,6 @@ namespace RelayControlLibrary
                 this.reprogrammingInProgress ||
                 this.programBootCodeInProgress ||
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot ||
                 this.backupIsPending;
 
             logger.Info(
@@ -2337,7 +2266,6 @@ namespace RelayControlLibrary
             bool wasManualFlow =
                 this.startupIntent == StartupIntent.ManualApproved ||
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot ||
                 ManualUpdate.usingManualMode;
 
             logger.Info(
@@ -2455,7 +2383,6 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             bool bootOnlyAutoContinuation = this.bootFirstAutoContinuation;
-
             bool pendingMaster = this.reprogramMaster;
             bool pendingRelay = this.reprogramRelay;
             bool pendingFPGA = this.reprogramFPGA;
@@ -2465,35 +2392,48 @@ namespace RelayControlLibrary
                 ManualUpdate.usingManualMode ||
                 this.backupIsPending;
 
-            this.programBootCodeInProgress = false;
-            this.reprogrammingInProgress = false;
-
             this.state = RelayProgrammingStates.DoneLoadingMasterBootLoader;
             this.enableButtons(true);
             this.timerTimeout.Stop();
             this.programmingForm.MasterBootComplete = true;
-
-            if (manualFlowActive || !this.autoLoad)
-                this.bootFirstAutoContinuation = false;
-
-            // Bootloader phase is complete.
             this.bootLoadDone = true;
 
-            // Special case: boot repair only; no payload left.
+            // True terminal case only
             if (bootOnlyAutoContinuation && !pendingMaster && !pendingRelay && !pendingFPGA)
             {
+                this.programBootCodeInProgress = false;
+                this.reprogrammingInProgress = false;
+
                 logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: auto boot-only continuation finalization.");
                 this.programmingForm.Hide();
                 Application.DoEvents();
-
                 this.restartProgram();
                 this.state = RelayProgrammingStates.Idle;
                 return;
             }
 
-            logger.Info("doneLoadingMasterBootLoader: boot payload complete; ");
+            // Keep active lifecycle alive through the reset + post-boot verification step.
+            this.reprogrammingInProgress = true;
+            this.programBootCodeInProgress = false;
+
+            if (manualFlowActive)
+            {
+                this.state = RelayProgrammingStates.ManualLoadCheckBoot;
+            }
+            else if (this.autoLoad)
+            {
+                this.state = RelayProgrammingStates.AutoLoadCheckBoot;
+            }
+            else
+            {
+                logger.Warn("doneLoadingMasterBootLoader: no active programming flow; returning to idle.");
+                this.reprogrammingInProgress = false;
+                this.state = RelayProgrammingStates.Idle;
+                return;
+            }
+
+            logger.Info("doneLoadingMasterBootLoader: boot payload complete; entering {0} and sending reset.", this.state);
             this.sendReset();
-            return;
         }
 
         public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
@@ -2522,7 +2462,6 @@ namespace RelayControlLibrary
 
             bool manualFlowActive =
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot ||
                 ManualUpdate.usingManualMode;
 
             // Backup pending is a sequencing gate, not a manual-flow declaration.
@@ -2662,7 +2601,6 @@ namespace RelayControlLibrary
         {
             bool manualFlowActive =
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot ||
                 this.backupIsPending ||
                 ManualUpdate.usingManualMode;
 
@@ -3658,6 +3596,17 @@ namespace RelayControlLibrary
             _lastResetSentUtc = DateTime.UtcNow;
         }
 
+        private void waitForBootReady(string label)
+        {
+            var elapsedMs = (DateTime.UtcNow - _lastResetSentUtc).TotalMilliseconds;
+            if (elapsedMs < MasterHandoffSettleMs)
+            {
+                int wait = (int)(MasterHandoffSettleMs - elapsedMs);
+                logger.Info("{0}: settling {1}ms before transfer packet", label, wait);
+                Thread.Sleep(wait);
+            }
+        }
+
         private void buttonProgramRelay_Click(object sender, EventArgs e)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -4018,8 +3967,6 @@ namespace RelayControlLibrary
     public enum RelayProgrammingStates
     {
         Idle, // quiescent/no active programming flow
-
-        ManualPortSelectionWaitingForBoot, // manual pre-start wait state (BootReceived special-case)
 
         WaitingForBootMaster, // waiting for master CPU boot before sending master transfer packet (BootReceived + PrepForBoot master bucket)
         WaitingForBootRelay,  // waiting for relay CPU boot before relay transfer packet (BootReceived + PrepForBoot relay bucket)
