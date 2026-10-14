@@ -3241,6 +3241,8 @@ namespace RelayControlLibrary
 
             this.enableButtons(false);
             this.sendReset();
+
+            /*
             Thread.Sleep(500);
             // debug code.
             // transfer packet.
@@ -3257,7 +3259,7 @@ namespace RelayControlLibrary
 
             this.state = RelayProgrammingStates.LoadingMasterCode;
             this.sendNextMasterPacket();
-            
+            */
         } 
 
         private void startMasterProgrammingWithParameters()
