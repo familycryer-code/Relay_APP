@@ -2469,6 +2469,8 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
+
+            //this.sendNextMasterPacket();  // NO ACK coming
         }
 
         private void sendRelayTransferPacket()
@@ -3331,7 +3333,7 @@ namespace RelayControlLibrary
             if (this.reprogramMaster)
             {
                 logger.Info("startProgramming: master update selected -> start master programming");
-                this.reprogrammingInProgress = true;
+                this.reprogrammingInProgress = false;
                 this.startMasterProgramming();
                 return;
             }
@@ -3339,7 +3341,7 @@ namespace RelayControlLibrary
             if (this.reprogramRelay)
             {
                 logger.Info("startProgramming: relay update selected -> start relay programming");
-                this.reprogrammingInProgress = true;
+                this.reprogrammingInProgress = false;
                 this.startRelayProgramming();
                 return;
             }
@@ -3347,7 +3349,7 @@ namespace RelayControlLibrary
             if (this.reprogramFPGA)
             {
                 logger.Info("startProgramming: FPGA update selected -> start FPGA programming");
-                this.reprogrammingInProgress = true;
+                this.reprogrammingInProgress = false;
                 this.programFPGA();
                 return;
             }
@@ -3524,7 +3526,7 @@ namespace RelayControlLibrary
         }
 
         private DateTime _lastResetSentUtc = DateTime.MinValue;
-        private const int MasterHandoffSettleMs = 5;
+        private const int MasterHandoffSettleMs = 50;
 
         public void sendReset([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
         {
@@ -3629,14 +3631,14 @@ namespace RelayControlLibrary
 
         #endregion
 
-        private void timerTimeout_Tick(object sender, EventArgs e)
+        public void timerTimeout_Tick(object sender, EventArgs e)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out";
-
             this.timerTimeout.Stop();
+
             logger.Trace("Timed Out in State " + this.state);
 
             switch (this.state)
@@ -3647,24 +3649,40 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.CheckMasterBootCode:
                 case RelayProgrammingStates.AutoLoadCheckBoot:
                 case RelayProgrammingStates.ManualLoadCheckBoot:
-                    // bootloader restart / recovery path
+                    logger.Warn("Bootloader timeout; restarting bootloader flow. state={0}", this.state);
                     this.state = RelayProgrammingStates.ReloadMasterBoot;
-                    this.MasterBootLoaderStart(); // or the right bootloader retry
-                    break;
+                    this.MasterBootLoaderStart();
+                    return;
 
                 case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.LoadingMasterData:
+                    logger.Warn("Master payload timeout; resending current master data. state={0}", this.state);
+
+                    // resend the current master block / transfer packet
+                    this.startMasterProgramming();   // or the current block resend method
+                    this.timerTimeout.Interval = 10000;
+                    this.timerTimeout.Start();
+                    return;
+
                 case RelayProgrammingStates.LoadingRelayCode:
                 case RelayProgrammingStates.LoadingRelayData:
+                    logger.Warn("Relay payload timeout; resending current relay data. state={0}", this.state);
+
+                    this.startRelayProgramming();    // or your relay resend method
+                    this.timerTimeout.Interval = 10000;
+                    this.timerTimeout.Start();
+                    return;
+
                 case RelayProgrammingStates.LoadingFPGACode:
-                    // payload timeout: do not reset into boot
-                    logger.Warn("Payload timeout without reset: state={0}", this.state);
-                    // either resend current packet or fail gracefully
-                    // DO NOT call PrepForBoot() here
-                    break;
+                    logger.Warn("FPGA payload timeout; resending current FPGA data. state={0}", this.state);
+
+                    this.programFPGA();  // or your FPGA resend method
+                    this.timerTimeout.Interval = 10000;
+                    this.timerTimeout.Start();
+                    return;
 
                 default:
-                    break;
+                    return;
             }
         }
 

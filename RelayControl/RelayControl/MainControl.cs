@@ -2845,6 +2845,8 @@ namespace RelayControl
 
                 case IncomingCommCommands.FPGARevision:
                     this.setFPGARevision(bytePacket);
+                   
+                    //this.ucRelayProgramming1.timerTimeout_Tick(null, EventArgs.Empty);
                     break;
 
                 case IncomingCommCommands.Temperature:
