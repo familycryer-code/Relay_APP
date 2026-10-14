@@ -756,7 +756,7 @@ namespace RelayControlLibrary
             
             this.autoLoadRequested = true;
                
-            this.startProgramming();
+            this.RunProgrammingStateMachine();
             return true;
         }
         public void InitializeAutoload()
@@ -995,7 +995,7 @@ namespace RelayControlLibrary
             }
 
             logger.Info("ResumeManualAfterBackup start programming Manual mode.");
-            this.startProgramming();
+            this.RunProgrammingStateMachine();
         }
 
         public void ResumeAutoloadAfterBackup()
@@ -1489,8 +1489,24 @@ namespace RelayControlLibrary
         public void BootReceived(string bootReceived)
         {
             logger.Info("Boot Received - {0}", this.state);
-            
-            this.programmingForm.Show();
+
+            bool programmingContext =
+                this.reprogrammingInProgress ||
+                this.programBootCodeInProgress ||
+                this.autoLoad ||
+                ManualUpdate.usingManualMode ||
+                this.bootFirstAutoContinuation ||
+                this.state == RelayProgrammingStates.AutoLoadCheckBoot ||
+                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
+                this.state == RelayProgrammingStates.CheckMasterBootCode ||
+                this.state == RelayProgrammingStates.LoadingMasterBootLoader ||
+                this.state == RelayProgrammingStates.ReloadMasterBoot;
+
+            if (programmingContext)
+            {
+                this.programmingForm.Show();
+            }
+
 
             string rawBoot = bootReceived ?? string.Empty;
             string normalizedBoot = rawBoot.Trim();
@@ -1553,7 +1569,7 @@ namespace RelayControlLibrary
 
                     if (!this.backupIsPending)
                     {
-                        this.startProgramming();
+                        this.RunProgrammingStateMachine();
                     }
                     else
                     {
@@ -2056,145 +2072,66 @@ namespace RelayControlLibrary
         private void doneLoadingFPGA()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            this.reprogramFPGA = false;   // consume final stage
-            this.programmingForm.FPGAComplete = true;
             this.timerTimeout.Stop();
+
+            this.reprogramFPGA = false;
+            this.programmingForm.FPGAComplete = true;
+            
+
             logger.Trace("");
             logger.Trace("Done Loading FPGA");
 
             logger.Info("MasterBootFileSelect: {0}", this.programMasterBootFileSelect);
 
-            // FPGA is terminal for this update cycle.
-            // Do not re-enter bootloader/manual boot flow here.
-            this.allReprogramingDone();
+            // Do not finalize here.
+            // Hand control back to the orchestrator.
+            this.RunProgrammingStateMachine();
         }
 
         private void doneLoadingRelay()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             this.timerTimeout.Stop();
-
             this.programmingForm.RelayDataComplete = true;
+            this.programmingForm.RelayCodeComplete = true;
 
-            bool stagedFlow =
-                this.autoLoad ||
-                this.startupIntent == StartupIntent.ManualApproved ||
-                this.reprogrammingInProgress ||
-                this.programBootCodeInProgress ||
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                ManualUpdate.usingManualMode ||
-                this.backupIsPending;
+            // Consume only the stage that just finished.
+            this.reprogramRelay = false;
 
             logger.Info(
-                "doneLoadingRelay NEXT STAGE decision: stagedFlow={0}, reprogramMaster={1}, reprogramFPGA={2}, autoLoad={3}, startupIntent={4}, state={5}",
-                stagedFlow,
+                "doneLoadingRelay complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, autoLoad={3}, startupIntent={4}, state={5}",
                 this.reprogramMaster,
+                this.reprogramRelay,
                 this.reprogramFPGA,
                 this.autoLoad,
                 this.startupIntent,
                 this.state);
 
-            if (stagedFlow)
-            {
-                if (this.reprogramMaster)
-                {
-                    this.reprogramMaster = false;   // consume current stage
-                    logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to master code load");
-                    this.parseSFile(this.masterCode);
-                    this.state = RelayProgrammingStates.WaitingForBootMaster;
-                    this.programmingForm.Maximum = this.masterCode.NumberOfCodeBlocks * 2;
-                    this.programmingForm.CurrentTask = "Loading Master Code";
-                    logger.Trace("Loading Master Code");
-                    this.timerTimeout.Start();
-                    return;
-                }
-
-                if (this.reprogramFPGA)
-                {
-                    this.reprogramFPGA = false;     // consume current stage
-                    logger.Info("COMPLETE FLOW doneLoadingRelay: chaining to FPGA load");
-                    this.programmingForm.MasterDataComplete = true;
-                    this.programmingForm.MasterCodeComplete = true;
-                    this.parseFPGAFile(this.fPGACode);
-                    this.state = RelayProgrammingStates.WaitingForBootFPGA;
-                    this.programmingForm.Maximum = 96;
-                    this.programmingForm.CurrentTask = "Loading FPGA";
-                    logger.Trace("Loading FPGA");
-                    this.timerTimeout.Start();
-                    return;
-                }
-            }
-
-            logger.Info("COMPLETE FLOW doneLoadingRelay: no next stage -> allReprogramingDone");
-            this.allReprogramingDone();
+            // Hand off all next-stage decisions to the central engine.
+            this.RunProgrammingStateMachine();
         }
 
 
         private void doneLoadingMaster()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             this.timerTimeout.Stop();
             this.programmingForm.MasterDataComplete = true;
 
-            // master stage finished
+            // Mark only the stage that just completed.
             this.reprogramMaster = false;
 
-            bool stagedFlow =
-                this.autoLoad ||
-                this.reprogrammingInProgress ||
-                this.programBootCodeInProgress ||
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.backupIsPending;
-
             logger.Info(
-                "doneLoadingMaster NEXT STAGE decision: stagedFlow={0}, reprogramRelay={1}, reprogramFPGA={2}, autoLoad={3}, reprogrammingInProgress={4}, programBootCodeInProgress={5}, state={6}, backupPending={7}",
-                stagedFlow,
+                "doneLoadingMaster complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, state={3}",
+                this.reprogramMaster,
                 this.reprogramRelay,
                 this.reprogramFPGA,
-                this.autoLoad,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                this.state,
-                this.backupIsPending);        
+                this.state);
 
-            if (stagedFlow)
-            {
-                if (this.reprogramRelay)
-                {
-                    this.reprogramRelay = false;
-                    this.parseSFile(this.relayCode);
-                    this.programmingForm.CurrentTask = "Loading Relay Code";
-                    logger.Trace("Loading Relay Code");
-                    this.programmingForm.Maximum = this.relayCode.NumberOfCodeBlocks * 2;
-                    this.state = RelayProgrammingStates.WaitingForBootRelay;
-                    this.timerTimeout.Start();
-                    return;
-                }
-
-                if (this.reprogramFPGA)
-                {
-                    this.reprogramFPGA = false;
-                    this.parseFPGAFile(this.fPGACode);
-                    this.programmingForm.RelayCodeComplete = true;
-                    this.programmingForm.RelayDataComplete = true;
-                    this.programmingForm.CurrentTask = "Loading FPGA";
-                    logger.Trace("Loading FPGA");
-                    this.programmingForm.Maximum = 96;
-                    this.state = RelayProgrammingStates.WaitingForBootFPGA;
-                    this.timerTimeout.Start();
-                    return;
-                }
-
-                // No relay/fpga stage pending -> finish without falsely marking FPGA complete.
-                logger.Trace("DoneLoadingMaster 2");
-                this.state = RelayProgrammingStates.Idle;
-
-                this.allReprogramingDone();
-                return;
-            }
-
-            this.allReprogramingDone();
+            // Re-enter central dispatcher/engine to choose the next required stage.
+            this.RunProgrammingStateMachine(); // later rename to AdvanceProgrammingState / RunProgrammingEngine
         }
 
         private void allReprogramingDone()
@@ -3183,72 +3120,66 @@ namespace RelayControlLibrary
             this.sendReset();
         }
 
-        private void startProgramming()
+        private void RunProgrammingStateMachine()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            // --------------------------------------------------------------------
-            // 1) Pre-flight gate: only proceed when the controller is allowed to run
-            // --------------------------------------------------------------------
+            if(!this.autoLoad && !ManualUpdate.usingManualMode)
+            {
+                return;
+            }
+
+
+            // 1) Pre-flight gate
             if (!this.CanStartProgramming())
             {
                 logger.Warn(
-                    "startProgramming blocked: startupIntent={0}, autoLoad={1}, manualMode={2}",
+                    "RunProgrammingStateMachine blocked: startupIntent={0}, autoLoad={1}, manualMode={2}",
                     this.startupIntent,
                     this.autoLoad,
                     ManualUpdate.usingManualMode);
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 2) Do not suppress while bootloader is actively loading.
-            //    DoneLoadingMasterBootLoader is NOT a bootloader-active state.
-            //    It means bootloader upload has completed; we are now in handoff.
-            // --------------------------------------------------------------------
+            // 2) Suppress while bootloader is actively loading
             if (this.programBootCodeInProgress ||
                 this.state == RelayProgrammingStates.LoadingMasterBootLoader)
             {
                 logger.Warn(
-                    "startProgramming suppressed while bootloader flow is active. state={0}, programBootCodeInProgress={1}",
+                    "RunProgrammingStateMachine suppressed while bootloader flow is active. state={0}, programBootCodeInProgress={1}",
                     this.state,
                     this.programBootCodeInProgress);
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 3) Stale reprogramming flag cleanup for a waiting state
-            // --------------------------------------------------------------------
+            // 3) Stale cleanup
             if (this.state == RelayProgrammingStates.WaitingForBootMaster &&
                 this.reprogrammingInProgress &&
                 !this.programBootCodeInProgress)
             {
-                logger.Warn("startProgramming: clearing stale reprogrammingInProgress in WaitingForBootMaster.");
+                logger.Warn("RunProgrammingStateMachine: clearing stale reprogrammingInProgress in WaitingForBootMaster.");
                 this.reprogrammingInProgress = false;
             }
 
-            // --------------------------------------------------------------------
-            // 4) Backup gate: do not start programming while the backup pause is active
-            // --------------------------------------------------------------------
+            // 4) Backup gate
             if (this.backupIsPending)
             {
-                logger.Warn("startProgramming blocked: backup still pending.");
+                logger.Warn("RunProgrammingStateMachine blocked: backup still pending.");
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 5) Make sure payloads exist before we start a payload stage
-            // --------------------------------------------------------------------
+            // 5) Ensure payloads exist before payload stage
             if (!this.dontReloadFromResource &&
                 (string.IsNullOrWhiteSpace(this.masterCode.FileString) ||
                  (this.reprogramRelay && string.IsNullOrWhiteSpace(this.relayCode.FileString))))
             {
-                logger.Warn("startProgramming: programming payload missing; reloading embedded resource files.");
+                logger.Warn("RunProgrammingStateMachine: programming payload missing; reloading embedded resource files.");
                 this.setProgrammingFiles();
             }
 
             if (this.reprogramMaster && string.IsNullOrWhiteSpace(this.masterCode.FileString))
             {
-                logger.Error("startProgramming aborted: master payload is empty.");
+                logger.Error("RunProgrammingStateMachine aborted: master payload is empty.");
                 this.reprogrammingInProgress = false;
 
                 if (this.IsManualFlowActive())
@@ -3261,7 +3192,7 @@ namespace RelayControlLibrary
 
             if (this.reprogramRelay && string.IsNullOrWhiteSpace(this.relayCode.FileString))
             {
-                logger.Error("startProgramming aborted: relay payload is empty.");
+                logger.Error("RunProgrammingStateMachine aborted: relay payload is empty.");
                 this.reprogrammingInProgress = false;
 
                 if (this.IsManualFlowActive())
@@ -3272,9 +3203,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 6) Refresh pending states based on actual revision data
-            // --------------------------------------------------------------------
+            // 6) Refresh pending from revisions
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
@@ -3293,16 +3222,11 @@ namespace RelayControlLibrary
                 bootUnknown,
                 bootOld);
 
-            // --------------------------------------------------------------------
-            // 7) Manual boot-first branch
-            //    If manual flow is active and the boot code is unknown/too old,
-            //    we must upload the boot code before any main payload programming.
-            // --------------------------------------------------------------------
-
+            // 7) Manual boot-first (keep as requested)
             if (ManualUpdate.usingManualMode && !this.bootLoadDone)
             {
                 logger.Info(
-                    "startProgramming: manual full-update requires boot-first. bootUnknown={0}, bootOld={1}, bootRev={2}, required={3}",
+                    "RunProgrammingStateMachine: manual full-update requires boot-first. bootUnknown={0}, bootOld={1}, bootRev={2}, required={3}",
                     bootUnknown,
                     bootOld,
                     this.masterBootRevisionNumberReceived,
@@ -3314,25 +3238,19 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 8) Auto boot-first branch
-            //    This is the explicit "load boot code before continuing" continuation.
-            // --------------------------------------------------------------------
+            // 8) Auto boot-first continuation
             if (this.autoLoad && this.bootFirstAutoContinuation)
             {
-                logger.Info("startProgramming: auto boot-first continuation path requested.");
-                this.reprogrammingInProgress = false; // hand off to boot path
+                logger.Info("RunProgrammingStateMachine: auto boot-first continuation path requested.");
+                this.reprogrammingInProgress = false;
                 this.MasterBootLoaderStart();
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 9) Actual payload programming stage selection
-            //    Only set reprogrammingInProgress when we're launching a payload stage.
-            // --------------------------------------------------------------------
+            // 9) Payload stage selection
             if (this.reprogramMaster)
             {
-                logger.Info("startProgramming: master update selected -> start master programming");
+                logger.Info("RunProgrammingStateMachine: master update selected -> start master programming");
                 this.reprogrammingInProgress = false;
                 this.startMasterProgramming();
                 return;
@@ -3340,7 +3258,7 @@ namespace RelayControlLibrary
 
             if (this.reprogramRelay)
             {
-                logger.Info("startProgramming: relay update selected -> start relay programming");
+                logger.Info("RunProgrammingStateMachine: relay update selected -> start relay programming");
                 this.reprogrammingInProgress = false;
                 this.startRelayProgramming();
                 return;
@@ -3348,19 +3266,18 @@ namespace RelayControlLibrary
 
             if (this.reprogramFPGA)
             {
-                logger.Info("startProgramming: FPGA update selected -> start FPGA programming");
+                logger.Info("RunProgrammingStateMachine: FPGA update selected -> start FPGA programming");
                 this.reprogrammingInProgress = false;
                 this.programFPGA();
                 return;
             }
 
-            // --------------------------------------------------------------------
-            // 10) Nothing selected: clear and exit
-            // --------------------------------------------------------------------
-            logger.Warn("startProgramming: no programming branch selected; clearing state.");
+            // 10) Nothing selected: this is terminal
+            logger.Warn("RunProgrammingStateMachine: no programming branch selected; finalizing.");
             this.reprogrammingInProgress = false;
             this.bootFirstAutoContinuation = false;
             this.state = RelayProgrammingStates.Idle;
+            this.allReprogramingDone();
         }
 
 
