@@ -2425,26 +2425,14 @@ namespace RelayControlLibrary
             this.onSend(rPEA);
         }
 
-        private bool IsProgrammingActiveOrInFlight()
+        public bool IsProgrammingActiveOrInFlight()
         {
-            logger.Info(
-                "flags: reprogrammingInProgress={0}, programBootCodeInProgress={1}, LMBL={2}, LMC={3}, LMD={4}, LRC={5}, LRD={6}, LFC={7}, WBM={8}, WBR={9}, WBF={10}, ALCB={11}, MLCB={12}, CMBC={13}, RMB={14}",
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                this.state == RelayProgrammingStates.LoadingMasterBootLoader,
-                this.state == RelayProgrammingStates.LoadingMasterCode,
-                this.state == RelayProgrammingStates.LoadingMasterData,
-                this.state == RelayProgrammingStates.LoadingRelayCode,
-                this.state == RelayProgrammingStates.LoadingRelayData,
-                this.state == RelayProgrammingStates.LoadingFPGACode,
-                this.state == RelayProgrammingStates.AutoLoadCheckBoot,
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot,
-                this.state == RelayProgrammingStates.CheckMasterBootCode,
-                this.state == RelayProgrammingStates.ReloadMasterBoot
-            );
-
             return this.reprogrammingInProgress
                 || this.programBootCodeInProgress
+                || this.state == RelayProgrammingStates.WaitingForMaster
+                || this.state == RelayProgrammingStates.WaitingForBootMaster
+                || this.state == RelayProgrammingStates.WaitingForBootRelay
+                || this.state == RelayProgrammingStates.WaitingForBootFPGA
                 || this.state == RelayProgrammingStates.LoadingMasterBootLoader
                 || this.state == RelayProgrammingStates.LoadingMasterCode
                 || this.state == RelayProgrammingStates.LoadingMasterData
@@ -2454,7 +2442,11 @@ namespace RelayControlLibrary
                 || this.state == RelayProgrammingStates.AutoLoadCheckBoot
                 || this.state == RelayProgrammingStates.ManualLoadCheckBoot
                 || this.state == RelayProgrammingStates.CheckMasterBootCode
-                || this.state == RelayProgrammingStates.ReloadMasterBoot;
+                || this.state == RelayProgrammingStates.ReloadMasterBoot
+                || this.state == RelayProgrammingStates.ReprogramSuccess
+                || this.state == RelayProgrammingStates.Finalized
+                || this.state == RelayProgrammingStates.WaitForAllData
+                || this.state == RelayProgrammingStates.DoneLoadingMasterBootLoader;
         }
 
 

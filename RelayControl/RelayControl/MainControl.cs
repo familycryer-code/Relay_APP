@@ -1769,24 +1769,27 @@ namespace RelayControl
             if (!_backupCaptureActive || _backupCaptureSections.Count == 0)
                 return;
 
-            // Ensure directory exists
             string directory = Path.GetDirectoryName(_relayBackupPath);
             if (!string.IsNullOrEmpty(directory))
                 Directory.CreateDirectory(directory);
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine("Data residing in the relay :");
-            sb.AppendLine(DateTime.UtcNow.ToString("O"));
+            sb.AppendLine(DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture));
 
             lock (_backupCaptureLock)
             {
                 foreach (var section in _backupCaptureSections)
                 {
                     sb.AppendLine(section.Key + ":");
-                    foreach (byte b in section.Value)
+                    if (section.Value == null || section.Value.Length == 0)
                     {
-                        sb.AppendLine(b.ToString());
+                        sb.AppendLine("<empty>");
+                        continue;
                     }
+
+                    sb.Append(BitConverter.ToString(section.Value));
+                    sb.AppendLine();
                 }
             }
 
@@ -1813,7 +1816,7 @@ namespace RelayControl
         }
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
-        private bool loadingNewCode = false;
+  
         private RelayProgrammingSendCommands currentReprogramState = RelayProgrammingSendCommands.RestartProgram;
 
         private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
@@ -1822,11 +1825,10 @@ namespace RelayControl
             this.currentReprogramState = rPEA.Command;
 
             logger.Info(
-                "PROGRAM_SEND_DIAG | command={0} | ProgramState={1} | currentReprogramState={2} | loadingNewCode={3} | quietMode={4} | pauseMonitoring={5} | toolStripRelayDisconnected={6} | ucState={7} | ucNotPollingPort={8} | ucReprogramming={9} | ucBootProg={10} | ucStartupIntent={11}",
+                "PROGRAM_SEND_DIAG | command={0} | ProgramState={1} | currentReprogramState={2} | quietMode={3} | pauseMonitoring={4} | toolStripRelayDisconnected={5} | ucState={6} | ucNotPollingPort={7} | ucReprogramming={8} | ucBootProg={9} | ucStartupIntent={10}",
                 rPEA.Command,
                 this.ProgramState,
                 this.currentReprogramState,
-                this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring,
                 this.toolStripStatusLabelRelayDisconnected.Visible,
@@ -1857,8 +1859,11 @@ namespace RelayControl
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
                 case RelayProgrammingSendCommands.RawData:
-                    this.enableAll(false);
-                    this.toolStripStatusLabelRelayDisconnected.Visible = false;
+                    if (this.IsProgrammingFlowActive())
+                    {
+                        this.enableAll(false);
+                        this.toolStripStatusLabelRelayDisconnected.Visible = false;
+                    }
                     this.sendPacket(rPEA.BytesToSend);
                     break;
                 case RelayProgrammingSendCommands.RecallSavedSettings:
@@ -1921,8 +1926,7 @@ namespace RelayControl
             // Do NOT trigger full requestAllData here.
             // If immediate confirmation is needed, use targeted TX read instead.
             if (!this.pendingAutoloadAfterBackup &&
-                !this.ucRelayProgramming1.ReprogrammingInProgress &&
-                !this.loadingNewCode)
+                !this.IsProgrammingFlowActive())
             {
                 // optional targeted refresh:
                 // this.requestTransmitterSettings();
@@ -2738,11 +2742,9 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.ArcFaultData:
-                    if (dataBackup_fromRelay == true)
+                    if (dataBackup_fromRelay)
                     {
-                        byte[] snapshot = new byte[Math.Min(bytePacket.Length, 40)];
-                        Array.Copy(bytePacket, snapshot, snapshot.Length);
-                        CaptureBackupSection("Arc Fault Parameters", snapshot);
+                        CaptureBackupSection("Arc Fault Parameters", bytePacket);
                     }
 
                     this.setArcFaultData(bytePacket);
@@ -2771,8 +2773,11 @@ namespace RelayControl
                     this.setCalibrationConstants(bytePacket);
                     this.MarkSectionReceived(SectionBits.Calibration);
 
-                    backupGotCalibration = true;
-                    TryCompleteBackup();
+                    if (backupInProgress)
+                    {
+                        backupGotCalibration = true;
+                        TryCompleteBackup();
+                    }
                     break;
 
                 case IncomingCommCommands.CurrentTime:
@@ -2782,17 +2787,18 @@ namespace RelayControl
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
 
-                    if (dataBackup_fromRelay == true)
+                    if (dataBackup_fromRelay)
                     {
-                        byte[] snapshot = new byte[Math.Min(bytePacket.Length, 20)];
-                        Array.Copy(bytePacket, snapshot, snapshot.Length);
-                        CaptureBackupSection("Safe Service Data", snapshot);
+                        CaptureBackupSection("Safe Service Data", bytePacket);
                     }
 
                     this.MarkSectionReceived(SectionBits.SafeService);
 
-                    backupGotSafeService = true;
-                    TryCompleteBackup();
+                    if (backupInProgress)
+                    {
+                        backupGotSafeService = true;
+                        TryCompleteBackup();
+                    }
                     break;
 
                 case IncomingCommCommands.ShortRangeStrength:
@@ -2820,8 +2826,11 @@ namespace RelayControl
                     this.setRelayParameters(bytePacket);
                     this.MarkSectionReceived(SectionBits.RelayParams);
 
-                    backupGotRelayParams = true;
-                    TryCompleteBackup();
+                    if (backupInProgress)
+                    {
+                        backupGotRelayParams = true;
+                        TryCompleteBackup();
+                    }
                     break;
 
                 case IncomingCommCommands.RelayRegisters:
@@ -2873,8 +2882,11 @@ namespace RelayControl
 
                     this.MarkSectionReceived(SectionBits.TxSettings);
 
-                    backupGotTx = true;
-                    TryCompleteBackup();
+                    if (backupInProgress)
+                    {
+                        backupGotTx = true;
+                        TryCompleteBackup();
+                    }
                     break;
 
                 case IncomingCommCommands.TransmitterMonitor:
@@ -2908,12 +2920,9 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.DNPSAv5:
-                    if (dataBackupR.dataBackup_fromRelay == true)
+                    if (dataBackupR.dataBackup_fromRelay)
                     {
-                        byte[] snapshot = new byte[Math.Min(bytePacket.Length, 98)];
-                        Array.Copy(bytePacket, snapshot, snapshot.Length);
-                        CaptureBackupSection("DNPSAv5 Settings", snapshot);
-
+                        CaptureBackupSection("DNPSAv5 Settings", bytePacket);
                         dataBackupR.dataBackup_fromRelay = false;
                     }
 
@@ -3743,31 +3752,24 @@ namespace RelayControl
             }
         }
 
+        private bool IsProgrammingFlowActive()
+        {
+            return this.ucRelayProgramming1 != null &&
+                   this.ucRelayProgramming1.IsProgrammingActiveOrInFlight();
+        }
+
+        private bool _autoloadDeclineRestoreHandled = false;
         private void UcRelayProgramming1_AutoloadDeclined(object sender, EventArgs e)
         {
-            logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
-
-            if (this.ucRelayProgramming1 != null &&
-                (this.ucRelayProgramming1.ProgramBootCodeInProgress ||
-                 this.ucRelayProgramming1.ReprogrammingInProgress))
+            if (_autoloadDeclineRestoreHandled)
             {
-                logger.Warn("Autoload decline handler skipped restore because programming lifecycle is still active.");
+                logger.Info("Autoload decline restore already handled; skipping duplicate.");
                 return;
             }
 
-            // Critical parent-side transition latches
-            this.pendingAutoloadAfterBackup = false;
-            this.pendingRestoreAfterProgramming = false;
-            this.backupInProgress = false;
-            this.loadingNewCode = false;
-
-            this.pauseMonitoring = false;
-            this.quietMode = false;
-            this.allEnabled = true;
-            this.pQMonitoringEnabled = true;
-            this.ProgramState = ProgramStates.Running;
-
-            this.RecoverComms("methodName/catch");
+            _autoloadDeclineRestoreHandled = true;
+            logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
+            RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
 
@@ -3798,10 +3800,13 @@ namespace RelayControl
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
-                    logger.Trace("Downloading All Parameters, loading new code: {0}", loadingNewCode);
+                    bool programmingActive = this.IsProgrammingFlowActive();
+                    logger.Trace("Downloading All Parameters, programming active: {0}", programmingActive);
+
                     this.timerResponseTimeOut.Enabled = false;
                     this.dataRetryCount = 0;
-                    if (!loadingNewCode)
+
+                    if (!programmingActive)
                         this.requestFPGARevision();
                 }
 
@@ -4048,13 +4053,16 @@ namespace RelayControl
         private void parametersFinishedLoading()
         {
             logger.Trace("Parameters Finished Loading");
+
+            bool programmingActive = this.IsProgrammingFlowActive();
+
             logger.Info(
                 $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
                 $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
                 $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
                 $"backupInProgress={this.backupInProgress}, " +
                 $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
-                $"loadingNewCode={this.loadingNewCode}");
+                $"programmingActive={programmingActive}");
 
             bool isFullSyncWorkflow =
                 this.requestedAllParameters ||
@@ -4062,19 +4070,19 @@ namespace RelayControl
                 this.pendingAutoloadAfterBackup ||
                 this.pendingRestoreAfterProgramming ||
                 this.backupInProgress ||
-                this.ucRelayProgramming1.ReprogrammingInProgress;
+                programmingActive;
 
             if (!isFullSyncWorkflow)
             {
                 logger.Info(
-                    "Bypassing full parameter completion for targeted config change. requestedAllParameters={0}, ProgramState={1}, sendAll={2}, sendAllFlag={3}, pendingAutoloadAfterBackup={4}, reprogrammingInProgress={5}, loadingNewCode={6}, pendingRestoreAfterProgramming={7}",
+                    "Bypassing full parameter completion for targeted config change. requestedAllParameters={0}, ProgramState={1}, sendAll={2}, sendAllFlag={3}, pendingAutoloadAfterBackup={4}, reprogrammingInProgress={5}, programmingActive={6}, pendingRestoreAfterProgramming={7}",
                     this.requestedAllParameters,
                     this.ProgramState,
                     this.sendAll,
                     sendAllF.SendAllFlag,
                     this.pendingAutoloadAfterBackup,
                     this.ucRelayProgramming1.ReprogrammingInProgress,
-                    this.loadingNewCode,
+                    programmingActive,
                     this.pendingRestoreAfterProgramming
                 );
                 return;
@@ -4136,9 +4144,7 @@ namespace RelayControl
 
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
-
                     this.RecoverComms("methodName/catch");
-
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     return;
@@ -4150,7 +4156,7 @@ namespace RelayControl
                     return;
                 }
 
-                if (this.ucRelayProgramming1.ReprogrammingInProgress &&
+                if (programmingActive &&
                     !pendingRestoreAfterProgramming &&
                     !pendingAutoloadAfterBackup)
                 {
@@ -4183,9 +4189,7 @@ namespace RelayControl
                     logger.Info("User declined autoload; clearing pending migration state and restoring normal communications.");
                     pendingAutoloadAfterBackup = false;
 
-
                     this.RecoverComms("methodName/catch");
-
 
                     skipAutoloadAfterDecline = false;
 
@@ -4233,13 +4237,12 @@ namespace RelayControl
             if (this.ucRelayProgramming1 == null)
                 return false;
 
-            return this.IsRelayProgrammingLifecycleActive() ||
-                   this.pendingAutoloadAfterBackup ||
-                   this.pendingRestoreAfterProgramming ||
-                   this.backupInProgress ||
-                   this.loadingNewCode ||
-                   this.quietMode ||
-                   this.pauseMonitoring;
+            return this.IsProgrammingFlowActive()
+                || this.pendingAutoloadAfterBackup
+                || this.pendingRestoreAfterProgramming
+                || this.backupInProgress
+                || this.quietMode
+                || this.pauseMonitoring;
         }
 
         private bool IsRelayProgrammingLifecycleActive()
@@ -6267,8 +6270,9 @@ namespace RelayControl
 
         private void noResponseError(string p)
         {
-            if (this.loadingNewCode)
+            if (this.IsProgrammingFlowActive())
                 return;
+
             this.monitoring(false);
             this.RegisterPolling(false);
             this.timerFindRelayTimeout.Enabled = false;
@@ -6948,17 +6952,24 @@ namespace RelayControl
                 return;
             }
 
-            logger.Info("requestAllData caller={0} ...", caller);
+            bool programmingActive = this.IsProgrammingFlowActive();
+
             logger.Info(
-                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, loadingNewCode={3}, backupInProgress={4}, pendingAutoloadAfterBackup={5}, pendingRestoreAfterProgramming={6}",
+                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, programmingActive={3}, backupInProgress={4}, pendingAutoloadAfterBackup={5}, pendingRestoreAfterProgramming={6}",
                 requestedAllParameters,
                 ProgramState,
                 this.sendAll,
-                loadingNewCode,
+                programmingActive,
                 backupInProgress,
                 pendingAutoloadAfterBackup,
                 pendingRestoreAfterProgramming
             );
+
+            if (programmingActive)
+            {
+                logger.Info("requestAllData SUPPRESSED: programming lifecycle active. caller={0}", caller);
+                return;
+            }
 
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
@@ -6966,38 +6977,43 @@ namespace RelayControl
         }
 
         private void requestAllDataNoMasterRev()
-        {
-            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+{
+    logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            logger.Info(
-                "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, loadingNewCode={5}",
-                this.requestedAllParameters,
-                this.ProgramState,
-                this.pendingRestoreAfterProgramming,
-                this.pendingAutoloadAfterBackup,
-                this.backupInProgress,
-                this.loadingNewCode
-            );
+    bool programmingActive = this.IsProgrammingFlowActive();
 
-            if (this.InvokeRequired)
-            {
-                // Use BeginInvoke so we do not block the calling thread.
-                this.BeginInvoke(new Action(requestAllDataNoMasterRev));
-                return;
-            }
+    logger.Info(
+        "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, programmingActive={5}",
+        this.requestedAllParameters,
+        this.ProgramState,
+        this.pendingRestoreAfterProgramming,
+        this.pendingAutoloadAfterBackup,
+        this.backupInProgress,
+        programmingActive
+    );
 
-            this.requestedAllParameters = true;
-            this.ProgramState = ProgramStates.DownloadingAllParameters;
+    if (this.InvokeRequired)
+    {
+        // Use BeginInvoke so we do not block the calling thread.
+        this.BeginInvoke(new Action(requestAllDataNoMasterRev));
+        return;
+    }
 
-            if (!this.ucRelayProgramming1.ReprogrammingInProgress)
-            {
-                logger.Debug("Requesting Relay Revision");
-                this.clearRemoteBuffer();
-                this.requestRelayRevision();
-                logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
-                this.timerResponseTimeOut.Enabled = true;
-            }
-        }
+    if (programmingActive)
+    {
+        logger.Info("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active.");
+        return;
+    }
+
+    this.requestedAllParameters = true;
+    this.ProgramState = ProgramStates.DownloadingAllParameters;
+
+    logger.Debug("Requesting Relay Revision");
+    this.clearRemoteBuffer();
+    this.requestRelayRevision();
+    logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
+    this.timerResponseTimeOut.Enabled = true;
+}
 
         private void relayNotFound()
         {
@@ -7098,8 +7114,10 @@ namespace RelayControl
 
             try
             {
-                logger.Info("sendPacketAckComm ENTER caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}, packet=[{4}]",
-                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut, BitConverter.ToString(bytePacket));
+                bool programmingActive = this.IsProgrammingFlowActive();
+
+                logger.Info("sendPacketAckComm ENTER caller={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}, packet=[{4}]",
+                    caller, this.expectingAck, programmingActive, this.SCITimedOut, BitConverter.ToString(bytePacket));
 
                 if (checkBoxSerialCommsDebugging.Checked)
                 {
@@ -7113,11 +7131,13 @@ namespace RelayControl
                 {
                     if ((DateTime.UtcNow - waitStart).TotalMilliseconds > 1000)
                     {
-                        logger.Warn("sendPacketAckComm waiting for ACK. caller={0}, elapsedMs={1}, expectingAck={2}, loadingNewCode={3}, sciTimedOut={4}",
+                        programmingActive = this.IsProgrammingFlowActive();
+
+                        logger.Warn("sendPacketAckComm waiting for ACK. caller={0}, elapsedMs={1}, expectingAck={2}, programmingActive={3}, sciTimedOut={4}",
                             caller,
                             (int)(DateTime.UtcNow - waitStart).TotalMilliseconds,
                             this.expectingAck,
-                            this.loadingNewCode,
+                            programmingActive,
                             this.SCITimedOut);
                         waitStart = DateTime.UtcNow;
                     }
@@ -7125,8 +7145,9 @@ namespace RelayControl
                     Application.DoEvents();
                 }
 
-                logger.Info("sendPacketAckComm wait complete. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
-                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
+                programmingActive = this.IsProgrammingFlowActive();
+                logger.Info("sendPacketAckComm wait complete. caller={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}",
+                    caller, this.expectingAck, programmingActive, this.SCITimedOut);
 
                 if (this.SCITimedOut)
                 {
@@ -7172,7 +7193,7 @@ namespace RelayControl
                 }
 
                 this.serialPort1.Write(bytePacket, 0, bytePacket.Length);
-              
+
                 logger.Info("sendPacketAckComm set expectingAck=TRUE. caller={0}", caller);
                 logger.Info("sendPacketAckComm enabled timerSCITimeOut. caller={0}", caller);
                 logger.Info("sendPacketAckComm EXIT caller={0}", caller);
@@ -7188,8 +7209,9 @@ namespace RelayControl
                 }
                 this.timerSCITimeOut.Enabled = false;
 
-                logger.Error(ex, "sendPacketAckComm EXCEPTION. caller={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
-                    caller, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
+                bool programmingActive = this.IsProgrammingFlowActive();
+                logger.Error(ex, "sendPacketAckComm EXCEPTION. caller={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}",
+                    caller, this.expectingAck, programmingActive, this.SCITimedOut);
 
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
@@ -7250,19 +7272,17 @@ namespace RelayControl
                 return;
             }
 
-            // NEW: block drain while programming/boot flow suppresses comms
-            if (this.loadingNewCode
-                || this.ucRelayProgramming1.ReprogrammingInProgress
-                || this.ucRelayProgramming1.ProgramBootCodeInProgress
-                || this.ucRelayProgramming1.CurrentStartupIntent != ucRelayProgramming.StartupIntent.None)
+            // Unified guard: block while programming lifecycle is active
+            if (this.IsProgrammingFlowActive())
             {
-                logger.Info("Drain blocked: programming/boot flow active. origin={0}, caller={1}, loadingNewCode={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, startupIntent={5}",
+                logger.Info(
+                    "Drain blocked: programming/boot flow active. origin={0}, caller={1}, reprogrammingInProgress={2}, programBootCodeInProgress={3}, startupIntent={4}, state={5}",
                     origin,
                     this.pendingRelayTypePhasingCaller,
-                    this.loadingNewCode,
-                    this.ucRelayProgramming1.ReprogrammingInProgress,
-                    this.ucRelayProgramming1.ProgramBootCodeInProgress,
-                    this.ucRelayProgramming1.CurrentStartupIntent);
+                    this.ucRelayProgramming1?.ReprogrammingInProgress,
+                    this.ucRelayProgramming1?.ProgramBootCodeInProgress,
+                    this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None,
+                    this.ucRelayProgramming1?.State);
                 return;
             }
 
@@ -7298,11 +7318,20 @@ namespace RelayControl
             this.timerSCITimeOut.Enabled = false;
             this.AcknowledgeCaller = string.Empty;
 
-            if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters ||
-                this.loadingNewCode || this.backupInProgress)
+            bool programmingActive = this.IsProgrammingFlowActive();
+
+            if (this.requestedAllParameters ||
+                this.ProgramState == ProgramStates.DownloadingAllParameters ||
+                programmingActive ||
+                this.backupInProgress)
             {
-                logger.Info("Drain blocked (ACK-RX-{0}): parameter download active. requestedAllParameters={1}, ProgramState={2}",
-                    caller, this.requestedAllParameters, this.ProgramState);
+                logger.Info(
+                    "Drain blocked (ACK-RX-{0}): requestedAllParameters={1}, ProgramState={2}, programmingActive={3}, backupInProgress={4}",
+                    caller,
+                    this.requestedAllParameters,
+                    this.ProgramState,
+                    programmingActive,
+                    this.backupInProgress);
                 return;
             }
 
@@ -7536,8 +7565,10 @@ namespace RelayControl
 
         private void sendCTRatio(bool requestAfter)
         {
-            logger.Info("sendCTRatio ENTER: CTRatio={0}, expectingAck={1}, loadingNewCode={2}, sciTimedOut={3}",
-                this.CTRatio, this.expectingAck, this.loadingNewCode, this.SCITimedOut);
+            bool programmingActive = this.IsProgrammingFlowActive();
+
+            logger.Info("sendCTRatio ENTER: CTRatio={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}",
+                this.CTRatio, this.expectingAck, programmingActive, this.SCITimedOut);
 
             byte[] packet = new byte[4];
             packet[0] = (byte)'Z';
@@ -7747,10 +7778,9 @@ namespace RelayControl
             */
 
             logger.Info(
-                 "PROGRAM_SEND_DIAG | ProgramState={0} | currentReprogramState={1} | loadingNewCode={2} | quietMode={3} | pauseMonitoring={4} | toolStripRelayDisconnected={5} | ucState={6} | ucNotPollingPort={7} | ucReprogramming={8} | ucBootProg={9} | ucStartupIntent={10}",  
+                 "PROGRAM_SEND_DIAG | ProgramState={0} | currentReprogramState={1} | quietMode={2} | pauseMonitoring={3} | toolStripRelayDisconnected={4} | ucState={5} | ucNotPollingPort={6} | ucReprogramming={7} | ucBootProg={8} | ucStartupIntent={9}",
                  this.ProgramState,
                  this.currentReprogramState,
-                 this.loadingNewCode,
                  this.quietMode,
                  this.pauseMonitoring,
                  this.toolStripStatusLabelRelayDisconnected.Visible,
@@ -7773,7 +7803,7 @@ namespace RelayControl
         {
             this.timerRegisterPolling.Enabled = false;
 
-            if (this.pauseMonitoring)// || this.noMonitoringVersion)
+            if (this.pauseMonitoring)
             {
                 this.timerRegisterPolling.Enabled = true;
                 this.pauseTransmitterMonitoring();
@@ -7786,12 +7816,6 @@ namespace RelayControl
                 // Keep timer alive so we continue normal ticks.
                 this.timerRegisterPolling.Enabled = true;
                 return;
-            }
-
-            if (!this.pendingAutoloadAfterBackup &&
-                !this.ShouldAllowProgrammingTraffic())
-            {
-                this.loadingNewCode = false;
             }
 
             if (!this.serialPort1.IsOpen && !tCPConnection)
@@ -7821,11 +7845,11 @@ namespace RelayControl
 
                 return;
             }
+
             if (!this.registersReceived)
             {
                 setLabelText("Unknown", this.labelRelayTrippedOrClose);
                 setBackgroundColor(Color.Transparent, this.labelRelayTrippedOrClose);
-
 
                 this.enableFlagsAndStatus(false);
 
@@ -7864,6 +7888,7 @@ namespace RelayControl
             {
                 this.arcFault_requestArcFaultMonitoring();
             }
+
             ulong timeTemp = 0;
 
             if (this.requestingDNPData)
@@ -7875,11 +7900,6 @@ namespace RelayControl
             {
                 if (!this.phasorReceived)
                 {
-                    // if (this.relayFound_forDNPdataMonitoring)
-                    // {
-                    //     this.enableDNPMonitoring(this.tabControlMain.SelectedTab == this.tabPageDNPData);
-                    //     temp = true;
-                    // }
                     if (this.missedMonitoringCount >= 2)
                     {
                         this.ucShortRange1.relayFound_forRNCMonitoring = false;
@@ -7889,16 +7909,14 @@ namespace RelayControl
                         {
                             this.enableDNPMonitoring(false);
                             temp = false;
-                            //string text = "Relay not found. Please check for its Power and then Request for the DNP data ";
                             string text = "Relay not found. Please check for its Power and Connection.";
                             MessageBox.Show(text);
-
                         }
 
                         if (this.transmitterMonitoring || this.pQMonitoringEnabled)
                         {
                             this.pauseTransmitterMonitoring();
-                            this.disableAllMonitoring(); //pause_error testing
+                            this.disableAllMonitoring();
 
                             if (this.relayFound == true && this.toolStripStatusLabelRelayDisconnected.Visible == false)
                             {
@@ -7912,7 +7930,6 @@ namespace RelayControl
                                 }
                                 enableAllMonitoring();
                                 missedMonitoringCount = 3;
-
                             }
                         }
                     }
@@ -7921,7 +7938,7 @@ namespace RelayControl
                         this.missedMonitoringCount++;
                         if (this.pQMonitoringEnabled || this.transmitterMonitoring)
                             this.requestPhasorData();
-                        if (this.transmitterMonitoring)                  //request the data again if we haven't timed out yet.
+                        if (this.transmitterMonitoring)
                             this.requestTransmitterMonitorData();
                     }
                 }
@@ -7937,15 +7954,12 @@ namespace RelayControl
                         this.requestPhasorData();
 
                         timeTemp = transmitterMonitoringCount % 60;
-                        //this.textBoxTimeElapsedSeconds.Text = timeTemp.ToString("00");
                         this.ucTransmitterMonitoring1.TimeElapsedSeconds = timeTemp.ToString("00");
 
                         timeTemp = (transmitterMonitoringCount / 60) % 60;
-                        //this.textBoxTimeElapsedMinutes.Text = timeTemp.ToString("00");
                         this.ucTransmitterMonitoring1.TimeElapsedMinutes = timeTemp.ToString("00");
 
                         timeTemp = transmitterMonitoringCount / 3600;
-                        //this.textBoxTimeElapsedHours.Text = timeTemp.ToString();
                         this.ucTransmitterMonitoring1.TimeElapsedHours = timeTemp.ToString();
 
                         transmitterMonitoringCount += 3;
@@ -8368,7 +8382,7 @@ namespace RelayControl
         {
             bool tempBool, tempBool2, tempBool3;
 
-            if (this.loadingNewCode && title != "Relay Programming")
+            if (this.IsProgrammingFlowActive() && title != "Relay Programming")
                 return;
 
             tempBool = this.pQMonitoringEnabled;
@@ -8380,7 +8394,7 @@ namespace RelayControl
                 this.monitoring(false);
                 this.RegisterPolling(false);
 
-                MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);//, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
                 this.enableAll(tempBool2);
                 this.monitoring(tempBool);
@@ -8794,33 +8808,6 @@ namespace RelayControl
             return false;
         }
 
-        private void RecoverComms(string caller, Exception ex = null)
-        {
-            try
-            {
-                if (ex != null)
-                    logger.Error(ex, "RecoverComms invoked by {0}", caller);
-                else
-                    logger.Warn("RecoverComms invoked by {0}", caller);
-
-                this.monitoring(false);
-                this.RegisterPolling(false);
-                this.resetCommunicationInterface();
-
-                this.RegisterPolling(true);
-                this.monitoring(true);
-
-                if (this.timerRegisterPolling != null)
-                    this.timerRegisterPolling.Enabled = true;
-
-                this.requestRelayRegisters();
-            }
-            catch (Exception rex)
-            {
-                logger.Error(rex, "RecoverComms failed. caller={0}", caller);
-            }
-        }
-
         private void sendAllParameters()
         {
             sendAllF.SendAllFlag = true;
@@ -8862,7 +8849,7 @@ namespace RelayControl
                 sendAllF.SendAllFlag = false;
             }
 
-            if (!this.loadingNewCode)
+            if (!this.IsProgrammingFlowActive())
             {
                 BeginFullParameterDownload(nameof(sendAllParameters));
                 this.requestAllData("sendAllParameters");
@@ -9620,7 +9607,8 @@ namespace RelayControl
         private void timerResponseTimeOut_Tick(object sender, EventArgs e)
         {
             this.timerResponseTimeOut.Enabled = false;
-            if (this.requestedAllParameters && !this.loadingNewCode)
+
+            if (this.requestedAllParameters && !this.IsProgrammingFlowActive())
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
 
@@ -10506,26 +10494,20 @@ namespace RelayControl
 
         private void BackUpRelayDatatoFile()
         {
-            // Pull data from relay master uP if its firmware is less than rev 10.
-            // Since rev 10 onwards there are storage changes for memory-corruption protection.
             bool relayHasDnp = IsDnpCommSupported();
-
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
             try
             {
-                // IMPORTANT:
-                // Starting backup should NOT arm autoload continuation yet.
-                // Autoload continuation is only armed after successful backup completion.
                 pendingAutoloadAfterBackup = false;
 
-                // Start in-memory capture for this backup session.
+                // Make sure no stale capture state is left from a previous run
+                ClearBackupCaptureState();
                 BeginBackupCapture();
 
                 dataBackupD.dataBackup_withDNP = relayHasDnp;
                 StartBackupTracking(relayHasDnp);
 
-                // READ/REQUEST FROM MASTER PROCESSOR AND CAPTURE IN INCOMING DATA FUNCTIONS
                 dataBackup_fromRelay = true;
                 dataBackupR.dataBackup_fromRelay = true;
 
@@ -10535,45 +10517,31 @@ namespace RelayControl
                     logger.Info("Existing backup file deleted: {0}", filePath);
                 }
 
-                // Optional header placeholder; final file content is written by FlushBackupToDisk() on success.
-                File.WriteAllText(
-                    filePath,
-                    "Data residing in the relay :" + Environment.NewLine +
-                    "TimestampUtc: " + backupStartedAtUtc.Value.ToString("O", CultureInfo.InvariantCulture) + Environment.NewLine +
-                    "MasterRevision: " + (this.ucRelayProgramming1.MasterRevisionString ?? "UNKNOWN") + Environment.NewLine);
-
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestRelayParameters();
                 this.requestCalibrationConstants();
                 this.requestTransmitterSettings();
                 this.requestSafeServiceSettings();
-
-                // Prefer explicit request for backup capture instead of toggling monitor mode
                 this.arcFault_requestArcFaultMonitoring();
 
                 if (backupExpectDnp)
                 {
                     logger.Info("DNP detected, but DNP settings backup is being skipped for rev9 to rev10 compatibility.");
-                    // this.requestDNPSettings();      // 'U'
-                    // this.RequestDNPSav5Settings();  // 'D'+'s'
                 }
 
                 logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
             }
             catch (Exception ex)
             {
-                // Ensure backup state is clean on failure
                 backupInProgress = false;
+
                 if (backupTimeoutTimer != null)
                     backupTimeoutTimer.Stop();
 
                 dataBackup_fromRelay = false;
                 dataBackupR.dataBackup_fromRelay = false;
 
-                // Clear in-memory capture state on failure
                 ClearBackupCaptureState();
-
-                // Do not continue autoload on startup backup failure
                 pendingAutoloadAfterBackup = false;
 
                 logger.Error(ex, "Pull data backup failed while dispatching backup requests.");
@@ -11625,16 +11593,41 @@ namespace RelayControl
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
 
+        private void RecoverComms(string caller, Exception ex = null)
+        {
+            try
+            {
+                if (ex != null)
+                    logger.Error(ex, "RecoverComms invoked by {0}", caller);
+                else
+                    logger.Warn("RecoverComms invoked by {0}", caller);
+
+                this.monitoring(false);
+                this.RegisterPolling(false);
+                this.resetCommunicationInterface();
+
+                this.RegisterPolling(true);
+                this.monitoring(true);
+
+                if (this.timerRegisterPolling != null)
+                    this.timerRegisterPolling.Enabled = true;
+
+                this.requestRelayRegisters();
+            }
+            catch (Exception rex)
+            {
+                logger.Error(rex, "RecoverComms failed. caller={0}", caller);
+            }
+        }
 
         public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
         {
             logger.Info(
-                "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, quietMode={5}, pauseMonitoring={6}",
                 caller,
                 this.pendingAutoloadAfterBackup,
                 this.pendingRestoreAfterProgramming,
                 this.backupInProgress,
-                this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring);
 
@@ -11650,7 +11643,6 @@ namespace RelayControl
             this.backupInProgress = false;
             this.skipAutoloadAfterDecline = false;
 
-            this.loadingNewCode = false;
             this.quietMode = false;
             this.pauseMonitoring = false;
 
@@ -11680,12 +11672,11 @@ namespace RelayControl
             }
 
             logger.Info(
-                "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, loadingNewCode={4}, quietMode={5}, pauseMonitoring={6}",
+                "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, quietMode={4}, pauseMonitoring={5}",
                 caller,
                 this.pendingAutoloadAfterBackup,
                 this.pendingRestoreAfterProgramming,
                 this.backupInProgress,
-                this.loadingNewCode,
                 this.quietMode,
                 this.pauseMonitoring);
         }
@@ -11694,7 +11685,6 @@ namespace RelayControl
         {
             bool commonDone =
                 backupGotRelayParams &&
-                backupGotCalibration &&
                 backupGotTx &&
                 backupGotSafeService &&
                 backupGotArcFault;
@@ -11744,8 +11734,32 @@ namespace RelayControl
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
                 pendingAutoloadAfterBackup = false;
+                pendingRestoreAfterProgramming = false;
+
+                // Ensure UI/monitoring can recover from degraded startup backup.
+                this.quietMode = false;
+                this.pauseMonitoring = false;
+
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                this.enableAll(true);
+
+                // If not actively in programming lifecycle, restore normal comms now.
+                if (!this.IsProgrammingFlowActive() && !this.ShouldSuppressBackgroundComms())
+                {
+                    this.RecoverComms("BackupTimeout");
+                }
+                else
+                {
+                    logger.Info(
+                        "Backup timeout path did not recover comms due to active suppression/lifecycle. state={0}",
+                        this.ucRelayProgramming1.State);
+                }
+
                 MessageBox.Show(timeoutMessageOrNull);
                 logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
+                ClearBackupCaptureState();
                 return;
             }
 
@@ -11754,7 +11768,6 @@ namespace RelayControl
             pendingAutoloadAfterBackup = true;
 
             // Critical: clear child backup gate before resuming the continuation flow.
-            // This avoids deadlock where the child still sees the backup latch and suppresses itself.
             this.ucRelayProgramming1.backupIsPending = false;
 
             logger.Info(
@@ -11795,33 +11808,8 @@ namespace RelayControl
                     return;
             }
 
-            // If the child has genuinely started programming, keep suppression active.
-            if (this.ucRelayProgramming1.ReprogrammingInProgress ||
-                this.ucRelayProgramming1.ProgramBootCodeInProgress ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.ReloadMasterBoot ||
-                this.ucRelayProgramming1.State == RelayProgrammingStates.DoneLoadingMasterBootLoader)
-            {
-                pendingAutoloadAfterBackup = false;
-                logger.Info(
-                    "Autoload continuation has entered a real programming/boot state; keep comm suppression active. state={0}",
-                    this.ucRelayProgramming1.State);
-                return;
-            }
-
-            // If the child is actively in the programming lifecycle, keep background suppression in place.
-            if (this.ShouldAllowProgrammingTraffic())
+            // If programming lifecycle is active, keep suppression in place.
+            if (this.IsProgrammingFlowActive())
             {
                 pendingAutoloadAfterBackup = false;
                 logger.Info(
@@ -11830,14 +11818,20 @@ namespace RelayControl
                 return;
             }
 
-            // If the child is no longer in the programming lifecycle and there is no backup latch left,
-            // it is safe to restore normal comms.
+            // If restore-after-decline already ran from the event handler, do not recover twice.
+            if (this._autoloadDeclineRestoreHandled)
+            {
+                pendingAutoloadAfterBackup = false;
+                logger.Info("CompleteBackupAndContinue: restore already handled by autoload-decline event; skipping duplicate recover.");
+                return;
+            }
+
+            // If the child is no longer in lifecycle and backup latch is clear, it is safe to restore.
             if (!this.ucRelayProgramming1.backupIsPending)
             {
                 logger.Info("Autoload continuation resolved with no active lifecycle; restoring normal UI/monitoring.");
 
                 pendingAutoloadAfterBackup = false;
-                this.loadingNewCode = false;
                 this.quietMode = false;
                 this.pauseMonitoring = false;
 
@@ -11848,7 +11842,7 @@ namespace RelayControl
 
                 if (!this.ShouldSuppressBackgroundComms())
                 {
-                    this.RecoverComms("methodName/catch");
+                    this.RecoverComms(nameof(CompleteBackupAndContinue));
                 }
                 else
                 {
@@ -11858,12 +11852,10 @@ namespace RelayControl
                 return;
             }
 
-            // Fallback: the child still has a backup latch active, so keep suppression in place.
             logger.Info(
                 "Autoload continuation still waiting on child backup latch; keeping comm suppression active. backupIsPending={0}, state={1}",
                 this.ucRelayProgramming1.backupIsPending,
                 this.ucRelayProgramming1.State);
-            return;
         }
     }
 

@@ -57,20 +57,6 @@ namespace RelayControlLibrary
             }
         }
 
-        public bool LoadingNewCode
-        {
-            get { return this.loadingNewCode; }
-            set
-            {
-                this.loadingNewCode = value;
-                // Set To Disabled if Loading New Code
-                if (value)
-                    this.comboBoxSSEnable.SelectedIndex = 1;
-            }
-        }
-
-        private bool loadingNewCode = false;
-
         #region Send And Receive
 
         private void send(bool requestAllAfterWrite = false)
@@ -235,10 +221,8 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                if (this.LoadingNewCode)
                     this.restoreDefaults();
-                else
-                    this.errorHandler("Error in SetAll", ex);
+                
             }
         }
 
@@ -308,24 +292,8 @@ namespace RelayControlLibrary
                 numericUpDownLowVoltage_Temp = this.numericUpDownLowVoltage.Value;
                 numericUpDownVoltageImbalance_Temp = this.numericUpDownVoltageImbalance.Value;
             }
-#if DEBUG
-    catch (Exception ex)
-#else
             catch (Exception)
-#endif
             {
-#if DEBUG
-        if (this.LoadingNewCode)
-            this.restoreDefaults();
-        else
-        {
-            this.errorHandler("Error in setAll", ex);
-            this.restoreDefaults();
-
-            // never call UI click handler from logic
-            this.SendSafeService(requestAllAfterWrite: false);
-        }
-#else
                 dataBackupSSM.dataBackup_safeServiceDefaults = true;
                 this.comboBoxSSEnable.SelectedIndex = comboBoxSSEnable_Temp;
                 this.numericUpDownOverCurrent.Value = numericUpDownOverCurrent_Temp;
@@ -336,8 +304,6 @@ namespace RelayControlLibrary
 
                 MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
 
-                //SendAll();
-#endif
                 return;
             }
         }
