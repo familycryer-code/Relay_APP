@@ -8959,7 +8959,7 @@ namespace RelayControl
                 case ProgressFormCompleteStates.TimeOut:
                     if (sendAll == false)
                     {
-                        this.messageHandler(temp + " Timed Out.", new Exception("Error " + temp));
+                        this.messageHandler(temp + " Timed Out. Trying Again.", new Exception("Error " + temp));
                     }
                     break;
             }

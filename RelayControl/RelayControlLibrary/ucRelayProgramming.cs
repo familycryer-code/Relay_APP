@@ -1602,7 +1602,8 @@ namespace RelayControlLibrary
                 {
 
                     rPEA.BytesToSend = new byte[1024];
-                    this.programmingForm.CurrentTask = "Loading Relay Code e";
+                    this.programmingForm.CurrentTask = "Loading Relay Code";
+
                     if (this.relayCode.CodeBytes.Count == 0)
                     {
                         this.state = RelayProgrammingStates.LoadingRelayData;
@@ -2034,11 +2035,14 @@ namespace RelayControlLibrary
         private void sendNextFPGAPacket()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
             try
             {
+                this.programmingForm.CurrentTask = "Loading FPGA Code";
+
                 rPEA.BytesToSend = new byte[1024];
 
                 Int32 temp = Convert.ToInt32(this.labelCodeCount.Text);
@@ -2049,12 +2053,12 @@ namespace RelayControlLibrary
                     return;
                 }
 
+
                 for (int i = 0; i < 1024; i++)
                 {
                     rPEA.BytesToSend[i] = this.fPGACode.DataBytes[this.fPGACode.SendIndex];
                     this.fPGACode.SendIndex++;
                 }
-
 
                 this.programmingForm.ProgressValue = temp;
                 temp++;
@@ -2067,24 +2071,26 @@ namespace RelayControlLibrary
             {
                 this.errorHandler("Error Sending Next FPGA Data", ex);
             }
+
         }
 
         private void doneLoadingFPGA()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
             this.timerTimeout.Stop();
+            this.programmingForm.FPGAComplete = true;
 
             this.reprogramFPGA = false;
-            this.programmingForm.FPGAComplete = true;
-            
 
-            logger.Trace("");
-            logger.Trace("Done Loading FPGA");
+            logger.Info(
+                "doneLoadingMaster complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, state={3}",
+                this.reprogramMaster,
+                this.reprogramRelay,
+                this.reprogramFPGA,
+                this.state);
 
-            logger.Info("MasterBootFileSelect: {0}", this.programMasterBootFileSelect);
-
-            // Do not finalize here.
-            // Hand control back to the orchestrator.
+            // Re-enter central dispatcher/engine to choose the next required stage.
             this.RunProgrammingStateMachine();
         }
 
@@ -2407,53 +2413,58 @@ namespace RelayControlLibrary
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
 
-            //this.sendNextMasterPacket();  // NO ACK coming
+            // NO ACK coming
         }
 
         private void sendRelayTransferPacket()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            this.state = RelayProgrammingStates.LoadingRelayCode;
+
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[4];
 
-            this.timerTimeout.Stop();
-
             rPEA.BytesToSend[0] = 0x64; // 'd'
             rPEA.BytesToSend[1] = this.relayCode.NumberOfCodeBlocks;
-            rPEA.BytesToSend[2] = this.relayCode.NumberOfDataBlocks;
+            rPEA.BytesToSend[2] = this.relayCode.WithParameters
+                ? this.relayCode.NumberOfDataBlocks
+                : this.relayCode.NonParameterCount;
             rPEA.BytesToSend[3] = 0x0D;
 
-            if (this.Send != null)
-            {
-                this.onSend(rPEA);
-                this.labelState.Text = "Sent Relay Transfer Packet";
-                logger.Trace("Sent Relay Transfer Packet");
-            }
+            this.onSend(rPEA);
+            this.labelState.Text = "Sent Relay Transfer Packet";
+            logger.Trace("Sent Relay Transfer Packet");
 
+            this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
+
+            // NO ACK coming
+
         }
 
         private void sendFPGATransferPacket()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            this.state = RelayProgrammingStates.LoadingFPGACode;
+
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[2];
 
             rPEA.BytesToSend[0] = 0x46; // 'F'
             rPEA.BytesToSend[1] = 0x0D;
 
-            this.state = RelayProgrammingStates.LoadingFPGACode;
-            Thread.Sleep(5);
-            if (this.Send != null)
-            {
-                this.onSend(rPEA);
-                this.labelState.Text = "Sent FPGA Transfer Packet";
-                logger.Trace("Sent FPGA Transfer Packet");
-            }
+            this.onSend(rPEA);
+            this.labelState.Text = "Sent FPGA Transfer Packet";
+            logger.Trace("Sent FPGA Transfer Packet");
+            
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
+
+            // NO ACK coming
         }
 
         private void CheckProperMasterBootCode()
@@ -3020,19 +3031,20 @@ namespace RelayControlLibrary
 
             this.parseSFile(this.relayCode);
 
-            this.state = RelayProgrammingStates.LoadingRelayCode;
             int temp = this.relayCode.NumberOfCodeBlocks * 2;
             this.programmingForm.Maximum = temp;
-            this.programmingForm.CurrentTask = "Loading Relay Code a";
+            this.programmingForm.CurrentTask = "Loading Relay Code";
             this.labelCodeTotal.Text = temp.ToString();
             this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
-            this.sendRelayReset();
-            timerTimeout.Stop();
-            timerTimeout.Interval = 1500;
-            timerTimeout.Start();
+
             this.enableButtons(false);
+
+            this.sendReset("startRelayProgramming");
+            this.waitForBootReady("startRelayProgramming");
+
+            this.sendRelayTransferPacket();
         }
 
         private void startRelayBootLoaderProgramming()
@@ -3050,6 +3062,34 @@ namespace RelayControlLibrary
             int temp = this.relayCode.CodeBytes.Count / 34;
 
             this.labelCodeTotal.Text = temp.ToString();
+        }
+
+        private void startFPGAProgramming()
+        {
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+           // do we need to check file string?
+
+           
+            this.transmitterEnabled = true;  // TBD
+            this.parseFPGAFile(this.fPGACode);
+
+            this.programmingForm.CurrentTask = "Loading FPGA";
+            this.programmingForm.Maximum = 96;
+            
+            
+
+            this.labelCodeCount.Text = "0";
+            this.labelCodeTotal.Text = "96";
+          
+
+            this.enableButtons(false);
+
+            this.sendReset("startFPGAProgramming");
+            this.waitForBootReady("startFPGAProgramming");
+
+            this.sendFPGATransferPacket();
+
         }
 
         private void startMasterProgramming()
@@ -3268,7 +3308,7 @@ namespace RelayControlLibrary
             {
                 logger.Info("RunProgrammingStateMachine: FPGA update selected -> start FPGA programming");
                 this.reprogrammingInProgress = false;
-                this.programFPGA();
+                this.startFPGAProgramming();
                 return;
             }
 
@@ -3515,23 +3555,10 @@ namespace RelayControlLibrary
 
             this.dontReloadFromResource = true;
             this.programmingForm.ClearAllChecks();
-            this.programFPGA();
+            this.startFPGAProgramming();
         }
 
-        private void programFPGA()
-        {
-            
-            this.reprogramFPGA = true;
-            this.transmitterEnabled = true;
-            this.parseFPGAFile(this.fPGACode);
-            this.state = RelayProgrammingStates.WaitingForBootFPGA;
-            this.programmingForm.CurrentTask = "Loading FPGA";
-            this.programmingForm.Maximum = 96;
-            this.state = RelayProgrammingStates.WaitingForBootFPGA;
-            this.labelCodeCount.Text = "0";
-            this.labelCodeTotal.Text = "96";
-            this.sendReset();
-        }
+        
 
         #endregion
 
@@ -3553,7 +3580,7 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             this.labelState.Text = "Time Out";
-            this.programmingForm.CurrentTask = "Timed Out";
+            this.programmingForm.CurrentTask = "Timed Out, Trying Again";
             this.timerTimeout.Stop();
 
             logger.Trace("Timed Out in State " + this.state);
@@ -3593,7 +3620,7 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.LoadingFPGACode:
                     logger.Warn("FPGA payload timeout; resending current FPGA data. state={0}", this.state);
 
-                    this.programFPGA();  // or your FPGA resend method
+                    this.startFPGAProgramming();  // or your FPGA resend method
                     this.timerTimeout.Interval = 10000;
                     this.timerTimeout.Start();
                     return;
