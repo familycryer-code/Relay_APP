@@ -49,10 +49,6 @@ namespace RelayControl
         private const uint _version3FileRevisionNumber = 20100621;
 
 
-
-
-
-
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
@@ -61,11 +57,7 @@ namespace RelayControl
 
         private bool showMemFixMsg = true;
 
-
-        public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
-        private bool quietMode = false;  //turns off register polling - button for this
         private bool checkedDNPEnable = false;
-
 
         private Customers customer = Customers.None;
 
@@ -73,9 +65,6 @@ namespace RelayControl
         private SyncPhase syncPhase = SyncPhase.Idle;
         private SectionBits requiredSections = SectionBits.None;
         private SectionBits receivedSections = SectionBits.None;
-
-
-
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
@@ -95,13 +84,13 @@ namespace RelayControl
         private bool backupGotTx = false;
         private bool backupGotSafeService = false;
         private bool backupGotArcFault = false;
-
+        public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
+        private bool quietMode = false;  //turns off register polling - button for this
         // Add these fields near the other backup state fields
         private readonly object _backupCaptureLock = new object();
         private readonly List<KeyValuePair<string, byte[]>> _backupCaptureSections = new List<KeyValuePair<string, byte[]>>();
         private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
         private bool _backupCaptureActive;
-
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
 
@@ -142,43 +131,7 @@ namespace RelayControl
         }
 
 
-        private void tabControlMain_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            var tab = tabControlMain.TabPages[e.Index];
-            var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
-
-            // Background of the selected tab title 
-            //using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(135, 206, 250) : SystemColors.Control)) // selected tab title has a blue background
-            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(255, 215, 0) : SystemColors.Control)) // selected tab title has a gold colored background
-            {
-                e.Graphics.FillRectangle(backBrush, e.Bounds);
-            }
-
-            // Text color: blue for selected, gray for others (adjust as needed)
-            var textColor = isSelected ? Color.Black : SystemColors.ControlText; // Color.Black is the color of the selected tab title
-            using (var textBrush = new SolidBrush(textColor))
-            using (var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
-            {
-                e.Graphics.DrawString(tab.Text, e.Font, textBrush, e.Bounds, format);
-            }
-
-            // Optional focus rectangle
-            e.DrawFocusRectangle();
-        }
-        public class BorderlessGroupBox : GroupBox
-        {
-            protected override void OnPaint(PaintEventArgs e)
-            {
-                // Do nothing → prevents default border drawing										
-                e.Graphics.Clear(this.BackColor);
-
-                if (!string.IsNullOrEmpty(this.Text))
-                {
-                    SizeF textSize = e.Graphics.MeasureString(this.Text, this.Font);
-                    e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 0, 0);
-                }
-            }
-        }
+      
 
         public void MainControlInit()
         {
@@ -690,7 +643,7 @@ namespace RelayControl
             {
                 this.messageHandler(ex.Message, ex.InnerException);
             }
-
+            /*
             if (!this.noMonitoringVersion)
             {
                 this.BeginInvoke(new Action(() =>
@@ -698,6 +651,45 @@ namespace RelayControl
                     logger.Info("Calling InitializeAutoload (deferred until form shown)");
                     this.ucRelayProgramming1.InitializeAutoload();
                 }));
+            }
+            */
+        }
+
+        private void tabControlMain_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = tabControlMain.TabPages[e.Index];
+            var isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            // Background of the selected tab title 
+            //using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(135, 206, 250) : SystemColors.Control)) // selected tab title has a blue background
+            using (var backBrush = new SolidBrush(isSelected ? Color.FromArgb(255, 215, 0) : SystemColors.Control)) // selected tab title has a gold colored background
+            {
+                e.Graphics.FillRectangle(backBrush, e.Bounds);
+            }
+
+            // Text color: blue for selected, gray for others (adjust as needed)
+            var textColor = isSelected ? Color.Black : SystemColors.ControlText; // Color.Black is the color of the selected tab title
+            using (var textBrush = new SolidBrush(textColor))
+            using (var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+            {
+                e.Graphics.DrawString(tab.Text, e.Font, textBrush, e.Bounds, format);
+            }
+
+            // Optional focus rectangle
+            e.DrawFocusRectangle();
+        }
+        public class BorderlessGroupBox : GroupBox
+        {
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                // Do nothing → prevents default border drawing										
+                e.Graphics.Clear(this.BackColor);
+
+                if (!string.IsNullOrEmpty(this.Text))
+                {
+                    SizeF textSize = e.Graphics.MeasureString(this.Text, this.Font);
+                    e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 0, 0);
+                }
             }
         }
         public Customers Customer
@@ -5472,11 +5464,27 @@ namespace RelayControl
                 if (!revision.Contains("MASTER"))
                     return;
 
-                this.masterRevision = getMasterRevisionNumber(revision);
+                uint parsedMasterRevision = getMasterRevisionNumber(revision);
+
+                // Do not overwrite a known-good value with an invalid read.
+                if (parsedMasterRevision == 0 || parsedMasterRevision == 0xFFFFFF)
+                {
+                    logger.Info(
+                        "MASTER REVISION INVALID/PLACEHOLDER RAW={0} PARSED={1} - keeping existing value {2}",
+                        revision,
+                        parsedMasterRevision,
+                        this.masterRevision);
+                    return;
+                }
+
+                this.masterRevision = parsedMasterRevision;
+                logger.Info("MASTER REVISION RAW={0} PARSED={1}", revision, this.masterRevision);
+
                 this.ucTransmitter1.MasterRevisionNumber = this.masterRevision;
 
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
+                logger.Info("MASTER REVISION ASSIGNED TO ucRelayProgramming1 = {0}", this.ucRelayProgramming1.MasterRevisionNumber);
 
                 if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
                 {
@@ -5566,26 +5574,38 @@ namespace RelayControl
         }
 
         private bool fPGARevisionValid = true;
+        private string _lastGoodFPGARevisionText = string.Empty;
+        private uint _lastGoodFPGARevisionNumber = 0;
 
         private void setFPGARevision(byte[] bytePacket)
         {
             string fPGARevision;
             try
             {
-                fPGARevision = "F";
-                fPGARevision += ASCIIEncoding.ASCII.GetString(bytePacket);
+                fPGARevision = "F" + ASCIIEncoding.ASCII.GetString(bytePacket);
                 logger.Info("FPGA Revision: {0}", fPGARevision);
-                if ((bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
-                   bytePacket[16] == 0xFF && bytePacket[17] == 0xFF && bytePacket[18] == 0xFF) ||
-                   (bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
-                    bytePacket[16] == 0x00 && bytePacket[17] == 0x00 && bytePacket[18] == 0x00))
-                {
-                    this.labelFPGARevision.Hide();
-                    // Pass zero to the reprogramming just incase the FPGA code has been corrupt.  Passing all F's is interpreted as a "high" date.
 
-                    this.ucRelayProgramming1.FPGARevisionNumber = 0;
+                bool invalidPattern =
+                    (bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
+                     bytePacket[16] == 0xFF && bytePacket[17] == 0xFF && bytePacket[18] == 0xFF) ||
+                    (bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
+                     bytePacket[16] == 0x00 && bytePacket[17] == 0x00 && bytePacket[18] == 0x00);
+
+                if (invalidPattern)
+                {
+                    // Mark invalid, but DO NOT clear last known good revision number.
                     this.ucTransmitter1.FPGARevisionValid = false;
                     this.fPGARevisionValid = false;
+
+                    logger.Info("Invalid FPGA revision pattern received; preserving last known good FPGA revision. last={0}",
+                        _lastGoodFPGARevisionNumber);
+
+                    // Keep visible for operator clarity.
+                    this.labelFPGARevision.Show();
+                    if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
+                        this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
+                    else
+                        this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
                 }
                 else
                 {
@@ -5597,15 +5617,23 @@ namespace RelayControl
                     {
                         UInt32 tempU = Convert.ToUInt32(fPGARevision.Substring(13));
                         this.ucRelayProgramming1.FPGARevisionNumber = tempU;
+
+                        _lastGoodFPGARevisionNumber = tempU;
+                        _lastGoodFPGARevisionText = fPGARevision;
+
+                        this.setLabelText(fPGARevision, this.labelFPGARevision);
                     }
                     catch
                     {
-                        // This means the revision number is messed up so we should program it
-                        this.ucRelayProgramming1.FPGARevisionNumber = 0;
-                    }
+                        // Parse failed: preserve last known good value instead of zeroing it.
+                        logger.Info("FPGA revision parse failed; preserving last known good FPGA revision. raw={0}", fPGARevision);
 
+                        if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
+                            this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
+                        else
+                            this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
+                    }
                 }
-                this.setLabelText(fPGARevision, this.labelFPGARevision);
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
                 {
@@ -6944,14 +6972,15 @@ namespace RelayControl
             bool programmingActive = this.IsProgrammingFlowActive();
 
             logger.Info(
-                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, programmingActive={3}, backupInProgress={4}, pendingAutoloadAfterBackup={5}, pendingRestoreAfterProgramming={6}",
+                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, programmingActive={3}, backupInProgress={4}, pendingAutoloadAfterBackup={5}, pendingRestoreAfterProgramming={6}, caller={7}",
                 requestedAllParameters,
                 ProgramState,
                 this.sendAll,
                 programmingActive,
                 backupInProgress,
                 pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming
+                pendingRestoreAfterProgramming,
+                caller
             );
 
             if (programmingActive)
@@ -6962,47 +6991,49 @@ namespace RelayControl
 
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
+
+            logger.Info("Relay Revision: {0}", relayCodeRevisionNumber);
             this.requestAllDataNoMasterRev();
         }
 
         private void requestAllDataNoMasterRev()
-{
-    logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+        {
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-    bool programmingActive = this.IsProgrammingFlowActive();
+            bool programmingActive = this.IsProgrammingFlowActive();
 
-    logger.Info(
-        "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, programmingActive={5}",
-        this.requestedAllParameters,
-        this.ProgramState,
-        this.pendingRestoreAfterProgramming,
-        this.pendingAutoloadAfterBackup,
-        this.backupInProgress,
-        programmingActive
-    );
+            logger.Info(
+                "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, programmingActive={5}",
+                this.requestedAllParameters,
+                this.ProgramState,
+                this.pendingRestoreAfterProgramming,
+                this.pendingAutoloadAfterBackup,
+                this.backupInProgress,
+                programmingActive
+            );
 
-    if (this.InvokeRequired)
-    {
-        // Use BeginInvoke so we do not block the calling thread.
-        this.BeginInvoke(new Action(requestAllDataNoMasterRev));
-        return;
-    }
+            if (this.InvokeRequired)
+            {
+                // Use BeginInvoke so we do not block the calling thread.
+                this.BeginInvoke(new Action(requestAllDataNoMasterRev));
+                return;
+            }
 
-    if (programmingActive)
-    {
-        logger.Info("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active.");
-        return;
-    }
+            if (programmingActive)
+            {
+                logger.Info("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active.");
+                return;
+            }
 
-    this.requestedAllParameters = true;
-    this.ProgramState = ProgramStates.DownloadingAllParameters;
+            this.requestedAllParameters = true;
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
 
-    logger.Debug("Requesting Relay Revision");
-    this.clearRemoteBuffer();
-    this.requestRelayRevision();
-    logger.Trace("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
-    this.timerResponseTimeOut.Enabled = true;
-}
+            logger.Info("Requesting Relay Revision");
+            this.clearRemoteBuffer();
+            this.requestRelayRevision();
+            logger.Info("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
+            this.timerResponseTimeOut.Enabled = true;
+        }
 
         private void relayNotFound()
         {
