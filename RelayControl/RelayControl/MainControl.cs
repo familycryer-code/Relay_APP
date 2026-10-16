@@ -1818,19 +1818,15 @@ namespace RelayControl
 
         private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
         {
-            logger.Info("FLOW UcRelayProgramming1_BackupBeforeProgrammingRequested | state={0} | inProgress={1} | pending={2} | childPending={3}",
-                backupState, backupInProgress, pendingAutoloadAfterBackup, this.ucRelayProgramming1?.backupIsPending);
+            LogFlow("entered; childBackupIsPending=" + (this.ucRelayProgramming1?.backupIsPending ?? false));
 
-            if (this.ucRelayProgramming1.backupIsPending)
-            {
-                this.pendingAutoloadAfterBackup = true;
+            if (this.ucRelayProgramming1 == null || !this.ucRelayProgramming1.backupIsPending)
+                return;
 
-                // backup workflow begins here
-                BeginBackupCapture();
+            pendingAutoloadAfterBackup = true;
 
-                // then do the actual backup action
-                this.BackUpRelayDatatoFile(nameof(UcRelayProgramming1_BackupBeforeProgrammingRequested));
-            }
+            // start the backup flow once
+            this.BackUpRelayDatatoFile();
         }
 
         private void ResetFullParameterDownloadState(string caller)
@@ -7038,70 +7034,52 @@ namespace RelayControl
         {
             if (this.sendAll || sendAllF.SendAllFlag)
             {
-                logger.Info("requestAllData SUPPRESSED: sendAll active. caller={0}", caller);
+                LogFlow("requestAllData SUPPRESSED: sendAll active");
                 return;
             }
 
             bool programmingActive = this.IsProgrammingFlowActive();
 
-            logger.Info(
-                "requestAllData ENTRY: requestedAllParameters={0}, ProgramState={1}, sendAll={2}, programmingActive={3}, backupInProgress={4}, pendingAutoloadAfterBackup={5}, pendingRestoreAfterProgramming={6}, caller={7}",
-                requestedAllParameters,
-                ProgramState,
-                this.sendAll,
-                programmingActive,
-                backupInProgress,
-                pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming,
-                caller
-            );
+            LogFlow("requestAllData ENTRY");
 
             if (programmingActive)
             {
-                logger.Info("requestAllData SUPPRESSED: programming lifecycle active. caller={0}", caller);
+                LogFlow("requestAllData SUPPRESSED: programming lifecycle active");
                 return;
             }
 
             this.requestedAllParameters = true;
             this.requestMasterRevisionNumber();
 
-            logger.Info("Relay Revision: {0}", relayCodeRevisionNumber);
+            LogFlow("requestAllData after requestMasterRevisionNumber");
+
             this.requestAllDataNoMasterRev();
         }
 
         private void requestAllDataNoMasterRev()
         {
-            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
             bool programmingActive = this.IsProgrammingFlowActive();
 
-            logger.Info(
-                "requestAllDataNoMasterRev ENTER: requestedAllParameters={0}, ProgramState={1}, pendingRestoreAfterProgramming={2}, pendingAutoloadAfterBackup={3}, backupInProgress={4}, programmingActive={5}",
-                this.requestedAllParameters,
-                this.ProgramState,
-                this.pendingRestoreAfterProgramming,
-                this.pendingAutoloadAfterBackup,
-                this.backupInProgress,
-                programmingActive
-            );
+            LogFlow("requestAllDataNoMasterRev ENTER");
 
             if (this.InvokeRequired)
             {
-                // Use BeginInvoke so we do not block the calling thread.
                 this.BeginInvoke(new Action(requestAllDataNoMasterRev));
+                LogFlow("requestAllDataNoMasterRev re-invoked on UI thread");
                 return;
             }
 
             if (programmingActive)
             {
-                logger.Info("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active.");
+                LogFlow("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active");
                 return;
             }
 
             this.requestedAllParameters = true;
             this.ProgramState = ProgramStates.DownloadingAllParameters;
 
-            logger.Info("Requesting Relay Revision");
+            LogFlow("requestAllDataNoMasterRev set state");
+
             this.clearRemoteBuffer();
             this.requestRelayRevision();
             this.timerResponseTimeOut.Enabled = true;
@@ -10581,18 +10559,35 @@ namespace RelayControl
 
         private void LogFlow(string message, [CallerMemberName] string caller = null)
         {
-            logger.Info("{0} | caller={1} | backupState={2} | backupInProgress={3} | backupIsPending={4} | pendingAutoloadAfterBackup={5} | timeoutMsg={6}",
+            
+            logger.Info(
+                "{0} | caller={1} | ProgramState={2} | backupState={3} | requestedAllParameters={4}" +
+                " | sendAll={5} | sendAllFlag={6} | backupInProgress={7} | backupIsPending={8}" +
+                " | pendingAutoloadAfterBackup={9} | pendingRestoreAfterProgramming={10} | relayCodeRevisionNumber={11}",
                 message,
-                caller,
-                backupState,
-                backupInProgress,
-                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.backupIsPending : false,
-                pendingAutoloadAfterBackup);
+                caller ?? "unknown",
+                this.ProgramState,
+                this.backupState,
+                this.requestedAllParameters,
+                this.sendAll,
+                sendAllF.SendAllFlag,
+                this.backupInProgress,
+                this.ucRelayProgramming1 != null && this.ucRelayProgramming1.backupIsPending,
+                this.pendingAutoloadAfterBackup,
+                this.pendingRestoreAfterProgramming,
+                this.relayCodeRevisionNumber
+            );
         }
 
-        private void BackUpRelayDatatoFile([CallerMemberName] string caller = null)
+        private void BackUpRelayDatatoFile()
         {
-            LogFlow("entered; relayHasDnp=" + IsDnpCommSupported() + "; file=" + @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
+            LogFlow("entered");
+
+            if (backupState == BackupState.Capturing)
+            {
+                LogFlow("already capturing; skipping duplicate start");
+                return;
+            }
 
             bool relayHasDnp = IsDnpCommSupported();
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
@@ -10622,28 +10617,19 @@ namespace RelayControl
                 this.requestSafeServiceSettings();
                 this.arcFault_requestArcFaultMonitoring();
 
-                if (backupExpectDnp)
-                {
-                    logger.Info("DNP detected, but DNP settings backup is being skipped for rev9 to rev10 compatibility.");
-                }
-
                 logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
             }
             catch (Exception ex)
             {
+                LogFlow("exception; ex=" + ex.Message);
                 backupInProgress = false;
-
                 if (backupTimeoutTimer != null)
                     backupTimeoutTimer.Stop();
-
                 dataBackup_fromRelay = false;
                 dataBackupR.dataBackup_fromRelay = false;
-
                 ClearBackupCaptureState();
                 pendingAutoloadAfterBackup = false;
-
-                logger.Error(ex, "Pull data backup failed while dispatching backup requests.");
-                throw new Exception("Pull data backup failed", ex);
+                throw;
             }
         }
 
