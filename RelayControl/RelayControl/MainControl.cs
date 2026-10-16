@@ -1852,28 +1852,33 @@ namespace RelayControl
 
         private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
         {
-            
             this.currentReprogramState = rPEA.Command;
 
             logger.Trace("Programming Command: {0}", rPEA.Command);
+
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
-                    this.ProgramState = ProgramStates.DownloadingAllParameters;
-                    clearRemoteBuffer();
-                    requestRelayRevision();
+                    LogFlow("Programming_Send RequestAll");
+                    this.BeginFullParameterDownload("Programming_Send.RequestAll");
+                    this.clearRemoteBuffer();
+                    this.requestRelayRevision();
                     break;
+
                 case RelayProgrammingSendCommands.RestartProgram:
                     this.toolStripStatusLabelRelayDisconnected.Visible = true;
                     break;
+
                 case RelayProgrammingSendCommands.SaveSettings:
                     this.getAllSaveStates(this.reprogrammingTempSettings);
                     break;
+
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
                     UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
+
                 case RelayProgrammingSendCommands.RawData:
                     if (this.IsProgrammingFlowActive())
                     {
@@ -1882,17 +1887,18 @@ namespace RelayControl
                     }
                     this.sendPacket(rPEA.BytesToSend);
                     break;
+
                 case RelayProgrammingSendCommands.RecallSavedSettings:
-                    // For future versions, this part should be checked because I am adding this for adding SafeService to the relay
                     this.ucSafeService1.SetDefaults();
-                    ////
                     this.setAllValues(this.reprogrammingTempSettings);
                     this.sendAllParameters();
                     break;
+
                 case RelayProgrammingSendCommands.DisableGERelayFix:
                     this.ucTransmitter1.GERelay = false;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
+
                 case RelayProgrammingSendCommands.EnableGERelayFix:
                     this.ucTransmitter1.GERelay = true;
                     this.ucTransmitter1.SendTransmitterSettings();
@@ -2705,6 +2711,7 @@ namespace RelayControl
 
         private void packetFormulated(byte[] bytePacket, IncomingCommCommands command)
         {
+            
             switch (command)
             {
                 case IncomingCommCommands.DNPMessage1: // BI
@@ -2871,7 +2878,7 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.Revision:
-                    this.revisionReceived(bytePacket);
+                    this.revisionReceived(bytePacket, nameof(packetFormulated));
                     break;
 
                 case IncomingCommCommands.FPGARevision:
@@ -5510,7 +5517,7 @@ namespace RelayControl
         private uint masterRevision;
 
         private string receivedMasterRevision;
-        private void revisionReceived(byte[] bytePacket)
+        private void revisionReceived(byte[] bytePacket, [CallerMemberName] string caller = null)
         {
             string revision;
 
@@ -5518,37 +5525,30 @@ namespace RelayControl
             {
                 revision = "R";
                 revision += ASCIIEncoding.ASCII.GetString(bytePacket);
+
                 if (!revision.Contains("MASTER"))
                     return;
 
                 uint parsedMasterRevision = getMasterRevisionNumber(revision);
 
-                // Do not overwrite a known-good value with an invalid read.
                 if (parsedMasterRevision == 0 || parsedMasterRevision == 0xFFFFFF)
                 {
-                    logger.Info(
-                        "MASTER REVISION INVALID/PLACEHOLDER RAW={0} PARSED={1} - keeping existing value {2}",
-                        revision,
-                        parsedMasterRevision,
-                        this.masterRevision);
+                    LogFlow("MASTER REVISION INVALID/PLACEHOLDER", caller);
                     return;
                 }
 
                 this.masterRevision = parsedMasterRevision;
-                logger.Info("MASTER REVISION RAW={0} PARSED={1}", revision, this.masterRevision);
+                LogFlow("MASTER REVISION RECEIVED", caller);
 
                 this.ucTransmitter1.MasterRevisionNumber = this.masterRevision;
 
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
-                logger.Info("MASTER REVISION ASSIGNED TO ucRelayProgramming1 = {0}", this.ucRelayProgramming1.MasterRevisionNumber);
+                LogFlow("MASTER REVISION ASSIGNED TO ucRelayProgramming1", caller);
 
-                if (this.ucRelayProgramming1.CompareMasterRevisionToGUI())
+                if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && skipAutoloadAfterDecline)
                 {
-                    if (skipAutoloadAfterDecline)
-                    {
-                        logger.Info("Skipping pending autoload after prior user decline.");
-                    }
+                    LogFlow("Skipping pending autoload after prior user decline", caller);
                 }
 
                 if (this.dNPDIGITALGRIDData != null)
@@ -5557,17 +5557,11 @@ namespace RelayControl
                 receivedMasterRevision = revision;
 
                 if (revision.Contains("HBD"))
-                {
                     relayHBD.relayWithHBD = true;
-                }
 
                 if (this.Customer == Customers.None)
-                {
                     this.Customer = Customers.ENMAX;
-                }
 
-                // Keep build/customer assignment stable during runtime.
-                // (This prevents CONED/others from being overwritten to COMED/ENMAX paths.)
                 bool dnpCommSupported = IsDnpCommSupported();
                 this.DNPEnabled = dnpCommSupported;
                 this.checkDNPEnabled();
@@ -5593,20 +5587,10 @@ namespace RelayControl
                         this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
 
                     this.timerCheckPortTime.Enabled = false;
+
+                    LogFlow("revisionReceived -> requestAllData start", caller);
                     this.requestAllData("relay-connect-serial");
-
-                    // go live
-                    this.ProgramState = ProgramStates.DownloadingAllParameters;
-                    logger.Info(this.ProgramState.ToString() + " - Relay Found on " + this.serialPort1.PortName);  
-
-                    /*
-                    this.monitoring(false);
-                    this.RegisterPolling(false);
-                    this.resetCommunicationInterface();
-                    this.RegisterPolling(true);
-                    this.monitoring(true);
-                    this.requestRelayRegisters();
-                    */
+                    LogFlow("revisionReceived -> requestAllData complete", caller);
                 }
             }
             catch (Exception ex)
