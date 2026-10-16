@@ -1862,9 +1862,7 @@ namespace RelayControl
             {
                 case RelayProgrammingSendCommands.RequestAll:
                     LogFlow("Programming_Send RequestAll");
-                    this.BeginFullParameterDownload("Programming_Send.RequestAll");
-                    this.clearRemoteBuffer();
-                    this.requestRelayRevision();
+                    this.requestAllData(nameof(Programming_Send) + ".RequestAll");
                     break;
 
                 case RelayProgrammingSendCommands.RestartProgram:
@@ -3865,18 +3863,7 @@ namespace RelayControl
 
                 this.setLabelText(temp, this.labelRelayRevision);
 
-                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                {
-                    bool programmingActive = this.IsProgrammingFlowActive();
-                    logger.Trace("Downloading All Parameters, programming active: {0}", programmingActive);
-
-                    this.timerResponseTimeOut.Enabled = false;
-                    this.dataRetryCount = 0;
-
-                    if (!programmingActive)
-                        this.requestFPGARevision();
-                }
-
+           
                 if (temp.Contains("GE"))
                 {
                     this.GERelay = true;
@@ -4079,16 +4066,6 @@ namespace RelayControl
                 if (this.ucRelayProgramming1.TransmitterPacket == null)
                     this.ucRelayProgramming1.TransmitterPacket = settings;
 
-                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                {
-                    if (this.relayCodeRevisionNumber >= 20130111)
-                    {
-                        if (dataBackup_fromRelay != true)
-                            this.requestSafeServiceSettings();
-                    }
-                    else
-                        this.parametersFinishedLoading(nameof(setTransmitterSettings));
-                }
             }
             catch (Exception ex)
             {
@@ -4177,6 +4154,7 @@ namespace RelayControl
                 if (this.syncPhase == SyncPhase.FullParameterDownload && this.parametersLoaded)
                 {
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                    this.RecoverComms("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     ResetFullParameterDownloadState("parametersFinishedLoading.parametersLoaded");
                     return;
                 }
@@ -5601,7 +5579,6 @@ namespace RelayControl
 
                     LogFlow("revisionReceived -> requestAllData start", caller);
                     this.requestAllData("relay-connect-serial");
-                    LogFlow("revisionReceived -> requestAllData complete", caller);
                 }
             }
             catch (Exception ex)
@@ -5697,12 +5674,6 @@ namespace RelayControl
                         this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
                     else
                         this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
-                }
-
-                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                {
-                    if (!ucRelayProgramming1.ReprogrammingInProgress)
-                        this.requestRelayParameters();
                 }
             }
             catch (Exception ex)
@@ -6998,6 +6969,25 @@ namespace RelayControl
         private bool expectingFPGARevision = false;
 
         delegate void requestAllCallBack();
+        private void BeginFullParameterDownload([CallerMemberName] string caller = null)
+        {
+            this.requestedAllParameters = true;
+            this.parametersLoaded = false;
+
+            this.syncPhase = SyncPhase.FullParameterDownload;
+            this.requiredSections = SectionBits.RelayParams | SectionBits.TxSettings;
+            this.receivedSections = SectionBits.None;
+
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
+
+            logger.Info(
+                "BeginFullParameterDownload caller={0}, phase={1}, required={2}, received={3}",
+                caller,
+                this.syncPhase,
+                this.requiredSections,
+                this.receivedSections);
+        }
+
         private void MarkSectionReceived(SectionBits section)
         {
             this.receivedSections |= section;
@@ -7012,7 +7002,6 @@ namespace RelayControl
             if (this.syncPhase != SyncPhase.FullParameterDownload)
                 return;
 
-            // Already completed this cycle: ignore repeated SafeService / late packets
             if (this.parametersLoaded)
             {
                 logger.Info(
@@ -7026,6 +7015,7 @@ namespace RelayControl
             if ((this.receivedSections & this.requiredSections) == this.requiredSections)
             {
                 this.parametersLoaded = true;
+                this.requestedAllParameters = false;
 
                 logger.Info(
                     "Full parameter set complete: firing parametersFinishedLoading(). received={0}, required={1}",
@@ -7034,25 +7024,6 @@ namespace RelayControl
 
                 this.parametersFinishedLoading(nameof(MarkSectionReceived));
             }
-        }
-
-        private void BeginFullParameterDownload([CallerMemberName] string caller = null)
-        {
-            this.requestedAllParameters = true;
-            
-
-            this.syncPhase = SyncPhase.FullParameterDownload;
-            this.requiredSections = SectionBits.RelayParams
-                                  | SectionBits.TxSettings; // TEMP: remove SafeService gating
-            this.receivedSections = SectionBits.None;
-            this.parametersLoaded = false;
-
-            logger.Info(
-                "BeginFullParameterDownload caller={0}, phase={1}, required={2}, received={3}",
-                caller,
-                this.syncPhase,
-                this.requiredSections,
-                this.receivedSections);
         }
 
         private bool ShouldRestoreFromBackup(string sectionName)
@@ -7079,67 +7050,54 @@ namespace RelayControl
                 return;
             }
 
-            this.requestedAllParameters = true;
-
             bool discoveryContext =
                 caller == "relay-connect-serial" ||
                 caller == "timerFindRelayTimeout_Tick" ||
                 this.ProgramState == ProgramStates.CheckingForRelay;
 
-            bool shouldRequestMasterRevision = discoveryContext && !this.relayFound;
-
-            if (shouldRequestMasterRevision)
+            // Startup discovery only: revision traffic is not the parameter-download phase
+            if (discoveryContext && !this.relayFound)
             {
-                LogFlow($"requestAllData requesting master revision | caller={caller}");
+                LogFlow($"requestAllData startup discovery: requesting master + relay revisions | caller={caller}");
                 this.requestMasterRevisionNumber(nameof(requestAllData));
+                this.requestRelayRevision();
+                this.requestFPGARevision();
             }
             else
             {
-                LogFlow($"requestAllData skipping master revision request | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}");
+                LogFlow($"requestAllData skipping startup revision requests | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}");
             }
 
-            this.requestAllDataNoMasterRev(nameof(requestAllData));
-        }
-
-        private void requestAllDataNoMasterRev([CallerMemberName] string caller = null)
-        {
-            bool programmingActive = this.IsProgrammingFlowActive();
-
-            LogFlow("requestAllDataNoMasterRev ENTER", caller);
-
-            if (this.InvokeRequired)
+            // Prevent duplicate full-download cycles
+            if (this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
-                this.BeginInvoke(new Action(() => requestAllDataNoMasterRev(caller)));
-                LogFlow("requestAllDataNoMasterRev re-invoked on UI thread", caller);
+                LogFlow($"requestAllData SUPPRESSED: already downloading | caller={caller}");
                 return;
             }
 
-            if (programmingActive)
-            {
-                LogFlow("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active", caller);
-                return;
-            }
-
+            // This is the actual full-parameter cycle start
             this.BeginFullParameterDownload(caller);
-            LogFlow("requestAllDataNoMasterRev initialized full-parameter download", caller);
 
-            this.clearRemoteBuffer();
-            this.requestRelayRevision();
+            // Actual parameter-section requests
+            this.requestRelayParameters();
+            this.requestTransmitterSettings();
 
-            bool shouldArmResponseTimeout =
-                this.ProgramState == ProgramStates.CheckingForRelay || !this.relayFound;
+            // Only if your requiredSections includes relay register/status data:
+            // this.requestRelayRegisters();
 
-            if (shouldArmResponseTimeout)
+            // Discovery startup timeout only
+            if (discoveryContext && !this.relayFound)
             {
                 this.timerResponseTimeOut.Enabled = true;
-                LogFlow("requestAllDataNoMasterRev armed timerResponseTimeOut", caller);
+                LogFlow($"requestAllData armed timerResponseTimeOut | caller={caller}");
             }
             else
             {
                 this.timerResponseTimeOut.Enabled = false;
-                LogFlow("requestAllDataNoMasterRev skipped timerResponseTimeOut (already connected/running)", caller);
+                LogFlow($"requestAllData disabled timerResponseTimeOut | caller={caller}");
             }
         }
+
 
         private void relayNotFound()
         {
@@ -10654,11 +10612,11 @@ namespace RelayControl
 
         private void LogFlow(string message, [CallerMemberName] string caller = null)
         {
-            
             logger.Info(
                 "{0} | caller={1} | ProgramState={2} | backupState={3} | requestedAllParameters={4}" +
                 " | sendAll={5} | sendAllFlag={6} | backupInProgress={7} | backupIsPending={8}" +
-                " | pendingAutoloadAfterBackup={9} | pendingRestoreAfterProgramming={10} | relayCodeRevisionNumber={11}",
+                " | pendingAutoloadAfterBackup={9} | pendingRestoreAfterProgramming={10} | relayCodeRevisionNumber={11}" +
+                " | relayFound={12} | activeRelay={13} | tcp={14} | serialOpen={15} | port={16}",
                 message,
                 caller ?? "unknown",
                 this.ProgramState,
@@ -10670,7 +10628,12 @@ namespace RelayControl
                 this.ucRelayProgramming1 != null && this.ucRelayProgramming1.backupIsPending,
                 this.pendingAutoloadAfterBackup,
                 this.pendingRestoreAfterProgramming,
-                this.relayCodeRevisionNumber
+                this.relayCodeRevisionNumber,
+                this.relayFound,
+                this.ucRelayProgramming1 != null && this.ucRelayProgramming1.ActiveRelay,
+                this.tCPConnection,
+                this.serialPort1 != null && this.serialPort1.IsOpen,
+                this.serialPort1 != null ? this.serialPort1.PortName : "n/a"
             );
         }
 
