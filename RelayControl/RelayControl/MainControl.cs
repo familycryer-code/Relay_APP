@@ -6435,14 +6435,11 @@ namespace RelayControl
             this.enableAll(false);
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
-
-            this.requestedAllParameters = true;
-            this.ProgramState = ProgramStates.DownloadingAllParameters;
             screenD.screenDisable = true;
 
             try
             {
-                this.BeginFullParameterDownload("buttonRequestRelayParamaters_Click");
+                // Single entry point owns download-state transition + begin logic
                 this.requestAllData("buttonRequestRelayParamaters_Click");
             }
             catch (Exception ex)
@@ -6450,10 +6447,8 @@ namespace RelayControl
                 logger.Error(ex, "Request All failed");
                 this.messageHandler("Request All Failed", ex);
 
-                // reset only on synchronous failure
                 ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
             }
-            // no finally reset here
         }
 
 
@@ -7128,16 +7123,6 @@ namespace RelayControl
             }
         }
 
-        private bool ShouldRestoreFromBackup(string sectionName)
-        {
-            if (string.Equals(sectionName, "CalibrationConstants", StringComparison.OrdinalIgnoreCase))
-            {
-                logger.Info("Backup restore: skipping CalibrationConstants (live apply only; not replayed from backup).");
-                return false;
-            }
-
-            return true;
-        }
         private void requestAllData(string caller = "unknown")
         {
             if (this.sendAll || sendAllF.SendAllFlag)
@@ -7152,23 +7137,13 @@ namespace RelayControl
                 return;
             }
 
-            bool discoveryContext =
+            bool isManualRequestAll =
+                caller == "buttonRequestRelayParamaters_Click";
+
+            bool isStartupDiscovery =
                 caller == "relay-connect-serial" ||
                 caller == "timerFindRelayTimeout_Tick" ||
                 this.ProgramState == ProgramStates.CheckingForRelay;
-
-            // Startup discovery only: revision traffic is not the parameter-download phase
-            if (discoveryContext && !this.relayFound)
-            {
-                LogFlow($"requestAllData startup discovery: requesting master + relay revisions | caller={caller}");
-                this.requestMasterRevisionNumber(nameof(requestAllData));
-                this.requestRelayRevision();
-                this.requestFPGARevision();
-            }
-            else
-            {
-                LogFlow($"requestAllData skipping startup revision requests | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}");
-            }
 
             // Prevent duplicate full-download cycles
             if (this.ProgramState == ProgramStates.DownloadingAllParameters)
@@ -7177,27 +7152,32 @@ namespace RelayControl
                 return;
             }
 
-            // This is the actual full-parameter cycle start
+            // Startup discovery only: request revisions if relay not found yet
+            if (isStartupDiscovery && !this.relayFound)
+            {
+                LogFlow($"requestAllData startup discovery: requesting master + relay revisions | caller={caller}");
+                this.requestMasterRevisionNumber(nameof(requestAllData));
+                this.requestRelayRevision();
+                this.requestFPGARevision();
+            }
+            else
+            {
+                LogFlow($"requestAllData no startup revision requests | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}, manual={isManualRequestAll}");
+            }
+
+            // This is the actual full-parameter cycle start.
+            // NOTE: this is still a refresh/read phase, not a write/apply phase.
             this.BeginFullParameterDownload(caller);
 
             // Actual parameter-section requests
             this.requestRelayParameters();
             this.requestTransmitterSettings();
 
-            // Only if your requiredSections includes relay register/status data:
-            // this.requestRelayRegisters();
-
-            // Discovery startup timeout only
-            if (discoveryContext && !this.relayFound)
-            {
-                this.timerResponseTimeOut.Enabled = true;
-                LogFlow($"requestAllData armed timerResponseTimeOut | caller={caller}");
-            }
-            else
-            {
-                this.timerResponseTimeOut.Enabled = false;
-                LogFlow($"requestAllData disabled timerResponseTimeOut | caller={caller}");
-            }
+            // Discovery timeout only while discovering relay
+            this.timerResponseTimeOut.Enabled = (isStartupDiscovery && !this.relayFound);
+            LogFlow(this.timerResponseTimeOut.Enabled
+                ? $"requestAllData armed timerResponseTimeOut | caller={caller}"
+                : $"requestAllData disabled timerResponseTimeOut | caller={caller}");
         }
 
 
