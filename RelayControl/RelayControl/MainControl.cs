@@ -641,7 +641,7 @@ namespace RelayControl
             try
             {
                 if (!this.noMonitoringVersion)
-                    this.checkSavedLocationAndFindRelay();
+                    this.checkSavedLocationAndFindRelay(nameof(MainControl));
             }
             catch (Exception ex)
             {
@@ -1600,8 +1600,10 @@ namespace RelayControl
             return returnPortNames;
         }
 
-        private void checkSavedLocationAndFindRelay()
+        private void checkSavedLocationAndFindRelay([CallerMemberName] string caller = null)
         {
+            LogFlow("checkSavedLocationAndFindRelay ENTRY", caller);
+
             this.monitoring(false);
             this.RegisterPolling(false);
 
@@ -1609,9 +1611,11 @@ namespace RelayControl
             {
                 this.savedFile = new MyFile(_savedFilePath);
                 this.savedComPort = this.getSavedComPort(this.savedFile);
+                LogFlow("checkSavedLocationAndFindRelay loaded savedFile and savedComPort: " + this.savedComPort, caller);
             }
             catch (Exception ex)
             {
+                LogFlow("checkSavedLocationAndFindRelay EXCEPTION reading saved file", caller);
                 this.RegisterPolling(false);
                 this.monitoring(false);
                 throw new Exception("Error Reading from Saved File", ex);
@@ -1620,22 +1624,27 @@ namespace RelayControl
             try
             {
                 this.portNames = getPortNames();
+                LogFlow("checkSavedLocationAndFindRelay got portNames count: " + (this.portNames?.Count ?? 0), caller);
             }
             catch (Exception ex)
             {
+                LogFlow("checkSavedLocationAndFindRelay EXCEPTION setting port names", caller);
                 this.RegisterPolling(false);
                 this.monitoring(false);
                 throw new Exception("Error Setting Port Names", ex);
             }
+
             try
             {
-                List<string> portNames = this.setComPortMenu(this.portNames);
+                this.setComPortMenu(this.portNames);
+                LogFlow("checkSavedLocationAndFindRelay set COM port menu", caller);
 
-                this.findRelay(this.portNames,nameof(checkSavedLocationAndFindRelay));
-
+                this.findRelay(this.portNames, nameof(checkSavedLocationAndFindRelay));
+                LogFlow("checkSavedLocationAndFindRelay delegated to findRelay", caller);
             }
             catch (Exception ex)
             {
+                LogFlow("checkSavedLocationAndFindRelay EXCEPTION starting find thread", caller);
                 this.RegisterPolling(false);
                 this.monitoring(false);
                 throw new Exception("Error Starting Find Thread", ex);
@@ -7111,7 +7120,7 @@ namespace RelayControl
                 this.relayFound = false;
 
                 errorMessage = "Error Checking For Relay";
-                this.checkSavedLocationAndFindRelay();
+                this.checkSavedLocationAndFindRelay(nameof(findRelayToolStripMenuItem_Click));
             }
             catch (Exception ex)
             {
@@ -7128,36 +7137,49 @@ namespace RelayControl
         private MyFile savedFile;
         private const string _savedFilePath = @"C:\DGI Systems\Relay\Saved.txt";
 
-        private string getSavedComPort(MyFile mF)
+        private string getSavedComPort(MyFile mF, [CallerMemberName] string caller = null)
         {
             try
             {
-                string comPort;
+                LogFlow("getSavedComPort ENTRY", caller);
 
-                comPort = mF.ReadWholeFile();
+                string comPort = mF.ReadWholeFile();
 
-                if (comPort == "")
-                {
-                    comPort = "";
-                }
-                else
-                {
-                    while (comPort.Contains("\r") || comPort.Contains("\n"))
-                        comPort = comPort.Remove(comPort.Length - 1, 1);
-                }
+                // Null-safe + remove CR/LF + whitespace
+                comPort = (comPort ?? string.Empty).Trim();
+
+                LogFlow("getSavedComPort loaded value: " + comPort, caller);
                 return comPort;
             }
             catch (Exception ex)
             {
+                LogFlow("getSavedComPort EXCEPTION", caller);
                 this.monitoring(false);
                 this.RegisterPolling(false);
                 throw new Exception("Error Getting Port From Saved File", ex);
             }
         }
 
-        private void saveComPort()
+        private void saveComPort([CallerMemberName] string caller = null)
         {
-            this.savedFile.WriteWholeFile(this.serialPort1.PortName);
+            LogFlow("saveComPort ENTRY", caller);
+
+            if (this.savedFile == null)
+            {
+                LogFlow("saveComPort savedFile is null; skipping write", caller);
+                return;
+            }
+
+            try
+            {
+                this.savedFile.WriteWholeFile(this.serialPort1.PortName);
+                LogFlow("saveComPort wrote COM port: " + this.serialPort1.PortName, caller);
+            }
+            catch (Exception ex)
+            {
+                LogFlow("saveComPort EXCEPTION", caller);
+                this.messageHandler("Error Saving COM Port", ex);
+            }
         }
         #endregion
 
