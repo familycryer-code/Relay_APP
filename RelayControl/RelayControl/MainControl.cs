@@ -7092,7 +7092,6 @@ namespace RelayControl
             {
                 LogFlow($"requestAllData requesting master revision | caller={caller}");
                 this.requestMasterRevisionNumber(nameof(requestAllData));
-                LogFlow($"requestAllData after requestMasterRevisionNumber | caller={caller}");
             }
             else
             {
@@ -7121,12 +7120,25 @@ namespace RelayControl
                 return;
             }
 
-            this.BeginFullParameterDownload(caller); // <-- critical fix
+            this.BeginFullParameterDownload(caller);
             LogFlow("requestAllDataNoMasterRev initialized full-parameter download", caller);
 
             this.clearRemoteBuffer();
             this.requestRelayRevision();
-            this.timerResponseTimeOut.Enabled = true;
+
+            bool shouldArmResponseTimeout =
+                this.ProgramState == ProgramStates.CheckingForRelay || !this.relayFound;
+
+            if (shouldArmResponseTimeout)
+            {
+                this.timerResponseTimeOut.Enabled = true;
+                LogFlow("requestAllDataNoMasterRev armed timerResponseTimeOut", caller);
+            }
+            else
+            {
+                this.timerResponseTimeOut.Enabled = false;
+                LogFlow("requestAllDataNoMasterRev skipped timerResponseTimeOut (already connected/running)", caller);
+            }
         }
 
         private void relayNotFound()
@@ -9759,7 +9771,10 @@ namespace RelayControl
         {
             this.timerResponseTimeOut.Enabled = false;
 
-            if (!this.relayFound &&
+            bool isDiscoveryState = this.ProgramState == ProgramStates.CheckingForRelay;
+
+            if (isDiscoveryState &&
+                !this.relayFound &&
                 this.requestedAllParameters &&
                 !this.IsProgrammingFlowActive())
             {
