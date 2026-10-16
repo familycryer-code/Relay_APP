@@ -765,7 +765,7 @@ namespace RelayControlLibrary
             this.backupIsPending = true;
             RaiseBackupBeforeProgrammingRequested();
             this.startupIntent = StartupIntent.AutoApproved;
-            this.autoLoad = true;  // autoload is running
+            //this.autoLoad = true;  // autoload is running
          
         }
 

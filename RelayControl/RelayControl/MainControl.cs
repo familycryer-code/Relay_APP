@@ -5557,6 +5557,19 @@ namespace RelayControl
 
                     this.timerCheckPortTime.Enabled = false;
                     this.requestAllData("relay-connect-serial");
+
+                    // go live
+                    this.ProgramState = ProgramStates.DownloadingAllParameters;
+                    logger.Info(this.ProgramState.ToString() + " - Relay Found on " + this.serialPort1.PortName);  
+
+                    /*
+                    this.monitoring(false);
+                    this.RegisterPolling(false);
+                    this.resetCommunicationInterface();
+                    this.RegisterPolling(true);
+                    this.monitoring(true);
+                    this.requestRelayRegisters();
+                    */
                 }
             }
             catch (Exception ex)
