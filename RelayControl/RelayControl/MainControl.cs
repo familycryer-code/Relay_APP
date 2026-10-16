@@ -107,7 +107,7 @@ namespace RelayControl
 
         public MainControl()
         {
-
+            logger.Info("Main Control called.");
             InitializeComponent();
 
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -3758,11 +3758,31 @@ namespace RelayControl
         {
             try
             {
-                string temp;
-                temp = ASCIIEncoding.ASCII.GetString(bytePacket);
-                string temp2 = temp.Remove(0, 23);
-                this.relayCodeRevisionNumber = Convert.ToUInt32(temp2);
-                logger.Info("Relay Revision: {0}", relayCodeRevisionNumber);
+                string temp = ASCIIEncoding.ASCII.GetString(bytePacket);
+
+                // Keep the last good revision if the packet is invalid or partial.
+                uint parsedRelayRevision;
+                if (!UInt32.TryParse(temp.Remove(0, 23).Trim(), out parsedRelayRevision))
+                {
+                    logger.Warn(
+                        "Ignoring invalid relay revision packet; keeping existing value {0}. Raw={1}",
+                        this.relayCodeRevisionNumber,
+                        temp);
+                    return;
+                }
+
+                if (parsedRelayRevision == 0 || parsedRelayRevision == 0xFFFFFF)
+                {
+                    logger.Warn(
+                        "Ignoring zero/invalid relay revision; keeping existing value {0}. Raw={1}",
+                        this.relayCodeRevisionNumber,
+                        temp);
+                    return;
+                }
+
+                this.relayCodeRevisionNumber = parsedRelayRevision;
+
+                logger.Info("RELAY REVISION RAW={0} PARSED={1}", temp, this.relayCodeRevisionNumber);
 
                 this.ucPhasorGraph1.RevisionNumber = this.relayCodeRevisionNumber;
                 this.ucPumpMode1.RelayRevisionNumber = this.relayCodeRevisionNumber;
@@ -5591,48 +5611,47 @@ namespace RelayControl
                     (bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
                      bytePacket[16] == 0x00 && bytePacket[17] == 0x00 && bytePacket[18] == 0x00);
 
+                // Protect valid values: if the packet is bad, keep the prior known-good number.
                 if (invalidPattern)
                 {
-                    // Mark invalid, but DO NOT clear last known good revision number.
                     this.ucTransmitter1.FPGARevisionValid = false;
                     this.fPGARevisionValid = false;
 
                     logger.Info("Invalid FPGA revision pattern received; preserving last known good FPGA revision. last={0}",
                         _lastGoodFPGARevisionNumber);
 
-                    // Keep visible for operator clarity.
                     this.labelFPGARevision.Show();
                     if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
                         this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
                     else
                         this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
+
+                    return;
                 }
-                else
+
+                this.ucTransmitter1.FPGARevisionValid = true;
+                this.fPGARevisionValid = true;
+                this.labelFPGARevision.Show();
+
+                try
                 {
-                    this.ucTransmitter1.FPGARevisionValid = true;
-                    this.fPGARevisionValid = true;
-                    this.labelFPGARevision.Show();
+                    UInt32 tempU = Convert.ToUInt32(fPGARevision.Substring(13));
+                    this.ucRelayProgramming1.FPGARevisionNumber = tempU;
 
-                    try
-                    {
-                        UInt32 tempU = Convert.ToUInt32(fPGARevision.Substring(13));
-                        this.ucRelayProgramming1.FPGARevisionNumber = tempU;
+                    _lastGoodFPGARevisionNumber = tempU;
+                    _lastGoodFPGARevisionText = fPGARevision;
 
-                        _lastGoodFPGARevisionNumber = tempU;
-                        _lastGoodFPGARevisionText = fPGARevision;
+                    this.setLabelText(fPGARevision, this.labelFPGARevision);
+                }
+                catch
+                {
+                    // Parse failed: preserve last known good value instead of zeroing it.
+                    logger.Info("FPGA revision parse failed; preserving last known good FPGA revision. raw={0}", fPGARevision);
 
-                        this.setLabelText(fPGARevision, this.labelFPGARevision);
-                    }
-                    catch
-                    {
-                        // Parse failed: preserve last known good value instead of zeroing it.
-                        logger.Info("FPGA revision parse failed; preserving last known good FPGA revision. raw={0}", fPGARevision);
-
-                        if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
-                            this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
-                        else
-                            this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
-                    }
+                    if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
+                        this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
+                    else
+                        this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
                 }
 
                 if (this.ProgramState == ProgramStates.DownloadingAllParameters)
@@ -7031,7 +7050,6 @@ namespace RelayControl
             logger.Info("Requesting Relay Revision");
             this.clearRemoteBuffer();
             this.requestRelayRevision();
-            logger.Info("Setting timerResponseTimeOut from requestAllDataNoMasterRev");
             this.timerResponseTimeOut.Enabled = true;
         }
 
