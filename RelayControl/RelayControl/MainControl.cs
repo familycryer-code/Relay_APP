@@ -66,6 +66,16 @@ namespace RelayControl
         private SyncPhase syncPhase = SyncPhase.Idle;
         private SectionBits requiredSections = SectionBits.None;
         private SectionBits receivedSections = SectionBits.None;
+        private SectionBits requiredBackupMask;
+        private SectionBits receivedBackupMask;
+        private bool _backupCaptureActive = false;
+        private BackupState backupState = BackupState.Idle;
+        private bool backupInProgress = false;
+        private readonly object _backupCaptureLock = new object();
+        private readonly List<KeyValuePair<string, byte[]>> _backupCaptureSections = new List<KeyValuePair<string, byte[]>>();
+        private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+
+
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
@@ -78,7 +88,7 @@ namespace RelayControl
         private bool skipAutoloadAfterDecline = false;
         private bool pendingRestoreAfterProgramming = false;
         private DateTime? backupStartedAtUtc = null;
-        private bool backupInProgress = false;
+        
         private bool backupExpectDnp = false;
         private bool backupGotRelayParams = false;
         private bool backupGotCalibration = false;
@@ -88,12 +98,9 @@ namespace RelayControl
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
         // Add these fields near the other backup state fields
-        private readonly object _backupCaptureLock = new object();
-        private readonly List<KeyValuePair<string, byte[]>> _backupCaptureSections = new List<KeyValuePair<string, byte[]>>();
-        private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
-        private BackupState backupState = BackupState.Idle;
+      
 
-        private bool _backupCaptureActive;
+       
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
 
@@ -1731,24 +1738,52 @@ namespace RelayControl
                 _backupCaptureActive = true;
             }
 
+            backupInProgress = true;
             backupState = BackupState.Capturing;
+
+            receivedBackupMask = 0;
+            requiredBackupMask =
+                SectionBits.RelayParams |
+                SectionBits.TxSettings |
+                SectionBits.Calibration |
+                SectionBits.SafeService |
+                SectionBits.ArcFault;
+
+            // Add other required sections as needed:
+            // requiredBackupMask |= SectionBits.Dnp;
+            // requiredBackupMask |= SectionBits.DnpSav5;
         }
 
         private void EndBackupCapture(bool success)
         {
-            backupState = success ? BackupState.Complete : BackupState.Failed;
-
             if (success)
             {
                 FlushBackupToDisk();
+                backupState = BackupState.Complete;
+            }
+            else
+            {
+                backupState = BackupState.Failed;
             }
 
-            ClearBackupCaptureState(); // returns to Idle in your implementation
+            backupInProgress = false;
+
+            lock (_backupCaptureLock)
+            {
+                _backupCaptureSections.Clear();
+                _backupCaptureActive = false;
+            }
+
+            receivedBackupMask = 0;
+            requiredBackupMask = 0;
         }
 
         private void CaptureBackupSection(string sectionName, byte[] data)
         {
-            if (backupState != BackupState.Capturing || data == null)
+            if (!_backupCaptureActive || backupState != BackupState.Capturing || data == null)
+                return;
+
+            if (string.IsNullOrWhiteSpace(sectionName))
                 return;
 
             byte[] snapshot = (byte[])data.Clone();
@@ -1757,7 +1792,7 @@ namespace RelayControl
             {
                 for (int i = 0; i < _backupCaptureSections.Count; i++)
                 {
-                    if (_backupCaptureSections[i].Key.Equals(sectionName, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(_backupCaptureSections[i].Key, sectionName, StringComparison.OrdinalIgnoreCase))
                     {
                         _backupCaptureSections[i] = new KeyValuePair<string, byte[]>(sectionName, snapshot);
                         return;
@@ -1781,10 +1816,8 @@ namespace RelayControl
 
         private void FlushBackupToDisk()
         {
-            if (backupState != BackupState.Capturing)
-                return;
-
             List<KeyValuePair<string, byte[]>> snapshotSections;
+
             lock (_backupCaptureLock)
             {
                 if (_backupCaptureSections.Count == 0)
@@ -2711,7 +2744,6 @@ namespace RelayControl
 
         private void packetFormulated(byte[] bytePacket, IncomingCommCommands command)
         {
-
             switch (command)
             {
                 case IncomingCommCommands.DNPMessage1: // BI
@@ -2776,7 +2808,7 @@ namespace RelayControl
 
                     if (backupInProgress)
                     {
-                        backupGotArcFault = true;
+                        receivedBackupMask |= SectionBits.ArcFault;
                         TryCompleteBackup();
                     }
                     break;
@@ -2800,7 +2832,8 @@ namespace RelayControl
 
                     if (backupInProgress)
                     {
-                        backupGotCalibration = true;
+                        CaptureBackupSection("Calibration Constants", bytePacket);
+                        receivedBackupMask |= SectionBits.Calibration;
                         TryCompleteBackup();
                     }
                     break;
@@ -2822,7 +2855,7 @@ namespace RelayControl
 
                     if (backupInProgress)
                     {
-                        backupGotSafeService = true;
+                        receivedBackupMask |= SectionBits.SafeService;
                         TryCompleteBackup();
                     }
                     break;
@@ -2855,7 +2888,8 @@ namespace RelayControl
 
                     if (backupInProgress)
                     {
-                        backupGotRelayParams = true;
+                        CaptureBackupSection("Relay Parameters", bytePacket);
+                        receivedBackupMask |= SectionBits.RelayParams;
                         TryCompleteBackup();
                     }
                     break;
@@ -2887,7 +2921,6 @@ namespace RelayControl
 
                 case IncomingCommCommands.FPGARevision:
                     this.setFPGARevision(bytePacket);
-
                     //this.ucRelayProgramming1.timerTimeout_Tick(null, EventArgs.Empty);
                     break;
 
@@ -2914,7 +2947,8 @@ namespace RelayControl
 
                     if (backupInProgress)
                     {
-                        backupGotTx = true;
+                        CaptureBackupSection("Transmitter Settings", bytePacket);
+                        receivedBackupMask |= SectionBits.TxSettings;
                         TryCompleteBackup();
                     }
                     break;
@@ -2945,7 +2979,7 @@ namespace RelayControl
 
                         if (backupInProgress && wroteDnpBackup)
                         {
-                            backupGotDnpData = true;
+                            receivedBackupMask |= SectionBits.Dnp;
                             TryCompleteBackup();
                         }
                         break;
@@ -2953,7 +2987,6 @@ namespace RelayControl
 
                 case IncomingCommCommands.DNPSAv5:
                     {
-
                         if (this.ucDNPSAv51 == null)
                         {
                             logger.Info("DNPSAv5 packet received but ucDNPSAv51 is null; skipping packet processing");
@@ -2979,11 +3012,11 @@ namespace RelayControl
 
                         if (backupInProgress && wroteDnpSav5Backup)
                         {
-                            backupGotDnpSav5 = true;
+                            receivedBackupMask |= SectionBits.DnpSav5;
                             TryCompleteBackup();
                         }
                         break;
-                    } 
+                    }
 
                 case IncomingCommCommands.LowVoltageThresReceived:
                     this.SetLowVoltageThres(bytePacket);
@@ -11900,29 +11933,17 @@ namespace RelayControl
                 this.quietMode,
                 this.pauseMonitoring);
         }
-
         private bool IsBackupComplete()
         {
-            bool commonDone =
-                backupGotRelayParams &&
-                backupGotTx &&
-                backupGotSafeService &&
-                backupGotArcFault;
-
-            if (!commonDone)
-                return false;
-
-            if (backupExpectDnp)
-            {
-                logger.Info("DNP was detected, but DNP backup completion is being skipped for rev9 to rev10 compatibility.");
-            }
-
-            return true;
+            return (receivedBackupMask & requiredBackupMask) == requiredBackupMask;
         }
 
         private void TryCompleteBackup()
         {
-            if (backupInProgress && IsBackupComplete())
+            if (!backupInProgress || backupState != BackupState.Capturing)
+                return;
+
+            if (IsBackupComplete())
             {
                 CompleteBackupAndContinue(null);
             }
