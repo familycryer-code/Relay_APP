@@ -2770,6 +2770,7 @@ namespace RelayControl
                     }
 
                     this.setArcFaultData(bytePacket);
+                    logger.Info("About to mark ArcFault");
                     this.MarkSectionReceived(SectionBits.ArcFault);
 
                     if (backupInProgress)
@@ -2794,6 +2795,7 @@ namespace RelayControl
                 case IncomingCommCommands.CalibrationConstants:
                     this.setCalibrationConstants(bytePacket);
                     this.MarkSectionReceived(SectionBits.Calibration);
+                    logger.Info("About to mark Calibration");
 
                     if (backupInProgress)
                     {
@@ -2815,6 +2817,7 @@ namespace RelayControl
                     }
 
                     this.MarkSectionReceived(SectionBits.SafeService);
+                    logger.Info("About to mark SafeService");
 
                     if (backupInProgress)
                     {
@@ -2847,6 +2850,7 @@ namespace RelayControl
                 case IncomingCommCommands.RelayParameters:
                     this.setRelayParameters(bytePacket);
                     this.MarkSectionReceived(SectionBits.RelayParams);
+                    logger.Info("About to mark RelayParams");
 
                     if (backupInProgress)
                     {
@@ -2905,6 +2909,7 @@ namespace RelayControl
                     }
 
                     this.MarkSectionReceived(SectionBits.TxSettings);
+                    logger.Info("About to mark TxSettings");
 
                     if (backupInProgress)
                     {
@@ -2935,6 +2940,7 @@ namespace RelayControl
                         if (this.syncPhase == SyncPhase.FullParameterDownload)
                         {
                             this.MarkSectionReceived(SectionBits.Dnp);
+                            logger.Info("About to mark Dnp");
                         }
 
                         if (backupInProgress && wroteDnpBackup)
@@ -2960,6 +2966,7 @@ namespace RelayControl
                     if (this.syncPhase == SyncPhase.FullParameterDownload)
                     {
                         this.MarkSectionReceived(SectionBits.DnpSav5);
+                        logger.Info("About to mark DnpSav5");
                     }
 
                     if (backupInProgress && wroteDnpSav5Backup)
@@ -6983,16 +6990,14 @@ namespace RelayControl
             }
         }
 
-        private void BeginFullParameterDownload(string caller)
+        private void BeginFullParameterDownload([CallerMemberName] string caller = null)
         {
             this.requestedAllParameters = true;
             this.ProgramState = ProgramStates.DownloadingAllParameters;
 
             this.syncPhase = SyncPhase.FullParameterDownload;
             this.requiredSections = SectionBits.RelayParams
-                                  | SectionBits.TxSettings
-                                  | SectionBits.SafeService; // include this if it's part of "done"
-
+                                  | SectionBits.TxSettings; // TEMP: remove SafeService gating
             this.receivedSections = SectionBits.None;
             this.parametersLoaded = false;
 
