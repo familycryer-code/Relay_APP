@@ -24,6 +24,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel.Channels;
@@ -90,6 +91,8 @@ namespace RelayControl
         private readonly object _backupCaptureLock = new object();
         private readonly List<KeyValuePair<string, byte[]>> _backupCaptureSections = new List<KeyValuePair<string, byte[]>>();
         private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
+        private BackupState backupState = BackupState.Idle;
+
         private bool _backupCaptureActive;
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
@@ -208,6 +211,7 @@ namespace RelayControl
                 this.ucRelayProgramming1.Send += new ucRelayProgramming.SendDelegate(Programming_Send);
                 this.ucRelayProgramming1.BackupBeforeProgrammingRequested += UcRelayProgramming1_BackupBeforeProgrammingRequested;
                 this.ucGeneralCommandHandler1.Send += standardizedSendData;
+
 
                 this.ucDNPSAv51.Send += standardizedSendData;
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
@@ -1724,18 +1728,31 @@ namespace RelayControl
                 _backupCaptureSections.Clear();
                 _backupCaptureActive = true;
             }
+
+            backupState = BackupState.Capturing;
+        }
+
+        private void EndBackupCapture(bool success)
+        {
+            backupState = success ? BackupState.Complete : BackupState.Failed;
+
+            if (success)
+            {
+                FlushBackupToDisk();
+            }
+
+            ClearBackupCaptureState(); // returns to Idle in your implementation
         }
 
         private void CaptureBackupSection(string sectionName, byte[] data)
         {
-            if (!dataBackup_fromRelay || !_backupCaptureActive || data == null)
+            if (backupState != BackupState.Capturing || data == null)
                 return;
 
             byte[] snapshot = (byte[])data.Clone();
 
             lock (_backupCaptureLock)
             {
-                // Replace existing section if already captured, otherwise append
                 for (int i = 0; i < _backupCaptureSections.Count; i++)
                 {
                     if (_backupCaptureSections[i].Key.Equals(sectionName, StringComparison.OrdinalIgnoreCase))
@@ -1756,12 +1773,23 @@ namespace RelayControl
                 _backupCaptureSections.Clear();
                 _backupCaptureActive = false;
             }
+
+            backupState = BackupState.Idle;
         }
 
         private void FlushBackupToDisk()
         {
-            if (!_backupCaptureActive || _backupCaptureSections.Count == 0)
+            if (backupState != BackupState.Capturing)
                 return;
+
+            List<KeyValuePair<string, byte[]>> snapshotSections;
+            lock (_backupCaptureLock)
+            {
+                if (_backupCaptureSections.Count == 0)
+                    return;
+
+                snapshotSections = new List<KeyValuePair<string, byte[]>>(_backupCaptureSections);
+            }
 
             string directory = Path.GetDirectoryName(_relayBackupPath);
             if (!string.IsNullOrEmpty(directory))
@@ -1771,25 +1799,38 @@ namespace RelayControl
             sb.AppendLine("Data residing in the relay :");
             sb.AppendLine(DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture));
 
-            lock (_backupCaptureLock)
+            foreach (var section in snapshotSections)
             {
-                foreach (var section in _backupCaptureSections)
+                sb.AppendLine(section.Key + ":");
+                if (section.Value == null || section.Value.Length == 0)
                 {
-                    sb.AppendLine(section.Key + ":");
-                    if (section.Value == null || section.Value.Length == 0)
-                    {
-                        sb.AppendLine("<empty>");
-                        continue;
-                    }
-
-                    sb.Append(BitConverter.ToString(section.Value));
-                    sb.AppendLine();
+                    sb.AppendLine("<empty>");
+                    continue;
                 }
+
+                sb.AppendLine(BitConverter.ToString(section.Value));
             }
 
             File.WriteAllText(_relayBackupPath, sb.ToString());
+        }
 
-            ClearBackupCaptureState();
+        // in MainControl
+
+        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
+        {
+            logger.Info("FLOW UcRelayProgramming1_BackupBeforeProgrammingRequested | state={0} | inProgress={1} | pending={2} | childPending={3}",
+                backupState, backupInProgress, pendingAutoloadAfterBackup, this.ucRelayProgramming1?.backupIsPending);
+
+            if (this.ucRelayProgramming1.backupIsPending)
+            {
+                this.pendingAutoloadAfterBackup = true;
+
+                // backup workflow begins here
+                BeginBackupCapture();
+
+                // then do the actual backup action
+                this.BackUpRelayDatatoFile(nameof(UcRelayProgramming1_BackupBeforeProgrammingRequested));
+            }
         }
 
         private void ResetFullParameterDownloadState(string caller)
@@ -9524,6 +9565,8 @@ namespace RelayControl
             this.ucLiveData1.Saveable = true;
         }
 
+        
+
         private void buttonSendTime_Click(object sender, EventArgs e)
         {
             this.sendTime(DateTime.UtcNow);
@@ -10536,17 +10579,21 @@ namespace RelayControl
             BackUpRelayDatatoFile();
         }
 
-        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
+        private void LogFlow(string message, [CallerMemberName] string caller = null)
         {
-            if (this.ucRelayProgramming1.backupIsPending)
-            {
-                this.pendingAutoloadAfterBackup = true;
-                this.BackUpRelayDatatoFile();
-            }
+            logger.Info("{0} | caller={1} | backupState={2} | backupInProgress={3} | backupIsPending={4} | pendingAutoloadAfterBackup={5} | timeoutMsg={6}",
+                message,
+                caller,
+                backupState,
+                backupInProgress,
+                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.backupIsPending : false,
+                pendingAutoloadAfterBackup);
         }
 
-        private void BackUpRelayDatatoFile()
+        private void BackUpRelayDatatoFile([CallerMemberName] string caller = null)
         {
+            LogFlow("entered; relayHasDnp=" + IsDnpCommSupported() + "; file=" + @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt");
+
             bool relayHasDnp = IsDnpCommSupported();
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
@@ -10554,8 +10601,6 @@ namespace RelayControl
             {
                 pendingAutoloadAfterBackup = false;
 
-                // Make sure no stale capture state is left from a previous run
-                ClearBackupCaptureState();
                 BeginBackupCapture();
 
                 dataBackupD.dataBackup_withDNP = relayHasDnp;
@@ -11789,7 +11834,6 @@ namespace RelayControl
                 pendingAutoloadAfterBackup = false;
                 pendingRestoreAfterProgramming = false;
 
-                // Ensure UI/monitoring can recover from degraded startup backup.
                 this.quietMode = false;
                 this.pauseMonitoring = false;
 
@@ -11798,7 +11842,6 @@ namespace RelayControl
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
 
-                // If not actively in programming lifecycle, restore normal comms now.
                 if (!this.IsProgrammingFlowActive() && !this.ShouldSuppressBackgroundComms())
                 {
                     this.RecoverComms("BackupTimeout");
@@ -11812,15 +11855,15 @@ namespace RelayControl
 
                 MessageBox.Show(timeoutMessageOrNull);
                 logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
-                ClearBackupCaptureState();
+
+                EndBackupCapture(false);
                 return;
             }
 
-            // Successful backup: arm continuation, but do not restore normal comms yet.
-            FlushBackupToDisk();
+            // Successful backup: end state machine, write file once, then continue.
+            EndBackupCapture(true);
             pendingAutoloadAfterBackup = true;
 
-            // Critical: clear child backup gate before resuming the continuation flow.
             this.ucRelayProgramming1.backupIsPending = false;
 
             logger.Info(
@@ -11861,7 +11904,6 @@ namespace RelayControl
                     return;
             }
 
-            // If programming lifecycle is active, keep suppression in place.
             if (this.IsProgrammingFlowActive())
             {
                 pendingAutoloadAfterBackup = false;
@@ -11871,7 +11913,6 @@ namespace RelayControl
                 return;
             }
 
-            // If restore-after-decline already ran from the event handler, do not recover twice.
             if (this._autoloadDeclineRestoreHandled)
             {
                 pendingAutoloadAfterBackup = false;
@@ -11879,7 +11920,6 @@ namespace RelayControl
                 return;
             }
 
-            // If the child is no longer in lifecycle and backup latch is clear, it is safe to restore.
             if (!this.ucRelayProgramming1.backupIsPending)
             {
                 logger.Info("Autoload continuation resolved with no active lifecycle; restoring normal UI/monitoring.");

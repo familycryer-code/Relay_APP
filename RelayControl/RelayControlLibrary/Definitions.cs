@@ -247,6 +247,14 @@ namespace RelayControlLibrary
         RemoteTrip
     }
 
+    public enum BackupState
+    {
+        Idle,
+        Capturing,
+        Complete,
+        Failed
+    }
+
     public enum SyncPhase
     {
         Idle,
