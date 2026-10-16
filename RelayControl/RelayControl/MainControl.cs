@@ -125,6 +125,12 @@ namespace RelayControl
 
             // Officially start everything
             this.MainControlInit();
+
+#if TORONTO_HYDRO
+            this.ucTransmitter1.DNPEnabled = true;
+            this.DNPEnabed = true;  
+#endif
+            tCPConnectionToolStripMenuItem.Visible = true;
         }
 
 
@@ -642,11 +648,7 @@ namespace RelayControl
                 this.messageHandler(ex.Message, ex.InnerException);
             }
     
-#if TORONTO_HYDRO
-            this.DNPEnabled = true;
-            this.ucTransmitter1.DNPEnabled = true;
-#endif
-            tCPConnectionToolStripMenuItem.Visible = true;
+
         }
 
         private void tabControlMain_DrawItem(object sender, DrawItemEventArgs e)
@@ -672,6 +674,7 @@ namespace RelayControl
             // Optional focus rectangle
             e.DrawFocusRectangle();
         }
+
         public class BorderlessGroupBox : GroupBox
         {
             protected override void OnPaint(PaintEventArgs e)
@@ -2710,7 +2713,7 @@ namespace RelayControl
 
         private void packetFormulated(byte[] bytePacket, IncomingCommCommands command)
         {
-            
+
             switch (command)
             {
                 case IncomingCommCommands.DNPMessage1: // BI
@@ -2886,7 +2889,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.FPGARevision:
                     this.setFPGARevision(bytePacket);
-                   
+
                     //this.ucRelayProgramming1.timerTimeout_Tick(null, EventArgs.Empty);
                     break;
 
@@ -2927,20 +2930,19 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.DNPData:
-                    if (!ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
-                        bool wroteDnpBackup = this.setDNPSettings(bytePacket);
+                        if (this.dNPDIGITALGRIDData == null)
+                        {
+                            logger.Info("DNPData packet received but dNPDIGITALGRIDData is null; skipping packet processing");
+                            break;
+                        }
 
-                        logger.Info(
-                            "DNP backup write result: backupInProgress={0}, dataBackup_fromRelay={1}, wroteDnpBackup={2}",
-                            backupInProgress,
-                            dataBackup_fromRelay,
-                            wroteDnpBackup);
+                        bool wroteDnpBackup = this.setDNPSettings(bytePacket);
 
                         if (this.syncPhase == SyncPhase.FullParameterDownload)
                         {
-                            this.MarkSectionReceived(SectionBits.Dnp);
                             logger.Info("About to mark Dnp");
+                            this.MarkSectionReceived(SectionBits.Dnp);
                         }
 
                         if (backupInProgress && wroteDnpBackup)
@@ -2948,33 +2950,42 @@ namespace RelayControl
                             backupGotDnpData = true;
                             TryCompleteBackup();
                         }
+                        break;
                     }
-                    break;
 
                 case IncomingCommCommands.DNPSAv5:
-                    bool wroteDnpSav5Backup = false;
-
-                    if (dataBackupR.dataBackup_fromRelay)
                     {
-                        CaptureBackupSection("DNPSAv5 Settings", bytePacket);
-                        wroteDnpSav5Backup = true;
-                        dataBackupR.dataBackup_fromRelay = false;
-                    }
 
-                    this.ucDNPSAv51.Message(bytePacket);
+                        if (this.ucDNPSAv51 == null)
+                        {
+                            logger.Info("DNPSAv5 packet received but ucDNPSAv51 is null; skipping packet processing");
+                            break;
+                        }
 
-                    if (this.syncPhase == SyncPhase.FullParameterDownload)
-                    {
-                        this.MarkSectionReceived(SectionBits.DnpSav5);
-                        logger.Info("About to mark DnpSav5");
-                    }
+                        bool wroteDnpSav5Backup = false;
 
-                    if (backupInProgress && wroteDnpSav5Backup)
-                    {
-                        backupGotDnpSav5 = true;
-                        TryCompleteBackup();
-                    }
-                    break;
+                        if (dataBackupR.dataBackup_fromRelay)
+                        {
+                            CaptureBackupSection("DNPSAv5 Settings", bytePacket);
+                            wroteDnpSav5Backup = true;
+                            dataBackupR.dataBackup_fromRelay = false;
+                        }
+
+                        this.ucDNPSAv51.Message(bytePacket);
+
+                        if (this.syncPhase == SyncPhase.FullParameterDownload)
+                        {
+                            logger.Info("About to mark DnpSav5");
+                            this.MarkSectionReceived(SectionBits.DnpSav5);
+                        }
+
+                        if (backupInProgress && wroteDnpSav5Backup)
+                        {
+                            backupGotDnpSav5 = true;
+                            TryCompleteBackup();
+                        }
+                        break;
+                    } 
 
                 case IncomingCommCommands.LowVoltageThresReceived:
                     this.SetLowVoltageThres(bytePacket);
@@ -4132,7 +4143,7 @@ namespace RelayControl
 
                 bool isFullSyncWorkflow =
                     this.requestedAllParameters ||
-                    this.ProgramState == ProgramStates.DownloadingAllParameters ||
+                    this.syncPhase == SyncPhase.FullParameterDownload ||
                     this.pendingAutoloadAfterBackup ||
                     this.pendingRestoreAfterProgramming ||
                     this.backupInProgress ||
@@ -4163,7 +4174,7 @@ namespace RelayControl
                 }
 
                 // This call corresponds to "full set complete" from MarkSectionReceived
-                if (this.parametersLoaded)
+                if (this.syncPhase == SyncPhase.FullParameterDownload && this.parametersLoaded)
                 {
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                     ResetFullParameterDownloadState("parametersFinishedLoading.parametersLoaded");
@@ -4173,7 +4184,7 @@ namespace RelayControl
                 // Commit to normal completion handling
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
-                this.ProgramState = ProgramStates.Running;
+                
 
                 if (pendingRestoreAfterProgramming)
                 {
@@ -5526,6 +5537,13 @@ namespace RelayControl
                     return;
                 }
 
+                // Prevent duplicate or redundant processing
+                if (this.relayFound && this.ProgramState != ProgramStates.CheckingForRelay)
+                {
+                    LogFlow("MASTER REVISION DUPLICATE IGNORED", caller);
+                    return;
+                }
+
                 this.masterRevision = parsedMasterRevision;
                 LogFlow("MASTER REVISION RECEIVED", caller);
 
@@ -5548,34 +5566,36 @@ namespace RelayControl
                 if (revision.Contains("HBD"))
                     relayHBD.relayWithHBD = true;
 
-                if (this.Customer == Customers.None)
-                    this.Customer = Customers.ENMAX;
-
-                bool dnpCommSupported = IsDnpCommSupported();
-                this.DNPEnabled = dnpCommSupported;
-                this.checkDNPEnabled();
-
 #if CONED
         this.ucRelayProgramming1.setConEdFiles();
 #endif
 
                 this.handleNewMasterRevision();
                 this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
+
                 this.relayFound = true;
                 ucShortRange1.relayFound_forRNCMonitoring = true;
                 this.relayFound_forDNPdataMonitoring = true;
                 ucRelayProgramming1.ActiveRelay = true;
                 this.saveComPort();
 
-                if (this.ProgramState == ProgramStates.CheckingForRelay && !ucRelayProgramming1.ReprogrammingInProgress)
+                // Stop the discovery timer and clear it cleanly
+                if (this.timerCheckPortTime != null)
                 {
+                    this.timerCheckPortTime.Stop();
+                    this.timerCheckPortTime.Tick -= timerCheckPortTime_Tick;
+                    this.timerCheckPortTime.Dispose();
+                    this.timerCheckPortTime = null;
+                }
+
+                if (this.ProgramState == ProgramStates.CheckingForRelay)
+                {
+                    this.ProgramState = ProgramStates.Running; // or your next startup state if you have one
                     this.enableAll(true);
                     this.toolStripStatusLabelRelayDisconnected.Visible = false;
 
                     if (!tCPConnection)
                         this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
-
-                    this.timerCheckPortTime.Enabled = false;
 
                     LogFlow("revisionReceived -> requestAllData start", caller);
                     this.requestAllData("relay-connect-serial");
@@ -6761,62 +6781,61 @@ namespace RelayControl
 
         private void checkPortsForRelay([CallerMemberName] string caller = null)
         {
-            string currentPort;
             string errorMessage;
-
             LogFlow("checkPortsForRelay ENTRY", caller);
 
             ucRelayProgramming1.NotPollingPort = true;
 
-            if (this.ProgramState == ProgramStates.Running) // if it is running don't check for ports
+            if (this.ProgramState == ProgramStates.Running)
             {
                 LogFlow("checkPortsForRelay EXIT: ProgramState is Running", caller);
                 return;
             }
 
-            if (this.portNames.Count == 0) // no relay found
+            while (this.portNames.Count > 0)
             {
-                this.ProgramState = ProgramStates.FailedToFindRelay;
-                LogFlow("checkPortsForRelay set ProgramState=FailedToFindRelay", caller);
+                string currentPort = this.portNames[0];
+                LogFlow("checkPortsForRelay checking port: " + currentPort, caller);
+                this.toolStripStatusLabelMain.Text = "Checking " + currentPort + " for Relay";
 
-                errorMessage = "Unable To Locate Relay.";
-                this.relayNotFound();
-                this.RegisterPolling(false);
+                if (!this.checkPortAvailability(currentPort))
+                {
+                    LogFlow("checkPortsForRelay port unavailable; removing and continuing: " + currentPort, caller);
+                    this.portNames.RemoveAt(0);
+                    continue;
+                }
 
-                ucRelayProgramming1.NotPollingPort = false;
-
-                LogFlow("checkPortsForRelay no relay found -> messageHandler", caller);
-                this.messageHandler("No Relay Found", new Exception(errorMessage));
-                return;
-            }
-
-            currentPort = this.portNames[0];
-            LogFlow("checkPortsForRelay checking port: " + currentPort, caller);
-
-            this.toolStripStatusLabelMain.Text = "Checking " + currentPort + " for Relay";
-
-            if (this.checkPortAvailability(currentPort))
-            {
                 LogFlow("checkPortsForRelay port available", caller);
 
                 this.clearRemoteBuffer();
                 this.requestMasterRevisionNumber(nameof(checkPortsForRelay));
 
-                this.timerCheckPortTime.Dispose();
+                if (this.timerCheckPortTime != null)
+                {
+                    this.timerCheckPortTime.Stop();
+                    this.timerCheckPortTime.Tick -= timerCheckPortTime_Tick;
+                    this.timerCheckPortTime.Dispose();
+                }
+
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
-                this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
+                this.timerCheckPortTime.Tick += timerCheckPortTime_Tick;
                 this.timerCheckPortTime.Interval = 500;
                 this.timerCheckPortTime.Start();
 
                 LogFlow("checkPortsForRelay started timerCheckPortTime", caller);
+                return; // wait for revision/timeout
             }
-            else
-            {
-                LogFlow("checkPortsForRelay port unavailable; removing and retrying: " + currentPort, caller);
 
-                this.portNames.RemoveAt(0); // if unavailable, remove and retry
-                this.checkPortsForRelay(nameof(checkPortsForRelay));
-            }
+            this.ProgramState = ProgramStates.FailedToFindRelay;
+            LogFlow("checkPortsForRelay set ProgramState=FailedToFindRelay", caller);
+
+            errorMessage = "Unable To Locate Relay.";
+            this.relayNotFound();
+            this.RegisterPolling(false);
+            ucRelayProgramming1.NotPollingPort = false;
+
+            LogFlow("checkPortsForRelay no relay found -> messageHandler", caller);
+            this.messageHandler("No Relay Found", new Exception(errorMessage));
         }
 
         private void RegisterPolling(bool p)
@@ -6993,7 +7012,7 @@ namespace RelayControl
         private void BeginFullParameterDownload([CallerMemberName] string caller = null)
         {
             this.requestedAllParameters = true;
-            this.ProgramState = ProgramStates.DownloadingAllParameters;
+            
 
             this.syncPhase = SyncPhase.FullParameterDownload;
             this.requiredSections = SectionBits.RelayParams
