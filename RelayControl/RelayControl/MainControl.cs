@@ -3820,33 +3820,59 @@ namespace RelayControl
 
         private void setRelayRevisionLabel(byte[] bytePacket)
         {
+            LogFlow("setRelayRevisionLabel ENTRY", nameof(setRelayRevisionLabel));
+
             try
             {
-                string temp = ASCIIEncoding.ASCII.GetString(bytePacket);
+                if (bytePacket == null || bytePacket.Length == 0)
+                {
+                    logger.Warn("setRelayRevisionLabel: null/empty packet received.");
+                    return;
+                }
 
-                // Keep the last good revision if the packet is invalid or partial.
+                string rawAscii = Encoding.ASCII.GetString(bytePacket);
+                logger.Info("setRelayRevisionLabel rawAscii=[{0}] len={1}", rawAscii, rawAscii.Length);
+
+                // Extract all digits from the packet to avoid brittle fixed offset assumptions.
+                string digits = new string(rawAscii.Where(char.IsDigit).ToArray());
+
+                if (string.IsNullOrWhiteSpace(digits))
+                {
+                    logger.Warn("setRelayRevisionLabel: no numeric revision found in raw packet. rawAscii=[{0}]", rawAscii);
+                    return;
+                }
+
+                // If the packet contains more than one numeric run, try the last segment.
+                string candidate = digits;
+                if (digits.Length > 12)
+                    candidate = digits.Substring(digits.Length - 12);
+
                 uint parsedRelayRevision;
-                if (!UInt32.TryParse(temp.Remove(0, 23).Trim(), out parsedRelayRevision))
+                if (!UInt32.TryParse(candidate, out parsedRelayRevision))
                 {
                     logger.Warn(
-                        "Ignoring invalid relay revision packet; keeping existing value {0}. Raw={1}",
-                        this.relayCodeRevisionNumber,
-                        temp);
+                        "setRelayRevisionLabel: failed to parse revision candidate. rawAscii=[{0}] digits=[{1}] candidate=[{2}] current={3}",
+                        rawAscii,
+                        digits,
+                        candidate,
+                        this.relayCodeRevisionNumber);
                     return;
                 }
 
                 if (parsedRelayRevision == 0 || parsedRelayRevision == 0xFFFFFF)
                 {
                     logger.Warn(
-                        "Ignoring zero/invalid relay revision; keeping existing value {0}. Raw={1}",
-                        this.relayCodeRevisionNumber,
-                        temp);
+                        "setRelayRevisionLabel: parsed revision is invalid/zero. parsed={0} rawAscii=[{1}]",
+                        parsedRelayRevision,
+                        rawAscii);
                     return;
                 }
 
                 this.relayCodeRevisionNumber = parsedRelayRevision;
 
-                logger.Info("RELAY REVISION RAW={0} PARSED={1}", temp, this.relayCodeRevisionNumber);
+                logger.Info("setRelayRevisionLabel: RELAY REVISION ASSIGNED parsed={0} rawAscii=[{1}]",
+                    this.relayCodeRevisionNumber,
+                    rawAscii);
 
                 this.ucPhasorGraph1.RevisionNumber = this.relayCodeRevisionNumber;
                 this.ucPumpMode1.RelayRevisionNumber = this.relayCodeRevisionNumber;
@@ -3861,29 +3887,34 @@ namespace RelayControl
                 this.ucEventGraph7.RelayRevisionNumber = this.relayCodeRevisionNumber;
                 this.ucRelayProgramming1.RelayRevisionNumber = this.relayCodeRevisionNumber;
 
-                this.setLabelText(temp, this.labelRelayRevision);
+                this.setLabelText(rawAscii, this.labelRelayRevision);
 
-           
-                if (temp.Contains("GE"))
+                // .NET Framework-safe string matching
+                if (rawAscii.IndexOf("GE", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     this.GERelay = true;
                 }
-                else if (temp.Contains("WH"))
+                else if (rawAscii.IndexOf("WH", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     this.GERelay = false;
                 }
                 else
+                {
                     this.GERelay = false;
+                }
 
                 if (this.relayCodeRevisionNumber < 20130111)
                 {
                     this.ucSafeService1.Visible = false;
                 }
                 else
+                {
                     this.ucSafeService1.Visible = true;
+                }
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "setRelayRevisionLabel: Error Setting Relay Revision Label");
                 this.messageHandler("Error Setting Relay Revision Label", ex);
             }
         }
@@ -5621,28 +5652,39 @@ namespace RelayControl
 
         private void setFPGARevision(byte[] bytePacket)
         {
-            string fPGARevision;
+            LogFlow("setFPGARevision ENTRY", nameof(setFPGARevision));
+
             try
             {
-                fPGARevision = "F" + ASCIIEncoding.ASCII.GetString(bytePacket);
-                logger.Info("FPGA Revision: {0}", fPGARevision);
+                if (bytePacket == null || bytePacket.Length < 19)
+                {
+                    logger.Warn("setFPGARevision: packet too short. len={0}", bytePacket == null ? 0 : bytePacket.Length);
+                    return;
+                }
 
+                string rawAscii = Encoding.ASCII.GetString(bytePacket);
+                logger.Info("setFPGARevision rawAscii=[{0}] len={1}", rawAscii, rawAscii.Length);
+
+                // Heuristic invalid pattern check against raw packet bytes.
                 bool invalidPattern =
-                    (bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
+                    (bytePacket.Length >= 19 &&
+                     bytePacket[13] == 0xFF && bytePacket[14] == 0xFF && bytePacket[15] == 0xFF &&
                      bytePacket[16] == 0xFF && bytePacket[17] == 0xFF && bytePacket[18] == 0xFF) ||
-                    (bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
+                    (bytePacket.Length >= 19 &&
+                     bytePacket[13] == 0x00 && bytePacket[14] == 0x00 && bytePacket[15] == 0x00 &&
                      bytePacket[16] == 0x00 && bytePacket[17] == 0x00 && bytePacket[18] == 0x00);
 
-                // Protect valid values: if the packet is bad, keep the prior known-good number.
                 if (invalidPattern)
                 {
                     this.ucTransmitter1.FPGARevisionValid = false;
                     this.fPGARevisionValid = false;
 
-                    logger.Info("Invalid FPGA revision pattern received; preserving last known good FPGA revision. last={0}",
-                        _lastGoodFPGARevisionNumber);
+                    logger.Warn("setFPGARevision: invalid FPGA revision pattern received; preserving last known good. last={0} rawAscii=[{1}]",
+                        _lastGoodFPGARevisionNumber,
+                        rawAscii);
 
                     this.labelFPGARevision.Show();
+
                     if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
                         this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
                     else
@@ -5651,33 +5693,55 @@ namespace RelayControl
                     return;
                 }
 
+                // Build a candidate string from all digits in the packet, because the packet layout is not guaranteed.
+                string digits = new string(rawAscii.Where(char.IsDigit).ToArray());
+
+                if (string.IsNullOrWhiteSpace(digits))
+                {
+                    logger.Warn("setFPGARevision: no numeric FPGA revision found in packet. rawAscii=[{0}]", rawAscii);
+                    return;
+                }
+
+                // Prefer the last 12 digits as a revision candidate.
+                string candidate = digits;
+                if (digits.Length > 12)
+                    candidate = digits.Substring(digits.Length - 12);
+
+                uint tempU;
+                if (!UInt32.TryParse(candidate, out tempU))
+                {
+                    logger.Warn("setFPGARevision: failed to parse FPGA revision. rawAscii=[{0}] digits=[{1}] candidate=[{2}]",
+                        rawAscii,
+                        digits,
+                        candidate);
+                    return;
+                }
+
+                if (tempU == 0 || tempU == 0xFFFFFFFF)
+                {
+                    logger.Warn("setFPGARevision: parsed FPGA revision is invalid/zero. parsed={0} rawAscii=[{1}]",
+                        tempU,
+                        rawAscii);
+                    return;
+                }
+
                 this.ucTransmitter1.FPGARevisionValid = true;
                 this.fPGARevisionValid = true;
+
+                this.ucRelayProgramming1.FPGARevisionNumber = tempU;
+                _lastGoodFPGARevisionNumber = tempU;
+                _lastGoodFPGARevisionText = rawAscii;
+
+                logger.Info("setFPGARevision: FPGA REVISION ASSIGNED parsed={0} rawAscii=[{1}]",
+                    tempU,
+                    rawAscii);
+
                 this.labelFPGARevision.Show();
-
-                try
-                {
-                    UInt32 tempU = Convert.ToUInt32(fPGARevision.Substring(13));
-                    this.ucRelayProgramming1.FPGARevisionNumber = tempU;
-
-                    _lastGoodFPGARevisionNumber = tempU;
-                    _lastGoodFPGARevisionText = fPGARevision;
-
-                    this.setLabelText(fPGARevision, this.labelFPGARevision);
-                }
-                catch
-                {
-                    // Parse failed: preserve last known good value instead of zeroing it.
-                    logger.Info("FPGA revision parse failed; preserving last known good FPGA revision. raw={0}", fPGARevision);
-
-                    if (!string.IsNullOrEmpty(_lastGoodFPGARevisionText))
-                        this.setLabelText(_lastGoodFPGARevisionText + " (stale)", this.labelFPGARevision);
-                    else
-                        this.setLabelText("FPGA REVISION UNKNOWN", this.labelFPGARevision);
-                }
+                this.setLabelText(rawAscii, this.labelFPGARevision);
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "setFPGARevision: Error Setting FPGA Revision");
                 this.messageHandler("Error Setting Label: " + this.labelFPGARevision, ex);
             }
         }
@@ -10616,7 +10680,8 @@ namespace RelayControl
                 "{0} | caller={1} | ProgramState={2} | backupState={3} | requestedAllParameters={4}" +
                 " | sendAll={5} | sendAllFlag={6} | backupInProgress={7} | backupIsPending={8}" +
                 " | pendingAutoloadAfterBackup={9} | pendingRestoreAfterProgramming={10} | relayCodeRevisionNumber={11}" +
-                " | relayFound={12} | activeRelay={13} | tcp={14} | serialOpen={15} | port={16}",
+                " | relayFound={12} | activeRelay={13} | tcp={14} | serialOpen={15} | port={16}" +
+                " | masterRevision={17} | ucRelayProgramming1.MasterRevisionNumber={18} | fpgaRevision={19}",
                 message,
                 caller ?? "unknown",
                 this.ProgramState,
@@ -10633,7 +10698,10 @@ namespace RelayControl
                 this.ucRelayProgramming1 != null && this.ucRelayProgramming1.ActiveRelay,
                 this.tCPConnection,
                 this.serialPort1 != null && this.serialPort1.IsOpen,
-                this.serialPort1 != null ? this.serialPort1.PortName : "n/a"
+                this.serialPort1 != null ? this.serialPort1.PortName : "n/a",
+                this.masterRevision,
+                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.MasterRevisionNumber : 0,
+                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.FPGARevisionNumber : 0
             );
         }
 
