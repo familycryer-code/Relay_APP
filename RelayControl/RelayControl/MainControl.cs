@@ -42,49 +42,54 @@ namespace RelayControl
         private const int REV0_MASTER_REVISION = 100713;
         private const int REV1_MASTER_REVISION = 100713; //TEST might not need
         private const int SafeService_MASTER_REVISION = 160621;
-#pragma warning disable CS0414 // field assigned but value never used
         private string customerRevisionName = string.Empty;
-#pragma warning restore CS0414
         private UInt32 relayCodeRevisionNumber;
         private uint externalFileRevisionNumber;                //this will be read from the file to see what revision the program is currently working with.
         private const uint _version4FileRevisionNumber = 20110921;//20110610;            //update only when save data changes
         private const uint _version3FileRevisionNumber = 20100621;
 
+
+
+
+
+
         private RelayStatusRegister RelayStatus = new RelayStatusRegister();
         private RelayFlagsRegister RelayFlags = new RelayFlagsRegister();
         private delegate void booleanInvoke(bool b);
-#pragma warning disable CS0169 // field assigned but value never used
+
         private bool showCrossPhaseMsgOnce;
-#pragma warning restore CS0169
 
         private bool showMemFixMsg = true;
 
+
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
-#pragma warning disable CS0414 // Field is assigned but its value is never used
         private bool checkedDNPEnable = false;
-#pragma warning restore CS0414
+
 
         private Customers customer = Customers.None;
 
+        // Backup and Restore state management  
         private SyncPhase syncPhase = SyncPhase.Idle;
         private SectionBits requiredSections = SectionBits.None;
         private SectionBits receivedSections = SectionBits.None;
+
+
+
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
+
+        // Backup and Restore state flags
         private bool pendingAutoloadAfterBackup = false;
         private bool skipAutoloadAfterDecline = false;
         private bool pendingRestoreAfterProgramming = false;
         private DateTime? backupStartedAtUtc = null;
-        // Backup orchestration flags
         private bool backupInProgress = false;
-
         private bool backupExpectDnp = false;
-
         private bool backupGotRelayParams = false;
         private bool backupGotCalibration = false;
         private bool backupGotTx = false;
@@ -97,244 +102,19 @@ namespace RelayControl
         private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
         private bool _backupCaptureActive;
 
-#pragma warning disable CS0414 // The field is assigned but its value is never used
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
-#pragma warning restore CS0414
+
 
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
         private const int BackupTimeoutMs = 60000; // 30s
 
-        public Customers Customer
-        {
-            get { return this.customer; }
-            set
-            {
-                if (this.customer == value) return;
-                System.Diagnostics.Trace.WriteLine($"[Customer] {this.customer} -> {value}");
-                this.customer = value;
-                this.ucPumpMode1.Customer = this.customer;
-                this.ucTripMode2.Customer = this.customer;
-                this.ucCloseMode1.Customer = this.customer;
-                this.ucTransmitter1.Customer = this.customer;
-                this.ucDNP.Customer = this.customer;
-                this.ucForceCustomerSwitch1.Customer = this.customer;
-                this.ucEventGraph0.Customer = this.customer;
-                this.ucEventGraph1.Customer = this.customer;
-                this.ucEventGraph2.Customer = this.customer;
-                this.ucEventGraph3.Customer = this.customer;
-                this.ucEventGraph4.Customer = this.customer;
-                this.ucEventGraph5.Customer = this.customer;
-                this.ucEventGraph6.Customer = this.customer;
-                this.ucEventGraph7.Customer = this.customer;
-                this.ucLiveData1.Customer = this.customer;
-                this.ucTransmitterMonitoring1.Customer = this.customer;
-                this.ucCalibration2.Customer = this.customer;
-                this.ucRelayProgramming1.Customer = this.customer;
-
-                if (this.dNPDIGITALGRIDData != null)
-                    this.dNPDIGITALGRIDData.Customer = this.customer;
-            }
-        }
-
-        private ToolTip toolTip = new ToolTip();
-        private bool transmitterEnabled = false;
-        private bool TransmitterEnabled
-        {
-            get { return this.transmitterEnabled; }
-            set
-            {
-                if (value)
-                {
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                        this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
-
-                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                        this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
-                }
-                else
-                {
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
-                        this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
-
-                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
-                        this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
-                }
-
-                this.transmitterEnabled = value;
-                this.ucRelayProgramming1.TransmitterEnabled = value;
-            }
-        }
-
-        private bool dNPEnabledSavedVal = false;
-        private bool IsDnpCustomer()
-        {
-            return DnpCustomerPolicy.IsDnpCommCustomer(this.Customer);
-        }
-
-        private bool IsDnpCommSupported()
-        {
-            return this.masterRevision > REV0_MASTER_REVISION &&
-                   IsDnpCustomer() &&
-                   RelaySupportsDnp();
-        }
-
-        private void EnsureTabPageVisible(TabPage page, TabPage insertBefore = null)
-        {
-            if (this.tabControlMain.TabPages.Contains(page))
-                return;
-
-            if (insertBefore != null && this.tabControlMain.TabPages.Contains(insertBefore))
-            {
-                this.tabControlMain.TabPages.Insert(this.tabControlMain.TabPages.IndexOf(insertBefore), page);
-            }
-            else
-            {
-                this.tabControlMain.TabPages.Add(page);
-            }
-        }
-
-        private void addDNPTabs()
-        {
-            bool showDnpTabs = IsDnpCustomer();
-            if (!showDnpTabs)
-                return;
-
-            EnsureTabPageVisible(this.tabPageDNP, this.tabPageArcFault);
-            EnsureTabPageVisible(this.tabPageDNPData, this.tabPageDNPSecureAuth);
-            EnsureTabPageVisible(this.tabPageDNPSecureAuth);
-        }
-
-        private void DisposeDnpLiveDataControl()
-        {
-            if (this.dNPDIGITALGRIDData == null)
-                return;
-
-            this.dNPDIGITALGRIDData.Send -= standardizedSendData;
-            this.dNPDIGITALGRIDData.PointChanged -= DNPDigitalGridData_PointChanged;
-
-            if (this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
-                this.tabPageDNPData.Controls.Remove(this.dNPDIGITALGRIDData);
-
-            this.dNPDIGITALGRIDData.Dispose();
-            this.dNPDIGITALGRIDData = null;
-        }
-
-        private bool DNPEnabled
-        {
-            get { return this.dNPEnabledSavedVal; }
-            set
-            {
-                bool canUseDnpComm = IsDnpCommSupported();
-
-                // Enable path
-                if (value &&
-                    canUseDnpComm)
-                {
-                    addDNPTabs();
-                    // Keep existing DNP point wiring behavior
-                    setDNPTabPoints();
-
-                    this.dNPEnabledSavedVal = true;
-                    this.ucRelayProgramming1.DNPRelay = true;
-                    return;
-                }
-
-                // Disable path (or unsupported customer / old revision / firmware without DNP)
-                removeDNPTabs();
-
-                this.dNPEnabledSavedVal = false;
-                this.ucRelayProgramming1.DNPRelay = false;
-            }
-        }
-        private void setDNPTabPoints()
-        {
-            // IMPORTANT:
-            // Host the DNP user control on the tab the user is actually viewing ("DNP Live Data")
-            TabPage host = this.tabPageDNPData;
-
-            bool showDnpTabs = this.ucDNP != null && this.ucDNP.ShouldShowDnpTabs();
-
-            if (!showDnpTabs)
-            {
-                logger.Info("DNP tabs not initialized because customer {0} is not Toronto Hydro.", this.Customer);
-                DisposeDnpLiveDataControl();
-                removeDNPTabs();
-                return;
-            }
-
-            if (!IsDnpCommSupported())
-            {
-                logger.Info("DNP tabs disabled because DNP comm is not supported for customer {0} / relay revision.", this.Customer);
-                DisposeDnpLiveDataControl();
-                removeDNPTabs();
-                this.dNPEnabledSavedVal = false;
-                this.ucRelayProgramming1.DNPRelay = false;
-                return;
-            }
-
-            addDNPTabs();
-            DisposeDnpLiveDataControl();
-
-            this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.Customer);
-            this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
-            this.dNPDIGITALGRIDData.Dock = DockStyle.Fill;
-            this.dNPDIGITALGRIDData.Send += standardizedSendData;
-            this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
-
-            host.SuspendLayout();
-            host.Controls.Clear();
-
-            host.Controls.Add(this.dNPDIGITALGRIDData);
-            this.dNPDIGITALGRIDData.Dock = DockStyle.Fill;
-            this.dNPDIGITALGRIDData.Visible = true;
-            this.dNPDIGITALGRIDData.Enabled = true;
-            this.dNPDIGITALGRIDData.BringToFront();
-
-            host.ResumeLayout(true);
-            host.PerformLayout();
-            host.Refresh();
-
-            System.Diagnostics.Debug.WriteLine(
-                $"[DNP TAB] Host={host.Name}, Controls={host.Controls.Count}, " +
-                $"HasCtrl={host.Controls.Contains(this.dNPDIGITALGRIDData)}, " +
-                $"CtrlVisible={this.dNPDIGITALGRIDData?.Visible}, " +
-                $"CtrlSize={this.dNPDIGITALGRIDData?.Size}, " +
-                $"CtrlDock={this.dNPDIGITALGRIDData?.Dock}");
-
-            UpdateDnpTabTitle();  // name them..
-        }
-
-        private bool gERelay = false;
-        private bool GERelay
-        {
-            get { return this.gERelay; }
-            set
-            {
-                labelGEWH.Text = value ? "GE" : "WH";
-
-                gERelay = value;
-                this.ucRelayProgramming1.GERelay = value;
-                this.ucTransmitterMonitoring1.GEEnabled = value;
-                ucTransmitter1.GERelay = value;
-                this.ucLiveData1.GEEnabled = value;
-                this.ucEventGraph0.GEEnabled = value;
-                this.ucEventGraph1.GEEnabled = value;
-                this.ucEventGraph2.GEEnabled = value;
-                this.ucEventGraph3.GEEnabled = value;
-                this.ucEventGraph4.GEEnabled = value;
-                this.ucEventGraph5.GEEnabled = value;
-                this.ucEventGraph6.GEEnabled = value;
-                this.ucEventGraph7.GEEnabled = value;
-            }
-        }
+        
 
         private bool SCITimedOut = false;
         private int savedSaveFileComboBoxWidth;
         public bool relayFound_forDNPdataMonitoring = false;
-
-
 
         public MainControl()
         {
@@ -920,7 +700,229 @@ namespace RelayControl
                 }));
             }
         }
+        public Customers Customer
+        {
+            get { return this.customer; }
+            set
+            {
+                if (this.customer == value) return;
+                System.Diagnostics.Trace.WriteLine($"[Customer] {this.customer} -> {value}");
+                this.customer = value;
+                this.ucPumpMode1.Customer = this.customer;
+                this.ucTripMode2.Customer = this.customer;
+                this.ucCloseMode1.Customer = this.customer;
+                this.ucTransmitter1.Customer = this.customer;
+                this.ucDNP.Customer = this.customer;
+                this.ucForceCustomerSwitch1.Customer = this.customer;
+                this.ucEventGraph0.Customer = this.customer;
+                this.ucEventGraph1.Customer = this.customer;
+                this.ucEventGraph2.Customer = this.customer;
+                this.ucEventGraph3.Customer = this.customer;
+                this.ucEventGraph4.Customer = this.customer;
+                this.ucEventGraph5.Customer = this.customer;
+                this.ucEventGraph6.Customer = this.customer;
+                this.ucEventGraph7.Customer = this.customer;
+                this.ucLiveData1.Customer = this.customer;
+                this.ucTransmitterMonitoring1.Customer = this.customer;
+                this.ucCalibration2.Customer = this.customer;
+                this.ucRelayProgramming1.Customer = this.customer;
 
+                if (this.dNPDIGITALGRIDData != null)
+                    this.dNPDIGITALGRIDData.Customer = this.customer;
+            }
+        }
+
+        private ToolTip toolTip = new ToolTip();
+        private bool transmitterEnabled = false;
+        private bool TransmitterEnabled
+        {
+            get { return this.transmitterEnabled; }
+            set
+            {
+                if (value)
+                {
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                        this.tabControlMain.TabPages.Add(this.tabPageTransmitter);
+
+                    if (!this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                        this.tabControlMain.TabPages.Add(this.tabPageTransmitterMonitoring);
+                }
+                else
+                {
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitter))
+                        this.tabControlMain.TabPages.Remove(this.tabPageTransmitter);
+
+                    if (this.tabControlMain.TabPages.Contains(this.tabPageTransmitterMonitoring))
+                        this.tabControlMain.TabPages.Remove(this.tabPageTransmitterMonitoring);
+                }
+
+                this.transmitterEnabled = value;
+                this.ucRelayProgramming1.TransmitterEnabled = value;
+            }
+        }
+
+        private bool dNPEnabledSavedVal = false;
+        private bool IsDnpCustomer()
+        {
+            return DnpCustomerPolicy.IsDnpCommCustomer(this.Customer);
+        }
+
+        private bool IsDnpCommSupported()
+        {
+            return this.masterRevision > REV0_MASTER_REVISION &&
+                   IsDnpCustomer() &&
+                   RelaySupportsDnp();
+        }
+
+        private void EnsureTabPageVisible(TabPage page, TabPage insertBefore = null)
+        {
+            if (this.tabControlMain.TabPages.Contains(page))
+                return;
+
+            if (insertBefore != null && this.tabControlMain.TabPages.Contains(insertBefore))
+            {
+                this.tabControlMain.TabPages.Insert(this.tabControlMain.TabPages.IndexOf(insertBefore), page);
+            }
+            else
+            {
+                this.tabControlMain.TabPages.Add(page);
+            }
+        }
+
+        private void addDNPTabs()
+        {
+            bool showDnpTabs = IsDnpCustomer();
+            if (!showDnpTabs)
+                return;
+
+            EnsureTabPageVisible(this.tabPageDNP, this.tabPageArcFault);
+            EnsureTabPageVisible(this.tabPageDNPData, this.tabPageDNPSecureAuth);
+            EnsureTabPageVisible(this.tabPageDNPSecureAuth);
+        }
+
+        private void DisposeDnpLiveDataControl()
+        {
+            if (this.dNPDIGITALGRIDData == null)
+                return;
+
+            this.dNPDIGITALGRIDData.Send -= standardizedSendData;
+            this.dNPDIGITALGRIDData.PointChanged -= DNPDigitalGridData_PointChanged;
+
+            if (this.tabPageDNPData.Controls.Contains(this.dNPDIGITALGRIDData))
+                this.tabPageDNPData.Controls.Remove(this.dNPDIGITALGRIDData);
+
+            this.dNPDIGITALGRIDData.Dispose();
+            this.dNPDIGITALGRIDData = null;
+        }
+
+        private bool DNPEnabled
+        {
+            get { return this.dNPEnabledSavedVal; }
+            set
+            {
+                bool canUseDnpComm = IsDnpCommSupported();
+
+                // Enable path
+                if (value &&
+                    canUseDnpComm)
+                {
+                    addDNPTabs();
+                    // Keep existing DNP point wiring behavior
+                    setDNPTabPoints();
+
+                    this.dNPEnabledSavedVal = true;
+                    this.ucRelayProgramming1.DNPRelay = true;
+                    return;
+                }
+
+                // Disable path (or unsupported customer / old revision / firmware without DNP)
+                removeDNPTabs();
+
+                this.dNPEnabledSavedVal = false;
+                this.ucRelayProgramming1.DNPRelay = false;
+            }
+        }
+        private void setDNPTabPoints()
+        {
+            // IMPORTANT:
+            // Host the DNP user control on the tab the user is actually viewing ("DNP Live Data")
+            TabPage host = this.tabPageDNPData;
+
+            bool showDnpTabs = this.ucDNP != null && this.ucDNP.ShouldShowDnpTabs();
+
+            if (!showDnpTabs)
+            {
+                logger.Info("DNP tabs not initialized because customer {0} is not Toronto Hydro.", this.Customer);
+                DisposeDnpLiveDataControl();
+                removeDNPTabs();
+                return;
+            }
+
+            if (!IsDnpCommSupported())
+            {
+                logger.Info("DNP tabs disabled because DNP comm is not supported for customer {0} / relay revision.", this.Customer);
+                DisposeDnpLiveDataControl();
+                removeDNPTabs();
+                this.dNPEnabledSavedVal = false;
+                this.ucRelayProgramming1.DNPRelay = false;
+                return;
+            }
+
+            addDNPTabs();
+            DisposeDnpLiveDataControl();
+
+            this.dNPDIGITALGRIDData = new ucDNPDIGITALGRIDData(this.Customer);
+            this.dNPDIGITALGRIDData.RelayMasterRevision = (UInt32)masterRevision;
+            this.dNPDIGITALGRIDData.Dock = DockStyle.Fill;
+            this.dNPDIGITALGRIDData.Send += standardizedSendData;
+            this.dNPDIGITALGRIDData.PointChanged += DNPDigitalGridData_PointChanged;
+
+            host.SuspendLayout();
+            host.Controls.Clear();
+
+            host.Controls.Add(this.dNPDIGITALGRIDData);
+            this.dNPDIGITALGRIDData.Dock = DockStyle.Fill;
+            this.dNPDIGITALGRIDData.Visible = true;
+            this.dNPDIGITALGRIDData.Enabled = true;
+            this.dNPDIGITALGRIDData.BringToFront();
+
+            host.ResumeLayout(true);
+            host.PerformLayout();
+            host.Refresh();
+
+            System.Diagnostics.Debug.WriteLine(
+                $"[DNP TAB] Host={host.Name}, Controls={host.Controls.Count}, " +
+                $"HasCtrl={host.Controls.Contains(this.dNPDIGITALGRIDData)}, " +
+                $"CtrlVisible={this.dNPDIGITALGRIDData?.Visible}, " +
+                $"CtrlSize={this.dNPDIGITALGRIDData?.Size}, " +
+                $"CtrlDock={this.dNPDIGITALGRIDData?.Dock}");
+
+            UpdateDnpTabTitle();  // name them..
+        }
+
+        private bool gERelay = false;
+        private bool GERelay
+        {
+            get { return this.gERelay; }
+            set
+            {
+                labelGEWH.Text = value ? "GE" : "WH";
+
+                gERelay = value;
+                this.ucRelayProgramming1.GERelay = value;
+                this.ucTransmitterMonitoring1.GEEnabled = value;
+                ucTransmitter1.GERelay = value;
+                this.ucLiveData1.GEEnabled = value;
+                this.ucEventGraph0.GEEnabled = value;
+                this.ucEventGraph1.GEEnabled = value;
+                this.ucEventGraph2.GEEnabled = value;
+                this.ucEventGraph3.GEEnabled = value;
+                this.ucEventGraph4.GEEnabled = value;
+                this.ucEventGraph5.GEEnabled = value;
+                this.ucEventGraph6.GEEnabled = value;
+                this.ucEventGraph7.GEEnabled = value;
+            }
+        }
         private void UcRelayProgramming1_RelayTypeChanged(object sender, RelayTypeChangedEventArgs e)
         {
             GERelay = e.GERelay;
