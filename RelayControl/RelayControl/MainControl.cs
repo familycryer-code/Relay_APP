@@ -110,7 +110,7 @@ namespace RelayControl
 
         public MainControl()
         {
-            logger.Info("Main Control called.");
+            logger.Info("Main Control Start");
             InitializeComponent();
 
             tabControlMain.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -121,16 +121,10 @@ namespace RelayControl
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
             logger.Info("Version number: {0}", version);
+
+
             // Officially start everything
             this.MainControlInit();
-
-#if TORONTO_HYDRO
-            this.DNPEnabled = true;
-            this.ucTransmitter1.DNPEnabled = true;
-#endif
-
-            tCPConnectionToolStripMenuItem.Visible = true;
-
         }
 
 
@@ -647,16 +641,12 @@ namespace RelayControl
             {
                 this.messageHandler(ex.Message, ex.InnerException);
             }
-            /*
-            if (!this.noMonitoringVersion)
-            {
-                this.BeginInvoke(new Action(() =>
-                {
-                    logger.Info("Calling InitializeAutoload (deferred until form shown)");
-                    this.ucRelayProgramming1.InitializeAutoload();
-                }));
-            }
-            */
+    
+#if TORONTO_HYDRO
+            this.DNPEnabled = true;
+            this.ucTransmitter1.DNPEnabled = true;
+#endif
+            tCPConnectionToolStripMenuItem.Visible = true;
         }
 
         private void tabControlMain_DrawItem(object sender, DrawItemEventArgs e)
@@ -2935,7 +2925,9 @@ namespace RelayControl
                     if (!ucRelayProgramming1.ProgramBootCodeInProgress)
                     {
                         bool wroteDnpBackup = this.setDNPSettings(bytePacket);
-                        logger.Info("DNP backup write result: backupInProgress={0}, dataBackup_fromRelay={1}, wroteDnpBackup={2}",
+
+                        logger.Info(
+                            "DNP backup write result: backupInProgress={0}, dataBackup_fromRelay={1}, wroteDnpBackup={2}",
                             backupInProgress,
                             dataBackup_fromRelay,
                             wroteDnpBackup);
@@ -2954,9 +2946,12 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.DNPSAv5:
+                    bool wroteDnpSav5Backup = false;
+
                     if (dataBackupR.dataBackup_fromRelay)
                     {
                         CaptureBackupSection("DNPSAv5 Settings", bytePacket);
+                        wroteDnpSav5Backup = true;
                         dataBackupR.dataBackup_fromRelay = false;
                     }
 
@@ -2967,7 +2962,7 @@ namespace RelayControl
                         this.MarkSectionReceived(SectionBits.DnpSav5);
                     }
 
-                    if (backupInProgress && dataBackupR.dataBackup_fromRelay == false)
+                    if (backupInProgress && wroteDnpSav5Backup)
                     {
                         backupGotDnpSav5 = true;
                         TryCompleteBackup();
@@ -4074,7 +4069,7 @@ namespace RelayControl
                             this.requestSafeServiceSettings();
                     }
                     else
-                        this.parametersFinishedLoading();
+                        this.parametersFinishedLoading(nameof(setTransmitterSettings));
                 }
             }
             catch (Exception ex)
@@ -4104,117 +4099,110 @@ namespace RelayControl
         }
 
         private bool paramsReceivedLock = false;
-        private void parametersFinishedLoading()
+        private void parametersFinishedLoading([CallerMemberName] string caller = null)
         {
+            LogFlow("parametersFinishedLoading ENTER", caller);
             logger.Trace("Parameters Finished Loading");
 
-            bool programmingActive = this.IsProgrammingFlowActive();
-
-            logger.Info(
-                $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
-                $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
-                $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
-                $"backupInProgress={this.backupInProgress}, " +
-                $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
-                $"programmingActive={programmingActive}");
-
-            bool isFullSyncWorkflow =
-                this.requestedAllParameters ||
-                this.ProgramState == ProgramStates.DownloadingAllParameters ||
-                this.pendingAutoloadAfterBackup ||
-                this.pendingRestoreAfterProgramming ||
-                this.backupInProgress ||
-                programmingActive;
-
-            if (!isFullSyncWorkflow)
-            {
-                logger.Info(
-                    "Bypassing full parameter completion for targeted config change. requestedAllParameters={0}, ProgramState={1}, sendAll={2}, sendAllFlag={3}, pendingAutoloadAfterBackup={4}, reprogrammingInProgress={5}, programmingActive={6}, pendingRestoreAfterProgramming={7}",
-                    this.requestedAllParameters,
-                    this.ProgramState,
-                    this.sendAll,
-                    sendAllF.SendAllFlag,
-                    this.pendingAutoloadAfterBackup,
-                    this.ucRelayProgramming1.ReprogrammingInProgress,
-                    programmingActive,
-                    this.pendingRestoreAfterProgramming
-                );
-                return;
-            }
-
-            if (this.badDataDetected == true)
-            {
-                this.parametersLoaded = false;
-                this.messageHandler("Error", "Parameters Not Loaded Successfully");
-                ResetFullParameterDownloadState("parametersFinishedLoading.badDataDetected");
-                return;
-            }
-
-            // Only a real full-sync state should trigger the success popup.
-            if (this.parametersLoaded)
-            {
-                // We deliberately DO NOT reset parametersLoaded here
-                // because it is the one-shot latch for this full-download cycle.
-                this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-                ResetFullParameterDownloadState("parametersFinishedLoading.parametersLoaded");
-                return;
-            }
-
             if (paramsReceivedLock)
+            {
+                LogFlow("parametersFinishedLoading EXIT: paramsReceivedLock already set", caller);
                 return;
+            }
 
-            this.requestedAllParameters = false;
-            this.timerResponseTimeOut.Enabled = false;
-            this.ProgramState = ProgramStates.Running;
             paramsReceivedLock = true;
-
             try
             {
+                bool programmingActive = this.IsProgrammingFlowActive();
+
+                logger.Info(
+                    $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
+                    $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
+                    $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
+                    $"backupInProgress={this.backupInProgress}, " +
+                    $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
+                    $"programmingActive={programmingActive}");
+
+                bool isFullSyncWorkflow =
+                    this.requestedAllParameters ||
+                    this.ProgramState == ProgramStates.DownloadingAllParameters ||
+                    this.pendingAutoloadAfterBackup ||
+                    this.pendingRestoreAfterProgramming ||
+                    this.backupInProgress ||
+                    programmingActive;
+
+                if (!isFullSyncWorkflow)
+                {
+                    logger.Info(
+                        "Bypassing full parameter completion for targeted config change. requestedAllParameters={0}, ProgramState={1}, sendAll={2}, sendAllFlag={3}, pendingAutoloadAfterBackup={4}, reprogrammingInProgress={5}, programmingActive={6}, pendingRestoreAfterProgramming={7}",
+                        this.requestedAllParameters,
+                        this.ProgramState,
+                        this.sendAll,
+                        sendAllF.SendAllFlag,
+                        this.pendingAutoloadAfterBackup,
+                        this.ucRelayProgramming1.ReprogrammingInProgress,
+                        programmingActive,
+                        this.pendingRestoreAfterProgramming
+                    );
+                    return;
+                }
+
+                if (this.badDataDetected)
+                {
+                    this.parametersLoaded = false;
+                    this.messageHandler("Error", "Parameters Not Loaded Successfully");
+                    ResetFullParameterDownloadState("parametersFinishedLoading.badDataDetected");
+                    return;
+                }
+
+                // This call corresponds to "full set complete" from MarkSectionReceived
+                if (this.parametersLoaded)
+                {
+                    this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
+                    ResetFullParameterDownloadState("parametersFinishedLoading.parametersLoaded");
+                    return;
+                }
+
+                // Commit to normal completion handling
+                this.requestedAllParameters = false;
+                this.timerResponseTimeOut.Enabled = false;
+                this.ProgramState = ProgramStates.Running;
+
                 if (pendingRestoreAfterProgramming)
                 {
                     logger.Info("POST-PROGRAM RESTORE: entering pendingRestoreAfterProgramming block");
-
                     this.enableAll(false);
                     Application.UseWaitCursor = true;
                     System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
 
-                    logger.Info("POST-PROGRAM RESTORE: before WriteBackUpData_FileToRelay");
                     this.WriteBackUpData_FileToRelay();
-                    logger.Info("POST-PROGRAM RESTORE: after WriteBackUpData_FileToRelay");
 
                     dataB.oldDataBackup = false;
-
                     backupInProgress = false;
                     pendingAutoloadAfterBackup = false;
                     pendingRestoreAfterProgramming = false;
                     backupGotRelayParams = false;
 
-                    if (backupTimeoutTimer != null)
-                        backupTimeoutTimer.Stop();
+                    if (backupTimeoutTimer != null) backupTimeoutTimer.Stop();
 
                     this.ucRelayProgramming1.ReprogrammingInProgress = false;
-
                     MessageBox.Show("Programming complete", "Programming Complete");
-
                     this.ucRelayProgramming1.HideProgrammingProgress();
 
-                    this.RecoverComms("methodName/catch");
-
+                    this.RecoverComms("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     return;
                 }
 
                 if (backupInProgress)
                 {
-                    logger.Info("parametersFinishedLoading: backup still in progress; deferring autoload/normal comms decision.");
+                    logger.Info("parametersFinishedLoading: backup still in progress; deferring.");
                     return;
                 }
 
-                if (programmingActive &&
-                    !pendingRestoreAfterProgramming &&
-                    !pendingAutoloadAfterBackup)
+                if (programmingActive && !pendingRestoreAfterProgramming && !pendingAutoloadAfterBackup)
                 {
-                    logger.Info("Parameters finished loading during active reprogramming with no pending restore/autoload continuation; skipping autoload re-entry.");
+                    logger.Info("parametersFinishedLoading: active reprogramming; skipping autoload re-entry.");
                     return;
                 }
 
@@ -4222,16 +4210,15 @@ namespace RelayControl
                 {
                     if (this.ShouldAllowProgrammingTraffic())
                     {
-                        logger.Info("parametersFinishedLoading: programming lifecycle active; keep protocol path open, do not restore background polling yet.");
+                        logger.Info("parametersFinishedLoading: lifecycle active; keep protocol path open.");
                     }
                     else if (!this.ShouldSuppressBackgroundComms())
                     {
-                        logger.Info("Parameters finished loading with no pending autoload continuation; restoring normal communications only.");
-                        this.RecoverComms("methodName/catch");
+                        this.RecoverComms("parametersFinishedLoading.noPendingAutoloadAfterBackup");
                     }
                     else
                     {
-                        logger.Info("Parameters finished loading: background polling restore suppressed by background-comm gate.");
+                        logger.Info("parametersFinishedLoading: background restore suppressed.");
                     }
 
                     ResetFullParameterDownloadState("parametersFinishedLoading.noPendingAutoloadAfterBackup");
@@ -4240,13 +4227,10 @@ namespace RelayControl
 
                 if (skipAutoloadAfterDecline)
                 {
-                    logger.Info("User declined autoload; clearing pending migration state and restoring normal communications.");
+                    logger.Info("User declined autoload; restoring normal communications.");
                     pendingAutoloadAfterBackup = false;
-
-                    this.RecoverComms("methodName/catch");
-
+                    this.RecoverComms("parametersFinishedLoading.skipAutoloadAfterDecline");
                     skipAutoloadAfterDecline = false;
-
                     ResetFullParameterDownloadState("parametersFinishedLoading.skipAutoloadAfterDecline");
                     return;
                 }
@@ -4255,22 +4239,17 @@ namespace RelayControl
 
                 if (this.ShouldAllowProgrammingTraffic())
                 {
-                    logger.Info("parametersFinishedLoading: lifecycle still active after autoload decision; deferring background comm restore.");
+                    logger.Info("parametersFinishedLoading: lifecycle still active after autoload decision.");
                     ResetFullParameterDownloadState("parametersFinishedLoading.programmingLifecycleStillActive");
                     return;
                 }
 
                 if (!this.ShouldSuppressBackgroundComms())
-                {
-                    this.RecoverComms("methodName/catch");
-                }
+                    this.RecoverComms("parametersFinishedLoading.autoloadCompleted");
                 else
-                {
-                    logger.Info("parametersFinishedLoading: background comm restore suppressed by background gate.");
-                }
+                    logger.Info("parametersFinishedLoading: background comm restore suppressed by gate.");
 
                 ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
-                return;
             }
             finally
             {
@@ -5415,12 +5394,6 @@ namespace RelayControl
             {
                 this.badDataDetected = true;
                 this.messageHandler("Error Handling Control Parameters Data", ex);
-            }
-
-            if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-            {
-                if (dataBackup_fromRelay != true)
-                    this.requestTransmitterSettings();
             }
         }
 
@@ -7006,7 +6979,7 @@ namespace RelayControl
                     this.receivedSections,
                     this.requiredSections);
 
-                this.parametersFinishedLoading();
+                this.parametersFinishedLoading(nameof(MarkSectionReceived));
             }
         }
 
@@ -7015,14 +6988,12 @@ namespace RelayControl
             this.requestedAllParameters = true;
             this.ProgramState = ProgramStates.DownloadingAllParameters;
 
-            // new phase-based tracker
             this.syncPhase = SyncPhase.FullParameterDownload;
             this.requiredSections = SectionBits.RelayParams
-                                  | SectionBits.TxSettings;
+                                  | SectionBits.TxSettings
+                                  | SectionBits.SafeService; // include this if it's part of "done"
 
             this.receivedSections = SectionBits.None;
-
-            // reset the existing completion latch for this cycle
             this.parametersLoaded = false;
 
             logger.Info(
@@ -7066,32 +7037,30 @@ namespace RelayControl
 
             LogFlow("requestAllData after requestMasterRevisionNumber");
 
-            this.requestAllDataNoMasterRev();
+            this.requestAllDataNoMasterRev(nameof(requestAllData));
         }
 
-        private void requestAllDataNoMasterRev()
+        private void requestAllDataNoMasterRev([CallerMemberName] string caller = null)
         {
             bool programmingActive = this.IsProgrammingFlowActive();
 
-            LogFlow("requestAllDataNoMasterRev ENTER");
+            LogFlow("requestAllDataNoMasterRev ENTER", caller);
 
             if (this.InvokeRequired)
             {
-                this.BeginInvoke(new Action(requestAllDataNoMasterRev));
-                LogFlow("requestAllDataNoMasterRev re-invoked on UI thread");
+                this.BeginInvoke(new Action(() => requestAllDataNoMasterRev(caller)));
+                LogFlow("requestAllDataNoMasterRev re-invoked on UI thread", caller);
                 return;
             }
 
             if (programmingActive)
             {
-                LogFlow("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active");
+                LogFlow("requestAllDataNoMasterRev SUPPRESSED: programming lifecycle active", caller);
                 return;
             }
 
-            this.requestedAllParameters = true;
-            this.ProgramState = ProgramStates.DownloadingAllParameters;
-
-            LogFlow("requestAllDataNoMasterRev set state");
+            this.BeginFullParameterDownload(caller); // <-- critical fix
+            LogFlow("requestAllDataNoMasterRev initialized full-parameter download", caller);
 
             this.clearRemoteBuffer();
             this.requestRelayRevision();
@@ -9867,11 +9836,6 @@ namespace RelayControl
 
             try
             {
-                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
-                {
-                    this.parametersFinishedLoading();
-                }
-
                 bool isDnpSupported = IsDnpCommSupported();
 
                 if (!isDnpSupported)
