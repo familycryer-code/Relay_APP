@@ -6846,6 +6846,9 @@ namespace RelayControl
 
                 this.clearRemoteBuffer();
                 this.requestMasterRevisionNumber(nameof(checkPortsForRelay));
+                this.requestRelayRevision();
+                this.requestFPGARevision();
+
 
                 if (this.timerCheckPortTime != null)
                 {
@@ -6917,6 +6920,8 @@ namespace RelayControl
                 this.clearRemoteBuffer();
                 Thread.Sleep(1000);
                 this.requestMasterRevisionNumber(nameof(checkPortForRelay));
+                this.requestRelayRevision();
+                this.requestFPGARevision();
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
                 this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
@@ -8017,7 +8022,12 @@ namespace RelayControl
                 this.enableFlagsAndStatus(false);
 
                 if (!this.relayFound)
+                {
                     this.requestMasterRevisionNumber(nameof(timerRegisterPolling_Tick));
+                    this.requestRelayRevision();
+                    this.requestFPGARevision();
+                }
+
             }
 
             if (!this.quietMode)
