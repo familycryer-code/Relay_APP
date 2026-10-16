@@ -5582,10 +5582,12 @@ namespace RelayControl
                 // Stop the discovery timer and clear it cleanly
                 if (this.timerCheckPortTime != null)
                 {
+                    LogFlow("revisionReceived stopping timerCheckPortTime", caller);
                     this.timerCheckPortTime.Stop();
                     this.timerCheckPortTime.Tick -= timerCheckPortTime_Tick;
                     this.timerCheckPortTime.Dispose();
                     this.timerCheckPortTime = null;
+                    LogFlow("revisionReceived disposed timerCheckPortTime", caller);
                 }
 
                 if (this.ProgramState == ProgramStates.CheckingForRelay)
@@ -6924,12 +6926,29 @@ namespace RelayControl
 
         private void timerCheckPortTime_Tick(object sender, EventArgs e)
         {
+            // Hard-stop discovery timer instance immediately
+            if (this.timerCheckPortTime != null)
+            {
+                this.timerCheckPortTime.Stop();
+                this.timerCheckPortTime.Tick -= timerCheckPortTime_Tick;
+                this.timerCheckPortTime.Dispose();
+                this.timerCheckPortTime = null;
+            }
 
-            this.timerCheckPortTime.Enabled = false;
-            if (this.ProgramState == ProgramStates.Running)  //if program is in the standard running mode, this does not apply
+            // Discovery timeout logic only applies while actively checking for relay
+            if (this.ProgramState != ProgramStates.CheckingForRelay)
+            {
+                LogFlow("timerCheckPortTime_Tick ignored: not in CheckingForRelay", nameof(timerCheckPortTime_Tick));
                 return;
+            }
 
-            if (this.firstPortCheckAttempt)              //if it is the first attempt, simply try again
+            if (this.relayFound)
+            {
+                LogFlow("timerCheckPortTime_Tick ignored: relay already found", nameof(timerCheckPortTime_Tick));
+                return;
+            }
+
+            if (this.firstPortCheckAttempt)
             {
                 try
                 {
@@ -6945,14 +6964,24 @@ namespace RelayControl
             {
                 try
                 {
-                    this.firstPortCheckAttempt = true;      //if it is the second attempt, remove the current port from the list and try next port.
+                    this.firstPortCheckAttempt = true;
+
                     if (this.portNames.Count > 0)
                     {
                         this.portNames.RemoveAt(0);
-                        this.serialPort1.Close();
+
+                        if (this.serialPort1.IsOpen)
+                            this.serialPort1.Close();
+
                         this.serialPort1.BaudRate = 19200;
                         this.serialPort1.Open();
+
                         this.checkPortsForRelay(nameof(timerCheckPortTime_Tick));
+                    }
+                    else
+                    {
+                        this.ProgramState = ProgramStates.FailedToFindRelay;
+                        this.relayNotFound();
                     }
                 }
                 catch (Exception ex)
@@ -6960,8 +6989,6 @@ namespace RelayControl
                     this.messageHandler("Error On Second Port Check", ex);
                 }
             }
-
-            //this.relayCheckTimeOut = true;
         }
 
         private bool expectingRelayRevision = false;
@@ -7042,24 +7069,35 @@ namespace RelayControl
         {
             if (this.sendAll || sendAllF.SendAllFlag)
             {
-                LogFlow("requestAllData SUPPRESSED: sendAll active");
+                LogFlow($"requestAllData SUPPRESSED: sendAll active | caller={caller}");
                 return;
             }
 
-            bool programmingActive = this.IsProgrammingFlowActive();
-
-            LogFlow("requestAllData ENTRY");
-
-            if (programmingActive)
+            if (this.IsProgrammingFlowActive())
             {
-                LogFlow("requestAllData SUPPRESSED: programming lifecycle active");
+                LogFlow($"requestAllData SUPPRESSED: programming lifecycle active | caller={caller}");
                 return;
             }
 
             this.requestedAllParameters = true;
-            this.requestMasterRevisionNumber(nameof(requestAllData));
 
-            LogFlow("requestAllData after requestMasterRevisionNumber");
+            bool discoveryContext =
+                caller == "relay-connect-serial" ||
+                caller == "timerFindRelayTimeout_Tick" ||
+                this.ProgramState == ProgramStates.CheckingForRelay;
+
+            bool shouldRequestMasterRevision = discoveryContext && !this.relayFound;
+
+            if (shouldRequestMasterRevision)
+            {
+                LogFlow($"requestAllData requesting master revision | caller={caller}");
+                this.requestMasterRevisionNumber(nameof(requestAllData));
+                LogFlow($"requestAllData after requestMasterRevisionNumber | caller={caller}");
+            }
+            else
+            {
+                LogFlow($"requestAllData skipping master revision request | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}");
+            }
 
             this.requestAllDataNoMasterRev(nameof(requestAllData));
         }
@@ -9207,15 +9245,35 @@ namespace RelayControl
             if (this.initialLiveEventRequest)
             {
                 this.initialLiveEventRequest = false;
-                this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Response From Relay.\r\nPlease Check Connection.");
+
+                // Only show hard connection failure if relay is not actually connected yet
+                if (!this.relayFound || this.ProgramState == ProgramStates.CheckingForRelay)
+                {
+                    this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Response From Relay.\r\nPlease Check Connection.");
+                }
+                else
+                {
+                    LogFlow("timerLiveEventAcknowledge_Tick suppressed initial failure: relay already connected");
+                }
+
                 return;
             }
 
             this.liveEventTimedOutCount++;
+
             if (this.downloadingCanceled)
+                return;
+
+            // Optional safety cap to avoid endless nack loop
+            if (this.liveEventTimedOutCount >= 3)
             {
+                if (!this.relayFound || this.ProgramState == ProgramStates.CheckingForRelay)
+                    this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Response From Relay.\r\nPlease Check Connection.");
+                else
+                    LogFlow("timerLiveEventAcknowledge_Tick max retries reached but relay connected; suppressing popup");
                 return;
             }
+
             this.nackCount++;
             this.nAcknowledge();
             this.timerLiveEventAcknowledge.Start();
@@ -9701,13 +9759,21 @@ namespace RelayControl
         {
             this.timerResponseTimeOut.Enabled = false;
 
-            if (this.requestedAllParameters && !this.IsProgrammingFlowActive())
+            if (!this.relayFound &&
+                this.requestedAllParameters &&
+                !this.IsProgrammingFlowActive())
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
 
                 Application.UseWaitCursor = false;
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 this.enableAll(true);
+            }
+            else
+            {
+                LogFlow("timerResponseTimeOut_Tick suppressed: relayFound=" + this.relayFound +
+                        ", requestedAllParameters=" + this.requestedAllParameters +
+                        ", ProgramState=" + this.ProgramState);
             }
         }
 
