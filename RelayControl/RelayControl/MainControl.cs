@@ -1631,7 +1631,7 @@ namespace RelayControl
             {
                 List<string> portNames = this.setComPortMenu(this.portNames);
 
-                this.findRelay(this.portNames);
+                this.findRelay(this.portNames,nameof(checkSavedLocationAndFindRelay));
 
             }
             catch (Exception ex)
@@ -6742,43 +6742,53 @@ namespace RelayControl
         private List<string> portNames;
 
 
-        private void findRelay(object pN)
+        private void findRelay(object pN, [CallerMemberName] string caller = null)
         {
             try
             {
+                LogFlow("findRelay ENTRY", caller);
+
                 this.ProgramState = ProgramStates.CheckingForRelay;
+                LogFlow("findRelay set ProgramState=CheckingForRelay", caller);
+
                 this.portNames = (List<string>)pN;
 
-                if (this.portNames.Contains(this.savedComPort))         //make sure saved port exists
+                if (this.portNames.Contains(this.savedComPort)) // make sure saved port exists
                 {
                     this.portNames.Remove(this.savedComPort);
-                    this.portNames.Insert(0, this.savedComPort);        //move it to the top so it is the first checked
+                    this.portNames.Insert(0, this.savedComPort); // move it to the top so it is the first checked
+                    LogFlow("findRelay moved savedComPort to front: " + this.savedComPort, caller);
                 }
-                this.checkPortsForRelay();
+
+                this.checkPortsForRelay(nameof(findRelay));
+                LogFlow("findRelay delegated to checkPortsForRelay", caller);
             }
             catch (Exception ex)
             {
+                LogFlow("findRelay EXCEPTION", caller);
                 this.messageHandler("Error In findRelay()", ex);
-
             }
-
-            return;
         }
 
-        private void checkPortsForRelay()
+        private void checkPortsForRelay([CallerMemberName] string caller = null)
         {
             string currentPort;
             string errorMessage;
 
+            LogFlow("checkPortsForRelay ENTRY", caller);
+
             ucRelayProgramming1.NotPollingPort = true;
 
-            if (this.ProgramState == ProgramStates.Running) //if it is running don't check for the ports
-                return;
-
-            if (this.portNames.Count == 0)           //no relay found
+            if (this.ProgramState == ProgramStates.Running) // if it is running don't check for ports
             {
+                LogFlow("checkPortsForRelay EXIT: ProgramState is Running", caller);
+                return;
+            }
 
+            if (this.portNames.Count == 0) // no relay found
+            {
                 this.ProgramState = ProgramStates.FailedToFindRelay;
+                LogFlow("checkPortsForRelay set ProgramState=FailedToFindRelay", caller);
 
                 errorMessage = "Unable To Locate Relay.";
                 this.relayNotFound();
@@ -6786,29 +6796,37 @@ namespace RelayControl
 
                 ucRelayProgramming1.NotPollingPort = false;
 
+                LogFlow("checkPortsForRelay no relay found -> messageHandler", caller);
                 this.messageHandler("No Relay Found", new Exception(errorMessage));
                 return;
             }
 
             currentPort = this.portNames[0];
-
+            LogFlow("checkPortsForRelay checking port: " + currentPort, caller);
 
             this.toolStripStatusLabelMain.Text = "Checking " + currentPort + " for Relay";
 
             if (this.checkPortAvailability(currentPort))
             {
+                LogFlow("checkPortsForRelay port available", caller);
+
                 this.clearRemoteBuffer();
-                this.requestMasterRevisionNumber();
+                this.requestMasterRevisionNumber(nameof(checkPortsForRelay));
+
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
                 this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
                 this.timerCheckPortTime.Interval = 500;
                 this.timerCheckPortTime.Start();
+
+                LogFlow("checkPortsForRelay started timerCheckPortTime", caller);
             }
             else
             {
-                this.portNames.RemoveAt(0);                     //if the port is unavailable, remove and call this function again
-                this.checkPortsForRelay();
+                LogFlow("checkPortsForRelay port unavailable; removing and retrying: " + currentPort, caller);
+
+                this.portNames.RemoveAt(0); // if unavailable, remove and retry
+                this.checkPortsForRelay(nameof(checkPortsForRelay));
             }
         }
 
@@ -6853,7 +6871,7 @@ namespace RelayControl
 
                 this.clearRemoteBuffer();
                 Thread.Sleep(1000);
-                this.requestMasterRevisionNumber();
+                this.requestMasterRevisionNumber(nameof(checkPortForRelay));
                 this.timerCheckPortTime.Dispose();
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
                 this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
@@ -6880,14 +6898,16 @@ namespace RelayControl
             this.sendPacket(packet);
         }
 
-        private void requestMasterRevisionNumber()
+        private void requestMasterRevisionNumber([CallerMemberName] string caller = null)
         {
+            LogFlow("requestMasterRevisionNumber ENTRY", caller);
 
             byte[] packet = new byte[3];
-
             packet[0] = (byte)'R';
             packet[1] = 0x55;
             packet[2] = 0x0D;
+
+            LogFlow("requestMasterRevisionNumber sending packet: {0}", caller);
 
             this.sendPacket(packet);
         }
@@ -6924,7 +6944,7 @@ namespace RelayControl
                         this.serialPort1.Close();
                         this.serialPort1.BaudRate = 19200;
                         this.serialPort1.Open();
-                        this.checkPortsForRelay();
+                        this.checkPortsForRelay(nameof(timerCheckPortTime_Tick));
                     }
                 }
                 catch (Exception ex)
@@ -7033,7 +7053,7 @@ namespace RelayControl
             }
 
             this.requestedAllParameters = true;
-            this.requestMasterRevisionNumber();
+            this.requestMasterRevisionNumber(nameof(requestAllData));
 
             LogFlow("requestAllData after requestMasterRevisionNumber");
 
@@ -7910,7 +7930,7 @@ namespace RelayControl
                 this.enableFlagsAndStatus(false);
 
                 if (!this.relayFound)
-                    this.requestMasterRevisionNumber();
+                    this.requestMasterRevisionNumber(nameof(timerRegisterPolling_Tick));
             }
 
             if (!this.quietMode)
