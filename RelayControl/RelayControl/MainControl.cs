@@ -1864,21 +1864,22 @@ namespace RelayControl
             this.BackUpRelayDatatoFile();
         }
 
-        private void ResetFullParameterDownloadState(string caller)
+        private void ResetFullParameterDownloadState(string caller = "unknown")
         {
-            logger.Warn("ResetFullParameterDownloadState caller={0}", caller);
-
             this.requestedAllParameters = false;
-            this.ProgramState = ProgramStates.Running;
-            this.sendAll = false;
-            sendAllF.SendAllFlag = false;
-            this.timerResponseTimeOut.Enabled = false;
+            this.parametersLoaded = true;
 
-            this.enableAll(true);
-            screenD.screenDisable = false;
-            this.UseWaitCursor = false;
-            Application.UseWaitCursor = false;
-            Cursor.Current = Cursors.Default;
+            this.receivedSections = SectionBits.None;
+            this.requiredSections = SectionBits.None;
+
+            this.syncPhase = SyncPhase.Idle;
+            this.ProgramState = ProgramStates.Running;
+
+            logger.Info(
+                "ResetFullParameterDownloadState caller={0}, phase={1}, state={2}",
+                caller,
+                this.syncPhase,
+                this.ProgramState);
         }
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
@@ -2797,20 +2798,10 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.ArcFaultData:
-                    if (dataBackup_fromRelay)
-                    {
-                        CaptureBackupSection("Arc Fault Parameters", bytePacket);
-                    }
-
                     this.setArcFaultData(bytePacket);
                     logger.Info("About to mark ArcFault");
                     this.MarkSectionReceived(SectionBits.ArcFault);
-
-                    if (backupInProgress)
-                    {
-                        receivedBackupMask |= SectionBits.ArcFault;
-                        TryCompleteBackup();
-                    }
+                    MarkBackupSectionIfActive(SectionBits.ArcFault, "Arc Fault Parameters", bytePacket);
                     break;
 
                 case IncomingCommCommands.Boot:
@@ -2830,12 +2821,7 @@ namespace RelayControl
                     this.MarkSectionReceived(SectionBits.Calibration);
                     logger.Info("About to mark Calibration");
 
-                    if (backupInProgress)
-                    {
-                        CaptureBackupSection("Calibration Constants", bytePacket);
-                        receivedBackupMask |= SectionBits.Calibration;
-                        TryCompleteBackup();
-                    }
+                    MarkBackupSectionIfActive(SectionBits.Calibration, "Calibration Parameters", bytePacket);
                     break;
 
                 case IncomingCommCommands.CurrentTime:
@@ -2844,20 +2830,9 @@ namespace RelayControl
 
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
-
-                    if (dataBackup_fromRelay)
-                    {
-                        CaptureBackupSection("Safe Service Data", bytePacket);
-                    }
-
                     this.MarkSectionReceived(SectionBits.SafeService);
                     logger.Info("About to mark SafeService");
-
-                    if (backupInProgress)
-                    {
-                        receivedBackupMask |= SectionBits.SafeService;
-                        TryCompleteBackup();
-                    }
+                    MarkBackupSectionIfActive(SectionBits.SafeService, "Safe Service Parameters", bytePacket);
                     break;
 
                 case IncomingCommCommands.ShortRangeStrength:
@@ -2886,12 +2861,7 @@ namespace RelayControl
                     this.MarkSectionReceived(SectionBits.RelayParams);
                     logger.Info("About to mark RelayParams");
 
-                    if (backupInProgress)
-                    {
-                        CaptureBackupSection("Relay Parameters", bytePacket);
-                        receivedBackupMask |= SectionBits.RelayParams;
-                        TryCompleteBackup();
-                    }
+                    MarkBackupSectionIfActive(SectionBits.RelayParams, "Relay Parameters", bytePacket);
                     break;
 
                 case IncomingCommCommands.RelayRegisters:
@@ -2921,7 +2891,6 @@ namespace RelayControl
 
                 case IncomingCommCommands.FPGARevision:
                     this.setFPGARevision(bytePacket);
-                    //this.ucRelayProgramming1.timerTimeout_Tick(null, EventArgs.Empty);
                     break;
 
                 case IncomingCommCommands.Temperature:
@@ -2935,8 +2904,7 @@ namespace RelayControl
                 case IncomingCommCommands.TransmitterSettings:
                     this.setTransmitterSettings(bytePacket);
                     {
-                        UInt16 uTemp;
-                        uTemp = bytePacket[1];
+                        UInt16 uTemp = bytePacket[1];
                         uTemp <<= 8;
                         uTemp += bytePacket[0];
                         this.textBox_TxID.Text = uTemp.ToString();
@@ -2945,12 +2913,7 @@ namespace RelayControl
                     this.MarkSectionReceived(SectionBits.TxSettings);
                     logger.Info("About to mark TxSettings");
 
-                    if (backupInProgress)
-                    {
-                        CaptureBackupSection("Transmitter Settings", bytePacket);
-                        receivedBackupMask |= SectionBits.TxSettings;
-                        TryCompleteBackup();
-                    }
+                    MarkBackupSectionIfActive(SectionBits.TxSettings, "Transmitter Settings", bytePacket);
                     break;
 
                 case IncomingCommCommands.TransmitterMonitor:
@@ -2976,12 +2939,7 @@ namespace RelayControl
                             logger.Info("About to mark Dnp");
                             this.MarkSectionReceived(SectionBits.Dnp);
                         }
-
-                        if (backupInProgress && wroteDnpBackup)
-                        {
-                            receivedBackupMask |= SectionBits.Dnp;
-                            TryCompleteBackup();
-                        }
+                        MarkBackupSectionIfActive(SectionBits.Dnp, "DNP Parameters", bytePacket);
                         break;
                     }
 
@@ -2993,15 +2951,6 @@ namespace RelayControl
                             break;
                         }
 
-                        bool wroteDnpSav5Backup = false;
-
-                        if (dataBackupR.dataBackup_fromRelay)
-                        {
-                            CaptureBackupSection("DNPSAv5 Settings", bytePacket);
-                            wroteDnpSav5Backup = true;
-                            dataBackupR.dataBackup_fromRelay = false;
-                        }
-
                         this.ucDNPSAv51.Message(bytePacket);
 
                         if (this.syncPhase == SyncPhase.FullParameterDownload)
@@ -3010,11 +2959,7 @@ namespace RelayControl
                             this.MarkSectionReceived(SectionBits.DnpSav5);
                         }
 
-                        if (backupInProgress && wroteDnpSav5Backup)
-                        {
-                            receivedBackupMask |= SectionBits.DnpSav5;
-                            TryCompleteBackup();
-                        }
+                        MarkBackupSectionIfActive(SectionBits.DnpSav5, "DNPSAv5 Parameters", bytePacket);
                         break;
                     }
 
@@ -3027,6 +2972,7 @@ namespace RelayControl
                     throw new Exception("bad command for function call");
             }
         }
+
         private RelayStatusCodeConverter relayStatusConverter = new RelayStatusCodeConverter();
 
         private void setRelayStatusBits(byte[] bytePacket)
@@ -6933,12 +6879,21 @@ namespace RelayControl
 
         private void checkPortForRelay()
         {
+            if (this.serialPort1 == null)
+            {
+                logger.Warn("checkPortForRelay: serialPort1 is null");
+                return;
+            }
 
             this.toolStripStatusLabelMain.Text = "Checking " + this.serialPort1.PortName + " for Relay";
 
             try
             {
-                this.serialPort1.Open();
+                if (!this.serialPort1.IsOpen)
+                {
+                    this.serialPort1.Open();
+                }
+
                 this.clearSerialPortBuffers(this.serialPort1);
                 if (!this.serialPort1.IsOpen)
                 {
@@ -6947,16 +6902,22 @@ namespace RelayControl
 
                 this.clearRemoteBuffer();
                 Thread.Sleep(1000);
+
                 this.requestMasterRevisionNumber(nameof(checkPortForRelay));
                 this.requestRelayRevision();
                 this.requestFPGARevision();
-                this.timerCheckPortTime.Dispose();
+
+                if (this.timerCheckPortTime != null)
+                {
+                    this.timerCheckPortTime.Stop();
+                    this.timerCheckPortTime.Tick -= timerCheckPortTime_Tick;
+                    this.timerCheckPortTime.Dispose();
+                }
+
                 this.timerCheckPortTime = new System.Windows.Forms.Timer();
                 this.timerCheckPortTime.Tick += new EventHandler(timerCheckPortTime_Tick);
                 this.timerCheckPortTime.Interval = 500;
                 this.timerCheckPortTime.Start();
-
-
             }
             catch (Exception ex)
             {
@@ -7085,6 +7046,21 @@ namespace RelayControl
                 this.receivedSections);
         }
 
+        private void MarkBackupSectionIfActive(SectionBits bit, string sectionName, byte[] packet)
+        {
+            if (!backupInProgress)
+                return;
+
+            CaptureBackupSection(sectionName, packet);
+            receivedBackupMask |= bit;
+
+            logger.Info(
+                "Backup section received: {0}, receivedBackupMask={1}, requiredBackupMask={2}",
+                bit, receivedBackupMask, requiredBackupMask);
+
+            TryCompleteBackup();
+        }
+
         private void MarkSectionReceived(SectionBits section)
         {
             this.receivedSections |= section;
@@ -7125,6 +7101,18 @@ namespace RelayControl
 
         private void requestAllData(string caller = "unknown")
         {
+            if (this.ucRelayProgramming1 == null)
+            {
+                LogFlow("Request All suppressed: ucRelayProgramming1 is null");
+                return;
+            }
+
+            if (!this.relayFound)
+            {
+                LogFlow("Request All suppressed: relay not ready");
+                return;
+            }
+
             if (this.sendAll || sendAllF.SendAllFlag)
             {
                 LogFlow($"requestAllData SUPPRESSED: sendAll active | caller={caller}");
