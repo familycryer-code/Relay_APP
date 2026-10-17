@@ -2864,7 +2864,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.ArcFaultData:
                     this.setArcFaultData(bytePacket);
-                    logger.Info("About to mark ArcFault");
+
                     if (this.syncPhase == SyncPhase.Idle)
                     {
                         logger.Info("Skipping Arc Fault mark: cycle closed.");
@@ -2876,6 +2876,8 @@ namespace RelayControl
                         logger.Info("Skipping Arc Fault mark: minimum completion already processed.");
                         return;
                     }
+
+                    logger.Info("About to mark ArcFault");
                     this.MarkSectionReceived(SectionBits.ArcFault);
                     MarkBackupSectionIfActive(SectionBits.ArcFault, "Arc Fault Parameters", bytePacket);
                     break;
@@ -2894,6 +2896,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.CalibrationConstants:
                     this.setCalibrationConstants(bytePacket);
+
                     if (this.syncPhase == SyncPhase.Idle)
                     {
                         logger.Info("Skipping Calibration mark: cycle closed.");
@@ -2905,9 +2908,9 @@ namespace RelayControl
                         logger.Info("Skipping Calibration mark: minimum completion already processed.");
                         return;
                     }
-                    this.MarkSectionReceived(SectionBits.Calibration);
-                    logger.Info("About to mark Calibration");
 
+                    logger.Info("About to mark Calibration");
+                    this.MarkSectionReceived(SectionBits.Calibration);
                     MarkBackupSectionIfActive(SectionBits.Calibration, "Calibration Parameters", bytePacket);
                     break;
 
@@ -2917,6 +2920,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
+
                     if (this.syncPhase == SyncPhase.Idle)
                     {
                         logger.Info("Skipping SafeService mark: cycle closed.");
@@ -2928,8 +2932,9 @@ namespace RelayControl
                         logger.Info("Skipping SafeService mark: minimum completion already processed.");
                         return;
                     }
-                    this.MarkSectionReceived(SectionBits.SafeService);
+
                     logger.Info("About to mark SafeService");
+                    this.MarkSectionReceived(SectionBits.SafeService);
                     MarkBackupSectionIfActive(SectionBits.SafeService, "Safe Service Parameters", bytePacket);
                     break;
 
@@ -2956,6 +2961,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.RelayParameters:
                     this.setRelayParameters(bytePacket);
+
                     if (this.syncPhase == SyncPhase.Idle)
                     {
                         logger.Info("Skipping Relay Params mark: cycle closed.");
@@ -2967,9 +2973,9 @@ namespace RelayControl
                         logger.Info("Skipping Relay Params mark: minimum completion already processed.");
                         return;
                     }
-                    this.MarkSectionReceived(SectionBits.RelayParams);
-                    logger.Info("About to mark RelayParams");
 
+                    logger.Info("About to mark RelayParams");
+                    this.MarkSectionReceived(SectionBits.RelayParams);
                     MarkBackupSectionIfActive(SectionBits.RelayParams, "Relay Parameters", bytePacket);
                     break;
 
@@ -3012,27 +3018,28 @@ namespace RelayControl
 
                 case IncomingCommCommands.TransmitterSettings:
                     this.setTransmitterSettings(bytePacket);
+
                     {
                         UInt16 uTemp = bytePacket[1];
                         uTemp <<= 8;
                         uTemp += bytePacket[0];
                         this.textBox_TxID.Text = uTemp.ToString();
                     }
+
                     if (this.syncPhase == SyncPhase.Idle)
                     {
-                        logger.Info("Skipping SafeService mark: cycle closed.");
+                        logger.Info("Skipping TxSettings mark: cycle closed.");
                         return;
                     }
 
                     if (this.parametersLoaded)
                     {
-                        logger.Info("Skipping SafeService mark: minimum completion already processed.");
+                        logger.Info("Skipping TxSettings mark: minimum completion already processed.");
                         return;
                     }
 
-                    this.MarkSectionReceived(SectionBits.TxSettings);
                     logger.Info("About to mark TxSettings");
-
+                    this.MarkSectionReceived(SectionBits.TxSettings);
                     MarkBackupSectionIfActive(SectionBits.TxSettings, "Transmitter Settings", bytePacket);
                     break;
 
