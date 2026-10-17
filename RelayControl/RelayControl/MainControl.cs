@@ -7447,10 +7447,7 @@ namespace RelayControl
             // NOTE: this is still a refresh/read phase, not a write/apply phase.
             this.BeginRequiredParameterDownload(caller);
 
-            if (oneTimeAutoLoadShot == false) { 
-                this.ucRelayProgramming1.InitializeAutoload();
-                oneTimeAutoLoadShot = true;
-            }   
+            
 
             // Actual parameter-section requests
             this.requestRelayParameters();
@@ -12243,6 +12240,16 @@ namespace RelayControl
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
         {
+            // Re-entry guard: if backup is already resolved and nothing is pending, ignore duplicate calls.
+            if (!backupInProgress &&
+                !this.ucRelayProgramming1.backupIsPending &&
+                !pendingAutoloadAfterBackup &&
+                !this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
+            {
+                logger.Info("CompleteBackupAndContinue: duplicate call ignored (already resolved).");
+                return;
+            }
+
             bool wasInProgress = backupInProgress;
             backupInProgress = false;
 
@@ -12270,6 +12277,7 @@ namespace RelayControl
             {
                 pendingAutoloadAfterBackup = false;
                 pendingRestoreAfterProgramming = false;
+                this.ucRelayProgramming1.backupIsPending = false; // cleanup latch on failure too
 
                 this.quietMode = false;
                 this.pauseMonitoring = false;
@@ -12295,7 +12303,7 @@ namespace RelayControl
 
                 EndBackupCapture(false);
 
-                // Important: close stale read cycle on timeout too.
+                // Close stale read cycle on timeout too.
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
                 return;
             }
@@ -12346,7 +12354,21 @@ namespace RelayControl
                     logger.Warn(
                         "Backup complete but no approved startup intent was active; not resuming programming. startupIntent={0}",
                         this.ucRelayProgramming1.CurrentStartupIntent);
+
                     pendingAutoloadAfterBackup = false;
+                    pendingRestoreAfterProgramming = false;
+
+                    // No continuation path -> restore normal UI now.
+                    this.quietMode = false;
+                    this.pauseMonitoring = false;
+                    this.UseWaitCursor = false;
+                    Application.UseWaitCursor = false;
+                    System.Windows.Forms.Cursor.Current = Cursors.Default;
+                    this.enableAll(true);
+
+                    if (!this.ShouldSuppressBackgroundComms())
+                        this.RecoverComms(nameof(CompleteBackupAndContinue));
+
                     return;
             }
 
@@ -12354,7 +12376,7 @@ namespace RelayControl
             {
                 pendingAutoloadAfterBackup = false;
                 logger.Info(
-                    "Autoload continuation entered programming lifecycle; keep background comm suppression active. state={0}",
+                    "Autoload/manual continuation entered programming lifecycle; keep background comm suppression active. state={0}",
                     this.ucRelayProgramming1.State);
                 return;
             }
@@ -12366,7 +12388,7 @@ namespace RelayControl
                 return;
             }
 
-            // If autoload is still deferred, leave the pending flag set and let the UI-ready resume handler finish it.
+            // If autoload is still deferred, leave pending flag set and let UI-ready handler finish it.
             if (pendingAutoloadAfterBackup || this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
             {
                 logger.Info(
@@ -12374,7 +12396,6 @@ namespace RelayControl
                     pendingAutoloadAfterBackup,
                     this.ucRelayProgramming1.AutoloadDeferredUntilUiReady,
                     this.ucRelayProgramming1.backupIsPending);
-
                 return;
             }
 
@@ -12398,6 +12419,7 @@ namespace RelayControl
             }
 
             pendingAutoloadAfterBackup = false;
+            pendingRestoreAfterProgramming = false;
         }
     }
 
