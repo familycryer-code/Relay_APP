@@ -2865,6 +2865,17 @@ namespace RelayControl
                 case IncomingCommCommands.ArcFaultData:
                     this.setArcFaultData(bytePacket);
                     logger.Info("About to mark ArcFault");
+                    if (this.syncPhase == SyncPhase.Idle)
+                    {
+                        logger.Info("Skipping Arc Fault mark: cycle closed.");
+                        return;
+                    }
+
+                    if (this.parametersLoaded)
+                    {
+                        logger.Info("Skipping Arc Fault mark: minimum completion already processed.");
+                        return;
+                    }
                     this.MarkSectionReceived(SectionBits.ArcFault);
                     MarkBackupSectionIfActive(SectionBits.ArcFault, "Arc Fault Parameters", bytePacket);
                     break;
@@ -2883,6 +2894,17 @@ namespace RelayControl
 
                 case IncomingCommCommands.CalibrationConstants:
                     this.setCalibrationConstants(bytePacket);
+                    if (this.syncPhase == SyncPhase.Idle)
+                    {
+                        logger.Info("Skipping Calibration mark: cycle closed.");
+                        return;
+                    }
+
+                    if (this.parametersLoaded)
+                    {
+                        logger.Info("Skipping Calibration mark: minimum completion already processed.");
+                        return;
+                    }
                     this.MarkSectionReceived(SectionBits.Calibration);
                     logger.Info("About to mark Calibration");
 
@@ -2895,6 +2917,17 @@ namespace RelayControl
 
                 case IncomingCommCommands.SafeService:
                     this.ucSafeService1.SetAll(bytePacket);
+                    if (this.syncPhase == SyncPhase.Idle)
+                    {
+                        logger.Info("Skipping SafeService mark: cycle closed.");
+                        return;
+                    }
+
+                    if (this.parametersLoaded)
+                    {
+                        logger.Info("Skipping SafeService mark: minimum completion already processed.");
+                        return;
+                    }
                     this.MarkSectionReceived(SectionBits.SafeService);
                     logger.Info("About to mark SafeService");
                     MarkBackupSectionIfActive(SectionBits.SafeService, "Safe Service Parameters", bytePacket);
@@ -2923,6 +2956,17 @@ namespace RelayControl
 
                 case IncomingCommCommands.RelayParameters:
                     this.setRelayParameters(bytePacket);
+                    if (this.syncPhase == SyncPhase.Idle)
+                    {
+                        logger.Info("Skipping Relay Params mark: cycle closed.");
+                        return;
+                    }
+
+                    if (this.parametersLoaded)
+                    {
+                        logger.Info("Skipping Relay Params mark: minimum completion already processed.");
+                        return;
+                    }
                     this.MarkSectionReceived(SectionBits.RelayParams);
                     logger.Info("About to mark RelayParams");
 
@@ -2974,6 +3018,17 @@ namespace RelayControl
                         uTemp += bytePacket[0];
                         this.textBox_TxID.Text = uTemp.ToString();
                     }
+                    if (this.syncPhase == SyncPhase.Idle)
+                    {
+                        logger.Info("Skipping SafeService mark: cycle closed.");
+                        return;
+                    }
+
+                    if (this.parametersLoaded)
+                    {
+                        logger.Info("Skipping SafeService mark: minimum completion already processed.");
+                        return;
+                    }
 
                     this.MarkSectionReceived(SectionBits.TxSettings);
                     logger.Info("About to mark TxSettings");
@@ -2999,11 +3054,14 @@ namespace RelayControl
 
                         bool wroteDnpBackup = this.setDNPSettings(bytePacket);
 
-                        if (this.syncPhase == SyncPhase.FullParameterDownload)
+                        if (this.syncPhase != SyncPhase.FullParameterDownload || this.parametersLoaded)
                         {
-                            logger.Info("About to mark Dnp");
-                            this.MarkSectionReceived(SectionBits.Dnp);
+                            logger.Info("Ignoring DNPData section: cycle closed or already processed.");
+                            break;
                         }
+
+                        logger.Info("About to mark Dnp");
+                        this.MarkSectionReceived(SectionBits.Dnp);
                         MarkBackupSectionIfActive(SectionBits.Dnp, "DNP Parameters", bytePacket);
                         break;
                     }
@@ -3018,12 +3076,14 @@ namespace RelayControl
 
                         this.ucDNPSAv51.Message(bytePacket);
 
-                        if (this.syncPhase == SyncPhase.FullParameterDownload)
+                        if (this.syncPhase != SyncPhase.FullParameterDownload || this.parametersLoaded)
                         {
-                            logger.Info("About to mark DnpSav5");
-                            this.MarkSectionReceived(SectionBits.DnpSav5);
+                            logger.Info("Ignoring DNPSAv5 section: cycle closed or already processed.");
+                            break;
                         }
 
+                        logger.Info("About to mark DnpSav5");
+                        this.MarkSectionReceived(SectionBits.DnpSav5);
                         MarkBackupSectionIfActive(SectionBits.DnpSav5, "DNPSAv5 Parameters", bytePacket);
                         break;
                     }
@@ -7221,6 +7281,24 @@ namespace RelayControl
                 this.receivedSections);
         }
 
+        private void MarkRelayParams()
+        {
+            if (this.syncPhase == SyncPhase.Idle)
+            {
+                logger.Info("Skipping RelayParams mark: cycle closed.");
+                return;
+            }
+
+            if (this.parametersLoaded)
+            {
+                logger.Info("Skipping RelayParams mark: minimum completion already processed.");
+                return;
+            }
+
+            logger.Info("About to mark RelayParams");
+            MarkSectionReceived(SectionBits.RelayParams);
+        }
+
         private void MarkBackupSectionIfActive(SectionBits bit, string sectionName, byte[] packet)
         {
             if (!backupInProgress)
@@ -7241,6 +7319,18 @@ namespace RelayControl
             if (section == SectionBits.None)
                 return;
 
+            if (this.syncPhase == SyncPhase.Idle)
+            {
+                logger.Info("Ignoring late section after cycle closed: {0}", section);
+                return;
+            }
+
+            if (this.parametersLoaded)
+            {
+                logger.Info("Minimum parameter completion already processed; ignoring additional section. section={0}", section);
+                return;
+            }
+
             this.receivedSections |= section;
 
             if (this.requiredBackupMask != SectionBits.None)
@@ -7254,9 +7344,6 @@ namespace RelayControl
                 this.receivedBackupMask,
                 this.requiredBackupMask,
                 this.syncPhase);
-
-            if (this.syncPhase != SyncPhase.FullParameterDownload)
-                return;
 
             if (this.parametersLoaded)
             {
@@ -12161,6 +12248,7 @@ namespace RelayControl
             var elapsedMs = backupStartedAtUtc.HasValue
                 ? (int)(DateTime.UtcNow - backupStartedAtUtc.Value).TotalMilliseconds
                 : 0;
+
             var missing = GetBackupMissingSectionsSummary();
 
             logger.Info(
@@ -12170,6 +12258,7 @@ namespace RelayControl
                 backupExpectDnp,
                 missing);
 
+            // ----- Timeout / partial failure path -----
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
                 pendingAutoloadAfterBackup = false;
@@ -12198,13 +12287,20 @@ namespace RelayControl
                 logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
 
                 EndBackupCapture(false);
+
+                // Important: close stale read cycle on timeout too.
+                ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
                 return;
             }
 
-            // Successful backup: end state machine, write file once, then continue.
+            // ----- Successful backup -----
             EndBackupCapture(true);
-            pendingAutoloadAfterBackup = true;
 
+            // Close the active parameter-download lifecycle now.
+            // Otherwise late packets from the old cycle keep arriving and re-trigger logic.
+            ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
+
+            // Backup latch is resolved.
             this.ucRelayProgramming1.backupIsPending = false;
 
             logger.Info(
@@ -12218,6 +12314,7 @@ namespace RelayControl
             switch (this.ucRelayProgramming1.CurrentStartupIntent)
             {
                 case ucRelayProgramming.StartupIntent.AutoApproved:
+                    pendingAutoloadAfterBackup = true;
                     this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
                     logger.Info(
                         "After ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, backupIsPending={1}, reprogrammingInProgress={2}, state={3}",
@@ -12228,6 +12325,7 @@ namespace RelayControl
                     break;
 
                 case ucRelayProgramming.StartupIntent.ManualApproved:
+                    pendingAutoloadAfterBackup = false;
                     this.ucRelayProgramming1.ResumeManualAfterBackup();
                     logger.Info(
                         "After ResumeManualAfterBackup: pendingAutoloadAfterBackup={0}, backupIsPending={1}, reprogrammingInProgress={2}, state={3}",
@@ -12261,35 +12359,38 @@ namespace RelayControl
                 return;
             }
 
-            if (!this.ucRelayProgramming1.backupIsPending)
+            // If autoload is still deferred, leave the pending flag set and let the UI-ready resume handler finish it.
+            if (pendingAutoloadAfterBackup || this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
             {
-                logger.Info("Autoload continuation resolved with no active lifecycle; restoring normal UI/monitoring.");
-
-                pendingAutoloadAfterBackup = false;
-                this.quietMode = false;
-                this.pauseMonitoring = false;
-
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-
-                if (!this.ShouldSuppressBackgroundComms())
-                {
-                    this.RecoverComms(nameof(CompleteBackupAndContinue));
-                }
-                else
-                {
-                    logger.Info("Restore deferred by background suppression gate.");
-                }
+                logger.Info(
+                    "Autoload continuation still pending or deferred; waiting for UI-ready re-entry. pendingAutoloadAfterBackup={0}, autoloadDeferredUntilUiReady={1}, backupIsPending={2}",
+                    pendingAutoloadAfterBackup,
+                    this.ucRelayProgramming1.AutoloadDeferredUntilUiReady,
+                    this.ucRelayProgramming1.backupIsPending);
 
                 return;
             }
 
-            logger.Info(
-                "Autoload continuation still waiting on child backup latch; keeping comm suppression active. backupIsPending={0}, state={1}",
-                this.ucRelayProgramming1.backupIsPending,
-                this.ucRelayProgramming1.State);
+            logger.Info("Autoload continuation resolved with no active lifecycle; restoring normal UI/monitoring.");
+
+            this.quietMode = false;
+            this.pauseMonitoring = false;
+
+            this.UseWaitCursor = false;
+            Application.UseWaitCursor = false;
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            this.enableAll(true);
+
+            if (!this.ShouldSuppressBackgroundComms())
+            {
+                this.RecoverComms(nameof(CompleteBackupAndContinue));
+            }
+            else
+            {
+                logger.Info("Restore deferred by background suppression gate.");
+            }
+
+            pendingAutoloadAfterBackup = false;
         }
     }
 
