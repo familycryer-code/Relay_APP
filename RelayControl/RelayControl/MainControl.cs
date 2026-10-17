@@ -4236,10 +4236,13 @@ namespace RelayControl
         }
 
         private bool paramsReceivedLock = false;
+        private bool oneTimeAutoLoadShot = false;
+
         private void parametersFinishedLoading([CallerMemberName] string caller = null)
         {
             LogFlow("parametersFinishedLoading ENTER", caller);
             logger.Trace("Parameters Finished Loading");
+            bool finishedPartialLoad = false;
 
             if (paramsReceivedLock)
             {
@@ -4297,11 +4300,11 @@ namespace RelayControl
                 {
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
 
-                    bool autoloadPending =
+                    bool deferredAutoloadPending =
                         this.pendingAutoloadAfterBackup ||
                         this.ucRelayProgramming1.AutoloadDeferredUntilUiReady;
 
-                    if (autoloadPending)
+                    if (deferredAutoloadPending)
                     {
                         logger.Info(
                             "parametersFinishedLoading: attempting deferred autoload resume. pendingAutoloadAfterBackup={0}, autoloadDeferredUntilUiReady={1}, IsDisposed={2}, IsHandleCreated={3}",
@@ -4340,13 +4343,30 @@ namespace RelayControl
                             logger.Warn("Deferred autoload remains pending: control not ready after parameter popup.");
                         }
 
-                        // Do not restore comms or reset yet while the deferred autoload gate is still active.
                         return;
                     }
 
                     // Safe to continue once the minimum threshold is met and autoload is no longer deferred.
                     this.RecoverComms("parametersFinishedLoading.minimumThresholdMet");
                     ResetFullParameterDownloadState("parametersFinishedLoading.minimumThresholdMet");
+                    finishedPartialLoad = true;
+
+                    // one-time autoload continuation
+                    if (!oneTimeAutoLoadShot)
+                    {
+                        oneTimeAutoLoadShot = true;
+
+                        if (!this.IsDisposed && this.IsHandleCreated)
+                        {
+                            this.ucRelayProgramming1.InitializeAutoload();
+                        }
+                        else
+                        {
+                            this.ucRelayProgramming1.AutoloadDeferredUntilUiReady = true;
+                            logger.Warn("Autoload deferred: UI not ready after partial load.");
+                        }
+                    }
+
                     return;
                 }
 
@@ -7393,7 +7413,7 @@ namespace RelayControl
             }
         }
 
-        private bool oneTimeAutoLoadShot = false;
+       
 
         private void requestAllData(string caller = "unknown")
         {
