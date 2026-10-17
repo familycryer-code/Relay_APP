@@ -4211,14 +4211,21 @@ namespace RelayControl
                 // Commit to normal completion handling
                 this.requestedAllParameters = false;
                 this.timerResponseTimeOut.Enabled = false;
-                
 
                 if (pendingRestoreAfterProgramming)
                 {
                     logger.Info("POST-PROGRAM RESTORE: entering pendingRestoreAfterProgramming block");
-                    this.enableAll(false);
-                    Application.UseWaitCursor = true;
-                    System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
+                    // UI-thread protection for UI operations in this block
+                    Action uiSetup = () =>
+                    {
+                        this.enableAll(false);
+                        Application.UseWaitCursor = true;
+                        System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+                    };
+
+                    if (this.InvokeRequired) this.Invoke(uiSetup);
+                    else uiSetup();
 
                     this.WriteBackUpData_FileToRelay();
 
@@ -4231,8 +4238,28 @@ namespace RelayControl
                     if (backupTimeoutTimer != null) backupTimeoutTimer.Stop();
 
                     this.ucRelayProgramming1.ReprogrammingInProgress = false;
-                    MessageBox.Show("Programming complete", "Programming Complete");
-                    this.ucRelayProgramming1.HideProgrammingProgress();
+
+                    // Protected popup (same message, same timing, same behavior)
+                    Action showCompletePopup = () =>
+                    {
+                        Form ownerForm = this.FindForm();
+                        IWin32Window owner = ownerForm != null
+                            ? (IWin32Window)ownerForm
+                            : (IWin32Window)this;
+
+                        MessageBox.Show(
+                            owner,
+                            "Programming Complete",
+                            "Programming Complete");
+                    };
+
+                    if (this.InvokeRequired) this.Invoke(showCompletePopup);
+                    else showCompletePopup();
+
+                    // Hide progress form safely on UI thread
+                    Action hideProgress = () => this.ucRelayProgramming1.HideProgrammingProgress();
+                    if (this.InvokeRequired) this.Invoke(hideProgress);
+                    else hideProgress();
 
                     this.RecoverComms("parametersFinishedLoading.pendingRestoreAfterProgramming");
                     ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
@@ -8608,24 +8635,47 @@ namespace RelayControl
             tempBool = this.pQMonitoringEnabled;
             tempBool2 = this.allEnabled;
             tempBool3 = !this.pauseMonitoring;
-            try
-            {
-                this.enableAll(false);
-                this.monitoring(false);
-                this.RegisterPolling(false);
 
-                MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-
-                this.enableAll(tempBool2);
-                this.monitoring(tempBool);
-                this.RegisterPolling(tempBool3);
-            }
-            catch (Exception exc)
+            Action safeMessage = () =>
             {
-                this.RegisterPolling(false);
-                MessageBox.Show(exc.Message, "Error In Message Box");
-                this.RegisterPolling(tempBool3);
+                try
+                {
+                    this.enableAll(false);
+                    this.monitoring(false);
+                    this.RegisterPolling(false);
+
+                    var owner = this.FindForm() ?? this;
+                    MessageBox.Show(
+                        owner,
+                        message,
+                        title,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button1);
+
+                    this.enableAll(tempBool2);
+                    this.monitoring(tempBool);
+                    this.RegisterPolling(tempBool3);
+                }
+                catch (Exception exc)
+                {
+                    this.RegisterPolling(false);
+                    var owner = this.FindForm() ?? this;
+                    MessageBox.Show(owner, exc.Message, "Error In Message Box");
+                    this.RegisterPolling(tempBool3);
+                }
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(() =>
+                {
+                    safeMessage();
+                }));
+                return;
             }
+
+            safeMessage();
         }
 
         private DialogResult messageHandler(string title, string message, MessageBoxButtons messageBoxButtons)

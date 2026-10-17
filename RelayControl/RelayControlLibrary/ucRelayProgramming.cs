@@ -761,12 +761,13 @@ namespace RelayControlLibrary
         }
         public void InitializeAutoload()
         {
-
             this.backupIsPending = true;
             RaiseBackupBeforeProgrammingRequested();
             this.startupIntent = StartupIntent.AutoApproved;
-            //this.autoLoad = true;  // autoload is running
-         
+
+            // Keep this as a gate only; do not trigger the actual popup until
+            // the UI is ready and the parameter load popup has been acknowledged.
+            logger.Info("InitializeAutoload: autoload gated, waiting for UI ready state.");
         }
 
         private DialogResult showManualLoadDialog(bool forcedFullUpdate)
@@ -793,7 +794,8 @@ namespace RelayControlLibrary
                             "GE or WH Select",
                             "Is this a GE or WH style relay?",
                             "GE",
-                            "WH").ShowDialog();
+                            "WH").ShowDialog(this);
+
                         logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
 
                         if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
@@ -814,6 +816,7 @@ namespace RelayControlLibrary
                               "Relay update can take up to 10 minutes to complete.";
 
                         DialogResult confirmResult = MessageBox.Show(
+                            this,
                             confirmMessage,
                             "Confirm Update Request",
                             MessageBoxButtons.YesNo,
@@ -853,7 +856,8 @@ namespace RelayControlLibrary
                     "GE or WH Select",
                     "Is this a GE or WH style relay?",
                     "GE",
-                    "WH").ShowDialog();
+                    "WH").ShowDialog(this);
+
                 logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
 
                 if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
@@ -871,6 +875,7 @@ namespace RelayControlLibrary
                       "Relay update can take up to 10 minutes to complete.";
 
                 DialogResult confirmResult = MessageBox.Show(
+                    this,
                     confirmMessage,
                     "Confirm Update Request",
                     MessageBoxButtons.YesNo,
@@ -915,7 +920,7 @@ namespace RelayControlLibrary
                             "GE or WH Select",
                             "Is this a GE or WH style relay?",
                             "GE",
-                            "WH").ShowDialog();
+                            "WH").ShowDialog(this);
 
                         logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
 
@@ -929,9 +934,11 @@ namespace RelayControlLibrary
 
                         logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
                         DialogResult result = MessageBox.Show(
+                            this,
                             "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
                             "Confirm Update Request",
                             MessageBoxButtons.YesNo);
+
                         logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
 
                         resultHolder[0] = result;
@@ -959,7 +966,7 @@ namespace RelayControlLibrary
                     "GE or WH Select",
                     "Is this a GE or WH style relay?",
                     "GE",
-                    "WH").ShowDialog();
+                    "WH").ShowDialog(this);
 
                 logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
 
@@ -970,9 +977,11 @@ namespace RelayControlLibrary
 
                 logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
                 DialogResult result = MessageBox.Show(
+                    this,
                     "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
                     "Confirm Update Request",
                     MessageBoxButtons.YesNo);
+
                 logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
 
                 return result;
@@ -994,7 +1003,10 @@ namespace RelayControlLibrary
             this.finalSuccessPopupShownThisCycle = true;
 
             logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
-            MessageBox.Show("Reprogram Completed Successfully", "Reprogramming Completed Successfully!");
+            MessageBox.Show(
+                this,
+                "Reprogram Completed Successfully",
+                "Reprogramming Completed Successfully!");
             logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
         }
         private DialogResult ShowAutoProgrammingStartWarning()
@@ -1028,6 +1040,7 @@ namespace RelayControlLibrary
                 "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
 
             DialogResult result = MessageBox.Show(
+                this,
                 message,
                 "Relay Update In Progress",
                 MessageBoxButtons.OK,
@@ -1057,6 +1070,7 @@ namespace RelayControlLibrary
                         "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
 
                     DialogResult result = MessageBox.Show(
+                        this,
                         message,
                         "Relay Update In Progress",
                         MessageBoxButtons.OK,
@@ -1079,6 +1093,7 @@ namespace RelayControlLibrary
                 "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
 
             DialogResult resultLocal = MessageBox.Show(
+                this,
                 messageLocal,
                 "Relay Update In Progress",
                 MessageBoxButtons.OK,
@@ -1093,32 +1108,56 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
+            if (this.IsDisposed)
+            {
+                logger.Warn("ShowAutoLoadUpdateMessage: control is disposed.");
+                return DialogResult.No;
+            }
+
+            if (!this.IsHandleCreated)
+            {
+                logger.Warn("ShowAutoLoadUpdateMessage: control handle not ready; deferring autoload prompt.");
+                return DialogResult.None;
+            }
+
+            DialogResult result = DialogResult.No;
+
+            Action show = () =>
+            {
+                Form ownerForm = this.FindForm();
+
+                IWin32Window owner;
+                if (ownerForm != null)
+                {
+                    owner = (IWin32Window)ownerForm;
+                }
+                else
+                {
+                    owner = (IWin32Window)this;
+                }
+
+                logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
+                result = MessageBox.Show(
+                    owner,
+                    "A newer firmware version is available for this relay. An update is required to continue.\r\n\r\nClick Yes to begin the update.",
+                    "Relay Code Updater",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1);
+
+                logger.Info("POPUP RESULT: AUTOLOAD_NEWER_FW result={0}", result);
+            };
+
             if (this.InvokeRequired)
             {
                 logger.Info("ShowAutoLoadUpdateMessage: marshaling to UI thread.");
-                DialogResult[] resultHolder = new DialogResult[1];
-
-                this.Invoke(new Action(() =>
-                {
-                    resultHolder[0] = ShowAutoLoadUpdateMessageInternal();
-                }));
-
-                return resultHolder[0];
+                this.Invoke(show);
+            }
+            else
+            {
+                show();
             }
 
-            return ShowAutoLoadUpdateMessageInternal();
-        }
-
-        private DialogResult ShowAutoLoadUpdateMessageInternal()
-        {
-            logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
-
-            DialogResult result = MessageBox.Show(
-                "A newer firmware version is available for this relay. An update is required to continue.\r\n\r\nClick Yes to begin the update.",
-                "Relay Code Updater",
-                MessageBoxButtons.YesNo);
-
-            logger.Info("POPUP RESULT: AUTOLOAD_NEWER_FW result={0}", result);
             return result;
         }
 
@@ -1193,7 +1232,6 @@ namespace RelayControlLibrary
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
-            // Backup has completed. The gate is no longer valid.
             this.backupIsPending = false;
 
             if (this.startupIntent != StartupIntent.AutoApproved)
@@ -1217,6 +1255,13 @@ namespace RelayControlLibrary
                 logger.Info("ResumeAutoloadAfterBackup: no firmware pending; exiting.");
                 this.ResetAutoloadState("ResumeAutoloadAfterBackup");
                 this.RaiseAutoloadDeclined();
+                return;
+            }
+
+            // NEW: do not start autoload while the main UI is still in the parameter-load flow
+            if (!this.IsHandleCreated || this.IsDisposed)
+            {
+                logger.Warn("ResumeAutoloadAfterBackup deferred: form/handle not ready - wait for parameter popup flow.");
                 return;
             }
 
@@ -1383,14 +1428,12 @@ namespace RelayControlLibrary
         {
             this.LogFlow("startAutoLoad ENTER", nameof(startAutoLoad));
 
-            // Auto flow should never execute while manual flow is active.
             if (this.IsManualFlowActive())
             {
                 this.LogFlow("startAutoLoad EXIT: manual flow is active.", nameof(startAutoLoad));
                 return;
             }
 
-            // Backup gate is a sequencing pause, not a mode.
             if (this.backupIsPending)
             {
                 this.LogFlow("startAutoLoad EXIT: backup still pending.", nameof(startAutoLoad));
@@ -1426,7 +1469,13 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // Only show prompts once per autoload cycle.
+            // IMPORTANT: do not show autoload popup if UI is not ready yet.
+            if (!this.IsHandleCreated || this.IsDisposed)
+            {
+                logger.Warn("startAutoLoad deferred: UI/handle not ready yet; wait until parameter popup flow completes.");
+                return;
+            }
+
             if (!this.autoPromptsApprovedThisCycle)
             {
                 this.LogFlow("startAutoLoad: showing update prompts.", nameof(startAutoLoad));
