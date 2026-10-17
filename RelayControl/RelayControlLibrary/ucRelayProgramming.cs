@@ -773,6 +773,73 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
+            if (this.InvokeRequired)
+            {
+                logger.Info("showManualLoadDialog: marshaling to UI thread.");
+                DialogResult[] resultHolder = new DialogResult[1];
+
+                this.Invoke(new Action(() =>
+                {
+                    Cursor previousCursorInner = Cursor.Current;
+                    bool previousUseWaitInner = Application.UseWaitCursor;
+
+                    try
+                    {
+                        Application.UseWaitCursor = false;
+                        Cursor.Current = Cursors.Default;
+
+                        logger.Info("POPUP SHOW: GE_WH_SELECT");
+                        DialogResult relayTypeDR = new CustomYesNoDialog(
+                            "GE or WH Select",
+                            "Is this a GE or WH style relay?",
+                            "GE",
+                            "WH").ShowDialog();
+                        logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
+
+                        if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
+                        {
+                            resultHolder[0] = DialogResult.Cancel;
+                            return;
+                        }
+
+                        internalGESetter = (relayTypeDR == DialogResult.Yes);
+
+                        logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+
+                        string confirmMessage = forcedFullUpdate
+                            ? "Please confirm update request.\r\n" +
+                              "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
+                              "Relay update can take up to 10 minutes to complete."
+                            : "Please confirm update request.\r\n" +
+                              "Relay update can take up to 10 minutes to complete.";
+
+                        DialogResult confirmResult = MessageBox.Show(
+                            confirmMessage,
+                            "Confirm Update Request",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning,
+                            MessageBoxDefaultButton.Button2);
+
+                        logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
+
+                        if (confirmResult != DialogResult.Yes)
+                        {
+                            resultHolder[0] = DialogResult.No;
+                            return;
+                        }
+
+                        resultHolder[0] = DialogResult.Yes;
+                    }
+                    finally
+                    {
+                        Application.UseWaitCursor = previousUseWaitInner;
+                        Cursor.Current = previousCursorInner ?? Cursors.Default;
+                    }
+                }));
+
+                return resultHolder[0];
+            }
+
             Cursor previousCursor = Cursor.Current;
             bool previousUseWait = Application.UseWaitCursor;
 
@@ -828,8 +895,59 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            Cursor previousCursor = Cursor.Current;
-            bool previousUseWait = Application.UseWaitCursor;
+            if (this.InvokeRequired)
+            {
+                logger.Info("ShowAutoLoadDialog: marshaling to UI thread.");
+                DialogResult[] resultHolder = new DialogResult[1];
+
+                this.Invoke(new Action(() =>
+                {
+                    Cursor previousCursor = Cursor.Current;
+                    bool previousUseWait = Application.UseWaitCursor;
+
+                    try
+                    {
+                        Application.UseWaitCursor = false;
+                        Cursor.Current = Cursors.Default;
+
+                        logger.Info("POPUP SHOW: GE_WH_SELECT");
+                        DialogResult relayTypeResult = new CustomYesNoDialog(
+                            "GE or WH Select",
+                            "Is this a GE or WH style relay?",
+                            "GE",
+                            "WH").ShowDialog();
+
+                        logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
+
+                        if (relayTypeResult != DialogResult.Yes && relayTypeResult != DialogResult.No)
+                        {
+                            resultHolder[0] = DialogResult.Cancel;
+                            return;
+                        }
+
+                        internalGESetter = (relayTypeResult == DialogResult.Yes);
+
+                        logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+                        DialogResult result = MessageBox.Show(
+                            "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
+                            "Confirm Update Request",
+                            MessageBoxButtons.YesNo);
+                        logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
+
+                        resultHolder[0] = result;
+                    }
+                    finally
+                    {
+                        Application.UseWaitCursor = previousUseWait;
+                        Cursor.Current = previousCursor ?? Cursors.Default;
+                    }
+                }));
+
+                return resultHolder[0];
+            }
+
+            Cursor previousCursor2 = Cursor.Current;
+            bool previousUseWait2 = Application.UseWaitCursor;
 
             try
             {
@@ -842,6 +960,7 @@ namespace RelayControlLibrary
                     "Is this a GE or WH style relay?",
                     "GE",
                     "WH").ShowDialog();
+
                 logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
 
                 if (relayTypeResult != DialogResult.Yes && relayTypeResult != DialogResult.No)
@@ -860,8 +979,8 @@ namespace RelayControlLibrary
             }
             finally
             {
-                Application.UseWaitCursor = previousUseWait;
-                Cursor.Current = previousCursor ?? Cursors.Default;
+                Application.UseWaitCursor = previousUseWait2;
+                Cursor.Current = previousCursor2 ?? Cursors.Default;
             }
         }
 
@@ -881,6 +1000,25 @@ namespace RelayControlLibrary
         private DialogResult ShowAutoProgrammingStartWarning()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            if (this.InvokeRequired)
+            {
+                logger.Info("ShowAutoProgrammingStartWarning: marshaling to UI thread.");
+                DialogResult[] resultHolder = new DialogResult[1];
+
+                this.Invoke(new Action(() =>
+                {
+                    resultHolder[0] = ShowAutoProgrammingStartWarningInternal();
+                }));
+
+                return resultHolder[0];
+            }
+
+            return ShowAutoProgrammingStartWarningInternal();
+        }
+
+        private DialogResult ShowAutoProgrammingStartWarningInternal()
+        {
             logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
 
             const string message =
@@ -902,28 +1040,77 @@ namespace RelayControlLibrary
         private DialogResult ShowManualProgrammingStartWarning()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            if (this.InvokeRequired)
+            {
+                logger.Info("ShowManualProgrammingStartWarning: marshaling to UI thread.");
+                DialogResult[] resultHolder = new DialogResult[1];
+
+                this.Invoke(new Action(() =>
+                {
+                    logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
+
+                    const string message =
+                        "Relay update is starting.\r\n\r\n" +
+                        "The relay may temporarily disconnect and reconnect during this process.\r\n" +
+                        "Progress will be shown in the programming window.\r\n\r\n" +
+                        "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
+
+                    DialogResult result = MessageBox.Show(
+                        message,
+                        "Relay Update In Progress",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button1);
+
+                    logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
+                    resultHolder[0] = result;
+                }));
+
+                return resultHolder[0];
+            }
+
             logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
 
-            const string message =
+            const string messageLocal =
                 "Relay update is starting.\r\n\r\n" +
                 "The relay may temporarily disconnect and reconnect during this process.\r\n" +
                 "Progress will be shown in the programming window.\r\n\r\n" +
                 "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
 
-            DialogResult result = MessageBox.Show(
-                message,
+            DialogResult resultLocal = MessageBox.Show(
+                messageLocal,
                 "Relay Update In Progress",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning,
                 MessageBoxDefaultButton.Button1);
 
-            logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
-            return result;
+            logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", resultLocal);
+            return resultLocal;
         }
 
         private DialogResult ShowAutoLoadUpdateMessage()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            if (this.InvokeRequired)
+            {
+                logger.Info("ShowAutoLoadUpdateMessage: marshaling to UI thread.");
+                DialogResult[] resultHolder = new DialogResult[1];
+
+                this.Invoke(new Action(() =>
+                {
+                    resultHolder[0] = ShowAutoLoadUpdateMessageInternal();
+                }));
+
+                return resultHolder[0];
+            }
+
+            return ShowAutoLoadUpdateMessageInternal();
+        }
+
+        private DialogResult ShowAutoLoadUpdateMessageInternal()
+        {
             logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
 
             DialogResult result = MessageBox.Show(
@@ -937,16 +1124,19 @@ namespace RelayControlLibrary
 
         public void StartManualForcedUpdate()
         {
-            
+            this.LogFlow("StartManualForcedUpdate ENTER", nameof(StartManualForcedUpdate));
+
             if (this.IsProgrammingActiveOrInFlight())
             {
                 logger.Warn("InitializeAutoload ignored because programming is already active.");
+                this.LogFlow("StartManualForcedUpdate EXIT: programming already active/in-flight.", nameof(StartManualForcedUpdate));
                 return;
             }
 
             DialogResult confirmUpdate = this.showManualLoadDialog(true);
             if (confirmUpdate != DialogResult.Yes)
             {
+                this.LogFlow("StartManualForcedUpdate EXIT: user declined manual load dialog.", nameof(StartManualForcedUpdate));
                 ManualUpdate.usingManualMode = false;
                 return;
             }
@@ -954,6 +1144,7 @@ namespace RelayControlLibrary
             DialogResult confirmWarning = this.ShowManualProgrammingStartWarning();
             if (confirmWarning != DialogResult.OK)
             {
+                this.LogFlow("StartManualForcedUpdate EXIT: user declined manual start warning.", nameof(StartManualForcedUpdate));
                 ManualUpdate.usingManualMode = false;
                 return;
             }
@@ -964,6 +1155,7 @@ namespace RelayControlLibrary
             ManualUpdate.usingManualMode = true;
             this.startupIntent = StartupIntent.ManualApproved;
             //RaiseBackupBeforeProgrammingRequested();  do not call auto takes care of it on startup.
+            this.LogFlow("StartManualForcedUpdate: approved; resuming manual flow after backup.", nameof(StartManualForcedUpdate));
             this.ResumeManualAfterBackup();
         }
 
@@ -1189,38 +1381,31 @@ namespace RelayControlLibrary
 
         private void startAutoLoad()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            this.LogFlow("startAutoLoad ENTER", nameof(startAutoLoad));
 
             // Auto flow should never execute while manual flow is active.
             if (this.IsManualFlowActive())
             {
-                logger.Info("startAutoLoad bypassed because manual flow is active.");
-                return;
-            }
-
-            // Auto flow requires explicit auto approval.
-            if (!this.IsAutoFlowActive())
-            {
-                logger.Info("startAutoLoad ignored because auto flow is not active.");
+                this.LogFlow("startAutoLoad EXIT: manual flow is active.", nameof(startAutoLoad));
                 return;
             }
 
             // Backup gate is a sequencing pause, not a mode.
             if (this.backupIsPending)
             {
-                logger.Info("startAutoLoad paused: backup is still pending.");
+                this.LogFlow("startAutoLoad EXIT: backup still pending.", nameof(startAutoLoad));
                 return;
             }
 
             if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
-                logger.Info("startAutoLoad suppressed; programming already active.");
+                this.LogFlow("startAutoLoad EXIT: programming already active.", nameof(startAutoLoad));
                 return;
             }
 
             if (this.serialNumberError)
             {
-                logger.Warn("startAutoLoad blocked: serial number error detected.");
+                this.LogFlow("startAutoLoad EXIT: serial number error detected.", nameof(startAutoLoad));
                 this.bootFirstAutoContinuation = false;
                 this.autoPromptsApprovedThisCycle = false;
                 this.ResetAutoloadState("startAutoLoad");
@@ -1233,7 +1418,7 @@ namespace RelayControlLibrary
 
             if (!this.AnyFirmwarePending())
             {
-                logger.Info("startAutoLoad: no updates required; exiting autoload flow.");
+                this.LogFlow("startAutoLoad EXIT: no firmware pending.", nameof(startAutoLoad));
                 this.bootFirstAutoContinuation = false;
                 this.autoPromptsApprovedThisCycle = false;
                 this.ResetAutoloadState("startAutoLoad");
@@ -1244,9 +1429,12 @@ namespace RelayControlLibrary
             // Only show prompts once per autoload cycle.
             if (!this.autoPromptsApprovedThisCycle)
             {
+                this.LogFlow("startAutoLoad: showing update prompts.", nameof(startAutoLoad));
+
                 DialogResult newerFw = this.ShowAutoLoadUpdateMessage();
                 if (newerFw != DialogResult.Yes)
                 {
+                    this.LogFlow("startAutoLoad EXIT: declined ShowAutoLoadUpdateMessage.", nameof(startAutoLoad));
                     this.autoPromptsApprovedThisCycle = false;
                     this.ResetAutoloadState("startAutoLoad");
                     this.RaiseAutoloadDeclined();
@@ -1256,6 +1444,7 @@ namespace RelayControlLibrary
                 DialogResult confirmUpdate = this.ShowAutoLoadDialog();
                 if (confirmUpdate != DialogResult.Yes)
                 {
+                    this.LogFlow("startAutoLoad EXIT: declined ShowAutoLoadDialog.", nameof(startAutoLoad));
                     this.autoPromptsApprovedThisCycle = false;
                     this.ResetAutoloadState("startAutoLoad");
                     this.RaiseAutoloadDeclined();
@@ -1265,6 +1454,7 @@ namespace RelayControlLibrary
                 DialogResult confirmWarning = this.ShowAutoProgrammingStartWarning();
                 if (confirmWarning != DialogResult.OK)
                 {
+                    this.LogFlow("startAutoLoad EXIT: declined ShowAutoProgrammingStartWarning.", nameof(startAutoLoad));
                     this.autoPromptsApprovedThisCycle = false;
                     this.ResetAutoloadState("startAutoLoad");
                     this.RaiseAutoloadDeclined();
@@ -1272,6 +1462,7 @@ namespace RelayControlLibrary
                 }
 
                 this.autoPromptsApprovedThisCycle = true;
+                this.LogFlow("startAutoLoad: prompts approved this cycle.", nameof(startAutoLoad));
             }
 
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
@@ -1280,7 +1471,7 @@ namespace RelayControlLibrary
 
             if (bootUnknown)
             {
-                logger.Warn("startAutoLoad: boot revision unknown; requesting fresh boot read (auto).");
+                this.LogFlow("startAutoLoad ACTION: boot unknown -> AutoLoadCheckBoot + sendReset.", nameof(startAutoLoad));
                 this.state = RelayProgrammingStates.AutoLoadCheckBoot;
                 this.sendReset();
                 return;
@@ -1288,19 +1479,19 @@ namespace RelayControlLibrary
 
             if (bootOld)
             {
+                this.LogFlow("startAutoLoad ACTION: boot old -> CheckProperMasterBootCode().", nameof(startAutoLoad));
                 this.CheckProperMasterBootCode();
 
                 if (this.bootFirstAutoContinuation)
                 {
-                    logger.Info("startAutoLoad: boot repair scheduled/active; exiting without re-entry.");
+                    this.LogFlow("startAutoLoad EXIT: boot repair scheduled/active.", nameof(startAutoLoad));
                     return;
                 }
             }
-            
-            // Boot is known and acceptable; continue via single gate function
-            this.state = RelayProgrammingStates.AutoLoadCheckBoot; // AutoLoadCheckBoot in startAutoLoad
+
+            this.LogFlow("startAutoLoad ACTION: boot acceptable -> AutoLoadCheckBoot + sendReset.", nameof(startAutoLoad));
+            this.state = RelayProgrammingStates.AutoLoadCheckBoot;
             this.sendReset();
-            return;
         }
         public void PrepForBoot()
         {
@@ -1739,6 +1930,31 @@ namespace RelayControlLibrary
                 this.NotPollingPort);
         }
 
+        public void LogFlow(string message, string caller)
+        {
+            logger.Info(
+                "{0} | caller={1} | state={2} | startupIntent={3} | backupIsPending={4}" +
+                " | reprogrammingInProgress={5} | programBootCodeInProgress={6}" +
+                " | autoPromptsApprovedThisCycle={7} | bootFirstAutoContinuation={8}" +
+                " | serialNumberError={9} | masterBootRevisionSet={10}" +
+                " | masterBootRevisionNumberReceived={11} | requiredBootRevision={12}" +
+                " | activeRelay={13}",
+                message,
+                string.IsNullOrWhiteSpace(caller) ? "unknown" : caller,
+                this.state,
+                this.startupIntent,
+                this.backupIsPending,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.autoPromptsApprovedThisCycle,
+                this.bootFirstAutoContinuation,
+                this.serialNumberError,
+                this.masterBootRevisionSet,
+                this.masterBootRevisionNumberReceived,
+                _bootCodeRevisionNumber,
+                this.ActiveRelay
+            );
+        }
         private void MasterBootLoaderStart()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
