@@ -1754,6 +1754,45 @@ namespace RelayControl
             // requiredBackupMask |= SectionBits.DnpSav5;
         }
 
+        private void TryRetryMissingBackupSections()
+        {
+            SectionBits missing = this.requiredBackupMask & ~this.receivedBackupMask;
+
+            LogFlow($"TryRetryMissingBackupSections | required={this.requiredBackupMask} | received={this.receivedBackupMask} | missing={missing}");
+
+            if (missing == SectionBits.None)
+            {
+                LogFlow("TryRetryMissingBackupSections: all backup sections received; resuming autoload.");
+
+                this.backupInProgress = false;
+                this.backupState = BackupState.Idle;
+
+                if (this.ucRelayProgramming1 != null)
+                {
+                    this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
+                }
+
+                return;
+            }
+
+            LogFlow($"Retrying missing backup sections: {missing}");
+
+            if ((missing & SectionBits.ArcFault) != 0)
+                this.arcFault_requestArcFaultMonitoring();
+
+            if ((missing & SectionBits.SafeService) != 0)
+                this.requestSafeServiceSettings();
+
+            if ((missing & SectionBits.TxSettings) != 0)
+                this.requestTransmitterSettings();
+
+            if ((missing & SectionBits.RelayParams) != 0)
+                this.requestRelayParameters();
+
+            if ((missing & SectionBits.Calibration) != 0)
+                this.requestCalibrationConstants();
+        }
+
         private void EndBackupCapture(bool success)
         {
             if (success)
@@ -7099,6 +7138,8 @@ namespace RelayControl
             }
         }
 
+        private bool oneTimeAutoLoadShot = false;
+
         private void requestAllData(string caller = "unknown")
         {
             if (this.ucRelayProgramming1 == null)
@@ -7156,6 +7197,11 @@ namespace RelayControl
             // This is the actual full-parameter cycle start.
             // NOTE: this is still a refresh/read phase, not a write/apply phase.
             this.BeginFullParameterDownload(caller);
+
+            if (oneTimeAutoLoadShot == false) { 
+                this.ucRelayProgramming1.InitializeAutoload();
+                oneTimeAutoLoadShot = true;
+            }   
 
             // Actual parameter-section requests
             this.requestRelayParameters();
@@ -10718,7 +10764,7 @@ namespace RelayControl
 
         private void BackUpRelayDatatoFile()
         {
-            LogFlow("entered");
+            LogFlow("BackupRelayDataFile: ENTER");
 
             if (backupState == BackupState.Capturing)
             {
@@ -10735,11 +10781,11 @@ namespace RelayControl
 
                 BeginBackupCapture();
 
-                dataBackupD.dataBackup_withDNP = relayHasDnp;
-                StartBackupTracking(relayHasDnp);
+                //dataBackupD.dataBackup_withDNP = relayHasDnp;
+                //StartBackupTracking(relayHasDnp);
 
-                dataBackup_fromRelay = true;
-                dataBackupR.dataBackup_fromRelay = true;
+                //dataBackup_fromRelay = true;
+               // dataBackupR.dataBackup_fromRelay = true;
 
                 if (File.Exists(filePath))
                 {
@@ -10762,8 +10808,8 @@ namespace RelayControl
                 backupInProgress = false;
                 if (backupTimeoutTimer != null)
                     backupTimeoutTimer.Stop();
-                dataBackup_fromRelay = false;
-                dataBackupR.dataBackup_fromRelay = false;
+               // dataBackup_fromRelay = false;
+               // dataBackupR.dataBackup_fromRelay = false;
                 ClearBackupCaptureState();
                 pendingAutoloadAfterBackup = false;
                 throw;
@@ -11908,13 +11954,25 @@ namespace RelayControl
 
         private void TryCompleteBackup()
         {
-            if (!backupInProgress || backupState != BackupState.Capturing)
-                return;
+            LogFlow(
+                $"TryCompleteBackup ENTER | backupInProgress={this.backupInProgress} | backupState={this.backupState} | " +
+                $"receivedBackupMask={this.receivedBackupMask} | requiredBackupMask={this.requiredBackupMask}");
 
-            if (IsBackupComplete())
+            if (!this.backupInProgress || this.backupState != BackupState.Capturing)
             {
-                CompleteBackupAndContinue(null);
+                LogFlow("TryCompleteBackup EXIT: backup not active or not capturing.");
+                return;
             }
+
+            if (this.IsBackupComplete())
+            {
+                LogFlow("TryCompleteBackup: backup complete -> CompleteBackupAndContinue(null).");
+                this.CompleteBackupAndContinue(null);
+                return;
+            }
+
+            LogFlow("TryCompleteBackup: backup incomplete -> TryRetryMissingBackupSections().");
+            this.TryRetryMissingBackupSections();
         }
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
