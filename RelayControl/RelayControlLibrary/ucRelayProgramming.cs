@@ -1232,13 +1232,12 @@ namespace RelayControlLibrary
         public void ResumeAutoloadAfterBackup()
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
+
             this.backupIsPending = false;
 
             if (this.startupIntent != StartupIntent.AutoApproved)
             {
-                logger.Info(
-                    "ResumeAutoloadAfterBackup blocked: startupIntent={0}, no auto approval in active state.",
-                    this.startupIntent);
+                logger.Info("ResumeAutoloadAfterBackup blocked: startupIntent not AutoApproved.");
                 return;
             }
 
@@ -1258,12 +1257,16 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // NEW: do not start autoload while the main UI is still in the parameter-load flow
-            if (!this.IsHandleCreated || this.IsDisposed)
+            // This is the trigger, not the completion state.
+            // If the UI isn't ready, do not "resolve" it.
+            if (this.IsDisposed || !this.IsHandleCreated)
             {
+                this.autoloadDeferredUntilUiReady = true;
                 logger.Warn("ResumeAutoloadAfterBackup deferred: form/handle not ready - wait for parameter popup flow.");
                 return;
             }
+
+            this.autoloadDeferredUntilUiReady = false;
 
             logger.Info("ResumeAutoloadAfterBackup approved path -> re-entering autoload startup flow.");
             this.startAutoLoad();
@@ -1422,7 +1425,51 @@ namespace RelayControlLibrary
             return this.autoLoad && !IsManualFlowActive();
         }
 
+        // inside ucRelayProgramming
+        private bool deferredAutoloadRetry = false;
+
+        public void DeferAutoloadUntilUiReady()
+        {
+            if (this.IsDisposed || !this.IsHandleCreated)
+            {
+                this.deferredAutoloadRetry = true;
+                return;
+            }
+
+            if (this.deferredAutoloadRetry)
+            {
+                this.deferredAutoloadRetry = false;
+                this.startAutoLoad();
+            }
+        }
+
         private bool autoPromptsApprovedThisCycle = false;
+        private bool autoloadDeferredUntilUiReady = false;
+
+        public bool AutoloadDeferredUntilUiReady
+        {
+            get { return this.autoloadDeferredUntilUiReady; }
+            set { this.autoloadDeferredUntilUiReady = value; }
+        }
+
+        public void TryResumeDeferredAutoload()
+        {
+            logger.Info("TryResumeDeferredAutoload called. autoloadDeferredUntilUiReady={0}, IsDisposed={1}, IsHandleCreated={2}",
+                this.autoloadDeferredUntilUiReady, this.IsDisposed, this.IsHandleCreated);
+
+            if (this.IsDisposed || !this.IsHandleCreated)
+            {
+                this.autoloadDeferredUntilUiReady = true;
+                return;
+            }
+
+            if (this.autoloadDeferredUntilUiReady)
+            {
+                this.autoloadDeferredUntilUiReady = false;
+                logger.Info("Calling startAutoLoad() from deferred retry");
+                this.startAutoLoad();
+            }
+        }
 
         private void startAutoLoad()
         {
@@ -1470,9 +1517,11 @@ namespace RelayControlLibrary
             }
 
             // IMPORTANT: do not show autoload popup if UI is not ready yet.
+            // But do not lose the autoload request; defer it and retry once the form is back on the UI thread.
             if (!this.IsHandleCreated || this.IsDisposed)
             {
-                logger.Warn("startAutoLoad deferred: UI/handle not ready yet; wait until parameter popup flow completes.");
+                this.autoloadDeferredUntilUiReady = true;
+                logger.Warn("startAutoLoad deferred: UI/handle not ready yet; will retry after parameter-popup flow completes.");
                 return;
             }
 
