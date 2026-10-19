@@ -1302,11 +1302,9 @@ namespace RelayControlLibrary
             {
                 case RelayProgrammingStates.WaitingForMaster:
                 case RelayProgrammingStates.WaitingForBootMaster:
-                case RelayProgrammingStates.WaitingForBootRelay:
                 case RelayProgrammingStates.WaitingForBootFPGA:
                 case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.LoadingMasterData:
-                case RelayProgrammingStates.LoadingRelayCode:
                 case RelayProgrammingStates.LoadingRelayData:
                 case RelayProgrammingStates.LoadingFPGACode:
                 case RelayProgrammingStates.LoadingMasterBootLoader:
@@ -1341,6 +1339,12 @@ namespace RelayControlLibrary
                     Thread.Sleep(3000);
                     this.programBootCodeInProgress = false;
                     this.MasterBootLoaderStart();
+                    break;
+
+                case RelayProgrammingStates.WaitingForBootRelay:
+                case RelayProgrammingStates.LoadingRelayCode:
+                    this.sendRelayTransferPacket();
+                    this.state = RelayProgrammingStates.LoadingRelayCode;
                     break;
 
                 default:
@@ -2200,8 +2204,6 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            this.state = RelayProgrammingStates.LoadingRelayCode;
-
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.BytesToSend = new byte[4];
 
@@ -2810,6 +2812,8 @@ namespace RelayControlLibrary
 
             this.parseSFile(this.relayCode);
 
+            this.state = RelayProgrammingStates.WaitingForBootRelay;
+
             int temp = this.relayCode.NumberOfCodeBlocks * 2;
             this.programmingForm.Maximum = temp;
             this.programmingForm.CurrentTask = "Loading Relay Code";
@@ -2819,28 +2823,26 @@ namespace RelayControlLibrary
             this.labelCodeCount.Text = "0";
 
             this.enableButtons(false);
+            this.startRelayBootLoaderProgramming();
 
-            this.sendReset("startRelayProgramming");
-            this.waitForBootReady("startRelayProgramming");
-
-            this.sendRelayTransferPacket();
         }
 
         private void startRelayBootLoaderProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if ((this.relayCode.FileString == "" || this.relayCode.FileString == null))
-            {
-                MessageBox.Show("No Relay File Loaded");
-                this.state = RelayProgrammingStates.Idle;
-                return;
-            }
 
-            this.state = RelayProgrammingStates.ClearingBootLoader;
-            this.parseBootLoaderSFile(this.relayCode);
-            int temp = this.relayCode.CodeBytes.Count / 34;
+            //this.state = RelayProgrammingStates.LoadingMasterCode;
 
-            this.labelCodeTotal.Text = temp.ToString();
+            // reset the relay.
+            this.enableButtons(false);
+
+            this.sendRelayReset();  // Send BU then blast d
+            this.waitForBootReady("startMasterProgramming");
+
+            // send the transfer packet.
+            this.sendRelayTransferPacket();
+
+            // NO ACK coming
         }
 
         private void startFPGAProgramming()
@@ -3371,8 +3373,10 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.LoadingRelayCode:
                 case RelayProgrammingStates.LoadingRelayData:
                     logger.Warn("Relay payload timeout; resending current relay data. state={0}", this.state);
+                    this.sendRelayTransferPacket();  // fire away
+                    this.state = RelayProgrammingStates.LoadingRelayCode;
 
-                    this.startRelayProgramming();    // or your relay resend method
+
                     this.timerTimeout.Interval = 10000;
                     this.timerTimeout.Start();
                     return;
@@ -3380,7 +3384,7 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.LoadingFPGACode:
                     logger.Warn("FPGA payload timeout; resending current FPGA data. state={0}", this.state);
 
-                    this.startFPGAProgramming();  // or your FPGA resend method
+                    //this.startFPGAProgramming();  // or your FPGA resend method
                     this.timerTimeout.Interval = 10000;
                     this.timerTimeout.Start();
                     return;
