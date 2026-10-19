@@ -13,7 +13,7 @@ namespace RelayControl
         private float _t;
         private bool _forward = true;
 
-        public ButtonPulseHelper(Button button, Color baseColor, Color highlightColor, int intervalMs = 40)
+        public ButtonPulseHelper(Button button, Color baseColor, Color highlightColor, int intervalMs = 80)
         {
             _button = button;
             _baseColor = baseColor;
@@ -30,18 +30,22 @@ namespace RelayControl
         {
             _t = 0f;
             _forward = true;
+            _button.Enabled = true;
+            _button.UseVisualStyleBackColor = false;
             _timer.Start();
         }
 
         public void Stop()
         {
             _timer.Stop();
+            _button.Enabled = true;
+            _button.UseVisualStyleBackColor = false;
             _button.BackColor = _baseColor;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            const float step = 0.06f;
+            const float step = 0.04f;
 
             _t += _forward ? step : -step;
 

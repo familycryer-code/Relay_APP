@@ -107,7 +107,16 @@ namespace RelayControl
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
 
+
+
+        /// <summary>
+        /// Button colors..
+        /// </summary>
         private ButtonPulseHelper _applyPulse;
+        private ButtonPulseHelper _requestAllPulse;
+
+
+
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
         private const int BackupTimeoutMs = 60000; // 30s
@@ -444,8 +453,19 @@ namespace RelayControl
                 this.ucPumpMode1.labelPumpTypeDisplay.Visible = false;
                 this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10);
 
-                _applyPulse = new ButtonPulseHelper(buttonSendAll, buttonSendAll.BackColor, ColorTranslator.FromHtml("#66ED72"), 40);
 
+                // Button Color
+                _applyPulse = new ButtonPulseHelper(
+                    buttonSendAll,
+                    buttonSendAll.BackColor,
+                    ColorTranslator.FromHtml("#66ED72"),
+                    80);
+
+                _requestAllPulse = new ButtonPulseHelper(
+                    buttonRequestRelayParamaters,
+                    buttonRequestRelayParamaters.BackColor,
+                    ColorTranslator.FromHtml("#66ED72"),
+                    80);
 #if BGE
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
                 this.Customer = Customers.BGE;
@@ -6439,6 +6459,10 @@ namespace RelayControl
         private bool requestedAllParameters = false;
         private void buttonRequestRelayParamaters_Click(object sender, EventArgs e)
         {
+            buttonRequestRelayParamaters.Enabled = true;
+            buttonRequestRelayParamaters.UseVisualStyleBackColor = false;
+            _requestAllPulse?.Start();
+
             this.enableAll(false);
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -6446,7 +6470,6 @@ namespace RelayControl
 
             try
             {
-                // Normal manual Request All: fetch data only (no backup trigger here)
                 this.requestAllData("buttonRequestRelayParamaters_Click");
             }
             catch (Exception ex)
@@ -6458,6 +6481,8 @@ namespace RelayControl
             }
             finally
             {
+                _requestAllPulse?.Stop();
+
                 screenD.screenDisable = false;
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
@@ -8953,7 +8978,9 @@ namespace RelayControl
             if (dr != DialogResult.OK)
                 return;
 
-            _applyPulse.Start();   // <-- start pulse
+            buttonSendAll.Enabled = true;
+            buttonSendAll.UseVisualStyleBackColor = false;
+            _applyPulse?.Start();
 
             this.enableAll(false);
             Application.UseWaitCursor = true;
@@ -8970,7 +8997,7 @@ namespace RelayControl
             }
             finally
             {
-                _applyPulse.Stop();   // <-- stop pulse
+                _applyPulse?.Stop();
 
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
