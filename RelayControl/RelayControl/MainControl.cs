@@ -70,7 +70,7 @@ namespace RelayControl
 
         private SectionBits requiredSections = SectionBits.None;
         private SectionBits requiredBackupMask = SectionBits.None;
-                                                    
+
         private bool _backupCaptureActive = false;
         private BackupState backupState = BackupState.Idle;
         private bool backupInProgress = false;
@@ -91,7 +91,7 @@ namespace RelayControl
         private bool skipAutoloadAfterDecline = false;
         private bool pendingRestoreAfterProgramming = false;
         private DateTime? backupStartedAtUtc = null;
-        
+
         private bool backupExpectDnp = false;
         private bool backupGotRelayParams = false;
         private bool backupGotCalibration = false;
@@ -100,10 +100,10 @@ namespace RelayControl
         private bool backupGotArcFault = false;
         public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
         private bool quietMode = false;  //turns off register polling - button for this
-        // Add these fields near the other backup state fields
-      
+                                         // Add these fields near the other backup state fields
 
-       
+
+
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
 
@@ -112,7 +112,7 @@ namespace RelayControl
         private System.Windows.Forms.Timer backupTimeoutTimer;
         private const int BackupTimeoutMs = 60000; // 30s
 
-        
+
 
         private bool SCITimedOut = false;
         private int savedSaveFileComboBoxWidth;
@@ -144,7 +144,7 @@ namespace RelayControl
         }
 
 
-      
+
 
         public void MainControlInit()
         {
@@ -657,7 +657,7 @@ namespace RelayControl
             {
                 this.messageHandler(ex.Message, ex.InnerException);
             }
-    
+
 
         }
 
@@ -1808,8 +1808,6 @@ namespace RelayControl
                 backupState = BackupState.Failed;
             }
 
-            backupInProgress = false;
-
             lock (_backupCaptureLock)
             {
                 _backupCaptureSections.Clear();
@@ -1818,6 +1816,11 @@ namespace RelayControl
 
             receivedBackupMask = 0;
             requiredBackupMask = 0;
+        }
+
+        private bool IsBackupComplete()
+        {
+            return (receivedBackupMask & requiredBackupMask) == requiredBackupMask;
         }
 
         private void CaptureBackupSection(string sectionName, byte[] data)
@@ -1891,33 +1894,152 @@ namespace RelayControl
             File.WriteAllText(_relayBackupPath, sb.ToString());
         }
 
+        private void BeginRequiredParameterDownload([CallerMemberName] string caller = null)
+        {
+            this.requestedAllParameters = true;
+            this.parametersLoaded = false;
+
+            this.syncPhase = SyncPhase.FullParameterDownload;
+            this.requiredSections = SectionBits.RelayParams | SectionBits.TxSettings;
+            this.receivedSections = SectionBits.None;
+
+            this.requiredBackupMask = SectionBits.None;
+            this.receivedBackupMask = SectionBits.None;
+
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
+            this.timerResponseTimeOut.Enabled = true;
+
+            logger.Info(
+                "BeginRequiredParameterDownload caller={0}, phase={1}, required={2}, received={3}",
+                caller,
+                this.syncPhase,
+                this.requiredSections,
+                this.receivedSections);
+        }
+
+        private void BeginFullParameterDownload([CallerMemberName] string caller = null)
+        {
+            this.requestedAllParameters = true;
+            this.parametersLoaded = false;
+
+            this.syncPhase = SyncPhase.FullParameterDownload;
+            this.requiredSections = SectionBits.RelayParams | SectionBits.TxSettings;
+            this.receivedSections = SectionBits.None;
+
+            this.requiredBackupMask =
+                SectionBits.RelayParams |
+                SectionBits.Calibration |
+                SectionBits.TxSettings |
+                SectionBits.ArcFault |
+                SectionBits.SafeService;
+
+            this.receivedBackupMask = SectionBits.None;
+
+            this.ProgramState = ProgramStates.DownloadingAllParameters;
+            this.timerResponseTimeOut.Enabled = true;
+
+            logger.Info(
+                "BeginFullParameterDownload caller={0}, phase={1}, required={2}, backupRequired={3}, received={4}",
+                caller,
+                this.syncPhase,
+                this.requiredSections,
+                this.requiredBackupMask,
+                this.receivedSections);
+        }
+
+        private void MarkBackupSectionIfActive(SectionBits bit, string sectionName, byte[] packet)
+        {
+            if (!backupInProgress)
+                return;
+
+            CaptureBackupSection(sectionName, packet);
+            receivedBackupMask |= bit;
+
+            logger.Info(
+                "Backup section received: {0}, receivedBackupMask={1}, requiredBackupMask={2}",
+                bit, receivedBackupMask, requiredBackupMask);
+
+            TryCompleteBackup();
+        }
+
+        private void MarkSectionReceived(SectionBits section)
+        {
+            if (section == SectionBits.None)
+                return;
+
+            if (this.syncPhase == SyncPhase.Idle)
+            {
+                logger.Info("Ignoring late section after cycle closed: {0}", section);
+                return;
+            }
+
+            if (this.parametersLoaded)
+            {
+                logger.Info("Minimum parameter completion already processed; ignoring additional section. section={0}", section);
+                return;
+            }
+
+            this.receivedSections |= section;
+
+            if (this.requiredBackupMask != SectionBits.None)
+            {
+                this.receivedBackupMask |= section;
+            }
+
+            logger.Info(
+                "Section received: {0}, receivedSections={1}, requiredSections={2}, receivedBackupMask={3}, requiredBackupMask={4}, syncPhase={5}",
+                section,
+                this.receivedSections,
+                this.requiredSections,
+                this.receivedBackupMask,
+                this.requiredBackupMask,
+                this.syncPhase);
+
+            bool backupMode = this.requiredBackupMask != SectionBits.None;
+
+            bool minimumReached =
+                (this.receivedSections & this.requiredSections) == this.requiredSections;
+
+            bool backupComplete =
+                !backupMode ||
+                ((this.receivedBackupMask & this.requiredBackupMask) == this.requiredBackupMask);
+
+            bool readyToFinish = backupMode ? backupComplete : minimumReached;
+
+            if (readyToFinish)
+            {
+                this.parametersLoaded = true;
+                this.requestedAllParameters = false;
+
+                logger.Info(
+                    "Completion threshold reached: mode={0}, received={1}, required={2}, backupReceived={3}, backupRequired={4}",
+                    backupMode ? "FullBackup" : "Minimum",
+                    this.receivedSections,
+                    this.requiredSections,
+                    this.receivedBackupMask,
+                    this.requiredBackupMask);
+
+
+                return;
+            }
+        }
+
         // in MainControl
 
         private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
         {
-            LogFlow("entered; childBackupIsPending=" + (this.ucRelayProgramming1?.backupIsPending ?? false));
-
             if (this.ucRelayProgramming1 == null)
             {
                 LogFlow("BackupBeforeProgrammingRequested ignored: ucRelayProgramming1 is null");
                 return;
             }
 
-            if (!this.ucRelayProgramming1.backupIsPending)
-            {
-                LogFlow("BackupBeforeProgrammingRequested ignored: child backupIsPending is false");
-                return;
-            }
-
-            // Prevent duplicate backup start requests
+            // Guard against duplicate backup start requests
             if (this.backupInProgress || this.backupState == BackupState.Capturing)
             {
                 LogFlow($"BackupBeforeProgrammingRequested ignored: backup already active | backupInProgress={this.backupInProgress}, backupState={this.backupState}");
                 return;
             }
-
-            // Keep this true through backup/program flow; clear only on completion/decline/error paths.
-            this.pendingAutoloadAfterBackup = true;
 
             LogFlow("BackupBeforeProgrammingRequested: starting backup flow");
             this.BackUpRelayDatatoFile();
@@ -1927,28 +2049,20 @@ namespace RelayControl
         {
             this.requestedAllParameters = false;
             this.parametersLoaded = false;
+            this.pendingAutoloadAfterBackup = false;
+            this.pendingRestoreAfterProgramming = false;
+            backupInProgress = false;
 
-            this.receivedSections = SectionBits.None;
-            this.receivedBackupMask = SectionBits.None;
-
-            this.requiredSections = SectionBits.None;
-            this.requiredBackupMask = SectionBits.None;
-
-            this.syncPhase = SyncPhase.Idle;
             this.ProgramState = ProgramStates.Running;
 
             if (this.timerResponseTimeOut != null)
                 this.timerResponseTimeOut.Enabled = false;
 
-            logger.Info(
-                "ResetFullParameterDownloadState caller={0}, phase={1}, state={2}",
-                caller,
-                this.syncPhase,
-                this.ProgramState);
+            LogFlow(caller + " | ResetFullParameterDownloadState: reset all download state flags and timers.");
         }
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
-  
+
         private RelayProgrammingSendCommands currentReprogramState = RelayProgrammingSendCommands.RestartProgram;
 
         private void Programming_Send(object o, RelayProgrammingEventArgs rPEA)
@@ -2046,8 +2160,7 @@ namespace RelayControl
 
             // Do NOT trigger full requestAllData here.
             // If immediate confirmation is needed, use targeted TX read instead.
-            if (!this.pendingAutoloadAfterBackup &&
-                !this.IsProgrammingFlowActive())
+            if (!this.IsProgrammingFlowActive())
             {
                 // optional targeted refresh:
                 // this.requestTransmitterSettings();
@@ -2250,7 +2363,7 @@ namespace RelayControl
             }
             catch
             {
-                
+
                 this.monitoring(false);
                 this.RegisterPolling(false);
                 this.resetCommunicationInterface();
@@ -4235,262 +4348,6 @@ namespace RelayControl
             }
         }
 
-        private bool paramsReceivedLock = false;
-        private bool oneTimeAutoLoadShot = false;
-
-        private void parametersFinishedLoading([CallerMemberName] string caller = null)
-        {
-            LogFlow("parametersFinishedLoading ENTER", caller);
-            logger.Trace("Parameters Finished Loading");
-            bool finishedPartialLoad = false;
-
-            if (paramsReceivedLock)
-            {
-                LogFlow("parametersFinishedLoading EXIT: paramsReceivedLock already set", caller);
-                return;
-            }
-
-            paramsReceivedLock = true;
-            try
-            {
-                bool programmingActive = this.IsProgrammingFlowActive();
-
-                logger.Info(
-                    $"parametersFinishedLoading ENTER: requestedAllParameters={this.requestedAllParameters}, " +
-                    $"ProgramState={this.ProgramState}, pendingRestoreAfterProgramming={this.pendingRestoreAfterProgramming}, " +
-                    $"pendingAutoloadAfterBackup={this.pendingAutoloadAfterBackup}, " +
-                    $"backupInProgress={this.backupInProgress}, " +
-                    $"reprogrammingInProgress={this.ucRelayProgramming1.ReprogrammingInProgress}, " +
-                    $"programmingActive={programmingActive}");
-
-                bool isFullSyncWorkflow =
-                    this.requestedAllParameters ||
-                    this.syncPhase == SyncPhase.FullParameterDownload ||
-                    this.pendingAutoloadAfterBackup ||
-                    this.pendingRestoreAfterProgramming ||
-                    this.backupInProgress ||
-                    programmingActive;
-
-                if (!isFullSyncWorkflow)
-                {
-                    logger.Info(
-                        "Bypassing full parameter completion for targeted config change. requestedAllParameters={0}, ProgramState={1}, sendAll={2}, sendAllFlag={3}, pendingAutoloadAfterBackup={4}, reprogrammingInProgress={5}, programmingActive={6}, pendingRestoreAfterProgramming={7}",
-                        this.requestedAllParameters,
-                        this.ProgramState,
-                        this.sendAll,
-                        sendAllF.SendAllFlag,
-                        this.pendingAutoloadAfterBackup,
-                        this.ucRelayProgramming1.ReprogrammingInProgress,
-                        programmingActive,
-                        this.pendingRestoreAfterProgramming
-                    );
-                    return;
-                }
-
-                if (this.badDataDetected)
-                {
-                    this.parametersLoaded = false;
-                    this.messageHandler("Error", "Parameters Not Loaded Successfully");
-                    ResetFullParameterDownloadState("parametersFinishedLoading.badDataDetected");
-                    return;
-                }
-
-                // Minimum threshold reached: this is the required-data checkpoint.
-                if (this.syncPhase == SyncPhase.FullParameterDownload && this.parametersLoaded)
-                {
-                    this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
-
-                    bool deferredAutoloadPending =
-                        this.pendingAutoloadAfterBackup ||
-                        this.ucRelayProgramming1.AutoloadDeferredUntilUiReady;
-
-                    if (deferredAutoloadPending)
-                    {
-                        logger.Info(
-                            "parametersFinishedLoading: attempting deferred autoload resume. pendingAutoloadAfterBackup={0}, autoloadDeferredUntilUiReady={1}, IsDisposed={2}, IsHandleCreated={3}",
-                            this.pendingAutoloadAfterBackup,
-                            this.ucRelayProgramming1.AutoloadDeferredUntilUiReady,
-                            this.IsDisposed,
-                            this.IsHandleCreated);
-
-                        if (!this.IsDisposed && this.IsHandleCreated)
-                        {
-                            this.ucRelayProgramming1.AutoloadDeferredUntilUiReady = false;
-
-                            if (this.InvokeRequired)
-                            {
-                                this.BeginInvoke(new Action(() =>
-                                {
-                                    if (!this.IsDisposed && this.IsHandleCreated)
-                                    {
-                                        this.ucRelayProgramming1.TryResumeDeferredAutoload();
-                                    }
-                                    else
-                                    {
-                                        this.ucRelayProgramming1.AutoloadDeferredUntilUiReady = true;
-                                        logger.Warn("Deferred autoload retry skipped in BeginInvoke: control not ready.");
-                                    }
-                                }));
-                            }
-                            else
-                            {
-                                this.ucRelayProgramming1.TryResumeDeferredAutoload();
-                            }
-                        }
-                        else
-                        {
-                            this.ucRelayProgramming1.AutoloadDeferredUntilUiReady = true;
-                            logger.Warn("Deferred autoload remains pending: control not ready after parameter popup.");
-                        }
-
-                        return;
-                    }
-
-                    // Safe to continue once the minimum threshold is met and autoload is no longer deferred.
-                    this.RecoverComms("parametersFinishedLoading.minimumThresholdMet");
-                    ResetFullParameterDownloadState("parametersFinishedLoading.minimumThresholdMet");
-                    finishedPartialLoad = true;
-
-                    // one-time autoload continuation
-                    if (!oneTimeAutoLoadShot)
-                    {
-                        oneTimeAutoLoadShot = true;
-
-                        if (!this.IsDisposed && this.IsHandleCreated)
-                        {
-                            this.ucRelayProgramming1.InitializeAutoload();
-                        }
-                        else
-                        {
-                            this.ucRelayProgramming1.AutoloadDeferredUntilUiReady = true;
-                            logger.Warn("Autoload deferred: UI not ready after partial load.");
-                        }
-                    }
-
-                    return;
-                }
-
-                // Commit to normal completion handling
-                this.requestedAllParameters = false;
-                this.timerResponseTimeOut.Enabled = false;
-
-                if (pendingRestoreAfterProgramming)
-                {
-                    logger.Info("POST-PROGRAM RESTORE: entering pendingRestoreAfterProgramming block");
-
-                    Action uiSetup = () =>
-                    {
-                        this.enableAll(false);
-                        Application.UseWaitCursor = true;
-                        System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
-                    };
-
-                    if (this.InvokeRequired) this.Invoke(uiSetup);
-                    else uiSetup();
-
-                    this.WriteBackUpData_FileToRelay();
-
-                    dataB.oldDataBackup = false;
-                    backupInProgress = false;
-                    pendingAutoloadAfterBackup = false;
-                    pendingRestoreAfterProgramming = false;
-                    backupGotRelayParams = false;
-
-                    if (backupTimeoutTimer != null) backupTimeoutTimer.Stop();
-
-                    this.ucRelayProgramming1.ReprogrammingInProgress = false;
-
-                    Action showCompletePopup = () =>
-                    {
-                        Form ownerForm = this.FindForm();
-                        IWin32Window owner;
-
-                        if (ownerForm != null)
-                            owner = (IWin32Window)ownerForm;
-                        else
-                            owner = (IWin32Window)this;
-
-                        MessageBox.Show(
-                            owner,
-                            "Programming Complete",
-                            "Programming Complete");
-                    };
-
-                    if (this.InvokeRequired) this.Invoke(showCompletePopup);
-                    else showCompletePopup();
-
-                    Action hideProgress = () => this.ucRelayProgramming1.HideProgrammingProgress();
-                    if (this.InvokeRequired) this.Invoke(hideProgress);
-                    else hideProgress();
-
-                    this.RecoverComms("parametersFinishedLoading.pendingRestoreAfterProgramming");
-                    ResetFullParameterDownloadState("parametersFinishedLoading.pendingRestoreAfterProgramming");
-                    return;
-                }
-
-                if (backupInProgress)
-                {
-                    logger.Info("parametersFinishedLoading: backup still in progress; deferring.");
-                    return;
-                }
-
-                if (programmingActive && !pendingRestoreAfterProgramming && !pendingAutoloadAfterBackup)
-                {
-                    logger.Info("parametersFinishedLoading: active reprogramming; skipping autoload re-entry.");
-                    return;
-                }
-
-                if (!pendingAutoloadAfterBackup)
-                {
-                    if (this.ShouldAllowProgrammingTraffic())
-                    {
-                        logger.Info("parametersFinishedLoading: lifecycle active; keep protocol path open.");
-                    }
-                    else if (!this.ShouldSuppressBackgroundComms())
-                    {
-                        this.RecoverComms("parametersFinishedLoading.noPendingAutoloadAfterBackup");
-                    }
-                    else
-                    {
-                        logger.Info("parametersFinishedLoading: background restore suppressed.");
-                    }
-
-                    ResetFullParameterDownloadState("parametersFinishedLoading.noPendingAutoloadAfterBackup");
-                    return;
-                }
-
-                if (skipAutoloadAfterDecline)
-                {
-                    logger.Info("User declined autoload; restoring normal communications.");
-                    pendingAutoloadAfterBackup = false;
-                    this.RecoverComms("parametersFinishedLoading.skipAutoloadAfterDecline");
-                    skipAutoloadAfterDecline = false;
-                    ResetFullParameterDownloadState("parametersFinishedLoading.skipAutoloadAfterDecline");
-                    return;
-                }
-
-                pendingAutoloadAfterBackup = false;
-
-                if (this.ShouldAllowProgrammingTraffic())
-                {
-                    logger.Info("parametersFinishedLoading: lifecycle still active after autoload decision.");
-                    ResetFullParameterDownloadState("parametersFinishedLoading.programmingLifecycleStillActive");
-                    return;
-                }
-
-                if (!this.ShouldSuppressBackgroundComms())
-                    this.RecoverComms("parametersFinishedLoading.autoloadCompleted");
-                else
-                    logger.Info("parametersFinishedLoading: background comm restore suppressed by gate.");
-
-                ResetFullParameterDownloadState("parametersFinishedLoading.autoloadCompleted");
-            }
-            finally
-            {
-                paramsReceivedLock = false;
-            }
-        }
-
         private bool ShouldAllowProgrammingTraffic()
         {
             if (this.ucRelayProgramming1 == null)
@@ -4505,7 +4362,6 @@ namespace RelayControl
                 return false;
 
             return this.IsProgrammingFlowActive()
-                || this.pendingAutoloadAfterBackup
                 || this.pendingRestoreAfterProgramming
                 || this.backupInProgress
                 || this.quietMode
@@ -7255,165 +7111,8 @@ namespace RelayControl
         private bool expectingFPGARevision = false;
 
         delegate void requestAllCallBack();
-        private void BeginRequiredParameterDownload([CallerMemberName] string caller = null)
-        {
-            this.requestedAllParameters = true;
-            this.parametersLoaded = false;
 
-            this.syncPhase = SyncPhase.FullParameterDownload;
-            this.requiredSections = SectionBits.RelayParams | SectionBits.TxSettings;
-            this.receivedSections = SectionBits.None;
-
-            this.requiredBackupMask = SectionBits.None;
-            this.receivedBackupMask = SectionBits.None;
-
-            this.ProgramState = ProgramStates.DownloadingAllParameters;
-            this.timerResponseTimeOut.Enabled = true;
-
-            logger.Info(
-                "BeginRequiredParameterDownload caller={0}, phase={1}, required={2}, received={3}",
-                caller,
-                this.syncPhase,
-                this.requiredSections,
-                this.receivedSections);
-        }
-
-        private void BeginFullParameterDownload([CallerMemberName] string caller = null)
-        {
-            this.requestedAllParameters = true;
-            this.parametersLoaded = false;
-
-            this.syncPhase = SyncPhase.FullParameterDownload;
-            this.requiredSections = SectionBits.RelayParams | SectionBits.TxSettings;
-            this.receivedSections = SectionBits.None;
-
-            this.requiredBackupMask =
-                SectionBits.RelayParams |
-                SectionBits.Calibration |
-                SectionBits.TxSettings |
-                SectionBits.ArcFault |
-                SectionBits.SafeService;
-
-            this.receivedBackupMask = SectionBits.None;
-
-            this.ProgramState = ProgramStates.DownloadingAllParameters;
-            this.timerResponseTimeOut.Enabled = true;
-
-            logger.Info(
-                "BeginFullParameterDownload caller={0}, phase={1}, required={2}, backupRequired={3}, received={4}",
-                caller,
-                this.syncPhase,
-                this.requiredSections,
-                this.requiredBackupMask,
-                this.receivedSections);
-        }
-
-        private void MarkRelayParams()
-        {
-            if (this.syncPhase == SyncPhase.Idle)
-            {
-                logger.Info("Skipping RelayParams mark: cycle closed.");
-                return;
-            }
-
-            if (this.parametersLoaded)
-            {
-                logger.Info("Skipping RelayParams mark: minimum completion already processed.");
-                return;
-            }
-
-            logger.Info("About to mark RelayParams");
-            MarkSectionReceived(SectionBits.RelayParams);
-        }
-
-        private void MarkBackupSectionIfActive(SectionBits bit, string sectionName, byte[] packet)
-        {
-            if (!backupInProgress)
-                return;
-
-            CaptureBackupSection(sectionName, packet);
-            receivedBackupMask |= bit;
-
-            logger.Info(
-                "Backup section received: {0}, receivedBackupMask={1}, requiredBackupMask={2}",
-                bit, receivedBackupMask, requiredBackupMask);
-
-            TryCompleteBackup();
-        }
-
-        private void MarkSectionReceived(SectionBits section)
-        {
-            if (section == SectionBits.None)
-                return;
-
-            if (this.syncPhase == SyncPhase.Idle)
-            {
-                logger.Info("Ignoring late section after cycle closed: {0}", section);
-                return;
-            }
-
-            if (this.parametersLoaded)
-            {
-                logger.Info("Minimum parameter completion already processed; ignoring additional section. section={0}", section);
-                return;
-            }
-
-            this.receivedSections |= section;
-
-            if (this.requiredBackupMask != SectionBits.None)
-                this.receivedBackupMask |= section;
-
-            logger.Info(
-                "Section received: {0}, receivedSections={1}, requiredSections={2}, receivedBackupMask={3}, requiredBackupMask={4}, syncPhase={5}",
-                section,
-                this.receivedSections,
-                this.requiredSections,
-                this.receivedBackupMask,
-                this.requiredBackupMask,
-                this.syncPhase);
-
-            if (this.parametersLoaded)
-            {
-                logger.Info(
-                    "Minimum parameter completion already processed; ignoring additional section. section={0}, received={1}, required={2}",
-                    section,
-                    this.receivedSections,
-                    this.requiredSections);
-                return;
-            }
-
-            bool minimumReached =
-                (this.receivedSections & this.requiredSections) == this.requiredSections;
-
-            if (minimumReached)
-            {
-                this.parametersLoaded = true;
-                this.requestedAllParameters = false;
-
-                logger.Info(
-                    "Minimum parameter threshold reached: firing parametersFinishedLoading(). received={0}, required={1}",
-                    this.receivedSections,
-                    this.requiredSections);
-
-                this.parametersFinishedLoading(nameof(MarkSectionReceived));
-            }
-
-            if (this.requiredBackupMask != SectionBits.None)
-            {
-                bool backupComplete =
-                    (this.receivedBackupMask & this.requiredBackupMask) == this.requiredBackupMask;
-
-                if (backupComplete)
-                {
-                    logger.Info(
-                        "Full backup threshold reached. received={0}, required={1}",
-                        this.receivedBackupMask,
-                        this.requiredBackupMask);
-                }
-            }
-        }
-
-       
+        private bool startupFullDownloadStarted = false;
 
         private void requestAllData(string caller = "unknown")
         {
@@ -7443,41 +7142,54 @@ namespace RelayControl
                 caller == "timerFindRelayTimeout_Tick" ||
                 this.ProgramState == ProgramStates.CheckingForRelay;
 
-            // Prevent duplicate full-download cycles
             if (this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
                 LogFlow($"requestAllData SUPPRESSED: already downloading | caller={caller}");
                 return;
             }
 
-            // Startup discovery only: request revisions if relay not found yet
+            // Startup stage 1: only establish comms (revisions/part identifiers)
             if (isStartupDiscovery && !this.relayFound)
             {
                 LogFlow($"requestAllData startup discovery: requesting master + relay revisions | caller={caller}");
                 this.requestMasterRevisionNumber(nameof(requestAllData));
                 this.requestRelayRevision();
                 this.requestFPGARevision();
+
+                this.timerResponseTimeOut.Enabled = true;
+                LogFlow($"requestAllData armed timerResponseTimeOut | caller={caller}");
+                return;
             }
-            else
+
+            // Startup stage 2: once comms are established, allow full start only once
+            if (isStartupDiscovery && this.relayFound && startupFullDownloadStarted)
             {
-                LogFlow($"requestAllData no startup revision requests | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}, manual={isManualRequestAll}");
+                LogFlow($"requestAllData SUPPRESSED: startup full download already started | caller={caller}");
+
+                return;
             }
 
-            // This is the actual full-parameter cycle start.
-            // NOTE: this is still a refresh/read phase, not a write/apply phase.
-            this.BeginRequiredParameterDownload(caller);
+            if (isStartupDiscovery && this.relayFound && !startupFullDownloadStarted)
+            {
+                startupFullDownloadStarted = true;
+                this.ucRelayProgramming1.InitializeAutoload();
+                this.pendingAutoloadAfterBackup = true;
+                LogFlow($"requestAllData startup full download latch set | caller={caller}");
+            }
 
-            
+            LogFlow($"requestAllData starting parameter cycle | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}, manual={isManualRequestAll}");
 
-            // Actual parameter-section requests
+
+            // Full set of 5 section requests
             this.requestRelayParameters();
             this.requestTransmitterSettings();
+            //this.requestRelayRevision();
+            //this.requestFPGARevision();
+            //this.requestMasterRevisionNumber(nameof(requestAllData));
 
-            // Discovery timeout only while discovering relay
-            this.timerResponseTimeOut.Enabled = (isStartupDiscovery && !this.relayFound);
-            LogFlow(this.timerResponseTimeOut.Enabled
-                ? $"requestAllData armed timerResponseTimeOut | caller={caller}"
-                : $"requestAllData disabled timerResponseTimeOut | caller={caller}");
+
+            this.timerResponseTimeOut.Enabled = false;
+            LogFlow($"requestAllData disabled timerResponseTimeOut | caller={caller}");
         }
 
 
@@ -8246,7 +7958,7 @@ namespace RelayControl
         private void resetBothProcs()
         {
             //DEBUG
-            
+
             byte[] packet = new byte[3];
 
             packet[0] = (byte)'B';
@@ -8868,8 +8580,6 @@ namespace RelayControl
         {
             bool tempBool, tempBool2, tempBool3;
 
-            if (this.IsProgrammingFlowActive() && title != "Relay Programming")
-                return;
 
             tempBool = this.pQMonitoringEnabled;
             tempBool2 = this.allEnabled;
@@ -9331,8 +9041,8 @@ namespace RelayControl
                 WaitForAckIdle(3000, "After CloseMode");
 
 #if CONED
-        this.SendPCData(requestAllAfterWrite: false);
-        WaitForAckIdle(3000, "After PCData");
+                this.SendPCData(requestAllAfterWrite: false);
+                WaitForAckIdle(3000, "After PCData");
 #endif
 
                 this.SendCTRatioAndPhasing(requestAfter: false);
@@ -10000,7 +9710,7 @@ namespace RelayControl
             this.ucLiveData1.Saveable = true;
         }
 
-        
+
 
         private void buttonSendTime_Click(object sender, EventArgs e)
         {
@@ -11036,7 +10746,7 @@ namespace RelayControl
                 this.sendAll,
                 sendAllF.SendAllFlag,
                 this.backupInProgress,
-                this.ucRelayProgramming1 != null && this.ucRelayProgramming1.backupIsPending,
+                this.ucRelayProgramming1 != null,
                 this.pendingAutoloadAfterBackup,
                 this.pendingRestoreAfterProgramming,
                 this.relayCodeRevisionNumber,
@@ -11065,8 +10775,6 @@ namespace RelayControl
 
             try
             {
-                // Keep pendingAutoloadAfterBackup as-is; do not clear at start.
-                // pendingAutoloadAfterBackup = false;  <-- remove
 
                 BeginBackupCapture();
                 BeginFullParameterDownload(nameof(BackUpRelayDatatoFile));
@@ -12187,8 +11895,7 @@ namespace RelayControl
                 this.ucRelayProgramming1.DeclineAutoload(caller, "restore-normal-comms");
             }
 
-            // 2) Clear MainControl-owned flow flags only
-            this.pendingAutoloadAfterBackup = false;
+            // 2) Clear MainControl-owned flow flags onlyBackupBeforeProgrammingRequested
             this.pendingRestoreAfterProgramming = false;
             this.backupInProgress = false;
             this.skipAutoloadAfterDecline = false;
@@ -12230,10 +11937,7 @@ namespace RelayControl
                 this.quietMode,
                 this.pauseMonitoring);
         }
-        private bool IsBackupComplete()
-        {
-            return (receivedBackupMask & requiredBackupMask) == requiredBackupMask;
-        }
+
 
         private void TryCompleteBackup()
         {
@@ -12260,186 +11964,45 @@ namespace RelayControl
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
         {
-            // Re-entry guard: if backup is already resolved and nothing is pending, ignore duplicate calls.
-            if (!backupInProgress &&
-                !this.ucRelayProgramming1.backupIsPending &&
-                !pendingAutoloadAfterBackup &&
+            if (!this.backupInProgress &&
+                !this.pendingAutoloadAfterBackup &&
                 !this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
             {
-                logger.Info("CompleteBackupAndContinue: duplicate call ignored (already resolved).");
+                LogFlow("CompleteBackupAndContinue: no backup in progress and no pending autoload -> exit.");
                 return;
             }
 
-            bool wasInProgress = backupInProgress;
-            backupInProgress = false;
+            bool wasInProgress = this.backupInProgress;
+            this.backupInProgress = false;
 
-            if (backupTimeoutTimer != null)
-                backupTimeoutTimer.Stop();
-
-            dataBackup_fromRelay = false;
-            dataBackupR.dataBackup_fromRelay = false;
-
-            var elapsedMs = backupStartedAtUtc.HasValue
-                ? (int)(DateTime.UtcNow - backupStartedAtUtc.Value).TotalMilliseconds
-                : 0;
-
-            var missing = GetBackupMissingSectionsSummary();
-
-            logger.Info(
-                "Backup complete. WasInProgress={0}, ElapsedMs={1}, ExpectDnp={2}, MissingSections={3}",
-                wasInProgress,
-                elapsedMs,
-                backupExpectDnp,
-                missing);
-
-            // ----- Timeout / partial failure path -----
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
-                pendingAutoloadAfterBackup = false;
-                pendingRestoreAfterProgramming = false;
-                this.ucRelayProgramming1.backupIsPending = false; // cleanup latch on failure too
-
-                this.quietMode = false;
-                this.pauseMonitoring = false;
-
-                this.UseWaitCursor = false;
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-
-                if (!this.IsProgrammingFlowActive() && !this.ShouldSuppressBackgroundComms())
-                {
-                    this.RecoverComms("BackupTimeout");
-                }
-                else
-                {
-                    logger.Info(
-                        "Backup timeout path did not recover comms due to active suppression/lifecycle. state={0}",
-                        this.ucRelayProgramming1.State);
-                }
-
-                MessageBox.Show(timeoutMessageOrNull);
-                logger.Warn("Backup ended with timeout/partial data; autoload continuation not armed.");
-
+                LogFlow(timeoutMessageOrNull);
                 EndBackupCapture(false);
-
-                // Close stale read cycle on timeout too.
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
+                MessageBox.Show(timeoutMessageOrNull);
                 return;
             }
 
-            // ----- Successful backup -----
             EndBackupCapture(true);
-
-            // Close the active parameter-download lifecycle now.
-            // Otherwise late packets from the old cycle keep arriving and re-trigger logic.
             ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
-
-            // Backup latch is resolved.
-            this.ucRelayProgramming1.backupIsPending = false;
-
-            logger.Info(
-                "Backup completed successfully. ReprogrammingInProgress={0}, pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupIsPending={3}, startupIntent={4}",
-                this.ucRelayProgramming1.ReprogrammingInProgress,
-                pendingAutoloadAfterBackup,
-                pendingRestoreAfterProgramming,
-                this.ucRelayProgramming1.backupIsPending,
-                this.ucRelayProgramming1.CurrentStartupIntent);
 
             switch (this.ucRelayProgramming1.CurrentStartupIntent)
             {
                 case ucRelayProgramming.StartupIntent.AutoApproved:
-                    pendingAutoloadAfterBackup = true;
                     this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
-                    logger.Info(
-                        "After ResumeAutoloadAfterBackup: pendingAutoloadAfterBackup={0}, backupIsPending={1}, reprogrammingInProgress={2}, state={3}",
-                        pendingAutoloadAfterBackup,
-                        this.ucRelayProgramming1.backupIsPending,
-                        this.ucRelayProgramming1.ReprogrammingInProgress,
-                        this.ucRelayProgramming1.State);
                     break;
 
                 case ucRelayProgramming.StartupIntent.ManualApproved:
-                    pendingAutoloadAfterBackup = false;
                     this.ucRelayProgramming1.ResumeManualAfterBackup();
-                    logger.Info(
-                        "After ResumeManualAfterBackup: pendingAutoloadAfterBackup={0}, backupIsPending={1}, reprogrammingInProgress={2}, state={3}",
-                        pendingAutoloadAfterBackup,
-                        this.ucRelayProgramming1.backupIsPending,
-                        this.ucRelayProgramming1.ReprogrammingInProgress,
-                        this.ucRelayProgramming1.State);
                     break;
 
                 default:
-                    logger.Warn(
-                        "Backup complete but no approved startup intent was active; not resuming programming. startupIntent={0}",
-                        this.ucRelayProgramming1.CurrentStartupIntent);
 
-                    pendingAutoloadAfterBackup = false;
-                    pendingRestoreAfterProgramming = false;
-
-                    // No continuation path -> restore normal UI now.
-                    this.quietMode = false;
-                    this.pauseMonitoring = false;
-                    this.UseWaitCursor = false;
-                    Application.UseWaitCursor = false;
-                    System.Windows.Forms.Cursor.Current = Cursors.Default;
-                    this.enableAll(true);
-
-                    if (!this.ShouldSuppressBackgroundComms())
-                        this.RecoverComms(nameof(CompleteBackupAndContinue));
-
+                    this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                     return;
             }
 
-            if (this.IsProgrammingFlowActive())
-            {
-                pendingAutoloadAfterBackup = false;
-                logger.Info(
-                    "Autoload/manual continuation entered programming lifecycle; keep background comm suppression active. state={0}",
-                    this.ucRelayProgramming1.State);
-                return;
-            }
-
-            if (this._autoloadDeclineRestoreHandled)
-            {
-                pendingAutoloadAfterBackup = false;
-                logger.Info("CompleteBackupAndContinue: restore already handled by autoload-decline event; skipping duplicate recover.");
-                return;
-            }
-
-            // If autoload is still deferred, leave pending flag set and let UI-ready handler finish it.
-            if (pendingAutoloadAfterBackup || this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
-            {
-                logger.Info(
-                    "Autoload continuation still pending or deferred; waiting for UI-ready re-entry. pendingAutoloadAfterBackup={0}, autoloadDeferredUntilUiReady={1}, backupIsPending={2}",
-                    pendingAutoloadAfterBackup,
-                    this.ucRelayProgramming1.AutoloadDeferredUntilUiReady,
-                    this.ucRelayProgramming1.backupIsPending);
-                return;
-            }
-
-            logger.Info("Autoload continuation resolved with no active lifecycle; restoring normal UI/monitoring.");
-
-            this.quietMode = false;
-            this.pauseMonitoring = false;
-
-            this.UseWaitCursor = false;
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
-            this.enableAll(true);
-
-            if (!this.ShouldSuppressBackgroundComms())
-            {
-                this.RecoverComms(nameof(CompleteBackupAndContinue));
-            }
-            else
-            {
-                logger.Info("Restore deferred by background suppression gate.");
-            }
-
-            pendingAutoloadAfterBackup = false;
-            pendingRestoreAfterProgramming = false;
         }
     }
 

@@ -81,9 +81,6 @@ namespace RelayControlLibrary
         private bool startWarningShownThisCycle = false;
         private bool reprogrammingInProgress = false;
         private bool bootLoadDone = false;
-        public bool backupIsPending { get; set; } = false;
-        
-
 
         public Customers Customer
         {
@@ -717,11 +714,7 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            if (this.backupIsPending)
-            {
-                logger.Warn("ContinueAutoloadAfterBootCheck deferred; backup still pending.");
-                return false;
-            }
+            
 
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
@@ -761,13 +754,9 @@ namespace RelayControlLibrary
         }
         public void InitializeAutoload()
         {
-            this.backupIsPending = true;
-            RaiseBackupBeforeProgrammingRequested();
-            this.startupIntent = StartupIntent.AutoApproved;
-
-            // Keep this as a gate only; do not trigger the actual popup until
-            // the UI is ready and the parameter load popup has been acknowledged.
-            logger.Info("InitializeAutoload: autoload gated, waiting for UI ready state.");
+            logger.Info("InitializeAutoload: autoload gated");
+            this.startupIntent = StartupIntent.AutoApproved; // this really means we are checking..
+            RaiseBackupBeforeProgrammingRequested();  // Call to Main to kick us off.  
         }
 
         private DialogResult showManualLoadDialog(bool forcedFullUpdate)
@@ -1233,8 +1222,6 @@ namespace RelayControlLibrary
         {
             logger.Info("ResumeAutoloadAfterBackup ENTER");
 
-            this.backupIsPending = false;
-
             if (this.startupIntent != StartupIntent.AutoApproved)
             {
                 logger.Info("ResumeAutoloadAfterBackup blocked: startupIntent not AutoApproved.");
@@ -1257,17 +1244,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // This is the trigger, not the completion state.
-            // If the UI isn't ready, do not "resolve" it.
-            if (this.IsDisposed || !this.IsHandleCreated)
-            {
-                this.autoloadDeferredUntilUiReady = true;
-                logger.Warn("ResumeAutoloadAfterBackup deferred: form/handle not ready - wait for parameter popup flow.");
-                return;
-            }
-
-            this.autoloadDeferredUntilUiReady = false;
-
+        
             logger.Info("ResumeAutoloadAfterBackup approved path -> re-entering autoload startup flow.");
             this.startAutoLoad();
         }
@@ -1481,12 +1458,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (this.backupIsPending)
-            {
-                this.LogFlow("startAutoLoad EXIT: backup still pending.", nameof(startAutoLoad));
-                return;
-            }
-
             if (this.reprogrammingInProgress || this.programBootCodeInProgress)
             {
                 this.LogFlow("startAutoLoad EXIT: programming already active.", nameof(startAutoLoad));
@@ -1516,14 +1487,8 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // IMPORTANT: do not show autoload popup if UI is not ready yet.
-            // But do not lose the autoload request; defer it and retry once the form is back on the UI thread.
-            if (!this.IsHandleCreated || this.IsDisposed)
-            {
-                this.autoloadDeferredUntilUiReady = true;
-                logger.Warn("startAutoLoad deferred: UI/handle not ready yet; will retry after parameter-popup flow completes.");
-                return;
-            }
+            // UI gating removed.
+            this.autoloadDeferredUntilUiReady = false;
 
             if (!this.autoPromptsApprovedThisCycle)
             {
@@ -1664,7 +1629,6 @@ namespace RelayControlLibrary
 
                 bool activeProgrammingOrBackup =
                     this.IsProgrammingActiveOrInFlight() ||
-                    this.backupIsPending ||
                     this.programBootCodeInProgress ||
                     this.reprogrammingInProgress;
 
@@ -1680,11 +1644,10 @@ namespace RelayControlLibrary
                     logger.Warn(
                         "Suppressing RequestAll during active programming/backup. state={0}, " +
                         "programBootCodeInProgress={1}, reprogrammingInProgress={2}, " +
-                        "backupIsPending={3}, programmingActive={4}",
+                        "programmingActive={3}",
                         this.state,
                         this.programBootCodeInProgress,
                         this.reprogrammingInProgress,
-                        this.backupIsPending,
                         this.IsProgrammingActiveOrInFlight());
                     return;
                 }
@@ -1841,8 +1804,7 @@ namespace RelayControlLibrary
 
                 case RelayProgrammingStates.AutoLoadCheckBoot:
                     logger.Info(
-                        "AutoLoadCheckBoot: entering continuation evaluation. backupIsPending={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
-                        this.backupIsPending,
+                        "AutoLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
 
@@ -1851,19 +1813,10 @@ namespace RelayControlLibrary
 
                 case RelayProgrammingStates.ManualLoadCheckBoot:
                     logger.Info(
-                        "ManualLoadCheckBoot: entering continuation evaluation. backupIsPending={0}, masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
-                        this.backupIsPending,
+                        "ManualLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
 
-                    if (!this.backupIsPending)
-                    {
-                        this.RunProgrammingStateMachine();
-                    }
-                    else
-                    {
-                        logger.Info("ManualLoadCheckBoot deferred; backup still pending.");
-                    }
                     break;
 
                 case RelayProgrammingStates.ReloadMasterBoot:
@@ -2005,7 +1958,7 @@ namespace RelayControlLibrary
                 this.autoLoad,
                 this.reprogrammingInProgress,
                 this.programBootCodeInProgress,
-                this.backupIsPending,
+                
                 this.NotPollingPort);
 
             this.reprogrammingInProgress = false;
@@ -2024,7 +1977,7 @@ namespace RelayControlLibrary
                 this.autoLoad,
                 this.reprogrammingInProgress,
                 this.programBootCodeInProgress,
-                this.backupIsPending,
+              
                 this.NotPollingPort);
         }
 
@@ -2041,7 +1994,7 @@ namespace RelayControlLibrary
                 string.IsNullOrWhiteSpace(caller) ? "unknown" : caller,
                 this.state,
                 this.startupIntent,
-                this.backupIsPending,
+               
                 this.reprogrammingInProgress,
                 this.programBootCodeInProgress,
                 this.autoPromptsApprovedThisCycle,
@@ -2584,8 +2537,7 @@ namespace RelayControlLibrary
 
             bool manualFlowActive =
                 this.startupIntent == StartupIntent.ManualApproved ||
-                ManualUpdate.usingManualMode ||
-                this.backupIsPending;
+                ManualUpdate.usingManualMode;
 
             this.enableButtons(true);
             this.timerTimeout.Stop();
@@ -2658,12 +2610,7 @@ namespace RelayControlLibrary
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
                 ManualUpdate.usingManualMode;
 
-            // Backup pending is a sequencing gate, not a manual-flow declaration.
-            if (this.backupIsPending)
-            {
-                logger.Info("Boot repair check deferred: backup still pending.");
-                return false;
-            }
+           
 
             // Manual full-update: unknown boot => force boot-first.
             // Auto flow: unknown boot => do not force here; let explicit boot-read path resolve it.
@@ -2785,7 +2732,6 @@ namespace RelayControlLibrary
         {
             bool manualFlowActive =
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.backupIsPending ||
                 ManualUpdate.usingManualMode;
 
             if (manualFlowActive)
@@ -3515,12 +3461,7 @@ namespace RelayControlLibrary
                 this.reprogrammingInProgress = false;
             }
 
-            // 4) Backup gate
-            if (this.backupIsPending)
-            {
-                logger.Warn("RunProgrammingStateMachine blocked: backup still pending.");
-                return;
-            }
+           
 
             // 5) Ensure payloads exist before payload stage
             if (!this.dontReloadFromResource &&
@@ -3813,7 +3754,7 @@ namespace RelayControlLibrary
                 this.programBootCodeInProgress,
                 this.notPollingPort,
                 this.autoLoad,
-                this.backupIsPending,
+               
                 BitConverter.ToString(rPEA.BytesToSend)
             );
 
