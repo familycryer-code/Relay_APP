@@ -646,51 +646,6 @@ namespace RelayControlLibrary
                 this.reprogramMaster, this.reprogramRelay, this.reprogramFPGA);
         }
 
-        /*
-        private bool ContinueManualAfterBootCheck()
-        {
-            if (this.startupIntent != StartupIntent.ManualApproved)
-            {
-                logger.Warn(
-                    "ContinueManualAfterBootCheck blocked: startupIntent={0}, no manual approval in active state.",
-                    this.startupIntent);
-                return false;
-            }
-
-            if (this.reprogrammingInProgress || this.programBootCodeInProgress)
-            {
-                logger.Warn("ContinueManualAfterBootCheck suppressed; programming already active.");
-                return false;
-            }
-
-            if (this.backupIsPending)
-            {
-                logger.Warn("ContinueManualAfterBootCheck deferred; backup still pending.");
-                return false;
-            }
-
-            this.RefreshPendingFirmwareFromCurrentRevisions();
-
-            if (!this.AnyFirmwarePending())
-            {
-                logger.Info("ContinueManualAfterBootCheck: no firmware pending; exiting manual flow.");
-                this.ResetAutoloadState("ContinueManualAfterBootCheck");
-                return false;
-            }
-
-            if (this.serialNumberError)
-            {
-                logger.Warn("ContinueManualAfterBootCheck blocked: serial number error detected.");
-                this.ResetAutoloadState("ContinueManualAfterBootCheck");
-                return false;
-            }
-
-            // Manual flow never uses auto boot-first continuation gate.
-            this.bootFirstAutoContinuation = false;
-            this.startProgramming();
-            return true;
-        }
-        */
 
         private bool ContinueAutoloadAfterBootCheck()
         {

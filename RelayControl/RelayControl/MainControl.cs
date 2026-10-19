@@ -107,7 +107,7 @@ namespace RelayControl
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
 
-
+        private ButtonPulseHelper _applyPulse;
 
         private System.Windows.Forms.Timer backupTimeoutTimer;
         private const int BackupTimeoutMs = 60000; // 30s
@@ -444,6 +444,8 @@ namespace RelayControl
                 this.ucPumpMode1.labelPumpTypeDisplay.Visible = false;
                 this.ucPumpMode1.labelEnable.Location = new System.Drawing.Point(285, 10);
 
+                _applyPulse = new ButtonPulseHelper(buttonSendAll, buttonSendAll.BackColor, ColorTranslator.FromHtml("#66ED72"), 40);
+
 #if BGE
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
                 this.Customer = Customers.BGE;
@@ -575,6 +577,9 @@ namespace RelayControl
                 checkBox277DNPOutputs.Checked = true;
 
                 this.enableAllToolStripMenuItem.Visible = true;
+
+
+
 #endif // DEBUG || ENGINEERING
 
                 UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
@@ -4050,6 +4055,8 @@ namespace RelayControl
 
             _autoloadDeclineRestoreHandled = true;
             logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
+            this.ClearBackupCaptureState();
+            this.ResetFullParameterDownloadState();
             RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
@@ -6439,7 +6446,7 @@ namespace RelayControl
 
             try
             {
-                // Single entry point owns download-state transition + begin logic
+                // Normal manual Request All: fetch data only (no backup trigger here)
                 this.requestAllData("buttonRequestRelayParamaters_Click");
             }
             catch (Exception ex)
@@ -6448,6 +6455,13 @@ namespace RelayControl
                 this.messageHandler("Request All Failed", ex);
 
                 ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
+            }
+            finally
+            {
+                screenD.screenDisable = false;
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                this.enableAll(true);
             }
         }
 
@@ -7106,15 +7120,16 @@ namespace RelayControl
                 return;
             }
 
-            bool isManualRequestAll =
-                caller == "buttonRequestRelayParamaters_Click";
+            bool isFreshPostApplyStart = caller == "sendAllParameters-postapply";
+            bool isManualRequestAll = caller == "buttonRequestRelayParamaters_Click";
 
             bool isStartupDiscovery =
                 caller == "relay-connect-serial" ||
                 caller == "timerFindRelayTimeout_Tick" ||
                 this.ProgramState == ProgramStates.CheckingForRelay;
 
-            if (this.ProgramState == ProgramStates.DownloadingAllParameters)
+            // Keep duplicate protection for normal re-entry. Allow the specific post-apply refresh through.
+            if (this.ProgramState == ProgramStates.DownloadingAllParameters && !isFreshPostApplyStart)
             {
                 LogFlow($"requestAllData SUPPRESSED: already downloading | caller={caller}");
                 return;
@@ -7137,7 +7152,6 @@ namespace RelayControl
             if (isStartupDiscovery && this.relayFound && startupFullDownloadStarted)
             {
                 LogFlow($"requestAllData SUPPRESSED: startup full download already started | caller={caller}");
-
                 return;
             }
 
@@ -7150,14 +7164,13 @@ namespace RelayControl
 
             LogFlow($"requestAllData starting parameter cycle | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}, manual={isManualRequestAll}");
 
-
-            // Full set of 5 section requests
+            // Normal request-all / post-apply readback path
+            // No backup capture here.
             this.requestRelayParameters();
             this.requestTransmitterSettings();
             this.requestRelayRevision();
             this.requestFPGARevision();
             this.requestMasterRevisionNumber(nameof(requestAllData));
-
 
             this.timerResponseTimeOut.Enabled = false;
             LogFlow($"requestAllData disabled timerResponseTimeOut | caller={caller}");
@@ -8940,6 +8953,8 @@ namespace RelayControl
             if (dr != DialogResult.OK)
                 return;
 
+            _applyPulse.Start();   // <-- start pulse
+
             this.enableAll(false);
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -8952,10 +8967,14 @@ namespace RelayControl
             {
                 logger.Error(ex, "Apply All failed");
                 this.messageHandler("Apply All Failed", ex);
+            }
+            finally
+            {
+                _applyPulse.Stop();   // <-- stop pulse
 
-                // only on immediate failure, restore UI here
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
+
                 this.Enabled = true;
                 Application.UseWaitCursor = false;
                 this.UseWaitCursor = false;
@@ -9041,8 +9060,7 @@ namespace RelayControl
 
             if (!this.IsProgrammingFlowActive())
             {
-                BeginFullParameterDownload(nameof(sendAllParameters));
-                this.requestAllData("sendAllParameters");
+                this.requestAllData("sendAllParameters-postapply");
             }
         }
 
@@ -12390,7 +12408,6 @@ namespace RelayControl
                 this.quietMode,
                 this.pauseMonitoring);
         }
-
 
         private void TryCompleteBackup()
         {
