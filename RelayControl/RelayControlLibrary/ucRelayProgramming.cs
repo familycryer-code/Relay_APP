@@ -646,6 +646,26 @@ namespace RelayControlLibrary
                 this.reprogramMaster, this.reprogramRelay, this.reprogramFPGA);
         }
 
+        private void ContinueManualAfterBootCheck()
+        {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            //this.RefreshPendingFirmwareFromCurrentRevisions();
+
+            if (!this.AnyFirmwarePending())
+            {
+                logger.Info("ManualLoadCheckBoot: no firmware pending after boot.");
+                this.reprogrammingInProgress = false;
+                this.programBootCodeInProgress = false;
+                this.state = RelayProgrammingStates.Idle;
+                return;
+            }
+
+            // do we need a boot check here?
+
+            logger.Info("ManualLoadCheckBoot: boot revision acceptable; continuing manual update.");
+            this.RunProgrammingStateMachine();
+        }
 
         private bool ContinueAutoloadAfterBootCheck()
         {
@@ -663,9 +683,7 @@ namespace RelayControlLibrary
                 return false;
             }
 
-            
-
-            this.RefreshPendingFirmwareFromCurrentRevisions();
+            //this.RefreshPendingFirmwareFromCurrentRevisions();
 
             if (!this.AnyFirmwarePending())
             {
@@ -708,39 +726,6 @@ namespace RelayControlLibrary
             RaiseBackupBeforeProgrammingRequested();  // Call to Main to kick us off.  
         }
 
-        private T InvokeOnUiThread<T>(Func<T> work)
-        {
-            if (this.IsDisposed)
-            {
-                logger.Warn("InvokeOnUiThread: control is disposed.");
-                return default(T);
-            }
-
-            if (this.InvokeRequired)
-            {
-                return (T)this.Invoke(work);
-            }
-
-            return work();
-        }
-
-        private void InvokeOnUiThread(Action work)
-        {
-            if (this.IsDisposed)
-            {
-                logger.Warn("InvokeOnUiThread: control is disposed.");
-                return;
-            }
-
-            if (this.InvokeRequired)
-            {
-                this.Invoke(work);
-                return;
-            }
-
-            work();
-        }
-
         public event Action<bool> ManualForcedUpdatePromptRequested;
         public void StartManualForcedUpdate()
         {
@@ -758,7 +743,7 @@ namespace RelayControlLibrary
                 this.ManualForcedUpdatePromptRequested(true);
                 return;
             }
-
+            this.RefreshPendingFirmwareFromCurrentRevisions();
             this.LogFlow("StartManualForcedUpdate EXIT: no prompt handler registered.", nameof(StartManualForcedUpdate));
             ManualUpdate.usingManualMode = false;
         }
@@ -767,7 +752,7 @@ namespace RelayControlLibrary
         {
             this.LogFlow("OnManualPromptsApproved", nameof(OnManualPromptsApproved));
 
-            this.RefreshPendingFirmwareFromCurrentRevisions();
+            //this.RefreshPendingFirmwareFromCurrentRevisions();
             this.setProgrammingFiles();
 
             ManualUpdate.usingManualMode = true;
@@ -802,7 +787,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.RefreshPendingFirmwareFromCurrentRevisions();
+            //this.RefreshPendingFirmwareFromCurrentRevisions();
 
             if (!this.AnyFirmwarePending())
             {
@@ -831,7 +816,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.RefreshPendingFirmwareFromCurrentRevisions();
+            //this.RefreshPendingFirmwareFromCurrentRevisions();
 
             if (!this.AnyFirmwarePending())
             {
@@ -992,11 +977,6 @@ namespace RelayControlLibrary
         {
             return ManualUpdate.usingManualMode
                 || this.state == RelayProgrammingStates.ManualLoadCheckBoot;
-        }
-
-        private bool IsAutoFlowActive()
-        {
-            return this.autoLoad && !IsManualFlowActive();
         }
 
         // inside ucRelayProgramming
@@ -1398,7 +1378,7 @@ namespace RelayControlLibrary
 
                 case RelayProgrammingStates.AutoLoadCheckBoot:
                     logger.Info(
-                        "AutoLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
+                        "AutoLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
 
@@ -1407,10 +1387,10 @@ namespace RelayControlLibrary
 
                 case RelayProgrammingStates.ManualLoadCheckBoot:
                     logger.Info(
-                        "ManualLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={1}, masterBootRevisionNumberReceived={2}",
+                        "ManualLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
-
+                    this.ContinueManualAfterBootCheck();
                     break;
 
                 case RelayProgrammingStates.ReloadMasterBoot:
@@ -1424,7 +1404,6 @@ namespace RelayControlLibrary
                     break;
             }
         }
-
 
         private void sendNextRelayPacket()
         {
@@ -1545,15 +1524,9 @@ namespace RelayControlLibrary
 
         private void ResetAutoloadState(string caller = "unknown")
         {
-            logger.Info(
-                "ResetAutoloadState ENTER caller={0} | pre: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, backupPending={5}, NotPollingPort={6}",
-                caller,
-                this.state,
-                this.autoLoad,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                
-                this.NotPollingPort);
+            this.LogFlow(
+                "ResetAutoloadState ENTER | pre",
+                caller);
 
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
@@ -1564,31 +1537,24 @@ namespace RelayControlLibrary
             this.bootFirstAutoContinuation = false;
             this.startupIntent = StartupIntent.None;
 
-            logger.Info(
-                "ResetAutoloadState EXIT caller={0} | post: state={1}, autoLoad={2}, reprogrammingInProgress={3}, programBootCodeInProgress={4}, backupPending={5}, NotPollingPort={6}",
-                caller,
-                this.state,
-                this.autoLoad,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-              
-                this.NotPollingPort);
+            this.LogFlow(
+                "ResetAutoloadState EXIT | post",
+                caller);
         }
 
         public void LogFlow(string message, string caller)
         {
             logger.Info(
-                "{0} | caller={1} | state={2} | startupIntent={3} | backupIsPending={4}" +
-                " | reprogrammingInProgress={5} | programBootCodeInProgress={6}" +
-                " | autoPromptsApprovedThisCycle={7} | bootFirstAutoContinuation={8}" +
-                " | serialNumberError={9} | masterBootRevisionSet={10}" +
-                " | masterBootRevisionNumberReceived={11} | requiredBootRevision={12}" +
-                " | activeRelay={13}",
+                "{0} | caller={1} | state={2} | startupIntent={3} | " +
+                "reprogrammingInProgress={4} | programBootCodeInProgress={5} | " +
+                "autoPromptsApprovedThisCycle={6} | bootFirstAutoContinuation={7} | " +
+                "serialNumberError={8} | masterBootRevisionSet={9} | " +
+                "masterBootRevisionNumberReceived={10} | requiredBootRevision={11} | activeRelay={12} | " +
+                "autoLoad={13} | reprogramMaster={14} | reprogramRelay={15} | reprogramFPGA={16} | bootLoadDone={17}",
                 message,
                 string.IsNullOrWhiteSpace(caller) ? "unknown" : caller,
                 this.state,
                 this.startupIntent,
-               
                 this.reprogrammingInProgress,
                 this.programBootCodeInProgress,
                 this.autoPromptsApprovedThisCycle,
@@ -1597,16 +1563,25 @@ namespace RelayControlLibrary
                 this.masterBootRevisionSet,
                 this.masterBootRevisionNumberReceived,
                 _bootCodeRevisionNumber,
-                this.ActiveRelay
-            );
+                this.ActiveRelay,
+                this.autoLoad,
+                this.reprogramMaster,
+                this.reprogramRelay,
+                this.reprogramFPGA,
+                this.bootLoadDone);
         }
         private void MasterBootLoaderStart()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             logger.Info("MasterBootLoaderStart: begin at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
 
+            this.programBootCodeInProgress = true;
+            this.reprogrammingInProgress = true;
+
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
+            this.state = RelayProgrammingStates.LoadingMasterBootLoader;
+
 
             int temp = 0;
 
@@ -1620,9 +1595,9 @@ namespace RelayControlLibrary
                 this.setProgrammingFiles();
             }
 
-            this.programBootCodeInProgress = true;
-            this.reprogrammingInProgress = true;
-            this.state = RelayProgrammingStates.LoadingMasterBootLoader;
+            //this.programBootCodeInProgress = true;
+            //this.reprogrammingInProgress = true;
+           // this.state = RelayProgrammingStates.LoadingMasterBootLoader;
 
             if (this.state == RelayProgrammingStates.LoadingMasterBootLoader)
             {
@@ -2119,7 +2094,6 @@ namespace RelayControlLibrary
                 || this.state == RelayProgrammingStates.WaitForAllData;
         }
 
-
         private void doneLoadingMasterBootLoader()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2205,7 +2179,6 @@ namespace RelayControlLibrary
                 ManualUpdate.usingManualMode;
 
            
-
             // Manual full-update: unknown boot => force boot-first.
             // Auto flow: unknown boot => do not force here; let explicit boot-read path resolve it.
             if (!this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0)
@@ -3016,22 +2989,20 @@ namespace RelayControlLibrary
 
         private void RunProgrammingStateMachine()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            this.LogFlow("RunProgrammingStateMachine ENTER", nameof(RunProgrammingStateMachine));
 
-            if(!this.autoLoad && !ManualUpdate.usingManualMode)
+            if (!this.autoLoad && !ManualUpdate.usingManualMode)
             {
+                this.LogFlow("RunProgrammingStateMachine EXIT: neither autoLoad nor manual mode active.", nameof(RunProgrammingStateMachine));
                 return;
             }
-
 
             // 1) Pre-flight gate
             if (!this.CanStartProgramming())
             {
-                logger.Warn(
-                    "RunProgrammingStateMachine blocked: startupIntent={0}, autoLoad={1}, manualMode={2}",
-                    this.startupIntent,
-                    this.autoLoad,
-                    ManualUpdate.usingManualMode);
+                this.LogFlow(
+                    $"RunProgrammingStateMachine blocked: CanStartProgramming() false. autoLoad={this.autoLoad}, manualMode={ManualUpdate.usingManualMode}",
+                    nameof(RunProgrammingStateMachine));
                 return;
             }
 
@@ -3039,10 +3010,9 @@ namespace RelayControlLibrary
             if (this.programBootCodeInProgress ||
                 this.state == RelayProgrammingStates.LoadingMasterBootLoader)
             {
-                logger.Warn(
-                    "RunProgrammingStateMachine suppressed while bootloader flow is active. state={0}, programBootCodeInProgress={1}",
-                    this.state,
-                    this.programBootCodeInProgress);
+                this.LogFlow(
+                    $"RunProgrammingStateMachine suppressed while bootloader flow is active. state={this.state}, programBootCodeInProgress={this.programBootCodeInProgress}",
+                    nameof(RunProgrammingStateMachine));
                 return;
             }
 
@@ -3051,24 +3021,22 @@ namespace RelayControlLibrary
                 this.reprogrammingInProgress &&
                 !this.programBootCodeInProgress)
             {
-                logger.Warn("RunProgrammingStateMachine: clearing stale reprogrammingInProgress in WaitingForBootMaster.");
+                this.LogFlow("RunProgrammingStateMachine: clearing stale reprogrammingInProgress in WaitingForBootMaster.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
             }
-
-           
 
             // 5) Ensure payloads exist before payload stage
             if (!this.dontReloadFromResource &&
                 (string.IsNullOrWhiteSpace(this.masterCode.FileString) ||
                  (this.reprogramRelay && string.IsNullOrWhiteSpace(this.relayCode.FileString))))
             {
-                logger.Warn("RunProgrammingStateMachine: programming payload missing; reloading embedded resource files.");
+                this.LogFlow("RunProgrammingStateMachine: programming payload missing; reloading embedded resource files.", nameof(RunProgrammingStateMachine));
                 this.setProgrammingFiles();
             }
 
             if (this.reprogramMaster && string.IsNullOrWhiteSpace(this.masterCode.FileString))
             {
-                logger.Error("RunProgrammingStateMachine aborted: master payload is empty.");
+                this.LogFlow("RunProgrammingStateMachine aborted: master payload is empty.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
 
                 if (this.IsManualFlowActive())
@@ -3081,7 +3049,7 @@ namespace RelayControlLibrary
 
             if (this.reprogramRelay && string.IsNullOrWhiteSpace(this.relayCode.FileString))
             {
-                logger.Error("RunProgrammingStateMachine aborted: relay payload is empty.");
+                this.LogFlow("RunProgrammingStateMachine aborted: relay payload is empty.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
 
                 if (this.IsManualFlowActive())
@@ -3093,7 +3061,7 @@ namespace RelayControlLibrary
             }
 
             // 6) Refresh pending from revisions
-            this.RefreshPendingFirmwareFromCurrentRevisions();
+            // this.RefreshPendingFirmwareFromCurrentRevisions();
 
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
             bool bootOld = this.masterBootRevisionSet &&
@@ -3101,25 +3069,16 @@ namespace RelayControlLibrary
 
             bool manualFlowActive = this.IsManualFlowActive();
 
-            logger.Info(
-                "FINAL ORDER CHECK | autoLoad={0}, manualFlowActive={1}, bootSet={2}, bootRev={3}, bootRequired={4}, bootUnknown={5}, bootOld={6}",
-                this.autoLoad,
-                manualFlowActive,
-                this.masterBootRevisionSet,
-                this.masterBootRevisionNumberReceived,
-                _bootCodeRevisionNumber,
-                bootUnknown,
-                bootOld);
+            this.LogFlow(
+                $"FINAL ORDER CHECK | autoLoad={this.autoLoad}, manualFlowActive={manualFlowActive}, bootSet={this.masterBootRevisionSet}, bootRev={this.masterBootRevisionNumberReceived}, requiredBootRevision={_bootCodeRevisionNumber}, bootUnknown={bootUnknown}, bootOld={bootOld}",
+                nameof(RunProgrammingStateMachine));
 
             // 7) Manual boot-first (keep as requested)
             if (ManualUpdate.usingManualMode && !this.bootLoadDone)
             {
-                logger.Info(
-                    "RunProgrammingStateMachine: manual full-update requires boot-first. bootUnknown={0}, bootOld={1}, bootRev={2}, required={3}",
-                    bootUnknown,
-                    bootOld,
-                    this.masterBootRevisionNumberReceived,
-                    _bootCodeRevisionNumber);
+                this.LogFlow(
+                    $"RunProgrammingStateMachine: manual full-update requires boot-first. bootUnknown={bootUnknown}, bootOld={bootOld}, bootRev={this.masterBootRevisionNumberReceived}, required={_bootCodeRevisionNumber}",
+                    nameof(RunProgrammingStateMachine));
 
                 this.bootFirstAutoContinuation = false;
                 this.reprogrammingInProgress = false;
@@ -3130,7 +3089,7 @@ namespace RelayControlLibrary
             // 8) Auto boot-first continuation
             if (this.autoLoad && this.bootFirstAutoContinuation)
             {
-                logger.Info("RunProgrammingStateMachine: auto boot-first continuation path requested.");
+                this.LogFlow("RunProgrammingStateMachine: auto boot-first continuation path requested.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
                 this.MasterBootLoaderStart();
                 return;
@@ -3139,7 +3098,7 @@ namespace RelayControlLibrary
             // 9) Payload stage selection
             if (this.reprogramMaster)
             {
-                logger.Info("RunProgrammingStateMachine: master update selected -> start master programming");
+                this.LogFlow("RunProgrammingStateMachine: master update selected -> start master programming.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
                 this.startMasterProgramming();
                 return;
@@ -3147,7 +3106,7 @@ namespace RelayControlLibrary
 
             if (this.reprogramRelay)
             {
-                logger.Info("RunProgrammingStateMachine: relay update selected -> start relay programming");
+                this.LogFlow("RunProgrammingStateMachine: relay update selected -> start relay programming.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
                 this.startRelayProgramming();
                 return;
@@ -3155,14 +3114,14 @@ namespace RelayControlLibrary
 
             if (this.reprogramFPGA)
             {
-                logger.Info("RunProgrammingStateMachine: FPGA update selected -> start FPGA programming");
+                this.LogFlow("RunProgrammingStateMachine: FPGA update selected -> start FPGA programming.", nameof(RunProgrammingStateMachine));
                 this.reprogrammingInProgress = false;
                 this.startFPGAProgramming();
                 return;
             }
 
             // 10) Nothing selected: this is terminal
-            logger.Warn("RunProgrammingStateMachine: no programming branch selected; finalizing.");
+            this.LogFlow("RunProgrammingStateMachine: no programming branch selected; finalizing.", nameof(RunProgrammingStateMachine));
             this.reprogrammingInProgress = false;
             this.bootFirstAutoContinuation = false;
             this.state = RelayProgrammingStates.Idle;
