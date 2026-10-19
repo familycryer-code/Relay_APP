@@ -1092,9 +1092,25 @@ namespace RelayControlLibrary
 
         public event Action AutoloadPromptRequested;
 
+        public bool waitingForAutoloadApproval = false;
+
         private void startAutoLoad()
         {
             this.LogFlow("startAutoLoad ENTER", nameof(startAutoLoad));
+
+            if (!this.autoPromptsApprovedThisCycle)
+            {
+                if (this.waitingForAutoloadApproval)
+                {
+                    this.LogFlow("startAutoLoad EXIT: waiting for autoload approval.", nameof(startAutoLoad));
+                    return;
+                }
+
+                this.waitingForAutoloadApproval = true;
+                this.LogFlow("startAutoLoad: requesting UI prompt flow.", nameof(startAutoLoad));
+                this.AutoloadPromptRequested?.Invoke();
+                return;
+            }
 
             if (this.IsManualFlowActive())
             {
@@ -1111,9 +1127,6 @@ namespace RelayControlLibrary
             if (this.serialNumberError)
             {
                 this.LogFlow("startAutoLoad EXIT: serial number error detected.", nameof(startAutoLoad));
-                this.bootFirstAutoContinuation = false;
-                this.autoPromptsApprovedThisCycle = false;
-                this.ResetAutoloadState("startAutoLoad");
                 this.RaiseAutoloadDeclined();
                 return;
             }
@@ -1124,9 +1137,6 @@ namespace RelayControlLibrary
             if (!this.AnyFirmwarePending())
             {
                 this.LogFlow("startAutoLoad EXIT: no firmware pending.", nameof(startAutoLoad));
-                this.bootFirstAutoContinuation = false;
-                this.autoPromptsApprovedThisCycle = false;
-                this.ResetAutoloadState("startAutoLoad");
                 this.RaiseAutoloadDeclined();
                 return;
             }
@@ -1134,19 +1144,11 @@ namespace RelayControlLibrary
             if (!this.autoPromptsApprovedThisCycle)
             {
                 this.LogFlow("startAutoLoad: requesting UI prompt flow.", nameof(startAutoLoad));
-
-                if (this.AutoloadPromptRequested != null)
-                {
-                    this.AutoloadPromptRequested();
-                    return;
-                }
-
-                this.LogFlow("startAutoLoad: no autoload prompt handler registered.", nameof(startAutoLoad));
-                this.RaiseAutoloadDeclined();
+                this.waitingForAutoloadApproval = true;
+                this.AutoloadPromptRequested?.Invoke();
                 return;
             }
 
-            // Continue after prompt approval
             bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
             bool bootOld = this.masterBootRevisionSet &&
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
@@ -1179,34 +1181,16 @@ namespace RelayControlLibrary
         public void OnAutoloadPromptsApproved()
         {
             this.LogFlow("OnAutoloadPromptsApproved", nameof(OnAutoloadPromptsApproved));
-
+            this.waitingForAutoloadApproval = false;
             this.autoPromptsApprovedThisCycle = true;
 
-            bool bootUnknown = !this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0;
-            bool bootOld = this.masterBootRevisionSet &&
-                           this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
-
-            if (bootUnknown)
-            {
-                this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-                this.sendReset();
-                return;
-            }
-
-            if (bootOld)
-            {
-                this.CheckProperMasterBootCode();
-                if (this.bootFirstAutoContinuation)
-                    return;
-            }
-
-            this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-            this.sendReset();
+            this.startAutoLoad();
         }
 
         public void RaiseAutoloadDeclined()
         {
             this.LogFlow("RaiseAutoloadDeclined", nameof(RaiseAutoloadDeclined));
+            this.waitingForAutoloadApproval = false;
             this.autoPromptsApprovedThisCycle = false;
             this.ResetAutoloadState("RaiseAutoloadDeclined");
             AutoloadDeclined?.Invoke(this, EventArgs.Empty);

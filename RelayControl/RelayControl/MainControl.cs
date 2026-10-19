@@ -11830,76 +11830,104 @@ namespace RelayControl
         }
 
 
-    public void RequestManualForcedUpdatePrompt(bool forcedFullUpdate)
-    {
-        if (this.InvokeRequired)
+        public void RequestManualForcedUpdatePrompt(bool forcedFullUpdate)
         {
-            BeginInvoke((Action)(() => RequestManualForcedUpdatePrompt(forcedFullUpdate)));
-            return;
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => RequestManualForcedUpdatePrompt(forcedFullUpdate)));
+                return;
+            }
+
+            if (this.IsDisposed)
+                return;
+
+            SetBusyUi(false);
+            this.enableAll(true);
+
+            DialogResult confirmUpdate = this.ShowManualLoadDialog(forcedFullUpdate);
+            if (confirmUpdate != DialogResult.Yes)
+            {
+                this.ucRelayProgramming1.HandleManualDeclined();
+                return;
+            }
+
+            DialogResult confirmWarning = this.ShowManualProgrammingStartWarning();
+            if (confirmWarning != DialogResult.OK)
+            {
+                this.ucRelayProgramming1.HandleManualDeclined();
+                return;
+            }
+
+            this.ucRelayProgramming1.OnManualPromptsApproved();
         }
 
-        if (this.IsDisposed)
-            return;
-
-        SetBusyUi(false);
-        this.enableAll(true);
-
-        DialogResult confirmUpdate = this.ShowManualLoadDialog(forcedFullUpdate);
-        if (confirmUpdate != DialogResult.Yes)
+        public void RequestAutoloadPrompt()
         {
-            this.ucRelayProgramming1.HandleManualDeclined();
-            return;
+            string context = this.InvokeRequired ? "BACKGROUND_THREAD" : "UI_THREAD";
+            logger.Info($"RequestAutoloadPrompt ENTER context={context} form={this.Name} handle={this.Handle} isDisposed={this.IsDisposed}");
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => RequestAutoloadPrompt()));
+                return;
+            }
+
+            if (this.IsDisposed)
+            {
+                logger.Info($"RequestAutoloadPrompt EXIT: form is disposed, form={this.Name}");
+                return;
+            }
+
+            logger.Info($"RequestAutoloadPrompt before SetBusyUi form={this.Name} activeControl={this.ActiveControl?.Name ?? "null"}");
+
+            SetBusyUi(false);
+            this.enableAll(true);
+
+            logger.Info($"RequestAutoloadPrompt before first dialog form={this.Name} owner={this.Owner?.Name ?? "null"}");
+
+            try
+            {
+                DialogResult newerFw = this.ShowAutoLoadUpdateMessage();
+                logger.Info($"RequestAutoloadPrompt newerFw result={newerFw} form={this.Name}");
+
+                if (newerFw != DialogResult.Yes)
+                {
+                    logger.Info($"RequestAutoloadPrompt decline via newerFw form={this.Name}");
+                    this.ucRelayProgramming1.RaiseAutoloadDeclined();
+                    return;
+                }
+
+                DialogResult confirmUpdate = this.ShowAutoLoadDialog();
+                logger.Info($"RequestAutoloadPrompt confirmUpdate result={confirmUpdate} form={this.Name}");
+
+                if (confirmUpdate != DialogResult.Yes)
+                {
+                    logger.Info($"RequestAutoloadPrompt decline via confirmUpdate form={this.Name}");
+                    this.ucRelayProgramming1.RaiseAutoloadDeclined();
+                    return;
+                }
+
+                DialogResult confirmWarning = this.ShowAutoProgrammingStartWarning();
+                logger.Info($"RequestAutoloadPrompt confirmWarning result={confirmWarning} form={this.Name}");
+
+                if (confirmWarning != DialogResult.OK)
+                {
+                    logger.Info($"RequestAutoloadPrompt decline via confirmWarning form={this.Name}");
+                    this.ucRelayProgramming1.RaiseAutoloadDeclined();
+                    return;
+                }
+
+                logger.Info($"RequestAutoloadPrompt approved: invoking ucRelayProgramming1.OnAutoloadPromptsApproved form={this.Name}");
+                this.ucRelayProgramming1.OnAutoloadPromptsApproved();
+            }
+            catch (Exception ex)
+            {
+                logger.Info($"Autoload prompt exception form={this.Name} ex={ex}");
+                this.ucRelayProgramming1.RaiseAutoloadDeclined();
+            }
         }
 
-        DialogResult confirmWarning = this.ShowManualProgrammingStartWarning();
-        if (confirmWarning != DialogResult.OK)
-        {
-            this.ucRelayProgramming1.HandleManualDeclined();
-            return;
-        }
-
-        this.ucRelayProgramming1.OnManualPromptsApproved();
-    }
-
-    public void RequestAutoloadPrompt()
-    {
-        if (this.InvokeRequired)
-        {
-            BeginInvoke((Action)RequestAutoloadPrompt);
-            return;
-        }
-
-        if (this.IsDisposed)
-            return;
-
-        SetBusyUi(false);
-        this.enableAll(true);
-
-        DialogResult newerFw = this.ShowAutoLoadUpdateMessage();
-        if (newerFw != DialogResult.Yes)
-        {
-            this.ucRelayProgramming1.RaiseAutoloadDeclined();
-            return;
-        }
-
-        DialogResult confirmUpdate = this.ShowAutoLoadDialog();
-        if (confirmUpdate != DialogResult.Yes)
-        {
-            this.ucRelayProgramming1.RaiseAutoloadDeclined();
-            return;
-        }
-
-        DialogResult confirmWarning = this.ShowAutoProgrammingStartWarning();
-        if (confirmWarning != DialogResult.OK)
-        {
-            this.ucRelayProgramming1.RaiseAutoloadDeclined();
-            return;
-        }
-
-        this.ucRelayProgramming1.OnAutoloadPromptsApproved();
-    }
-
-    public DialogResult ShowGeOrWhDialog(string title, string message, string yesText, string noText)
+        public DialogResult ShowGeOrWhDialog(string title, string message, string yesText, string noText)
     {
         if (this.InvokeRequired)
         {
