@@ -141,6 +141,18 @@ namespace RelayControl
             this.DNPEnabed = true;  
 #endif
             tCPConnectionToolStripMenuItem.Visible = true;
+
+            // Put this in the constructor or initialization after ucRelayProgramming1 is created
+            this.ucRelayProgramming1.ManualForcedUpdatePromptRequested += forcedFullUpdate =>
+            {
+                this.RequestManualForcedUpdatePrompt(forcedFullUpdate);
+            };
+
+            this.ucRelayProgramming1.AutoloadPromptRequested += () =>
+            {
+                this.RequestAutoloadPrompt();
+            };
+
         }
 
 
@@ -11817,7 +11829,322 @@ namespace RelayControl
                 backupStartedAtUtc);
         }
 
-        private void backupTimeoutTimer_Tick(object sender, EventArgs e)
+
+    public void RequestManualForcedUpdatePrompt(bool forcedFullUpdate)
+    {
+        if (this.InvokeRequired)
+        {
+            BeginInvoke((Action)(() => RequestManualForcedUpdatePrompt(forcedFullUpdate)));
+            return;
+        }
+
+        if (this.IsDisposed)
+            return;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        DialogResult confirmUpdate = this.ShowManualLoadDialog(forcedFullUpdate);
+        if (confirmUpdate != DialogResult.Yes)
+        {
+            this.ucRelayProgramming1.HandleManualDeclined();
+            return;
+        }
+
+        DialogResult confirmWarning = this.ShowManualProgrammingStartWarning();
+        if (confirmWarning != DialogResult.OK)
+        {
+            this.ucRelayProgramming1.HandleManualDeclined();
+            return;
+        }
+
+        this.ucRelayProgramming1.OnManualPromptsApproved();
+    }
+
+    public void RequestAutoloadPrompt()
+    {
+        if (this.InvokeRequired)
+        {
+            BeginInvoke((Action)RequestAutoloadPrompt);
+            return;
+        }
+
+        if (this.IsDisposed)
+            return;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        DialogResult newerFw = this.ShowAutoLoadUpdateMessage();
+        if (newerFw != DialogResult.Yes)
+        {
+            this.ucRelayProgramming1.RaiseAutoloadDeclined();
+            return;
+        }
+
+        DialogResult confirmUpdate = this.ShowAutoLoadDialog();
+        if (confirmUpdate != DialogResult.Yes)
+        {
+            this.ucRelayProgramming1.RaiseAutoloadDeclined();
+            return;
+        }
+
+        DialogResult confirmWarning = this.ShowAutoProgrammingStartWarning();
+        if (confirmWarning != DialogResult.OK)
+        {
+            this.ucRelayProgramming1.RaiseAutoloadDeclined();
+            return;
+        }
+
+        this.ucRelayProgramming1.OnAutoloadPromptsApproved();
+    }
+
+    public DialogResult ShowGeOrWhDialog(string title, string message, string yesText, string noText)
+    {
+        if (this.InvokeRequired)
+        {
+            return (DialogResult)this.Invoke(new Func<DialogResult>(() =>
+                ShowGeOrWhDialog(title, message, yesText, noText)));
+        }
+
+        if (this.IsDisposed)
+            return DialogResult.Cancel;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        logger.Info("POPUP SHOW: GE_WH_SELECT");
+        DialogResult relayTypeDR = new CustomYesNoDialog(
+            title,
+            message,
+            yesText,
+            noText).ShowDialog(this);
+
+        logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
+        return relayTypeDR;
+    }
+
+    public DialogResult ShowManualLoadDialog(bool forcedFullUpdate)
+    {
+        if (this.InvokeRequired)
+        {
+            return (DialogResult)this.Invoke(new Func<DialogResult>(() =>
+                ShowManualLoadDialog(forcedFullUpdate)));
+        }
+
+        if (this.IsDisposed)
+            return DialogResult.Cancel;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        try
+        {
+            DialogResult relayTypeDR = this.ShowGeOrWhDialog(
+                "GE or WH Select",
+                "Is this a GE or WH style relay?",
+                "GE",
+                "WH");
+
+            if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
+                return DialogResult.Cancel;
+
+            this.ucRelayProgramming1.GERelay = (relayTypeDR == DialogResult.Yes);
+
+            logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+
+            string confirmMessage = forcedFullUpdate
+                ? "Please confirm update request.\r\n" +
+                  "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
+                  "Relay update can take up to 10 minutes to complete."
+                : "Please confirm update request.\r\n" +
+                  "Relay update can take up to 10 minutes to complete.";
+
+            DialogResult confirmResult = MessageBox.Show(
+                this,
+                confirmMessage,
+                "Confirm Update Request",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
+
+            if (confirmResult != DialogResult.Yes)
+                return DialogResult.No;
+
+            return DialogResult.Yes;
+        }
+        finally
+        {
+            SetBusyUi(false);
+            this.enableAll(true);
+        }
+    }
+
+    public DialogResult ShowAutoLoadDialog()
+    {
+        if (this.InvokeRequired)
+        {
+            return (DialogResult)this.Invoke(new Func<DialogResult>(ShowAutoLoadDialog));
+        }
+
+        if (this.IsDisposed)
+            return DialogResult.Cancel;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        try
+        {
+            DialogResult relayTypeResult = this.ShowGeOrWhDialog(
+                "GE or WH Select",
+                "Is this a GE or WH style relay?",
+                "GE",
+                "WH");
+
+            if (relayTypeResult != DialogResult.Yes && relayTypeResult != DialogResult.No)
+                return DialogResult.Cancel;
+
+            this.ucRelayProgramming1.GERelay = (relayTypeResult == DialogResult.Yes);
+
+            logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+            DialogResult result = MessageBox.Show(
+                this,
+                "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
+                "Confirm Update Request",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
+            return result;
+        }
+        finally
+        {
+            SetBusyUi(false);
+            this.enableAll(true);
+        }
+    }
+
+    public void ShowFinalSuccessPopupOnce()
+    {
+        if (this.InvokeRequired)
+        {
+            BeginInvoke((Action)ShowFinalSuccessPopupOnce);
+            return;
+        }
+
+        if (this.IsDisposed)
+            return;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
+        MessageBox.Show(
+            this,
+            "Reprogram Completed Successfully",
+            "Reprogramming Completed Successfully!",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
+
+        logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
+    }
+
+    public DialogResult ShowAutoProgrammingStartWarning()
+    {
+        if (this.InvokeRequired)
+        {
+            return (DialogResult)this.Invoke(new Func<DialogResult>(ShowAutoProgrammingStartWarning));
+        }
+
+        if (this.IsDisposed)
+            return DialogResult.Cancel;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
+
+        const string message =
+            "Relay update is starting.\r\n\r\n" +
+            "The relay may temporarily disconnect and reconnect during this process.\r\n" +
+            "Progress will be shown in the programming window.\r\n\r\n" +
+            "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
+
+        DialogResult result = MessageBox.Show(
+            this,
+            message,
+            "Relay Update In Progress",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning,
+            MessageBoxDefaultButton.Button1);
+
+        logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
+        return result;
+    }
+
+    public DialogResult ShowManualProgrammingStartWarning()
+    {
+        if (this.InvokeRequired)
+        {
+            return (DialogResult)this.Invoke(new Func<DialogResult>(ShowManualProgrammingStartWarning));
+        }
+
+        if (this.IsDisposed)
+            return DialogResult.Cancel;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
+
+        const string message =
+            "Relay update is starting.\r\n\r\n" +
+            "The relay may temporarily disconnect and reconnect during this process.\r\n" +
+            "Progress will be shown in the programming window.\r\n\r\n" +
+            "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
+
+        DialogResult result = MessageBox.Show(
+            this,
+            message,
+            "Relay Update In Progress",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning,
+            MessageBoxDefaultButton.Button1);
+
+        logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
+        return result;
+    }
+
+    public DialogResult ShowAutoLoadUpdateMessage()
+    {
+        if (this.InvokeRequired)
+        {
+            return (DialogResult)this.Invoke(new Func<DialogResult>(ShowAutoLoadUpdateMessage));
+        }
+
+        if (this.IsDisposed)
+            return DialogResult.Cancel;
+
+        SetBusyUi(false);
+        this.enableAll(true);
+
+        logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
+
+        DialogResult result = MessageBox.Show(
+            this,
+            "A newer firmware version is available for this relay. An update is required to continue.\r\n\r\nClick Yes to begin the update.",
+            "Relay Code Updater",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning,
+            MessageBoxDefaultButton.Button1);
+
+        logger.Info("POPUP RESULT: AUTOLOAD_NEWER_FW result={0}", result);
+        return result;
+    }
+
+    private void backupTimeoutTimer_Tick(object sender, EventArgs e)
         {
             backupTimeoutTimer.Stop();
 
@@ -11987,6 +12314,10 @@ namespace RelayControl
             EndBackupCapture(true);
             ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
 
+            // Clear any stale busy/throbber state before resuming startup flow
+            SetBusyUi(false);
+            this.enableAll(true);
+
             switch (this.ucRelayProgramming1.CurrentStartupIntent)
             {
                 case ucRelayProgramming.StartupIntent.AutoApproved:
@@ -11998,11 +12329,9 @@ namespace RelayControl
                     break;
 
                 default:
-
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                     return;
             }
-
         }
     }
 
