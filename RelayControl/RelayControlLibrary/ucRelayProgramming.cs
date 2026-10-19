@@ -351,65 +351,7 @@ namespace RelayControlLibrary
                 //UInt32 previousValue = this.remoteMasterRevisionNumber;
                 this.remoteMasterRevisionNumber = value;
             }
-            /*
-                // Prevent setter-driven relatch while the relay is already in a boot/programming flow.
-                if (this.IsProgrammingActiveOrInFlight())
-                {
-                    logger.Info(
-                        "MasterRevisionNumber setter suppressed during active run. state={0}, autoLoad={1}, reprogrammingInProgress={2}, programBootCodeInProgress={3}, value={4}",
-                        this.state,
-                        this.autoLoad,
-                        this.reprogrammingInProgress,
-                        this.programBootCodeInProgress,
-                        value);
-
-                    return;
-                }
-
-                switch (this.state)
-                {
-                    case RelayProgrammingStates.LoadingMasterCode:
-                        this.programmingForm.CurrentTask = "Failed to Respond to Transfer Command";
-                        this.startMasterProgramming();
-                        break;
-
-                    case RelayProgrammingStates.ReprogramSuccess:
-                        this.timerTimeout.Stop();
-                        restartProgram();
-                        break;
-
-                    case RelayProgrammingStates.Finalized:
-                        logger.Trace("Finalized, state master rev");
-                        this.state = RelayProgrammingStates.Idle;
-                        break;
-
-                    case RelayProgrammingStates.RequestAll:
-                        this.state = RelayProgrammingStates.WaitForAllData;
-                        break;
-                }
-
-                if (value < 100713)
-                {
-                    if (value != previousValue)
-                    {
-                        MessageBox.Show("Please Contact DIGITALGRID, INC. and ship relay back to factor for upgrade", "Relay Upgrade");
-                    }
-                }
-
-                // Only recompute pending master reprogram when idle / not already in a runtime flow.
-                if (this.state == RelayProgrammingStates.Idle)
-                {
-                    this.reprogramMaster = (this.remoteMasterRevisionNumber < _masterCodeRevisionNumber);
-                }
-
-                // Continuation sequence only when not already in a programming cycle.
-                if (this.autoLoad && this.state == RelayProgrammingStates.WaitingForBootMaster)
-                    this.startMasterProgramming();
-                else if (this.autoLoad && this.state == RelayProgrammingStates.WaitingForBootRelay)
-                    this.startRelayProgramming();
-                else if (this.autoLoad && this.state == RelayProgrammingStates.WaitingForBootFPGA && this.transmitterEnabled)
-                    this.programFPGA();
-                */    
+             
         }
 
         public UInt32 RelayRevisionNumber
@@ -731,6 +673,10 @@ namespace RelayControlLibrary
         {
             this.LogFlow("StartManualForcedUpdate ENTER", nameof(StartManualForcedUpdate));
 
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+            this.LogFlow("StartManualForcedUpdate EXIT: no prompt handler registered.", nameof(StartManualForcedUpdate));
+            ManualUpdate.usingManualMode = false;
+
             if (this.IsProgrammingActiveOrInFlight())
             {
                 logger.Warn("InitializeAutoload ignored because programming is already active.");
@@ -743,9 +689,6 @@ namespace RelayControlLibrary
                 this.ManualForcedUpdatePromptRequested(true);
                 return;
             }
-            this.RefreshPendingFirmwareFromCurrentRevisions();
-            this.LogFlow("StartManualForcedUpdate EXIT: no prompt handler registered.", nameof(StartManualForcedUpdate));
-            ManualUpdate.usingManualMode = false;
         }
 
         public void OnManualPromptsApproved()
@@ -1548,9 +1491,12 @@ namespace RelayControlLibrary
                 "{0} | caller={1} | state={2} | startupIntent={3} | " +
                 "reprogrammingInProgress={4} | programBootCodeInProgress={5} | " +
                 "autoPromptsApprovedThisCycle={6} | bootFirstAutoContinuation={7} | " +
-                "serialNumberError={8} | masterBootRevisionSet={9} | " +
-                "masterBootRevisionNumberReceived={10} | requiredBootRevision={11} | activeRelay={12} | " +
-                "autoLoad={13} | reprogramMaster={14} | reprogramRelay={15} | reprogramFPGA={16} | bootLoadDone={17}",
+                "serialNumberError={8} | " +
+                "masterBootRevisionSet={9} | masterBootRevisionNumberReceived={10} | requiredBootRevision={11} | " +
+                "activeRelay={12} | " +
+                "currentMasterRevision={13} | currentRelayRevision={14} | currentFPGARevision={15} | " +
+                "resourceMasterRevision={16} | resourceRelayRevision={17} | resourceFPGARevision={18} | " +
+                "autoLoad={19} | reprogramMaster={20} | reprogramRelay={21} | reprogramFPGA={22} | bootLoadDone={23}",
                 message,
                 string.IsNullOrWhiteSpace(caller) ? "unknown" : caller,
                 this.state,
@@ -1564,6 +1510,12 @@ namespace RelayControlLibrary
                 this.masterBootRevisionNumberReceived,
                 _bootCodeRevisionNumber,
                 this.ActiveRelay,
+                this.MasterRevisionNumber,
+                this.RelayRevisionNumber,
+                this.FPGARevisionNumber,
+                _masterCodeRevisionNumber,
+                _relayCodeRevisionNumber,
+                _fPGACodeRevisionNumber,
                 this.autoLoad,
                 this.reprogramMaster,
                 this.reprogramRelay,

@@ -2579,6 +2579,14 @@ namespace RelayControl
                         this.receiveArray[commandAddress] = 0;
                         packet = formulatedPacket(tempRXReadPtr, packetSize);
 
+                        // Seeing phasor data during programming.
+                        if (command == IncomingCommCommands.PhasorUpdate &&
+                            (this.IsProgrammingFlowActive() ||
+                             (this.ucRelayProgramming1 != null && this.ucRelayProgramming1.ReprogrammingInProgress)))
+                        {
+                            continue;
+                        }
+
                         this.packetFormulated(packet, command);
                     }
 

@@ -1,13 +1,15 @@
-﻿using System;
+﻿using NLog;
+using SharedResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Text;
-using System.Windows.Forms;
+using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.Serialization;
-using SharedResources;
+using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace RelayControlLibrary
 {
@@ -236,6 +238,11 @@ namespace RelayControlLibrary
 
         private void setAll(byte[] bytePacket)
         {
+            if (bytePacket == null || bytePacket.Length < 12)
+            {
+                Debug.WriteLine("setAll: invalid packet length: " + (bytePacket == null ? 0 : bytePacket.Length));
+            }
+
             uint tempI;
 
             try
