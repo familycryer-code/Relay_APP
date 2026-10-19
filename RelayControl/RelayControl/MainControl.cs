@@ -4360,49 +4360,7 @@ namespace RelayControl
             }
         }
 
-        private bool ShouldAllowProgrammingTraffic()
-        {
-            if (this.ucRelayProgramming1 == null)
-                return false;
-
-            return this.IsRelayProgrammingLifecycleActive();
-        }
-
-        private bool ShouldSuppressBackgroundComms()
-        {
-            if (this.ucRelayProgramming1 == null)
-                return false;
-
-            return this.IsProgrammingFlowActive()
-                || this.pendingRestoreAfterProgramming
-                || this.backupInProgress
-                || this.quietMode
-                || this.pauseMonitoring;
-        }
-
-        private bool IsRelayProgrammingLifecycleActive()
-        {
-            return this.ucRelayProgramming1 != null &&
-                   (this.ucRelayProgramming1.ReprogrammingInProgress ||
-                    this.ucRelayProgramming1.ProgramBootCodeInProgress ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForMaster || // add this
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.ReloadMasterBoot ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.Finalized ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitForAllData);
-        }
+        
 
         /*
         private void startMonitoringWBSettings()
@@ -7128,6 +7086,8 @@ namespace RelayControl
 
         private void requestAllData(string caller = "unknown")
         {
+            logger.Info("requestAllData ENTRY: caller={0}, relayFound={1}, state={2}", caller, this.relayFound, this.ProgramState);
+
             if (this.ucRelayProgramming1 == null)
             {
                 LogFlow("Request All suppressed: ucRelayProgramming1 is null");
@@ -7185,7 +7145,6 @@ namespace RelayControl
             {
                 startupFullDownloadStarted = true;
                 this.ucRelayProgramming1.InitializeAutoload();
-                this.pendingAutoloadAfterBackup = true;
                 LogFlow($"requestAllData startup full download latch set | caller={caller}");
             }
 
@@ -7195,9 +7154,9 @@ namespace RelayControl
             // Full set of 5 section requests
             this.requestRelayParameters();
             this.requestTransmitterSettings();
-            //this.requestRelayRevision();
-            //this.requestFPGARevision();
-            //this.requestMasterRevisionNumber(nameof(requestAllData));
+            this.requestRelayRevision();
+            this.requestFPGARevision();
+            this.requestMasterRevisionNumber(nameof(requestAllData));
 
 
             this.timerResponseTimeOut.Enabled = false;
@@ -12145,34 +12104,129 @@ namespace RelayControl
         return result;
     }
 
-    public DialogResult ShowAutoLoadUpdateMessage()
-    {
-        if (this.InvokeRequired)
+        public DialogResult ShowAutoLoadUpdateMessage()
         {
-            return (DialogResult)this.Invoke(new Func<DialogResult>(ShowAutoLoadUpdateMessage));
+            int managedThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            bool invokeRequired = this.InvokeRequired;
+
+            logger.Info(
+                "ShowAutoLoadUpdateMessage ENTER | threadId={0} | invokeRequired={1} | form={2} | handle={3} | isHandleCreated={4} | visible={5} | topLevel={6} | enabled={7} | focused={8} | containsFocus={9} | isDisposed={10} | owner={11} | activeForm={12}",
+                managedThreadId,
+                invokeRequired,
+                this.Name,
+                this.IsHandleCreated ? this.Handle.ToString() : "NO_HANDLE",
+                this.IsHandleCreated,
+                this.Visible,
+                this.TopLevel,
+                this.Enabled,
+                this.Focused,
+                this.ContainsFocus,
+                this.IsDisposed,
+                this.Owner?.Name ?? "null",
+                Form.ActiveForm?.Name ?? "null"
+            );
+
+            if (invokeRequired)
+            {
+                logger.Info(
+                    "ShowAutoLoadUpdateMessage MARSHAL_TO_UI | currentThreadId={0} | form={1}",
+                    managedThreadId,
+                    this.Name
+                );
+
+                DialogResult marshaledResult = (DialogResult)this.Invoke(new Func<DialogResult>(ShowAutoLoadUpdateMessage));
+
+                logger.Info(
+                    "ShowAutoLoadUpdateMessage RETURN_FROM_UI_INVOKE | currentThreadId={0} | result={1} | form={2}",
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    marshaledResult,
+                    this.Name
+                );
+
+                return marshaledResult;
+            }
+
+            if (this.IsDisposed)
+            {
+                logger.Info(
+                    "ShowAutoLoadUpdateMessage EXIT_DISPOSED | threadId={0} | form={1}",
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    this.Name
+                );
+                return DialogResult.Cancel;
+            }
+
+            try
+            {
+                logger.Info(
+                    "ShowAutoLoadUpdateMessage PREP_UI | threadId={0} | form={1} | activeControl={2}",
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    this.Name,
+                    this.ActiveControl?.Name ?? "null"
+                );
+
+                SetBusyUi(false);
+                this.enableAll(true);
+
+                // Optional but useful for z-order/focus consistency:
+                if (this.WindowState == FormWindowState.Minimized)
+                {
+                    logger.Info("ShowAutoLoadUpdateMessage RESTORE_WINDOW | form={0}", this.Name);
+                    this.WindowState = FormWindowState.Normal;
+                }
+
+                this.Activate();
+
+                logger.Info(
+                    "POPUP SHOW: AUTOLOAD_NEWER_FW | threadId={0} | form={1} | handle={2} | visible={3} | activeForm={4}",
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    this.Name,
+                    this.IsHandleCreated ? this.Handle.ToString() : "NO_HANDLE",
+                    this.Visible,
+                    Form.ActiveForm?.Name ?? "null"
+                );
+
+                Form owner = this.FindForm() ?? this;
+                logger.Info("owner form = {0} | this form = {1}", owner?.Name ?? "null", this.Name);
+                DialogResult result = MessageBox.Show(
+                    owner,
+                    "A newer firmware version is available for this relay. An update is required to continue.\r\n\r\nClick Yes to begin the update.",
+                    "Relay Code Updater",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1);
+
+                logger.Info(
+                    "POPUP RESULT: AUTOLOAD_NEWER_FW result={0} | threadId={1} | form={2} | activeForm={3}",
+                    result,
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    this.Name,
+                    Form.ActiveForm?.Name ?? "null"
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                logger.Info(
+                    "ShowAutoLoadUpdateMessage EXCEPTION | threadId={0} | form={1} | ex={2}",
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    this.Name,
+                    ex
+                );
+                return DialogResult.Cancel;
+            }
+            finally
+            {
+                logger.Info(
+                    "ShowAutoLoadUpdateMessage EXIT | threadId={0} | form={1}",
+                    System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    this.Name
+                );
+            }
         }
 
-        if (this.IsDisposed)
-            return DialogResult.Cancel;
-
-        SetBusyUi(false);
-        this.enableAll(true);
-
-        logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
-
-        DialogResult result = MessageBox.Show(
-            this,
-            "A newer firmware version is available for this relay. An update is required to continue.\r\n\r\nClick Yes to begin the update.",
-            "Relay Code Updater",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Warning,
-            MessageBoxDefaultButton.Button1);
-
-        logger.Info("POPUP RESULT: AUTOLOAD_NEWER_FW result={0}", result);
-        return result;
-    }
-
-    private void backupTimeoutTimer_Tick(object sender, EventArgs e)
+        private void backupTimeoutTimer_Tick(object sender, EventArgs e)
         {
             backupTimeoutTimer.Stop();
 
@@ -12231,6 +12285,50 @@ namespace RelayControl
             {
                 logger.Error(rex, "RecoverComms failed. caller={0}", caller);
             }
+        }
+
+        private bool ShouldAllowProgrammingTraffic()
+        {
+            if (this.ucRelayProgramming1 == null)
+                return false;
+
+            return this.IsRelayProgrammingLifecycleActive();
+        }
+
+        private bool ShouldSuppressBackgroundComms()
+        {
+            if (this.ucRelayProgramming1 == null)
+                return false;
+
+            return this.IsProgrammingFlowActive()
+                || this.pendingRestoreAfterProgramming
+                || this.backupInProgress
+                || this.quietMode
+                || this.pauseMonitoring;
+        }
+
+        private bool IsRelayProgrammingLifecycleActive()
+        {
+            return this.ucRelayProgramming1 != null &&
+                   (this.ucRelayProgramming1.ReprogrammingInProgress ||
+                    this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForMaster || // add this
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterData ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayCode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingRelayData ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingFPGACode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootMaster ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootRelay ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForBootFPGA ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.AutoLoadCheckBoot ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.ManualLoadCheckBoot ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.CheckMasterBootCode ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.ReloadMasterBoot ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.Finalized ||
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitForAllData);
         }
 
         public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
@@ -12349,6 +12447,7 @@ namespace RelayControl
             switch (this.ucRelayProgramming1.CurrentStartupIntent)
             {
                 case ucRelayProgramming.StartupIntent.AutoApproved:
+                    
                     this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
                     break;
 
