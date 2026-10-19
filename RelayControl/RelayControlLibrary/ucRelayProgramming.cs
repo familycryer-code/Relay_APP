@@ -759,227 +759,155 @@ namespace RelayControlLibrary
             RaiseBackupBeforeProgrammingRequested();  // Call to Main to kick us off.  
         }
 
+        private T InvokeOnUiThread<T>(Func<T> work)
+        {
+            if (this.IsDisposed)
+            {
+                logger.Warn("InvokeOnUiThread: control is disposed.");
+                return default(T);
+            }
+
+            if (this.InvokeRequired)
+            {
+                return (T)this.Invoke(work);
+            }
+
+            return work();
+        }
+
+        private void InvokeOnUiThread(Action work)
+        {
+            if (this.IsDisposed)
+            {
+                logger.Warn("InvokeOnUiThread: control is disposed.");
+                return;
+            }
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(work);
+                return;
+            }
+
+            work();
+        }
+
         private DialogResult showManualLoadDialog(bool forcedFullUpdate)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (this.InvokeRequired)
+            if (this.IsDisposed)
             {
-                logger.Info("showManualLoadDialog: marshaling to UI thread.");
-                DialogResult[] resultHolder = new DialogResult[1];
+                logger.Warn("showManualLoadDialog: control is disposed.");
+                return DialogResult.Cancel;
+            }
 
-                this.Invoke(new Action(() =>
+            return this.InvokeOnUiThread(() =>
+            {
+                Cursor previousCursor = Cursor.Current;
+                bool previousUseWait = Application.UseWaitCursor;
+
+                try
                 {
-                    Cursor previousCursorInner = Cursor.Current;
-                    bool previousUseWaitInner = Application.UseWaitCursor;
+                    Application.UseWaitCursor = false;
+                    Cursor.Current = Cursors.Default;
 
-                    try
-                    {
-                        Application.UseWaitCursor = false;
-                        Cursor.Current = Cursors.Default;
+                    logger.Info("POPUP SHOW: GE_WH_SELECT");
+                    DialogResult relayTypeDR = new CustomYesNoDialog(
+                        "GE or WH Select",
+                        "Is this a GE or WH style relay?",
+                        "GE",
+                        "WH").ShowDialog(this);
 
-                        logger.Info("POPUP SHOW: GE_WH_SELECT");
-                        DialogResult relayTypeDR = new CustomYesNoDialog(
-                            "GE or WH Select",
-                            "Is this a GE or WH style relay?",
-                            "GE",
-                            "WH").ShowDialog(this);
+                    logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
 
-                        logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
+                    if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
+                        return DialogResult.Cancel;
 
-                        if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
-                        {
-                            resultHolder[0] = DialogResult.Cancel;
-                            return;
-                        }
+                    internalGESetter = (relayTypeDR == DialogResult.Yes);
 
-                        internalGESetter = (relayTypeDR == DialogResult.Yes);
+                    logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
 
-                        logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+                    string confirmMessage = forcedFullUpdate
+                        ? "Please confirm update request.\r\n" +
+                          "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
+                          "Relay update can take up to 10 minutes to complete."
+                        : "Please confirm update request.\r\n" +
+                          "Relay update can take up to 10 minutes to complete.";
 
-                        string confirmMessage = forcedFullUpdate
-                            ? "Please confirm update request.\r\n" +
-                              "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
-                              "Relay update can take up to 10 minutes to complete."
-                            : "Please confirm update request.\r\n" +
-                              "Relay update can take up to 10 minutes to complete.";
+                    DialogResult confirmResult = MessageBox.Show(
+                        this,
+                        confirmMessage,
+                        "Confirm Update Request",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button2);
 
-                        DialogResult confirmResult = MessageBox.Show(
-                            this,
-                            confirmMessage,
-                            "Confirm Update Request",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Warning,
-                            MessageBoxDefaultButton.Button2);
+                    logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
 
-                        logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
+                    if (confirmResult != DialogResult.Yes)
+                        return DialogResult.No;
 
-                        if (confirmResult != DialogResult.Yes)
-                        {
-                            resultHolder[0] = DialogResult.No;
-                            return;
-                        }
-
-                        resultHolder[0] = DialogResult.Yes;
-                    }
-                    finally
-                    {
-                        Application.UseWaitCursor = previousUseWaitInner;
-                        Cursor.Current = previousCursorInner ?? Cursors.Default;
-                    }
-                }));
-
-                return resultHolder[0];
-            }
-
-            Cursor previousCursor = Cursor.Current;
-            bool previousUseWait = Application.UseWaitCursor;
-
-            try
-            {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-
-                logger.Info("POPUP SHOW: GE_WH_SELECT");
-                DialogResult relayTypeDR = new CustomYesNoDialog(
-                    "GE or WH Select",
-                    "Is this a GE or WH style relay?",
-                    "GE",
-                    "WH").ShowDialog(this);
-
-                logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeDR);
-
-                if (relayTypeDR != DialogResult.Yes && relayTypeDR != DialogResult.No)
-                    return DialogResult.Cancel;
-
-                internalGESetter = (relayTypeDR == DialogResult.Yes);
-
-                logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
-
-                string confirmMessage = forcedFullUpdate
-                    ? "Please confirm update request.\r\n" +
-                      "This will reprogram Boot, Master, Relay, and FPGA regardless of current versions.\r\n" +
-                      "Relay update can take up to 10 minutes to complete."
-                    : "Please confirm update request.\r\n" +
-                      "Relay update can take up to 10 minutes to complete.";
-
-                DialogResult confirmResult = MessageBox.Show(
-                    this,
-                    confirmMessage,
-                    "Confirm Update Request",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2);
-
-                logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", confirmResult);
-
-                if (confirmResult != DialogResult.Yes)
-                    return DialogResult.No;
-
-                return DialogResult.Yes;
-            }
-            finally
-            {
-                Application.UseWaitCursor = previousUseWait;
-                Cursor.Current = previousCursor ?? Cursors.Default;
-            }
+                    return DialogResult.Yes;
+                }
+                finally
+                {
+                    Application.UseWaitCursor = previousUseWait;
+                    Cursor.Current = previousCursor ?? Cursors.Default;
+                }
+            });
         }
 
         private DialogResult ShowAutoLoadDialog()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (this.InvokeRequired)
+            if (this.IsDisposed)
             {
-                logger.Info("ShowAutoLoadDialog: marshaling to UI thread.");
-                DialogResult[] resultHolder = new DialogResult[1];
+                logger.Warn("ShowAutoLoadDialog: control is disposed.");
+                return DialogResult.Cancel;
+            }
 
-                this.Invoke(new Action(() =>
+            return this.InvokeOnUiThread(() =>
+            {
+                Cursor previousCursor = Cursor.Current;
+                bool previousUseWait = Application.UseWaitCursor;
+
+                try
                 {
-                    Cursor previousCursor = Cursor.Current;
-                    bool previousUseWait = Application.UseWaitCursor;
+                    Application.UseWaitCursor = false;
+                    Cursor.Current = Cursors.Default;
 
-                    try
-                    {
-                        Application.UseWaitCursor = false;
-                        Cursor.Current = Cursors.Default;
+                    logger.Info("POPUP SHOW: GE_WH_SELECT");
+                    DialogResult relayTypeResult = new CustomYesNoDialog(
+                        "GE or WH Select",
+                        "Is this a GE or WH style relay?",
+                        "GE",
+                        "WH").ShowDialog(this);
 
-                        logger.Info("POPUP SHOW: GE_WH_SELECT");
-                        DialogResult relayTypeResult = new CustomYesNoDialog(
-                            "GE or WH Select",
-                            "Is this a GE or WH style relay?",
-                            "GE",
-                            "WH").ShowDialog(this);
+                    logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
 
-                        logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
+                    if (relayTypeResult != DialogResult.Yes && relayTypeResult != DialogResult.No)
+                        return DialogResult.Cancel;
 
-                        if (relayTypeResult != DialogResult.Yes && relayTypeResult != DialogResult.No)
-                        {
-                            resultHolder[0] = DialogResult.Cancel;
-                            return;
-                        }
+                    internalGESetter = (relayTypeResult == DialogResult.Yes);
 
-                        internalGESetter = (relayTypeResult == DialogResult.Yes);
+                    logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
+                    DialogResult result = MessageBox.Show(
+                        this,
+                        "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
+                        "Confirm Update Request",
+                        MessageBoxButtons.YesNo);
 
-                        logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
-                        DialogResult result = MessageBox.Show(
-                            this,
-                            "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
-                            "Confirm Update Request",
-                            MessageBoxButtons.YesNo);
-
-                        logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
-
-                        resultHolder[0] = result;
-                    }
-                    finally
-                    {
-                        Application.UseWaitCursor = previousUseWait;
-                        Cursor.Current = previousCursor ?? Cursors.Default;
-                    }
-                }));
-
-                return resultHolder[0];
-            }
-
-            Cursor previousCursor2 = Cursor.Current;
-            bool previousUseWait2 = Application.UseWaitCursor;
-
-            try
-            {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-
-                logger.Info("POPUP SHOW: GE_WH_SELECT");
-                DialogResult relayTypeResult = new CustomYesNoDialog(
-                    "GE or WH Select",
-                    "Is this a GE or WH style relay?",
-                    "GE",
-                    "WH").ShowDialog(this);
-
-                logger.Info("POPUP RESULT: GE_WH_SELECT result={0}", relayTypeResult);
-
-                if (relayTypeResult != DialogResult.Yes && relayTypeResult != DialogResult.No)
-                    return DialogResult.Cancel;
-
-                internalGESetter = (relayTypeResult == DialogResult.Yes);
-
-                logger.Info("POPUP SHOW: CONFIRM_UPDATE_10MIN");
-                DialogResult result = MessageBox.Show(
-                    this,
-                    "Please confirm the relay update.\r\nThe update may take up to 10 minutes to complete.",
-                    "Confirm Update Request",
-                    MessageBoxButtons.YesNo);
-
-                logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
-
-                return result;
-            }
-            finally
-            {
-                Application.UseWaitCursor = previousUseWait2;
-                Cursor.Current = previousCursor2 ?? Cursors.Default;
-            }
+                    logger.Info("POPUP RESULT: CONFIRM_UPDATE_10MIN result={0}", result);
+                    return result;
+                }
+                finally
+                {
+                    Application.UseWaitCursor = previousUseWait;
+                    Cursor.Current = previousCursor ?? Cursors.Default;
+                }
+            });
         }
 
         private bool finalSuccessPopupShownThisCycle = false;
@@ -991,31 +919,31 @@ namespace RelayControlLibrary
 
             this.finalSuccessPopupShownThisCycle = true;
 
-            logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
-            MessageBox.Show(
-                this,
-                "Reprogram Completed Successfully",
-                "Reprogramming Completed Successfully!");
-            logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
+            this.InvokeOnUiThread(() =>
+            {
+                logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
+                MessageBox.Show(
+                    this,
+                    "Reprogram Completed Successfully",
+                    "Reprogramming Completed Successfully!");
+                logger.Info("POPUP RESULT: REPROGRAM_SUCCESS result=Shown");
+            });
         }
+
         private DialogResult ShowAutoProgrammingStartWarning()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (this.InvokeRequired)
+            if (this.IsDisposed)
             {
-                logger.Info("ShowAutoProgrammingStartWarning: marshaling to UI thread.");
-                DialogResult[] resultHolder = new DialogResult[1];
-
-                this.Invoke(new Action(() =>
-                {
-                    resultHolder[0] = ShowAutoProgrammingStartWarningInternal();
-                }));
-
-                return resultHolder[0];
+                logger.Warn("ShowAutoProgrammingStartWarning: control is disposed.");
+                return DialogResult.Cancel;
             }
 
-            return ShowAutoProgrammingStartWarningInternal();
+            return this.InvokeOnUiThread(() =>
+            {
+                return ShowAutoProgrammingStartWarningInternal();
+            });
         }
 
         private DialogResult ShowAutoProgrammingStartWarningInternal()
@@ -1039,58 +967,38 @@ namespace RelayControlLibrary
             logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
             return result;
         }
+
         private DialogResult ShowManualProgrammingStartWarning()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (this.InvokeRequired)
+            if (this.IsDisposed)
             {
-                logger.Info("ShowManualProgrammingStartWarning: marshaling to UI thread.");
-                DialogResult[] resultHolder = new DialogResult[1];
-
-                this.Invoke(new Action(() =>
-                {
-                    logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
-
-                    const string message =
-                        "Relay update is starting.\r\n\r\n" +
-                        "The relay may temporarily disconnect and reconnect during this process.\r\n" +
-                        "Progress will be shown in the programming window.\r\n\r\n" +
-                        "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
-
-                    DialogResult result = MessageBox.Show(
-                        this,
-                        message,
-                        "Relay Update In Progress",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning,
-                        MessageBoxDefaultButton.Button1);
-
-                    logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
-                    resultHolder[0] = result;
-                }));
-
-                return resultHolder[0];
+                logger.Warn("ShowManualProgrammingStartWarning: control is disposed.");
+                return DialogResult.Cancel;
             }
 
-            logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
+            return this.InvokeOnUiThread(() =>
+            {
+                logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
 
-            const string messageLocal =
-                "Relay update is starting.\r\n\r\n" +
-                "The relay may temporarily disconnect and reconnect during this process.\r\n" +
-                "Progress will be shown in the programming window.\r\n\r\n" +
-                "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
+                const string message =
+                    "Relay update is starting.\r\n\r\n" +
+                    "The relay may temporarily disconnect and reconnect during this process.\r\n" +
+                    "Progress will be shown in the programming window.\r\n\r\n" +
+                    "Do not remove the port, power down the relay, let the computer sleep, or click around the application until the update finishes.";
 
-            DialogResult resultLocal = MessageBox.Show(
-                this,
-                messageLocal,
-                "Relay Update In Progress",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning,
-                MessageBoxDefaultButton.Button1);
+                DialogResult result = MessageBox.Show(
+                    this,
+                    message,
+                    "Relay Update In Progress",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1);
 
-            logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", resultLocal);
-            return resultLocal;
+                logger.Info("POPUP RESULT: START_WARNING_DO_NOT_REMOVE_PORT result={0}", result);
+                return result;
+            });
         }
 
         private DialogResult ShowAutoLoadUpdateMessage()
@@ -1100,34 +1008,15 @@ namespace RelayControlLibrary
             if (this.IsDisposed)
             {
                 logger.Warn("ShowAutoLoadUpdateMessage: control is disposed.");
-                return DialogResult.No;
+                return DialogResult.Cancel;
             }
 
-            if (!this.IsHandleCreated)
+            return this.InvokeOnUiThread(() =>
             {
-                logger.Warn("ShowAutoLoadUpdateMessage: control handle not ready; deferring autoload prompt.");
-                return DialogResult.None;
-            }
-
-            DialogResult result = DialogResult.No;
-
-            Action show = () =>
-            {
-                Form ownerForm = this.FindForm();
-
-                IWin32Window owner;
-                if (ownerForm != null)
-                {
-                    owner = (IWin32Window)ownerForm;
-                }
-                else
-                {
-                    owner = (IWin32Window)this;
-                }
-
                 logger.Info("POPUP SHOW: AUTOLOAD_NEWER_FW");
-                result = MessageBox.Show(
-                    owner,
+
+                DialogResult result = MessageBox.Show(
+                    this,
                     "A newer firmware version is available for this relay. An update is required to continue.\r\n\r\nClick Yes to begin the update.",
                     "Relay Code Updater",
                     MessageBoxButtons.YesNo,
@@ -1135,19 +1024,8 @@ namespace RelayControlLibrary
                     MessageBoxDefaultButton.Button1);
 
                 logger.Info("POPUP RESULT: AUTOLOAD_NEWER_FW result={0}", result);
-            };
-
-            if (this.InvokeRequired)
-            {
-                logger.Info("ShowAutoLoadUpdateMessage: marshaling to UI thread.");
-                this.Invoke(show);
-            }
-            else
-            {
-                show();
-            }
-
-            return result;
+                return result;
+            });
         }
 
         public void StartManualForcedUpdate()
@@ -1486,9 +1364,6 @@ namespace RelayControlLibrary
                 this.RaiseAutoloadDeclined();
                 return;
             }
-
-            // UI gating removed.
-            this.autoloadDeferredUntilUiReady = false;
 
             if (!this.autoPromptsApprovedThisCycle)
             {
