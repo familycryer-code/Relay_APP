@@ -3303,10 +3303,42 @@ namespace RelayControlLibrary
 
 
         #endregion
-
+        private DateTime lastAckUtc = DateTime.MinValue;
+        private int currentBlockIndex = -1;
+        private int currentPacketIndex = -1;
+        private int currentBytesRemaining = -1;
+        private string lastTxHex = string.Empty;
+        private string lastRxHex = string.Empty;
         public void timerTimeout_Tick(object sender, EventArgs e)
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            var elapsedSinceLastAckMs = this.lastAckUtc == default
+        ? -1
+        : (DateTime.UtcNow - this.lastAckUtc).TotalMilliseconds;
+
+            logger.Warn(
+                "TIMEOUT SNAPSHOT: state={0}, timerIntervalMs={1}, elapsedSinceLastAckMs={2}, " +
+                "currentBlockIndex={3}, currentPacketIndex={4}, bytesRemaining={5}, " +
+                "lastTx={6}, lastRx={7}, reprogrammingInProgress={8}, programBootCodeInProgress={9}, " +
+                "notPollingPort={10}, masterRev={11}, relayRev={12}, fpgaRev={13}",
+                this.state,
+                this.timerTimeout.Interval,
+                elapsedSinceLastAckMs,
+                this.currentBlockIndex,
+                this.currentPacketIndex,
+                this.currentBytesRemaining,
+                this.lastTxHex,
+                this.lastRxHex,
+                this.ReprogrammingInProgress,
+                this.ProgramBootCodeInProgress,
+                this.NotPollingPort,
+                this.MasterRevisionNumber,
+                this.RelayRevisionNumber,
+                this.FPGARevisionNumber
+            );
+
+
 
             this.labelState.Text = "Time Out";
             this.programmingForm.CurrentTask = "Timed Out, Trying Again";
