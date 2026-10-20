@@ -2918,15 +2918,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // 3) Stale cleanup
-            if (this.state == RelayProgrammingStates.WaitingForBootMaster &&
-                this.reprogrammingInProgress &&
-                !this.programBootCodeInProgress)
-            {
-                this.LogFlow("RunProgrammingStateMachine: clearing stale reprogrammingInProgress in WaitingForBootMaster.", nameof(RunProgrammingStateMachine));
-                this.reprogrammingInProgress = false;
-            }
-
             // 5) Ensure payloads exist before payload stage
             if (!this.dontReloadFromResource &&
                 (string.IsNullOrWhiteSpace(this.masterCode.FileString) ||
