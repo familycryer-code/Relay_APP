@@ -2573,17 +2573,13 @@ namespace RelayControl
 
                         this.receiveArray[commandAddress] = 0;
                         packet = formulatedPacket(tempRXReadPtr, packetSize);
-
-                        // Seeing phasor data during programming.
-                        if (command == IncomingCommCommands.PhasorUpdate &&
-                            (this.IsProgrammingFlowActive() || this.ucRelayProgramming1 != null))
+                        // special block had some phasor data leaking out in programming
+                        if (command == IncomingCommCommands.PhasorUpdate && this.IsProgrammingFlowActive())
                         {
                             continue;
                         }
-                        //LogFlow("valid command", "Command: " + command.ToString() + " PacketSize: " + packetSize.ToString());
                         this.packetFormulated(packet, command);
                     }
-
                 }
                 this.readSemaphoreTaken = false;
             }
@@ -6562,11 +6558,11 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            //if (ucRelayProgramming1.ReprogrammingInProgress)
-           // {
-              //  this.timerRegisterPolling.Enabled = false;
-               // return;
-           // }
+            if (ucRelayProgramming1.ReprogrammingInProgress)
+           {
+               this.timerRegisterPolling.Enabled = false;
+               return;
+           }
 
             this.expectingRelayRegisters = true;
 
@@ -12309,6 +12305,7 @@ namespace RelayControl
 
         private void RecoverComms(string caller, Exception ex = null)
         {
+            LogFlow(caller, "RecoverComms invoked. ex={0}");
             try
             {
                 if (ex != null)

@@ -1396,22 +1396,25 @@ namespace RelayControlLibrary
 
         private void ResetAutoloadState(string caller = "unknown")
         {
-            this.LogFlow(
-                "ResetAutoloadState ENTER | pre",
-                caller);
+            this.LogFlow("ResetAutoloadState ENTER | pre", caller);
 
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
+
             this.NotPollingPort = false;
             this.autoLoad = false;
             this.autoLoadRequested = false;
             this.autoPromptsApprovedThisCycle = false;
             this.bootFirstAutoContinuation = false;
+
+            this.reprogramMaster = false;
+            this.reprogramRelay = false;
+            this.reprogramFPGA = false;
+
+            this.bootLoadDone = false;
             this.startupIntent = StartupIntent.None;
 
-            this.LogFlow(
-                "ResetAutoloadState EXIT | post",
-                caller);
+            this.LogFlow("ResetAutoloadState EXIT | post", caller);
         }
 
         public void LogFlow(string message, string caller)
@@ -1955,9 +1958,8 @@ namespace RelayControlLibrary
 
         public bool IsProgrammingActiveOrInFlight()
         {
-            return this.reprogrammingInProgress
-                || this.programBootCodeInProgress
-                || this.state == RelayProgrammingStates.WaitingForMaster
+            return 
+                   this.state == RelayProgrammingStates.WaitingForMaster
                 || this.state == RelayProgrammingStates.WaitingForBootMaster
                 || this.state == RelayProgrammingStates.WaitingForBootRelay
                 || this.state == RelayProgrammingStates.WaitingForBootFPGA
@@ -1974,6 +1976,9 @@ namespace RelayControlLibrary
                 || this.state == RelayProgrammingStates.ReprogramSuccess
                 || this.state == RelayProgrammingStates.Finalized
                 || this.state == RelayProgrammingStates.WaitForAllData;
+
+            //|| this.programBootCodeInProgress
+            //this.reprogrammingInProgress
         }
 
         private void doneLoadingMasterBootLoader()
