@@ -1207,7 +1207,6 @@ namespace RelayControlLibrary
                 this.programmingForm.Show();
             }
 
-
             string rawBoot = bootReceived ?? string.Empty;
             string normalizedBoot = rawBoot.Trim();
             this.masterBootStringReceived = normalizedBoot;
@@ -1237,7 +1236,6 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.LoadingMasterData:
                 case RelayProgrammingStates.LoadingRelayData:
-                case RelayProgrammingStates.LoadingRelayCode:
                 case RelayProgrammingStates.LoadingFPGACode:
                 case RelayProgrammingStates.LoadingMasterBootLoader:
                 case RelayProgrammingStates.LoadingRelayBootLoader:
@@ -1271,6 +1269,9 @@ namespace RelayControlLibrary
                     Thread.Sleep(3000);
                     this.programBootCodeInProgress = false;
                     this.MasterBootLoaderStart();
+                    break;
+                case RelayProgrammingStates.LoadingRelayCode:
+                    this.sendRelayTransferPacket();
                     break;
                 default:
                     break;
