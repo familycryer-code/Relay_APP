@@ -1271,6 +1271,7 @@ namespace RelayControlLibrary
                     this.MasterBootLoaderStart();
                     break;
                 case RelayProgrammingStates.LoadingRelayCode:
+                    this.timerTimeout.Stop();
                     this.sendRelayTransferPacket();
                     break;
                 default:
@@ -2749,10 +2750,24 @@ namespace RelayControlLibrary
             this.parseSFile(this.relayCode);
 
             int temp = this.relayCode.NumberOfCodeBlocks * 2;
+            this.labelCodeTotal.Text = temp.ToString();
+            if(this.relayCode.WithParameters)
+            {
+                this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
+            }
+            else
+            {
+                this.labelDataTotal.Text = this.relayCode.NonParameterCount.ToString();
+            }
+
             this.programmingForm.Maximum = temp;
             this.programmingForm.CurrentTask = "Loading Relay Code";
-            this.labelCodeTotal.Text = temp.ToString();
+
+            
             this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
+
+            this.programmingForm.Maximum = temp;
+            this.programmingForm.CurrentTask = "Loading Relay Code";
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
 
