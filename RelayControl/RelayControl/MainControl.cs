@@ -2322,13 +2322,6 @@ namespace RelayControl
             byte lastByte = 0;
             bool dReceived = false;
 
-            /*
-            logger.Info("RAW RX: state={0}, reprogrammingInProgress={1}, notPollingPort={2}, manualMode={3}",
-               ucRelayProgramming1.State,
-               ucRelayProgramming1.ReprogrammingInProgress  ,
-               ucRelayProgramming1.NotPollingPort,
-               ManualUpdate.usingManualMode);
-            */
             try
             {
                 while (this.serialPort1.BytesToRead > 0)
@@ -2494,6 +2487,7 @@ namespace RelayControl
                         {
                             //check for special case of revision which has no length byte
                             packetSize = 37;
+                            logger.Info("Master Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
 
                             if ((char)this.receiveArray[tempRXReadPtr] != 'E') //checks second character
                             {
@@ -2516,7 +2510,7 @@ namespace RelayControl
                         else if (command == IncomingCommCommands.FPGARevision)
                         {
                             packetSize = 20;
-                            logger.Trace("FPGA Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
+                            logger.Info("FPGA Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
                             if ((char)this.receiveArray[tempRXReadPtr] != 'P')
                             {
                                 this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
@@ -2527,6 +2521,7 @@ namespace RelayControl
                         else if (command == IncomingCommCommands.Boot)
                         {
                             packetSize = 12;
+                            logger.Info("Boot Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
                             if ((char)this.receiveArray[tempRXReadPtr] != 'O')
                             {
                                 this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
@@ -2581,12 +2576,11 @@ namespace RelayControl
 
                         // Seeing phasor data during programming.
                         if (command == IncomingCommCommands.PhasorUpdate &&
-                            (this.IsProgrammingFlowActive() ||
-                             (this.ucRelayProgramming1 != null && this.ucRelayProgramming1.ReprogrammingInProgress)))
+                            (this.IsProgrammingFlowActive() || this.ucRelayProgramming1 != null))
                         {
                             continue;
                         }
-
+                        //LogFlow("valid command", "Command: " + command.ToString() + " PacketSize: " + packetSize.ToString());
                         this.packetFormulated(packet, command);
                     }
 
@@ -5614,8 +5608,8 @@ namespace RelayControl
                     return;
                 }
 
-                // Prevent duplicate or redundant processing
-                if (this.relayFound && this.ProgramState != ProgramStates.CheckingForRelay)
+                // Prevent duplicate or redundant processing - when in programming mode.
+                if (this.relayFound && this.ProgramState == ProgramStates.CheckingForRelay)
                 {
                     LogFlow("MASTER REVISION DUPLICATE IGNORED", caller);
                     return;
@@ -5644,7 +5638,7 @@ namespace RelayControl
                     relayHBD.relayWithHBD = true;
 
 #if CONED
-        this.ucRelayProgramming1.setConEdFiles();
+                this.ucRelayProgramming1.setConEdFiles();
 #endif
 
                 this.handleNewMasterRevision();
@@ -6568,11 +6562,11 @@ namespace RelayControl
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            if (ucRelayProgramming1.ReprogrammingInProgress)
-            {
-                this.timerRegisterPolling.Enabled = false;
-                return;
-            }
+            //if (ucRelayProgramming1.ReprogrammingInProgress)
+           // {
+              //  this.timerRegisterPolling.Enabled = false;
+               // return;
+           // }
 
             this.expectingRelayRegisters = true;
 
@@ -9753,7 +9747,7 @@ namespace RelayControl
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ucRelayProgramming1.ReprogrammingInProgress)
+            if (ucRelayProgramming1.IsProgrammingActiveOrInFlight())
                 return;
 
             if (this.tabControlMain.SelectedTab == this.tabPageDNPSecureAuth)
@@ -10835,7 +10829,7 @@ namespace RelayControl
         {
             // Guard: only run legacy backup restore during actual migration/autoload programming.
             // This avoids accidental restore side effects from normal UI actions.
-            if (!(pendingAutoloadAfterBackup || pendingRestoreAfterProgramming || this.ucRelayProgramming1.ReprogrammingInProgress))
+            if (ucRelayProgramming1.IsProgrammingActiveOrInFlight())
             {
                 logger.Info("Skipping backup restore: not in migration/programming flow.");
                 return;
@@ -12363,8 +12357,7 @@ namespace RelayControl
         private bool IsRelayProgrammingLifecycleActive()
         {
             return this.ucRelayProgramming1 != null &&
-                   (this.ucRelayProgramming1.ReprogrammingInProgress ||
-                    this.ucRelayProgramming1.ProgramBootCodeInProgress ||
+                   (
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitingForMaster || // add this
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterBootLoader ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.LoadingMasterCode ||
@@ -12381,7 +12374,11 @@ namespace RelayControl
                     this.ucRelayProgramming1.State == RelayProgrammingStates.ReloadMasterBoot ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.ReprogramSuccess ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.Finalized ||
-                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitForAllData);
+                    this.ucRelayProgramming1.State == RelayProgrammingStates.WaitForAllData
+                    );
+
+            // this.ucRelayProgramming1.ReprogrammingInProgress ||
+            //this.ucRelayProgramming1.ProgramBootCodeInProgress ||
         }
 
         public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
