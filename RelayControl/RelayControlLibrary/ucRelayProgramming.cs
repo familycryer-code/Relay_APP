@@ -1280,7 +1280,7 @@ namespace RelayControlLibrary
 
         private void sendNextRelayPacket()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1297,7 +1297,7 @@ namespace RelayControlLibrary
                         this.state = RelayProgrammingStates.LoadingRelayData;
                         this.programmingForm.RelayCodeComplete = true;
                         this.programmingForm.CurrentTask = "Loading Relay Data";
-                        logger.Trace("Loading Relay Data");
+                        logger.Info("Loading Relay Data");
                         this.programmingForm.Maximum = this.relayCode.NumberOfDataBlocks;
 
                         this.sendNextRelayPacket();
@@ -1310,13 +1310,13 @@ namespace RelayControlLibrary
                         this.relayCode.CodeBytes.RemoveAt(0);
                     }
 
+                    // build 512 bytes
                     Int32 temp = Convert.ToInt32(this.labelCodeCount.Text);
-
-                    this.programmingForm.ProgressValue = temp;
                     temp++;
+                    this.programmingForm.ProgressValue = temp;
                     this.labelCodeCount.Text = temp.ToString();
 
-                    logger.Trace("RC, ");
+                    logger.Info("RC, ");
 
                     this.onSend(rPEA);
                 }
@@ -1344,7 +1344,7 @@ namespace RelayControlLibrary
 
                 Int32 temp = Convert.ToInt32(this.labelDataCount.Text);
 
-                logger.Trace("RD, ");
+                logger.Info("RD, ");
                 this.onSend(rPEA);
 
                 this.programmingForm.ProgressValue = temp;
@@ -1709,7 +1709,7 @@ namespace RelayControlLibrary
                     this.programmingForm.ProgressValue = temp;
                     temp++;
                     this.labelCodeCount.Text = temp.ToString();
-                    logger.Trace("MC, ");
+                    logger.Info("MC, ");
                 }
                 catch (Exception ex)
                 {
@@ -1740,7 +1740,7 @@ namespace RelayControlLibrary
                 temp++;
                 this.programmingForm.ProgressValue = temp;
                 this.labelDataCount.Text = temp.ToString();
-                logger.Trace("MD, ");
+                logger.Info("MD, ");
             }
             else
             {
