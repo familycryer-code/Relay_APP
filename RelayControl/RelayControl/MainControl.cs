@@ -7201,9 +7201,9 @@ namespace RelayControl
             // No backup capture here.
             this.requestRelayParameters();
             this.requestTransmitterSettings();
-            this.requestRelayRevision();
-            this.requestFPGARevision();
-            this.requestMasterRevisionNumber(nameof(requestAllData));
+            //this.requestRelayRevision();
+            //this.requestFPGARevision();
+            //this.requestMasterRevisionNumber(nameof(requestAllData));
 
             this.timerResponseTimeOut.Enabled = false;
             LogFlow($"requestAllData disabled timerResponseTimeOut | caller={caller}");
