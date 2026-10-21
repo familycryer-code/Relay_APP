@@ -459,13 +459,15 @@ namespace RelayControl
                     buttonSendAll,
                     buttonSendAll.BackColor,
                     ColorTranslator.FromHtml("#66ED72"),
-                    80);
+                    10,
+                    30); // x ms visible green
 
                 _requestAllPulse = new ButtonPulseHelper(
                     buttonRequestRelayParamaters,
                     buttonRequestRelayParamaters.BackColor,
                     ColorTranslator.FromHtml("#66ED72"),
-                    80);
+                    10,
+                    30);
 #if BGE
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
                 this.Customer = Customers.BGE;
@@ -6458,8 +6460,6 @@ namespace RelayControl
         private bool requestedAllParameters = false;
         private void buttonRequestRelayParamaters_Click(object sender, EventArgs e)
         {
-            buttonRequestRelayParamaters.Enabled = true;
-            buttonRequestRelayParamaters.UseVisualStyleBackColor = false;
             _requestAllPulse?.Start();
 
             this.enableAll(false);
@@ -6475,17 +6475,17 @@ namespace RelayControl
             {
                 logger.Error(ex, "Request All failed");
                 this.messageHandler("Request All Failed", ex);
-
                 ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
             }
             finally
             {
-                _requestAllPulse?.Stop();
-
                 screenD.screenDisable = false;
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
                 this.enableAll(true);
+
+                // do NOT stop the pulse here if you want the green flash to remain visible
+                // the helper itself will restore it after the delay
             }
         }
 
@@ -8964,21 +8964,6 @@ namespace RelayControl
         // In buttonSendAll_Click: wrap in try/finally and only restore UI state here
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
-            _phasingWarningShownThisApplyAll = false;
-            _paramsLoadedShownThisApplyAll = false;
-
-            var dr = MessageBox.Show(
-                "The relay is updating its critical parameters ",
-                "Warning",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning,
-                MessageBoxDefaultButton.Button1);
-
-            if (dr != DialogResult.OK)
-                return;
-
-            buttonSendAll.Enabled = true;
-            buttonSendAll.UseVisualStyleBackColor = false;
             _applyPulse?.Start();
 
             this.enableAll(false);
@@ -8996,8 +8981,6 @@ namespace RelayControl
             }
             finally
             {
-                _applyPulse?.Stop();
-
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
 
@@ -9007,6 +8990,8 @@ namespace RelayControl
                 Cursor.Current = Cursors.Default;
                 this.enableAll(true);
                 this.tabControlMain.Enabled = true;
+
+                // no immediate Stop() here; helper handles the restore timing
             }
         }
 
