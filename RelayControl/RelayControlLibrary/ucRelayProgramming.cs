@@ -2149,6 +2149,14 @@ namespace RelayControlLibrary
                 : this.relayCode.NonParameterCount;
             rPEA.BytesToSend[3] = 0x0D;
 
+            logger.Warn(
+    "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}",
+    this.relayCode.NumberOfCodeBlocks,
+    this.relayCode.WithParameters ? this.relayCode.NumberOfDataBlocks : this.relayCode.NonParameterCount,
+    this.relayCode.CodeBytes.Count,
+    this.relayCode.DataBytes.Count
+);
+
             this.onSend(rPEA);
             this.labelState.Text = "Sent Relay Transfer Packet";
             logger.Info("Sent Relay Transfer Packet");
@@ -2620,6 +2628,20 @@ namespace RelayControlLibrary
                 this.errorHandler("Error Opening File for Master S File", ex);
                 return;
             }
+            logger.Info(
+    "parseSFile summary: file={0}, codeBytes={1}, dataBytes={2}, codeBytes%1024={3}, codeBytes%2048={4}, dataBytes%512={5}, dataBytes%1024={6}, numberOfCodeBlocks={7}, numberOfDataBlocks={8}, nonParamCount={9}, withParameters={10}",
+    rPD.FileName ?? "<resource>",
+    rPD.CodeBytes.Count,
+    rPD.DataBytes.Count,
+    rPD.CodeBytes.Count % 1024,
+    rPD.CodeBytes.Count % 2048,
+    rPD.DataBytes.Count % 512,
+    rPD.DataBytes.Count % 1024,
+    rPD.NumberOfCodeBlocks,
+    rPD.NumberOfDataBlocks,
+    rPD.NonParameterCount,
+    rPD.WithParameters
+);
         }
 
         private void errorHandler(string p, Exception ex)
