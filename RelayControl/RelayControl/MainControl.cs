@@ -7186,18 +7186,19 @@ namespace RelayControl
                 LogFlow($"requestAllData startup full download latch set | caller={caller}");
             }
 
-            LogFlow($"requestAllData starting parameter cycle | caller={caller}, relayFound={this.relayFound}, state={this.ProgramState}, manual={isManualRequestAll}");
-
             // Normal request-all / post-apply readback path
-            // No backup capture here.
-            this.requestRelayParameters();
-            this.requestTransmitterSettings();
-            //this.requestRelayRevision();
-            //this.requestFPGARevision();
-            //this.requestMasterRevisionNumber(nameof(requestAllData));
+            // after requestRelayParameters/requestTransmitterSettings
+            bool shouldTrackRequiredDownload =
+                caller == "sendAllParameters-postapply" ||
+                caller == "buttonRequestRelayParamaters_Click";
+
+            if (shouldTrackRequiredDownload)
+            {
+                this.BeginRequiredParameterDownload(); // to kick off CompleteBackupAndContinue();
+            }
 
             this.timerResponseTimeOut.Enabled = false;
-            LogFlow($"requestAllData disabled timerResponseTimeOut | caller={caller}");
+
         }
 
 
@@ -8964,6 +8965,7 @@ namespace RelayControl
         // In buttonSendAll_Click: wrap in try/finally and only restore UI state here
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
+            logger.Info("buttonSendAllClick");
             _applyPulse?.Start();
 
             this.enableAll(false);

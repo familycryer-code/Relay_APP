@@ -1873,13 +1873,7 @@ namespace RelayControlLibrary
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
                 ManualUpdate.usingManualMode;
 
-            logger.Info(
-                "allReprogramingDone: autoLoad={0}, startupIntent={1}, state={2}, reprogrammingInProgress={3}, wasManualFlow={4}",
-                this.autoLoad,
-                this.startupIntent,
-                this.state,
-                this.reprogrammingInProgress,
-                wasManualFlow);
+            LogFlow("allReprogramingDone","allReprogrammingDone");
 
             // End-of-programming stage cleanup (safe before requestAll)
             this.reprogrammingInProgress = false;
@@ -3380,10 +3374,8 @@ namespace RelayControlLibrary
 
 
             this.labelState.Text = "Time Out";
-            this.programmingForm.CurrentTask = "Timed Out, Trying Again";
+            this.programmingForm.CurrentTask = "Loading...........";
             this.timerTimeout.Stop();
-
-            logger.Trace("Timed Out in State " + this.state);
 
             // this is the try again
             switch (this.state)
