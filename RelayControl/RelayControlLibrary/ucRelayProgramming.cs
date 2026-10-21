@@ -696,7 +696,6 @@ namespace RelayControlLibrary
         {
             this.LogFlow("HandleManualDeclined", nameof(HandleManualDeclined));
             ManualUpdate.usingManualMode = false;
-            this.ResetAutoloadState("HandleManualDeclined");
         }
 
         public void ResumeManualAfterBackup()
@@ -705,9 +704,7 @@ namespace RelayControlLibrary
 
             if (this.startupIntent != StartupIntent.ManualApproved)
             {
-                logger.Info(
-                    "ResumeManualAfterBackup blocked: startupIntent={0}, no manual approval in active state.",
-                    this.startupIntent);
+                logger.Info("ResumeManualAfterBackup blocked: startupIntent={0}, no manual approval in active state.", this.startupIntent);
                 return;
             }
 
@@ -717,12 +714,10 @@ namespace RelayControlLibrary
                 return;
             }
 
-            //this.RefreshPendingFirmwareFromCurrentRevisions();
-
             if (!this.AnyFirmwarePending())
             {
                 logger.Info("ResumeManualAfterBackup: no firmware pending; exiting.");
-                this.ResetAutoloadState("ResumeManualAfterBackup");
+                this.HandleManualDeclined();
                 return;
             }
 
@@ -746,17 +741,13 @@ namespace RelayControlLibrary
                 return;
             }
 
-            //this.RefreshPendingFirmwareFromCurrentRevisions();
-
             if (!this.AnyFirmwarePending())
             {
                 logger.Info("ResumeAutoloadAfterBackup: no firmware pending; exiting.");
-                this.ResetAutoloadState("ResumeAutoloadAfterBackup");
                 this.RaiseAutoloadDeclined();
                 return;
             }
 
-        
             logger.Info("ResumeAutoloadAfterBackup approved path -> re-entering autoload startup flow.");
             this.startAutoLoad();
         }
@@ -1971,21 +1962,19 @@ namespace RelayControlLibrary
 
             this.programmingForm.Hide();
 
-            // Final UI/state cleanup
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
             this.bootFirstAutoContinuation = false;
             this.autoLoad = false;
             this.bootLoadDone = false;
+            ManualUpdate.usingManualMode = false;
 
-            // Parent (MainControl) owns all popups
             FinalSuccessPopupRequested?.Invoke();
 
             this.programmingForm.ClearAllChecks();
             logger.Trace("Reprogram Completed Successfully");
 
             this.state = RelayProgrammingStates.Idle;
-
             this.restartProgram();
 
             this.ResetAutoloadState("FinalizeReprogram");
