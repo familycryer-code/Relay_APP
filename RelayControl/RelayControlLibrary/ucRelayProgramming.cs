@@ -1068,6 +1068,7 @@ namespace RelayControlLibrary
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info(this.state.ToString() + " - " + rPEA.Command.ToString());
 
             // Allow final commands once we have already reached the post-program state.
             if (rPEA.Command == RelayProgrammingSendCommands.RequestAll)
@@ -2837,16 +2838,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // 2) Safety: do not re-enter dispatch while the bootloader transfer is still active
-            if (this.programBootCodeInProgress ||
-                this.state == RelayProgrammingStates.LoadingMasterBootLoader)
-            {
-                this.LogFlow(
-                    $"RunProgrammingStateMachine suppressed while legacy bootloader flow is active. state={this.state}, programBootCodeInProgress={this.programBootCodeInProgress}",
-                    nameof(RunProgrammingStateMachine));
-                return;
-            }
-
             // 3) Reload resource payloads if necessary
             if (!this.dontReloadFromResource &&
                 (string.IsNullOrWhiteSpace(this.masterCode.FileString) ||
@@ -2888,8 +2879,8 @@ namespace RelayControlLibrary
                 if (!this.bootLoadDone)
                 {
                     this.MasterBootLoaderStart();
+                    return;
                 }
-                return;
             }
 
             // 6) Payload stage selection
