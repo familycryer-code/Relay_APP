@@ -546,11 +546,6 @@ namespace RelayControlLibrary
             }
         }
 
-        public void setConEdFiles()
-        {
-            this.initializeCustomerFileSets(); // update programming files for ConEd based on what is currently stored in the relay
-        }
-
         private bool AnyFirmwarePending()
         {
             return this.reprogramMaster || this.reprogramRelay || this.reprogramFPGA;
@@ -573,15 +568,8 @@ namespace RelayControlLibrary
                 this.remoteFPGARevisionNumber > 0 &&
                 this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber;
 
-            logger.Info(
-                "RefreshPendingFirmwareFromCurrentRevisions | masterRemote={0}, masterReq={1}, relayRemote={2}, relayReq={3}, fpgaRemote={4}, fpgaReq={5}, tx={6} => pending(M={7},R={8},F={9})",
-                this.remoteMasterRevisionNumber, _masterCodeRevisionNumber,
-                this.remoteRelayRevisionNumber, _relayCodeRevisionNumber,
-                this.remoteFPGARevisionNumber, _fPGACodeRevisionNumber,
-                this.transmitterEnabled,
-                this.reprogramMaster, this.reprogramRelay, this.reprogramFPGA);
         }
-
+        /*
         private void ContinueManualAfterBootCheck()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -619,6 +607,7 @@ namespace RelayControlLibrary
             this.RunProgrammingStateMachine();
             return true;
         }
+        */
 
         public RelayProgrammingStates State
         {
@@ -656,8 +645,9 @@ namespace RelayControlLibrary
         {
             this.LogFlow("StartManualForcedUpdate ENTER", nameof(StartManualForcedUpdate));
 
+            this.setProgrammingFiles();
             this.RefreshPendingFirmwareFromCurrentRevisions();
-            this.LogFlow("StartManualForcedUpdate EXIT: no prompt handler registered.", nameof(StartManualForcedUpdate));
+        
             ManualUpdate.usingManualMode = false;
 
             if (this.IsProgrammingActiveOrInFlight())
@@ -677,9 +667,6 @@ namespace RelayControlLibrary
         public void OnManualPromptsApproved()
         {
             this.LogFlow("OnManualPromptsApproved", nameof(OnManualPromptsApproved));
-
-            //this.RefreshPendingFirmwareFromCurrentRevisions();
-            this.setProgrammingFiles();
 
             ManualUpdate.usingManualMode = true;
             this.startupIntent = StartupIntent.ManualApproved;
@@ -710,6 +697,9 @@ namespace RelayControlLibrary
                 return;
             }
 
+            this.setProgrammingFiles();
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+
             if (!this.AnyFirmwarePending())
             {
                 logger.Info("ResumeManualAfterBackup: no firmware pending; exiting.");
@@ -737,6 +727,9 @@ namespace RelayControlLibrary
                 return;
             }
 
+            this.setProgrammingFiles();
+            this.RefreshPendingFirmwareFromCurrentRevisions();
+
             if (!this.AnyFirmwarePending())
             {
                 logger.Info("ResumeAutoloadAfterBackup: no firmware pending; exiting.");
@@ -753,7 +746,6 @@ namespace RelayControlLibrary
         {
             this.ResetAutoloadState(caller);
         }
-
       
         private void setProgrammingFiles()
         {
@@ -881,6 +873,7 @@ namespace RelayControlLibrary
                 return false;
         }
 
+        /*
         private void addGERelayToTransmitterPacket(bool b)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -889,11 +882,10 @@ namespace RelayControlLibrary
             else
                 this.TransmitterPacket[28] &= 0xEF;
         }
-
+        */
         private bool IsManualFlowActive()
         {
-            return ManualUpdate.usingManualMode
-                || this.state == RelayProgrammingStates.ManualLoadCheckBoot;
+            return ManualUpdate.usingManualMode; //|| this.state == RelayProgrammingStates.ManualLoadCheckBoot;
         }
 
         // inside ucRelayProgramming
@@ -1048,6 +1040,7 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.TransmitterPacket = bytePacket;
         }
+        /*
         private void SendTransmitterSettings()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -1068,6 +1061,7 @@ namespace RelayControlLibrary
 
             logger.Trace("Updated Transmitter Settings with Stored Settings");
         }
+        */
 
         private delegate void booleanInvoke(bool b);
 
@@ -1245,7 +1239,7 @@ namespace RelayControlLibrary
 
                 case RelayProgrammingStates.CheckMasterBootCode:
                     logger.Info("CheckMasterBootCode");
-                    this.CheckProperMasterBootCode();
+                    //this.CheckProperMasterBootCode();
                     break;
 
                 case RelayProgrammingStates.AutoLoadCheckBoot:
@@ -1253,7 +1247,7 @@ namespace RelayControlLibrary
                         "AutoLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
-                    this.ContinueAutoloadAfterBootCheck();
+                    //this.ContinueAutoloadAfterBootCheck();
                     break;
 
                 case RelayProgrammingStates.ManualLoadCheckBoot:
@@ -1261,14 +1255,14 @@ namespace RelayControlLibrary
                         "ManualLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",
                         this.masterBootRevisionSet,
                         this.masterBootRevisionNumberReceived);
-                    this.ContinueManualAfterBootCheck();
+                    //this.ContinueManualAfterBootCheck();
                     break;
 
                 case RelayProgrammingStates.ReloadMasterBoot:
-                    this.timerTimeout.Stop();
-                    Thread.Sleep(3000);
-                    this.programBootCodeInProgress = false;
-                    this.MasterBootLoaderStart();
+                    //this.timerTimeout.Stop();
+                   // Thread.Sleep(3000);
+                   // this.programBootCodeInProgress = false;
+                   // this.MasterBootLoaderStart();
                     break;
                 case RelayProgrammingStates.LoadingRelayCode:
                     this.timerTimeout.Stop();
@@ -1363,7 +1357,7 @@ namespace RelayControlLibrary
                 throw new Exception("Called send NextRelayPacket from wrong state: " + this.state.ToString());
             }
         }
-
+        /*
         private void sendNextRelayBootLoaderPacket()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -1399,6 +1393,7 @@ namespace RelayControlLibrary
                 this.onSend(rPEA);
             }
         }
+        */
 
         private void ResetAutoloadState(string caller = "unknown")
         {
@@ -1538,6 +1533,7 @@ namespace RelayControlLibrary
         private const int BootAckTimeoutMs = 3000;
         private const int BootAckMaxRetries = 2;
 
+        /*
         private void CheckBootAckTimeout()
         {
             if (this.state != RelayProgrammingStates.LoadingMasterBootLoader)
@@ -1579,6 +1575,7 @@ namespace RelayControlLibrary
                 // this.errorHandler("Bootloader ACK timeout exceeded retries.", null);
             }
         }
+        */
 
         private void sendMasterBootCode()
         {
@@ -1890,7 +1887,7 @@ namespace RelayControlLibrary
             this.ResetAutoloadState("FinalizeReprogram");
         }
 
-
+        
         private void doneLoadingRelayBootLoader()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -1931,59 +1928,18 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            bool bootOnlyAutoContinuation = this.bootFirstAutoContinuation;
-            bool pendingMaster = this.reprogramMaster;
-            bool pendingRelay = this.reprogramRelay;
-            bool pendingFPGA = this.reprogramFPGA;
-
-            bool manualFlowActive =
-                this.startupIntent == StartupIntent.ManualApproved ||
-                ManualUpdate.usingManualMode;
-
-            this.enableButtons(true);
             this.timerTimeout.Stop();
             this.programmingForm.MasterBootComplete = true;
-            this.bootLoadDone = true;
-
-            // True terminal case only
-            if (bootOnlyAutoContinuation && !pendingMaster && !pendingRelay && !pendingFPGA)
-            {
-                this.programBootCodeInProgress = false;
-                this.reprogrammingInProgress = false;
-
-                logger.Info("COMPLETE PATH doneLoadingMasterBootLoader: auto boot-only continuation finalization.");
-                this.programmingForm.Hide();
-                Application.DoEvents();
-                this.restartProgram();
-                this.state = RelayProgrammingStates.Idle;
-                return;
-            }
-
+           
             // Keep lifecycle active while handing off to post-boot gate.
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
+            this.bootLoadDone = true;
 
-            if (manualFlowActive)
-            {
-                this.state = RelayProgrammingStates.ManualLoadCheckBoot;
-            }
-            else if (this.autoLoad)
-            {
-                this.state = RelayProgrammingStates.AutoLoadCheckBoot;
-            }
-            else
-            {
-                logger.Warn("doneLoadingMasterBootLoader: no active programming flow; returning to idle.");
-                this.reprogrammingInProgress = false;
-                this.state = RelayProgrammingStates.Idle;
-                return;
-            }
-
-            logger.Info("doneLoadingMasterBootLoader: boot payload complete; entering {0}.", this.state);
-            // No reset here; downstream stage start owns reset.
+            this.RunProgrammingStateMachine();
         }
 
-
+        /*
         private bool bootNeedsUpdateAutoProgramming()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2020,7 +1976,8 @@ namespace RelayControlLibrary
 
             return outdated;
         }
-
+        */
+        /*
         private void sendNonTransmitterSettings()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2033,7 +1990,7 @@ namespace RelayControlLibrary
 
             this.onSend(rPEA);
         }
-
+        */
         private void sendMasterTransferPacket()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2138,7 +2095,8 @@ namespace RelayControlLibrary
             // NO ACK coming
         }
 
-        private void CheckProperMasterBootCode()
+        /*
+         * private void CheckProperMasterBootCode()
         {
             bool manualFlowActive =
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
@@ -2187,6 +2145,7 @@ namespace RelayControlLibrary
                 this.MasterBootLoaderStart();
             }
         }
+        */
         private void restartProgram()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2923,11 +2882,13 @@ namespace RelayControlLibrary
                            this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
 
           
-         
             // 5) old boot let's load
             if (bootUnknown || bootOld)
             {
-                this.MasterBootLoaderStart();
+                if (!this.bootLoadDone)
+                {
+                    this.MasterBootLoaderStart();
+                }
                 return;
             }
 

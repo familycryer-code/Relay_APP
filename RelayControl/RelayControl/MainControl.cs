@@ -5678,10 +5678,6 @@ namespace RelayControl
                 if (revision.Contains("HBD"))
                     relayHBD.relayWithHBD = true;
 
-#if CONED
-                this.ucRelayProgramming1.setConEdFiles();
-#endif
-
                 this.handleNewMasterRevision();
                 this.setLabelText(this.ucRelayProgramming1.MasterRevisionString, this.labelRevision);
 
