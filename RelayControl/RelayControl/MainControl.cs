@@ -2172,6 +2172,12 @@ namespace RelayControl
                     this.ucTransmitter1.GERelay = true;
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
+                case RelayProgrammingSendCommands.WriteBackupToRelay:
+                    LogFlow("Programming_Send WriteBackupToRelay");
+                    this.WriteBackUpData_FileToRelay();
+                    // after success, drive finalize path:
+                    this.ucRelayProgramming1.finalizeReprogram(); // or call finalize directly via a new method
+                    break;
             }
         }
 

@@ -1118,22 +1118,51 @@ namespace RelayControlLibrary
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            logger.Info(String.Format("Command: {0}", rPEA.Command));
+            logger.Info("Command: {0}", rPEA.Command);
+            LogFlow("onSend: command=" + rPEA.Command.ToString(), nameof(onSend));
 
+            // Allow final commands once we have already reached the post-program state.
             if (rPEA.Command == RelayProgrammingSendCommands.RequestAll)
             {
-                
-                    if (this.IsProgrammingActiveOrInFlight())
-                    {
-                        return;
-                    }
-             
+                bool transferStillRunning =
+                    this.reprogrammingInProgress ||
+                    this.programBootCodeInProgress ||
+                    this.state == RelayProgrammingStates.LoadingMasterCode ||
+                    this.state == RelayProgrammingStates.LoadingMasterData ||
+                    this.state == RelayProgrammingStates.LoadingRelayCode ||
+                    this.state == RelayProgrammingStates.LoadingRelayData ||
+                    this.state == RelayProgrammingStates.LoadingFPGACode ||
+                    this.state == RelayProgrammingStates.LoadingMasterBootLoader ||
+                    this.state == RelayProgrammingStates.AutoLoadCheckBoot ||
+                    this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
+                    this.state == RelayProgrammingStates.CheckMasterBootCode ||
+                    this.reprogrammingInProgress ||
+                    this.programBootCodeInProgress ||
+                    this.state == RelayProgrammingStates.ReloadMasterBoot;
+
+                if (transferStillRunning)
+                {
+                    return;
+                }
+            }
+
+            if (rPEA.Command == RelayProgrammingSendCommands.WriteBackupToRelay)
+            {
+                bool validFinalState =
+                    this.state == RelayProgrammingStates.ReprogramSuccess ||
+                    this.state == RelayProgrammingStates.WaitForAllData ||
+                    this.state == RelayProgrammingStates.Finalized;
+
+                if (!validFinalState)
+                {
+                    return;
+                }
             }
 
             if (rPEA.Command == RelayProgrammingSendCommands.RestartProgram)
-                Thread.Sleep(500);
+                Thread.Sleep(200);
             else
-                Thread.Sleep(75);
+                Thread.Sleep(100);
 
             if (this.Send != null)
                 this.Send(this, rPEA);
@@ -1899,47 +1928,50 @@ namespace RelayControlLibrary
                 this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
                 ManualUpdate.usingManualMode;
 
-            LogFlow("allReprogramingDone","allReprogrammingDone");
-
             // End-of-programming stage cleanup (safe before requestAll)
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
             this.bootFirstAutoContinuation = false;
             this.bootLoadDone = false;
 
-            this.programmingForm.CurrentTask = "Finalizing Update";
-            this.state = RelayProgrammingStates.ReprogramSuccess;
             this.timerTimeout.Stop();
+            this.programmingForm.CurrentTask = "Finalizing Update.....";
+            this.state = RelayProgrammingStates.ReprogramSuccess;
 
+
+            LogFlow("allReprogramingDone", "allReprogrammingDone");
             // Orchestrated flow: hand off to RequestAll -> AllParametersReceived -> FinalizeReprogram
             if (wasAutoLoad || wasManualFlow)
             {
                 logger.Info("allReprogramingDone: final success path -> issuing final requestAll().");
-                this.requestAll();
+                this.sendWriteBackupToRelay();
+                this.state = RelayProgrammingStates.Finalized;
+
                 return;
             }
 
             this.state = RelayProgrammingStates.Idle;
         }
 
+        private void sendWriteBackupToRelay()
+        {
+            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.WriteBackupToRelay;
+            this.onSend(rPEA);
+        }
+
+
         public event Action FinalSuccessPopupRequested;
 
         public void finalizeReprogram()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            LogFlow("finalizeReprogram", "finalizeReprogram");
 
-            if (this.state != RelayProgrammingStates.Finalized &&
-                this.state != RelayProgrammingStates.ReprogramSuccess &&
-                this.state != RelayProgrammingStates.WaitForAllData)
-            {
-                logger.Warn("FinalizeReprogram ignored; state={0}", this.state);
-                return;
-            }
-
-            logger.Info("COMPLETE PATH FinalizeReprogram: before programmingForm.Hide");
             this.programmingForm.Hide();
-            logger.Info("COMPLETE PATH FinalizeReprogram: after programmingForm.Hide");
 
+            // Final UI/state cleanup
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
             this.bootFirstAutoContinuation = false;
@@ -1953,19 +1985,12 @@ namespace RelayControlLibrary
             logger.Trace("Reprogram Completed Successfully");
 
             this.state = RelayProgrammingStates.Idle;
-            dataB.oldDataBackup = true;
+
             this.restartProgram();
 
             this.ResetAutoloadState("FinalizeReprogram");
         }
 
-        private void requestAll()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayProgrammingSendCommands.RequestAll;
-            this.onSend(rPEA);
-        }
 
         private void doneLoadingRelayBootLoader()
         {
@@ -2260,13 +2285,17 @@ namespace RelayControlLibrary
                 this.MasterBootLoaderStart();
             }
         }
-
-
         private void restartProgram()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
 
+            if (this.state == RelayProgrammingStates.Idle)
+            {
+                logger.Info("restartProgram suppressed; already idle.");
+                return;
+            }
+
+            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             this.enableButtons(true);
             rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
 
@@ -3486,26 +3515,6 @@ namespace RelayControlLibrary
             this.startRelayBootLoaderProgramming();
         }
 
-        public void AllParametersReceived()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (this.state == RelayProgrammingStates.WaitForAllData)
-            {
-                logger.Trace("ParamsReceived-WaitingForAllData");
-                this.state = RelayProgrammingStates.Finalized;
-                this.SendTransmitterSettings();
-                this.sendNonTransmitterSettings();
-                this.finalizeReprogram();
-            }
-            else if (this.state == RelayProgrammingStates.ReprogramSuccess)
-            {
-                logger.Info("AllParametersReceived: ReprogramSuccess -> Finalized");
-                this.state = RelayProgrammingStates.Finalized;
-                this.finalizeReprogram();
-            }
-        }
-
         private void comboBoxCustomer_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.customer = (Customers)this.comboBoxCustomer.SelectedItem;
@@ -3526,7 +3535,6 @@ namespace RelayControlLibrary
         }
     }
 
-   
 
     public class BackupBeforeProgrammingEventArgs : EventArgs
     {
@@ -3660,18 +3668,19 @@ namespace RelayControlLibrary
 
     public enum RelayProgrammingSendCommands
     {
-        RawData,
-        RestartProgram,
-        TransmitterSettings,
-        ResetPort,
-        QueitModeEnable,
-        SaveSettings,
-        RecallSavedSettings,
-        RestoreDefaults,
-        RequestAll,
-        EnableGERelayFix,
         DisableGERelayFix,
-        Idle
+        EnableGERelayFix,
+        Idle,
+        QueitModeEnable,
+        RawData,
+        RecallSavedSettings,
+        RequestAll,
+        ResetPort,
+        RestoreDefaults,
+        RestartProgram,
+        SaveSettings,
+        TransmitterSettings,
+        WriteBackupToRelay
     }
     public class RelayProgrammingEventArgs : EventArgs
     {
