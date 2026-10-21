@@ -1129,7 +1129,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingMasterData:
                         logger.Info("AckM, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
+                        this.timerTimeout.Interval = 5000;
                         this.timerTimeout.Start();
                         this.sendNextMasterPacket();
                         break;
@@ -1138,7 +1138,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingRelayData:
                         logger.Info("AckR, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
+                        this.timerTimeout.Interval = 5000;
                         this.timerTimeout.Start();
                         this.sendNextRelayPacket();
                         break;
@@ -1146,7 +1146,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingFPGACode:
                         logger.Info("AckF, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
+                        this.timerTimeout.Interval = 5000;
                         this.timerTimeout.Start();
                         this.sendNextFPGAPacket();
                         break;
@@ -1154,7 +1154,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingRelayBootLoader:
                         logger.Info("Ack Unknown, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
+                        this.timerTimeout.Interval = 5000;
                         this.timerTimeout.Start();
                         //this.sendRelayBootCode();  will need to figure this out
                         break;
@@ -1162,7 +1162,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingMasterBootLoader:
                         logger.Trace("AckU, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 1500;
+                        this.timerTimeout.Interval = 5000;
                         this.timerTimeout.Start();
                         this.sendMasterBootCode();
                         break;
@@ -2150,12 +2150,12 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[3] = 0x0D;
 
             logger.Warn(
-    "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}",
-    this.relayCode.NumberOfCodeBlocks,
-    this.relayCode.WithParameters ? this.relayCode.NumberOfDataBlocks : this.relayCode.NonParameterCount,
-    this.relayCode.CodeBytes.Count,
-    this.relayCode.DataBytes.Count
-);
+                "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}",
+                this.relayCode.NumberOfCodeBlocks,
+                this.relayCode.WithParameters ? this.relayCode.NumberOfDataBlocks : this.relayCode.NonParameterCount,
+                this.relayCode.CodeBytes.Count,
+                this.relayCode.DataBytes.Count
+            );
 
             this.onSend(rPEA);
             this.labelState.Text = "Sent Relay Transfer Packet";
