@@ -954,20 +954,6 @@ namespace RelayControlLibrary
         {
             this.LogFlow("startAutoLoad ENTER", nameof(startAutoLoad));
 
-            if (!this.autoPromptsApprovedThisCycle)
-            {
-                if (this.waitingForAutoloadApproval)
-                {
-                    this.LogFlow("startAutoLoad EXIT: waiting for autoload approval.", nameof(startAutoLoad));
-                    return;
-                }
-
-                this.waitingForAutoloadApproval = true;
-                this.LogFlow("startAutoLoad: requesting UI prompt flow.", nameof(startAutoLoad));
-                this.AutoloadPromptRequested?.Invoke();
-                return;
-            }
-
             if (this.IsManualFlowActive())
             {
                 this.LogFlow("startAutoLoad EXIT: manual flow is active.", nameof(startAutoLoad));
@@ -988,6 +974,20 @@ namespace RelayControlLibrary
             {
                 this.LogFlow("startAutoLoad EXIT: no firmware pending.", nameof(startAutoLoad));
                 this.RaiseAutoloadDeclined();
+                return;
+            }
+
+            if (!this.autoPromptsApprovedThisCycle)
+            {
+                if (this.waitingForAutoloadApproval)
+                {
+                    this.LogFlow("startAutoLoad EXIT: waiting for autoload approval.", nameof(startAutoLoad));
+                    return;
+                }
+
+                this.waitingForAutoloadApproval = true;
+                this.LogFlow("startAutoLoad: requesting UI prompt flow.", nameof(startAutoLoad));
+                this.AutoloadPromptRequested?.Invoke();
                 return;
             }
 

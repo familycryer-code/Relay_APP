@@ -10898,7 +10898,22 @@ namespace RelayControl
 
             if (!checkValidDataBackup())
             {
-                this.messageHandler("Backup Restore", "Backup file validation failed. Restore aborted.");
+                logger.Warn("Backup validation failed; skipping restore write-back and returning to normal comms.");
+
+                // Ensure system leaves programming/restore path cleanly
+                this.backupInProgress = false;
+                this.pendingRestoreAfterProgramming = false;
+                this.pendingAutoloadAfterBackup = false;
+
+                // Keep app usable
+                ResetFullParameterDownloadState(nameof(WriteBackUpData_FileToRelay));
+                SetBusyUi(false);
+                this.enableAll(true);
+
+                // IMPORTANT: restore polling/comms
+                RestoreNormalCommsAfterAutoloadDecline(nameof(WriteBackUpData_FileToRelay));
+                // or your equivalent RecoverComms()/resume polling method
+
                 return;
             }
 
@@ -11491,35 +11506,29 @@ namespace RelayControl
                 bool HasSection(string name, StringComparison cmp = StringComparison.Ordinal) =>
                     lines.Any(l => l != null && l.Trim().Equals(name, cmp));
 
-                bool hasHeader = HasSection("Data residing in the relay :", StringComparison.OrdinalIgnoreCase);
+                //bool hasHeader = HasSection("Data residing in the relay :", StringComparison.OrdinalIgnoreCase);
                 bool hasRelayParams = HasSection("Relay Parameters:");
-                bool hasCal = HasSection("Calibration Constants:");
                 bool hasTx = HasSection("Transmitter Parameters:");
                 bool hasSafeService = HasSection("Safe Service Data:");
                 bool hasArc = HasSection("Arc Fault Parameters:");
 
                 // Optional in current rev9 -> rev10 migration behavior
-                bool hasDnp = HasSection("DNP Data:");
-                bool hasSav5 = HasSection("DNPSAv5 Settings:");
+                //bool hasDnp = HasSection("DNP Data:");
+                //bool hasSav5 = HasSection("DNPSAv5 Settings:");
+                //bool hasCal = HasSection("Calibration Constants:");
 
                 // Required sections for current restore flow
-                bool baseOk = hasHeader && hasRelayParams && hasCal && hasTx && hasSafeService && hasArc;
+                bool baseOk = hasRelayParams && hasTx && hasSafeService && hasArc;
 
                 if (!baseOk)
                 {
                     logger.Warn(
-                        "Backup validation failed. Header={0}, Relay={1}, Cal={2}, Tx={3}, SafeService={4}, Arc={5}",
-                        hasHeader, hasRelayParams, hasCal, hasTx, hasSafeService, hasArc);
+                        "Backup validation failed. Relay={0}, Tx={1}, SafeService={2}, Arc={3}",
+                        hasRelayParams, hasTx, hasSafeService, hasArc);
                     return false;
                 }
 
-                // Informational only (not required)
-                if (!hasDnp)
-                    logger.Info("DNP Data section not present (optional for rev9 to rev10 compatibility).");
-
-                if (!hasSav5)
-                    logger.Info("DNPSAv5 Settings section not present (optional for rev9 to rev10 compatibility).");
-
+               
                 logger.Info("Backup validation passed.");
                 return true;
             }
