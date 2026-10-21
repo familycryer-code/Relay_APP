@@ -1839,7 +1839,28 @@ namespace RelayControl
         {
             if (success)
             {
-                FlushBackupToDisk();
+                // Only persist snapshot when this cycle was a full backup capture
+                // (BeginFullParameterDownload sets requiredBackupMask != None).
+                bool isFullBackupCapture = this.requiredBackupMask != SectionBits.None;
+
+                if (isFullBackupCapture)
+                {
+                    // Optional: preserve existing valid snapshot and do not overwrite
+                    if (File.Exists(_relayBackupPath) && checkValidDataBackup())
+                    {
+                        logger.Info("Valid backup already exists; preserving existing snapshot (skip overwrite).");
+                    }
+                    else
+                    {
+                        FlushBackupToDisk();
+                        logger.Info("Backup snapshot written to disk.");
+                    }
+                }
+                else
+                {
+                    logger.Info("Required parameter download completed; skipping backup file write.");
+                }
+
                 backupState = BackupState.Complete;
             }
             else
@@ -1853,8 +1874,8 @@ namespace RelayControl
                 _backupCaptureActive = false;
             }
 
-            receivedBackupMask = 0;
-            requiredBackupMask = 0;
+            receivedBackupMask = SectionBits.None;
+            requiredBackupMask = SectionBits.None;
         }
 
         private bool IsBackupComplete()
