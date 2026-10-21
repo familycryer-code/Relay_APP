@@ -2065,7 +2065,7 @@ namespace RelayControl
 
         // in MainControl
 
-        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, EventArgs e)
+        private void UcRelayProgramming1_BackupBeforeProgrammingRequested(object sender, RelayControlLibrary.BackupBeforeProgrammingEventArgs e)
         {
             if (this.ucRelayProgramming1 == null)
             {
@@ -2073,15 +2073,32 @@ namespace RelayControl
                 return;
             }
 
-            // Guard against duplicate backup start requests
             if (this.backupInProgress || this.backupState == BackupState.Capturing)
             {
                 LogFlow($"BackupBeforeProgrammingRequested ignored: backup already active | backupInProgress={this.backupInProgress}, backupState={this.backupState}");
                 return;
             }
 
-            LogFlow("BackupBeforeProgrammingRequested: starting backup flow");
-            this.BackUpRelayDatatoFile();
+            LogFlow($"BackupBeforeProgrammingRequested: starting backup flow | caller={e.Caller}");
+
+            if (e.Caller == nameof(ucRelayProgramming.BackupOnly))
+            {
+                this.BackUpRelayNoFile();
+            }
+            else
+            {
+                this.BackUpRelayDatatoFile();
+            }
+        }
+
+        public class BackupBeforeProgrammingEventArgs : EventArgs
+        {
+            public string Caller { get; }
+
+            public BackupBeforeProgrammingEventArgs(string caller)
+            {
+                Caller = caller ?? "unknown";
+            }
         }
 
         private void ResetFullParameterDownloadState(string caller = "unknown")
@@ -7194,7 +7211,7 @@ namespace RelayControl
 
             if (shouldTrackRequiredDownload)
             {
-                this.BeginRequiredParameterDownload(); // to kick off CompleteBackupAndContinue();
+                this.ucRelayProgramming1.BackupOnly(); // to kick off 
             }
 
             this.timerResponseTimeOut.Enabled = false;
@@ -10761,6 +10778,36 @@ namespace RelayControl
                 this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.MasterRevisionNumber : 0,
                 this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.FPGARevisionNumber : 0
             );
+        }
+
+        private void BackUpRelayNoFile()
+        {
+            LogFlow("BackupRelayNoFile: ENTER");
+            if (backupState == BackupState.Capturing)
+            {
+                LogFlow("already capturing; skipping duplicate start");
+                return;
+            }
+            try
+            {
+                BeginBackupCapture();
+                BeginRequiredParameterDownload(nameof(BackUpRelayNoFile));
+                this.ucShortRange1.Request_SignalStrength();
+                this.requestTransmitterSettings();
+                this.requestRelayParameters();
+                
+                logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
+            }
+            catch (Exception ex)
+            {
+                LogFlow("exception; ex=" + ex.Message);
+                backupInProgress = false;
+                if (backupTimeoutTimer != null)
+                    backupTimeoutTimer.Stop();
+                ClearBackupCaptureState();
+                pendingAutoloadAfterBackup = false;
+                throw;
+            }
         }
 
         private void BackUpRelayDatatoFile()

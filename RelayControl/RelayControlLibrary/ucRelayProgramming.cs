@@ -227,8 +227,6 @@ namespace RelayControlLibrary
         public delegate void ErrorHandler(object o, ExceptionEventArgs eEA);
         public event ErrorHandler Error;
 
-        public delegate void BackupBeforeProgrammingHandler(object sender, EventArgs e);
-
         public byte[] TransmitterPacket;
 
 
@@ -624,6 +622,31 @@ namespace RelayControlLibrary
                
             this.RunProgrammingStateMachine();
             return true;
+        }
+
+        public RelayProgrammingStates State
+        {
+            get { return this.state; }
+            set
+            {
+                logger.Trace(String.Format("State: {0}", value.ToString()));
+                this.state = value;
+            }
+        }
+
+        public delegate void BackupBeforeProgrammingHandler(object sender, BackupBeforeProgrammingEventArgs e);
+        public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
+
+        private void RaiseBackupBeforeProgrammingRequested([System.Runtime.CompilerServices.CallerMemberName] string caller = "unknown")
+        {
+            BackupBeforeProgrammingRequested?.Invoke(this, new BackupBeforeProgrammingEventArgs(caller));
+        }
+
+        public void BackupOnly()
+        {
+            logger.Info("BackUpOnly: backUpOnly gated");
+            this.startupIntent = StartupIntent.BackupOnly; // this really means we are checking..
+            RaiseBackupBeforeProgrammingRequested();  // Call to Main to kick us off.  
         }
         public void InitializeAutoload()
         {
@@ -2033,22 +2056,6 @@ namespace RelayControlLibrary
             // No reset here; downstream stage start owns reset.
         }
 
-        public event BackupBeforeProgrammingHandler BackupBeforeProgrammingRequested;
-
-        private void RaiseBackupBeforeProgrammingRequested()
-        {
-            BackupBeforeProgrammingRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        public RelayProgrammingStates State
-        {
-            get { return this.state; }
-            set
-            {
-                logger.Trace(String.Format("State: {0}", value.ToString()));
-                this.state = value;
-            }
-        }
 
         private bool bootNeedsUpdateAutoProgramming()
         {
@@ -3513,6 +3520,18 @@ namespace RelayControlLibrary
             this.bootFirstAutoContinuation = false;
             this.programBootCodeInProgress = true;
             this.MasterBootLoaderStart();
+        }
+    }
+
+   
+
+    public class BackupBeforeProgrammingEventArgs : EventArgs
+    {
+        public string Caller { get; }
+
+        public BackupBeforeProgrammingEventArgs(string caller)
+        {
+            Caller = caller ?? "unknown";
         }
     }
 
