@@ -646,13 +646,13 @@ namespace RelayControlLibrary
         {
             logger.Info("BackUpOnly: backUpOnly gated");
             this.startupIntent = StartupIntent.BackupOnly; // this really means we are checking..
-            RaiseBackupBeforeProgrammingRequested();  // Call to Main to kick us off.  
+            RaiseBackupBeforeProgrammingRequested(nameof(BackupOnly));
         }
         public void InitializeAutoload()
         {
             logger.Info("InitializeAutoload: autoload gated");
             this.startupIntent = StartupIntent.AutoApproved; // this really means we are checking..
-            RaiseBackupBeforeProgrammingRequested();  // Call to Main to kick us off.  
+            RaiseBackupBeforeProgrammingRequested(nameof(InitializeAutoload));
         }
 
         public event Action<bool> ManualForcedUpdatePromptRequested;
