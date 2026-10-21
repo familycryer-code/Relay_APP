@@ -1256,10 +1256,9 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.WaitingForMaster:
                 case RelayProgrammingStates.WaitingForBootMaster:
                 case RelayProgrammingStates.WaitingForBootFPGA:
-                case RelayProgrammingStates.LoadingMasterCode:
+                case RelayProgrammingStates.LoadingMasterCode: //this.sendMasterTransferPacket();  // Do not call for master
                 case RelayProgrammingStates.LoadingMasterData:
                 case RelayProgrammingStates.LoadingRelayData:
-                case RelayProgrammingStates.LoadingFPGACode:
                 case RelayProgrammingStates.LoadingMasterBootLoader:
                 case RelayProgrammingStates.LoadingRelayBootLoader:
                 case RelayProgrammingStates.ClearingBootLoader:
@@ -1295,7 +1294,11 @@ namespace RelayControlLibrary
                     break;
                 case RelayProgrammingStates.LoadingRelayCode:
                     this.timerTimeout.Stop();
-                    this.sendRelayTransferPacket();
+                    this.sendRelayTransferPacket();  // this works
+                    break;
+                case RelayProgrammingStates.LoadingFPGACode:
+                    this.timerTimeout.Stop();
+                    this.sendFPGATransferPacket();  // TBD
                     break;
                 default:
                     break;
