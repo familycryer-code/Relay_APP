@@ -1110,8 +1110,6 @@ namespace RelayControlLibrary
         private void onSend(RelayProgrammingEventArgs rPEA)
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            logger.Info("Command: {0}", rPEA.Command);
-            LogFlow("onSend: command=" + rPEA.Command.ToString(), nameof(onSend));
 
             // Allow final commands once we have already reached the post-program state.
             if (rPEA.Command == RelayProgrammingSendCommands.RequestAll)
@@ -1557,15 +1555,8 @@ namespace RelayControlLibrary
                 rPEA.BytesToSend[2] = 32; //can be 32 or 24
                 rPEA.BytesToSend[3] = 0x0D;
 
-                logger.Info("MasterBootLoaderStart: delaying before bootloader start for reset settle time at {0}",
-                    DateTime.Now.ToString("HH:mm:ss.fff"));
-                
-                logger.Info("MasterBootLoaderStart: sending #U at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-                logger.Info("MasterBootLoaderStart sending #U packet: {0}", BitConverter.ToString(rPEA.BytesToSend));
-
                 this.onSend(rPEA);
 
-                logger.Info("MasterBootLoaderStart: #U packet sent at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
                 Thread.Sleep(2000);  // wait for relay to send READY
                 confirmProgramMasterBoot();
             }
@@ -1587,18 +1578,10 @@ namespace RelayControlLibrary
                 rPEA.BytesToSend[1] = Convert.ToByte('E');
                 rPEA.BytesToSend[2] = Convert.ToByte('S');
 
-                logger.Info("confirmProgramMasterBoot: delaying before YES at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
                 Thread.Sleep(250); // small settle delay after initial #U
-
-                logger.Info("confirmProgramMasterBoot: sending YES at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-                logger.Info("confirmProgramMasterBoot sending YES payload: {0}", BitConverter.ToString(rPEA.BytesToSend));
                 this.onSend(rPEA);
-                logger.Info("confirmProgramMasterBoot: YES sent at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
-
                 // short settle after YES so bootloader can enter data receive mode
                 Thread.Sleep(250);
-
-                logger.Info("confirmProgramMasterBoot: starting boot payload upload at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
             }
         }
 
@@ -1652,7 +1635,7 @@ namespace RelayControlLibrary
         private void sendMasterBootCode()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            logger.Info("sendMasterBootCode: entered at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
+         
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
@@ -1669,7 +1652,7 @@ namespace RelayControlLibrary
             {
                 if (this.masterCode.CodeBytes == null || this.masterCode.CodeBytes.Count == 0)
                 {
-                    logger.Info("sendMasterBootCode: no remaining boot bytes; completing bootloader phase.");
+                    
                     this.bootAckDeadline = null;
                     this.bootAckRetryCount = 0;
                     this.doneLoadingMasterBootLoader();
@@ -1694,16 +1677,7 @@ namespace RelayControlLibrary
                 // Start ACK wait window for this block
                 this.bootAckDeadline = DateTime.Now.AddMilliseconds(BootAckTimeoutMs);
 
-                logger.Info(
-                    "sendMasterBootCode: sending boot block length={0} at {1}, ackDeadline={2}, remainingBytesAfterBuild={3}",
-                    rPEA.BytesToSend.Length,
-                    DateTime.Now.ToString("HH:mm:ss.fff"),
-                    this.bootAckDeadline.Value.ToString("HH:mm:ss.fff"),
-                    this.masterCode.CodeBytes.Count);
-
                 this.onSend(rPEA);
-
-                logger.Info("sendMasterBootCode: boot block sent at {0}", DateTime.Now.ToString("HH:mm:ss.fff"));
 
                 this.programmingForm.ProgressValue = temp;
                 temp++;

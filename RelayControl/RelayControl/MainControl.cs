@@ -78,7 +78,7 @@ namespace RelayControl
         private readonly List<KeyValuePair<string, byte[]>> _backupCaptureSections = new List<KeyValuePair<string, byte[]>>();
         private string _relayBackupPath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
-
+        public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
 
         private bool tCPConnection = false;
         private TCPComms tcpClient;
@@ -90,24 +90,20 @@ namespace RelayControl
         private bool pendingAutoloadAfterBackup = false;
         private bool skipAutoloadAfterDecline = false;
         private bool pendingRestoreAfterProgramming = false;
-        private DateTime? backupStartedAtUtc = null;
 
+        /*
+        private DateTime? backupStartedAtUtc = null;
         private bool backupExpectDnp = false;
         private bool backupGotRelayParams = false;
         private bool backupGotCalibration = false;
         private bool backupGotTx = false;
         private bool backupGotSafeService = false;
         private bool backupGotArcFault = false;
-        public const string SavedDataPath = @"C:\DGI Systems\Relay\Saved Data\";
-        private bool quietMode = false;  //turns off register polling - button for this
-                                         // Add these fields near the other backup state fields
-
-
-
         private bool backupGotDnpSav5 = false;
         private bool backupGotDnpData = false;
-
-
+        */
+        private bool quietMode = false;  //turns off register polling - button for this
+                                         // Add these fields near the other backup state fields
 
         /// <summary>
         /// Button colors..
@@ -192,10 +188,12 @@ namespace RelayControl
                 this.labelQuietMode.Visible = false;
                 this.initializeEventPage();
 
+                /*
                 if (!Directory.Exists(SavedDataPath)) // Create the Save Data path if it does not already exist
                 {
                     Directory.CreateDirectory(SavedDataPath);
                 }
+                */
 
                 // CT Ratio on PQ monitor
                 this.textBoxCTRatioPQMonitor.Visible = true;
@@ -11507,10 +11505,11 @@ namespace RelayControl
                     lines.Any(l => l != null && l.Trim().Equals(name, cmp));
 
                 //bool hasHeader = HasSection("Data residing in the relay :", StringComparison.OrdinalIgnoreCase);
-                bool hasRelayParams = HasSection("Relay Parameters:");
-                bool hasTx = HasSection("Transmitter Parameters:");
-                bool hasSafeService = HasSection("Safe Service Data:");
-                bool hasArc = HasSection("Arc Fault Parameters:");
+                bool hasRelayParams = HasSection("Relay Parameters:", StringComparison.OrdinalIgnoreCase);
+                bool hasCal = HasSection("Calibration Parameters:", StringComparison.OrdinalIgnoreCase);
+                bool hasTx = HasSection("Transmitter Settings:", StringComparison.OrdinalIgnoreCase);
+                bool hasSafeService = HasSection("Safe Service Parameters:", StringComparison.OrdinalIgnoreCase);
+                bool hasArc = HasSection("Arc Fault Parameters:", StringComparison.OrdinalIgnoreCase);
 
                 // Optional in current rev9 -> rev10 migration behavior
                 //bool hasDnp = HasSection("DNP Data:");
@@ -11772,6 +11771,7 @@ namespace RelayControl
             MessageBox.Show("Sending all parameters from the selected profile to the Relay");
             this.buttonSendAll_Click(this, new EventArgs());
         }
+        /*
         private void StartBackupTracking(bool expectDnp)
         {
             // Reset state for a fresh backup session
@@ -11804,13 +11804,9 @@ namespace RelayControl
             backupTimeoutTimer.Stop();
             backupTimeoutTimer.Start();
 
-            logger.Info(
-                "Backup tracking started. ExpectDnp={0}, TimeoutMs={1}, StartedAtUtc={2:O}",
-                backupExpectDnp,
-                BackupTimeoutMs,
-                backupStartedAtUtc);
+         
         }
-
+        */
 
         public void RequestManualForcedUpdatePrompt(bool forcedFullUpdate)
         {
@@ -12249,7 +12245,7 @@ namespace RelayControl
             }
         }
 
-        private void backupTimeoutTimer_Tick(object sender, EventArgs e)
+        /*private void backupTimeoutTimer_Tick(object sender, EventArgs e)
         {
             backupTimeoutTimer.Stop();
 
@@ -12270,6 +12266,7 @@ namespace RelayControl
                 $"Backup timeout reached ({BackupTimeoutMs / 1000}s). " +
                 $"Continuing with available data. Missing: {missing}");
         }
+        
         private string GetBackupMissingSectionsSummary()
         {
             var missing = new List<string>();
@@ -12282,6 +12279,7 @@ namespace RelayControl
 
             return missing.Count == 0 ? "None" : string.Join(", ", missing);
         }
+        */
 
         private void RecoverComms(string caller, Exception ex = null)
         {
