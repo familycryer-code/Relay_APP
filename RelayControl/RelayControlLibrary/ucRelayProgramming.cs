@@ -1095,8 +1095,9 @@ namespace RelayControlLibrary
             }
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.BytesToSend = this.TransmitterPacket;
             rPEA.Command = RelayProgrammingSendCommands.TransmitterSettings;
+            rPEA.BytesToSend = this.TransmitterPacket;
+            
 
             this.onSend(rPEA);
             this.TransmitterPacket = null;
@@ -1913,12 +1914,6 @@ namespace RelayControlLibrary
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            bool wasAutoLoad = this.autoLoad;
-            bool wasManualFlow =
-                this.startupIntent == StartupIntent.ManualApproved ||
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                ManualUpdate.usingManualMode;
-
             // End-of-programming stage cleanup (safe before requestAll)
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
@@ -1927,26 +1922,19 @@ namespace RelayControlLibrary
 
             this.timerTimeout.Stop();
             this.programmingForm.CurrentTask = "Finalizing Update.....";
-            this.state = RelayProgrammingStates.ReprogramSuccess;
-
+            this.state = RelayProgrammingStates.Finalized;
 
             LogFlow("allReprogramingDone", "allReprogrammingDone");
-            // Orchestrated flow: hand off to RequestAll -> AllParametersReceived -> FinalizeReprogram
-            if (wasAutoLoad || wasManualFlow)
-            {
-                logger.Info("allReprogramingDone: final success path -> issuing final requestAll().");
-                this.sendWriteBackupToRelay();
-                this.state = RelayProgrammingStates.Finalized;
+           
+            this.sendWriteBackupToRelay();
 
-                return;
-            }
-
-            this.state = RelayProgrammingStates.Idle;
+            return;
+            
         }
 
         private void sendWriteBackupToRelay()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.WriteBackupToRelay;
             this.onSend(rPEA);
@@ -2131,6 +2119,7 @@ namespace RelayControlLibrary
             this.state = RelayProgrammingStates.LoadingMasterCode;
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[4];
 
             rPEA.BytesToSend[0] = 0x55; //'U'
@@ -2158,6 +2147,7 @@ namespace RelayControlLibrary
             this.state = RelayProgrammingStates.LoadingRelayCode;
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[4];
 
             rPEA.BytesToSend[0] = 0x64; // 'd'
@@ -2209,6 +2199,7 @@ namespace RelayControlLibrary
             this.state = RelayProgrammingStates.LoadingFPGACode;
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
+            rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[2];
 
             rPEA.BytesToSend[0] = 0x46; // 'F'
