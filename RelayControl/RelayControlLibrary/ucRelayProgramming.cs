@@ -1129,7 +1129,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingMasterData:
                         logger.Info("AckM, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 5000;
+                        this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
                         this.sendNextMasterPacket();
                         break;
@@ -1138,7 +1138,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingRelayData:
                         logger.Info("AckR, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 5000;
+                        this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
                         this.sendNextRelayPacket();
                         break;
@@ -1146,7 +1146,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingFPGACode:
                         logger.Info("AckF, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 5000;
+                        this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
                         this.sendNextFPGAPacket();
                         break;
@@ -1154,7 +1154,7 @@ namespace RelayControlLibrary
                     case RelayProgrammingStates.LoadingRelayBootLoader:
                         logger.Info("Ack Unknown, ");
                         this.timerTimeout.Stop();
-                        this.timerTimeout.Interval = 5000;
+                        this.timerTimeout.Interval = 1500;
                         this.timerTimeout.Start();
                         //this.sendRelayBootCode();  will need to figure this out
                         break;
@@ -2144,17 +2144,35 @@ namespace RelayControlLibrary
 
             rPEA.BytesToSend[0] = 0x64; // 'd'
             rPEA.BytesToSend[1] = this.relayCode.NumberOfCodeBlocks;
-            rPEA.BytesToSend[2] = this.relayCode.WithParameters
+
+            // Band-aid: if NonParameterCount is zero but DataBytes exist, derive block count from payload.
+            byte declaredDataBlocks = this.relayCode.WithParameters
                 ? this.relayCode.NumberOfDataBlocks
                 : this.relayCode.NonParameterCount;
+
+            if (!this.relayCode.WithParameters &&
+                declaredDataBlocks == 0 &&
+                this.relayCode.DataBytes != null &&
+                this.relayCode.DataBytes.Count > 0)
+            {
+                declaredDataBlocks = (byte)Math.Ceiling(this.relayCode.DataBytes.Count / 512.0);
+                logger.Warn(
+                    "Relay transfer header band-aid applied: NonParameterCount=0 but DataBytes={0}; forcing dataBlocks={1}",
+                    this.relayCode.DataBytes.Count,
+                    declaredDataBlocks);
+            }
+
+            rPEA.BytesToSend[2] = declaredDataBlocks;
             rPEA.BytesToSend[3] = 0x0D;
 
             logger.Warn(
-                "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}",
+                "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}, withParameters={4}, nonParamCount={5}",
                 this.relayCode.NumberOfCodeBlocks,
-                this.relayCode.WithParameters ? this.relayCode.NumberOfDataBlocks : this.relayCode.NonParameterCount,
+                declaredDataBlocks,
                 this.relayCode.CodeBytes.Count,
-                this.relayCode.DataBytes.Count
+                this.relayCode.DataBytes.Count,
+                this.relayCode.WithParameters,
+                this.relayCode.NonParameterCount
             );
 
             this.onSend(rPEA);
@@ -2164,9 +2182,6 @@ namespace RelayControlLibrary
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
-
-            // NO ACK coming
-
         }
 
         private void sendFPGATransferPacket()
@@ -2776,10 +2791,12 @@ namespace RelayControlLibrary
             if(this.relayCode.WithParameters)
             {
                 this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
+                logger.Info("DATA)");
             }
             else
             {
                 this.labelDataTotal.Text = this.relayCode.NonParameterCount.ToString();
+                logger.Info("NO DATA)");
             }
 
             this.programmingForm.Maximum = temp;
