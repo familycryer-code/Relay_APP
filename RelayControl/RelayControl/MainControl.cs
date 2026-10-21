@@ -10959,7 +10959,6 @@ namespace RelayControl
             const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
             string[] lines = File.ReadAllLines(filePath);
 
-            // Find section start
             int relayParamsHeader = Array.FindIndex(
                 lines,
                 l => string.Equals(l?.Trim(), "Relay Parameters:", StringComparison.Ordinal));
@@ -10967,61 +10966,54 @@ namespace RelayControl
             if (relayParamsHeader < 0)
                 throw new Exception("Relay Parameters section not found in backup file.");
 
-            // Need at least 94 bytes after header for relay parameter block
-            int relayStart = relayParamsHeader + 1;
-            if (relayStart + 93 >= lines.Length)
+            int relayDataLineIndex = relayParamsHeader + 1;
+            while (relayDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[relayDataLineIndex]))
+                relayDataLineIndex++;
+
+            if (relayDataLineIndex >= lines.Length)
                 throw new Exception("Relay Parameters section is incomplete.");
 
-            byte ReadByteAt(int idx)
+            string relayLine = lines[relayDataLineIndex].Trim();
+            string[] tokens = relayLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] parsed = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte value at line index {idx}: '{lines[idx]}'.");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out parsed[i]))
+                    throw new Exception($"Invalid hex byte in Relay Parameters at token {i}: '{tokens[i]}'.");
             }
 
-            // Pull relay parameter bytes into local array [0..93]
-            byte[] rp = new byte[94];
-            for (int i = 0; i < rp.Length; i++)
-                rp[i] = ReadByteAt(relayStart + i);
+            if (parsed.Length < 94)
+                throw new Exception($"Relay Parameters section is incomplete. Expected >= 94 bytes, found {parsed.Length}.");
 
-            // -------- Packet 'C' --------
+            byte[] rp = new byte[94];
+            Array.Copy(parsed, rp, 94);
+
             byte[] packet_C = new byte[10];
             packet_C[0] = (byte)'C';
 
-            // Preserve legacy odd/even mapping
             for (int cnt = 1; cnt <= 8; cnt++)
             {
                 byte b = rp[cnt - 1];
-                if ((cnt % 2) != 0)
-                    packet_C[cnt + 1] = b;
-                else
-                    packet_C[cnt - 1] = b;
+                if ((cnt % 2) != 0) packet_C[cnt + 1] = b;
+                else packet_C[cnt - 1] = b;
             }
 
             packet_C[9] = 0x0D;
             this.sendPacket(packet_C);
 
-            // -------- Packet 'M''C' --------
             byte[] packet_MC = new byte[8];
             packet_MC[0] = (byte)'M';
 
-            // Preserve legacy odd/even mapping for rp[8..13]
             for (int cnt = 1; cnt <= 6; cnt++)
             {
                 byte b = rp[8 + (cnt - 1)];
-                if ((cnt % 2) != 0)
-                    packet_MC[cnt + 1] = b;
-                else
-                    packet_MC[cnt - 1] = b;
+                if ((cnt % 2) != 0) packet_MC[cnt + 1] = b;
+                else packet_MC[cnt - 1] = b;
             }
 
             packet_MC[7] = 0x0D;
             this.sendPacket(packet_MC);
-            //Thread.Sleep(1000);
         }
 
         private void writeTripModeDataBackUp_ToMaster()
@@ -11036,25 +11028,28 @@ namespace RelayControl
             if (relayParamsHeader < 0)
                 throw new Exception("Relay Parameters section not found in backup file.");
 
-            int relayStart = relayParamsHeader + 1;
-            if (relayStart + 93 >= lines.Length)
+            int relayDataLineIndex = relayParamsHeader + 1;
+            while (relayDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[relayDataLineIndex]))
+                relayDataLineIndex++;
+
+            if (relayDataLineIndex >= lines.Length)
                 throw new Exception("Relay Parameters section is incomplete.");
 
-            byte ReadByteAtLineIndex(int idx)
+            string relayLine = lines[relayDataLineIndex].Trim();
+            string[] tokens = relayLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] parsed = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup line index out of range: {idx}");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out var b))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return b;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out parsed[i]))
+                    throw new Exception($"Invalid hex byte in Relay Parameters at token {i}: '{tokens[i]}'.");
             }
 
-            // Pull relay-parameter section bytes [0..93]
+            if (parsed.Length < 94)
+                throw new Exception($"Relay Parameters section is incomplete. Expected >= 94 bytes, found {parsed.Length}.");
+
             byte[] rp = new byte[94];
-            for (int i = 0; i < rp.Length; i++)
-                rp[i] = ReadByteAtLineIndex(relayStart + i);
+            Array.Copy(parsed, rp, 94);
 
             // ---------------- Mtrip ('M' + 6 bytes + CR) from rp[14..19] ----------------
             byte[] packet_MT = new byte[8];
@@ -11071,10 +11066,7 @@ namespace RelayControl
 
             packet_MT[7] = 0x0D;
             this.sendPacket(packet_MT);
-            //Thread.Sleep(1000);
 
-            // ---------------- T0..T4 each 12 bytes ----------------
-            // T0: rp[20..31], T1: rp[32..43], T2: rp[44..55], T3: rp[56..67], T4: rp[68..79]
             void SendTPacket(int rpStart)
             {
                 byte[] p = new byte[14];
@@ -11100,7 +11092,6 @@ namespace RelayControl
             SendTPacket(56);
             SendTPacket(68);
 
-            // ---------------- MS packet ----------------
             byte[] packet_MS = new byte[8];
             packet_MS[0] = (byte)'M';
             packet_MS[1] = (byte)'S';
@@ -11112,7 +11103,6 @@ namespace RelayControl
             packet_MS[7] = 0x0D;
 
             this.sendPacket(packet_MS);
-            //Thread.Sleep(1000);
         }
 
         private void writeNWProtectorDataBackUp_ToMaster()
@@ -11127,26 +11117,31 @@ namespace RelayControl
             if (relayParamsHeader < 0)
                 throw new Exception("Relay Parameters section not found in backup file.");
 
-            int relayStart = relayParamsHeader + 1;
-            if (relayStart + 93 >= lines.Length)
+            int relayDataLineIndex = relayParamsHeader + 1;
+            while (relayDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[relayDataLineIndex]))
+                relayDataLineIndex++;
+
+            if (relayDataLineIndex >= lines.Length)
                 throw new Exception("Relay Parameters section is incomplete.");
 
-            byte ReadByteAt(int idx)
+            string relayLine = lines[relayDataLineIndex].Trim();
+            string[] tokens = relayLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] parsed = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out parsed[i]))
+                    throw new Exception($"Invalid hex byte in Relay Parameters at token {i}: '{tokens[i]}'.");
             }
+
+            if (parsed.Length < 94)
+                throw new Exception($"Relay Parameters section is incomplete. Expected >= 94 bytes, found {parsed.Length}.");
 
             // relay_type bytes in relay param block:
             // rp[80] = relay_type_byte2
             // rp[81] = relay_type_byte1
-            byte relayTypeByte2 = ReadByteAt(relayStart + 80);
-            byte relayTypeByte1 = ReadByteAt(relayStart + 81);
+            byte relayTypeByte2 = parsed[80];
+            byte relayTypeByte1 = parsed[81];
 
             byte[] packet_s = new byte[4];
             packet_s[0] = (byte)'s';
@@ -11155,7 +11150,6 @@ namespace RelayControl
             packet_s[3] = 0x0D;
 
             this.sendPacket(packet_s);
-            //Thread.Sleep(1000);
         }
 
         private void writePumpModeDataBackUp_ToMaster()
@@ -11170,32 +11164,34 @@ namespace RelayControl
             if (relayParamsHeader < 0)
                 throw new Exception("Relay Parameters section not found in backup file.");
 
-            int relayStart = relayParamsHeader + 1;
-            if (relayStart + 93 >= lines.Length)
+            int relayDataLineIndex = relayParamsHeader + 1;
+            while (relayDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[relayDataLineIndex]))
+                relayDataLineIndex++;
+
+            if (relayDataLineIndex >= lines.Length)
                 throw new Exception("Relay Parameters section is incomplete.");
 
-            byte ReadByteAt(int idx)
+            string relayLine = lines[relayDataLineIndex].Trim();
+            string[] tokens = relayLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] rp = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out rp[i]))
+                    throw new Exception($"Invalid hex byte in Relay Parameters at token {i}: '{tokens[i]}'.");
             }
+
+            if (rp.Length < 94)
+                throw new Exception($"Relay Parameters section is incomplete. Expected >= 94 bytes, found {rp.Length}.");
 
             // Pump bytes in relay-param block are rp[82..89]
             byte[] p = new byte[8];
-            for (int i = 0; i < 8; i++)
-                p[i] = ReadByteAt(relayStart + 82 + i);
+            Array.Copy(rp, 82, p, 0, 8);
 
             byte[] packet_G = new byte[10];
             packet_G[0] = (byte)'G';
 
-            // Preserve original mapping logic:
-            // cnt 1..2 and 7..8 direct to same index
-            // cnt 3..6 odd/even swap
+            // Preserve original mapping logic
             for (int cnt = 1; cnt <= 8; cnt++)
             {
                 byte b = p[cnt - 1];
@@ -11215,7 +11211,6 @@ namespace RelayControl
 
             packet_G[9] = 0x0D;
             this.sendPacket(packet_G);
-            //Thread.Sleep(1000);
         }
 
         private void writeSafeServiceDataBackUp_ToMaster()
@@ -11225,35 +11220,39 @@ namespace RelayControl
 
             int safeHeader = Array.FindIndex(
                 lines,
-                l => string.Equals(l?.Trim(), "Safe Service Data:", StringComparison.Ordinal));
+                l => string.Equals(l?.Trim(), "Safe Service Parameters:", StringComparison.Ordinal));
 
             if (safeHeader < 0)
-                throw new Exception("Safe Service Data section not found in backup file.");
+                throw new Exception("Safe Service Parameters section not found in backup file.");
 
-            int safeStart = safeHeader + 1;
-            if (safeStart + 19 >= lines.Length)
-                throw new Exception("Safe Service Data section is incomplete.");
+            int safeDataLineIndex = safeHeader + 1;
+            while (safeDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[safeDataLineIndex]))
+                safeDataLineIndex++;
 
-            byte ReadByteAt(int idx)
+            if (safeDataLineIndex >= lines.Length)
+                throw new Exception("Safe Service Parameters section is incomplete.");
+
+            string safeLine = lines[safeDataLineIndex].Trim();
+            string[] tokens = safeLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] safeBytes = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out safeBytes[i]))
+                    throw new Exception($"Invalid hex byte in Safe Service Parameters at token {i}: '{tokens[i]}'.");
             }
+
+            if (safeBytes.Length < 20)
+                throw new Exception($"Safe Service Parameters section is incomplete. Expected >= 20 bytes, found {safeBytes.Length}.");
 
             byte[] packet_F = new byte[22];
             packet_F[0] = 0x0F;
 
             for (int cnt = 1; cnt <= 20; cnt++)
-                packet_F[cnt] = ReadByteAt(safeStart + (cnt - 1));
+                packet_F[cnt] = safeBytes[cnt - 1];
 
             packet_F[21] = 0x0D;
             this.sendPacket(packet_F);
-            //Thread.Sleep(1000);
         }
 
         private void writeDNPDataBackUp_ToMaster()
@@ -11265,28 +11264,26 @@ namespace RelayControl
                 lines,
                 l => string.Equals(l?.Trim(), "DNP Data:", StringComparison.Ordinal));
 
-            // Missing DNP section: ignore (non-DNP backup / older backup format)
-            if (dnpHeader < 0)
-                return;
+            if (dnpHeader < 0) return; // optional
 
-            int dnpStart = dnpHeader + 1;
-            if (dnpStart + 97 >= lines.Length)
-                throw new Exception("DNP Data section is incomplete (expected 98 bytes).");
+            int dataLine = dnpHeader + 1;
+            while (dataLine < lines.Length && string.IsNullOrWhiteSpace(lines[dataLine]))
+                dataLine++;
 
-            byte ReadByteAt(int idx)
+            if (dataLine >= lines.Length)
+                throw new Exception("DNP Data section is incomplete (missing data line).");
+
+            string[] tokens = lines[dataLine].Trim().Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+            byte[] dnp = new byte[tokens.Length];
+
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out dnp[i]))
+                    throw new Exception($"Invalid hex byte in DNP Data at token {i}: '{tokens[i]}'.");
             }
 
-            byte[] dnp = new byte[98];
-            for (int i = 0; i < dnp.Length; i++)
-                dnp[i] = ReadByteAt(dnpStart + i);
+            if (dnp.Length < 98)
+                throw new Exception($"DNP Data section is incomplete (expected >= 98 bytes, found {dnp.Length}).");
 
             byte[] packet_D = new byte[98];
             packet_D[0] = (byte)'D';
@@ -11304,7 +11301,6 @@ namespace RelayControl
 
             packet_D[97] = 0x0D;
             this.sendPacket(packet_D);
-            //Thread.Sleep(1000);
         }
 
         private void writeDNPSAv5SettingsDataBackUp_ToMaster()
@@ -11316,55 +11312,41 @@ namespace RelayControl
                 lines,
                 l => string.Equals(l?.Trim(), "DNPSAv5 Settings:", StringComparison.Ordinal));
 
-            // Missing section is allowed for some backup variants; skip restore.
-            if (sav5Header < 0)
-                return;
+            if (sav5Header < 0) return; // optional
 
-            int sav5Start = sav5Header + 1;
-            if (sav5Start + 95 >= lines.Length) // need 96 bytes
-                throw new Exception("DNPSAv5 Settings section is incomplete (expected 96 bytes).");
+            int dataLine = sav5Header + 1;
+            while (dataLine < lines.Length && string.IsNullOrWhiteSpace(lines[dataLine]))
+                dataLine++;
 
-            byte ReadByteAt(int idx)
+            if (dataLine >= lines.Length)
+                throw new Exception("DNPSAv5 Settings section is incomplete (missing data line).");
+
+            string[] tokens = lines[dataLine].Trim().Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+            byte[] sav5 = new byte[tokens.Length];
+
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out sav5[i]))
+                    throw new Exception($"Invalid hex byte in DNPSAv5 Settings at token {i}: '{tokens[i]}'.");
             }
 
-            // Read 96 SAv5 bytes from backup section
-            byte[] sav5 = new byte[96];
-            for (int i = 0; i < sav5.Length; i++)
-                sav5[i] = ReadByteAt(sav5Start + i);
+            if (sav5.Length < 96)
+                throw new Exception($"DNPSAv5 Settings section is incomplete (expected >= 96 bytes, found {sav5.Length}).");
 
-            // Build DS packet preserving your legacy field mapping behavior
             byte[] packet_DS = new byte[98];
             packet_DS[0] = (byte)'D';
 
-            // old code: first data line -> packet[1]
             packet_DS[1] = sav5[0];
-
-            // old code mapped the next two pairs with swapped placement:
-            // lines 2..3 -> packet[3], packet[2]
             packet_DS[3] = sav5[1];
             packet_DS[2] = sav5[2];
-
-            // lines 4..5 -> packet[5], packet[4]
             packet_DS[5] = sav5[3];
             packet_DS[4] = sav5[4];
 
-            // old code skipped packet[6], then copied remaining into packet[7..96]
-            // from source bytes corresponding to legacy stream position
-            for (int i = 5; i < sav5.Length; i++)
-                packet_DS[i + 2] = sav5[i]; // sav5[5] -> packet[7], ... sav5[94] -> packet[96]
+            for (int i = 5; i < 95; i++)   // keep write within packet[7..96]
+                packet_DS[i + 2] = sav5[i];
 
             packet_DS[97] = 0x0D;
-
             this.sendPacket(packet_DS);
-            //Thread.Sleep(1000);
         }
 
         private void writeArcFaultDataBackUp_ToMaster()
@@ -11372,28 +11354,41 @@ namespace RelayControl
             const string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
             string[] lines = File.ReadAllLines(filePath);
 
-            int arcHeader = Array.FindIndex(lines, l => string.Equals(l?.Trim(), "Arc Fault Parameters:", StringComparison.Ordinal));
-            if (arcHeader < 0) throw new Exception("Arc Fault Parameters section not found in backup file.");
+            int arcHeader = Array.FindIndex(
+                lines,
+                l => string.Equals(l?.Trim(), "Arc Fault Parameters:", StringComparison.Ordinal));
 
-            int arcStart = arcHeader + 1;
-            if (arcStart + 39 >= lines.Length) throw new Exception("Arc Fault Parameters section is incomplete (expected 40 bytes).");
+            if (arcHeader < 0)
+                throw new Exception("Arc Fault Parameters section not found in backup file.");
 
-            byte ReadByteAt(int idx)
+            int arcDataLineIndex = arcHeader + 1;
+            while (arcDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[arcDataLineIndex]))
+                arcDataLineIndex++;
+
+            if (arcDataLineIndex >= lines.Length)
+                throw new Exception("Arc Fault Parameters section is incomplete.");
+
+            string arcLine = lines[arcDataLineIndex].Trim();
+            string[] tokens = arcLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] arcBytes = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length) throw new Exception($"Backup index out of range at line index {idx}.");
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value)) throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out arcBytes[i]))
+                    throw new Exception($"Invalid hex byte in Arc Fault Parameters at token {i}: '{tokens[i]}'.");
             }
+
+            if (arcBytes.Length < 40)
+                throw new Exception($"Arc Fault Parameters section is incomplete (expected >= 40 bytes, found {arcBytes.Length}).");
 
             byte[] packet_E = new byte[42];
             packet_E[0] = (byte)'E';
 
             for (int cnt = 1; cnt <= 40; cnt++)
-                packet_E[cnt] = ReadByteAt(arcStart + (cnt - 1));
+                packet_E[cnt] = arcBytes[cnt - 1];
 
             packet_E[41] = 0x0D;
             this.sendPacket(packet_E);
-            //Thread.Sleep(1000);
         }
 
         private void writeTransmitterDataBackUp_ToMaster()
@@ -11403,35 +11398,39 @@ namespace RelayControl
 
             int txHeader = Array.FindIndex(
                 lines,
-                l => string.Equals(l?.Trim(), "Transmitter Parameters:", StringComparison.Ordinal));
+                l => string.Equals(l?.Trim(), "Transmitter Settings:", StringComparison.Ordinal));
 
             if (txHeader < 0)
-                throw new Exception("Transmitter Parameters section not found in backup file.");
+                throw new Exception("Transmitter Settings section not found in backup file.");
 
-            int txStart = txHeader + 1;
-            if (txStart + 31 >= lines.Length)
-                throw new Exception("Transmitter Parameters section is incomplete.");
+            int txDataLineIndex = txHeader + 1;
+            while (txDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[txDataLineIndex]))
+                txDataLineIndex++;
 
-            byte ReadByteAt(int idx)
+            if (txDataLineIndex >= lines.Length)
+                throw new Exception("Transmitter Settings section is incomplete.");
+
+            string txLine = lines[txDataLineIndex].Trim();
+            string[] tokens = txLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] txBytes = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out txBytes[i]))
+                    throw new Exception($"Invalid hex byte in Transmitter Settings at token {i}: '{tokens[i]}'.");
             }
+
+            if (txBytes.Length < 32)
+                throw new Exception($"Transmitter Settings section is incomplete. Expected >= 32 bytes, found {txBytes.Length}.");
 
             byte[] packet_Y = new byte[34];
             packet_Y[0] = (byte)'Y';
 
             for (int cnt = 1; cnt <= 32; cnt++)
-                packet_Y[cnt] = ReadByteAt(txStart + (cnt - 1));
+                packet_Y[cnt] = txBytes[cnt - 1];
 
             packet_Y[33] = 0x0D;
             this.sendPacket(packet_Y);
-            //Thread.Sleep(1000);
         }
 
         private void writeCalibrationDataBackUp_ToMaster()
@@ -11441,34 +11440,39 @@ namespace RelayControl
 
             int calHeader = Array.FindIndex(
                 lines,
-                l => string.Equals(l?.Trim(), "Calibration Constants:", StringComparison.Ordinal));
+                l => string.Equals(l?.Trim(), "Calibration Parameters:", StringComparison.Ordinal));
 
             if (calHeader < 0)
-                throw new Exception("Calibration Constants section not found in backup file.");
+                throw new Exception("Calibration Parameters section not found in backup file.");
 
-            int calStart = calHeader + 1;
-            if (calStart + 59 >= lines.Length)
-                throw new Exception("Calibration Constants section is incomplete (expected 60 bytes).");
+            int calDataLineIndex = calHeader + 1;
+            while (calDataLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[calDataLineIndex]))
+                calDataLineIndex++;
 
-            byte ReadByteAt(int idx)
+            if (calDataLineIndex >= lines.Length)
+                throw new Exception("Calibration Parameters section is incomplete.");
+
+            string calLine = lines[calDataLineIndex].Trim();
+            string[] tokens = calLine.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            byte[] calBytes = new byte[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (idx < 0 || idx >= lines.Length)
-                    throw new Exception($"Backup index out of range at line index {idx}.");
-
-                if (!byte.TryParse(lines[idx]?.Trim(), out byte value))
-                    throw new Exception($"Invalid byte at line index {idx}: '{lines[idx]}'");
-
-                return value;
+                if (!byte.TryParse(tokens[i], System.Globalization.NumberStyles.HexNumber, null, out calBytes[i]))
+                    throw new Exception($"Invalid hex byte in Calibration Parameters at token {i}: '{tokens[i]}'.");
             }
+
+            if (calBytes.Length < 60)
+                throw new Exception($"Calibration Parameters section is incomplete (expected >= 60 bytes, found {calBytes.Length}).");
 
             // Legacy packet format: 'J' + 60 bytes + CR
             byte[] packet_J = new byte[62];
             packet_J[0] = (byte)'J';
 
-            // Preserve the legacy odd/even mapping used in the old backup format
+            // Preserve legacy odd/even mapping
             for (int cnt = 1; cnt <= 60; cnt++)
             {
-                byte b = ReadByteAt(calStart + (cnt - 1));
+                byte b = calBytes[cnt - 1];
 
                 if ((cnt % 2) != 0)
                     packet_J[cnt + 1] = b;
@@ -11478,7 +11482,6 @@ namespace RelayControl
 
             packet_J[61] = 0x0D;
             this.sendPacket(packet_J);
-            //Thread.Sleep(1000);
         }
 
         private bool checkValidDataBackup()
