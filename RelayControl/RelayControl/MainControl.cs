@@ -469,8 +469,8 @@ namespace RelayControl
                     buttonRequestRelayParamaters,
                     buttonRequestRelayParamaters.BackColor,
                     ColorTranslator.FromHtml("#66ED72"),
-                    10,
-                    30);
+                    10,    // pulse fades in and out over X ms
+                    30);  // stay green longer
 #if BGE
                 this.Text = "DIGITALGRID, INC. - NWP Master Relay Software - 10.0.10.0 - Baltimore Gas & Electric";
                 this.Customer = Customers.BGE;
