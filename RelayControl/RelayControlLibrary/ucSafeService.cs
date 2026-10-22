@@ -319,7 +319,8 @@ namespace RelayControlLibrary
                 if (!_safeServiceErrorShown)
                 {
                     _safeServiceErrorShown = true;
-                    MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
+                    Debug.WriteLine("Safe Service parameters restored to previous values due to error in received data.");
+                    //MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
                 }
 
                 return;
