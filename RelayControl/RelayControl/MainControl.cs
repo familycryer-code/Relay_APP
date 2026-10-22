@@ -2201,6 +2201,7 @@ namespace RelayControl
                     this.WriteBackUpData_FileToRelay();
                     // after success, drive finalize path:
                     this.ucRelayProgramming1.finalizeReprogram(); // or call finalize directly via a new method
+                    RestoreNormalCommsAfterAutoloadDecline();
                     break;
             }
         }
@@ -6505,6 +6506,8 @@ namespace RelayControl
         {
             _requestAllPulse?.Start();
 
+            // Optional: you can keep this or remove and rely fully on backup methods.
+            // If you keep it, ensure no early release here.
             this.enableAll(false);
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
@@ -6519,16 +6522,17 @@ namespace RelayControl
                 logger.Error(ex, "Request All failed");
                 this.messageHandler("Request All Failed", ex);
                 ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
-            }
-            finally
-            {
+
+                // release only on immediate failure
+                SetBusyUi(false);
+                this.enableAll(true);
                 screenD.screenDisable = false;
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
-                this.enableAll(true);
-
-                // do NOT stop the pulse here if you want the green flash to remain visible
-                // the helper itself will restore it after the delay
+            }
+            finally
+            {
+                // DO NOT release UI here for async backup lifecycle
             }
         }
 
@@ -9009,6 +9013,7 @@ namespace RelayControl
         private void buttonSendAll_Click(object sender, EventArgs e)
         {
             logger.Info("buttonSendAllClick");
+
             _applyPulse?.Start();
 
             this.enableAll(false);
@@ -9023,20 +9028,22 @@ namespace RelayControl
             {
                 logger.Error(ex, "Apply All failed");
                 this.messageHandler("Apply All Failed", ex);
-            }
-            finally
-            {
+
+                // immediate failure release
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
-
                 this.Enabled = true;
                 Application.UseWaitCursor = false;
                 this.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
                 this.enableAll(true);
                 this.tabControlMain.Enabled = true;
-
-                // no immediate Stop() here; helper handles the restore timing
+            }
+            finally
+            {
+                // DO NOT release UI here for the normal post-apply refresh path.
+                // The post-apply requestAllData -> BackupOnly -> CompleteBackupAndContinue
+                // owns the final UI unlock.
             }
         }
 
@@ -10779,10 +10786,10 @@ namespace RelayControl
         {
             logger.Info(
                 "{0} | caller={1} | ProgramState={2} | backupState={3} | requestedAllParameters={4}" +
-                " | sendAll={5} | sendAllFlag={6} | backupInProgress={7} | backupIsPending={8}" +
-                " | pendingAutoloadAfterBackup={9} | pendingRestoreAfterProgramming={10} | relayCodeRevisionNumber={11}" +
-                " | relayFound={12} | activeRelay={13} | tcp={14} | serialOpen={15} | port={16}" +
-                " | masterRevision={17} | ucRelayProgramming1.MasterRevisionNumber={18} | fpgaRevision={19}",
+                " | sendAll={5} | sendAllFlag={6} | backupInProgress={7}" +
+                " | pendingAutoloadAfterBackup={8} | pendingRestoreAfterProgramming={9} | relayCodeRevisionNumber={10}" +
+                " | relayFound={11} | activeRelay={12} | tcp={13} | serialOpen={14} | port={15}" +
+                " | masterRevision={16} | ucRelayProgramming1.MasterRevisionNumber={17} | fpgaRevision={18}",
                 message,
                 caller ?? "unknown",
                 this.ProgramState,
@@ -10791,7 +10798,6 @@ namespace RelayControl
                 this.sendAll,
                 sendAllF.SendAllFlag,
                 this.backupInProgress,
-                this.ucRelayProgramming1 != null,
                 this.pendingAutoloadAfterBackup,
                 this.pendingRestoreAfterProgramming,
                 this.relayCodeRevisionNumber,
@@ -10809,29 +10815,42 @@ namespace RelayControl
         private void BackUpRelayNoFile()
         {
             LogFlow("BackupRelayNoFile: ENTER");
+
             if (backupState == BackupState.Capturing)
             {
                 LogFlow("already capturing; skipping duplicate start");
                 return;
             }
+
+            // NEW: busy state starts here too
+            SetBusyUi(true);
+            this.enableAll(false);
+            screenD.screenDisable = true;
+
             try
             {
                 BeginBackupCapture();
                 BeginRequiredParameterDownload(nameof(BackUpRelayNoFile));
+
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestTransmitterSettings();
                 this.requestRelayParameters();
-                
+
                 logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
             }
             catch (Exception ex)
             {
                 LogFlow("exception; ex=" + ex.Message);
                 backupInProgress = false;
-                if (backupTimeoutTimer != null)
-                    backupTimeoutTimer.Stop();
+                backupTimeoutTimer?.Stop();
                 ClearBackupCaptureState();
                 pendingAutoloadAfterBackup = false;
+
+                // terminal failure release
+                SetBusyUi(false);
+                this.enableAll(true);
+                screenD.screenDisable = false;
+
                 throw;
             }
         }
@@ -10846,11 +10865,15 @@ namespace RelayControl
                 return;
             }
 
+            // now we know we're starting a new capture
+            SetBusyUi(true);
+            this.enableAll(false);
+            screenD.screenDisable = true;
+
             string filePath = @"C:\DGI Systems\Relay\Saved Data\RelayData_Backup.txt";
 
             try
             {
-
                 BeginBackupCapture();
                 BeginFullParameterDownload(nameof(BackUpRelayDatatoFile));
 
@@ -10873,11 +10896,15 @@ namespace RelayControl
             {
                 LogFlow("exception; ex=" + ex.Message);
                 backupInProgress = false;
-                if (backupTimeoutTimer != null)
-                    backupTimeoutTimer.Stop();
-
+                backupTimeoutTimer?.Stop();
                 ClearBackupCaptureState();
                 pendingAutoloadAfterBackup = false;
+
+                // release UI on terminal failure
+                SetBusyUi(false);
+                this.enableAll(true);
+                screenD.screenDisable = false;
+
                 throw;
             }
         }
@@ -12461,8 +12488,14 @@ namespace RelayControl
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
                 LogFlow(timeoutMessageOrNull);
+
                 EndBackupCapture(false);
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
+
+                SetBusyUi(false);
+                this.enableAll(true);
+                screenD.screenDisable = false;
+
                 MessageBox.Show(timeoutMessageOrNull);
                 return;
             }
@@ -12470,14 +12503,9 @@ namespace RelayControl
             EndBackupCapture(true);
             ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
 
-            // Clear any stale busy/throbber state before resuming startup flow
-            SetBusyUi(false);
-            this.enableAll(true);
-
             switch (this.ucRelayProgramming1.CurrentStartupIntent)
             {
                 case ucRelayProgramming.StartupIntent.AutoApproved:
-                    
                     this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
                     break;
 
@@ -12486,6 +12514,9 @@ namespace RelayControl
                     break;
 
                 default:
+                    SetBusyUi(false);
+                    this.enableAll(true);
+                    screenD.screenDisable = false;
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                     return;
             }
