@@ -2150,7 +2150,7 @@ namespace RelayControlLibrary
         */
         private void restartProgram()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (this.state == RelayProgrammingStates.Idle)
             {

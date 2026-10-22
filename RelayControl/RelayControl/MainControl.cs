@@ -12445,6 +12445,8 @@ namespace RelayControl
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
         {
+            LogFlow("CompleteBackupAndContinue: ENTER");
+
             if (!this.backupInProgress &&
                 !this.pendingAutoloadAfterBackup &&
                 !this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
