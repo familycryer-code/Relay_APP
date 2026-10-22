@@ -1770,7 +1770,7 @@ namespace RelayControlLibrary
             this.reprogrammingInProgress = false;
 
             logger.Info(
-                "doneLoadingMaster complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, state={3}",
+                "doneLoadingFPGA complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, state={3}",
                 this.reprogramMaster,
                 this.reprogramRelay,
                 this.reprogramFPGA,
@@ -2782,7 +2782,7 @@ namespace RelayControlLibrary
             this.enableButtons(false);
             this.sendReset();
         }
-        private bool forceFpgaForTest;
+  
         private void RunProgrammingStateMachine()
         {
             this.LogFlow("RunProgrammingStateMachine ENTER", nameof(RunProgrammingStateMachine));
@@ -2856,13 +2856,11 @@ namespace RelayControlLibrary
                 return;
             }
 
-            // TEMP TEST OVERRIDE: force FPGA path when master/relay are not selected
-            forceFpgaForTest = true; // set to false after testing
+           
 
             if (this.reprogramFPGA || forceFpgaForTest)
             {
                 this.LogFlow("RunProgrammingStateMachine: FPGA update selected (or forced test) -> start FPGA programming.", nameof(RunProgrammingStateMachine));
-                forceFpgaForTest = false; // reset test override
                 this.startFPGAProgramming();
                 return;
             }
