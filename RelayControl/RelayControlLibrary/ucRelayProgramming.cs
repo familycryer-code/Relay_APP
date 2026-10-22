@@ -143,74 +143,7 @@ namespace RelayControlLibrary
                 this.programBootCodeInProgress = value;
             }
         }
-        /*
-        private void RequestBootCodeUpload()
-        {
-            logger.Info(
-                "RequestBootCodeUpload: state={0}, programBootCodeInProgress={1}, reprogrammingInProgress={2}, startupIntent={3}, backupIsPending={4}",
-                this.state,
-                this.programBootCodeInProgress,
-                this.reprogrammingInProgress,
-                this.startupIntent,
-                this.backupIsPending);
-
-            if (this.programBootCodeInProgress)
-            {
-                logger.Warn("RequestBootCodeUpload ignored because boot upload is already active.");
-                return;
-            }
-
-            bool staleBootContinuation =
-                this.state == RelayProgrammingStates.AutoLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state  == RelayProgrammingStates.CheckMasterBootCode ||
-                (this.masterBootRevisionSet &&
-                 this.masterBootRevisionNumberReceived > 0 &&
-                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);
-
-            if (this.reprogrammingInProgress && !staleBootContinuation)
-            {
-                logger.Warn("RequestBootCodeUpload ignored because normal programming is active.");
-                return;
-            }
-
-            bool manualFlowActive =
-                ManualUpdate.usingManualMode ||
-                this.backupIsPending ||
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot;
-
-            if (manualFlowActive)
-            {
-                logger.Info("RequestBootCodeUpload manual path: launching boot upload directly.");
-                this.ProgramBootCode();
-                return;
-            }
-
-            if (!this.bootNeedsUpdateAutoProgramming())
-            {
-                logger.Warn(
-                    "RequestBootCodeUpload blocked: boot repair is not required. bootSet={0}, bootRev={1}",
-                    this.masterBootRevisionSet,
-                    this.masterBootRevisionNumberReceived);
-                return;
-            }
-
-            logger.Info("RequestBootCodeUpload auto path: boot repair required.");
-            this.ProgramBootCode();
-        }
-        */
-
-        /*
-        public void ProgramBootCode()
-        {
-            if (this.programBootCodeInProgress)
-                return;
-
-            this.programBootCodeInProgress = true;
-            MasterBootLoaderStart();
-        }
-        */
+     
 
         public bool ReprogramBootCodeAuto
         {
@@ -569,45 +502,7 @@ namespace RelayControlLibrary
                 this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber;
 
         }
-        /*
-        private void ContinueManualAfterBootCheck()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-          
-            logger.Info("ManualLoadCheckBoot: boot revision acceptable; continuing manual update.");
-            this.RunProgrammingStateMachine();
-        }
-
-        private bool ContinueAutoloadAfterBootCheck()
-        {
-            // not sure we need this but..
-            if (this.bootNeedsUpdateAutoProgramming())
-            {
-                this.bootFirstAutoContinuation = true;
-
-                logger.Info(
-                    "Boot repair required; launching boot repair path. bootFirstAutoContinuation={0}, pending(M={1},R={2},F={3})",
-                    this.bootFirstAutoContinuation,
-                    this.reprogramMaster,
-                    this.reprogramRelay,
-                    this.reprogramFPGA);
-
-              
-                this.MasterBootLoaderStart();
-                return true;
-            }
-
-            this.bootFirstAutoContinuation = false;
-            logger.Info("Autoload approved and allowed to proceed.");
-            this.autoLoad = true;
-            
-            this.autoLoadRequested = true;
-               
-            this.RunProgrammingStateMachine();
-            return true;
-        }
-        */
+      
 
         public RelayProgrammingStates State
         {
@@ -873,16 +768,6 @@ namespace RelayControlLibrary
                 return false;
         }
 
-        /*
-        private void addGERelayToTransmitterPacket(bool b)
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if (b)
-                this.TransmitterPacket[28] |= 0x10;
-            else
-                this.TransmitterPacket[28] &= 0xEF;
-        }
-        */
         private bool IsManualFlowActive()
         {
             return ManualUpdate.usingManualMode; //|| this.state == RelayProgrammingStates.ManualLoadCheckBoot;
@@ -1001,68 +886,14 @@ namespace RelayControlLibrary
             this.ResetAutoloadState("RaiseAutoloadDeclined");
             AutoloadDeclined?.Invoke(this, EventArgs.Empty);
         }
-        /*
-        public void PrepForBoot()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            switch (this.state)
-            {
-                case RelayProgrammingStates.WaitingForMaster:
-                case RelayProgrammingStates.LoadingMasterData:
-                case RelayProgrammingStates.LoadingMasterCode:
-                case RelayProgrammingStates.WaitingForBootMaster:
-                    this.resetMasterProgramming();
-                    break;
-
-                case RelayProgrammingStates.LoadingRelayCode:
-                case RelayProgrammingStates.LoadingRelayData:
-                case RelayProgrammingStates.WaitingForBootRelay:
-                    this.resetProgrammingRelay();
-                    break;
-
-                case RelayProgrammingStates.WaitingForBootFPGA:
-                case RelayProgrammingStates.LoadingFPGACode:
-                    this.resetProgrammingFPGA();
-                    break;
-
-                default:
-                    break;
-            }
-
-            this.labelState.Text = "Waiting For Boot";
-            logger.Trace("Waiting For Boot - " + this.state.ToString());
-        }
-        */
+       
 
         public void SetTransmitterPacket(byte[] bytePacket)
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             this.TransmitterPacket = bytePacket;
         }
-        /*
-        private void SendTransmitterSettings()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (this.TransmitterPacket == null)
-            {
-                logger.Trace("No transmitter settings to send.");
-                return;
-            }
-
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayProgrammingSendCommands.TransmitterSettings;
-            rPEA.BytesToSend = this.TransmitterPacket;
-            
-
-            this.onSend(rPEA);
-            this.TransmitterPacket = null;
-
-            logger.Trace("Updated Transmitter Settings with Stored Settings");
-        }
-        */
-
+       
         private delegate void booleanInvoke(bool b);
 
         private void onSend(RelayProgrammingEventArgs rPEA)
@@ -1227,52 +1058,27 @@ namespace RelayControlLibrary
             switch (this.state)
             {
                 case RelayProgrammingStates.WaitingForMaster:
-                case RelayProgrammingStates.WaitingForBootMaster:
+                
+                case RelayProgrammingStates.LoadingFPGACode:
                 case RelayProgrammingStates.WaitingForBootFPGA:
-                case RelayProgrammingStates.LoadingMasterCode: //this.sendMasterTransferPacket();  // Do not call for master
+                case RelayProgrammingStates.LoadingMasterCode:
                 case RelayProgrammingStates.LoadingMasterData:
                 case RelayProgrammingStates.LoadingRelayData:
-                case RelayProgrammingStates.LoadingMasterBootLoader:
+                case RelayProgrammingStates.WaitingForBootMaster:
                 case RelayProgrammingStates.LoadingRelayBootLoader:
-                case RelayProgrammingStates.ClearingBootLoader:
-                    logger.Info("BootReceived ignored; current state is already an active transfer state. state={0}", this.state);
-                    break;
-
-                case RelayProgrammingStates.CheckMasterBootCode:
-                    logger.Info("CheckMasterBootCode");
-                    //this.CheckProperMasterBootCode();
-                    break;
-
-                case RelayProgrammingStates.AutoLoadCheckBoot:
-                    logger.Info(
-                        "AutoLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",
-                        this.masterBootRevisionSet,
-                        this.masterBootRevisionNumberReceived);
-                    //this.ContinueAutoloadAfterBootCheck();
-                    break;
-
+                case RelayProgrammingStates.LoadingMasterBootLoader:
                 case RelayProgrammingStates.ManualLoadCheckBoot:
-                    logger.Info(
-                        "ManualLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",
-                        this.masterBootRevisionSet,
-                        this.masterBootRevisionNumberReceived);
-                    //this.ContinueManualAfterBootCheck();
-                    break;
-
+                case RelayProgrammingStates.CheckMasterBootCode:
                 case RelayProgrammingStates.ReloadMasterBoot:
-                    //this.timerTimeout.Stop();
-                   // Thread.Sleep(3000);
-                   // this.programBootCodeInProgress = false;
-                   // this.MasterBootLoaderStart();
+                case RelayProgrammingStates.ClearingBootLoader:
+                case RelayProgrammingStates.AutoLoadCheckBoot:
+                    logger.Info("BootReceived ignored; current state is already an active transfer state. state={0}", this.state);
                     break;
                 case RelayProgrammingStates.LoadingRelayCode:
                     this.timerTimeout.Stop();
-                    this.sendRelayTransferPacket();  // this works
+                    this.sendRelayTransferPacket();  // this works special case to hook the relay code load.
                     break;
-                case RelayProgrammingStates.LoadingFPGACode:
-                    this.timerTimeout.Stop();
-                    //this.sendFPGATransferPacket();  // TBD
-                    break;
+             
                 default:
                     break;
             }
@@ -1356,43 +1162,7 @@ namespace RelayControlLibrary
                 throw new Exception("Called sendNextRelayPacket from wrong state: " + this.state.ToString());
             }
         }
-        /*
-        private void sendNextRelayBootLoaderPacket()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            rPEA.Command = RelayProgrammingSendCommands.RawData;
-
-            this.failCount = 0;
-
-            if (this.state == RelayProgrammingStates.LoadingRelayBootLoader)
-            {
-
-                if (this.relayCode.CodeBytes.Count == 0)
-                {
-                    // We are done
-                    this.doneLoadingRelayBootLoader();
-                }
-
-                rPEA.BytesToSend = new byte[37];
-
-                // Set up the OPCODE and term character for send packet
-                rPEA.BytesToSend[0] = 0x81;
-                rPEA.BytesToSend[1] = 34;
-                rPEA.BytesToSend[36] = 0x0D;
-
-                for (int i = 0; i < 34; i++)
-                {
-                    rPEA.BytesToSend[i + 2] = this.relayCode.CodeBytes[0];
-                    this.relayCode.CodeBytes.RemoveAt(0);
-                }
-
-                logger.Trace("BL, ");
-
-                this.onSend(rPEA);
-            }
-        }
-        */
+      
 
         private void ResetAutoloadState(string caller = "unknown")
         {
@@ -1532,49 +1302,6 @@ namespace RelayControlLibrary
         private const int BootAckTimeoutMs = 3000;
         private const int BootAckMaxRetries = 2;
 
-        /*
-        private void CheckBootAckTimeout()
-        {
-            if (this.state != RelayProgrammingStates.LoadingMasterBootLoader)
-                return;
-
-            if (!this.bootAckDeadline.HasValue)
-                return;
-
-            if (DateTime.Now <= this.bootAckDeadline.Value)
-                return;
-
-            this.bootAckRetryCount++;
-
-            logger.Warn(
-                "BOOT ACK TIMEOUT: retry={0}/{1}, deadline={2}, now={3}, remainingBytes={4}, state={5}",
-                this.bootAckRetryCount,
-                BootAckMaxRetries,
-                this.bootAckDeadline.Value.ToString("HH:mm:ss.fff"),
-                DateTime.Now.ToString("HH:mm:ss.fff"),
-                this.masterCode != null && this.masterCode.CodeBytes != null ? this.masterCode.CodeBytes.Count : -1,
-                this.state);
-
-            this.bootAckDeadline = null;
-
-            if (this.bootAckRetryCount <= BootAckMaxRetries)
-            {
-                logger.Warn("BOOT ACK TIMEOUT: retrying current boot block send.");
-                this.sendMasterBootCode();
-            }
-            else
-            {
-                logger.Error("BOOT ACK TIMEOUT: max retries exceeded; aborting bootloader upload.");
-
-                this.programBootCodeInProgress = false;
-                this.reprogrammingInProgress = false;
-                this.state = RelayProgrammingStates.Idle;
-
-                // optional: route through your existing error pipeline
-                // this.errorHandler("Bootloader ACK timeout exceeded retries.", null);
-            }
-        }
-        */
 
         private void sendMasterBootCode()
         {
@@ -1938,58 +1665,7 @@ namespace RelayControlLibrary
             this.RunProgrammingStateMachine();
         }
 
-        /*
-        private bool bootNeedsUpdateAutoProgramming()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (this.programBootCodeInProgress)
-                return false;
-
-            bool manualFlowActive =
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                ManualUpdate.usingManualMode;
-
-           
-            // Manual full-update: unknown boot => force boot-first.
-            // Auto flow: unknown boot => do not force here; let explicit boot-read path resolve it.
-            if (!this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0)
-            {
-                logger.Info(
-                    "Boot revision unknown. manualFlowActive={0}, bootSet={1}, bootRev={2}",
-                    manualFlowActive,
-                    this.masterBootRevisionSet,
-                    this.masterBootRevisionNumberReceived);
-
-                return manualFlowActive;
-            }
-
-            bool outdated = this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;
-
-            logger.Info(
-                "Boot load required check: manualFlowActive={0}, bootRev={1}, required={2}, outdated={3}",
-                manualFlowActive,
-                this.masterBootRevisionNumberReceived,
-                _bootCodeRevisionNumber,
-                outdated);
-
-            return outdated;
-        }
-        */
-        /*
-        private void sendNonTransmitterSettings()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-
-            if (!this.useDefaultSettings)
-                rPEA.Command = RelayProgrammingSendCommands.RecallSavedSettings;
-            else
-                rPEA.Command = RelayProgrammingSendCommands.RestoreDefaults;
-
-            this.onSend(rPEA);
-        }
-        */
+       
         private void sendMasterTransferPacket()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -2081,74 +1757,6 @@ namespace RelayControlLibrary
             this.timerTimeout.Start();
 
             logger.Info("FPGA TX: timeout armed for {0} ms; NO ACK expected after transfer header.", this.timerTimeout.Interval);
-        }
-
-        /*
-         * private void CheckProperMasterBootCode()
-        {
-            bool manualFlowActive =
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                ManualUpdate.usingManualMode;
-
-            if (manualFlowActive)
-            {
-                logger.Info("Manual flow active: bypassing auto boot-repair decision logic.");
-                this.bootFirstAutoContinuation = false;
-                return;
-            }
-
-            if (this.programBootCodeInProgress)
-            {
-                logger.Warn("CheckProperMasterBootCode suppressed: boot repair already active.");
-                return;
-            }
-
-            bool staleBootContinuation =
-                this.state == RelayProgrammingStates.AutoLoadCheckBoot ||
-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||
-                this.state == RelayProgrammingStates.CheckMasterBootCode;
-
-            if (this.reprogrammingInProgress &&
-                !staleBootContinuation &&
-                !this.programBootCodeInProgress)
-            {
-                logger.Warn("Ignoring boot decision because normal programming is already active.");
-                return;
-            }
-
-            logger.Info("Boot load required (unknown or older revision).");
-
-            // Auto path only: boot-first continuation gate.
-            this.bootFirstAutoContinuation = true;
-
-            if (!this.programBootCodeInProgress)
-            {
-                logger.Info(
-                    "CheckProperMasterBootCode: launching boot repair. bootFirstAutoContinuation={0}, pending(M={1},R={2},F={3})",
-                    this.bootFirstAutoContinuation,
-                    this.reprogramMaster,
-                    this.reprogramRelay,
-                    this.reprogramFPGA);
-
-                this.MasterBootLoaderStart();
-            }
-        }
-        */
-        private void restartProgram()
-        {
-            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (this.state == RelayProgrammingStates.Idle)
-            {
-                logger.Info("restartProgram suppressed; already idle.");
-                return;
-            }
-
-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
-            this.enableButtons(true);
-            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;
-
-            this.onSend(rPEA);
         }
 
         private void useRelaySFile(string fileName)
@@ -2858,7 +2466,7 @@ namespace RelayControlLibrary
 
            
 
-            if (this.reprogramFPGA || forceFpgaForTest)
+            if (this.reprogramFPGA)
             {
                 this.LogFlow("RunProgrammingStateMachine: FPGA update selected (or forced test) -> start FPGA programming.", nameof(RunProgrammingStateMachine));
                 this.startFPGAProgramming();
@@ -2869,61 +2477,6 @@ namespace RelayControlLibrary
             this.LogFlow("RunProgrammingStateMachine: no programming branch selected; finalizing.", nameof(RunProgrammingStateMachine));
             this.allReprogramingDone();
         }
-
-
-        /*
-        private void resetMasterProgramming()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (string.IsNullOrEmpty(this.masterCode?.FileString))
-            {
-                MessageBox.Show("No Master File Loaded");
-                this.state = RelayProgrammingStates.Idle;
-                return;
-            }
-
-            // IMPORTANT:
-            // If we are already in active master transfer, do NOT reset/reboot.
-            // A reset here causes WaitingForBootMaster loops and restarts progress.
-            if (this.state == RelayProgrammingStates.LoadingMasterCode ||
-                this.state == RelayProgrammingStates.LoadingMasterData)
-            {
-                logger.Warn(
-                    "resetMasterProgramming suppressed during active master transfer. state={0}",
-                    this.state);
-
-                // Keep transfer lifecycle alive; do not clear progress/UI.
-                this.reprogrammingInProgress = true;
-                this.programBootCodeInProgress = false;
-                return;
-            }
-
-            // Parse only for true restart/recovery path.
-            this.parseSFile(this.masterCode);
-
-            this.reprogrammingInProgress = false;
-            this.programBootCodeInProgress = false;
-
-            this.state = RelayProgrammingStates.WaitingForBootMaster;
-            this.programmingForm.MasterCodeComplete = false;
-            this.programmingForm.MasterDataComplete = false;
-            this.programmingForm.CurrentTask = "Loading Master File - Waiting for Boot - Please Wait";
-
-            int temp = this.masterCode.NumberOfCodeBlocks * 2;
-            this.labelCodeTotal.Text = temp.ToString();
-
-            if (this.masterCode.WithParameters)
-                this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();
-            else
-                this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
-
-            this.labelDataCount.Text = "0";
-            this.labelCodeCount.Text = "0";
-
-            this.sendReset();
-        }
-        */
 
         public StartupIntent CurrentStartupIntent => this.startupIntent;
 
@@ -2939,85 +2492,6 @@ namespace RelayControlLibrary
         {
             return this.autoLoad || ManualUpdate.usingManualMode;
         }
-
-        /*private void resetProgrammingRelay()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (string.IsNullOrEmpty(this.relayCode?.FileString))
-            {
-                MessageBox.Show("No Relay File Loaded");
-                this.state = RelayProgrammingStates.Idle;
-                return;
-            }
-
-            if (this.state == RelayProgrammingStates.LoadingRelayCode ||
-                this.state == RelayProgrammingStates.LoadingRelayData)
-            {
-                logger.Warn(
-                    "resetProgrammingRelay suppressed during active relay transfer. state={0}",
-                    this.state);
-
-                this.reprogrammingInProgress = true;
-                this.programBootCodeInProgress = false;
-                return;
-            }
-
-            this.parseSFile(this.relayCode);
-
-            this.programmingForm.CurrentTask = "Loading Relay Code Retrying - Waiting For Boot - Please Wait";
-            this.programmingForm.RelayCodeComplete = false;
-            this.programmingForm.RelayDataComplete = false;
-
-            this.state = RelayProgrammingStates.WaitingForBootRelay;
-
-            int temp = this.relayCode.NumberOfCodeBlocks * 2;
-            this.labelCodeTotal.Text = temp.ToString();
-            this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
-            this.labelDataCount.Text = "0";
-            this.labelCodeCount.Text = "0";
-
-            this.timerTimeout.Stop();
-            this.timerTimeout.Interval = 10000;
-            this.timerTimeout.Start();
-
-            this.sendRelayReset();
-        }
-
-        private void resetProgrammingFPGA()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            if (this.state == RelayProgrammingStates.LoadingFPGACode ||
-                this.state == RelayProgrammingStates.WaitingForBootFPGA)
-            {
-                logger.Warn(
-                    "resetProgrammingFPGA suppressed during active FPGA transfer. state={0}",
-                    this.state);
-
-                this.reprogrammingInProgress = true;
-                this.programBootCodeInProgress = false;
-                return;
-            }
-
-            this.parseFPGAFile(this.fPGACode);
-
-            this.programmingForm.CurrentTask = "Loading FPGA Code - Waiting For Boot - Please Wait";
-            this.programmingForm.FPGAComplete = false;
-
-            this.state = RelayProgrammingStates.WaitingForBootFPGA;
-
-            this.labelCodeTotal.Text = "96";
-            this.labelDataTotal.Text = "0";
-            this.labelCodeCount.Text = "0";
-            this.labelDataCount.Text = "0";
-
-            this.sendRelayReset();
-
-            if (programmingForm.MasterBootComplete)
-                Thread.Sleep(1000);
-        }
-        */
 
         
         private DateTime _lastResetSentUtc = DateTime.MinValue;
@@ -3109,10 +2583,6 @@ namespace RelayControlLibrary
         private void enableButtons(bool b)
         {
             return;
-            //this.buttonProgramMaster.Enabled = b;
-            //this.buttonProgramRelay.Enabled = b;
-            //this.buttonSelectMasterSFile.Enabled = b;
-            //this.buttonSelectRelaySFile.Enabled = b;
         }
 
 
@@ -3149,7 +2619,7 @@ namespace RelayControlLibrary
                     logger.Warn("Master payload timeout; resending current master data. state={0}", this.state);
                     // resend the current master block / transfer packet
                     this.startMasterProgramming();
-                    this.timerTimeout.Interval = 10000;
+                    this.timerTimeout.Interval = 5000;
                     this.timerTimeout.Start();
                     return;
                 
@@ -3157,14 +2627,14 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.LoadingRelayData:
                     logger.Warn("Relay payload timeout; resending current relay data. state={0}", this.state);
                     this.startRelayProgramming();
-                    this.timerTimeout.Interval = 10000;
+                    this.timerTimeout.Interval = 5000;
                     this.timerTimeout.Start();
                     return;
 
                 case RelayProgrammingStates.LoadingFPGACode:
                     logger.Warn("FPGA payload timeout; resending current FPGA data. state={0}", this.state);
                     this.startFPGAProgramming();  // or your FPGA resend method
-                    this.timerTimeout.Interval = 10000;
+                    this.timerTimeout.Interval = 5000;
                     this.timerTimeout.Start();
                     return;
                 default:
@@ -3172,22 +2642,7 @@ namespace RelayControlLibrary
             }
         }
 
-        /*
-        private void startManualBootCodeLoad()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            // Manual flow must never trigger auto boot-first continuation.
-            this.bootFirstAutoContinuation = false;
-
-            this.programBootCodeInProgress = true;
-            this.timerTimeout.Stop();
-            Thread.Sleep(3000);
-
-            programMasterBootFileSelect = false;
-            this.MasterBootLoaderStart();
-        }
-        */
+   
         private void buttonStartAutoLoad_Click(object sender, EventArgs e)
         {
             this.InitializeAutoload();
@@ -3210,7 +2665,7 @@ namespace RelayControlLibrary
         private void buttonFirstLoad_Click(object sender, EventArgs e)
         {
             this.programmingForm.ClearAllChecks();
-            //this.InitialAutoLoadFiles();
+            
         }
         
         private void buttonLoadNewest_Click(object sender, EventArgs e)
@@ -3327,36 +2782,6 @@ namespace RelayControlLibrary
         public string FileName;
         public string FileString;
         public bool WithParameters = false;
-
-        /*
-        private List<byte> initializeBeginningData(int outside, int inside)
-        {
-            List<byte> returnList = new List<byte>();
-
-            for (int i = 0; i < outside; i++)
-            {
-                for (int j = 0; j < inside; j++)
-                {
-                    returnList.Add(0xFF);
-                }
-            }
-            return returnList;
-
-        }
-        private List<byte> initializeBeginningCode(int outside, int inside)
-        {
-            List<byte> returnList = new List<byte>();
-
-            for (int i = 0; i < outside; i++)
-            {
-                for (int j = 0; j < inside; j++)
-                {
-                    returnList.Add(0xFF);
-                }
-            }
-            return returnList;
-        }
-        */
 
         public List<byte> DataBytes;
         public List<byte> CodeBytes;
