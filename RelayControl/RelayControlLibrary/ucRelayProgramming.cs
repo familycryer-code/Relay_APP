@@ -2061,7 +2061,7 @@ namespace RelayControlLibrary
                             if (s == null) break;
                         }
 
-                        while (rPD.DataBytes.Count % 1024 != 0)
+                        while (rPD.DataBytes.Count % 512 != 0)
                             rPD.DataBytes.Add((byte)0xFF);
 
                         // If data exists but no non-param count was derived, calculate it.
@@ -2619,7 +2619,7 @@ namespace RelayControlLibrary
                     logger.Warn("Master payload timeout; resending current master data. state={0}", this.state);
                     // resend the current master block / transfer packet
                     this.startMasterProgramming();
-                    this.timerTimeout.Interval = 5000;
+                    this.timerTimeout.Interval = 10000;
                     this.timerTimeout.Start();
                     return;
                 
@@ -2627,14 +2627,14 @@ namespace RelayControlLibrary
                 case RelayProgrammingStates.LoadingRelayData:
                     logger.Warn("Relay payload timeout; resending current relay data. state={0}", this.state);
                     this.startRelayProgramming();
-                    this.timerTimeout.Interval = 5000;
+                    this.timerTimeout.Interval = 10000;
                     this.timerTimeout.Start();
                     return;
 
                 case RelayProgrammingStates.LoadingFPGACode:
                     logger.Warn("FPGA payload timeout; resending current FPGA data. state={0}", this.state);
                     this.startFPGAProgramming();  // or your FPGA resend method
-                    this.timerTimeout.Interval = 5000;
+                    this.timerTimeout.Interval = 10000;
                     this.timerTimeout.Start();
                     return;
                 default:

@@ -1,0 +1,1345 @@
+[1mdiff --git a/RelayControl/RelayControlLibrary/ucRelayProgramming.cs b/RelayControl/RelayControlLibrary/ucRelayProgramming.cs[m
+[1mindex 605b9ce..823a934 100644[m
+[1m--- a/RelayControl/RelayControlLibrary/ucRelayProgramming.cs[m
+[1m+++ b/RelayControl/RelayControlLibrary/ucRelayProgramming.cs[m
+[36m@@ -143,74 +143,7 @@[m [mnamespace RelayControlLibrary[m
+                 this.programBootCodeInProgress = value;[m
+             }[m
+         }[m
+[31m-        /*[m
+[31m-        private void RequestBootCodeUpload()[m
+[31m-        {[m
+[31m-            logger.Info([m
+[31m-                "RequestBootCodeUpload: state={0}, programBootCodeInProgress={1}, reprogrammingInProgress={2}, startupIntent={3}, backupIsPending={4}",[m
+[31m-                this.state,[m
+[31m-                this.programBootCodeInProgress,[m
+[31m-                this.reprogrammingInProgress,[m
+[31m-                this.startupIntent,[m
+[31m-                this.backupIsPending);[m
+[31m-[m
+[31m-            if (this.programBootCodeInProgress)[m
+[31m-            {[m
+[31m-                logger.Warn("RequestBootCodeUpload ignored because boot upload is already active.");[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            bool staleBootContinuation =[m
+[31m-                this.state == RelayProgrammingStates.AutoLoadCheckBoot ||[m
+[31m-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||[m
+[31m-                this.state  == RelayProgrammingStates.CheckMasterBootCode ||[m
+[31m-                (this.masterBootRevisionSet &&[m
+[31m-                 this.masterBootRevisionNumberReceived > 0 &&[m
+[31m-                 this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber);[m
+[31m-[m
+[31m-            if (this.reprogrammingInProgress && !staleBootContinuation)[m
+[31m-            {[m
+[31m-                logger.Warn("RequestBootCodeUpload ignored because normal programming is active.");[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            bool manualFlowActive =[m
+[31m-                ManualUpdate.usingManualMode ||[m
+[31m-                this.backupIsPending ||[m
+[31m-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||[m
+[31m-                this.state == RelayProgrammingStates.ManualPortSelectionWaitingForBoot;[m
+[31m-[m
+[31m-            if (manualFlowActive)[m
+[31m-            {[m
+[31m-                logger.Info("RequestBootCodeUpload manual path: launching boot upload directly.");[m
+[31m-                this.ProgramBootCode();[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            if (!this.bootNeedsUpdateAutoProgramming())[m
+[31m-            {[m
+[31m-                logger.Warn([m
+[31m-                    "RequestBootCodeUpload blocked: boot repair is not required. bootSet={0}, bootRev={1}",[m
+[31m-                    this.masterBootRevisionSet,[m
+[31m-                    this.masterBootRevisionNumberReceived);[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            logger.Info("RequestBootCodeUpload auto path: boot repair required.");[m
+[31m-            this.ProgramBootCode();[m
+[31m-        }[m
+[31m-        */[m
+[31m-[m
+[31m-        /*[m
+[31m-        public void ProgramBootCode()[m
+[31m-        {[m
+[31m-            if (this.programBootCodeInProgress)[m
+[31m-                return;[m
+[31m-[m
+[31m-            this.programBootCodeInProgress = true;[m
+[31m-            MasterBootLoaderStart();[m
+[31m-        }[m
+[31m-        */[m
+[32m+[m[41m     [m
+ [m
+         public bool ReprogramBootCodeAuto[m
+         {[m
+[36m@@ -569,45 +502,7 @@[m [mnamespace RelayControlLibrary[m
+                 this.remoteFPGARevisionNumber < _fPGACodeRevisionNumber;[m
+ [m
+         }[m
+[31m-        /*[m
+[31m-        private void ContinueManualAfterBootCheck()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-          [m
+[31m-            logger.Info("ManualLoadCheckBoot: boot revision acceptable; continuing manual update.");[m
+[31m-            this.RunProgrammingStateMachine();[m
+[31m-        }[m
+[31m-[m
+[31m-        private bool ContinueAutoloadAfterBootCheck()[m
+[31m-        {[m
+[31m-            // not sure we need this but..[m
+[31m-            if (this.bootNeedsUpdateAutoProgramming())[m
+[31m-            {[m
+[31m-                this.bootFirstAutoContinuation = true;[m
+[31m-[m
+[31m-                logger.Info([m
+[31m-                    "Boot repair required; launching boot repair path. bootFirstAutoContinuation={0}, pending(M={1},R={2},F={3})",[m
+[31m-                    this.bootFirstAutoContinuation,[m
+[31m-                    this.reprogramMaster,[m
+[31m-                    this.reprogramRelay,[m
+[31m-                    this.reprogramFPGA);[m
+[31m-[m
+[31m-              [m
+[31m-                this.MasterBootLoaderStart();[m
+[31m-                return true;[m
+[31m-            }[m
+[31m-[m
+[31m-            this.bootFirstAutoContinuation = false;[m
+[31m-            logger.Info("Autoload approved and allowed to proceed.");[m
+[31m-            this.autoLoad = true;[m
+[31m-            [m
+[31m-            this.autoLoadRequested = true;[m
+[31m-               [m
+[31m-            this.RunProgrammingStateMachine();[m
+[31m-            return true;[m
+[31m-        }[m
+[31m-        */[m
+[32m+[m[41m      [m
+ [m
+         public RelayProgrammingStates State[m
+         {[m
+[36m@@ -645,7 +540,7 @@[m [mnamespace RelayControlLibrary[m
+         {[m
+             this.LogFlow("StartManualForcedUpdate ENTER", nameof(StartManualForcedUpdate));[m
+ [m
+[31m-            this.setProgrammingFiles();[m
+[32m+[m[32m            //this.setProgrammingFiles();[m
+             this.RefreshPendingFirmwareFromCurrentRevisions();[m
+         [m
+             ManualUpdate.usingManualMode = false;[m
+[36m@@ -727,7 +622,7 @@[m [mnamespace RelayControlLibrary[m
+                 return;[m
+             }[m
+ [m
+[31m-            this.setProgrammingFiles();[m
+[32m+[m[32m            //this.setProgrammingFiles();[m
+             this.RefreshPendingFirmwareFromCurrentRevisions();[m
+ [m
+             if (!this.AnyFirmwarePending())[m
+[36m@@ -873,16 +768,6 @@[m [mnamespace RelayControlLibrary[m
+                 return false;[m
+         }[m
+ [m
+[31m-        /*[m
+[31m-        private void addGERelayToTransmitterPacket(bool b)[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-            if (b)[m
+[31m-                this.TransmitterPacket[28] |= 0x10;[m
+[31m-            else[m
+[31m-                this.TransmitterPacket[28] &= 0xEF;[m
+[31m-        }[m
+[31m-        */[m
+         private bool IsManualFlowActive()[m
+         {[m
+             return ManualUpdate.usingManualMode; //|| this.state == RelayProgrammingStates.ManualLoadCheckBoot;[m
+[36m@@ -1001,68 +886,14 @@[m [mnamespace RelayControlLibrary[m
+             this.ResetAutoloadState("RaiseAutoloadDeclined");[m
+             AutoloadDeclined?.Invoke(this, EventArgs.Empty);[m
+         }[m
+[31m-        /*[m
+[31m-        public void PrepForBoot()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            switch (this.state)[m
+[31m-            {[m
+[31m-                case RelayProgrammingStates.WaitingForMaster:[m
+[31m-                case RelayProgrammingStates.LoadingMasterData:[m
+[31m-                case RelayProgrammingStates.LoadingMasterCode:[m
+[31m-                case RelayProgrammingStates.WaitingForBootMaster:[m
+[31m-                    this.resetMasterProgramming();[m
+[31m-                    break;[m
+[31m-[m
+[31m-                case RelayProgrammingStates.LoadingRelayCode:[m
+[31m-                case RelayProgrammingStates.LoadingRelayData:[m
+[31m-                case RelayProgrammingStates.WaitingForBootRelay:[m
+[31m-                    this.resetProgrammingRelay();[m
+[31m-                    break;[m
+[31m-[m
+[31m-                case RelayProgrammingStates.WaitingForBootFPGA:[m
+[31m-                case RelayProgrammingStates.LoadingFPGACode:[m
+[31m-                    this.resetProgrammingFPGA();[m
+[31m-                    break;[m
+[31m-[m
+[31m-                default:[m
+[31m-                    break;[m
+[31m-            }[m
+[31m-[m
+[31m-            this.labelState.Text = "Waiting For Boot";[m
+[31m-            logger.Trace("Waiting For Boot - " + this.state.ToString());[m
+[31m-        }[m
+[31m-        */[m
+[32m+[m[41m       [m
+ [m
+         public void SetTransmitterPacket(byte[] bytePacket)[m
+         {[m
+             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+             this.TransmitterPacket = bytePacket;[m
+         }[m
+[31m-        /*[m
+[31m-        private void SendTransmitterSettings()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            if (this.TransmitterPacket == null)[m
+[31m-            {[m
+[31m-                logger.Trace("No transmitter settings to send.");[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();[m
+[31m-            rPEA.Command = RelayProgrammingSendCommands.TransmitterSettings;[m
+[31m-            rPEA.BytesToSend = this.TransmitterPacket;[m
+[31m-            [m
+[31m-[m
+[31m-            this.onSend(rPEA);[m
+[31m-            this.TransmitterPacket = null;[m
+[31m-[m
+[31m-            logger.Trace("Updated Transmitter Settings with Stored Settings");[m
+[31m-        }[m
+[31m-        */[m
+[31m-[m
+[32m+[m[41m       [m
+         private delegate void booleanInvoke(bool b);[m
+ [m
+         private void onSend(RelayProgrammingEventArgs rPEA)[m
+[36m@@ -1227,52 +1058,27 @@[m [mnamespace RelayControlLibrary[m
+             switch (this.state)[m
+             {[m
+                 case RelayProgrammingStates.WaitingForMaster:[m
+[31m-                case RelayProgrammingStates.WaitingForBootMaster:[m
+[32m+[m[41m                [m
+[32m+[m[32m                case RelayProgrammingStates.LoadingFPGACode:[m
+                 case RelayProgrammingStates.WaitingForBootFPGA:[m
+[31m-                case RelayProgrammingStates.LoadingMasterCode: //this.sendMasterTransferPacket();  // Do not call for master[m
+[32m+[m[32m                case RelayProgrammingStates.LoadingMasterCode:[m
+                 case RelayProgrammingStates.LoadingMasterData:[m
+                 case RelayProgrammingStates.LoadingRelayData:[m
+[31m-                case RelayProgrammingStates.LoadingMasterBootLoader:[m
+[32m+[m[32m                case RelayProgrammingStates.WaitingForBootMaster:[m
+                 case RelayProgrammingStates.LoadingRelayBootLoader:[m
+[31m-                case RelayProgrammingStates.ClearingBootLoader:[m
+[31m-                    logger.Info("BootReceived ignored; current state is already an active transfer state. state={0}", this.state);[m
+[31m-                    break;[m
+[31m-[m
+[31m-                case RelayProgrammingStates.CheckMasterBootCode:[m
+[31m-                    logger.Info("CheckMasterBootCode");[m
+[31m-                    //this.CheckProperMasterBootCode();[m
+[31m-                    break;[m
+[31m-[m
+[31m-                case RelayProgrammingStates.AutoLoadCheckBoot:[m
+[31m-                    logger.Info([m
+[31m-                        "AutoLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",[m
+[31m-                        this.masterBootRevisionSet,[m
+[31m-                        this.masterBootRevisionNumberReceived);[m
+[31m-                    //this.ContinueAutoloadAfterBootCheck();[m
+[31m-                    break;[m
+[31m-[m
+[32m+[m[32m                case RelayProgrammingStates.LoadingMasterBootLoader:[m
+                 case RelayProgrammingStates.ManualLoadCheckBoot:[m
+[31m-                    logger.Info([m
+[31m-                        "ManualLoadCheckBoot: entering continuation evaluation. , masterBootRevisionSet={0}, masterBootRevisionNumberReceived={1}",[m
+[31m-                        this.masterBootRevisionSet,[m
+[31m-                        this.masterBootRevisionNumberReceived);[m
+[31m-                    //this.ContinueManualAfterBootCheck();[m
+[31m-                    break;[m
+[31m-[m
+[32m+[m[32m                case RelayProgrammingStates.CheckMasterBootCode:[m
+                 case RelayProgrammingStates.ReloadMasterBoot:[m
+[31m-                    //this.timerTimeout.Stop();[m
+[31m-                   // Thread.Sleep(3000);[m
+[31m-                   // this.programBootCodeInProgress = false;[m
+[31m-                   // this.MasterBootLoaderStart();[m
+[32m+[m[32m                case RelayProgrammingStates.ClearingBootLoader:[m
+[32m+[m[32m                case RelayProgrammingStates.AutoLoadCheckBoot:[m
+[32m+[m[32m                    logger.Info("BootReceived ignored; current state is already an active transfer state. state={0}", this.state);[m
+                     break;[m
+                 case RelayProgrammingStates.LoadingRelayCode:[m
+                     this.timerTimeout.Stop();[m
+[31m-                    this.sendRelayTransferPacket();  // this works[m
+[31m-                    break;[m
+[31m-                case RelayProgrammingStates.LoadingFPGACode:[m
+[31m-                    this.timerTimeout.Stop();[m
+[31m-                    this.sendFPGATransferPacket();  // TBD[m
+[32m+[m[32m                    this.sendRelayTransferPacket();  // this works special case to hook the relay code load.[m
+                     break;[m
+[32m+[m[41m             [m
+                 default:[m
+                     break;[m
+             }[m
+[36m@@ -1288,7 +1094,6 @@[m [mnamespace RelayControlLibrary[m
+             {[m
+                 try[m
+                 {[m
+[31m-[m
+                     rPEA.BytesToSend = new byte[1024];[m
+                     this.programmingForm.CurrentTask = "Loading Relay Code";[m
+ [m
+[36m@@ -1298,7 +1103,10 @@[m [mnamespace RelayControlLibrary[m
+                         this.programmingForm.RelayCodeComplete = true;[m
+                         this.programmingForm.CurrentTask = "Loading Relay Data";[m
+                         logger.Info("Loading Relay Data");[m
+[31m-                        this.programmingForm.Maximum = this.relayCode.NumberOfDataBlocks;[m
+[32m+[m
+[32m+[m[32m                        this.programmingForm.Maximum = this.relayCode.WithParameters[m
+[32m+[m[32m                            ? this.relayCode.NumberOfDataBlocks[m
+[32m+[m[32m                            : this.relayCode.NonParameterCount;[m
+ [m
+                         this.sendNextRelayPacket();[m
+                         return;[m
+[36m@@ -1310,14 +1118,12 @@[m [mnamespace RelayControlLibrary[m
+                         this.relayCode.CodeBytes.RemoveAt(0);[m
+                     }[m
+ [m
+[31m-                    // build 512 bytes[m
+                     Int32 temp = Convert.ToInt32(this.labelCodeCount.Text);[m
+                     temp++;[m
+                     this.programmingForm.ProgressValue = temp;[m
+                     this.labelCodeCount.Text = temp.ToString();[m
+ [m
+                     logger.Info("RC, ");[m
+[31m-[m
+                     this.onSend(rPEA);[m
+                 }[m
+                 catch (Exception ex)[m
+[36m@@ -1349,52 +1155,14 @@[m [mnamespace RelayControlLibrary[m
+ [m
+                 this.programmingForm.ProgressValue = temp;[m
+                 temp++;[m
+[31m-[m
+                 this.labelDataCount.Text = temp.ToString();[m
+[31m-[m
+             }[m
+             else[m
+             {[m
+[31m-                throw new Exception("Called send NextRelayPacket from wrong state: " + this.state.ToString());[m
+[31m-            }[m
+[31m-        }[m
+[31m-        /*[m
+[31m-        private void sendNextRelayBootLoaderPacket()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();[m
+[31m-            rPEA.Command = RelayProgrammingSendCommands.RawData;[m
+[31m-[m
+[31m-            this.failCount = 0;[m
+[31m-[m
+[31m-            if (this.state == RelayProgrammingStates.LoadingRelayBootLoader)[m
+[31m-            {[m
+[31m-[m
+[31m-                if (this.relayCode.CodeBytes.Count == 0)[m
+[31m-                {[m
+[31m-                    // We are done[m
+[31m-                    this.doneLoadingRelayBootLoader();[m
+[31m-                }[m
+[31m-[m
+[31m-                rPEA.BytesToSend = new byte[37];[m
+[31m-[m
+[31m-                // Set up the OPCODE and term character for send packet[m
+[31m-                rPEA.BytesToSend[0] = 0x81;[m
+[31m-                rPEA.BytesToSend[1] = 34;[m
+[31m-                rPEA.BytesToSend[36] = 0x0D;[m
+[31m-[m
+[31m-                for (int i = 0; i < 34; i++)[m
+[31m-                {[m
+[31m-                    rPEA.BytesToSend[i + 2] = this.relayCode.CodeBytes[0];[m
+[31m-                    this.relayCode.CodeBytes.RemoveAt(0);[m
+[31m-                }[m
+[31m-[m
+[31m-                logger.Trace("BL, ");[m
+[31m-[m
+[31m-                this.onSend(rPEA);[m
+[32m+[m[32m                throw new Exception("Called sendNextRelayPacket from wrong state: " + this.state.ToString());[m
+             }[m
+         }[m
+[31m-        */[m
+[32m+[m[41m      [m
+ [m
+         private void ResetAutoloadState(string caller = "unknown")[m
+         {[m
+[36m@@ -1534,49 +1302,6 @@[m [mnamespace RelayControlLibrary[m
+         private const int BootAckTimeoutMs = 3000;[m
+         private const int BootAckMaxRetries = 2;[m
+ [m
+[31m-        /*[m
+[31m-        private void CheckBootAckTimeout()[m
+[31m-        {[m
+[31m-            if (this.state != RelayProgrammingStates.LoadingMasterBootLoader)[m
+[31m-                return;[m
+[31m-[m
+[31m-            if (!this.bootAckDeadline.HasValue)[m
+[31m-                return;[m
+[31m-[m
+[31m-            if (DateTime.Now <= this.bootAckDeadline.Value)[m
+[31m-                return;[m
+[31m-[m
+[31m-            this.bootAckRetryCount++;[m
+[31m-[m
+[31m-            logger.Warn([m
+[31m-                "BOOT ACK TIMEOUT: retry={0}/{1}, deadline={2}, now={3}, remainingBytes={4}, state={5}",[m
+[31m-                this.bootAckRetryCount,[m
+[31m-                BootAckMaxRetries,[m
+[31m-                this.bootAckDeadline.Value.ToString("HH:mm:ss.fff"),[m
+[31m-                DateTime.Now.ToString("HH:mm:ss.fff"),[m
+[31m-                this.masterCode != null && this.masterCode.CodeBytes != null ? this.masterCode.CodeBytes.Count : -1,[m
+[31m-                this.state);[m
+[31m-[m
+[31m-            this.bootAckDeadline = null;[m
+[31m-[m
+[31m-            if (this.bootAckRetryCount <= BootAckMaxRetries)[m
+[31m-            {[m
+[31m-                logger.Warn("BOOT ACK TIMEOUT: retrying current boot block send.");[m
+[31m-                this.sendMasterBootCode();[m
+[31m-            }[m
+[31m-            else[m
+[31m-            {[m
+[31m-                logger.Error("BOOT ACK TIMEOUT: max retries exceeded; aborting bootloader upload.");[m
+[31m-[m
+[31m-                this.programBootCodeInProgress = false;[m
+[31m-                this.reprogrammingInProgress = false;[m
+[31m-                this.state = RelayProgrammingStates.Idle;[m
+[31m-[m
+[31m-                // optional: route through your existing error pipeline[m
+[31m-                // this.errorHandler("Bootloader ACK timeout exceeded retries.", null);[m
+[31m-            }[m
+[31m-        }[m
+[31m-        */[m
+ [m
+         private void sendMasterBootCode()[m
+         {[m
+[36m@@ -1772,7 +1497,7 @@[m [mnamespace RelayControlLibrary[m
+             this.reprogrammingInProgress = false;[m
+ [m
+             logger.Info([m
+[31m-                "doneLoadingMaster complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, state={3}",[m
+[32m+[m[32m                "doneLoadingFPGA complete: reprogramMaster={0}, reprogramRelay={1}, reprogramFPGA={2}, state={3}",[m
+                 this.reprogramMaster,[m
+                 this.reprogramRelay,[m
+                 this.reprogramFPGA,[m
+[36m@@ -1877,18 +1602,18 @@[m [mnamespace RelayControlLibrary[m
+             this.bootLoadDone = false;[m
+             ManualUpdate.usingManualMode = false;[m
+ [m
+[32m+[m[32m            this.state = RelayProgrammingStates.Idle;[m
+[32m+[m
+[32m+[m[32m            // fire MainControl-owned popup/UI release[m
+             FinalSuccessPopupRequested?.Invoke();[m
+ [m
+             this.programmingForm.ClearAllChecks();[m
+             logger.Trace("Reprogram Completed Successfully");[m
+ [m
+[31m-            this.state = RelayProgrammingStates.Idle;[m
+[31m-            this.restartProgram();[m
+[31m-[m
+             this.ResetAutoloadState("FinalizeReprogram");[m
+         }[m
+ [m
+[31m-        [m
+[32m+[m
+         private void doneLoadingRelayBootLoader()[m
+         {[m
+             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[36m@@ -1940,58 +1665,7 @@[m [mnamespace RelayControlLibrary[m
+             this.RunProgrammingStateMachine();[m
+         }[m
+ [m
+[31m-        /*[m
+[31m-        private bool bootNeedsUpdateAutoProgramming()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            if (this.programBootCodeInProgress)[m
+[31m-                return false;[m
+[31m-[m
+[31m-            bool manualFlowActive =[m
+[31m-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||[m
+[31m-                ManualUpdate.usingManualMode;[m
+[31m-[m
+[31m-           [m
+[31m-            // Manual full-update: unknown boot => force boot-first.[m
+[31m-            // Auto flow: unknown boot => do not force here; let explicit boot-read path resolve it.[m
+[31m-            if (!this.masterBootRevisionSet || this.masterBootRevisionNumberReceived <= 0)[m
+[31m-            {[m
+[31m-                logger.Info([m
+[31m-                    "Boot revision unknown. manualFlowActive={0}, bootSet={1}, bootRev={2}",[m
+[31m-                    manualFlowActive,[m
+[31m-                    this.masterBootRevisionSet,[m
+[31m-                    this.masterBootRevisionNumberReceived);[m
+[31m-[m
+[31m-                return manualFlowActive;[m
+[31m-            }[m
+[31m-[m
+[31m-            bool outdated = this.masterBootRevisionNumberReceived < _bootCodeRevisionNumber;[m
+[31m-[m
+[31m-            logger.Info([m
+[31m-                "Boot load required check: manualFlowActive={0}, bootRev={1}, required={2}, outdated={3}",[m
+[31m-                manualFlowActive,[m
+[31m-                this.masterBootRevisionNumberReceived,[m
+[31m-                _bootCodeRevisionNumber,[m
+[31m-                outdated);[m
+[31m-[m
+[31m-            return outdated;[m
+[31m-        }[m
+[31m-        */[m
+[31m-        /*[m
+[31m-        private void sendNonTransmitterSettings()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();[m
+[31m-[m
+[31m-            if (!this.useDefaultSettings)[m
+[31m-                rPEA.Command = RelayProgrammingSendCommands.RecallSavedSettings;[m
+[31m-            else[m
+[31m-                rPEA.Command = RelayProgrammingSendCommands.RestoreDefaults;[m
+[31m-[m
+[31m-            this.onSend(rPEA);[m
+[31m-        }[m
+[31m-        */[m
+[32m+[m[41m       [m
+         private void sendMasterTransferPacket()[m
+         {[m
+             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[36m@@ -2032,36 +1706,20 @@[m [mnamespace RelayControlLibrary[m
+ [m
+             rPEA.BytesToSend[0] = 0x64; // 'd'[m
+             rPEA.BytesToSend[1] = this.relayCode.NumberOfCodeBlocks;[m
+[31m-[m
+[31m-            // Band-aid: if NonParameterCount is zero but DataBytes exist, derive block count from payload.[m
+[31m-            byte declaredDataBlocks = this.relayCode.WithParameters[m
+[32m+[m[32m            rPEA.BytesToSend[2] = this.relayCode.WithParameters[m
+                 ? this.relayCode.NumberOfDataBlocks[m
+                 : this.relayCode.NonParameterCount;[m
+[31m-[m
+[31m-            if (!this.relayCode.WithParameters &&[m
+[31m-                declaredDataBlocks == 0 &&[m
+[31m-                this.relayCode.DataBytes != null &&[m
+[31m-                this.relayCode.DataBytes.Count > 0)[m
+[31m-            {[m
+[31m-                declaredDataBlocks = (byte)Math.Ceiling(this.relayCode.DataBytes.Count / 512.0);[m
+[31m-                logger.Warn([m
+[31m-                    "Relay transfer header band-aid applied: NonParameterCount=0 but DataBytes={0}; forcing dataBlocks={1}",[m
+[31m-                    this.relayCode.DataBytes.Count,[m
+[31m-                    declaredDataBlocks);[m
+[31m-            }[m
+[31m-[m
+[31m-            rPEA.BytesToSend[2] = declaredDataBlocks;[m
+             rPEA.BytesToSend[3] = 0x0D;[m
+ [m
+[31m-            logger.Warn([m
+[32m+[m
+[32m+[m[32m            logger.Info([m
+                 "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}, withParameters={4}, nonParamCount={5}",[m
+                 this.relayCode.NumberOfCodeBlocks,[m
+[31m-                declaredDataBlocks,[m
+[32m+[m[32m                rPEA.BytesToSend[2],[m
+                 this.relayCode.CodeBytes.Count,[m
+                 this.relayCode.DataBytes.Count,[m
+                 this.relayCode.WithParameters,[m
+[31m-                this.relayCode.NonParameterCount[m
+[31m-            );[m
+[32m+[m[32m                this.relayCode.NonParameterCount);[m
+ [m
+             this.onSend(rPEA);[m
+             this.labelState.Text = "Sent Relay Transfer Packet";[m
+[36m@@ -2077,6 +1735,7 @@[m [mnamespace RelayControlLibrary[m
+             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+ [m
+             this.state = RelayProgrammingStates.LoadingFPGACode;[m
+[32m+[m[32m            logger.Info("FPGA TX: state -> {0}", this.state);[m
+ [m
+             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();[m
+             rPEA.Command = RelayProgrammingSendCommands.RawData;[m
+[36m@@ -2085,83 +1744,19 @@[m [mnamespace RelayControlLibrary[m
+             rPEA.BytesToSend[0] = 0x46; // 'F'[m
+             rPEA.BytesToSend[1] = 0x0D;[m
+ [m
+[32m+[m[32m            logger.Info("FPGA TX: sending transfer header bytes [{0:X2} {1:X2}] (len={2})",[m
+[32m+[m[32m                rPEA.BytesToSend[0], rPEA.BytesToSend[1], rPEA.BytesToSend.Length);[m
+[32m+[m
+             this.onSend(rPEA);[m
+[32m+[m
+             this.labelState.Text = "Sent FPGA Transfer Packet";[m
+             logger.Trace("Sent FPGA Transfer Packet");[m
+[31m-            [m
+[32m+[m
+             this.timerTimeout.Stop();[m
+             this.timerTimeout.Interval = 7000;[m
+             this.timerTimeout.Start();[m
+ [m
+[31m-            // NO ACK coming[m
+[31m-        }[m
+[31m-[m
+[31m-        /*[m
+[31m-         * private void CheckProperMasterBootCode()[m
+[31m-        {[m
+[31m-            bool manualFlowActive =[m
+[31m-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||[m
+[31m-                ManualUpdate.usingManualMode;[m
+[31m-[m
+[31m-            if (manualFlowActive)[m
+[31m-            {[m
+[31m-                logger.Info("Manual flow active: bypassing auto boot-repair decision logic.");[m
+[31m-                this.bootFirstAutoContinuation = false;[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            if (this.programBootCodeInProgress)[m
+[31m-            {[m
+[31m-                logger.Warn("CheckProperMasterBootCode suppressed: boot repair already active.");[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            bool staleBootContinuation =[m
+[31m-                this.state == RelayProgrammingStates.AutoLoadCheckBoot ||[m
+[31m-                this.state == RelayProgrammingStates.ManualLoadCheckBoot ||[m
+[31m-                this.state == RelayProgrammingStates.CheckMasterBootCode;[m
+[31m-[m
+[31m-            if (this.reprogrammingInProgress &&[m
+[31m-                !staleBootContinuation &&[m
+[31m-                !this.programBootCodeInProgress)[m
+[31m-            {[m
+[31m-                logger.Warn("Ignoring boot decision because normal programming is already active.");[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            logger.Info("Boot load required (unknown or older revision).");[m
+[31m-[m
+[31m-            // Auto path only: boot-first continuation gate.[m
+[31m-            this.bootFirstAutoContinuation = true;[m
+[31m-[m
+[31m-            if (!this.programBootCodeInProgress)[m
+[31m-            {[m
+[31m-                logger.Info([m
+[31m-                    "CheckProperMasterBootCode: launching boot repair. bootFirstAutoContinuation={0}, pending(M={1},R={2},F={3})",[m
+[31m-                    this.bootFirstAutoContinuation,[m
+[31m-                    this.reprogramMaster,[m
+[31m-                    this.reprogramRelay,[m
+[31m-                    this.reprogramFPGA);[m
+[31m-[m
+[31m-                this.MasterBootLoaderStart();[m
+[31m-            }[m
+[31m-        }[m
+[31m-        */[m
+[31m-        private void restartProgram()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            if (this.state == RelayProgrammingStates.Idle)[m
+[31m-            {[m
+[31m-                logger.Info("restartProgram suppressed; already idle.");[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();[m
+[31m-            this.enableButtons(true);[m
+[31m-            rPEA.Command = RelayProgrammingSendCommands.RestartProgram;[m
+[31m-[m
+[31m-            this.onSend(rPEA);[m
+[32m+[m[32m            logger.Info("FPGA TX: timeout armed for {0} ms; NO ACK expected after transfer header.", this.timerTimeout.Interval);[m
+         }[m
+ [m
+         private void useRelaySFile(string fileName)[m
+[36m@@ -2355,187 +1950,161 @@[m [mnamespace RelayControlLibrary[m
+ [m
+         private void parseSFile(RelayProgrammingData rPD)[m
+         {[m
+[31m-            // Initialize the two data arrays[m
+[32m+[m[32m            // Initialize arrays and reset parse-derived flags every run[m
+             rPD.CodeBytes = new List<byte>();[m
+             rPD.DataBytes = new List<byte>();[m
+[32m+[m[32m            rPD.NonParameterCount = 0;[m
+[32m+[m[32m            rPD.WithParameters = false;[m
+[32m+[m
+             try[m
+             {[m
+                 using (StringReader sR = new StringReader(rPD.FileString))[m
+                 {[m
+                     try[m
+                     {[m
+[31m-                        // Remove the first line[m
+[32m+[m[32m                        // Remove first line[m
+                         string s = sR.ReadLine();[m
+[31m-                        // Get the first line in[m
+                         UInt32 workingAddress = 0;[m
+ [m
+                         s = sR.ReadLine();[m
+[31m-                        // This loops handles the code data[m
+[31m-                        while (s.StartsWith("S3"))[m
+[31m-                        {[m
+[31m-                            // Next 2 indicate the length, in hex[m
+[32m+[m[32m                        if (string.IsNullOrWhiteSpace(s))[m
+[32m+[m[32m                            throw new Exception("S-file is missing program records.");[m
+ [m
+[32m+[m[32m                        // -------------------------[m
+[32m+[m[32m                        // CODE region (< 0x040000)[m
+[32m+[m[32m                        // -------------------------[m
+[32m+[m[32m                        while (!string.IsNullOrEmpty(s) && s.StartsWith("S3"))[m
+[32m+[m[32m                        {[m
+                             UInt16 length = Convert.ToUInt16(s.Substring(2, 2), 16);[m
+[31m-[m
+[31m-                            // Next 8 characters are the address[m
+[31m-[m
+                             UInt32 address = Convert.ToUInt32(s.Substring(4, 8), 16);[m
+ [m
+                             if (address >= 0x040000)[m
+[31m-                            {[m
+[31m-                                // We are outside of the program so we are done[m
+                                 break;[m
+[31m-                            }[m
+[31m-                            // Fill in empty code space with FFs.[m
+[32m+[m
+                             for (int i = 0; i < address - workingAddress; i++)[m
+[31m-                            {[m
+                                 rPD.CodeBytes.Add((byte)0xFF);[m
+[31m-                            }[m
+ [m
+                             workingAddress = address;[m
+ [m
+[31m-[m
+[31m-[m
+[31m-                            //Remove length and address[m
+                             s = s.Remove(0, 12);[m
+ [m
+[31m-                            // next (length - 5) are the data bytes[m
+[31m-[m
+                             for (int i = 0; i < length - 5; i++)[m
+                             {[m
+                                 rPD.CodeBytes.Add(Convert.ToByte(s.Substring(i * 2, 2), 16));[m
+                                 workingAddress++;[m
+                             }[m
+ [m
+[31m-                            // Read Next Line[m
+[31m-                            try[m
+[31m-                            {[m
+[31m-                                s = sR.ReadLine();[m
+[31m-                            }[m
+[31m-                            catch[m
+[31m-                            {[m
+[31m-                                break;[m
+[31m-                            }[m
+[32m+[m[32m                            s = sR.ReadLine();[m
+[32m+[m[32m                            if (s == null) break;[m
+                         }[m
+ [m
+                         while (rPD.CodeBytes.Count % 2048 != 0)[m
+[31m-                        {[m
+                             rPD.CodeBytes.Add((byte)0xFF);[m
+[31m-                        }[m
+ [m
+[31m-                        // This loop gets to the constant data[m
+[31m-[m
+[31m-                        while (s.StartsWith("S3"))[m
+[32m+[m[32m                        // ---------------------------------------------[m
+[32m+[m[32m                        // Advance to constant/data window (>= 0x04008000)[m
+[32m+[m[32m                        // ---------------------------------------------[m
+[32m+[m[32m                        while (!string.IsNullOrEmpty(s) && s.StartsWith("S3"))[m
+                         {[m
+[31m-                            // Remove the first 2 chars[m
+[31m-[m
+[31m-                            // 5 bytes are the address[m
+[31m-[m
+                             UInt32 address = Convert.ToUInt32(s.Substring(4, 8), 16);[m
+[31m-[m
+[31m-                            if (address >= 0x088000)[m
+[31m-                            {[m
+[31m-                                // We have gotten to the const data[m
+[31m-                                break;[m
+[31m-                            }[m
+[31m-                            // Read Next Line[m
+[31m-                            try[m
+[31m-                            {[m
+[31m-                                s = sR.ReadLine();[m
+[31m-                            }[m
+[31m-                            catch[m
+[31m-                            {[m
+[32m+[m[32m                            if (address >= 0x04008000)[m
+                                 break;[m
+[31m-                            }[m
+ [m
+[32m+[m[32m                            s = sR.ReadLine();[m
+[32m+[m[32m                            if (s == null) break;[m
+                         }[m
+ [m
+[31m-                        // This loop handles the constant data[m
+[31m-                        UInt32 clearAddress = Convert.ToUInt32(s.Substring(4, 8), 16);[m
+[31m-                        while (clearAddress < 0x4008000)[m
+[32m+[m[32m                        if (string.IsNullOrEmpty(s) || !s.StartsWith("S3"))[m
+                         {[m
+[31m-                            s = sR.ReadLine();[m
+[31m-                            clearAddress = Convert.ToUInt32(s.Substring(4, 8), 16);[m
+[32m+[m[32m                            logger.Warn("parseSFile: no data records found after code region.");[m
+[32m+[m[32m                            // no data, so stay with false/zero[m
+[32m+[m[32m                            return;[m
+                         }[m
+[32m+[m
+                         workingAddress = 0x04008000;[m
+[31m-                        rPD.NonParameterCount = 0;[m
+[32m+[m[32m                        bool nonParamCountCaptured = false;[m
+ [m
+[31m-                        while (s.StartsWith("S3"))[m
+[32m+[m[32m                        // -------------------------------[m
+[32m+[m[32m                        // DATA region [0x04008000, 0x4010000)[m
+[32m+[m[32m                        // -------------------------------[m
+[32m+[m[32m                        while (!string.IsNullOrEmpty(s) && s.StartsWith("S3"))[m
+                         {[m
+[31m-                            // Next 2 indicate the length, in hex[m
+[31m-[m
+                             UInt16 length = Convert.ToUInt16(s.Substring(2, 2), 16);[m
+[31m-[m
+[31m-                            // Next 4 bytes are the address[m
+[31m-[m
+                             UInt32 address = Convert.ToUInt32(s.Substring(4, 8), 16);[m
+ [m
+[31m-                            if (address >= 0x0400FE00 && rPD.NonParameterCount == 0)[m
+[32m+[m[32m                            if (address >= 0x0400FE00 && !nonParamCountCaptured)[m
+                             {[m
+[31m-                                // Set the number of blocks to send when it loading WITHOUT parameters[m
+[31m-[m
+                                 UInt32 temp = workingAddress - 0x04008000;[m
+[31m-[m
+[31m-                                rPD.NonParameterCount = (byte)(temp / 512);[m
+[31m-                                // Add 1 if there is a remainder[m
+[31m-                                if (temp % 512 != 0)[m
+[31m-                                    rPD.NonParameterCount++;[m
+[31m-[m
+[32m+[m[32m                                byte np = (byte)(temp / 512);[m
+[32m+[m[32m                                if (temp % 512 != 0) np++;[m
+[32m+[m[32m                                rPD.NonParameterCount = np;[m
+[32m+[m[32m                                nonParamCountCaptured = true;[m
+                             }[m
+[32m+[m
+                             if (address >= 0x04010000)[m
+[31m-                            {[m
+[31m-                                // We are outside of the dat so we are done[m
+                                 break;[m
+[31m-                            }[m
+ [m
+[31m-                            // Fill in empty code space with FFs.[m
+                             for (int i = 0; i < address - workingAddress; i++)[m
+[31m-                            {[m
+                                 rPD.DataBytes.Add((byte)0xFF);[m
+[31m-                            }[m
+ [m
+                             workingAddress = address;[m
+ [m
+[31m-[m
+[31m-[m
+[31m-                            //Remove length and address[m
+                             s = s.Remove(0, 12);[m
+ [m
+[31m-                            // next length - 5 are the data bytes[m
+[31m-[m
+                             for (int i = 0; i < length - 5; i++)[m
+                             {[m
+                                 rPD.DataBytes.Add(Convert.ToByte(s.Substring(i * 2, 2), 16));[m
+                                 workingAddress++;[m
+                             }[m
+ [m
+[31m-                            // Read Next Line[m
+[31m-                            try[m
+[31m-                            {[m
+[31m-                                s = sR.ReadLine();[m
+[31m-                            }[m
+[31m-                            catch[m
+[31m-                            {[m
+[31m-                                break;[m
+[31m-                            }[m
+[32m+[m[32m                            s = sR.ReadLine();[m
+[32m+[m[32m                            if (s == null) break;[m
+                         }[m
+ [m
+                         while (rPD.DataBytes.Count % 1024 != 0)[m
+[31m-                        {[m
+                             rPD.DataBytes.Add((byte)0xFF);[m
+[32m+[m
+[32m+[m[32m                        // If data exists but no non-param count was derived, calculate it.[m
+[32m+[m[32m                        // This ensures 1..N semantics: >0 means minimum 1 block.[m
+[32m+[m[32m                        if (rPD.DataBytes.Count > 0 && rPD.NonParameterCount == 0)[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            rPD.NonParameterCount = (byte)Math.Ceiling(rPD.DataBytes.Count / 512.0);[m
+[32m+[m[32m                            logger.Warn([m
+[32m+[m[32m                                "parseSFile: NonParameterCount derived from DataBytes fallback. dataBytes={0}, nonParamCount={1}",[m
+[32m+[m[32m                                rPD.DataBytes.Count,[m
+[32m+[m[32m                                rPD.NonParameterCount);[m
+                         }[m
+ [m
+[32m+[m[32m                        // If any actual data exists, this is a parameterized transfer.[m
+[32m+[m[32m                        rPD.WithParameters = rPD.DataBytes.Count > 0;[m
+[32m+[m
+[32m+[m[32m                        // Guardrail: zero means no data, never valid with actual payload.[m
+[32m+[m[32m                        if (rPD.DataBytes.Count > 0 && rPD.NonParameterCount == 0)[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            logger.Error([m
+[32m+[m[32m                                "parseSFile: invalid relay payload state. DataBytes present but NonParameterCount is still zero. dataBytes={0}",[m
+[32m+[m[32m                                rPD.DataBytes.Count);[m
+[32m+[m[32m                        }[m
+[32m+[m
+[32m+[m[32m                        logger.Info([m
+[32m+[m[32m                            "parseSFile done: codeBytes={0}, dataBytes={1}, codeBlocks={2}, dataBlocks={3}, nonParamCount={4}, withParameters={5}",[m
+[32m+[m[32m                            rPD.CodeBytes.Count,[m
+[32m+[m[32m                            rPD.DataBytes.Count,[m
+[32m+[m[32m                            rPD.NumberOfCodeBlocks,[m
+[32m+[m[32m                            rPD.NumberOfDataBlocks,[m
+[32m+[m[32m                            rPD.NonParameterCount,[m
+[32m+[m[32m                            rPD.WithParameters);[m
+                     }[m
+                     catch (Exception ex)[m
+                     {[m
+[31m-                        this.errorHandler("Error parsing Master S File", ex);[m
+[32m+[m[32m                        this.errorHandler("Error parsing S File", ex);[m
+                         return;[m
+                     }[m
+                 }[m
+             }[m
+             catch (Exception ex)[m
+             {[m
+[31m-                this.errorHandler("Error Opening File for Master S File", ex);[m
+[32m+[m[32m                this.errorHandler("Error Opening File for S File parse", ex);[m
+                 return;[m
+             }[m
+         }[m
+[36m@@ -2647,20 +2216,11 @@[m [mnamespace RelayControlLibrary[m
+         {[m
+             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+ [m
+[31m-            if (string.IsNullOrWhiteSpace(this.relayCode.FileString))[m
+[32m+[m[32m            if ((this.relayCode.FileString == "" || this.relayCode.FileString == null))[m
+             {[m
+[31m-                if (!this.dontReloadFromResource)[m
+[31m-                {[m
+[31m-                    logger.Info("startRelayProgramming: relay resource not loaded; attempting to reload programming files from embedded resources.");[m
+[31m-                    this.setProgrammingFiles();[m
+[31m-                }[m
+[31m-[m
+[31m-                if (string.IsNullOrWhiteSpace(this.relayCode.FileString))[m
+[31m-                {[m
+[31m-                    MessageBox.Show("No Relay File Loaded");[m
+[31m-                    this.state = RelayProgrammingStates.Idle;[m
+[31m-                    return;[m
+[31m-                }[m
+[32m+[m[32m                MessageBox.Show("No Master File Loaded");[m
+[32m+[m[32m                this.state = RelayProgrammingStates.Idle;[m
+[32m+[m[32m                return;[m
+             }[m
+ [m
+             this.reprogrammingInProgress = true;[m
+[36m@@ -2668,30 +2228,28 @@[m [mnamespace RelayControlLibrary[m
+             this.parseSFile(this.relayCode);[m
+ [m
+             int temp = this.relayCode.NumberOfCodeBlocks * 2;[m
+[32m+[m
+             this.labelCodeTotal.Text = temp.ToString();[m
+[31m-            if(this.relayCode.WithParameters)[m
+[32m+[m
+[32m+[m[32m            if (this.relayCode.WithParameters)[m
+             {[m
+                 this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();[m
+[31m-                logger.Info("DATA)");[m
+[32m+[m[32m                logger.Info("Relay programming mode: DATA");[m
+             }[m
+             else[m
+             {[m
+                 this.labelDataTotal.Text = this.relayCode.NonParameterCount.ToString();[m
+[31m-                logger.Info("NO DATA)");[m
+[32m+[m[32m                logger.Info("Relay programming mode: NO DATA");[m
+             }[m
+ [m
+             this.programmingForm.Maximum = temp;[m
+             this.programmingForm.CurrentTask = "Loading Relay Code";[m
+ [m
+[31m-            [m
+[31m-            this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();[m
+[31m-[m
+[31m-            this.programmingForm.Maximum = temp;[m
+[31m-            this.programmingForm.CurrentTask = "Loading Relay Code";[m
+             this.labelDataCount.Text = "0";[m
+             this.labelCodeCount.Text = "0";[m
+ [m
+             this.enableButtons(false);[m
+[32m+[m
+             this.sendRelayReset();  // Send BU[m
+             this.waitForBootReady("startRelayProgramming");[m
+             this.sendRelayTransferPacket();[m
+[36m@@ -2732,27 +2290,35 @@[m [mnamespace RelayControlLibrary[m
+         {[m
+             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+ [m
+[31m-            [m
+[32m+[m[41m           [m
+             this.reprogrammingInProgress = true;[m
+[31m-[m
+             this.transmitterEnabled = true;  // TBD[m
+[32m+[m
+[32m+[m[32m            logger.Info("FPGA: parsing file...");[m
+             this.parseFPGAFile(this.fPGACode);[m
+[32m+[m[32m            logger.Info("FPGA: parse complete.");[m
+ [m
+             this.programmingForm.CurrentTask = "Loading FPGA";[m
+             this.programmingForm.Maximum = 96;[m
+[31m-            [m
+[31m-            [m
+[32m+[m[32m            logger.Info("FPGA: UI task set. CurrentTask='{0}', Maximum={1}", this.programmingForm.CurrentTask, this.programmingForm.Maximum);[m
+[32m+[m
+             this.labelCodeCount.Text = "0";[m
+             this.labelCodeTotal.Text = "96";[m
+[31m-          [m
+[32m+[m[32m            logger.Info("FPGA: labels initialized. Count={0}, Total={1}", this.labelCodeCount.Text, this.labelCodeTotal.Text);[m
+ [m
+             this.enableButtons(false);[m
+[32m+[m[32m            logger.Info("FPGA: buttons disabled.");[m
+ [m
+[32m+[m[32m            logger.Info("FPGA: sending reset...");[m
+             this.sendReset("startFPGAProgramming");[m
+[32m+[m
+[32m+[m[32m            logger.Info("FPGA: waiting for boot ready...");[m
+             this.waitForBootReady("startFPGAProgramming");[m
+[32m+[m[32m            logger.Info("FPGA: boot ready wait returned.");[m
+ [m
+[32m+[m[32m            logger.Info("FPGA: sending first transfer packet...");[m
+             this.sendFPGATransferPacket();[m
+[31m-[m
+[32m+[m[32m            logger.Info("FPGA: first transfer packet sent.");[m
+         }[m
+ [m
+         private void startMasterProgramming()[m
+[36m@@ -2824,7 +2390,7 @@[m [mnamespace RelayControlLibrary[m
+             this.enableButtons(false);[m
+             this.sendReset();[m
+         }[m
+[31m-[m
+[32m+[m[41m  [m
+         private void RunProgrammingStateMachine()[m
+         {[m
+             this.LogFlow("RunProgrammingStateMachine ENTER", nameof(RunProgrammingStateMachine));[m
+[36m@@ -2898,9 +2464,11 @@[m [mnamespace RelayControlLibrary[m
+                 return;[m
+             }[m
+ [m
+[32m+[m[41m           [m
+[32m+[m
+             if (this.reprogramFPGA)[m
+             {[m
+[31m-                this.LogFlow("RunProgrammingStateMachine: FPGA update selected -> start FPGA programming.", nameof(RunProgrammingStateMachine));[m
+[32m+[m[32m                this.LogFlow("RunProgrammingStateMachine: FPGA update selected (or forced test) -> start FPGA programming.", nameof(RunProgrammingStateMachine));[m
+                 this.startFPGAProgramming();[m
+                 return;[m
+             }[m
+[36m@@ -2910,61 +2478,6 @@[m [mnamespace RelayControlLibrary[m
+             this.allReprogramingDone();[m
+         }[m
+ [m
+[31m-[m
+[31m-        /*[m
+[31m-        private void resetMasterProgramming()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            if (string.IsNullOrEmpty(this.masterCode?.FileString))[m
+[31m-            {[m
+[31m-                MessageBox.Show("No Master File Loaded");[m
+[31m-                this.state = RelayProgrammingStates.Idle;[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            // IMPORTANT:[m
+[31m-            // If we are already in active master transfer, do NOT reset/reboot.[m
+[31m-            // A reset here causes WaitingForBootMaster loops and restarts progress.[m
+[31m-            if (this.state == RelayProgrammingStates.LoadingMasterCode ||[m
+[31m-                this.state == RelayProgrammingStates.LoadingMasterData)[m
+[31m-            {[m
+[31m-                logger.Warn([m
+[31m-                    "resetMasterProgramming suppressed during active master transfer. state={0}",[m
+[31m-                    this.state);[m
+[31m-[m
+[31m-                // Keep transfer lifecycle alive; do not clear progress/UI.[m
+[31m-                this.reprogrammingInProgress = true;[m
+[31m-                this.programBootCodeInProgress = false;[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            // Parse only for true restart/recovery path.[m
+[31m-            this.parseSFile(this.masterCode);[m
+[31m-[m
+[31m-            this.reprogrammingInProgress = false;[m
+[31m-            this.programBootCodeInProgress = false;[m
+[31m-[m
+[31m-            this.state = RelayProgrammingStates.WaitingForBootMaster;[m
+[31m-            this.programmingForm.MasterCodeComplete = false;[m
+[31m-            this.programmingForm.MasterDataComplete = false;[m
+[31m-            this.programmingForm.CurrentTask = "Loading Master File - Waiting for Boot - Please Wait";[m
+[31m-[m
+[31m-            int temp = this.masterCode.NumberOfCodeBlocks * 2;[m
+[31m-            this.labelCodeTotal.Text = temp.ToString();[m
+[31m-[m
+[31m-            if (this.masterCode.WithParameters)[m
+[31m-                this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();[m
+[31m-            else[m
+[31m-                this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();[m
+[31m-[m
+[31m-            this.labelDataCount.Text = "0";[m
+[31m-            this.labelCodeCount.Text = "0";[m
+[31m-[m
+[31m-            this.sendReset();[m
+[31m-        }[m
+[31m-        */[m
+[31m-[m
+         public StartupIntent CurrentStartupIntent => this.startupIntent;[m
+ [m
+         public enum StartupIntent[m
+[36m@@ -2980,85 +2493,6 @@[m [mnamespace RelayControlLibrary[m
+             return this.autoLoad || ManualUpdate.usingManualMode;[m
+         }[m
+ [m
+[31m-        /*private void resetProgrammingRelay()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            if (string.IsNullOrEmpty(this.relayCode?.FileString))[m
+[31m-            {[m
+[31m-                MessageBox.Show("No Relay File Loaded");[m
+[31m-                this.state = RelayProgrammingStates.Idle;[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            if (this.state == RelayProgrammingStates.LoadingRelayCode ||[m
+[31m-                this.state == RelayProgrammingStates.LoadingRelayData)[m
+[31m-            {[m
+[31m-                logger.Warn([m
+[31m-                    "resetProgrammingRelay suppressed during active relay transfer. state={0}",[m
+[31m-                    this.state);[m
+[31m-[m
+[31m-                this.reprogrammingInProgress = true;[m
+[31m-                this.programBootCodeInProgress = false;[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            this.parseSFile(this.relayCode);[m
+[31m-[m
+[31m-            this.programmingForm.CurrentTask = "Loading Relay Code Retrying - Waiting For Boot - Please Wait";[m
+[31m-            this.programmingForm.RelayCodeComplete = false;[m
+[31m-            this.programmingForm.RelayDataComplete = false;[m
+[31m-[m
+[31m-            this.state = RelayProgrammingStates.WaitingForBootRelay;[m
+[31m-[m
+[31m-            int temp = this.relayCode.NumberOfCodeBlocks * 2;[m
+[31m-            this.labelCodeTotal.Text = temp.ToString();[m
+[31m-            this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();[m
+[31m-            this.labelDataCount.Text = "0";[m
+[31m-            this.labelCodeCount.Text = "0";[m
+[31m-[m
+[31m-            this.timerTimeout.Stop();[m
+[31m-            this.timerTimeout.Interval = 10000;[m
+[31m-            this.timerTimeout.Start();[m
+[31m-[m
+[31m-            this.sendRelayReset();[m
+[31m-        }[m
+[31m-[m
+[31m-        private void resetProgrammingFPGA()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            if (this.state == RelayProgrammingStates.LoadingFPGACode ||[m
+[31m-                this.state == RelayProgrammingStates.WaitingForBootFPGA)[m
+[31m-            {[m
+[31m-                logger.Warn([m
+[31m-                    "resetProgrammingFPGA suppressed during active FPGA transfer. state={0}",[m
+[31m-                    this.state);[m
+[31m-[m
+[31m-                this.reprogrammingInProgress = true;[m
+[31m-                this.programBootCodeInProgress = false;[m
+[31m-                return;[m
+[31m-            }[m
+[31m-[m
+[31m-            this.parseFPGAFile(this.fPGACode);[m
+[31m-[m
+[31m-            this.programmingForm.CurrentTask = "Loading FPGA Code - Waiting For Boot - Please Wait";[m
+[31m-            this.programmingForm.FPGAComplete = false;[m
+[31m-[m
+[31m-            this.state = RelayProgrammingStates.WaitingForBootFPGA;[m
+[31m-[m
+[31m-            this.labelCodeTotal.Text = "96";[m
+[31m-            this.labelDataTotal.Text = "0";[m
+[31m-            this.labelCodeCount.Text = "0";[m
+[31m-            this.labelDataCount.Text = "0";[m
+[31m-[m
+[31m-            this.sendRelayReset();[m
+[31m-[m
+[31m-            if (programmingForm.MasterBootComplete)[m
+[31m-                Thread.Sleep(1000);[m
+[31m-        }[m
+[31m-        */[m
+[31m-[m
+         [m
+         private DateTime _lastResetSentUtc = DateTime.MinValue;[m
+         private const int MasterHandoffSettleMs = 50;[m
+[36m@@ -3080,17 +2514,6 @@[m [mnamespace RelayControlLibrary[m
+             rPEA.Command = RelayProgrammingSendCommands.RawData;[m
+             rPEA.BytesToSend = new byte[] { (byte)'b', (byte)'U', 0x0D };[m
+ [m
+[31m-            logger.Info([m
+[31m-                "UC_RESET_DIAG | caller={0} | state={1} | reprogrammingInProgress={2} | programBootCodeInProgress={3} | notPollingPort={4} | autoLoad={5} | backupIsPending={6} | payload={7}",[m
+[31m-                caller,[m
+[31m-                this.state,[m
+[31m-                this.reprogrammingInProgress,[m
+[31m-                this.programBootCodeInProgress,[m
+[31m-                this.notPollingPort,[m
+[31m-                this.autoLoad,[m
+[31m-                BitConverter.ToString(rPEA.BytesToSend)[m
+[31m-            );[m
+[31m-[m
+             this.onSend(rPEA);[m
+             _lastResetSentUtc = DateTime.UtcNow;[m
+         }[m
+[36m@@ -3106,17 +2529,6 @@[m [mnamespace RelayControlLibrary[m
+             rPEA.BytesToSend[1] = (byte)'U';[m
+             rPEA.BytesToSend[2] = 0x0D;[m
+ [m
+[31m-            logger.Info([m
+[31m-                "UC_RESET_DIAG | caller={0} | state={1} | reprogrammingInProgress={2} | programBootCodeInProgress={3} | notPollingPort={4} | autoLoad={5} | backupIsPending={6} | payload={7}",[m
+[31m-                caller,[m
+[31m-                this.state,[m
+[31m-                this.reprogrammingInProgress,[m
+[31m-                this.programBootCodeInProgress,[m
+[31m-                this.notPollingPort,[m
+[31m-                this.autoLoad,[m
+[31m-                BitConverter.ToString(rPEA.BytesToSend)[m
+[31m-            );[m
+[31m-[m
+             this.onSend(rPEA);[m
+             _lastResetSentUtc = DateTime.UtcNow;[m
+         }[m
+[36m@@ -3171,10 +2583,6 @@[m [mnamespace RelayControlLibrary[m
+         private void enableButtons(bool b)[m
+         {[m
+             return;[m
+[31m-            //this.buttonProgramMaster.Enabled = b;[m
+[31m-            //this.buttonProgramRelay.Enabled = b;[m
+[31m-            //this.buttonSelectMasterSFile.Enabled = b;[m
+[31m-            //this.buttonSelectRelaySFile.Enabled = b;[m
+         }[m
+ [m
+ [m
+[36m@@ -3211,7 +2619,7 @@[m [mnamespace RelayControlLibrary[m
+                     logger.Warn("Master payload timeout; resending current master data. state={0}", this.state);[m
+                     // resend the current master block / transfer packet[m
+                     this.startMasterProgramming();[m
+[31m-                    this.timerTimeout.Interval = 10000;[m
+[32m+[m[32m                    this.timerTimeout.Interval = 5000;[m
+                     this.timerTimeout.Start();[m
+                     return;[m
+                 [m
+[36m@@ -3219,14 +2627,14 @@[m [mnamespace RelayControlLibrary[m
+                 case RelayProgrammingStates.LoadingRelayData:[m
+                     logger.Warn("Relay payload timeout; resending current relay data. state={0}", this.state);[m
+                     this.startRelayProgramming();[m
+[31m-                    this.timerTimeout.Interval = 10000;[m
+[32m+[m[32m                    this.timerTimeout.Interval = 5000;[m
+                     this.timerTimeout.Start();[m
+                     return;[m
+ [m
+                 case RelayProgrammingStates.LoadingFPGACode:[m
+                     logger.Warn("FPGA payload timeout; resending current FPGA data. state={0}", this.state);[m
+                     this.startFPGAProgramming();  // or your FPGA resend method[m
+[31m-                    this.timerTimeout.Interval = 10000;[m
+[32m+[m[32m                    this.timerTimeout.Interval = 5000;[m
+                     this.timerTimeout.Start();[m
+                     return;[m
+                 default:[m
+[36m@@ -3234,22 +2642,7 @@[m [mnamespace RelayControlLibrary[m
+             }[m
+         }[m
+ [m
+[31m-        /*[m
+[31m-        private void startManualBootCodeLoad()[m
+[31m-        {[m
+[31m-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);[m
+[31m-[m
+[31m-            // Manual flow must never trigger auto boot-first continuation.[m
+[31m-            this.bootFirstAutoContinuation = false;[m
+[31m-[m
+[31m-            this.programBootCodeInProgress = true;[m
+[31m-            this.timerTimeout.Stop();[m
+[31m-            Thread.Sleep(3000);[m
+[31m-[m
+[31m-            programMasterBootFileSelect = false;[m
+[31m-            this.MasterBootLoaderStart();[m
+[31m-        }[m
+[31m-        */[m
+[32m+[m[41m   [m
+         private void buttonStartAutoLoad_Click(object sender, EventArgs e)[m
+         {[m
+             this.InitializeAutoload();[m
+[36m@@ -3272,7 +2665,7 @@[m [mnamespace RelayControlLibrary[m
+         private void buttonFirstLoad_Click(object sender, EventArgs e)[m
+         {[m
+             this.programmingForm.ClearAllChecks();[m
+[31m-            //this.InitialAutoLoadFiles();[m
+[32m+[m[41m            [m
+         }[m
+         [m
+         private void buttonLoadNewest_Click(object sender, EventArgs e)[m
+[36m@@ -3390,36 +2783,6 @@[m [mnamespace RelayControlLibrary[m
+         public string FileString;[m
+         public bool WithParameters = false;[m
+ [m
+[31m-        /*[m
+[31m-        private List<byte> initializeBeginningData(int outside, int inside)[m
+[31m-        {[m
+[31m-            List<byte> returnList = new List<byte>();[m
+[31m-[m
+[31m-            for (int i = 0; i < outside; i++)[m
+[31m-            {[m
+[31m-                for (int j = 0; j < inside; j++)[m
+[31m-                {[m
+[31m-                    returnList.Add(0xFF);[m
+[31m-                }[m
+[31m-            }[m
+[31m-            return returnList;[m
+[31m-[m
+[31m-        }[m
+[31m-        private List<byte> initializeBeginningCode(int outside, int inside)[m
+[31m-        {[m
+[31m-            List<byte> returnList = new List<byte>();[m
+[31m-[m
+[31m-            for (int i = 0; i < outside; i++)[m
+[31m-            {[m
+[31m-                for (int j = 0; j < inside; j++)[m
+[31m-                {[m
+[31m-                    returnList.Add(0xFF);[m
+[31m-                }[m
+[31m-            }[m
+[31m-            return returnList;[m
+[31m-        }[m
+[31m-        */[m
+[31m-[m
+         public List<byte> DataBytes;[m
+         public List<byte> CodeBytes;[m
+ [m
