@@ -1885,7 +1885,6 @@ namespace RelayControlLibrary
             this.programmingForm.ClearAllChecks();
             logger.Trace("Reprogram Completed Successfully");
 
-            this.restartProgram();
             this.ResetAutoloadState("FinalizeReprogram");
         }
 

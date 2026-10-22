@@ -2149,7 +2149,7 @@ namespace RelayControl
         {
             this.currentReprogramState = rPEA.Command;
 
-            logger.Trace("Programming Command: {0}", rPEA.Command);
+            logger.Info("Programming Command: {0}", rPEA.Command);
 
             switch (rPEA.Command)
             {
