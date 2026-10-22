@@ -365,6 +365,9 @@ namespace RelayControlLibrary
                 UiTrace($"modePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
                 this.OnSend(this, mySEA);
                 UiTrace("mode packet sent");
+                //slight delay to see if helps Apply All
+                //Thread.Sleep(100);
+
 
                 // 2) send curve packet
                 mySEA = new SendEventArgs(_packetSize);

@@ -158,6 +158,11 @@ namespace RelayControl
                 this.RequestAutoloadPrompt();
             };
 
+            this.ucRelayProgramming1.FinalSuccessPopupRequested += () =>
+            {
+                this.ShowFinalSuccessPopupOnce();
+            };
+
         }
 
 
@@ -11905,7 +11910,7 @@ namespace RelayControl
         }
 
         public DialogResult ShowGeOrWhDialog(string title, string message, string yesText, string noText)
-    {
+        {
         if (this.InvokeRequired)
         {
             return (DialogResult)this.Invoke(new Func<DialogResult>(() =>

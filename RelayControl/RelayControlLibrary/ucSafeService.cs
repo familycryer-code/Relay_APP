@@ -236,11 +236,15 @@ namespace RelayControlLibrary
         private decimal numericUpDownVoltageImbalance_Temp = 10;
         public bool SendSSModeFlag_Send = false;
 
+        private bool _safeServiceErrorShown = false;
+
         private void setAll(byte[] bytePacket)
         {
             if (bytePacket == null || bytePacket.Length < 12)
             {
                 Debug.WriteLine("setAll: invalid packet length: " + (bytePacket == null ? 0 : bytePacket.Length));
+                _safeServiceErrorShown = false; // allow future alert when valid flow resumes
+                return;
             }
 
             uint tempI;
@@ -298,6 +302,7 @@ namespace RelayControlLibrary
                 numericUpDownDelay_Temp = this.numericUpDownDelay.Value;
                 numericUpDownLowVoltage_Temp = this.numericUpDownLowVoltage.Value;
                 numericUpDownVoltageImbalance_Temp = this.numericUpDownVoltageImbalance.Value;
+                _safeServiceErrorShown = false;
             }
             catch (Exception)
             {
@@ -309,7 +314,13 @@ namespace RelayControlLibrary
                 this.numericUpDownLowVoltage.Value = numericUpDownLowVoltage_Temp;
                 this.numericUpDownVoltageImbalance.Value = numericUpDownVoltageImbalance_Temp;
 
-                MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
+                Debug.WriteLine("setAll exception: ");
+
+                if (!_safeServiceErrorShown)
+                {
+                    _safeServiceErrorShown = true;
+                    MessageBox.Show("Verify Safe Service Parameters", "Safe Service restored");
+                }
 
                 return;
             }

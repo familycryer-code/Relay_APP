@@ -1877,18 +1877,19 @@ namespace RelayControlLibrary
             this.bootLoadDone = false;
             ManualUpdate.usingManualMode = false;
 
+            this.state = RelayProgrammingStates.Idle;
+
+            // fire MainControl-owned popup/UI release
             FinalSuccessPopupRequested?.Invoke();
 
             this.programmingForm.ClearAllChecks();
             logger.Trace("Reprogram Completed Successfully");
 
-            this.state = RelayProgrammingStates.Idle;
             this.restartProgram();
-
             this.ResetAutoloadState("FinalizeReprogram");
         }
 
-        
+
         private void doneLoadingRelayBootLoader()
         {
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
