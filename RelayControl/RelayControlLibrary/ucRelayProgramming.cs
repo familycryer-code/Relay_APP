@@ -1580,6 +1580,9 @@ namespace RelayControlLibrary
         private void sendWriteBackupToRelay()
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            Thread.Sleep(5000);  // make sure we are up and running before we start the relay programming.  This is a bit of a hack, but it works.
+            // the boot is rebooting along with the relay micro have to wait for them to wake up. 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.WriteBackupToRelay;
             this.onSend(rPEA);
@@ -2359,37 +2362,6 @@ namespace RelayControlLibrary
 
             this.sendMasterTransferPacket();
         } 
-
-        private void startMasterProgrammingWithParameters()
-        {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            if ((this.masterCode.FileString == "" || this.masterCode.FileString == null))
-            {
-                MessageBox.Show("No Master File Loaded");
-                this.state = RelayProgrammingStates.Idle;
-                return;
-            }
-            this.masterCode.WithParameters = true;
-
-            this.parseSFile(this.masterCode);
-
-            this.state = RelayProgrammingStates.WaitingForBootMaster;
-            int temp = this.masterCode.NumberOfCodeBlocks * 2;
-            this.labelCodeTotal.Text = temp.ToString();
-            if (this.masterCode.WithParameters)
-            {
-                this.labelDataTotal.Text = this.masterCode.NumberOfDataBlocks.ToString();
-            }
-            else
-            {
-                this.labelDataTotal.Text = this.masterCode.NonParameterCount.ToString();
-            }
-            this.programmingForm.Maximum = temp;
-            this.labelDataCount.Text = "0";
-            this.labelCodeCount.Text = "0";
-            this.enableButtons(false);
-            this.sendReset();
-        }
   
         private void RunProgrammingStateMachine()
         {
@@ -2459,16 +2431,40 @@ namespace RelayControlLibrary
 
             if (this.reprogramRelay)
             {
-                this.LogFlow("RunProgrammingStateMachine: relay update selected -> start relay programming.", nameof(RunProgrammingStateMachine));
+                // If we are transitioning directly from master bootloader phase,
+                // give the target a short settle window before relay transfer because we do not want to cause a reset and brick the Relay
+                if (this.state == RelayProgrammingStates.LoadingMasterBootLoader)
+                {
+                    this.LogFlow(
+                        "RunProgrammingStateMachine: relay update selected while in LoadingMasterBootLoader; waiting 1000ms before relay start.",
+                        nameof(RunProgrammingStateMachine));
+
+                    Thread.Sleep(5000);  // make sure we are up and running before we start the relay programming.  This is a bit of a hack, but it works.
+                }
+                this.LogFlow(
+                    "RunProgrammingStateMachine: relay update selected -> start relay programming.",
+                    nameof(RunProgrammingStateMachine));
+
                 this.startRelayProgramming();
                 return;
             }
 
-           
-
             if (this.reprogramFPGA)
             {
-                this.LogFlow("RunProgrammingStateMachine: FPGA update selected (or forced test) -> start FPGA programming.", nameof(RunProgrammingStateMachine));
+                // If we are transitioning directly from master bootloader phase,
+                // give the target a short settle window before relay transfer because we do not want to cause a reset and brick the Relay
+                if (this.state == RelayProgrammingStates.LoadingMasterBootLoader)
+                {
+                    this.LogFlow(
+                        "RunProgrammingStateMachine: relay update selected while in LoadingMasterBootLoader; waiting 1000ms before relay start.",
+                        nameof(RunProgrammingStateMachine));
+
+                    Thread.Sleep(5000);  // make sure we are up and running before we start the relay programming.  This is a bit of a hack, but it works.
+                }
+                this.LogFlow(
+                    "RunProgrammingStateMachine: relay update selected -> start relay programming.",
+                    nameof(RunProgrammingStateMachine));
+
                 this.startFPGAProgramming();
                 return;
             }
@@ -2555,7 +2551,7 @@ namespace RelayControlLibrary
             this.programmingForm.ClearAllChecks();
 
             if (dr == DialogResult.Yes)
-                this.startMasterProgrammingWithParameters();
+                this.startMasterProgramming();
             else
             {
                 this.masterCode.WithParameters = false;
