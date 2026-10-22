@@ -645,7 +645,7 @@ namespace RelayControlLibrary
         {
             this.LogFlow("StartManualForcedUpdate ENTER", nameof(StartManualForcedUpdate));
 
-            this.setProgrammingFiles();
+            //this.setProgrammingFiles();
             this.RefreshPendingFirmwareFromCurrentRevisions();
         
             ManualUpdate.usingManualMode = false;
@@ -727,7 +727,7 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.setProgrammingFiles();
+            //this.setProgrammingFiles();
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
             if (!this.AnyFirmwarePending())
@@ -1271,7 +1271,7 @@ namespace RelayControlLibrary
                     break;
                 case RelayProgrammingStates.LoadingFPGACode:
                     this.timerTimeout.Stop();
-                    this.sendFPGATransferPacket();  // TBD
+                    //this.sendFPGATransferPacket();  // TBD
                     break;
                 default:
                     break;
@@ -1288,7 +1288,6 @@ namespace RelayControlLibrary
             {
                 try
                 {
-
                     rPEA.BytesToSend = new byte[1024];
                     this.programmingForm.CurrentTask = "Loading Relay Code";
 
@@ -1298,7 +1297,10 @@ namespace RelayControlLibrary
                         this.programmingForm.RelayCodeComplete = true;
                         this.programmingForm.CurrentTask = "Loading Relay Data";
                         logger.Info("Loading Relay Data");
-                        this.programmingForm.Maximum = this.relayCode.NumberOfDataBlocks;
+
+                        this.programmingForm.Maximum = this.relayCode.WithParameters
+                            ? this.relayCode.NumberOfDataBlocks
+                            : this.relayCode.NonParameterCount;
 
                         this.sendNextRelayPacket();
                         return;
@@ -1310,14 +1312,12 @@ namespace RelayControlLibrary
                         this.relayCode.CodeBytes.RemoveAt(0);
                     }
 
-                    // build 512 bytes
                     Int32 temp = Convert.ToInt32(this.labelCodeCount.Text);
                     temp++;
                     this.programmingForm.ProgressValue = temp;
                     this.labelCodeCount.Text = temp.ToString();
 
                     logger.Info("RC, ");
-
                     this.onSend(rPEA);
                 }
                 catch (Exception ex)
@@ -1349,13 +1349,11 @@ namespace RelayControlLibrary
 
                 this.programmingForm.ProgressValue = temp;
                 temp++;
-
                 this.labelDataCount.Text = temp.ToString();
-
             }
             else
             {
-                throw new Exception("Called send NextRelayPacket from wrong state: " + this.state.ToString());
+                throw new Exception("Called sendNextRelayPacket from wrong state: " + this.state.ToString());
             }
         }
         /*
@@ -2032,36 +2030,20 @@ namespace RelayControlLibrary
 
             rPEA.BytesToSend[0] = 0x64; // 'd'
             rPEA.BytesToSend[1] = this.relayCode.NumberOfCodeBlocks;
-
-            // Band-aid: if NonParameterCount is zero but DataBytes exist, derive block count from payload.
-            byte declaredDataBlocks = this.relayCode.WithParameters
+            rPEA.BytesToSend[2] = this.relayCode.WithParameters
                 ? this.relayCode.NumberOfDataBlocks
                 : this.relayCode.NonParameterCount;
-
-            if (!this.relayCode.WithParameters &&
-                declaredDataBlocks == 0 &&
-                this.relayCode.DataBytes != null &&
-                this.relayCode.DataBytes.Count > 0)
-            {
-                declaredDataBlocks = (byte)Math.Ceiling(this.relayCode.DataBytes.Count / 512.0);
-                logger.Warn(
-                    "Relay transfer header band-aid applied: NonParameterCount=0 but DataBytes={0}; forcing dataBlocks={1}",
-                    this.relayCode.DataBytes.Count,
-                    declaredDataBlocks);
-            }
-
-            rPEA.BytesToSend[2] = declaredDataBlocks;
             rPEA.BytesToSend[3] = 0x0D;
 
-            logger.Warn(
+
+            logger.Info(
                 "Relay transfer header: codeBlocks={0}, dataBlocks={1}, codeBytes={2}, dataBytes={3}, withParameters={4}, nonParamCount={5}",
                 this.relayCode.NumberOfCodeBlocks,
-                declaredDataBlocks,
+                rPEA.BytesToSend[2],
                 this.relayCode.CodeBytes.Count,
                 this.relayCode.DataBytes.Count,
                 this.relayCode.WithParameters,
-                this.relayCode.NonParameterCount
-            );
+                this.relayCode.NonParameterCount);
 
             this.onSend(rPEA);
             this.labelState.Text = "Sent Relay Transfer Packet";
@@ -2077,6 +2059,7 @@ namespace RelayControlLibrary
             logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             this.state = RelayProgrammingStates.LoadingFPGACode;
+            logger.Info("FPGA TX: state -> {0}", this.state);
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
@@ -2085,15 +2068,19 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[0] = 0x46; // 'F'
             rPEA.BytesToSend[1] = 0x0D;
 
+            logger.Info("FPGA TX: sending transfer header bytes [{0:X2} {1:X2}] (len={2})",
+                rPEA.BytesToSend[0], rPEA.BytesToSend[1], rPEA.BytesToSend.Length);
+
             this.onSend(rPEA);
+
             this.labelState.Text = "Sent FPGA Transfer Packet";
             logger.Trace("Sent FPGA Transfer Packet");
-            
+
             this.timerTimeout.Stop();
             this.timerTimeout.Interval = 7000;
             this.timerTimeout.Start();
 
-            // NO ACK coming
+            logger.Info("FPGA TX: timeout armed for {0} ms; NO ACK expected after transfer header.", this.timerTimeout.Interval);
         }
 
         /*
@@ -2355,51 +2342,43 @@ namespace RelayControlLibrary
 
         private void parseSFile(RelayProgrammingData rPD)
         {
-            // Initialize the two data arrays
+            // Initialize arrays and reset parse-derived flags every run
             rPD.CodeBytes = new List<byte>();
             rPD.DataBytes = new List<byte>();
+            rPD.NonParameterCount = 0;
+            rPD.WithParameters = false;
+
             try
             {
                 using (StringReader sR = new StringReader(rPD.FileString))
                 {
                     try
                     {
-                        // Remove the first line
+                        // Remove first line
                         string s = sR.ReadLine();
-                        // Get the first line in
                         UInt32 workingAddress = 0;
 
                         s = sR.ReadLine();
-                        // This loops handles the code data
-                        while (s.StartsWith("S3"))
+                        if (string.IsNullOrWhiteSpace(s))
+                            throw new Exception("S-file is missing program records.");
+
+                        // -------------------------
+                        // CODE region (< 0x040000)
+                        // -------------------------
+                        while (!string.IsNullOrEmpty(s) && s.StartsWith("S3"))
                         {
-                            // Next 2 indicate the length, in hex
-
                             UInt16 length = Convert.ToUInt16(s.Substring(2, 2), 16);
-
-                            // Next 8 characters are the address
-
                             UInt32 address = Convert.ToUInt32(s.Substring(4, 8), 16);
 
                             if (address >= 0x040000)
-                            {
-                                // We are outside of the program so we are done
                                 break;
-                            }
-                            // Fill in empty code space with FFs.
+
                             for (int i = 0; i < address - workingAddress; i++)
-                            {
                                 rPD.CodeBytes.Add((byte)0xFF);
-                            }
 
                             workingAddress = address;
 
-
-
-                            //Remove length and address
                             s = s.Remove(0, 12);
-
-                            // next (length - 5) are the data bytes
 
                             for (int i = 0; i < length - 5; i++)
                             {
@@ -2407,101 +2386,62 @@ namespace RelayControlLibrary
                                 workingAddress++;
                             }
 
-                            // Read Next Line
-                            try
-                            {
-                                s = sR.ReadLine();
-                            }
-                            catch
-                            {
-                                break;
-                            }
+                            s = sR.ReadLine();
+                            if (s == null) break;
                         }
 
                         while (rPD.CodeBytes.Count % 2048 != 0)
-                        {
                             rPD.CodeBytes.Add((byte)0xFF);
-                        }
 
-                        // This loop gets to the constant data
-
-                        while (s.StartsWith("S3"))
+                        // ---------------------------------------------
+                        // Advance to constant/data window (>= 0x04008000)
+                        // ---------------------------------------------
+                        while (!string.IsNullOrEmpty(s) && s.StartsWith("S3"))
                         {
-                            // Remove the first 2 chars
-
-                            // 5 bytes are the address
-
                             UInt32 address = Convert.ToUInt32(s.Substring(4, 8), 16);
-
-                            if (address >= 0x088000)
-                            {
-                                // We have gotten to the const data
+                            if (address >= 0x04008000)
                                 break;
-                            }
-                            // Read Next Line
-                            try
-                            {
-                                s = sR.ReadLine();
-                            }
-                            catch
-                            {
-                                break;
-                            }
 
-                        }
-
-                        // This loop handles the constant data
-                        UInt32 clearAddress = Convert.ToUInt32(s.Substring(4, 8), 16);
-                        while (clearAddress < 0x4008000)
-                        {
                             s = sR.ReadLine();
-                            clearAddress = Convert.ToUInt32(s.Substring(4, 8), 16);
+                            if (s == null) break;
                         }
-                        workingAddress = 0x04008000;
-                        rPD.NonParameterCount = 0;
 
-                        while (s.StartsWith("S3"))
+                        if (string.IsNullOrEmpty(s) || !s.StartsWith("S3"))
                         {
-                            // Next 2 indicate the length, in hex
+                            logger.Warn("parseSFile: no data records found after code region.");
+                            // no data, so stay with false/zero
+                            return;
+                        }
 
+                        workingAddress = 0x04008000;
+                        bool nonParamCountCaptured = false;
+
+                        // -------------------------------
+                        // DATA region [0x04008000, 0x4010000)
+                        // -------------------------------
+                        while (!string.IsNullOrEmpty(s) && s.StartsWith("S3"))
+                        {
                             UInt16 length = Convert.ToUInt16(s.Substring(2, 2), 16);
-
-                            // Next 4 bytes are the address
-
                             UInt32 address = Convert.ToUInt32(s.Substring(4, 8), 16);
 
-                            if (address >= 0x0400FE00 && rPD.NonParameterCount == 0)
+                            if (address >= 0x0400FE00 && !nonParamCountCaptured)
                             {
-                                // Set the number of blocks to send when it loading WITHOUT parameters
-
                                 UInt32 temp = workingAddress - 0x04008000;
-
-                                rPD.NonParameterCount = (byte)(temp / 512);
-                                // Add 1 if there is a remainder
-                                if (temp % 512 != 0)
-                                    rPD.NonParameterCount++;
-
+                                byte np = (byte)(temp / 512);
+                                if (temp % 512 != 0) np++;
+                                rPD.NonParameterCount = np;
+                                nonParamCountCaptured = true;
                             }
+
                             if (address >= 0x04010000)
-                            {
-                                // We are outside of the dat so we are done
                                 break;
-                            }
 
-                            // Fill in empty code space with FFs.
                             for (int i = 0; i < address - workingAddress; i++)
-                            {
                                 rPD.DataBytes.Add((byte)0xFF);
-                            }
 
                             workingAddress = address;
 
-
-
-                            //Remove length and address
                             s = s.Remove(0, 12);
-
-                            // next length - 5 are the data bytes
 
                             for (int i = 0; i < length - 5; i++)
                             {
@@ -2509,33 +2449,54 @@ namespace RelayControlLibrary
                                 workingAddress++;
                             }
 
-                            // Read Next Line
-                            try
-                            {
-                                s = sR.ReadLine();
-                            }
-                            catch
-                            {
-                                break;
-                            }
+                            s = sR.ReadLine();
+                            if (s == null) break;
                         }
 
                         while (rPD.DataBytes.Count % 1024 != 0)
-                        {
                             rPD.DataBytes.Add((byte)0xFF);
+
+                        // If data exists but no non-param count was derived, calculate it.
+                        // This ensures 1..N semantics: >0 means minimum 1 block.
+                        if (rPD.DataBytes.Count > 0 && rPD.NonParameterCount == 0)
+                        {
+                            rPD.NonParameterCount = (byte)Math.Ceiling(rPD.DataBytes.Count / 512.0);
+                            logger.Warn(
+                                "parseSFile: NonParameterCount derived from DataBytes fallback. dataBytes={0}, nonParamCount={1}",
+                                rPD.DataBytes.Count,
+                                rPD.NonParameterCount);
                         }
 
+                        // If any actual data exists, this is a parameterized transfer.
+                        rPD.WithParameters = rPD.DataBytes.Count > 0;
+
+                        // Guardrail: zero means no data, never valid with actual payload.
+                        if (rPD.DataBytes.Count > 0 && rPD.NonParameterCount == 0)
+                        {
+                            logger.Error(
+                                "parseSFile: invalid relay payload state. DataBytes present but NonParameterCount is still zero. dataBytes={0}",
+                                rPD.DataBytes.Count);
+                        }
+
+                        logger.Info(
+                            "parseSFile done: codeBytes={0}, dataBytes={1}, codeBlocks={2}, dataBlocks={3}, nonParamCount={4}, withParameters={5}",
+                            rPD.CodeBytes.Count,
+                            rPD.DataBytes.Count,
+                            rPD.NumberOfCodeBlocks,
+                            rPD.NumberOfDataBlocks,
+                            rPD.NonParameterCount,
+                            rPD.WithParameters);
                     }
                     catch (Exception ex)
                     {
-                        this.errorHandler("Error parsing Master S File", ex);
+                        this.errorHandler("Error parsing S File", ex);
                         return;
                     }
                 }
             }
             catch (Exception ex)
             {
-                this.errorHandler("Error Opening File for Master S File", ex);
+                this.errorHandler("Error Opening File for S File parse", ex);
                 return;
             }
         }
@@ -2647,20 +2608,11 @@ namespace RelayControlLibrary
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
+            if ((this.relayCode.FileString == "" || this.relayCode.FileString == null))
             {
-                if (!this.dontReloadFromResource)
-                {
-                    logger.Info("startRelayProgramming: relay resource not loaded; attempting to reload programming files from embedded resources.");
-                    this.setProgrammingFiles();
-                }
-
-                if (string.IsNullOrWhiteSpace(this.relayCode.FileString))
-                {
-                    MessageBox.Show("No Relay File Loaded");
-                    this.state = RelayProgrammingStates.Idle;
-                    return;
-                }
+                MessageBox.Show("No Master File Loaded");
+                this.state = RelayProgrammingStates.Idle;
+                return;
             }
 
             this.reprogrammingInProgress = true;
@@ -2668,30 +2620,28 @@ namespace RelayControlLibrary
             this.parseSFile(this.relayCode);
 
             int temp = this.relayCode.NumberOfCodeBlocks * 2;
+
             this.labelCodeTotal.Text = temp.ToString();
-            if(this.relayCode.WithParameters)
+
+            if (this.relayCode.WithParameters)
             {
                 this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
-                logger.Info("DATA)");
+                logger.Info("Relay programming mode: DATA");
             }
             else
             {
                 this.labelDataTotal.Text = this.relayCode.NonParameterCount.ToString();
-                logger.Info("NO DATA)");
+                logger.Info("Relay programming mode: NO DATA");
             }
 
             this.programmingForm.Maximum = temp;
             this.programmingForm.CurrentTask = "Loading Relay Code";
 
-            
-            this.labelDataTotal.Text = this.relayCode.NumberOfDataBlocks.ToString();
-
-            this.programmingForm.Maximum = temp;
-            this.programmingForm.CurrentTask = "Loading Relay Code";
             this.labelDataCount.Text = "0";
             this.labelCodeCount.Text = "0";
 
             this.enableButtons(false);
+
             this.sendRelayReset();  // Send BU
             this.waitForBootReady("startRelayProgramming");
             this.sendRelayTransferPacket();
@@ -2732,27 +2682,35 @@ namespace RelayControlLibrary
         {
             logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-            
+           
             this.reprogrammingInProgress = true;
-
             this.transmitterEnabled = true;  // TBD
+
+            logger.Info("FPGA: parsing file...");
             this.parseFPGAFile(this.fPGACode);
+            logger.Info("FPGA: parse complete.");
 
             this.programmingForm.CurrentTask = "Loading FPGA";
             this.programmingForm.Maximum = 96;
-            
-            
+            logger.Info("FPGA: UI task set. CurrentTask='{0}', Maximum={1}", this.programmingForm.CurrentTask, this.programmingForm.Maximum);
+
             this.labelCodeCount.Text = "0";
             this.labelCodeTotal.Text = "96";
-          
+            logger.Info("FPGA: labels initialized. Count={0}, Total={1}", this.labelCodeCount.Text, this.labelCodeTotal.Text);
 
             this.enableButtons(false);
+            logger.Info("FPGA: buttons disabled.");
 
+            logger.Info("FPGA: sending reset...");
             this.sendReset("startFPGAProgramming");
+
+            logger.Info("FPGA: waiting for boot ready...");
             this.waitForBootReady("startFPGAProgramming");
+            logger.Info("FPGA: boot ready wait returned.");
 
+            logger.Info("FPGA: sending first transfer packet...");
             this.sendFPGATransferPacket();
-
+            logger.Info("FPGA: first transfer packet sent.");
         }
 
         private void startMasterProgramming()
@@ -2824,7 +2782,7 @@ namespace RelayControlLibrary
             this.enableButtons(false);
             this.sendReset();
         }
-
+        private bool forceFpgaForTest;
         private void RunProgrammingStateMachine()
         {
             this.LogFlow("RunProgrammingStateMachine ENTER", nameof(RunProgrammingStateMachine));
@@ -2898,9 +2856,13 @@ namespace RelayControlLibrary
                 return;
             }
 
-            if (this.reprogramFPGA)
+            // TEMP TEST OVERRIDE: force FPGA path when master/relay are not selected
+            forceFpgaForTest = true; // set to false after testing
+
+            if (this.reprogramFPGA || forceFpgaForTest)
             {
-                this.LogFlow("RunProgrammingStateMachine: FPGA update selected -> start FPGA programming.", nameof(RunProgrammingStateMachine));
+                this.LogFlow("RunProgrammingStateMachine: FPGA update selected (or forced test) -> start FPGA programming.", nameof(RunProgrammingStateMachine));
+                forceFpgaForTest = false; // reset test override
                 this.startFPGAProgramming();
                 return;
             }
@@ -3080,17 +3042,6 @@ namespace RelayControlLibrary
             rPEA.Command = RelayProgrammingSendCommands.RawData;
             rPEA.BytesToSend = new byte[] { (byte)'b', (byte)'U', 0x0D };
 
-            logger.Info(
-                "UC_RESET_DIAG | caller={0} | state={1} | reprogrammingInProgress={2} | programBootCodeInProgress={3} | notPollingPort={4} | autoLoad={5} | backupIsPending={6} | payload={7}",
-                caller,
-                this.state,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                this.notPollingPort,
-                this.autoLoad,
-                BitConverter.ToString(rPEA.BytesToSend)
-            );
-
             this.onSend(rPEA);
             _lastResetSentUtc = DateTime.UtcNow;
         }
@@ -3105,17 +3056,6 @@ namespace RelayControlLibrary
             rPEA.BytesToSend[0] = (byte)'B';
             rPEA.BytesToSend[1] = (byte)'U';
             rPEA.BytesToSend[2] = 0x0D;
-
-            logger.Info(
-                "UC_RESET_DIAG | caller={0} | state={1} | reprogrammingInProgress={2} | programBootCodeInProgress={3} | notPollingPort={4} | autoLoad={5} | backupIsPending={6} | payload={7}",
-                caller,
-                this.state,
-                this.reprogrammingInProgress,
-                this.programBootCodeInProgress,
-                this.notPollingPort,
-                this.autoLoad,
-                BitConverter.ToString(rPEA.BytesToSend)
-            );
 
             this.onSend(rPEA);
             _lastResetSentUtc = DateTime.UtcNow;
