@@ -1804,16 +1804,7 @@ namespace RelayControl
 
             if (missing == SectionBits.None)
             {
-                
-
-                this.backupInProgress = false;
-                this.backupState = BackupState.Idle;
-
-                if (this.ucRelayProgramming1 != null)
-                {
-                    this.ucRelayProgramming1.ResumeAutoloadAfterBackup();
-                }
-
+                this.CompleteBackupAndContinue(null);
                 return;
             }
 
@@ -2040,10 +2031,10 @@ namespace RelayControl
 
             this.receivedSections |= section;
 
-            if (this.requiredBackupMask != SectionBits.None)
-            {
-                this.receivedBackupMask |= section;
-            }
+            //if (this.requiredBackupMask != SectionBits.None)
+           // {
+               // this.receivedBackupMask |= section;
+           // }
 
             logger.Info(
                 "Section received: {0}, receivedSections={1}, requiredSections={2}, receivedBackupMask={3}, requiredBackupMask={4}, syncPhase={5}",
