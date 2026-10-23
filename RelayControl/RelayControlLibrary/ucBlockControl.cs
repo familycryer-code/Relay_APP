@@ -74,7 +74,7 @@ namespace RelayControlLibrary
             sendCommand.SendPacket[6] = Constants.DummyData;
             sendCommand.SendPacket[7] = 0x0D;
 
-            sendCommand.WithAck = true;
+            sendCommand.WithAck = false;
             OnSend(this, sendCommand);
         }
 
@@ -91,7 +91,7 @@ namespace RelayControlLibrary
             sendCommand.SendPacket[6] = Constants.DummyData;
             sendCommand.SendPacket[7] = 0x0D;
 
-            sendCommand.WithAck = true;
+            sendCommand.WithAck = false;
             OnSend(this, sendCommand);
         }
 
