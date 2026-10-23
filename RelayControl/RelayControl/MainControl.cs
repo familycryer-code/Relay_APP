@@ -6738,14 +6738,20 @@ namespace RelayControl
             {
                 lock (_ackFlowLock)
                 {
-                    // This must be the CT-ratio ACK owner.
+                    // If ACK is already active, do not start a new CT send here.
+                    // Queue phasing/type only; it will drain later when ACK clears.
+                    if (this.expectingAck)
+                    {
+                        logger.Info("SendCTRatioAndPhasing: ACK active, CT send deferred. Queueing relay/phasing only.");
+                        this.SendRelayPhasingAndType();
+                        return;
+                    }
+
+                    // Send CT ratio now (this sets expectingAck via sendPacketAck path)
                     this.sendCTRatio(requestAfter);
 
-                    // Do NOT force a relay/phasing send here unless it is actually queued.
-                    // The real drain is triggered when the CT ACK is received and processAckReceived()
-                    // decides it is safe to send the queued relay type/phasing packet.
-                    //this.pendingRelayTypePhasingPacket = null;
-                    //this.pendingRelayTypePhasingCaller = null;
+                    // Queue phasing/type behind CT ACK; guard method will queue because expectingAck is now true.
+                    this.SendRelayPhasingAndType();
                 }
             }
             catch (Exception ex)
@@ -7812,11 +7818,7 @@ namespace RelayControl
 
         private void sendCTRatio(bool requestAfter)
         {
-            bool programmingActive = this.IsProgrammingFlowActive();
-
-            logger.Info("sendCTRatio ENTER: CTRatio={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}",
-                this.CTRatio, this.expectingAck, programmingActive, this.SCITimedOut);
-
+           
             byte[] packet = new byte[4];
             packet[0] = (byte)'Z';
             packet[1] = (byte)this.CTRatio;
@@ -7829,7 +7831,7 @@ namespace RelayControl
                 return;
             }
 
-            this.sendPacketAck(packet, "CT Ratio Send");
+           
         }
 
         private void buttonClearCycleCount_Click(object sender, EventArgs e)
@@ -7841,6 +7843,8 @@ namespace RelayControl
             packet[2] = 0x0D;
 
             this.sendPacket(packet);
+            // Queue phasing/type to send when ACK guard allows
+            this.SendRelayPhasingAndType();
         }
 
         private void textBoxCTRatio_Leave(object sender, EventArgs e)

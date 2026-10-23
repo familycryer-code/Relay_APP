@@ -212,7 +212,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonPulseHelper.cs" />
     <Compile Include="MainControl.WaitHelpers.cs">
       <SubType>Form</SubType>
     </Compile>

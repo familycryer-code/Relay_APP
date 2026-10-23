@@ -12,7 +12,9 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 
 namespace RelayControlLibrary
@@ -45,6 +47,9 @@ namespace RelayControlLibrary
             this.Customer = Customers.ENMAX;
 #endif
         }
+
+        // class field (top of ucCloseMode)
+        private ButtonPulseHelper _sendClosePulse;
 
         private readonly int _singleCommandRelaxCloseUpdate = 20190627;
         private ToolTip toolTip = new ToolTip();
@@ -188,7 +193,16 @@ namespace RelayControlLibrary
                 this.CloseModeDef.CloseMode = CloseModes.Normal;
                 //this.radioButtonNeverOverride.Checked = true;
                 this.CloseCurve = new CloseCurveDefinition();
-                this.checkBox1.Checked = false; 
+                this.checkBox1.Checked = false;
+
+                _sendClosePulse = new ButtonPulseHelper(
+                    buttonSendCloseData,
+                    buttonSendCloseData.BackColor,
+                    Color.FromArgb(120, 220, 120),   // green highlight
+                    intervalMs: 80,
+                    restoreDelayMs: 220,
+                    minimumVisibleMs: 350
+                );
             }
             catch (Exception ex)
             {
@@ -308,6 +322,7 @@ namespace RelayControlLibrary
                 SetBusyUi(true);
                 UiTrace("SetBusyUi(true) done");
 
+                _sendClosePulse?.Start();
                 sendCloseData(requestAllAfterWrite: false);
 
                 UiTrace("sendCloseData returned");
@@ -319,6 +334,7 @@ namespace RelayControlLibrary
             }
             finally
             {
+                _sendClosePulse?.Stop();
                 UiTrace("finally -> SetBusyUi(false)");
                 SetBusyUi(false);
                 UiTrace("finally complete");
