@@ -41,11 +41,6 @@ namespace RelayControlLibrary
             //this.labelTDUnit.Visible = false;
             //this.labelRelaxClose.Visible = false;
 #endif
-#if CONED
-            this.Customer = Customers.CONED;
-#else
-            this.Customer = Customers.ENMAX;
-#endif
         }
 
         // class field (top of ucCloseMode)

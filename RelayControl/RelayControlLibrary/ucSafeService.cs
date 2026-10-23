@@ -622,9 +622,9 @@ namespace RelayControlLibrary
         //private void buttonRestoreDefaults_Click(object sender, EventArgs e)
         public void buttonRestoreDefaults_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Do you really want to restore default Safe Service Settings?", "Restore Safe Service Defaults", MessageBoxButtons.YesNo);
+            //DialogResult dr = MessageBox.Show("Do you really want to restore default Safe Service Settings?", "Restore Safe Service Defaults", MessageBoxButtons.YesNo);
 
-            if (dr == DialogResult.Yes)
+            //if (dr == DialogResult.Yes)
                 this.restoreDefaults();
         }
 
