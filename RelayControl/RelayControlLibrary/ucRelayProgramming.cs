@@ -524,13 +524,13 @@ namespace RelayControlLibrary
 
         public void BackupOnly()
         {
-            logger.Info("BackUpOnly: backUpOnly gated");
+            logger.Trace("Method: {0}", nameof(BackupOnly));
             this.startupIntent = StartupIntent.BackupOnly; // this really means we are checking..
             RaiseBackupBeforeProgrammingRequested(nameof(BackupOnly));
         }
         public void InitializeAutoload()
         {
-            logger.Info("InitializeAutoload: autoload gated");
+            logger.Trace("Method: {0}", nameof(InitializeAutoload));
             this.startupIntent = StartupIntent.AutoApproved; // this really means we are checking..
             RaiseBackupBeforeProgrammingRequested(nameof(InitializeAutoload));
         }
@@ -607,11 +607,11 @@ namespace RelayControlLibrary
 
         public void ResumeAutoloadAfterBackup()
         {
-            logger.Info("ResumeAutoloadAfterBackup ENTER");
+            logger.Trace("Method: {0}", nameof(ResumeAutoloadAfterBackup));
 
             if (this.startupIntent != StartupIntent.AutoApproved)
             {
-                logger.Info("ResumeAutoloadAfterBackup blocked: startupIntent not AutoApproved.");
+                
                 return;
             }
 
@@ -626,12 +626,12 @@ namespace RelayControlLibrary
 
             if (!this.AnyFirmwarePending())
             {
-                logger.Info("ResumeAutoloadAfterBackup: no firmware pending; exiting.");
+               
                 this.RaiseAutoloadDeclined();
                 return;
             }
 
-            logger.Info("ResumeAutoloadAfterBackup approved path -> re-entering autoload startup flow.");
+            
             this.startAutoLoad();
         }
 

@@ -2534,7 +2534,7 @@ namespace RelayControl
                         {
                             //check for special case of revision which has no length byte
                             packetSize = 37;
-                            logger.Info("Master Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
+                           
 
                             if ((char)this.receiveArray[tempRXReadPtr] != 'E') //checks second character
                             {
@@ -2557,7 +2557,7 @@ namespace RelayControl
                         else if (command == IncomingCommCommands.FPGARevision)
                         {
                             packetSize = 20;
-                            logger.Info("FPGA Received ReprogrammingInProgress: {0}", ucRelayProgramming1.ReprogrammingInProgress);
+                           
                             if ((char)this.receiveArray[tempRXReadPtr] != 'P')
                             {
                                 this.rXReadPtr = this.nextRXArrayAddress(initialRXPtr);
@@ -4129,7 +4129,6 @@ namespace RelayControl
         private void setRelayRevisionLabel(byte[] bytePacket)
         {
            
-
             try
             {
                 if (bytePacket == null || bytePacket.Length == 0)
@@ -4139,7 +4138,7 @@ namespace RelayControl
                 }
 
                 string rawAscii = Encoding.ASCII.GetString(bytePacket);
-                logger.Info("setRelayRevisionLabel rawAscii=[{0}] len={1}", rawAscii, rawAscii.Length);
+                
 
                 // Extract all digits from the packet to avoid brittle fixed offset assumptions.
                 string digits = new string(rawAscii.Where(char.IsDigit).ToArray());
@@ -4178,9 +4177,6 @@ namespace RelayControl
 
                 this.relayCodeRevisionNumber = parsedRelayRevision;
 
-                logger.Info("setRelayRevisionLabel: RELAY REVISION ASSIGNED parsed={0} rawAscii=[{1}]",
-                    this.relayCodeRevisionNumber,
-                    rawAscii);
 
                 this.ucPhasorGraph1.RevisionNumber = this.relayCodeRevisionNumber;
                 this.ucPumpMode1.RelayRevisionNumber = this.relayCodeRevisionNumber;
@@ -5764,7 +5760,7 @@ namespace RelayControl
                 }
 
                 string rawAscii = Encoding.ASCII.GetString(bytePacket);
-                logger.Info("setFPGARevision rawAscii=[{0}] len={1}", rawAscii, rawAscii.Length);
+                
 
                 // Heuristic invalid pattern check against raw packet bytes.
                 bool invalidPattern =
@@ -5833,9 +5829,6 @@ namespace RelayControl
                 _lastGoodFPGARevisionNumber = tempU;
                 _lastGoodFPGARevisionText = rawAscii;
 
-                logger.Info("setFPGARevision: FPGA REVISION ASSIGNED parsed={0} rawAscii=[{1}]",
-                    tempU,
-                    rawAscii);
 
                 this.labelFPGARevision.Show();
                 this.setLabelText(rawAscii, this.labelFPGARevision);
@@ -6754,30 +6747,15 @@ namespace RelayControl
         }
 
         //private void buttonRelayType_Click(object sender, EventArgs e)
+   
         public void SendCTRatioAndPhasing(bool requestAfter)
         {
             try
             {
-                bool ackActive;
-
                 lock (_ackFlowLock)
                 {
-                    ackActive = this.expectingAck;
+                    this.sendCTRatio(requestAfter);
                 }
-
-                if (ackActive)
-                {
-                    logger.Info("SendCTRatioAndPhasing: ACK active, queueing relay/phasing only.");
-                    this.SendRelayPhasingAndType();
-                    return;
-                }
-
-                // Send CT first
-                this.sendCTRatio(requestAfter);
-
-                // Then queue phasing; since CT send should set expectingAck,
-                // QueueRelayTypePhasingSendIfAllowed should queue and drain later on ACK clear.
-                this.SendRelayPhasingAndType();
             }
             catch (Exception ex)
             {
@@ -7201,7 +7179,8 @@ namespace RelayControl
 
         private void requestAllData(string caller = "unknown")
         {
-            logger.Info("requestAllData ENTRY: caller={0}, relayFound={1}, state={2}", caller, this.relayFound, this.ProgramState);
+            logger.Trace("requestAllData called. caller={0}, sendAllFlag={1}, sendAll={2}, programState={3}",
+                caller, sendAllF.SendAllFlag, this.sendAll, this.ProgramState);
 
             if (this.ucRelayProgramming1 == null)
             {
@@ -7799,6 +7778,10 @@ namespace RelayControl
             try
             {
                 this.SendCTRatioAndPhasing(requestAfter: false);
+                WaitForAckIdle(3000, "After CTRatioAndPhasing-Button");
+
+                // only after CT ACK is clear do we send phasing
+                this.SendRelayPhasingAndType();
             }
             finally
             {
